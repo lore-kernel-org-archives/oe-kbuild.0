@@ -1,223 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02933333446
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 17:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AC829AB05
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 17:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766423651; cv=none; b=fi9B2xE2sq4eZmO9KHEOM/CCKTCE+0B6bubOOxSHG4vCs5jjx9SC3mcTFW5hmoKOJqK6m9DyEHmA3LI6VFoQOOCUSkEnnbGjphi/soh2RTl9Tfj3iNOwaq6JTl6kZUIowDB8GHmrw9hEyr2rWS48eyQv+7hJstdg0QZnUJMhOeY=
+	t=1766425511; cv=none; b=SDvWtfy843LguhXuBpnFHni7tWMoKWmvynfPrUQwi4SkzNTJuyGofvO1g5xcRETYLhGgLmk9pO2rk9cz28Q/UyzTTdz/wUhYU8f7GIUybAnX8x2Wd7LPMau2wkZcgIVQmaY/b4IXDJDvjkDhxe0qDlImiYObgbjgY32n7pyv8E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766423651; c=relaxed/simple;
-	bh=mmDNU98aOIfVVCWklsgoCCpzEKKOKOroSytcwdgFVm8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bKS9jTUF8L21xCg47l6z8KZ/S/6TPaLziAMecQJITissiXz1d7AieEF5OS7NB68oyPbkqX1kcSUPJnuoRqEhGbqWup23mcMQ0geqpOLAuPpvmG7oU1tzvcIT6EC3T3Iz0j2VcLpi725ru1Py4sz71hr3IeOZd4KB4kKHJ4iv01I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RPKLqYBX; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1766425511; c=relaxed/simple;
+	bh=n1FyJYhgCBPXW56PA4yknk4Fev5TRwwEam7VH85m9Os=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=n5Kc8hvXr9jYIpR+D3f4nculViGev/u7lUL9e1Fpwhf5nVFwVPMZfZRyN8114zgYwh1xudFtSHBhNfEPcWZ5lkeJ2unULFq3a+HvKzH9LHMgw6C0/pSPIkszDGEu06aCFEFk5aCWzXXOAnKfPv3+anRvi/eB4MUsZLaUMNqYoh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CXf0YAS6; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPKLqYBX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXf0YAS6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766423649; x=1797959649;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mmDNU98aOIfVVCWklsgoCCpzEKKOKOroSytcwdgFVm8=;
-  b=RPKLqYBXnLSysHN6YI9rH3kY5xwxtQn9/t+uNCuuCiDpZya+3YH0qc/Z
-   enQhX2iKL0hdD85rShWTlTZEuIhg201llu7c+y7Y1cmzljg/lRj3a11YL
-   QSnzdL5E0v+HReZgrpOABz48z/G5Gx//UPnpGC2vauQVXuaFUpLhgCJvL
-   /T/dBx23lRNhRsgZGGKTC8OX+xMnBFQ68gwRQIOvfxhuEhmTckrda5lqF
-   i/anoPvciH2jeJ0fBrAsRqdfsZ2Xn06zu3w5ePtrsen/L8EtMS4FBHB2N
-   5FUYy9bCUmxoiEar2+Lr8VD6RRLq9bCTdiu1idbXtfj/wzSfhBS339/oV
-   w==;
-X-CSE-ConnectionGUID: qYi0G/vLT9iUu3ujSJYLWQ==
-X-CSE-MsgGUID: 0ivOxge8Q5OhZlC2YpQtOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="70856967"
+  t=1766425509; x=1797961509;
+  h=date:from:to:cc:subject:message-id;
+  bh=n1FyJYhgCBPXW56PA4yknk4Fev5TRwwEam7VH85m9Os=;
+  b=CXf0YAS67oTum1Cu2nZ2TxyVYnNpPY2iI+TBptSvQmvEVRTUFheH50YS
+   OquZSvrc+k2jJYosUHuesYJlSsK9b15ynLiJ0X5xQHpI1BjBwhg/fgxgm
+   UVWAPHd/utB3xDgQXGaJ/DpRGl7pTW0ZC+GvmKzp4yYgNRn6uVaOZGtPd
+   2cs/w7L9lztPfTVfD2I8pxU4nJ4RJh4EHSvZADGxx+AMRL5MDNjr0n2jz
+   3Kzpm3l2TZcj3XMAdxj/8S5i9V0VWNyPXkl1WjxXaZUZmLRMP+HynaKRB
+   N/U5zZSaPOlCwBhNJUbHjQNAn27oykb1dH5Iq1MXv467CYVAIuU7nPCG5
+   A==;
+X-CSE-ConnectionGUID: +zlk2aO1QPuJuQIz/mB2ww==
+X-CSE-MsgGUID: 4MHBKzw+Sc6b6YP0kQmXxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68355800"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="70856967"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:14:07 -0800
-X-CSE-ConnectionGUID: G+VGiifUQxKQIvFkJBAGkw==
-X-CSE-MsgGUID: DtfATfCvS/6lqA3+xeM0cg==
+   d="scan'208";a="68355800"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:45:07 -0800
+X-CSE-ConnectionGUID: csEVNmvsRvmVA/f8ek4zzA==
+X-CSE-MsgGUID: YTa5ZhmqQZ6VjAyGY2pviQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="199558012"
+   d="scan'208";a="204623370"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 22 Dec 2025 09:14:06 -0800
+  by orviesa005.jf.intel.com with ESMTP; 22 Dec 2025 09:45:06 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjTv-000000000un-1ahZ;
-	Mon, 22 Dec 2025 17:14:03 +0000
-Date: Tue, 23 Dec 2025 01:13:11 +0800
+	id 1vXjxw-000000000wV-0F2l;
+	Mon, 22 Dec 2025 17:45:04 +0000
+Date: Tue, 23 Dec 2025 01:44:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v2 11/14] crypto: zynqmp-aes-gcm: Change coherent DMA to
- streaming DMA API
-Message-ID: <202512230135.v83tCBwW-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/powerpc/kexec/ranges.c:612 get_crash_memory_ranges()
+ warn: we never enter this loop
+Message-ID: <202512230147.o4Lpc7Tk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251220155905.346790-12-h.jain@amd.com>
-References: <20251220155905.346790-12-h.jain@amd.com>
-TO: Harsh Jain <h.jain@amd.com>
-TO: herbert@gondor.apana.org.au
-TO: davem@davemloft.net
-TO: linux-crypto@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: mounika.botcha@amd.com
-TO: sarat.chand.savitala@amd.com
-TO: michal.simek@amd.com
-TO: linux-arm-kernel@lists.infradead.org
-TO: jay.buddhabhatti@amd.com
-CC: Harsh Jain <h.jain@amd.com>
+CC: linux-kernel@vger.kernel.org
+TO: Sourabh Jain <sourabhjain@linux.ibm.com>
+CC: Madhavan Srinivasan <maddy@linux.ibm.com>
+CC: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
 
-Hi Harsh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.19-rc2 next-20251219]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Jain/firmware-zynqmp-Move-crypto-API-s-to-separate-file/20251221-000259
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20251220155905.346790-12-h.jain%40amd.com
-patch subject: [PATCH v2 11/14] crypto: zynqmp-aes-gcm: Change coherent DMA to streaming DMA API
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-r062-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230135.v83tCBwW-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+commit: b4a96ab50f368afc2360ff539a20254ca2c9a889 powerpc/kdump: Add support for crashkernel CMA reservation
+date:   6 weeks ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 6 weeks ago
+config: powerpc64-randconfig-r072-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230147.o4Lpc7Tk-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512230135.v83tCBwW-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512230147.o4Lpc7Tk-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/crypto/xilinx/zynqmp-aes-gcm.c:183:11-12: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 182)
-   drivers/crypto/xilinx/zynqmp-aes-gcm.c:185:13-14: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 184)
+smatch warnings:
+arch/powerpc/kexec/ranges.c:612 get_crash_memory_ranges() warn: we never enter this loop
+arch/powerpc/kexec/ranges.c:612 get_crash_memory_ranges() warn: unsigned 'i' is never less than zero.
+arch/powerpc/kexec/ranges.c:612 get_crash_memory_ranges() warn: unsigned 'i' is never less than zero.
 
-vim +183 drivers/crypto/xilinx/zynqmp-aes-gcm.c
+vim +612 arch/powerpc/kexec/ranges.c
 
-81a7b01d6b215b Harsh Jain    2025-12-20   85  
-4d96f7d48131fe Kalyani Akula 2020-02-17   86  static int zynqmp_aes_aead_cipher(struct aead_request *req)
-4d96f7d48131fe Kalyani Akula 2020-02-17   87  {
-4d96f7d48131fe Kalyani Akula 2020-02-17   88  	struct crypto_aead *aead = crypto_aead_reqtfm(req);
-0e04c861048f99 Harsh Jain    2025-12-20   89  	struct xilinx_aead_tfm_ctx *tfm_ctx = crypto_aead_ctx(aead);
-0e04c861048f99 Harsh Jain    2025-12-20   90  	struct xilinx_aead_req_ctx *rq_ctx = aead_request_ctx(req);
-ff0be7788f241b Harsh Jain    2025-12-20   91  	dma_addr_t dma_addr_data, dma_addr_hw_req;
-4d96f7d48131fe Kalyani Akula 2020-02-17   92  	struct device *dev = tfm_ctx->dev;
-4d96f7d48131fe Kalyani Akula 2020-02-17   93  	struct zynqmp_aead_hw_req *hwreq;
-4d96f7d48131fe Kalyani Akula 2020-02-17   94  	unsigned int data_size;
-4d96f7d48131fe Kalyani Akula 2020-02-17   95  	unsigned int status;
-1d9000262b3b80 Rajan Vaja    2020-05-01   96  	int ret;
-4d96f7d48131fe Kalyani Akula 2020-02-17   97  	size_t dma_size;
-ff0be7788f241b Harsh Jain    2025-12-20   98  	void *dmabuf;
-4d96f7d48131fe Kalyani Akula 2020-02-17   99  	char *kbuf;
-4d96f7d48131fe Kalyani Akula 2020-02-17  100  
-ff0be7788f241b Harsh Jain    2025-12-20  101  	dma_size = req->cryptlen + XILINX_AES_AUTH_SIZE;
-ff0be7788f241b Harsh Jain    2025-12-20  102  	kbuf = kmalloc(dma_size, GFP_KERNEL);
-4d96f7d48131fe Kalyani Akula 2020-02-17  103  	if (!kbuf)
-4d96f7d48131fe Kalyani Akula 2020-02-17  104  		return -ENOMEM;
-4d96f7d48131fe Kalyani Akula 2020-02-17  105  
-ff0be7788f241b Harsh Jain    2025-12-20  106  	dmabuf = kmalloc(sizeof(*hwreq) + GCM_AES_IV_SIZE, GFP_KERNEL);
-ff0be7788f241b Harsh Jain    2025-12-20  107  	if (!dmabuf) {
-ff0be7788f241b Harsh Jain    2025-12-20  108  		kfree(kbuf);
-4d96f7d48131fe Kalyani Akula 2020-02-17  109  		return -ENOMEM;
-4d96f7d48131fe Kalyani Akula 2020-02-17  110  	}
-ff0be7788f241b Harsh Jain    2025-12-20  111  	hwreq = dmabuf;
-4d96f7d48131fe Kalyani Akula 2020-02-17  112  	data_size = req->cryptlen;
-4d96f7d48131fe Kalyani Akula 2020-02-17  113  	scatterwalk_map_and_copy(kbuf, req->src, 0, req->cryptlen, 0);
-ff0be7788f241b Harsh Jain    2025-12-20  114  	memcpy(dmabuf + sizeof(struct zynqmp_aead_hw_req), req->iv, GCM_AES_IV_SIZE);
-ff0be7788f241b Harsh Jain    2025-12-20  115  	dma_addr_data = dma_map_single(dev, kbuf, dma_size, DMA_BIDIRECTIONAL);
-ff0be7788f241b Harsh Jain    2025-12-20  116  	if (unlikely(dma_mapping_error(dev, dma_addr_data))) {
-ff0be7788f241b Harsh Jain    2025-12-20  117  		ret = -ENOMEM;
-ff0be7788f241b Harsh Jain    2025-12-20  118  		goto freemem;
-ff0be7788f241b Harsh Jain    2025-12-20  119  	}
-4d96f7d48131fe Kalyani Akula 2020-02-17  120  
-4d96f7d48131fe Kalyani Akula 2020-02-17  121  	hwreq->src = dma_addr_data;
-4d96f7d48131fe Kalyani Akula 2020-02-17  122  	hwreq->dst = dma_addr_data;
-4d96f7d48131fe Kalyani Akula 2020-02-17  123  	hwreq->keysrc = tfm_ctx->keysrc;
-4d96f7d48131fe Kalyani Akula 2020-02-17  124  	hwreq->op = rq_ctx->op;
-4d96f7d48131fe Kalyani Akula 2020-02-17  125  
-0e04c861048f99 Harsh Jain    2025-12-20  126  	if (hwreq->op == XILINX_AES_ENCRYPT)
-4d96f7d48131fe Kalyani Akula 2020-02-17  127  		hwreq->size = data_size;
-4d96f7d48131fe Kalyani Akula 2020-02-17  128  	else
-0e04c861048f99 Harsh Jain    2025-12-20  129  		hwreq->size = data_size - XILINX_AES_AUTH_SIZE;
-4d96f7d48131fe Kalyani Akula 2020-02-17  130  
-ff0be7788f241b Harsh Jain    2025-12-20  131  	if (hwreq->keysrc == ZYNQMP_AES_KUP_KEY)
-ff0be7788f241b Harsh Jain    2025-12-20  132  		hwreq->key = tfm_ctx->key_dma_addr;
-ff0be7788f241b Harsh Jain    2025-12-20  133  	else
-4d96f7d48131fe Kalyani Akula 2020-02-17  134  		hwreq->key = 0;
-4d96f7d48131fe Kalyani Akula 2020-02-17  135  
-ff0be7788f241b Harsh Jain    2025-12-20  136  	dma_addr_hw_req = dma_map_single(dev, dmabuf, sizeof(struct zynqmp_aead_hw_req) +
-ff0be7788f241b Harsh Jain    2025-12-20  137  					 GCM_AES_IV_SIZE,
-ff0be7788f241b Harsh Jain    2025-12-20  138  					 DMA_TO_DEVICE);
-ff0be7788f241b Harsh Jain    2025-12-20  139  	if (unlikely(dma_mapping_error(dev, dma_addr_hw_req))) {
-ff0be7788f241b Harsh Jain    2025-12-20  140  		ret = -ENOMEM;
-ff0be7788f241b Harsh Jain    2025-12-20  141  		dma_unmap_single(dev, dma_addr_data, dma_size, DMA_BIDIRECTIONAL);
-ff0be7788f241b Harsh Jain    2025-12-20  142  		goto freemem;
-ff0be7788f241b Harsh Jain    2025-12-20  143  	}
-ff0be7788f241b Harsh Jain    2025-12-20  144  	hwreq->iv = dma_addr_hw_req + sizeof(struct zynqmp_aead_hw_req);
-ff0be7788f241b Harsh Jain    2025-12-20  145  	dma_sync_single_for_device(dev, dma_addr_hw_req, sizeof(struct zynqmp_aead_hw_req) +
-ff0be7788f241b Harsh Jain    2025-12-20  146  				   GCM_AES_IV_SIZE, DMA_TO_DEVICE);
-1d9000262b3b80 Rajan Vaja    2020-05-01  147  	ret = zynqmp_pm_aes_engine(dma_addr_hw_req, &status);
-ff0be7788f241b Harsh Jain    2025-12-20  148  	dma_unmap_single(dev, dma_addr_hw_req, sizeof(struct zynqmp_aead_hw_req) + GCM_AES_IV_SIZE,
-ff0be7788f241b Harsh Jain    2025-12-20  149  			 DMA_TO_DEVICE);
-ff0be7788f241b Harsh Jain    2025-12-20  150  	dma_unmap_single(dev, dma_addr_data, dma_size, DMA_BIDIRECTIONAL);
-1d9000262b3b80 Rajan Vaja    2020-05-01  151  	if (ret) {
-1d9000262b3b80 Rajan Vaja    2020-05-01  152  		dev_err(dev, "ERROR: AES PM API failed\n");
-1d9000262b3b80 Rajan Vaja    2020-05-01  153  	} else if (status) {
-4d96f7d48131fe Kalyani Akula 2020-02-17  154  		switch (status) {
-4d96f7d48131fe Kalyani Akula 2020-02-17  155  		case ZYNQMP_AES_GCM_TAG_MISMATCH_ERR:
-d7bce7dee0b780 Harsh Jain    2025-12-20  156  			ret = -EBADMSG;
-4d96f7d48131fe Kalyani Akula 2020-02-17  157  			break;
-4d96f7d48131fe Kalyani Akula 2020-02-17  158  		case ZYNQMP_AES_WRONG_KEY_SRC_ERR:
-d7bce7dee0b780 Harsh Jain    2025-12-20  159  			ret = -EINVAL;
-4d96f7d48131fe Kalyani Akula 2020-02-17  160  			dev_err(dev, "ERROR: Wrong KeySrc, enable secure mode\n");
-4d96f7d48131fe Kalyani Akula 2020-02-17  161  			break;
-4d96f7d48131fe Kalyani Akula 2020-02-17  162  		case ZYNQMP_AES_PUF_NOT_PROGRAMMED:
-d7bce7dee0b780 Harsh Jain    2025-12-20  163  			ret = -EINVAL;
-4d96f7d48131fe Kalyani Akula 2020-02-17  164  			dev_err(dev, "ERROR: PUF is not registered\n");
-4d96f7d48131fe Kalyani Akula 2020-02-17  165  			break;
-4d96f7d48131fe Kalyani Akula 2020-02-17  166  		default:
-d7bce7dee0b780 Harsh Jain    2025-12-20  167  			ret = -EINVAL;
-4d96f7d48131fe Kalyani Akula 2020-02-17  168  			break;
-4d96f7d48131fe Kalyani Akula 2020-02-17  169  		}
-4d96f7d48131fe Kalyani Akula 2020-02-17  170  	} else {
-0e04c861048f99 Harsh Jain    2025-12-20  171  		if (hwreq->op == XILINX_AES_ENCRYPT)
-d4e5d89967c90e Harsh Jain    2025-12-20  172  			data_size = data_size + crypto_aead_authsize(aead);
-4d96f7d48131fe Kalyani Akula 2020-02-17  173  		else
-0e04c861048f99 Harsh Jain    2025-12-20  174  			data_size = data_size - XILINX_AES_AUTH_SIZE;
-4d96f7d48131fe Kalyani Akula 2020-02-17  175  
-4d96f7d48131fe Kalyani Akula 2020-02-17  176  		sg_copy_from_buffer(req->dst, sg_nents(req->dst),
-4d96f7d48131fe Kalyani Akula 2020-02-17  177  				    kbuf, data_size);
-d7bce7dee0b780 Harsh Jain    2025-12-20  178  		ret = 0;
-4d96f7d48131fe Kalyani Akula 2020-02-17  179  	}
-4d96f7d48131fe Kalyani Akula 2020-02-17  180  
-ff0be7788f241b Harsh Jain    2025-12-20  181  freemem:
-4d96f7d48131fe Kalyani Akula 2020-02-17 @182  	memzero_explicit(kbuf, dma_size);
-ff0be7788f241b Harsh Jain    2025-12-20 @183  	kfree(kbuf);
-ff0be7788f241b Harsh Jain    2025-12-20  184  	memzero_explicit(dmabuf, sizeof(struct zynqmp_aead_hw_req) + GCM_AES_IV_SIZE);
-ff0be7788f241b Harsh Jain    2025-12-20  185  	kfree(dmabuf);
-d7bce7dee0b780 Harsh Jain    2025-12-20  186  
-d7bce7dee0b780 Harsh Jain    2025-12-20  187  	return ret;
-4d96f7d48131fe Kalyani Akula 2020-02-17  188  }
-4d96f7d48131fe Kalyani Akula 2020-02-17  189  
+b4a96ab50f368af Sourabh Jain 2025-11-07  571  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  572  /**
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  573   * get_crash_memory_ranges - Get crash memory ranges. This list includes
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  574   *                           first/crashing kernel's memory regions that
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  575   *                           would be exported via an elfcore.
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  576   * @mem_ranges:              Range list to add the memory ranges to.
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  577   *
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  578   * Returns 0 on success, negative errno on error.
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  579   */
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  580  int get_crash_memory_ranges(struct crash_mem **mem_ranges)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  581  {
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  582  	phys_addr_t base, end;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  583  	u64 i;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  584  	int ret;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  585  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  586  	for_each_mem_range(i, &base, &end) {
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  587  		u64 size = end - base;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  588  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  589  		/* Skip backup memory region, which needs a separate entry */
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  590  		if (base == BACKUP_SRC_START) {
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  591  			if (size > BACKUP_SRC_SIZE) {
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  592  				base = BACKUP_SRC_END + 1;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  593  				size -= BACKUP_SRC_SIZE;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  594  			} else
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  595  				continue;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  596  		}
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  597  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  598  		ret = add_mem_range(mem_ranges, base, size);
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  599  		if (ret)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  600  			goto out;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  601  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  602  		/* Try merging adjacent ranges before reallocation attempt */
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  603  		if ((*mem_ranges)->nr_ranges == (*mem_ranges)->max_nr_ranges)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  604  			sort_memory_ranges(*mem_ranges, true);
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  605  	}
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  606  
+b4a96ab50f368af Sourabh Jain 2025-11-07  607  	/* Exclude crashkernel region */
+b4a96ab50f368af Sourabh Jain 2025-11-07  608  	ret = crash_exclude_mem_range_guarded(mem_ranges, crashk_res.start, crashk_res.end);
+b4a96ab50f368af Sourabh Jain 2025-11-07  609  	if (ret)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  610  		goto out;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  611  
+b4a96ab50f368af Sourabh Jain 2025-11-07 @612  	for (i = 0; i < crashk_cma_cnt; ++i) {
+b4a96ab50f368af Sourabh Jain 2025-11-07  613  		ret = crash_exclude_mem_range_guarded(mem_ranges, crashk_cma_ranges[i].start,
+b4a96ab50f368af Sourabh Jain 2025-11-07  614  					      crashk_cma_ranges[i].end);
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  615  		if (ret)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  616  			goto out;
+b4a96ab50f368af Sourabh Jain 2025-11-07  617  	}
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  618  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  619  	/*
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  620  	 * FIXME: For now, stay in parity with kexec-tools but if RTAS/OPAL
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  621  	 *        regions are exported to save their context at the time of
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  622  	 *        crash, they should actually be backed up just like the
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  623  	 *        first 64K bytes of memory.
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  624  	 */
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  625  	ret = add_rtas_mem_range(mem_ranges);
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  626  	if (ret)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  627  		goto out;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  628  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  629  	ret = add_opal_mem_range(mem_ranges);
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  630  	if (ret)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  631  		goto out;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  632  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  633  	/* create a separate program header for the backup region */
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  634  	ret = add_mem_range(mem_ranges, BACKUP_SRC_START, BACKUP_SRC_SIZE);
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  635  	if (ret)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  636  		goto out;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  637  
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  638  	sort_memory_ranges(*mem_ranges, false);
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  639  out:
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  640  	if (ret)
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  641  		pr_err("Failed to setup crash memory ranges\n");
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  642  	return ret;
+f5f0da5a7b18fab Sourabh Jain 2024-03-26  643  }
+849599b702ef897 Sourabh Jain 2024-03-26  644  
 
 -- 
 0-DAY CI Kernel Test Service
