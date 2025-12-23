@@ -1,57 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC99621FF23
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 01:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACF3346AEE
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 01:37:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766453454; cv=none; b=ZZRDp1/OQkkdr/wDRyLt/jjb6B+84VTsgeWoFOWkFZgPc9Ch4jNNFjrLISyYLiB6delOGJNxVLLP9Apv5eHHh9qFN1qwtgde5VtOG1opTAMXiZuoiB/EfwuzypJMhpce3Cj9c20zbyW7MJaSE1ucFCRauSb0ViyktNOMnPX9q+w=
+	t=1766453852; cv=none; b=ft7/kqrAToOaxaEKXijiZWDgoKvSR3k2Wqrtl7cgs6FFO8G5SrBdw8nqXJmWt+8uL3Afa5L721mN8aESHjFkHuf+C/bA5EyOD/2Q/M0kE+G5VTC2Q5Fhj5p4LXRHmB0FBBvkD/Jai7DJ9+/eq/tmOAa478to5a3XaF313cjxoEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766453454; c=relaxed/simple;
-	bh=JKrKCu2JinKechpmviPrYgj6JmCsu6XQB/lZ7qk1W4A=;
+	s=arc-20240116; t=1766453852; c=relaxed/simple;
+	bh=pKvmHtDqbKO58GFHuBg4/c4NU8ZxuiSBCHf92qEsh8w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YsTQQCTRzjEFnmCZMp8Ttu3ZFsEq51KDR6OHpUzBRq0Fx34fEFpZe8/wy7KX+soXuJt0mhT3sasCeQY/b5YjP1YlX4qojpgKcRnBGu3IB+QYQyIFgdFE7lhOM7zdlMuoJR8a5NARCOUTTTfTdLKdAgEcElda8tooPU3nRFvCSoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DeOaDFxC; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=qqgXkfTPb5/FXTqeRDX2UCPZ5XNpYnsPdqhUKklLXL4Q963YjXR9novHH4tNb0MLI+woX0E3jVw8qLlR2pbszSi8INM1f+rvSDQ5BIUk0dbZL7QUU9w30GFyi+hLMLGe1S2T4K6L9WIncogmw6tXcqbMRQUeyLSWo2dk83KxMlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=br9Fb49G; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DeOaDFxC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="br9Fb49G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766453452; x=1797989452;
+  t=1766453851; x=1797989851;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JKrKCu2JinKechpmviPrYgj6JmCsu6XQB/lZ7qk1W4A=;
-  b=DeOaDFxCa5/rWT6u+9/8cGPiB4uhIByYJhDiH9YM/sGjdy5dZvNIYfEM
-   9bP5toaI8TygWqy02xR+WiThEcaRoQWKyEh3lCtiNpEJEDAx5K/i+KuLg
-   gkkSVba2Y+1x0GKgKtAYyrOc//5l4ykqALLmRXn5ICy6muj0sexX5Ugx+
-   RQH+bP6R1FQuBhhxeHLS8Qn/ZbL9RpwEImtFDdOlwyWL7h6aUnsBjk9Us
-   L63CnCyLpzxldffo4q6o6I84kfqa4sv28OkK2ivc4K9RS1/x1KANcBkzE
-   lhip6/YbZRgfsGPT/G0F1FR+etHSEhELqbafLc20fxYJZLdCGBOcaZzTU
+  bh=pKvmHtDqbKO58GFHuBg4/c4NU8ZxuiSBCHf92qEsh8w=;
+  b=br9Fb49G4OonOHpuFH3wUto5vvX4W8JwWl0U0FJNgocNv6eqsJuj+nV3
+   dIl+qitRyjpCne/qFrC+9quYnXyXYIjOZdWqRT97jECPpxuEUSOP0iBvl
+   vWX2Xthe4jeXyMri5ns++MLikUqdp/p+BYNEKh5dQAtvXvusRE6yieH2a
+   KLXk5zbvMIsNAUM9K5pv00NceIjy4mrUlBs52Yxr3aogW565uIMfJvUWC
+   b9mE13DGQOpOmM78lFmjDT1Sq73vduEte2VxCWMcsIyI3vW3stpDdd8IT
+   9l+cGGiGustm7fvhPGJdH1vK3FTOcQuP+HpbqB+ongWLGtUL4mh/JuGi9
    w==;
-X-CSE-ConnectionGUID: yeIEg/QBSCeKDED23cK/nQ==
-X-CSE-MsgGUID: Xh8T00qFRVmrO88jx8HsAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="85721039"
+X-CSE-ConnectionGUID: Gp/ar9utQjuDp9LItS17+A==
+X-CSE-MsgGUID: JGNFgjWdRSuYXjIKtTdqeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="85721555"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="85721039"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 17:30:52 -0800
-X-CSE-ConnectionGUID: qS5IxxX8Tsy8gspu6zWviA==
-X-CSE-MsgGUID: aHi2bCGlR2KMf6lpNTth1A==
+   d="scan'208";a="85721555"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 17:37:31 -0800
+X-CSE-ConnectionGUID: 5K80w88pR+OJy/aaLluX0A==
+X-CSE-MsgGUID: M8Mh8ltWQ7CmnR4Pu8NObQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="203792551"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Dec 2025 17:30:50 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="199427584"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 22 Dec 2025 17:37:29 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXrEe-000000001IP-061l;
-	Tue, 23 Dec 2025 01:30:48 +0000
-Date: Tue, 23 Dec 2025 09:29:48 +0800
+	id 1vXrL4-000000005h6-37Ad;
+	Tue, 23 Dec 2025 01:37:26 +0000
+Date: Tue, 23 Dec 2025 02:36:39 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] regulator: Add TPS65185 driver
-Message-ID: <202512230921.lu1gQUjB-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 10/128]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: efuse@23d2c8000
+ (apple,t8112-efuses): Unevaluated properties are not allowed
+ ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28',
+ 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@...
+Message-ID: <202512230208.QwwDOXUJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,59 +66,89 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/regulator/tps65185.c:656:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251222-tps65185-submit-v1-2-34986b504d5f@kemnade.info>
-References: <20251222-tps65185-submit-v1-2-34986b504d5f@kemnade.info>
-TO: Andreas Kemnade <andreas@kemnade.info>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Guenter Roeck <linux@roeck-us.net>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-hwmon@vger.kernel.org
-CC: Andreas Kemnade <andreas@kemnade.info>
+TO: Janne Grunau <j@jannau.net>
 
-Hi Andreas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/dt-bindings-regulator-Add-TI-TPS65185/20251222-202246
-base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-patch link:    https://lore.kernel.org/r/20251222-tps65185-submit-v1-2-34986b504d5f%40kemnade.info
-patch subject: [PATCH 2/2] regulator: Add TPS65185 driver
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: loongarch-randconfig-r133-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230921.lu1gQUjB-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230921.lu1gQUjB-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   51bf311a24a70b86e55dc44e36185917f29e1676
+commit: 62c539c660c695d320c897db87ea08041c225a49 [10/128] arm64: dts: apple: t8112: Add eFuses node and ATC phy fuses
+:::::: branch date: 3 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230208.QwwDOXUJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230208.QwwDOXUJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512230921.lu1gQUjB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512230208.QwwDOXUJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/regulator/tps65185.c:656:1: sparse: sparse: bad integer constant expression
-   drivers/regulator/tps65185.c:656:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/regulator/tps65185.c:657:1: sparse: sparse: bad integer constant expression
-   drivers/regulator/tps65185.c:657:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/regulator/tps65185.c:657:1: sparse: sparse: bad integer constant expression
-   drivers/regulator/tps65185.c:657:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-
-vim +656 drivers/regulator/tps65185.c
-
-b1c1b1530b174ad Andreas Kemnade 2025-12-22  654  
-b1c1b1530b174ad Andreas Kemnade 2025-12-22  655  /* Module information */
-b1c1b1530b174ad Andreas Kemnade 2025-12-22 @656  MODULE_DESCRIPTION("TPS65185 regulator driver");
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: efuse@23d2c8000 (apple,t8112-efuses): compatible:0: 'apple,t8112-efuses' is not one of ['apple,t8103-efuses', 'apple,t6000-efuses']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: efuse@23d2c8000 (apple,t8112-efuses): compatible:0: 'apple,t8112-efuses' is not one of ['apple,t8103-efuses', 'apple,t6000-efuses']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: efuse@23d2c8000 (apple,t8112-efuses): compatible:0: 'apple,t8112-efuses' is not one of ['apple,t8103-efuses', 'apple,t6000-efuses']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112.dtsi:503.26-507.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: efuse@23d2c8000 (apple,t8112-efuses): compatible:0: 'apple,t8112-efuses' is not one of ['apple,t8103-efuses', 'apple,t6000-efuses']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
 
 -- 
 0-DAY CI Kernel Test Service
