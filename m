@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5989B2D592D
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 03:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5CC2D94A5
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 04:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766462318; cv=none; b=BjJkFrqnYFoxHNgk5tMTM8jEnnXkd7Qv0UzKa5Ag7lwFBNb3cCxtECbDSuqDVmW8uo8YGqdVhS1fSypKYoHzdKfrSNWTp1LZS1AL4U7KtfkVrtDkkcpQyLhEDcDYdKswkCn0eRpSIHFYQepmSsmBnk9+n2fgpo0fN3jYag4wGPY=
+	t=1766463576; cv=none; b=Vef9r9ucvh9b3rucWa86X9LocG720GfEjNsLEBCbEx/pHN3WdkF9FfcHvMdP1H682k0F1OShDbEqNcyTdXPzkDzjnJIWyT250Y414yCqBcu0DaRhl1Nl4lBgMXOBWjMIM7wMvNOwD9nuZtjEgHc6x4X51uqIHaADL4q3kn0+dFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766462318; c=relaxed/simple;
-	bh=JJXC1lAOG7vrWEcDZjbFv4LL2ZLGKXtsiyLyDZhXB5s=;
+	s=arc-20240116; t=1766463576; c=relaxed/simple;
+	bh=vOmLtUQtBSdPYj60C6bvKCFaODnEA4sxmNMABIsRRcA=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XKjbr0Ll0MvCZZtLfcbQm4NuTlMYFZFFieRSS5Aw4KczpMkTz47EkFme7bhApM0nBuPb8tn+1JwPbtQLwvT4G7P56BWCJtELMnQPsRZm3SJP7hA36g3paWWaHxo5zqt7ROWD7OPskeT8JXmoN0qRHHRMD9OvWB+0MMuyE+TBOpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAzav8Eu; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=jalL/X/0/apm5CdauqcQVSPZoGpVhQ0ADl0FmaolF0eLXgmJmbjQaMXgU3b31F05EBopvJGSupBVa/N6DR2k8Z1lKTtYX3QzyGFRzsN3zoL/F71XxMJU1Tw/OcT7Xcz+kjq6aVoEmCyY9bvmwNXeWq8mCQkTMQnkAmrpv3DRIDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jt+mM2aI; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAzav8Eu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jt+mM2aI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766462315; x=1797998315;
+  t=1766463574; x=1797999574;
   h=date:from:to:subject:message-id:mime-version;
-  bh=JJXC1lAOG7vrWEcDZjbFv4LL2ZLGKXtsiyLyDZhXB5s=;
-  b=AAzav8EuOGbrxu/CPIzRBNvxMffSvB0GG5zkuZACI6EVc1i+Oao4XhKL
-   PnuF04TvYgXGXi6Pg/P5uWBoo8ySN6Z4EeIV6RWHh8+kAfEHSHWtowrLP
-   5iH6w2gtx1vauiTAKjolDXSu0Ijo0Pr6vE2m5yJHi+dwn3zja6W+B9RPI
-   jXRkLBthiWktZGDG0pK1IsOtd3ScUk4OQxdIIb/3Gf8+rY5uB6SyBQfJp
-   4LBLyHht0Eot/dlXl0JQWNsDG2rvhtEKR1YSjaV4MyQKBkZVAudb/4k//
-   NcHiNSPxRe2OeCXNb96a6vTzPrjYhKaodxNI4LQID0kD2mG44IGrioCUt
-   g==;
-X-CSE-ConnectionGUID: Fd/q2RlxQF+G+P7tbZqjVQ==
-X-CSE-MsgGUID: Ku/cf2E3ReCkuhVQT1nr9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="72175657"
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="72175657"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 19:58:34 -0800
-X-CSE-ConnectionGUID: w+CZZsVtSPK9fvWwdDBYMA==
-X-CSE-MsgGUID: ugoYRMxWTQukg6EwIKDObw==
+  bh=vOmLtUQtBSdPYj60C6bvKCFaODnEA4sxmNMABIsRRcA=;
+  b=Jt+mM2aI0/RfxfXGJOpR8CYfkLs9Pk2QSD13j0nNf4ZvxEzUJtc9OU6a
+   8k3eC3XYHWxodYJXsujCzq9v42+C30t0UM909vIZJsBRayMYA8CGekMgE
+   M9N+inPH3U3wPe3YdCTDzXbsSsoQlss1sSGTEqTWGHnrfEoSTHvbtx2Nh
+   6pedV/PEDTXnvMRBkWd2WumC8uwDwUfB5+774BcMVw5ItOKxMdxvHupBk
+   1axoA9nekrNgBSjlr31PyWR3Wa0eawYNE9WWg2CSMz96Xk3ggkmLcNivL
+   WIJwAHrgTrT+QZ1TTDxbLkuaqN2rfnE8HTT6PpTeROPwRcV+Ber2Pzl9l
+   w==;
+X-CSE-ConnectionGUID: AFosb6+nRmqniTLUAiaNOA==
+X-CSE-MsgGUID: HbiDuL3iQLmFVq2SeLBxjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68252179"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68252179"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 20:19:33 -0800
+X-CSE-ConnectionGUID: i335uIsXT7+CNwCstGznlA==
+X-CSE-MsgGUID: HvIK0qa7T3Ogn6BxpRgr8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="230345437"
+   d="scan'208";a="199715104"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2025 19:58:33 -0800
+  by orviesa008.jf.intel.com with ESMTP; 22 Dec 2025 20:19:32 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXtXa-000000005m4-1l3G
+	id 1vXtru-000000005mY-3i0g
 	for oe-kbuild@lists.linux.dev;
-	Tue, 23 Dec 2025 03:58:30 +0000
-Date: Tue, 23 Dec 2025 04:57:31 +0100
+	Tue, 23 Dec 2025 04:19:30 +0000
+Date: Tue, 23 Dec 2025 05:19:07 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v6 19/28] KVM: s390: New gmap code
-Message-ID: <202512230445.qxXGFFRJ-lkp@intel.com>
+Subject: [asahilinux:bits/200-dcp 1/242] checkpatch:
+ WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+Message-ID: <202512230541.zKF5yM6r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,33 +68,21 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251222165033.162329-20-imbrenda@linux.ibm.com>
-References: <20251222165033.162329-20-imbrenda@linux.ibm.com>
-TO: Claudio Imbrenda <imbrenda@linux.ibm.com>
+TO: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-Hi Claudio,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on s390/features]
-[cannot apply to kvms390/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudio-Imbrenda/KVM-s390-Refactor-pgste-lock-and-unlock-functions/20251223-012700
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/20251222165033.162329-20-imbrenda%40linux.ibm.com
-patch subject: [PATCH v6 19/28] KVM: s390: New gmap code
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251223/202512230445.qxXGFFRJ-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/200-dcp
+head:   6354e3da260793f90e3288781d8faf8af4807efb
+commit: 6d81eb94268dcc3fe7e8aab8e1214b9f8c51c198 [1/242] WIP: drm/apple: Add DCP display driver
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251223/202512230541.zKF5yM6r-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'asce'
-#1361: FILE: arch/s390/kvm/gmap.h:235:
-+static inline bool gmap_is_shadow_valid(struct gmap *sg, union asce asce, int edat_level)
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#2158: FILE: drivers/gpu/drm/apple/dcpep.h:139:
++ * content.
++  */
 
 -- 
 0-DAY CI Kernel Test Service
