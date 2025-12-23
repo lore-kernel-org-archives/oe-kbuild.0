@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACD4231A23
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 07:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895A7279327
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 07:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766475309; cv=none; b=FqyN1/oabb0SPfGfXCJLXiHVcudgF7R+jKYt7HKiEDpfNNhbAD58xR1f5bSTeq+DbdloeHV/mjqPb2CcGN/Bx1XHP/ugzNl15SB5STUffNka1CwKMCBx/mkMZw4k7jhClC01jhOedup39AxVlx4SCfTjt05iuoLvHMJiJkF2VW0=
+	t=1766475968; cv=none; b=ZdolI8MQgD6Q8VU/ljoDST04NSk8YpHNq3QVsNy2Wk6Neg55SuexNM+i1MBdZNnQBNbg8SAwJ8sQSoqttfDITeJF5VOVzoldnw6bGHIBih8vt31DTxkyncxi6DzvBikmUs8sDytHiag8WBfWKKE7j+keepPTJ5lK2pnx6f7peLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766475309; c=relaxed/simple;
-	bh=RiuN+S1X8LZkkudp7eRbMXlj+NSRq83RvKGZbUg4B2o=;
+	s=arc-20240116; t=1766475968; c=relaxed/simple;
+	bh=24XpMI84yV2+65d21ngHmiJZTUBS94WeMdfrEn0hdP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zj2OaTkMP4yXn/f4/4Qz2/nVn9BjiPqbfC3WDgL1PPV/R1a2/H89GMfinjUih9Xzg1zYSjW34zdXbk/QwY+2YnWz5Te4tIaZznESlfnqxuBjc2V6iGCrhDELdkwFwEj3F8Iql7Po/yjoswWWBbQmBuTgbMsWodYJ4yB9XwFbU7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDeTOV8Y; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=flm0VobrIoFHgREQajZJQshcXt3/ZOL/hx6MhgmOoM4kpdQSxRIP3B4sNdVGrmulOzRAyteVxwqwD3nsvBYx9g++tIr7Gl/JbfJ3uvphcc5RK6OGi9wbvhwZdKgnhTLd/0S3tBIaUkMIQH/BFJV+lPg3ruWK6IMuD1Q6rMQJdtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVnO1LHj; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDeTOV8Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVnO1LHj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766475307; x=1798011307;
+  t=1766475967; x=1798011967;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RiuN+S1X8LZkkudp7eRbMXlj+NSRq83RvKGZbUg4B2o=;
-  b=lDeTOV8YteSLBLlJeYi5MwGpMaTPC+bPmQ7Wj1eP/HzKTFgt6SUDNJiy
-   iEG5CRf2WluXGTy/nnrYH5jfFV/qWndFx1Ptz3AtDm8uDDqpNWcg/0vrJ
-   SScOzJze35TbcIBC1umjZTXuq7Emjcuqz8RxSe8N0Mvm0v8gorL/Q1i7+
-   PW2TzAoAXb7PrC5unUH3/fBORL2AotYFERjZeyJw6x+QzD6713n9uo0PW
-   mmt9oezuEo3cJenMl9RRlERFvu2ZeTY/VVopdZPjgbZAxwOeFKcYLm/Ws
-   eSAwq8jt2PpXFE1UcBcENArhRSM0YNMwJ/17Vb0RSv11fRg53Ypyl1cOX
-   g==;
-X-CSE-ConnectionGUID: Yslkc9+oQMSBCGMOlgmgJg==
-X-CSE-MsgGUID: mHzzKi1JSPWOXWfX6+wtMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79443119"
+  bh=24XpMI84yV2+65d21ngHmiJZTUBS94WeMdfrEn0hdP4=;
+  b=KVnO1LHjdiXKzE7DZ/JXNERJq5qWS82rsq31tYr6FBblAxFnOmtJ/7k4
+   DJTZQE/dEYfXdW/WPy9SD8tmDwayX6eKI1LpeKFVUcEMQrOozOB1/Zifc
+   6Vhl7PD/2TiD4Dc0Aj6hyaDVz9ff3kYH+QzzOTzJ4/ZNSCusAgCGzRNe1
+   84xDcgeI0usVZIATsyZI/KYhQ2V4wL42Z05vF/lmt9831WXMj/awmxbsl
+   WC4Iz0vDYayyZKlrIPLgIMQWZ2ssGPndN6eR3Vgp2WHwdrfS0hL3sI7ki
+   HQouLoQ+GvQsOI0E3ASuM2ERhxLtG9t4SkPjyADA+YKkB6jupy1xBHC0s
+   A==;
+X-CSE-ConnectionGUID: OqJN4aS2RmC4MWOyp9Lu7g==
+X-CSE-MsgGUID: c/NpqjKSSLexUbJrh/roQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67520583"
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="79443119"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 23:35:05 -0800
-X-CSE-ConnectionGUID: HRTGTDVtQHulrMptfk0oXA==
-X-CSE-MsgGUID: sn+Uc0sHQhaT8VA1DyMMBQ==
+   d="scan'208";a="67520583"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 23:46:06 -0800
+X-CSE-ConnectionGUID: p32Yxpz6S9WlOfa7Zkjn9g==
+X-CSE-MsgGUID: lfUxhTlSRFmvp3pqc3pDDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="204667387"
+   d="scan'208";a="237129841"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Dec 2025 23:35:04 -0800
+  by orviesa001.jf.intel.com with ESMTP; 22 Dec 2025 23:46:04 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXwv7-000000001av-3T2L;
-	Tue, 23 Dec 2025 07:35:01 +0000
-Date: Tue, 23 Dec 2025 15:35:01 +0800
+	id 1vXx5m-000000001bk-1gK0;
+	Tue, 23 Dec 2025 07:46:02 +0000
+Date: Tue, 23 Dec 2025 15:45:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] regulator: Add TPS65185 driver
-Message-ID: <202512231545.58QwstEa-lkp@intel.com>
+Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+Message-ID: <202512231517.fiGsQEEL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,59 +62,67 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/regulator/tps65185.c:656:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:8:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251222-tps65185-submit-v1-2-34986b504d5f@kemnade.info>
-References: <20251222-tps65185-submit-v1-2-34986b504d5f@kemnade.info>
-TO: Andreas Kemnade <andreas@kemnade.info>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+References: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+TO: Louis Chauvet <louis.chauvet@bootlin.com>
+TO: Haneen Mohammed <hamohammed.sa@gmail.com>
+TO: Simona Vetter <simona@ffwll.ch>
+TO: Melissa Wen <melissa.srw@gmail.com>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Maxime Ripard <mripard@kernel.org>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: David Airlie <airlied@gmail.com>
+TO: jose.exposito89@gmail.com
+TO: Jonathan Corbet <corbet@lwn.net>
+CC: victoria@system76.com
+CC: sebastian.wick@redhat.com
+CC: thomas.petazzoni@bootlin.com
+CC: dri-devel@lists.freedesktop.org
 CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-hwmon@vger.kernel.org
-CC: Andreas Kemnade <andreas@kemnade.info>
+CC: linux-doc@vger.kernel.org
+CC: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Hi Andreas,
+Hi Louis,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+[auto build test WARNING on 8e7460eac786c72f48c4e04ce9be692b939428ce]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/dt-bindings-regulator-Add-TI-TPS65185/20251222-202246
-base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-patch link:    https://lore.kernel.org/r/20251222-tps65185-submit-v1-2-34986b504d5f%40kemnade.info
-patch subject: [PATCH 2/2] regulator: Add TPS65185 driver
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: loongarch-randconfig-r133-20251223 (https://download.01.org/0day-ci/archive/20251223/202512231545.58QwstEa-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512231545.58QwstEa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/Documentation-ABI-vkms-Add-current-VKMS-ABI-documentation/20251222-181426
+base:   8e7460eac786c72f48c4e04ce9be692b939428ce
+patch link:    https://lore.kernel.org/r/20251222-vkms-all-config-v3-18-ba42dc3fb9ff%40bootlin.com
+patch subject: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: openrisc-randconfig-r133-20251223 (https://download.01.org/0day-ci/archive/20251223/202512231517.fiGsQEEL-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512231517.fiGsQEEL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512231545.58QwstEa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512231517.fiGsQEEL-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/regulator/tps65185.c:656:1: sparse: sparse: bad integer constant expression
-   drivers/regulator/tps65185.c:656:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/regulator/tps65185.c:657:1: sparse: sparse: bad integer constant expression
-   drivers/regulator/tps65185.c:657:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/regulator/tps65185.c:657:1: sparse: sparse: bad integer constant expression
-   drivers/regulator/tps65185.c:657:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+>> drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:8:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:8:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
+   drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:101:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:101:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:101:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:101:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:102:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/drm/vkms/tests/vkms_configfs_test.c:102:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
 
-vim +656 drivers/regulator/tps65185.c
+vim +8 drivers/gpu/drm/vkms/tests/vkms_configfs_test.c
 
-b1c1b1530b174a Andreas Kemnade 2025-12-22  654  
-b1c1b1530b174a Andreas Kemnade 2025-12-22  655  /* Module information */
-b1c1b1530b174a Andreas Kemnade 2025-12-22 @656  MODULE_DESCRIPTION("TPS65185 regulator driver");
+9d5862b7732204 Louis Chauvet 2025-12-22  7  
+9d5862b7732204 Louis Chauvet 2025-12-22 @8  MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+9d5862b7732204 Louis Chauvet 2025-12-22  9  
 
 -- 
 0-DAY CI Kernel Test Service
