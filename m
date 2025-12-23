@@ -1,152 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3222309DAB
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 12:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFE01A9F88
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 13:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766493625; cv=none; b=RXkCzLAtEsnL0qAQU/XNCWYjeX9YfF9/gXurN5FGNmUy2zxx1pwnH1KF21TFXXduaTbGoM38jGSY6jMzzA+OIyiCiFbCgbl1s5kYtr3crU7F3USS+/5jNbmQyGnxUH0RnY+FSpI8dYYG7iUIQO0KKPBicbMz7I1ewlUpk93Hobs=
+	t=1766496204; cv=none; b=JUS7hTt5LeIRIqhrCgSWHed4sotugs6QtevudOjVaZVC9BYjosB7k7Ivb9sNuUBGXbEEoLxF0W+xOQ+MioVSRy+2dfgl3klCE5j7RZxYEJwNkzJqJ1r4r2hJzc2PpPmFChzM2XlAqN9c1rhX5T4Qj8i6aBnCqit2LIj/sE98Avs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766493625; c=relaxed/simple;
-	bh=QrhvRanPCp1RqlxJPE5SALx9q7xLlfT6A+arRacQ41U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oHnJ17JW1MF0bkQaiZWpjRSDh0LoXMdS3rxjP6gaYARYYHvvxm/SE52eHdfStPXZf9TyRDBFk7CLbvaZFv2PE3Ic2viYKqe+SuZJ1zr6e6HMygjf+MT64Z0IVyhW6X9u4ZrSmgj7tJB8TSQY6ql0Qu6HSWtBNR4xPNreUQu9DdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fR22TX17; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1766496204; c=relaxed/simple;
+	bh=3krhLYCHvpz34oJOSp9ZZX8BmwwSRkSz4s0ucZcMj6o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J9HqFEY1QGGPH8fNEomC1DO9HfS8sFg/DLyjitb0ebvHEPISU9xAnlCQD6J9R6gIfKYWGtMp/sd5AHUQGfltpApQ3plVg+YYJQbhW58633A3UKekPQudh3JSvylUeHK/CCzSUWAB2FFDHMkpNIlcDel4gT7RbwaO6sc8mFLOUCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwFYBxrT; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fR22TX17"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwFYBxrT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766493622; x=1798029622;
-  h=date:from:to:cc:subject:message-id;
-  bh=QrhvRanPCp1RqlxJPE5SALx9q7xLlfT6A+arRacQ41U=;
-  b=fR22TX17aBvi2KwD3ZlgNdrv0z0SJ8zNMLDYy/MjvxHQZQ1YAm7eHoax
-   ch5pOQ3B0xoo7ZQ5oCrxQeTEE6UgYfjtMa/yOh3L2RimDAmMnP032eQ50
-   q3dV8Q9fpYI22se1Ja8bI9AK8GbTAw+Fdc4yTmqeClbZMxUHFLh2VRmrJ
-   DAGYfrXdgJKUOxx4duRC2ROev+QzI19ydBQ6gKy5oDXcVLCuuuRuSozfu
-   KbewWCAVfdUaV17mH6IN6WpwNuoP31IPLbnNv5p1a4KwzFWgm0OMY/mnU
-   HeZWGNq/UWuH4ykm5hFnaS6DK2MarnXJu1Iq23eceew/Be+PVLGm4CiZQ
-   g==;
-X-CSE-ConnectionGUID: 1r2csK6sSmyLVxpGGqhPBw==
-X-CSE-MsgGUID: 66x+CO34R/2Oicpj1ZblDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79458566"
+  t=1766496202; x=1798032202;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3krhLYCHvpz34oJOSp9ZZX8BmwwSRkSz4s0ucZcMj6o=;
+  b=PwFYBxrTIqsx/wp6fVtiMoiWC9iriTq3+URTh/i+g9F0jMdjy5XrqnFv
+   caP4jeleZHqSB6Jc089SIZBcaMvEDe+/oG7KDXIj8/aMZtFgnYTHozCdq
+   dl/c2ymYCFVTMYZJZaajjI5sl1ff3gCFyLSP8Wnn/Y3vr5sxBE1JaF/sg
+   KLRqWzHoDq7ydQlFESn1yzzIdzauI2bklCVv9dg0jjDRp2VFp5Vzbog/z
+   kI04BZ/lfOkrjS1xGxDUHH9xyJ/qd6+TJHwt+Ye2xQOiOyXrFR6NCSrHZ
+   sNVwNp+EO0MunSTDegYUGuZZF44ui/A4QkmKAinL0HICGrvKWhFHbydZz
+   Q==;
+X-CSE-ConnectionGUID: oaacsFIDRuKn1apDcphyEQ==
+X-CSE-MsgGUID: w1oO8dy9TOWu8xVm8aJFDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="68226158"
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="79458566"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 04:40:21 -0800
-X-CSE-ConnectionGUID: Dp4EtPAwS2CM8G0EiO++Ww==
-X-CSE-MsgGUID: vaw/9XglQxOhs3iohkCD3g==
+   d="scan'208";a="68226158"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 05:23:22 -0800
+X-CSE-ConnectionGUID: 5yb7joUGQnaIui1K1lHTLA==
+X-CSE-MsgGUID: vx5ho6HBSJupWRrncUzsmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="237182976"
+   d="scan'208";a="199691767"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 23 Dec 2025 04:40:19 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 23 Dec 2025 05:23:20 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vY1gX-000000001uD-1eGw;
-	Tue, 23 Dec 2025 12:40:17 +0000
-Date: Tue, 23 Dec 2025 20:39:59 +0800
+	id 1vY2MA-000000001xd-2ILy;
+	Tue, 23 Dec 2025 13:23:18 +0000
+Date: Tue, 23 Dec 2025 21:22:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [arm-platforms:kvm-arm64/gicv5-full 80/82]
- arch/arm64/kvm/vgic/vgic-its-v5.c:1213:2-8: preceding lock on line 1181
-Message-ID: <202512232029.FJOH3tvX-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/8] phy: axiado: add Arasan eMMC-PHY for Axiado
+Message-ID: <202512232108.SCc2Ad7g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/phy/axiado/phy-axiado-emmc.c:258:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251222-axiado-ax3000-add-emmc-host-driver-support-v1-2-5457d0ebcdb4@axiado.com>
+References: <20251222-axiado-ax3000-add-emmc-host-driver-support-v1-2-5457d0ebcdb4@axiado.com>
+TO: "Tzu-Hao Wei" <twei@axiado.com>
+TO: SriNavmani A <srinavmani@axiado.com>
+TO: Prasad Bolisetty <pbolisetty@axiado.com>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Harshit Shah <hshah@axiado.com>
+TO: Ulf Hansson <ulf.hansson@linaro.org>
+TO: Adrian Hunter <adrian.hunter@intel.com>
+TO: Michal Simek <monstr@monstr.eu>
+CC: linux-phy@lists.infradead.org
+CC: devicetree@vger.kernel.org
 CC: linux-arm-kernel@lists.infradead.org
-TO: Sascha Bischoff <sascha.bischoff@arm.com>
+CC: linux-kernel@vger.kernel.org
+CC: linux-mmc@vger.kernel.org
+CC: "Tzu-Hao Wei" <twei@axiado.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/gicv5-full
-head:   1426b88096b597395df4c82f089b87c62bab45da
-commit: e01f1868ec7bf5d212cd8daf67da77fc8c1cd320 [80/82] KVM: arm64: gic-v5: Implement has/set/get attr for ITS MMIO regions
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-r064-20251223 (https://download.01.org/0day-ci/archive/20251223/202512232029.FJOH3tvX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
+Hi Tzu-Hao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tzu-Hao-Wei/dt-bindings-phy-axiado-ax3000-emmc-phy-add-Axiado-eMMC-PHY-document/20251222-165544
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20251222-axiado-ax3000-add-emmc-host-driver-support-v1-2-5457d0ebcdb4%40axiado.com
+patch subject: [PATCH 2/8] phy: axiado: add Arasan eMMC-PHY for Axiado
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: loongarch-randconfig-r133-20251223 (https://download.01.org/0day-ci/archive/20251223/202512232108.SCc2Ad7g-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512232108.SCc2Ad7g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512232029.FJOH3tvX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512232108.SCc2Ad7g-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/vgic/vgic-its-v5.c:1213:2-8: preceding lock on line 1181
-   arch/arm64/kvm/vgic/vgic-its-v5.c:1213:2-8: preceding lock on line 1188
+sparse warnings: (new ones prefixed by >>)
+>> drivers/phy/axiado/phy-axiado-emmc.c:258:1: sparse: sparse: bad integer constant expression
+   drivers/phy/axiado/phy-axiado-emmc.c:258:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/phy/axiado/phy-axiado-emmc.c:259:1: sparse: sparse: bad integer constant expression
+   drivers/phy/axiado/phy-axiado-emmc.c:259:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/phy/axiado/phy-axiado-emmc.c:260:1: sparse: sparse: bad integer constant expression
+   drivers/phy/axiado/phy-axiado-emmc.c:260:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/phy/axiado/phy-axiado-emmc.c:260:1: sparse: sparse: bad integer constant expression
+   drivers/phy/axiado/phy-axiado-emmc.c:260:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +1213 arch/arm64/kvm/vgic/vgic-its-v5.c
+vim +258 drivers/phy/axiado/phy-axiado-emmc.c
 
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1167  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1168  static int vgic_v5_its_attr_regs_access(struct kvm_device *dev,
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1169  				 struct kvm_device_attr *attr,
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1170  				 u64 *reg, bool is_write)
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1171  {
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1172  	const struct vgic_register_region *region;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1173  	struct vgic_v5_its *its;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1174  	gpa_t addr, offset;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1175  	unsigned int len;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1176  	int align, ret = 0;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1177  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1178  	its = dev->private;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1179  	offset = attr->attr;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1180  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05 @1181  	mutex_lock(&dev->kvm->lock);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1182  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1183  	if (kvm_trylock_all_vcpus(dev->kvm)) {
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1184  		mutex_unlock(&dev->kvm->lock);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1185  		return -EBUSY;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1186  	}
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1187  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1188  	mutex_lock(&dev->kvm->arch.config_lock);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1189  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1190  	if (IS_VGIC_ADDR_UNDEF(its->vgic_v5_its_base)) {
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1191  		ret = -ENXIO;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1192  		goto out;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1193  	}
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1194  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1195  	region = vgic_find_mmio_region(vgic_v5_its_registers,
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1196  				       ARRAY_SIZE(vgic_v5_its_registers),
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1197  				       offset);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1198  	if (!region) {
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1199  		ret = -ENXIO;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1200  		goto out;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1201  	}
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1202  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1203  	/*
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1204  	 * Although the spec supports upper/lower 32-bit accesses to
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1205  	 * 64-bit ITS registers, the userspace ABI requires 64-bit
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1206  	 * accesses to all 64-bit wide registers. We therefore only
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1207  	 * support 32-bit accesses to 32-bit-wide registers.
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1208  	 */
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1209  	align = region->access_flags & VGIC_ACCESS_64bit ? 0x7 : 0x3;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1210  	len = region->access_flags & VGIC_ACCESS_64bit ? 8 : 4;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1211  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1212  	if (offset & align)
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05 @1213  		return -EINVAL;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1214  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1215  	addr = its->vgic_v5_its_base + offset;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1216  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1217  	if (is_write) {
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1218  		region->its_write(dev->kvm, its, addr, len, *reg);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1219  	} else {
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1220  		*reg = region->its_read(dev->kvm, its, addr, len);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1221  	}
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1222  out:
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1223  	mutex_unlock(&dev->kvm->arch.config_lock);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1224  	kvm_unlock_all_vcpus(dev->kvm);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1225  	mutex_unlock(&dev->kvm->lock);
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1226  
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1227  	return ret;
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1228  }
-e01f1868ec7bf5 Sascha Bischoff 2025-09-05  1229  
+c69e10e2d9b006a SriNavmani A 2025-12-22  257  
+c69e10e2d9b006a SriNavmani A 2025-12-22 @258  MODULE_DESCRIPTION("AX3000 eMMC PHY Driver");
 
 -- 
 0-DAY CI Kernel Test Service
