@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5CC2D94A5
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 04:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504BE3A1E7F
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 04:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766463576; cv=none; b=Vef9r9ucvh9b3rucWa86X9LocG720GfEjNsLEBCbEx/pHN3WdkF9FfcHvMdP1H682k0F1OShDbEqNcyTdXPzkDzjnJIWyT250Y414yCqBcu0DaRhl1Nl4lBgMXOBWjMIM7wMvNOwD9nuZtjEgHc6x4X51uqIHaADL4q3kn0+dFQ=
+	t=1766464238; cv=none; b=BKrGLGDl1Mg8kPXztUoR7PUUemBbEmgYXKDqLE9IijSzwDSnFpRA+4t2lwwBYqSS5OVz7kmeUImv4xJTOKnNjs/3jMlDmGRTpxblmiPLhKZF2yY1sl2eyUTPwW4+m8/bnUOkUKrJYhJbmvB3Df2TfJXrPI3xwcA70cg4z66kfzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766463576; c=relaxed/simple;
-	bh=vOmLtUQtBSdPYj60C6bvKCFaODnEA4sxmNMABIsRRcA=;
+	s=arc-20240116; t=1766464238; c=relaxed/simple;
+	bh=VfbPCVJ/CeKthbVsqUhV/ECx17cdiMz6sUIlXDpcYGs=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jalL/X/0/apm5CdauqcQVSPZoGpVhQ0ADl0FmaolF0eLXgmJmbjQaMXgU3b31F05EBopvJGSupBVa/N6DR2k8Z1lKTtYX3QzyGFRzsN3zoL/F71XxMJU1Tw/OcT7Xcz+kjq6aVoEmCyY9bvmwNXeWq8mCQkTMQnkAmrpv3DRIDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jt+mM2aI; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Hs/9rZrTiotZcQZzcKQtH937Td3N761q24xynTvFKD3UGIZFeCgqq6V4xJL1k3kM4ltA8CARNyXnZwNjT+Pij83UD51kZZ7nMMjLKg4gbdC/sJ9p3BzckGL7Oxy5sUg75MS03KiRZ60g2mvBX5Ir0Ha2E+x7sVF65ABd/M7mzwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gKwcszFL; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jt+mM2aI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKwcszFL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766463574; x=1797999574;
+  t=1766464236; x=1798000236;
   h=date:from:to:subject:message-id:mime-version;
-  bh=vOmLtUQtBSdPYj60C6bvKCFaODnEA4sxmNMABIsRRcA=;
-  b=Jt+mM2aI0/RfxfXGJOpR8CYfkLs9Pk2QSD13j0nNf4ZvxEzUJtc9OU6a
-   8k3eC3XYHWxodYJXsujCzq9v42+C30t0UM909vIZJsBRayMYA8CGekMgE
-   M9N+inPH3U3wPe3YdCTDzXbsSsoQlss1sSGTEqTWGHnrfEoSTHvbtx2Nh
-   6pedV/PEDTXnvMRBkWd2WumC8uwDwUfB5+774BcMVw5ItOKxMdxvHupBk
-   1axoA9nekrNgBSjlr31PyWR3Wa0eawYNE9WWg2CSMz96Xk3ggkmLcNivL
-   WIJwAHrgTrT+QZ1TTDxbLkuaqN2rfnE8HTT6PpTeROPwRcV+Ber2Pzl9l
-   w==;
-X-CSE-ConnectionGUID: AFosb6+nRmqniTLUAiaNOA==
-X-CSE-MsgGUID: HbiDuL3iQLmFVq2SeLBxjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68252179"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68252179"
+  bh=VfbPCVJ/CeKthbVsqUhV/ECx17cdiMz6sUIlXDpcYGs=;
+  b=gKwcszFLltMH/MlfKNAkslHZDkmTEkcbRz1mS2VMQZFKYaxIfSBgZnrB
+   XaDosQjoxm84meUfXkBSmHWyed2T/JK2TVvPqbelKLipov7iRLXxPOEwa
+   B61ExzFH6oadhzeqrhWL8Kfl17vITZpsdRwac8Dqj8TzwJILnCogGtNdh
+   UcFsykMh/gP/w0XFm9onkhyE4FtHioUgU8Cz0P8/Ki6dKyRpOMxNdHbjA
+   9vXffIh8GmnNEsgsSW158EgvAuWdNcfogZCC48nCzq1q2LN3Oun27vN3m
+   Fm2jGuqvVKYe3Mv9MgqeYvNipPoIG2bVlqo/TOyuHP2sq0vgg234wnAIX
+   Q==;
+X-CSE-ConnectionGUID: TwhZmvggTcqmHaxXO4rRxQ==
+X-CSE-MsgGUID: gEAZctiQR1mTiPJwoMe4+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67510873"
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
+   d="scan'208";a="67510873"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 20:19:33 -0800
-X-CSE-ConnectionGUID: i335uIsXT7+CNwCstGznlA==
-X-CSE-MsgGUID: HvIK0qa7T3Ogn6BxpRgr8A==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 20:30:35 -0800
+X-CSE-ConnectionGUID: bu/XSFgaSXqpZCdkZ1YtqA==
+X-CSE-MsgGUID: HKNjxC5dRlq4frSH4+/Ysw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="199715104"
+   d="scan'208";a="199716739"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 22 Dec 2025 20:19:32 -0800
+  by orviesa008.jf.intel.com with ESMTP; 22 Dec 2025 20:30:34 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXtru-000000005mY-3i0g
+	id 1vXu2a-000000005om-1nrG
 	for oe-kbuild@lists.linux.dev;
-	Tue, 23 Dec 2025 04:19:30 +0000
-Date: Tue, 23 Dec 2025 05:19:07 +0100
+	Tue, 23 Dec 2025 04:30:32 +0000
+Date: Tue, 23 Dec 2025 05:29:34 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [asahilinux:bits/200-dcp 1/242] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202512230541.zKF5yM6r-lkp@intel.com>
+Subject: [asahilinux:bits/200-dcp 162/242] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'it'
+Message-ID: <202512230504.yJOXizsG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,21 +68,20 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+TO: Janne Grunau <j@jannau.net>
 
 tree:   https://github.com/AsahiLinux/linux bits/200-dcp
 head:   6354e3da260793f90e3288781d8faf8af4807efb
-commit: 6d81eb94268dcc3fe7e8aab8e1214b9f8c51c198 [1/242] WIP: drm/apple: Add DCP display driver
+commit: f10c3330c87c10694e3f8f83de099fb3ae7b0e47 [162/242] drm: apple: Prefer RGB SDR modes
 :::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251223/202512230541.zKF5yM6r-lkp@intel.com/reproduce)
+:::::: commit date: 7 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251223/202512230504.yJOXizsG-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#2158: FILE: drivers/gpu/drm/apple/dcpep.h:139:
-+ * content.
-+  */
+WARNING:REPEATED_WORD: Possible repeated word: 'it'
+#7: 
+when it it would require DSC. For example 12-bit 4k 60 Hz YCbCr 4:4:4
 
 -- 
 0-DAY CI Kernel Test Service
