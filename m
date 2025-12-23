@@ -1,150 +1,181 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595E430ACE3
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 21:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EC1145B3E
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 22:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766524168; cv=none; b=AsQ6WDfZnitX0nevoE1OTIoFexp0/W5R9VL6Y0hF+vAJ5lIwfzFNfNgLkCsqbVcS+nYNjhF3X3Erdt4eQJKDUgmt6WbgTtvs65VcE90IxfmlMtmdioWStuI3GJdyyp2gajv99FWSNBJYAtHY3L95kcVHmbQYRb3YJZO69fujpy4=
+	t=1766528269; cv=none; b=bYwmQNUHAoqpUkzVPl+A/hlXhAWJzGnR3euuzdTfHiUFY6cYAjgu6WwRrfXP2SdxyLKO8zmb3u1ZUPfR6cU5WFNWErUzqI00SVQ+KXJ6mOwdwmX+mnhN7aHdJU9k9lpY7+8FGM1TDvksNxG4VwDQqysmoroDVC8ePcC3LfBdZls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766524168; c=relaxed/simple;
-	bh=b3CBHghtp+O2xpYjQO4jBYwt5ICMZiIXGPL/z7js/3A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uC1jMXcuq5PCfVjRjsWAianvXFFu/LlSkYha75eErdXq+Lbs6M4ok5GbftGx+toVwb+VfyfGf+bnyUykLyf39AAxOYZqkfPb7kdnBc3ixQeqYWU/JA/koxm4jKAvGT2or9w5IONVdFn7duIE8uJNXCsTrrfoAq7sRGejtnAy2Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAoEzyCU; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766528269; c=relaxed/simple;
+	bh=yDqAhU57sH8UijJ7sXSAvfKpRhIy+IXbo5X/j1s1ne4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gYddiKVTWYen5mkWJWjX9+z0BM34vQGHa0CVdD60nCwBVqMCOxhivsSkNBolVrXHV2DOXI/2ojsleUt05eFf+CHOc5oARrOrLWqENaroJmoWOiX+ocndjPZYkykiVTfgPJbVP+0jCvQnWYfVc/K409oqx3LI0sYAKUjCU7jejbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/fCpeVp; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAoEzyCU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/fCpeVp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766524166; x=1798060166;
-  h=date:from:to:cc:subject:message-id;
-  bh=b3CBHghtp+O2xpYjQO4jBYwt5ICMZiIXGPL/z7js/3A=;
-  b=gAoEzyCUL4+HbKCHCyhG3uMBqJmiSmWFOS9oc+sLMmp/Wap849m7IYx6
-   O8+2w/WZX8yQRnejUxmZyOodEQJcEMHdxDn1/Jk83S2rNjg+msep+bjsa
-   B95bjFrA/VTpWwma8T/N0mOATQr07N4uiDmi9mBZibLBIEO0z2FJqo2T3
-   aavghf20MS1p4j9W5rMrAQn5L95z+qvftlMS2x5kR+ORk+OmfhUUMcJtP
-   8R+0F6X8GwTcnCIi2dk/S11ueHjOaFdVwJIGxiU3t15EOCECDyo0wuRhJ
-   nffe5mpSFOlKfIgAvRCvgGKwnos2dHoLZR+Uj4MCdsSkqce2O/Fnhvw0R
-   Q==;
-X-CSE-ConnectionGUID: Ol/Rkf0TRli4odxjZy7fkA==
-X-CSE-MsgGUID: PiaMj1yMQZ+epFhm4lSJ0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72000551"
+  t=1766528266; x=1798064266;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yDqAhU57sH8UijJ7sXSAvfKpRhIy+IXbo5X/j1s1ne4=;
+  b=N/fCpeVp62dRBIXE3siwXWaCc0bozfAI7TzPyITq9EupDLPaOJ+DaCx7
+   S877efhqGi6z4LcC0rEl2psWXBClQNm7vz8sYPwK6U+Nc4QI8pRTUzPcc
+   S/H+WLqPtj3hpElT4Ye7Qh8VjXiz8OhLWyHvrr56ixcsNr4PauMEIBC09
+   WCimP55kjpQeV9UidslECEMpPV3V6sI1fZjUZHoHcZ8dG7M0zv5hv2BvJ
+   /glFVZlgq8lzhYRmYsANkVuxXhS6NUqW7jN/zW1NzNnqKN/FVBe38yt7Y
+   FJPI4hc1fBlrIDuWZnPc1Wh9gV/8ryg4ZZBsVCRxnC0IK2Fbh1y3Z5cva
+   g==;
+X-CSE-ConnectionGUID: +vQqREznStSMgqm5z9qM8g==
+X-CSE-MsgGUID: p1SgIjTzSYambqHqIdjnUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="67373338"
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="72000551"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 13:09:25 -0800
-X-CSE-ConnectionGUID: u4qZ2jLHRLumnx0FnDFzfg==
-X-CSE-MsgGUID: YO+bVWAfRRGYGHxcrsVE7A==
+   d="scan'208";a="67373338"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 14:17:45 -0800
+X-CSE-ConnectionGUID: q4n/m8aoRueuD3He7vGCUw==
+X-CSE-MsgGUID: BiVQOgqkRHqdMcxUewhjVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="199010692"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 23 Dec 2025 13:09:24 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="204803383"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 23 Dec 2025 14:17:44 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vY9dB-000000002Nd-46T9;
-	Tue, 23 Dec 2025 21:09:21 +0000
-Date: Wed, 24 Dec 2025 05:09:03 +0800
+	id 1vYAhK-0000000061A-276s;
+	Tue, 23 Dec 2025 22:17:42 +0000
+Date: Tue, 23 Dec 2025 23:17:08 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [hch-misc:inode-time-nowait.4 5/11] fs/inode.c:2139:16-23:
- duplicated argument to & or |
-Message-ID: <202512240401.NsKRkr2X-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 21/128]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000
+ (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202512232336.rAeAJ9uZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+TO: Janne Grunau <j@jannau.net>
+CC: Hector Martin <marcan@marcan.st>
 
-tree:   git://git.infradead.org/users/hch/misc.git inode-time-nowait.4
-head:   48db9b88d8b81b1b5c3973cb491d7cd952ef6ca0
-commit: 4c45d5090b1155bd7b428574d2cf9bfe6871017a [5/11] fs: return I_DIRTY_* and allow error returns from inode_update_timestamps
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: m68k-randconfig-r054-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240401.NsKRkr2X-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 9.5.0
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   51bf311a24a70b86e55dc44e36185917f29e1676
+commit: 45a01553f533c7e71dbd5f25aa29101da7adc870 [21/128] arm64: dts: apple: t8112: Add mtp device nodes for j413/j493
+:::::: branch date: 24 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251223/202512232336.rAeAJ9uZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512232336.rAeAJ9uZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512240401.NsKRkr2X-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512232336.rAeAJ9uZ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/inode.c:2139:16-23: duplicated argument to & or |
-
-vim +2139 fs/inode.c
-
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2090  
-541d4c798a5988 Jeff Layton       2023-08-07  2091  /**
-541d4c798a5988 Jeff Layton       2023-08-07  2092   * inode_update_timestamps - update the timestamps on the inode
-541d4c798a5988 Jeff Layton       2023-08-07  2093   * @inode: inode to be updated
-541d4c798a5988 Jeff Layton       2023-08-07  2094   * @flags: S_* flags that needed to be updated
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2095   * @dirty_flags: returns the I_DIRTY_* flags for the modification
-541d4c798a5988 Jeff Layton       2023-08-07  2096   *
-541d4c798a5988 Jeff Layton       2023-08-07  2097   * The update_time function is called when an inode's timestamps need to be
-541d4c798a5988 Jeff Layton       2023-08-07  2098   * updated for a read or write operation. This function handles updating the
-541d4c798a5988 Jeff Layton       2023-08-07  2099   * actual timestamps. It's up to the caller to ensure that the inode is marked
-541d4c798a5988 Jeff Layton       2023-08-07  2100   * dirty appropriately.
-541d4c798a5988 Jeff Layton       2023-08-07  2101   *
-541d4c798a5988 Jeff Layton       2023-08-07  2102   * In the case where any of S_MTIME, S_CTIME, or S_VERSION need to be updated,
-541d4c798a5988 Jeff Layton       2023-08-07  2103   * attempt to update all three of them. S_ATIME updates can be handled
-541d4c798a5988 Jeff Layton       2023-08-07  2104   * independently of the rest.
-541d4c798a5988 Jeff Layton       2023-08-07  2105   *
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2106   * Sets @dirty_flags to contain the I_DIRTY_FLAG_* flags for the actual changes.
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2107   *
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2108   * Returns 0 or a negative errno.
-541d4c798a5988 Jeff Layton       2023-08-07  2109   */
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2110  int inode_update_timestamps(struct inode *inode, int flags, int *dirty_flags)
-c3b2da31483449 Josef Bacik       2012-03-26  2111  {
-541d4c798a5988 Jeff Layton       2023-08-07  2112  	struct timespec64 now;
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2113  	int updated = 0;
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2114  
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2115  	*dirty_flags = 0;
-c3b2da31483449 Josef Bacik       2012-03-26  2116  
-541d4c798a5988 Jeff Layton       2023-08-07  2117  	if (flags & (S_MTIME | S_CTIME | S_VERSION)) {
-541d4c798a5988 Jeff Layton       2023-08-07  2118  		struct timespec64 ctime = inode_get_ctime(inode);
-16a9496523a473 Jeff Layton       2023-10-04  2119  		struct timespec64 mtime = inode_get_mtime(inode);
-0ae45f63d4ef8d Theodore Ts'o     2015-02-02  2120  
-541d4c798a5988 Jeff Layton       2023-08-07  2121  		now = inode_set_ctime_current(inode);
-541d4c798a5988 Jeff Layton       2023-08-07  2122  		if (!timespec64_equal(&now, &ctime))
-541d4c798a5988 Jeff Layton       2023-08-07  2123  			updated |= S_CTIME;
-486c4642bc02d2 Christoph Hellwig 2025-12-23  2124  		if (!timespec64_equal(&now, &mtime))
-541d4c798a5988 Jeff Layton       2023-08-07  2125  			updated |= S_MTIME;
-541d4c798a5988 Jeff Layton       2023-08-07  2126  		if (IS_I_VERSION(inode) && inode_maybe_inc_iversion(inode, updated))
-541d4c798a5988 Jeff Layton       2023-08-07  2127  			updated |= S_VERSION;
-541d4c798a5988 Jeff Layton       2023-08-07  2128  	} else {
-541d4c798a5988 Jeff Layton       2023-08-07  2129  		now = current_time(inode);
-e20b14db050ae2 Eric Biggers      2021-01-12  2130  	}
-e20b14db050ae2 Eric Biggers      2021-01-12  2131  
-541d4c798a5988 Jeff Layton       2023-08-07  2132  	if (flags & S_ATIME) {
-16a9496523a473 Jeff Layton       2023-10-04  2133  		struct timespec64 atime = inode_get_atime(inode);
-16a9496523a473 Jeff Layton       2023-10-04  2134  
-486c4642bc02d2 Christoph Hellwig 2025-12-23  2135  		if (!timespec64_equal(&now, &atime))
-541d4c798a5988 Jeff Layton       2023-08-07  2136  			updated |= S_ATIME;
-541d4c798a5988 Jeff Layton       2023-08-07  2137  	}
-486c4642bc02d2 Christoph Hellwig 2025-12-23  2138  
-4c45d5090b1155 Christoph Hellwig 2025-12-23 @2139  	if (updated & (S_MTIME | S_CTIME | S_MTIME))
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2140  		*dirty_flags |= timestamp_dirty_flag(inode->i_sb);
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2141  	if (updated & S_VERSION)
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2142  		*dirty_flags |= I_DIRTY_SYNC;
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2143  
-486c4642bc02d2 Christoph Hellwig 2025-12-23  2144  	if (updated & S_MTIME)
-486c4642bc02d2 Christoph Hellwig 2025-12-23  2145  		inode_set_mtime_to_ts(inode, now);
-486c4642bc02d2 Christoph Hellwig 2025-12-23  2146  	if (updated & S_ATIME)
-486c4642bc02d2 Christoph Hellwig 2025-12-23  2147  		inode_set_atime_to_ts(inode, now);
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2148  
-4c45d5090b1155 Christoph Hellwig 2025-12-23  2149  	return 0;
-541d4c798a5988 Jeff Layton       2023-08-07  2150  }
-541d4c798a5988 Jeff Layton       2023-08-07  2151  EXPORT_SYMBOL(inode_update_timestamps);
-e20b14db050ae2 Eric Biggers      2021-01-12  2152  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+--
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+--
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+--
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
 
 -- 
 0-DAY CI Kernel Test Service
