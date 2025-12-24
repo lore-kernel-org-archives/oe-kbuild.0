@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF451531C1
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 00:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCCE1DE4CE
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 01:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766535740; cv=none; b=tKZMnlSnX3TlQ7NkJMWXGzsy41YFJLd5LXynRkf6Gx8e8vW0dF3ejh4AmkUpkV5PQcBmMnLZSIHjVjJ7bho1yv5mRCH+ed+AeLblztGmXHlzam9TPuiaNfx5bRTFt2VhJgitXM9QHldBHQYYlt2yHEe6NskUChVfdnoC57tXSG8=
+	t=1766538313; cv=none; b=ZU8OheLRPHYLEmWBBSSvEWZ/5t3XFvSL5ndAPME2rP/eCjnBzrzYhME4TnrJjT2CFecY3IefHi0a9ogWs/RMb3Z0ZFHZ1Vav4OEtOII1HQqfv/xFfbt7T+kZWOCHc4WEFhCSyaDbmvHCHDRHwh1OYMp/fPH8yitgGIVMc4ZsDAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766535740; c=relaxed/simple;
-	bh=nKAVlHsmeml+c9njFuY7JN0CjkWKV6z3p50x30n/oFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KdBapuROlwjNmVQYdGwA/P3s1uLkCZoSsU0JR/kRevPsl+tT3r5ci2qlI7UKHfY/uNMSs5fKNYy72nUDqR0fYo7AjPb/ol4dQEVVrb1tmJ4erR9fXdSfNXbHvRTi0qWrKLMzbZFATKyN6AGbSWnTWcnvqdRtXO3SzCJuiQJJtz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NuaVHpOo; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1766538313; c=relaxed/simple;
+	bh=+mrbhAhV/p61n1BxRk8JWBBEd8E/VNBitaLKEaVwAtE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UiNSyWyULzhII9oQzOprD7664T7lkxzs1mjx04d0/uxQj4vMEMPMBM0Nk/KHPGPYr6QT92WSF6bFHE0eZN/j+a+b+n/Vukkt9jeDPc3wFxgKy+y677zcKUDFguifPeSC1oJemQ7CUGnwEUZN06Ev+hZVKgZTbju0B5/Bdh4HOII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2ilw94y; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NuaVHpOo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2ilw94y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766535738; x=1798071738;
+  t=1766538312; x=1798074312;
   h=date:from:to:cc:subject:message-id;
-  bh=nKAVlHsmeml+c9njFuY7JN0CjkWKV6z3p50x30n/oFQ=;
-  b=NuaVHpOo2dwMCGzHs+IjhJcFZAAHO/tScVF2If7oJgW02p+9JL1BN+nC
-   PUC5rQ6cyLARhnvttDXoBKOMh4NQ0a+g6UN5XYDS1ryDBauc7WZ3bv4AM
-   oByPapZ8xSimSvhXvAM0fqZXm5R2PYt0YuU6X/pxmfjFYidrJO1Me0fEC
-   xxa556UPJwI9dqhLJe7+v5LKICeroYxh/F2qluPosxL1MCFsBqSBFNLu6
-   zVjWTT6mNObxm2miKHfuE1JGJ4TuIkgBRGXj1n8VLHW+hiR6h4KBTvi4t
-   XakSNEfjNag3+3foKUAtvGfRTFmrmSdMXrj/ksaiqCdjyjrrbAf8RG+VC
-   A==;
-X-CSE-ConnectionGUID: gzt98C9VRMiL8ACX4EqkRQ==
-X-CSE-MsgGUID: /ea9BeFbTwiKEP6lfqoBqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79104490"
+  bh=+mrbhAhV/p61n1BxRk8JWBBEd8E/VNBitaLKEaVwAtE=;
+  b=U2ilw94yKeVv0oZbRc5Q0M3PzclCx4ZYC8mB3e4nrgNfkLQkPKr6UrfM
+   ZJEyvQg0ghBa+CO5kMaRROXgTvpff9RZsk7Rw2pmOhkRAikiEe4c750Q9
+   7dPzoCGgbAFBBAf6MJgBpnUiFgfW2IQqCJ02kTYO5Zr+a9k+CSjeOd/sP
+   D49+gEvX2o5+93UPmfYiWwqGbFVmffmfKkjylhLzeWud7M+MKALF1eE+9
+   PbUgRf0iWk/yGH5t5vVFIdqaWUjosBBV2zxbz3tYdXd13xhooJh4sMNY4
+   GzjZdy7kZG6wEEy5AP+rmuxCfwjL9T2HJS3J8XnXNF0pW/hJWfko/xhs+
+   w==;
+X-CSE-ConnectionGUID: d6UcQCQOSFmjr2eWHMY7TQ==
+X-CSE-MsgGUID: uwt51Q9tR6m0gf6YXmmW+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79835990"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="79104490"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 16:22:18 -0800
-X-CSE-ConnectionGUID: 86QjCUQ3RvCzknMd8O46Mw==
-X-CSE-MsgGUID: OLhOrm8KT2iHe+gbmLbjpQ==
+   d="scan'208";a="79835990"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 17:05:11 -0800
+X-CSE-ConnectionGUID: HiShT/3jRlm2RAN2aDw+UQ==
+X-CSE-MsgGUID: s3e7xG+pR9CUuPohX1g6GQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="204822809"
+   d="scan'208";a="199141496"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Dec 2025 16:22:16 -0800
+  by orviesa010.jf.intel.com with ESMTP; 23 Dec 2025 17:05:10 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYCdS-000000002VN-49xv;
-	Wed, 24 Dec 2025 00:22:11 +0000
-Date: Wed, 24 Dec 2025 08:21:45 +0800
+	id 1vYDJF-000000002Wx-1CSg;
+	Wed, 24 Dec 2025 01:05:02 +0000
+Date: Wed, 24 Dec 2025 09:04:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks-v6.19-rc1
- 13/13] kernel/fork.c:413:25: sparse: sparse: unsigned value that used to be
- signed checked against zero?
-Message-ID: <202512240830.ADNWhYQp-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/ath/wcn36xx/smd.c:1988
+ wcn36xx_smd_send_beacon() warn: potential spectre issue 'msg_body.beacon' [r]
+Message-ID: <202512240945.s16QxOuf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,131 +59,117 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: kernel/fork.c:413:25: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linus.walleij@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: Kees Cook <kees@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks-v6.19-rc1
-head:   c5dbbed8f81c183bdc77059ec990829129c3ae7a
-commit: c5dbbed8f81c183bdc77059ec990829129c3ae7a [13/13] arm64: Support dynamic kernel stacks
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm64-randconfig-r121-20251223 (https://download.01.org/0day-ci/archive/20251224/202512240830.ADNWhYQp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240830.ADNWhYQp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b927546677c876e26eba308550207c2ddf812a43
+commit: d70da12453ac3797e0c54884305ccc894e8c817b hardening: Enable i386 FORTIFY_SOURCE on Clang 16+
+date:   10 months ago
+:::::: branch date: 31 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-r072-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240945.s16QxOuf-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512240830.ADNWhYQp-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512240945.s16QxOuf-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/fork.c:1973:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/fork.c:1973:38: sparse:     expected struct refcount_struct [usertype] *r
-   kernel/fork.c:1973:38: sparse:     got struct refcount_struct [noderef] __rcu *
-   kernel/fork.c:1982:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1982:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1982:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:1983:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
-   kernel/fork.c:1983:36: sparse:     expected void const *
-   kernel/fork.c:1983:36: sparse:     got struct k_sigaction [noderef] __rcu *
-   kernel/fork.c:1984:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1984:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1984:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2082:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock *lock @@     got struct qspinlock [noderef] __rcu * @@
-   kernel/fork.c:2082:9: sparse:     expected struct qspinlock *lock
-   kernel/fork.c:2082:9: sparse:     got struct qspinlock [noderef] __rcu *
-   kernel/fork.c:2367:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2367:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2367:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2371:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2371:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2371:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2703:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *real_parent @@     got struct task_struct * @@
-   kernel/fork.c:2703:32: sparse:     expected struct task_struct [noderef] __rcu *real_parent
-   kernel/fork.c:2703:32: sparse:     got struct task_struct *
-   kernel/fork.c:2712:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2712:27: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2712:27: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2761:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct list_head *head @@     got struct list_head [noderef] __rcu * @@
-   kernel/fork.c:2761:54: sparse:     expected struct list_head *head
-   kernel/fork.c:2761:54: sparse:     got struct list_head [noderef] __rcu *
-   kernel/fork.c:2781:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2781:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2781:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2803:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2803:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2803:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2832:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
-   kernel/fork.c:2832:28: sparse:     expected struct sighand_struct *sighand
-   kernel/fork.c:2832:28: sparse:     got struct sighand_struct [noderef] __rcu *sighand
-   kernel/fork.c:2864:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2864:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2864:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2866:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2866:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2866:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:3305:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *[assigned] parent @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/fork.c:3305:24: sparse:     expected struct task_struct *[assigned] parent
-   kernel/fork.c:3305:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/fork.c:3388:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct const [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/fork.c:3388:43: sparse:     expected struct refcount_struct const [usertype] *r
-   kernel/fork.c:3388:43: sparse:     got struct refcount_struct [noderef] __rcu *
-   kernel/fork.c:283:13: sparse: sparse: context imbalance in 'global_dynstack_refill_work' - wrong count at exit
-   kernel/fork.c:384:20: sparse: sparse: context imbalance in 'dynamic_stack_get_page' - different lock contexts for basic block
->> kernel/fork.c:413:25: sparse: sparse: unsigned value that used to be signed checked against zero?
-   kernel/fork.c:413:21: sparse: signed value source
-   kernel/fork.c:431:25: sparse: sparse: unsigned value that used to be signed checked against zero?
-   kernel/fork.c:431:21: sparse: signed value source
-   kernel/fork.c: note: in included file (through arch/arm64/include/asm/vmalloc.h, include/linux/vmalloc.h):
-   arch/arm64/include/asm/pgtable.h:424:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:424:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:424:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:424:16: sparse: sparse: cast from non-scalar
-   kernel/fork.c:2221:36: sparse: sparse: context imbalance in 'pidfd_prepare' - different lock contexts for basic block
-   kernel/fork.c:2417:22: sparse: sparse: dereference of noderef expression
-   kernel/fork.c: note: in included file (through include/linux/ftrace.h, include/linux/kprobes.h, include/linux/kgdb.h, ...):
-   include/linux/ptrace.h:210:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *parent @@
-   include/linux/ptrace.h:210:45: sparse:     expected struct task_struct *new_parent
-   include/linux/ptrace.h:210:45: sparse:     got struct task_struct [noderef] __rcu *parent
-   include/linux/ptrace.h:210:62: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct cred const *ptracer_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
-   include/linux/ptrace.h:210:62: sparse:     expected struct cred const *ptracer_cred
-   include/linux/ptrace.h:210:62: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
-   kernel/fork.c:2759:59: sparse: sparse: dereference of noderef expression
-   kernel/fork.c:2760:59: sparse: sparse: dereference of noderef expression
+New smatch warnings:
+drivers/net/wireless/ath/wcn36xx/smd.c:1988 wcn36xx_smd_send_beacon() warn: potential spectre issue 'msg_body.beacon' [r]
 
-vim +413 kernel/fork.c
+Old smatch warnings:
+drivers/net/wireless/ath/wcn36xx/smd.c:521 wcn36xx_smd_load_nv() error: we previously assumed 'wcn->nv' could be null (see line 512)
+drivers/net/wireless/ath/wcn36xx/smd.c:569 wcn36xx_smd_load_nv() warn: 'wcn->nv' from request_firmware() not released on lines: 569.
 
-57d775e01f7ef9 Linus Walleij  2025-05-03  407  
-73c4a4effb4aea Pasha Tatashin 2024-03-11  408  static int dynamic_stack_refill_pages_cpu(unsigned int cpu)
-73c4a4effb4aea Pasha Tatashin 2024-03-11  409  {
-73c4a4effb4aea Pasha Tatashin 2024-03-11  410  	struct page **pages = per_cpu_ptr(dynamic_stack_pages, cpu);
-73c4a4effb4aea Pasha Tatashin 2024-03-11  411  	int i;
-73c4a4effb4aea Pasha Tatashin 2024-03-11  412  
-73c4a4effb4aea Pasha Tatashin 2024-03-11 @413  	for (i = 0; i < THREAD_DYNAMIC_PAGES; i++) {
-73c4a4effb4aea Pasha Tatashin 2024-03-11  414  		if (pages[i])
-73c4a4effb4aea Pasha Tatashin 2024-03-11  415  			break;
-73c4a4effb4aea Pasha Tatashin 2024-03-11  416  		pages[i] = alloc_pages(GFP_VMAP_STACK, 0);
-73c4a4effb4aea Pasha Tatashin 2024-03-11  417  		if (unlikely(!pages[i])) {
-73c4a4effb4aea Pasha Tatashin 2024-03-11  418  			pr_err("failed to allocate dynamic stack page for cpu[%d]\n",
-73c4a4effb4aea Pasha Tatashin 2024-03-11  419  			       cpu);
-73c4a4effb4aea Pasha Tatashin 2024-03-11  420  		}
-73c4a4effb4aea Pasha Tatashin 2024-03-11  421  	}
-73c4a4effb4aea Pasha Tatashin 2024-03-11  422  
-73c4a4effb4aea Pasha Tatashin 2024-03-11  423  	return 0;
-73c4a4effb4aea Pasha Tatashin 2024-03-11  424  }
-73c4a4effb4aea Pasha Tatashin 2024-03-11  425  
+vim +1988 drivers/net/wireless/ath/wcn36xx/smd.c
 
-:::::: The code at line 413 was first introduced by commit
-:::::: 73c4a4effb4aea258fa709b0dab6c89140eab307 fork: Dynamic Kernel Stacks
+8e84c25821698b Eugene Krasnikov 2013-10-08  1948  
+8e84c25821698b Eugene Krasnikov 2013-10-08  1949  int wcn36xx_smd_send_beacon(struct wcn36xx *wcn, struct ieee80211_vif *vif,
+8e84c25821698b Eugene Krasnikov 2013-10-08  1950  			    struct sk_buff *skb_beacon, u16 tim_off,
+8e84c25821698b Eugene Krasnikov 2013-10-08  1951  			    u16 p2p_off)
+8e84c25821698b Eugene Krasnikov 2013-10-08  1952  {
+8e84c25821698b Eugene Krasnikov 2013-10-08  1953  	struct wcn36xx_hal_send_beacon_req_msg msg_body;
+f0eea2772a6baf Daniel Mack      2018-06-29  1954  	int ret, pad, pvm_len;
+8e84c25821698b Eugene Krasnikov 2013-10-08  1955  
+8e84c25821698b Eugene Krasnikov 2013-10-08  1956  	mutex_lock(&wcn->hal_mutex);
+8e84c25821698b Eugene Krasnikov 2013-10-08  1957  	INIT_HAL_MSG(msg_body, WCN36XX_HAL_SEND_BEACON_REQ);
+8e84c25821698b Eugene Krasnikov 2013-10-08  1958  
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1959  	pvm_len = skb_beacon->data[tim_off + 1] - 3;
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1960  	pad = TIM_MIN_PVM_SIZE - pvm_len;
+8e84c25821698b Eugene Krasnikov 2013-10-08  1961  
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1962  	/* Padding is irrelevant to mesh mode since tim_off is always 0. */
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1963  	if (vif->type == NL80211_IFTYPE_MESH_POINT)
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1964  		pad = 0;
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1965  
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1966  	msg_body.beacon_length = skb_beacon->len + pad;
+25d217d6e07234 Pontus Fuchs     2016-04-18  1967  	/* TODO need to find out why + 6 is needed */
+25d217d6e07234 Pontus Fuchs     2016-04-18  1968  	msg_body.beacon_length6 = msg_body.beacon_length + 6;
+8e84c25821698b Eugene Krasnikov 2013-10-08  1969  
+25d217d6e07234 Pontus Fuchs     2016-04-18  1970  	if (msg_body.beacon_length > BEACON_TEMPLATE_SIZE) {
+d7809bd9eae67b Colin Ian King   2020-01-23  1971  		wcn36xx_err("Beacon is too big: beacon size=%d\n",
+8e84c25821698b Eugene Krasnikov 2013-10-08  1972  			      msg_body.beacon_length);
+95b48c2cdae764 Dan Carpenter    2013-11-08  1973  		ret = -ENOMEM;
+95b48c2cdae764 Dan Carpenter    2013-11-08  1974  		goto out;
+8e84c25821698b Eugene Krasnikov 2013-10-08  1975  	}
+25d217d6e07234 Pontus Fuchs     2016-04-18  1976  	memcpy(msg_body.beacon, skb_beacon->data, skb_beacon->len);
+8e84c25821698b Eugene Krasnikov 2013-10-08  1977  	memcpy(msg_body.bssid, vif->addr, ETH_ALEN);
+8e84c25821698b Eugene Krasnikov 2013-10-08  1978  
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1979  	if (pad > 0) {
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1980  		/*
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1981  		 * The wcn36xx FW has a fixed size for the PVM in the TIM. If
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1982  		 * given the beacon template from mac80211 with a PVM shorter
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1983  		 * than the FW expectes it will overwrite the data after the
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1984  		 * TIM.
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1985  		 */
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1986  		wcn36xx_dbg(WCN36XX_DBG_HAL, "Pad TIM PVM. %d bytes at %d\n",
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1987  			    pad, pvm_len);
+91c3eeba45e13a Pontus Fuchs     2016-04-18 @1988  		memmove(&msg_body.beacon[tim_off + 5 + pvm_len + pad],
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1989  			&msg_body.beacon[tim_off + 5 + pvm_len],
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1990  			skb_beacon->len - (tim_off + 5 + pvm_len));
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1991  		memset(&msg_body.beacon[tim_off + 5 + pvm_len], 0, pad);
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1992  		msg_body.beacon[tim_off + 1] += pad;
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1993  	}
+91c3eeba45e13a Pontus Fuchs     2016-04-18  1994  
+8e84c25821698b Eugene Krasnikov 2013-10-08  1995  	/* TODO need to find out why this is needed? */
+fa643ae2ce4e75 Chun-Yeow Yeoh   2013-12-06  1996  	if (vif->type == NL80211_IFTYPE_MESH_POINT)
+fa643ae2ce4e75 Chun-Yeow Yeoh   2013-12-06  1997  		/* mesh beacon don't need this, so push further down */
+fa643ae2ce4e75 Chun-Yeow Yeoh   2013-12-06  1998  		msg_body.tim_ie_offset = 256;
+fa643ae2ce4e75 Chun-Yeow Yeoh   2013-12-06  1999  	else
+8e84c25821698b Eugene Krasnikov 2013-10-08  2000  		msg_body.tim_ie_offset = tim_off+4;
+8e84c25821698b Eugene Krasnikov 2013-10-08  2001  	msg_body.p2p_ie_offset = p2p_off;
+8e84c25821698b Eugene Krasnikov 2013-10-08  2002  	PREPARE_HAL_BUF(wcn->hal_buf, msg_body);
+8e84c25821698b Eugene Krasnikov 2013-10-08  2003  
+8e84c25821698b Eugene Krasnikov 2013-10-08  2004  	wcn36xx_dbg(WCN36XX_DBG_HAL,
+8e84c25821698b Eugene Krasnikov 2013-10-08  2005  		    "hal send beacon beacon_length %d\n",
+8e84c25821698b Eugene Krasnikov 2013-10-08  2006  		    msg_body.beacon_length);
+8e84c25821698b Eugene Krasnikov 2013-10-08  2007  
+8e84c25821698b Eugene Krasnikov 2013-10-08  2008  	ret = wcn36xx_smd_send_and_wait(wcn, msg_body.header.len);
+8e84c25821698b Eugene Krasnikov 2013-10-08  2009  	if (ret) {
+8e84c25821698b Eugene Krasnikov 2013-10-08  2010  		wcn36xx_err("Sending hal_send_beacon failed\n");
+8e84c25821698b Eugene Krasnikov 2013-10-08  2011  		goto out;
+8e84c25821698b Eugene Krasnikov 2013-10-08  2012  	}
+8e84c25821698b Eugene Krasnikov 2013-10-08  2013  	ret = wcn36xx_smd_rsp_status_check(wcn->hal_buf, wcn->hal_rsp_len);
+8e84c25821698b Eugene Krasnikov 2013-10-08  2014  	if (ret) {
+8e84c25821698b Eugene Krasnikov 2013-10-08  2015  		wcn36xx_err("hal_send_beacon response failed err=%d\n", ret);
+8e84c25821698b Eugene Krasnikov 2013-10-08  2016  		goto out;
+8e84c25821698b Eugene Krasnikov 2013-10-08  2017  	}
+8e84c25821698b Eugene Krasnikov 2013-10-08  2018  out:
+8e84c25821698b Eugene Krasnikov 2013-10-08  2019  	mutex_unlock(&wcn->hal_mutex);
+8e84c25821698b Eugene Krasnikov 2013-10-08  2020  	return ret;
+8e84c25821698b Eugene Krasnikov 2013-10-08  2021  }
+8e84c25821698b Eugene Krasnikov 2013-10-08  2022  
 
-:::::: TO: Pasha Tatashin <pasha.tatashin@soleen.com>
-:::::: CC: Linus Walleij <linusw@kernel.org>
+:::::: The code at line 1988 was first introduced by commit
+:::::: 91c3eeba45e13ab7edfb50610df8672d52809394 wcn36xx: Pad TIM PVM if needed
+
+:::::: TO: Pontus Fuchs <pontus.fuchs@gmail.com>
+:::::: CC: Kalle Valo <kvalo@qca.qualcomm.com>
 
 -- 
 0-DAY CI Kernel Test Service
