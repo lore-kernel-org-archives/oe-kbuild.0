@@ -1,130 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BF023BCF7
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Dec 2025 23:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF451531C1
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 00:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766533015; cv=none; b=CLHfQuuJE8DmAoHiPnlW8lqkqdEDd4vi6dd0BExOrc7mLibLQ/qVoleuNmnZqgeazpgfryCi1G9LXFbKhJQGthhPqvqwjJNT+aASC6g+Mlb3rkXtKQmHbR5DoM+oKuYTYpEalYbz94uvssMQQs96ehEjxG2/22+HjfnosK9Uf3A=
+	t=1766535740; cv=none; b=tKZMnlSnX3TlQ7NkJMWXGzsy41YFJLd5LXynRkf6Gx8e8vW0dF3ejh4AmkUpkV5PQcBmMnLZSIHjVjJ7bho1yv5mRCH+ed+AeLblztGmXHlzam9TPuiaNfx5bRTFt2VhJgitXM9QHldBHQYYlt2yHEe6NskUChVfdnoC57tXSG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766533015; c=relaxed/simple;
-	bh=G5u/DQuKsUCWXK8zaruVp1JfpJviNB9BPBFN+7j3/VA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ebZ26fkkmOTH9pYlnlaM2xQjVHIf74tKW1YQADIH0ymvkZ/jfh9GjZLJ4JCzS7pMDedW5qyFUW3ZeYSm5bBqnqGToK2JWOK3BMi2roECwc5wXSB+KPySB+syZpDDmscot0wmNbnrgpXDyXypP27406nRN+go/HU69LQtYMm8hUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W64C+yd2; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1766535740; c=relaxed/simple;
+	bh=nKAVlHsmeml+c9njFuY7JN0CjkWKV6z3p50x30n/oFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KdBapuROlwjNmVQYdGwA/P3s1uLkCZoSsU0JR/kRevPsl+tT3r5ci2qlI7UKHfY/uNMSs5fKNYy72nUDqR0fYo7AjPb/ol4dQEVVrb1tmJ4erR9fXdSfNXbHvRTi0qWrKLMzbZFATKyN6AGbSWnTWcnvqdRtXO3SzCJuiQJJtz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NuaVHpOo; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W64C+yd2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NuaVHpOo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766533014; x=1798069014;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=G5u/DQuKsUCWXK8zaruVp1JfpJviNB9BPBFN+7j3/VA=;
-  b=W64C+yd2sndvtWE7FJv+4JpOGZAp6W8aM8pgU12NHX7YLlc6W3VASJO1
-   Wgy3jhA4DcDHC0yaXfZwoAA/3W2JcOsfhsG8sgE+OcQqfJnUWX6z9+D4g
-   A7VMitFeqf6rFbzqYFS/hObGoYfwrqTXtpinYKjZaDIz/MZWmrXXGN/YX
-   xx33ROsjApZUyypST68xOPVLuJx/D2F4pIrcmxZ6Ahrci6QUxfaYqRrtB
-   apeo82Nw8xPAJPaaDNtvrIOyOR/Bnc6g4vOkMX24lGX/50FUdUleW527H
-   uN2kSbau51Mf250x4dic25tDlA/H6Dm4BkvmRBOxrEoYwJmUGXLpFNIQP
-   g==;
-X-CSE-ConnectionGUID: jRqd3BGiQ+6PS3LM+SjEfA==
-X-CSE-MsgGUID: cp7P3UWKS3qsDcuLE8ro/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68319123"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68319123"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 15:36:53 -0800
-X-CSE-ConnectionGUID: JHLvanVMQr+EcW4/WTg/fQ==
-X-CSE-MsgGUID: BVxlYEzYQCCB0btjwYr+lg==
+  t=1766535738; x=1798071738;
+  h=date:from:to:cc:subject:message-id;
+  bh=nKAVlHsmeml+c9njFuY7JN0CjkWKV6z3p50x30n/oFQ=;
+  b=NuaVHpOo2dwMCGzHs+IjhJcFZAAHO/tScVF2If7oJgW02p+9JL1BN+nC
+   PUC5rQ6cyLARhnvttDXoBKOMh4NQ0a+g6UN5XYDS1ryDBauc7WZ3bv4AM
+   oByPapZ8xSimSvhXvAM0fqZXm5R2PYt0YuU6X/pxmfjFYidrJO1Me0fEC
+   xxa556UPJwI9dqhLJe7+v5LKICeroYxh/F2qluPosxL1MCFsBqSBFNLu6
+   zVjWTT6mNObxm2miKHfuE1JGJ4TuIkgBRGXj1n8VLHW+hiR6h4KBTvi4t
+   XakSNEfjNag3+3foKUAtvGfRTFmrmSdMXrj/ksaiqCdjyjrrbAf8RG+VC
+   A==;
+X-CSE-ConnectionGUID: gzt98C9VRMiL8ACX4EqkRQ==
+X-CSE-MsgGUID: /ea9BeFbTwiKEP6lfqoBqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79104490"
+X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
+   d="scan'208";a="79104490"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 16:22:18 -0800
+X-CSE-ConnectionGUID: 86QjCUQ3RvCzknMd8O46Mw==
+X-CSE-MsgGUID: OLhOrm8KT2iHe+gbmLbjpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="223373383"
+   d="scan'208";a="204822809"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Dec 2025 15:36:52 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 23 Dec 2025 16:22:16 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYBvt-000000002U9-378q;
-	Tue, 23 Dec 2025 23:36:49 +0000
-Date: Wed, 24 Dec 2025 07:36:43 +0800
+	id 1vYCdS-000000002VN-49xv;
+	Wed, 24 Dec 2025 00:22:11 +0000
+Date: Wed, 24 Dec 2025 08:21:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v9 2/2] phy: Add Google Tensor SoC USB PHY driver
-Message-ID: <202512240703.KYyreBeA-lkp@intel.com>
+Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks-v6.19-rc1
+ 13/13] kernel/fork.c:413:25: sparse: sparse: unsigned value that used to be
+ signed checked against zero?
+Message-ID: <202512240830.ADNWhYQp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/phy/phy-google-usb.c:294:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check first_new_problem: kernel/fork.c:413:25: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251222-phyb4-v9-2-82c0b671b070@google.com>
-References: <20251222-phyb4-v9-2-82c0b671b070@google.com>
-TO: Roy Luo <royluo@google.com>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Kishon Vijay Abraham I <kishon@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Peter Griffin <peter.griffin@linaro.org>
-TO: "André Draszik" <andre.draszik@linaro.org>
-TO: Tudor Ambarus <tudor.ambarus@linaro.org>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-CC: Badhri Jagan Sridharan <badhri@google.com>
-CC: Doug Anderson <dianders@google.com>
-CC: linux-phy@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-samsung-soc@vger.kernel.org
-CC: Joy Chakraborty <joychakr@google.com>
-CC: Naveen Kumar <mnkumar@google.com>
-CC: Roy Luo <royluo@google.com>
+TO: Linus Walleij <linus.walleij@linaro.org>
 
-Hi Roy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ea1013c1539270e372fc99854bc6e4d94eaeff66]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Roy-Luo/dt-bindings-phy-google-Add-Google-Tensor-G5-USB-PHY/20251223-053359
-base:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-patch link:    https://lore.kernel.org/r/20251222-phyb4-v9-2-82c0b671b070%40google.com
-patch subject: [PATCH v9 2/2] phy: Add Google Tensor SoC USB PHY driver
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: mips-randconfig-r132-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240703.KYyreBeA-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks-v6.19-rc1
+head:   c5dbbed8f81c183bdc77059ec990829129c3ae7a
+commit: c5dbbed8f81c183bdc77059ec990829129c3ae7a [13/13] arm64: Support dynamic kernel stacks
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm64-randconfig-r121-20251223 (https://download.01.org/0day-ci/archive/20251224/202512240830.ADNWhYQp-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240703.KYyreBeA-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240830.ADNWhYQp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512240703.KYyreBeA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512240830.ADNWhYQp-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/phy/phy-google-usb.c:294:1: sparse: sparse: bad integer constant expression
-   drivers/phy/phy-google-usb.c:294:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/phy/phy-google-usb.c:295:1: sparse: sparse: bad integer constant expression
-   drivers/phy/phy-google-usb.c:295:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   kernel/fork.c:1973:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   kernel/fork.c:1973:38: sparse:     expected struct refcount_struct [usertype] *r
+   kernel/fork.c:1973:38: sparse:     got struct refcount_struct [noderef] __rcu *
+   kernel/fork.c:1982:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:1982:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:1982:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:1983:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
+   kernel/fork.c:1983:36: sparse:     expected void const *
+   kernel/fork.c:1983:36: sparse:     got struct k_sigaction [noderef] __rcu *
+   kernel/fork.c:1984:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:1984:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:1984:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2082:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct qspinlock *lock @@     got struct qspinlock [noderef] __rcu * @@
+   kernel/fork.c:2082:9: sparse:     expected struct qspinlock *lock
+   kernel/fork.c:2082:9: sparse:     got struct qspinlock [noderef] __rcu *
+   kernel/fork.c:2367:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2367:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2367:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2371:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2371:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2371:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2703:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *real_parent @@     got struct task_struct * @@
+   kernel/fork.c:2703:32: sparse:     expected struct task_struct [noderef] __rcu *real_parent
+   kernel/fork.c:2703:32: sparse:     got struct task_struct *
+   kernel/fork.c:2712:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2712:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2712:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2761:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct list_head *head @@     got struct list_head [noderef] __rcu * @@
+   kernel/fork.c:2761:54: sparse:     expected struct list_head *head
+   kernel/fork.c:2761:54: sparse:     got struct list_head [noderef] __rcu *
+   kernel/fork.c:2781:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2781:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2781:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2803:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2803:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2803:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2832:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   kernel/fork.c:2832:28: sparse:     expected struct sighand_struct *sighand
+   kernel/fork.c:2832:28: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   kernel/fork.c:2864:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2864:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2864:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2866:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2866:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2866:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:3305:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *[assigned] parent @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/fork.c:3305:24: sparse:     expected struct task_struct *[assigned] parent
+   kernel/fork.c:3305:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/fork.c:3388:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct const [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   kernel/fork.c:3388:43: sparse:     expected struct refcount_struct const [usertype] *r
+   kernel/fork.c:3388:43: sparse:     got struct refcount_struct [noderef] __rcu *
+   kernel/fork.c:283:13: sparse: sparse: context imbalance in 'global_dynstack_refill_work' - wrong count at exit
+   kernel/fork.c:384:20: sparse: sparse: context imbalance in 'dynamic_stack_get_page' - different lock contexts for basic block
+>> kernel/fork.c:413:25: sparse: sparse: unsigned value that used to be signed checked against zero?
+   kernel/fork.c:413:21: sparse: signed value source
+   kernel/fork.c:431:25: sparse: sparse: unsigned value that used to be signed checked against zero?
+   kernel/fork.c:431:21: sparse: signed value source
+   kernel/fork.c: note: in included file (through arch/arm64/include/asm/vmalloc.h, include/linux/vmalloc.h):
+   arch/arm64/include/asm/pgtable.h:424:16: sparse: sparse: cast to non-scalar
+   arch/arm64/include/asm/pgtable.h:424:16: sparse: sparse: cast from non-scalar
+   arch/arm64/include/asm/pgtable.h:424:16: sparse: sparse: cast to non-scalar
+   arch/arm64/include/asm/pgtable.h:424:16: sparse: sparse: cast from non-scalar
+   kernel/fork.c:2221:36: sparse: sparse: context imbalance in 'pidfd_prepare' - different lock contexts for basic block
+   kernel/fork.c:2417:22: sparse: sparse: dereference of noderef expression
+   kernel/fork.c: note: in included file (through include/linux/ftrace.h, include/linux/kprobes.h, include/linux/kgdb.h, ...):
+   include/linux/ptrace.h:210:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *parent @@
+   include/linux/ptrace.h:210:45: sparse:     expected struct task_struct *new_parent
+   include/linux/ptrace.h:210:45: sparse:     got struct task_struct [noderef] __rcu *parent
+   include/linux/ptrace.h:210:62: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct cred const *ptracer_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
+   include/linux/ptrace.h:210:62: sparse:     expected struct cred const *ptracer_cred
+   include/linux/ptrace.h:210:62: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
+   kernel/fork.c:2759:59: sparse: sparse: dereference of noderef expression
+   kernel/fork.c:2760:59: sparse: sparse: dereference of noderef expression
 
-vim +294 drivers/phy/phy-google-usb.c
+vim +413 kernel/fork.c
 
-0e3b48ae38f7b7 Roy Luo 2025-12-22  292  
-0e3b48ae38f7b7 Roy Luo 2025-12-22  293  module_platform_driver(google_usb_phy);
-0e3b48ae38f7b7 Roy Luo 2025-12-22 @294  MODULE_LICENSE("GPL");
+57d775e01f7ef9 Linus Walleij  2025-05-03  407  
+73c4a4effb4aea Pasha Tatashin 2024-03-11  408  static int dynamic_stack_refill_pages_cpu(unsigned int cpu)
+73c4a4effb4aea Pasha Tatashin 2024-03-11  409  {
+73c4a4effb4aea Pasha Tatashin 2024-03-11  410  	struct page **pages = per_cpu_ptr(dynamic_stack_pages, cpu);
+73c4a4effb4aea Pasha Tatashin 2024-03-11  411  	int i;
+73c4a4effb4aea Pasha Tatashin 2024-03-11  412  
+73c4a4effb4aea Pasha Tatashin 2024-03-11 @413  	for (i = 0; i < THREAD_DYNAMIC_PAGES; i++) {
+73c4a4effb4aea Pasha Tatashin 2024-03-11  414  		if (pages[i])
+73c4a4effb4aea Pasha Tatashin 2024-03-11  415  			break;
+73c4a4effb4aea Pasha Tatashin 2024-03-11  416  		pages[i] = alloc_pages(GFP_VMAP_STACK, 0);
+73c4a4effb4aea Pasha Tatashin 2024-03-11  417  		if (unlikely(!pages[i])) {
+73c4a4effb4aea Pasha Tatashin 2024-03-11  418  			pr_err("failed to allocate dynamic stack page for cpu[%d]\n",
+73c4a4effb4aea Pasha Tatashin 2024-03-11  419  			       cpu);
+73c4a4effb4aea Pasha Tatashin 2024-03-11  420  		}
+73c4a4effb4aea Pasha Tatashin 2024-03-11  421  	}
+73c4a4effb4aea Pasha Tatashin 2024-03-11  422  
+73c4a4effb4aea Pasha Tatashin 2024-03-11  423  	return 0;
+73c4a4effb4aea Pasha Tatashin 2024-03-11  424  }
+73c4a4effb4aea Pasha Tatashin 2024-03-11  425  
+
+:::::: The code at line 413 was first introduced by commit
+:::::: 73c4a4effb4aea258fa709b0dab6c89140eab307 fork: Dynamic Kernel Stacks
+
+:::::: TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+:::::: CC: Linus Walleij <linusw@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
