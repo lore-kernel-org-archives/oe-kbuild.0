@@ -1,208 +1,300 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505C23191AC
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 18:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483BD2DAFC2
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 20:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766601460; cv=none; b=ZFmpy9Luqcwm/5jt0Jl5eTXVT2+qcDMlyAJu7O7v0vMRMf19p9vgaJ5uk/NnPKlt6ebBkFdjtjuDLrEzubAQ6lBk9ErUV1q2bxSjO2tXPZKZAj7nlbGHUw0iUA8y04KBFvwiM5Pq8x72JeFEcZKW1AmTGZHkkH5KcC0iQi5Bcuk=
+	t=1766608206; cv=none; b=s7GFZmYOddjOa2vQ46fUm+CxWN03EZgyzcn3G4JxSFKeHLtueh7O7kBhwqy1dTl2Rwi4RQaC/FZN5pg408Eew23Dai58vFnQA8U2Q9G8URVqp6aYpsv5hAa3d9V7H6XQx4gVLyMO0B+okLSRVnM9fhLhIZ3sm5tHndXOySHB6e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766601460; c=relaxed/simple;
-	bh=3a1nU1pDZdH5UKeeSBIYLG/JYuREQZMehqNquOcv1qY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h7YLmnZHCNb+X77BjBfMn1fEx/pbK5cZ1IH1acYCELbwThq5pUMNc6GBGnTVPe2ClAImS1S2k9k1vr2x+vzm0EAu2243UQcQIrsNeDzYDrZKRtCQSz89bmDjqZiHyBzyJUDOPU4rhoMHWhciZPPXqoTiR+iRD+EAdlN1+OYSGlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Jdl1Edff; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Wg2zJBFx; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1766608206; c=relaxed/simple;
+	bh=o+WSdBQ8lUB+P5pSg5EIR9YKHDtn7WeGxIpG0jSjp6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bOj/tkcNep+booHCdjrHm267z/P6CxkCVt/a6nJrla4cvWg4tXAoIC1Ru/ZL94pUjLmM7w7Yt6y1Q8VOCuqnmvXjgJyz/hmXVT7Gx8rEDt3A+CWqGHohcOBKFAPEzPpc4OLkr74KHYtNk+iTTBOPg7ykYt1UwCT1ZtvMxkBe1Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zkx+3a2H; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Jdl1Edff";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Wg2zJBFx"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BOC4jAZ913434
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 18:37:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	y34wwlrYh726wMd2mYCDWV2ZBneD9Frc61QlZxGENNI=; b=Jdl1EdfffUalQIQx
-	lvtQyk+ysJKgNCESTusnnmUNson8V037TFJIB5vuCkevCG69oT8cpIYrQU4Njc0v
-	FETD0IzHVKn3HckU43+pKXS9wQioLOJjEOfOyhJh+RAgKEMNsYVQA2XvAmrcam1w
-	ADlx6yiOZBXK1NHieUIgN5fiT7p6gDzvJUWJhTyO+p1iEqntP5QreSaIBI1zD/Ko
-	4Gg+Z0wsqzcJ1B8kioB3AN3UI1MmUkcXwPot3FTHaVVbE727qrkTwBO+Ws/7qZLS
-	jYqKjsQhCg8jh+Q6gRmfOziZ38M4BtQZihEXdb6QTaKVcilZj9wlcjBG1sxHglR1
-	GoJctQ==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7vt2kx55-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 18:37:37 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2a0d59f0198so81798545ad.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 10:37:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766601456; x=1767206256; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y34wwlrYh726wMd2mYCDWV2ZBneD9Frc61QlZxGENNI=;
-        b=Wg2zJBFxBCAPpDfoVmNwaNuWF5gzJZQd9y+Icgo/8UXAm4Skjy+0EMN5S8wEcPXiGU
-         HmSb4VPwiHnVcoued9GmIOwdclEKCbe1G/5SsQ7aITls2NlqnzBIL+PS74ijeyhQnHBd
-         tzBm9jKnTkgd3ujm+WNsMRn4yEkcvKTryJxIU5tlF9Sssq8afLHnUSrdreH282t5qOq8
-         oE8F7osksTHCVi6NQQRVAoy6k0SVSEz8BF9tKc3wRVJD8NpnPRlZoY0KNGis4FKSy8AD
-         mKYovcABAUYASDWWEvkpt+ksjAj952BbZfSzbZpXSuo5oYLAAdwTAyl0CGM5uwgxmbeg
-         6+0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766601456; x=1767206256;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y34wwlrYh726wMd2mYCDWV2ZBneD9Frc61QlZxGENNI=;
-        b=iS2/LCeuKdHRb7/DwrkeAn1tCHJZpqZGxXoeh7e19GYxqSh1PmTPqQrPN89Mp7gQ2u
-         jsbUeU9WyQkYsF+EP8R/RPtzdOZF4xClLbcX/PsTa9EiL+QSV7blm/TZR3s2Zr83eMuk
-         4Yy1utDg8wDkkOlvOSr7jayOFFulEgVgD99IaTPQGtlHoaxbHjijtJ21MJxxeQ8j1rUs
-         EOp5Dv5isAW+5bIYo45R4JSFLxPGyySUy9wB/TaxcniZukxCxwIGP/NHNMgkbS1ODgCz
-         N0OUg8swUhLQr+qPvurrFvea8Qg+hTR/DkOohB1/2hKUTF5Hi2+Sk/awqdjpcHCL6QEg
-         tfzw==
-X-Forwarded-Encrypted: i=1; AJvYcCUxyi38LxGPX2NgGnfnAfXBtXKBtyVDsTww55FKLE/xXXSjKSmbMuyP8tMMvwLFK4TLR/2Un9aPGr4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YybhDlmMW0QCuvmciH86uM3Qbxq2qP2NdqUheZs0KvO3/JQ1z/x
-	SJFqgA+nNcZj0Mduc6srEDHfzSC81qxBZKE1uhDJfWAgohuibUIIPbTJjictO/CUMzq0ImR5jvr
-	svzi3cEYH1NRv8JcXAerZfxokshb7BkevW23lBkbtJgiYlb/wthB0fVdwFwjN4Cg=
-X-Gm-Gg: AY/fxX47DQmDcdVYR8t2N61m3oWgXThmXH4nYqf4/JHMD8pCrEIYnHykMGm5FIM7/jl
-	E2AysrKm9P1YizIHKQwhm6yaQpy8CZhM/LvUiPfMR+zKsDVHLMijOsEgK39/v/uMWWy+F6GbEzG
-	zLqv+frRerN8HnQ36wdKkgParuLq5DOhnQsKs8MmBDj3qiz2aVs1i6j/19NAOcr3JETEOZLpl3d
-	FyYV+4iA9mgtaYdw6kALVzPy0QkOsDuo4z2H92uBHzkf6Ymz4l1lgm5jPZ4DM0khoo+MJSBEcgH
-	VdcdeTQ7fTRrjDQUvLOS48oG210sI/ToO/8Og5TGVtYdhBm6/LUG3DWnPE7iML0ZY/lppkqsBy0
-	YkrH1/gTJ++LB/4nIs6HbgVFwf0WE7q2r
-X-Received: by 2002:a17:903:298b:b0:2a1:5f23:7ddf with SMTP id d9443c01a7336-2a2f2202fb9mr199041345ad.6.1766601455734;
-        Wed, 24 Dec 2025 10:37:35 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGaRD3iCAFBOKZhjUWb1qixEJsP8I5iul70uv+L8iFWWkMW2k5LCRgJ/BBBBxC2AXYDqSCu4A==
-X-Received: by 2002:a17:903:298b:b0:2a1:5f23:7ddf with SMTP id d9443c01a7336-2a2f2202fb9mr199041155ad.6.1766601455214;
-        Wed, 24 Dec 2025 10:37:35 -0800 (PST)
-Received: from [10.206.103.12] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d5d428sm161338815ad.73.2025.12.24.10.37.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Dec 2025 10:37:34 -0800 (PST)
-Message-ID: <ca0bebc1-849e-47a9-8a75-9fe7ba0064f2@oss.qualcomm.com>
-Date: Thu, 25 Dec 2025 00:07:31 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zkx+3a2H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766608203; x=1798144203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o+WSdBQ8lUB+P5pSg5EIR9YKHDtn7WeGxIpG0jSjp6w=;
+  b=Zkx+3a2Hwqbvk0i7vDYfS2d8kSueNNiNZbkdH39/BU6g0bEB9lx5aDCq
+   skeyR9J3g6rdKMhvM6xP6nWfNpmiNHdNbllSwKbRBblAH7xrvAyi21z5e
+   nJE/N3z4L6wWAWAM+/5ZRaWzkyOs8L0RP7XO6/o3qld1GgqiycHnz6sNl
+   58Ytg+bQTP+sazQu1TXSgY5U5OoDGEgCtIoQKJqeN704BmQhYGoWJfOQ3
+   z6S8uYWDi0T91W8VfGQRFnj5FM1FabrMH6uuTs47j07gJnyxMebHUrOin
+   7N9zUjHl1k8gj5MszT2x74KDMb6ryk9E54kQdticfWeM3VpmeXY9rEM6G
+   Q==;
+X-CSE-ConnectionGUID: cg5TtVhNSWCGBOnDB/0yUg==
+X-CSE-MsgGUID: ETlh3pkARi+zkZur6i5krA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68334136"
+X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; 
+   d="scan'208";a="68334136"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 12:30:00 -0800
+X-CSE-ConnectionGUID: LY2rzZlmSH+BMOuonxVeQQ==
+X-CSE-MsgGUID: Y4qx8OorRDiDFtAAFt/LsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; 
+   d="scan'208";a="204586682"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Dec 2025 12:29:59 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vYVUa-000000006K8-0jA8;
+	Wed, 24 Dec 2025 20:29:56 +0000
+Date: Wed, 24 Dec 2025 21:29:36 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 02/25] dt-bindings: ufs: mediatek,ufs: Complete the
+ binding
+Message-ID: <202512242123.iLxXV60H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/gpu/drm/msm/adreno/a2xx_gpu.c:503 a2xx_gpu_init() warn:
- variable dereferenced before check 'pdev' (see line 500)
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Rob Clark <robin.clark@oss.qualcomm.com>
-References: <202512082235.2rH8XoPX-lkp@intel.com>
-Content-Language: en-US
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-In-Reply-To: <202512082235.2rH8XoPX-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDE2NSBTYWx0ZWRfX3A5iISA+gAib
- VINRqVE24uYSUs8XR/YHt5Rbk8Rd93cDJlEcAfl2o0ozhjKsJIhSZHWBTwi4fNeXx9xOhSIYP5r
- uFIvZURy8B8nnhoPE6ruIcj1ES3xCu7I2txj2gZ8Iz40ZnSQra8c50W5aUcEQSTJoMWkuo4e/nJ
- 0PQS5Ujrf6AFESwEt5jtjGM3M+sUKOEebkzIfNBh1f9aPG4kgiiBPOeGqVQ2kX9lHZqGJrCYpM7
- iey4kvbXBDLaJcC8rHHZ90m5uEGbUkNU3/pRby+LF2fwuHO1Z3ehT7rE7B+3aqpLLv6w/mjJCIQ
- LdyTgEYHGcfcbSRvAdKgZt4Y+yxqwmqQtWZoFc47m/HO2vUlPgeqwtx7N/VRre9cCpHd04hKSb6
- 27/aZiZc1p+bLGLJP+o4j8Awi/44TsegfzGLZ69aiT2Yxkgwgwx+6G1vMfH0UCVT/YF2WBtMRsz
- +W8jjs8JXoRb7BW96vg==
-X-Proofpoint-GUID: _kDGPGpLOL56tIIskt6dzBEEcIss7kNJ
-X-Proofpoint-ORIG-GUID: _kDGPGpLOL56tIIskt6dzBEEcIss7kNJ
-X-Authority-Analysis: v=2.4 cv=brtBxUai c=1 sm=1 tr=0 ts=694c32f1 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8
- a=NEAV23lmAAAA:8 a=KKAkSRfTAAAA:8 a=q4Z2K2Yn1fhMbv9_qXoA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22 a=mmqRlSCDY2ywfjPLJ4af:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-24_04,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240165
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12/9/2025 1:40 PM, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   c2f2b01b74be8b40a2173372bcd770723f87e7b2
-> commit: 491fadb2b818e1d900229a1f8243de6458381306 drm/msm/adreno: Move adreno_gpu_func to catalogue
-> config: arm64-randconfig-r072-20251207 (https://download.01.org/0day-ci/archive/20251208/202512082235.2rH8XoPX-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202512082235.2rH8XoPX-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/gpu/drm/msm/adreno/a2xx_gpu.c:503 a2xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 500)
-> drivers/gpu/drm/msm/adreno/a3xx_gpu.c:530 a3xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 525)
-> drivers/gpu/drm/msm/adreno/a4xx_gpu.c:642 a4xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 637)
-> 
-> vim +/pdev +503 drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-> 
-> 491fadb2b818e1 Akhil P Oommen 2025-11-18  493  static struct msm_gpu *a2xx_gpu_init(struct drm_device *dev)
-> 21af872cd8c695 Jonathan Marek 2018-11-21  494  {
-> 21af872cd8c695 Jonathan Marek 2018-11-21  495  	struct a2xx_gpu *a2xx_gpu = NULL;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  496  	struct adreno_gpu *adreno_gpu;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  497  	struct msm_gpu *gpu;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  498  	struct msm_drm_private *priv = dev->dev_private;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  499  	struct platform_device *pdev = priv->gpu_pdev;
-> 491fadb2b818e1 Akhil P Oommen 2025-11-18 @500  	struct adreno_platform_config *config = pdev->dev.platform_data;
->                                                                                         ^^^^^^^^^
-> Patch adds a dereference.
-> 
-> 21af872cd8c695 Jonathan Marek 2018-11-21  501  	int ret;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  502  
-> 21af872cd8c695 Jonathan Marek 2018-11-21 @503  	if (!pdev) {
-> 
-> but the old code checked for NULL.  Probably this NULL check can be
-> removed?
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Yes, we can remove this unnecessary check. I will send a patch. Thanks.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251218-mt8196-ufs-v4-2-ddec7a369dd2@collabora.com>
+References: <20251218-mt8196-ufs-v4-2-ddec7a369dd2@collabora.com>
+TO: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+TO: Alim Akhtar <alim.akhtar@samsung.com>
+TO: Avri Altman <avri.altman@wdc.com>
+TO: Bart Van Assche <bvanassche@acm.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Chunfeng Yun <chunfeng.yun@mediatek.com>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Kishon Vijay Abraham I <kishon@kernel.org>
+TO: Peter Wang <peter.wang@mediatek.com>
+TO: Stanley Jhu <chu.stanley@gmail.com>
+TO: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+TO: "Martin K. Petersen" <martin.petersen@oracle.com>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+TO: Chaotian Jing <Chaotian.Jing@mediatek.com>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+CC: "Louis-Alexis Eyraud" <louisalexis.eyraud@collabora.com>
+CC: kernel@collabora.com
+CC: linux-scsi@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: linux-phy@lists.infradead.org
+CC: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
--Akhil.
+Hi Nicolas,
 
-> 
-> 21af872cd8c695 Jonathan Marek 2018-11-21  504  		dev_err(dev->dev, "no a2xx device\n");
-> 21af872cd8c695 Jonathan Marek 2018-11-21  505  		ret = -ENXIO;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  506  		goto fail;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  507  	}
-> 21af872cd8c695 Jonathan Marek 2018-11-21  508  
-> 21af872cd8c695 Jonathan Marek 2018-11-21  509  	a2xx_gpu = kzalloc(sizeof(*a2xx_gpu), GFP_KERNEL);
-> 21af872cd8c695 Jonathan Marek 2018-11-21  510  	if (!a2xx_gpu) {
-> 21af872cd8c695 Jonathan Marek 2018-11-21  511  		ret = -ENOMEM;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  512  		goto fail;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  513  	}
-> 21af872cd8c695 Jonathan Marek 2018-11-21  514  
-> 21af872cd8c695 Jonathan Marek 2018-11-21  515  	adreno_gpu = &a2xx_gpu->base;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  516  	gpu = &adreno_gpu->base;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  517  
-> 21af872cd8c695 Jonathan Marek 2018-11-21  518  	gpu->perfcntrs = perfcntrs;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  519  	gpu->num_perfcntrs = ARRAY_SIZE(perfcntrs);
-> 21af872cd8c695 Jonathan Marek 2018-11-21  520  
-> 491fadb2b818e1 Akhil P Oommen 2025-11-18  521  	ret = adreno_gpu_init(dev, pdev, adreno_gpu, config->info->funcs, 1);
-> db07ce5da8b26b Fabio Estevam  2023-06-20  522  	if (ret)
-> db07ce5da8b26b Fabio Estevam  2023-06-20  523  		goto fail;
-> db07ce5da8b26b Fabio Estevam  2023-06-20  524  
-> 21af872cd8c695 Jonathan Marek 2018-11-21  525  	if (adreno_is_a20x(adreno_gpu))
-> 21af872cd8c695 Jonathan Marek 2018-11-21  526  		adreno_gpu->registers = a200_registers;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  527  	else if (adreno_is_a225(adreno_gpu))
-> 21af872cd8c695 Jonathan Marek 2018-11-21  528  		adreno_gpu->registers = a225_registers;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  529  	else
-> 21af872cd8c695 Jonathan Marek 2018-11-21  530  		adreno_gpu->registers = a220_registers;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  531  
-> 21af872cd8c695 Jonathan Marek 2018-11-21  532  	return gpu;
-> 21af872cd8c695 Jonathan Marek 2018-11-21  533  
-> 21af872cd8c695 Jonathan Marek 2018-11-21  534  fail:
-> 21af872cd8c695 Jonathan Marek 2018-11-21  535  	if (a2xx_gpu)
-> 21af872cd8c695 Jonathan Marek 2018-11-21  536  		a2xx_destroy(&a2xx_gpu->base.base);
-> 21af872cd8c695 Jonathan Marek 2018-11-21  537  
-> 21af872cd8c695 Jonathan Marek 2018-11-21  538  	return ERR_PTR(ret);
-> 21af872cd8c695 Jonathan Marek 2018-11-21  539  }
-> 
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Frattaroli/dt-bindings-phy-Add-mediatek-mt8196-ufsphy-variant/20251218-211517
+base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
+patch link:    https://lore.kernel.org/r/20251218-mt8196-ufs-v4-2-ddec7a369dd2%40collabora.com
+patch subject: [PATCH v4 02/25] dt-bindings: ufs: mediatek,ufs: Complete the binding
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-2052-20251220 (https://download.01.org/0day-ci/archive/20251224/202512242123.iLxXV60H-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512242123.iLxXV60H-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202512242123.iLxXV60H-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1514.7-1522.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[35, 63], [35, 64], [35, 65], [35, 54], [35, 55], [35, 56], [35, 90], [35, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1514.7-1522.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[34, 63], [34, 64], [34, 65], [34, 54], [34, 55], [34, 56], [34, 90], [34, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1514.7-1522.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[34, 63], [34, 64], [34, 65], [34, 54], [34, 55], [34, 56], [34, 90], [34, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1514.7-1522.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[34, 63], [34, 64], [34, 65], [34, 54], [34, 55], [34, 56], [34, 90], [34, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[25, 63], [25, 64], [25, 65], [25, 54], [25, 55], [25, 56], [25, 90], [25, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[25, 63], [25, 64], [25, 65], [25, 54], [25, 55], [25, 56], [25, 90], [25, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi:1204.7-1212.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[31, 63], [31, 64], [31, 65], [31, 54], [31, 55], [31, 56], [31, 90], [31, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi:1204.7-1212.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[31, 63], [31, 64], [31, 65], [31, 54], [31, 55], [31, 56], [31, 90], [31, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[25, 63], [25, 64], [25, 65], [25, 54], [25, 55], [25, 56], [25, 90], [25, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3359.22-3371.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1c008000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[31, 63], [31, 64], [31, 65], [31, 54], [31, 55], [31, 56], [31, 90], [31, 93]] is too short
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
