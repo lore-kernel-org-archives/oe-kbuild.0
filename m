@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5751F0994
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 02:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37ECB23EA87
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Dec 2025 02:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766542499; cv=none; b=dPHGlIQllx9DaD44wLI6CvxEFpVcLFH0cUUiZK+RFr7GnICeV2yNHbfeafLEblIq0fE+AbJA8aKiVIrlqU+9Vy/GdfnkPcW36vhJInWY/vw5d74SRLj4zzv5HhSj0eM8JY0wYT+OrPEl16pFHaMHsTdQ+JZRksmlV5B8B6zCI1E=
+	t=1766542830; cv=none; b=lS3H5VkRev09zBUDCq09feiFH/ZCaYhoYTk6tqMYT1QTSIfJZcxpHuJHCxJTGDZKHZ6i0Jz3SEY0Ts4HultYlHXNNT+quzANDiYa6Utm/DS4u9IAXF03Mu+wspl9t+bs4jlypP3Y4zNsHLQlMBztrepOfCNKu2yASWnxnf1j7fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766542499; c=relaxed/simple;
-	bh=ajVGzftjdrMgo5Xq+EfXxCePI/Y//X3fVKAagOiwuYE=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YFHrNdFOw1/t6/7pzzXlktqwF0mYfODveLtCdHPseIc6D7kW09xBhBCx22Ym5dYRc3nSI3VbRNK42cCRv1pSE3Gfn4Y+bJsC/uewSZbhvMbFw7+uIt9IEx9AmGl4OmC0fHwn7RuUhgPwRSQnLuPkKbQcwSEtFY7YMK8LeWc664Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0pSP9Za; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1766542830; c=relaxed/simple;
+	bh=lr1ySvydKnppRPobhL0lTy+jgwuLOf4ZlQOpOsc4BoI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ADyaA3m4YsrQtyWAS6+l9KCG3LgXdbseWuWPrTDqW2htnU1W5bJ4muMWvOoH4KydgcLB00sBQAEa3oBKn/f2SB99OwLeDW9wgsz5ULnCgV6HH0VytYg9WMD3vgx4qW4Ma/xPJDe2p6UIBUnJ/3RqZDeZslkKWKWgsiQ0HTZjWNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqE0bREE; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0pSP9Za"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqE0bREE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766542498; x=1798078498;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=ajVGzftjdrMgo5Xq+EfXxCePI/Y//X3fVKAagOiwuYE=;
-  b=B0pSP9Zap+E9h6GwjjgYHorKpoyu/F5uBBDAy1pM+2LY4geYQZri/2Nh
-   Lm0hULNbOjlOTOpiE91FtdOWYMTQqllT9++/L4nULBkcRBfMJzns3vuSa
-   PCzUEaAZHL8NOM/bNFEvQKghgvmrPSQ4lf59Upbp6rlMB/lL+iEd2Yr8H
-   b9gMg48qHHjehPSQ+EeaF8/Oe4OCOJcpjsDF4ZD6xuHWeIPxXDtVDEB/F
-   zT0mADayC7Q/3/FdemVRj98AkGy32dmLTSLkqHLTeb88yrT7V5eiB1Mhi
-   2r1ST5PsN7rvqQOmJARcs3tFrdR8qpeuhqvIUuSU9zNwdcGUSNbOgm1Co
-   A==;
-X-CSE-ConnectionGUID: E5B1zVH5S9CaTlZ1ZAf9rw==
-X-CSE-MsgGUID: PM1L2cJhTF6YyEYWxR1+1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="68270058"
+  t=1766542828; x=1798078828;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lr1ySvydKnppRPobhL0lTy+jgwuLOf4ZlQOpOsc4BoI=;
+  b=fqE0bREE3MV8QTT+IihApKhi/horRieDAdKQmvsJR7Ym3b3kfTHJjUSO
+   D3B6jdO77EjlEhrK9x9oDR8HjPL8wSt0ZUJZli0mI0gkVRgmYE3BoQc1F
+   l/BsRD850KgfXC+xo5onmJzAjqqqyNtK/cTs6QHPVIlMx90MgO49AzK6U
+   irJYYy2DaXFIjeLN3fGZaV2SzGIhNhg/3buHUgQWJ46PLn5eNnWt0Ygqo
+   v3KSx62WdstKTaqu8pEATkR0X3JSy/q+zRaPHnyJkt/mqNryqmf4jlLyd
+   L594QPrvC0NeP+y+wqeY0OE8w7GCmTjq/NoDlMcTa05sjfkQq9xlOAF3Z
+   w==;
+X-CSE-ConnectionGUID: SDYhJn2bQ12JpUUrVTiW9g==
+X-CSE-MsgGUID: 13g4DNC5QvS8xZ40hxVdcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="78696138"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="68270058"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 18:14:57 -0800
-X-CSE-ConnectionGUID: 3E4KR2o3SbCe/Tvc74v80w==
-X-CSE-MsgGUID: vFMAhnriR0Cqr275OZIw1A==
+   d="scan'208";a="78696138"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 18:20:28 -0800
+X-CSE-ConnectionGUID: nqiGzy/+SmOlBZk2gj1o1Q==
+X-CSE-MsgGUID: mMBLMFiKT/aVmXBDb5T18w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="199571834"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Dec 2025 18:14:57 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200803519"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Dec 2025 18:20:26 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYEOj-0000000065M-20EX
-	for oe-kbuild@lists.linux.dev;
-	Wed, 24 Dec 2025 02:14:45 +0000
-Date: Wed, 24 Dec 2025 03:13:56 +0100
+	id 1vYEU6-000000002aD-1dqd;
+	Wed, 24 Dec 2025 02:20:21 +0000
+Date: Wed, 24 Dec 2025 10:19:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [sean-jc:slf/nested_npt 13/21] checkpatch: WARNING:BAD_SIGN_OFF:
- Co-developed-by: should not be used to attribute nominal patch author 'Sean
- Christopherson <seanjc@google.com>'
-Message-ID: <202512240331.U63zC8Au-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 1/3] test_bitmap: extract benchmark module
+Message-ID: <202512240906.xLkpixHL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,29 +62,71 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence static check warning: lib/bitmap_benchmark.c:87:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sean Christopherson <seanjc@google.com>
+In-Reply-To: <20251222-bitmap-kunit-convert-v2-1-6a61a5330eff@gmail.com>
+References: <20251222-bitmap-kunit-convert-v2-1-6a61a5330eff@gmail.com>
+TO: Tamir Duberstein <tamird@kernel.org>
+TO: David Gow <davidgow@google.com>
+TO: John Hubbard <jhubbard@nvidia.com>
+TO: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Geert Uytterhoeven <geert@linux-m68k.org>
+TO: Madhavan Srinivasan <maddy@linux.ibm.com>
+TO: Michael Ellerman <mpe@ellerman.id.au>
+TO: Nicholas Piggin <npiggin@gmail.com>
+TO: Naveen N Rao <naveen@kernel.org>
+TO: Yury Norov <yury.norov@gmail.com>
+TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+TO: Shuah Khan <skhan@linuxfoundation.org>
+TO: Kees Cook <kees@kernel.org>
+TO: Christophe Leroy <chleroy@kernel.org>
+CC: Muhammad Usama Anjum <usama.anjum@collabora.com>
+CC: linux-kernel@vger.kernel.org
+CC: linux-m68k@lists.linux-m68k.org
+CC: linuxppc-dev@lists.ozlabs.org
+CC: linux-kselftest@vger.kernel.org
+CC: Tamir Duberstein <tamird@gmail.com>
+CC: Alexander Potapenko <glider@google.com>
 
-Hi Sean,
+Hi Tamir,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/sean-jc/linux slf/nested_npt
-head:   d92a49a6c826159a40524177ff9eee7d34c4acaf
-commit: a464b39918feac1e03a38bb5f540d898739364ed [13/21] KVM: selftests: Reuse virt mapping functions for nested EPTs
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251224/202512240331.U63zC8Au-lkp@intel.com/reproduce)
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
 
-# many are suggestions rather than must-fix
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/test_bitmap-extract-benchmark-module/20251222-214306
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20251222-bitmap-kunit-convert-v2-1-6a61a5330eff%40gmail.com
+patch subject: [PATCH v2 1/3] test_bitmap: extract benchmark module
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: microblaze-randconfig-r111-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240906.xLkpixHL-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240906.xLkpixHL-lkp@intel.com/reproduce)
 
-WARNING:BAD_SIGN_OFF: Co-developed-by: should not be used to attribute nominal patch author 'Sean Christopherson <seanjc@google.com>'
-#30: 
-Co-developed-by: Sean Christopherson <seanjc@google.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202512240906.xLkpixHL-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> lib/bitmap_benchmark.c:87:1: sparse: sparse: bad integer constant expression
+   lib/bitmap_benchmark.c:87:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   lib/bitmap_benchmark.c:88:1: sparse: sparse: bad integer constant expression
+   lib/bitmap_benchmark.c:88:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   lib/bitmap_benchmark.c:89:1: sparse: sparse: bad integer constant expression
+   lib/bitmap_benchmark.c:89:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   lib/bitmap_benchmark.c:89:1: sparse: sparse: bad integer constant expression
+   lib/bitmap_benchmark.c:89:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +87 lib/bitmap_benchmark.c
+
+98008eee3b7dd0 Tamir Duberstein 2025-12-22  86  
+98008eee3b7dd0 Tamir Duberstein 2025-12-22 @87  MODULE_AUTHOR("Alexander Potapenko <glider@google.com>");
 
 -- 
 0-DAY CI Kernel Test Service
