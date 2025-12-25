@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5294C7260A
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 15:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1624C6D
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 16:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766677427; cv=none; b=VufI6Taqdsp21BGlu47E6ri88fRrnxrkkBwjEFzWtBBlSkJofDcCIZbZ2fhynmFG4Ms7rrZqFzMaJzME5OXAJ4S56do5I2ie9UobEMrOxAYK6sdihdu6jZBlBbdsU81LfZuUCmZVaBr7RnC7KvEjU/7hfWi4K55yh+C0umUnbSQ=
+	t=1766678748; cv=none; b=RoxjyFvULcxP0ConttYqT2yTqf6kwlnaxt6od//UUbu9fSCLtyRpceJ2F+PjlgxU8BtKKxQKsz9ClTqLQNLL4nAsYtLaz/Ayt2IYezikTma/rj28siqTG2UatSGBUAsE372KqKUBT9V9XgsBdmqsT1zIiK2tt02OGhjB0g2W+so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766677427; c=relaxed/simple;
-	bh=mWLSBqrlKwJpnjM37ukqT2vzrPJdHWkliEJoCpFSMQU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nmwZ9znbpZ9t0uZksRIx7v7VccLD2H2dSr1+J5C2yUv8aTJv8cTI+WJZKLyIKXB30oquaXzWOINoHSiqnWcgkpvJ/D5Gqdz/Zj8AEDVRyuzBFnDI52QlDpvy189Unm9W3uQBC6uOW8pdh5YcaLEVwQYkxiWawHD+f+HSU/bitzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AjrK+uJu; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1766678748; c=relaxed/simple;
+	bh=MfVYRnjnqPkBF0sQHq5YTuhMvfbPm84uFfI+vW2jPKM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qzUqEdepS8Fu8IORTEHPw0tod7ubdk/TouFumkJpn5rIO3UdNWl7TkOyGksB0xjU8bWVFo3ytd9ixqUwUxFedKD7cVjZfJ32y7Wy/azhVi+8AKX/S54YM/YLa5bF4KZqI0oWzTc1UbTE99EWiMyIhjXYXUJzy/te20mon0kEvW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EjMzw8NF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AjrK+uJu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EjMzw8NF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766677425; x=1798213425;
+  t=1766678746; x=1798214746;
   h=date:from:to:cc:subject:message-id;
-  bh=mWLSBqrlKwJpnjM37ukqT2vzrPJdHWkliEJoCpFSMQU=;
-  b=AjrK+uJuwiVSBrEpO/H3Xd4COANvt5K3ulSPXujEBSzjpJ21IGyY5zDT
-   YSwBy0/hXfzts96hy547EBXBCt+jX0AsXsUsDSmy3j3whiMuT+ShtEeAq
-   XmHDHKjj8kKpeg1zSx7pLtspCBfweOV5zEIFYFGjkIKHx6Q0yrQLJ/iuN
-   g+b4WKStx8pOkog6Jm09+Sk7QPKhV05l5HuOc6ipb4fgmT9m7iHSZfG9Q
-   FEStoLnsYMyrJJPXKWj1hbJGufHhld0lBNYx7zmFkybYxd9GR0ZpcogNE
-   b7LtiQzJZdBw/ov8I550O7TE03zHQYMJ3swlGb5NdF+PBS4+dlhW2ro/U
-   Q==;
-X-CSE-ConnectionGUID: XeWrJKApRcqEF/v2wgsY7Q==
-X-CSE-MsgGUID: 4WtFy/dpRKmBYCyka3vfag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79925519"
+  bh=MfVYRnjnqPkBF0sQHq5YTuhMvfbPm84uFfI+vW2jPKM=;
+  b=EjMzw8NFpTL16qBoI8dx6kdbfi9tzHCQSghHKBdbFnAGK/OAeb8RJdzX
+   D76DMfRNRlX1XOa8qwpDXxgXjeUh/LJ7kN81L1GC9R/HcVdlO9pouULiu
+   YhA5HeJiHKAjkclgOFu4a8DdrE3ruFbDL7EAZSUO49Y/BGKpK0/QAb6gV
+   oVla9uX98UVRBwoDUvajNZ/FhafpGIqK+r79mRx+5XXWvswplq75jX1zO
+   vkH6VDejSORDzReEBUCAcUOlz6Z4MbGqBrZ5T8UTok6zFbxtsZ8Pa8Y+M
+   LCEn5Knl7V8kupmKIlAqoZJ4rKMU4aEAd4dEvqIDDAcbuujnDrzcHGfyh
+   g==;
+X-CSE-ConnectionGUID: UXVW6QLsS7msAQCdlfMigA==
+X-CSE-MsgGUID: jl5Iw310RP+SrmOGQJqt+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68634453"
 X-IronPort-AV: E=Sophos;i="6.21,176,1763452800"; 
-   d="scan'208";a="79925519"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 07:43:45 -0800
-X-CSE-ConnectionGUID: TIvNBk9+Qz+beLIkW1InPg==
-X-CSE-MsgGUID: HKp0P9oXRIyrxdoItwOojg==
+   d="scan'208";a="68634453"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 08:05:46 -0800
+X-CSE-ConnectionGUID: qK5X8pvZRTeut3pzDmZ+jQ==
+X-CSE-MsgGUID: VcHyYHm9RcqkO82MFfc69A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,176,1763452800"; 
-   d="scan'208";a="204736667"
+   d="scan'208";a="201149051"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Dec 2025 07:43:44 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 25 Dec 2025 08:05:45 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYnV7-000000004Cp-36OG;
-	Thu, 25 Dec 2025 15:43:41 +0000
-Date: Thu, 25 Dec 2025 23:42:54 +0800
+	id 1vYnqQ-000000004Dv-2NnL;
+	Thu, 25 Dec 2025 16:05:42 +0000
+Date: Fri, 26 Dec 2025 00:05:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [avpatel:riscv_sbi_dbtr_v2 45/55]
- drivers/hwtracing/rvtrace/rvtrace-encoder.c:105:1: sparse: sparse: bad
- integer constant expression
-Message-ID: <202512252347.g73JABQ9-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/loongarch/kernel/syscall.c:40 __do_sys_mmap2() warn:
+ bitwise AND condition is false here
+Message-ID: <202512260001.sU7sCBw0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,44 +59,44 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/hwtracing/rvtrace/rvtrace-encoder.c:105:1: sparse: sparse: bad integer constant expression"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Mayuresh Chitale <mchitale@ventanamicro.com>
-CC: Anup Patel <anup@brainfault.org>
+CC: linux-kernel@vger.kernel.org
+TO: Huacai Chen <chenhuacai@loongson.cn>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_dbtr_v2
-head:   99cb6c466559dba2b0011d84701a156c252e7c59
-commit: 56fc8d19589bf440fd6d3237afe2d548f8dc5d86 [45/55] rvtrace: Add trace encoder driver
-:::::: branch date: 27 hours ago
-:::::: commit date: 33 hours ago
-config: riscv-randconfig-r122-20251225 (https://download.01.org/0day-ci/archive/20251225/202512252347.g73JABQ9-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512252347.g73JABQ9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ccd1cdca5cd433c8a5dff78b69a79b31d9b77ee1
+commit: 14338e631afd6d4b2c2f8fb7deba786d86c40fad LoongArch: Adjust system call for 32BIT/64BIT
+date:   2 weeks ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 2 weeks ago
+config: loongarch-randconfig-r071-20251225 (https://download.01.org/0day-ci/archive/20251226/202512260001.sU7sCBw0-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512252347.g73JABQ9-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512260001.sU7sCBw0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwtracing/rvtrace/rvtrace-encoder.c:105:1: sparse: sparse: bad integer constant expression
-   drivers/hwtracing/rvtrace/rvtrace-encoder.c:105:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/hwtracing/rvtrace/rvtrace-encoder.c:106:1: sparse: sparse: bad integer constant expression
-   drivers/hwtracing/rvtrace/rvtrace-encoder.c:106:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/hwtracing/rvtrace/rvtrace-encoder.c:107:1: sparse: sparse: bad integer constant expression
-   drivers/hwtracing/rvtrace/rvtrace-encoder.c:107:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/hwtracing/rvtrace/rvtrace-encoder.c:107:1: sparse: sparse: bad integer constant expression
-   drivers/hwtracing/rvtrace/rvtrace-encoder.c:107:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+smatch warnings:
+arch/loongarch/kernel/syscall.c:40 __do_sys_mmap2() warn: bitwise AND condition is false here
+arch/loongarch/kernel/syscall.c:40 __do_sys_mmap2() warn: bitwise AND condition is false here
 
-vim +105 drivers/hwtracing/rvtrace/rvtrace-encoder.c
+vim +40 arch/loongarch/kernel/syscall.c
 
-56fc8d19589bf44 Mayuresh Chitale 2025-07-24  103  
-56fc8d19589bf44 Mayuresh Chitale 2025-07-24  104  /* Module information */
-56fc8d19589bf44 Mayuresh Chitale 2025-07-24 @105  MODULE_AUTHOR("Mayuresh Chitale <mchitale@ventanamicro.com>");
+be769645a2aef5 Huacai Chen 2022-05-31  36  
+14338e631afd6d Huacai Chen 2025-12-08  37  SYSCALL_DEFINE6(mmap2, unsigned long, addr, unsigned long, len, unsigned long,
+14338e631afd6d Huacai Chen 2025-12-08  38  		 prot, unsigned long, flags, unsigned long, fd, unsigned long, offset)
+14338e631afd6d Huacai Chen 2025-12-08  39  {
+14338e631afd6d Huacai Chen 2025-12-08 @40  	if (offset & (~PAGE_MASK >> 12))
+14338e631afd6d Huacai Chen 2025-12-08  41  		return -EINVAL;
+14338e631afd6d Huacai Chen 2025-12-08  42  
+14338e631afd6d Huacai Chen 2025-12-08  43  	return ksys_mmap_pgoff(addr, len, prot, flags, fd, offset >> (PAGE_SHIFT - 12));
+14338e631afd6d Huacai Chen 2025-12-08  44  }
+14338e631afd6d Huacai Chen 2025-12-08  45  
 
 -- 
 0-DAY CI Kernel Test Service
