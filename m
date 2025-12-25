@@ -1,69 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB783A1E60
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 22:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90ECE555
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 23:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766701099; cv=none; b=uDTrouXEAh3Oi6EJS6VHKhMJjKYmHltLfhqvlikisceNfQraKTdM6Cez3WXVP7H7QSq+I6x7Mr7mIWgKJEtwQKw9lspDPeCz6oiyrCrq4JKGeiYhdoeO6tvOmYcCVy8Q2/I+beRWRxT18+i2zJC3+d85jOZ0G370h7+hk2CxkNQ=
+	t=1766704039; cv=none; b=gBCYQPd3GwmazCroW2lRE1IaNZvTmog9reEqf0p4sgqxnTG/Jc7RMQfUTnZOWe5LFshQSP7haA9Ht1vNC8b8+SBQmwb9aYznCyBwdzVbpD1PafVMaMaWCJS7uJOqqwbqnI5h/0RQvFIvZYiw5GCFv3ajjWPRh7H/2RixuWjTJKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766701099; c=relaxed/simple;
-	bh=dE9gUROtbPSGzFKhawqAn25PlVQO7jw46K6K/ykO3g4=;
+	s=arc-20240116; t=1766704039; c=relaxed/simple;
+	bh=LiK/onjE6bxDYbpGK48nFaNT/FQrOy57YyOBVof5r18=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hE3JaGcXuo1j5MGsttwzJqmCEpPS1hCUKlV60xLCwuJhhoSTj1HvlWsq2l5O4KOxTUDdKM5dy0QmvxIM6xXUBGHYkqU+xDr7iOHu6WFbbLKMuL9MT5rsw7kwyk9aUO6e8oxWnYUpHytkXRj3OvpRo2MS4C53vQqEWVWm5lrHLwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UDxPQDsj; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=ImL3rwQ33NU2/MyNKIBujKMdsCAqLPj8wdAO3abyX4Ey05Q74jxFxNRiZii8ft1uJsINoGNW1WRZkaUFkK6PJaZiBE5T0FQGMtNH65mJcjIEoioEawv0vdxYN8D8u4tk3MwK6Xw74gKWcutHagL4oBxTQpn0Wj+Ssyznt2UbfbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtVG9YxX; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UDxPQDsj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtVG9YxX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766701097; x=1798237097;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dE9gUROtbPSGzFKhawqAn25PlVQO7jw46K6K/ykO3g4=;
-  b=UDxPQDsjLzbuRKBl55l3+Z44lS7D91bq7F3gHu19x4npcbqdvT3H6sL6
-   GF257mCbGSjhpeX4t9gubDoevJw2QnFlev3F4Jg/1PDq1JJGBtMxwojn0
-   RL09EacodurTctj8GUl7XDqOBt62Au5E9CUmd8siC1abtpbfOeav0KQba
-   B7WJAnypVqxCFFBEWI/80E01k0b5sVHwh/TuG5KDkJDb4yXO8HqLoRgld
-   jBUmCsXKBmXFDqw2tBx10mY3AJiroDiBMg1zqvYPBVrjChMfcRGXiUdMO
-   J9kQo209b1Nr1Y6KZvLSAXbLY/Updjr6TjAxQWEHITPoD8KwyYoVStavc
-   w==;
-X-CSE-ConnectionGUID: VsHGZlF0SZOpUEBTnkJznA==
-X-CSE-MsgGUID: 6hfqZEduTx6oD+FvM9jEfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79118524"
+  t=1766704037; x=1798240037;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LiK/onjE6bxDYbpGK48nFaNT/FQrOy57YyOBVof5r18=;
+  b=JtVG9YxXISi+XQ9oY8+f0qWWVe9EHosYkHCNRLPfDaYauteagAziKhDU
+   yN4UsdIjDUTGucfp2EZZTRbHaF6iVOglLP4uMrsIelXtpmrEwjxUV/KUV
+   WYQxGfbQOntFIkzwN/s1QDY+gF5drUVLthQVYoZWnG5pigslKKBylOQ9j
+   LbF0/fzbHglVZSWP/U142ymXS0AWQPgv/Z4iKEqcbJ1nkPahaPZylb/ZL
+   za6yG6VBfxti7y4jgkuPsp0GxZqGgtFuebSvIV+kcYPmr77cL89EtLey0
+   j3zeDvNoza3kY+/nHUVMW8ixAldZTbwbfr1mqfT/7ifq1kyPuzb6z7bAR
+   Q==;
+X-CSE-ConnectionGUID: /L4K26xFRw+eApyNMM7e1A==
+X-CSE-MsgGUID: QAtdGb2LRhKeDqxm5d/qog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="72338899"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="79118524"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 14:18:16 -0800
-X-CSE-ConnectionGUID: dHCU7YsYTxCCFzd1b9wMXA==
-X-CSE-MsgGUID: ikmZFHrUTwabDpQDBWRwyA==
+   d="scan'208";a="72338899"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 15:07:17 -0800
+X-CSE-ConnectionGUID: yyUZ/t0RSVaiWd/z1VoGyw==
+X-CSE-MsgGUID: vSE5ItcDQ6K5d3qLUg+tyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="204778745"
+   d="scan'208";a="205195082"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Dec 2025 14:18:15 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 25 Dec 2025 15:07:15 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYteu-000000006gC-3x0D;
-	Thu, 25 Dec 2025 22:18:12 +0000
-Date: Thu, 25 Dec 2025 23:18:07 +0100
+	id 1vYuQL-000000006ge-1JYU;
+	Thu, 25 Dec 2025 23:07:13 +0000
+Date: Fri, 26 Dec 2025 00:07:13 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 27/128]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776):
- Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-Message-ID: <202512252335.Q7D18uD5-lkp@intel.com>
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
+Message-ID: <202512260015.eLba8xLA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -71,190 +67,71 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
-CC: James Calligeros <jcalligeros99@gmail.com>
+In-Reply-To: <20251222-ventura2_initial_dts-v1-2-1f06166c78a3@gmail.com>
+References: <20251222-ventura2_initial_dts-v1-2-1f06166c78a3@gmail.com>
+TO: Kyle Hsieh <kylehsieh1995@gmail.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Joel Stanley <joel@jms.id.au>
+TO: Andrew Jeffery <andrew@codeconstruct.com.au>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-aspeed@lists.ozlabs.org
+CC: linux-kernel@vger.kernel.org
+CC: Kyle Hsieh <kylehsieh1995@gmail.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: 12aa35de5a6694fbd8c2ff2597ae4758df8e3a52 [27/128] arm64: dts: apple: t600x-jxxx: Put in audio nodes
-:::::: branch date: 3 days ago
+Hi Kyle,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Hsieh/dt-bindings-arm-aspeed-add-Meta-ventura2-board/20251222-154740
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20251222-ventura2_initial_dts-v1-2-1f06166c78a3%40gmail.com
+patch subject: [PATCH 2/2] ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
+:::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251225/202512252335.Q7D18uD5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
+config: arm-randconfig-2051-20251223 (https://download.01.org/0day-ci/archive/20251226/202512260015.eLba8xLA-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e3ef26df85c317665a2c505a0d9bc179fe67bdaf)
 dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512252335.Q7D18uD5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260015.eLba8xLA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512252335.Q7D18uD5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512260015.eLba8xLA-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:490.14-504.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:506.14-515.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: smc@290400000 (apple,t6000-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
---
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:490.14-504.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:506.14-515.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: smc@290400000 (apple,t6000-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/smc@290400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
---
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:490.14-504.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:506.14-515.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: smc@290400000 (apple,t6000-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/smc@290400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
---
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:490.14-504.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:506.14-515.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: smc@290400000 (apple,t6000-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/smc@290400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: / (facebook,ventura2-rmc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	'facebook,ventura2-rmc' is not one of ['delta,ahe50dc-bmc', 'facebook,galaxy100-bmc', 'facebook,wedge100-bmc', 'facebook,wedge40-bmc', 'microsoft,olympus-bmc', 'quanta,q71l-bmc', 'tyan,palmetto-bmc', 'yadro,vesnin-bmc']
+   	'facebook,ventura2-rmc' is not one of ['amd,daytonax-bmc', 'amd,ethanolx-bmc', 'ampere,mtjade-bmc', 'aspeed,ast2500-evb', 'asrock,e3c246d4i-bmc', 'asrock,e3c256d4i-bmc', 'asrock,romed8hm3-bmc', 'asrock,spc621d8hm3-bmc', 'asrock,x570d4u-bmc', 'bytedance,g220a-bmc', 'facebook,cmm-bmc', 'facebook,minipack-bmc', 'facebook,tiogapass-bmc', 'facebook,yamp-bmc', 'facebook,yosemitev2-bmc', 'facebook,wedge400-bmc', 'facebook,wedge400-data64-bmc', 'hxt,stardragon4800-rep2-bmc', 'ibm,mihawk-bmc', 'ibm,mowgli-bmc', 'ibm,romulus-bmc', 'ibm,swift-bmc', 'ibm,witherspoon-bmc', 'ingrasys,zaius-bmc', 'inspur,fp5280g2-bmc', 'inspur,nf5280m6-bmc', 'inspur,on5263m5-bmc', 'intel,s2600wf-bmc', 'inventec,lanyang-bmc', 'lenovo,hr630-bmc', 'lenovo,hr855xg2-bmc', 'portwell,neptune-bmc', 'qcom,centriq2400-rep-bmc', 'supermicro,x11spi-bmc', 'tyan,s7106-bmc', 'tyan,s8036-bmc', 'yadro,nicole-bmc', 'yadro,vegman-n110-bmc', 'yadro,vegman-rx20-bmc', 'yadro,vegman-sx20-bmc']
+   	'facebook,ventura2-rmc' is not one of ['ampere,mtjefferson-bmc', 'ampere,mtmitchell-bmc', 'aspeed,ast2600-evb', 'aspeed,ast2600-evb-a1', 'asus,x4tf-bmc', 'facebook,bletchley-bmc', 'facebook,catalina-bmc', 'facebook,clemente-bmc', 'facebook,cloudripper-bmc', 'facebook,darwin-bmc', 'facebook,elbert-bmc', 'facebook,fuji-bmc', 'facebook,fuji-data64-bmc', 'facebook,greatlakes-bmc', 'facebook,harma-bmc', 'facebook,minerva-cmc', 'facebook,santabarbara-bmc', 'facebook,ventura2-bmc', 'facebook,yosemite4-bmc', 'facebook,yosemite5-bmc', 'ibm,balcones-bmc', 'ibm,blueridge-bmc', 'ibm,bonnell-bmc', 'ibm,everest-bmc', 'ibm,fuji-bmc', 'ibm,rainier-bmc', 'ibm,sbp1-bmc', 'ibm,system1-bmc', 'ibm,tacoma-bmc', 'inventec,starscream-bmc', 'inventec,transformer-bmc', 'jabil,rbp-bmc', 'nvidia,gb200nvl-bmc', 'qcom,dc-scm-v1-bmc', 'quanta,s6q-bmc', 'ufispace,ncplite-bmc']
+   	'aspeed,ast2400' was expected
+   	'aspeed,ast2500' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/aspeed/aspeed.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /: failed to match any schema with compatible: ['facebook,ventura2-rmc', 'aspeed,ast2600']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: sdram@1e6e0000 (aspeed,ast2600-sdram-edac): compatible: ['aspeed,ast2600-sdram-edac', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/edac/aspeed,ast2400-sdram-edac.yaml
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: i2c@400 (aspeed,ast2600-i2c-bus): Unevaluated properties are not allowed ('aspeed,hw-timeout-ms' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/bus@1e78a000/i2c@580/power-monitor@69: failed to match any schema with compatible: ['pmbus']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 -- 
 0-DAY CI Kernel Test Service
