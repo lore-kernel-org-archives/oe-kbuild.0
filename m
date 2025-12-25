@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754AA18787A
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 06:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475972F872
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 06:59:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766644671; cv=none; b=PFRaqA8Z0duw717PV277A3p5IQP42MJQFbvB8Mx6qCyqaCBflXUIjBzc60J8LvLWz3MRY3cq1gsEn0XZtQ1ginqMeRLjMdspAVbl/aBpy4Tt1TvUszkZ0HGhbKQ8NrAME4kZSPTLpudW3q8VPdbRp5qizzku9xy8W8A4mQRJT+A=
+	t=1766645991; cv=none; b=Pcf3UEx7sf/L3EYOK4aT/CnXM/acs3Ur15s0aJCMH0nHldVOZLYtci8IbQCkIoHJOQvvM3HpWbot0lg+aMX0hWj17JjlHfCnKQ2MkXWfpkcK7SNEE/aafjABhzXdnSsXp3QO4RgoJ/gtr5rXu5FFU9KjjcXtTRW/KkpGAZ273jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766644671; c=relaxed/simple;
-	bh=QtGKtszqtvHHJBsDsu9SOkDqC5XSFXho5QhIyYp6L8g=;
+	s=arc-20240116; t=1766645991; c=relaxed/simple;
+	bh=8aiFq/vaWNpnVe/Dsa6qkG1ZnPKjBewYeX//oRjBg60=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B564YEOjixBMH8x6t93ZW0VpYHWxZCydVQQfp6+SuRtDMpKQo8aaAONITLXVymQGX7LZ/uQwHEz4IlQfh0eK35JA4XMf70WMJAsR2crY9IlApl7IJhkeaqZ4jywRzE2xAusY75VC2MN/JBf2oakBU6x3yXy0GAo68BGV88mK5sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbJkFQV5; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=XgT9sTPNLwsg8Cv9jNItLxYv/3xxaIMRJWCOhXDMY+nJ6jF6eOP7s2QSBKJxnOSSJ4GGn+6+LsHeItdI7kchx8XXY7H9575QkfFeDwmJ1RQ6xbguVTiqh0XgaI3GKQTUxVxhbiif1RaRs2bB0gujlRiOqhhlLRPd54vIHCBDaGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ae0OK4uh; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbJkFQV5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ae0OK4uh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766644668; x=1798180668;
+  t=1766645990; x=1798181990;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QtGKtszqtvHHJBsDsu9SOkDqC5XSFXho5QhIyYp6L8g=;
-  b=FbJkFQV5fUKXnc7K47evkyqjhpgf0g8Hy+8lD2z+CZk5YV94VZ5yKxuD
-   bysBW+rWcmJynPzckgEVMm/HQucQIaExrUnL2ror38yQuYIp8yrmBpw/q
-   Y8HD8v8Yuqm41N13T3zIxgMk2Inq2ITYUnljzxR+kmlqZgcPT4oClVfOm
-   d/EJ7rnIaB7AOPtmPv5QYcIlPGe+utPgmWbYpylsvRMW/0J24MWeIWT3e
-   zuCUv0C36xwjdFiijuWg1AJCa8QT3Fb6yr2nbfqK8tIIktwB3ytSGFYYB
-   iEW7TqpLzyMsNy5wLm3DnDa3VDQTBSMTbRAJmBQJfYa2I7/mBfKFqk/Sx
-   Q==;
-X-CSE-ConnectionGUID: ovKI5idFRQyIVAPTUE9xGQ==
-X-CSE-MsgGUID: pVPv4J3kS+m02jtfAdTo2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68505447"
+  bh=8aiFq/vaWNpnVe/Dsa6qkG1ZnPKjBewYeX//oRjBg60=;
+  b=ae0OK4uhPS69rUKJv8O62nGuvK91iGvW4ij8vK6MB0X7z0VtFyKvp7lP
+   pTf6LdN3ZydXz2/vslXMZ7UBWRYaZcVMC5F9CaiYVQQ8dpYR+sMUSqcRu
+   qN04Xgz3xiPR8cBW4OnL04GKEs/1t+9bRDoBcXstTGUpzaO0L8kCf3NH/
+   a87T0oWbC3f0RAQ0bRaNrPOyd3Bu4X1+4CE2idY+rJFKafdr3RuS4NxZB
+   MWRXHFqYVeEjQD+wXAF4Evy31viCFoV4TVvynOqrvx/38FYcVq6miTuW8
+   YNhHydCgbTuAxgSSlheiPJQbaybyYEAXEPHC9+lr+EelTG11mFJDk4Xcl
+   A==;
+X-CSE-ConnectionGUID: wPnasWXhTlO703XcrS/I3w==
+X-CSE-MsgGUID: hWgBV1qPRj6RbWrYRKhM2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68505986"
 X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; 
-   d="scan'208";a="68505447"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 22:37:48 -0800
-X-CSE-ConnectionGUID: +TWcV9/jQReW0RSxYrRURQ==
-X-CSE-MsgGUID: 1JiCsAw+QBujggoSsH9xxQ==
+   d="scan'208";a="68505986"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 22:59:49 -0800
+X-CSE-ConnectionGUID: 2J2bt3gESQyhWIWjx5v/UA==
+X-CSE-MsgGUID: kNQdmhfaRN2d59s6en2Vhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; 
-   d="scan'208";a="204669265"
+   d="scan'208";a="201075746"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Dec 2025 22:37:48 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 24 Dec 2025 22:59:48 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYeym-000000003q9-2RiF;
-	Thu, 25 Dec 2025 06:37:44 +0000
-Date: Thu, 25 Dec 2025 14:37:35 +0800
+	id 1vYfK5-000000003qv-1OjM;
+	Thu, 25 Dec 2025 06:59:45 +0000
+Date: Thu, 25 Dec 2025 14:58:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 1/3] x86/boot: replace FS/GS inline asm with
- segment-qualified accesses
-Message-ID: <202512251407.KKf2uHJN-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH RFC v2 1/2] fuse: add compound command to combine
+ multiple requests
+Message-ID: <202512251445.2TjxtZmH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,267 +62,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/x86/boot/boot.h:80:16: sparse: sparse: cannot dereference this type"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251223202038.91200-2-ubizjak@gmail.com>
-References: <20251223202038.91200-2-ubizjak@gmail.com>
-TO: Uros Bizjak <ubizjak@gmail.com>
-TO: x86@kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: Uros Bizjak <ubizjak@gmail.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ingo Molnar <mingo@kernel.org>
-CC: Borislav Petkov <bp@alien8.de>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-CC: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <20251223-fuse-compounds-upstream-v2-1-0f7b4451c85e@ddn.com>
+References: <20251223-fuse-compounds-upstream-v2-1-0f7b4451c85e@ddn.com>
+TO: Horst Birthelmer <hbirthelmer@googlemail.com>
 
-Hi Uros,
+Hi Horst,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on tip/master linus/master v6.19-rc2 next-20251219]
-[cannot apply to tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/x86-boot-replace-FS-GS-inline-asm-with-segment-qualified-accesses/20251224-050410
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20251223202038.91200-2-ubizjak%40gmail.com
-patch subject: [PATCH 1/3] x86/boot: replace FS/GS inline asm with segment-qualified accesses
+url:    https://github.com/intel-lab-lkp/linux/commits/Horst-Birthelmer/fuse-add-compound-command-to-combine-multiple-requests/20251224-061921
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20251223-fuse-compounds-upstream-v2-1-0f7b4451c85e%40ddn.com
+patch subject: [PATCH RFC v2 1/2] fuse: add compound command to combine multiple requests
 :::::: branch date: 33 hours ago
 :::::: commit date: 33 hours ago
-config: x86_64-randconfig-121-20251224 (https://download.01.org/0day-ci/archive/20251225/202512251407.KKf2uHJN-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512251407.KKf2uHJN-lkp@intel.com/reproduce)
+config: hexagon-randconfig-r073-20251225 (https://download.01.org/0day-ci/archive/20251225/202512251445.2TjxtZmH-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512251407.KKf2uHJN-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512251445.2TjxtZmH-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/boot/cmdline.c: note: in included file:
-   arch/x86/boot/boot.h:80:27: sparse: sparse: Expected ) in expression
-   arch/x86/boot/boot.h:80:27: sparse: sparse: got u8
-   arch/x86/boot/boot.h:80:48: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:80:48: sparse: sparse: got )
-   arch/x86/boot/boot.h:81:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:81:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:84:49: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:84:49: sparse: sparse: got (
-   arch/x86/boot/boot.h:84:49: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:84:49: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:84:49: sparse: sparse: got }
-   arch/x86/boot/boot.h:85:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:85:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:88:49: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:88:49: sparse: sparse: got (
-   arch/x86/boot/boot.h:88:49: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:88:49: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:88:49: sparse: sparse: got }
-   arch/x86/boot/boot.h:89:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:89:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:93:41: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:93:41: sparse: sparse: got (
-   arch/x86/boot/boot.h:93:41: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:93:41: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:93:41: sparse: sparse: got }
-   arch/x86/boot/boot.h:94:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:94:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:97:42: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:97:42: sparse: sparse: got (
-   arch/x86/boot/boot.h:97:42: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:97:42: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:97:42: sparse: sparse: got }
-   arch/x86/boot/boot.h:98:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:98:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:101:42: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:101:42: sparse: sparse: got (
-   arch/x86/boot/boot.h:101:42: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:101:42: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:101:42: sparse: sparse: got }
-   arch/x86/boot/boot.h:102:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:102:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:106:48: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:106:48: sparse: sparse: got (
-   arch/x86/boot/boot.h:106:48: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:106:48: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:106:48: sparse: sparse: got }
-   arch/x86/boot/boot.h:107:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:107:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:110:49: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:110:49: sparse: sparse: got (
-   arch/x86/boot/boot.h:110:49: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:110:49: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:110:49: sparse: sparse: got }
-   arch/x86/boot/boot.h:111:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:111:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:114:49: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:114:49: sparse: sparse: got (
-   arch/x86/boot/boot.h:114:49: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:114:49: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:114:49: sparse: sparse: got }
-   arch/x86/boot/boot.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:115:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:119:41: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:119:41: sparse: sparse: got (
-   arch/x86/boot/boot.h:119:41: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:119:41: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:119:41: sparse: sparse: got }
-   arch/x86/boot/boot.h:120:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:120:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:123:42: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:123:42: sparse: sparse: got (
-   arch/x86/boot/boot.h:123:42: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:123:42: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:123:42: sparse: sparse: got }
-   arch/x86/boot/boot.h:124:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:124:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:127:42: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:127:42: sparse: sparse: got (
-   arch/x86/boot/boot.h:127:42: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:127:42: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:127:42: sparse: sparse: got }
-   arch/x86/boot/boot.h:128:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:128:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:137:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/x86/boot/boot.h:137:16: sparse: sparse: Expected ; at end of declaration
-   arch/x86/boot/boot.h:137:16: sparse: sparse: got diff
-   arch/x86/boot/boot.h:138:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:138:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:145:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/x86/boot/boot.h:145:16: sparse: sparse: Expected ; at end of declaration
-   arch/x86/boot/boot.h:145:16: sparse: sparse: got diff
-   arch/x86/boot/boot.h:146:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:146:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:80:18: sparse: sparse: undefined identifier '__seg_fs'
-   arch/x86/boot/boot.h:80:48: sparse: sparse: undefined identifier '__ptr'
-   arch/x86/boot/boot.h:80:48: sparse: sparse: undefined identifier '__ptr'
-   arch/x86/boot/boot.h:80:48: sparse: sparse: cast from unknown type
->> arch/x86/boot/boot.h:80:16: sparse: sparse: cannot dereference this type
---
-   arch/x86/boot/video-mode.c: note: in included file:
-   arch/x86/boot/boot.h:80:27: sparse: sparse: Expected ) in expression
-   arch/x86/boot/boot.h:80:27: sparse: sparse: got u8
-   arch/x86/boot/boot.h:80:48: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:80:48: sparse: sparse: got )
-   arch/x86/boot/boot.h:81:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:81:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:84:49: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:84:49: sparse: sparse: got (
-   arch/x86/boot/boot.h:84:49: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:84:49: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:84:49: sparse: sparse: got }
-   arch/x86/boot/boot.h:85:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:85:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:88:49: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:88:49: sparse: sparse: got (
-   arch/x86/boot/boot.h:88:49: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:88:49: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:88:49: sparse: sparse: got }
-   arch/x86/boot/boot.h:89:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:89:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:93:41: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:93:41: sparse: sparse: got (
-   arch/x86/boot/boot.h:93:41: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:93:41: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:93:41: sparse: sparse: got }
-   arch/x86/boot/boot.h:94:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:94:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:97:42: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:97:42: sparse: sparse: got (
-   arch/x86/boot/boot.h:97:42: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:97:42: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:97:42: sparse: sparse: got }
-   arch/x86/boot/boot.h:98:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:98:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:101:42: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:101:42: sparse: sparse: got (
-   arch/x86/boot/boot.h:101:42: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:101:42: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:101:42: sparse: sparse: got }
-   arch/x86/boot/boot.h:102:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:102:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:106:48: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:106:48: sparse: sparse: got (
-   arch/x86/boot/boot.h:106:48: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:106:48: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:106:48: sparse: sparse: got }
-   arch/x86/boot/boot.h:107:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:107:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:110:49: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:110:49: sparse: sparse: got (
-   arch/x86/boot/boot.h:110:49: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:110:49: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:110:49: sparse: sparse: got }
-   arch/x86/boot/boot.h:111:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:111:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:114:49: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:114:49: sparse: sparse: got (
-   arch/x86/boot/boot.h:114:49: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:114:49: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:114:49: sparse: sparse: got }
-   arch/x86/boot/boot.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:115:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:119:41: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:119:41: sparse: sparse: got (
-   arch/x86/boot/boot.h:119:41: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:119:41: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:119:41: sparse: sparse: got }
-   arch/x86/boot/boot.h:120:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:120:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:123:42: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:123:42: sparse: sparse: got (
-   arch/x86/boot/boot.h:123:42: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:123:42: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:123:42: sparse: sparse: got }
-   arch/x86/boot/boot.h:124:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:124:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:127:42: sparse: sparse: Expected ) in function declarator
-   arch/x86/boot/boot.h:127:42: sparse: sparse: got (
-   arch/x86/boot/boot.h:127:42: sparse: sparse: Trying to use reserved word 'typeof' as identifier
-   arch/x86/boot/boot.h:127:42: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:127:42: sparse: sparse: got }
-   arch/x86/boot/boot.h:128:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:128:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:137:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/x86/boot/boot.h:137:16: sparse: sparse: Expected ; at end of declaration
-   arch/x86/boot/boot.h:137:16: sparse: sparse: got diff
-   arch/x86/boot/boot.h:138:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:138:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:145:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/x86/boot/boot.h:145:16: sparse: sparse: Expected ; at end of declaration
-   arch/x86/boot/boot.h:145:16: sparse: sparse: got diff
-   arch/x86/boot/boot.h:146:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/x86/boot/boot.h:146:1: sparse: sparse: got }
-   arch/x86/boot/boot.h:80:18: sparse: sparse: undefined identifier '__seg_fs'
-   arch/x86/boot/boot.h:80:48: sparse: sparse: undefined identifier '__ptr'
-   arch/x86/boot/boot.h:80:48: sparse: sparse: undefined identifier '__ptr'
-   arch/x86/boot/boot.h:80:48: sparse: sparse: cast from unknown type
->> arch/x86/boot/boot.h:80:16: sparse: sparse: cannot dereference this type
+smatch warnings:
+fs/fuse/compound.c:79 fuse_compound_validate_header() warn: variable dereferenced before check 'compound' (see line 76)
 
-vim +80 arch/x86/boot/boot.h
+vim +/compound +79 fs/fuse/compound.c
 
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  77  
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  78  static inline u8 rdfs8(addr_t addr)
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  79  {
-e620b34a0c8be7 arch/x86/boot/boot.h  Uros Bizjak    2025-12-23 @80  	return *(__seg_fs u8 *)(__force addr_t)absolute_pointer(addr);
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  81  }
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  82  static inline u16 rdfs16(addr_t addr)
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  83  {
-e620b34a0c8be7 arch/x86/boot/boot.h  Uros Bizjak    2025-12-23  84  	return *(__seg_fs u16 *)(__force addr_t)absolute_pointer(addr);
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  85  }
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  86  static inline u32 rdfs32(addr_t addr)
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  87  {
-e620b34a0c8be7 arch/x86/boot/boot.h  Uros Bizjak    2025-12-23  88  	return *(__seg_fs u32 *)(__force addr_t)absolute_pointer(addr);
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  89  }
-62bd0337d0c4a7 arch/i386/boot/boot.h H. Peter Anvin 2007-07-11  90  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   69  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   70  static int fuse_compound_validate_header(struct fuse_compound_req *compound)
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   71  {
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   72  	struct fuse_compound_in *in_header = &compound->compound_header;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   73  	size_t offset = 0;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   74  	int i;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   75  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  @76  	if (compound->buffer_pos > compound->buffer_size)
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   77  		return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   78  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  @79  	if (!compound || !compound->buffer)
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   80  		return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   81  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   82  	if (compound->buffer_pos < sizeof(struct fuse_in_header))
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   83  		return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   84  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   85  	if (in_header->count == 0 || in_header->count > FUSE_MAX_COMPOUND_OPS)
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   86  		return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   87  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   88  	for (i = 0; i < in_header->count; i++) {
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   89  		const struct fuse_in_header *op_hdr;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   90  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   91  		if (offset + sizeof(struct fuse_in_header) >
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   92  		    compound->buffer_pos) {
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   93  			pr_info_ratelimited("FUSE: compound operation %d header extends beyond buffer (offset %zu + header size %zu > buffer pos %zu)\n",
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   94  					    i, offset,
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   95  					    sizeof(struct fuse_in_header),
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   96  					    compound->buffer_pos);
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   97  			return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   98  		}
+17b8291f4d636a9 Horst Birthelmer 2025-12-23   99  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  100  		op_hdr = (const struct fuse_in_header *)(compound->buffer +
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  101  							 offset);
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  102  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  103  		if (op_hdr->len < sizeof(struct fuse_in_header)) {
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  104  			pr_info_ratelimited("FUSE: compound operation %d has invalid length %u (minimum %zu bytes)\n",
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  105  					    i, op_hdr->len,
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  106  					    sizeof(struct fuse_in_header));
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  107  			return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  108  		}
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  109  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  110  		if (offset + op_hdr->len > compound->buffer_pos) {
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  111  			pr_info_ratelimited("FUSE: compound operation %d extends beyond buffer (offset %zu + length %u > buffer pos %zu)\n",
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  112  					    i, offset, op_hdr->len,
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  113  					    compound->buffer_pos);
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  114  			return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  115  		}
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  116  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  117  		if (op_hdr->opcode == 0 || op_hdr->opcode == FUSE_COMPOUND) {
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  118  			pr_info_ratelimited("FUSE: compound operation %d has invalid opcode %u (cannot be 0 or FUSE_COMPOUND)\n",
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  119  					    i, op_hdr->opcode);
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  120  			return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  121  		}
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  122  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  123  		if (op_hdr->nodeid == 0) {
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  124  			pr_info_ratelimited("FUSE: compound operation %d has invalid node ID 0\n",
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  125  					    i);
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  126  			return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  127  		}
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  128  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  129  		offset += op_hdr->len;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  130  	}
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  131  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  132  	if (offset != compound->buffer_pos) {
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  133  		pr_info_ratelimited("FUSE: compound buffer size mismatch (calculated %zu bytes, actual %zu bytes)\n",
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  134  				    offset, compound->buffer_pos);
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  135  		return -EINVAL;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  136  	}
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  137  
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  138  	return 0;
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  139  }
+17b8291f4d636a9 Horst Birthelmer 2025-12-23  140  
 
 -- 
 0-DAY CI Kernel Test Service
