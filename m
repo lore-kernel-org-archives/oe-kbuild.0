@@ -1,67 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CAC8C1F
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 14:12:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E592FC881
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 14:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766671935; cv=none; b=PUsxmOkmxkK5l4w38VBJ0MkkchuZcfFJwO3Vt9Hg6N2G5LIv+Qiw2PaJgN8ETqcZ8awOv+tBjPu4kmSuq64rvDBdS+csqJ/TON1azRFZR9P1xfE6mtAu6PrbJ4Zjr6nMeNEFedTdx12A5FPc4p4ipkianKAzQhZ766AO7gE/Ays=
+	t=1766671938; cv=none; b=anQAUKlWu1smE3P36Iu6yQcdA/t7RAnDQMBiDBUYvKbew5PbFUpUBoGUPmGZ9xhfZgFWCkrbt2s8BONMQZ5Nb/toRnVriecTp6iXS56mzDlP85ac9XX0izYqLsha0qhzH7nA1WmGoNZLSmgWGaPxR4ix5LwnPnh4e0zSxh/D2/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766671935; c=relaxed/simple;
-	bh=dU0I+ZoHOVrLPW427LeM76zmISUkRz9E610Un+kQAvk=;
+	s=arc-20240116; t=1766671938; c=relaxed/simple;
+	bh=7emUC+t6K+IHz6Fm9qlRwu63zevWNWMjsdX3XOhFhyM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sbfdF6OdiNfTO1yLojLRoxermClc8fAXEnkfdO7E+kQ2zkgVkkdRp74EMj2xPKdPUx/lRqPT4BkK3GfyoRONRRrvBjA+J2lZap1J3Nu5wF+iPCsc4wAxw94v5A5AHKWJZxy/R+bV1z2YHN2EeCMAqTw4c39R6GuCanpCaSVZoyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=adL7eaJ5; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=opb0nLDTo8VEPxns6RZBwQ9VudJEdGsNp9/eiGicV1+F0zzyWNzIJTNx8Nh/0y9vJXw54F4Xt0JlZv7WAwGCWYx/jxJdv3k+NoHX2IH9eKjDaTr7I8C/OAvGqmvpxHQOSmTpzc8mBE/VArM0LyJixIZiVUTIHFqaGVECfd2L/x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BqOVWstP; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="adL7eaJ5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BqOVWstP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766671934; x=1798207934;
+  t=1766671936; x=1798207936;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=dU0I+ZoHOVrLPW427LeM76zmISUkRz9E610Un+kQAvk=;
-  b=adL7eaJ562PBYjvIjIYKly7rm9K0pOj4yleJCvwieVLKAsu9jaO4qUpx
-   DChibKferPNY7POh7uhAu5NUrgDaazJgUGMreKsXZMSD0cfYQbuGVKdWG
-   YUy/dqvoft9q6oxe5c72WEHUuSQUDgYtRSKVAJuR+LrcRzhkkZloJ/0NM
-   XiKGDLcJnpVAR/Xod77hkG+u20g9vDZy0crjG0pR+CbnswYVaZ5W/oEho
-   laPxq13RgWowSrSRZ7wq6uLtU4Jukq4A1LXoc8QrOhfIDxec+K3NBuR+e
-   H3lZmeriLDqD+PoZfLBFwkESK3BnogesVMCnfvb85K2SO7sEl2bsxjNJZ
+  bh=7emUC+t6K+IHz6Fm9qlRwu63zevWNWMjsdX3XOhFhyM=;
+  b=BqOVWstPkqtx+/oELcuu1uPGp63AlwreVr+O3xE/E5PIi7OayPtaidJs
+   UjzN1zM1y05fyQ1BJ7TkNon5oK0O+GErN1skt4Fy2vwV6DXSdI5dZGUwU
+   yWAaFHc7N98lM97xtN4+UhF6TgG7zKh1Pe4HNq4BGHTnNYzPb1Ut3zPCK
+   3iUJkcZEdxW/G1Y382aC+hemRGcrVuvVFKvepd9n2AOcs1+T7TRGi6UQ3
+   yonUcXnQHhBPEtjUcZSJxP6X1jPx9ld1ZUq8nlBdJWjLvSgG85TvrhLLl
+   ms1xZ0AKVmhTucwEy94qJVC2npin3dYLRyPyIa/sVoXKJYnMdPujR+rEv
    A==;
-X-CSE-ConnectionGUID: GAgNIlk7RAiukqg1Q4JaPg==
-X-CSE-MsgGUID: 7nxP/jJfQuKUnL7tuUrhsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79104891"
+X-CSE-ConnectionGUID: yMFLTyWgRO+P2bpT/XQJKw==
+X-CSE-MsgGUID: HVLJ/t4NQ56HnFPQRECTUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79104892"
 X-IronPort-AV: E=Sophos;i="6.21,176,1763452800"; 
-   d="scan'208";a="79104891"
+   d="scan'208";a="79104892"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 06:12:13 -0800
-X-CSE-ConnectionGUID: a8NRaGGcTXqHwUhcXjdKUA==
-X-CSE-MsgGUID: 38i3FHWMTWiUPmkAZVB9pA==
+X-CSE-ConnectionGUID: H8rhSNfATXaIhTkPBCvwqA==
+X-CSE-MsgGUID: ea4kfjmaRS6OInhBhG5o+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,176,1763452800"; 
-   d="scan'208";a="199365940"
+   d="scan'208";a="199365942"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
   by orviesa006.jf.intel.com with ESMTP; 25 Dec 2025 06:12:12 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYm4X-000000006ba-2gRH;
+	id 1vYm4X-000000006bY-2WsL;
 	Thu, 25 Dec 2025 14:12:09 +0000
-Date: Thu, 25 Dec 2025 15:11:56 +0100
+Date: Thu, 25 Dec 2025 15:11:39 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 26/128]
- arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@31 (ti,tas5770l):
- Unevaluated properties are not allowed ('ti,sdout-zero-fill' was unexpected)
-Message-ID: <202512251534.HWMbqREw-lkp@intel.com>
+Subject: Re: [PATCH v6 03/14] dt-bindings: reset: renesas,rzv2h-usb2phy: Add
+ '#mux-state-cells' property
+Message-ID: <202512251536.RSkNmOhc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
@@ -71,87 +70,97 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin PoviÅ¡er" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
+In-Reply-To: <d37670a6c5ace61ce9e9cbf79100960de44e7551.1766405010.git.tommaso.merciai.xr@bp.renesas.com>
+References: <d37670a6c5ace61ce9e9cbf79100960de44e7551.1766405010.git.tommaso.merciai.xr@bp.renesas.com>
+TO: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+TO: tomm.merciai@gmail.com
+CC: linux-renesas-soc@vger.kernel.org
+CC: biju.das.jz@bp.renesas.com
+CC: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+CC: Peter Rosin <peda@axentia.se>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+CC: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: Magnus Damm <magnus.damm@gmail.com>
+CC: "Uwe Kleine-König" <ukleinek@kernel.org>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
+CC: Georgi Djakov <djakov@kernel.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-phy@lists.infradead.org
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: ffa9a2cdd88ecf105f265f98776f925b24f016ec [26/128] arm64: dts: apple: t8103*: Put in audio nodes
+Hi Tommaso,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on geert-renesas-devel/next linus/master v6.19-rc2 next-20251219]
+[cannot apply to pza/reset/next pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-mux-Remove-nodename-pattern-constraints/20251222-215453
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/d37670a6c5ace61ce9e9cbf79100960de44e7551.1766405010.git.tommaso.merciai.xr%40bp.renesas.com
+patch subject: [PATCH v6 03/14] dt-bindings: reset: renesas,rzv2h-usb2phy: Add '#mux-state-cells' property
 :::::: branch date: 3 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251225/202512251534.HWMbqREw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
+:::::: commit date: 3 days ago
+config: arm64-randconfig-2052-20251224 (https://download.01.org/0day-ci/archive/20251225/202512251536.RSkNmOhc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
 dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512251534.HWMbqREw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512251536.RSkNmOhc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512251534.HWMbqREw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512251536.RSkNmOhc-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:121.10-125.5: Warning (unit_address_vs_reg): /soc/usb@382280000/ports/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:141.10-145.5: Warning (unit_address_vs_reg): /soc/usb@502280000/ports/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j274.dts:105.14-114.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j274.dts:116.14-125.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103.dtsi:477.25-486.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@31 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@31 (ti,tas5770l): Unevaluated properties are not allowed ('ti,sdout-zero-fill' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): '#sound-dai-cells', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VCP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VD_FILT-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VL-supply' is a required property
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
 --
-   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:121.10-125.5: Warning (unit_address_vs_reg): /soc/usb@382280000/ports/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:141.10-145.5: Warning (unit_address_vs_reg): /soc/usb@502280000/ports/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j293.dts:237.14-247.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j293.dts:249.14-258.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103.dtsi:477.25-486.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8103.dtsi:488.26-492.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@31 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@31 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'ti,pdm-slot-no' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@32 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@32 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'ti,pdm-slot-no', 'ti,sdout-pull-down' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): '#sound-dai-cells', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VCP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VD_FILT-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VL-supply' is a required property
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
 --
-   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:121.10-125.5: Warning (unit_address_vs_reg): /soc/usb@382280000/ports/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:141.10-145.5: Warning (unit_address_vs_reg): /soc/usb@502280000/ports/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j313.dts:133.14-142.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j313.dts:144.14-153.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103.dtsi:477.25-486.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@31 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@31 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-zero-fill' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@34 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@34 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-zero-fill' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): '#sound-dai-cells', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): 'VP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): 'VCP-supply' is a required property
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+--
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
 
 -- 
 0-DAY CI Kernel Test Service
