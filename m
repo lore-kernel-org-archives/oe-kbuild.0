@@ -1,139 +1,250 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF7B1FC8
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Dec 2025 23:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9284A4414
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Dec 2025 00:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766705600; cv=none; b=FHtWmSMIdnOg1cXcezkIKpNNLLJsBHlUGcv4aqM1gbHrb5wEe6R9H8SdrmVSakFn91IivZeTpS4ys1c+6LR42NHlEtAWs9K0Gd/To8yHVArDc8+rOctanL2I8Iwq+iutQ7AFYQ3mu7WWSK0Ef/Jdgbfe3G3W7hOR286qsN7xrBU=
+	t=1766707605; cv=none; b=RRDAF7qiKXidt01yGD7He91Vs898Gpp0w8cTsI1dEKAgPJGXFf3iD8IY2e+Aw+988F45mQCEHwdzwyraHbUNtOWAY75LIINW1+vxHvVSW/q9imkS3L4KXXv9WiDCGslm3UfA2orzZ170ZtqtWIxCmUy9jqcAqldB0xRCEopGpas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766705600; c=relaxed/simple;
-	bh=RyksLn+hjvbRRwPubOD9X8KZ+arWNrsqJ9Sh19Vytd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uojxhzn+zZpudRqDAhDHyVTLwTK1vdH7h9th+o7+0vG3HdYiFTxWmR3ycKM3p4UvK4iu5lsBYhLjTTtqxt0UIJHjX2ndmZn2SW9ySgNnf0vFg/2HykwO7HEueUd49/mvxV7H2Ls6Nq9qLbhsMbRuJ65p1G+X38u3UWGyTUwTgbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3C583Fc; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1766707605; c=relaxed/simple;
+	bh=O/44MF8J8T25w4qhmYVy+VZUPKV5vnJbsY//BU6mBQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GHAAZGKh5soxoWcTjSSzcSjFNTpDcG4SNc5oLr7/HsmsLM3gVj0WGMw2O999x7CpjBlxEAKqlt/Xyw2bfa7MQxol0LrLXovNDQVoU+GjHXLllNjoKvhL4wST30dIEDOPke8Hss8obJgChrYh3lwNyJ4VtyTm2t/wupxrXoVDZIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1zXrx2U; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3C583Fc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1zXrx2U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766705598; x=1798241598;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RyksLn+hjvbRRwPubOD9X8KZ+arWNrsqJ9Sh19Vytd8=;
-  b=g3C583FcowiCeQNwEy9p1yWCpopQ0eqCDsIL5Fbz5NjjKf/B12V8P7iB
-   EqRyQqsIjLX0Qfjm3cQeQgJ/eAOS7ASLGt71FVxAcDv8EtfurYYiLLC7D
-   K6bHw/NcjuZQ+99+XJqW6Ocs9kRcU+tyeGQwasOABGmdJR4MpkbHIw3UB
-   ecrW/zGBuovCgECQ6lMu+jovwwh9Ail9p8fhzxcBoDT87xeEwoGSkz6Yh
-   hNmXkN+zdRnRlph3HLdASU1G48WW2Ej1kpvNQYPFju+rAjZATUXgqZP/D
-   aSWQAnBqT+yWyQAaFiYzE7n3qMpfh7Yu6I78TxG4nPW8XaK6WWJIHKD11
-   g==;
-X-CSE-ConnectionGUID: 59vnWhJzRZKV4tMbnZItCA==
-X-CSE-MsgGUID: HBVTXL2kRHWDL3JQZltx1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="71066496"
+  t=1766707602; x=1798243602;
+  h=date:from:to:cc:subject:message-id;
+  bh=O/44MF8J8T25w4qhmYVy+VZUPKV5vnJbsY//BU6mBQQ=;
+  b=K1zXrx2UIknvaZ5hwvFP8uFfVbxR4ECMCmXhiklsPDgXEIxo3OD0+RgP
+   SM867dsknAAsmkWRoAbmRdmZhSFEiYaS0+/es3rRcofIoLMgrl4GYYkr9
+   2xsPjYe7zAM0Ay2NlcWd5w50yvM7TeGb0pomhEhmeAsbO7AOE0ai+ezIz
+   LJKbqjTryyCIiGZlHxNn8C1wCxavET4H57tubxOq4ztDNy0ZCMj5+R31A
+   voRUzmrnQwKU4ZHWQf9F0dacBFoydaYjDoqZPf7zGIYrESV9DuGw36V8Y
+   3vj8XCWsCYNfkazOVA9HzDoiBw1uoqrx8/wUI/vbRu60GPc1Y8qK7H5HR
+   Q==;
+X-CSE-ConnectionGUID: xikp9htkT8KZ2EmsV0JUog==
+X-CSE-MsgGUID: vDVaCxikRoic7yKhFuTv/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="85903987"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="71066496"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 15:33:17 -0800
-X-CSE-ConnectionGUID: qJq0hEhzSruzybVeLzgzow==
-X-CSE-MsgGUID: Sk65ZQ3cR7K6icHg6i1N7Q==
+   d="scan'208";a="85903987"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 16:06:42 -0800
+X-CSE-ConnectionGUID: 2nlqOr9QTxGHAkRrDCWPeQ==
+X-CSE-MsgGUID: gbqBdrUiTZ+YYMwyw5MTdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="237684582"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 25 Dec 2025 15:33:16 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="204823252"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 25 Dec 2025 16:06:40 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYupV-000000006hM-3HZ0;
-	Thu, 25 Dec 2025 23:33:13 +0000
-Date: Fri, 26 Dec 2025 00:33:04 +0100
+	id 1vYvLq-000000004YX-23D6;
+	Fri, 26 Dec 2025 00:06:38 +0000
+Date: Fri, 26 Dec 2025 08:06:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [geert-renesas-devel:renesas-dts-for-v6.20 23/30]
- arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: fcp@16470000
- (renesas,r9a09g056-fcpvd): False schema does not allow ['aclk', 'pclk',
- 'vclk']
-Message-ID: <202512260031.ys3UKOap-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [broonie-ci:fileYYQrvG 21/41]
+ sound/soc/codecs/rt1320-sdw.c:1575 rt1320_rae_load() warn: 'rae_fw' from
+ request_firmware() not released on lines: 1575.
+Message-ID: <202512260826.74LvGsju-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+TO: Shuming Fan <shumingf@realtek.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.20
-head:   666e5eabd623586d0efa333a863122661c7668c6
-commit: 4636957e62eac72dcb145e6900a80d62b0fb87fa [23/30] arm64: dts: renesas: r9a09g056: Add FCPV and VSPD nodes
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileYYQrvG
+head:   8db50f0fa43efe8799fd40b872dcdd39a90d7549
+commit: 22937af75abb3260c2d563739181f4b61ddac2c1 [21/41] ASoC: rt1320: support RAE parameters loading
 :::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-2052-20251224 (https://download.01.org/0day-ci/archive/20251226/202512260031.ys3UKOap-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260031.ys3UKOap-lkp@intel.com/reproduce)
+:::::: commit date: 9 days ago
+config: i386-randconfig-141-20251224 (https://download.01.org/0day-ci/archive/20251226/202512260826.74LvGsju-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512260031.ys3UKOap-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512260826.74LvGsju-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
-   	'renesas,r9a09g057-dmac' was expected
-   	'renesas,rz-dmac' was expected
-   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible: ['renesas,r9a09g056-usb3-phy', 'renesas,r9a09g047-usb3-phy'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): clocks: [[3, 1, 237], [3, 1, 238], [3, 1, 239]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
---
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
-   	'renesas,r9a09g057-dmac' was expected
-   	'renesas,rz-dmac' was expected
-   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible: ['renesas,r9a09g056-usb3-phy', 'renesas,r9a09g047-usb3-phy'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): clocks: [[3, 1, 237], [3, 1, 238], [3, 1, 239]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
---
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
-   	'renesas,r9a09g057-dmac' was expected
-   	'renesas,rz-dmac' was expected
-   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible: ['renesas,r9a09g056-usb3-phy', 'renesas,r9a09g047-usb3-phy'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): clocks: [[3, 1, 237], [3, 1, 238], [3, 1, 239]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+New smatch warnings:
+sound/soc/codecs/rt1320-sdw.c:1575 rt1320_rae_load() warn: 'rae_fw' from request_firmware() not released on lines: 1575.
+
+Old smatch warnings:
+sound/soc/codecs/rt1320-sdw.c:1423 rt1320_t0_load() error: uninitialized symbol 'ret'.
+sound/soc/codecs/rt1320-sdw.c:1491 rt1320_rae_load() warn: should this be 'retry == -1'
+sound/soc/codecs/rt1320-sdw.c:1591 rt1320_dspfw_load_code() warn: inconsistent indenting
+sound/soc/codecs/rt1320-sdw.c:2135 rt1320_set_gain_put() error: uninitialized symbol 'err'.
+sound/soc/codecs/rt1320-sdw.c:2136 rt1320_set_gain_put() error: uninitialized symbol 'reg_base'.
+sound/soc/codecs/rt1320-sdw.c:2193 rt1320_set_gain_get() error: uninitialized symbol 'regvalue'.
+
+vim +/rae_fw +1575 sound/soc/codecs/rt1320-sdw.c
+
+da1682d5e8b53a Shuming Fan 2025-12-16  1425  
+22937af75abb32 Shuming Fan 2025-12-16  1426  static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+22937af75abb32 Shuming Fan 2025-12-16  1427  {
+22937af75abb32 Shuming Fan 2025-12-16  1428  	struct device *dev = &rt1320->sdw_slave->dev;
+22937af75abb32 Shuming Fan 2025-12-16  1429  	static const char func_tag[] = "FUNC";
+22937af75abb32 Shuming Fan 2025-12-16  1430  	static const char xu_tag[] = "XU";
+22937af75abb32 Shuming Fan 2025-12-16  1431  	const struct firmware *rae_fw = NULL;
+22937af75abb32 Shuming Fan 2025-12-16  1432  	unsigned int fw_offset;
+22937af75abb32 Shuming Fan 2025-12-16  1433  	unsigned char *fw_data;
+22937af75abb32 Shuming Fan 2025-12-16  1434  	unsigned char *param_data;
+22937af75abb32 Shuming Fan 2025-12-16  1435  	unsigned int addr, size;
+22937af75abb32 Shuming Fan 2025-12-16  1436  	unsigned int func, value;
+22937af75abb32 Shuming Fan 2025-12-16  1437  	const char *dmi_vendor, *dmi_product, *dmi_sku;
+22937af75abb32 Shuming Fan 2025-12-16  1438  	char vendor[128], product[128], sku[128];
+22937af75abb32 Shuming Fan 2025-12-16  1439  	char *ptr_vendor, *ptr_product, *ptr_sku;
+22937af75abb32 Shuming Fan 2025-12-16  1440  	char rae_filename[128];
+22937af75abb32 Shuming Fan 2025-12-16  1441  	char tag[5];
+22937af75abb32 Shuming Fan 2025-12-16  1442  	int ret = 0;
+22937af75abb32 Shuming Fan 2025-12-16  1443  	int retry = 200;
+22937af75abb32 Shuming Fan 2025-12-16  1444  
+22937af75abb32 Shuming Fan 2025-12-16  1445  	dmi_vendor = dmi_get_system_info(DMI_SYS_VENDOR);
+22937af75abb32 Shuming Fan 2025-12-16  1446  	dmi_product = dmi_get_system_info(DMI_PRODUCT_NAME);
+22937af75abb32 Shuming Fan 2025-12-16  1447  	dmi_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
+22937af75abb32 Shuming Fan 2025-12-16  1448  
+22937af75abb32 Shuming Fan 2025-12-16  1449  	if (dmi_vendor && dmi_product && dmi_sku) {
+22937af75abb32 Shuming Fan 2025-12-16  1450  		strscpy(vendor, dmi_vendor);
+22937af75abb32 Shuming Fan 2025-12-16  1451  		strscpy(product, dmi_product);
+22937af75abb32 Shuming Fan 2025-12-16  1452  		strscpy(sku, dmi_sku);
+22937af75abb32 Shuming Fan 2025-12-16  1453  		ptr_vendor = &vendor[0];
+22937af75abb32 Shuming Fan 2025-12-16  1454  		ptr_product = &product[0];
+22937af75abb32 Shuming Fan 2025-12-16  1455  		ptr_sku = &sku[0];
+22937af75abb32 Shuming Fan 2025-12-16  1456  		ptr_vendor = strsep(&ptr_vendor, " ");
+22937af75abb32 Shuming Fan 2025-12-16  1457  		ptr_product = strsep(&ptr_product, " ");
+22937af75abb32 Shuming Fan 2025-12-16  1458  		ptr_sku = strsep(&ptr_sku, " ");
+22937af75abb32 Shuming Fan 2025-12-16  1459  
+22937af75abb32 Shuming Fan 2025-12-16  1460  		dev_dbg(dev, "%s: DMI vendor=%s, product=%s, sku=%s\n", __func__,
+22937af75abb32 Shuming Fan 2025-12-16  1461  			vendor, product, sku);
+22937af75abb32 Shuming Fan 2025-12-16  1462  
+22937af75abb32 Shuming Fan 2025-12-16  1463  		snprintf(rae_filename, sizeof(rae_filename),
+22937af75abb32 Shuming Fan 2025-12-16  1464  			 "realtek/rt1320/rt1320_RAE_%s_%s_%s.dat", vendor, product, sku);
+22937af75abb32 Shuming Fan 2025-12-16  1465  		dev_dbg(dev, "%s: try to load RAE file %s\n", __func__, rae_filename);
+22937af75abb32 Shuming Fan 2025-12-16  1466  	} else {
+22937af75abb32 Shuming Fan 2025-12-16  1467  		dev_warn(dev, "%s: Can't find proper RAE file name\n", __func__);
+22937af75abb32 Shuming Fan 2025-12-16  1468  		return -EINVAL;
+22937af75abb32 Shuming Fan 2025-12-16  1469  	}
+22937af75abb32 Shuming Fan 2025-12-16  1470  
+22937af75abb32 Shuming Fan 2025-12-16  1471  	regmap_write(rt1320->regmap,
+22937af75abb32 Shuming Fan 2025-12-16  1472  			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
+22937af75abb32 Shuming Fan 2025-12-16  1473  				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x00);
+22937af75abb32 Shuming Fan 2025-12-16  1474  	rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x00);
+22937af75abb32 Shuming Fan 2025-12-16  1475  
+22937af75abb32 Shuming Fan 2025-12-16  1476  	request_firmware(&rae_fw, rae_filename, dev);
+22937af75abb32 Shuming Fan 2025-12-16  1477  	if (rae_fw) {
+22937af75abb32 Shuming Fan 2025-12-16  1478  
+22937af75abb32 Shuming Fan 2025-12-16  1479  		/* RAE CRC clear */
+22937af75abb32 Shuming Fan 2025-12-16  1480  		regmap_write(rt1320->regmap, 0xe80b, 0x0f);
+22937af75abb32 Shuming Fan 2025-12-16  1481  
+22937af75abb32 Shuming Fan 2025-12-16  1482  		/* RAE stop & CRC disable */
+22937af75abb32 Shuming Fan 2025-12-16  1483  		regmap_update_bits(rt1320->regmap, 0xe803, 0xbc, 0x00);
+22937af75abb32 Shuming Fan 2025-12-16  1484  
+22937af75abb32 Shuming Fan 2025-12-16  1485  		while (retry--) {
+22937af75abb32 Shuming Fan 2025-12-16  1486  			regmap_read(rt1320->regmap, 0xe83f, &value);
+22937af75abb32 Shuming Fan 2025-12-16  1487  			if (value & 0x40)
+22937af75abb32 Shuming Fan 2025-12-16  1488  				break;
+22937af75abb32 Shuming Fan 2025-12-16  1489  			usleep_range(1000, 1100);
+22937af75abb32 Shuming Fan 2025-12-16  1490  		}
+22937af75abb32 Shuming Fan 2025-12-16  1491  		if (!retry && !(value & 0x40)) {
+22937af75abb32 Shuming Fan 2025-12-16  1492  			dev_err(dev, "%s: RAE is not ready to load\n", __func__);
+22937af75abb32 Shuming Fan 2025-12-16  1493  			return -ETIMEDOUT;
+22937af75abb32 Shuming Fan 2025-12-16  1494  		}
+22937af75abb32 Shuming Fan 2025-12-16  1495  
+22937af75abb32 Shuming Fan 2025-12-16  1496  		dev_dbg(dev, "%s, rae_fw size=0x%lx\n", __func__, rae_fw->size);
+22937af75abb32 Shuming Fan 2025-12-16  1497  		regcache_cache_bypass(rt1320->regmap, true);
+22937af75abb32 Shuming Fan 2025-12-16  1498  		for (fw_offset = 0; fw_offset < rae_fw->size;) {
+22937af75abb32 Shuming Fan 2025-12-16  1499  
+22937af75abb32 Shuming Fan 2025-12-16  1500  			dev_dbg(dev, "%s, fw_offset=0x%x\n", __func__, fw_offset);
+22937af75abb32 Shuming Fan 2025-12-16  1501  
+22937af75abb32 Shuming Fan 2025-12-16  1502  			fw_data = (unsigned char *)&rae_fw->data[fw_offset];
+22937af75abb32 Shuming Fan 2025-12-16  1503  
+22937af75abb32 Shuming Fan 2025-12-16  1504  			memcpy(tag, fw_data, 4);
+22937af75abb32 Shuming Fan 2025-12-16  1505  			tag[4] = '\0';
+22937af75abb32 Shuming Fan 2025-12-16  1506  			dev_dbg(dev, "%s, tag=%s\n", __func__, tag);
+22937af75abb32 Shuming Fan 2025-12-16  1507  			if (strcmp(tag, xu_tag) == 0) {
+22937af75abb32 Shuming Fan 2025-12-16  1508  				dev_dbg(dev, "%s: This is a XU tag", __func__);
+22937af75abb32 Shuming Fan 2025-12-16  1509  				memcpy(&addr, (fw_data + 4), 4);
+22937af75abb32 Shuming Fan 2025-12-16  1510  				memcpy(&size, (fw_data + 8), 4);
+22937af75abb32 Shuming Fan 2025-12-16  1511  				param_data = (unsigned char *)(fw_data + 12);
+22937af75abb32 Shuming Fan 2025-12-16  1512  
+22937af75abb32 Shuming Fan 2025-12-16  1513  				dev_dbg(dev, "%s: addr=0x%x, size=0x%x\n", __func__, addr, size);
+22937af75abb32 Shuming Fan 2025-12-16  1514  
+22937af75abb32 Shuming Fan 2025-12-16  1515  				/*
+22937af75abb32 Shuming Fan 2025-12-16  1516  				 * UI register ranges from 0x1000d000 to 0x1000d7ff
+22937af75abb32 Shuming Fan 2025-12-16  1517  				 * UI registers should be accessed by tuning tool.
+22937af75abb32 Shuming Fan 2025-12-16  1518  				 * So, there registers should be cached.
+22937af75abb32 Shuming Fan 2025-12-16  1519  				 */
+22937af75abb32 Shuming Fan 2025-12-16  1520  				if (addr <= 0x1000d7ff && addr >= 0x1000d000)
+22937af75abb32 Shuming Fan 2025-12-16  1521  					regcache_cache_bypass(rt1320->regmap, false);
+22937af75abb32 Shuming Fan 2025-12-16  1522  
+22937af75abb32 Shuming Fan 2025-12-16  1523  				rt1320_data_rw(rt1320, addr, param_data, size, RT1320_PARAM_WRITE);
+22937af75abb32 Shuming Fan 2025-12-16  1524  
+22937af75abb32 Shuming Fan 2025-12-16  1525  				regcache_cache_bypass(rt1320->regmap, true);
+22937af75abb32 Shuming Fan 2025-12-16  1526  
+22937af75abb32 Shuming Fan 2025-12-16  1527  				fw_offset += (size + 12);
+22937af75abb32 Shuming Fan 2025-12-16  1528  			} else if (strcmp(tag, func_tag) == 0) {
+22937af75abb32 Shuming Fan 2025-12-16  1529  				dev_err(dev, "%s: This is a FUNC tag", __func__);
+22937af75abb32 Shuming Fan 2025-12-16  1530  
+22937af75abb32 Shuming Fan 2025-12-16  1531  				memcpy(&func, (fw_data + 4), 4);
+22937af75abb32 Shuming Fan 2025-12-16  1532  				memcpy(&value, (fw_data + 8), 4);
+22937af75abb32 Shuming Fan 2025-12-16  1533  
+22937af75abb32 Shuming Fan 2025-12-16  1534  				dev_dbg(dev, "%s: func=0x%x, value=0x%x\n", __func__, func, value);
+22937af75abb32 Shuming Fan 2025-12-16  1535  				if (func == 1)  //DelayMs
+22937af75abb32 Shuming Fan 2025-12-16  1536  					msleep(value);
+22937af75abb32 Shuming Fan 2025-12-16  1537  
+22937af75abb32 Shuming Fan 2025-12-16  1538  				fw_offset += 12;
+22937af75abb32 Shuming Fan 2025-12-16  1539  			} else {
+22937af75abb32 Shuming Fan 2025-12-16  1540  				dev_err(dev, "%s: This is NOT a XU file (wrong tag)", __func__);
+22937af75abb32 Shuming Fan 2025-12-16  1541  				break;
+22937af75abb32 Shuming Fan 2025-12-16  1542  			}
+22937af75abb32 Shuming Fan 2025-12-16  1543  		}
+22937af75abb32 Shuming Fan 2025-12-16  1544  
+22937af75abb32 Shuming Fan 2025-12-16  1545  		regcache_cache_bypass(rt1320->regmap, false);
+22937af75abb32 Shuming Fan 2025-12-16  1546  		release_firmware(rae_fw);
+22937af75abb32 Shuming Fan 2025-12-16  1547  
+22937af75abb32 Shuming Fan 2025-12-16  1548  	} else {
+22937af75abb32 Shuming Fan 2025-12-16  1549  		dev_err(dev, "%s: Failed to load %s firmware\n", __func__, rae_filename);
+22937af75abb32 Shuming Fan 2025-12-16  1550  		ret = -EINVAL;
+22937af75abb32 Shuming Fan 2025-12-16  1551  		goto _exit_;
+22937af75abb32 Shuming Fan 2025-12-16  1552  	}
+22937af75abb32 Shuming Fan 2025-12-16  1553  
+22937af75abb32 Shuming Fan 2025-12-16  1554  	/* RAE CRC enable */
+22937af75abb32 Shuming Fan 2025-12-16  1555  	regmap_update_bits(rt1320->regmap, 0xe803, 0x0c, 0x0c);
+22937af75abb32 Shuming Fan 2025-12-16  1556  
+22937af75abb32 Shuming Fan 2025-12-16  1557  	/* RAE update */
+22937af75abb32 Shuming Fan 2025-12-16  1558  	regmap_update_bits(rt1320->regmap, 0xe80b, 0x80, 0x00);
+22937af75abb32 Shuming Fan 2025-12-16  1559  	regmap_update_bits(rt1320->regmap, 0xe80b, 0x80, 0x80);
+22937af75abb32 Shuming Fan 2025-12-16  1560  
+22937af75abb32 Shuming Fan 2025-12-16  1561  	/* RAE run */
+22937af75abb32 Shuming Fan 2025-12-16  1562  	regmap_update_bits(rt1320->regmap, 0xe803, 0x80, 0x80);
+22937af75abb32 Shuming Fan 2025-12-16  1563  
+22937af75abb32 Shuming Fan 2025-12-16  1564  	regmap_read(rt1320->regmap, 0xe80b, &value);
+22937af75abb32 Shuming Fan 2025-12-16  1565  	dev_dbg(dev, "%s: CAE run => 0xe80b reg = 0x%x\n", __func__, value);
+22937af75abb32 Shuming Fan 2025-12-16  1566  
+22937af75abb32 Shuming Fan 2025-12-16  1567  	rt1320->rae_update_done = true;
+22937af75abb32 Shuming Fan 2025-12-16  1568  
+22937af75abb32 Shuming Fan 2025-12-16  1569  _exit_:
+22937af75abb32 Shuming Fan 2025-12-16  1570  	regmap_write(rt1320->regmap,
+22937af75abb32 Shuming Fan 2025-12-16  1571  			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
+22937af75abb32 Shuming Fan 2025-12-16  1572  				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03);
+22937af75abb32 Shuming Fan 2025-12-16  1573  	rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x03);
+22937af75abb32 Shuming Fan 2025-12-16  1574  
+22937af75abb32 Shuming Fan 2025-12-16 @1575  	return ret;
+22937af75abb32 Shuming Fan 2025-12-16  1576  }
+22937af75abb32 Shuming Fan 2025-12-16  1577  
 
 -- 
 0-DAY CI Kernel Test Service
