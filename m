@@ -1,56 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6B53A1E7E
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Dec 2025 21:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1391391
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Dec 2025 23:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766785534; cv=none; b=c9FSmo0kiR0pCd4f+lDLkaPhOUD09dmcXUVsuJeGFf1vkGg8NiGGKjM89mb90ZpEra141pisv1b1snA7y5hYXb40jyprAWw33rukgw5rJ92O1LjyqA+bGMrVvwh9UJb5h9+A5PUiiQaQRw6QUeRVe0GcATQUE4BzkUFmVousqK4=
+	t=1766790334; cv=none; b=JXA4Dqp44+x81hlOKmg1I2Y7lyL8XiRdD1fClZ658voobMXKteNN+SzYDkuZ+EGZGHJ/De5r0N8l+PEAd8RLuGxeWdGnKJSR7wCiFDkZbNMGPx+iiqidomDuYvrvXKUNfELuemcUf3KwgVrYVs3w4MW/aqnhLL6kq8NEHK/p5Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766785534; c=relaxed/simple;
-	bh=jh3Hvn1ML5WBqvozrysczkc7qqNg3TmEayU/2JAZN8o=;
+	s=arc-20240116; t=1766790334; c=relaxed/simple;
+	bh=8pXEgVinY4tFpRmzcID1eAwGLtrSPZJ0SRFmoq6tTiA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Iden6ejWiMzkKkTNtzC3zvPmeMYeiSrLnuWgLjRryoEIYnyydsOSTzmVVHOIEKfsUWJjmRnwFLcY9kAIEdn/mt1yGOVuQKwXi27MmAX2jSYr3kecUyvJW5YexM8cgt2vjCgdydU6Rdn7PVuxbCOsAXrluFwoDCXCg7T+QLlaNVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuMkYcZ2; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=J4sjV8EnzuTYEBCggJ+PW7vz+RuYUevmhgMPq1PaAR10t2FNOSQxC70XfjZIrUhrwk0Y2tjZrYxjqCnWhyBM7vlNz2L3uoT92u5ZFh4fYmPowywkvFyi+wI60iB6poF09c9oHbHQsNeRJqHVCIw4m6PCJ5oLUDLRUgtVvnFafvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BhAc9LSk; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuMkYcZ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BhAc9LSk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766785531; x=1798321531;
+  t=1766790331; x=1798326331;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jh3Hvn1ML5WBqvozrysczkc7qqNg3TmEayU/2JAZN8o=;
-  b=JuMkYcZ2TpXzYRFHx0WJbDgFiAI98rBVzLRbLScEtQKsEzdrD/JtTUiW
-   BxFnhbYoikNVo48DpeLik0F9uIXD23kPuDBqV0enCtG2wHSMGAdEREESc
-   8jOm7XaFrKt00laoDmYBCNzgkyk4ip/KJcIDYqpu31KqofaDamzcmdA6r
-   VyknqIT7RcMwY3+V6ep444LTxu7TqzoztBPy8QfZ00+CbUrHdR3o/MF0K
-   wEGWCRsoa4tyDr6NnbEaDMEYbnHL0l0YrWQEhyIcdOpqLzgHX7H20a9Qf
-   OiK3xUcKZXg4Czcnjglu98Hxzcu11/JS9z3BB+luHrpJj70xDb9KAUowK
-   w==;
-X-CSE-ConnectionGUID: 1f9Jo1IDQISrRMRb1stM1Q==
-X-CSE-MsgGUID: 3/WcVkTcSwWflmG0H/sdOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="72379666"
-X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
-   d="scan'208";a="72379666"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 13:45:31 -0800
-X-CSE-ConnectionGUID: jjyLGqWeQmOhB43XyOdukA==
-X-CSE-MsgGUID: YmIAH2l0QKmQDBQGyrE1Rg==
+  bh=8pXEgVinY4tFpRmzcID1eAwGLtrSPZJ0SRFmoq6tTiA=;
+  b=BhAc9LSkAmhHNZ8bfw3gucL7o4QZ7L2dkh4yhk++yVD1fIlLlNlnv6O/
+   vBiW4IWACkQa80zNwMQWL8PB557hq5qMqZL0EBva9vy5vYJQFCFWh9tuG
+   1qMowTgR2gfRlVuJxRRHt8dEwIEfuVKrdDu3sTg707q++5+DMk9XLugJV
+   V1DbsRHj8xMdvnMPVFZ26+mciHPoPlgecWtbv//1fawf133syG1Xz9iXh
+   CnJXbN+OgiurgQQ9yYJBpSSi09Y9KfAEtVILafNEyq6lrTYo8AwgE9keQ
+   qrj+V/SgpsdhuUxtnNSqo/Vn6Df86viPB6WuEg55JFeArilsKSKtIbTci
+   Q==;
+X-CSE-ConnectionGUID: LwKNI6iUQJCLqlSvEGlXGQ==
+X-CSE-MsgGUID: WQbC6YGsSf6GRoANljW95w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="85946669"
+X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
+   d="scan'208";a="85946669"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 15:05:31 -0800
+X-CSE-ConnectionGUID: I2Jhx4KoRtCqGyJz771CPQ==
+X-CSE-MsgGUID: p1SAE0WTRB6WfkjIHuF9sQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
+   d="scan'208";a="200762959"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Dec 2025 13:45:30 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 26 Dec 2025 15:05:29 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZFcl-00000000704-1NuZ;
-	Fri, 26 Dec 2025 21:45:27 +0000
-Date: Fri, 26 Dec 2025 22:45:23 +0100
+	id 1vZGsB-0000000070e-3EUP;
+	Fri, 26 Dec 2025 23:05:27 +0000
+Date: Sat, 27 Dec 2025 00:05:26 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v4 02/25] dt-bindings: ufs: mediatek,ufs: Complete the
- binding
-Message-ID: <202512262208.Jp7PczWx-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 6/128]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000
+ (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202512270053.DxOaEt9j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,232 +70,173 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251218-mt8196-ufs-v4-2-ddec7a369dd2@collabora.com>
-References: <20251218-mt8196-ufs-v4-2-ddec7a369dd2@collabora.com>
-TO: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-TO: Alim Akhtar <alim.akhtar@samsung.com>
-TO: Avri Altman <avri.altman@wdc.com>
-TO: Bart Van Assche <bvanassche@acm.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: Chunfeng Yun <chunfeng.yun@mediatek.com>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Kishon Vijay Abraham I <kishon@kernel.org>
-TO: Peter Wang <peter.wang@mediatek.com>
-TO: Stanley Jhu <chu.stanley@gmail.com>
-TO: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-TO: "Martin K. Petersen" <martin.petersen@oracle.com>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Chaotian Jing <Chaotian.Jing@mediatek.com>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-CC: "Louis-Alexis Eyraud" <louisalexis.eyraud@collabora.com>
-CC: kernel@collabora.com
-CC: linux-scsi@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-mediatek@lists.infradead.org
-CC: linux-phy@lists.infradead.org
-CC: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+TO: Janne Grunau <j@jannau.net>
+CC: Hector Martin <marcan@marcan.st>
 
-Hi Nicolas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Frattaroli/dt-bindings-phy-Add-mediatek-mt8196-ufsphy-variant/20251218-211517
-base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
-patch link:    https://lore.kernel.org/r/20251218-mt8196-ufs-v4-2-ddec7a369dd2%40collabora.com
-patch subject: [PATCH v4 02/25] dt-bindings: ufs: mediatek,ufs: Complete the binding
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: arm64-randconfig-2052-20251220 (https://download.01.org/0day-ci/archive/20251226/202512262208.Jp7PczWx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   51bf311a24a70b86e55dc44e36185917f29e1676
+commit: 6516418fc19f297843304e4d1d10eebd9e92a41a [6/128] arm64: dts: apple: t8112: Add Apple Type-C PHY and dwc3
+:::::: branch date: 4 days ago
+:::::: commit date: 5 days ago
+config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251227/202512270053.DxOaEt9j-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
 dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512262208.Jp7PczWx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512270053.DxOaEt9j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512262208.Jp7PczWx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512270053.DxOaEt9j-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1514.7-1522.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[35, 63], [35, 64], [35, 65], [35, 54], [35, 55], [35, 56], [35, 90], [35, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
 --
-   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1514.7-1522.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[34, 63], [34, 64], [34, 65], [34, 54], [34, 55], [34, 56], [34, 90], [34, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
 --
-   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1514.7-1522.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[34, 63], [34, 64], [34, 65], [34, 54], [34, 55], [34, 56], [34, 90], [34, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
 --
-   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1514.7-1522.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[34, 63], [34, 64], [34, 65], [34, 54], [34, 55], [34, 56], [34, 90], [34, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
---
-   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[25, 63], [25, 64], [25, 65], [25, 54], [25, 55], [25, 56], [25, 90], [25, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
---
-   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[25, 63], [25, 64], [25, 65], [25, 54], [25, 55], [25, 56], [25, 90], [25, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
---
-   arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi:1204.7-1212.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[31, 63], [31, 64], [31, 65], [31, 54], [31, 55], [31, 56], [31, 90], [31, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
---
-   arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi:1204.7-1212.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[31, 63], [31, 64], [31, 65], [31, 54], [31, 55], [31, 56], [31, 90], [31, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
---
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[25, 63], [25, 64], [25, 65], [25, 54], [25, 55], [25, 56], [25, 90], [25, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3359.22-3371.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1c008000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clock-names: ['ufs', 'ufs_aes', 'ufs_tick', 'unipro_sysclk', 'unipro_tick', 'unipro_mp_bclk', 'ufs_tx_symbol', 'ufs_mem_sub'] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): clocks: [[31, 63], [31, 64], [31, 65], [31, 54], [31, 55], [31, 56], [31, 90], [31, 93]] is too short
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: ufshci@11270000 (mediatek,mt8195-ufshci): False schema does not allow [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-   	from schema $id: http://devicetree.org/schemas/ufs/mediatek,ufs.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112.dtsi:503.26-507.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
 
 -- 
 0-DAY CI Kernel Test Service
