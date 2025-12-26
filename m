@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6420211A05
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Dec 2025 15:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBEA246798
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Dec 2025 17:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766762801; cv=none; b=pf/rbacHGVJg5aYflPJPgwg3Bq+9T+u9JkDJS6GKZd0NkTSaESHmtC/7fNXyEm3i1t12QNfDVE6ISA3qBnNq3vA1VNRILJkdSlY6CCTLjFiVuEFtq1U4QDXZG8xhXyB9XviOtD6yLy/hgEjrRUIO8ivwi7nsB4a49/deFIk0K8U=
+	t=1766771014; cv=none; b=QgS1AykUrEGxe2Yjq04+PVanKxmQD+eZ9EA8F/F7u1Mh3rVN8lP5dprP42dNV1KquKEekxChnglcVVbXMVOAlLFwsjkpOebDlt2TA720fxvBQK12guUXiS8Q2GYrsgwun2aw7O9aEfEtK0+zmQyajxa4X42Px+EMQ56vEVWtce8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766762801; c=relaxed/simple;
-	bh=8AeqMVfrs86O2yx8LflBMbz99exfh69Zk1R6DsXrO1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lLV1qLbaGpDrxM+6m/ktguVkvLS22YFNjVf7YvHsewEuCi/op0IAA9I6p17SbbmgEv6s8QiZ+nimNQO1bTGJK81C3IUgERnAeIaeTz5efXCmPRoBJQEleR4gpFC55bpCGCmgdVSshmPQaiJ9auqccaRAScC6po0kJgjznRg9pag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSOkvLcn; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766771014; c=relaxed/simple;
+	bh=ztdS3+zvrAxQqUkBiSnQFMitbHvhJsifKUAhoSakv8g=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O14l7WCY2WqgWbPUrZ4nBET+HiFhicnFQCz2oh89PLjRk+pwrQHdUAwTzg4wpjgfq/4KeM7eBjJxBtfvt9eyw7g4Ui96de5POE6RaAIgYxCrju2Nyeg8lcrTutuXdliXVmqUYbLkJ7VubFw7A1kmMxmotuIzYGmQRTBksDvLb8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3NUWokO; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSOkvLcn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3NUWokO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766762799; x=1798298799;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8AeqMVfrs86O2yx8LflBMbz99exfh69Zk1R6DsXrO1s=;
-  b=OSOkvLcnjlqhdv0BjuxdrPnPIaQM2vVvzYjDLP4VTp4oGKyO0lHJEDKT
-   2Pf+eXgjq0rsu/JCDdD8zycQ0js1e90Sdd+5lf4QFYQRx2+J03Wl1w29m
-   DUOFBrjiuHHcBNvBkcdd2z8SGT+hIyur/tgQPJrDgiQZnHe+jIGiKbPCj
-   RqJhPerfAiSvUDCIuZ7WbcylJmw4YlwpcTao6vK+LtZRC8lfDO775pZTf
-   Zz7PeH2Qr25H0HBSMfsfsYHrnEUg0seabJARaQ+ETroTv7HZC+qkhPg2l
-   U65oGzoAW3QI1l1DTyVuUULr2IBFHMkwTzKFmwp3p63F9oibZdjgJAqcZ
-   A==;
-X-CSE-ConnectionGUID: 7GdBEyrXRsy73/fNUIYFgA==
-X-CSE-MsgGUID: 0ixzeKU7SHeozxAm0FFv3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="72369673"
+  t=1766771012; x=1798307012;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=ztdS3+zvrAxQqUkBiSnQFMitbHvhJsifKUAhoSakv8g=;
+  b=l3NUWokO7MNzasRMxx5LVzs2BAK5l1Qmx38iFAAURdzQNEK1aYliZJQA
+   txtiRKNbi1YWe6lKccgNNBxIZVmNYT8pIrhVdKl1QJaa1twIJpqeSvJBj
+   zlkTavaQN1JsbGRyhpK+LkfdLWTrUIgdcRO6EVe6qRm2VhXJJh69pgvRD
+   M9jS2G8D8VoYjXbFVsyKXzaoBehaIz4VnTiFiEzd2LNT4Sr36++0S65D+
+   Tvt247EjQgWL8jyVxavy2Q/yyH58AnX/5mFm2wmNzTNphEGD8djp7kuHp
+   y/uqEy3izy02n+LCFo6BxfrIG5Rv6a2fGkfiQpd6x3RjiMCYkllzsWK/F
+   w==;
+X-CSE-ConnectionGUID: oPDzYhi4Rii8m82koTGMXQ==
+X-CSE-MsgGUID: chpOUrciSZSy34q+q0Imag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="71102101"
 X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
-   d="scan'208";a="72369673"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 07:26:39 -0800
-X-CSE-ConnectionGUID: bAz8LoxkTKq1Wuq1vsYTuA==
-X-CSE-MsgGUID: Ib//WV50Slysyd3nvL7jhQ==
+   d="scan'208";a="71102101"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 09:43:27 -0800
+X-CSE-ConnectionGUID: W7whjZELSEWNSC5Zj2jRGA==
+X-CSE-MsgGUID: TDf9hrpnToewXRQC2zm5+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
-   d="scan'208";a="199638377"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 26 Dec 2025 07:26:37 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="231490651"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 26 Dec 2025 09:43:27 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZ9i6-0000000056v-3g5F;
-	Fri, 26 Dec 2025 15:26:34 +0000
-Date: Fri, 26 Dec 2025 23:26:22 +0800
+	id 1vZBqW-000000006wQ-3TwJ
+	for oe-kbuild@lists.linux.dev;
+	Fri, 26 Dec 2025 17:43:24 +0000
+Date: Fri, 26 Dec 2025 18:43:07 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 1/2] usb: phy: tegra: use phy type directly
-Message-ID: <202512262345.OOsbJ2kr-lkp@intel.com>
+Subject: [ardb:x86-efi-zboot 20/29] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'the'
+Message-ID: <202512261841.O7EDzj05-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,79 +62,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251223094529.7202-2-clamor95@gmail.com>
-References: <20251223094529.7202-2-clamor95@gmail.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Thierry Reding <thierry.reding@gmail.com>
-TO: Jonathan Hunter <jonathanh@nvidia.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: linux-usb@vger.kernel.org
-CC: linux-tegra@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+TO: Ard Biesheuvel <ardb@kernel.org>
 
-Hi Svyatoslav,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-zboot
+head:   b6f238d2e8720acf63467aa0d48d7fc4e31c07c2
+commit: 48d32d494f9f9a7f30d08647fd94bf20c50705e9 [20/29] efi/zboot: Add support for ELF payloads
+:::::: branch date: 69 minutes ago
+:::::: commit date: 69 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20251226/202512261841.O7EDzj05-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
+# many are suggestions rather than must-fix
 
-[auto build test WARNING on tegra/for-next]
-[also build test WARNING on usb/usb-testing usb/usb-next usb/usb-linus staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.19-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+WARNING:REPEATED_WORD: Possible repeated word: 'the'
+#12: 
+selectively decompress those slices of the the payload that are actually
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/usb-phy-tegra-use-phy-type-directly/20251223-175449
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251223094529.7202-2-clamor95%40gmail.com
-patch subject: [PATCH v2 1/2] usb: phy: tegra: use phy type directly
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251226/202512262345.OOsbJ2kr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+WARNING:REPEATED_WORD: Possible repeated word: 'vmlinux'
+#109: FILE: drivers/firmware/efi/libstub/Makefile.zboot:68:
++targets += zboot-header.o vmlinux vmlinux.bin vmlinuz vmlinuz.o vmlinuz.efi.elf vmlinuz.efi
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512262345.OOsbJ2kr-lkp@intel.com/
-
-smatch warnings:
-drivers/usb/phy/phy-tegra-usb.c:857 tegra_usb_phy_power_off() error: uninitialized symbol 'err'.
-
-vim +/err +857 drivers/usb/phy/phy-tegra-usb.c
-
-1ba8216f0bc02a drivers/usb/phy/tegra_usb_phy.c Venu Byravarasu  2012-09-05  836  
-1ba8216f0bc02a drivers/usb/phy/tegra_usb_phy.c Venu Byravarasu  2012-09-05  837  static int tegra_usb_phy_power_off(struct tegra_usb_phy *phy)
-1ba8216f0bc02a drivers/usb/phy/tegra_usb_phy.c Venu Byravarasu  2012-09-05  838  {
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  839  	int err;
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  840  
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  841  	if (!phy->powered_on)
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  842  		return 0;
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  843  
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  844  	switch (phy->phy_type) {
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  845  	case USBPHY_INTERFACE_MODE_UTMI:
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  846  		err = utmi_phy_power_off(phy);
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  847  		break;
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  848  
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  849  	case USBPHY_INTERFACE_MODE_ULPI:
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  850  		err = ulpi_phy_power_off(phy);
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  851  		break;
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  852  
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  853  	default:
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  854  		break;
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  855  	}
-156fbdcb2a09b8 drivers/usb/phy/phy-tegra-usb.c Svyatoslav Ryhel 2025-12-23  856  
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06 @857  	if (err)
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  858  		return err;
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  859  
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  860  	phy->powered_on = false;
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  861  
-18bd8bff69f7fb drivers/usb/phy/phy-tegra-usb.c Dmitry Osipenko  2020-01-06  862  	return 0;
-1ba8216f0bc02a drivers/usb/phy/tegra_usb_phy.c Venu Byravarasu  2012-09-05  863  }
-1ba8216f0bc02a drivers/usb/phy/tegra_usb_phy.c Venu Byravarasu  2012-09-05  864  
+WARNING:REPEATED_WORD: Possible repeated word: 'vmlinuz'
+#109: FILE: drivers/firmware/efi/libstub/Makefile.zboot:68:
++targets += zboot-header.o vmlinux vmlinux.bin vmlinuz vmlinuz.o vmlinuz.efi.elf vmlinuz.efi
 
 -- 
 0-DAY CI Kernel Test Service
