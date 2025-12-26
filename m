@@ -1,193 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B5822425B
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Dec 2025 05:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD5415853B
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Dec 2025 06:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766725763; cv=none; b=DfA4uQnt65rYRR2b74KJK4E4s6jFHiGdJ+cfuSGb7ROompcufHmPeC6lZi/F04aeX/dryrnyPCChW5+Vod04gZObZ5DM+RmLZNlytbpSEHoZ+To73YuXdfH4votxK5XgBn09qcBPZtD8Nm3eFol8eMPeMsem5spZRmUQtZ/KX3w=
+	t=1766729473; cv=none; b=R8jDXvAwp+koVkRs47qX63DFinpDrZK8/lah2ZrNoahdv6QB8P/8pGiYmMZaII0Wo2haTH7cUGL69n06jS+nG9RlhA6wTdLmmhGo7fQOr9QW2KvpbY9fWTwvEG6QxwAc6LRRET2kaMNEd+N3hEZVJgyVTZJ8W6rMC3h1spxiZpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766725763; c=relaxed/simple;
-	bh=teyCh5ID02uO9lN9Zx376ts68Ei57eNqFLojlV4aeNM=;
+	s=arc-20240116; t=1766729473; c=relaxed/simple;
+	bh=pHdybOfpjizM72ViHv9Z5zeMnk8LjTnCNrnqPAGeDvE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jQtAOtXYp57aCVtWGjQmf5EWhq9/JU78YM+onagoi5tw34bO0dAgm/RWLAyXfg7ucIGB1+Ju1ZP8hK5afH1Us7/BFm6SSJWer/dm/HQDnYSeO8QStT7DdhdorYH//rMVitxGmcqJZJijqKLEzsouWnoAtdA5X04BkfDWNqtAhvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpCxbrqP; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=O0yngd0mRnvbQrYnXNPw4BucH6NH/V61C4oauc7/SNehioTQIm/2vc6XFfrcMeMVEw8PG4pMg/ZPAtioTr7vmx6YYwnO7kRANlUdyicxpw3mDuTYZXAZ0bXXxzT0BLsfeJQI5Ex8y8LmOn4nMpHLjKexTtywFqN6tPYkTKYAsl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1AN966+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpCxbrqP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1AN966+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766725761; x=1798261761;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=teyCh5ID02uO9lN9Zx376ts68Ei57eNqFLojlV4aeNM=;
-  b=HpCxbrqPUSatQnlEtpoPFBkvx1UAuyfUEZSKi6kDY6Tafi9VppNS/HTF
-   SvCFrjLkKhUeHTo87PdHkvj8B1pYKTozUHzuoNSE7My5+Rna4d/xrwmKw
-   /S8Ergxs3B5WxHqD6Elr82XI4DyoAjclPqK3Q7GqqmqgWai1Md84tkUAX
-   363GWDcwENc7QR7ieu+nKbA+qVCPZfF2uPImlWeAvtR9NZdjmbSx/wot9
-   jwyAXCWX+a7JXyzZruftiPmhpa7Q/E6R6Y4Ejix1MhDhrxc3raTGTjc3y
-   jTXbTEIvigXQVfMa7l53jKlp1vO6TDNTbL8CTofZAA8OSASeWIJVvWH1c
-   g==;
-X-CSE-ConnectionGUID: zjN2MfZkS7u/u0BsjCWvPg==
-X-CSE-MsgGUID: 4Y5gGnVyTXeIO9u2lBp02A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="91148604"
+  t=1766729470; x=1798265470;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pHdybOfpjizM72ViHv9Z5zeMnk8LjTnCNrnqPAGeDvE=;
+  b=D1AN966+rcS/LVV897m8iCmTAjtZQYTCqmazsUiJtXcvEd29fX+x2Y2R
+   K2nLqXX4EY+TNyVdyIhWgSOioj695aNwZwVPPnIqcvcVbBljGO4BUQQRa
+   PngbdeQdP84JVVBOGg6m+lhAe5JaiTVm220LRWuYwJyaVf2kZLSvKrCEq
+   qw5M7+CrEY2SbSf7y8w+eKvc7yHCoKv6VCBsiOvx9h39XNxTPTDmkCXvX
+   /WyQjWSff/tsF0665HXVKSKVnmuFQTWWk9aZ6hRHECN9yfwc5LSYlPJwK
+   JIAEDfas8vZWkfC4w47USvo791u72j2Gu9OHonsuVTToFn57cSuphr/v6
+   A==;
+X-CSE-ConnectionGUID: GRGLc1w+SU2NDxKYMTn3+g==
+X-CSE-MsgGUID: XyIFLKXJTCuUwj26P9jQHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79862209"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="91148604"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 21:09:20 -0800
-X-CSE-ConnectionGUID: 7IDI/qqfTvauLy8SBG+wtg==
-X-CSE-MsgGUID: j+FtLwTmSJC3lqmJ7dN2bw==
+   d="scan'208";a="79862209"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 22:11:10 -0800
+X-CSE-ConnectionGUID: srHRDXbwTZK+jsL7RNA2IA==
+X-CSE-MsgGUID: OFLOlYo+S8aJS8Omc0aKSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="204863105"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 25 Dec 2025 21:09:19 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200246543"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 25 Dec 2025 22:11:09 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZ04i-000000006lw-47BV;
-	Fri, 26 Dec 2025 05:09:16 +0000
-Date: Fri, 26 Dec 2025 06:09:06 +0100
+	id 1vZ12Y-000000004k5-3tYX;
+	Fri, 26 Dec 2025 06:11:06 +0000
+Date: Fri, 26 Dec 2025 14:10:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 28/128]
- arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38 (ti,sn012776):
- Unevaluated properties are not allowed ('SDZ-supply',
- 'ti,sdout-force-zero-mask' were unexpected)
-Message-ID: <202512260631.E391g7cZ-lkp@intel.com>
+Subject: Re: [PATCH RFC v5 2/6] gpu: Move DRM buddy allocator one level up
+Message-ID: <202512261321.G11WYh0v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: drivers/gpu/buddy.c:1309:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
-CC: James Calligeros <jcalligeros99@gmail.com>
+In-Reply-To: <20251219203805.1246586-3-joelagnelf@nvidia.com>
+References: <20251219203805.1246586-3-joelagnelf@nvidia.com>
+TO: Joel Fernandes <joelagnelf@nvidia.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: f72a75efa62b92dba271ea788afd830ad1b20404 [28/128] arm64: dts: apple: t8112: Put in audio nodes
-:::::: branch date: 3 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251226/202512260631.E391g7cZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260631.E391g7cZ-lkp@intel.com/reproduce)
+Hi Joel,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.19-rc2 next-20251219]
+[cannot apply to rust/rust-next drm-nova/nova-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Fernandes/rust-clist-Add-support-to-interface-with-C-linked-lists/20251220-044108
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20251219203805.1246586-3-joelagnelf%40nvidia.com
+patch subject: [PATCH RFC v5 2/6] gpu: Move DRM buddy allocator one level up
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: nios2-randconfig-r111-20251226 (https://download.01.org/0day-ci/archive/20251226/202512261321.G11WYh0v-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512261321.G11WYh0v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512260631.E391g7cZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512261321.G11WYh0v-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8112-j413.dts:171.14-181.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112-j413.dts:183.14-192.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/buddy.c:1309:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/buddy.c:1309:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/gpu/buddy.c:1310:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/buddy.c:1310:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/gpu/buddy.c:1310:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/buddy.c:1310:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 --
-   arch/arm64/boot/dts/apple/t8112-j415.dts:193.14-207.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112-j415.dts:209.14-218.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+>> drivers/gpu/tests/gpu_random.c:47:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/tests/gpu_random.c:47:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/gpu/tests/gpu_random.c:48:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/tests/gpu_random.c:48:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/gpu/tests/gpu_random.c:48:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/tests/gpu_random.c:48:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 --
-   arch/arm64/boot/dts/apple/t8112-j493.dts:226.14-236.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112-j493.dts:238.14-247.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112.dtsi:503.26-507.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+>> drivers/gpu/tests/gpu_buddy_test.c:891:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/tests/gpu_buddy_test.c:891:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/gpu/tests/gpu_buddy_test.c:892:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/tests/gpu_buddy_test.c:892:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/gpu/tests/gpu_buddy_test.c:893:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/tests/gpu_buddy_test.c:893:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/gpu/tests/gpu_buddy_test.c:893:1: sparse: sparse: bad integer constant expression
+   drivers/gpu/tests/gpu_buddy_test.c:893:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +1309 drivers/gpu/buddy.c
+
+58b89f489001d1 Joel Fernandes 2025-12-19  1308  
+58b89f489001d1 Joel Fernandes 2025-12-19 @1309  MODULE_DESCRIPTION("GPU Buddy Allocator");
 
 -- 
 0-DAY CI Kernel Test Service
