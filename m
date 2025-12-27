@@ -1,68 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1391391
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Dec 2025 23:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207012E63C
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Dec 2025 01:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766790334; cv=none; b=JXA4Dqp44+x81hlOKmg1I2Y7lyL8XiRdD1fClZ658voobMXKteNN+SzYDkuZ+EGZGHJ/De5r0N8l+PEAd8RLuGxeWdGnKJSR7wCiFDkZbNMGPx+iiqidomDuYvrvXKUNfELuemcUf3KwgVrYVs3w4MW/aqnhLL6kq8NEHK/p5Us=
+	t=1766797776; cv=none; b=MUsiSsdIpHVwGOvaDZi6O+uzti08QcnD3BUB6XD1o8xhrphKNfBBeV+iLmGThfjMZvA35fODVwOx8fnqsZOedfeEhJeSJHdeMBArGZEyyx+mKqN/KvzY1PSeLdYVrDpshfBHlskLWnta5d1yZvyWwX89cb03vr3sqge6ymbGRak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766790334; c=relaxed/simple;
-	bh=8pXEgVinY4tFpRmzcID1eAwGLtrSPZJ0SRFmoq6tTiA=;
+	s=arc-20240116; t=1766797776; c=relaxed/simple;
+	bh=aax5Ay3Cu1clnbLemqP/M9exHADpVjs9IxIWNWCcWjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J4sjV8EnzuTYEBCggJ+PW7vz+RuYUevmhgMPq1PaAR10t2FNOSQxC70XfjZIrUhrwk0Y2tjZrYxjqCnWhyBM7vlNz2L3uoT92u5ZFh4fYmPowywkvFyi+wI60iB6poF09c9oHbHQsNeRJqHVCIw4m6PCJ5oLUDLRUgtVvnFafvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BhAc9LSk; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=FBniTQ0JkSPpPa1PJT9O0BbwG+gI4PdcfxqkT9dMMTQIPhUwdMC6eooDVHsNsBMVNNiUH39/vgbQGwhehhXzGIfQIrtRfUt8uYRQnuwFrlZ6XxIhhlF+xCZrQk+zOAoFOGRSFa47Sg+0l8OJ5BZsAO08G0coDca6mWcFnMQP034=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=enJ4fIoa; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BhAc9LSk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="enJ4fIoa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766790331; x=1798326331;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8pXEgVinY4tFpRmzcID1eAwGLtrSPZJ0SRFmoq6tTiA=;
-  b=BhAc9LSkAmhHNZ8bfw3gucL7o4QZ7L2dkh4yhk++yVD1fIlLlNlnv6O/
-   vBiW4IWACkQa80zNwMQWL8PB557hq5qMqZL0EBva9vy5vYJQFCFWh9tuG
-   1qMowTgR2gfRlVuJxRRHt8dEwIEfuVKrdDu3sTg707q++5+DMk9XLugJV
-   V1DbsRHj8xMdvnMPVFZ26+mciHPoPlgecWtbv//1fawf133syG1Xz9iXh
-   CnJXbN+OgiurgQQ9yYJBpSSi09Y9KfAEtVILafNEyq6lrTYo8AwgE9keQ
-   qrj+V/SgpsdhuUxtnNSqo/Vn6Df86viPB6WuEg55JFeArilsKSKtIbTci
-   Q==;
-X-CSE-ConnectionGUID: LwKNI6iUQJCLqlSvEGlXGQ==
-X-CSE-MsgGUID: WQbC6YGsSf6GRoANljW95w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="85946669"
+  t=1766797773; x=1798333773;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aax5Ay3Cu1clnbLemqP/M9exHADpVjs9IxIWNWCcWjo=;
+  b=enJ4fIoa4fvgEMlf6kD3y4VJLERee+vnAyy4UE6wTsU0zy6h9utnxiEl
+   Wyko/zKarB82fA4Xx2AtjZLY7kXiTeH7vZbXStiRfuh4vpfCC5aqA/f+I
+   TEJoGfXFRYsRfXx04xdh1ExhTAl+HNV+hzk305S3Mrsx3ziE0V3K++RAe
+   C2nzO25XiQMdTk7ir1hCsgpQVSAP8zOipk47XjxqrV4hT0UmLvHF2O30o
+   WSPoQYIdQ3nQJ+V+mvUL9Qgb+zr3NduKRyDk+zWPWRKsCTFTtxBZYJ5jU
+   0ZPfVK7w7uhHzz8gB9x84bBaeeexPnz0uWqhS6lBVg9AYT/yoOsokO1Ex
+   w==;
+X-CSE-ConnectionGUID: VnW7xwLYR46iDG35tWVqOA==
+X-CSE-MsgGUID: U+Crz4fkTVeywLhnpDke5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="68602860"
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="85946669"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 15:05:31 -0800
-X-CSE-ConnectionGUID: I2Jhx4KoRtCqGyJz771CPQ==
-X-CSE-MsgGUID: p1SAE0WTRB6WfkjIHuF9sQ==
+   d="scan'208";a="68602860"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 17:09:33 -0800
+X-CSE-ConnectionGUID: L27uRxPzSCqbQpyPAuySsQ==
+X-CSE-MsgGUID: mNvK4+i9SkmRXlwhja5RJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="200762959"
+   d="scan'208";a="200490666"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Dec 2025 15:05:29 -0800
+  by orviesa008.jf.intel.com with ESMTP; 26 Dec 2025 17:09:31 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZGsB-0000000070e-3EUP;
-	Fri, 26 Dec 2025 23:05:27 +0000
-Date: Sat, 27 Dec 2025 00:05:26 +0100
+	id 1vZIoC-0000000072G-3zOS;
+	Sat, 27 Dec 2025 01:09:28 +0000
+Date: Sat, 27 Dec 2025 02:09:20 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 6/128]
- arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000
- (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be
- fixed:
-Message-ID: <202512270053.DxOaEt9j-lkp@intel.com>
+Subject: Re: [PATCH v6 03/14] dt-bindings: reset: renesas,rzv2h-usb2phy: Add
+ '#mux-state-cells' property
+Message-ID: <202512270224.p4rgf2cK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -70,173 +70,97 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
+In-Reply-To: <d37670a6c5ace61ce9e9cbf79100960de44e7551.1766405010.git.tommaso.merciai.xr@bp.renesas.com>
+References: <d37670a6c5ace61ce9e9cbf79100960de44e7551.1766405010.git.tommaso.merciai.xr@bp.renesas.com>
+TO: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+TO: tomm.merciai@gmail.com
+CC: linux-renesas-soc@vger.kernel.org
+CC: biju.das.jz@bp.renesas.com
+CC: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+CC: Peter Rosin <peda@axentia.se>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+CC: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: Magnus Damm <magnus.damm@gmail.com>
+CC: "Uwe Kleine-König" <ukleinek@kernel.org>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
+CC: Georgi Djakov <djakov@kernel.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-phy@lists.infradead.org
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: 6516418fc19f297843304e4d1d10eebd9e92a41a [6/128] arm64: dts: apple: t8112: Add Apple Type-C PHY and dwc3
+Hi Tommaso,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on geert-renesas-devel/next linus/master v6.19-rc2 next-20251219]
+[cannot apply to pza/reset/next pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-mux-Remove-nodename-pattern-constraints/20251222-215453
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/d37670a6c5ace61ce9e9cbf79100960de44e7551.1766405010.git.tommaso.merciai.xr%40bp.renesas.com
+patch subject: [PATCH v6 03/14] dt-bindings: reset: renesas,rzv2h-usb2phy: Add '#mux-state-cells' property
 :::::: branch date: 4 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251227/202512270053.DxOaEt9j-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
+:::::: commit date: 4 days ago
+config: arm64-randconfig-2052-20251224 (https://download.01.org/0day-ci/archive/20251227/202512270224.p4rgf2cK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
 dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512270053.DxOaEt9j-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512270224.p4rgf2cK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512270053.DxOaEt9j-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512270224.p4rgf2cK-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
 --
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
 --
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
 --
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112.dtsi:503.26-507.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: usb20phy-reset@15830000 (renesas,r9a09g056-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: usb20phy-reset@15830000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: usb21phy-reset@15840000 (renesas,r9a09g057-usb2phy-reset): '#mux-state-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml
 
 -- 
 0-DAY CI Kernel Test Service
