@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3A43B2BA
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 Dec 2025 10:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259A62F39C7
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Dec 2025 11:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766832941; cv=none; b=nfeLFWMnUeniTMtjZztmgge06YEOSASKgyenoZAtPpaGWQmZFkgzU1kPHKog0UoBgwuocITGDtuYkyZkBai1arH/foHL37OiRieZ//7r14qzSGbvhB06+q3/H6Hlc1pcq+IX+VTxRyzUWRO6wlkn+8W+ltG8QXXM4+FgO7oZFY4=
+	t=1766834141; cv=none; b=bqW2s70UeKPI0Z1Tg0+bRa/qOl6tNssBjeVVqMInHL2Qq0pF7qDrTOyXD/uyQU2rRgQTxMbP58762ziyCDY7eQSEU/93ijzxNSoGmAuJxMBsEdKByl1Nc187hTpmg9WAPn900LIJhLkMBAwZVjCPZhDyWUS0iajUPBoFm/jNaqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766832941; c=relaxed/simple;
-	bh=C3nV3tiYcdIDRY6cpo7z4crqxwVa7mz/1desEn8xYr8=;
+	s=arc-20240116; t=1766834141; c=relaxed/simple;
+	bh=x2mGIBm5/6TreI8aYLWrRMU2XIs6SjzxgPe+COl5u+Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NsKIvBSVsA+ob498FapmiwQUW7mAaVraqJKVqkFC9TBmZnk0oo4FOQcVU4CR09yEBLXtWTvFm4gBxf5uzBuZ6z5AWJL9/j/E5DQzE9id8VeiJCwaOhqjU0C6DAzuFm049ToZTZs1CA0DxdqEQT+4/QCcPzARyEJy7jSOXKTweMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZM/sfkLc; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=P5WsT1uJ0NCFAHJEqBUbn2wxWYjEnue8z2u4f18RWZD2DZWurUSYTwM3eac6eFPJLrSHZ0fhiCqQzPcS1Lx9HjtZdw25J7KV/LUYtWHNZ5Veb8VEdq50ANhvadLWEx2vpdSSkHEYUf37n/QZWCfLXyBBWIVd9bQvopmEPkhIoM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i5zmEEnS; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZM/sfkLc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i5zmEEnS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766832939; x=1798368939;
+  t=1766834139; x=1798370139;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C3nV3tiYcdIDRY6cpo7z4crqxwVa7mz/1desEn8xYr8=;
-  b=ZM/sfkLcMpAdH3pKiR0ueRV9UkQTPUSx9kdJUH3angqYNne2Run7VxmD
-   7GKJAbYQlFfHbHAR7Y5fYSNfM001TaAcOP8fNzyAnil69qGI4mkFCqxAI
-   eu56Soy3JoQm1vKs/40D1VujgGV05vQ3nQrzt8ZlfLIu+9NUbI0/lejV1
-   0CfrQVdKLq0uPLzLtzmzrnypZJaH8x5e3uQTe5g5jXxgMGsa8r27VfBze
-   eX1EXsFQwAEaq/0BKVF2PQ069nhvT6CMlKGI2sfPlLJc3OKnQDh0vtpKu
-   yhAr3CeL/ecWLCedwp6o4oDvnJb3vn+QSHsBEgbmZqo8iDEzfUgMv2XpQ
-   A==;
-X-CSE-ConnectionGUID: NQvUDs98QMuXpIno96bgVw==
-X-CSE-MsgGUID: udD1830pS0CFN9sseQ+L4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="68581862"
+  bh=x2mGIBm5/6TreI8aYLWrRMU2XIs6SjzxgPe+COl5u+Y=;
+  b=i5zmEEnSELrV0wN7sIHZckCg7vbkV/2srAs5KqsFd6aK6RCWToj+9Fzd
+   3K5ZkZZqj8cvXUv6m+fpLIY4MjJFXxY2aFXTtDQzn29ZQ0kBYdtINmwhu
+   6M2wDGvZTFG+ZIRFEDjlQIRtesj8+Ijgdy0YerLI8xyaITe2Gx8ro7VsZ
+   VqJODriG3v8dt5Em1XKhCJ4Fh9tCNIQQhTAetpIyFx5vX/E4hK/GlB3cs
+   Al1EGADu39lntvTR67poxXPVU2DXhQM6UhaPQpUqsLLqgs83G6CrZLkMQ
+   2XopUWETpBzu3axSS/jmwRcOCeVrCrgHucOyDHCJwKSK6Sg0ErBDdtMWl
+   Q==;
+X-CSE-ConnectionGUID: b4FlMqA2RZqOnY8ZG+m4Rw==
+X-CSE-MsgGUID: GUXCKCnRR1yj0riVk9cn9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="68587465"
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="68581862"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 02:55:38 -0800
-X-CSE-ConnectionGUID: wD02OIBfQ0mYQyxvJyV/2g==
-X-CSE-MsgGUID: h/pbSPtjQDC4BTtcsD5+Jw==
+   d="scan'208";a="68587465"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 03:15:39 -0800
+X-CSE-ConnectionGUID: AVXLoiusT6SMb62rP4lljg==
+X-CSE-MsgGUID: R6aUdBPiQze1YBmI7N6FFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="200838156"
+   d="scan'208";a="205584516"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Dec 2025 02:55:37 -0800
+  by orviesa005.jf.intel.com with ESMTP; 27 Dec 2025 03:15:38 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZRxP-000000007Aa-1hoT;
-	Sat, 27 Dec 2025 10:55:35 +0000
-Date: Sat, 27 Dec 2025 11:54:37 +0100
+	id 1vZSGl-000000007Ai-2DZJ;
+	Sat, 27 Dec 2025 11:15:35 +0000
+Date: Sat, 27 Dec 2025 12:14:52 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 21/128]
- arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000
- (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be
- fixed:
-Message-ID: <202512271105.L5HINcZO-lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-dts-for-v6.20 23/30]
+ arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: fcp@16470000
+ (renesas,r9a09g056-fcpvd): False schema does not allow ['aclk', 'pclk',
+ 'vclk']
+Message-ID: <202512271223.3hrJQLA4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,112 +70,70 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
+CC: linux-renesas-soc@vger.kernel.org
+TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: 45a01553f533c7e71dbd5f25aa29101da7adc870 [21/128] arm64: dts: apple: t8112: Add mtp device nodes for j413/j493
-:::::: branch date: 5 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251227/202512271105.L5HINcZO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.20
+head:   666e5eabd623586d0efa333a863122661c7668c6
+commit: 4636957e62eac72dcb145e6900a80d62b0fb87fa [23/30] arm64: dts: renesas: r9a09g056: Add FCPV and VSPD nodes
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-2052-20251224 (https://download.01.org/0day-ci/archive/20251227/202512271223.3hrJQLA4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
 dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271105.L5HINcZO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271223.3hrJQLA4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512271105.L5HINcZO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512271223.3hrJQLA4-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
+   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
+   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
+   	'renesas,r9a09g057-dmac' was expected
+   	'renesas,rz-dmac' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible: ['renesas,r9a09g056-usb3-phy', 'renesas,r9a09g047-usb3-phy'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): clocks: [[3, 1, 237], [3, 1, 238], [3, 1, 239]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
 --
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
+   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
+   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
+   	'renesas,r9a09g057-dmac' was expected
+   	'renesas,rz-dmac' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible: ['renesas,r9a09g056-usb3-phy', 'renesas,r9a09g047-usb3-phy'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): clocks: [[3, 1, 237], [3, 1, 238], [3, 1, 239]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
 --
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
---
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/efuse@23d2c8000: failed to match any schema with compatible: ['apple,t8112-efuses', 'apple,efuses']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
+   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
+   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
+   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
+   	'renesas,r9a09g057-dmac' was expected
+   	'renesas,rz-dmac' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: usb-phy@15870000 (renesas,r9a09g056-usb3-phy): compatible: ['renesas,r9a09g056-usb3-phy', 'renesas,r9a09g047-usb3-phy'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/renesas,rzg3e-usb3-phy.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: fcp@16470000 (renesas,r9a09g056-fcpvd): clocks: [[3, 1, 237], [3, 1, 238], [3, 1, 239]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
 
 -- 
 0-DAY CI Kernel Test Service
