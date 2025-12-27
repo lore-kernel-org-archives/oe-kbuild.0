@@ -1,75 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F45E199D8
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 Dec 2025 10:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EC933EC
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Dec 2025 10:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766831252; cv=none; b=rIY4Mce8ZwGweE7LYiAnOXhIB85hYtZ7PGBQ8Lo3QLd23Menz/07f9HNYWWmQsw/rVNzOn8KhPEgVnWeMHT4pfYCnCxx+z+WvXvr5GNjqDINhxbcq9dGCatFyoBreM3nlNArFKZU8CACpa9X2BcOj1t/HmvRS9dJwQOofBDfQT0=
+	t=1766831864; cv=none; b=fGnNwvMfBSz0LvySuh/XtAILbHeiyZ3boRFXCJ6XGdSFLuDV9ek0HZxwtUQ47kt2Qmk7Iem3kgDQ+Vr2Z1xdNwiUs7ngNmXYUz8P/4yc0rOxuppepxi+UxnRr7Wh73SWnyRTrnLzKUyvh1hyV4jxO9cvwvHs9duA6eyLUY2M6+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766831252; c=relaxed/simple;
-	bh=RFEC9uIMvkI5i2do5haW3Ri6KFWsCk0x4nm2ZC/23I0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VsK7/f474OFFhfnccpZMYEbexGdVE7xIvopYyEbX95QPT2dutpp2ytldFt9BvEaU0csm92+Z7TQO6b09UyPWS9gewWEw9kCoxjWIEV+nvxVBQAPFCjDfT+Hatq58nPNWxK7ZHkpJzS9pNezcOtSbRhkNTL1iyP7irgZiBTZ/jgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bPvaBqjy; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1766831864; c=relaxed/simple;
+	bh=9czJ3Z8SrXM2G9kamvG9nyi8ORET5+8rYWpxqngXnUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fT5Rolq8uwc3EY5H5T6f/p+VomOZVq5Vme/q8fnJqwuypm/1bkHhARaQFlqo7Dr6brDJkVcIozQlG+XzZsra4tXHTr4Ud1X9RO6srPJW5GYTNtIaihP76668uQiDxIXtXP/D50tg+edaR1ZTVQl6zcXDcEx5iFNhS5P7YHuLYuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvDAq4ZW; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPvaBqjy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvDAq4ZW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766831250; x=1798367250;
-  h=date:from:to:cc:subject:message-id;
-  bh=RFEC9uIMvkI5i2do5haW3Ri6KFWsCk0x4nm2ZC/23I0=;
-  b=bPvaBqjyUgvOxUotXs+ti0USrl/pS9jiXdI08kq3v3jiGVMzCA4X1uqS
-   aVB67y1lyZNf1y47k1NY56txcraJfDP32timHVazZYRyr3PbZC7e0/pl6
-   isc+xsZbZfI4jXiALOs/GT0KdwqsC+7yNRDLJUoIgOZg2FYGbRdQefeXZ
-   byGn457nKMrZn4/N+FX7CuZl/P61y+M2eyN7GuWVxbN9shPycCiBYpDNs
-   zt4pnKru6SGgYZS4q2fFOKqWl/LtvgisZQjInGsm/vb03eWI91VxX2Yyk
-   Kvven+GcJGFM8VPv3PiL+bCIjl1mnS0NHsuiQdTK+eP1HdzCgAB8djQHb
+  t=1766831862; x=1798367862;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9czJ3Z8SrXM2G9kamvG9nyi8ORET5+8rYWpxqngXnUU=;
+  b=mvDAq4ZWPOcKcqVSOXzp+LE5bbAhH2eRrBOa/IhnPMmePKTJMYWFsX0q
+   B6TObS05OTrfm0T9cag78SLcAUWkllkulyoWFPd8AygwA1juEDPgMEj86
+   KYuVZs6KLK8HvX/nrsIaRe0C6qfJdhY4PmNXEYZ3UskfLvLx1ubxFE/8N
+   xA+eirX7E3TDH1NiQJdWSMp1hiVewpBnd03ijv/ipnp4wMd8AL5bu7ZIn
+   1XN/s8GEHR1gAhKbRUhe2hQmMD+Na2+dO/OqxDNwmwqwt2XpHPY03/juH
+   fUF7+Zp+HOvERYw5H98NA5FjKTvtUq+Hj3OgOvd6eAVilaB8yMV5qQff/
    Q==;
-X-CSE-ConnectionGUID: gW+joSymRsOENjlUexNmPA==
-X-CSE-MsgGUID: WP+OJyvkRnWwvbF+cYusHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="68430689"
+X-CSE-ConnectionGUID: xFN4xQAoTV2PDoia+WwVKQ==
+X-CSE-MsgGUID: LabYubtqT7OnDQDzPKn3VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="68614918"
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="68430689"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 02:27:30 -0800
-X-CSE-ConnectionGUID: GPEld8swSEmxVkkr0qkMcA==
-X-CSE-MsgGUID: 6nsHjhBtQbemKPT/WobJHQ==
+   d="scan'208";a="68614918"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 02:37:41 -0800
+X-CSE-ConnectionGUID: LJi+nvIZQYa4uL/G7J24nA==
+X-CSE-MsgGUID: q3oImaOERFWh4hdUrjuz+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="205578630"
+   d="scan'208";a="200451561"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 27 Dec 2025 02:27:29 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 27 Dec 2025 02:37:38 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZRVj-000000005jl-1V9s;
-	Sat, 27 Dec 2025 10:27:18 +0000
-Date: Sat, 27 Dec 2025 18:26:14 +0800
+	id 1vZRft-000000005kH-2dtS;
+	Sat, 27 Dec 2025 10:37:34 +0000
+Date: Sat, 27 Dec 2025 18:37:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ardb:x86-efi-zboot 14/29]
- arch/x86/boot/compressed/misc.c:323 handle_dynamic() error: uninitialized
- symbol 'place'.
-Message-ID: <202512271846.qNnwRAkq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v22 2/2] power: reset: reboot-mode: Expose sysfs for
+ registered reboot_modes
+Message-ID: <202512271806.n2lycyZw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ard Biesheuvel <ardb@kernel.org>
+In-Reply-To: <20251227-next-15nov_expose_sysfs-v22-2-2d153438ba19@oss.qualcomm.com>
+References: <20251227-next-15nov_expose_sysfs-v22-2-2d153438ba19@oss.qualcomm.com>
+TO: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>
+TO: Sebastian Reichel <sre@kernel.org>
+TO: Bartosz Golaszewski <bgolasze@quicinc.com>
+TO: Bjorn Andersson <andersson@kernel.org>
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-msm@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+CC: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-zboot
-head:   b6f238d2e8720acf63467aa0d48d7fc4e31c07c2
-commit: f74063f20ddfc0a4f136aa4af5b92e1d2bf6be31 [14/29] x86/boot: Implement support for RELA/RELR runtime relocations
-:::::: branch date: 18 hours ago
-:::::: commit date: 24 hours ago
-config: x86_64-randconfig-161-20251227 (https://download.01.org/0day-ci/archive/20251227/202512271846.qNnwRAkq-lkp@intel.com/config)
+Hi Shivendra,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on cc3aa43b44bdb43dfbac0fcb51c56594a11338a8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shivendra-Pratap/Documentation-ABI-Add-sysfs-class-reboot-mode-reboot_modes/20251227-025914
+base:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+patch link:    https://lore.kernel.org/r/20251227-next-15nov_expose_sysfs-v22-2-2d153438ba19%40oss.qualcomm.com
+patch subject: [PATCH v22 2/2] power: reset: reboot-mode: Expose sysfs for registered reboot_modes
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: x86_64-randconfig-161-20251227 (https://download.01.org/0day-ci/archive/20251227/202512271806.n2lycyZw-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
 
@@ -77,67 +95,69 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512271846.qNnwRAkq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512271806.n2lycyZw-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/boot/compressed/misc.c:323 handle_dynamic() error: uninitialized symbol 'place'.
+smatch warnings:
+drivers/power/reset/reboot-mode.c:147 reboot_mode_create_device() error: we previously assumed 'head' could be null (see line 112)
 
-Old smatch warnings:
-arch/x86/boot/compressed/misc.c:444 early_sev_detect() warn: bitwise AND condition is false here
+vim +/head +147 drivers/power/reset/reboot-mode.c
 
-vim +/place +323 arch/x86/boot/compressed/misc.c
-
-a02150610776f6 Kees Cook      2013-07-08  280  
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  281  #ifdef CONFIG_X86_64
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  282  static void handle_dynamic(const Elf64_Dyn *dyn, Elf64_Off p2v_offset,
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  283  			   u64 va_shift)
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  284  {
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  285  	const Elf64_Rela *rela = NULL;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  286  	u64 *relr = NULL;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  287  	int relasize = 0;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  288  	int relrsize = 0;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  289  	u64 *place;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  290  
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  291  	for (auto d = dyn; d->d_tag != DT_NULL; d++) {
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  292  		switch (d->d_tag) {
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  293  		case DT_RELA:
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  294  			rela = (void *)(d->d_un.d_ptr + p2v_offset);
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  295  			break;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  296  		case DT_RELASZ:
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  297  			relasize = d->d_un.d_val;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  298  			break;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  299  		case DT_RELR:
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  300  			relr = (void *)(d->d_un.d_ptr + p2v_offset);
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  301  			break;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  302  		case DT_RELRSZ:
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  303  			relrsize = d->d_un.d_val;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  304  			break;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  305  		}
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  306  	}
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  307  
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  308  	for (int i = 0; i < relasize / sizeof(*rela); i++) {
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  309  		if (ELF64_R_TYPE(rela[i].r_info) != R_X86_64_RELATIVE)
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  310  			continue;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  311  
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  312  		place = (u64 *)(rela[i].r_offset + p2v_offset);
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  313  		*place += va_shift;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  314  	}
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  315  
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  316  	for (int i = 0; i < relrsize / sizeof(u64); i++) {
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  317  		if ((relr[i] & 1) == 0) {
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  318  			place = (u64 *)(relr[i] + p2v_offset);
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  319  			*place++ += va_shift;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  320  			continue;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  321  		}
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  322  
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26 @323  		for (u64 *p = place, r = relr[i] >> 1; r; p++, r >>= 1)
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  324  			if (r & 1)
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  325  				*p += va_shift;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  326  		place += 63;
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  327  	}
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  328  }
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  329  #endif
-f74063f20ddfc0 Ard Biesheuvel 2025-12-26  330  
+4fcd504edbf7c7 Andy Yan         2016-07-06  102  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  103  static int reboot_mode_create_device(struct reboot_mode_driver *reboot)
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  104  {
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  105  	struct sysfs_data *sysfs_info;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  106  	struct sysfs_data *next;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  107  	struct list_head *head;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  108  	struct mode_info *info;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  109  	int ret;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  110  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  111  	head = kzalloc(sizeof(*head), GFP_KERNEL);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27 @112  	if (!head) {
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  113  		ret = -ENOMEM;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  114  		goto error;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  115  	}
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  116  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  117  	INIT_LIST_HEAD(head);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  118  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  119  	list_for_each_entry(info, &reboot->head, list) {
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  120  		sysfs_info = kzalloc(sizeof(*sysfs_info), GFP_KERNEL);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  121  		if (!sysfs_info) {
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  122  			ret = -ENOMEM;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  123  			goto error;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  124  		}
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  125  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  126  		sysfs_info->mode = kstrdup_const(info->mode, GFP_KERNEL);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  127  		if (!sysfs_info->mode) {
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  128  			kfree(sysfs_info);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  129  			ret = -ENOMEM;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  130  			goto error;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  131  		}
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  132  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  133  		list_add_tail(&sysfs_info->list, head);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  134  	}
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  135  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  136  	reboot->reboot_mode_device = device_create(&reboot_mode_class, NULL, 0,
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  137  						   (void *)head, reboot->dev->driver->name);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  138  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  139  	if (IS_ERR(reboot->reboot_mode_device)) {
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  140  		ret = PTR_ERR(reboot->reboot_mode_device);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  141  		goto error;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  142  	}
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  143  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  144  	return 0;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  145  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  146  error:
+e5f49083a20ae0 Shivendra Pratap 2025-12-27 @147  	list_for_each_entry_safe(sysfs_info, next, head, list) {
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  148  		list_del(&sysfs_info->list);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  149  		kfree_const(sysfs_info->mode);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  150  		kfree(sysfs_info);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  151  	}
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  152  
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  153  	kfree(head);
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  154  	reboot->reboot_mode_device = NULL;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  155  	return ret;
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  156  }
+e5f49083a20ae0 Shivendra Pratap 2025-12-27  157  
 
 -- 
 0-DAY CI Kernel Test Service
