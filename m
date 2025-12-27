@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273A81FBEA8
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 Dec 2025 18:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085C618E1F
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Dec 2025 19:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766859944; cv=none; b=bmLXx/5bfS/YIClOYut516gXXaArUsOKDSYQVcsM0KTP+R5tt98bLvgRlm4ikeXr3X5Moik47IXNJDu37XEBcEzi4BrRSJ2zMUrp8HljKTuYCa1NGJtNZh2xwcJ3ElIYsOdYuhh9bnsIMYdV2GqkhhTQp86cmkagvqBsHKSVncI=
+	t=1766863377; cv=none; b=jKME4tBX8deKD6YTc2aH9BdkoVHpXP7AmgKeyl11Zm2LO6AZ2fTsu5lpsGBwNsa6LdkKTOGYvivOQBPsTrIvO6ZyFbjI+l8t5sGBI5ynY0UVEe8LhrCTH+ziDtCHDlTBbqEcqG7Tluhg1/SqXJq8Auv5UVG77PVfB9vIDDeuJzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766859944; c=relaxed/simple;
-	bh=nLv1vVO3fTOGuEkocDWt76ZJUrx4jhIe/zcDWPtvBec=;
+	s=arc-20240116; t=1766863377; c=relaxed/simple;
+	bh=KIZEX8gxYAs6K0PzYQZ8iBUzD3IolUXeBU0F3/phPGo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UfOT0fFzjDlpF1GjTt3IjKhJI0BI1DEPsXszHEBI88cquz/RWgiRqh4VZm3N3WTRK749ckXfhxS5o2nXm2a3hLphTosSI5fKqNuunwFz5+vO4pQ0NR2Pa4yUQHJLQEnAzKon2UfC9ZCQwJoQ3C9/rq5OlezbOxu53bXvll0biA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyjzaOqo; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=W22+UFS/6w2lALhOepDTnqc/xJs+EnIQfw1MdOVdZxoE+EZG/DK93BsTYlaY/anhN0Xr1Bzwum/PsvAteVzZ94cfLGtO2vQwGzPJFViHC0+LuRlXkUPL6ll6f61a8hwjA9pOsrMnVG5FC4am/2gfTizd9nLj2k9i6CrVfiG2n1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEcbhsQL; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyjzaOqo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEcbhsQL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766859943; x=1798395943;
+  t=1766863375; x=1798399375;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nLv1vVO3fTOGuEkocDWt76ZJUrx4jhIe/zcDWPtvBec=;
-  b=jyjzaOqoufL2YVHducEnfjSODXckDcpMI3Dk1DtLXTTEOjgosLZ0+g7k
-   hLTymyGkzVhuGjNwMAkUM7rRhYMsvVo56vxf1bc3gqRaWJ1ua0Qo5BHCX
-   wB8aLTNzb+12juMFeYZw7+GidvtkZFsuu6iZGKIn8QnAtH52WdLjy/v1p
-   fq3mTKOKlTb3xTGW9ipW1Hhrr4/MaGumLvw6dMJWYWfcjA7nhcBJtQZS5
-   EHqLpsOxGg36uOMnOGzNqPDJw6v4RvFKl8uu2vFsZAeFlrnbDMKSR32HH
-   rp1MIV6SRL1kTeveMVFibSrZ2D3siMEhDptbfPBuc809wKdS5SAG5Lh8E
-   Q==;
-X-CSE-ConnectionGUID: LZ5fXiAMRtS10SIkWqye7Q==
-X-CSE-MsgGUID: eSKmHSKjR66PKB4lY7h/sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="79274774"
-X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="79274774"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 10:25:42 -0800
-X-CSE-ConnectionGUID: TABDPAW2SEugDVG7CkAZUw==
-X-CSE-MsgGUID: IVwrbj0hQzyszzRNHqgk9g==
+  bh=KIZEX8gxYAs6K0PzYQZ8iBUzD3IolUXeBU0F3/phPGo=;
+  b=hEcbhsQLdNmeVlvVnHspkkK61cSR6WFUbZoh9LTPyelyMBQj8pIG9QC1
+   MsRaUq3kOZJP/joyXxsOaZ4R6ITkIc3RUqQkvQG7YcLZWqikCj8/q9Rus
+   gu0QLIxn1c46o5V00DEMUdmVzuqsVHbHZMSb5sHGE9FcZVtJMQ4yT3F1H
+   fNxYm6D4qIcDSwZVw3j2x5qkaM9EGAawYbgXBLWj+DwTsjOJ8SIksUxHN
+   bO6Q3gK+47DMzHjm0hjlR22wc8lF0yhlkuhboKSeOphRaOt4I1X99En8g
+   akknEAaDvu9kAreafrkvFw7D6dlXPXy6UN54nMLaabty4BCkt6+tXZ0Bp
+   w==;
+X-CSE-ConnectionGUID: CNB6CJ66T1eYnP38gJkR2A==
+X-CSE-MsgGUID: bCx3i0CRRcaBrbKsjN2WJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="85971768"
+X-IronPort-AV: E=Sophos;i="6.21,182,1763452800"; 
+   d="scan'208";a="85971768"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 11:22:54 -0800
+X-CSE-ConnectionGUID: VEKfdFKUTJCK2e4UZXohsg==
+X-CSE-MsgGUID: hSaC1A5FRrOfqG4ZTaeetg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="204712852"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 27 Dec 2025 10:25:41 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,182,1763452800"; 
+   d="scan'208";a="200327186"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 27 Dec 2025 11:22:53 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZYyx-000000007FM-0fvw;
-	Sat, 27 Dec 2025 18:25:39 +0000
-Date: Sat, 27 Dec 2025 19:25:00 +0100
+	id 1vZZsI-0000000062P-3s0o;
+	Sat, 27 Dec 2025 19:22:50 +0000
+Date: Sun, 28 Dec 2025 03:22:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
-Message-ID: <202512271957.CRMEXxsh-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3] mm/vmscan: fix demotion targets checks in
+ reclaim/demotion
+Message-ID: <202512280348.PQDhLdXM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,77 +62,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251224-ventura2_initial_dts-v2-2-f193ba5d4073@gmail.com>
-References: <20251224-ventura2_initial_dts-v2-2-f193ba5d4073@gmail.com>
-TO: Kyle Hsieh <kylehsieh1995@gmail.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Joel Stanley <joel@jms.id.au>
-TO: Andrew Jeffery <andrew@codeconstruct.com.au>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-aspeed@lists.ozlabs.org
+In-Reply-To: <20251223212032.665731-1-bingjiao@google.com>
+References: <20251223212032.665731-1-bingjiao@google.com>
+TO: Bing Jiao <bingjiao@google.com>
+TO: linux-mm@kvack.org
 CC: linux-kernel@vger.kernel.org
-CC: Kyle Hsieh <kylehsieh1995@gmail.com>
+CC: akpm@linux-foundation.org
+CC: gourry@gourry.net
+CC: longman@redhat.com
+CC: hannes@cmpxchg.org
+CC: mhocko@kernel.org
+CC: roman.gushchin@linux.dev
+CC: shakeel.butt@linux.dev
+CC: muchun.song@linux.dev
+CC: tj@kernel.org
+CC: mkoutny@suse.com
+CC: david@kernel.org
+CC: zhengqi.arch@bytedance.com
+CC: lorenzo.stoakes@oracle.com
+CC: axelrasmussen@google.com
+CC: chenridong@huaweicloud.com
+CC: yuanchu@google.com
+CC: weixugc@google.com
+CC: cgroups@vger.kernel.org
 
-Hi Kyle,
+Hi Bing,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Hsieh/dt-bindings-arm-aspeed-add-Meta-ventura2-board/20251224-144815
-base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-patch link:    https://lore.kernel.org/r/20251224-ventura2_initial_dts-v2-2-f193ba5d4073%40gmail.com
-patch subject: [PATCH v2 2/2] ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
+url:    https://github.com/intel-lab-lkp/linux/commits/Bing-Jiao/mm-vmscan-fix-demotion-targets-checks-in-reclaim-demotion/20251224-052216
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251223212032.665731-1-bingjiao%40google.com
+patch subject: [PATCH v3] mm/vmscan: fix demotion targets checks in reclaim/demotion
 :::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: arm-randconfig-2051-20251225 (https://download.01.org/0day-ci/archive/20251227/202512271957.CRMEXxsh-lkp@intel.com/config)
+config: arm-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251228/202512280348.PQDhLdXM-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271957.CRMEXxsh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512271957.CRMEXxsh-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512280348.PQDhLdXM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: / (facebook,ventura2-rmc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'facebook,ventura2-rmc' is not one of ['delta,ahe50dc-bmc', 'facebook,galaxy100-bmc', 'facebook,wedge100-bmc', 'facebook,wedge40-bmc', 'microsoft,olympus-bmc', 'quanta,q71l-bmc', 'tyan,palmetto-bmc', 'yadro,vesnin-bmc']
-   	'facebook,ventura2-rmc' is not one of ['amd,daytonax-bmc', 'amd,ethanolx-bmc', 'ampere,mtjade-bmc', 'aspeed,ast2500-evb', 'asrock,e3c246d4i-bmc', 'asrock,e3c256d4i-bmc', 'asrock,romed8hm3-bmc', 'asrock,spc621d8hm3-bmc', 'asrock,x570d4u-bmc', 'bytedance,g220a-bmc', 'facebook,cmm-bmc', 'facebook,minipack-bmc', 'facebook,tiogapass-bmc', 'facebook,yamp-bmc', 'facebook,yosemitev2-bmc', 'facebook,wedge400-bmc', 'facebook,wedge400-data64-bmc', 'hxt,stardragon4800-rep2-bmc', 'ibm,mihawk-bmc', 'ibm,mowgli-bmc', 'ibm,romulus-bmc', 'ibm,swift-bmc', 'ibm,witherspoon-bmc', 'ingrasys,zaius-bmc', 'inspur,fp5280g2-bmc', 'inspur,nf5280m6-bmc', 'inspur,on5263m5-bmc', 'intel,s2600wf-bmc', 'inventec,lanyang-bmc', 'lenovo,hr630-bmc', 'lenovo,hr855xg2-bmc', 'portwell,neptune-bmc', 'qcom,centriq2400-rep-bmc', 'supermicro,x11spi-bmc', 'tyan,s7106-bmc', 'tyan,s8036-bmc', 'yadro,nicole-bmc', 'yadro,vegman-n110-bmc', 'yadro,vegman-rx20-bmc', 'yadro,vegman-sx20-bmc']
-   	'facebook,ventura2-rmc' is not one of ['ampere,mtjefferson-bmc', 'ampere,mtmitchell-bmc', 'aspeed,ast2600-evb', 'aspeed,ast2600-evb-a1', 'asus,x4tf-bmc', 'facebook,bletchley-bmc', 'facebook,catalina-bmc', 'facebook,clemente-bmc', 'facebook,cloudripper-bmc', 'facebook,darwin-bmc', 'facebook,elbert-bmc', 'facebook,fuji-bmc', 'facebook,fuji-data64-bmc', 'facebook,greatlakes-bmc', 'facebook,harma-bmc', 'facebook,minerva-cmc', 'facebook,santabarbara-bmc', 'facebook,ventura2-bmc', 'facebook,yosemite4-bmc', 'facebook,yosemite5-bmc', 'ibm,balcones-bmc', 'ibm,blueridge-bmc', 'ibm,bonnell-bmc', 'ibm,everest-bmc', 'ibm,fuji-bmc', 'ibm,rainier-bmc', 'ibm,sbp1-bmc', 'ibm,system1-bmc', 'ibm,tacoma-bmc', 'inventec,starscream-bmc', 'inventec,transformer-bmc', 'jabil,rbp-bmc', 'nvidia,gb200nvl-bmc', 'qcom,dc-scm-v1-bmc', 'quanta,s6q-bmc', 'ufispace,ncplite-bmc']
-   	'aspeed,ast2400' was expected
-   	'aspeed,ast2500' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/aspeed/aspeed.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /: failed to match any schema with compatible: ['facebook,ventura2-rmc', 'aspeed,ast2600']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: sdram@1e6e0000 (aspeed,ast2600-sdram-edac): compatible: ['aspeed,ast2600-sdram-edac', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/edac/aspeed,ast2400-sdram-edac.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: i2c@400 (aspeed,ast2600-i2c-bus): Unevaluated properties are not allowed ('aspeed,hw-timeout-ms' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/bus@1e78a000/i2c@580/power-monitor@69: failed to match any schema with compatible: ['pmbus']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+smatch warnings:
+mm/vmscan.c:1075 demote_folio_list() error: uninitialized symbol 'nr_succeeded'.
+
+vim +/nr_succeeded +1075 mm/vmscan.c
+
+26aa2d199d6f2c Dave Hansen             2021-09-02  1032  
+26aa2d199d6f2c Dave Hansen             2021-09-02  1033  /*
+49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  1034)  * Take folios on @demote_folios and attempt to demote them to another node.
+49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  1035)  * Folios which are not demoted are left on @demote_folios.
+26aa2d199d6f2c Dave Hansen             2021-09-02  1036   */
+49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  1037) static unsigned int demote_folio_list(struct list_head *demote_folios,
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1038  				      struct pglist_data *pgdat,
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1039  				      struct mem_cgroup *memcg)
+26aa2d199d6f2c Dave Hansen             2021-09-02  1040  {
+26aa2d199d6f2c Dave Hansen             2021-09-02  1041  	int target_nid = next_demotion_node(pgdat->node_id);
+26aa2d199d6f2c Dave Hansen             2021-09-02  1042  	unsigned int nr_succeeded;
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1043  	nodemask_t allowed_mask, allowed_mems;
+32008027289239 Jagdish Gediya          2022-08-18  1044  
+32008027289239 Jagdish Gediya          2022-08-18  1045  	struct migration_target_control mtc = {
+32008027289239 Jagdish Gediya          2022-08-18  1046  		/*
+32008027289239 Jagdish Gediya          2022-08-18  1047  		 * Allocate from 'node', or fail quickly and quietly.
+32008027289239 Jagdish Gediya          2022-08-18  1048  		 * When this happens, 'page' will likely just be discarded
+32008027289239 Jagdish Gediya          2022-08-18  1049  		 * instead of migrated.
+32008027289239 Jagdish Gediya          2022-08-18  1050  		 */
+bd63d0fde2a2c3 Fushuai Wang            2025-10-06  1051  		.gfp_mask = (GFP_HIGHUSER_MOVABLE & ~__GFP_RECLAIM) |
+32008027289239 Jagdish Gediya          2022-08-18  1052  			__GFP_NOMEMALLOC | GFP_NOWAIT,
+e42dfe4e0a51b4 Baolin Wang             2024-03-06  1053  		.nmask = &allowed_mask,
+e42dfe4e0a51b4 Baolin Wang             2024-03-06  1054  		.reason = MR_DEMOTION,
+32008027289239 Jagdish Gediya          2022-08-18  1055  	};
+26aa2d199d6f2c Dave Hansen             2021-09-02  1056  
+49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  1057) 	if (list_empty(demote_folios))
+26aa2d199d6f2c Dave Hansen             2021-09-02  1058  		return 0;
+26aa2d199d6f2c Dave Hansen             2021-09-02  1059  
+32008027289239 Jagdish Gediya          2022-08-18  1060  	node_get_allowed_targets(pgdat, &allowed_mask);
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1061  	allowed_mems = mem_cgroup_node_get_allowed(memcg);
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1062  	nodes_and(allowed_mask, allowed_mask, allowed_mems);
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1063  	if (nodes_empty(allowed_mask))
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1064  		return false;
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1065  
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1066  	if (target_nid == NUMA_NO_NODE || !node_isset(target_nid, allowed_mask))
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1067  		target_nid = node_random(&allowed_mask);
+80ef4b3f9c7c95 Bing Jiao               2025-12-23  1068  	mtc.nid = target_nid;
+32008027289239 Jagdish Gediya          2022-08-18  1069  
+26aa2d199d6f2c Dave Hansen             2021-09-02  1070  	/* Demotion ignores all cpuset and mempolicy settings */
+29ea04095b9697 SeongJae Park           2025-06-16  1071  	migrate_pages(demote_folios, alloc_demote_folio, NULL,
+32008027289239 Jagdish Gediya          2022-08-18  1072  		      (unsigned long)&mtc, MIGRATE_ASYNC, MR_DEMOTION,
+26aa2d199d6f2c Dave Hansen             2021-09-02  1073  		      &nr_succeeded);
+26aa2d199d6f2c Dave Hansen             2021-09-02  1074  
+26aa2d199d6f2c Dave Hansen             2021-09-02 @1075  	return nr_succeeded;
+26aa2d199d6f2c Dave Hansen             2021-09-02  1076  }
+26aa2d199d6f2c Dave Hansen             2021-09-02  1077  
 
 -- 
 0-DAY CI Kernel Test Service
