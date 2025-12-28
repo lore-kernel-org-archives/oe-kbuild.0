@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7608822D4C8
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 Dec 2025 19:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03F6242D79
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 Dec 2025 20:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766949480; cv=none; b=mJYou7SziVVsZ2ptounnYEV4zqYIe463pJMxVBf8tPsTWveEF9ZqQGo49PG6XnRldRirBvJpiSByCMG5wNNg9uUOT8M/XV17wh89Tqhm1uXuSvUUJuhg3q8fsZ8gwKYOyBDTAjWhZxe1PHDU2W01pTHmQnfvyJAnaGMuefHlwLc=
+	t=1766953260; cv=none; b=V9ioH/4OoPOSmzRfqB7owWbxgEJA6cNw6LM/uXEpVPxCoNBUJO7vacInOmcE+j7UitVk3cE3Os60tL4wdB5Je9NgM8gmQKsZQMxd4+tcZlrmd+isdzY6dlKVh8+mXEgVZ+omwZh0TDKyRbMQ7j0eMP2wHMmd3vUSnS6D17kwwVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766949480; c=relaxed/simple;
-	bh=Gv8LluIaxCQHj45M/lR9Yt2g1oCBrcL2Gz0Ji/lk//I=;
+	s=arc-20240116; t=1766953260; c=relaxed/simple;
+	bh=5qAtkZfWfSoztR/ZdmzD1aLTbSIJPnc0KbI9Utm5IFo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RoV33BWuCndLB4coztEdCUmtrNUAZhe/HzQxmM4vppY2WB6pfTgnHZFakYoXqH1pFeJl81TfL+SIQWHJSyYCMLZJgTYTG2c1tN4oXBlvO8u+bWR4L8iBilCChBvK5JolBsyWsjkB1iP44JoDbqyeWc0zgAE9ZwNKKw/I6A371xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfT9CNRj; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=uwA4uhN6VVkjdzwufWB5rMj6Jn6joqaaDF5YcOPK1Z1MTzCxSz8y0Ye9ZlfkyeAzmW4s4toDAlLgKA17nUhBDeZtnWPYLxDQJR3kuJlW1pALpzf5VdsPT4rguVCS5pfue+Sv1QFx5uLhQ+t19vG00+PVMD67ujL9MqpMy5KdvEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCoyjJlk; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfT9CNRj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCoyjJlk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766949479; x=1798485479;
+  t=1766953258; x=1798489258;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gv8LluIaxCQHj45M/lR9Yt2g1oCBrcL2Gz0Ji/lk//I=;
-  b=kfT9CNRjwyDsF1/nucI3FwN9uqGD7W7VL7s5pZvjm+6ZGExrTTRKvCQo
-   UBU0viKVFugFEIWN1M2WRELAjxHVXCUsPgqWYQGIp03NHZBrgs3lAq1/Y
-   tplqcyZ5fvWeZOHX7w77BzJMJu3d6bV1jum1ZlaLH9zFt8xHzBp+RlCkL
-   1deCcAciLepbtg975litA6p/t09LDEheXwBKiBgzazmZCJPiEBqwM50Ci
-   wng5rqCn3PmR91B7WArfpThI/WhTo4nUKBy2XCL3zYpZjYU9z4k2nmHyf
-   3J5CkIM9bDAwceiGGMzMTzClMrXkXni0rth1O2ZbUcsBJ34KlTHi6zLCy
-   g==;
-X-CSE-ConnectionGUID: xBSkECZCTh6g8HGUmQwTJg==
-X-CSE-MsgGUID: h94Z3KRoTgWMdDhl2dVabQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="68475513"
+  bh=5qAtkZfWfSoztR/ZdmzD1aLTbSIJPnc0KbI9Utm5IFo=;
+  b=lCoyjJlkhyoJBg1GapLNIaIeCZCI06nqb1GJpUKlPRni/91HAhFePtu3
+   JTRkCXPckmm1EmC2f1EBhANjFsfiER1ZZHeYhQtcRtRy61yG3S1IuRxxl
+   0bBhbAdTxsxbMcXTXFBryrnKc5Sa36Z6EFogaY+sl8F20uhjnQJDtp7nF
+   SVla2mBFPPa1j2Amlffcl0HONvepLWCh9x61Q7B7lwfT4sGIwbVF5otcJ
+   tONJqE5O/y/r+XCaVJ5vYMLC/8M8O9cfNgJJMnMPHu3cshIoTDPi4/eJl
+   HOpVOnotFLJViH2pNsnjncaT+CAcRTGvsm1tpe0A32DJOyvg2VRxJ15QA
+   w==;
+X-CSE-ConnectionGUID: arxK6ivCQgGS6HfJyzaZdA==
+X-CSE-MsgGUID: +R3mPn3TTHOwOKUPGmyiaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="72208136"
 X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="68475513"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 11:17:58 -0800
-X-CSE-ConnectionGUID: WKaLNjmlSESOeGs4M1twGg==
-X-CSE-MsgGUID: XV+UbxRVRz2iEUUjvdxjZw==
+   d="scan'208";a="72208136"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 12:20:58 -0800
+X-CSE-ConnectionGUID: EuS9hayqQ1q5tJExczYPtg==
+X-CSE-MsgGUID: arq5MNv8QkKzYyGhEV8/NA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="205292614"
+   d="scan'208";a="201694319"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 28 Dec 2025 11:17:57 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 28 Dec 2025 12:20:57 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZwH4-000000007aC-2GiI;
-	Sun, 28 Dec 2025 19:17:54 +0000
-Date: Sun, 28 Dec 2025 20:16:54 +0100
+	id 1vZxG2-000000007aa-3bwK;
+	Sun, 28 Dec 2025 20:20:54 +0000
+Date: Sun, 28 Dec 2025 21:20:32 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v1 1/2] dt-bindings: net: micrel: Convert to DT schema
-Message-ID: <202512282012.vSNErbW6-lkp@intel.com>
+Subject: Re: [PATCH v3 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert
+ to DT schema
+Message-ID: <202512282121.NnXOE2cL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,95 +68,65 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251223133446.22401-2-eichest@gmail.com>
-References: <20251223133446.22401-2-eichest@gmail.com>
-TO: Stefan Eichenberger <eichest@gmail.com>
-TO: andrew+netdev@lunn.ch
-TO: davem@davemloft.net
-TO: edumazet@google.com
-TO: kuba@kernel.org
-TO: pabeni@redhat.com
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: eichest@gmail.com
-CC: netdev@vger.kernel.org
+In-Reply-To: <20251225-dt-bindings-et8ek8-omap3isp-v3-1-b027e0db69a5@gmail.com>
+References: <20251225-dt-bindings-et8ek8-omap3isp-v3-1-b027e0db69a5@gmail.com>
+TO: Alex Tran <alex.t.tran@gmail.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Pavel Machek <pavel@kernel.org>
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: horms@kernel.org
-CC: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+CC: Alex Tran <alex.t.tran@gmail.com>
 
-Hi Stefan,
+Hi Alex,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on net-next/main net/main linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on fa084c35afa13ab07a860ef0936cd987f9aa0460]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Eichenberger/dt-bindings-net-micrel-Convert-to-DT-schema/20251223-213803
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251223133446.22401-2-eichest%40gmail.com
-patch subject: [PATCH v1 1/2] dt-bindings: net: micrel: Convert to DT schema
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-2053-20251224 (https://download.01.org/0day-ci/archive/20251228/202512282012.vSNErbW6-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Tran/media-dt-bindings-i2c-toshiba-et8ek8-Convert-to-DT-schema/20251226-050407
+base:   fa084c35afa13ab07a860ef0936cd987f9aa0460
+patch link:    https://lore.kernel.org/r/20251225-dt-bindings-et8ek8-omap3isp-v3-1-b027e0db69a5%40gmail.com
+patch subject: [PATCH v3 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert to DT schema
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-2052-20251227 (https://download.01.org/0day-ci/archive/20251228/202512282121.NnXOE2cL-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512282012.vSNErbW6-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512282121.NnXOE2cL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512282012.vSNErbW6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512282121.NnXOE2cL-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
---
->> arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
---
->> arch/arm/boot/dts/renesas/r8a7790-lager.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7790-lager.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
---
->> arch/arm/boot/dts/renesas/r8a7790-stout.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7790-stout.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
---
->> arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
---
->> arch/arm/boot/dts/renesas/r8a7791-porter.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7791-porter.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
---
->> arch/arm/boot/dts/renesas/r8a7793-gose.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7793-gose.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
---
->> arch/arm/boot/dts/renesas/r8a7794-alt.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7794-alt.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
---
->> arch/arm/boot/dts/renesas/r8a7794-silk.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): False schema does not allow 1
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
-   arch/arm/boot/dts/renesas/r8a7794-silk.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/serial@4806c000/bluetooth: failed to match any schema with compatible: ['brcm,bcm2048-nokia', 'nokia,h4p-bluetooth']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/serial@4806c000/bluetooth: failed to match any schema with compatible: ['brcm,bcm2048-nokia', 'nokia,h4p-bluetooth']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48072000/led-controller@30: failed to match any schema with compatible: ['adi,adp1653']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48072000/si4713@63: failed to match any schema with compatible: ['silabs,si4713']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: camera@3e (toshiba,et8ek8): port:endpoint: Unevaluated properties are not allowed ('clock-inv', 'crc' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/media/i2c/toshiba,et8ek8.yaml
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: camera@3e (toshiba,et8ek8): 'reset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/i2c/toshiba,et8ek8.yaml
+>> arch/arm/boot/dts/ti/omap/omap3-n900.dtb: camera@3e (toshiba,et8ek8): Unevaluated properties are not allowed ('clock-frequency', 'clock-names', 'reset-gpio' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/media/i2c/toshiba,et8ek8.yaml
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: tsc2005@0 (ti,tsc2005): $nodename:0: 'tsc2005@0' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/spi@480ba000/wl1251@0: failed to match any schema with compatible: ['ti,wl1251']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
 
 -- 
 0-DAY CI Kernel Test Service
