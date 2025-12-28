@@ -1,214 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CA620ED
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 Dec 2025 05:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDBA2A1BF
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 Dec 2025 07:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766899432; cv=none; b=BKjCKCZ89VjoVPLIjRqhbL5hqwkvt7ZF8uqm8FxAAw9VOCCFqt01lwIcNZjQoX/8uyihtq0VH8xehZPnEO3wSmv4Ls6GF5ThybGdJH7PpvkXFcPDggNfw07WZcA+z0+zqcq8uMpU/PtghDz6daiUtTbZDyYnetVAjOiF2ypirkU=
+	t=1766905307; cv=none; b=Cq7smTIjjH3/q1mmsQxtLTTHGorsT1Cc2v20OC+wpokxwb0QSEFn3uw/GU+ip/wVJH0qKXe9w3Q1sPwv0B5ngwDqQbMKP6A6f1wSU5EdwaHJ8mPMRwAL645uyEezmfLJ60c7eJ9SjIDYoL/yP+S9qmTWK524wMVRJzg/cKE8xGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766899432; c=relaxed/simple;
-	bh=45G+j2ROmKzeojd1vwSsIri4hAK5KOv+wza82ybLmFo=;
+	s=arc-20240116; t=1766905307; c=relaxed/simple;
+	bh=qm46Kd1gYgKj8ykFBLPD4SxNEyUllIPtntbbGo5130o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vpy1WZ7hzyWa/XgYS0BkuraWJL0S3GZkgztXxKrfVnY+gihJBzm4kLEXy+aF6C+SrhEPLf9d5EPJrAb615BogZlelJRF8Ay4Pw769G+0XTuMjjRBd/Crhv1MoZqKG3rI3dAMBso1OpoL+OWOa7lSwzsNDp6Sz7SllkxAojgPem4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uzf8OteR; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=En+xdHiBsRzQ8J0lzxZxaf5GEtfMNvW6cm93AvN8OXAWmYSjgCM/ic+aPHP6o3T4vfa2XKyexAWwXWTrc2RfbHryXpK6V7aHSaFxWJo+rTOfcui6hdrIonm7fFiq14wefmUg8jBkcnn65422UgHsk1r8KR+RR7zHHmRp59ZY1PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Acajst+A; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uzf8OteR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Acajst+A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766899430; x=1798435430;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=45G+j2ROmKzeojd1vwSsIri4hAK5KOv+wza82ybLmFo=;
-  b=Uzf8OteR+hRRiyDQUtXu/WT4uqaiKp4AaE477NEKfLmTT5zQPIyFX/Ef
-   u7wZip0gtWkrWr2MMzzkzNTwpTURal8G5QE0hw7XVrIFTwHMotCAN1h4u
-   PFghSGm60eojmMiEZIZXmS4FUT2tPEFKf1IJ5otDbcS8YjLXB7CwuicAr
-   WHkrAAKnUIE6dC0ebR86KWzLkqUJFjS/n991vLl/ZN77MmqZMF+nyhHqx
-   9y68ipJoJpzK0y++8YCQ9Fom4aivJf29NNxrfVPcVNYf8otUtIA1ND86X
-   ZtLRL/atFIrBrgzzuSdK9tyKZB4uttIb9LW51ebTR85d7wt5onFE+1elt
-   w==;
-X-CSE-ConnectionGUID: gUcBQvhiRfmSw39gxF16SA==
-X-CSE-MsgGUID: TA3RA+zwQJql6uPRedD4OQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68497370"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68497370"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 21:23:49 -0800
-X-CSE-ConnectionGUID: KJVHsRbJQMiq1TzmSF8vkA==
-X-CSE-MsgGUID: nHWgFNAKTqOraV6pTxDlgw==
+  t=1766905306; x=1798441306;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qm46Kd1gYgKj8ykFBLPD4SxNEyUllIPtntbbGo5130o=;
+  b=Acajst+AbWvTKn5I8/JNed6lTN1na87yGfLIohm4r8LK/lDUGwjjeacD
+   b1ttLslWyoIdhsyhrBRNj7/45RTHycs84WYkzMZpKEkQeuMrfOuhF2XBX
+   WuP9UChPn1AUFLMeO5kkDp5ptBWbLKsYS0/zwev7F3fpTiItZQtX0RFg6
+   amiARzYGIICYct/l3iFHQU5L2c04eDOhEF5HzE+9Drcs57d5YrYvcX4DV
+   ATxbQ4fmB48yMP6Y35e12qQVC8BVQClR7pdR+YMlHt0LqSM7CU0tBtL/C
+   v0cHiTryb8jF4iaVHK6KmCW0O6mp901TasU02y4/eGqBiTxHW2yqGPQ3L
+   g==;
+X-CSE-ConnectionGUID: l9ZBs3LjT3S+Djh9QwTV3Q==
+X-CSE-MsgGUID: SmKbmP8TT2eRKu6ei4120Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="79289548"
+X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
+   d="scan'208";a="79289548"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 23:01:45 -0800
+X-CSE-ConnectionGUID: Bx0G3LxPQCi2Mvggod4aBQ==
+X-CSE-MsgGUID: ERwg2DPfSiCW7CWYsCBoKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="205135243"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Dec 2025 21:23:48 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="224160332"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 27 Dec 2025 23:01:43 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZjFq-000000007Oy-0riS;
-	Sun, 28 Dec 2025 05:23:46 +0000
-Date: Sun, 28 Dec 2025 06:23:10 +0100
+	id 1vZkmb-000000006Jh-1H8c;
+	Sun, 28 Dec 2025 07:01:41 +0000
+Date: Sun, 28 Dec 2025 15:01:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 126/128]
- arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/mux@38304c000: failed to
- match any schema with compatible: ['apple,t8103-display-crossbar']
-Message-ID: <202512280637.S9ykNgEW-lkp@intel.com>
+Subject: Re: [PATCH 1/3] power: supply: add battery driver for netronix ec
+Message-ID: <202512281431.wqGWLyUM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: drivers/power/supply/ntxec-battery.c:98:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+In-Reply-To: <20251227-kobo-aura-battery-v1-1-328a90ef5122@jm0.eu>
+References: <20251227-kobo-aura-battery-v1-1-328a90ef5122@jm0.eu>
+TO: Josua Mayer <josua.mayer@jm0.eu>
+TO: "Jonathan Neuschäfer" <j.neuschaefer@gmx.net>
+TO: Lee Jones <lee@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Sebastian Reichel <sre@kernel.org>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Pengutronix Kernel Team <kernel@pengutronix.de>
+TO: Fabio Estevam <festevam@gmail.com>
+CC: Andreas Kemnade <andreas@kemnade.info>
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
+CC: Josua Mayer <josua.mayer@jm0.eu>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: 05517482ac69dcc86a1bbc2846d06f1d1f4756c0 [126/128] rm64: dts: apple: t8103: Add ATC display crossbar devices
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-2052-20251224 (https://download.01.org/0day-ci/archive/20251228/202512280637.S9ykNgEW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512280637.S9ykNgEW-lkp@intel.com/reproduce)
+Hi Josua,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josua-Mayer/power-supply-add-battery-driver-for-netronix-ec/20251228-005512
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20251227-kobo-aura-battery-v1-1-328a90ef5122%40jm0.eu
+patch subject: [PATCH 1/3] power: supply: add battery driver for netronix ec
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: sparc-randconfig-r112-20251228 (https://download.01.org/0day-ci/archive/20251228/202512281431.wqGWLyUM-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281431.wqGWLyUM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512280637.S9ykNgEW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512281431.wqGWLyUM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: iommu@27130c000 (apple,t8103-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: mbox@271c08000 (apple,t8103-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/mux@38304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: mux@38304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@38304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/mux@50304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: mux@50304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@50304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema with compatible: ['apple,j274-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema with compatible: ['apple,j274-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: iommu@27130c000 (apple,t8103-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: mbox@271c08000 (apple,t8103-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/mux@38304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: mux@38304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@38304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/mux@50304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: mux@50304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@50304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /sound: failed to match any schema with compatible: ['apple,j293-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /sound: failed to match any schema with compatible: ['apple,j293-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: iommu@27130c000 (apple,t8103-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: mbox@271c08000 (apple,t8103-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/mux@38304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: mux@38304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@38304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/mux@50304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: mux@50304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@50304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /sound: failed to match any schema with compatible: ['apple,j313-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /sound: failed to match any schema with compatible: ['apple,j313-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: iommu@27130c000 (apple,t8103-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: mbox@271c08000 (apple,t8103-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/mux@38304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: mux@38304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@38304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/mux@50304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: mux@50304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@50304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: /sound: failed to match any schema with compatible: ['apple,j456-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: /sound: failed to match any schema with compatible: ['apple,j456-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: iommu@27130c000 (apple,t8103-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: mbox@271c08000 (apple,t8103-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/dcp@271c00000: failed to match any schema with compatible: ['apple,t8103-dcpext', 'apple,dcpext']
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/mux@38304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: mux@38304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@38304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/mux@50304c000: failed to match any schema with compatible: ['apple,t8103-display-crossbar']
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: mux@50304c000 (apple,t8103-display-crossbar): $nodename:0: 'mux@50304c000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: /sound: failed to match any schema with compatible: ['apple,j457-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: /sound: failed to match any schema with compatible: ['apple,j457-macaudio', 'apple,macaudio']
+sparse warnings: (new ones prefixed by >>)
+>> drivers/power/supply/ntxec-battery.c:98:1: sparse: sparse: bad integer constant expression
+   drivers/power/supply/ntxec-battery.c:98:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/power/supply/ntxec-battery.c:99:1: sparse: sparse: bad integer constant expression
+   drivers/power/supply/ntxec-battery.c:99:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/power/supply/ntxec-battery.c:100:1: sparse: sparse: bad integer constant expression
+   drivers/power/supply/ntxec-battery.c:100:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/power/supply/ntxec-battery.c:100:1: sparse: sparse: bad integer constant expression
+   drivers/power/supply/ntxec-battery.c:100:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   drivers/power/supply/ntxec-battery.c:101:1: sparse: sparse: bad integer constant expression
+   drivers/power/supply/ntxec-battery.c:101:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
+
+vim +98 drivers/power/supply/ntxec-battery.c
+
+57d7cfa5d39915 Josua Mayer 2025-12-27  97  
+57d7cfa5d39915 Josua Mayer 2025-12-27 @98  MODULE_AUTHOR("Josua Mayer <josua.mayer@jm0.eu>");
 
 -- 
 0-DAY CI Kernel Test Service
