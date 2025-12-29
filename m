@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECAD286400
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Dec 2025 19:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D0723EA84
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 Dec 2025 20:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767034817; cv=none; b=IdP7VQju9gluuBqzwaa8MTdG61npHJBK3NfrOq/K0mQEHMHD3ANwrMySdx+PYQDX6RqkPfP6cQbHIjwx2KxTeCEY6ZiGJGgyyHGY9fwt2PgpWY3kv+A3eoFqCt6rdQjoDyhdd0BXtJmKmqnx5DtB7yCvgkU5xASxYUUGT646EQ0=
+	t=1767039654; cv=none; b=akIrdwXyubdln2H3HTI5T3aSSoqyVUvTbBy2STAq59Gx9rDRScyq41m+La8NOxwgkP6h5xEXKgVIfRA7T3Oyn3o6EwcuW0d3TKylAif6pqeQrxlFF5f4Ws5JDDK7qilnBDGJUdU3iLzXxxKbphfLAmcVb8bMz9lPoy2Wt4Silg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767034817; c=relaxed/simple;
-	bh=uoDsFQJDl3AzmhQYHIcrRyqT2NbuNcRXhUlKIz+fpt4=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iP5S05hysnFvKOCX6cHKojuUoCeNFFmX5cjHZrjPuI6LRKpO+gOlKoe8CoUloXN5YORNtIfeHwLOzY92dnF6msotCFQfqgtxbqu17gxXaiWdsP9U5kjpQRAhzcMX2eGXv5dk+cCNzFq0Xr3MZM57/A+uE2i/bjrEAEyFQ8FlpZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mEc44LM6; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1767039654; c=relaxed/simple;
+	bh=n1JAUQgec2NLfy6zi2gVlFy7C3GoJae6U8q6nxVDYsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E4O/MMCr6rs2lxISz+TGSZpGyQ9AewVGAa9+G7W2PVjUucnasz4SdC+X5lVr0FhCUDoRNUCG5U8yWL2JUptZkLCwU1CZgVbTjwbGUa3xpFUdVKG9o4foOmXf9qkgTWodAn33Gac+8fkQXi+wYJYDzhrjnYxO9QdRHsn+r8jMMeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EASFUBHG; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mEc44LM6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EASFUBHG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767034809; x=1798570809;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=uoDsFQJDl3AzmhQYHIcrRyqT2NbuNcRXhUlKIz+fpt4=;
-  b=mEc44LM6berCeQKJTRqEqC/ielxzq5Ko6IY8p2OYmh44EPShZBBgi3Lo
-   PomzZ7cOGD8rA790NhuavyBO2UjH5wsI1jWKo5uvQUCzctERCFAIml6Fn
-   nWyr4NWrI0BwUCJcZ8TkmJ0jYMt0dChr3j7DQXR5pC2rHkAqyNPtcD4YJ
-   E0kisyjP29h32XXXL1U59bMd4qARqeHcrZHGATIppCygz7anmMLURLeSI
-   7vSpcz6NyWMGOmFwkP0QKifpTxFIFnHrPCQ/BbwkW8M9BvhREoldAUAym
-   zb6HqxI6EcYYfwfyPzmeJFSH5HMDHmsfqvqbC2+KIflM2BMaRwUXRzisp
-   Q==;
-X-CSE-ConnectionGUID: bwJTxR1HRIGUVUZGhJ1+8w==
-X-CSE-MsgGUID: bTc58fGJRjCVP9VEcCjOjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="68533587"
+  t=1767039651; x=1798575651;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n1JAUQgec2NLfy6zi2gVlFy7C3GoJae6U8q6nxVDYsc=;
+  b=EASFUBHGCcTGN0y44WcX994nLTnc9pvxFFFHcpqHYZGkH/diV4dcLbWj
+   qV71eG7ikQji5Pe4qu5zcxuclJn/kGd5VSmY6fPMhfa79v0WPLtHXdHf4
+   EWjRAmOPK7kTEfoKcl9rr19IYx2XenqNZdAhAXiifesTFXneVa+6Oc7Jx
+   Y/gQWXqsOzWYlSgZKkJ+OmkLAoWdyN2scIvQ0FAF7hW1CcCjv0Caly8Ih
+   ojkIe6KdRM6UdkTiJaBD9clBrBbCQQUGy17DyxxhCNt2O616Vfp/xoxe6
+   eOAebG/I9oC+rNP3tmY1Nr4zqqnQyucH1zLe39WqNQnI0jKoc4WdwrVEm
+   A==;
+X-CSE-ConnectionGUID: L6D7+Pj4S2GAvnDKSyq5EA==
+X-CSE-MsgGUID: BIV0LSz4TIi5R/UA8qcmUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="79278845"
 X-IronPort-AV: E=Sophos;i="6.21,186,1763452800"; 
-   d="scan'208";a="68533587"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 11:00:08 -0800
-X-CSE-ConnectionGUID: ciElhow6QhaYtpP+DqJ/tQ==
-X-CSE-MsgGUID: InTqT8M9Sd+x+9dkaNw6Ag==
+   d="scan'208";a="79278845"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 12:20:51 -0800
+X-CSE-ConnectionGUID: 1/JCMFOFRHmp/rZsVXH0Ug==
+X-CSE-MsgGUID: b9U6A0cYTyqJa4nUqD5fLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,186,1763452800"; 
-   d="scan'208";a="205501050"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 29 Dec 2025 11:00:08 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="201266121"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 29 Dec 2025 12:20:50 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vaITN-000000007oU-0WQm
-	for oe-kbuild@lists.linux.dev;
-	Mon, 29 Dec 2025 19:00:05 +0000
-Date: Mon, 29 Dec 2025 19:59:44 +0100
+	id 1vaJjA-000000007xt-0Mlv;
+	Mon, 29 Dec 2025 20:20:34 +0000
+Date: Tue, 30 Dec 2025 04:20:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [paragon-software-group-ntfs3:master 16/16] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202512291918.ShiB9swY-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] soc: fsl: qbman: fix race condition in qman_destroy_fq
+Message-ID: <202512300308.YdegDEGp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,27 +61,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20251223072549.397625-1-richard.genoud@bootlin.com>
+References: <20251223072549.397625-1-richard.genoud@bootlin.com>
+TO: Richard Genoud <richard.genoud@bootlin.com>
+TO: Christophe Leroy <chleroy@kernel.org>
+TO: Marco Crivellari <marco.crivellari@suse.com>
+TO: Kees Cook <kees@kernel.org>
+TO: Roy Pledge <roy.pledge@nxp.com>
+TO: Claudiu Manoil <claudiu.manoil@nxp.com>
+TO: Scott Wood <oss@buserror.net>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: linuxppc-dev@lists.ozlabs.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: Richard Genoud <richard.genoud@bootlin.com>
 
-tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
-head:   099ef9ab9203dff327f2d61e44773f9acbc01f13
-commit: 099ef9ab9203dff327f2d61e44773f9acbc01f13 [16/16] fs/ntfs3: implement iomap-based file operations
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251229/202512291918.ShiB9swY-lkp@intel.com/reproduce)
+Hi Richard,
 
-# many are suggestions rather than must-fix
+kernel test robot noticed the following build warnings:
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#659: FILE: fs/ntfs3/file.c:1302:
-+		/*
-+		* We need to ensure that the pages within the page cache for
+[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/soc-fsl-qbman-fix-race-condition-in-qman_destroy_fq/20251223-153121
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20251223072549.397625-1-richard.genoud%40bootlin.com
+patch subject: [PATCH] soc: fsl: qbman: fix race condition in qman_destroy_fq
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: powerpc-randconfig-r072-20251229 (https://download.01.org/0day-ci/archive/20251230/202512300308.YdegDEGp-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512300308.YdegDEGp-lkp@intel.com/
+
+smatch warnings:
+drivers/soc/fsl/qbman/qman.c:1853 qman_destroy_fq() error: uninitialized symbol 'leaked'.
+
+vim +/leaked +1853 drivers/soc/fsl/qbman/qman.c
+
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1827  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1828  void qman_destroy_fq(struct qman_fq *fq)
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1829  {
+c52fdaa7327f38 Richard Genoud 2025-12-23  1830  	int leaked;
+c52fdaa7327f38 Richard Genoud 2025-12-23  1831  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1832  	/*
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1833  	 * We don't need to lock the FQ as it is a pre-condition that the FQ be
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1834  	 * quiesced. Instead, run some checks.
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1835  	 */
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1836  	switch (fq->state) {
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1837  	case qman_fq_state_parked:
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1838  	case qman_fq_state_oos:
+c52fdaa7327f38 Richard Genoud 2025-12-23  1839  		/*
+c52fdaa7327f38 Richard Genoud 2025-12-23  1840  		 * There's a race condition here on releasing the fqid,
+c52fdaa7327f38 Richard Genoud 2025-12-23  1841  		 * setting the fq_table to NULL, and freeing the fqid.
+c52fdaa7327f38 Richard Genoud 2025-12-23  1842  		 * To prevent it, this order should be respected:
+c52fdaa7327f38 Richard Genoud 2025-12-23  1843  		 */
+c52fdaa7327f38 Richard Genoud 2025-12-23  1844  		if (fq_isset(fq, QMAN_FQ_FLAG_DYNAMIC_FQID)) {
+c52fdaa7327f38 Richard Genoud 2025-12-23  1845  			leaked = qman_shutdown_fq(fq->fqid);
+c52fdaa7327f38 Richard Genoud 2025-12-23  1846  			if (leaked)
+c52fdaa7327f38 Richard Genoud 2025-12-23  1847  				pr_debug("FQID %d leaked\n", fq->fqid);
+c52fdaa7327f38 Richard Genoud 2025-12-23  1848  		}
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1849  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1850  		DPAA_ASSERT(fq_table[fq->idx]);
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1851  		fq_table[fq->idx] = NULL;
+c52fdaa7327f38 Richard Genoud 2025-12-23  1852  
+c52fdaa7327f38 Richard Genoud 2025-12-23 @1853  		if (fq_isset(fq, QMAN_FQ_FLAG_DYNAMIC_FQID) && !leaked) {
+c52fdaa7327f38 Richard Genoud 2025-12-23  1854  			/*
+c52fdaa7327f38 Richard Genoud 2025-12-23  1855  			 * fq_table[fq->idx] should be set to null before
+c52fdaa7327f38 Richard Genoud 2025-12-23  1856  			 * freeing fq->fqid otherwise it could by allocated by
+c52fdaa7327f38 Richard Genoud 2025-12-23  1857  			 * qman_alloc_fqid() while still being !NULL
+c52fdaa7327f38 Richard Genoud 2025-12-23  1858  			 */
+c52fdaa7327f38 Richard Genoud 2025-12-23  1859  			smp_wmb();
+c52fdaa7327f38 Richard Genoud 2025-12-23  1860  			gen_pool_free(qm_fqalloc, fq->fqid | DPAA_GENALLOC_OFF, 1);
+c52fdaa7327f38 Richard Genoud 2025-12-23  1861  		}
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1862  		return;
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1863  	default:
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1864  		break;
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1865  	}
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1866  	DPAA_ASSERT(NULL == "qman_free_fq() on unquiesced FQ!");
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1867  }
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1868  EXPORT_SYMBOL(qman_destroy_fq);
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1869  
 
 -- 
 0-DAY CI Kernel Test Service
