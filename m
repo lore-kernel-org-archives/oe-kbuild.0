@@ -1,87 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0F363B9
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Dec 2025 08:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA1730F539
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 Dec 2025 12:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766995265; cv=none; b=c3d9aPyOOIM9pILmgPMd17w3fG/mueQCtPQ86NcNnzVML89/HAgS5z0xJnogZvDVMu/kA8k3J4gmwJJC4tfu/0ew2cmMSC7nZhEC7zYxGAEYP4upM2TVjkO2aLBxNr8KhvG3HMyZrnwQgi6NzXKp71l786cirEE529AODQYB7xw=
+	t=1767010007; cv=none; b=MRixR9AXccDfsSZ93PRGTKYumqHmIStwC3u1fTt7bhPOdI25q9BeeJoFsxRkOHFPVNIJZv/jRI0gsUapwXi6LocVLiK2kB651iDJ+yaSy2W1Q+BRnLqq6r3L9YEJnFzRwQv+/8xVLvBWPTPr0Q+J2CKn6IHNvqH+paLVyE3lSVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766995265; c=relaxed/simple;
-	bh=KnLxmktmvMQUY4rhNZINOaE7hOBGi/ccjAYW0GxZKa8=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hi8xVRPzDxwF4sstLSToig7eA8PCMVYbdMuBb4WJt2YRLFZjef5pSHV3Lz/4UKonkzWcLU5635UDN8fo/WxTunmgTRlmuUksHiI2cGIuYW77wftfp4iCq4UKNgvMw/6jFORKMX6eO63yPlYrYniYDWQO0XNZoMHVflcU0/IOafE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPr/PJnJ; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1767010007; c=relaxed/simple;
+	bh=mCEbxeSBfxMBukMd1CidXCC8UsKeMv9xSMWzv9JlHU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hx1PGothFIzXN0+kY2oakWbisencie9EQFpqqvvm1hoKDUuM+2rRkqcxXC5Yz9zM3MNyVZfVYZANsJ3OygyUZj/MFOZYM0H3xwmWhsomrugFUO4fBJO930etHvNTxlC8HJIHMkGfxNRPwcsyy4N2Yun4mMcLWbMaNMnQpRULoMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1WvJgvu; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPr/PJnJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1WvJgvu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766995264; x=1798531264;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=KnLxmktmvMQUY4rhNZINOaE7hOBGi/ccjAYW0GxZKa8=;
-  b=cPr/PJnJcb9haewIXYvE0plq/99x2BstKHsjiUcRZ8e84hW6fv2hEc9g
-   u98N6l5KkAP9jqbsJ3H+IWpVGOkIIyYil8Nl8JpNo7zQXveM42rTR69tk
-   8eXVNaTd4YTDdEqm6noniyGX92WKrpmA9XSsW1qLT37L0C/hCg2kpTVUU
-   1HVP7g8Ys+dknFsWVyeT56CrfLd5OAhCX/KdraA3wjXRuo7n3tTg3p5NL
-   298guY+N6a95836rwBpNTQ3n8H7GiCvsJQQcZQt4AfbNUNV1JOOZFCPiv
-   T6SkpkS8xtinlzO6Ug2/O7YHfsC587hwAi1QohFz89ZKzFHfHc9y65waV
-   g==;
-X-CSE-ConnectionGUID: N+UWMAhWTGahaJkGTjZPiA==
-X-CSE-MsgGUID: zr8VqltYQsC8LfC+wk5KTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="80057972"
+  t=1767010006; x=1798546006;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mCEbxeSBfxMBukMd1CidXCC8UsKeMv9xSMWzv9JlHU4=;
+  b=D1WvJgvuNXWGL3lypjyvr/EE1AAhIBkOTNnhx+S7LaVNMWrh/+ywbhju
+   IyNqt4u9fv5kOGYOpfuRFDp2NoSVQLb4xgnV2LobbcLHxR4wvxQ9eySU0
+   8LOqUrLkWuzt8JYowGdMdoCOowxyX3fzphiFNEkGK2tWUb3Q/9p5GdvnF
+   PMFehmJsAkYNsZaPtJuIlmoo1NIzt61pNjeOREcgmJtBulxLLP4kng7On
+   SJFGy2w8ArY1pfOEYCzW89LgEiu3k/kxTQZTeMT0zkcKt0lvvfMC+r+ib
+   3yW0TkUtz0wtMRSyRQ85Y4nkwEFL9LbNyZjoIbdjWdMIeXZGkUe3CXVU4
+   Q==;
+X-CSE-ConnectionGUID: m5EqROqSTdSCkYGIU6quVQ==
+X-CSE-MsgGUID: fX7VdQTQTjeTNfi2A/N6kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="72242107"
 X-IronPort-AV: E=Sophos;i="6.21,185,1763452800"; 
-   d="scan'208";a="80057972"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 00:01:04 -0800
-X-CSE-ConnectionGUID: iUw6MrYjQ2ukJvN6p3VYPQ==
-X-CSE-MsgGUID: /ZcKQnWBTj+Wq1GBcoD6CA==
+   d="scan'208";a="72242107"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 04:06:45 -0800
+X-CSE-ConnectionGUID: 62ox7IIZSwKEn1Txxl/Zqw==
+X-CSE-MsgGUID: +cBjctnoTe+ppRVSoPL0KA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,185,1763452800"; 
-   d="scan'208";a="200085659"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 29 Dec 2025 00:01:03 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="238322531"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 29 Dec 2025 04:06:44 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1va8BY-000000007hx-1lkn
-	for oe-kbuild@lists.linux.dev;
-	Mon, 29 Dec 2025 08:01:00 +0000
-Date: Mon, 29 Dec 2025 09:00:28 +0100
+	id 1vaC1J-000000007Cn-0kSR;
+	Mon, 29 Dec 2025 12:06:41 +0000
+Date: Mon, 29 Dec 2025 20:06:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [linux-review:George-Guo/LoongArch-Add-SCQ-support-detection/20251229-144200
- 1/4] checkpatch: WARNING:PREFER_SEQ_PUTS: Prefer seq_puts to seq_printf
-Message-ID: <202512290901.kkwPp00L-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v10 2/2] phy: Add Google Tensor SoC USB PHY driver
+Message-ID: <202512291900.LsAM5AIl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: George Guo <guodongtai@kylinos.cn>
+In-Reply-To: <20251227-phyb4-v10-2-e8caf6b93fe7@google.com>
+References: <20251227-phyb4-v10-2-e8caf6b93fe7@google.com>
+TO: Roy Luo <royluo@google.com>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Kishon Vijay Abraham I <kishon@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Peter Griffin <peter.griffin@linaro.org>
+TO: "André Draszik" <andre.draszik@linaro.org>
+TO: Tudor Ambarus <tudor.ambarus@linaro.org>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Badhri Jagan Sridharan <badhri@google.com>
+CC: Doug Anderson <dianders@google.com>
+CC: linux-phy@lists.infradead.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-samsung-soc@vger.kernel.org
+CC: Joy Chakraborty <joychakr@google.com>
+CC: Naveen Kumar <mnkumar@google.com>
+CC: Roy Luo <royluo@google.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/George-Guo/LoongArch-Add-SCQ-support-detection/20251229-144200
-head:   f9a38d5f7d263815f2c405755dd829f9abb7e22c
-commit: 9ebeabd45a3932aa0a70c97e332ed6cb5c85ded4 [1/4] LoongArch: Add SCQ support detection
-:::::: branch date: 77 minutes ago
-:::::: commit date: 77 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20251229/202512290901.kkwPp00L-lkp@intel.com/reproduce)
+Hi Roy,
 
-# many are suggestions rather than must-fix
+kernel test robot noticed the following build warnings:
 
-WARNING:PREFER_SEQ_PUTS: Prefer seq_puts to seq_printf
-#83: FILE: arch/loongarch/kernel/proc.c:78:
-+	if (cpu_has_scq)        seq_printf(m, " scq");
+[auto build test WARNING on 3f0e9c8cefa913dd9bd1d79b9a68896ea130f106]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roy-Luo/dt-bindings-phy-google-Add-Google-Tensor-G5-USB-PHY/20251227-085610
+base:   3f0e9c8cefa913dd9bd1d79b9a68896ea130f106
+patch link:    https://lore.kernel.org/r/20251227-phyb4-v10-2-e8caf6b93fe7%40google.com
+patch subject: [PATCH v10 2/2] phy: Add Google Tensor SoC USB PHY driver
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: xtensa-randconfig-r072-20251229 (https://download.01.org/0day-ci/archive/20251229/202512291900.LsAM5AIl-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512291900.LsAM5AIl-lkp@intel.com/
+
+smatch warnings:
+drivers/phy/phy-google-usb.c:86 google_usb_set_orientation() error: 'gphy' dereferencing possible ERR_PTR()
+
+vim +/gphy +86 drivers/phy/phy-google-usb.c
+
+b9930f0c8b336e Roy Luo 2025-12-27  78  
+b9930f0c8b336e Roy Luo 2025-12-27  79  static int google_usb_set_orientation(struct typec_switch_dev *sw,
+b9930f0c8b336e Roy Luo 2025-12-27  80  				      enum typec_orientation orientation)
+b9930f0c8b336e Roy Luo 2025-12-27  81  {
+b9930f0c8b336e Roy Luo 2025-12-27  82  	struct google_usb_phy *gphy = typec_switch_get_drvdata(sw);
+b9930f0c8b336e Roy Luo 2025-12-27  83  
+b9930f0c8b336e Roy Luo 2025-12-27  84  	dev_dbg(gphy->dev, "set orientation %d\n", orientation);
+b9930f0c8b336e Roy Luo 2025-12-27  85  
+b9930f0c8b336e Roy Luo 2025-12-27 @86  	gphy->orientation = orientation;
+b9930f0c8b336e Roy Luo 2025-12-27  87  
+b9930f0c8b336e Roy Luo 2025-12-27  88  	if (pm_runtime_suspended(gphy->dev))
+b9930f0c8b336e Roy Luo 2025-12-27  89  		return 0;
+b9930f0c8b336e Roy Luo 2025-12-27  90  
+b9930f0c8b336e Roy Luo 2025-12-27  91  	guard(mutex)(&gphy->phy_mutex);
+b9930f0c8b336e Roy Luo 2025-12-27  92  
+b9930f0c8b336e Roy Luo 2025-12-27  93  	set_vbus_valid(gphy);
+b9930f0c8b336e Roy Luo 2025-12-27  94  
+b9930f0c8b336e Roy Luo 2025-12-27  95  	return 0;
+b9930f0c8b336e Roy Luo 2025-12-27  96  }
+b9930f0c8b336e Roy Luo 2025-12-27  97  
 
 -- 
 0-DAY CI Kernel Test Service
