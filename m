@@ -1,140 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA1730F539
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Dec 2025 12:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076B831062D
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 Dec 2025 12:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767010007; cv=none; b=MRixR9AXccDfsSZ93PRGTKYumqHmIStwC3u1fTt7bhPOdI25q9BeeJoFsxRkOHFPVNIJZv/jRI0gsUapwXi6LocVLiK2kB651iDJ+yaSy2W1Q+BRnLqq6r3L9YEJnFzRwQv+/8xVLvBWPTPr0Q+J2CKn6IHNvqH+paLVyE3lSVw=
+	t=1767011935; cv=none; b=sCaxAF5Dwi32PLY91+p2GfaowGZ6UVaOCyJbCC097wyeDN3nifv8wQvm9XFNnGuyllTWct2IyahKsM9NpKm0NDjpA6lSkSheas/b1iyrMGrTIjdoYOO2CLC0N+IkcfBEQB3NjvcijDnkR+30Sfc9Iu+xHis3/wEjPjhxKfY9DR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767010007; c=relaxed/simple;
-	bh=mCEbxeSBfxMBukMd1CidXCC8UsKeMv9xSMWzv9JlHU4=;
+	s=arc-20240116; t=1767011935; c=relaxed/simple;
+	bh=iH6KrdEAuaQMYkJxmidLCfqaH1nTmNOLdnCYumXju0k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hx1PGothFIzXN0+kY2oakWbisencie9EQFpqqvvm1hoKDUuM+2rRkqcxXC5Yz9zM3MNyVZfVYZANsJ3OygyUZj/MFOZYM0H3xwmWhsomrugFUO4fBJO930etHvNTxlC8HJIHMkGfxNRPwcsyy4N2Yun4mMcLWbMaNMnQpRULoMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1WvJgvu; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=reW06f+ipCzT7a+fbxfioakFxkZyFoUuyLU2saBi9CcUgibPTOgVXiLiTOBRNp5OWFJqZkE+UnV8hGxqO5JXsJS+oPCbLdDfDrAExQ5mC5FJdHcg+EUuxD3IVLHfLvOL1LkJ32GJpBaTB/MsxEKrHzVy8QUMc4aMVeL2g8bCMDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GYE11Vsq; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1WvJgvu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYE11Vsq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767010006; x=1798546006;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mCEbxeSBfxMBukMd1CidXCC8UsKeMv9xSMWzv9JlHU4=;
-  b=D1WvJgvuNXWGL3lypjyvr/EE1AAhIBkOTNnhx+S7LaVNMWrh/+ywbhju
-   IyNqt4u9fv5kOGYOpfuRFDp2NoSVQLb4xgnV2LobbcLHxR4wvxQ9eySU0
-   8LOqUrLkWuzt8JYowGdMdoCOowxyX3fzphiFNEkGK2tWUb3Q/9p5GdvnF
-   PMFehmJsAkYNsZaPtJuIlmoo1NIzt61pNjeOREcgmJtBulxLLP4kng7On
-   SJFGy2w8ArY1pfOEYCzW89LgEiu3k/kxTQZTeMT0zkcKt0lvvfMC+r+ib
-   3yW0TkUtz0wtMRSyRQ85Y4nkwEFL9LbNyZjoIbdjWdMIeXZGkUe3CXVU4
-   Q==;
-X-CSE-ConnectionGUID: m5EqROqSTdSCkYGIU6quVQ==
-X-CSE-MsgGUID: fX7VdQTQTjeTNfi2A/N6kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="72242107"
+  t=1767011933; x=1798547933;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iH6KrdEAuaQMYkJxmidLCfqaH1nTmNOLdnCYumXju0k=;
+  b=GYE11VsqnLSHNRvuRXkKqjtGsm3jMGHe4NTjyr0K00AXOXRwowBtnbj3
+   H22uROyzxyLn+4Y40UvnWSUNOX/oQ1uX3e4UHfyvDglg09j0gm8YBlcKt
+   JVho2fXOxi22P9+xACeiyjHsI/pUP1GJFYbuU0akjPzAzDjIJFHq9zwOk
+   ilAFRTjCRPsOLXccKS67HvN4qy2iGZxJW6Ych0WtAPb1jkGhNgF6g8eQ3
+   IHwMwlzjdN0bMPva6PQw+ly5sJd3RyJ9suT4u/2RccMCtmOo9lSSErnQ8
+   FaeBaN7wIHKiZBUE+Ygch3ulwg8VvCxPit+pIYCb4nviXLs6me93e6iz0
+   w==;
+X-CSE-ConnectionGUID: P8N7+Hk7SrC2tPSPMmWiZA==
+X-CSE-MsgGUID: XT0Hzm1dS1ave4DYgoJ73w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="68508965"
 X-IronPort-AV: E=Sophos;i="6.21,185,1763452800"; 
-   d="scan'208";a="72242107"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 04:06:45 -0800
-X-CSE-ConnectionGUID: 62ox7IIZSwKEn1Txxl/Zqw==
-X-CSE-MsgGUID: +cBjctnoTe+ppRVSoPL0KA==
+   d="scan'208";a="68508965"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 04:38:51 -0800
+X-CSE-ConnectionGUID: MvP7lRWDQuqOv8rLXOMiVw==
+X-CSE-MsgGUID: Jfn23oT2SzOtbSaBsFYyCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,185,1763452800"; 
-   d="scan'208";a="238322531"
+   d="scan'208";a="200874638"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 29 Dec 2025 04:06:44 -0800
+  by orviesa007.jf.intel.com with ESMTP; 29 Dec 2025 04:38:50 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vaC1J-000000007Cn-0kSR;
-	Mon, 29 Dec 2025 12:06:41 +0000
-Date: Mon, 29 Dec 2025 20:06:10 +0800
+	id 1vaCWO-000000007Dt-0UFp;
+	Mon, 29 Dec 2025 12:38:48 +0000
+Date: Mon, 29 Dec 2025 20:38:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v10 2/2] phy: Add Google Tensor SoC USB PHY driver
-Message-ID: <202512291900.LsAM5AIl-lkp@intel.com>
+Subject: Re: [PATCH] soc: fsl: qbman: fix race condition in qman_destroy_fq
+Message-ID: <202512292050.vM4IxJzF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251227-phyb4-v10-2-e8caf6b93fe7@google.com>
-References: <20251227-phyb4-v10-2-e8caf6b93fe7@google.com>
-TO: Roy Luo <royluo@google.com>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Kishon Vijay Abraham I <kishon@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Peter Griffin <peter.griffin@linaro.org>
-TO: "André Draszik" <andre.draszik@linaro.org>
-TO: Tudor Ambarus <tudor.ambarus@linaro.org>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-CC: Badhri Jagan Sridharan <badhri@google.com>
-CC: Doug Anderson <dianders@google.com>
-CC: linux-phy@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+In-Reply-To: <20251223072549.397625-1-richard.genoud@bootlin.com>
+References: <20251223072549.397625-1-richard.genoud@bootlin.com>
+TO: Richard Genoud <richard.genoud@bootlin.com>
+TO: Christophe Leroy <chleroy@kernel.org>
+TO: Marco Crivellari <marco.crivellari@suse.com>
+TO: Kees Cook <kees@kernel.org>
+TO: Roy Pledge <roy.pledge@nxp.com>
+TO: Claudiu Manoil <claudiu.manoil@nxp.com>
+TO: Scott Wood <oss@buserror.net>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: linuxppc-dev@lists.ozlabs.org
 CC: linux-arm-kernel@lists.infradead.org
-CC: linux-samsung-soc@vger.kernel.org
-CC: Joy Chakraborty <joychakr@google.com>
-CC: Naveen Kumar <mnkumar@google.com>
-CC: Roy Luo <royluo@google.com>
+CC: linux-kernel@vger.kernel.org
+CC: Richard Genoud <richard.genoud@bootlin.com>
 
-Hi Roy,
+Hi Richard,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 3f0e9c8cefa913dd9bd1d79b9a68896ea130f106]
+[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Roy-Luo/dt-bindings-phy-google-Add-Google-Tensor-G5-USB-PHY/20251227-085610
-base:   3f0e9c8cefa913dd9bd1d79b9a68896ea130f106
-patch link:    https://lore.kernel.org/r/20251227-phyb4-v10-2-e8caf6b93fe7%40google.com
-patch subject: [PATCH v10 2/2] phy: Add Google Tensor SoC USB PHY driver
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: xtensa-randconfig-r072-20251229 (https://download.01.org/0day-ci/archive/20251229/202512291900.LsAM5AIl-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/soc-fsl-qbman-fix-race-condition-in-qman_destroy_fq/20251223-153121
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20251223072549.397625-1-richard.genoud%40bootlin.com
+patch subject: [PATCH] soc: fsl: qbman: fix race condition in qman_destroy_fq
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: powerpc-randconfig-r072-20251229 (https://download.01.org/0day-ci/archive/20251229/202512292050.vM4IxJzF-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512291900.LsAM5AIl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512292050.vM4IxJzF-lkp@intel.com/
 
 smatch warnings:
-drivers/phy/phy-google-usb.c:86 google_usb_set_orientation() error: 'gphy' dereferencing possible ERR_PTR()
+drivers/soc/fsl/qbman/qman.c:1853 qman_destroy_fq() error: uninitialized symbol 'leaked'.
 
-vim +/gphy +86 drivers/phy/phy-google-usb.c
+vim +/leaked +1853 drivers/soc/fsl/qbman/qman.c
 
-b9930f0c8b336e Roy Luo 2025-12-27  78  
-b9930f0c8b336e Roy Luo 2025-12-27  79  static int google_usb_set_orientation(struct typec_switch_dev *sw,
-b9930f0c8b336e Roy Luo 2025-12-27  80  				      enum typec_orientation orientation)
-b9930f0c8b336e Roy Luo 2025-12-27  81  {
-b9930f0c8b336e Roy Luo 2025-12-27  82  	struct google_usb_phy *gphy = typec_switch_get_drvdata(sw);
-b9930f0c8b336e Roy Luo 2025-12-27  83  
-b9930f0c8b336e Roy Luo 2025-12-27  84  	dev_dbg(gphy->dev, "set orientation %d\n", orientation);
-b9930f0c8b336e Roy Luo 2025-12-27  85  
-b9930f0c8b336e Roy Luo 2025-12-27 @86  	gphy->orientation = orientation;
-b9930f0c8b336e Roy Luo 2025-12-27  87  
-b9930f0c8b336e Roy Luo 2025-12-27  88  	if (pm_runtime_suspended(gphy->dev))
-b9930f0c8b336e Roy Luo 2025-12-27  89  		return 0;
-b9930f0c8b336e Roy Luo 2025-12-27  90  
-b9930f0c8b336e Roy Luo 2025-12-27  91  	guard(mutex)(&gphy->phy_mutex);
-b9930f0c8b336e Roy Luo 2025-12-27  92  
-b9930f0c8b336e Roy Luo 2025-12-27  93  	set_vbus_valid(gphy);
-b9930f0c8b336e Roy Luo 2025-12-27  94  
-b9930f0c8b336e Roy Luo 2025-12-27  95  	return 0;
-b9930f0c8b336e Roy Luo 2025-12-27  96  }
-b9930f0c8b336e Roy Luo 2025-12-27  97  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1827  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1828  void qman_destroy_fq(struct qman_fq *fq)
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1829  {
+c52fdaa7327f38 Richard Genoud 2025-12-23  1830  	int leaked;
+c52fdaa7327f38 Richard Genoud 2025-12-23  1831  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1832  	/*
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1833  	 * We don't need to lock the FQ as it is a pre-condition that the FQ be
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1834  	 * quiesced. Instead, run some checks.
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1835  	 */
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1836  	switch (fq->state) {
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1837  	case qman_fq_state_parked:
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1838  	case qman_fq_state_oos:
+c52fdaa7327f38 Richard Genoud 2025-12-23  1839  		/*
+c52fdaa7327f38 Richard Genoud 2025-12-23  1840  		 * There's a race condition here on releasing the fqid,
+c52fdaa7327f38 Richard Genoud 2025-12-23  1841  		 * setting the fq_table to NULL, and freeing the fqid.
+c52fdaa7327f38 Richard Genoud 2025-12-23  1842  		 * To prevent it, this order should be respected:
+c52fdaa7327f38 Richard Genoud 2025-12-23  1843  		 */
+c52fdaa7327f38 Richard Genoud 2025-12-23  1844  		if (fq_isset(fq, QMAN_FQ_FLAG_DYNAMIC_FQID)) {
+c52fdaa7327f38 Richard Genoud 2025-12-23  1845  			leaked = qman_shutdown_fq(fq->fqid);
+c52fdaa7327f38 Richard Genoud 2025-12-23  1846  			if (leaked)
+c52fdaa7327f38 Richard Genoud 2025-12-23  1847  				pr_debug("FQID %d leaked\n", fq->fqid);
+c52fdaa7327f38 Richard Genoud 2025-12-23  1848  		}
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1849  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1850  		DPAA_ASSERT(fq_table[fq->idx]);
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1851  		fq_table[fq->idx] = NULL;
+c52fdaa7327f38 Richard Genoud 2025-12-23  1852  
+c52fdaa7327f38 Richard Genoud 2025-12-23 @1853  		if (fq_isset(fq, QMAN_FQ_FLAG_DYNAMIC_FQID) && !leaked) {
+c52fdaa7327f38 Richard Genoud 2025-12-23  1854  			/*
+c52fdaa7327f38 Richard Genoud 2025-12-23  1855  			 * fq_table[fq->idx] should be set to null before
+c52fdaa7327f38 Richard Genoud 2025-12-23  1856  			 * freeing fq->fqid otherwise it could by allocated by
+c52fdaa7327f38 Richard Genoud 2025-12-23  1857  			 * qman_alloc_fqid() while still being !NULL
+c52fdaa7327f38 Richard Genoud 2025-12-23  1858  			 */
+c52fdaa7327f38 Richard Genoud 2025-12-23  1859  			smp_wmb();
+c52fdaa7327f38 Richard Genoud 2025-12-23  1860  			gen_pool_free(qm_fqalloc, fq->fqid | DPAA_GENALLOC_OFF, 1);
+c52fdaa7327f38 Richard Genoud 2025-12-23  1861  		}
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1862  		return;
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1863  	default:
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1864  		break;
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1865  	}
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1866  	DPAA_ASSERT(NULL == "qman_free_fq() on unquiesced FQ!");
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1867  }
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1868  EXPORT_SYMBOL(qman_destroy_fq);
+c535e923bb97a4 Claudiu Manoil 2016-09-22  1869  
 
 -- 
 0-DAY CI Kernel Test Service
