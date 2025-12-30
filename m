@@ -1,191 +1,282 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114BC2749C1
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Dec 2025 14:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73ED288D6
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Dec 2025 15:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767105006; cv=none; b=snOc501kU7LQkk/TyTD2qVnVdAtc5ni3/9TAX36AGOZycRs5tRsyn3UrYzbcBjcmvJibEabc6nrYSmLoEZCNP/9dlKbBm158P57BtdjXsA9sjjNOquexalR4r6vbyjA9gCsMiU/qFZXvplyy6hwg3K6W15HNDwmrNvbErGcDqKA=
+	t=1767108035; cv=none; b=HPVk90eLlrsMPIsKMrXG0ehajxvPX/fZmiaMd6zijwPt3ZAw0BSFGCiBmtPPe68artNXqpJPshOWWdJchlsX/DvbGLbGP8tpt3q/lMSBkhAjwNaZaAFITigoG1HoSVQQhkgdsh91jCb7QZnJ0d40QMhfdEqpJxdy1lRJGiUCt0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767105006; c=relaxed/simple;
-	bh=0GfSD2LRAJ0wb4TF3HV5KnZF0a/PugppAB2FXSC4a2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UKplxKIPFS23zV9t4VLIbCNdAzBefPc0MerssSMlYqXzB97nXnIYy2E3W6KwhyFBE89xQwvJFR3zfyZ2dzxBR9RW2oahekv7eKIEy/ikMqieEObiwOtT8pHouV6Gqiyxr95afuTQMesyZb+4/26Ja9DhL2tP5CH0jLkh1PcGroo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jg10Pu/K; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1767108035; c=relaxed/simple;
+	bh=PLmn9M0wyhbq6TsV+C6x20Y3JmPRVnJVM9swoTIRokw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SbJ2TMVBNBikkHPUtUJ6LJyhfe6QkcV9wSrO72JxY+Kks7CyeyPd+GxNd95/8jjGjwbi2X+H4KH4FJ8QKHChgSwvLdlG1ymNHk8BYB8f2ZSDOkUB2WwCtoyVweBnboHFFskNnJuGqqwMrEnGzyqW++I5Zxth/9lOBQOZVrMQjLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i8NM2zjv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jg10Pu/K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i8NM2zjv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767105004; x=1798641004;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0GfSD2LRAJ0wb4TF3HV5KnZF0a/PugppAB2FXSC4a2M=;
-  b=Jg10Pu/KXDgk/ibMkBP4Qu4/dl3kFBoAbnnI9YQNvlWkLEG4tdCufRZn
-   o1zhVSoI8ETQL47BQwQMuE8Xf1TpCIkbTYgJjYZl8OPWoN6yKVAEICHBZ
-   H54neBKAcWX7jNu1bOn5si3DowCw3HrzH/Ld/ip8YjxxsnQs/SKX1dbOp
-   /6WKn87sHdbAihnLb2WHswuGOpss3vxLop45bB9LnfTJTukNnhFqU6G5J
-   QgfbCrFMq3/GTxTkjdUn9CyAt7qaqftRhRC70iMYRG6bOzdkghe9RdN5s
-   a8r5P25hVULYMbYQafzzkXLpPbbYT0f44D9iwQFTYuMKJ478JEYUUgrWf
-   A==;
-X-CSE-ConnectionGUID: o4kpcl2KT8WVmPZh3FFSZQ==
-X-CSE-MsgGUID: pAzvL1SFQEebsnNnM5dt4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="67697367"
+  t=1767108031; x=1798644031;
+  h=date:from:to:cc:subject:message-id;
+  bh=PLmn9M0wyhbq6TsV+C6x20Y3JmPRVnJVM9swoTIRokw=;
+  b=i8NM2zjvCZyYFTI6GKeDoQOPNbNl0gZKHWqngncO4yeSLUlv7tUtMl+w
+   1R0TcC/dJz/CGcsUMHDqsB9qV2Qt/JZQR3DNGtNWRaIT32+9ZAkIuK0LV
+   YCAE/DthTDMh4VtBIlBnm733ksMd4pfG+HWBjqNnzpeBm6ksQwGm76Lhj
+   K5qzJB+3LOpYOjBbcgc9XLSQL/01jq3xL8pQbcn3btnrHvpUinbFXTpFF
+   SB+mmDYa1U+dUcIeEDyd1y+Sgv6TM09KlIVH56eXCHqTcW42Kpnf6ExHT
+   /RFh9X7RhE8Ded94PZsQ0oipibF62MTPdY/ILOqqQw3GYIwwrwCrr/MQH
+   Q==;
+X-CSE-ConnectionGUID: 3uYE7Ch0Tx6kTwVfZpTI8w==
+X-CSE-MsgGUID: kgaTgc4dSOiL+ltneJFf9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="79423871"
 X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
-   d="scan'208";a="67697367"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 06:30:03 -0800
-X-CSE-ConnectionGUID: /5I8Qh+gQS+Ti51QzZQ6Xg==
-X-CSE-MsgGUID: 4G57d8m6S6CSOjL9pkUULA==
+   d="scan'208";a="79423871"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 07:20:30 -0800
+X-CSE-ConnectionGUID: gm3xk9wXROmExYYNXtxm9Q==
+X-CSE-MsgGUID: SakQUnF5REKWbZ71sgoKuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
-   d="scan'208";a="206278811"
+   d="scan'208";a="201701945"
 Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 30 Dec 2025 06:30:02 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 30 Dec 2025 07:20:30 -0800
 Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vaajX-000000000SL-26GJ;
-	Tue, 30 Dec 2025 14:29:59 +0000
-Date: Tue, 30 Dec 2025 22:29:18 +0800
+	id 1vabWO-000000000UZ-3F8Q;
+	Tue, 30 Dec 2025 15:20:28 +0000
+Date: Tue, 30 Dec 2025 23:20:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2] mm/memcg: scale memory.high penalty based on refault
- recency
-Message-ID: <202512302204.0Hly34Fm-lkp@intel.com>
+Subject: fs/ceph/addr.c:1489 ceph_submit_write() error: 'req'
+ dereferencing possible ERR_PTR()
+Message-ID: <202512302340.uVRcsfnj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251229033957.296257-1-jiayuan.chen@linux.dev>
-References: <20251229033957.296257-1-jiayuan.chen@linux.dev>
-TO: Jiayuan Chen <jiayuan.chen@linux.dev>
-TO: linux-mm@kvack.org
-CC: Jiayuan Chen <jiayuan.chen@shopee.com>
-CC: Johannes Weiner <hannes@cmpxchg.org>
-CC: Michal Hocko <mhocko@kernel.org>
-CC: Roman Gushchin <roman.gushchin@linux.dev>
-CC: Shakeel Butt <shakeel.butt@linux.dev>
-CC: Muchun Song <muchun.song@linux.dev>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: David Hildenbrand <david@kernel.org>
-CC: Qi Zheng <zhengqi.arch@bytedance.com>
-CC: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-CC: Axel Rasmussen <axelrasmussen@google.com>
-CC: Yuanchu Xie <yuanchu@google.com>
-CC: Wei Xu <weixugc@google.com>
-CC: cgroups@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
+TO: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+CC: Christian Brauner <brauner@kernel.org>
 
-Hi Jiayuan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiayuan-Chen/mm-memcg-scale-memory-high-penalty-based-on-refault-recency/20251229-115015
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251229033957.296257-1-jiayuan.chen%40linux.dev
-patch subject: [PATCH v2] mm/memcg: scale memory.high penalty based on refault recency
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: arm64-randconfig-r072-20251230 (https://download.01.org/0day-ci/archive/20251230/202512302204.0Hly34Fm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8640b74557fc8b4c300030f6ccb8cd078f665ec8
+commit: 1551ec61dc551dab1bb40c516a5a096607aff774 ceph: introduce ceph_submit_write() method
+date:   10 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 10 months ago
+config: powerpc64-randconfig-r071-20251230 (https://download.01.org/0day-ci/archive/20251230/202512302340.uVRcsfnj-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512302204.0Hly34Fm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512302340.uVRcsfnj-lkp@intel.com/
 
-smatch warnings:
-mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x__781)
-mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x__781)
+New smatch warnings:
+fs/ceph/addr.c:1489 ceph_submit_write() error: 'req' dereferencing possible ERR_PTR()
 
-vim +90 mm/msync.c
+Old smatch warnings:
+fs/ceph/addr.c:437 ceph_netfs_issue_read() error: uninitialized symbol 'err'.
+fs/ceph/addr.c:956 writepages_finish() error: 'page' dereferencing possible ERR_PTR()
 
-^1da177e4c3f415 Linus Torvalds     2005-04-16  17  
-^1da177e4c3f415 Linus Torvalds     2005-04-16  18  /*
-^1da177e4c3f415 Linus Torvalds     2005-04-16  19   * MS_SYNC syncs the entire file - including mappings.
-^1da177e4c3f415 Linus Torvalds     2005-04-16  20   *
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  21   * MS_ASYNC does not start I/O (it used to, up to 2.5.67).
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  22   * Nor does it marks the relevant pages dirty (it used to up to 2.6.17).
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  23   * Now it doesn't do anything, since dirty pages are properly tracked.
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  24   *
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  25   * The application may now run fsync() to
-^1da177e4c3f415 Linus Torvalds     2005-04-16  26   * write out the dirty pages and wait on the writeout and check the result.
-^1da177e4c3f415 Linus Torvalds     2005-04-16  27   * Or the application may run fadvise(FADV_DONTNEED) against the fd to start
-^1da177e4c3f415 Linus Torvalds     2005-04-16  28   * async writeout immediately.
-16538c40776b8be Amos Waterland     2006-03-24  29   * So by _not_ starting I/O in MS_ASYNC we provide complete flexibility to
-^1da177e4c3f415 Linus Torvalds     2005-04-16  30   * applications.
-^1da177e4c3f415 Linus Torvalds     2005-04-16  31   */
-6a6160a7b5c27b3 Heiko Carstens     2009-01-14  32  SYSCALL_DEFINE3(msync, unsigned long, start, size_t, len, int, flags)
-^1da177e4c3f415 Linus Torvalds     2005-04-16  33  {
-^1da177e4c3f415 Linus Torvalds     2005-04-16  34  	unsigned long end;
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  35  	struct mm_struct *mm = current->mm;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  36  	struct vm_area_struct *vma;
-676758bdb7bfca8 Andrew Morton      2006-03-24  37  	int unmapped_error = 0;
-676758bdb7bfca8 Andrew Morton      2006-03-24  38  	int error = -EINVAL;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  39  
-057d3389108eda8 Andrey Konovalov   2019-09-25  40  	start = untagged_addr(start);
-057d3389108eda8 Andrey Konovalov   2019-09-25  41  
-^1da177e4c3f415 Linus Torvalds     2005-04-16  42  	if (flags & ~(MS_ASYNC | MS_INVALIDATE | MS_SYNC))
-^1da177e4c3f415 Linus Torvalds     2005-04-16  43  		goto out;
-b0d61c7e56815b0 Alexander Kuleshov 2015-11-05  44  	if (offset_in_page(start))
-^1da177e4c3f415 Linus Torvalds     2005-04-16  45  		goto out;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  46  	if ((flags & MS_ASYNC) && (flags & MS_SYNC))
-^1da177e4c3f415 Linus Torvalds     2005-04-16  47  		goto out;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  48  	error = -ENOMEM;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  49  	len = (len + ~PAGE_MASK) & PAGE_MASK;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  50  	end = start + len;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  51  	if (end < start)
-^1da177e4c3f415 Linus Torvalds     2005-04-16  52  		goto out;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  53  	error = 0;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  54  	if (end == start)
-^1da177e4c3f415 Linus Torvalds     2005-04-16  55  		goto out;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  56  	/*
-^1da177e4c3f415 Linus Torvalds     2005-04-16  57  	 * If the interval [start,end) covers some unmapped address ranges,
-f6899bc03cbadc6 Nikita Ermakov     2021-04-29  58  	 * just ignore them, but return -ENOMEM at the end. Besides, if the
-f6899bc03cbadc6 Nikita Ermakov     2021-04-29  59  	 * flag is MS_ASYNC (w/o MS_INVALIDATE) the result would be -ENOMEM
-f6899bc03cbadc6 Nikita Ermakov     2021-04-29  60  	 * anyway and there is nothing left to do, so return immediately.
-^1da177e4c3f415 Linus Torvalds     2005-04-16  61  	 */
-d8ed45c5dcd455f Michel Lespinasse  2020-06-08  62  	mmap_read_lock(mm);
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  63  	vma = find_vma(mm, start);
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  64  	for (;;) {
-9c50823eebf7c25 Andrew Morton      2006-03-24  65  		struct file *file;
-7fc34a62ca4434a Matthew Wilcox     2014-06-04  66  		loff_t fstart, fend;
-9c50823eebf7c25 Andrew Morton      2006-03-24  67  
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  68  		/* Still start < end. */
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  69  		error = -ENOMEM;
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  70  		if (!vma)
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  71  			goto out_unlock;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  72  		/* Here start < vma->vm_end. */
-^1da177e4c3f415 Linus Torvalds     2005-04-16  73  		if (start < vma->vm_start) {
-f6899bc03cbadc6 Nikita Ermakov     2021-04-29  74  			if (flags == MS_ASYNC)
-f6899bc03cbadc6 Nikita Ermakov     2021-04-29  75  				goto out_unlock;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  76  			start = vma->vm_start;
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  77  			if (start >= end)
-9c50823eebf7c25 Andrew Morton      2006-03-24  78  				goto out_unlock;
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  79  			unmapped_error = -ENOMEM;
-^1da177e4c3f415 Linus Torvalds     2005-04-16  80  		}
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  81  		/* Here vma->vm_start <= start < vma->vm_end. */
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  82  		if ((flags & MS_INVALIDATE) &&
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  83  				(vma->vm_flags & VM_LOCKED)) {
-204ec841fbea3e5 Peter Zijlstra     2006-09-25  84  			error = -EBUSY;
-9c50823eebf7c25 Andrew Morton      2006-03-24  85  			goto out_unlock;
-9c50823eebf7c25 Andrew Morton      2006-03-24  86  		}
-9c50823eebf7c25 Andrew Morton      2006-03-24  87  		file = vma->vm_file;
-496a8e68654a5f4 Namjae Jeon        2014-07-02  88  		fstart = (start - vma->vm_start) +
-496a8e68654a5f4 Namjae Jeon        2014-07-02  89  			 ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
-7fc34a62ca4434a Matthew Wilcox     2014-06-04 @90  		fend = fstart + (min(end, vma->vm_end) - start) - 1;
+vim +/req +1489 fs/ceph/addr.c
+
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1417  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1418  static
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1419  int ceph_submit_write(struct address_space *mapping,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1420  			struct writeback_control *wbc,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1421  			struct ceph_writeback_ctl *ceph_wbc)
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1422  {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1423  	struct inode *inode = mapping->host;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1424  	struct ceph_inode_info *ci = ceph_inode(inode);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1425  	struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1426  	struct ceph_client *cl = fsc->client;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1427  	struct ceph_vino vino = ceph_vino(inode);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1428  	struct ceph_osd_request *req = NULL;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1429  	struct page *page = NULL;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1430  	bool caching = ceph_is_cache_enabled(inode);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1431  	u64 offset;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1432  	u64 len;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1433  	unsigned i;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1434  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1435  new_request:
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1436  	offset = ceph_fscrypt_page_offset(ceph_wbc->pages[0]);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1437  	len = ceph_wbc->wsize;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1438  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1439  	req = ceph_osdc_new_request(&fsc->client->osdc,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1440  				    &ci->i_layout, vino,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1441  				    offset, &len, 0, ceph_wbc->num_ops,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1442  				    CEPH_OSD_OP_WRITE, CEPH_OSD_FLAG_WRITE,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1443  				    ceph_wbc->snapc, ceph_wbc->truncate_seq,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1444  				    ceph_wbc->truncate_size, false);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1445  	if (IS_ERR(req)) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1446  		req = ceph_osdc_new_request(&fsc->client->osdc,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1447  					    &ci->i_layout, vino,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1448  					    offset, &len, 0,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1449  					    min(ceph_wbc->num_ops,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1450  						CEPH_OSD_SLAB_OPS),
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1451  					    CEPH_OSD_OP_WRITE,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1452  					    CEPH_OSD_FLAG_WRITE,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1453  					    ceph_wbc->snapc,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1454  					    ceph_wbc->truncate_seq,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1455  					    ceph_wbc->truncate_size,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1456  					    true);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1457  		BUG_ON(IS_ERR(req));
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1458  	}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1459  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1460  	page = ceph_wbc->pages[ceph_wbc->locked_pages - 1];
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1461  	BUG_ON(len < ceph_fscrypt_page_offset(page) + thp_size(page) - offset);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1462  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1463  	if (!ceph_inc_osd_stopping_blocker(fsc->mdsc)) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1464  		for (i = 0; i < folio_batch_count(&ceph_wbc->fbatch); i++) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1465  			struct folio *folio = ceph_wbc->fbatch.folios[i];
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1466  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1467  			if (!folio)
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1468  				continue;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1469  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1470  			page = &folio->page;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1471  			redirty_page_for_writepage(wbc, page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1472  			unlock_page(page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1473  		}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1474  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1475  		for (i = 0; i < ceph_wbc->locked_pages; i++) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1476  			page = ceph_fscrypt_pagecache_page(ceph_wbc->pages[i]);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1477  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1478  			if (!page)
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1479  				continue;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1480  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1481  			redirty_page_for_writepage(wbc, page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1482  			unlock_page(page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1483  		}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1484  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1485  		ceph_osdc_put_request(req);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1486  		return -EIO;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1487  	}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1488  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04 @1489  	req->r_callback = writepages_finish;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1490  	req->r_inode = inode;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1491  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1492  	/* Format the osd request message and submit the write */
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1493  	len = 0;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1494  	ceph_wbc->data_pages = ceph_wbc->pages;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1495  	ceph_wbc->op_idx = 0;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1496  	for (i = 0; i < ceph_wbc->locked_pages; i++) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1497  		u64 cur_offset;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1498  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1499  		page = ceph_fscrypt_pagecache_page(ceph_wbc->pages[i]);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1500  		cur_offset = page_offset(page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1501  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1502  		/*
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1503  		 * Discontinuity in page range? Ceph can handle that by just passing
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1504  		 * multiple extents in the write op.
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1505  		 */
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1506  		if (offset + len != cur_offset) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1507  			/* If it's full, stop here */
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1508  			if (ceph_wbc->op_idx + 1 == req->r_num_ops)
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1509  				break;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1510  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1511  			/* Kick off an fscache write with what we have so far. */
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1512  			ceph_fscache_write_to_cache(inode, offset, len, caching);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1513  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1514  			/* Start a new extent */
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1515  			osd_req_op_extent_dup_last(req, ceph_wbc->op_idx,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1516  						   cur_offset - offset);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1517  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1518  			doutc(cl, "got pages at %llu~%llu\n", offset, len);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1519  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1520  			osd_req_op_extent_osd_data_pages(req, ceph_wbc->op_idx,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1521  							 ceph_wbc->data_pages,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1522  							 len, 0,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1523  							 ceph_wbc->from_pool,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1524  							 false);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1525  			osd_req_op_extent_update(req, ceph_wbc->op_idx, len);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1526  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1527  			len = 0;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1528  			offset = cur_offset;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1529  			ceph_wbc->data_pages = ceph_wbc->pages + i;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1530  			ceph_wbc->op_idx++;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1531  		}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1532  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1533  		set_page_writeback(page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1534  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1535  		if (caching)
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1536  			ceph_set_page_fscache(page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1537  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1538  		len += thp_size(page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1539  	}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1540  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1541  	ceph_fscache_write_to_cache(inode, offset, len, caching);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1542  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1543  	if (ceph_wbc->size_stable) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1544  		len = min(len, ceph_wbc->i_size - offset);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1545  	} else if (i == ceph_wbc->locked_pages) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1546  		/* writepages_finish() clears writeback pages
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1547  		 * according to the data length, so make sure
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1548  		 * data length covers all locked pages */
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1549  		u64 min_len = len + 1 - thp_size(page);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1550  		len = get_writepages_data_length(inode,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1551  						 ceph_wbc->pages[i - 1],
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1552  						 offset);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1553  		len = max(len, min_len);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1554  	}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1555  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1556  	if (IS_ENCRYPTED(inode))
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1557  		len = round_up(len, CEPH_FSCRYPT_BLOCK_SIZE);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1558  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1559  	doutc(cl, "got pages at %llu~%llu\n", offset, len);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1560  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1561  	if (IS_ENCRYPTED(inode) &&
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1562  	    ((offset | len) & ~CEPH_FSCRYPT_BLOCK_MASK)) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1563  		pr_warn_client(cl,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1564  			"bad encrypted write offset=%lld len=%llu\n",
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1565  			offset, len);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1566  	}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1567  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1568  	osd_req_op_extent_osd_data_pages(req, ceph_wbc->op_idx,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1569  					 ceph_wbc->data_pages, len,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1570  					 0, ceph_wbc->from_pool, false);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1571  	osd_req_op_extent_update(req, ceph_wbc->op_idx, len);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1572  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1573  	BUG_ON(ceph_wbc->op_idx + 1 != req->r_num_ops);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1574  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1575  	ceph_wbc->from_pool = false;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1576  	if (i < ceph_wbc->locked_pages) {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1577  		BUG_ON(ceph_wbc->num_ops <= req->r_num_ops);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1578  		ceph_wbc->num_ops -= req->r_num_ops;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1579  		ceph_wbc->locked_pages -= i;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1580  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1581  		/* allocate new pages array for next request */
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1582  		ceph_wbc->data_pages = ceph_wbc->pages;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1583  		__ceph_allocate_page_array(ceph_wbc, ceph_wbc->locked_pages);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1584  		memcpy(ceph_wbc->pages, ceph_wbc->data_pages + i,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1585  			ceph_wbc->locked_pages * sizeof(*ceph_wbc->pages));
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1586  		memset(ceph_wbc->data_pages + i, 0,
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1587  			ceph_wbc->locked_pages * sizeof(*ceph_wbc->pages));
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1588  	} else {
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1589  		BUG_ON(ceph_wbc->num_ops != req->r_num_ops);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1590  		/* request message now owns the pages array */
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1591  		ceph_wbc->pages = NULL;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1592  	}
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1593  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1594  	req->r_mtime = inode_get_mtime(inode);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1595  	ceph_osdc_start_request(&fsc->client->osdc, req);
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1596  	req = NULL;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1597  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1598  	wbc->nr_to_write -= i;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1599  	if (ceph_wbc->pages)
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1600  		goto new_request;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1601  
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1602  	return 0;
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1603  }
+1551ec61dc551d Viacheslav Dubeyko 2025-02-04  1604  
 
 -- 
 0-DAY CI Kernel Test Service
