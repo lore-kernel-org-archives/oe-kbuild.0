@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56367314D2B
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Dec 2025 09:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F952275AE4
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Dec 2025 10:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767171752; cv=none; b=mUikaItXbz/gndie6Ww8j+XYphaVhpg86lP0pQEAafrwxOJAfgGHh2gbOJ8L5qCIvPwBMgn2r11c0n8Kuu+4HO/haV/OJgT02TbcrobdjfzEfUYV2p97AwmPOD7prhUUrvqw8cbfQm/NeOBnoEXtMEHDvqAHXRXpqHTzo+RQICU=
+	t=1767176990; cv=none; b=kMZf41vHZCu9lag+SMzt5tHjNDIFiTyVO5HA3mfGYMNEpm3K/1Dwnmmmmwd3cgoQMM6U1XOW/HQDSmmLD6lZ9DCvqI/13vQAEZrgAZmCdN3JrGsRleMb5XY3tqKMAFrpPmRpoyC3i+1BfDh7EQlvsMOm/LPS9Ej6TbNEsFAc7tM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767171752; c=relaxed/simple;
-	bh=uLQP+HlW1JgiGSrHZbRdRZMzUho+YeANI6/VuX+N/sI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=o1v9NA6p/VHnFi3zB84zf+odkvar7qUnO+CNyw18PJhvkoUeNTcp5dwkURJhAlkER+EML02IN1PDQaeu7x8ocX2wCX7gGd3/rTSROzAALl8tJhFyy1DRtOo0fQmG16/PzNVkf32MGrPmfQ05/mkZOGfUjVHYilTNwTc3+Try/XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9nAc4KH; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1767176990; c=relaxed/simple;
+	bh=C3o+kRe67EwWUTaiSFtYMS+oRoaUgwyW5bN/Q11iiCg=;
+	h=Date:From:To:Subject:Message-ID; b=m6wBRw+zaJiu17sOw+ruyyn8kkbbcWfxDYGObyLa+IDsViaqGFCpAVuRYjgJIPNpA9SacRq5FXtmO3Z0WB1Qm+zQ0d2gdfTZEZUpcP5IpzJE6wiTusZUxrQDAKZgfKG8Gl+gYpK69wAggmw2X7Os7h1VLcob9/yEP6/2MqDez1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CMjI15rq; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9nAc4KH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CMjI15rq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767171751; x=1798707751;
-  h=date:from:to:cc:subject:message-id;
-  bh=uLQP+HlW1JgiGSrHZbRdRZMzUho+YeANI6/VuX+N/sI=;
-  b=E9nAc4KHXLFuulDpjDGmWbqpH/cTL1V17M7K22gT2LySmTO09ZhAR/QT
-   sg9eMfXVlIcmsQN74F8rX+biIy3og7Ffbddf1kE91GqHO/Jof6xQikDMF
-   4OIKKV4KmX1RXBb3wD6MjepRduRINJL+gmuU1Ikx6s4H8oJAHZVwAIyQr
-   KwpLoW1+9zrGQT4gHxp8Ud9wyCHj0gjcB5OCSVMFcuVQZf1Oks5ZHWKfj
-   ec9B5ayXMUvRl008/kEtsD3gaUsWYOFVcFm28lZNR3hB8yHJ4BybiCep3
-   Pnb6eNFCfaKABtRK8SV8TfyfkywJkXlNXE01SS9mVIouMo0xj54wQ8HVB
-   Q==;
-X-CSE-ConnectionGUID: 9uJkxKc6Q8mfJ6VcjpxlaQ==
-X-CSE-MsgGUID: nWRwnVtLSlmVFOt3bIaq8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="67940473"
+  t=1767176990; x=1798712990;
+  h=date:from:to:subject:message-id;
+  bh=C3o+kRe67EwWUTaiSFtYMS+oRoaUgwyW5bN/Q11iiCg=;
+  b=CMjI15rqtBXvN5yPeOvituR2UD7+qIlWCUaMmN+bwN+yRpGOO5Qk11Dn
+   AZ8yN4DDvPAP1Fae4o9mGfZJUFbkLelVkEo8LsYbQVTLm8lSqVlE0SHwg
+   USX9YkAKwqH02J0GSxnxV6D9nY/oAdU3IpFBrjnT4VYmLe0GoISyZ2Icx
+   uXajKojZDwJjldGeW3lH6aT2/Z1Y/CnNY4cS2EgxnTFfcGcCxutKfEaDw
+   bPhPxZlVBVoLf2XGO81d1QZERVd76Bn3RNz+e+nzbKhH8yxfQHe3N6gZP
+   d+S0hQQDR6gvOvlwaePO8PCHK5a4wyrFIVPw/skeVOuUvIK1viJCwkvED
+   g==;
+X-CSE-ConnectionGUID: ECAvBZKeTLyjNxoUMKehog==
+X-CSE-MsgGUID: Cc6lHKRATBGWaOqk9REwdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="68815755"
 X-IronPort-AV: E=Sophos;i="6.21,191,1763452800"; 
-   d="scan'208";a="67940473"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 01:02:30 -0800
-X-CSE-ConnectionGUID: b82vyBUdSYCcyNklDYHmJQ==
-X-CSE-MsgGUID: xT7nEM1UR3W7nvi+nr++Sg==
+   d="scan'208";a="68815755"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 02:29:49 -0800
+X-CSE-ConnectionGUID: qBJne3CvRF+vkiZh/my4oQ==
+X-CSE-MsgGUID: fssDiRCTQlOrWxpv/X7OgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,191,1763452800"; 
-   d="scan'208";a="200608858"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 31 Dec 2025 01:02:28 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
+   d="scan'208";a="201289546"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 31 Dec 2025 02:29:48 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vas65-0000000014D-3UHE;
-	Wed, 31 Dec 2025 09:02:25 +0000
-Date: Wed, 31 Dec 2025 17:02:11 +0800
+	id 1vatSc-0000000002v-0aOe
+	for oe-kbuild@lists.linux.dev;
+	Wed, 31 Dec 2025 10:29:46 +0000
+Date: Wed, 31 Dec 2025 11:29:27 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android16-6.12 2/2] mm/huge_memory.c:870
- setup_thp_anon() error: strcpy() 'str' too large for 'str_dup' (1010102 vs
- 4096)
-Message-ID: <202512311652.9mCXc1ig-lkp@intel.com>
+Subject: [rppt:hugetlb-init/v2 22/28] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'it'
+Message-ID: <202512311100.blYQXq6w-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,104 +59,26 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   ecd8c13eebd9ac39eaa1b45d9fe23ff020c4e68c
-commit: dd4d30d1cdbe826e6569b44453c2d9bb9424d234 [2/2] mm: override mTHP "enabled" defaults at kernel cmdline
-:::::: branch date: 19 hours ago
-:::::: commit date: 1 year, 4 months ago
-config: i386-randconfig-141-20251231 (https://download.01.org/0day-ci/archive/20251231/202512311652.9mCXc1ig-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git hugetlb-init/v2
+head:   7d599e1adc180839a78060d547becaa0d5bbc061
+commit: f3a9ab7909ff815b296d1893774d4bb7d816d61f [22/28] arch, mm: consolidate initialization of nodes, zones and memory map
+:::::: branch date: 86 minutes ago
+:::::: commit date: 2 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251231/202512311100.blYQXq6w-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512311652.9mCXc1ig-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-smatch warnings:
-mm/huge_memory.c:870 setup_thp_anon() error: strcpy() 'str' too large for 'str_dup' (1010102 vs 4096)
-
-vim +870 mm/huge_memory.c
-
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  858  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  859  static char str_dup[PAGE_SIZE] __initdata;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  860  static int __init setup_thp_anon(char *str)
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  861  {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  862  	char *token, *range, *policy, *subtoken;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  863  	unsigned long always, inherit, madvise;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  864  	char *start_size, *end_size;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  865  	int start, end, nr;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  866  	char *p;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  867  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  868  	if (!str || strlen(str) + 1 > PAGE_SIZE)
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  869  		goto err;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14 @870  	strcpy(str_dup, str);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  871  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  872  	always = huge_anon_orders_always;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  873  	madvise = huge_anon_orders_madvise;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  874  	inherit = huge_anon_orders_inherit;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  875  	p = str_dup;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  876  	while ((token = strsep(&p, ";")) != NULL) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  877  		range = strsep(&token, ":");
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  878  		policy = token;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  879  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  880  		if (!policy)
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  881  			goto err;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  882  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  883  		while ((subtoken = strsep(&range, ",")) != NULL) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  884  			if (strchr(subtoken, '-')) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  885  				start_size = strsep(&subtoken, "-");
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  886  				end_size = subtoken;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  887  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  888  				start = get_order_from_str(start_size);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  889  				end = get_order_from_str(end_size);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  890  			} else {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  891  				start = end = get_order_from_str(subtoken);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  892  			}
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  893  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  894  			if (start < 0 || end < 0 || start > end)
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  895  				goto err;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  896  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  897  			nr = end - start + 1;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  898  			if (!strcmp(policy, "always")) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  899  				bitmap_set(&always, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  900  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  901  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  902  			} else if (!strcmp(policy, "madvise")) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  903  				bitmap_set(&madvise, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  904  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  905  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  906  			} else if (!strcmp(policy, "inherit")) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  907  				bitmap_set(&inherit, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  908  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  909  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  910  			} else if (!strcmp(policy, "never")) {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  911  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  912  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  913  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  914  			} else {
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  915  				pr_err("invalid policy %s in thp_anon boot parameter\n", policy);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  916  				goto err;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  917  			}
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  918  		}
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  919  	}
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  920  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  921  	huge_anon_orders_always = always;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  922  	huge_anon_orders_madvise = madvise;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  923  	huge_anon_orders_inherit = inherit;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  924  	anon_orders_configured = true;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  925  	return 1;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  926  
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  927  err:
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  928  	pr_warn("thp_anon=%s: error parsing string, ignoring setting\n", str);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  929  	return 0;
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  930  }
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  931  __setup("thp_anon=", setup_thp_anon);
-dd4d30d1cdbe826 Ryan Roberts 2024-08-14  932  
+WARNING:REPEATED_WORD: Possible repeated word: 'it'
+#29: 
+After this refactoring it it possible to consolidate hugetlb allocations
 
 -- 
 0-DAY CI Kernel Test Service
