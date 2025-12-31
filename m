@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8F31A9FAA
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Dec 2025 20:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA21205E02
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Dec 2025 20:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767211339; cv=none; b=aASx7Y3b9n4mtrRL9bmXKU2RECkhC4X2PSqX9OAm/g5DOAqgwTgZkoYyh7VTqgexHBheWDNg4RksCFX1src4uis77uGJHdh6OYTgWH+iIwMASO8o1bva6sPHVnPnnQuc+Skf+321tAzlborEVmzqlrB3yWytoSJEejid+6Weo6U=
+	t=1767213199; cv=none; b=ayxj6QG0A3pKSd6MjJBHr6zgQDt9OnicaNzMlvfxmle1q3losCLi+BRq6vrzSpZUoOyqI/cniIPlcdX3xBuMxISbKRw09mzd68e5WhgYoOHphfY+lH0NmzYSWQjPLQzUQkjE4Z0A+dZSgWHOIAG1Zv5JIguW3hUJpZuQ6FHayeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767211339; c=relaxed/simple;
-	bh=A4I1KQn9LL76JnkT2To6GZvzSQJI++TkgX0Um74R/Qg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A6SAhPPKozYSucC7Lb2x3TBcmOsdXbIpzbRgCeFmCL5CooMXb9uyeUia7sFoID1CggORR8nziX2TnmKvGN/GTY6wr93tvU+sAQ7QdkXmM1ADpHCqw+iCD3D7NR4lxruA9ta9u4Cro7IJVq+q/nKFhiBCMg9vvrYjd0+3BFRjxnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lPiiXSiJ; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1767213199; c=relaxed/simple;
+	bh=zQzcf8ZbMqSfDHmerQFgKC3Gi36791MG24uCEPx2NJU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VBieHWl85RLLtwoTjgUdRIyJV3iyjlfrxQ0xzPQP8e/eOzcQcC3eW5vr2o24Rzu5TrGJFd/vHdPIeMWzWetlVBhR4yS0meU3acAuWB5/ZASO5wlW+bDqa3w93x96UWAnZ5Iqi/bdUKOd57ZsU2d0GcjXjOtzTFhqWrVlHZ9JYyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VOTHomzE; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lPiiXSiJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VOTHomzE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767211338; x=1798747338;
+  t=1767213197; x=1798749197;
   h=date:from:to:cc:subject:message-id;
-  bh=A4I1KQn9LL76JnkT2To6GZvzSQJI++TkgX0Um74R/Qg=;
-  b=lPiiXSiJyaC4yO2EU2MhUzFay4YjS5cMYPfjoo5R7fG3ldi4v3hOPyi+
-   u7I/NS37Q1+yK6hKTELjuUctJdBdHTYoekR7p71vWuz2/AlCLGXQ/LZ1w
-   AC/d5hnrs0l1KKnhGVqU3oxCLA/fE/a7yEsm2iAqpWl4wPg7fo6QmfWal
-   1BnaXRiDv2/dA1aC0fxHX4PMSxWDKXALR0qUtLwKUIoc+1g6CD3IJlHOp
-   bKiZnuJvacgEbH9TYNCNElRk5yGVk8BazwjUsslItRY6b+LD5fvHJzdOe
-   RBtU7ZAYcrFgSv/k45BKFlZGzUP++xQSUaHOCVokvswa6u6SytgcUdlL+
-   Q==;
-X-CSE-ConnectionGUID: FgPJyXStSqi5ouEYC+0Udw==
-X-CSE-MsgGUID: Iz8taUrJSC+bMx0AR3uGIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="80150832"
+  bh=zQzcf8ZbMqSfDHmerQFgKC3Gi36791MG24uCEPx2NJU=;
+  b=VOTHomzE6Is82QB9N/7ddOz4Eqpphpr1B669pW1qboqcbqAWkvW/IUrk
+   uWIEjGdL5Pvlmodqk9slm9KK/Rky4DxaG2ksqih//xcpRrz7qxf8ihjnj
+   Vtqs16glzLCJaKsQKVkyPbSZN8TU0sQDDRfEQWgaK2Ieqo7ukkKWowsyX
+   hIvlfTM2LQu+MPZf91jO8b9hJL3/6Qp1qBf+CgFEBgDY+NKRxUVWVYGFY
+   /w7C3z4JQ3KNEssQYyDQJARoPH/dqfbDnn+vodm3wea9eF7OyfKEkMQ0n
+   42Bb8KJf33bM/Vf+UO/2O54X5bfRH2Q9wVvbdte88bMu9rza9/vVc+bkI
+   w==;
+X-CSE-ConnectionGUID: bWTzkFDoQoqGvZIo+mX66A==
+X-CSE-MsgGUID: BR4TY9glTjW9fF1QCILzXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="56343399"
 X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
-   d="scan'208";a="80150832"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 12:02:15 -0800
-X-CSE-ConnectionGUID: MGLBtHJ0TKaLOI3ImgZHEA==
-X-CSE-MsgGUID: LnJZzZVHR168sRZiqLQGdA==
+   d="scan'208";a="56343399"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 12:33:16 -0800
+X-CSE-ConnectionGUID: 9y2QMSU5RweuDKY5habchw==
+X-CSE-MsgGUID: 8iFBwHh+RjaaP/iNUE1qrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
-   d="scan'208";a="202456889"
+   d="scan'208";a="201514553"
 Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 31 Dec 2025 12:02:14 -0800
+  by orviesa007.jf.intel.com with ESMTP; 31 Dec 2025 12:33:15 -0800
 Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vb2OZ-000000001SC-2ppe;
-	Wed, 31 Dec 2025 20:02:11 +0000
-Date: Thu, 01 Jan 2026 04:01:28 +0800
+	id 1vb2sa-000000001TR-2iZY;
+	Wed, 31 Dec 2025 20:33:12 +0000
+Date: Thu, 01 Jan 2026 04:32:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/vmscan.c:784 __remove_mapping() error: uninitialized
- symbol 'ci'.
-Message-ID: <202601010353.E7g5cCo8-lkp@intel.com>
+Subject: drivers/infiniband/hw/bng_re/bng_dev.c:113
+ bng_re_net_ring_free() warn: variable dereferenced before check 'rdev' (see
+ line 107)
+Message-ID: <202601010413.sWadrQel-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,141 +63,239 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kairui Song <kasong@tencent.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Chris Li <chrisl@kernel.org>
+TO: Siva Reddy Kallam <siva.kallam@broadcom.com>
+CC: Leon Romanovsky <leon@kernel.org>
+CC: Usman Ansari <usman.ansari@broadcom.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c8ebd433459bcbf068682b09544e830acd7ed222
-commit: 8578e0c00dcf0c58fbc32d4904ecaf8e802a6590 mm, swap: use the swap table for the swap cache and switch API
-date:   3 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 3 months ago
-config: m68k-randconfig-r073-20251231 (https://download.01.org/0day-ci/archive/20260101/202601010353.E7g5cCo8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.3.0
+commit: 4f830cd8d7fe3e98fc12d25f347ed461e11fc1de RDMA/bng_re: Add infrastructure for enabling Firmware channel
+date:   5 weeks ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 5 weeks ago
+config: s390-randconfig-r073-20251231 (https://download.01.org/0day-ci/archive/20260101/202601010413.sWadrQel-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 86b9f90b9574b3a7d15d28a91f6316459dcfa046)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601010353.E7g5cCo8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601010413.sWadrQel-lkp@intel.com/
 
 smatch warnings:
-mm/vmscan.c:784 __remove_mapping() error: uninitialized symbol 'ci'.
+drivers/infiniband/hw/bng_re/bng_dev.c:113 bng_re_net_ring_free() warn: variable dereferenced before check 'rdev' (see line 107)
+drivers/infiniband/hw/bng_re/bng_dev.c:270 bng_re_dev_init() warn: missing unwind goto?
 
-vim +/ci +784 mm/vmscan.c
+vim +/rdev +113 drivers/infiniband/hw/bng_re/bng_dev.c
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  723  
-a649fd9271773d Andrew Morton           2006-10-17  724  /*
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  725)  * Same as remove_mapping, but if the folio is removed from the mapping, it
-e286781d5f2e9c Nicholas Piggin         2008-07-25  726   * gets returned with a refcount of 0.
-a649fd9271773d Andrew Morton           2006-10-17  727   */
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  728) static int __remove_mapping(struct address_space *mapping, struct folio *folio,
-b910718a948a91 Johannes Weiner         2019-11-30  729  			    bool reclaimed, struct mem_cgroup *target_memcg)
-49d2e9cc454436 Christoph Lameter       2006-01-08  730  {
-bd4c82c22c367e Ying Huang              2017-09-06  731  	int refcount;
-aae466b0052e18 Joonsoo Kim             2020-08-11  732  	void *shadow = NULL;
-8578e0c00dcf0c Kairui Song             2025-09-17  733  	struct swap_cluster_info *ci;
-c4843a7593a9df Greg Thelen             2015-05-22  734  
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  735) 	BUG_ON(!folio_test_locked(folio));
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  736) 	BUG_ON(mapping != folio_mapping(folio));
-49d2e9cc454436 Christoph Lameter       2006-01-08  737  
-8578e0c00dcf0c Kairui Song             2025-09-17  738  	if (folio_test_swapcache(folio)) {
-8578e0c00dcf0c Kairui Song             2025-09-17  739  		ci = swap_cluster_get_and_lock_irq(folio);
-8578e0c00dcf0c Kairui Song             2025-09-17  740  	} else {
-51b8c1fe250d1b Johannes Weiner         2021-11-08  741  		spin_lock(&mapping->host->i_lock);
-3047250972ff93 Johannes Weiner         2021-09-02  742  		xa_lock_irq(&mapping->i_pages);
-8578e0c00dcf0c Kairui Song             2025-09-17  743  	}
-8578e0c00dcf0c Kairui Song             2025-09-17  744  
-49d2e9cc454436 Christoph Lameter       2006-01-08  745  	/*
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  746) 	 * The non racy check for a busy folio.
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  747  	 *
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  748  	 * Must be careful with the order of the tests. When someone has
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  749) 	 * a ref to the folio, it may be possible that they dirty it then
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  750) 	 * drop the reference. So if the dirty flag is tested before the
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  751) 	 * refcount here, then the following race may occur:
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  752  	 *
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  753  	 * get_user_pages(&page);
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  754  	 * [user mapping goes away]
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  755  	 * write_to(page);
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  756) 	 *				!folio_test_dirty(folio)    [good]
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  757) 	 * folio_set_dirty(folio);
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  758) 	 * folio_put(folio);
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  759) 	 *				!refcount(folio)   [good, discard it]
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  760  	 *
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  761  	 * [oops, our write_to data is lost]
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  762  	 *
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  763  	 * Reversing the order of the tests ensures such a situation cannot
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  764) 	 * escape unnoticed. The smp_rmb is needed to ensure the folio->flags
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  765) 	 * load is not satisfied before that of folio->_refcount.
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  766  	 *
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  767) 	 * Note that if the dirty flag is always set via folio_mark_dirty,
-b93b016313b3ba Matthew Wilcox          2018-04-10  768  	 * and thus under the i_pages lock, then this ordering is not required.
-49d2e9cc454436 Christoph Lameter       2006-01-08  769  	 */
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  770) 	refcount = 1 + folio_nr_pages(folio);
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  771) 	if (!folio_ref_freeze(folio, refcount))
-49d2e9cc454436 Christoph Lameter       2006-01-08  772  		goto cannot_free;
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  773) 	/* note: atomic_cmpxchg in folio_ref_freeze provides the smp_rmb */
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  774) 	if (unlikely(folio_test_dirty(folio))) {
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  775) 		folio_ref_unfreeze(folio, refcount);
-49d2e9cc454436 Christoph Lameter       2006-01-08  776  		goto cannot_free;
-e286781d5f2e9c Nicholas Piggin         2008-07-25  777  	}
-49d2e9cc454436 Christoph Lameter       2006-01-08  778  
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  779) 	if (folio_test_swapcache(folio)) {
-3d2c9087688777 David Hildenbrand       2023-08-21  780  		swp_entry_t swap = folio->swap;
-ac35a490237446 Yu Zhao                 2022-09-18  781  
-aae466b0052e18 Joonsoo Kim             2020-08-11  782  		if (reclaimed && !mapping_exiting(mapping))
-8927f6473e56e3 Matthew Wilcox (Oracle  2021-12-23  783) 			shadow = workingset_eviction(folio, target_memcg);
-8578e0c00dcf0c Kairui Song             2025-09-17 @784  		__swap_cache_del_folio(ci, folio, swap, shadow);
-89ce924f0bd447 Johannes Weiner         2025-01-24  785  		memcg1_swapout(folio, swap);
-8578e0c00dcf0c Kairui Song             2025-09-17  786  		swap_cluster_unlock_irq(ci);
-4081f7446d95a9 Matthew Wilcox (Oracle  2022-09-02  787) 		put_swap_folio(folio, swap);
-e286781d5f2e9c Nicholas Piggin         2008-07-25  788  	} else {
-d2329aa0c78f4a Matthew Wilcox (Oracle  2022-05-01  789) 		void (*free_folio)(struct folio *);
-6072d13c429373 Linus Torvalds          2010-12-01  790  
-d2329aa0c78f4a Matthew Wilcox (Oracle  2022-05-01  791) 		free_folio = mapping->a_ops->free_folio;
-a528910e12ec7e Johannes Weiner         2014-04-03  792  		/*
-a528910e12ec7e Johannes Weiner         2014-04-03  793  		 * Remember a shadow entry for reclaimed file cache in
-a528910e12ec7e Johannes Weiner         2014-04-03  794  		 * order to detect refaults, thus thrashing, later on.
-a528910e12ec7e Johannes Weiner         2014-04-03  795  		 *
-a528910e12ec7e Johannes Weiner         2014-04-03  796  		 * But don't store shadows in an address space that is
-238c30468f46b1 dylan-meiners           2020-08-06  797  		 * already exiting.  This is not just an optimization,
-a528910e12ec7e Johannes Weiner         2014-04-03  798  		 * inode reclaim needs to empty out the radix tree or
-a528910e12ec7e Johannes Weiner         2014-04-03  799  		 * the nodes are lost.  Don't plant shadows behind its
-a528910e12ec7e Johannes Weiner         2014-04-03  800  		 * back.
-f9fe48bece3af2 Ross Zwisler            2016-01-22  801  		 *
-f9fe48bece3af2 Ross Zwisler            2016-01-22  802  		 * We also don't store shadows for DAX mappings because the
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  803) 		 * only page cache folios found in these are zero pages
-f9fe48bece3af2 Ross Zwisler            2016-01-22  804  		 * covering holes, and because we don't want to mix DAX
-f9fe48bece3af2 Ross Zwisler            2016-01-22  805  		 * exceptional entries and shadow exceptional entries in the
-b93b016313b3ba Matthew Wilcox          2018-04-10  806  		 * same address_space.
-a528910e12ec7e Johannes Weiner         2014-04-03  807  		 */
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  808) 		if (reclaimed && folio_is_file_lru(folio) &&
-f9fe48bece3af2 Ross Zwisler            2016-01-22  809  		    !mapping_exiting(mapping) && !dax_mapping(mapping))
-8927f6473e56e3 Matthew Wilcox (Oracle  2021-12-23  810) 			shadow = workingset_eviction(folio, target_memcg);
-8927f6473e56e3 Matthew Wilcox (Oracle  2021-12-23  811) 		__filemap_remove_folio(folio, shadow);
-3047250972ff93 Johannes Weiner         2021-09-02  812  		xa_unlock_irq(&mapping->i_pages);
-51b8c1fe250d1b Johannes Weiner         2021-11-08  813  		if (mapping_shrinkable(mapping))
-51b8c1fe250d1b Johannes Weiner         2021-11-08  814  			inode_add_lru(mapping->host);
-51b8c1fe250d1b Johannes Weiner         2021-11-08  815  		spin_unlock(&mapping->host->i_lock);
-6072d13c429373 Linus Torvalds          2010-12-01  816  
-d2329aa0c78f4a Matthew Wilcox (Oracle  2022-05-01  817) 		if (free_folio)
-d2329aa0c78f4a Matthew Wilcox (Oracle  2022-05-01  818) 			free_folio(folio);
-e286781d5f2e9c Nicholas Piggin         2008-07-25  819  	}
-e286781d5f2e9c Nicholas Piggin         2008-07-25  820  
-49d2e9cc454436 Christoph Lameter       2006-01-08  821  	return 1;
-49d2e9cc454436 Christoph Lameter       2006-01-08  822  
-49d2e9cc454436 Christoph Lameter       2006-01-08  823  cannot_free:
-8578e0c00dcf0c Kairui Song             2025-09-17  824  	if (folio_test_swapcache(folio)) {
-8578e0c00dcf0c Kairui Song             2025-09-17  825  		swap_cluster_unlock_irq(ci);
-8578e0c00dcf0c Kairui Song             2025-09-17  826  	} else {
-3047250972ff93 Johannes Weiner         2021-09-02  827  		xa_unlock_irq(&mapping->i_pages);
-51b8c1fe250d1b Johannes Weiner         2021-11-08  828  		spin_unlock(&mapping->host->i_lock);
-8578e0c00dcf0c Kairui Song             2025-09-17  829  	}
-49d2e9cc454436 Christoph Lameter       2006-01-08  830  	return 0;
-49d2e9cc454436 Christoph Lameter       2006-01-08  831  }
-49d2e9cc454436 Christoph Lameter       2006-01-08  832  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  103  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  104  static int bng_re_net_ring_free(struct bng_re_dev *rdev,
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  105  				u16 fw_ring_id, int type)
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  106  {
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17 @107  	struct bnge_auxr_dev *aux_dev = rdev->aux_dev;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  108  	struct hwrm_ring_free_input req = {};
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  109  	struct hwrm_ring_free_output resp;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  110  	struct bnge_fw_msg fw_msg = {};
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  111  	int rc = -EINVAL;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  112  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17 @113  	if (!rdev)
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  114  		return rc;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  115  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  116  	if (!aux_dev)
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  117  		return rc;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  118  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  119  	bng_re_init_hwrm_hdr((void *)&req, HWRM_RING_FREE);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  120  	req.ring_type = type;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  121  	req.ring_id = cpu_to_le16(fw_ring_id);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  122  	bng_re_fill_fw_msg(&fw_msg, (void *)&req, sizeof(req), (void *)&resp,
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  123  			    sizeof(resp), BNGE_DFLT_HWRM_CMD_TIMEOUT);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  124  	rc = bnge_send_msg(aux_dev, &fw_msg);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  125  	if (rc)
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  126  		ibdev_err(&rdev->ibdev, "Failed to free HW ring:%d :%#x",
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  127  			  req.ring_id, rc);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  128  	return rc;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  129  }
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  130  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  131  static int bng_re_net_ring_alloc(struct bng_re_dev *rdev,
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  132  				 struct bng_re_ring_attr *ring_attr,
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  133  				 u16 *fw_ring_id)
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  134  {
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  135  	struct bnge_auxr_dev *aux_dev = rdev->aux_dev;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  136  	struct hwrm_ring_alloc_input req = {};
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  137  	struct hwrm_ring_alloc_output resp;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  138  	struct bnge_fw_msg fw_msg = {};
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  139  	int rc = -EINVAL;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  140  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  141  	if (!aux_dev)
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  142  		return rc;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  143  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  144  	bng_re_init_hwrm_hdr((void *)&req, HWRM_RING_ALLOC);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  145  	req.enables = 0;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  146  	req.page_tbl_addr =  cpu_to_le64(ring_attr->dma_arr[0]);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  147  	if (ring_attr->pages > 1) {
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  148  		/* Page size is in log2 units */
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  149  		req.page_size = BNGE_PAGE_SHIFT;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  150  		req.page_tbl_depth = 1;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  151  	}
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  152  	req.fbo = 0;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  153  	/* Association of ring index with doorbell index and MSIX number */
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  154  	req.logical_id = cpu_to_le16(ring_attr->lrid);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  155  	req.length = cpu_to_le32(ring_attr->depth + 1);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  156  	req.ring_type = ring_attr->type;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  157  	req.int_mode = ring_attr->mode;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  158  	bng_re_fill_fw_msg(&fw_msg, (void *)&req, sizeof(req), (void *)&resp,
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  159  			   sizeof(resp), BNGE_DFLT_HWRM_CMD_TIMEOUT);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  160  	rc = bnge_send_msg(aux_dev, &fw_msg);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  161  	if (!rc)
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  162  		*fw_ring_id = le16_to_cpu(resp.ring_id);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  163  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  164  	return rc;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  165  }
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  166  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  167  static void bng_re_query_hwrm_version(struct bng_re_dev *rdev)
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  168  {
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  169  	struct bnge_auxr_dev *aux_dev = rdev->aux_dev;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  170  	struct hwrm_ver_get_output ver_get_resp = {};
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  171  	struct hwrm_ver_get_input ver_get_req = {};
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  172  	struct bng_re_chip_ctx *cctx;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  173  	struct bnge_fw_msg fw_msg = {};
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  174  	int rc;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  175  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  176  	bng_re_init_hwrm_hdr((void *)&ver_get_req, HWRM_VER_GET);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  177  	ver_get_req.hwrm_intf_maj = HWRM_VERSION_MAJOR;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  178  	ver_get_req.hwrm_intf_min = HWRM_VERSION_MINOR;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  179  	ver_get_req.hwrm_intf_upd = HWRM_VERSION_UPDATE;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  180  	bng_re_fill_fw_msg(&fw_msg, (void *)&ver_get_req, sizeof(ver_get_req),
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  181  			    (void *)&ver_get_resp, sizeof(ver_get_resp),
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  182  			    BNGE_DFLT_HWRM_CMD_TIMEOUT);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  183  	rc = bnge_send_msg(aux_dev, &fw_msg);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  184  	if (rc) {
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  185  		ibdev_err(&rdev->ibdev, "Failed to query HW version, rc = 0x%x",
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  186  			  rc);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  187  		return;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  188  	}
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  189  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  190  	cctx = rdev->chip_ctx;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  191  	cctx->hwrm_intf_ver =
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  192  		(u64)le16_to_cpu(ver_get_resp.hwrm_intf_major) << 48 |
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  193  		(u64)le16_to_cpu(ver_get_resp.hwrm_intf_minor) << 32 |
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  194  		(u64)le16_to_cpu(ver_get_resp.hwrm_intf_build) << 16 |
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  195  		le16_to_cpu(ver_get_resp.hwrm_intf_patch);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  196  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  197  	cctx->hwrm_cmd_max_timeout = le16_to_cpu(ver_get_resp.max_req_timeout);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  198  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  199  	if (!cctx->hwrm_cmd_max_timeout)
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  200  		cctx->hwrm_cmd_max_timeout = BNG_ROCE_FW_MAX_TIMEOUT;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  201  }
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  202  
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  203  static void bng_re_dev_uninit(struct bng_re_dev *rdev)
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  204  {
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  205  	bng_re_disable_rcfw_channel(&rdev->rcfw);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  206  	bng_re_net_ring_free(rdev, rdev->rcfw.creq.ring_id,
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  207  			     RING_ALLOC_REQ_RING_TYPE_NQ);
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  208  	bng_re_free_rcfw_channel(&rdev->rcfw);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  209  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  210  	kfree(rdev->nqr);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  211  	rdev->nqr = NULL;
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  212  	bng_re_destroy_chip_ctx(rdev);
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  213  	if (test_and_clear_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags))
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  214  		bnge_unregister_dev(rdev->aux_dev);
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  215  }
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  216  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  217  static int bng_re_dev_init(struct bng_re_dev *rdev)
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  218  {
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  219  	struct bng_re_ring_attr rattr = {};
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  220  	struct bng_re_creq_ctx *creq;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  221  	u32 db_offt;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  222  	int vid;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  223  	u8 type;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  224  	int rc;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  225  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  226  	/* Registered a new RoCE device instance to netdev */
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  227  	rc = bng_re_register_netdev(rdev);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  228  	if (rc) {
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  229  		ibdev_err(&rdev->ibdev,
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  230  				"Failed to register with netedev: %#x\n", rc);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  231  		return -EINVAL;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  232  	}
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  233  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  234  	set_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  235  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  236  	if (rdev->aux_dev->auxr_info->msix_requested < BNG_RE_MIN_MSIX) {
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  237  		ibdev_err(&rdev->ibdev,
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  238  			  "RoCE requires minimum 2 MSI-X vectors, but only %d reserved\n",
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  239  			  rdev->aux_dev->auxr_info->msix_requested);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  240  		bnge_unregister_dev(rdev->aux_dev);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  241  		clear_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  242  		return -EINVAL;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  243  	}
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  244  	ibdev_dbg(&rdev->ibdev, "Got %d MSI-X vectors\n",
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  245  		  rdev->aux_dev->auxr_info->msix_requested);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  246  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  247  	rc = bng_re_setup_chip_ctx(rdev);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  248  	if (rc) {
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  249  		bnge_unregister_dev(rdev->aux_dev);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  250  		clear_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  251  		ibdev_err(&rdev->ibdev, "Failed to get chip context\n");
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  252  		return -EINVAL;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  253  	}
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  254  
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  255  	bng_re_query_hwrm_version(rdev);
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  256  
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  257  	rc = bng_re_alloc_fw_channel(&rdev->bng_res, &rdev->rcfw);
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  258  	if (rc) {
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  259  		ibdev_err(&rdev->ibdev,
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  260  			  "Failed to allocate RCFW Channel: %#x\n", rc);
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  261  		goto fail;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  262  	}
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  263  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  264  	/* Allocate nq record memory */
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  265  	rdev->nqr = kzalloc(sizeof(*rdev->nqr), GFP_KERNEL);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  266  	if (!rdev->nqr) {
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  267  		bng_re_destroy_chip_ctx(rdev);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  268  		bnge_unregister_dev(rdev->aux_dev);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  269  		clear_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17 @270  		return -ENOMEM;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  271  	}
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  272  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  273  	rdev->nqr->num_msix = rdev->aux_dev->auxr_info->msix_requested;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  274  	memcpy(rdev->nqr->msix_entries, rdev->aux_dev->msix_info,
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  275  	       sizeof(struct bnge_msix_info) * rdev->nqr->num_msix);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  276  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  277  	type = RING_ALLOC_REQ_RING_TYPE_NQ;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  278  	creq = &rdev->rcfw.creq;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  279  	rattr.dma_arr = creq->hwq.pbl[BNG_PBL_LVL_0].pg_map_arr;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  280  	rattr.pages = creq->hwq.pbl[creq->hwq.level].pg_count;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  281  	rattr.type = type;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  282  	rattr.mode = RING_ALLOC_REQ_INT_MODE_MSIX;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  283  	rattr.depth = BNG_FW_CREQE_MAX_CNT - 1;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  284  	rattr.lrid = rdev->nqr->msix_entries[BNG_RE_CREQ_NQ_IDX].ring_idx;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  285  	rc = bng_re_net_ring_alloc(rdev, &rattr, &creq->ring_id);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  286  	if (rc) {
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  287  		ibdev_err(&rdev->ibdev, "Failed to allocate CREQ: %#x\n", rc);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  288  		goto free_rcfw;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  289  	}
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  290  	db_offt = rdev->nqr->msix_entries[BNG_RE_CREQ_NQ_IDX].db_offset;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  291  	vid = rdev->nqr->msix_entries[BNG_RE_CREQ_NQ_IDX].vector;
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  292  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  293  	rc = bng_re_enable_fw_channel(&rdev->rcfw,
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  294  					vid, db_offt);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  295  	if (rc) {
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  296  		ibdev_err(&rdev->ibdev, "Failed to enable RCFW channel: %#x\n",
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  297  			  rc);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  298  		goto free_ring;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  299  	}
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  300  
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  301  	return 0;
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  302  free_ring:
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  303  	bng_re_net_ring_free(rdev, rdev->rcfw.creq.ring_id, type);
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  304  free_rcfw:
+4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  305  	bng_re_free_rcfw_channel(&rdev->rcfw);
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  306  fail:
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  307  	bng_re_dev_uninit(rdev);
+53310b698f3cf6 Siva Reddy Kallam 2025-11-17  308  	return rc;
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  309  }
+745065770c2dc9 Siva Reddy Kallam 2025-11-17  310  
 
 -- 
 0-DAY CI Kernel Test Service
