@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CA2BE5E
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Dec 2025 13:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8C619CD05
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Dec 2025 14:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767186293; cv=none; b=YQMVvzMToaquU9SCHD+rcxvQFD1F2PFMLy5zabs+XEOY9rcs7Qx7M/aI0Fpo9Rsqrbf1nLFzl51uU/A4zlByJGzSJ9/+mntNg4ooqCGgYdem49FnhnMt0RDFHKDSNHShuIU+vjBAjqxJBtwup0MHEC+cXQFUru8LdMy51MMTLew=
+	t=1767191684; cv=none; b=bo54Cdf3pv+R9+1haRLWRuZthbII4fj+JKSQDpkDvouW5891HIqO/QAyxUn+5uHjIXgfKMrQIRIMhf9q4ZhRPgVdyCvLsho7Ud5POg/c4djcqUMpL5TIvUbyU7PyWV04BLH0PYD2cBbRd9NsRI5RjNE3IIzoqwInuprMphfTVz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767186293; c=relaxed/simple;
-	bh=4X5NVeZTc4RctdLRP/g5M+b3Rn3HWIV3oM5gdOhSrZ0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ChB+sye90n1ilnLmt0dbeJvme1VBeGDBsPN3PyYcwkFDDtYjHCz5joJxBTyL9cKMgyNJpmr34U6PJ58/3ZStEyvtP6x1dOFTkgGCnlek5aVuUU5NwD8MTgrmg1QlHiaevd9MvggBn+Jjl2gEARdNm/Gmr1hPo3fc/r6nxolNtoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z2tnn/dw; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1767191684; c=relaxed/simple;
+	bh=gIXypOFUBFAfbQoBUNLAP7mxJjMGOBNZqLvPwA8tEw4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nbDu4gvrVhBgUyLFI2EJ8/Fx3R9q33JrJiZ7XPKJhFmF0bcEODV8+gd4n+ZWNNjLhQIqBojDNUgj/7aJHFmg7d5y6rnEEuymbFNArx5pD03tzbibCe4T6ZwxdnANfHr81d8HRpvtFjHY6BiR1FjlW3i/PzC9Rj+PT2EnxlCRwsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iM2omC4m; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2tnn/dw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iM2omC4m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767186291; x=1798722291;
+  t=1767191682; x=1798727682;
   h=date:from:to:cc:subject:message-id;
-  bh=4X5NVeZTc4RctdLRP/g5M+b3Rn3HWIV3oM5gdOhSrZ0=;
-  b=Z2tnn/dwqBH6M4m5HxzgeDG1v/9rHlfKghbBW72WqfWW2zNQ+GXlXdL1
-   ULrsvF/KXdkEHeuNIt+aRN+QPA+Q/NEBS32OVXn2SIM5jPjZwAiUYiycX
-   ZbGSqFAqTivprmrDf15QZ18ADX21qAAyHYp2o+1jtdkjvcO9Eutfu+COs
-   d1Mnq/X3LUaG1uUv0Njf7OALR/HhIzf8yr7E01kyig76tS71g56tdo8cV
-   LForVIZ9AsKooVKG5ovUiczr8fGEVZwOo5k3OHc40zY3xXNRytxUJg5uH
-   fUuqr3xsDhNhJ+8SZng9udYRUFk4ce97sf+XYRKO3vgtvorYtDUvw8bXv
-   w==;
-X-CSE-ConnectionGUID: AE4wGQOyQQ22FS5LNBLzQA==
-X-CSE-MsgGUID: 0kvG+AroT3yVcYnB2gi0mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68654041"
-X-IronPort-AV: E=Sophos;i="6.21,191,1763452800"; 
-   d="scan'208";a="68654041"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 05:04:50 -0800
-X-CSE-ConnectionGUID: s5GHKNhrS1SA/UTgqpjNuQ==
-X-CSE-MsgGUID: RzK/MQkdTxyMbHB53K6tYA==
+  bh=gIXypOFUBFAfbQoBUNLAP7mxJjMGOBNZqLvPwA8tEw4=;
+  b=iM2omC4mmOKtEnTNZuVneGRSZ8bS8Esvfcm8v+fqYsczCaRlYzmygf7+
+   h8Q8JExTzRfcCb7TDO2tU5+l2GGkhTK2rclG+MgJ1Wc7mUPJJU7HeDXmv
+   8NjktGKznHEaL5FzDNMF78Eu/9HcqQKtbkkgdilrQBcp965nJDklKX48L
+   pfj02qFLAf6Xzb6H+QUMlVh/szoNcjKWJWkP6tgtfamW/dcjUa46aItvV
+   b2ix+dk/P0ulRxc/zoxOPwvnF4yvw8yV+rbrR1eujvD16pvHHRRpszeKk
+   ngZJkiWHYBpeSBe6E450i+VkUrk6AFy65UScu54kaWidT3mdF6HhxhRHi
+   A==;
+X-CSE-ConnectionGUID: CsHuopwKSmaASqri8KMvtQ==
+X-CSE-MsgGUID: t8lZVSRbRD6v+0JPHYEduQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="80204772"
+X-IronPort-AV: E=Sophos;i="6.21,192,1763452800"; 
+   d="scan'208";a="80204772"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 06:34:34 -0800
+X-CSE-ConnectionGUID: dDR4cWW9QZO7qUnNvn98rQ==
+X-CSE-MsgGUID: RLDcaOY6SHGsa9nTTjZ1/A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,191,1763452800"; 
-   d="scan'208";a="202387886"
+X-IronPort-AV: E=Sophos;i="6.21,192,1763452800"; 
+   d="scan'208";a="205965847"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 31 Dec 2025 05:04:49 -0800
+  by orviesa004.jf.intel.com with ESMTP; 31 Dec 2025 06:33:51 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vavsc-0000000003N-295o;
-	Wed, 31 Dec 2025 13:04:46 +0000
-Date: Wed, 31 Dec 2025 14:03:51 +0100
+	id 1vaxGk-0000000003l-3TlP;
+	Wed, 31 Dec 2025 14:33:46 +0000
+Date: Wed, 31 Dec 2025 15:32:50 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 6/128]
- arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000 (apple,t8112-dart):
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202512311417.973KfE3o-lkp@intel.com>
+Subject: [conor:pinctrl 6/14]
+ Documentation/devicetree/bindings/pinctrl/pincfg-node.yaml:212:6: [warning]
+ wrong indentation: expected 6 but found 5 (indentation)
+Message-ID: <202512311518.E4oPJJEU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -66,173 +66,284 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
+TO: Conor Dooley <conor+lkp@kernel.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: 6516418fc19f297843304e4d1d10eebd9e92a41a [6/128] arm64: dts: apple: t8112: Add Apple Type-C PHY and dwc3
-:::::: branch date: 9 days ago
-:::::: commit date: 10 days ago
-config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20251231/202512311417.973KfE3o-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pinctrl
+head:   a8805fb8a49841ef67f240537e28ed40ce539661
+commit: 1ed6a1e08e61d88da8aaee79dae0f5fdb1963218 [6/14] dt-bindings: pinctrl: pincfg-node: add restrictions on conflicting properties
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: arc-randconfig-2051-20251231 (https://download.01.org/0day-ci/archive/20251231/202512311518.E4oPJJEU-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
 dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251231/202512311417.973KfE3o-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251231/202512311518.E4oPJJEU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512311417.973KfE3o-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512311518.E4oPJJEU-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:492.25-501.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112.dtsi:503.26-507.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: smc@23e400000 (apple,t8112-smc): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f00000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+>> Documentation/devicetree/bindings/pinctrl/pincfg-node.yaml:212:6: [warning] wrong indentation: expected 6 but found 5 (indentation)
+
+vim +212 Documentation/devicetree/bindings/pinctrl/pincfg-node.yaml
+
+3af50e548019f6 Rob Herring    2019-11-07    8  
+3af50e548019f6 Rob Herring    2019-11-07    9  maintainers:
+3af50e548019f6 Rob Herring    2019-11-07   10    - Linus Walleij <linus.walleij@linaro.org>
+3af50e548019f6 Rob Herring    2019-11-07   11  
+3af50e548019f6 Rob Herring    2019-11-07   12  description:
+3af50e548019f6 Rob Herring    2019-11-07   13    Many data items that are represented in a pin configuration node are common
+3af50e548019f6 Rob Herring    2019-11-07   14    and generic. Pin control bindings should use the properties defined below
+3af50e548019f6 Rob Herring    2019-11-07   15    where they are applicable; not all of these properties are relevant or useful
+3af50e548019f6 Rob Herring    2019-11-07   16    for all hardware or binding structures. Each individual binding document
+3af50e548019f6 Rob Herring    2019-11-07   17    should state which of these generic properties, if any, are used, and the
+3af50e548019f6 Rob Herring    2019-11-07   18    structure of the DT nodes that contain these properties.
+3af50e548019f6 Rob Herring    2019-11-07   19  
+3af50e548019f6 Rob Herring    2019-11-07   20  properties:
+3af50e548019f6 Rob Herring    2019-11-07   21    bias-disable:
+3af50e548019f6 Rob Herring    2019-11-07   22      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   23      description: disable any pin bias
+3af50e548019f6 Rob Herring    2019-11-07   24  
+3af50e548019f6 Rob Herring    2019-11-07   25    bias-high-impedance:
+3af50e548019f6 Rob Herring    2019-11-07   26      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   27      description: high impedance mode ("third-state", "floating")
+3af50e548019f6 Rob Herring    2019-11-07   28  
+3af50e548019f6 Rob Herring    2019-11-07   29    bias-bus-hold:
+3af50e548019f6 Rob Herring    2019-11-07   30      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   31      description: latch weakly
+3af50e548019f6 Rob Herring    2019-11-07   32  
+3af50e548019f6 Rob Herring    2019-11-07   33    bias-pull-up:
+3af50e548019f6 Rob Herring    2019-11-07   34      oneOf:
+3af50e548019f6 Rob Herring    2019-11-07   35        - type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   36        - $ref: /schemas/types.yaml#/definitions/uint32
+3af50e548019f6 Rob Herring    2019-11-07   37      description: pull up the pin. Takes as optional argument on hardware
+3af50e548019f6 Rob Herring    2019-11-07   38        supporting it the pull strength in Ohm.
+3af50e548019f6 Rob Herring    2019-11-07   39  
+3af50e548019f6 Rob Herring    2019-11-07   40    bias-pull-down:
+3af50e548019f6 Rob Herring    2019-11-07   41      oneOf:
+3af50e548019f6 Rob Herring    2019-11-07   42        - type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   43        - $ref: /schemas/types.yaml#/definitions/uint32
+3af50e548019f6 Rob Herring    2019-11-07   44      description: pull down the pin. Takes as optional argument on hardware
+3af50e548019f6 Rob Herring    2019-11-07   45        supporting it the pull strength in Ohm.
+3af50e548019f6 Rob Herring    2019-11-07   46  
+3af50e548019f6 Rob Herring    2019-11-07   47    bias-pull-pin-default:
+3af50e548019f6 Rob Herring    2019-11-07   48      oneOf:
+3af50e548019f6 Rob Herring    2019-11-07   49        - type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   50        - $ref: /schemas/types.yaml#/definitions/uint32
+3af50e548019f6 Rob Herring    2019-11-07   51      description: use pin-default pull state. Takes as optional argument on
+3af50e548019f6 Rob Herring    2019-11-07   52        hardware supporting it the pull strength in Ohm.
+3af50e548019f6 Rob Herring    2019-11-07   53  
+3af50e548019f6 Rob Herring    2019-11-07   54    drive-push-pull:
+b2b701b31e1c58 Rob Herring    2022-04-29   55      oneOf:
+b2b701b31e1c58 Rob Herring    2022-04-29   56        - type: boolean
+b2b701b31e1c58 Rob Herring    2022-04-29   57        - $ref: /schemas/types.yaml#/definitions/uint32
+b2b701b31e1c58 Rob Herring    2022-04-29   58          enum: [ 0, 1 ]
+b2b701b31e1c58 Rob Herring    2022-04-29   59          deprecated: true
+3af50e548019f6 Rob Herring    2019-11-07   60      description: drive actively high and low
+3af50e548019f6 Rob Herring    2019-11-07   61  
+3af50e548019f6 Rob Herring    2019-11-07   62    drive-open-drain:
+b2b701b31e1c58 Rob Herring    2022-04-29   63      oneOf:
+b2b701b31e1c58 Rob Herring    2022-04-29   64        - type: boolean
+b2b701b31e1c58 Rob Herring    2022-04-29   65        - $ref: /schemas/types.yaml#/definitions/uint32
+b2b701b31e1c58 Rob Herring    2022-04-29   66          const: 1    # No known cases of 0
+b2b701b31e1c58 Rob Herring    2022-04-29   67          deprecated: true
+3af50e548019f6 Rob Herring    2019-11-07   68      description: drive with open drain
+3af50e548019f6 Rob Herring    2019-11-07   69  
+3af50e548019f6 Rob Herring    2019-11-07   70    drive-open-source:
+3af50e548019f6 Rob Herring    2019-11-07   71      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   72      description: drive with open source
+3af50e548019f6 Rob Herring    2019-11-07   73  
+3af50e548019f6 Rob Herring    2019-11-07   74    drive-strength:
+3af50e548019f6 Rob Herring    2019-11-07   75      $ref: /schemas/types.yaml#/definitions/uint32
+3af50e548019f6 Rob Herring    2019-11-07   76      description: sink or source at most X mA
+3af50e548019f6 Rob Herring    2019-11-07   77  
+3af50e548019f6 Rob Herring    2019-11-07   78    drive-strength-microamp:
+3af50e548019f6 Rob Herring    2019-11-07   79      description: sink or source at most X uA
+3af50e548019f6 Rob Herring    2019-11-07   80  
+3af50e548019f6 Rob Herring    2019-11-07   81    input-enable:
+3af50e548019f6 Rob Herring    2019-11-07   82      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   83      description: enable input on pin (no effect on output, such as
+3af50e548019f6 Rob Herring    2019-11-07   84        enabling an input buffer)
+3af50e548019f6 Rob Herring    2019-11-07   85  
+3af50e548019f6 Rob Herring    2019-11-07   86    input-disable:
+3af50e548019f6 Rob Herring    2019-11-07   87      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   88      description: disable input on pin (no effect on output, such as
+3af50e548019f6 Rob Herring    2019-11-07   89        disabling an input buffer)
+3af50e548019f6 Rob Herring    2019-11-07   90  
+3af50e548019f6 Rob Herring    2019-11-07   91    input-schmitt-enable:
+3af50e548019f6 Rob Herring    2019-11-07   92      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   93      description: enable schmitt-trigger mode
+3af50e548019f6 Rob Herring    2019-11-07   94  
+3af50e548019f6 Rob Herring    2019-11-07   95    input-schmitt-disable:
+3af50e548019f6 Rob Herring    2019-11-07   96      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07   97      description: disable schmitt-trigger mode
+3af50e548019f6 Rob Herring    2019-11-07   98  
+737df10956c425 Inochi Amaoto  2024-07-18   99    input-schmitt-microvolt:
+737df10956c425 Inochi Amaoto  2024-07-18  100      description: threshold strength for schmitt-trigger
+737df10956c425 Inochi Amaoto  2024-07-18  101  
+3af50e548019f6 Rob Herring    2019-11-07  102    input-debounce:
+736ed7ce0a5d10 Rob Herring    2024-01-24  103      $ref: /schemas/types.yaml#/definitions/uint32-array
+3af50e548019f6 Rob Herring    2019-11-07  104      description: Takes the debounce time in usec as argument or 0 to disable
+3af50e548019f6 Rob Herring    2019-11-07  105        debouncing
+3af50e548019f6 Rob Herring    2019-11-07  106  
+3af50e548019f6 Rob Herring    2019-11-07  107    power-source:
+3af50e548019f6 Rob Herring    2019-11-07  108      $ref: /schemas/types.yaml#/definitions/uint32
+3af50e548019f6 Rob Herring    2019-11-07  109      description: select between different power supplies
+3af50e548019f6 Rob Herring    2019-11-07  110  
+3af50e548019f6 Rob Herring    2019-11-07  111    low-power-enable:
+3af50e548019f6 Rob Herring    2019-11-07  112      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07  113      description: enable low power mode
+3af50e548019f6 Rob Herring    2019-11-07  114  
+3af50e548019f6 Rob Herring    2019-11-07  115    low-power-disable:
+3af50e548019f6 Rob Herring    2019-11-07  116      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07  117      description: disable low power mode
+3af50e548019f6 Rob Herring    2019-11-07  118  
+3af50e548019f6 Rob Herring    2019-11-07  119    output-disable:
+3af50e548019f6 Rob Herring    2019-11-07  120      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07  121      description: disable output on a pin (such as disable an output buffer)
+3af50e548019f6 Rob Herring    2019-11-07  122  
+3af50e548019f6 Rob Herring    2019-11-07  123    output-enable:
+3af50e548019f6 Rob Herring    2019-11-07  124      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07  125      description: enable output on a pin without actively driving it
+3af50e548019f6 Rob Herring    2019-11-07  126        (such as enabling an output buffer)
+3af50e548019f6 Rob Herring    2019-11-07  127  
+7388fa8acfce2c Lad Prabhakar  2021-10-27  128    output-impedance-ohms:
+7388fa8acfce2c Lad Prabhakar  2021-10-27  129      description: set the output impedance of a pin to at most X ohms
+7388fa8acfce2c Lad Prabhakar  2021-10-27  130  
+3af50e548019f6 Rob Herring    2019-11-07  131    output-low:
+3af50e548019f6 Rob Herring    2019-11-07  132      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07  133      description: set the pin to output mode with low level
+3af50e548019f6 Rob Herring    2019-11-07  134  
+3af50e548019f6 Rob Herring    2019-11-07  135    output-high:
+3af50e548019f6 Rob Herring    2019-11-07  136      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07  137      description: set the pin to output mode with high level
+3af50e548019f6 Rob Herring    2019-11-07  138  
+3af50e548019f6 Rob Herring    2019-11-07  139    sleep-hardware-state:
+3af50e548019f6 Rob Herring    2019-11-07  140      type: boolean
+3af50e548019f6 Rob Herring    2019-11-07  141      description: indicate this is sleep related state which will be
+3af50e548019f6 Rob Herring    2019-11-07  142        programmed into the registers for the sleep state.
+3af50e548019f6 Rob Herring    2019-11-07  143  
+3af50e548019f6 Rob Herring    2019-11-07  144    slew-rate:
+3af50e548019f6 Rob Herring    2019-11-07  145      $ref: /schemas/types.yaml#/definitions/uint32
+3af50e548019f6 Rob Herring    2019-11-07  146      description: set the slew rate
+3af50e548019f6 Rob Herring    2019-11-07  147  
+3af50e548019f6 Rob Herring    2019-11-07  148    skew-delay:
+3af50e548019f6 Rob Herring    2019-11-07  149      $ref: /schemas/types.yaml#/definitions/uint32
+3af50e548019f6 Rob Herring    2019-11-07  150      description:
+3af50e548019f6 Rob Herring    2019-11-07  151        this affects the expected clock skew on input pins
+3af50e548019f6 Rob Herring    2019-11-07  152        and the delay before latching a value to an output
+3af50e548019f6 Rob Herring    2019-11-07  153        pin. Typically indicates how many double-inverters are
+3af50e548019f6 Rob Herring    2019-11-07  154        used to delay the signal.
+6a0e321ea73569 Rob Herring    2020-10-05  155  
+5c284d086bcf3b Antonio Borneo 2025-10-23  156    skew-delay-input-ps:
+5c284d086bcf3b Antonio Borneo 2025-10-23  157      description:
+5c284d086bcf3b Antonio Borneo 2025-10-23  158        this affects the expected clock skew in ps on an input pin.
+5c284d086bcf3b Antonio Borneo 2025-10-23  159  
+5c284d086bcf3b Antonio Borneo 2025-10-23  160    skew-delay-output-ps:
+5c284d086bcf3b Antonio Borneo 2025-10-23  161      description:
+5c284d086bcf3b Antonio Borneo 2025-10-23  162        this affects the expected delay in ps before latching a value to
+5c284d086bcf3b Antonio Borneo 2025-10-23  163        an output pin.
+5c284d086bcf3b Antonio Borneo 2025-10-23  164  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  165  allOf:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  166    - if:
+5c284d086bcf3b Antonio Borneo 2025-10-23  167        required:
+5c284d086bcf3b Antonio Borneo 2025-10-23  168          - skew-delay
+5c284d086bcf3b Antonio Borneo 2025-10-23  169      then:
+5c284d086bcf3b Antonio Borneo 2025-10-23  170        properties:
+5c284d086bcf3b Antonio Borneo 2025-10-23  171          skew-delay-input-ps: false
+5c284d086bcf3b Antonio Borneo 2025-10-23  172          skew-delay-output-ps: false
+5c284d086bcf3b Antonio Borneo 2025-10-23  173  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  174    - if:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  175        required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  176          - input-disable
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  177      then:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  178        properties:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  179          input-enable: false
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  180  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  181    - if:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  182        required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  183          - output-disable
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  184      then:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  185        properties:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  186          output-enable: false
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  187          output-impedance-ohms: false
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  188  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  189    - if:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  190        required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  191          - output-low
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  192      then:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  193        properties:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  194          output-high: false
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  195  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  196    - if:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  197        required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  198          - low-power-enable
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  199      then:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  200        properties:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  201          low-power-disable: false
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  202  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  203    - if:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  204        required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  205          - input-schmitt-disable
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  206      then:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  207        properties:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  208          input-schmitt-enable: false
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  209          input-schmitt-microvolt: false
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  210  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  211    - if:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21 @212       required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  213         - drive-strength
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  214      then:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  215        properties:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  216          drive-strength-microamp: false
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  217  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  218    - if:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  219        anyOf:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  220          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  221              - drive-open-source
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  222          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  223              - drive-open-drain
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  224          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  225              - drive-push-pull
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  226      then:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  227        oneOf:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  228          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  229              - drive-open-source
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  230          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  231              - drive-open-drain
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  232          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  233              - drive-push-pull
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  234  
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  235    - if:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  236        anyOf:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  237          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  238              - bias-disable
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  239          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  240              - bias-high-impedance
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  241          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  242              - bias-bus-hold
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  243          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  244              - bias-pull-up
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  245          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  246              - bias-pull-down
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  247          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  248              - bias-pull-pin-default
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  249      then:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  250        oneOf:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  251          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  252              - bias-disable
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  253          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  254              - bias-high-impedance
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  255          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  256              - bias-bus-hold
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  257          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  258              - bias-pull-up
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  259          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  260              - bias-pull-down
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  261          - required:
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  262              - bias-pull-pin-default
+1ed6a1e08e61d8 Conor Dooley   2025-11-21  263  
 
 -- 
 0-DAY CI Kernel Test Service
