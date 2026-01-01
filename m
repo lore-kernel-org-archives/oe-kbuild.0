@@ -1,123 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B6E2F1FF1
-	for <oe-kbuild@lists.linux.dev>; Thu,  1 Jan 2026 17:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE11A239E75
+	for <oe-kbuild@lists.linux.dev>; Thu,  1 Jan 2026 18:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767289324; cv=none; b=CHn3cEEg73L52ZLB5S2WfIpLOaRb7mSkvsj3XL0aAdtHHVQ1Kd3YROSbT/ohOL9/Ol5KB01WDyJEiAxhQR20IK8Cpi96R5v1HPu/N6hRw1dgL6VDqSxzDAMopxG4q9BETn6RcBoDde77/goYxaDfhjU1tur3JJtuxrZEEIgV4fY=
+	t=1767291168; cv=none; b=tpeWBuS277fI8kPuw4LginnXKm0KVqUFKYy/hdHOTokSS5PqMuTEIFB+vPC/BbC4fq6YHao1H3BHnyGrlH+jQkr8c89HoOmq/QJNWBlBSRy4G3++OaWEb+eOTXQibq6FBkVoui5y7Y9EGAassZBaZdLiSGkjQZNYWwxXxm0uOE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767289324; c=relaxed/simple;
-	bh=cKNFvWX7fuPkp4RI52rsbBxti9ouJhJ703wJB1C5hqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mtle0K5p6n6J5diySsUJY2+SFyAExxiSleuuA0GSz5Z5aOPnXHwtrjaksjaZ4I7E7o/6FQtMt1VOHye8v00kkldIr9HTSJ9RlRy6yyLZTdbbFeG+8S/OjSb9DR1KQKZ5yE/Izq9SL2OyBiUwlVBxheviK02ozAevPfN0FTQJGWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSJ1XHqf; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1767291168; c=relaxed/simple;
+	bh=BbQKbiaWtHAJ+ZHTuQ7pzdJSilE+DHYzXFBZ81vWtqc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EPvV13VdZwq4yN992f4EjftB7vgibr5X7HCK1HUeFD+E7ITZzgoJF9rio3RKGZexyi3ESMcQyRsLAwLRl32qiqolG1jS8yc5YBmvWGlSx8d0jzjYVs2b70d/PHUMBGffp5EAg4f78eZPuKKn9GaDUYJL12s/egh9j3UP8GfMygw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXUt+sol; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSJ1XHqf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXUt+sol"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767289322; x=1798825322;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cKNFvWX7fuPkp4RI52rsbBxti9ouJhJ703wJB1C5hqQ=;
-  b=nSJ1XHqf84AdAwcxNo2bdV3mGjkB4sRm9c5UPb3H1noIoUIz85S0NDsz
-   8wI0hMmr0EDGlFhpOuIGOg6B+bvhPSQaLzl5UZqUbU84rcEEvtjByEzou
-   Eyks8MS2/DxX2DnY5faER1m4EROr3boHsjtfgs5cSk9JmL62duwE9sqpz
-   Cdf+/jW2JHN2WB51DNR37pRUQ5MRxQtlRO6qsi7VgEzVg430Wt0ox9/Gx
-   7R8bAbv13mpHyZx50OBf2pyM9gCJmrAu6aUElGLe45AFUcXJniy/nNpxl
-   WeNmAtebKNvM33bnNQR29Rv+MzbX9S8KdIzhUFeJiLTmX+atZFHChGpDA
-   Q==;
-X-CSE-ConnectionGUID: hTo3NmDCQkWR1v9LVwGT4A==
-X-CSE-MsgGUID: KqHa/NUnQ5Gyv5WFfZqWhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="72444789"
+  t=1767291165; x=1798827165;
+  h=date:from:to:cc:subject:message-id;
+  bh=BbQKbiaWtHAJ+ZHTuQ7pzdJSilE+DHYzXFBZ81vWtqc=;
+  b=lXUt+solmPUDD8SQECU7QVD1SGyAmR7nqUyO6xmxihSRzukXZG08RqbT
+   dEXXd0ABRIFH+ZH4kRa2ByespSaPUDZyIl5/P/HcscZGj5epuNH15xWXF
+   FKv6rHj2XqqjnjTXA6e91Qhsm63bdjbKQZDUx861+OsaQkDtbwCrdz4dh
+   XvBt+miByii9ZuFOPqyTH2kmRAcvMlRgLgcMpGIHzeGnQWuzxD2i5qykO
+   Zmx5U6xDNLyseabx3TBHhdh9UwzUz6Iz7gaQ9Bv8GsYG+LUNhzduNK8tr
+   M7qRRgE/zyM/VW5YHo2uKFI6KczdbAXv3bFf7fZJbHXkjkuUB9QZi/kOt
+   A==;
+X-CSE-ConnectionGUID: 9+s7geyDSuO3cAopqe1FwA==
+X-CSE-MsgGUID: PJTK47a4Rg2Z84yza8Q2Kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="67828662"
 X-IronPort-AV: E=Sophos;i="6.21,194,1763452800"; 
-   d="scan'208";a="72444789"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 09:42:01 -0800
-X-CSE-ConnectionGUID: fmxm8y3aRcm6Fx2WYzrbew==
-X-CSE-MsgGUID: Qj1xFPOmQq6uzAr6l44I1w==
+   d="scan'208";a="67828662"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 10:12:45 -0800
+X-CSE-ConnectionGUID: q6y0zfsFT5ub1o3uVsKSwQ==
+X-CSE-MsgGUID: NSmM7/VgQ3CTocN6XNOeQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,194,1763452800"; 
-   d="scan'208";a="201558252"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Jan 2026 09:42:00 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+   d="scan'208";a="206724497"
+Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 01 Jan 2026 10:12:44 -0800
+Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbMgQ-000000000Iz-0TaM;
-	Thu, 01 Jan 2026 17:41:58 +0000
-Date: Thu, 1 Jan 2026 18:41:27 +0100
+	id 1vbNAA-000000001yr-0Wqj;
+	Thu, 01 Jan 2026 18:12:42 +0000
+Date: Fri, 02 Jan 2026 02:12:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 4/4] arm64: dts: rockchip: Add overlay for FriendlyElec
- HD702E
-Message-ID: <202601011834.LvX8xfZf-lkp@intel.com>
+Subject: [jic23-iio:testing 14/66]
+ drivers/iio/adc/ti-ads131m02.c:966:1: sparse: sparse: bad integer constant
+ expression
+Message-ID: <202601020246.OSSCR7Pb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: drivers/iio/adc/ti-ads131m02.c:966:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <bc54c6c700a4be244bd4f81cb846cf628313a6ee.1767111810.git.robin.murphy@arm.com>
-References: <bc54c6c700a4be244bd4f81cb846cf628313a6ee.1767111810.git.robin.murphy@arm.com>
-TO: Robin Murphy <robin.murphy@arm.com>
-TO: heiko@sntech.de
-TO: neil.armstrong@linaro.org
-TO: dianders@chromium.org
-TO: thierry.reding@gmail.com
-TO: sam@ravnborg.org
-CC: jesszhan0024@gmail.com
-CC: dri-devel@lists.freedesktop.org
-CC: linux-rockchip@lists.infradead.org
-CC: linux-arm-kernel@lists.infradead.org
+TO: David Jander <david@protonic.nl>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Oleksij Rempel <o.rempel@pengutronix.de>
+CC: David Lechner <dlechner@baylibre.com>
 
-Hi Robin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/dt-bindings-display-panel-Move-FriendlyElec-HD702E-to-eDP/20251231-012249
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/bc54c6c700a4be244bd4f81cb846cf628313a6ee.1767111810.git.robin.murphy%40arm.com
-patch subject: [PATCH 4/4] arm64: dts: rockchip: Add overlay for FriendlyElec HD702E
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-2051-20260101 (https://download.01.org/0day-ci/archive/20260101/202601011834.LvX8xfZf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601011834.LvX8xfZf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   fb2f4eb29a258145b0336601f00509cab6e93e7c
+commit: 4aa91223fd6c9b9e6c73f9dc6ffb55cbf04df4ac [14/66] iio: adc: Add TI ADS131M0x ADC driver
+:::::: branch date: 25 hours ago
+:::::: commit date: 11 days ago
+config: openrisc-randconfig-r133-20260101 (https://download.01.org/0day-ci/archive/20260102/202601020246.OSSCR7Pb-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601020246.OSSCR7Pb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601011834.LvX8xfZf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601020246.OSSCR7Pb-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtb: typec-portc@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtb: dp@ff970000 (rockchip,rk3399-edp): aux-bus: 'edp-panel' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,analogix-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtb: dp@ff970000 (rockchip,rk3399-edp): aux-bus: 'panel' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,analogix-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtb: aux-bus: 'edp-panel' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/dp-aux-bus.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtb: aux-bus: 'panel' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/dp-aux-bus.yaml
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/ti-ads131m02.c:966:1: sparse: sparse: bad integer constant expression
+   drivers/iio/adc/ti-ads131m02.c:966:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/iio/adc/ti-ads131m02.c:967:1: sparse: sparse: bad integer constant expression
+   drivers/iio/adc/ti-ads131m02.c:967:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/iio/adc/ti-ads131m02.c:968:1: sparse: sparse: bad integer constant expression
+   drivers/iio/adc/ti-ads131m02.c:968:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +966 drivers/iio/adc/ti-ads131m02.c
+
+4aa91223fd6c9b David Jander 2025-11-18  965  
+4aa91223fd6c9b David Jander 2025-11-18 @966  MODULE_AUTHOR("David Jander <david@protonic.nl>");
 
 -- 
 0-DAY CI Kernel Test Service
