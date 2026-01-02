@@ -1,125 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F401D54FA
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Jan 2026 16:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C401E531;
+	Fri,  2 Jan 2026 17:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767372938; cv=none; b=RFhBfmPlem52EgsNX1zf8/zp4SLJKiyBxJ6JBJ4W6kg50bINGjbtvhznro5X9gJDskXUVYAlbNL2VLCEF4cbUZgV09gUrcR8aiTaSeOkAHyCrcAqNsW50DKO5DeW6ewZ4GuhZvq8+hxBguuyXJ59kHLiNB/P/Z7vFWQrvGovqD4=
+	t=1767373750; cv=none; b=QMhcqslMYAopDcvIx8EOrmL1l+G8qpOsIIv+g7STrEPYzsJjc5fgXm6xk/DjNw+L5Htic4/P1D26FgTLnSC6C6+QkMDquEplzdNLWUwptGFA22v9CjbuMrCI1XEh6CtUNywsbHChuWL4gYRMbPx4Zcy0KsfdwCzS52eQkLM7c7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767372938; c=relaxed/simple;
-	bh=fgWpyd8JkQRaDBS0WKD+6CtRWr4SnYuGSuWRJP48xC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jvnFbmUPYs3JcVqNpHGJXNkca4zIcjk/fTIHNIh2ouArxaYbaXM38UwVW0wvgXnKiC1Bv8fQ1/HsbhkurOwtxVJFjAIFLmk8BnGRNLB+243dEmn9ulY9Fr5doh6Pmu+oV7o7Ud4ZlpTsCplXm+GqGhTP0NEALyGZgb+1Z7JpsLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BoDW0W4l; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BoDW0W4l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767372936; x=1798908936;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fgWpyd8JkQRaDBS0WKD+6CtRWr4SnYuGSuWRJP48xC8=;
-  b=BoDW0W4lnddM+zjsB/NDjwCW4ZFICTp75awUrQmcns7c/kwDoCl448OY
-   97DsawM91QHrU4XLMBrYA9xIt9JwY47/MP40bWuhKVOLh/Y6Rj3eWlfpv
-   1Ojj+ZdVHe5Y+lklHykfXFqrG0efqcAUxRv9/vMqSmDyo3bZT/is3mRRI
-   r8FN7xO+GM4N9T/en0AlcyCtmVGBsIDlmkGQBOXCT4cyU6NhekBRILI7V
-   rDwn3Py33Wzinac1NQrRyYesbabdpjp3G6NcTzVyfcnmou1eCq0M2m/bf
-   3/vhfn8Y98w131+1i9f3fMPOG9lWiFdZOoJZrTLi8T0Qtl9ib0Q4GOnni
-   g==;
-X-CSE-ConnectionGUID: i5FQj+biTMeMKM/WN/jU5A==
-X-CSE-MsgGUID: d4OjTwj4RWinlAyn/WljQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="86447569"
-X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
-   d="scan'208";a="86447569"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 08:55:08 -0800
-X-CSE-ConnectionGUID: mwXsLFHjQF6Clv9ZwD5cmw==
-X-CSE-MsgGUID: Ehh82b5PR0ahvzYf7Uyw7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
-   d="scan'208";a="239301807"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 02 Jan 2026 08:55:07 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vbiQb-000000000S9-1G5E;
-	Fri, 02 Jan 2026 16:55:05 +0000
-Date: Fri, 2 Jan 2026 17:55:01 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 1/2] arm64: dts: qcom: agatti: Fix IOMMU DT properties
-Message-ID: <202601021756.yWClvCed-lkp@intel.com>
+	s=arc-20240116; t=1767373750; c=relaxed/simple;
+	bh=z5qBOYo7vxG1LptSihDNrbjdC1et9PcTHUktq8Rowr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bRU44tyO0CIRIHcxEpq1JZTn7XE944iRTjSpLJweaBY8puiDOcGyGecHsBAAwupBmac14yvs2Gc2bfJT3OWoH/+gnvUqPMWsYH+rQ8Q652szWTuAronqAizBJ6d18cMNQRkzO9o7VXIQk1S2A1rZxFqoWVfClXaJh/B7zihldx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id D6DDF160756;
+	Fri,  2 Jan 2026 17:09:00 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id 0BEB520028;
+	Fri,  2 Jan 2026 17:08:58 +0000 (UTC)
+Date: Fri, 2 Jan 2026 12:09:13 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, "Masami Hiramatsu (Google)"
+ <mhiramat@kernel.org>, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: kernel/trace/fgraph.c:834 __ftrace_return_to_handler() error:
+ we previously assumed 'fregs' could be null (see line 830)
+Message-ID: <20260102120913.15e5fc1b@gandalf.local.home>
+In-Reply-To: <202512131657.JQUt5fXQ-lkp@intel.com>
+References: <202512131657.JQUt5fXQ-lkp@intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout06
+X-Rspamd-Queue-Id: 0BEB520028
+X-Stat-Signature: irhdgt779q68j3rapboqctc544u31jb8
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+ZH7PhUWDNkBUisCCa+xi6lEXVzv/M4cY=
+X-HE-Tag: 1767373738-495255
+X-HE-Meta: U2FsdGVkX18kfwind9L+Magb7pEZYMwgRbWegtBhuyva3Ja4B/tWNCqGIoLAJ/qhj2NmQiXbhDdoDyZMqirLJoPanGETdVgABFtNVvKue8zLkIT7F1UpJjxgFnSdYGU7EuPRWQXlQFh2AP41vYI318FuCAU2s4XyZIOApkwJcXUkpiJdDqev9asMH9sClzT8Wd/dfEx8QGuG8MKcyQG2eqab80dwTvE1vO7tlOtr4bzi48R0mz9amy7HXMzOnDanyBEpGNYJQYgxhbm577wYercSNKV/u4L9IAC0uBBneVZdqVg5zmjB+QcomxiHH8tcTIoDX0mc7OaKPIv6ZgSJbJ1oZN5Mb2L7SA3mHtslL9I3uhnEoJ/m9FTHcjgBTjr9LGuWCTnWlG/cX+YfJyVcpNEGM5Z7KAB8cPhT3+Y35ISTEAeqhOCF/y0hAO83IsUH/jFHhfSwCONWE2Pb1auL/fQrfKWMi7Yk61M6Y7DXi7Q0NVyqD+p0VUFzuti33Kfw
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Fri, 2 Jan 2026 17:49:39 +0300
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251229071258.456254-1-sumit.garg@kernel.org>
-References: <20251229071258.456254-1-sumit.garg@kernel.org>
-TO: Sumit Garg <sumit.garg@kernel.org>
-TO: linux-arm-msm@vger.kernel.org
-TO: devicetree@vger.kernel.org
-CC: andersson@kernel.org
-CC: konradybcio@kernel.org
-CC: robh@kernel.org
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: akhilpo@oss.qualcomm.com
-CC: vikash.garodia@oss.qualcomm.com
-CC: dikshita.agarwal@oss.qualcomm.com
-CC: robin.clark@oss.qualcomm.com
-CC: lumag@kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Sumit Garg <sumit.garg@oss.qualcomm.com>
-CC: Prakash Gupta <guptap@qti.qualcomm.com>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   a919610db43b34621d0c3b333e12db9002caf5da
+> commit: 2ca8c112c9676e2394d76760db78ffddf21d93b5 fgraph: Pass ftrace_regs to retfunc
+> config: arm64-randconfig-r073-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131657.JQUt5fXQ-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202512131657.JQUt5fXQ-lkp@intel.com/
+> 
+> smatch warnings:
+> kernel/trace/fgraph.c:834 __ftrace_return_to_handler() error: we previously assumed 'fregs' could be null (see line 830)
+> 
+> vim +/fregs +834 kernel/trace/fgraph.c
+> 
+> a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  810) static inline unsigned long
+> a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  811) __ftrace_return_to_handler(struct ftrace_regs *fregs, unsigned long frame_pointer)
+> d864a3ca883095 Steven Rostedt (VMware    2018-11-12  812) {
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  813) 	struct ftrace_ret_stack *ret_stack;
+> d864a3ca883095 Steven Rostedt (VMware    2018-11-12  814) 	struct ftrace_graph_ret trace;
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  815) 	unsigned long bitmap;
+> d864a3ca883095 Steven Rostedt (VMware    2018-11-12  816) 	unsigned long ret;
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  817) 	int offset;
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  818) 	int i;
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  819) 
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  820) 	ret_stack = ftrace_pop_return_trace(&trace, &ret, frame_pointer, &offset);
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  821) 
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  822) 	if (unlikely(!ret_stack)) {
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  823) 		ftrace_graph_stop();
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  824) 		WARN_ON(1);
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  825) 		/* Might as well panic. What else to do? */
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  826) 		return (unsigned long)panic;
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  827) 	}
+> d864a3ca883095 Steven Rostedt (VMware    2018-11-12  828) 
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  829) 	trace.rettime = trace_clock_local();
+> 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26 @830) 	if (fregs)
+> 
+> It's strange that Smatch is only now complaining about something which
+> is from 2024...  This line assumes "freqs" can be NULL.
 
-Hi Sumit,
+Hmm, OK, I can see why smatch is complaining. But it is missing a dependency.
 
-kernel test robot noticed the following build warnings:
+This is called by:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+#ifdef CONFIG_HAVE_FUNCTION_GRAPH_FREGS
+unsigned long ftrace_return_to_handler(struct ftrace_regs *fregs)
+{
+	return __ftrace_return_to_handler(fregs,
+				ftrace_regs_get_frame_pointer(fregs));
+}
+#else
+unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
+{
+	return __ftrace_return_to_handler(NULL, frame_pointer);
+}
+#endif
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Garg/arm64-dts-qcom-agatti-Address-Gunyah-memory-alignment-needs/20251229-151411
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251229071258.456254-1-sumit.garg%40kernel.org
-patch subject: [PATCH 1/2] arm64: dts: qcom: agatti: Fix IOMMU DT properties
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-2051-20260101 (https://download.01.org/0day-ci/archive/20260102/202601021756.yWClvCed-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601021756.yWClvCed-lkp@intel.com/reproduce)
+Where if HAVE_FUNCTION_GRAPH_FREGS is true, then fregs is always set.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601021756.yWClvCed-lkp@intel.com/
+> 
+> 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  831) 		ftrace_regs_set_instruction_pointer(fregs, ret);
+> 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  832) 
+> a1be9ccc57f07d Donglin Peng              2023-04-08  833  #ifdef CONFIG_FUNCTION_GRAPH_RETVAL
+> a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26 @834) 	trace.retval = ftrace_regs_get_return_value(fregs);
+>                                                                                                             ^^^^^
+> Unchecked dereference.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/agatti.dtsi:1977.27-2050.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/agatti.dtsi:1935.11-1945.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: display-subsystem@5e00000 (qcom,qcm2290-mdss): iommus: [[38, 1056, 2]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,qcm2290-mdss.yaml
->> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: video-codec@5a00000 (qcom,qcm2290-venus): iommus: [[38, 2144, 0], [38, 2176, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-venus.yaml
+Here FUNCTION_GRAPH_RETVAL has this in the Kconfig:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+config FUNCTION_GRAPH_RETVAL
+	bool "Kernel Function Graph Return Value"
+	depends on HAVE_FUNCTION_GRAPH_FREGS
+
+It depends on HAVE_FUNCTION_GRAPH_FREGS
+
+Thus, it can't be called without fregs being valid.
+
+Ideas on how to tell smatch about this?
+
+Hmm, I wonder if we could change this to:
+
+	/* fregs is always set when configured */
+	if (IS_ENABLED(CONFIG_HAVE_FUNCTION_GRAPH_FREGS))
+		ftrace_regs_set_instruction_pointer(fregs, ret);
+
+And also add:
+
+#ifdef CONFIG_FUNCTION_GRAPH_RETVAL
+	/* The below is always true, but makes smatch happy */
+	if (IS_ENABLED(CONFIG_HAVE_FUNCTION_GRAPH_FREGS))
+		trace.retval = ftrace_regs_get_return_value(fregs);
+#endif
+
+?
+
+-- Steve
+
+
+
+> 
+> a1be9ccc57f07d Donglin Peng              2023-04-08  835  #endif
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  836) 
+> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  837) 	bitmap = get_bitmap_bits(current, offset);
+> 420e1354bcb6f0 Steven Rostedt (Google    2024-06-03  838) 
+> 
+
