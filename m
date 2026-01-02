@@ -1,160 +1,230 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C401E531;
-	Fri,  2 Jan 2026 17:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6331990A7
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Jan 2026 20:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767373750; cv=none; b=QMhcqslMYAopDcvIx8EOrmL1l+G8qpOsIIv+g7STrEPYzsJjc5fgXm6xk/DjNw+L5Htic4/P1D26FgTLnSC6C6+QkMDquEplzdNLWUwptGFA22v9CjbuMrCI1XEh6CtUNywsbHChuWL4gYRMbPx4Zcy0KsfdwCzS52eQkLM7c7U=
+	t=1767385092; cv=none; b=WKkz8nfJ7KvS6mJOEsFRbxt9BDX0OTwOGOqUotdJCiIRFhBeylTOR9vkn+YbZ/ICkDE16EdwZwEX+XOe4uJWTBscCRDpirAleh980+3imWeqBB/aUpdHHAB7YUbrO1aLos7kJKQUrVQNhiriwgL4JpQarpZ+iRlysvpG+mxvPRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767373750; c=relaxed/simple;
-	bh=z5qBOYo7vxG1LptSihDNrbjdC1et9PcTHUktq8Rowr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bRU44tyO0CIRIHcxEpq1JZTn7XE944iRTjSpLJweaBY8puiDOcGyGecHsBAAwupBmac14yvs2Gc2bfJT3OWoH/+gnvUqPMWsYH+rQ8Q652szWTuAronqAizBJ6d18cMNQRkzO9o7VXIQk1S2A1rZxFqoWVfClXaJh/B7zihldx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id D6DDF160756;
-	Fri,  2 Jan 2026 17:09:00 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id 0BEB520028;
-	Fri,  2 Jan 2026 17:08:58 +0000 (UTC)
-Date: Fri, 2 Jan 2026 12:09:13 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, "Masami Hiramatsu (Google)"
- <mhiramat@kernel.org>, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: kernel/trace/fgraph.c:834 __ftrace_return_to_handler() error:
- we previously assumed 'fregs' could be null (see line 830)
-Message-ID: <20260102120913.15e5fc1b@gandalf.local.home>
-In-Reply-To: <202512131657.JQUt5fXQ-lkp@intel.com>
-References: <202512131657.JQUt5fXQ-lkp@intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767385092; c=relaxed/simple;
+	bh=rHs4splB/BEtMkw7V8OvGL/Xs28fuPFh/sIMDcyeZ64=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fFh7YinP/2sIBDRvnLtiA2asCHiXdFhl9bLpQJbWjAsCRxdQ4Lp0FQM0Ke04HRc7R/eLQ6Z6Aabvs8CnS6tQKWkBrk+OOeXT4NDHtHbu41bimlcUrE/pEL9kspu2KEIkURGu5uUB4kis0l45jPYBg5B7wYpwwb8en9rD7SlGLNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lfSvjPEp; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lfSvjPEp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767385090; x=1798921090;
+  h=date:from:to:cc:subject:message-id;
+  bh=rHs4splB/BEtMkw7V8OvGL/Xs28fuPFh/sIMDcyeZ64=;
+  b=lfSvjPEphfLtgfO7FLn7zsKmvWYpQ8Yya7JMYFw+ewbIoEHaWMKJnFwt
+   Ji5xeQGVjzR3+vlxaSqmyr2LK9JNMerNC+aDfDXjntI/WCNuJCVYfw32d
+   uDrO9GvyfZvTEhuztEnA/Cm8oiQsbfUa0JDa0uwftE8VtbdmjTm2o0v1V
+   3e+b1OuhuypDvjQ6IaWe/6qebrTOEax7GjFteGTIsrTtJ0PrDc4CFRbHv
+   wr8qOo2psH1K4Ni0Fi7gTf+Yt1/wgQjr+CQJuCnJOiJ8KHQmLCX0kY+/7
+   YTS9Q7hZOmch+D8E3rq0VNHuMQjoVpmsH4LjQBFT1tXOXMbG+sFhNQlwA
+   w==;
+X-CSE-ConnectionGUID: iliGVEYKT/yiOy8HapSkiQ==
+X-CSE-MsgGUID: stKbSFYzRl+oOl/+AFO7aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="86293480"
+X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
+   d="scan'208";a="86293480"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 12:18:09 -0800
+X-CSE-ConnectionGUID: s8BTG+iUQgKkXQ4QQBbztQ==
+X-CSE-MsgGUID: /A9Lr1L5TeSaeFlh1rZUbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
+   d="scan'208";a="225380523"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 02 Jan 2026 12:18:08 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vblb4-000000000Sv-0Hc6;
+	Fri, 02 Jan 2026 20:18:06 +0000
+Date: Fri, 02 Jan 2026 21:17:28 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 36/128]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@231304000 (apple,t8112-dart):
+ compatible: 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202601022155.VYc9MIGF-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout06
-X-Rspamd-Queue-Id: 0BEB520028
-X-Stat-Signature: irhdgt779q68j3rapboqctc544u31jb8
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+ZH7PhUWDNkBUisCCa+xi6lEXVzv/M4cY=
-X-HE-Tag: 1767373738-495255
-X-HE-Meta: U2FsdGVkX18kfwind9L+Magb7pEZYMwgRbWegtBhuyva3Ja4B/tWNCqGIoLAJ/qhj2NmQiXbhDdoDyZMqirLJoPanGETdVgABFtNVvKue8zLkIT7F1UpJjxgFnSdYGU7EuPRWQXlQFh2AP41vYI318FuCAU2s4XyZIOApkwJcXUkpiJdDqev9asMH9sClzT8Wd/dfEx8QGuG8MKcyQG2eqab80dwTvE1vO7tlOtr4bzi48R0mz9amy7HXMzOnDanyBEpGNYJQYgxhbm577wYercSNKV/u4L9IAC0uBBneVZdqVg5zmjB+QcomxiHH8tcTIoDX0mc7OaKPIv6ZgSJbJ1oZN5Mb2L7SA3mHtslL9I3uhnEoJ/m9FTHcjgBTjr9LGuWCTnWlG/cX+YfJyVcpNEGM5Z7KAB8cPhT3+Y35ISTEAeqhOCF/y0hAO83IsUH/jFHhfSwCONWE2Pb1auL/fQrfKWMi7Yk61M6Y7DXi7Q0NVyqD+p0VUFzuti33Kfw
 
-On Fri, 2 Jan 2026 17:49:39 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   a919610db43b34621d0c3b333e12db9002caf5da
-> commit: 2ca8c112c9676e2394d76760db78ffddf21d93b5 fgraph: Pass ftrace_regs to retfunc
-> config: arm64-randconfig-r073-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131657.JQUt5fXQ-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202512131657.JQUt5fXQ-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/trace/fgraph.c:834 __ftrace_return_to_handler() error: we previously assumed 'fregs' could be null (see line 830)
-> 
-> vim +/fregs +834 kernel/trace/fgraph.c
-> 
-> a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  810) static inline unsigned long
-> a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  811) __ftrace_return_to_handler(struct ftrace_regs *fregs, unsigned long frame_pointer)
-> d864a3ca883095 Steven Rostedt (VMware    2018-11-12  812) {
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  813) 	struct ftrace_ret_stack *ret_stack;
-> d864a3ca883095 Steven Rostedt (VMware    2018-11-12  814) 	struct ftrace_graph_ret trace;
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  815) 	unsigned long bitmap;
-> d864a3ca883095 Steven Rostedt (VMware    2018-11-12  816) 	unsigned long ret;
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  817) 	int offset;
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  818) 	int i;
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  819) 
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  820) 	ret_stack = ftrace_pop_return_trace(&trace, &ret, frame_pointer, &offset);
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  821) 
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  822) 	if (unlikely(!ret_stack)) {
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  823) 		ftrace_graph_stop();
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  824) 		WARN_ON(1);
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  825) 		/* Might as well panic. What else to do? */
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  826) 		return (unsigned long)panic;
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  827) 	}
-> d864a3ca883095 Steven Rostedt (VMware    2018-11-12  828) 
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  829) 	trace.rettime = trace_clock_local();
-> 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26 @830) 	if (fregs)
-> 
-> It's strange that Smatch is only now complaining about something which
-> is from 2024...  This line assumes "freqs" can be NULL.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Janne Grunau <j@jannau.net>
 
-Hmm, OK, I can see why smatch is complaining. But it is missing a dependency.
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   51bf311a24a70b86e55dc44e36185917f29e1676
+commit: aecca51e5b37fe67d20bb043615e8b17a74197d1 [36/128] arm64: dts: apple: t8112: Add dcp/disp0 nodes
+:::::: branch date: 11 days ago
+:::::: commit date: 12 days ago
+config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20260102/202601022155.VYc9MIGF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601022155.VYc9MIGF-lkp@intel.com/reproduce)
 
-This is called by:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601022155.VYc9MIGF-lkp@intel.com/
 
-#ifdef CONFIG_HAVE_FUNCTION_GRAPH_FREGS
-unsigned long ftrace_return_to_handler(struct ftrace_regs *fregs)
-{
-	return __ftrace_return_to_handler(fregs,
-				ftrace_regs_get_frame_pointer(fregs));
-}
-#else
-unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
-{
-	return __ftrace_return_to_handler(NULL, frame_pointer);
-}
-#endif
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8112.dtsi:500.25-509.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@231304000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@231304000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@23130c000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@23130c000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: mbox@231c08000 (apple,t8112-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j413', 'apple,panel']
+--
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: pcie@690000000 (apple,t8112-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any schema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any schema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8112.dtsi:500.25-509.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@231304000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@231304000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@23130c000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@23130c000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: mbox@231c08000 (apple,t8112-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j415', 'apple,panel']
+--
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: pcie@690000000 (apple,t8112-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /sound: failed to match any schema with compatible: ['apple,j415-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /sound: failed to match any schema with compatible: ['apple,j415-macaudio', 'apple,macaudio']
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:23.10-25.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t8112.dtsi:500.25-509.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@231304000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@231304000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@23130c000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@23130c000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: mbox@231c08000 (apple,t8112-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:500.25-509.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112.dtsi:511.26-515.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/aliases.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@231304000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@231304000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@23130c000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@23130c000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: mbox@231c08000 (apple,t8112-asc-mailbox): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j493', 'apple,panel']
+--
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f80000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8112-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: pcie@690000000 (apple,t8112-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /sound: failed to match any schema with compatible: ['apple,j493-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /sound: failed to match any schema with compatible: ['apple,j493-macaudio', 'apple,macaudio']
 
-Where if HAVE_FUNCTION_GRAPH_FREGS is true, then fregs is always set.
-
-> 
-> 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  831) 		ftrace_regs_set_instruction_pointer(fregs, ret);
-> 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  832) 
-> a1be9ccc57f07d Donglin Peng              2023-04-08  833  #ifdef CONFIG_FUNCTION_GRAPH_RETVAL
-> a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26 @834) 	trace.retval = ftrace_regs_get_return_value(fregs);
->                                                                                                             ^^^^^
-> Unchecked dereference.
-
-Here FUNCTION_GRAPH_RETVAL has this in the Kconfig:
-
-config FUNCTION_GRAPH_RETVAL
-	bool "Kernel Function Graph Return Value"
-	depends on HAVE_FUNCTION_GRAPH_FREGS
-
-It depends on HAVE_FUNCTION_GRAPH_FREGS
-
-Thus, it can't be called without fregs being valid.
-
-Ideas on how to tell smatch about this?
-
-Hmm, I wonder if we could change this to:
-
-	/* fregs is always set when configured */
-	if (IS_ENABLED(CONFIG_HAVE_FUNCTION_GRAPH_FREGS))
-		ftrace_regs_set_instruction_pointer(fregs, ret);
-
-And also add:
-
-#ifdef CONFIG_FUNCTION_GRAPH_RETVAL
-	/* The below is always true, but makes smatch happy */
-	if (IS_ENABLED(CONFIG_HAVE_FUNCTION_GRAPH_FREGS))
-		trace.retval = ftrace_regs_get_return_value(fregs);
-#endif
-
-?
-
--- Steve
-
-
-
-> 
-> a1be9ccc57f07d Donglin Peng              2023-04-08  835  #endif
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  836) 
-> 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  837) 	bitmap = get_bitmap_bits(current, offset);
-> 420e1354bcb6f0 Steven Rostedt (Google    2024-06-03  838) 
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
