@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161C721B9C0
-	for <oe-kbuild@lists.linux.dev>; Sat,  3 Jan 2026 11:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC4E255F28
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 Jan 2026 17:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767440603; cv=none; b=JAl4qY8CMeWA0GrXG4iBCzunV531gHlVU1kJLA5ldjREdwndgIsR7q57ZQR6YaK4JvbS0ZuyN9WNVFXm9ZAX4HE7xVdsdGo7NbTHjkWA0Nkp8JB51sKwHZzWoC0FTIjWo/tFM7TORYfNbHHi0oXQq71TXv7Q3jblcdkvHf5Ed20=
+	t=1767460403; cv=none; b=AWIlIrYYfFIFsW34bKxixVvIH94/BrN2kCaspSOTlIoxKH++t88zuCpP7L9WgoYxqs/WtXqUkcOLNhM7hJJLnkaPloydXs8HkJJlw7tYeEQhZlGepmyUijroNyXI6O3ziOtgQH0ZGQtBVdl60L3vTskjj7RvaemRpbFem1H/8X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767440603; c=relaxed/simple;
-	bh=/zvLgWJilzkNnuJNSyOEKENK6Q5V4LewZmVPlIj+Kd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ri6st273HKdb4L57XatIeNyk/G+wMK+R42OilM//I0zPzhZh5Id7zSACFXCc/H25RBjZgfGvMNtsDP49acIvj03wxVaS7fm2Fp6wIVPF0QHbOMXFoAleYVutTr9KCcSTR7MIpRu8A7lMicdS+2n9Vy0gmHqiUUiW8Eax45DR+yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eYHAgnhD; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1767460403; c=relaxed/simple;
+	bh=2lKroIbyYGAkrhnDi+j5DLDZdEnQDFO34aNBttFeypA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WuMHllxeJ7aPVQ+MSGF5md7NlPkH4cG+bQbdH0rxZEjflDvlWf5BZ0hJh3pIsrm2w8rxA1g0WwvhUk26QD6mikVp73m6ayxX0dN8Q7Obc1i8cCYSJVSYv4/b3AeUVPWh50Iv3Y4H42qibXJov+THAP0sELiPURK8xD/OmS76Tzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YUPfdEzu; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eYHAgnhD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YUPfdEzu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767440600; x=1798976600;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/zvLgWJilzkNnuJNSyOEKENK6Q5V4LewZmVPlIj+Kd4=;
-  b=eYHAgnhDSb439BRJELTNUy3Ce2qTJ32APcTj6eq2lg0EKyfNfrWBSBdg
-   DF0Wp1ecCbqvbie6hjj2qrt6Q3A9zLxU+G3XoTx8zXHBrAiWsGjo66Eqc
-   +0bMJwvCNp39W6Z3kSpmpsSsgL1jRKb8kp3q5C1MuSGfMECpPTCG5AWeX
-   lbcFsxH0Q85BvaqCWbE3nbaUHL7xJ8OdFZGjTGvZLRPtDNKhaeGIHjsth
-   ELHHT/iEE3wsZ4w46OcBad9qmaaoZFtWsBRxAX2gcKiGQBGPiEi9yc1Cj
-   KJbKcLSU51kZRyu8jB+9ag8pXEBRLsq7Pk0VqsoQ5OuylIls/7zz1wV+O
+  t=1767460401; x=1798996401;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2lKroIbyYGAkrhnDi+j5DLDZdEnQDFO34aNBttFeypA=;
+  b=YUPfdEzuQSf+jKAWsJvPOtSsjc+fQ/a/+UCtpSbbARziB1J5NiK52qNp
+   ZOGczQrpOmwpLytuCvS307fjjUWL7i5EGxN3DEmS11e3KyEkeJ0G2Icfk
+   vPrdAQr7IUv1mS5qSJUZjWIw0GWvIGDIz9EOqvICcpASdZLVlxjPjcuv9
+   IrNB+1FI7rcdeEKPS40stw+irHZKsUdy6BOw7ajNr1BxKCqIpVvhVrp19
+   JTpYf2RnF5fDKUyd/iFB5SLpiBIJ4CynUQqC2QV6b9WO9ErpwNKKnSgbI
+   WVGxp21D0REaDPVP4EcnQdLX3jjxALZKAr2/EzEioD6TG9B7rTbU/aNnE
    Q==;
-X-CSE-ConnectionGUID: QbihRz74SkGL6Z1Y/py0dg==
-X-CSE-MsgGUID: OsAAzejZRzaWSsUBOsz/0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68966696"
+X-CSE-ConnectionGUID: PTp7gfCpT2i9OJR/cPHTPQ==
+X-CSE-MsgGUID: qOWOKMfZRh2k1F+W1o90OA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68807357"
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="68966696"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 03:43:19 -0800
-X-CSE-ConnectionGUID: t8CZrjMtR4uV8duZk1vO9g==
-X-CSE-MsgGUID: N9nfdrAlR0Sc9nkRKjgDqQ==
+   d="scan'208";a="68807357"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 09:13:20 -0800
+X-CSE-ConnectionGUID: GJ67zd/pRSiqY7mx7JK6BA==
+X-CSE-MsgGUID: ZpZ4q5UKS/+kgvpG/xpZ4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="207038829"
+   d="scan'208";a="225527088"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 03 Jan 2026 03:43:18 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 03 Jan 2026 09:13:19 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vc02N-000000000hF-35MB;
-	Sat, 03 Jan 2026 11:43:15 +0000
-Date: Sat, 03 Jan 2026 12:42:44 +0100
+	id 1vc5Bl-000000000jZ-2gHC;
+	Sat, 03 Jan 2026 17:13:17 +0000
+Date: Sat, 3 Jan 2026 18:12:31 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 50/128]
- arch/arm64/boot/dts/apple/t6022-j180d.dtb: smc@2a2400000 (apple,t6020-smc):
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202601031211.WeXig23J-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v3 2/3] dt-bindings: crypto: eip93: add support for
+ Mediatek MT7621 SoC
+Message-ID: <202601031832.ZAAMObxI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,534 +60,127 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
-CC: Janne Grunau <j@jannau.net>
-CC: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <20260102155341.3682013-2-olek2@wp.pl>
+References: <20260102155341.3682013-2-olek2@wp.pl>
+TO: Aleksander Jan Bajkowski <olek2@wp.pl>
+TO: benjamin.larsson@genexis.eu
+TO: chester.a.unal@arinc9.com
+TO: davem@davemloft.net
+TO: angelogioacchino.delregno@collabora.com
+TO: ansuelsmth@gmail.com
+TO: conor+dt@kernel.org
+TO: herbert@gondor.apana.org.au
+TO: krzk+dt@kernel.org
+TO: matthias.bgg@gmail.com
+TO: robh@kernel.org
+TO: sergio.paracuellos@gmail.com
+TO: tsbogend@alpha.franken.de
+TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-crypto@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-mediatek@lists.infradead.org
+TO: linux-mips@vger.kernel.org
+CC: Aleksander Jan Bajkowski <olek2@wp.pl>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: 05a3c35e6b4d6906acc34c2393ad18c8f049aab1 [50/128] arm64: dts: apple=
-: t602x: Add missing devices
-:::::: branch date: 12 days ago
-:::::: commit date: 13 days ago
-config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/arc=
-hive/20260103/202601031211.WeXig23J-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
+Hi Aleksander,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master robh/for-next linus/master v6.16-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksander-Jan-Bajkowski/dt-bindings-crypto-eip93-add-support-for-Mediatek-MT7621-SoC/20260102-235536
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20260102155341.3682013-2-olek2%40wp.pl
+patch subject: [PATCH v3 2/3] dt-bindings: crypto: eip93: add support for Mediatek MT7621 SoC
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: openrisc-randconfig-2052-20260103 (https://download.01.org/0day-ci/archive/20260103/202601031832.ZAAMObxI-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.3.0
 dtschema version: 2025.12
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260103/202601031211.WeXig23J-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601031832.ZAAMObxI-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601031211.WeXig23J-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601031832.ZAAMObxI-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: opp-table-gpu-cs (operating-p=
-oints-v2): $nodename:0: 'opp-table-gpu-cs' does not match '^opp-table(-[a-z=
-0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: opp-table-gpu-cs (operating-p=
-oints-v2): Unevaluated properties are not allowed ('opp00', 'opp01', 'opp02=
-', 'opp03', 'opp04', 'opp05', 'opp06' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: opp-table-gpu-afr (operating-=
-points-v2): $nodename:0: 'opp-table-gpu-afr' does not match '^opp-table(-[a=
--z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: opp-table-gpu-afr (operating-=
-points-v2): Unevaluated properties are not allowed ('opp00', 'opp01', 'opp0=
-2', 'opp03', 'opp04', 'opp05', 'opp06' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: smc@2a2400000 (apple,t6020-sm=
-c): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: smc@2a2400000 (apple,t6020-sm=
-c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6020-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', =
-'apple,t8112-smc']
-   	'apple,t8103-smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: smc@2a2400000 (apple,t6020-sm=
-c): reboot:nvmem-cell-names: ['shutdown_flag', 'boot_stage', 'boot_error_co=
-unt', 'panic_count', 'pm_setting'] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: smc@2a2400000 (apple,t6020-sm=
-c): reboot:nvmem-cells: [[45], [46], [47], [48], [49]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/smc@2a2400000/=
-rtc: failed to match any schema with compatible: ['apple,smc-rtc']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: reboot (apple,smc-reboot): nv=
-mem-cell-names: ['shutdown_flag', 'boot_stage', 'boot_error_count', 'panic_=
-count', 'pm_setting'] is too long
-   	from schema $id: http://devicetree.org/schemas/power/reset/apple,smc-re=
-boot.yaml
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: reboot (apple,smc-reboot): nv=
-mem-cells: [[45], [46], [47], [48], [49]] is too long
-   	from schema $id: http://devicetree.org/schemas/power/reset/apple,smc-re=
-boot.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/display-subsys=
-tem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: display-subsystem (apple,disp=
-lay-subsystem): iommus: True is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/iommu/iommu.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb-pd@39 (apple,cd321x): 'la=
-bel' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/ti,tps6598x.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb-pd@3a (apple,cd321x): 'la=
-bel' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/ti,tps6598x.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: codec@39 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: gpu@406400000 (apple,agx-t602=
-2): 'apple,afr-leak-coef', 'apple,afr-opp', 'apple,avg-power-filter-tc-ms',=
- 'apple,avg-power-ki-only', 'apple,avg-power-kp', 'apple,avg-power-min-duty=
--cycle', 'apple,avg-power-target-filter-tc', 'apple,core-leak-coef', 'apple=
-,cs-leak-coef', 'apple,cs-opp', 'apple,csafr-min-sram-microvolt', 'apple,fa=
-st-die0-integral-gain', 'apple,fast-die0-proportional-gain', 'apple,firmwar=
-e-compat', 'apple,firmware-version', 'apple,idleoff-standby-timer', 'apple,=
-min-sram-microvolt', 'apple,perf-base-pstate', 'apple,perf-boost-ce-step', =
-'apple,perf-boost-min-util', 'apple,perf-filter-drop-threshold', 'apple,per=
-f-filter-time-constant', 'apple,perf-filter-time-constant2', 'apple,perf-in=
-tegral-gain', 'apple,perf-integral-gain2', 'apple,perf-integral-min-clamp',=
- 'apple,perf-proportional-gain', 'apple,perf-proportional-gain2', 'apple,pe=
-rf-tgt-utilization', 'apple,power-sample-period', 'apple,ppm-filter-time-co=
-nstant-ms', 'apple,ppm-ki', 'apple,ppm-kp', 'apple,pwr-filter-time-constant=
-', 'apple,pwr-integral-gain', 'apple,pwr-integral-min-clamp', 'apple,pwr-mi=
-n-duty-cycle', 'apple,pwr-proportional-gain', 'apple,pwr-sample-period-aic-=
-clks', 'apple,se-engagement-criteria', 'apple,se-filter-time-constant', 'ap=
-ple,se-filter-time-constant-1', 'apple,se-inactive-threshold', 'apple,se-ki=
-', 'apple,se-ki-1', 'apple,se-kp', 'apple,se-kp-1', 'apple,se-reset-criteri=
-a', 'apple,sram-leak-coef', 'interrupt-parent', 'interrupts', 'operating-po=
-ints-v2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpu/apple,agx.yaml
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: gpu@406400000 (apple,agx-t602=
-2): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,agx-t6022', 'apple,agx-g14x', 'apple,agx-g14d', 'apple,agx-g14s=
-'] is too long
-   	'apple,agx-t6022' is not one of ['apple,agx-g13g', 'apple,agx-g13s', 'a=
-pple,agx-g14g', 'apple,agx-g14s']
-   	'apple,agx-t6022' is not one of ['apple,agx-g13c', 'apple,agx-g13d']
-   	'apple,agx-t6022' is not one of ['apple,agx-g14c', 'apple,agx-g14d']
-   	'apple,agx-g13s' was expected
-   	'apple,agx-g14s' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/apple,agx.yaml
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/gpu@406400000:=
- failed to match any schema with compatible: ['apple,agx-t6022', 'apple,agx=
--g14x', 'apple,agx-g14d', 'apple,agx-g14s']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/gpu@406400000:=
- failed to match any schema with compatible: ['apple,agx-t6022', 'apple,agx=
--g14x', 'apple,agx-g14d', 'apple,agx-g14s']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@290280000 (a=
-pple,t6020-pmgr): power-controller@4000: 'apple,force-disable' does not mat=
-ch any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-controller@4000 (apple,=
-t6020-pmgr-pwrstate): 'apple,force-disable' does not match any of the regex=
-es: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: efuse@29e2cc000 (apple,t6020-=
-efuses): compatible:0: 'apple,t6020-efuses' is not one of ['apple,t8103-efu=
-ses', 'apple,t6000-efuses']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/efuse@29e2cc00=
-0: failed to match any schema with compatible: ['apple,t6020-efuses', 'appl=
-e,efuses']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@702280000:=
- failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,t8=
-103-dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@702280000:=
- failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,t8=
-103-dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/phy@703000000:=
- failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,=
-t8103-atcphy']
---
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: opp-table-gpu-cs (operating-p=
-oints-v2): Unevaluated properties are not allowed ('opp00', 'opp01', 'opp02=
-', 'opp03', 'opp04', 'opp05', 'opp06' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: opp-table-gpu-afr (operating-=
-points-v2): $nodename:0: 'opp-table-gpu-afr' does not match '^opp-table(-[a=
--z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: opp-table-gpu-afr (operating-=
-points-v2): Unevaluated properties are not allowed ('opp00', 'opp01', 'opp0=
-2', 'opp03', 'opp04', 'opp05', 'opp06' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: soc (simple-bus): display-sub=
-system: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: smc@2a2400000 (apple,t6020-sm=
-c): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: smc@2a2400000 (apple,t6020-sm=
-c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6020-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', =
-'apple,t8112-smc']
-   	'apple,t8103-smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: smc@2a2400000 (apple,t6020-sm=
-c): reboot:nvmem-cell-names: ['shutdown_flag', 'boot_stage', 'boot_error_co=
-unt', 'panic_count', 'pm_setting'] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: smc@2a2400000 (apple,t6020-sm=
-c): reboot:nvmem-cells: [[27], [28], [29], [30], [31]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/smc@2a2400000/rtc: faile=
-d to match any schema with compatible: ['apple,smc-rtc']
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: reboot (apple,smc-reboot): nv=
-mem-cell-names: ['shutdown_flag', 'boot_stage', 'boot_error_count', 'panic_=
-count', 'pm_setting'] is too long
-   	from schema $id: http://devicetree.org/schemas/power/reset/apple,smc-re=
-boot.yaml
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: reboot (apple,smc-reboot): nv=
-mem-cells: [[27], [28], [29], [30], [31]] is too long
-   	from schema $id: http://devicetree.org/schemas/power/reset/apple,smc-re=
-boot.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@389304000 (apple,t6020-=
-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]=
-+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@38930c000 (apple,t6020-=
-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]=
-+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/dcp@389c00000: failed to=
- match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/dcp@389c00000: failed to=
- match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/display-subsystem: faile=
-d to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: gpu@406400000 (apple,agx-t602=
-0): 'apple,afr-leak-coef', 'apple,afr-opp', 'apple,avg-power-filter-tc-ms',=
- 'apple,avg-power-ki-only', 'apple,avg-power-kp', 'apple,avg-power-min-duty=
--cycle', 'apple,avg-power-target-filter-tc', 'apple,core-leak-coef', 'apple=
-,cs-leak-coef', 'apple,cs-opp', 'apple,csafr-min-sram-microvolt', 'apple,fa=
-st-die0-integral-gain', 'apple,fast-die0-proportional-gain', 'apple,firmwar=
-e-compat', 'apple,firmware-version', 'apple,min-sram-microvolt', 'apple,per=
-f-base-pstate', 'apple,perf-boost-ce-step', 'apple,perf-boost-min-util', 'a=
-pple,perf-filter-drop-threshold', 'apple,perf-filter-time-constant', 'apple=
-,perf-filter-time-constant2', 'apple,perf-integral-gain', 'apple,perf-integ=
-ral-gain2', 'apple,perf-integral-min-clamp', 'apple,perf-proportional-gain'=
-, 'apple,perf-proportional-gain2', 'apple,perf-tgt-utilization', 'apple,pow=
-er-sample-period', 'apple,ppm-filter-time-constant-ms', 'apple,ppm-ki', 'ap=
-ple,ppm-kp', 'apple,pwr-filter-time-constant', 'apple,pwr-integral-gain', '=
-apple,pwr-integral-min-clamp', 'apple,pwr-min-duty-cycle', 'apple,pwr-propo=
-rtional-gain', 'apple,pwr-sample-period-aic-clks', 'apple,se-engagement-cri=
-teria', 'apple,se-filter-time-constant', 'apple,se-filter-time-constant-1',=
- 'apple,se-inactive-threshold', 'apple,se-ki', 'apple,se-ki-1', 'apple,se-k=
-p', 'apple,se-kp-1', 'apple,se-reset-criteria', 'apple,sram-leak-coef', 'in=
-terrupt-parent', 'interrupts', 'operating-points-v2' do not match any of th=
-e regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpu/apple,agx.yaml
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: gpu@406400000 (apple,agx-t602=
-0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,agx-t6020', 'apple,agx-g14x', 'apple,agx-g14s'] is too long
-   	'apple,agx-t6020' is not one of ['apple,agx-g13g', 'apple,agx-g13s', 'a=
-pple,agx-g14g', 'apple,agx-g14s']
-   	'apple,agx-t6020' is not one of ['apple,agx-g13c', 'apple,agx-g13d']
-   	'apple,agx-t6020' is not one of ['apple,agx-g14c', 'apple,agx-g14d']
-   	'apple,agx-g13s' was expected
-   	'apple,agx-g14s' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/apple,agx.yaml
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/gpu@406400000: failed to=
- match any schema with compatible: ['apple,agx-t6020', 'apple,agx-g14x', 'a=
-pple,agx-g14s']
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/gpu@406400000: failed to=
- match any schema with compatible: ['apple,agx-t6020', 'apple,agx-g14x', 'a=
-pple,agx-g14s']
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: pcie@580000000 (apple,t6020-p=
-cie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000 (a=
-pple,t6020-pmgr): power-controller@4000: 'apple,force-disable' does not mat=
-ch any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-controller@4000 (apple,=
-t6020-pmgr-pwrstate): 'apple,force-disable' does not match any of the regex=
-es: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: efuse@29e2cc000 (apple,t6020-=
-efuses): compatible:0: 'apple,t6020-efuses' is not one of ['apple,t8103-efu=
-ses', 'apple,t6000-efuses']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/efuse@29e2cc000: failed =
-to match any schema with compatible: ['apple,t6020-efuses', 'apple,efuses']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/usb@702280000: failed to=
- match any schema with compatible: ['apple,t6020-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/usb@702280000: failed to=
- match any schema with compatible: ['apple,t6020-dwc3', 'apple,t8103-dwc3']
---
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: opp-table-gpu-cs (operating-p=
-oints-v2): Unevaluated properties are not allowed ('opp00', 'opp01', 'opp02=
-', 'opp03', 'opp04', 'opp05', 'opp06' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: opp-table-gpu-afr (operating-=
-points-v2): $nodename:0: 'opp-table-gpu-afr' does not match '^opp-table(-[a=
--z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: opp-table-gpu-afr (operating-=
-points-v2): Unevaluated properties are not allowed ('opp00', 'opp01', 'opp0=
-2', 'opp03', 'opp04', 'opp05', 'opp06' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: soc (simple-bus): display-sub=
-system: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: smc@2a2400000 (apple,t6020-sm=
-c): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: smc@2a2400000 (apple,t6020-sm=
-c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6020-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', =
-'apple,t8112-smc']
-   	'apple,t8103-smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: smc@2a2400000 (apple,t6020-sm=
-c): reboot:nvmem-cell-names: ['shutdown_flag', 'boot_stage', 'boot_error_co=
-unt', 'panic_count', 'pm_setting'] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: smc@2a2400000 (apple,t6020-sm=
-c): reboot:nvmem-cells: [[27], [28], [29], [30], [31]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/smc@2a2400000/rtc: faile=
-d to match any schema with compatible: ['apple,smc-rtc']
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: reboot (apple,smc-reboot): nv=
-mem-cell-names: ['shutdown_flag', 'boot_stage', 'boot_error_count', 'panic_=
-count', 'pm_setting'] is too long
-   	from schema $id: http://devicetree.org/schemas/power/reset/apple,smc-re=
-boot.yaml
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: reboot (apple,smc-reboot): nv=
-mem-cells: [[27], [28], [29], [30], [31]] is too long
-   	from schema $id: http://devicetree.org/schemas/power/reset/apple,smc-re=
-boot.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@389304000 (apple,t6020-=
-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]=
-+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@38930c000 (apple,t6020-=
-dart): 'apple,dma-range' does not match any of the regexes: '^pinctrl-[0-9]=
-+$'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/dcp@389c00000: failed to=
- match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/dcp@389c00000: failed to=
- match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/display-subsystem: faile=
-d to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: gpu@406400000 (apple,agx-t602=
-1): 'apple,afr-leak-coef', 'apple,afr-opp', 'apple,avg-power-filter-tc-ms',=
- 'apple,avg-power-ki-only', 'apple,avg-power-kp', 'apple,avg-power-min-duty=
--cycle', 'apple,avg-power-target-filter-tc', 'apple,core-leak-coef', 'apple=
-,cs-leak-coef', 'apple,cs-opp', 'apple,csafr-min-sram-microvolt', 'apple,fa=
-st-die0-integral-gain', 'apple,fast-die0-proportional-gain', 'apple,firmwar=
-e-compat', 'apple,firmware-version', 'apple,idleoff-standby-timer', 'apple,=
-min-sram-microvolt', 'apple,perf-base-pstate', 'apple,perf-boost-ce-step', =
-'apple,perf-boost-min-util', 'apple,perf-filter-drop-threshold', 'apple,per=
-f-filter-time-constant', 'apple,perf-filter-time-constant2', 'apple,perf-in=
-tegral-gain', 'apple,perf-integral-gain2', 'apple,perf-integral-min-clamp',=
- 'apple,perf-proportional-gain', 'apple,perf-proportional-gain2', 'apple,pe=
-rf-tgt-utilization', 'apple,power-sample-period', 'apple,ppm-filter-time-co=
-nstant-ms', 'apple,ppm-ki', 'apple,ppm-kp', 'apple,pwr-filter-time-constant=
-', 'apple,pwr-integral-gain', 'apple,pwr-integral-min-clamp', 'apple,pwr-mi=
-n-duty-cycle', 'apple,pwr-proportional-gain', 'apple,pwr-sample-period-aic-=
-clks', 'apple,se-engagement-criteria', 'apple,se-filter-time-constant', 'ap=
-ple,se-filter-time-constant-1', 'apple,se-inactive-threshold', 'apple,se-ki=
-', 'apple,se-ki-1', 'apple,se-kp', 'apple,se-kp-1', 'apple,se-reset-criteri=
-a', 'apple,sram-leak-coef', 'interrupt-parent', 'interrupts', 'operating-po=
-ints-v2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpu/apple,agx.yaml
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: gpu@406400000 (apple,agx-t602=
-1): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,agx-t6021', 'apple,agx-g14x', 'apple,agx-g14c', 'apple,agx-g14s=
-'] is too long
-   	'apple,agx-t6021' is not one of ['apple,agx-g13g', 'apple,agx-g13s', 'a=
-pple,agx-g14g', 'apple,agx-g14s']
-   	'apple,agx-t6021' is not one of ['apple,agx-g13c', 'apple,agx-g13d']
-   	'apple,agx-t6021' is not one of ['apple,agx-g14c', 'apple,agx-g14d']
-   	'apple,agx-g13s' was expected
-   	'apple,agx-g14s' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/apple,agx.yaml
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/gpu@406400000: failed to=
- match any schema with compatible: ['apple,agx-t6021', 'apple,agx-g14x', 'a=
-pple,agx-g14c', 'apple,agx-g14s']
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/gpu@406400000: failed to=
- match any schema with compatible: ['apple,agx-t6021', 'apple,agx-g14x', 'a=
-pple,agx-g14c', 'apple,agx-g14s']
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: pcie@580000000 (apple,t6020-p=
-cie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: power-management@290280000 (a=
-pple,t6020-pmgr): power-controller@4000: 'apple,force-disable' does not mat=
-ch any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: power-controller@4000 (apple,=
-t6020-pmgr-pwrstate): 'apple,force-disable' does not match any of the regex=
-es: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: efuse@29e2cc000 (apple,t6020-=
-efuses): compatible:0: 'apple,t6020-efuses' is not one of ['apple,t8103-efu=
-ses', 'apple,t6000-efuses']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/efuse@29e2cc000: failed =
-to match any schema with compatible: ['apple,t6020-efuses', 'apple,efuses']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: pinctrl@39b028000 (apple,t602=
-0-pinctrl): 'usb_hub_oe-hog', 'usb_hub_rst-hog' do not match any of the reg=
-exes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.ya=
-ml
---
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: opp-table-gpu-cs (operating-p=
-oints-v2): $nodename:0: 'opp-table-gpu-cs' does not match '^opp-table(-[a-z=
-0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: opp-table-gpu-cs (operating-p=
-oints-v2): Unevaluated properties are not allowed ('opp00', 'opp01', 'opp02=
-', 'opp03', 'opp04', 'opp05', 'opp06' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: opp-table-gpu-afr (operating-=
-points-v2): $nodename:0: 'opp-table-gpu-afr' does not match '^opp-table(-[a=
--z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: opp-table-gpu-afr (operating-=
-points-v2): Unevaluated properties are not allowed ('opp00', 'opp01', 'opp0=
-2', 'opp03', 'opp04', 'opp05', 'opp06' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: smc@2a2400000 (apple,t6020-sm=
-c): 'rtc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: smc@2a2400000 (apple,t6020-sm=
-c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6020-smc' is not one of ['apple,t6000-smc', 'apple,t8103-smc', =
-'apple,t8112-smc']
-   	'apple,t8103-smc' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: smc@2a2400000 (apple,t6020-sm=
-c): reboot:nvmem-cell-names: ['shutdown_flag', 'boot_stage', 'boot_error_co=
-unt', 'panic_count', 'pm_setting'] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: smc@2a2400000 (apple,t6020-sm=
-c): reboot:nvmem-cells: [[45], [46], [47], [48], [49]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/apple,smc.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/smc@2a2400000/=
-rtc: failed to match any schema with compatible: ['apple,smc-rtc']
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: reboot (apple,smc-reboot): nv=
-mem-cell-names: ['shutdown_flag', 'boot_stage', 'boot_error_count', 'panic_=
-count', 'pm_setting'] is too long
-   	from schema $id: http://devicetree.org/schemas/power/reset/apple,smc-re=
-boot.yaml
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: reboot (apple,smc-reboot): nv=
-mem-cells: [[45], [46], [47], [48], [49]] is too long
-   	from schema $id: http://devicetree.org/schemas/power/reset/apple,smc-re=
-boot.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/display-subsys=
-tem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: display-subsystem (apple,disp=
-lay-subsystem): iommus: True is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/iommu/iommu.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: gpu@406400000 (apple,agx-t602=
-2): 'apple,afr-leak-coef', 'apple,afr-opp', 'apple,avg-power-filter-tc-ms',=
- 'apple,avg-power-ki-only', 'apple,avg-power-kp', 'apple,avg-power-min-duty=
--cycle', 'apple,avg-power-target-filter-tc', 'apple,core-leak-coef', 'apple=
-,cs-leak-coef', 'apple,cs-opp', 'apple,csafr-min-sram-microvolt', 'apple,fa=
-st-die0-integral-gain', 'apple,fast-die0-proportional-gain', 'apple,firmwar=
-e-compat', 'apple,firmware-version', 'apple,idleoff-standby-timer', 'apple,=
-min-sram-microvolt', 'apple,perf-base-pstate', 'apple,perf-boost-ce-step', =
-'apple,perf-boost-min-util', 'apple,perf-filter-drop-threshold', 'apple,per=
-f-filter-time-constant', 'apple,perf-filter-time-constant2', 'apple,perf-in=
-tegral-gain', 'apple,perf-integral-gain2', 'apple,perf-integral-min-clamp',=
- 'apple,perf-proportional-gain', 'apple,perf-proportional-gain2', 'apple,pe=
-rf-tgt-utilization', 'apple,power-sample-period', 'apple,ppm-filter-time-co=
-nstant-ms', 'apple,ppm-ki', 'apple,ppm-kp', 'apple,pwr-filter-time-constant=
-', 'apple,pwr-integral-gain', 'apple,pwr-integral-min-clamp', 'apple,pwr-mi=
-n-duty-cycle', 'apple,pwr-proportional-gain', 'apple,pwr-sample-period-aic-=
-clks', 'apple,se-engagement-criteria', 'apple,se-filter-time-constant', 'ap=
-ple,se-filter-time-constant-1', 'apple,se-inactive-threshold', 'apple,se-ki=
-', 'apple,se-ki-1', 'apple,se-kp', 'apple,se-kp-1', 'apple,se-reset-criteri=
-a', 'apple,sram-leak-coef', 'interrupt-parent', 'interrupts', 'operating-po=
-ints-v2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpu/apple,agx.yaml
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: gpu@406400000 (apple,agx-t602=
-2): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,agx-t6022', 'apple,agx-g14x', 'apple,agx-g14d', 'apple,agx-g14s=
-'] is too long
-   	'apple,agx-t6022' is not one of ['apple,agx-g13g', 'apple,agx-g13s', 'a=
-pple,agx-g14g', 'apple,agx-g14s']
-   	'apple,agx-t6022' is not one of ['apple,agx-g13c', 'apple,agx-g13d']
-   	'apple,agx-t6022' is not one of ['apple,agx-g14c', 'apple,agx-g14d']
-   	'apple,agx-g13s' was expected
-   	'apple,agx-g14s' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/apple,agx.yaml
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/gpu@406400000:=
- failed to match any schema with compatible: ['apple,agx-t6022', 'apple,agx=
--g14x', 'apple,agx-g14d', 'apple,agx-g14s']
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/gpu@406400000:=
- failed to match any schema with compatible: ['apple,agx-t6022', 'apple,agx=
--g14x', 'apple,agx-g14d', 'apple,agx-g14s']
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: pcie@580000000 (apple,t6020-p=
-cie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@290280000 (a=
-pple,t6020-pmgr): power-controller@4000: 'apple,force-disable' does not mat=
-ch any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-controller@4000 (apple,=
-t6020-pmgr-pwrstate): 'apple,force-disable' does not match any of the regex=
-es: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: efuse@29e2cc000 (apple,t6020-=
-efuses): compatible:0: 'apple,t6020-efuses' is not one of ['apple,t8103-efu=
-ses', 'apple,t6000-efuses']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/efuse@29e2cc00=
-0: failed to match any schema with compatible: ['apple,t6020-efuses', 'appl=
-e,efuses']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/usb@702280000:=
- failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,t8=
-103-dwc3']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/usb@702280000:=
- failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,t8=
-103-dwc3']
+>> Documentation/devicetree/bindings/crypto/inside-secure,safexcel-eip93.yaml:35:13: [warning] wrong indentation: expected 14 but found 12 (indentation)
 
---=20
+vim +35 Documentation/devicetree/bindings/crypto/inside-secure,safexcel-eip93.yaml
+
+bbbbd1d149e8b2 Christian Marangi        2025-01-14   8  
+bbbbd1d149e8b2 Christian Marangi        2025-01-14   9  maintainers:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  10    - Christian Marangi <ansuelsmth@gmail.com>
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  11  
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  12  description: |
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  13    The Inside Secure SafeXcel EIP-93 is a cryptographic engine IP block
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  14    integrated in varios devices with very different and generic name from
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  15    PKTE to simply vendor+EIP93. The real IP under the hood is actually
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  16    developed by Inside Secure and given to license to vendors.
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  17  
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  18    The IP block is sold with different model based on what feature are
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  19    needed and are identified with the final letter. Each letter correspond
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  20    to a specific set of feature and multiple letter reflect the sum of the
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  21    feature set.
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  22  
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  23    EIP-93 models:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  24      - EIP-93i: (basic) DES/Triple DES, AES, PRNG, IPsec ESP, SRTP, SHA1
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  25      - EIP-93ie: i + SHA224/256, AES-192/256
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  26      - EIP-93is: i + SSL/DTLS/DTLS, MD5, ARC4
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  27      - EIP-93ies: i + e + s
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  28      - EIP-93iw: i + AES-XCB-MAC, AES-CCM
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  29  
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  30  properties:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  31    compatible:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  32      oneOf:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  33        - items:
+ea68b16ba9ed87 Aleksander Jan Bajkowski 2026-01-02  34            - enum:
+ea68b16ba9ed87 Aleksander Jan Bajkowski 2026-01-02 @35              - airoha,en7581-eip93
+ea68b16ba9ed87 Aleksander Jan Bajkowski 2026-01-02  36              - mediatek,mt7621-eip93
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  37            - const: inside-secure,safexcel-eip93ies
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  38        - items:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  39            - not: {}
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  40              description: Need a SoC specific compatible
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  41            - enum:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  42                - inside-secure,safexcel-eip93i
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  43                - inside-secure,safexcel-eip93ie
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  44                - inside-secure,safexcel-eip93is
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  45                - inside-secure,safexcel-eip93iw
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  46  
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  47    reg:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  48      maxItems: 1
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  49  
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  50    interrupts:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  51      maxItems: 1
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  52  
+b36d02ca8cba9c Aleksander Jan Bajkowski 2026-01-02  53    clocks:
+b36d02ca8cba9c Aleksander Jan Bajkowski 2026-01-02  54      maxItems: 1
+b36d02ca8cba9c Aleksander Jan Bajkowski 2026-01-02  55  
+b36d02ca8cba9c Aleksander Jan Bajkowski 2026-01-02  56    resets:
+b36d02ca8cba9c Aleksander Jan Bajkowski 2026-01-02  57      maxItems: 1
+b36d02ca8cba9c Aleksander Jan Bajkowski 2026-01-02  58  
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  59  required:
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  60    - compatible
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  61    - reg
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  62    - interrupts
+b36d02ca8cba9c Aleksander Jan Bajkowski 2026-01-02  63    - clocks
+b36d02ca8cba9c Aleksander Jan Bajkowski 2026-01-02  64    - resets
+bbbbd1d149e8b2 Christian Marangi        2025-01-14  65  
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
