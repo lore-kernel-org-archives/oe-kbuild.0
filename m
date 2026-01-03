@@ -1,150 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C859E1E22E9
-	for <oe-kbuild@lists.linux.dev>; Sat,  3 Jan 2026 02:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6205513D53C
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 Jan 2026 02:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767407416; cv=none; b=Gpq6u/fNAgK7UhbbrFAy8nyojrV/HHpTC9a8K4H9Jmd+1mo5DK34xjcYQ1w6ChtQKxjDbNKQLVTzt/UFuYHApSXsxwQmRB2YZyWrLGaYcHbFL7Dpy3mCTl+ixxo/18a2YPTCLVs/FiZBqolECmxbhSl+VjyMIXfADauMHrUlQkM=
+	t=1767407835; cv=none; b=L+5TJLbKhc0gHBosKxk8Yk/s7ht8kgePUY1w1g4adEfFkCj++X5h+Oemix/hFErTB7UG7irnPrN+R5cfF03I76yY9TWegjUbSuwDgi+IYmNxW3gj1aQuf9D+nGeHVXJrXYyQbaf0V5QKPWuvaVMw+cXLOIImzLAdiDdt/nO6Pu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767407416; c=relaxed/simple;
-	bh=ZzmaU9Eg9tlI28jT3/usZvkbRqDQycqYK6g5WYzl8UU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WbPGMZTxec22aCdCeaWnsAWVz0O7pi0cL++7UEYVgmDc02g6/+HwklPToW8m1mz2qR/YR3BROBklkqeU0uovkquTOZqgTiinfmYc75SvsjRf4IMPmdvUm6pILPJBDr8HDnAXhWXaUpb1sCS3JdtZ0OjI6dQxiDg8CTmlK5Qy7Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WaMIJdb6; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1767407835; c=relaxed/simple;
+	bh=OLMHys6cB3Dg8WMqPUs1PuNBuBIZqUBJ0IMitIR9eKA=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QdJ9c47etWWsYMaZlo78/NSKN+LJO8DCGuD7Fg6APtY5x57jn3zdLqwM9/98TywCgDgOaS6JgBTRFwI0JNBtvJ5j+RHVgnhNtMZliskDXZfM9aE/GfrMGna5LEW7gV0pu4lJjFsAHbsXZbYO3Ai+8Lp1ydOc5HqaykFWkc9dUXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UggItDbk; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WaMIJdb6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UggItDbk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767407413; x=1798943413;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZzmaU9Eg9tlI28jT3/usZvkbRqDQycqYK6g5WYzl8UU=;
-  b=WaMIJdb6FDqMV8qOiPyQgcfVaUlmSlYCPg5Ej01tYG28yMesrSmHBPon
-   RoUUsrJCqU05eDhlTgfnHQsZn5b0qhyHuVARwqcuuINr0y9fSne6sbJin
-   dUzwyKJRj3+DAIGZOukCT6Sj79Myc1cftRoGmA7OmJLH4pFeLvr9c6Loq
-   W3EBqzyCfsypfcxVKF/heNg0sjd8mtpni4CwvFzPRlZ7GQWq+pb/8IMxQ
-   S1qCv34yS/W1n4JSwTrKWkKmBXA7dw+0+pbs619Nouv6WodvlOYjIDgIg
-   guMvISsll2KVjQtbyXuhV5ybj6haOmumIVVKkB4WLXardoyjeuVsjvdj4
+  t=1767407834; x=1798943834;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=OLMHys6cB3Dg8WMqPUs1PuNBuBIZqUBJ0IMitIR9eKA=;
+  b=UggItDbkLYRen0Hk+JEPJUev2w4vzlBe+JixSIxPe9niuYvOQ7XLmPFb
+   lfVCc5elK1B6Mbl68VTHLezD/rgG/iUi9A5Fme2TKXl7z38sH0gQ1vJsC
+   UiQu+GFSNf+I7K64Dbp61Y2O4YA12xXvfDphRQeZgNV+DuJMJuDf1CKQp
+   Dm9UQZaW/tr5upGxe6gaQfLqXniVAWpTBllJ5cvHoXEljOsZDJmp++4Gk
+   Hmvfv7KruDTDNwOOGqUZhNTm/N4yFpe7rE/ykcWxjssxMvnfLc3AQjadj
+   YAn/XSARuIeheNNYpr17mWjXy+VXgHdop83migSh6gysTXXEE8FLRjmG1
    A==;
-X-CSE-ConnectionGUID: tN5dE0/fTom/offHdcl3Sg==
-X-CSE-MsgGUID: K85hkMk8TPifPi87L+1Ujg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="86304318"
+X-CSE-ConnectionGUID: OBHW88LqTN+NeFfNfYL7Bw==
+X-CSE-MsgGUID: EwDM8Gu0SBePZOScO8xPUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="80329960"
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="86304318"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 18:30:12 -0800
-X-CSE-ConnectionGUID: oVyRaAvnSGuV7+Fln3cnJQ==
-X-CSE-MsgGUID: lWkFtwxcRW+MLUp7yySBiw==
+   d="scan'208";a="80329960"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 18:37:13 -0800
+X-CSE-ConnectionGUID: m1yEp4ccQgS5rp8ZKBmvvA==
+X-CSE-MsgGUID: irZQzKLcTQKsT0K10W5LxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="202182632"
+   d="scan'208";a="206985002"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Jan 2026 18:30:12 -0800
+  by orviesa005.jf.intel.com with ESMTP; 02 Jan 2026 18:37:12 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbrP7-000000000Yz-3zaW;
-	Sat, 03 Jan 2026 02:30:09 +0000
-Date: Sat, 03 Jan 2026 03:29:59 +0100
+	id 1vbrVu-000000000ZJ-0lYJ
+	for oe-kbuild@lists.linux.dev;
+	Sat, 03 Jan 2026 02:37:10 +0000
+Date: Sat, 3 Jan 2026 03:36:22 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 37/128]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: framebuffer@0
- (apple,simple-framebuffer): 'post-init-providers' does not match any of the
- regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-Message-ID: <202601030328.uUzvzwDI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v1 7/7] Add support for the NFSv4.2 POSIX draft ACL
+ attributes
+Message-ID: <202601030331.kBvGIn1Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
-CC: Janne Grunau <j@jannau.net>
+In-Reply-To: <20260102232934.1560-8-rick.macklem@gmail.com>
+References: <20260102232934.1560-8-rick.macklem@gmail.com>
+TO: rick.macklem@gmail.com
+TO: linux-nfs@vger.kernel.org
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   51bf311a24a70b86e55dc44e36185917f29e1676
-commit: 08a810d95d197e56c1809677e49abedb41ed11ee [37/128] arm64: dts: apple: t600x: Add DCP power domain to missing devices
-:::::: branch date: 11 days ago
-:::::: commit date: 13 days ago
-config: arm64-randconfig-2051-20251222 (https://download.01.org/0day-ci/archive/20260103/202601030328.uUzvzwDI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030328.uUzvzwDI-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601030328.uUzvzwDI-lkp@intel.com/
+kernel test robot noticed the following build warnings:
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/phy@b03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/phy@b03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /sound: failed to match any schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /sound: failed to match any schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@b03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@b03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /sound: failed to match any schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /sound: failed to match any schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@b03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@b03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /sound: failed to match any schema with compatible: ['apple,j316-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /sound: failed to match any schema with compatible: ['apple,j316-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@b03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@b03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: framebuffer@0 (apple,simple-framebuffer): 'post-init-providers' does not match any of the regexes: '^[a-zA-Z0-9-]+-supply$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/simple-framebuffer.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /sound: failed to match any schema with compatible: ['apple,j316-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /sound: failed to match any schema with compatible: ['apple,j316-macaudio', 'apple,macaudio']
+[auto build test WARNING on trondmy-nfs/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/rick-macklem-gmail-com/Add-entries-to-the-predefined-client-operations-enum/20260103-073239
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20260102232934.1560-8-rick.macklem%40gmail.com
+patch subject: [PATCH v1 7/7] Add support for the NFSv4.2 POSIX draft ACL attributes
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260103/202601030331.kBvGIn1Z-lkp@intel.com/reproduce)
+
+# many are suggestions rather than must-fix
+
+ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+#132: FILE: fs/nfs/nfs42proc.c:1724:
++	switch (status) {
++		case 0:
+[...]
++		case -EPFNOSUPPORT:
++		case -EPROTONOSUPPORT:
+[...]
++		case -ENOTSUPP:
+[...]
++		default:
+
+ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+#291: FILE: fs/nfs/nfs42proc.c:1883:
++	switch (status) {
++		case 0:
+[...]
++		case -EPFNOSUPPORT:
++		case -EPROTONOSUPPORT:
+[...]
++		case -ENOTSUPP:
+
+ERROR:SPACING: space required before the open parenthesis '('
+#318: FILE: fs/nfs/nfs42proc.c:1910:
++		switch(type) {
+
+ERROR:SPACING: space required before the open parenthesis '('
+#403: FILE: fs/nfs/nfs42xdr.c:1832:
++	switch(tag) {
+
+ERROR:SPACING: space required before the open parenthesis '('
+#443: FILE: fs/nfs/nfs42xdr.c:1872:
++	switch(acep->e_tag) {
+
+ERROR:SPACING: space required before the open parenthesis '('
+#574: FILE: fs/nfs/nfs42xdr.c:2003:
++	switch(acep->e_tag) {
+
+ERROR:SPACING: space required before the open parenthesis '('
+#759: FILE: fs/nfs/nfs42xdr.c:2188:
++	switch(type) {
+
+ERROR:SPACING: space required before the open parenthesis '('
+#823: FILE: fs/nfs/nfs42xdr.c:2252:
++	switch(entry->e_tag) {
 
 -- 
 0-DAY CI Kernel Test Service
