@@ -1,117 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AAB1A08BC
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Jan 2026 23:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8247623AB98
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 Jan 2026 01:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767397032; cv=none; b=HLHj9JWepVETDIi80v/K9ZdEsYqdA3IzlrYIfanmRRL2BUeuvLKE7UlfDxJEKYujmvIFVk+lhxBx6BSQ6r/OrnECmL0OSAYG9iAMiKQA2TjD967DJZ9Tw9JBePMMrpgPBOySYT+9w8VkV8zapI1cvE2pI+/8XOTAfeZ5g2fpG0Y=
+	t=1767403393; cv=none; b=HJR++i+tLrRvRnKwjC+CB6nOyyf5U6fTwlgIviTBYsYoD80xFM2NPfZEeQuJmfCu32u4fgf/1AO9IbJdn/okKhvxCVQjvvQdAFkbxfkHrRcMbW2nyrrrBYxxWpkC4KT9Bzy8yq2xrfmEzfVw70VjQUs4y+16lQmKOl9zTzb3v5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767397032; c=relaxed/simple;
-	bh=bKBwFc/soBM1dekxAJ4oZpX4fdxksg7H5AEgIraqZXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UiSi/KBodudmLZOpFCru+9AsdYELpIc+Djeo5d1scgFvU80Ghr8DK45l8pnvpIEsyzotUMFQlDEoDvzgwz0fGeZN5hY65SH13YoDdm5FGle7fuOSQquMTHY5HD3Ck9GULS8fMLNb5yodZ0Ra0guSttissh89c2IZkqK183xWNJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fyTzILZx; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1767403393; c=relaxed/simple;
+	bh=lqLxtmt8pEfJyCqqOnVVuK1qdO3y0zus97Ok5yRS+ps=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s++M8+VGzOp0BV6VzGI9Qe1ZrUb0vVptOfjCRDDhfujGZvwQuyAxWOCGN1vPQsyUxlKGdGBC2pcTNqVggJiRNdcLeO5BAr/hZu/fxpgtMfEyfLFGAMlKyD12/iuxJGCZ1RbuEhREr9UA1qHOYzfeNMUl7sVEEMkOqUZPsOVsh/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORo1Zspx; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fyTzILZx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORo1Zspx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767397031; x=1798933031;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bKBwFc/soBM1dekxAJ4oZpX4fdxksg7H5AEgIraqZXc=;
-  b=fyTzILZxXAToiRtzhfdWxEpBjEfHrev4OqM3l7L+bmNr4oJmG9orKlpz
-   2TRoUjRHktj57DNYbeuF3v+5T3LC+feZXlgdD6edjVsvuq8WZwdc7tTwV
-   mOHHf6itxc1UgPti+9XK5wGPlQEN93Jcv3I29vtgHQyqKZ9YZxBYCdDyB
-   Sh2fPOk1ldMhMxSLSRCNhFMCslc/yFi6Jr6ospdtcEEDpyFIdblDT9RCC
-   pxMj6N+2v8fGLyhSr2Vr4x5ZRLJfGDApWPPp1D42H4H354JYBjUxdNTMD
-   UVBJQXGrAb4u013egM130RRs4jgiHEe5MWMHB8YvCZRYy+edNtpetyVhf
-   A==;
-X-CSE-ConnectionGUID: sD6zPMwnQeuFl3EYmOG+WA==
-X-CSE-MsgGUID: IFvLevk9T2e/NEQo6E2A3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="80325334"
+  t=1767403391; x=1798939391;
+  h=date:from:to:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lqLxtmt8pEfJyCqqOnVVuK1qdO3y0zus97Ok5yRS+ps=;
+  b=ORo1Zspx2jr9yyyZ9du9dFY2mRHBHNvcSV/1dcY2FCgTs6r2L4c26tSP
+   udqP1nM1TwQSDcXO2XJQIfP2m+mayP+6eqUzf6md+0dEZXmdziZVANQbO
+   3WEbz4zMTEdXTM4q9JPrMSm4c2wceHabSsHjw+OHuUXah4F3qn67xLec0
+   r7fALs+5JT+P7mngulLxfuTWcXdD5jvjXrbr4ty5Hw7ocVB7Xf02V86uR
+   HivT5huKPFRSRqP3xReuO+hU8V4tPvH31BGcAUknfPMUK/W7z49xk8Qqc
+   uQNjf/oU1fobmqXDArM5bjZX5jI1Mup/7CjgzxyuVdMXZTCbWuIuQZ9EM
+   w==;
+X-CSE-ConnectionGUID: wnPNtgE1Q2q9DdKDqn4ojg==
+X-CSE-MsgGUID: ZRnyePWVTPyxXimukvamzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="69041506"
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="80325334"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 15:37:10 -0800
-X-CSE-ConnectionGUID: Sa+Ys6l2SXmqU8w+kvsUQA==
-X-CSE-MsgGUID: wTdV/ktuSnOlByQauiqh1w==
+   d="scan'208";a="69041506"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 17:23:10 -0800
+X-CSE-ConnectionGUID: A3I3Wr81RRWT0GCrvqvUiQ==
+X-CSE-MsgGUID: kwYqEWnuRa2MgVJXrDVOUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="232592516"
+   d="scan'208";a="202174989"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 02 Jan 2026 15:37:09 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 02 Jan 2026 17:23:09 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbohe-000000000U9-3rB7;
-	Fri, 02 Jan 2026 23:37:06 +0000
-Date: Sat, 3 Jan 2026 00:36:27 +0100
+	id 1vbqMF-000000000Ur-1fiS
+	for oe-kbuild@lists.linux.dev;
+	Sat, 03 Jan 2026 01:23:07 +0000
+Date: Sat, 3 Jan 2026 02:22:08 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v1] arm64: dts: rockchip: Add USB Type-C support for
- Radxa ZERO 3W
-Message-ID: <202601030020.dsPqijIp-lkp@intel.com>
+Subject: Re: [PATCH 3/4] power: supply: add battery driver for netronix ec
+Message-ID: <202601030211.ZTUvPAE7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260101083415.1327341-1-sunke@kylinos.cn>
-References: <20260101083415.1327341-1-sunke@kylinos.cn>
-TO: Ke Sun <sunke@kylinos.cn>
+In-Reply-To: <20260102-kobo-aura-battery-v1-3-501f2a8fa575@jm0.eu>
+References: <20260102-kobo-aura-battery-v1-3-501f2a8fa575@jm0.eu>
+TO: Josua Mayer <josua.mayer@jm0.eu>
+TO: "Jonathan Neuschäfer" <j.neuschaefer@gmx.net>
+TO: Lee Jones <lee@kernel.org>
+TO: Sebastian Reichel <sre@kernel.org>
 TO: Rob Herring <robh@kernel.org>
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 TO: Conor Dooley <conor+dt@kernel.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-TO: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: Alvin Sun <sk.alvin.x@gmail.com>
-CC: Ke Sun <sunke@kylinos.cn>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Pengutronix Kernel Team <kernel@pengutronix.de>
+TO: Fabio Estevam <festevam@gmail.com>
 
-Hi Ke,
+Hi Josua,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on krzk/for-next krzk-dt/for-next linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ke-Sun/arm64-dts-rockchip-Add-USB-Type-C-support-for-Radxa-ZERO-3W/20260101-163608
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20260101083415.1327341-1-sunke%40kylinos.cn
-patch subject: [PATCH v1] arm64: dts: rockchip: Add USB Type-C support for Radxa ZERO 3W
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-2052-20260102 (https://download.01.org/0day-ci/archive/20260103/202601030020.dsPqijIp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030020.dsPqijIp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Josua-Mayer/dt-bindings-mfd-netronix-ntxec-add-reference-to-power-supply/20260103-021527
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20260102-kobo-aura-battery-v1-3-501f2a8fa575%40jm0.eu
+patch subject: [PATCH 3/4] power: supply: add battery driver for netronix ec
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260103/202601030211.ZTUvPAE7-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601030020.dsPqijIp-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3w.dtb: fusb302@22 (fcs,fusb302): 'sel-gpios' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3w.dtb: fusb302@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
+ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+#87: FILE: drivers/power/supply/ntxec-battery.c:38:
++	switch (psp) {
++		case POWER_SUPPLY_PROP_VOLTAGE_NOW:
+[...]
++		default:
 
 -- 
 0-DAY CI Kernel Test Service
