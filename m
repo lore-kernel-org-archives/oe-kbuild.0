@@ -1,71 +1,75 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2463191D4
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 12:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A1233A9F6
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 12:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767615019; cv=none; b=sZCe7rtVUO8xiy+R84d7KAXEshv3H21+riPz8HAZO/7gorNeB78fKau9dpETeIaFH8c3142d7E89BD1PL5+rysaloPhWPCjWluCAIPWWiCvfnPtrOkAf4pdB0rum5L+5kAgP90n6FbiXU7hR75qVrLH7cKvmyO4QDPt2H12TQp4=
+	t=1767615910; cv=none; b=MTHZzfiYu0ckBhoW4Lx87s6dnnNfjOroK8gq3MZtlCgbyV0yF5s3hMAO0VR6W3+E8DjkBRTpgPs1QWFRcH6rd0nrf2pnY4/09ONzGDKDdip5Lfkb6FcrnfeABWIvv6bMQa21IU5rHnvVZ28lQOVHS3gSl88vmBO2+wl7VV4Xig4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767615019; c=relaxed/simple;
-	bh=6dOVx7g7rAkSYZ+pGDeFKJOvADsCxEZ4218tsomazvM=;
+	s=arc-20240116; t=1767615910; c=relaxed/simple;
+	bh=F94WSDFVRm+NrIR45Tte4W4BwwT67J+ExCFM2ZpbWjY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JKlwwM+aNoDbnrJNF1QK0Hh6sa6w0lEssPHNgliQX7nWeVmHQFhg3MHy82eRIDOSUhrCzs1f9qlnRVHPXQ+y9MtghOI9Kije/3J5Jpj7HYUSpKsHzZbKA4CO8nH6M/VsuGXnSJuf2bBhWcRxBYUKLz3vmYdNMT6yFM+GNWU+r+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nsOIZyuj; arc=none smtp.client-ip=209.85.221.66
+	 Content-Disposition; b=l2xTOkkX8E1hR6f7f4TwDq7U9TzqT90whFX1Q4nMMlEjjJzUcOh65+0PN1oMvh0rgxvmFYzvVRMoObJqct8vnSN/uZyJFfZidSe45/iXcvwxDaP3Y6lE8Xu2b0JEcN+F+51jzpN+5KnFKiJHg2C0L/rOnpdwfubhCYvOwAPv7uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=waIRh3wO; arc=none smtp.client-ip=209.85.128.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nsOIZyuj"
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-42e2ba54a6fso6005105f8f.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 04:10:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="waIRh3wO"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47d5e021a53so29819695e9.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 04:25:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767615015; x=1768219815; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1767615906; x=1768220706; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=5vrKYiPaJtKrFUdDX5nTyTKvlBuo7zRPTjp9yLaDxbc=;
-        b=nsOIZyuj5UYLZm5A8CrIgOzhcvsCIu36g3KeEYL91/u9U6TR7mZr/YgyVNmAfAG4Mg
-         dAm1J+UhvVEF0P3wGjw+1JP8Sv/McqUf0RPzEo4RKzoP81xicO/1ZZ/AYuuWkts8ZnZJ
-         dH/if+cJfWPENYEhUIJHSWaN5kpymaQQf7aFMUTjJhzlZYC9KfsAiuw1zxMyaVye3XI0
-         nUbAu6SVtxVfkW98RjAtuEy0hnwhsYAf0aU7O4Rj2Y7Th3cjNOgzNadEY3vPZjPqn9MU
-         D+q8m30JUMLu1IL521jBljjmNaBhV308zvBz3x+vgTlo9zKWghCrDpOK26m9dYiBSP2T
-         Ilxg==
+        bh=DT3pnDjpknN9ygYrWIs2s6mtq9dI87CHEejFASEljXs=;
+        b=waIRh3wOfIokrQ7qtMAYvDkF2HntGMGYO+I4otLJbmkMsNgc6b5qbe3VaOpgrB4m70
+         NSaayaUztXYQTw+zbTJb3WoBI90ELSNo4GjHGskPbhopw8Uzp4a8J0Yuh2Kik1zIyFWl
+         ac6XHxeSZn0kFIbVv7gYiAFsRxhHCiSIM9QutmXwsG0VsrkHm2VTw6oe/KN90ojie7Ge
+         oidre/h3lRgJAWODaIIrVCgkEwWMHU34RGQmM6/t4PQUQUSLB76HnVyp5jJEOiGa6u9T
+         8FIlQikiP008L4d5TrI7StP+Dgbc3do+nyE/MFamYZdVqmqp712X4C4kJJaZcGrVTRhq
+         tXig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767615015; x=1768219815;
+        d=1e100.net; s=20230601; t=1767615906; x=1768220706;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5vrKYiPaJtKrFUdDX5nTyTKvlBuo7zRPTjp9yLaDxbc=;
-        b=VM/kEmgxBN9ey0M+qrxG5PPBh+BCyzNjmJ3bADnZVpj2j439Ms8HzxD3w9Iy4u3r91
-         atMkhzMu/ZEfko2ZAPezcZ3TFRAHMZBXHyHNpyLYzaxpQRQDSkz79u66urJ/X4yu6xe3
-         YchOYT+N4dfr5l3dgHAQAxsZCiTC/Wgh2rxZsH4OGSxcopUlqM7d/nBZmRhxy2S6fpu6
-         P3Fx/3gZ9gfeVsnoRF696ZUdtdriyBTc0kwk8QDQC7gqG+KlLCLmzyoBih2ClBEofmXh
-         9OjTwkNkthwXBkWNv3IpjunPH6Rkq5Q2mRbnIxluEer8XZgpefeUteP79Miz0K2TtB7A
-         yHnQ==
-X-Gm-Message-State: AOJu0YyxXfp4UJUt8dNMbu+eCtuONUAGbP+7WgLA8pXGK12VWAtEkTmv
-	Cf5kYnF23y/diMMU78UvNQzCO6t7NqoqIVZhOy+3VQM6NQnIjYH9xULN7jBNOI9TNHyEqwGSRFd
-	32UOH
-X-Gm-Gg: AY/fxX6jPNvXOW1XKA6IGCopKEdAV9aIQ5mcuzdqlF7r7GXAtuPxO3tHuQNsu43C6Lg
-	/zWOpUaUi1k838rI/q5Fs9gPsybqbMWziuuuTJ0Kibgqkvmc9ZaNDPAlDm0+qFNsVs8VhcbN2dh
-	yrG7/5L0P6hDPIY5B3mr6wqlETmg7AsBgyR1ot5ZJKFP+n4IAdagUQ+BqlTn2NmhRy4URepLCug
-	7zR/PLsnz/u+kIIRtzq3fkse+OWmSUwuKailvoE/LLok/NN1d0fPFd9ZgDxfFpdRPgEtY6ehcO1
-	fSPDBxERDVB4IW95jrqjtgzUaU1y47bfLeDljsAo691U6o0MB1JpVmbHcNlfkvqfxIs2UaVgQxl
-	L19cr8ZVmjaLUxXOAxOAOuVSHFcYB+/5JUQjRJdKyT/vptOywbPY2HMRSNdcBCom+gru4mX1wIu
-	ez5IphpaAKq8nGyJh0
-X-Google-Smtp-Source: AGHT+IGZK0K3k2G1O6qKd4QDiCRlFQH4FdI0982zJO/h0JjyXT/OZb5LUVyKeXmP0skYW90GkuYkzA==
-X-Received: by 2002:a5d:5f49:0:b0:42b:3dfb:644c with SMTP id ffacd0b85a97d-4324e4c157fmr61584699f8f.10.1767615014831;
-        Mon, 05 Jan 2026 04:10:14 -0800 (PST)
+        bh=DT3pnDjpknN9ygYrWIs2s6mtq9dI87CHEejFASEljXs=;
+        b=GdpZqtdeSBLSw7wIdEte35uVJxDnjCHx1V8hAmi7eIXDaExBl6Pj/hcxy2qR8lp0gv
+         xcRMVaPPnlLVMTc/GoioqbJRkinqO8EmqbPLFZP4qnTAkM0u+41jlVUXRK8Z+HLTsW/O
+         XH6mV9a9fNCBCPkO8zvzPzGtEnoe+Dxgf5BgkYp1zZ+eiFnTwKSdNUP0WNUy6Mk1yZ0W
+         BQksyW+5SsvmcxBfboRISvRUYVDdDrPOsGOFjcawPGD07/uxtD2f6+JaO7jeeK4AurWV
+         W7yKig8JA8yov1X4NVi26btYWNDOO3U4hWMxa9GNko1Zh8wsLbVhsl7Zoe6AjD3i25bZ
+         TW+g==
+X-Gm-Message-State: AOJu0Yz0V3Pnp4f0tsxFHNdkSrOALjD44O0I+SsigXBk66gedGAxhcPE
+	20MBKWcSibrgt1d3ECrMqSg0UxjQBqC6P5wNLQVCSuKQL7IuI/CqvHfyB0j1h0qy5WdWoTvqF8w
+	K3W6V
+X-Gm-Gg: AY/fxX4zoWpLto4m3GkB06etvMPCwrYhXXFmX1RXLqp9HcCtDNOuC8mtil5AOHKn9jr
+	gcq0QYZ1zaxJu6j3KygrQguSbKecR9Y4EKFMSAyZ764s1lOlexhxSsfNMEIJt6Zd00LGxLzsaSn
+	Hrj58czQZ41A4FcK8JPRXLW2I6kCX97mqbdQQdFIyARBxu8kvgqgRBfx9L4XiPQzzMbz3DvwS0b
+	qzbSi4pTDRR9A+CLgSOLFw7eNW5c+SehwGbXEJNNCNJ5e0jvWKekdchktDKCbXz0ilQsoGS4IX0
+	MYii3EGTqKqHBxbXUM3e9/CzmGEvg2X6eXhCNlbPfNU3CjmsyOKnqxFBwgSMOYg6c3pvT/0ofcu
+	I8w5C4AWCuwEGtmMI5Qx2jBliPDp31i6ahpw1bR7i3nTmiGg31CxqVK6r/sS43c6uhJ4Ln68oCX
+	hBTYE7wfPu1IgOQkgZ
+X-Google-Smtp-Source: AGHT+IHmAWAnmy61ZiDLNiFuZuU7bfRZMbr/IK49jKERbJ9mENHjldiHWq0LGVSRZRIDyPPKbTReTA==
+X-Received: by 2002:a05:600c:46d5:b0:477:632c:5b91 with SMTP id 5b1f17b1804b1-47d1954e3e4mr719204415e9.16.1767615906175;
+        Mon, 05 Jan 2026 04:25:06 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1b1bdsm99176277f8f.8.2026.01.05.04.10.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6ba30531sm60872835e9.1.2026.01.05.04.25.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 04:10:13 -0800 (PST)
-Date: Mon, 5 Jan 2026 15:10:10 +0300
+        Mon, 05 Jan 2026 04:25:04 -0800 (PST)
+Date: Mon, 5 Jan 2026 15:25:01 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev
-Subject: [paragon-software-group-ntfs3:master 16/16] fs/ntfs3/inode.c:1024
- ntfs_writepages() error: uninitialized symbol 'folio'.
-Message-ID: <202601010513.axd56bks-lkp@intel.com>
+	Timothy Pearson <tpearson@raptorengineering.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Shawn Anastasio <sanastasio@raptorengineering.com>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Subject: drivers/pci/hotplug/pnv_php.c:710 pnv_php_alloc_slot() warn: address
+ of NULL pointer 'php_slot->bus'
+Message-ID: <202601050123.5JEZ4Znh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,58 +78,90 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260105121010.qwsX-C9Zw1h9lQfZX1z_E48b5qpvWy6KSasR1_30dkI@z>
+Message-ID: <20260105122501.U9VvGeGdDF99K6fTl7Vok5o1WGa5fK4LMrzM0uL7pzg@z>
 
-tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
-head:   099ef9ab9203dff327f2d61e44773f9acbc01f13
-commit: 099ef9ab9203dff327f2d61e44773f9acbc01f13 [16/16] fs/ntfs3: implement iomap-based file operations
-config: um-randconfig-r072-20260101 (https://download.01.org/0day-ci/archive/20260101/202601010513.axd56bks-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   54e82e93ca93e49cb4c33988adec5c8cb9d0df31
+commit: 4668619092554e1b95c9a5ac2941ca47ba6d548a PCI: pnv_php: Clean up allocated IRQs on unplug
+config: powerpc64-randconfig-r071-20260104 (https://download.01.org/0day-ci/archive/20260105/202601050123.5JEZ4Znh-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601010513.axd56bks-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601050123.5JEZ4Znh-lkp@intel.com/
 
 smatch warnings:
-fs/ntfs3/inode.c:1024 ntfs_writepages() error: uninitialized symbol 'folio'.
+drivers/pci/hotplug/pnv_php.c:710 pnv_php_alloc_slot() warn: address of NULL pointer 'php_slot->bus'
 
-vim +/folio +1024 fs/ntfs3/inode.c
+vim +710 drivers/pci/hotplug/pnv_php.c
 
-099ef9ab9203df Konstantin Komarov 2025-12-26  1002  static int ntfs_writepages(struct address_space *mapping,
-099ef9ab9203df Konstantin Komarov 2025-12-26  1003  			   struct writeback_control *wbc)
-099ef9ab9203df Konstantin Komarov 2025-12-26  1004  {
-099ef9ab9203df Konstantin Komarov 2025-12-26  1005  	int err;
-099ef9ab9203df Konstantin Komarov 2025-12-26  1006  	struct inode *inode = mapping->host;
-099ef9ab9203df Konstantin Komarov 2025-12-26  1007  	struct ntfs_inode *ni = ntfs_i(inode);
-099ef9ab9203df Konstantin Komarov 2025-12-26  1008  	struct iomap_writepage_ctx wpc = {
-099ef9ab9203df Konstantin Komarov 2025-12-26  1009  		.inode = mapping->host,
-099ef9ab9203df Konstantin Komarov 2025-12-26  1010  		.wbc = wbc,
-099ef9ab9203df Konstantin Komarov 2025-12-26  1011  		.ops = &ntfs_writeback_ops,
-099ef9ab9203df Konstantin Komarov 2025-12-26  1012  	};
-099ef9ab9203df Konstantin Komarov 2025-12-26  1013  
-099ef9ab9203df Konstantin Komarov 2025-12-26  1014  	/* Avoid any operation if inode is bad. */
-099ef9ab9203df Konstantin Komarov 2025-12-26  1015  	if (unlikely(is_bad_ni(ni)))
-099ef9ab9203df Konstantin Komarov 2025-12-26  1016  		return -EINVAL;
-099ef9ab9203df Konstantin Komarov 2025-12-26  1017  
-099ef9ab9203df Konstantin Komarov 2025-12-26  1018  	if (unlikely(ntfs3_forced_shutdown(inode->i_sb)))
-099ef9ab9203df Konstantin Komarov 2025-12-26  1019  		return -EIO;
-099ef9ab9203df Konstantin Komarov 2025-12-26  1020  
-099ef9ab9203df Konstantin Komarov 2025-12-26  1021  	if (is_resident(ni)) {
-099ef9ab9203df Konstantin Komarov 2025-12-26  1022  		struct folio *folio;
-099ef9ab9203df Konstantin Komarov 2025-12-26  1023  
-099ef9ab9203df Konstantin Komarov 2025-12-26 @1024  		while ((folio = writeback_iter(mapping, wbc, folio, &err)))
-                                                                                                             ^^^^^
-Uninitialized.
+66725152fb9f17b Gavin Shan      2016-05-20  678  static struct pnv_php_slot *pnv_php_alloc_slot(struct device_node *dn)
+66725152fb9f17b Gavin Shan      2016-05-20  679  {
+66725152fb9f17b Gavin Shan      2016-05-20  680  	struct pnv_php_slot *php_slot;
+66725152fb9f17b Gavin Shan      2016-05-20  681  	struct pci_bus *bus;
+66725152fb9f17b Gavin Shan      2016-05-20  682  	const char *label;
+66725152fb9f17b Gavin Shan      2016-05-20  683  	uint64_t id;
+39f0d6fbdc3f205 Gavin Shan      2016-09-29  684  	int ret;
+66725152fb9f17b Gavin Shan      2016-05-20  685  
+39f0d6fbdc3f205 Gavin Shan      2016-09-29  686  	ret = of_property_read_string(dn, "ibm,slot-label", &label);
+39f0d6fbdc3f205 Gavin Shan      2016-09-29  687  	if (ret)
+66725152fb9f17b Gavin Shan      2016-05-20  688  		return NULL;
+66725152fb9f17b Gavin Shan      2016-05-20  689  
+66725152fb9f17b Gavin Shan      2016-05-20  690  	if (pnv_pci_get_slot_id(dn, &id))
+66725152fb9f17b Gavin Shan      2016-05-20  691  		return NULL;
+66725152fb9f17b Gavin Shan      2016-05-20  692  
+66725152fb9f17b Gavin Shan      2016-05-20  693  	bus = pci_find_bus_by_node(dn);
+149ba66a90a3b3c Gavin Shan      2016-09-28  694  	if (!bus)
+66725152fb9f17b Gavin Shan      2016-05-20  695  		return NULL;
+66725152fb9f17b Gavin Shan      2016-05-20  696  
+66725152fb9f17b Gavin Shan      2016-05-20  697  	php_slot = kzalloc(sizeof(*php_slot), GFP_KERNEL);
+149ba66a90a3b3c Gavin Shan      2016-09-28  698  	if (!php_slot)
+66725152fb9f17b Gavin Shan      2016-05-20  699  		return NULL;
+66725152fb9f17b Gavin Shan      2016-05-20  700  
+66725152fb9f17b Gavin Shan      2016-05-20  701  	php_slot->name = kstrdup(label, GFP_KERNEL);
+149ba66a90a3b3c Gavin Shan      2016-09-28  702  	if (!php_slot->name) {
+66725152fb9f17b Gavin Shan      2016-05-20  703  		kfree(php_slot);
+66725152fb9f17b Gavin Shan      2016-05-20  704  		return NULL;
+66725152fb9f17b Gavin Shan      2016-05-20  705  	}
+66725152fb9f17b Gavin Shan      2016-05-20  706  
+4668619092554e1 Timothy Pearson 2025-07-15  707  	/* Allocate workqueue for this slot's interrupt handling */
+4668619092554e1 Timothy Pearson 2025-07-15  708  	php_slot->wq = alloc_workqueue("pciehp-%s", 0, 0, php_slot->name);
+4668619092554e1 Timothy Pearson 2025-07-15  709  	if (!php_slot->wq) {
+4668619092554e1 Timothy Pearson 2025-07-15 @710  		SLOT_WARN(php_slot, "Cannot alloc workqueue\n");
 
-099ef9ab9203df Konstantin Komarov 2025-12-26  1025  			err = ntfs_resident_writepage(folio, wbc);
-099ef9ab9203df Konstantin Komarov 2025-12-26  1026  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1027  		return err;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1028  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1029  
-099ef9ab9203df Konstantin Komarov 2025-12-26  1030  	return iomap_writepages(&wpc);
-099ef9ab9203df Konstantin Komarov 2025-12-26  1031  }
+The SLOT_WARN() macro looks like:
+
+#define SLOT_WARN(sl, x...) \
+        ((sl)->pdev ? pci_warn((sl)->pdev, x) : dev_warn(&(sl)->bus->dev, x))
+
+Neither ->pdev nor ->bus are set so it will crash.
+
+4668619092554e1 Timothy Pearson 2025-07-15  711  		kfree(php_slot->name);
+4668619092554e1 Timothy Pearson 2025-07-15  712  		kfree(php_slot);
+4668619092554e1 Timothy Pearson 2025-07-15  713  		return NULL;
+4668619092554e1 Timothy Pearson 2025-07-15  714  	}
+4668619092554e1 Timothy Pearson 2025-07-15  715  
+149ba66a90a3b3c Gavin Shan      2016-09-28  716  	if (dn->child && PCI_DN(dn->child))
+66725152fb9f17b Gavin Shan      2016-05-20  717  		php_slot->slot_no = PCI_SLOT(PCI_DN(dn->child)->devfn);
+66725152fb9f17b Gavin Shan      2016-05-20  718  	else
+66725152fb9f17b Gavin Shan      2016-05-20  719  		php_slot->slot_no = -1;   /* Placeholder slot */
+66725152fb9f17b Gavin Shan      2016-05-20  720  
+66725152fb9f17b Gavin Shan      2016-05-20  721  	kref_init(&php_slot->kref);
+66725152fb9f17b Gavin Shan      2016-05-20  722  	php_slot->state	                = PNV_PHP_STATE_INITIALIZED;
+66725152fb9f17b Gavin Shan      2016-05-20  723  	php_slot->dn	                = dn;
+66725152fb9f17b Gavin Shan      2016-05-20  724  	php_slot->pdev	                = bus->self;
+66725152fb9f17b Gavin Shan      2016-05-20  725  	php_slot->bus	                = bus;
+66725152fb9f17b Gavin Shan      2016-05-20  726  	php_slot->id	                = id;
+66725152fb9f17b Gavin Shan      2016-05-20  727  	php_slot->power_state_check     = false;
+66725152fb9f17b Gavin Shan      2016-05-20  728  	php_slot->slot.ops              = &php_slot_ops;
+66725152fb9f17b Gavin Shan      2016-05-20  729  
+66725152fb9f17b Gavin Shan      2016-05-20  730  	INIT_LIST_HEAD(&php_slot->children);
+66725152fb9f17b Gavin Shan      2016-05-20  731  	INIT_LIST_HEAD(&php_slot->link);
+66725152fb9f17b Gavin Shan      2016-05-20  732  
+66725152fb9f17b Gavin Shan      2016-05-20  733  	return php_slot;
+66725152fb9f17b Gavin Shan      2016-05-20  734  }
 
 -- 
 0-DAY CI Kernel Test Service
