@@ -1,137 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACBD1B4223
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 01:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9552C0284;
+	Mon,  5 Jan 2026 02:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767575542; cv=none; b=YKUj6XAxTA0UfqLX9dKnM/JHEHDtIK2DKkt13L6+fwdSE8bvu9m7tEiP2KxlLUSgjTRp92ah3ecGc4HADyGbEaTJ4kt7Ipk3m3shGhpQq40cuZX4gmWOYChLEaUU2/C13DUhA0NUOfPlsIJHgVfh8Je1l8BvdDrb9ArrPeVoT0c=
+	t=1767579239; cv=none; b=GPi5g53fUbt8Ja3cgfdGSjHBNkSKdNQr0YsW6m0YLlfuuIeXqDC0P7zbdV0I8/kODB93g/XFUei3gp6vCHUso7bmBwR6+MdwX2KFQfiTd/dQPYZsNcKui09dIISQO4Vq5PC0tgzgm2mLLPs/AttBs9XSWoOm0LqsQvsuujeuBt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767575542; c=relaxed/simple;
-	bh=aoTuSphioIj+JJ3mKT/kxisbttylV+iA4qBPGF8jCyI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=duDkMg6jl3NS320v02VxlVk6kS73i9tT9MWiHWcAl+bdLBUJXplDJnSNaOWc88sTP2V9IjPN8KR4XCpri8QzYQwkOsEj8zYHGgqVmw9gaa6QcnCSgZU6uhLFrB/9ryrbadno7Mfl704A1Vv+wq3TmLIgah5vDU5iZoEBg3zWwlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2G304Mm; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767579239; c=relaxed/simple;
+	bh=7qEnV/Sa+t2o7OeiQX2A+W/HG0cKRT6kUazjV3jY8/8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=fjgBioqfoA9eN8TgESnZfxHYtTUUA3IyVZHDAOY6ZFhZZuCaMHzP7hKzrxZacoii56PJvJo4j2pNGIdxP/OQXk16t54oPCp3jkvZW4Wiw1J9ltdhAbwN/FPZSfDquBArA1ljRMQp4QFDt0lvJQ8kVlSUctlVc0olZGWl2kfTcHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=paIhoqpP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2G304Mm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767575540; x=1799111540;
-  h=date:from:to:cc:subject:message-id;
-  bh=aoTuSphioIj+JJ3mKT/kxisbttylV+iA4qBPGF8jCyI=;
-  b=k2G304MmstTzNzhhkh9qa9i+UhdzBYdbgLJyBysbXr+jUJJ+VfVziKHC
-   wJmc0d2Z6dIOGUt9L8m/iB3MzlVGNAUphpoop2I+wxjyGO2NddfuADHaE
-   ks3R/q18GgMJcF2nbvq4hakt1bVS3nkuP+fXddxclsx2yuysS8V6svEy/
-   jnMYWsWisPexsqy0wRwEdW1vhgymxAjK1vh1pAZMHIk+aubvEQGoBxtnj
-   pb+M7EGBhN18uMZHE9l0DrQORkNsLlnfCtUh9auITnVnYmcszoto52Yxq
-   EwB2FvXtBSbP6j7DIBtZFOeDjj0mTrFB36k3vcPiLSCuCT/wNzu0vJpXG
-   Q==;
-X-CSE-ConnectionGUID: aQkkgu06StSxtgEC2ins3w==
-X-CSE-MsgGUID: D3Iwq16cTP2n8yx7NKbavQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11661"; a="86531224"
-X-IronPort-AV: E=Sophos;i="6.21,202,1763452800"; 
-   d="scan'208";a="86531224"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2026 17:12:19 -0800
-X-CSE-ConnectionGUID: kEGuTI8jTEKZIW/1e6OLJg==
-X-CSE-MsgGUID: uZKQ93yCQ/e6ZijY8uN27Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,202,1763452800"; 
-   d="scan'208";a="232971416"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Jan 2026 17:12:18 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vcZ8p-000000000s5-34yO;
-	Mon, 05 Jan 2026 01:12:15 +0000
-Date: Mon, 05 Jan 2026 09:11:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/intel/iwlwifi/mld/ptp.c:298
- iwl_mld_ptp_init() warn: passing zero to 'PTR_ERR'
-Message-ID: <202601050950.dSSUaYyl-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="paIhoqpP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92513C116C6;
+	Mon,  5 Jan 2026 02:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767579239;
+	bh=7qEnV/Sa+t2o7OeiQX2A+W/HG0cKRT6kUazjV3jY8/8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=paIhoqpPAdDvy+QzokfioEUpe2j8PgnjZ5fKBCm4TbMsRBUkMxH9q+CpBfEVh3Uuo
+	 lEeZ8dpt9iXrnEw2zsQdcMQZKFLhToUlDl87LwW6xkBTteyTzHnKqRu9VjGyVUWdBZ
+	 ohS2J/zzFEYkxzzSvJAZ58vtHQYuCoSesgaaDomqgmLEcFekQ+sn8oXbqvH6bM1QuP
+	 HWPQGUeJ8TJtcr/xKbb4nykSZMuq6nu3kVKfhvi4KFPYZCDWMHwIy8zG5jeXByuCRY
+	 Mopoj5VWsJG5KDibP1V0KnYgevQLBCRu/1ezlhblePGcvTtvK9+DNodB9xZKMFwUac
+	 Ps0VHsJEKMetA==
+Date: Mon, 5 Jan 2026 11:13:55 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: kernel/trace/fgraph.c:834 __ftrace_return_to_handler() error:
+ we previously assumed 'fregs' could be null (see line 830)
+Message-Id: <20260105111355.47965a0e4d52b0ffdc102330@kernel.org>
+In-Reply-To: <20260102120913.15e5fc1b@gandalf.local.home>
+References: <202512131657.JQUt5fXQ-lkp@intel.com>
+	<20260102120913.15e5fc1b@gandalf.local.home>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-CC: Johannes Berg <johannes.berg@intel.com>
-CC: Avraham Stern <avraham.stern@intel.com>
-CC: Daniel Gabay <daniel.gabay@intel.com>
-CC: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
-CC: Anjaneyulu <pagadala.yesu.anjaneyulu@intel.com>
-CC: Yedidya Benshimol <yedidya.ben.shimol@intel.com>
-CC: Benjamin Berg <benjamin.berg@intel.com>
-CC: Shaul Triebitz <shaul.triebitz@intel.com>
+On Fri, 2 Jan 2026 12:09:13 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
-commit: d1e879ec600f9b3bdd253167533959facfefb17b wifi: iwlwifi: add iwlmld sub-driver
-date:   10 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-161-20260105 (https://download.01.org/0day-ci/archive/20260105/202601050950.dSSUaYyl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+> On Fri, 2 Jan 2026 17:49:39 +0300
+> Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   a919610db43b34621d0c3b333e12db9002caf5da
+> > commit: 2ca8c112c9676e2394d76760db78ffddf21d93b5 fgraph: Pass ftrace_regs to retfunc
+> > config: arm64-randconfig-r073-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131657.JQUt5fXQ-lkp@intel.com/config)
+> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202512131657.JQUt5fXQ-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > kernel/trace/fgraph.c:834 __ftrace_return_to_handler() error: we previously assumed 'fregs' could be null (see line 830)
+> > 
+> > vim +/fregs +834 kernel/trace/fgraph.c
+> > 
+> > a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  810) static inline unsigned long
+> > a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  811) __ftrace_return_to_handler(struct ftrace_regs *fregs, unsigned long frame_pointer)
+> > d864a3ca883095 Steven Rostedt (VMware    2018-11-12  812) {
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  813) 	struct ftrace_ret_stack *ret_stack;
+> > d864a3ca883095 Steven Rostedt (VMware    2018-11-12  814) 	struct ftrace_graph_ret trace;
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  815) 	unsigned long bitmap;
+> > d864a3ca883095 Steven Rostedt (VMware    2018-11-12  816) 	unsigned long ret;
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  817) 	int offset;
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  818) 	int i;
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  819) 
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  820) 	ret_stack = ftrace_pop_return_trace(&trace, &ret, frame_pointer, &offset);
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  821) 
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  822) 	if (unlikely(!ret_stack)) {
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  823) 		ftrace_graph_stop();
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  824) 		WARN_ON(1);
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  825) 		/* Might as well panic. What else to do? */
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  826) 		return (unsigned long)panic;
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  827) 	}
+> > d864a3ca883095 Steven Rostedt (VMware    2018-11-12  828) 
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  829) 	trace.rettime = trace_clock_local();
+> > 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26 @830) 	if (fregs)
+> > 
+> > It's strange that Smatch is only now complaining about something which
+> > is from 2024...  This line assumes "freqs" can be NULL.
+> 
+> Hmm, OK, I can see why smatch is complaining. But it is missing a dependency.
+> 
+> This is called by:
+> 
+> #ifdef CONFIG_HAVE_FUNCTION_GRAPH_FREGS
+> unsigned long ftrace_return_to_handler(struct ftrace_regs *fregs)
+> {
+> 	return __ftrace_return_to_handler(fregs,
+> 				ftrace_regs_get_frame_pointer(fregs));
+> }
+> #else
+> unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
+> {
+> 	return __ftrace_return_to_handler(NULL, frame_pointer);
+> }
+> #endif
+> 
+> Where if HAVE_FUNCTION_GRAPH_FREGS is true, then fregs is always set.
+> 
+> > 
+> > 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  831) 		ftrace_regs_set_instruction_pointer(fregs, ret);
+> > 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  832) 
+> > a1be9ccc57f07d Donglin Peng              2023-04-08  833  #ifdef CONFIG_FUNCTION_GRAPH_RETVAL
+> > a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26 @834) 	trace.retval = ftrace_regs_get_return_value(fregs);
+> >                                                                                                             ^^^^^
+> > Unchecked dereference.
+> 
+> Here FUNCTION_GRAPH_RETVAL has this in the Kconfig:
+> 
+> config FUNCTION_GRAPH_RETVAL
+> 	bool "Kernel Function Graph Return Value"
+> 	depends on HAVE_FUNCTION_GRAPH_FREGS
+> 
+> It depends on HAVE_FUNCTION_GRAPH_FREGS
+> 
+> Thus, it can't be called without fregs being valid.
+> 
+> Ideas on how to tell smatch about this?
+> 
+> Hmm, I wonder if we could change this to:
+> 
+> 	/* fregs is always set when configured */
+> 	if (IS_ENABLED(CONFIG_HAVE_FUNCTION_GRAPH_FREGS))
+> 		ftrace_regs_set_instruction_pointer(fregs, ret);
+> 
+> And also add:
+> 
+> #ifdef CONFIG_FUNCTION_GRAPH_RETVAL
+> 	/* The below is always true, but makes smatch happy */
+> 	if (IS_ENABLED(CONFIG_HAVE_FUNCTION_GRAPH_FREGS))
+> 		trace.retval = ftrace_regs_get_return_value(fregs);
+> #endif
+> 
+> ?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601050950.dSSUaYyl-lkp@intel.com/
+Can smatch understand fregs is not NULL if the
+CONFIG_HAVE_FUNCTION_GRAPH_FREGS=y? If it can, I think this
+can skip unneeded NULL pointer check at runtime.
 
-smatch warnings:
-drivers/net/wireless/intel/iwlwifi/mld/ptp.c:298 iwl_mld_ptp_init() warn: passing zero to 'PTR_ERR'
-drivers/net/wireless/intel/iwlwifi/mld/scan.c:1124 iwl_mld_scan_cmd_set_chan_params() warn: assigning (-128) to unsigned variable 'cfg->v5.psd_20'
-drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:2093 iwl_mld_set_key_add() error: we previously assumed 'mld_sta' could be null (see line 2076)
+(Or, define those macros to do nothing if CONFIG_HAVE_FUNCTION_GRAPH_FREGS=n)
 
-vim +/PTR_ERR +298 drivers/net/wireless/intel/iwlwifi/mld/ptp.c
+Thank you,
 
-d1e879ec600f9b Miri Korenblit 2025-02-16  271  
-d1e879ec600f9b Miri Korenblit 2025-02-16  272  void iwl_mld_ptp_init(struct iwl_mld *mld)
-d1e879ec600f9b Miri Korenblit 2025-02-16  273  {
-d1e879ec600f9b Miri Korenblit 2025-02-16  274  	if (WARN_ON(mld->ptp_data.ptp_clock))
-d1e879ec600f9b Miri Korenblit 2025-02-16  275  		return;
-d1e879ec600f9b Miri Korenblit 2025-02-16  276  
-d1e879ec600f9b Miri Korenblit 2025-02-16  277  	spin_lock_init(&mld->ptp_data.lock);
-d1e879ec600f9b Miri Korenblit 2025-02-16  278  	INIT_DELAYED_WORK(&mld->ptp_data.dwork, iwl_mld_ptp_work);
-d1e879ec600f9b Miri Korenblit 2025-02-16  279  
-d1e879ec600f9b Miri Korenblit 2025-02-16  280  	mld->ptp_data.ptp_clock_info.owner = THIS_MODULE;
-d1e879ec600f9b Miri Korenblit 2025-02-16  281  	mld->ptp_data.ptp_clock_info.gettime64 = iwl_mld_ptp_gettime;
-d1e879ec600f9b Miri Korenblit 2025-02-16  282  	mld->ptp_data.ptp_clock_info.max_adj = 0x7fffffff;
-d1e879ec600f9b Miri Korenblit 2025-02-16  283  	mld->ptp_data.ptp_clock_info.adjtime = iwl_mld_ptp_adjtime;
-d1e879ec600f9b Miri Korenblit 2025-02-16  284  	mld->ptp_data.ptp_clock_info.adjfine = iwl_mld_ptp_adjfine;
-d1e879ec600f9b Miri Korenblit 2025-02-16  285  	mld->ptp_data.scaled_freq = PTP_SCALE_FACTOR;
-d1e879ec600f9b Miri Korenblit 2025-02-16  286  	mld->ptp_data.ptp_clock_info.getcrosststamp =
-d1e879ec600f9b Miri Korenblit 2025-02-16  287  					iwl_mld_phc_get_crosstimestamp;
-d1e879ec600f9b Miri Korenblit 2025-02-16  288  
-d1e879ec600f9b Miri Korenblit 2025-02-16  289  	/* Give a short 'friendly name' to identify the PHC clock */
-d1e879ec600f9b Miri Korenblit 2025-02-16  290  	snprintf(mld->ptp_data.ptp_clock_info.name,
-d1e879ec600f9b Miri Korenblit 2025-02-16  291  		 sizeof(mld->ptp_data.ptp_clock_info.name),
-d1e879ec600f9b Miri Korenblit 2025-02-16  292  		 "%s", "iwlwifi-PTP");
-d1e879ec600f9b Miri Korenblit 2025-02-16  293  
-d1e879ec600f9b Miri Korenblit 2025-02-16  294  	mld->ptp_data.ptp_clock =
-d1e879ec600f9b Miri Korenblit 2025-02-16  295  		ptp_clock_register(&mld->ptp_data.ptp_clock_info, mld->dev);
-d1e879ec600f9b Miri Korenblit 2025-02-16  296  
-d1e879ec600f9b Miri Korenblit 2025-02-16  297  	if (IS_ERR_OR_NULL(mld->ptp_data.ptp_clock)) {
-d1e879ec600f9b Miri Korenblit 2025-02-16 @298  		IWL_ERR(mld, "Failed to register PHC clock (%ld)\n",
-d1e879ec600f9b Miri Korenblit 2025-02-16  299  			PTR_ERR(mld->ptp_data.ptp_clock));
-d1e879ec600f9b Miri Korenblit 2025-02-16  300  		mld->ptp_data.ptp_clock = NULL;
-d1e879ec600f9b Miri Korenblit 2025-02-16  301  	} else {
-d1e879ec600f9b Miri Korenblit 2025-02-16  302  		IWL_INFO(mld, "Registered PHC clock: %s, with index: %d\n",
-d1e879ec600f9b Miri Korenblit 2025-02-16  303  			 mld->ptp_data.ptp_clock_info.name,
-d1e879ec600f9b Miri Korenblit 2025-02-16  304  			 ptp_clock_index(mld->ptp_data.ptp_clock));
-d1e879ec600f9b Miri Korenblit 2025-02-16  305  	}
-d1e879ec600f9b Miri Korenblit 2025-02-16  306  }
-d1e879ec600f9b Miri Korenblit 2025-02-16  307  
+> 
+> -- Steve
+> 
+> 
+> 
+> > 
+> > a1be9ccc57f07d Donglin Peng              2023-04-08  835  #endif
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  836) 
+> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  837) 	bitmap = get_bitmap_bits(current, offset);
+> > 420e1354bcb6f0 Steven Rostedt (Google    2024-06-03  838) 
+> > 
+> 
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
