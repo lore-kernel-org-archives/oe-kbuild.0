@@ -1,177 +1,128 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72AC313290
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 09:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0418126B741
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 10:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767604715; cv=none; b=fqlrCmip9zjGwdTN2O2vCf5W498GYbFxJHjKfkiMmftw4HHyWTthC5XgolYahXqge8FrWwgQrCRAekTF6R6Qkl1Da2WIb/OCA731rRGKM2cMreKXiyxOtDQXw+twrj3Sj89uc1EQyNxVfW7OvFiVPGPlr4Jg26nxJ1YLmpSlr4Q=
+	t=1767607836; cv=none; b=Fs6yhBnAW18EsQESsRctvE5P8Df7bXU4Ixo7FGfZa6QkVx1eSDSrpF9YIHShoQPZaPp1vU9G/xY/PNXgIT8/wZ/e+/nqVKsZa20Kw/+oB1riz6Hjfmp7XvGD69PEyo/BDHhTcZaeL/j4kxQOYhl4CADcg1/RpqGHbA3UmPjP6jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767604715; c=relaxed/simple;
-	bh=uDGBeze7Qp/kTrEFdck8KJs8Ay1ByYEFrUBaR72pN2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ri7onrZkjvzikvezsidNgJkpxdLOD24GAUKw+OceoPvxkgySOa8Y8UJ4KaIFVrEffHCHYTTtkwVWnnlA4hB99hevAVCIjoukQYMQpxpcyObuKuA1gmTqhWNDwlfwy6f8gaD9nFELvUrSeUuWQEBmxIMcn2myOVq5k7Qv0A7hvUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cH7o6ReV; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1767607836; c=relaxed/simple;
+	bh=PbGYj0RLG7CPYad+Rq+AEDImBjNt5TLUDiyB5JHGqmc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=nFAHQ+qqF+ewN3EKNUUaLc1/Cs1fcusuTxHf2xggozyw8jDY77CU77l0vI0gb1H9/fiOmURyO6lLC7kQvQ5YE55EXOTRNknnNeFBun2247PS0TI4tRzvXjzzK1ioxN6qOKkC5y9TaX2RsV1zT7Fyi+UcgYXDJfGd8yG5lIY1bYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TJKiuQzi; arc=none smtp.client-ip=209.85.221.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cH7o6ReV"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779a4fc95aso6682835e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 01:18:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TJKiuQzi"
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-430f57cd471so6450568f8f.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 02:10:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767604712; x=1768209512; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KtNuc23wxF7JVUYShxjAtkJq7LIq3vf9Fgku4TAxklw=;
-        b=cH7o6ReVlMdTEKrcQwZF08JgKNEwjyetubX4KqU+FxABnHt09BRsDZ+/7sfKeXOe72
-         vixfTi13qdUnbfKlxFWduCgOHNkyyYGjLnuZV12rf8p6FDU2bb6QjMjqn3/mkHZvcNBM
-         MCpV9izgNTTS6j2Q02Gr4H0rF8EDtOyZx/k64giThdKmFcfHUM55vFsz7rAYi0Gd4Rac
-         HqpB+UZTI6bYkBv5BMIh0/a0kxWU/i6dbKbKs7xzuwLf/RSKZpto0ddZ+uQdqBA6uYSG
-         R76aSzkxItUqJuw9g8KcxeWV0lOmkclSzAF9/RGhK+bfvU2BbFHvW1UGghVanRk1020Z
-         Xixw==
+        d=linaro.org; s=google; t=1767607832; x=1768212632; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fxNaBeHAJ/4EZ7JTOdnqwOVDyNniPg0HIAmiaHm6nBM=;
+        b=TJKiuQziu0ZYEmfWO3aGVYVkpYg3rbOUwfsraBVxnT2uUEUPR+v8VYjPpw+LrRZjgO
+         fgK2mZwz7sZZijxuhAxQr9Q9wVoIzPhzYExnZX4A6+2mlou/IID8Y1P70Z0jraICVhDO
+         DSbh4ZrjvH1NFZRXUrzLLxLxxovZJjTXkUT8+yBZTEhC75SpfWL3z8Up1tFQ8Mjh/E40
+         e0H1atJAiSfsmW2ENDGuiSd7zjsqU+rhEnOFLygF9OtFo4w3YQqa0EZwQ1YPA0bv8rGM
+         ayfxtAMnUWpEkwnMBqxd5pReBg5UzXegEoxLzbfLatG9iWAUhapjixyxmbiSkvOaTpaX
+         wzOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767604712; x=1768209512;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KtNuc23wxF7JVUYShxjAtkJq7LIq3vf9Fgku4TAxklw=;
-        b=uYNwpdaPPut7G99bN7mLMchZ9HBmDG7oInYv0/aVNVPZaXqR7Lu79ofpQ921Xz1wEb
-         yprQUD1G8o/6XBfNuqxzs7K9tFm9OTm+yDE5KvcwSTfHvdoAoZZw+bLz/lAMBgU78bcb
-         zE2fSSjkqqmgVu38dlKZC3095VSeyET0MRZB5LZLPvUkrXcMw0rtElFOHXX5gQjCsdj0
-         59MR/zwdQ4R6lbaLrOksj9fC7DyLtRvZEHopVg5wwkf+9/ztJ5g7pu1KuJcrDTCbTqxG
-         tvsPkNULZy8pp3CnjBrJweg7SpdcuK8wxczu9hSaQZxwWk2ZNe4c2Ynw2RFrTvZ+jGAE
-         vRXg==
-X-Gm-Message-State: AOJu0YzGP9BwksKSMNcf2nXKNXUreBJnUJzWvTmnMe/2j7/MlxvA1oXF
-	fnQCN4LMe8cpVvVegBsPWnyWfPgSahTqiEScPPf6LwJc4FCsRVo4Qvv/X6aJrRpFgbhn+o4UIEF
-	dCRO/
-X-Gm-Gg: AY/fxX65p2h83f5b3QI4rfSJjWqGN8QAFkUl7vot+oEqDkt/AX5cXflvGCj6Zv/xW0g
-	WlLsItXrroSTXFxSRnxVoHEoLIgpt17Lc7/rnoXnnA7ZIAV85bzZoa1MCXRmyysU8gXPZX3+NL4
-	ql6jVRHH4F41F3oLlCylA2dmfmSDN4jzaONy5E5ujEuT+3cR5RAAl0OJ+6Bk58fQkFgBU+2vRlb
-	Etm4E5y8VY9To3uqcXivI0uW+r1BNhpHlmpJsyCLaKj6LicY3HxWymjGDOq3vpfzp2/KSsaiN6M
-	XKTTFJmPYk/5Rt6pdhJRqQ2mJ6SZhUFA6T8zBJfMJjXi33t7bkRDSL6c3D8Nxgf7wA2AgefNJDR
-	ZynU1L8sr5FDJzvbcQrA0iuP3b1D4AjeFiLKk/HdKbQZ8Wm3YIBJn/TNJDM6+abbajJVgb3RbqL
-	YX5fZEayZZTAq784Tq
-X-Google-Smtp-Source: AGHT+IHqgw6Mxl8sTdZ16+AchffquZvGMldLB07kEoKTUCIorvTuAsMEk24dXkoHkEOyG+JY9d7W7A==
-X-Received: by 2002:a05:600c:46cb:b0:45d:5c71:769d with SMTP id 5b1f17b1804b1-47d6ba829c1mr95907355e9.8.1767604711605;
-        Mon, 05 Jan 2026 01:18:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767607832; x=1768212632;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fxNaBeHAJ/4EZ7JTOdnqwOVDyNniPg0HIAmiaHm6nBM=;
+        b=sBV1C4s8lUK0Irm6qQ/hBAH4T3WLM2z9CCdjHSVH/0W7pJD0khfF9Gn2QOpTNrG3mV
+         sg66xDHPemeGfObIoVzaRFWe+eg6LGNZqs3nGI1D1QqaETt61N0/Q6i1VicZBakOYyQs
+         No7h1xTLBImTGanoE4lXclhS7jx2gJ9Bj7wurhalvX8xxLLDP5DhzExe0N/ChER++Ulq
+         OVNFz1zpOnPG2257vaBjvFBCUhCZU8ZZs9QXMJn6+nZ66IxkbC7K+VqDfOpyEcePPLhH
+         T1KUj7dVJAOBkkJDxp8sB4WRlWYftLnBFx4Czn5eFYsb+qgfJyg4TInrabhGE5nzHsiV
+         iLsw==
+X-Gm-Message-State: AOJu0Yz7TdCGgjc2uS5UInftAQD/Zd9VdeFXMmCB8E8dLEIj4TISTrUp
+	2aikBqpuCtvupVGPitUgMnZrZ9vQbjnBkq7ra4vOShgRHja94hMTxGmlD1Wgv45hKEUQDqjaAs4
+	LIdLx
+X-Gm-Gg: AY/fxX4EOYgP9GpMUuhA7m0CFQLNuNgtaD5jwOIk2X716QJoNXmu98Ui0NXRFsJyzSL
+	CYR46bQSdHhRnLc12RAjG236oU9w99+6jBN1VmW4KtA5GzHwahhtTcXBsTqxN0RTmHjjhPI3nB8
+	le52FPHr5KjvVIzTMnLEeWD5PAy/ULe1T2+Yg6SaV7gf++pVvkjz/nswS6o8A29WkXfsIKiekkS
+	ygtFUJ0XAhVHkL/7l7f3/KYr2RYxVM+TkRwsQhHx7ZGRwnDi7+U7PT9pMGCaaHusVT58nPorE3V
+	kFqK1o8AV7whax75aASF4OG0AwXhMenjW9y2imCwF/BU6DajYGlc/3k9yJxh6KgjAvB8QO7XWTC
+	jWW01GNBBfdFpp0wCGzmNHcJMT6SxXzhONmPGp3O/LjONCgKkkOxmj0PsF6WbhvWDWFUWl6OXOY
+	FgxmtON8iR3SD8T83a
+X-Google-Smtp-Source: AGHT+IFizN6ugrpoj6l/xyTx2wr6ugxEAzpdZgwgMGXWzIHWqKUPqfS+umP15OiFV+l/yYQfDLUJ0w==
+X-Received: by 2002:a5d:4a11:0:b0:431:67d:5390 with SMTP id ffacd0b85a97d-4324e50d055mr58872716f8f.54.1767607831963;
+        Mon, 05 Jan 2026 02:10:31 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6ba30531sm57512165e9.1.2026.01.05.01.18.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea830fesm100837339f8f.20.2026.01.05.02.10.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 01:18:31 -0800 (PST)
-Date: Mon, 5 Jan 2026 12:18:28 +0300
+        Mon, 05 Jan 2026 02:10:31 -0800 (PST)
+Date: Mon, 5 Jan 2026 13:10:27 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 547/2671]
- drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:640
- kfd_procfs_add_sysfs_counters() warn: Calling kobject_put|get with
- state->initialized unset from line: 631
-Message-ID: <aVuB5C1yvi-SE7hG@stanley.mountain>
-References: <202512210334.ZRd8j65a-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, "benoit.masson" <yahoo@perenite.com>,
+	jdelvare@suse.com, linux@roeck-us.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"benoit.masson" <yahoo@perenite.com>
+Subject: Re: [PATCH] hwmon: it87: describe per-chip temperature resources
+Message-ID: <202512300415.VRCQoZYs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202512210334.ZRd8j65a-lkp@intel.com>
+In-Reply-To: <20251226203021.27244-1-yahoo@perenite.com>
+Message-ID: <20260105101027.WrCgKIMSqiBdEZ9zkuRq9OrvtZ_yjF7uV7ZL3iZgkbI@z>
 
-I have fixed this false positive.
+Hi benoit.masson,
 
-https://github.com/error27/smatch/commit/d19c7ae6466cf1a0d54fb873e3089b03163a98a3
+kernel test robot noticed the following build warnings:
 
-regards,
-dan carpenter
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Sun, Dec 21, 2025 at 03:16:15AM +0800, kernel test robot wrote:
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> TO: Philipp Stanner <phasta@kernel.org>
-> CC: "Christian König" <christian.koenig@amd.com>
-> CC: Felix Kuehling <felix.kuehling@amd.com>
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-> commit: 06bc18e0def7d926265480faa555bf0b67a35a90 [547/2671] amd/amdkfd: Use dma_fence_check_and_signal()
-> :::::: branch date: 2 days ago
-> :::::: commit date: 2 weeks ago
-> config: x86_64-randconfig-161-20251218 (https://download.01.org/0day-ci/archive/20251221/202512210334.ZRd8j65a-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202512210334.ZRd8j65a-lkp@intel.com/
-> 
-> New smatch warnings:
-> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:640 kfd_procfs_add_sysfs_counters() warn: Calling kobject_put|get with state->initialized unset from line: 631
-> 
-> Old smatch warnings:
-> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:594 kfd_procfs_add_sysfs_stats() warn: Calling kobject_put|get with state->initialized unset from line: 582
-> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:887 kfd_create_process() warn: Calling kobject_put|get with state->initialized unset from line: 877
-> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:1999 signal_eviction_fence() warn: signedness bug returning '(-22)'
-> 
-> vim +640 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c
-> 
-> 4327bed2ff8e3d Philip Cox  2020-06-30  608  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  609  static void kfd_procfs_add_sysfs_counters(struct kfd_process *p)
-> 751580b3ff9ac6 Philip Yang 2021-06-16  610  {
-> 751580b3ff9ac6 Philip Yang 2021-06-16  611  	int ret = 0;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  612  	int i;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  613  	char counters_dir_filename[MAX_SYSFS_FILENAME_LEN];
-> 751580b3ff9ac6 Philip Yang 2021-06-16  614  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  615  	if (!p || !p->kobj)
-> 751580b3ff9ac6 Philip Yang 2021-06-16  616  		return;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  617  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  618  	/*
-> 751580b3ff9ac6 Philip Yang 2021-06-16  619  	 * Create sysfs files for each GPU which supports SVM
-> 751580b3ff9ac6 Philip Yang 2021-06-16  620  	 * - proc/<pid>/counters_<gpuid>/
-> 751580b3ff9ac6 Philip Yang 2021-06-16  621  	 * - proc/<pid>/counters_<gpuid>/faults
-> 751580b3ff9ac6 Philip Yang 2021-06-16  622  	 * - proc/<pid>/counters_<gpuid>/page_in
-> 751580b3ff9ac6 Philip Yang 2021-06-16  623  	 * - proc/<pid>/counters_<gpuid>/page_out
-> 751580b3ff9ac6 Philip Yang 2021-06-16  624  	 */
-> 751580b3ff9ac6 Philip Yang 2021-06-16  625  	for_each_set_bit(i, p->svms.bitmap_supported, p->n_pdds) {
-> 751580b3ff9ac6 Philip Yang 2021-06-16  626  		struct kfd_process_device *pdd = p->pdds[i];
-> 751580b3ff9ac6 Philip Yang 2021-06-16  627  		struct kobject *kobj_counters;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  628  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  629  		snprintf(counters_dir_filename, MAX_SYSFS_FILENAME_LEN,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  630  			"counters_%u", pdd->dev->id);
-> 751580b3ff9ac6 Philip Yang 2021-06-16  631  		kobj_counters = kfd_alloc_struct(kobj_counters);
-> 751580b3ff9ac6 Philip Yang 2021-06-16  632  		if (!kobj_counters)
-> 751580b3ff9ac6 Philip Yang 2021-06-16  633  			return;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  634  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  635  		ret = kobject_init_and_add(kobj_counters, &sysfs_counters_type,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  636  					   p->kobj, counters_dir_filename);
-> 751580b3ff9ac6 Philip Yang 2021-06-16  637  		if (ret) {
-> 751580b3ff9ac6 Philip Yang 2021-06-16  638  			pr_warn("Creating KFD proc/%s folder failed",
-> 751580b3ff9ac6 Philip Yang 2021-06-16  639  				counters_dir_filename);
-> 751580b3ff9ac6 Philip Yang 2021-06-16 @640  			kobject_put(kobj_counters);
-> 751580b3ff9ac6 Philip Yang 2021-06-16  641  			return;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  642  		}
-> 751580b3ff9ac6 Philip Yang 2021-06-16  643  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  644  		pdd->kobj_counters = kobj_counters;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  645  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_faults,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  646  				      "faults");
-> 751580b3ff9ac6 Philip Yang 2021-06-16  647  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_page_in,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  648  				      "page_in");
-> 751580b3ff9ac6 Philip Yang 2021-06-16  649  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_page_out,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  650  				      "page_out");
-> 751580b3ff9ac6 Philip Yang 2021-06-16  651  	}
-> 751580b3ff9ac6 Philip Yang 2021-06-16  652  }
-> 4327bed2ff8e3d Philip Cox  2020-06-30  653  
-> 
-> :::::: The code at line 640 was first introduced by commit
-> :::::: 751580b3ff9ac6bf39da8586e132dbebee2409ef drm/amdkfd: add sysfs counters for vm fault and migration
-> 
-> :::::: TO: Philip Yang <Philip.Yang@amd.com>
-> :::::: CC: Alex Deucher <alexander.deucher@amd.com>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/benoit-masson/hwmon-it87-describe-per-chip-temperature-resources/20251227-043108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20251226203021.27244-1-yahoo%40perenite.com
+patch subject: [PATCH] hwmon: it87: describe per-chip temperature resources
+config: x86_64-randconfig-161-20251229 (https://download.01.org/0day-ci/archive/20251230/202512300415.VRCQoZYs-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512300415.VRCQoZYs-lkp@intel.com/
+
+smatch warnings:
+drivers/hwmon/it87.c:1694 show_pwm_temp_map() warn: variable dereferenced before IS_ERR check 'data' (see line 1691)
+
+vim +/data +1694 drivers/hwmon/it87.c
+
+94ac7ee616809d Jean Delvare   2010-03-05  1685  static ssize_t show_pwm_temp_map(struct device *dev,
+94ac7ee616809d Jean Delvare   2010-03-05  1686  				 struct device_attribute *attr, char *buf)
+94ac7ee616809d Jean Delvare   2010-03-05  1687  {
+94ac7ee616809d Jean Delvare   2010-03-05  1688  	struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
+94ac7ee616809d Jean Delvare   2010-03-05  1689  	struct it87_data *data = it87_update_device(dev);
+c962024e306ed5 Guenter Roeck  2015-04-04  1690  	int nr = sensor_attr->index;
+542f1e57c17849 benoit.masson  2025-12-26 @1691  	u8 num_map = data->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
+                                                                     ^^^^^^^^^^^^^^^^^^
+Unchecked dereference
+
+94ac7ee616809d Jean Delvare   2010-03-05  1692  	int map;
+94ac7ee616809d Jean Delvare   2010-03-05  1693  
+0282ba4a4fe6c8 Frank Crawford 2023-04-16 @1694  	if (IS_ERR(data))
+                                                                   ^^^^
+Checked too late.
+
+0282ba4a4fe6c8 Frank Crawford 2023-04-16  1695  		return PTR_ERR(data);
+0282ba4a4fe6c8 Frank Crawford 2023-04-16  1696  
+0624d861983c2c Guenter Roeck  2015-04-06  1697  	map = data->pwm_temp_map[nr];
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
