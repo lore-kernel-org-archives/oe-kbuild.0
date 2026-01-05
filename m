@@ -1,72 +1,71 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E0A30DD12
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 12:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2463191D4
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 12:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767614987; cv=none; b=gtB3jgdgq8/hhN5dIwm3BxuuUS7h50LJlf/pA1ZVdE1VE7yB1H3qbjsWSx6dULPIfeqfFFZ8jkTo0+auNAbE/zafxrOvivBbIOVsJ8yQGkLoDTUEAaBJkfYwyanFfLTxgWO2tlYA2WFUfYv9HK5NBtaKz1IYGwnFQGk3LPWot/o=
+	t=1767615019; cv=none; b=sZCe7rtVUO8xiy+R84d7KAXEshv3H21+riPz8HAZO/7gorNeB78fKau9dpETeIaFH8c3142d7E89BD1PL5+rysaloPhWPCjWluCAIPWWiCvfnPtrOkAf4pdB0rum5L+5kAgP90n6FbiXU7hR75qVrLH7cKvmyO4QDPt2H12TQp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767614987; c=relaxed/simple;
-	bh=wg3o1nLtlRINrYKTEcNMmJe5FajNDpqcXq4zyKDjNbg=;
+	s=arc-20240116; t=1767615019; c=relaxed/simple;
+	bh=6dOVx7g7rAkSYZ+pGDeFKJOvADsCxEZ4218tsomazvM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V1VKc7yRU3RclddHcu96RYQlDZ/QwYSYalDnd5tqWXce/TIdOTj2o1THfhEkud/xvpyPTmLNfbM3j5mIGRk8+YXKmh9tOI0LOC25U3B083fpuCN9HAC+OTvAW2+wHgjk9qWm6GFKb2TJjE3VpJFKxuP5DxB/KoFX1IHpwTWo6qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VHs84qOE; arc=none smtp.client-ip=209.85.128.66
+	 Content-Disposition; b=JKlwwM+aNoDbnrJNF1QK0Hh6sa6w0lEssPHNgliQX7nWeVmHQFhg3MHy82eRIDOSUhrCzs1f9qlnRVHPXQ+y9MtghOI9Kije/3J5Jpj7HYUSpKsHzZbKA4CO8nH6M/VsuGXnSJuf2bBhWcRxBYUKLz3vmYdNMT6yFM+GNWU+r+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nsOIZyuj; arc=none smtp.client-ip=209.85.221.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VHs84qOE"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47d182a8c6cso66433915e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 04:09:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nsOIZyuj"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-42e2ba54a6fso6005105f8f.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 04:10:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767614980; x=1768219780; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1767615015; x=1768219815; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JlcVXJ0cVi1nZHZmHKHk4Wk8YLQnuU8zMU/lz6fsauM=;
-        b=VHs84qOEF0REbYhxYO71X+alxrxc/8a+aiXgitKPAe2sz6w/hVdZdvny1liuF24Gkq
-         MVG/I/xmud9ZhsCY/JVHHjmONakUrXN16QciyeYvq29XNkZzNw8l+BBCAJj20wSRzR4/
-         ERaor9KqFVmKZwssDwbUliTiyzPtEVCM/d4mpcgcK9pMGI91tNKXTqHezQw/84vWiZ89
-         LuL6yj0BnhmXqiu57qE9CE3lG2NQZyeRG/mSYlHKxj7fb3VBnJJl6Sp9EN1Tz21GAquv
-         SHchHtcRoIQKXqzRK4EsRngZ9TCcR1PIjbI0E+kGBWZdZWgNjG7LdqjLvmhrYtvcx5Xj
-         SeYA==
+        bh=5vrKYiPaJtKrFUdDX5nTyTKvlBuo7zRPTjp9yLaDxbc=;
+        b=nsOIZyuj5UYLZm5A8CrIgOzhcvsCIu36g3KeEYL91/u9U6TR7mZr/YgyVNmAfAG4Mg
+         dAm1J+UhvVEF0P3wGjw+1JP8Sv/McqUf0RPzEo4RKzoP81xicO/1ZZ/AYuuWkts8ZnZJ
+         dH/if+cJfWPENYEhUIJHSWaN5kpymaQQf7aFMUTjJhzlZYC9KfsAiuw1zxMyaVye3XI0
+         nUbAu6SVtxVfkW98RjAtuEy0hnwhsYAf0aU7O4Rj2Y7Th3cjNOgzNadEY3vPZjPqn9MU
+         D+q8m30JUMLu1IL521jBljjmNaBhV308zvBz3x+vgTlo9zKWghCrDpOK26m9dYiBSP2T
+         Ilxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767614980; x=1768219780;
+        d=1e100.net; s=20230601; t=1767615015; x=1768219815;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JlcVXJ0cVi1nZHZmHKHk4Wk8YLQnuU8zMU/lz6fsauM=;
-        b=GQjlDS30GZsVZQc86nr8KCrtPHaG9DU+tKyltivpHdG0axjQvf7DF8772LOuRkJYdr
-         MBrH1ek/vbjko1uO0Qk5b83wogb2ep2cwweYWgr5UQGHEY/+Uts5y0zZW2lFE8xXvuzF
-         vreGN+jQNw2uhaKEzMzPE0Cf/pTYCXpymhdQh1BX9Azzv1PbnIj9Uqu/a9gbISyEI9D+
-         D7cse6witvRN20+iaYkx9423VIj2TLLK1kggNyxkILTL7m2duEaYrGAlotaVlCqN2960
-         ma3jPWApzbnynY1ypwCSqGR+/lYgXUQi9zHL+lIuMGT3vhSJimv+rVVqDNpfYNrbXewK
-         /2Uw==
-X-Gm-Message-State: AOJu0YyPGEcbQmiy+w1mfwmZBHUwtWb1NpJQ0WsJzG7mCzmH257SXI7r
-	Xt2SGJ8e6zrm/rCUNx2PvwhQrLoshyCearssn97WBjMHMPz25wgUo5goyLtmKaBlCvzw4k0nYoa
-	s/XBH
-X-Gm-Gg: AY/fxX6ObPsjxPEV2h/q6NPuw/fZWG6iiHQx3uvxkfHf3R9OyonObOf8V9ZrkRPSrb0
-	M30uYoQv9tS05Dzcg1h735qKrWXWfKVwzWnEEo7FUyVXcNFrVzWsANdlU0TknOJfX9SksSGy08D
-	1npEyswx/LMKMQWFvhV1M5EaFLTIvInI96gQgHjmJytzSFX/H/BfXNyQLjhuXvOMQwK5dAsth7Q
-	hz03u3p/aCTrdMB4Ue06ZjhxnDWvRcC9uGgJ2Pu70Ibcq3AHrD0sCnksbdJ48msq67PC0yA654c
-	4Dvp5oIT2Rt9h6UlhrECyr00BZQF+9V1YqY6ywZZRsCzqBucCf4tm91vAy88WVuQJQjh72wW7zT
-	fMM9IhLilwkYd9mlgI3XberKFUYrJakbQIPJ1UOBNDhzHBJ8gse771bwuxV919srageDSveoGa9
-	f+GoM1VlqdMi7b8Li0
-X-Google-Smtp-Source: AGHT+IErbINclqwTphcC2ONopTe3/T1YNMW8InuHlmUfWLIx70UpQzUsOc7R9zmrY9fYanNexcLPkA==
-X-Received: by 2002:a05:600c:5251:b0:477:8a29:582c with SMTP id 5b1f17b1804b1-47d195a425bmr612432525e9.34.1767614975626;
-        Mon, 05 Jan 2026 04:09:35 -0800 (PST)
+        bh=5vrKYiPaJtKrFUdDX5nTyTKvlBuo7zRPTjp9yLaDxbc=;
+        b=VM/kEmgxBN9ey0M+qrxG5PPBh+BCyzNjmJ3bADnZVpj2j439Ms8HzxD3w9Iy4u3r91
+         atMkhzMu/ZEfko2ZAPezcZ3TFRAHMZBXHyHNpyLYzaxpQRQDSkz79u66urJ/X4yu6xe3
+         YchOYT+N4dfr5l3dgHAQAxsZCiTC/Wgh2rxZsH4OGSxcopUlqM7d/nBZmRhxy2S6fpu6
+         P3Fx/3gZ9gfeVsnoRF696ZUdtdriyBTc0kwk8QDQC7gqG+KlLCLmzyoBih2ClBEofmXh
+         9OjTwkNkthwXBkWNv3IpjunPH6Rkq5Q2mRbnIxluEer8XZgpefeUteP79Miz0K2TtB7A
+         yHnQ==
+X-Gm-Message-State: AOJu0YyxXfp4UJUt8dNMbu+eCtuONUAGbP+7WgLA8pXGK12VWAtEkTmv
+	Cf5kYnF23y/diMMU78UvNQzCO6t7NqoqIVZhOy+3VQM6NQnIjYH9xULN7jBNOI9TNHyEqwGSRFd
+	32UOH
+X-Gm-Gg: AY/fxX6jPNvXOW1XKA6IGCopKEdAV9aIQ5mcuzdqlF7r7GXAtuPxO3tHuQNsu43C6Lg
+	/zWOpUaUi1k838rI/q5Fs9gPsybqbMWziuuuTJ0Kibgqkvmc9ZaNDPAlDm0+qFNsVs8VhcbN2dh
+	yrG7/5L0P6hDPIY5B3mr6wqlETmg7AsBgyR1ot5ZJKFP+n4IAdagUQ+BqlTn2NmhRy4URepLCug
+	7zR/PLsnz/u+kIIRtzq3fkse+OWmSUwuKailvoE/LLok/NN1d0fPFd9ZgDxfFpdRPgEtY6ehcO1
+	fSPDBxERDVB4IW95jrqjtgzUaU1y47bfLeDljsAo691U6o0MB1JpVmbHcNlfkvqfxIs2UaVgQxl
+	L19cr8ZVmjaLUxXOAxOAOuVSHFcYB+/5JUQjRJdKyT/vptOywbPY2HMRSNdcBCom+gru4mX1wIu
+	ez5IphpaAKq8nGyJh0
+X-Google-Smtp-Source: AGHT+IGZK0K3k2G1O6qKd4QDiCRlFQH4FdI0982zJO/h0JjyXT/OZb5LUVyKeXmP0skYW90GkuYkzA==
+X-Received: by 2002:a5d:5f49:0:b0:42b:3dfb:644c with SMTP id ffacd0b85a97d-4324e4c157fmr61584699f8f.10.1767615014831;
+        Mon, 05 Jan 2026 04:10:14 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6d452a3bsm146951515e9.11.2026.01.05.04.09.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1b1bdsm99176277f8f.8.2026.01.05.04.10.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 04:09:35 -0800 (PST)
-Date: Mon, 5 Jan 2026 15:09:32 +0300
+        Mon, 05 Jan 2026 04:10:13 -0800 (PST)
+Date: Mon, 5 Jan 2026 15:10:10 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Siva Reddy Kallam <siva.kallam@broadcom.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Usman Ansari <usman.ansari@broadcom.com>
-Subject: drivers/infiniband/hw/bng_re/bng_dev.c:113 bng_re_net_ring_free()
- warn: variable dereferenced before check 'rdev' (see line 107)
-Message-ID: <202601010413.sWadrQel-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev
+Subject: [paragon-software-group-ntfs3:master 16/16] fs/ntfs3/inode.c:1024
+ ntfs_writepages() error: uninitialized symbol 'folio'.
+Message-ID: <202601010513.axd56bks-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,157 +74,58 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260105120932.zkyqksKJWf6gzRJ6_LK8qB0Ffj5TbUzcPdK8Bg7zZvA@z>
+Message-ID: <20260105121010.qwsX-C9Zw1h9lQfZX1z_E48b5qpvWy6KSasR1_30dkI@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c8ebd433459bcbf068682b09544e830acd7ed222
-commit: 4f830cd8d7fe3e98fc12d25f347ed461e11fc1de RDMA/bng_re: Add infrastructure for enabling Firmware channel
-config: s390-randconfig-r073-20251231 (https://download.01.org/0day-ci/archive/20260101/202601010413.sWadrQel-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 86b9f90b9574b3a7d15d28a91f6316459dcfa046)
+tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
+head:   099ef9ab9203dff327f2d61e44773f9acbc01f13
+commit: 099ef9ab9203dff327f2d61e44773f9acbc01f13 [16/16] fs/ntfs3: implement iomap-based file operations
+config: um-randconfig-r072-20260101 (https://download.01.org/0day-ci/archive/20260101/202601010513.axd56bks-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601010413.sWadrQel-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601010513.axd56bks-lkp@intel.com/
 
 smatch warnings:
-drivers/infiniband/hw/bng_re/bng_dev.c:113 bng_re_net_ring_free() warn: variable dereferenced before check 'rdev' (see line 107)
-drivers/infiniband/hw/bng_re/bng_dev.c:270 bng_re_dev_init() warn: missing unwind goto?
+fs/ntfs3/inode.c:1024 ntfs_writepages() error: uninitialized symbol 'folio'.
 
-vim +/rdev +113 drivers/infiniband/hw/bng_re/bng_dev.c
+vim +/folio +1024 fs/ntfs3/inode.c
 
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  104  static int bng_re_net_ring_free(struct bng_re_dev *rdev,
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  105  				u16 fw_ring_id, int type)
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  106  {
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17 @107  	struct bnge_auxr_dev *aux_dev = rdev->aux_dev;
-                                                                                        ^^^^^^^^^^^^^
-Unchecked dereference.
+099ef9ab9203df Konstantin Komarov 2025-12-26  1002  static int ntfs_writepages(struct address_space *mapping,
+099ef9ab9203df Konstantin Komarov 2025-12-26  1003  			   struct writeback_control *wbc)
+099ef9ab9203df Konstantin Komarov 2025-12-26  1004  {
+099ef9ab9203df Konstantin Komarov 2025-12-26  1005  	int err;
+099ef9ab9203df Konstantin Komarov 2025-12-26  1006  	struct inode *inode = mapping->host;
+099ef9ab9203df Konstantin Komarov 2025-12-26  1007  	struct ntfs_inode *ni = ntfs_i(inode);
+099ef9ab9203df Konstantin Komarov 2025-12-26  1008  	struct iomap_writepage_ctx wpc = {
+099ef9ab9203df Konstantin Komarov 2025-12-26  1009  		.inode = mapping->host,
+099ef9ab9203df Konstantin Komarov 2025-12-26  1010  		.wbc = wbc,
+099ef9ab9203df Konstantin Komarov 2025-12-26  1011  		.ops = &ntfs_writeback_ops,
+099ef9ab9203df Konstantin Komarov 2025-12-26  1012  	};
+099ef9ab9203df Konstantin Komarov 2025-12-26  1013  
+099ef9ab9203df Konstantin Komarov 2025-12-26  1014  	/* Avoid any operation if inode is bad. */
+099ef9ab9203df Konstantin Komarov 2025-12-26  1015  	if (unlikely(is_bad_ni(ni)))
+099ef9ab9203df Konstantin Komarov 2025-12-26  1016  		return -EINVAL;
+099ef9ab9203df Konstantin Komarov 2025-12-26  1017  
+099ef9ab9203df Konstantin Komarov 2025-12-26  1018  	if (unlikely(ntfs3_forced_shutdown(inode->i_sb)))
+099ef9ab9203df Konstantin Komarov 2025-12-26  1019  		return -EIO;
+099ef9ab9203df Konstantin Komarov 2025-12-26  1020  
+099ef9ab9203df Konstantin Komarov 2025-12-26  1021  	if (is_resident(ni)) {
+099ef9ab9203df Konstantin Komarov 2025-12-26  1022  		struct folio *folio;
+099ef9ab9203df Konstantin Komarov 2025-12-26  1023  
+099ef9ab9203df Konstantin Komarov 2025-12-26 @1024  		while ((folio = writeback_iter(mapping, wbc, folio, &err)))
+                                                                                                             ^^^^^
+Uninitialized.
 
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  108  	struct hwrm_ring_free_input req = {};
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  109  	struct hwrm_ring_free_output resp;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  110  	struct bnge_fw_msg fw_msg = {};
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  111  	int rc = -EINVAL;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  112  
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17 @113  	if (!rdev)
-
-Hopefully this NULL check can be deleted.
-
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  114  		return rc;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  115  
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  116  	if (!aux_dev)
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  117  		return rc;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  118  
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  119  	bng_re_init_hwrm_hdr((void *)&req, HWRM_RING_FREE);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  120  	req.ring_type = type;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  121  	req.ring_id = cpu_to_le16(fw_ring_id);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  122  	bng_re_fill_fw_msg(&fw_msg, (void *)&req, sizeof(req), (void *)&resp,
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  123  			    sizeof(resp), BNGE_DFLT_HWRM_CMD_TIMEOUT);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  124  	rc = bnge_send_msg(aux_dev, &fw_msg);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  125  	if (rc)
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  126  		ibdev_err(&rdev->ibdev, "Failed to free HW ring:%d :%#x",
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  127  			  req.ring_id, rc);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  128  	return rc;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  129  }
-
-[ snip ]
-
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  217  static int bng_re_dev_init(struct bng_re_dev *rdev)
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  218  {
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  219  	struct bng_re_ring_attr rattr = {};
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  220  	struct bng_re_creq_ctx *creq;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  221  	u32 db_offt;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  222  	int vid;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  223  	u8 type;
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  224  	int rc;
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  225  
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  226  	/* Registered a new RoCE device instance to netdev */
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  227  	rc = bng_re_register_netdev(rdev);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  228  	if (rc) {
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  229  		ibdev_err(&rdev->ibdev,
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  230  				"Failed to register with netedev: %#x\n", rc);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  231  		return -EINVAL;
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  232  	}
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  233  
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  234  	set_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  235  
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  236  	if (rdev->aux_dev->auxr_info->msix_requested < BNG_RE_MIN_MSIX) {
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  237  		ibdev_err(&rdev->ibdev,
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  238  			  "RoCE requires minimum 2 MSI-X vectors, but only %d reserved\n",
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  239  			  rdev->aux_dev->auxr_info->msix_requested);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  240  		bnge_unregister_dev(rdev->aux_dev);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  241  		clear_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  242  		return -EINVAL;
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  243  	}
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  244  	ibdev_dbg(&rdev->ibdev, "Got %d MSI-X vectors\n",
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  245  		  rdev->aux_dev->auxr_info->msix_requested);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  246  
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  247  	rc = bng_re_setup_chip_ctx(rdev);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  248  	if (rc) {
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  249  		bnge_unregister_dev(rdev->aux_dev);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  250  		clear_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  251  		ibdev_err(&rdev->ibdev, "Failed to get chip context\n");
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  252  		return -EINVAL;
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  253  	}
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  254  
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  255  	bng_re_query_hwrm_version(rdev);
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  256  
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  257  	rc = bng_re_alloc_fw_channel(&rdev->bng_res, &rdev->rcfw);
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  258  	if (rc) {
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  259  		ibdev_err(&rdev->ibdev,
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  260  			  "Failed to allocate RCFW Channel: %#x\n", rc);
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  261  		goto fail;
-
-Why a goto here and not before or after?
-
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  262  	}
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  263  
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  264  	/* Allocate nq record memory */
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  265  	rdev->nqr = kzalloc(sizeof(*rdev->nqr), GFP_KERNEL);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  266  	if (!rdev->nqr) {
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  267  		bng_re_destroy_chip_ctx(rdev);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  268  		bnge_unregister_dev(rdev->aux_dev);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  269  		clear_bit(BNG_RE_FLAG_NETDEV_REGISTERED, &rdev->flags);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17 @270  		return -ENOMEM;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  271  	}
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  272  
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  273  	rdev->nqr->num_msix = rdev->aux_dev->auxr_info->msix_requested;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  274  	memcpy(rdev->nqr->msix_entries, rdev->aux_dev->msix_info,
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  275  	       sizeof(struct bnge_msix_info) * rdev->nqr->num_msix);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  276  
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  277  	type = RING_ALLOC_REQ_RING_TYPE_NQ;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  278  	creq = &rdev->rcfw.creq;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  279  	rattr.dma_arr = creq->hwq.pbl[BNG_PBL_LVL_0].pg_map_arr;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  280  	rattr.pages = creq->hwq.pbl[creq->hwq.level].pg_count;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  281  	rattr.type = type;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  282  	rattr.mode = RING_ALLOC_REQ_INT_MODE_MSIX;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  283  	rattr.depth = BNG_FW_CREQE_MAX_CNT - 1;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  284  	rattr.lrid = rdev->nqr->msix_entries[BNG_RE_CREQ_NQ_IDX].ring_idx;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  285  	rc = bng_re_net_ring_alloc(rdev, &rattr, &creq->ring_id);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  286  	if (rc) {
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  287  		ibdev_err(&rdev->ibdev, "Failed to allocate CREQ: %#x\n", rc);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  288  		goto free_rcfw;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  289  	}
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  290  	db_offt = rdev->nqr->msix_entries[BNG_RE_CREQ_NQ_IDX].db_offset;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  291  	vid = rdev->nqr->msix_entries[BNG_RE_CREQ_NQ_IDX].vector;
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  292  
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  293  	rc = bng_re_enable_fw_channel(&rdev->rcfw,
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  294  					vid, db_offt);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  295  	if (rc) {
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  296  		ibdev_err(&rdev->ibdev, "Failed to enable RCFW channel: %#x\n",
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  297  			  rc);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  298  		goto free_ring;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  299  	}
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  300  
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  301  	return 0;
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  302  free_ring:
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  303  	bng_re_net_ring_free(rdev, rdev->rcfw.creq.ring_id, type);
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  304  free_rcfw:
-4f830cd8d7fe3e Siva Reddy Kallam 2025-11-17  305  	bng_re_free_rcfw_channel(&rdev->rcfw);
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  306  fail:
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  307  	bng_re_dev_uninit(rdev);
-53310b698f3cf6 Siva Reddy Kallam 2025-11-17  308  	return rc;
-745065770c2dc9 Siva Reddy Kallam 2025-11-17  309  }
+099ef9ab9203df Konstantin Komarov 2025-12-26  1025  			err = ntfs_resident_writepage(folio, wbc);
+099ef9ab9203df Konstantin Komarov 2025-12-26  1026  
+82cae269cfa953 Konstantin Komarov 2021-08-13  1027  		return err;
+82cae269cfa953 Konstantin Komarov 2021-08-13  1028  	}
+82cae269cfa953 Konstantin Komarov 2021-08-13  1029  
+099ef9ab9203df Konstantin Komarov 2025-12-26  1030  	return iomap_writepages(&wpc);
+099ef9ab9203df Konstantin Komarov 2025-12-26  1031  }
 
 -- 
 0-DAY CI Kernel Test Service
