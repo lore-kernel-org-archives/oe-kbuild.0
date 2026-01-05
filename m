@@ -1,70 +1,71 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3582E6CC7
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 10:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBD82F6911
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 10:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767608692; cv=none; b=b0pjE8HZfLuxAnO+rR5IhNrYTiOB+vUAtRA3od8RuxGO/bj9Pxlmj277b3bkJrIcxiWRnVrZoHh4DxFkFHLE9AAqLxqoFKAueJbSH6r/2lyZgybd3uBMQ1oSe2aCC2KHCCleT6Yowwzc/gV73VmdvIFhyAMx2SAExRFv4SFGWW8=
+	t=1767608769; cv=none; b=Ve17prUzx4EPpWpGqRznRZXirw8PwjurtYdGZGQbb3V78nHoOAhn+ybWUAEZlKncd6K/XMCgZB5JHS1s9PHlLtj4d6GvHwCrRPTj67aqGC/u4cNuGb0t5vy4D9LqcNyKs01jYKH9HDI+JjM6Mkl8R0nE43PyI2gLDGyzuitOPKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767608692; c=relaxed/simple;
-	bh=hynkSKL/5rnpNYk6pUbD2IE0zF4AqQ6fG0fZhpyA3OU=;
+	s=arc-20240116; t=1767608769; c=relaxed/simple;
+	bh=cvlwbxmIeAAvLJrAFq5QpK+LSCHAkCYyPfpvjk2Yu/A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ICN27Sl1cFZW8NDuTBNjrFwTfsxuAcifjlhNQvV/pbJKnrdNMQJSD1cqVEUxM/fNdG3153y6W+JmiZteCBU8s/CdDnLVF0XhKsj1EYYo8CJiKEPijiNO6ymSPlNTHJdjrUpdti3Qm4lRHoSHB2dAn1QptyEYkOA83ZHS9a2C3eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LpMBw5t8; arc=none smtp.client-ip=209.85.221.68
+	 Content-Disposition; b=s7DsApE29SUD8yHbgdMHuUhQHSXOF6S8FNT6l39vjyr1sYuEPqS7HkbU0YIFYod3UYW26X3ffNFSc17H81i5+uuro3VlbbotipE0Ew15bp7g1EN/BUHmtgP/v/VusXt//yoCUiyLnsUI4xZUbZINF0+X1B4YqKaxqZy/jsRW3iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A1160H4v; arc=none smtp.client-ip=209.85.221.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LpMBw5t8"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-42b3c5defb2so8279325f8f.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 02:24:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A1160H4v"
+Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-42fbad1fa90so11556482f8f.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 02:26:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767608686; x=1768213486; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1767608765; x=1768213565; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CVwpIkZrNtjo7K4xhpF7v5qG0/6De7/vZGxElqj/NDs=;
-        b=LpMBw5t8Qm4Tdc1RycuHqnCjL2ypKTch3nttoEaf4ur5SaZYTLuXVDRryBslfPuwvg
-         HFhK7ew3jpmXRLFAXnPzmFqJyVFTGT/qe5mrdU4yZ/aFJaDlixfL5i3k54+5e55m867T
-         DM5sYut/1U34jsJP5DkSnIIzdIt20vJ697dtTsE56jrUs2rb6Bvum4G9oCiMtc0Whg9s
-         zNYCDwmI79zh4Hh7z12SXZHp+E05TWPjp5qzmAONH4T+DzRXPJV9UrQVvrGZ423CWoxp
-         mppHOrAv+6m4SKiz3/4MWQPvS/fAzMfIhpXY+r419nDrhAwrkiOikWmVVrobOOXePdrI
-         Iihg==
+        bh=qrKE3RtvwIXqgO/rTJsH4wddGdZnJd01QtpYZAosBLk=;
+        b=A1160H4v0aiuc2bCAU1VlP++yKlLkA5gB52OETdJuStsZWQlNXG8pHuJYY9CURSfHQ
+         r/7EQOkLX6V4pvJjqpyaexs+2PgvuonOgGHjpv1bYMbh5F2IMj90HTm3KUe5gPbhoy8s
+         FVrjBcTiLDcDOYkQ1cLcHZvK9cD992RevBqkcqx3sWKN0VnSREwaxcWg5f3sW7VIp5pA
+         NAPPtQF/r+jLGw+mQYLgJ2b60i2KP0Kxrp8mpJX23oxWtmEWQDbVu2O5itQ8o3nqwejl
+         /ehyoxmOEelJzjQh97BMiRuU45SFbDBmsq7yOYRjIvkX85gd9IXMW4k3yFTg52xYs7ZM
+         yyFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767608686; x=1768213486;
+        d=1e100.net; s=20230601; t=1767608765; x=1768213565;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CVwpIkZrNtjo7K4xhpF7v5qG0/6De7/vZGxElqj/NDs=;
-        b=oHTrwFUyRNGc+/01rXymhj9b5eQb8EYaih8Ym2CzHbamOdStBRzbBGr6isZfS6wcT6
-         /rvA299OG+iu80d/Tiifs86XvT3U5eIxi5n3c1ls7ybyAakZZqcCH3uqUrm1zzTTc+RO
-         mfSW3Im2zJDMXA2W/xcGEBTXZEAjN60Spm0f8sumSKWom2uQ4IkALTBChr3/60XXL1LG
-         WY+pwg40wIcjpRtOVRPt2nmSWtXOLautkBq3AbBjyaCYM9pijcad8JHLAluapU9yIAp+
-         EZOmUd4L7RjgcZYVbYdJTok1kTokQxO8xBd6B4zBwRy9+PJgZ2s3o+3r5JJNCtrCgFNx
-         WBZg==
-X-Gm-Message-State: AOJu0YwGMkY5q1BUgjLDG8ZsKsqLCA9Zrp1PJmw+b9lyaoaCO/Bl3G3w
-	uZuDcJuKKt/d/zQkV/eAEH0Z9yu7TBaXvRCY3BM/QaVsvdnMtoMc/lcummfDs1lFjn+W7+e4JCm
-	VFXWB
-X-Gm-Gg: AY/fxX6kd7acB7YS57tYl5TM2OafOaMpX4uT2YTTp0onA4Cfd/a3Be3WKGh8VQ2OuGi
-	oxVeWZ2ZaSjWpg1oq0Gr02O1hZSs4dedw971i3t/vOm4xi2SnPlkKn5fQ14dUkPu2rpV371/vbj
-	X8dq6jfklDdgboHp/2UeYpiTAMZdQWNboeYAeWcRNPtsqoMj3V88MSdDzbuQSeTEOO9SiZlthxH
-	GY975V0jhBzrse+qGy+MnuBIQ0IhvUzGE8zKo7b3UnluBCJRtXozIqiuh2eC4Y/u23injXPB3AE
-	bT/258c4PstzEUGPKSZxRAAiGw1OCHnUxUYO0tUSBupcn4S0pIVhxfDl0+H0aOGgCOxeWEMZoEP
-	66DKM24ueNtbvrN2pggg+oGOUGwarhjr/KPFeyXaB+WXtRrX4Max2aB4wAATlMLj5lUTeCZ1wps
-	QCAh6eTwqh0JjlSlCkuT7jwewyK4E=
-X-Google-Smtp-Source: AGHT+IHNm+wZOjrXrjNYShygi2LlQJkVAnhP/gkeurbFdTsHF4iAlvFX/9d7ZOYqmd4oB5BSSoy85g==
-X-Received: by 2002:a05:6000:1861:b0:430:fa9a:74d with SMTP id ffacd0b85a97d-4324e4ca445mr65803624f8f.24.1767608685557;
-        Mon, 05 Jan 2026 02:24:45 -0800 (PST)
+        bh=qrKE3RtvwIXqgO/rTJsH4wddGdZnJd01QtpYZAosBLk=;
+        b=hC+3DXkBb4OTk6dKCbQZi11anPLZiIGwl1olxEUJCMqkFPxZnugHwDbLTHwCuHpi6O
+         u6wyINq+oqYUOtCjeWfuj3xv/vh3wfUq/qACAFxho0+lalfrrjuXWZxPgeBFVwzhTnuQ
+         JLdHep9xvy+hwIGdQ7u6DpK3NHdNPL19jrERzphmWOK/V6cJJWSPJjsd3/PJwK1EoMXc
+         dGvaKDZZqffa/cydC2fM48aU7kupMDbdiv6cvegjJyRV3Dedsxer4ZsN8LeEsnaRxVQp
+         8dlx4prleyyb7EcqpPYQpUHZXzUyWL3BHBzsWhll+pqmanLUjtfPqBoZeTDMVfy/18PN
+         maxg==
+X-Gm-Message-State: AOJu0YwNlVE4IZPpKDb8IxSUxdwEZFX15NOS7djx4/3nJ8IozJArqGBK
+	fzTdAFBY2tj1/eVNRIZqMzIzrdGizS/z2BKe/K/mP3zur9Y3aoHmMRyq//+IHJWh5nVO434njnB
+	OTup6
+X-Gm-Gg: AY/fxX7QqS5JMe/zYoCDKkvgqOVv5vW13RF/+HVB27MefsQRIHO06Twrfjhs/GuHuvE
+	ZMTrgz95TYI4Ip148nNTqb+PBNnDXn029f0qRnEBHYlQl+/rA8CEZluTkDwT8TW/DZeW73m6AjY
+	PAA+5sZmIb3MN7IMw7/ond1ZFxRA8GtGg48scLoE12KX60yuTgEQo0WX+FO8+EppbgQ+gmQm750
+	M1T41Dpo7PDq3i0eYKaldNd20eOjWESkigUlXiLdGN9XteKeWJhBGDJYztPeE3jNZ/eOHszGwW5
+	l9dQzRHzxRtjfczdpHZP7nlOc1XWbjwGFijtH3eaqGYLeUJiXLwA4R3Fl2VYasp4+/hUb6mG0r8
+	of6kI9VhArI1IkiiOvu1VAa5XidX+GiMknaDMr/g8D9EUrV/xuEhexkj7JsAge3iHxFnxRnrJ1F
+	Q5NePvwGkDpB8aBw/y31pbejqdJgI=
+X-Google-Smtp-Source: AGHT+IGq4Muxh8/2+O3KRwbh3W9R0AA3hrTyGFKTq0/M0/9Q2+ICgXVn6qgIj/f4uMABpPQeMqPeTQ==
+X-Received: by 2002:a05:6000:2503:b0:431:a33:d872 with SMTP id ffacd0b85a97d-4324e4c1219mr45539228f8f.8.1767608764916;
+        Mon, 05 Jan 2026 02:26:04 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa08d9sm99884820f8f.30.2026.01.05.02.24.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1af2bsm99869153f8f.1.2026.01.05.02.26.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 02:24:44 -0800 (PST)
-Date: Mon, 5 Jan 2026 13:24:41 +0300
+        Mon, 05 Jan 2026 02:26:03 -0800 (PST)
+Date: Mon, 5 Jan 2026 13:26:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 5/5] kernel/kexec_handover.c:941
- kho_preserve_vmalloc() warn: missing error code 'err'
-Message-ID: <202512221523.4WsnhR3e-lkp@intel.com>
+Subject: [android-common:android-mainline 5/5]
+ drivers/usb/gadget/configfs.c:2050 gadgets_make() error: double free of
+ 'gi->composite.gadget_driver.driver.name' (line 2048)
+Message-ID: <202512221712.RohHSsdC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,77 +74,58 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260105102441.HvkZMHLajIqiZ0nJlPlv2f8cCrNbk9vTlPbERd6ZLuc@z>
+Message-ID: <20260105102600.70WIv25Zpzlpye717FeQUQdrGVboF_btJL9sRyjqwEE@z>
 
 tree:   https://android.googlesource.com/kernel/common android-mainline
 head:   3ce6827ad16244f83976f3267e13d63da0613660
-commit: a667300bd53f272a3055238bcefe108f88836270 [5/5] kho: add support for preserving vmalloc allocations
-config: x86_64-randconfig-r073-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221523.4WsnhR3e-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+commit: 957b40b3b769bc23db3d6491db267e3166f91316 [5/5] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
+config: i386-randconfig-141-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221712.RohHSsdC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512221523.4WsnhR3e-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512221712.RohHSsdC-lkp@intel.com/
 
 smatch warnings:
-kernel/kexec_handover.c:941 kho_preserve_vmalloc() warn: missing error code 'err'
+drivers/usb/gadget/configfs.c:2050 gadgets_make() error: double free of 'gi->composite.gadget_driver.driver.name' (line 2048)
 
-vim +/err +941 kernel/kexec_handover.c
+vim +2050 drivers/usb/gadget/configfs.c
 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  907) int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  908) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  909) 	struct kho_vmalloc_chunk *chunk;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  910) 	struct vm_struct *vm = find_vm_area(ptr);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  911) 	unsigned int order, flags, nr_contig_pages;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  912) 	unsigned int idx = 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  913) 	int err;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  914) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  915) 	if (!vm)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  916) 		return -EINVAL;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  917) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  918) 	if (vm->flags & ~KHO_VMALLOC_SUPPORTED_FLAGS)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  919) 		return -EOPNOTSUPP;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  920) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  921) 	flags = vmalloc_flags_to_kho(vm->flags);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  922) 	order = get_vm_area_page_order(vm);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  923) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  924) 	chunk = new_vmalloc_chunk(NULL);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  925) 	if (!chunk)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  926) 		return -ENOMEM;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  927) 	KHOSER_STORE_PTR(preservation->first, chunk);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  928) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  929) 	nr_contig_pages = (1 << order);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  930) 	for (int i = 0; i < vm->nr_pages; i += nr_contig_pages) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  931) 		phys_addr_t phys = page_to_phys(vm->pages[i]);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  932) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  933) 		err = kho_preserve_pages(vm->pages[i], nr_contig_pages);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  934) 		if (err)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  935) 			goto err_free;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  936) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  937) 		chunk->phys[idx++] = phys;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  938) 		if (idx == ARRAY_SIZE(chunk->phys)) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  939) 			chunk = new_vmalloc_chunk(chunk);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  940) 			if (!chunk)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21 @941) 				goto err_free;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2029  	gi->composite.gadget_driver = configfs_driver_template;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2030  
+7c07553807c5125 Chanh Nguyen              2023-01-11  2031  	gi->composite.gadget_driver.driver.name = kasprintf(GFP_KERNEL,
+7c07553807c5125 Chanh Nguyen              2023-01-11  2032  							    "configfs-gadget.%s", name);
+7c07553807c5125 Chanh Nguyen              2023-01-11  2033  	if (!gi->composite.gadget_driver.driver.name)
+7c07553807c5125 Chanh Nguyen              2023-01-11  2034  		goto err;
+7c07553807c5125 Chanh Nguyen              2023-01-11  2035  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2036  	gi->composite.gadget_driver.function = kstrdup(name, GFP_KERNEL);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2037  	gi->composite.name = gi->composite.gadget_driver.function;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2038  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2039  	if (!gi->composite.gadget_driver.function)
+7c07553807c5125 Chanh Nguyen              2023-01-11  2040  		goto out_free_driver_name;
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2041  
+957b40b3b769bc2 Neill Kapron              2024-02-01  2042  	if (android_device_create(&gi->cdev.android_opts))
+957b40b3b769bc2 Neill Kapron              2024-02-01  2043  		goto out_free_driver_name_and_function;
+957b40b3b769bc2 Neill Kapron              2024-02-01  2044  
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2045  	return &gi->group;
+7c07553807c5125 Chanh Nguyen              2023-01-11  2046  
+7c07553807c5125 Chanh Nguyen              2023-01-11  2047  out_free_driver_name:
+7c07553807c5125 Chanh Nguyen              2023-01-11 @2048  	kfree(gi->composite.gadget_driver.driver.name);
 
-err = -ENOMEM;
+Freed.
 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  942) 			idx = 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  943) 		}
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  944) 	}
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  945) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  946) 	preservation->total_pages = vm->nr_pages;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  947) 	preservation->flags = flags;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  948) 	preservation->order = order;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  949) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  950) 	return 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  951) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  952) err_free:
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  953) 	kho_vmalloc_free_chunks(preservation);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  954) 	return err;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  955) }
+957b40b3b769bc2 Neill Kapron              2024-02-01  2049  out_free_driver_name_and_function:
+957b40b3b769bc2 Neill Kapron              2024-02-01 @2050  	kfree(gi->composite.gadget_driver.driver.name);
+
+Double freed.
+
+957b40b3b769bc2 Neill Kapron              2024-02-01  2051  	kfree(gi->composite.gadget_driver.function);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2052  err:
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2053  	kfree(gi);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2054  	return ERR_PTR(-ENOMEM);
+88af8bbe4ef7810 Sebastian Andrzej Siewior 2012-12-23  2055  }
 
 -- 
 0-DAY CI Kernel Test Service
