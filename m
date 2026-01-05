@@ -1,72 +1,71 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E2B32ABFF
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 11:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA95330B0F
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jan 2026 11:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767611587; cv=none; b=ERaX9EVan5uBl6pTTc53B1qpkFpetcfS85eHPMUbuemQUghhOPKGsj2HcNjZG9Xtl+Qi+cBn2+mZ3lL2vOyM5+dp85ifHpWe9POpCgchLtSOF4ceUMiqaFclNaDgYBUsqS8H9EGt8B2EqhMIQiMBNu4SUhuF5jU/izcQRNdoe2A=
+	t=1767611590; cv=none; b=Zp3l0IfT7eGLxFZRJtrw2iqYJ4imyCzuc3/knzUHZW9zk4HUorMAnJj6gJ1zzM+hHHg+vnwexY767cJxaqOOLiCc36tcW//n118O7Sj3RlfGVdHTScZifjue0icMx1Kp9wmyEkJ7UdobYDRr6KuhnWgeayb7vC0BND3dzFcA5y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767611587; c=relaxed/simple;
-	bh=UkTj3zYyIb1IkGpag5b906Ex+NGTUbpcD7WDSDT7PIo=;
+	s=arc-20240116; t=1767611590; c=relaxed/simple;
+	bh=wDEnx8py3cRoP5WSgMWu6tkoV48XyTkizUTd6hRARkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ONIfeax4jhGG8CTXEMSrRdQabFzCuiMRHhIR+uajBK7Vfm0drctknSczV6haayMnOqJG6OUOxbdYGMaPlQoNRYVenpBa+tjeDnYBOYZAAsc9VgrYYbmJmrM5iTDnY759UUlTJnasC4FymD5W1c/2jRJ5hvcPm3IRRqaSy1zbFdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vpOiCmR9; arc=none smtp.client-ip=209.85.128.68
+	 Content-Disposition; b=VDrhSyWmS0kkni4finaXZpYz5JILHh5Wu+TUxcMSBqbaE0wFw0DCSzfLcQ7hzp3tiFJB5L+EKZbhsQ05Jd3x6RkmwfJAdq56j6TMA9/Y6sD/uXTaTL4aRaoAogf4VM57MB2TqOTFA3hm5sW/UM27awUHzjK66Ygw8W7eGv+YBj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cRcxyqiF; arc=none smtp.client-ip=209.85.128.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vpOiCmR9"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47bdbc90dcaso89150535e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 03:13:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cRcxyqiF"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47d59da3d81so7667225e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 05 Jan 2026 03:13:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767611581; x=1768216381; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1767611584; x=1768216384; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bc2VWgvA1bgMQCfeGEQws3KLvN7nwij3EUUsT4VbIPg=;
-        b=vpOiCmR9vkhEh87lDqaftrORxfh2TythQ5NV0OFw3o5RWNpqlsC5rx+tImhxxOY5pF
-         BLH8ve+n//AUP+3b5JH/SgPirg81ppWvM3jGtswMk1XORTmTs7q+PwjB8WEa9oo2jN3M
-         ef3Nxw4jN1u2gkzFvzUoIXBeWus8fb1d6UsHZCGfV2Kbvmr/p8TyiCOJYRAwOPmOGsg5
-         AcQDYFffkAJsumtOB7XvjSdmGGruEfhRpyVDhBZ1WwLqpI11kCMVHMqMtKT4nTMtqk4O
-         5R7W/JUgEit6wHYCcUlpKspq7CTT9cdq6aGoyO5u1VJ9OXKU4dDChvh6OWGvxaB+E8yr
-         H4sA==
+        bh=Sy36NtOWnUUNkuYlvTcG0nfyZwMeK2bqd85x3u4/JPg=;
+        b=cRcxyqiFh/W15aA7RVdaGGJbiOpudvI+nPkL4CiQkHFuW0JgkTyYOgn/6VyhPCgrWp
+         3/le7AK+mGNtCHovjKxB+griXUm2zQd6XAo1BBFXvi/lmKw4rkIhm1qLDDE9tanXubpx
+         v4hjJtn2DIGB2BomUp2W2P8SDEHb0ibemIibDss+Q8T7XkgK2pOuvKNkbhat7KX5K9op
+         piAtMIsSOxIijBOymEZVBIaE/h8wc4wLnmlzTfkl44+VR5JESKhXRQvf9iSmj8sM8Lzp
+         DM4dqiEf67hETJrfsscKkcgML4btZES5VW688SOIe/9M6NiJSYkLTQzQdNDVIs5yGsoj
+         RhGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767611581; x=1768216381;
+        d=1e100.net; s=20230601; t=1767611584; x=1768216384;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bc2VWgvA1bgMQCfeGEQws3KLvN7nwij3EUUsT4VbIPg=;
-        b=MdlA6w5Sw+DbXaIl5u4YrzvaMhckQVDNfBuFha6BNuqnRPKcPXW6auMPO+ZHwRZSVI
-         RcG7CitwS7uzQ/7HL+M5jo6ZTvHgKsFCgznQVIlszgm+Vu6enlC6xfrpS+xYFplplnt+
-         0aori/VLkIzCDCYb2oCn+t49QQnFrRnSbslhlotLKUQRmvoI4/YuJS/h0HF4Bz7QoTBE
-         2A8Me2bnzleYtjnbDL+1JKVVUutR3BFvipcJWNiSTa9U7eKrpKAiT/ysmC3Za2UGZiRh
-         e90ZY/mC0pnaQu3zovnUgLqdyNadZDsrcFVAv9YDhSGOYl8QOWon0XYg7Xm0jjVK+zh2
-         pgsQ==
-X-Gm-Message-State: AOJu0YzJ5/Ht6OOtNBwY5Nz52+gqvyp6oMNu8olamyezu03NHxcE5R9H
-	VspOAFU9+NIonV8jfsv81JWmtet0ArwIVhKVTAoerDjEAOdOk/yiZrzxCO9MWwN33cJd0hm4Mu9
-	v50O4
-X-Gm-Gg: AY/fxX5jM4a5q09svny5//8C+gfC88o2I3KbFt2exI+lJWtArQ0nLw8PryGCXRh+ki9
-	0RsUeUdDP+nUrT6+TbnfPbYqmCpEc+ikwRBNE7Vn+zkSKYox8TA/gEGeaWWUJYf+A97JLzMOkrU
-	wZ8QCJ8NKhmS8EGx7vQ4WJd0PvJL3zzRE2F8Jm7t0h5tfFcMAOjBS+PuXiHQgOUCImcNHBOKewm
-	2/eiRp7HVk2xn1b2SR0R0pRVh1VbwXF7SZTB1QuWYPUsKMidcuv4I4ErOEZbmfP7zKAaO8Spztx
-	70LwyQsLBvafjR6JOc40cTbOPoSQ9891GhBuyWAZZ8duF19d1Jw5OxEUKOpKFEVivBHVlTZzJU3
-	COWo5C+zfKJl14jwxiMUPv0Ct3zz8+YNbWkbBRuD5YptvXFAczKlNedNmKQg61rLGkvW/4X08zl
-	gHdlN6eUjelXmO3D2k
-X-Google-Smtp-Source: AGHT+IGedowhtALlbzvLbFSDz1qoZGBQdqAyRvQc3b+3FTkY8OWiI4AI6srjJhcvehHKs244vCBv4Q==
-X-Received: by 2002:a05:600c:4506:b0:477:9392:8557 with SMTP id 5b1f17b1804b1-47d1957711fmr570514325e9.18.1767611580634;
-        Mon, 05 Jan 2026 03:13:00 -0800 (PST)
+        bh=Sy36NtOWnUUNkuYlvTcG0nfyZwMeK2bqd85x3u4/JPg=;
+        b=gIvpFIf6Gz40c5ueLlBxO3pWnyEUzPqyPLsaYnSVG2lnGXpsTvJyqXzAFwhABKJ+8Y
+         nlf5sXXLLbr/CFotN3vqVnRLFsikSuTh+LvPw7PCxq5jsll5KJwcqhm4GKeSH+ezcuoB
+         8N2BFtiTJTeaiJy9Ie3+VZ6xLEakDiDrcBMGrg2BlKg4TK8kM0JsiJwrc5CrBBYL/+q+
+         TX1Rr1WNzPnprHOB2QdWA6zYaNZbzop3TBgiwE3dRW0s8fRaOW8N4nlpH/C5owyeiuxQ
+         DIm0TKoFSXcp+IoIj9z282lvELoNMTOtKc2ixvIKOtiaBJC2P740n48ONIMSkaJUBGm9
+         LmFQ==
+X-Gm-Message-State: AOJu0Yym6UqlGtrthNxO0BiuwaZ1t/GPILxhYaDZt9NvDiTlOkiGkIyY
+	l2axroP7yOh6cjOjxY6ffkAj21zk1fK1LxJnV0MYt+Hm5OyQebnSPeqUIm5ZlroaXkgm6ClWaTL
+	kp/K+
+X-Gm-Gg: AY/fxX4vx6nLMm/hM6Qx7u0H/+kkrkEzN8MPFI7Z2XL91RPzB2T2A5457hNItP7Sb+I
+	jhBH3YZCMNijqGJmnLq13tRpNxXrBOMI//ar+mQ8J8EDp4HsTrAL83MGcTQdww1AP+Our+/3714
+	GnL9K+gJ6e4bDLvDBrQiNvghf+bbDcOuxvhcy4C064WG1udUeCI8JmiMcUzgJiGo27H0r/sOzQY
+	yjkMyWJDTjXfXE6Vh03PNxYBO9df71CmpjuGp81Q8Xgcin7Z6CQRqnygjinRoGT0nhg7eQ/HkNm
+	3QZoZ3UWOauzOineRZLSaMoOlVrw1dEMmgwj1dNTP1dFGrCILXgNR0ioSBAvBF+4aH+0xbPT6TL
+	CeRn70JyV6AVeEFv5NydEqlXDBj89EmACANaXaTK+IUnFjFVcBHCxdKlLGqZcsskgvnNdv+wpEV
+	aqNb6mYBZxOCKFrwNP
+X-Google-Smtp-Source: AGHT+IEJP/FgEZPj2KWjxlU5cLjyxJQY3xh0ilcQNpmede28a0I8ZSxO6DfSzSmdDBukFGb7vvgtPA==
+X-Received: by 2002:a05:600c:3110:b0:477:9e0c:f59 with SMTP id 5b1f17b1804b1-47d6ba7e485mr109359645e9.2.1767611584285;
+        Mon, 05 Jan 2026 03:13:04 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6d143f75sm141461685e9.5.2026.01.05.03.12.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6d13e2e0sm180702655e9.1.2026.01.05.03.13.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 03:13:00 -0800 (PST)
-Date: Mon, 5 Jan 2026 14:12:57 +0300
+        Mon, 05 Jan 2026 03:13:03 -0800 (PST)
+Date: Mon, 5 Jan 2026 13:33:41 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [thesofproject:topic/sof-dev 7/7] sound/soc/sof/sof-audio.c:532
- sof_prepare_widgets_in_path() error: uninitialized symbol 'widget_ops'.
-Message-ID: <202512232221.Ub3HwrFz-lkp@intel.com>
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev
+Subject: [paragon-software-group-ntfs3:devel 7/9] fs/ntfs3/fsntfs.c:1265
+ ntfs_read_run_nb_ra() error: uninitialized symbol 'clen'.
+Message-ID: <202512230646.v5hrYXL0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,98 +74,159 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260105111257.YmBGOQb5fv5_7K2Jkfw64bWktRyV_i8iYV23Few0W3Q@z>
+Message-ID: <20260105103341.NqpoPW2KCM1ThOvBNkTai22BkERVlivVxOOzGoY7Y-A@z>
 
-tree:   https://github.com/thesofproject/linux topic/sof-dev
-head:   e00fe1471431b89ac2b01eb02ba235375d8ff9e0
-commit: f2701eed927d5d12f42a301a90b89d4fd4f53776 [7/7] ASoC: SOF: sof-audio: Add support for loopback capture
-config: x86_64-randconfig-161-20251222 (https://download.01.org/0day-ci/archive/20251223/202512232221.Ub3HwrFz-lkp@intel.com/config)
+tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git devel
+head:   f7edab0cee03a1cbe0e55a7bcab8d2d8b6b74278
+commit: 989e29450efaf4983c66b7a628f2ffc03b6d02e8 [7/9] fs/ntfs3: improve readahead for bitmap initialization and large directory scans
+config: i386-randconfig-141-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230646.v5hrYXL0-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512232221.Ub3HwrFz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512230646.v5hrYXL0-lkp@intel.com/
 
 smatch warnings:
-sound/soc/sof/sof-audio.c:532 sof_prepare_widgets_in_path() error: uninitialized symbol 'widget_ops'.
+fs/ntfs3/fsntfs.c:1265 ntfs_read_run_nb_ra() error: uninitialized symbol 'clen'.
+fs/ntfs3/fsntfs.c:1266 ntfs_read_run_nb_ra() error: uninitialized symbol 'idx'.
 
-vim +/widget_ops +532 sound/soc/sof/sof-audio.c
+vim +/clen +1265 fs/ntfs3/fsntfs.c
 
-66344c6d92113e Ranjani Sridharan 2022-04-26  477  static int
-66344c6d92113e Ranjani Sridharan 2022-04-26  478  sof_prepare_widgets_in_path(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget *widget,
-66344c6d92113e Ranjani Sridharan 2022-04-26  479  			    struct snd_pcm_hw_params *fe_params,
-66344c6d92113e Ranjani Sridharan 2022-04-26  480  			    struct snd_sof_platform_stream_params *platform_params,
-4639029b046bca Ranjani Sridharan 2023-01-27  481  			    struct snd_pcm_hw_params *pipeline_params, int dir,
-4639029b046bca Ranjani Sridharan 2023-01-27  482  			    struct snd_soc_dapm_widget_list *list)
-66344c6d92113e Ranjani Sridharan 2022-04-26  483  {
-cd6afb060c5a3c Peter Ujfalusi    2022-12-21  484  	const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
-66344c6d92113e Ranjani Sridharan 2022-04-26  485  	struct snd_sof_widget *swidget = widget->dobj.private;
-cd6afb060c5a3c Peter Ujfalusi    2022-12-21  486  	const struct sof_ipc_tplg_widget_ops *widget_ops;
-66344c6d92113e Ranjani Sridharan 2022-04-26  487  	struct snd_soc_dapm_path *p;
-66344c6d92113e Ranjani Sridharan 2022-04-26  488  	int ret;
-66344c6d92113e Ranjani Sridharan 2022-04-26  489  
-0557864e9dbe8f Bard Liao         2023-06-16  490  	if (is_virtual_widget(sdev, widget, __func__))
-0557864e9dbe8f Bard Liao         2023-06-16  491  		return 0;
-0557864e9dbe8f Bard Liao         2023-06-16  492  
-f2701eed927d5d Ranjani Sridharan 2025-12-01  493  	if (!swidget)
-f2701eed927d5d Ranjani Sridharan 2025-12-01  494  		goto sink_prepare;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1166  
+989e29450efaf49 Konstantin Komarov 2025-12-08  1167  int ntfs_read_run_nb_ra(struct ntfs_sb_info *sbi, const struct runs_tree *run,
+989e29450efaf49 Konstantin Komarov 2025-12-08  1168  			u64 vbo, void *buf, u32 bytes, struct ntfs_buffers *nb,
+989e29450efaf49 Konstantin Komarov 2025-12-08  1169  			struct file_ra_state *ra)
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1170  {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1171  	int err;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1172  	struct super_block *sb = sbi->sb;
+989e29450efaf49 Konstantin Komarov 2025-12-08  1173  	struct address_space *mapping = sb->s_bdev->bd_mapping;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1174  	u32 blocksize = sb->s_blocksize;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1175  	u8 cluster_bits = sbi->cluster_bits;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1176  	u32 off = vbo & sbi->cluster_mask;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1177  	u32 nbh = 0;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1178  	CLST vcn_next, vcn = vbo >> cluster_bits;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1179  	CLST lcn, clen;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1180  	u64 lbo, len;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1181  	size_t idx;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1182  	struct buffer_head *bh;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1183  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1184  	if (!run) {
+e8b8e97f91b80f0 Kari Argillander   2021-08-03  1185  		/* First reading of $Volume + $MFTMirr + $LogFile goes here. */
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1186  		if (vbo > MFT_REC_VOL * sbi->record_size) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1187  			err = -ENOENT;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1188  			goto out;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1189  		}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1190  
+e8b8e97f91b80f0 Kari Argillander   2021-08-03  1191  		/* Use absolute boot's 'MFTCluster' to read record. */
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1192  		lbo = vbo + sbi->mft.lbo;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1193  		len = sbi->record_size;
 
-widget_ops isn't initialized.
+clen is not initialized when run is false.
 
-f2701eed927d5d Ranjani Sridharan 2025-12-01  495  
-cd6afb060c5a3c Peter Ujfalusi    2022-12-21  496  	widget_ops = tplg_ops ? tplg_ops->widget : NULL;
-cd6afb060c5a3c Peter Ujfalusi    2022-12-21  497  	if (!widget_ops)
-cd6afb060c5a3c Peter Ujfalusi    2022-12-21  498  		return 0;
-cd6afb060c5a3c Peter Ujfalusi    2022-12-21  499  
-f2701eed927d5d Ranjani Sridharan 2025-12-01  500  	if (swidget->spipe->direction_valid && !sof_widget_in_same_direction(swidget, dir))
-f2701eed927d5d Ranjani Sridharan 2025-12-01  501  		return 0;
-66344c6d92113e Ranjani Sridharan 2022-04-26  502  
-f2701eed927d5d Ranjani Sridharan 2025-12-01  503  	/* skip widgets already prepared or aggregated DAI widgets*/
-f2701eed927d5d Ranjani Sridharan 2025-12-01  504  	if (!widget_ops[widget->id].ipc_prepare || swidget->prepared ||
-f2701eed927d5d Ranjani Sridharan 2025-12-01  505  	    is_aggregated_dai(swidget))
-26671eafb390aa Ranjani Sridharan 2025-12-01  506  		goto sink_prepare;
-26671eafb390aa Ranjani Sridharan 2025-12-01  507  
-66344c6d92113e Ranjani Sridharan 2022-04-26  508  	/* prepare the source widget */
-66344c6d92113e Ranjani Sridharan 2022-04-26  509  	ret = widget_ops[widget->id].ipc_prepare(swidget, fe_params, platform_params,
-66344c6d92113e Ranjani Sridharan 2022-04-26  510  					     pipeline_params, dir);
-66344c6d92113e Ranjani Sridharan 2022-04-26  511  	if (ret < 0) {
-66344c6d92113e Ranjani Sridharan 2022-04-26  512  		dev_err(sdev->dev, "failed to prepare widget %s\n", widget->name);
-66344c6d92113e Ranjani Sridharan 2022-04-26  513  		return ret;
-66344c6d92113e Ranjani Sridharan 2022-04-26  514  	}
-66344c6d92113e Ranjani Sridharan 2022-04-26  515  
-66344c6d92113e Ranjani Sridharan 2022-04-26  516  	swidget->prepared = true;
-66344c6d92113e Ranjani Sridharan 2022-04-26  517  
-66344c6d92113e Ranjani Sridharan 2022-04-26  518  sink_prepare:
-66344c6d92113e Ranjani Sridharan 2022-04-26  519  	/* prepare all widgets in the sink paths */
-66344c6d92113e Ranjani Sridharan 2022-04-26  520  	snd_soc_dapm_widget_for_each_sink_path(widget, p) {
-4639029b046bca Ranjani Sridharan 2023-01-27  521  		if (!widget_in_list(list, p->sink))
-4639029b046bca Ranjani Sridharan 2023-01-27  522  			continue;
-f2701eed927d5d Ranjani Sridharan 2025-12-01  523  
-66344c6d92113e Ranjani Sridharan 2022-04-26  524  		if (!p->walking && p->sink->dobj.private) {
-66344c6d92113e Ranjani Sridharan 2022-04-26  525  			p->walking = true;
-66344c6d92113e Ranjani Sridharan 2022-04-26  526  			ret = sof_prepare_widgets_in_path(sdev, p->sink,  fe_params,
-4639029b046bca Ranjani Sridharan 2023-01-27  527  							  platform_params, pipeline_params, dir,
-4639029b046bca Ranjani Sridharan 2023-01-27  528  							  list);
-66344c6d92113e Ranjani Sridharan 2022-04-26  529  			p->walking = false;
-66344c6d92113e Ranjani Sridharan 2022-04-26  530  			if (ret < 0) {
-66344c6d92113e Ranjani Sridharan 2022-04-26  531  				/* unprepare the source widget */
-fb4293600cc651 Peter Ujfalusi    2023-01-20 @532  				if (widget_ops[widget->id].ipc_unprepare &&
-                                                                                    ^^^^^^^^^^
-Dereferenced before checking if swidget is non-NULL.
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1194  	} else if (!run_lookup_entry(run, vcn, &lcn, &clen, &idx)) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1195  		err = -ENOENT;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1196  		goto out;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1197  	} else {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1198  		if (lcn == SPARSE_LCN) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1199  			err = -EINVAL;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1200  			goto out;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1201  		}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1202  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1203  		lbo = ((u64)lcn << cluster_bits) + off;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1204  		len = ((u64)clen << cluster_bits) - off;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1205  	}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1206  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1207  	off = lbo & (blocksize - 1);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1208  	if (nb) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1209  		nb->off = off;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1210  		nb->bytes = bytes;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1211  	}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1212  
+989e29450efaf49 Konstantin Komarov 2025-12-08  1213  	if (ra && !ra->ra_pages)
+989e29450efaf49 Konstantin Komarov 2025-12-08  1214  		file_ra_state_init(ra, mapping);
+989e29450efaf49 Konstantin Komarov 2025-12-08  1215  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1216  	for (;;) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1217  		u32 len32 = len >= bytes ? bytes : len;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1218  		sector_t block = lbo >> sb->s_blocksize_bits;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1219  
+989e29450efaf49 Konstantin Komarov 2025-12-08  1220  		if (ra) {
+989e29450efaf49 Konstantin Komarov 2025-12-08  1221  			pgoff_t index = lbo >> PAGE_SHIFT;
+989e29450efaf49 Konstantin Komarov 2025-12-08  1222  			if (!ra_has_index(ra, index)) {
+989e29450efaf49 Konstantin Komarov 2025-12-08  1223  				page_cache_sync_readahead(mapping, ra, NULL,
+989e29450efaf49 Konstantin Komarov 2025-12-08  1224  							  index, 1);
+989e29450efaf49 Konstantin Komarov 2025-12-08  1225  				ra->prev_pos = (loff_t)index << PAGE_SHIFT;
+989e29450efaf49 Konstantin Komarov 2025-12-08  1226  			}
+989e29450efaf49 Konstantin Komarov 2025-12-08  1227  		}
+989e29450efaf49 Konstantin Komarov 2025-12-08  1228  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1229  		do {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1230  			u32 op = blocksize - off;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1231  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1232  			if (op > len32)
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1233  				op = len32;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1234  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1235  			bh = ntfs_bread(sb, block);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1236  			if (!bh) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1237  				err = -EIO;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1238  				goto out;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1239  			}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1240  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1241  			if (buf) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1242  				memcpy(buf, bh->b_data + off, op);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1243  				buf = Add2Ptr(buf, op);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1244  			}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1245  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1246  			if (!nb) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1247  				put_bh(bh);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1248  			} else if (nbh >= ARRAY_SIZE(nb->bh)) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1249  				err = -EINVAL;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1250  				goto out;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1251  			} else {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1252  				nb->bh[nbh++] = bh;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1253  				nb->nbufs = nbh;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1254  			}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1255  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1256  			bytes -= op;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1257  			if (!bytes)
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1258  				return 0;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1259  			len32 -= op;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1260  			block += 1;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1261  			off = 0;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1262  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1263  		} while (len32);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1264  
+82cae269cfa9530 Konstantin Komarov 2021-08-13 @1265  		vcn_next = vcn + clen;
+                                                                                 ^^^^
+Uninitialized.
 
-eabc34a6a6f178 Peter Ujfalusi    2024-05-27  533  				    swidget && swidget->prepared && swidget->use_count == 0) {
-66344c6d92113e Ranjani Sridharan 2022-04-26  534  					widget_ops[widget->id].ipc_unprepare(swidget);
-66344c6d92113e Ranjani Sridharan 2022-04-26  535  					swidget->prepared = false;
-66344c6d92113e Ranjani Sridharan 2022-04-26  536  				}
-66344c6d92113e Ranjani Sridharan 2022-04-26  537  				return ret;
-66344c6d92113e Ranjani Sridharan 2022-04-26  538  			}
-66344c6d92113e Ranjani Sridharan 2022-04-26  539  		}
-66344c6d92113e Ranjani Sridharan 2022-04-26  540  	}
-66344c6d92113e Ranjani Sridharan 2022-04-26  541  
-66344c6d92113e Ranjani Sridharan 2022-04-26  542  	return 0;
-66344c6d92113e Ranjani Sridharan 2022-04-26  543  }
+82cae269cfa9530 Konstantin Komarov 2021-08-13 @1266  		if (!run_get_entry(run, ++idx, &vcn, &lcn, &clen) ||
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1267  		    vcn != vcn_next) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1268  			err = -ENOENT;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1269  			goto out;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1270  		}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1271  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1272  		if (lcn == SPARSE_LCN) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1273  			err = -EINVAL;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1274  			goto out;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1275  		}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1276  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1277  		lbo = ((u64)lcn << cluster_bits);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1278  		len = ((u64)clen << cluster_bits);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1279  	}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1280  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1281  out:
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1282  	if (!nbh)
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1283  		return err;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1284  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1285  	while (nbh) {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1286  		put_bh(nb->bh[--nbh]);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1287  		nb->bh[nbh] = NULL;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1288  	}
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1289  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1290  	nb->nbufs = 0;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1291  	return err;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  1292  }
 
 -- 
 0-DAY CI Kernel Test Service
