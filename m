@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18467E0FF
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Jan 2026 21:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D0E2F999F
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Jan 2026 21:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767733251; cv=none; b=K6D7PrdVJcKl/npx+3qCAilIKu0t05h2QaUpxe/1HkN7hgCspth2gG3NllKLynZLQ/nxCGuYw3BNDPrP5g0I+w7Th6f0grhbVEcMcj9Fp0ADVXhdbJx3gem277XcIF6LLbWz10xtWWlk95EQS6OYtal3a6xKBFAvCd8ku01LXFE=
+	t=1767734524; cv=none; b=sahbsq+/PZZhkl+OxquAnEJAMqIXz4W3SINY72a7xXM7LvHViSXpdNqCGtxav31cYPPmdArZiC9DY/p1RnfBSGsW/DPjTLMVkcVhCki7FP7c28Tkg52zoWxX31BWbcxZ/Z276yeWr0YMY8nl/bRBaipVi5IFmzEvdSQXXYmsN70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767733251; c=relaxed/simple;
-	bh=GVAk2dyp3Af7KEryByycVdCSU4g/RSXH0yzUhqj2CJo=;
-	h=Date:From:To:Subject:Message-ID; b=BYYzy2F/lapgV9BxH9AtweHJUMYhZevDl1ccRZAR/VqYvfh47xNDn8d0aN3gThrYHL/9dI+utdsndQZ6n7ZO0mtbU5iiYyGhHU0C1iY/iDQ6lbgRo34WH+KtvORYU3hELL2o5PE3OFAPuZDU5sGpWb4Dlxxhor0nKxoU5cbGzc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKJRi6jX; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1767734524; c=relaxed/simple;
+	bh=HxHkELdGD4GNhq0xO+7aW/CV5PSvhSAIppGNzGHl0Cw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZsrfLLHhDGl4iUa8uVBb5yX6pVlAN0QZioydXOxSVw7FBo65KjsJjaj/I84nEwhyazwP6aHZ5YClX+UJeo1ABHhntKwaMblAWZAem/2gYV9tV8GABEIAx8s/VAj/wnLlKYjNFdT8mF7sVREDybuZm0h9mTqbEqrRdAuPhYxJxWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ArpPlIsb; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKJRi6jX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ArpPlIsb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767733250; x=1799269250;
-  h=date:from:to:subject:message-id;
-  bh=GVAk2dyp3Af7KEryByycVdCSU4g/RSXH0yzUhqj2CJo=;
-  b=kKJRi6jXQbvm9C8VCPkegs5ccLP7i2/Pd40jtQdUO9X5KmkP2ok/eZeo
-   zSD2OdBft2C0xkNNZrlYHbTMbIDnKHM9zokf1AI3cweSua8cSllTRkw+z
-   h8ri7Kz2A9W1KCB3o5VSYl1eBwCPOotGfsQqRl6t63tLI2nAlF4Z51rRR
-   eBo9dVabfSj/Yh1UK2Okc1gvhWr5xNdrrsIRljGL2PJyv6yGvHcbSUy0D
-   6H2qgvTZuZhipFSfu+NxhT3MLp0g7du6pDdbFY5+vpn9gmnjTGcZGEeGv
-   7ftHG4Wzkp8xSZeitD/NGkBF9RBzYWUYsXin5EZfcK165RC011o6yHB5M
-   w==;
-X-CSE-ConnectionGUID: 09SEFrbTROq1wgUvxEXGow==
-X-CSE-MsgGUID: Bl1g87Q3TfK2kfOSTb4ojw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69150587"
+  t=1767734524; x=1799270524;
+  h=date:from:to:cc:subject:message-id;
+  bh=HxHkELdGD4GNhq0xO+7aW/CV5PSvhSAIppGNzGHl0Cw=;
+  b=ArpPlIsbSN5qgFGX76ba8ox3gFkQVpvdG5isHFvUgeaIAtc92IW9EzCg
+   QEYpVemHsIGSadeNxTLFKZgrOAZSFtLYMtKqZHuv2+7saouF8vNVesO2T
+   h2CAhyV59hbWHXNE37SsPhL0rM4YeGjMwfuA3xOfF1NyK/dUUX7h0PYW9
+   hQUdcBixofhI8dIIXEyxV4HPPsLnQzFEQXw3nVkwEFsqew7JLLaRfnp3Q
+   lqCl10DNp/MpsPdPx0bUcDTKokXM142s/bxG0CsxVKm06VPhyE9TgEmYO
+   Bnnqk7nA4biAkLB5X41ezj0tDoN2z/6hlpWMT2u88wfjxoz8bqrA1Ec02
+   Q==;
+X-CSE-ConnectionGUID: EcTQbqzIRmKGjvIHUubcMw==
+X-CSE-MsgGUID: ORAX9wRvTMSc84NBR/Hxfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="69155759"
 X-IronPort-AV: E=Sophos;i="6.21,206,1763452800"; 
-   d="scan'208";a="69150587"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 13:00:49 -0800
-X-CSE-ConnectionGUID: 2oNYIRbJSQGIZFaFrzfzmA==
-X-CSE-MsgGUID: KMT2o7LCSJSY0ibUKPBn/Q==
+   d="scan'208";a="69155759"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 13:22:03 -0800
+X-CSE-ConnectionGUID: TsFx6u78TY6UCz3XywqF0w==
+X-CSE-MsgGUID: 2JUM4WgaQSqynNphX+DaHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,206,1763452800"; 
-   d="scan'208";a="207811069"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 06 Jan 2026 13:00:49 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+   d="scan'208";a="226275718"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 06 Jan 2026 13:22:02 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdEAY-000000001Mj-0uZN
-	for oe-kbuild@lists.linux.dev;
-	Tue, 06 Jan 2026 21:00:46 +0000
-Date: Tue, 06 Jan 2026 22:00:22 +0100
+	id 1vdEV5-000000003Eb-1xGV;
+	Tue, 06 Jan 2026 21:21:59 +0000
+Date: Wed, 07 Jan 2026 05:21:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [cilium:pr/netkit-iouring8 4/13] checkpatch:
- WARNING:BAD_SIGN_OFF: Co-developed-by: should not be used to attribute
- nominal patch author 'Daniel Borkmann <daniel@iogearbox.net>'
-Message-ID: <202601062155.eRlo1Bn8-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/s390/kernel/vdso/vdso.so.dbg: dynamic relocations are
+ not supported
+Message-ID: <202601070505.xQcLr5KV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,26 +60,64 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: Manual check reason: "checkpatch report for netdev code"
+:::::: Manual check reason: "dynamic relocations are not supported"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Daniel Borkmann <daniel@iogearbox.net>
+CC: linux-kernel@vger.kernel.org
+TO: Heiko Carstens <hca@linux.ibm.com>
+CC: Jens Remus <jremus@linux.ibm.com>
 
-tree:   https://github.com/cilium/linux.git pr/netkit-iouring8
-head:   5f26bd213fae9a23f5f8ed04672b1f5e33d3456e
-commit: 39f187374634e7899e277c6d429f5961dfe00d5e [4/13] net: Add peer info to queue-get response
+Hi Heiko,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+commit: c0087d807ae86cc82cc356e366d2dccf0e3bb225 s390/vdso: Rename vdso64 to vdso
+date:   6 weeks ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260106/202601062155.eRlo1Bn8-lkp@intel.com/reproduce)
+:::::: commit date: 6 weeks ago
+config: s390-randconfig-r112-20260106 (https://download.01.org/0day-ci/archive/20260107/202601070505.xQcLr5KV-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260107/202601070505.xQcLr5KV-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601070505.xQcLr5KV-lkp@intel.com/
 
-WARNING:BAD_SIGN_OFF: Co-developed-by: should not be used to attribute nominal patch author 'Daniel Borkmann <daniel@iogearbox.net>'
-#65: 
-Co-developed-by: Daniel Borkmann <daniel@iogearbox.net>
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/sched/rq-offsets.c:5:
+   kernel/sched/sched.h: In function 'mm_cid_get':
+   kernel/sched/sched.h:3743:18: warning: variable 'cpumask' set but not used [-Wunused-but-set-variable]
+     struct cpumask *cpumask;
+                     ^~~~~~~
+>> arch/s390/kernel/vdso/vdso.so.dbg: dynamic relocations are not supported
+   make[3]: *** [arch/s390/kernel/vdso/Makefile:54: arch/s390/kernel/vdso/vdso.so.dbg] Error 1
+   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
+   make[2]: *** [arch/s390/Makefile:154: vdso_prepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+   Selected by [y]:
+   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
 -- 
 0-DAY CI Kernel Test Service
