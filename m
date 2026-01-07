@@ -1,106 +1,142 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B2D32938C
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 Jan 2026 19:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9873451C8
+	for <oe-kbuild@lists.linux.dev>; Wed,  7 Jan 2026 19:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767813965; cv=none; b=NFBLdC6qYaE716hQmfrzAG/w3Bi/daCAV3dFD27PqYOK80qJ3n+wKc8oWUHOJafpl881/QMeud4Yc/dabgt5dm77Nnx8eC0iWEX4Jw145AxMOCqUf8e/aTHbEeppVSLApywA2s5rrDITZjnmphHTVG2ASy4qhllEDU2gB9A721c=
+	t=1767815030; cv=none; b=LFRhzor7iq58yGIDB5aWKiMSk3B1RT3VgLGfEdVwKYDiYYJuDsw6d8GWUlSMXfKOZaLcszEXrY5gvv8AWMosEjBZ1/xlunLbV+1mJWprND/iXFiwEO+LcQw5LTtqM2K8OPwhnsDnad1xVQ3HG3mAMhfrMms0lX0iTWGppOW3264=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767813965; c=relaxed/simple;
-	bh=bzwePzuGkydAtgqL82OSMgytLQq3cNghf8x8gqvOVzo=;
+	s=arc-20240116; t=1767815030; c=relaxed/simple;
+	bh=H4kQ2ImpfCXfEiF09CqkE7nLS72g/BDW/WAuAGSer90=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SGtHtFEsjokZSRaNBKL5YT7CBim2iL6C891M2ySBnHzHwGEVtlK7vtIYSASWZTsLo6wezN19IwAdhplw9aUam6w82dxXKinNpn/UPEf6MU0qw43q2lkmWHb8bS91bjbq2i+XuH7JVvsGz0BKQBfxHwx86xC8HZ0UItO1RJloQd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SeNTrtFC; arc=none smtp.client-ip=209.85.221.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=jsLxswti4jQDVUx0CZkevqkGTcN1xCxERBmP3R6+/nEEZXb+7tppwAgQfe7Eb8Gub6cnb5yLMUn4WxVoSU+7hLnKJmzKQWkSS42SA2zvb51sxZGeOoIquBdwO+1RjTjumKpGysJXOPiECEm8YLFTt0BZcef7FYMaWA60ojcIlro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AuSpyynV; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SeNTrtFC"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43260a5a096so1659880f8f.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 07 Jan 2026 11:26:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AuSpyynV"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47d59da3d81so5820285e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 07 Jan 2026 11:43:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767813960; x=1768418760; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9etsUorNiOZ8l/OXX3tw4FbgqU4S6IaRaXYJxAwLmm4=;
-        b=SeNTrtFCt/BlqswuEkOMhj5TyTdsebYCHaKTNp/xS3b+dSSiNzU9W5K3s9qiT7jBU4
-         Bf2QjX/XNgnqariuhiGuK90fTVz/ROf8rRSO8p+xhC7wrkXKY3tzjqPhAlT/yI+UedkX
-         zs2IzF5Di8UDUNcnICgNw8B1lcT7TajoP0+4XLOO3MtfLZcU+H5eD6pO1/eOSrvCjiHH
-         ++e64kRdzLrsBXSmJ0IMKCiuT2WAo/xEz8pWUxy3JDSnr+7XS+yFlkazyOYvXcFAUhmJ
-         y8KKq71XJbHZyJPwfAWogs9SUUWbX6VyqMy09oh8VaOnnjKAm1j63THF34xy7ek1m56R
-         ODTA==
+        d=linaro.org; s=google; t=1767815022; x=1768419822; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hfhdkkmV7GAX86e2yZLGIC3icQWfc8GaVLQ0woZU3MY=;
+        b=AuSpyynV917fOH5olGwPnzTgTU/ouV9DRH2Xww4qFq1t+zjBLICT/iFiE+6TqsosKj
+         EesVARtZZhA70vAJDn1TBHN8k940pEz8g6JWcMQdiRIxO3uMzL4gwPKdR1Lglb3rZUVU
+         1v8krirrnsRSNsMRZbzTlw3w9sUbf+N2zaT6QZ4MPaK1WV6ZFj5iu2CmLgp7o03fkrmq
+         eE752j22rrDMW7vwAeNp/ZkaN89pqO5fF8d2KfV8mwfGy5vKadTdzte2mfwBaqxqWHlY
+         7c9FDuk6Zaa6BTa1TrX4VzbyCOh1Z8ugxq0RTDH5VjEMmtMRK0vpMwToW3safQvEP8Mj
+         nn2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767813960; x=1768418760;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9etsUorNiOZ8l/OXX3tw4FbgqU4S6IaRaXYJxAwLmm4=;
-        b=btMaFxd75It3Z4LUrCBgYwohwcnRDry/VWIfCBQXvPu5bVs4d61Fqg0zXoyhyVBse4
-         7rkvGi+CRAa11ZN4ija6B/lF44cAE2/LkgKsEtrkybLmHpqhmgrx/ybvgn46kn0qp+RE
-         MY1w9C+lTTlsoi8qbG0VIqL6agnuhr8CX0Gsgn4aoIB4wVRZ9VX3gjstQbNz3fjVj7gJ
-         woFoZ5RoORz0EAwdPVOVnW7EaU8sUGEokV8iGvRMm87PH9LdiFhunbrfZI68faESwyHA
-         E4IBEXeWHhPxfdDkX1jVzGYRqOFBAXLtWPpdeMMplMzrOVS/5ZIb+WbMnLId6XGZBT91
-         OZ2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVOd3rjbLJz2E/nW6Kr9x+aNughXTPFylZIQSpK28AWDTKi0VMrYyDyaQoiAuY/j0rGZMQQCkI2XkE=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyH21M/j4eg3XphsP29vG9ZzcdW8/Jsy1oStYWcS50Zv6ngnCH7
-	Wu+5hU/zGv9kUhshYYKNQFQsUx9hWoI6zXBC/KmBcLdoRladaS3lzJPwD6Stv4khfc8=
-X-Gm-Gg: AY/fxX6R+FE3P/8NDdtknHkfOIVW6zItW5V+cDKaxuTClkzgGATPdgMBoTqj+xZMtlH
-	HLE7DqyWAXuW5M+5nfonpOm/AwIPpbyw/ArQUQ7LeDZs+tc1ivrjLNTwBbb1Kk962lRphOi57xp
-	G+Ks+2vwjaatZtEz6OhPTw3RWeRwzHAEpZd+Y/eDvtv8F9IyRXbsUiW7gk8iQpDK1vHYgQL04V9
-	ajn2KXFFN+LAH5RS6Z45qT5B4C/Zo/8dAVYNajkeqeKMZJx1H5fUqKZtx/2t7Wvz+9sNXosEsqz
-	1IKjN6Il4Qfl/d31W+mx1i+bzMHG+Cw3Mbz8DLaH/iThuSj2BHPYxjAiyqujE1C93yE5n/1YnhN
-	uVvU9Qu4QsAhcYclhOyVRhjWvm/QHI5RcofXyPXVdlNrBCjo/P49Fx8VbZFuUHQgAA17xOyQ+XQ
-	aP4X6NzOT27JJtTHPb
-X-Google-Smtp-Source: AGHT+IFXTNEyUjdBD0MDU5MIQJ3Epy5W6zBCk9xEmL0+6Qn+D2NlAB3rLyv39j4W+wGpGQZAEarjpQ==
-X-Received: by 2002:a05:6000:2886:b0:42f:b581:c69a with SMTP id ffacd0b85a97d-432c378a894mr5264865f8f.5.1767813960134;
-        Wed, 07 Jan 2026 11:26:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767815022; x=1768419822;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hfhdkkmV7GAX86e2yZLGIC3icQWfc8GaVLQ0woZU3MY=;
+        b=MJaz6hOHc2L+B2t0fn8hQGcI88E7eEV8j1mepcThbwSs0+IMqR5SzK5KvVatUyPbOl
+         6AKZyvIWdSVYkc/yC8Xf2EfFmw1GHfoL2VcH2pYv+aBNdqwkHHFDGFU7wBRQ8e+/tdk+
+         41gBT9HM+FY0QR0Lgzr9HqFLDKfyBpJbyNVmLukvQIfNYKQyeWssbRg159a0lSdV/1My
+         6iy2n78R4nto61HZz4bmAfb6JOgkCV7IyVAhSeyit6/7eGj6yIvX2jWL8ecbuSMPfYXc
+         oojxrWQOrCQxwyOHfYVyJf7aM9/RgJDiuSfpE980SOq2hqkih9lfneQdKrBnvlG7NU+X
+         BeTQ==
+X-Gm-Message-State: AOJu0Yw7XHdfr+B+XLtcPrXvoVGsrzqDJb/ZPDp4KaxULNnLgDLuKOLS
+	39ndpBZHZhlQRvJQVTAx5czTqXKlrwVva3l+tjUHn5vh/LnGaMGGNYYmncnRZT5Ua2g=
+X-Gm-Gg: AY/fxX4VMP5UlQQ68VPYhBgrElm4Q6ka4llgqMftJIlt67WH3PdhjsxmKOyB+i6Bke5
+	G7TjSNnkLvHr0O9NTtmtOtd10ZqdThXeDhxieBqDo14y6wCXbeZcxTrTIPlbCNedSHtaKjNVhQW
+	W7YSWLRvGDfvSd4rm4B8zegGNio2Tx5SujreqxA64a7m8Eo1BZuEk+Yd1ej2mMwITQRUvFRcFYq
+	549ugbUKDcYXuoljp7rOlveP4Bljzsis79TKSWP3UcrUdqrlNRpE5LHLlJEznuUONNcsPudPjjE
+	VTYNtM2wtWBbbPF4szhIWRI4WFdfKas3yxWmqNnn8m2m34hJpdgPx+vhZU5AHjzchRBrwkbWd2I
+	jgPfjg6A/TYtTmmd56T+rZsvX3Sn2arx1SHnn6u6h4KAqO+js7txZqY8YfqpsCyCXmA3al1dw3y
+	O7DxFaPk5k+Gztx0DU
+X-Google-Smtp-Source: AGHT+IF+nx5zCtfYVsKIp8PB8gUjhPK5j02V7HcCtFysVmUTplF5yysifhIl1OB40IVLi4DTO94Aqw==
+X-Received: by 2002:a05:600c:1f8f:b0:47d:6c36:a125 with SMTP id 5b1f17b1804b1-47d8487f5cfmr44268665e9.17.1767815022126;
+        Wed, 07 Jan 2026 11:43:42 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5edd51sm11970261f8f.29.2026.01.07.11.25.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d865f84besm22141875e9.1.2026.01.07.11.43.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 11:25:59 -0800 (PST)
-Date: Wed, 7 Jan 2026 22:25:56 +0300
+        Wed, 07 Jan 2026 11:43:41 -0800 (PST)
+Date: Wed, 7 Jan 2026 22:43:38 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kairui Song <ryncsn@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: mm/vmscan.c:784 __remove_mapping() error: uninitialized symbol
- 'ci'.
-Message-ID: <aV6zRKzGocxwhyce@stanley.mountain>
-References: <202601010353.E7g5cCo8-lkp@intel.com>
- <aV6UzKs_f_q0IPH7@KASONG-MC4>
+To: Benoit Masson <yahoo@perenite.com>
+Cc: oe-kbuild@lists.linux.dev, jdelvare@suse.com,
+	Guenter Roeck <linux@roeck-us.net>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: it87: describe per-chip temperature resources
+Message-ID: <aV63aitdddpwja7g@stanley.mountain>
+References: <20251226203021.27244-1-yahoo@perenite.com>
+ <202512300415.VRCQoZYs-lkp@intel.com>
+ <CAGHj7OJ=XoSSksz5DbpnP-eB3dQor0zqoXezbYRocFrqj+RTuQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aV6UzKs_f_q0IPH7@KASONG-MC4>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGHj7OJ=XoSSksz5DbpnP-eB3dQor0zqoXezbYRocFrqj+RTuQ@mail.gmail.com>
 
-On Thu, Jan 08, 2026 at 01:17:15AM +0800, Kairui Song wrote:
-> > be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  779) 	if (folio_test_swapcache(folio)) {
-> > 3d2c9087688777 David Hildenbrand       2023-08-21  780  		swp_entry_t swap = folio->swap;
-> > ac35a490237446 Yu Zhao                 2022-09-18  781  
-> > aae466b0052e18 Joonsoo Kim             2020-08-11  782  		if (reclaimed && !mapping_exiting(mapping))
-> > 8927f6473e56e3 Matthew Wilcox (Oracle  2021-12-23  783) 			shadow = workingset_eviction(folio, target_memcg);
-> > 8578e0c00dcf0c Kairui Song             2025-09-17 @784  		__swap_cache_del_folio(ci, folio, swap, shadow);
+On Wed, Jan 07, 2026 at 08:18:53PM +0100, Benoit Masson wrote:
+> On Mon, Jan 5, 2026 at 11:10 AM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> >
+> > Hi benoit.masson,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/benoit-masson/hwmon-it87-describe-per-chip-temperature-resources/20251227-043108
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+> > patch link:    https://lore.kernel.org/r/20251226203021.27244-1-yahoo%40perenite.com
+> > patch subject: [PATCH] hwmon: it87: describe per-chip temperature resources
+> > config: x86_64-randconfig-161-20251229 (https://download.01.org/0day-ci/archive/20251230/202512300415.VRCQoZYs-lkp@intel.com/config)
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202512300415.VRCQoZYs-lkp@intel.com/
+> >
+> > smatch warnings:
+> > drivers/hwmon/it87.c:1694 show_pwm_temp_map() warn: variable dereferenced before IS_ERR check 'data' (see line 1691)
+> >
+> > vim +/data +1694 drivers/hwmon/it87.c
+> >
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1685  static ssize_t show_pwm_temp_map(struct device *dev,
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1686                                   struct device_attribute *attr, char *buf)
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1687  {
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1688          struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1689          struct it87_data *data = it87_update_device(dev);
+> > c962024e306ed5 Guenter Roeck  2015-04-04  1690          int nr = sensor_attr->index;
+> > 542f1e57c17849 benoit.masson  2025-12-26 @1691          u8 num_map = data->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
+> >                                                                      ^^^^^^^^^^^^^^^^^^
+> > Unchecked dereference
+> >
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1692          int map;
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1693
+> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16 @1694          if (IS_ERR(data))
+> >                                                                    ^^^^
+> > Checked too late.
+> >
+> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16  1695                  return PTR_ERR(data);
+> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16  1696
+> > 0624d861983c2c Guenter Roeck  2015-04-06  1697          map = data->pwm_temp_map[nr];
+> >
 > 
-> Seems a false positive to me, folio_test_swapcache is true here, and the folio is locked, so it must be true above too where ci is set.
+> Hi Dan,
 > 
-> I'll check if some cleanup can be done, maybe silent the bot.
+> Indeed I’d move the num_map assignment below the IS_ERR(data)
 > 
+> Is proposing a new patch V2 below the right appraoch ?
 
-You're reading email with lei.  The way these emails normally work
-is that I read through it and only forward the useful emails.  In
-this case, I saw it was a false positive.
-
-Unfortunately, we're in a pause while Linaro raises funds to continue
-this project so we might start sending unfiltered emails for a bit...
-There are a number of other Smatch related things that I normally do
-when we can raise funds again.
-
-https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/
+This doesn't seem to have hit linux-next yet, so sending a v2 sounds
+good.
 
 regards,
 dan carpenter
