@@ -1,115 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D035F8C5
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 Jan 2026 16:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3CC1D9346
+	for <oe-kbuild@lists.linux.dev>; Wed,  7 Jan 2026 17:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767804919; cv=none; b=E6+H3fnRbdw6kNFyAk/zgFSJZ+r8Kq5iyZoPpnq27fqojT1Z3QVAXlDKmw7mjqV7JjLq45E+GLYoTRSbM6tpShpH6fsG6jUvbm8SropvHFTOUqEpS2YrFVFqKqCinLeBBlujdDuFEMKv3YxWsMz6T8tHH/WYINmDCo3CInOMRh4=
+	t=1767806137; cv=none; b=oHn7ByvAdzYWiURmLX15DFE8bO1oA4KuGl0huJX+9+jUVOfe9zvABQ6jmA6OTNAG9OnSF8DbaYpOxmfWyQsqI10iG+Bse44DRI1vMZRUnehHIZhR7doxHDIIHYKWB0foRGDeLfWKdyKO4dBw5NHKDT55cNyyYlVhRtiHnSW7YWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767804919; c=relaxed/simple;
-	bh=0Ygkw9bO0CbDbT9ItXnIzNt7h4YIZ9zx0Z02JBo56HU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=X20BFU2TIaFHONEqiDEwDYBnIUsY9c6z6ViId3RXyaGfSxHDulIZJu+zT4eMRh49QPc6bA10yA+7jNOKeETUlLHvWkkP6Y1C/7RxwuOy7zn+353DMsmAnNhj8ndthX3g0jrp803Anb0maBOk/VocbcpwoKEGoP+8/AAUGeI1agA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CGXpoKIo; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767806137; c=relaxed/simple;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DeKNmS+Ab+8Nt4bS5/wMmKxI8rQo8ariYK4BSrFfmIOLB7L4HpXYLn6uwvQAhJfr5tcpVZbP4EDTlBtp+j2pDDm2NiBzqespe8mtXOkqQjflODwbPuHrlA82p93deqVJQSgaKIuzRSksKQrk1SaSSG3eI9fwGZpyYp+sIRHV9X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y3FAd6Jq; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CGXpoKIo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767804910; x=1799340910;
-  h=date:from:to:cc:subject:message-id;
-  bh=0Ygkw9bO0CbDbT9ItXnIzNt7h4YIZ9zx0Z02JBo56HU=;
-  b=CGXpoKIoZafp/62PVSr19V6Y47/UyJo8V+f1fItYUMsALMx+I7XWtVJ5
-   gyoP0hV6XTS5IxVCKLo3REwO/oRe0kxkm2N/2cVuJIVWIhJEgeMXJCnd1
-   mI4aXO6RP0TM1c3LOPaNJndCKxB9ecNCWJWvGzlQV4hPWv6KM0bC7AOuZ
-   OS7SOKiYZMm4iT6xEwc0Ko692nGLSY6AqDBBEtmeXJ9Jdh5ZTO9Mj9IHp
-   daf/J3XLltaNtEoc63uERIxd4BEkwSavYc++UiX4lzW5DaYDL5+Gs9Ivt
-   bvW+sNLQFV8WvA+K1rsbOou280lKUF1QuQvluKtVfi3DFe4kejjsrIP46
-   Q==;
-X-CSE-ConnectionGUID: W+j8bVvkT3CIjEZtRScSaw==
-X-CSE-MsgGUID: IlqptXb7SaWaAUbxNJ7Xcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="86767383"
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="86767383"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 08:55:03 -0800
-X-CSE-ConnectionGUID: VaIx3S5YSGiCFMspsMlUuA==
-X-CSE-MsgGUID: 7RtuXKnkRimNPFRN07UIOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="240454261"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Jan 2026 08:55:02 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vdWoF-0000000040n-34cA;
-	Wed, 07 Jan 2026 16:54:59 +0000
-Date: Thu, 08 Jan 2026 00:54:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tip:locking/core 20/40] include/linux/rwsem.h:262
- class_rwsem_read_try_constructor() warn: passing zero to 'ERR_PTR'
-Message-ID: <202601080002.GfL3Vts3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y3FAd6Jq"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-88a2f2e5445so26261936d6.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 07 Jan 2026 09:15:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767806135; x=1768410935; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=Y3FAd6JqrM7CxwfL2+Q13DUXvrlGKpb3R56Gzu4FlFpc5R4zU2HxEYoFCYV4F2P50+
+         Cvav0kK5/EYRC5LpFJM5BWlfuJoTNh/YFNxfqiGBj1IK4cWX0o2yi1bvmiCQ7yBck3WF
+         vtR1t8WMvDfEpWcp7tNFtYKbwOTsL0mxAVcPwtViWdQVlN743BS2FyfdqRVN0PNNpTmG
+         fXG11us30VCdw5sCFT9/dd5BXRXhoi4K0LdTYSvQxq3lM8a11n0XDPQHJvOlcth6QqPc
+         YfqaLNFnvXSQ4A/d8M3EYObs0WDVAfV+x1RJVWFWvgnBoL6mjrHDNBfxt0+JClJttjpG
+         ewGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767806135; x=1768410935;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=t1MUXf0zCc6wNgejyJSxgdAS26egiJ8aKgNTkGSTQYxupAwEkC16hFhfxcroOQ3tNh
+         NQ+RfJUo7uooTcmLFlAWcXOjNO9knVA6QSFbxppN2f/zUcOi81qzq8ihDv13jP+aXE14
+         vlL0TSF6GapQBhZZeMUH3ujUw1CjtHF7hDuFiiUdk3eoWC5FJ45DH4KZXXFZ/eNdqSL2
+         9kvyI/HG/Ap5HblZ/tKy/ie4IeHHHd9FfduMqrybk7nYUn/15Q0coiRP2teUk0IoTuLJ
+         KMQxBM/fUyvNBq8pPe5IlSMwYfCeZJtxw+cfXqPeZUy0ShfJQEeVFps9UT/MzjmBqdzQ
+         YBwQ==
+X-Gm-Message-State: AOJu0YzWW8v0lrUOXxsQqbr1hDdWVGOoPnLYY6htjBzT+mZYRPrc3Iiy
+	jjyk+gy48S+EFfIVWCbXn92FOh8oQH0rQ2KKQ7kYuFqwCw3g2ALKXGv3
+X-Gm-Gg: AY/fxX5vHQdLKnmwEExERRRWoOmv2vpxxj26sDVpf4VdB8p8IoleP70cYQf0Rp3wAQ2
+	TMZzAgksydW3v+BdDPp7aH2bDXjdS40rLyeLYSLlATUTVgrSB8LjeJ8Z/rSlyQrPQwn78fcbNlP
+	uKiw3XIilmO2Di5c/dAHAopETzpyCDmEiUvbUUY/D7BBcRFQJ5R1sSnPPXRG7J5ZvhP8Xsh5LCJ
+	uND2x2bvoEvsgSavZPYjrIopxcrkZuUK6sQb2clUUt21EjHd0ljqOTSwNBkqLe9kHUsiYmbUkc0
+	DWEXCnCpMwKnLea/WClHLvHGZetQogpN6S5eVkDKZwyKZ3GCVMF0C/YpXiBRgCGyl+eobzj8n1a
+	dGO/ukD0C2ua66JrHJiKWAo0er6UXvm1JCVIAzl3FDfkZ03LeOG2wAeQgA3PURCrvCEDcmdZSGu
+	i0eZmmaQq2a0YIiJZlck+iRJARNc4GSOjjM4X2lbXblmSRxaw=
+X-Google-Smtp-Source: AGHT+IGBcD/eFtEImj7e5KYE8GOV6+e1HKiyKKDtFqn1cFCTIVq/A/5Pxj6UDNDHAc/7Yp4J5A1Nrw==
+X-Received: by 2002:a05:6214:20c4:b0:87c:152c:7b25 with SMTP id 6a1803df08f44-8908417a83emr46946426d6.13.1767806135006;
+        Wed, 07 Jan 2026 09:15:35 -0800 (PST)
+Received: from KASONG-MC4 ([101.32.222.185])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8907726f1f1sm36313046d6.52.2026.01.07.09.15.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 09:15:33 -0800 (PST)
+Date: Thu, 8 Jan 2026 01:15:29 +0800
+From: Kairui Song <ryncsn@gmail.com>
+To: Linux Memory Management List <linux-mm@kvack.org>, 
+	kernel test robot <lkp@intel.com>
+Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>
+Subject: Re: mm/vmscan.c:784 __remove_mapping() error: uninitialized symbol
+ 'ci'.
+Message-ID: <aV6TfFOYng8mYzK6@KASONG-MC4>
+References: <202601010353.E7g5cCo8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="__Tagbar__.1"
+In-Reply-To: <202601010353.E7g5cCo8-lkp@intel.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Marco Elver <elver@google.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
-head:   c10d860e0baae0853773dc90a94b26adc5687380
-commit: e4fd3be884cf33a42c5bcde087b0722a5b8f25ca [20/40] locking/rwsem: Support Clang's context analysis
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: openrisc-randconfig-r073-20260107 (https://download.01.org/0day-ci/archive/20260108/202601080002.GfL3Vts3-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601080002.GfL3Vts3-lkp@intel.com/
-
-New smatch warnings:
-include/linux/rwsem.h:262 class_rwsem_read_try_constructor() warn: passing zero to 'ERR_PTR'
-include/linux/rwsem.h:273 class_rwsem_write_try_constructor() warn: passing zero to 'ERR_PTR'
-
-Old smatch warnings:
-lib/test_context-analysis.c:96 test_raw_spinlock_trylock_extra() warn: mixing irq and irqsave
-include/linux/spinlock.h:556 class_raw_spinlock_try_constructor() warn: passing zero to 'ERR_PTR'
-lib/test_context-analysis.c:120 test_spinlock_trylock_extra() warn: mixing irq and irqsave
-include/linux/spinlock.h:604 class_spinlock_try_constructor() warn: passing zero to 'ERR_PTR'
-include/linux/mutex.h:255 class_mutex_try_constructor() warn: passing zero to 'ERR_PTR'
-
-vim +/ERR_PTR +262 include/linux/rwsem.h
-
-e4fd3be884cf33 Marco Elver 2025-12-19  260  
-e4fd3be884cf33 Marco Elver 2025-12-19  261  DEFINE_LOCK_GUARD_1(rwsem_read, struct rw_semaphore, down_read(_T->lock), up_read(_T->lock))
-e4fd3be884cf33 Marco Elver 2025-12-19 @262  DEFINE_LOCK_GUARD_1_COND(rwsem_read, _try, down_read_trylock(_T->lock))
-e4fd3be884cf33 Marco Elver 2025-12-19  263  DEFINE_LOCK_GUARD_1_COND(rwsem_read, _intr, down_read_interruptible(_T->lock), _RET == 0)
-e4fd3be884cf33 Marco Elver 2025-12-19  264  
-e4fd3be884cf33 Marco Elver 2025-12-19  265  DECLARE_LOCK_GUARD_1_ATTRS(rwsem_read, __acquires_shared(_T), __releases_shared(*(struct rw_semaphore **)_T))
-e4fd3be884cf33 Marco Elver 2025-12-19  266  #define class_rwsem_read_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(rwsem_read, _T)
-e4fd3be884cf33 Marco Elver 2025-12-19  267  DECLARE_LOCK_GUARD_1_ATTRS(rwsem_read_try, __acquires_shared(_T), __releases_shared(*(struct rw_semaphore **)_T))
-e4fd3be884cf33 Marco Elver 2025-12-19  268  #define class_rwsem_read_try_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(rwsem_read_try, _T)
-e4fd3be884cf33 Marco Elver 2025-12-19  269  DECLARE_LOCK_GUARD_1_ATTRS(rwsem_read_intr, __acquires_shared(_T), __releases_shared(*(struct rw_semaphore **)_T))
-e4fd3be884cf33 Marco Elver 2025-12-19  270  #define class_rwsem_read_intr_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(rwsem_read_intr, _T)
-e4fd3be884cf33 Marco Elver 2025-12-19  271  
-e4fd3be884cf33 Marco Elver 2025-12-19  272  DEFINE_LOCK_GUARD_1(rwsem_write, struct rw_semaphore, down_write(_T->lock), up_write(_T->lock))
-e4fd3be884cf33 Marco Elver 2025-12-19 @273  DEFINE_LOCK_GUARD_1_COND(rwsem_write, _try, down_write_trylock(_T->lock))
-e4fd3be884cf33 Marco Elver 2025-12-19  274  DEFINE_LOCK_GUARD_1_COND(rwsem_write, _kill, down_write_killable(_T->lock), _RET == 0)
-e4fd3be884cf33 Marco Elver 2025-12-19  275  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
