@@ -1,67 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D7631ED69
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 Jan 2026 13:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A65432A3C3
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 Jan 2026 14:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767964866; cv=none; b=Eh0Nr/L2YOVoHisEDohFlxujWZu4avNMewggraXjnqz7YcWREM4boGB14wbS4ZsP54b02HfMSn/d46GjxPG0oK6/m6RfWnoKZlPb+hKMZaM/R2Ym47OIRh5NyHUmJo/nwJFD18FxdNIK5yGab6dEpiJRr0tqm06pRC2K1phfEWM=
+	t=1767967586; cv=none; b=KuoBOQGNr3UJlBEEHadT33Si1Z/1mZIlHWP1eXBpt13i9IpAs/rzZUGv1FE3+upnbZbf8krPRBOmeo4G7OCnGfxSm0C+DWpLFWvIXUSjgro1DG588mUPAqg3HcGK1a4xgtIURExdoD1jlcTh4Kzcjkb8OtaFq9Ok2taTcevRAk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767964866; c=relaxed/simple;
-	bh=ej8YrehoAfBM+H9YQbDqDzhRtbIZBHOoymv0C+5jYPo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=F7X4onqr4YFwy67IoMyhh90T4AFdlRgeqQOTb+KwtMEFLH2Jx3cdKlf7W/Feg9uPY9pUerij+o0+sKMK/O0w/WYhm238CCD4Xd2F8t39rswfwCtqX4mTpWKA75cymd/wWayKydw+YC+YTmBgek2TAJTfeo4X2InlTjw35tHLEQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XazBt62d; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767967586; c=relaxed/simple;
+	bh=C0JHhZtir2PI6W2kNkoOdW8EdPSElSpl12pAQxKLAPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UCQSNve8e9xxqx7O+TjuzvGzLyfp7suHbPO0UKrRIwUcbBkCWL89TQALKAr/wR7T5xBM5jjbZWlSIFV4Cqtcf2b4KCaFDQ9PnnvB65u8uDtmU+T0MfVw4hgxQZ2CJkA2u9Ibbck4pUvx7+Vo8ZlMEaVJW38Qbx/3cphJib68x+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ntfK351T; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XazBt62d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767964863; x=1799500863;
-  h=date:from:to:cc:subject:message-id;
-  bh=ej8YrehoAfBM+H9YQbDqDzhRtbIZBHOoymv0C+5jYPo=;
-  b=XazBt62dDfWINalzYWmE+OpzEeNDJ9Qimo30FbM9htmp82dQoaVniom/
-   cwLxyUu7PdLDdlf4oOpJBcCMu/9ZvUr+ECf1VTEH04+Xh2SyJ+g5idfc2
-   H3R4Ke3MMhoNlx4Ak6dyVHCfN/DnJlv71DNo+vF1Kcaf7oLjR4lUwqOR/
-   wU432f9EiTc85QwXdxnhRdh+lIlgz2dC9kRIWCAV/BbE9gnHl5XAtQg7X
-   RTW3WFiiPg25Hm+/rq6H+PKXThER115clqmh5HfNv1BcSBmQCMHz16V9u
-   5mFED6uXRZiXN1ElSEmi7/uWauQlW+B321xOCGLPr9HXPzTyHPJabGp45
-   A==;
-X-CSE-ConnectionGUID: nfrmquihRsqbPOifguPQYg==
-X-CSE-MsgGUID: x/FRaR1/QXmYHySlkxheqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="56900047"
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="56900047"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 05:21:02 -0800
-X-CSE-ConnectionGUID: YHCiF5MTQf+oVo/NMuvjgg==
-X-CSE-MsgGUID: ghXHjoN2S8KTNv9g7ByEwQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="208003290"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Jan 2026 05:21:01 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1veCQE-000000007KW-0RWX;
-	Fri, 09 Jan 2026 13:20:58 +0000
-Date: Fri, 09 Jan 2026 21:20:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ntfK351T"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4779a4fc95aso16083265e9.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 09 Jan 2026 06:06:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767967582; x=1768572382; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6OKyA0ZR2N7en23r5b2FbR0G2ZCzO8Av7tjj3vAPXP8=;
+        b=ntfK351TIOyNuHhIUvppwypCRZvgjeyTZ4G0XHw13u2yLcEZ5SZDGBcsfWFBhooxeY
+         aTR3WDzVFSswmbv+KbPpHQKNHM7nKRuY044rY2JEA2NZu1wzsuYHIeWps85sEzDcZWqt
+         opmGW6Yg9H0yyVavs7PfuPYwtMhLIK/Moc3gO4z4U7AthjLEh3wuSXZF/BE06Mlp9NRu
+         EcWzGI1UyOgeMwICrxetkW/MPn+/qnXKf2VT+M0pFqZGbRQA7s6PpN1Edoa3l1OJNNhW
+         AD/hl6AEAr6nWXTM5Kkpr6N2+l7jZ7ug3XmfZSKeaIldvtZ5yStk3eefaOseUz3j2Hnr
+         b/dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767967582; x=1768572382;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6OKyA0ZR2N7en23r5b2FbR0G2ZCzO8Av7tjj3vAPXP8=;
+        b=Nq2bfIEk+vh9bxbBX58fFTp48NwbIg5wGmHexkWZrreo1mKVHQmVc+19lk8HqKln4h
+         DiC3t0Af5UdUKYgfLrqiRnLU41dTKwtGkNiHu2BRGVCKfv6phcOcnDXXktm20TOep5kN
+         sjtsiXLTGnN2pZcUHMRNFuCUD9admPnUxYRR7lKfJtQYaPEUWGzw9ZZ4EnIneqJLWpo9
+         d07M8QeWDoiu0AJ9fpJb9OnEtlYDbXCsJhjhgjGLwQfxDNQINyuVRdWIOoOnk/ZD5toa
+         EaUP8UEK48rEnCRlKfV9LwLkHA8euLZpQkv+Ee414rE10SPGrgvverGc14cVDNOkKhoN
+         cK+w==
+X-Gm-Message-State: AOJu0Yy44Z6hmLARFg/ilvb090H+kEcclEgLWud0/0N5Bm+LL/RA97TG
+	SDyR2Gk3yoJAU4nVUFU5YQUGRuScqa9xX+72QnLHiVxVQoILkuVaHsq+PahE5H4AmLj4yFh7Qgz
+	0KnHQ
+X-Gm-Gg: AY/fxX5U1Dh0z6CPflL9Loa+J/f/Pb42AXaYzDPR0HJXmvIDxT7wp231+AslVu4HqKz
+	Y0hki4N86MQz8EjFadolnPJqXDaQVAMOFVIleK7ZePInPdwMb3d01YLWdW7KY9+CIqeBEEgcl8O
+	1CsSqLzFmExSMJPVxcvINcmm0J504AsWmDND3dRl110e07sMHz+DsNq7gNvd5TH+xdlCPdrzpvs
+	mZ0U7Tg0SRmulNJkbLliMmgaIT/dN9Gj3YCPHELgP1Y1nzZtrgi+WiIytRCXYgTLTQCvL7CSoKm
+	9mlawvutUokwDVhEzf9jfHlQLbyOxIgvqyIxc3Q2TBWdE6T3TZT59Thk9mZF9zfaKcfeOSQf0ks
+	qUS2wAWQycveRVwIgOTphD0M8jpw+j4is/VIq5eBvPSl+LG5fKkiruBFAu9N1dvLluUR/io9FUF
+	gE5an4oHFUYP4gfvMnsZl4gsNMR5Y=
+X-Google-Smtp-Source: AGHT+IFfl+NlbKWtbv3nKkKOq0DUxcPyjmv7wssbVXHck0dWLSgRW5Q44/0Y19i1USF7o78B0LApZg==
+X-Received: by 2002:a05:600d:41c9:b0:45d:5c71:769d with SMTP id 5b1f17b1804b1-47d8484a4e7mr104466935e9.8.1767967581289;
+        Fri, 09 Jan 2026 06:06:21 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d8718b1a6sm62542445e9.13.2026.01.09.06.06.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jan 2026 06:06:20 -0800 (PST)
+Date: Fri, 9 Jan 2026 17:06:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [linkinjeon-ntfs:ntfs-next 13/14] fs/ntfs/mft.c:2588
  ntfs_mft_record_alloc() warn: inconsistent returns '&mft_ni->mrec_lock'.
 Message-ID: <202601092100.xwQaZK8C-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Namjae Jeon <linkinjeon@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260109140617.QCjZZDsbWEVfGsRbINaIV5kdP_2g7j6HQ6-eEJ8Cc-E@z>
 
 Hi Namjae,
 
@@ -70,8 +82,6 @@ First bad commit (maybe != root cause):
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git ntfs-next
 head:   c9fb91b2b8b4c46188b1a280187d41e9ebb93cb2
 commit: 4816227dce428c85178afc885b301780d1da7bda [13/14] ntfs: add Kconfig and Makefile
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
 config: i386-randconfig-141-20260109 (https://download.01.org/0day-ci/archive/20260109/202601092100.xwQaZK8C-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch version: v0.5.0-8985-g2614ff1a
@@ -79,7 +89,7 @@ smatch version: v0.5.0-8985-g2614ff1a
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202601092100.xwQaZK8C-lkp@intel.com/
 
 New smatch warnings:
@@ -94,97 +104,6 @@ fs/ntfs/attrib.c:4909 ntfs_attr_remove() warn: variable dereferenced before chec
 
 vim +2588 fs/ntfs/mft.c
 
-7bfba19057c055 Namjae Jeon 2025-12-30  2023  
-7bfba19057c055 Namjae Jeon 2025-12-30  2024  /**
-7bfba19057c055 Namjae Jeon 2025-12-30  2025   * ntfs_mft_record_alloc - allocate an mft record on an ntfs volume
-7bfba19057c055 Namjae Jeon 2025-12-30  2026   * @vol:	[IN]  volume on which to allocate the mft record
-7bfba19057c055 Namjae Jeon 2025-12-30  2027   * @mode:	[IN]  mode if want a file or directory, i.e. base inode or 0
-7bfba19057c055 Namjae Jeon 2025-12-30  2028   * @base_ni:	[IN]  open base inode if allocating an extent mft record or NULL
-63adbe420afd6b Namjae Jeon 2026-01-06  2029   * @ni_mrec:	[OUT] on successful return this is the mapped mft record
-7bfba19057c055 Namjae Jeon 2025-12-30  2030   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2031   * Allocate an mft record in $MFT/$DATA of an open ntfs volume @vol.
-7bfba19057c055 Namjae Jeon 2025-12-30  2032   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2033   * If @base_ni is NULL make the mft record a base mft record, i.e. a file or
-7bfba19057c055 Namjae Jeon 2025-12-30  2034   * direvctory inode, and allocate it at the default allocator position.  In
-7bfba19057c055 Namjae Jeon 2025-12-30  2035   * this case @mode is the file mode as given to us by the caller.  We in
-7bfba19057c055 Namjae Jeon 2025-12-30  2036   * particular use @mode to distinguish whether a file or a directory is being
-7bfba19057c055 Namjae Jeon 2025-12-30  2037   * created (S_IFDIR(mode) and S_IFREG(mode), respectively).
-7bfba19057c055 Namjae Jeon 2025-12-30  2038   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2039   * If @base_ni is not NULL make the allocated mft record an extent record,
-7bfba19057c055 Namjae Jeon 2025-12-30  2040   * allocate it starting at the mft record after the base mft record and attach
-7bfba19057c055 Namjae Jeon 2025-12-30  2041   * the allocated and opened ntfs inode to the base inode @base_ni.  In this
-7bfba19057c055 Namjae Jeon 2025-12-30  2042   * case @mode must be 0 as it is meaningless for extent inodes.
-7bfba19057c055 Namjae Jeon 2025-12-30  2043   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2044   * You need to check the return value with IS_ERR().  If false, the function
-7bfba19057c055 Namjae Jeon 2025-12-30  2045   * was successful and the return value is the now opened ntfs inode of the
-7bfba19057c055 Namjae Jeon 2025-12-30  2046   * allocated mft record.  *@mrec is then set to the allocated, mapped, pinned,
-7bfba19057c055 Namjae Jeon 2025-12-30  2047   * and locked mft record.  If IS_ERR() is true, the function failed and the
-7bfba19057c055 Namjae Jeon 2025-12-30  2048   * error code is obtained from PTR_ERR(return value).  *@mrec is undefined in
-7bfba19057c055 Namjae Jeon 2025-12-30  2049   * this case.
-7bfba19057c055 Namjae Jeon 2025-12-30  2050   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2051   * Allocation strategy:
-7bfba19057c055 Namjae Jeon 2025-12-30  2052   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2053   * To find a free mft record, we scan the mft bitmap for a zero bit.  To
-7bfba19057c055 Namjae Jeon 2025-12-30  2054   * optimize this we start scanning at the place specified by @base_ni or if
-7bfba19057c055 Namjae Jeon 2025-12-30  2055   * @base_ni is NULL we start where we last stopped and we perform wrap around
-7bfba19057c055 Namjae Jeon 2025-12-30  2056   * when we reach the end.  Note, we do not try to allocate mft records below
-63adbe420afd6b Namjae Jeon 2026-01-06  2057   * number 64 because numbers 0 to 15 are the defined system files anyway and 16
-63adbe420afd6b Namjae Jeon 2026-01-06  2058   * to 64 are special in that they are used for storing extension mft records
-7bfba19057c055 Namjae Jeon 2025-12-30  2059   * for the $DATA attribute of $MFT.  This is required to avoid the possibility
-7bfba19057c055 Namjae Jeon 2025-12-30  2060   * of creating a runlist with a circular dependency which once written to disk
-7bfba19057c055 Namjae Jeon 2025-12-30  2061   * can never be read in again.  Windows will only use records 16 to 24 for
-7bfba19057c055 Namjae Jeon 2025-12-30  2062   * normal files if the volume is completely out of space.  We never use them
-7bfba19057c055 Namjae Jeon 2025-12-30  2063   * which means that when the volume is really out of space we cannot create any
-7bfba19057c055 Namjae Jeon 2025-12-30  2064   * more files while Windows can still create up to 8 small files.  We can start
-7bfba19057c055 Namjae Jeon 2025-12-30  2065   * doing this at some later time, it does not matter much for now.
-7bfba19057c055 Namjae Jeon 2025-12-30  2066   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2067   * When scanning the mft bitmap, we only search up to the last allocated mft
-63adbe420afd6b Namjae Jeon 2026-01-06  2068   * record.  If there are no free records left in the range 64 to number of
-7bfba19057c055 Namjae Jeon 2025-12-30  2069   * allocated mft records, then we extend the $MFT/$DATA attribute in order to
-7bfba19057c055 Namjae Jeon 2025-12-30  2070   * create free mft records.  We extend the allocated size of $MFT/$DATA by 16
-7bfba19057c055 Namjae Jeon 2025-12-30  2071   * records at a time or one cluster, if cluster size is above 16kiB.  If there
-7bfba19057c055 Namjae Jeon 2025-12-30  2072   * is not sufficient space to do this, we try to extend by a single mft record
-7bfba19057c055 Namjae Jeon 2025-12-30  2073   * or one cluster, if cluster size is above the mft record size.
-7bfba19057c055 Namjae Jeon 2025-12-30  2074   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2075   * No matter how many mft records we allocate, we initialize only the first
-7bfba19057c055 Namjae Jeon 2025-12-30  2076   * allocated mft record, incrementing mft data size and initialized size
-63adbe420afd6b Namjae Jeon 2026-01-06  2077   * accordingly, open an struct ntfs_inode for it and return it to the caller, unless
-63adbe420afd6b Namjae Jeon 2026-01-06  2078   * there are less than 64 mft records, in which case we allocate and initialize
-63adbe420afd6b Namjae Jeon 2026-01-06  2079   * mft records until we reach record 64 which we consider as the first free mft
-7bfba19057c055 Namjae Jeon 2025-12-30  2080   * record for use by normal files.
-7bfba19057c055 Namjae Jeon 2025-12-30  2081   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2082   * If during any stage we overflow the initialized data in the mft bitmap, we
-7bfba19057c055 Namjae Jeon 2025-12-30  2083   * extend the initialized size (and data size) by 8 bytes, allocating another
-7bfba19057c055 Namjae Jeon 2025-12-30  2084   * cluster if required.  The bitmap data size has to be at least equal to the
-7bfba19057c055 Namjae Jeon 2025-12-30  2085   * number of mft records in the mft, but it can be bigger, in which case the
-63adbe420afd6b Namjae Jeon 2026-01-06  2086   * superfluous bits are padded with zeroes.
-7bfba19057c055 Namjae Jeon 2025-12-30  2087   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2088   * Thus, when we return successfully (IS_ERR() is false), we will have:
-7bfba19057c055 Namjae Jeon 2025-12-30  2089   *	- initialized / extended the mft bitmap if necessary,
-7bfba19057c055 Namjae Jeon 2025-12-30  2090   *	- initialized / extended the mft data if necessary,
-7bfba19057c055 Namjae Jeon 2025-12-30  2091   *	- set the bit corresponding to the mft record being allocated in the
-7bfba19057c055 Namjae Jeon 2025-12-30  2092   *	  mft bitmap,
-63adbe420afd6b Namjae Jeon 2026-01-06  2093   *	- opened an struct ntfs_inode for the allocated mft record, and we will have
-63adbe420afd6b Namjae Jeon 2026-01-06  2094   *	- returned the struct ntfs_inode as well as the allocated mapped, pinned, and
-7bfba19057c055 Namjae Jeon 2025-12-30  2095   *	  locked mft record.
-7bfba19057c055 Namjae Jeon 2025-12-30  2096   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2097   * On error, the volume will be left in a consistent state and no record will
-7bfba19057c055 Namjae Jeon 2025-12-30  2098   * be allocated.  If rolling back a partial operation fails, we may leave some
-7bfba19057c055 Namjae Jeon 2025-12-30  2099   * inconsistent metadata in which case we set NVolErrors() so the volume is
-7bfba19057c055 Namjae Jeon 2025-12-30  2100   * left dirty when unmounted.
-7bfba19057c055 Namjae Jeon 2025-12-30  2101   *
-7bfba19057c055 Namjae Jeon 2025-12-30  2102   * Note, this function cannot make use of most of the normal functions, like
-7bfba19057c055 Namjae Jeon 2025-12-30  2103   * for example for attribute resizing, etc, because when the run list overflows
-7bfba19057c055 Namjae Jeon 2025-12-30  2104   * the base mft record and an attribute list is used, it is very important that
-7bfba19057c055 Namjae Jeon 2025-12-30  2105   * the extension mft records used to store the $DATA attribute of $MFT can be
-7bfba19057c055 Namjae Jeon 2025-12-30  2106   * reached without having to read the information contained inside them, as
-7bfba19057c055 Namjae Jeon 2025-12-30  2107   * this would make it impossible to find them in the first place after the
-7bfba19057c055 Namjae Jeon 2025-12-30  2108   * volume is unmounted.  $MFT/$BITMAP probably does not need to follow this
-7bfba19057c055 Namjae Jeon 2025-12-30  2109   * rule because the bitmap is not essential for finding the mft records, but on
-7bfba19057c055 Namjae Jeon 2025-12-30  2110   * the other hand, handling the bitmap in this special way would make life
-7bfba19057c055 Namjae Jeon 2025-12-30  2111   * easier because otherwise there might be circular invocations of functions
-7bfba19057c055 Namjae Jeon 2025-12-30  2112   * when reading the bitmap.
-7bfba19057c055 Namjae Jeon 2025-12-30  2113   */
 63adbe420afd6b Namjae Jeon 2026-01-06  2114  int ntfs_mft_record_alloc(struct ntfs_volume *vol, const int mode,
 63adbe420afd6b Namjae Jeon 2026-01-06  2115  			  struct ntfs_inode **ni, struct ntfs_inode *base_ni,
 63adbe420afd6b Namjae Jeon 2026-01-06  2116  			  struct mft_record **ni_mrec)
@@ -657,18 +576,19 @@ vim +2588 fs/ntfs/mft.c
 63adbe420afd6b Namjae Jeon 2026-01-06  2583  	if (!base_ni || base_ni->mft_no != FILE_MFT) {
 7bfba19057c055 Namjae Jeon 2025-12-30  2584  		up_write(&vol->mftbmp_lock);
 63adbe420afd6b Namjae Jeon 2026-01-06  2585  		mutex_unlock(&NTFS_I(vol->mft_ino)->mrec_lock);
+
+This is a false positive because Smatch doesn't know that
+"&NTFS_I(vol->mft_ino)->mrec_lock" and "&mft_ni->mrec_lock" are the
+same thing.  But still, it would be better to use "&mft_ni->mrec_lock"
+consistently.
+
 63adbe420afd6b Namjae Jeon 2026-01-06  2586  	}
 63adbe420afd6b Namjae Jeon 2026-01-06  2587  	memalloc_nofs_restore(memalloc_flags);
 63adbe420afd6b Namjae Jeon 2026-01-06 @2588  	return -ENOSPC;
 7bfba19057c055 Namjae Jeon 2025-12-30  2589  }
 7bfba19057c055 Namjae Jeon 2025-12-30  2590  
 
-:::::: The code at line 2588 was first introduced by commit
-:::::: 63adbe420afd6be91e00492f597eb4ff7d7259d5 ntfs: update inode operations
-
-:::::: TO: Namjae Jeon <linkinjeon@kernel.org>
-:::::: CC: Namjae Jeon <linkinjeon@samba.org>
-
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
