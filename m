@@ -1,111 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF093299959
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 Jan 2026 18:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749762D321B
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 Jan 2026 19:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767985120; cv=none; b=VY5+tRVoGTQR1N/joCppRg73JJwmwF56enAq54g6fDOyWqz7pOz9yRIBKjDt0uEu7TaTrE5tNuyKyAqHZj0brAA8JdFf4KVkNTufLRt9JbYwE29lAMpJo0V20FoZViI+BhTMusKhCc1Pj7LZ2Ar9M8g6ibg2zak0DOEGyGSB6kk=
+	t=1767987149; cv=none; b=JdTKV3HTstIPjpedA3tV7AGNk+8VvN9ql1TT4NBVxGB/69LMg73DlJyeyy/jedfd3cjJ2RnpxB2GwL4bJtA9/gLHTjGkHvSLVLwCJdlkUdECkqjsdNAqKWDFp7Xq1w3T9jnaAvSFYIVZNVVJFrVd6yto62IG62R6kQKQIUWJx6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767985120; c=relaxed/simple;
-	bh=uXylytl5EHpcgmOsyPM0CtyH87rBWvzROtteGz4WDXI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=r8XKoaP39F2sdIpEIz4T9hqNrtgKW8A9pPj0xgGNeER+NmzrVHQjLCmCieEDz4M2ejmpBMU5nNw7/1Jm+1hDfEQOSwCmMva35gVjhqqmGgNueYYMi8mmxqHtp55fBIHZ2mxgtcharorJ9VmdIi/3T8qZ6SogRkK4fuDBThZ4ACs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PPFl5LNV; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1767987149; c=relaxed/simple;
+	bh=nazNJoVHa0zSrT44/ZW2EcLDLFUNGefAFh+iiCbT+i0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XBfX98O99khF0JeZqr5tPHj2jAha+MquEH4/T9E+MAgrJjAUcrAkGZzMhljndKEKnG9ogpmuJ7Zx+dOQqNBOfAKrdH+tORCFRdXnNLLEyrT4si5jBalSzdl38E0fiHqYKOPP7RSylYLcpjI7tfGC3UkwVdy+G1Tln1PA18woQnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqZZhO13; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PPFl5LNV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqZZhO13"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767985119; x=1799521119;
-  h=date:from:to:cc:subject:message-id;
-  bh=uXylytl5EHpcgmOsyPM0CtyH87rBWvzROtteGz4WDXI=;
-  b=PPFl5LNV+GsYOc3TioMcVQFD7Ma0J3zS9reYiiWYiUkk/KprB4LlQ0fm
-   HKXUxOaiGQwfc2z69Wt5JSf9pxDgf/UKP4KE22+ATTe9Gh7WyCvcZf0wc
-   WIwL7nZdOLOwHagwKoTf9zhy8KSVKbAdIc8uj2tDWpmkN0nUjeYApUz6s
-   2tA010ydL0zJxdVKsG/2TpdJfKLVr0jQoJ4i8O1uAa1wCompNR8K2WVFr
-   56ygRchstM2CucuQyje1445Fs/6CU5xchxeBFKOXT2XiEKQkcUPirVFKC
-   YM1LC0np9RJ9ZvWlvcrwj3ZQAJYSszJCyqoIa4s+xViL8Ziuczrjlp0C5
+  t=1767987147; x=1799523147;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nazNJoVHa0zSrT44/ZW2EcLDLFUNGefAFh+iiCbT+i0=;
+  b=SqZZhO13gRm3FeWdJym4Dl8TNfUs9kCZ4p2mg34VrwnigbBt3wS8ok83
+   QJuxcYJ6mjpWQO6MHz3uY3ShwErfFW6kre2tf/CwHqR7qVTdCsH/Ldlwe
+   jRP5A6vaQFXYIaVhqZjJFwipeFov8wV7bLkoYzka4lsNzTOAkP2YFPLQa
+   juof07CQZ8brFiIXcKwHRyzBc/GqPRg0qDQulX9cFU+oYBTdTSyjYPp3s
+   GFR4Efj8vo/L9khmoSXB0Db2YLCXiMvITlTdff59PE4//6XH0uZgQTItD
+   lvPyJGe9f4AwOgoCac8ohKXwjVLuzu14948+oPMQvsL8Pv6H0PHf1xCIn
    A==;
-X-CSE-ConnectionGUID: O7hRWDo1SleXCV1i4x2P7Q==
-X-CSE-MsgGUID: xAQ/wZszQVuJOGQYrOwyww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="80088361"
+X-CSE-ConnectionGUID: 4bPlb5F3TMGruQ4cRQHbPw==
+X-CSE-MsgGUID: fYwsc6nuSRyWCHPhe0DyVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="80825560"
 X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="80088361"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 10:58:38 -0800
-X-CSE-ConnectionGUID: FjdcZqOCTDy1nu4AHrV79A==
-X-CSE-MsgGUID: hm+2Or45TJuEChuR6S1cAg==
+   d="scan'208";a="80825560"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 11:32:27 -0800
+X-CSE-ConnectionGUID: AfsUdQYTRiqOeNU2VubfVw==
+X-CSE-MsgGUID: jdZmhkhlRwuIzqwB5oRBYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="226896073"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2026 10:58:37 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="202754359"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 09 Jan 2026 11:32:27 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1veHgx-000000007dq-0Ec4;
-	Fri, 09 Jan 2026 18:58:35 +0000
-Date: Sat, 10 Jan 2026 02:58:05 +0800
+	id 1veIDf-0000000028C-3ovI;
+	Fri, 09 Jan 2026 19:32:23 +0000
+Date: Fri, 9 Jan 2026 20:32:09 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 2388/5095]
- drivers/i2c/busses/i2c-designware-slave.c:282:1: sparse: sparse: bad integer
- constant expression
-Message-ID: <202601100253.UsYZSZie-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH 1/4] dt-bindings: phy: axiado,ax3000-emmc-phy: add Axiado
+ eMMC PHY
+Message-ID: <202601092011.t5B2m6pp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/i2c/busses/i2c-designware-slave.c:282:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC: Andi Shyti <andi.shyti@kernel.org>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-1-dd43459dbfea@axiado.com>
+References: <20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-1-dd43459dbfea@axiado.com>
+TO: "Tzu-Hao Wei" <twei@axiado.com>
+TO: SriNavmani A <srinavmani@axiado.com>
+TO: Prasad Bolisetty <pbolisetty@axiado.com>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-phy@lists.infradead.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: openbmc@lists.ozlabs.org
+CC: "Tzu-Hao Wei" <twei@axiado.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-commit: 9f65f8fa18bbfb7d8756f1bfd6d1cbaffe2661df [2388/5095] i2c: designware: Remove useless driver specific option for I2C target
-:::::: branch date: 15 hours ago
-:::::: commit date: 13 days ago
-config: arc-randconfig-r113-20260109 (https://download.01.org/0day-ci/archive/20260110/202601100253.UsYZSZie-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260110/202601100253.UsYZSZie-lkp@intel.com/reproduce)
+Hi Tzu-Hao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tzu-Hao-Wei/dt-bindings-phy-axiado-ax3000-emmc-phy-add-Axiado-eMMC-PHY/20260109-174938
+base:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+patch link:    https://lore.kernel.org/r/20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-1-dd43459dbfea%40axiado.com
+patch subject: [PATCH 1/4] dt-bindings: phy: axiado,ax3000-emmc-phy: add Axiado eMMC PHY
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: microblaze-randconfig-2051-20260109 (https://download.01.org/0day-ci/archive/20260109/202601092011.t5B2m6pp-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601092011.t5B2m6pp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601100253.UsYZSZie-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601092011.t5B2m6pp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/i2c/busses/i2c-designware-slave.c:282:1: sparse: sparse: bad integer constant expression
-   drivers/i2c/busses/i2c-designware-slave.c:282:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/i2c/busses/i2c-designware-slave.c:283:1: sparse: sparse: bad integer constant expression
-   drivers/i2c/busses/i2c-designware-slave.c:283:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/i2c/busses/i2c-designware-slave.c:284:1: sparse: sparse: bad integer constant expression
-   drivers/i2c/busses/i2c-designware-slave.c:284:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/i2c/busses/i2c-designware-slave.c:284:1: sparse: sparse: bad integer constant expression
-   drivers/i2c/busses/i2c-designware-slave.c:284:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/i2c/busses/i2c-designware-slave.c:285:1: sparse: sparse: bad integer constant expression
-   drivers/i2c/busses/i2c-designware-slave.c:285:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
-
-vim +282 drivers/i2c/busses/i2c-designware-slave.c
-
-9f3e065c54b05b Luis Oliveira 2017-06-22  281  
-9f3e065c54b05b Luis Oliveira 2017-06-22 @282  MODULE_AUTHOR("Luis Oliveira <lolivei@synopsys.com>");
-
-:::::: The code at line 282 was first introduced by commit
-:::::: 9f3e065c54b05b03bd39dbbcc5a44f2f1807994d i2c: designware: add SLAVE mode functions
-
-:::::: TO: Luis Oliveira <Luis.Oliveira@synopsys.com>
-:::::: CC: Wolfram Sang <wsa@the-dreams.de>
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/phy/axiado,ax3000-emmc-phy.yaml: properties:compatible:const: ['axiado,ax3000-emmc-phy'] is not of type 'integer', 'string'
+   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
+>> Documentation/devicetree/bindings/phy/axiado,ax3000-emmc-phy.yaml: properties:compatible:const: ['axiado,ax3000-emmc-phy'] is not of type 'string'
+   	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml
 
 -- 
 0-DAY CI Kernel Test Service
