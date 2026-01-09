@@ -1,134 +1,95 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1AB50094C;
-	Fri,  9 Jan 2026 15:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED29050094D
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 Jan 2026 17:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767972657; cv=none; b=ds/hRoQamhu+uD92gLU3U6ny0IHzA18CZA6db05D71G0RG4UbBNrhRjXfbcnhjZV3OgQjVY9mZgDZCwOsR4q3pkLD4BBe3o3q853fTBh6M6qxdzbeeG3wGYzuxHAjZiy4BWZ0irajB50jw6sgJbGlCWc/Dr8NqPwFsXXla/G68Y=
+	t=1767978387; cv=none; b=W/PxbBm1vRz3+F1d1iKjGzHMNT1gngtS8FBGLzObdCotNZr20M8g5AmvXcZ9rafX7JFcY/FOBwnb3WyycmHoTkohyG8p/7q6OouwK4yB9hHj7q8bi0VtbuL9FMTSmRVeMTyWrF4jr8dxdTBcQbsRB1uW9/pTzvV6kB2ig3HkHw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767972657; c=relaxed/simple;
-	bh=l0K0iHQxhWpbfVeLEUJ7Fm+JtumcN7lMgtZ7tN4usXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L0EZ8da0pOkbiz4tzmfMAlSPJT6rQNVQsnjYszd9YE5LTrn0rtc+lc0zu42XG7jePqSvbzAj6tOkFWJqZELhnA0yBaCTeQPtUgA/AwftaQhtEdg5UbfiJqu8XSKA2cQfAq6dYf9H/ajH846w+Ond/SO3/BGcFxwPl3p16494qvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 32F721398C3;
-	Fri,  9 Jan 2026 15:22:32 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf07.hostedemail.com (Postfix) with ESMTPA id D407020037;
-	Fri,  9 Jan 2026 15:22:29 +0000 (UTC)
-Date: Fri, 9 Jan 2026 10:23:01 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>, Mark
- Rutland <mark.rutland@arm.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Andrew Morton
- <akpm@linux-foundation.org>, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [PATCH 3/5] tracing: Have tracer option be instance specific
-Message-ID: <20260109102301.19daeb27@gandalf.local.home>
-In-Reply-To: <202511071533.domGENBS-lkp@intel.com>
-References: <20251105161935.545400234@kernel.org>
-	<202511071533.domGENBS-lkp@intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767978387; c=relaxed/simple;
+	bh=q3/zIJdNkPWgznF0HOYY8Mkl1e8swyqwmE4DWhICLVE=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fFKR1QzAi2KjdOtBdDdJOiFfhPfKRhDqUL9bDdNHN7R//d7cCyuOsTEpTMiLWZNgrRJu+Idrp4LX1qumzme7DMxKqJ58FrLZlg/28F6aAp9nC7rs6+AhnylgJyWf8deb5LA092DOXim2FMjenB2dwnQM5rCFzUoGWEYrC69L5nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMguLRJZ; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMguLRJZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767978386; x=1799514386;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=q3/zIJdNkPWgznF0HOYY8Mkl1e8swyqwmE4DWhICLVE=;
+  b=DMguLRJZnZ9jplCWq3G5wYgEclOQ9s3CNcdIIgAguCZFgRZiQ3sqNF8Z
+   rXUDfojITmi52MckWSIr4llQtaC0WIqzOhBKh40DYQryUuzXZCfiPHsbz
+   GNWH1pRcdXit2s4BkTip4xyNVg7cZL5oxNaWuWMFNiKk6Do+gBLCAJ5ZN
+   VKSllD3Dse3n/u0mROPLcQIHOlF7uTXvT7mOqC5AU4kP/Pjq5P90FOLvo
+   s4ADinuaL2ITKfMzlaqJf6jGfO15WM1EtoYDieO8rvYJxfJYbRKyUm5Xq
+   0z3CSTcVlZ45ooe3V7FW6wN9g+6TOj53EKecVX2hUx1AkL8YllUFMxehQ
+   g==;
+X-CSE-ConnectionGUID: Dn4g1NJVRn63gHddKAe6jg==
+X-CSE-MsgGUID: 4chs5IPgQUiXFyxLdDkHiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69262545"
+X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
+   d="scan'208";a="69262545"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 09:06:25 -0800
+X-CSE-ConnectionGUID: 9F0R87IjRcGK9kBFFC3jnA==
+X-CSE-MsgGUID: c5LOpxQCT+2P+bck3EcZBQ==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 09 Jan 2026 09:06:25 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1veFwM-0000000026q-2LeG
+	for oe-kbuild@lists.linux.dev;
+	Fri, 09 Jan 2026 17:06:22 +0000
+Date: Fri, 9 Jan 2026 18:06:02 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v3 3/4] KVM: nVMX: Disallow access to vmcs12 fields that
+ aren't supported by "hardware"
+Message-ID: <202601091810.glHSu2rO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D407020037
-X-Stat-Signature: jcuq6amaw9651isigmpghnke7jqeogp4
-X-Rspamd-Server: rspamout05
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19jdSeoFBztHLOMU/lMm14vAteYNKPwXT0=
-X-HE-Tag: 1767972149-424104
-X-HE-Meta: U2FsdGVkX19ilsxq7u3MRtKL3dJWwByiZPh/dNykQoGfoiGRpH0i/9tNzbovF3etCkRCiRnHo67ShzJFR/TraY0X0a9rM0tfe2y6bnDYxcu0iNSbLdNupEDNpoREIG8kiiV2i0pLDtLKSY8sKgGq0GEuZauFHyo4PITU50uRah6+FlLoS8w5Qyivk6Ee+beVybcCb7dexIMQy2UaVsru7qRMocTetT5YY+f2ZfBaBdn9FI0gDV25+4Mcn4mWhfr3Q/0CJd8HA68QvRB3EjoCMa9AX9JXcPu+3ezm/eGMG2WDkxQMuCckiyUEIvqbV3rrGoh9OFBNR6KXtvyT8FzvabHby38Ah4Wc3MGLKpJhF68+U9PWPpv6gwZpjzPdzv5Zhleh7hguR73jsagOpzzOhgaj25IoZY7Pf0i1lB3A5ROKNBONjkfzbHQXswos25UOP7DjiG+U+l55bw7GCXi+W7A6UTqnz/VcizWk5Q2JAFmq6RhP7PU6BaVhFOzmiM6zQwqiT3rbbzdHA/1gHeXNng==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 5 Jan 2026 18:23:31 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
 
-> Hi Steven,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260109041523.1027323-4-seanjc@google.com>
+References: <20260109041523.1027323-4-seanjc@google.com>
+TO: Sean Christopherson <seanjc@google.com>
 
-Hi Dan,
+Hi Sean,
 
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Remove-dummy-options-and-flags/20251106-010511
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-> patch link:    https://lore.kernel.org/r/20251105161935.545400234%40kernel.org
+kernel test robot noticed the following build warnings:
 
-This is an old patch (v1) and v3 fixed this issue:
-   https://lore.kernel.org/all/20251110234341.767135255@kernel.org/
+[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
 
- and v4 was applied and is now in mainline.
+url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Christopherson/KVM-nVMX-Setup-VMX-MSRs-on-loading-CPU-during-nested_vmx_hardware_setup/20260109-122321
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20260109041523.1027323-4-seanjc%40google.com
+patch subject: [PATCH v3 3/4] KVM: nVMX: Disallow access to vmcs12 fields that aren't supported by "hardware"
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260109/202601091810.glHSu2rO-lkp@intel.com/reproduce)
 
-The patch you are reporting on was sent Nov 5th, the fix was sent Nov 10th.
+# many are suggestions rather than must-fix
 
-Why is this sending reports about an old patch that is obsolete? Is there
-something wrong with your setup?
+ERROR:BAD_SIGN_OFF: Unrecognized email address: 'Xin Li <xin@zytor.com'
+#34: 
+Reviewed-by: Xin Li <xin@zytor.com
 
--- Steve
-
-> patch subject: [PATCH 3/5] tracing: Have tracer option be instance specific
-> config: i386-randconfig-r072-20251107 (https://download.01.org/0day-ci/archive/20251107/202511071533.domGENBS-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202511071533.domGENBS-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/trace/trace.c:6313 tracing_set_tracer() warn: iterator used outside loop: 't'
-> 
-> vim +/t +6313 kernel/trace/trace.c
-> 
-> 9c5b9d3d65e4858 Masami Hiramatsu         2020-01-11  6285  int tracing_set_tracer(struct trace_array *tr, const char *buf)
-> 09d23a1d8a82e81 Steven Rostedt (Red Hat  2015-02-03  6286) {
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6287  	struct tracer *trace;
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6288  	struct tracers *t;
-> 12883efb670c28d Steven Rostedt (Red Hat  2013-03-05  6289) #ifdef CONFIG_TRACER_MAX_TRACE
-> 34600f0e9c33c9c Steven Rostedt           2013-01-22  6290  	bool had_max_tr;
-> 12883efb670c28d Steven Rostedt (Red Hat  2013-03-05  6291) #endif
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6292  	int ret;
-> bc0c38d139ec7fc Steven Rostedt           2008-05-12  6293  
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6294  	guard(mutex)(&trace_types_lock);
-> 1027fcb206a0fb8 Steven Rostedt           2009-03-12  6295  
-> 7a1d1e4b9639ff0 Steven Rostedt (Google   2024-06-12  6296) 	update_last_data(tr);
-> 7a1d1e4b9639ff0 Steven Rostedt (Google   2024-06-12  6297) 
-> a1f157c7a3bb342 Zheng Yejian             2023-09-06  6298  	if (!tr->ring_buffer_expanded) {
-> 2b6080f28c7cc3e Steven Rostedt           2012-05-11  6299  		ret = __tracing_resize_ring_buffer(tr, trace_buf_size,
-> 438ced1720b5840 Vaibhav Nagarnaik        2012-02-02  6300  						RING_BUFFER_ALL_CPUS);
-> 73c5162aa362a54 Steven Rostedt           2009-03-11  6301  		if (ret < 0)
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6302  			return ret;
-> 73c5162aa362a54 Steven Rostedt           2009-03-11  6303  		ret = 0;
-> 73c5162aa362a54 Steven Rostedt           2009-03-11  6304  	}
-> 73c5162aa362a54 Steven Rostedt           2009-03-11  6305  
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6306  	list_for_each_entry(t, &tr->tracers, list) {
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6307  		if (strcmp(t->tracer->name, buf) == 0)
-> bc0c38d139ec7fc Steven Rostedt           2008-05-12  6308  			break;
-> bc0c38d139ec7fc Steven Rostedt           2008-05-12  6309  	}
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6310  	if (!t)
-> 
-> t can't be NULL here.  It needs to be if (list_entry_is_head()) return;
-> 
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6311  		return -EINVAL;
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6312  
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05 @6313  	if (t->tracer == tr->current_trace)
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6314  		return 0;
-> bc0c38d139ec7fc Steven Rostedt           2008-05-12  6315  
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6316  	trace = t->tracer;
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6317  
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
