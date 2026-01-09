@@ -1,117 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749762D321B
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 Jan 2026 19:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABA513D539
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 Jan 2026 20:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767987149; cv=none; b=JdTKV3HTstIPjpedA3tV7AGNk+8VvN9ql1TT4NBVxGB/69LMg73DlJyeyy/jedfd3cjJ2RnpxB2GwL4bJtA9/gLHTjGkHvSLVLwCJdlkUdECkqjsdNAqKWDFp7Xq1w3T9jnaAvSFYIVZNVVJFrVd6yto62IG62R6kQKQIUWJx6U=
+	t=1767990764; cv=none; b=MD6JOk/091AYVMF12s4gkSRuLWQVqyVtmEDUKN+hJENFhP0cQoWCRJnkKWvCLuJsEKKthYIMiGj5Ff0J6+gRBkt02N1NT8D1MZ3yDBJfCgP1hpTecpmmqDVm8v4lXKpX3CI7MpTicrdoQ2mp7aQpL/mbk+z+18U/2dvU5W+aMKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767987149; c=relaxed/simple;
-	bh=nazNJoVHa0zSrT44/ZW2EcLDLFUNGefAFh+iiCbT+i0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XBfX98O99khF0JeZqr5tPHj2jAha+MquEH4/T9E+MAgrJjAUcrAkGZzMhljndKEKnG9ogpmuJ7Zx+dOQqNBOfAKrdH+tORCFRdXnNLLEyrT4si5jBalSzdl38E0fiHqYKOPP7RSylYLcpjI7tfGC3UkwVdy+G1Tln1PA18woQnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqZZhO13; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1767990764; c=relaxed/simple;
+	bh=xGZ6hGvTGyQsCg9Ym1TuhX2xEEn2gB2uuXQioPUp2Rk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gmoAIPJhqPM2c8csR5GKzdXq+aRh2RAw5o09VArko7N0rpZLrLZ/PpEWalTOtnZE9oZt+pMd1x7xutk94ZMbMqwRfqxghhpZdFnleJwwNxXHI+GT68xJiuU/IK8/XjAXKpPA+kgx8PkU1zLcdCfueg2ueYycOta5G2DUFwdWcK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=POk2jmRE; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqZZhO13"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="POk2jmRE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767987147; x=1799523147;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nazNJoVHa0zSrT44/ZW2EcLDLFUNGefAFh+iiCbT+i0=;
-  b=SqZZhO13gRm3FeWdJym4Dl8TNfUs9kCZ4p2mg34VrwnigbBt3wS8ok83
-   QJuxcYJ6mjpWQO6MHz3uY3ShwErfFW6kre2tf/CwHqR7qVTdCsH/Ldlwe
-   jRP5A6vaQFXYIaVhqZjJFwipeFov8wV7bLkoYzka4lsNzTOAkP2YFPLQa
-   juof07CQZ8brFiIXcKwHRyzBc/GqPRg0qDQulX9cFU+oYBTdTSyjYPp3s
-   GFR4Efj8vo/L9khmoSXB0Db2YLCXiMvITlTdff59PE4//6XH0uZgQTItD
-   lvPyJGe9f4AwOgoCac8ohKXwjVLuzu14948+oPMQvsL8Pv6H0PHf1xCIn
-   A==;
-X-CSE-ConnectionGUID: 4bPlb5F3TMGruQ4cRQHbPw==
-X-CSE-MsgGUID: fYwsc6nuSRyWCHPhe0DyVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="80825560"
+  t=1767990764; x=1799526764;
+  h=date:from:to:cc:subject:message-id;
+  bh=xGZ6hGvTGyQsCg9Ym1TuhX2xEEn2gB2uuXQioPUp2Rk=;
+  b=POk2jmREG5y0mr+NodsPPULrdZYBL3tT/SbiDKwTSCzU4H1eeux9WUx3
+   Ag7N9dfoFqCjQ0tSMbzMisYtutCEJ3/kEIfbWZEbmCUwjEHaYaJMBEyD8
+   f3l/1W1SOZ7pbafR6ue4H2jdeMdawTOEfR0NlaaDyfIgvetUt0Q7i7KMM
+   lQaVBQyNVM8lqSvIgU5MvkPc+0eCLr5aWhNUZWi2SV/xnG5C2GV1komnT
+   +gRFms5rOr4p80QXzHzjs+gGEdKuPD4nAiIZQOvn9vQKLS5NXB9Er7JBc
+   Wg44iboUd2t4Zx2TeYfx5oWlrSKA1o+gtn0yA75aehCNi0YKsKqi7Gj68
+   w==;
+X-CSE-ConnectionGUID: roInjftVQ0uOcYHN07fdJw==
+X-CSE-MsgGUID: 1X1a+YspQKWwCCmoau6K9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69359432"
 X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="80825560"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 11:32:27 -0800
-X-CSE-ConnectionGUID: AfsUdQYTRiqOeNU2VubfVw==
-X-CSE-MsgGUID: jdZmhkhlRwuIzqwB5oRBYg==
+   d="scan'208";a="69359432"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 12:32:43 -0800
+X-CSE-ConnectionGUID: JW2fcDedTaejtIM0tW8hZw==
+X-CSE-MsgGUID: VijycHvoRdOvq0Y4dofXRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="202754359"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 09 Jan 2026 11:32:27 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+   d="scan'208";a="204340387"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 09 Jan 2026 12:32:41 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1veIDf-0000000028C-3ovI;
-	Fri, 09 Jan 2026 19:32:23 +0000
-Date: Fri, 9 Jan 2026 20:32:09 +0100
+	id 1veJ9z-000000007hY-2aes;
+	Fri, 09 Jan 2026 20:32:39 +0000
+Date: Sat, 10 Jan 2026 04:32:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 1/4] dt-bindings: phy: axiado,ax3000-emmc-phy: add Axiado
- eMMC PHY
-Message-ID: <202601092011.t5B2m6pp-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android15-6.6 4/4]
+ drivers/ufs/core/ufshcd.c:5399 ufshcd_uic_cmd_compl() error: we previously
+ assumed 'cmd' could be null (see line 5389)
+Message-ID: <202601100423.k4lcqJtI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-1-dd43459dbfea@axiado.com>
-References: <20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-1-dd43459dbfea@axiado.com>
-TO: "Tzu-Hao Wei" <twei@axiado.com>
-TO: SriNavmani A <srinavmani@axiado.com>
-TO: Prasad Bolisetty <pbolisetty@axiado.com>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-phy@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: openbmc@lists.ozlabs.org
-CC: "Tzu-Hao Wei" <twei@axiado.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Tzu-Hao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tzu-Hao-Wei/dt-bindings-phy-axiado-ax3000-emmc-phy-add-Axiado-eMMC-PHY/20260109-174938
-base:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
-patch link:    https://lore.kernel.org/r/20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-1-dd43459dbfea%40axiado.com
-patch subject: [PATCH 1/4] dt-bindings: phy: axiado,ax3000-emmc-phy: add Axiado eMMC PHY
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: microblaze-randconfig-2051-20260109 (https://download.01.org/0day-ci/archive/20260109/202601092011.t5B2m6pp-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601092011.t5B2m6pp-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   ab8dd06cde55677f939e0642df31f06126d507d4
+commit: 4c0eff913df7b0583209fdaff1b33ff8c913dbaa [4/4] FROMLIST: scsi: ufs: core: Make ufshcd_uic_cmd_compl() easier to read
+:::::: branch date: 19 hours ago
+:::::: commit date: 1 year, 5 months ago
+config: x86_64-randconfig-161-20260109 (https://download.01.org/0day-ci/archive/20260110/202601100423.k4lcqJtI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601092011.t5B2m6pp-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202601100423.k4lcqJtI-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/phy/axiado,ax3000-emmc-phy.yaml: properties:compatible:const: ['axiado,ax3000-emmc-phy'] is not of type 'integer', 'string'
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
->> Documentation/devicetree/bindings/phy/axiado,ax3000-emmc-phy.yaml: properties:compatible:const: ['axiado,ax3000-emmc-phy'] is not of type 'string'
-   	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml
+New smatch warnings:
+drivers/ufs/core/ufshcd.c:5399 ufshcd_uic_cmd_compl() error: we previously assumed 'cmd' could be null (see line 5389)
+
+Old smatch warnings:
+drivers/ufs/core/ufshcd.c:1467 ufshcd_devfreq_target() error: uninitialized symbol 'scale_up'.
+drivers/ufs/core/ufshcd.c:9203 ufshcd_setup_clocks() warn: 'clki->clk' from clk_prepare_enable() not released on lines: 9183.
+
+vim +/cmd +5399 drivers/ufs/core/ufshcd.c
+
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5369  
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5370  /**
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5371   * ufshcd_uic_cmd_compl - handle completion of uic command
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5372   * @hba: per adapter instance
+53b3d9c3fdda94 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-08-31  5373   * @intr_status: interrupt status generated by the controller
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5374   *
+3a17fefe0f1960 drivers/ufs/core/ufshcd.c Bart Van Assche       2023-07-27  5375   * Return:
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5376   *  IRQ_HANDLED - If interrupt is valid
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5377   *  IRQ_NONE    - If invalid interrupt
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5378   */
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5379  static irqreturn_t ufshcd_uic_cmd_compl(struct ufs_hba *hba, u32 intr_status)
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5380  {
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5381  	irqreturn_t retval = IRQ_NONE;
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5382  	struct uic_command *cmd;
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5383  
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5384  	spin_lock(hba->host->host_lock);
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5385  	cmd = hba->active_uic_cmd;
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5386  	if (ufshcd_is_auto_hibern8_error(hba, intr_status))
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5387  		hba->errors |= (UFSHCD_UIC_HIBERN8_MASK & intr_status);
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5388  
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21 @5389  	if (intr_status & UIC_COMMAND_COMPL && cmd) {
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5390  		cmd->argument2 |= ufshcd_get_uic_cmd_result(hba);
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5391  		cmd->argument3 = ufshcd_get_dme_attr_val(hba);
+0f52fcb99ea273 drivers/scsi/ufs/ufshcd.c Can Guo               2020-11-02  5392  		if (!hba->uic_async_done)
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5393  			cmd->cmd_active = 0;
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5394  		complete(&cmd->done);
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5395  		retval = IRQ_HANDLED;
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5396  	}
+53b3d9c3fdda94 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-08-31  5397  
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5398  	if (intr_status & UFSHCD_UIC_PWR_MASK && hba->uic_async_done) {
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21 @5399  		cmd->cmd_active = 0;
+57d104c153d3d6 drivers/scsi/ufs/ufshcd.c Subhash Jadavani      2014-09-25  5400  		complete(hba->uic_async_done);
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5401  		retval = IRQ_HANDLED;
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5402  	}
+aa5c697988b4c7 drivers/scsi/ufs/ufshcd.c Stanley Chu           2020-06-15  5403  
+aa5c697988b4c7 drivers/scsi/ufs/ufshcd.c Stanley Chu           2020-06-15  5404  	if (retval == IRQ_HANDLED)
+4c0eff913df7b0 drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5405  		ufshcd_add_uic_command_trace(hba, cmd, UFS_CMD_COMP);
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5406  	spin_unlock(hba->host->host_lock);
+9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5407  	return retval;
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5408  }
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5409  
 
 -- 
 0-DAY CI Kernel Test Service
