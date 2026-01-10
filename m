@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872F923B638
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Jan 2026 12:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B531A17C69
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Jan 2026 13:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768046637; cv=none; b=EDYzrIr/5UccRtmqjTQAAOSehDFupZNgGX6eN/e86mCJcHWXREYKH8WP6NpMHivPdBSOS/99f/VFJKsCT+b6wuycZOVKVaGMPm4RV28+CHXHrypgjTeBaZya3iNdIotns77IJ5VNCBpSzX/3jUyuuvPNQ/tgOIfnwDKgz7kB0Qs=
+	t=1768050958; cv=none; b=qD/vrdAL/4goPySUNu351NYk9xhcBwgZpldGBcvNYsi2Goa9E/lA5u2fkeMPk77w9g+GvRNbfdLWJDWPZuDyOCAi27PeSdI4Oc1EhSAqcZf0bm8UCHYrReX3i08CcbAOonm3VV53rOkM6y/YzAP3czl+tMSyUbGqZjqi+IokfkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768046637; c=relaxed/simple;
-	bh=AXZnIOWjCz0Hc2Cgix/Y46dX3M4zTScaBhj17jCbFVs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SD5k9Ogl74+dx4xyHn/+W8OjVc8NUOaMLJwGb09XiKYPknsbltuJsYNSs2TeLDBZFIgP2YgkFt/5jNsTxLfcGWpeBHcj8b5tOiB466aZzfYEJiETJtM8U9S5oLSp9Ua06ae98+jtuudoaplsClJHRxZVRLDUoN5juokvkKgbBII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kNxYqult; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768050958; c=relaxed/simple;
+	bh=/stlikl+q73i2RIC7Y1OvCCh3CXO/mRDEm5zsv1Qszk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M+lhInf/FkA/fWCtj2lZ59S6quU/QL4vhKn5btf7nYA5WCCPRTPx49s+wVkqQ2SV9FzvKzq4o2XJG1HTe5WKYcrilNSlNVGwvZRR618uIQDS8WXt/vhCJ2vVs7y9pcEO4s2PNwfjwu3HnWRcPnq/Db3rv6IqbAboEMF3Zq89NAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrJ418uB; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kNxYqult"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrJ418uB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768046634; x=1799582634;
+  t=1768050956; x=1799586956;
   h=date:from:to:cc:subject:message-id;
-  bh=AXZnIOWjCz0Hc2Cgix/Y46dX3M4zTScaBhj17jCbFVs=;
-  b=kNxYqulttX/N8yg0TqACTO2J8W0M+ovkzY4YwXOUoGibp+lwOYd7eJsB
-   LuBLyN2+wEpKgJuo7M6gKkmpzsa7B5ypQThDNnFNPNO1P8vnVNNLlIlt7
-   BIpZCkiTyleHiVtXslCC9G5kquuLfPNnM86UnbQBe6C7kj+ecGyZAIo0n
-   SNale7RZHfgatPeABvi+azhPOZb1Z4h25cxIqZMndCO6COw2wM/EIacQF
-   yR3NgEcBBcxK03tYgEVE0jcf+cwJyqJegJmPCJ4CfXTaV0y2/K3RIx4U1
-   dxCBP1VsKH+5MIBIsPb6J9HsnWl5qj11iwPEPC15ZwrFvjm97N76WDn8v
+  bh=/stlikl+q73i2RIC7Y1OvCCh3CXO/mRDEm5zsv1Qszk=;
+  b=SrJ418uB2vlHSHHC6061HxsEDIjewJzir7XpFChq6GejQNXH0x/0zvhs
+   3vRqtQwBYLpJ8oy7g3WnFhEYheYxKi71VFJfN5NTQMIxf1rau8OixIxXB
+   /ES9hWg7I5kKIRIt2PnNUoDIAApWmRZRBjSZ512yuCynmDGulFdxhhBwV
+   GF+5evjJXm5OZs71gkwsddlT/i2aloPliTxESO8166iH8Mc/zIxcP7vDI
+   tGZQJZIyNwpTtQ2Sx8zmkPZlcqU1DiatjI917X82+RLwIMDxyKm3gHfWt
+   F4HaSyjNwtTAoi5mQlwZvGNuC3oHx9+RS/jtXBYJj6s7EjCnwPI5KCnjW
    A==;
-X-CSE-ConnectionGUID: B44nazhmS5Ojf/neLd7xew==
-X-CSE-MsgGUID: y5x/dqq1SHeN1XBZO35GVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69386378"
+X-CSE-ConnectionGUID: BNr52tvaRcucXFezZZOfYQ==
+X-CSE-MsgGUID: NIymDUJyQguZ7MdbjQaZUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69334960"
 X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
-   d="scan'208";a="69386378"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 04:03:54 -0800
-X-CSE-ConnectionGUID: kI7TrUX2ToqSeykv7BgzSA==
-X-CSE-MsgGUID: KXpiXnJFT1O+Q5Cl/sVEgQ==
+   d="scan'208";a="69334960"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 05:15:56 -0800
+X-CSE-ConnectionGUID: 8uQmn1gTTvuGw24HWEdrsQ==
+X-CSE-MsgGUID: qHQBNc6dSzKMPbSnfOY60A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
-   d="scan'208";a="207827869"
+   d="scan'208";a="203709570"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Jan 2026 04:03:53 -0800
+  by orviesa007.jf.intel.com with ESMTP; 10 Jan 2026 05:15:56 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1veXh8-000000008cs-45iU;
-	Sat, 10 Jan 2026 12:03:50 +0000
-Date: Sat, 10 Jan 2026 20:03:19 +0800
+	id 1veYor-000000008fm-1twr;
+	Sat, 10 Jan 2026 13:15:53 +0000
+Date: Sat, 10 Jan 2026 21:15:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [ebiggers:wip-aes 2/53]
- lib/crypto/tests/mldsa_kunit.c:436:1: sparse: sparse: bad integer constant
+Subject: [lee-leds:for-leds-next 3/10]
+ drivers/leds/rgb/leds-lp5860-spi.c:87:1: sparse: sparse: bad integer constant
  expression
-Message-ID: <202601101941.XTccLEle-lkp@intel.com>
+Message-ID: <202601102106.gMVy9BeS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,45 +61,41 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: lib/crypto/tests/mldsa_kunit.c:436:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: drivers/leds/rgb/leds-lp5860-spi.c:87:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Eric Biggers <ebiggers@kernel.org>
-CC: David Howells <dhowells@redhat.com>
+CC: linux-leds@vger.kernel.org
+TO: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+CC: Lee Jones <lee@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-aes
-head:   237c28fcac1381425254d1af768fb806678910bd
-commit: ff08ac38bcf2445e5b247c482e94ab3aca573382 [2/53] lib/crypto: tests: Add KUnit tests for ML-DSA verification
-:::::: branch date: 9 hours ago
-:::::: commit date: 5 days ago
-config: sh-randconfig-r113-20260110 (https://download.01.org/0day-ci/archive/20260110/202601101941.XTccLEle-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   e257dc532c20bd93f0076c18cb5ffd739a5f0bb4
+commit: 51f7560294c911e9394357a903ffa28eebe4b253 [3/10] leds: Add support for TI LP5860 LED driver chip
+:::::: branch date: 22 hours ago
+:::::: commit date: 2 days ago
+config: sh-randconfig-r113-20260110 (https://download.01.org/0day-ci/archive/20260110/202601102106.gMVy9BeS-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260110/202601101941.XTccLEle-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260110/202601102106.gMVy9BeS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601101941.XTccLEle-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601102106.gMVy9BeS-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> lib/crypto/mldsa.c:651:1: sparse: sparse: bad integer constant expression
-   lib/crypto/mldsa.c:651:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   lib/crypto/mldsa.c:652:1: sparse: sparse: bad integer constant expression
-   lib/crypto/mldsa.c:652:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> lib/crypto/tests/mldsa_kunit.c:436:1: sparse: sparse: bad integer constant expression
-   lib/crypto/tests/mldsa_kunit.c:436:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   lib/crypto/tests/mldsa_kunit.c:437:1: sparse: sparse: bad integer constant expression
-   lib/crypto/tests/mldsa_kunit.c:437:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
-   lib/crypto/tests/mldsa_kunit.c:438:1: sparse: sparse: bad integer constant expression
-   lib/crypto/tests/mldsa_kunit.c:438:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+>> drivers/leds/rgb/leds-lp5860-spi.c:87:1: sparse: sparse: bad integer constant expression
+   drivers/leds/rgb/leds-lp5860-spi.c:87:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/leds/rgb/leds-lp5860-spi.c:88:1: sparse: sparse: bad integer constant expression
+   drivers/leds/rgb/leds-lp5860-spi.c:88:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/leds/rgb/leds-lp5860-spi.c:89:1: sparse: sparse: bad integer constant expression
+   drivers/leds/rgb/leds-lp5860-spi.c:89:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +436 lib/crypto/tests/mldsa_kunit.c
+vim +87 drivers/leds/rgb/leds-lp5860-spi.c
 
-ff08ac38bcf244 Eric Biggers 2025-12-14  435  
-ff08ac38bcf244 Eric Biggers 2025-12-14 @436  MODULE_DESCRIPTION("KUnit tests and benchmark for ML-DSA");
+51f7560294c911 Steffen Trumtrar 2025-12-01  86  
+51f7560294c911 Steffen Trumtrar 2025-12-01 @87  MODULE_AUTHOR("Steffen Trumtrar <kernel@pengutronix.de>");
 
 -- 
 0-DAY CI Kernel Test Service
