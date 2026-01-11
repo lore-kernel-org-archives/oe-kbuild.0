@@ -1,164 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE7CF507
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Jan 2026 04:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41934125A0
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Jan 2026 05:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768105369; cv=none; b=aIYSOBgdUn8Q8CGl6Zt59mnnU2DmGJcbJE4c0OP4Lcm6QmgwU6Zten+sMNU/pslhHwSUDdPTpnz9jPsMNgRYL3tOs96UmPWDDWIVIFBOzYe91oKEg8E4yNkv3REoL5MH8Mk5vv2Qcfu2OgjOxxdQBiSCFrhN3Dzm5dd1/b4NXD4=
+	t=1768107888; cv=none; b=XYrQAm8Zv7+nzzZlvZSsXYItjVRIgSPLsXobV/F6duDivYoPAhMycisimalEpG3ybFiwtuxkoYQoQMm2VNJtjD71kIjCgf51rtys+T1X2mU2Nv2H/TdFdEwxB7z6S355YNSC/yp5tuXdp2x9WMxPhDz8Kcu/MNWyGFVNs8xJtK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768105369; c=relaxed/simple;
-	bh=qr/fdMRPp1ikjwXe3JquPsiAI4cqjPAtUlrF0xTzYXw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Opw3fnRSpUVr+sPqR5wNoZAqZJ3RaixvXU/iUm43hi/wcpDInZYjd+jYvQc8sR/2D6EiV2ACMFjEsOOIa0aFurlooaCfBqCrXzFZ6eAalJsAlk10lRoSYHiPgo0kQZN56vOdt6Z9l/AhI1ipZh5/FUPhpDHuwa2znarUaCIoie4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwgXH17a; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1768107888; c=relaxed/simple;
+	bh=wAtWggNLVI858TfCSViR6FwjWBI6h/DMUK81CsEX8bY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=os5IgJ8pCzSI0ZGsoR7XKzG7vB9FXtJCZSZZ0PfOrBblg2cnVHZNsQtfuBOWEyCSH3KuYSOT72cyLneUG9Gz8MvC3CysNzIAc+Guu8iDCuTK0zFnHcnF9eyvaZMOrAkq1TJSrbMyvOK2tpCKdDosMhsuiN0is2x+QX5OW9Pq4YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQoHNio5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwgXH17a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQoHNio5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768105365; x=1799641365;
-  h=date:from:to:cc:subject:message-id;
-  bh=qr/fdMRPp1ikjwXe3JquPsiAI4cqjPAtUlrF0xTzYXw=;
-  b=DwgXH17asYOTyBfliAXJRY3gDiEbhUuHDqTLEpUJ13t4GT3n/h1mTvmV
-   ObSYInhAGRgJeSBP+1CZ/BnJusj4R9yVnHOmyMsey1wLkeOXANt1K+WDB
-   uUFSc69S1UuKCiK/6aYsZ94KpJeazkQIrH9d7mOOSjevKnOEhHSGpltIq
-   mhG8n67FIVz+YoA+SuDEdiJf+feZXQY/0/lgl6my7yAb67BpSjevrBYJy
-   UBnMcJhwQ1Dy+pQqGf0FOnWsMRZ2OkyNweTRGU4mRlmQYFatJB/99ABIE
-   ZTc7mGYSX4t5MyLy/CxHmRMEw5PtKC6rW4wjargbjnXWYmKiDfVSFb7lk
-   Q==;
-X-CSE-ConnectionGUID: UqzJJeILRCS8BwTTEQMpFw==
-X-CSE-MsgGUID: poZwZMqYTjitLC5kTuErIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11667"; a="69354460"
+  t=1768107886; x=1799643886;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wAtWggNLVI858TfCSViR6FwjWBI6h/DMUK81CsEX8bY=;
+  b=gQoHNio56B9nR33BTwoc2ONfGAY86KlPwhnmviOy9aJ6x3jiycrf2hMy
+   +ZDrq93RXYlY3ROCWAeKIwXF2kRxmTJx4h+Y9VMAm0zrUgI2yim1lG19l
+   ctmeDYPAjbwAug/Q7nn1M5bD4aso4795LNrcw5V6VEJyy1YVIXylZraoI
+   fcwPHCbDiBWcEYJV+9p8AMzYdNphziEyJ4OuRTq15fJIVZxekh2JkCmAU
+   A+3EJm04W67b2hwooPObqgYgoumsPeeMmnKSZUoxgNo/jSvXyZGLtQpef
+   Hk6q1fBKgr4XNhMUVK+I/sLEWi9BUq9eONP0EPu43fV7nAFtiDrjqC8Fj
+   g==;
+X-CSE-ConnectionGUID: FyucaJvnQVu5VJn1Uyp/MA==
+X-CSE-MsgGUID: LW1q4JNPRxmb1n5zk8OXDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11667"; a="69325837"
 X-IronPort-AV: E=Sophos;i="6.21,217,1763452800"; 
-   d="scan'208";a="69354460"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 20:22:44 -0800
-X-CSE-ConnectionGUID: eyMpxUlXRACcJeIz5U3fRQ==
-X-CSE-MsgGUID: vs3IjKz6Sji9oKAgpHImOg==
+   d="scan'208";a="69325837"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 21:04:46 -0800
+X-CSE-ConnectionGUID: xisfxVD7QvSJV3A2qLobOw==
+X-CSE-MsgGUID: o0qnfHNmSUSu3+1x9LZuaw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,217,1763452800"; 
-   d="scan'208";a="203810011"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Jan 2026 20:22:44 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 10 Jan 2026 21:04:44 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vemyP-000000009aU-0Lkp;
-	Sun, 11 Jan 2026 04:22:41 +0000
-Date: Sun, 11 Jan 2026 12:22:27 +0800
+	id 1vend4-000000009ci-2RKb;
+	Sun, 11 Jan 2026 05:04:42 +0000
+Date: Sun, 11 Jan 2026 13:04:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/xe/xe_pt.c:1465 op_check_svm_userptr() warn:
- iterator 'i' not incremented
-Message-ID: <202601111213.vQ0f1Vgj-lkp@intel.com>
+Subject: [tip:locking/core 11/43] drivers/tty/serial/mvebu-uart.c:759
+ mvebu_uart_console_write() error: uninitialized symbol 'flags'.
+Message-ID: <202601111257.32j78rbe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+CC: x86@kernel.org
+TO: Marco Elver <elver@google.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   755bc1335e3b116b702205b72eb57b7b8aef2bb2
-commit: 7477c4bd20dc1aba02ef2d955591826da24e2b04 drm/xe/pt: unify xe_pt_svm_pre_commit with userptr
-date:   4 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 4 months ago
-config: s390-randconfig-r072-20260109 (https://download.01.org/0day-ci/archive/20260111/202601111213.vQ0f1Vgj-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking=
+/core
+head:   a45026cef17d1080c985adf28234d6c8475ad66f
+commit: f16a802d402d735a55731f8c94952b3bbb5ddfe8 [11/43] locking/rwlock, sp=
+inlock: Support Clang's context analysis
+:::::: branch date: 3 days ago
+:::::: commit date: 6 days ago
+config: m68k-randconfig-r072-20260111 (https://download.01.org/0day-ci/arch=
+ive/20260111/202601111257.32j78rbe-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.3.0
 smatch version: v0.5.0-8985-g2614ff1a
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601111213.vQ0f1Vgj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601111257.32j78rbe-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/xe/xe_pt.c:1465 op_check_svm_userptr() warn: iterator 'i' not incremented
+drivers/tty/serial/mvebu-uart.c:759 mvebu_uart_console_write() error: unini=
+tialized symbol 'flags'.
+drivers/tty/serial/rda-uart.c:607 rda_uart_port_write() error: uninitialize=
+d symbol 'flags'.
+drivers/tty/serial/omap-serial.c:1244 serial_omap_console_write() error: un=
+initialized symbol 'flags'.
 
 Old smatch warnings:
-drivers/gpu/drm/xe/xe_pt.c:767 xe_pt_stage_bind() error: we previously assumed 'bo' could be null (see line 758)
-drivers/gpu/drm/xe/xe_pt.c:2068 op_prepare() warn: iterator 'i' not incremented
-drivers/gpu/drm/xe/xe_pt.c:2292 op_commit() warn: iterator 'i' not incremented
-drivers/gpu/drm/xe/xe_pt.c:2493 xe_pt_update_ops_run() error: uninitialized symbol 'ifence'.
-drivers/gpu/drm/xe/xe_pt.c:2498 xe_pt_update_ops_run() error: uninitialized symbol 'mfence'.
+drivers/tty/serial/mvebu-uart.c:983 mvebu_uart_probe() warn: 'mvuart->clk' =
+from clk_prepare_enable() not released on lines: 956,967,973.
 
-vim +/i +1465 drivers/gpu/drm/xe/xe_pt.c
+vim +/flags +759 drivers/tty/serial/mvebu-uart.c
 
-dd08ebf6c3525a Matthew Brost 2023-03-30  1435  
-7477c4bd20dc1a Matthew Auld  2025-08-28  1436  static int op_check_svm_userptr(struct xe_vm *vm, struct xe_vma_op *op,
-e8babb280b5ef9 Matthew Brost 2024-07-03  1437  				struct xe_vm_pgtable_update_ops *pt_update)
-e8babb280b5ef9 Matthew Brost 2024-07-03  1438  {
-e8babb280b5ef9 Matthew Brost 2024-07-03  1439  	int err = 0;
-dd08ebf6c3525a Matthew Brost 2023-03-30  1440  
-9e978741488261 Matthew Auld  2025-08-28  1441  	xe_svm_assert_held_read(vm);
-e8babb280b5ef9 Matthew Brost 2024-07-03  1442  
-e8babb280b5ef9 Matthew Brost 2024-07-03  1443  	switch (op->base.op) {
-e8babb280b5ef9 Matthew Brost 2024-07-03  1444  	case DRM_GPUVA_OP_MAP:
-e8babb280b5ef9 Matthew Brost 2024-07-03  1445  		if (!op->map.immediate && xe_vm_in_fault_mode(vm))
-e8babb280b5ef9 Matthew Brost 2024-07-03  1446  			break;
-e8babb280b5ef9 Matthew Brost 2024-07-03  1447  
-e8babb280b5ef9 Matthew Brost 2024-07-03  1448  		err = vma_check_userptr(vm, op->map.vma, pt_update);
-e8babb280b5ef9 Matthew Brost 2024-07-03  1449  		break;
-e8babb280b5ef9 Matthew Brost 2024-07-03  1450  	case DRM_GPUVA_OP_REMAP:
-e8babb280b5ef9 Matthew Brost 2024-07-03  1451  		if (op->remap.prev)
-e8babb280b5ef9 Matthew Brost 2024-07-03  1452  			err = vma_check_userptr(vm, op->remap.prev, pt_update);
-e8babb280b5ef9 Matthew Brost 2024-07-03  1453  		if (!err && op->remap.next)
-e8babb280b5ef9 Matthew Brost 2024-07-03  1454  			err = vma_check_userptr(vm, op->remap.next, pt_update);
-e8babb280b5ef9 Matthew Brost 2024-07-03  1455  		break;
-e8babb280b5ef9 Matthew Brost 2024-07-03  1456  	case DRM_GPUVA_OP_UNMAP:
-e8babb280b5ef9 Matthew Brost 2024-07-03  1457  		break;
-e8babb280b5ef9 Matthew Brost 2024-07-03  1458  	case DRM_GPUVA_OP_PREFETCH:
-7477c4bd20dc1a Matthew Auld  2025-08-28  1459  		if (xe_vma_is_cpu_addr_mirror(gpuva_to_vma(op->base.prefetch.va))) {
-7477c4bd20dc1a Matthew Auld  2025-08-28  1460  			struct xe_svm_range *range = op->map_range.range;
-7477c4bd20dc1a Matthew Auld  2025-08-28  1461  			unsigned long i;
-e8babb280b5ef9 Matthew Brost 2024-07-03  1462  
-7477c4bd20dc1a Matthew Auld  2025-08-28  1463  			xe_assert(vm->xe,
-7477c4bd20dc1a Matthew Auld  2025-08-28  1464  				  xe_vma_is_cpu_addr_mirror(gpuva_to_vma(op->base.prefetch.va)));
-7477c4bd20dc1a Matthew Auld  2025-08-28 @1465  			xa_for_each(&op->prefetch_range.range, i, range) {
-7477c4bd20dc1a Matthew Auld  2025-08-28  1466  				xe_svm_range_debug(range, "PRE-COMMIT");
-e8babb280b5ef9 Matthew Brost 2024-07-03  1467  
-7477c4bd20dc1a Matthew Auld  2025-08-28  1468  				if (!xe_svm_range_pages_valid(range)) {
-7477c4bd20dc1a Matthew Auld  2025-08-28  1469  					xe_svm_range_debug(range, "PRE-COMMIT - RETRY");
-7477c4bd20dc1a Matthew Auld  2025-08-28  1470  					return -ENODATA;
-7477c4bd20dc1a Matthew Auld  2025-08-28  1471  				}
-7477c4bd20dc1a Matthew Auld  2025-08-28  1472  			}
-7477c4bd20dc1a Matthew Auld  2025-08-28  1473  		} else {
-7477c4bd20dc1a Matthew Auld  2025-08-28  1474  			err = vma_check_userptr(vm, gpuva_to_vma(op->base.prefetch.va), pt_update);
-7477c4bd20dc1a Matthew Auld  2025-08-28  1475  		}
-7477c4bd20dc1a Matthew Auld  2025-08-28  1476  		break;
-7477c4bd20dc1a Matthew Auld  2025-08-28  1477  #if IS_ENABLED(CONFIG_DRM_XE_GPUSVM)
-7477c4bd20dc1a Matthew Auld  2025-08-28  1478  	case DRM_GPUVA_OP_DRIVER:
-7477c4bd20dc1a Matthew Auld  2025-08-28  1479  		if (op->subop == XE_VMA_SUBOP_MAP_RANGE) {
-7477c4bd20dc1a Matthew Auld  2025-08-28  1480  			struct xe_svm_range *range = op->map_range.range;
-e8babb280b5ef9 Matthew Brost 2024-07-03  1481  
-7477c4bd20dc1a Matthew Auld  2025-08-28  1482  			xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(op->map_range.vma));
-e8babb280b5ef9 Matthew Brost 2024-07-03  1483  
-7477c4bd20dc1a Matthew Auld  2025-08-28  1484  			xe_svm_range_debug(range, "PRE-COMMIT");
-e8babb280b5ef9 Matthew Brost 2024-07-03  1485  
-7477c4bd20dc1a Matthew Auld  2025-08-28  1486  			if (!xe_svm_range_pages_valid(range)) {
-7477c4bd20dc1a Matthew Auld  2025-08-28  1487  				xe_svm_range_debug(range, "PRE-COMMIT - RETRY");
-7477c4bd20dc1a Matthew Auld  2025-08-28  1488  				return -EAGAIN;
-7477c4bd20dc1a Matthew Auld  2025-08-28  1489  			}
-e8babb280b5ef9 Matthew Brost 2024-07-03  1490  		}
-7477c4bd20dc1a Matthew Auld  2025-08-28  1491  		break;
-7477c4bd20dc1a Matthew Auld  2025-08-28  1492  #endif
-7477c4bd20dc1a Matthew Auld  2025-08-28  1493  	default:
-7477c4bd20dc1a Matthew Auld  2025-08-28  1494  		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-e8babb280b5ef9 Matthew Brost 2024-07-03  1495  	}
-e8babb280b5ef9 Matthew Brost 2024-07-03  1496  
-e8babb280b5ef9 Matthew Brost 2024-07-03  1497  	return err;
-e8babb280b5ef9 Matthew Brost 2024-07-03  1498  }
-dd08ebf6c3525a Matthew Brost 2023-03-30  1499  
+30530791a7a032 Wilson Ding     2016-02-16  726 =20
+30530791a7a032 Wilson Ding     2016-02-16  727  static void mvebu_uart_cons=
+ole_write(struct console *co, const char *s,
+30530791a7a032 Wilson Ding     2016-02-16  728  				     unsigned int count)
+30530791a7a032 Wilson Ding     2016-02-16  729  {
+30530791a7a032 Wilson Ding     2016-02-16  730  	struct uart_port *port =3D =
+&mvebu_uart_ports[co->index];
+30530791a7a032 Wilson Ding     2016-02-16  731  	unsigned long flags;
+5218d76958644a Miquel Raynal   2017-10-13  732  	unsigned int ier, intr, ct=
+l;
+30530791a7a032 Wilson Ding     2016-02-16  733  	int locked =3D 1;
+30530791a7a032 Wilson Ding     2016-02-16  734 =20
+30530791a7a032 Wilson Ding     2016-02-16  735  	if (oops_in_progress)
+f9b7652c32ebf5 Thomas Gleixner 2023-09-14  736  		locked =3D uart_port_tryl=
+ock_irqsave(port, &flags);
+30530791a7a032 Wilson Ding     2016-02-16  737  	else
+f9b7652c32ebf5 Thomas Gleixner 2023-09-14  738  		uart_port_lock_irqsave(po=
+rt, &flags);
+30530791a7a032 Wilson Ding     2016-02-16  739 =20
+5218d76958644a Miquel Raynal   2017-10-13  740  	ier =3D readl(port->membas=
+e + UART_CTRL(port)) & CTRL_BRK_INT;
+5218d76958644a Miquel Raynal   2017-10-13  741  	intr =3D readl(port->memba=
+se + UART_INTR(port)) &
+5218d76958644a Miquel Raynal   2017-10-13  742  		(CTRL_RX_RDY_INT(port) | =
+CTRL_TX_RDY_INT(port));
+5218d76958644a Miquel Raynal   2017-10-13  743  	writel(0, port->membase + =
+UART_CTRL(port));
+5218d76958644a Miquel Raynal   2017-10-13  744  	writel(0, port->membase + =
+UART_INTR(port));
+30530791a7a032 Wilson Ding     2016-02-16  745 =20
+30530791a7a032 Wilson Ding     2016-02-16  746  	uart_console_write(port, s=
+, count, mvebu_uart_console_putchar);
+30530791a7a032 Wilson Ding     2016-02-16  747 =20
+54ca955b5a4024 Pali Roh=C3=A1r      2020-12-23  748  	wait_for_xmite(port);
+30530791a7a032 Wilson Ding     2016-02-16  749 =20
+30530791a7a032 Wilson Ding     2016-02-16  750  	if (ier)
+5218d76958644a Miquel Raynal   2017-10-13  751  		writel(ier, port->membase=
+ + UART_CTRL(port));
+5218d76958644a Miquel Raynal   2017-10-13  752 =20
+5218d76958644a Miquel Raynal   2017-10-13  753  	if (intr) {
+5218d76958644a Miquel Raynal   2017-10-13  754  		ctl =3D intr | readl(port=
+->membase + UART_INTR(port));
+5218d76958644a Miquel Raynal   2017-10-13  755  		writel(ctl, port->membase=
+ + UART_INTR(port));
+5218d76958644a Miquel Raynal   2017-10-13  756  	}
+30530791a7a032 Wilson Ding     2016-02-16  757 =20
+30530791a7a032 Wilson Ding     2016-02-16  758  	if (locked)
+f9b7652c32ebf5 Thomas Gleixner 2023-09-14 @759  		uart_port_unlock_irqresto=
+re(port, flags);
+30530791a7a032 Wilson Ding     2016-02-16  760  }
+30530791a7a032 Wilson Ding     2016-02-16  761 =20
 
--- 
+:::::: The code at line 759 was first introduced by commit
+:::::: f9b7652c32ebf5d0e2842333fa8ca9ba115ad424 serial: mvebu-uart: Use por=
+t lock wrappers
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
