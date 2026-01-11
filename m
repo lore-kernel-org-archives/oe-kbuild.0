@@ -1,105 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E7E34C820
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Jan 2026 19:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEBE1C3C08
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Jan 2026 20:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768159195; cv=none; b=LvrEDOPSV0QLOaE48o3wJuMAgMPbk27ChqRrbGdcAsrRyDFHS7X9RATcOLtEpgYFH4DXpgOB5ga7bjl2084Zb5tyEltvnLElPP5CDvaosWJyWzX7HfdbGQDSSBNPqxeYgV9fTekb6Tth6x+WHPYPr4KykflIqI6NWOxLpNueYb0=
+	t=1768161717; cv=none; b=NmLNpn2KYiMP8lE9Yu8ryw8U5SmWtKryzAKBMORENtVb94yfRWjV4BsjmWekuUaut0Q+fZDNkUnPl28V/3Ya0XAl6lXxGSKwqZ5bIpfYsNVhxHiusAloGgNK/8s6D1qcoxqMeTNJiCZipsSljVWwDfiIsus20yVLgcR8BShXRPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768159195; c=relaxed/simple;
-	bh=AmoQvDAVaYU04Gg8vnxFT1H4uVIxz64J5hesBN/C1yQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jLwsIiVo85MgLSCcS57XpVPeGM3pONAHvw13vOwYY96Qyyeteb1/ZGJT4HHyCWVOfGmj4bzB0bx0qUMq5ZPixwwTyhvpzY+CmT6F4bgEEVO+qFUt1flvV6cLP9B1ET85IwUusMJDvg0ceAjollGug56T7V6h22/MdsVw2s8KW8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxbE0xh5; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1768161717; c=relaxed/simple;
+	bh=vYogEwjbIyEDz2BUWWK7/XF2+cFqV70FhyP5u2ip0a4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=idnpSCVU2p+7G4YAgVgaA3Hlvbz6WA2KZl/7IPfw80JZyS12DyFslXIIQ5rWQQrsU4itZdFZiuLQECBClF/ZT+PWUtY2mcSrPGNjdF9c6XBJv4JyQVcLY5JJnjtX26K2nbKZIUD3+B+dEeF1yx7CxQCka2demuONRHcUeIaEtOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZtKX9uPK; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxbE0xh5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZtKX9uPK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768159194; x=1799695194;
-  h=date:from:to:cc:subject:message-id;
-  bh=AmoQvDAVaYU04Gg8vnxFT1H4uVIxz64J5hesBN/C1yQ=;
-  b=UxbE0xh5jSeEmjpdGIkTBIK/k3kV3zYHtpBbZdPvWH+TZ/q4T4PhpJBE
-   vdIc8Kmao4WZ8vh8i0BInSbyy6d3lfu4WkrY3zp87URYb324fIPuMHmVF
-   LlbRHRsQOb6B1hoUjuWE32AC6+fgjX3nbErsGvX2GLrrejs6zvHsdLZ2E
-   qvJ2IlvIU8e50vqtoWgkAzTAIfrSEgkKYycVbSwwSLjJ5LktJ70oJtMCL
-   EEYjtzU0v+Cyl50qSL+IRFRmuZ8o2Zuklv02eb4DfSz/5RteMwWQHkH2j
-   9pVXDyInRhpW3Byl/jiy0QxWvQpieICGn8yi5bnceFlYUCKNcrj8zk+ZA
-   Q==;
-X-CSE-ConnectionGUID: cAJznwDsS4is+xomaCQPKA==
-X-CSE-MsgGUID: Pk9OZz/XT9aTiofH7CJYxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69362342"
+  t=1768161717; x=1799697717;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vYogEwjbIyEDz2BUWWK7/XF2+cFqV70FhyP5u2ip0a4=;
+  b=ZtKX9uPK9petOKhLf31Tsy9DyJ90FgMOdAvi5/slmjU6dT66s9muyu1g
+   tRoD6ChlxHd3d5XZTHAHH9QEGQuBbZPVQnjNqT3eu2vSl0SUo+hUSQjRv
+   JCnjEzqjYOfQcH9f/e2al9TQbeS/37dD0xBlrWdyDffDoTIhzio8NAKg7
+   udz0c79M7tLRmTESI7bd4yqe+54+t5cVPWNZ01t7Guu8VTlYps3vpd/Q7
+   3bQJnWCGxwV8QZWcmAPQdx+Ij3vW1JtC9sK06E91wdtmaNxQaSLNVmT31
+   q0WcyaSqYLs8hNfg2nwxsiM5tC45opCFyIdR+agn9YdqYcbawuJHlz4hJ
+   g==;
+X-CSE-ConnectionGUID: 295SXsEaQKylWaZU4mm56w==
+X-CSE-MsgGUID: g769SpjqTmmO+zdRvCHalw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69524813"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69362342"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 11:19:53 -0800
-X-CSE-ConnectionGUID: 84R+EOybT92RxdIztwh0Iw==
-X-CSE-MsgGUID: p2AYzLgpSI+t0JXM4CkUOw==
+   d="scan'208";a="69524813"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 12:01:56 -0800
+X-CSE-ConnectionGUID: 92vCsCAwTmyoG84YSEV10Q==
+X-CSE-MsgGUID: PoN+FnfcR5OPtzVyn27E9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="204636995"
+   d="scan'208";a="204340373"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Jan 2026 11:19:52 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 11 Jan 2026 12:01:54 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vf0yc-00000000CdY-2pfc;
-	Sun, 11 Jan 2026 19:19:50 +0000
-Date: Mon, 12 Jan 2026 03:19:02 +0800
+	id 1vf1dI-00000000Cem-26HD;
+	Sun, 11 Jan 2026 20:01:52 +0000
+Date: Mon, 12 Jan 2026 04:01:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 1815/5095]
- drivers/hwmon/pmbus/mp5926.c:181:1: sparse: sparse: bad integer constant
- expression
-Message-ID: <202601120341.amlGG4BK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v5 4/4] Input: Add TouchNetix aXiom I2C Touchscreen
+ support
+Message-ID: <202601120304.d12GmeKu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/hwmon/pmbus/mp5926.c:181:1: sparse: sparse: bad integer constant expression"
-:::::: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
-CC: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20260111-v6-10-topic-touchscreen-axiom-v5-4-f94e0ae266cb@pengutronix.de>
+References: <20260111-v6-10-topic-touchscreen-axiom-v5-4-f94e0ae266cb@pengutronix.de>
+TO: Marco Felsch <m.felsch@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-commit: c6c80820ac5d845c19c4de2e6054e7c246017044 [1815/5095] hwmon: (pmbus) Add mp5926 driver
-:::::: branch date: 3 days ago
-:::::: commit date: 3 weeks ago
-config: openrisc-randconfig-r122-20260111 (https://download.01.org/0day-ci/archive/20260112/202601120341.amlGG4BK-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120341.amlGG4BK-lkp@intel.com/reproduce)
+Hi Marco,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/firmware_loader-expand-firmware-error-codes-with-up-to-date-error/20260111-231146
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20260111-v6-10-topic-touchscreen-axiom-v5-4-f94e0ae266cb%40pengutronix.de
+patch subject: [PATCH v5 4/4] Input: Add TouchNetix aXiom I2C Touchscreen support
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: riscv-randconfig-r072-20260112 (https://download.01.org/0day-ci/archive/20260112/202601120304.d12GmeKu-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601120341.amlGG4BK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202601120304.d12GmeKu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/pmbus/mp5926.c:181:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/mp5926.c:181:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/hwmon/pmbus/mp5926.c:182:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/mp5926.c:182:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/hwmon/pmbus/mp5926.c:183:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/mp5926.c:183:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/hwmon/pmbus/mp5926.c:183:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/mp5926.c:183:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/hwmon/pmbus/mp5926.c:184:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/mp5926.c:184:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
+New smatch warnings:
+drivers/input/touchscreen/touchnetix_axiom.c:2141 axiom_zero_volatile_mem() error: uninitialized symbol 'buf'.
 
-vim +181 drivers/hwmon/pmbus/mp5926.c
+Old smatch warnings:
+arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+drivers/input/touchscreen/touchnetix_axiom.c:2143 axiom_zero_volatile_mem() error: uninitialized symbol 'buf'.
 
-c6c80820ac5d84 Yuxi Wang 2025-12-19  179  
-c6c80820ac5d84 Yuxi Wang 2025-12-19  180  module_i2c_driver(mp5926_driver);
-c6c80820ac5d84 Yuxi Wang 2025-12-19 @181  MODULE_AUTHOR("Yuxi Wang <Yuxi.Wang@monolithicpower.com>");
+vim +/buf +2141 drivers/input/touchscreen/touchnetix_axiom.c
+
+479f045f318bf9 Marco Felsch 2026-01-11  2125  
+479f045f318bf9 Marco Felsch 2026-01-11  2126  static int axiom_zero_volatile_mem(struct axiom_data *ts)
+479f045f318bf9 Marco Felsch 2026-01-11  2127  {
+479f045f318bf9 Marco Felsch 2026-01-11  2128  	int ret, size;
+479f045f318bf9 Marco Felsch 2026-01-11  2129  	u8 *buf;
+479f045f318bf9 Marco Felsch 2026-01-11  2130  
+479f045f318bf9 Marco Felsch 2026-01-11  2131  	/* Zero out the volatile memory except for the user content in u04 */
+479f045f318bf9 Marco Felsch 2026-01-11  2132  	ret = axiom_u04_get(ts, &buf);
+479f045f318bf9 Marco Felsch 2026-01-11  2133  	if (ret < 0)
+479f045f318bf9 Marco Felsch 2026-01-11  2134  		return ret;
+479f045f318bf9 Marco Felsch 2026-01-11  2135  	size = ret;
+479f045f318bf9 Marco Felsch 2026-01-11  2136  
+479f045f318bf9 Marco Felsch 2026-01-11  2137  	ret = axiom_u02_fillconfig(ts);
+479f045f318bf9 Marco Felsch 2026-01-11  2138  	if (ret)
+479f045f318bf9 Marco Felsch 2026-01-11  2139  		goto out;
+479f045f318bf9 Marco Felsch 2026-01-11  2140  
+479f045f318bf9 Marco Felsch 2026-01-11 @2141  	ret = axiom_u04_set(ts, buf, size);
+479f045f318bf9 Marco Felsch 2026-01-11  2142  out:
+479f045f318bf9 Marco Felsch 2026-01-11  2143  	kfree(buf);
+479f045f318bf9 Marco Felsch 2026-01-11  2144  	return ret;
+479f045f318bf9 Marco Felsch 2026-01-11  2145  }
+479f045f318bf9 Marco Felsch 2026-01-11  2146  
 
 -- 
 0-DAY CI Kernel Test Service
