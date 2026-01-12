@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D633D311966
-	for <oe-kbuild@lists.linux.dev>; Mon, 12 Jan 2026 09:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801ED28C866
+	for <oe-kbuild@lists.linux.dev>; Mon, 12 Jan 2026 10:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768210992; cv=none; b=JVZlhI/NgNVkls0HG6tbu3EhjXNKgsIzgtp7+s2gkHl1M78RprboRKFEs0/09OA0Nhl5H+f9P+15MWmJvZtnbm8PoxmrS/mfMFObjD6F4CNkIqpXpLcNYIdhLk90c2p8ZOaXVK6q++JM4ugb386YIORoaI/syaaJ+rsGgOlzUd0=
+	t=1768213298; cv=none; b=XeHPHu+fUd+nULfq7dPOrPkC1v0UcnrcI82QVrMzPdW1PvVXVRBmPBA39hVrGjYj8O28F+lyE5KqxMTH7pImssCz/6mrhZ51j59+tWaSXCqtIEpQ0S3AocQrIUBt969R48WgAEiAU19VgMlFyGWG5OIbjCuPgOb9Kuqo1Q4rERw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768210992; c=relaxed/simple;
-	bh=aDegqbssjqstDHfsq0uYHCiIh0B/dftDYkwy5MbJCJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AInFncBLqCxbb8eY54v30lho2ZMFLvOw91gNi842gYA1DTConM+wdc0ClgK/VR7a7hWtI+2qmeDq5LrutEuZ9jkC80EBf9Al9e1Xcmv5OdOfHpBrDdi5Vj5ywvdZ7YW1LjLTkjh7IqVMIymdp5k3JxWT7LXBfj2jk2FyNlH04Q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jk5cKfq8; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1768213298; c=relaxed/simple;
+	bh=N1G/wiq4Ux8W4HxW7MUWT5L6TWra4aQBTh6qE98euWI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=G2P1cGUNUssVlAs09orafgoVJ02AFfbe+quduF4vwwTbM7khAuLON7gXJeBONHtVRoMRCvvJCT48uotOHUKc5FUPUVkRh8AuANVRvhEdA0hwTEp8SA/A35u2nFEIOL+2wAOtjV1ZssdG0uf9cORyAT5Ac7x+Q+eLtF0ROzxkLM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+7ifYmJ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jk5cKfq8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+7ifYmJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768210991; x=1799746991;
+  t=1768213297; x=1799749297;
   h=date:from:to:cc:subject:message-id;
-  bh=aDegqbssjqstDHfsq0uYHCiIh0B/dftDYkwy5MbJCJ4=;
-  b=Jk5cKfq8mhoE7Wg6WbE1RYnqB0k3hu3cY+4MG4EtQW1a8rw5cH+3n6Bz
-   f5Vs7LCvKpDAAu/jyDAklwvg8MzyvHf0CaKQ2wTIqL/vv7nBgLLWSlk4Q
-   HZPH9S5WFCnCW3VaL1BzVjQwuAWrfvkDTpsEwI5VgU7cUHGLQEgyv8OgP
-   keeyxD5XLov0rYZLwcNTs3/BE76nErDVfKY3XEc+ch3r+fJnwbJdhaFRf
-   JQh5bXYH90T2xt20AJPWob/M8DSA8GBZNNncSP+jMc1P7/XtTPHqYFPQm
-   Auc+yuS3lN7f8GyxgKTVfIbnri5sp+YBiVcTiBStWoe033+eE1g1JPx23
-   g==;
-X-CSE-ConnectionGUID: iOcbn2Z8RuW+1+NUxIDyRQ==
-X-CSE-MsgGUID: wJq9RDlLQhezQ+RFLF4rRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80848444"
+  bh=N1G/wiq4Ux8W4HxW7MUWT5L6TWra4aQBTh6qE98euWI=;
+  b=L+7ifYmJWOq7SOY863Z+IqiRcB6QTQu39SCUSyiSN6/RxxlknG1yOg0s
+   JS8q6ZGEuzTeJQbH2doJagiUoyTFbqpM8ZT/08EKPLsTHdjDUbTujUXl3
+   ZM0Howar5l2NzOYgNxDwfXrd0tIVhhULG9rmtSA8VrHuQfZgeN72grJoc
+   RqpFGHX5MzKBh81bTg1o1LLboT9OjIQgJd2oBWDnrxg/klXLvQhtOmxum
+   tUuDXLWaAHNIamR8n0d5fm4Pg+5RIE4yQOB+BdASk6ZWJJGKbeL9l6Gf0
+   hKY2FgdJq2DDKG2J/QLaGO1WAEbraSGkmK5RTFFcnusF8ebld6fmRFBBl
+   Q==;
+X-CSE-ConnectionGUID: Bet9NMywSLqCsptdaDE6nQ==
+X-CSE-MsgGUID: 5tQQxQSpSUaST0Ow0a/DzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="68689540"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="80848444"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 01:43:10 -0800
-X-CSE-ConnectionGUID: 1JYdOEk7QM2EEZpBJaL56w==
-X-CSE-MsgGUID: W163akeaQ3OXqmPcvF2Qaw==
+   d="scan'208";a="68689540"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:21:36 -0800
+X-CSE-ConnectionGUID: JfqOJF7dRmmAESq8164nTg==
+X-CSE-MsgGUID: u9ppdeg6SZGECY/1feM06Q==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Jan 2026 01:43:09 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="234748268"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 12 Jan 2026 02:21:35 -0800
+Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfES3-00000000DCw-1Y9q;
-	Mon, 12 Jan 2026 09:43:07 +0000
-Date: Mon, 12 Jan 2026 17:42:25 +0800
+	id 1vfF3E-000000000sP-2dXm;
+	Mon, 12 Jan 2026 10:21:32 +0000
+Date: Mon, 12 Jan 2026 11:20:55 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jic23-iio:testing 45/76]
- drivers/iio/adc/ti-ads1018.c:738:1: sparse: sparse: bad integer constant
- expression
-Message-ID: <202601121726.7G5HGe47-lkp@intel.com>
+Subject: [spacemit:k1/for-next 6/8]
+ arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: i2c@d4012000
+ (spacemit,k1-i2c): Unevaluated properties are not allowed ('resets' was
+ unexpected)
+Message-ID: <202601121125.XWPErYfq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,42 +62,48 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/iio/adc/ti-ads1018.c:738:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kurt Borja <kuurtb@gmail.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Andy Shevchenko <andy@kernel.org>
-CC: David Lechner <dlechner@baylibre.com>
+CC: Yixun Lan <dlan@gentoo.org>
+TO: Encrow Thorne <jyc0019@gmail.com>
+CC: Yixun Lan <dlan@gentoo.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   e0bc6d7e258486c10bb11e31fd4421c134063b1d
-commit: bf0bba486b5bd5e2d6100ed7dd1e38e0304ba40f [45/76] iio: adc: Add ti-ads1018 driver
-:::::: branch date: 20 hours ago
-:::::: commit date: 3 weeks ago
-config: arc-randconfig-r131-20260111 (https://download.01.org/0day-ci/archive/20260112/202601121726.7G5HGe47-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121726.7G5HGe47-lkp@intel.com/reproduce)
+tree:   https://github.com/spacemit-com/linux k1/for-next
+head:   0552cbce4bce08087313cdb599acf6f9616de0d7
+commit: 91c444d4285c07dbf2e6e4bf954d9a0282157f1f [6/8] riscv: dts: spacemit: add reset property
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: riscv-randconfig-2052-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121125.XWPErYfq-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121125.XWPErYfq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601121726.7G5HGe47-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601121125.XWPErYfq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/ti-ads1018.c:738:1: sparse: sparse: bad integer constant expression
-   drivers/iio/adc/ti-ads1018.c:738:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/adc/ti-ads1018.c:739:1: sparse: sparse: bad integer constant expression
-   drivers/iio/adc/ti-ads1018.c:739:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/iio/adc/ti-ads1018.c:740:1: sparse: sparse: bad integer constant expression
-   drivers/iio/adc/ti-ads1018.c:740:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-
-vim +738 drivers/iio/adc/ti-ads1018.c
-
-bf0bba486b5bd5 Kurt Borja 2025-12-11  737  
-bf0bba486b5bd5 Kurt Borja 2025-12-11 @738  MODULE_DESCRIPTION("Texas Instruments ADS1018 ADC Driver");
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: i2c@d4012000 (spacemit,k1-i2c): Unevaluated properties are not allowed ('resets' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/spacemit,k1-i2c.yaml
+   arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: /soc/phy@c0b10000: failed to match any schema with compatible: ['spacemit,k1-combo-phy']
+   arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: /soc/phy@c0c10000: failed to match any schema with compatible: ['spacemit,k1-pcie-phy']
+   arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: /soc/phy@c0d10000: failed to match any schema with compatible: ['spacemit,k1-pcie-phy']
+>> arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: i2c@d401d800 (spacemit,k1-i2c): Unevaluated properties are not allowed ('resets' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/spacemit,k1-i2c.yaml
+   arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: pcie@ca400000 (spacemit,k1-pcie): pcie@0: 'vpcie3v3-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/spacemit,k1-pcie-host.yaml
+   arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: pcie@ca800000 (spacemit,k1-pcie): pcie@0: 'vpcie3v3-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/spacemit,k1-pcie-host.yaml
+--
+   arch/riscv/boot/dts/spacemit/k1-milkv-jupiter.dtb: /soc/phy@c0b10000: failed to match any schema with compatible: ['spacemit,k1-combo-phy']
+   arch/riscv/boot/dts/spacemit/k1-milkv-jupiter.dtb: /soc/phy@c0c10000: failed to match any schema with compatible: ['spacemit,k1-pcie-phy']
+   arch/riscv/boot/dts/spacemit/k1-milkv-jupiter.dtb: /soc/phy@c0d10000: failed to match any schema with compatible: ['spacemit,k1-pcie-phy']
+>> arch/riscv/boot/dts/spacemit/k1-milkv-jupiter.dtb: i2c@d401d800 (spacemit,k1-i2c): Unevaluated properties are not allowed ('resets' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/spacemit,k1-i2c.yaml
 
 -- 
 0-DAY CI Kernel Test Service
