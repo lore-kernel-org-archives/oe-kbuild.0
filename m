@@ -1,242 +1,216 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB4C33D50C
-	for <oe-kbuild@lists.linux.dev>; Mon, 12 Jan 2026 08:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7458433FE2B
+	for <oe-kbuild@lists.linux.dev>; Mon, 12 Jan 2026 08:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768205187; cv=none; b=A49wfdY3H9J7tCeXW9XJpYMTL3YrRbIj09oV0fsKEW4K1suEteIdZZTSUbAXpE15GYhKtAbdPvCe7H2EVEuvUxBAfPQ47r5QRG0JR6bV3ra1JJJFJDf91l5CQGKGQu+b+wjDJjFjw84Kd//jqJrJr9gfcgV053SQsnyzuVWlQDw=
+	t=1768205197; cv=none; b=gcMayiDGeWkd84D9bsDZk9+Zh+ia8mB8EhCcHCV90Fj3hKQPM1rtVIJH/Ffekv900pATEG/JXwv4VamEbm7roEYR0X6tin1l0Dknn1P+NuxpLY9kHMGmbsP3a++eKTP7xol+p2+yuad6nq2Dr7040wgKOQMPdxBz6m63HlEAVOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768205187; c=relaxed/simple;
-	bh=TJSjSEmgY/o1H8JLJxTDvHXN0N/CI9xjGnI+9XwmW7M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bn6ncYGm8nwiAMEm5N6kaHKlCnQdTB7rn1KmCV9Qd7QQBtXgKp73HqmVPx1XhGwBI9lf1dL+oZH3x0Yv9NsB+/0BuPHBitH4bmpq+PPzEaeL97bONGSwCAMbcVeIZ7xnwq/qpU70zgu4zY4P9Gi6/CAh+PCpanRWUt6Yf+3ly1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ri1bhInb; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768205197; c=relaxed/simple;
+	bh=cVKROEBJ4p0HPjR+QMYQkOmu9I4TwmacJb1B5eCkBAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ArSFTiPYV7WYDyFDNQ3bYJypG3/CHZimFIrrpW0LinT2V/4f4y9mqfS/f3Rl8BE+52G8ud5mPXlsF+gXCKkuhgtuOuP0I3ziGfPxHROza0bVt8QKr/XGytU+al+d/JZV+WAsgQjS8/SJsLRkGTtXn/3vhLxCWQDu/+0TJcu9XEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=G6G+vDjK; arc=none smtp.client-ip=209.85.128.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ri1bhInb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768205185; x=1799741185;
-  h=date:from:to:cc:subject:message-id;
-  bh=TJSjSEmgY/o1H8JLJxTDvHXN0N/CI9xjGnI+9XwmW7M=;
-  b=Ri1bhInbTEkVeFiCgCPp5w/M3sRIHx1v80k1HZ5Wq/Tzw0K2PFHiUp7G
-   frkxGpXA3hzegYwkEceW8IV6NULh5j5SOUGvw9P1H8ppdLDXe/rZVSL34
-   gGLhrMpoRBNQNY0tJAr+QsVCVs2FRYUc0JINumYAmQYha4XgRTy8Zhnej
-   qvzuFHrPxipltHFWHyvIYcPhBnzmCK7XhTIFKUt1lVfqLexd0eXiKFwJJ
-   zNjnq8cDQQLHV+IYq4EsVde+l52ZT3xFtSbQSVIcuKAXd1Ay9FlC+P058
-   s2b4BQVMkSOEmmLnnujYX/+Z8emz5JRb/laK3qJcXMNFf95eWNiZzm7jD
-   w==;
-X-CSE-ConnectionGUID: taSsQIUWSRSdT37a0/YCxQ==
-X-CSE-MsgGUID: b/rnibuZQ/qwi6DwpsACGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69629844"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69629844"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 00:06:07 -0800
-X-CSE-ConnectionGUID: dIhzH0ovTcCbxGHDs0jr7Q==
-X-CSE-MsgGUID: Lmt0DXAlTOW4xzpymqMA9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="235265837"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Jan 2026 00:06:05 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfCw7-00000000D83-0rFP;
-	Mon, 12 Jan 2026 08:06:03 +0000
-Date: Mon, 12 Jan 2026 16:05:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/dma/bcm2835-dma.c:994:36-37: WARNING opportunity for
- min()
-Message-ID: <202601121613.SxER4NYD-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G6G+vDjK"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-477632b0621so37670445e9.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 12 Jan 2026 00:06:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768205189; x=1768809989; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8PUPcy9Vx/NIi8mBIxFa8+hlU13NeAgzjfUJ+zZxDg=;
+        b=G6G+vDjK1SOuttAxzYdGarosABXQJ5QE3XgjrU8DclI0kuLKCw/gTOEz8Fba+QOx0j
+         MXagxrkjeWQ3iY8XaRP9To7N4QKGvmA5bJFpcPmVVEV6BpLWzr2pVYQgeKRCq+6IqZy6
+         XLtFn2PnCi7D4aq0PY2ufF8462q+MXmhK8ZEBSz+kG51AywKsObJsaKazDRXOtwtRmme
+         pP/0VIDO+hS3/yoKi16CLOhVBy5LljKhcNWhs6SNGbbeD8GZktl7kJAxmclcT+ub1mOi
+         V6/shI9MuZ1ssxxFSFhjnhueznWggYG/GFp2EOWIFS7GthCmaiHyHl3mWkQ76SoqjNYD
+         zqKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768205189; x=1768809989;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t8PUPcy9Vx/NIi8mBIxFa8+hlU13NeAgzjfUJ+zZxDg=;
+        b=hwjMNMKcybZR6KrqOXGk2MezAXx7Gg8Ko59IbVHtGjvirVcM+Rnv2Y67A8cSi5K/t5
+         n2fUm2lOYi2/qb4XWQlrfcHHrN5AIT4WTrKCl5of7f65HamuE8uW+DMaihCeQ8D++2j7
+         lmksA7vF4QWPpMIcvp5GMQka2hoMgrYD2E8qT1BtopzMaTxaCWhIwbUUNjsYfxxf7lLf
+         cuQVJyrOCbW0wOoCE777xCa7DK5BoWF+vP1uSLySCkwcEJgSNPe0R4m54ilj3FEttrvR
+         SYgv0VugFc6joc4QX5+J74xuy64QkUyeI88HjSQZq084DRKbMY80Z0f9xAclgk56vLL6
+         41lQ==
+X-Gm-Message-State: AOJu0YxXVg1GaN1j3SZbrQCnggWfeGaz8P5jLswMK3N3I0Z4m0t/EYec
+	mZBeTVQMcGO2bMC78ujzoHBxbeBWpJOObNSTkBvRsqRJTL6TDpeF/2wPDjZjHUjpmQzw4tjr1wG
+	LV1baOng=
+X-Gm-Gg: AY/fxX4zQJHIjFV2JgUdtDzUz2d9VYb7JPO+aPxhFiu3gWCZRzyG3ho1Qa9kwCsC4Ar
+	hVUhMAT9xl43yEWFCrv2pTaYFgzNbldxLBHDz+oZyMhj2PnJcwu4XgtVwKoUxME6InUe56rNIET
+	4TyugN2QL6Kg/Ikc5y/J137Y9fD6qQ7vUs+ITLeCr5l2GejAYStGoCAp8Q0qvKgU50ywFiFfSTd
+	DxSxpw7gMmuuUNesqkeA44rMWo4C2HTJT3Iv8QLopVP610uTJxGFA+/ArPn6/3JazyiSjMaUoer
+	B1cAkFrXfTOiaPiyJC9py/zYpzpstDVAn1kIu6VfwV9eouMpxab6sWrVovDSszo8ZVsNjAi8I1S
+	uEYxFVUTvFa33ZoT7FRl0i0Zz8dBVqZK8t/6xkPFZPxrXi+ETYecn0Dy8Elt+DgM5UqZIcCl2E9
+	utUU9VNyRVC3OZHa68CsKluAfU+o4=
+X-Google-Smtp-Source: AGHT+IGeRnmYl434IC1Vj01KSlKheCmNT2gQvic9wVyQ16EjldEmsOfiFUGIG4TtGQB0W4+/K+PIqg==
+X-Received: by 2002:a05:600c:c4a5:b0:477:95a0:fe95 with SMTP id 5b1f17b1804b1-47d84b347ebmr203991545e9.24.1768205188859;
+        Mon, 12 Jan 2026 00:06:28 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dadcfsm36714370f8f.3.2026.01.12.00.06.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 00:06:28 -0800 (PST)
+Date: Mon, 12 Jan 2026 11:06:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Martin Liu <liumartin@google.com>,
+	David Rientjes <rientjes@google.com>, christian.koenig@amd.com,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	SeongJae Park <sj@kernel.org>, Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R . Howlett" <liam.howlett@oracle.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
+	Wei Yang <richard.weiyang@gmail.com>,
+	David Hildenbrand <david@redhat.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-trace-kernel@vger.kernel.org, Yu Zhao <yuzhao@google.com>
+Subject: Re: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
+Message-ID: <202601120452.VufCnz2j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260111150249.1222944-4-mathieu.desnoyers@efficios.com>
+Message-ID: <20260112080625.gjGre-YfMJhWM_bk6ckWd364Uoy_PB-xI1AUE43XGaU@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Johan Hovold <johan@kernel.org>
-CC: Vinod Koul <vkoul@kernel.org>
+Hi Mathieu,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f61b1860cc3f52aef9036d7235ed1f017632193
-commit: d3e1935fba8d71ef1889cbc2d6e2447cb829070f dmaengine: bcm2835: enable compile testing
-date:   7 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 7 weeks ago
-config: powerpc64-randconfig-r064-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121613.SxER4NYD-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.5.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Desnoyers/lib-Introduce-hierarchical-per-cpu-counters/20260111-231206
+base:   next-20260109
+patch link:    https://lore.kernel.org/r/20260111150249.1222944-4-mathieu.desnoyers%40efficios.com
+patch subject: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
+config: s390-randconfig-r071-20260112 (https://download.01.org/0day-ci/archive/20260112/202601120452.VufCnz2j-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.3.0
+smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202601121613.SxER4NYD-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601120452.VufCnz2j-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dma/bcm2835-dma.c:994:36-37: WARNING opportunity for min()
+smatch warnings:
+mm/oom_kill.c:392 oom_evaluate_task() error: uninitialized symbol 'points_min'.
 
-vim +994 drivers/dma/bcm2835-dma.c
+vim +/points_min +392 mm/oom_kill.c
 
-9602a843cb3a16 Stefan Wahren  2024-12-04   898  
-96286b57669073 Florian Meier  2014-01-06   899  static int bcm2835_dma_probe(struct platform_device *pdev)
-96286b57669073 Florian Meier  2014-01-06   900  {
-96286b57669073 Florian Meier  2014-01-06   901  	struct bcm2835_dmadev *od;
-96286b57669073 Florian Meier  2014-01-06   902  	void __iomem *base;
-96286b57669073 Florian Meier  2014-01-06   903  	int rc;
-e2eca6389b031c Martin Sperl   2016-04-11   904  	int i, j;
-e2eca6389b031c Martin Sperl   2016-04-11   905  	int irq[BCM2835_DMA_MAX_DMA_CHAN_SUPPORTED + 1];
-e2eca6389b031c Martin Sperl   2016-04-11   906  	int irq_flags;
-96286b57669073 Florian Meier  2014-01-06   907  	uint32_t chans_available;
-e2eca6389b031c Martin Sperl   2016-04-11   908  	char chan_name[BCM2835_DMA_CHAN_NAME_SIZE];
-96286b57669073 Florian Meier  2014-01-06   909  
-96286b57669073 Florian Meier  2014-01-06   910  	if (!pdev->dev.dma_mask)
-96286b57669073 Florian Meier  2014-01-06   911  		pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
-96286b57669073 Florian Meier  2014-01-06   912  
-96286b57669073 Florian Meier  2014-01-06   913  	rc = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-72503b25ee3638 Stefan Wahren  2019-07-16   914  	if (rc) {
-72503b25ee3638 Stefan Wahren  2019-07-16   915  		dev_err(&pdev->dev, "Unable to set DMA mask\n");
-96286b57669073 Florian Meier  2014-01-06   916  		return rc;
-72503b25ee3638 Stefan Wahren  2019-07-16   917  	}
-96286b57669073 Florian Meier  2014-01-06   918  
-96286b57669073 Florian Meier  2014-01-06   919  	od = devm_kzalloc(&pdev->dev, sizeof(*od), GFP_KERNEL);
-96286b57669073 Florian Meier  2014-01-06   920  	if (!od)
-96286b57669073 Florian Meier  2014-01-06   921  		return -ENOMEM;
-96286b57669073 Florian Meier  2014-01-06   922  
-96286b57669073 Florian Meier  2014-01-06   923  	dma_set_max_seg_size(&pdev->dev, 0x3FFFFFFF);
-96286b57669073 Florian Meier  2014-01-06   924  
-4b23603a251d24 Tudor Ambarus  2022-11-10   925  	base = devm_platform_ioremap_resource(pdev, 0);
-96286b57669073 Florian Meier  2014-01-06   926  	if (IS_ERR(base))
-96286b57669073 Florian Meier  2014-01-06   927  		return PTR_ERR(base);
-96286b57669073 Florian Meier  2014-01-06   928  
-96286b57669073 Florian Meier  2014-01-06   929  	od->base = base;
-96286b57669073 Florian Meier  2014-01-06   930  
-96286b57669073 Florian Meier  2014-01-06   931  	dma_cap_set(DMA_SLAVE, od->ddev.cap_mask);
-7f5ae3553685d5 Florian Meier  2014-01-17   932  	dma_cap_set(DMA_PRIVATE, od->ddev.cap_mask);
-96286b57669073 Florian Meier  2014-01-06   933  	dma_cap_set(DMA_CYCLIC, od->ddev.cap_mask);
-d9f094a02f3051 Martin Sperl   2016-03-16   934  	dma_cap_set(DMA_MEMCPY, od->ddev.cap_mask);
-96286b57669073 Florian Meier  2014-01-06   935  	od->ddev.device_alloc_chan_resources = bcm2835_dma_alloc_chan_resources;
-96286b57669073 Florian Meier  2014-01-06   936  	od->ddev.device_free_chan_resources = bcm2835_dma_free_chan_resources;
-96286b57669073 Florian Meier  2014-01-06   937  	od->ddev.device_tx_status = bcm2835_dma_tx_status;
-96286b57669073 Florian Meier  2014-01-06   938  	od->ddev.device_issue_pending = bcm2835_dma_issue_pending;
-96286b57669073 Florian Meier  2014-01-06   939  	od->ddev.device_prep_dma_cyclic = bcm2835_dma_prep_dma_cyclic;
-388cc7a281c06e Martin Sperl   2016-03-16   940  	od->ddev.device_prep_slave_sg = bcm2835_dma_prep_slave_sg;
-d9f094a02f3051 Martin Sperl   2016-03-16   941  	od->ddev.device_prep_dma_memcpy = bcm2835_dma_prep_dma_memcpy;
-39159bea78ed05 Maxime Ripard  2014-11-17   942  	od->ddev.device_config = bcm2835_dma_slave_config;
-39159bea78ed05 Maxime Ripard  2014-11-17   943  	od->ddev.device_terminate_all = bcm2835_dma_terminate_all;
-de92436ac40ffe Peter Ujfalusi 2017-11-14   944  	od->ddev.device_synchronize = bcm2835_dma_synchronize;
-b574368024670a Maxime Ripard  2014-11-17   945  	od->ddev.src_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_4_BYTES);
-b574368024670a Maxime Ripard  2014-11-17   946  	od->ddev.dst_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_4_BYTES);
-d9f094a02f3051 Martin Sperl   2016-03-16   947  	od->ddev.directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV) |
-d9f094a02f3051 Martin Sperl   2016-03-16   948  			      BIT(DMA_MEM_TO_MEM);
-0fa5867e6a2c61 Martin Sperl   2016-03-16   949  	od->ddev.residue_granularity = DMA_RESIDUE_GRANULARITY_BURST;
-6f6869dc97e865 Lukas Wunner   2019-09-11   950  	od->ddev.descriptor_reuse = true;
-96286b57669073 Florian Meier  2014-01-06   951  	od->ddev.dev = &pdev->dev;
-96286b57669073 Florian Meier  2014-01-06   952  	INIT_LIST_HEAD(&od->ddev.channels);
-96286b57669073 Florian Meier  2014-01-06   953  
-96286b57669073 Florian Meier  2014-01-06   954  	platform_set_drvdata(pdev, od);
-96286b57669073 Florian Meier  2014-01-06   955  
-bf75703d0912da Lukas Wunner   2019-09-11   956  	od->zero_page = dma_map_page_attrs(od->ddev.dev, ZERO_PAGE(0), 0,
-bf75703d0912da Lukas Wunner   2019-09-11   957  					   PAGE_SIZE, DMA_TO_DEVICE,
-bf75703d0912da Lukas Wunner   2019-09-11   958  					   DMA_ATTR_SKIP_CPU_SYNC);
-bf75703d0912da Lukas Wunner   2019-09-11   959  	if (dma_mapping_error(od->ddev.dev, od->zero_page)) {
-bf75703d0912da Lukas Wunner   2019-09-11   960  		dev_err(&pdev->dev, "Failed to map zero page\n");
-bf75703d0912da Lukas Wunner   2019-09-11   961  		return -ENOMEM;
-bf75703d0912da Lukas Wunner   2019-09-11   962  	}
-bf75703d0912da Lukas Wunner   2019-09-11   963  
-96286b57669073 Florian Meier  2014-01-06   964  	/* Request DMA channel mask from device tree */
-96286b57669073 Florian Meier  2014-01-06   965  	if (of_property_read_u32(pdev->dev.of_node,
-96286b57669073 Florian Meier  2014-01-06   966  			"brcm,dma-channel-mask",
-96286b57669073 Florian Meier  2014-01-06   967  			&chans_available)) {
-96286b57669073 Florian Meier  2014-01-06   968  		dev_err(&pdev->dev, "Failed to get channel mask\n");
-96286b57669073 Florian Meier  2014-01-06   969  		rc = -EINVAL;
-96286b57669073 Florian Meier  2014-01-06   970  		goto err_no_dma;
-96286b57669073 Florian Meier  2014-01-06   971  	}
-96286b57669073 Florian Meier  2014-01-06   972  
-e2eca6389b031c Martin Sperl   2016-04-11   973  	/* get irqs for each channel that we support */
-e2eca6389b031c Martin Sperl   2016-04-11   974  	for (i = 0; i <= BCM2835_DMA_MAX_DMA_CHAN_SUPPORTED; i++) {
-e2eca6389b031c Martin Sperl   2016-04-11   975  		/* skip masked out channels */
-e2eca6389b031c Martin Sperl   2016-04-11   976  		if (!(chans_available & (1 << i))) {
-e2eca6389b031c Martin Sperl   2016-04-11   977  			irq[i] = -1;
-e2eca6389b031c Martin Sperl   2016-04-11   978  			continue;
-e2eca6389b031c Martin Sperl   2016-04-11   979  		}
-e2eca6389b031c Martin Sperl   2016-04-11   980  
-e2eca6389b031c Martin Sperl   2016-04-11   981  		/* get the named irq */
-e2eca6389b031c Martin Sperl   2016-04-11   982  		snprintf(chan_name, sizeof(chan_name), "dma%i", i);
-e2eca6389b031c Martin Sperl   2016-04-11   983  		irq[i] = platform_get_irq_byname(pdev, chan_name);
-e2eca6389b031c Martin Sperl   2016-04-11   984  		if (irq[i] >= 0)
-e2eca6389b031c Martin Sperl   2016-04-11   985  			continue;
-e2eca6389b031c Martin Sperl   2016-04-11   986  
-e2eca6389b031c Martin Sperl   2016-04-11   987  		/* legacy device tree case handling */
-e2eca6389b031c Martin Sperl   2016-04-11   988  		dev_warn_once(&pdev->dev,
-0eef727a47c5ea Martin Sperl   2016-04-22   989  			      "missing interrupt-names property in device tree - legacy interpretation is used\n");
-e2eca6389b031c Martin Sperl   2016-04-11   990  		/*
-e2eca6389b031c Martin Sperl   2016-04-11   991  		 * in case of channel >= 11
-e2eca6389b031c Martin Sperl   2016-04-11   992  		 * use the 11th interrupt and that is shared
-e2eca6389b031c Martin Sperl   2016-04-11   993  		 */
-e2eca6389b031c Martin Sperl   2016-04-11  @994  		irq[i] = platform_get_irq(pdev, i < 11 ? i : 11);
-e2eca6389b031c Martin Sperl   2016-04-11   995  	}
-e2eca6389b031c Martin Sperl   2016-04-11   996  
-e2eca6389b031c Martin Sperl   2016-04-11   997  	/* get irqs for each channel */
-e2eca6389b031c Martin Sperl   2016-04-11   998  	for (i = 0; i <= BCM2835_DMA_MAX_DMA_CHAN_SUPPORTED; i++) {
-e2eca6389b031c Martin Sperl   2016-04-11   999  		/* skip channels without irq */
-e2eca6389b031c Martin Sperl   2016-04-11  1000  		if (irq[i] < 0)
-e2eca6389b031c Martin Sperl   2016-04-11  1001  			continue;
-e2eca6389b031c Martin Sperl   2016-04-11  1002  
-e2eca6389b031c Martin Sperl   2016-04-11  1003  		/* check if there are other channels that also use this irq */
-e2eca6389b031c Martin Sperl   2016-04-11  1004  		irq_flags = 0;
-e2eca6389b031c Martin Sperl   2016-04-11  1005  		for (j = 0; j <= BCM2835_DMA_MAX_DMA_CHAN_SUPPORTED; j++)
-e2eca6389b031c Martin Sperl   2016-04-11  1006  			if ((i != j) && (irq[j] == irq[i])) {
-e2eca6389b031c Martin Sperl   2016-04-11  1007  				irq_flags = IRQF_SHARED;
-96286b57669073 Florian Meier  2014-01-06  1008  				break;
-e2eca6389b031c Martin Sperl   2016-04-11  1009  			}
-96286b57669073 Florian Meier  2014-01-06  1010  
-e2eca6389b031c Martin Sperl   2016-04-11  1011  		/* initialize the channel */
-e2eca6389b031c Martin Sperl   2016-04-11  1012  		rc = bcm2835_dma_chan_init(od, i, irq[i], irq_flags);
-96286b57669073 Florian Meier  2014-01-06  1013  		if (rc)
-96286b57669073 Florian Meier  2014-01-06  1014  			goto err_no_dma;
-96286b57669073 Florian Meier  2014-01-06  1015  	}
-96286b57669073 Florian Meier  2014-01-06  1016  
-96286b57669073 Florian Meier  2014-01-06  1017  	dev_dbg(&pdev->dev, "Initialized %i DMA channels\n", i);
-96286b57669073 Florian Meier  2014-01-06  1018  
-96286b57669073 Florian Meier  2014-01-06  1019  	/* Device-tree DMA controller registration */
-96286b57669073 Florian Meier  2014-01-06  1020  	rc = of_dma_controller_register(pdev->dev.of_node,
-96286b57669073 Florian Meier  2014-01-06  1021  			bcm2835_dma_xlate, od);
-96286b57669073 Florian Meier  2014-01-06  1022  	if (rc) {
-96286b57669073 Florian Meier  2014-01-06  1023  		dev_err(&pdev->dev, "Failed to register DMA controller\n");
-96286b57669073 Florian Meier  2014-01-06  1024  		goto err_no_dma;
-96286b57669073 Florian Meier  2014-01-06  1025  	}
-96286b57669073 Florian Meier  2014-01-06  1026  
-96286b57669073 Florian Meier  2014-01-06  1027  	rc = dma_async_device_register(&od->ddev);
-96286b57669073 Florian Meier  2014-01-06  1028  	if (rc) {
-96286b57669073 Florian Meier  2014-01-06  1029  		dev_err(&pdev->dev,
-96286b57669073 Florian Meier  2014-01-06  1030  			"Failed to register slave DMA engine device: %d\n", rc);
-96286b57669073 Florian Meier  2014-01-06  1031  		goto err_no_dma;
-96286b57669073 Florian Meier  2014-01-06  1032  	}
-96286b57669073 Florian Meier  2014-01-06  1033  
-96286b57669073 Florian Meier  2014-01-06  1034  	dev_dbg(&pdev->dev, "Load BCM2835 DMA engine driver\n");
-96286b57669073 Florian Meier  2014-01-06  1035  
-96286b57669073 Florian Meier  2014-01-06  1036  	return 0;
-96286b57669073 Florian Meier  2014-01-06  1037  
-96286b57669073 Florian Meier  2014-01-06  1038  err_no_dma:
-96286b57669073 Florian Meier  2014-01-06  1039  	bcm2835_dma_free(od);
-96286b57669073 Florian Meier  2014-01-06  1040  	return rc;
-96286b57669073 Florian Meier  2014-01-06  1041  }
-96286b57669073 Florian Meier  2014-01-06  1042  
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  322  static int oom_evaluate_task(struct task_struct *task, void *arg)
+462607ecc519b19 David Rientjes    2012-07-31  323  {
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  324  	struct oom_control *oc = arg;
+72456781289a6ed Mathieu Desnoyers 2026-01-11  325  	unsigned long accuracy_under = 0, accuracy_over = 0;
+72456781289a6ed Mathieu Desnoyers 2026-01-11  326  	long points, points_min, points_max;
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  327  
+ac311a14c682dcd Shakeel Butt      2019-07-11  328  	if (oom_unkillable_task(task))
+ac311a14c682dcd Shakeel Butt      2019-07-11  329  		goto next;
+ac311a14c682dcd Shakeel Butt      2019-07-11  330  
+ac311a14c682dcd Shakeel Butt      2019-07-11  331  	/* p may not have freeable memory in nodemask */
+ac311a14c682dcd Shakeel Butt      2019-07-11  332  	if (!is_memcg_oom(oc) && !oom_cpuset_eligible(task, oc))
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  333  		goto next;
+462607ecc519b19 David Rientjes    2012-07-31  334  
+462607ecc519b19 David Rientjes    2012-07-31  335  	/*
+462607ecc519b19 David Rientjes    2012-07-31  336  	 * This task already has access to memory reserves and is being killed.
+a373966d1f64c04 Michal Hocko      2016-07-28  337  	 * Don't allow any other task to have access to the reserves unless
+862e3073b3eed13 Michal Hocko      2016-10-07  338  	 * the task has MMF_OOM_SKIP because chances that it would release
+a373966d1f64c04 Michal Hocko      2016-07-28  339  	 * any memory is quite low.
+462607ecc519b19 David Rientjes    2012-07-31  340  	 */
+862e3073b3eed13 Michal Hocko      2016-10-07  341  	if (!is_sysrq_oom(oc) && tsk_is_oom_victim(task)) {
+12e423ba4eaed7b Lorenzo Stoakes   2025-08-12  342  		if (mm_flags_test(MMF_OOM_SKIP, task->signal->oom_mm))
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  343  			goto next;
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  344  		goto abort;
+a373966d1f64c04 Michal Hocko      2016-07-28  345  	}
+462607ecc519b19 David Rientjes    2012-07-31  346  
+e1e12d2f3104be8 David Rientjes    2012-12-11  347  	/*
+e1e12d2f3104be8 David Rientjes    2012-12-11  348  	 * If task is allocating a lot of memory and has been marked to be
+e1e12d2f3104be8 David Rientjes    2012-12-11  349  	 * killed first if it triggers an oom, then select it.
+e1e12d2f3104be8 David Rientjes    2012-12-11  350  	 */
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  351  	if (oom_task_origin(task)) {
+9066e5cfb73cdbc Yafang Shao       2020-08-11  352  		points = LONG_MAX;
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  353  		goto select;
 
-:::::: The code at line 994 was first introduced by commit
-:::::: e2eca6389b031cdbbc4172eee89ce271c00cb672 dmaengine: bcm2835: use platform_get_irq_byname
+points_min is uninitialized.
 
-:::::: TO: Martin Sperl <kernel@martin.sperl.org>
-:::::: CC: Vinod Koul <vinod.koul@intel.com>
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  354  	}
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  355  
+72456781289a6ed Mathieu Desnoyers 2026-01-11  356  	points = oom_badness(task, oc->totalpages, true, &accuracy_under, &accuracy_over);
+72456781289a6ed Mathieu Desnoyers 2026-01-11  357  	if (points != LONG_MIN) {
+72456781289a6ed Mathieu Desnoyers 2026-01-11  358  		percpu_counter_tree_approximate_min_max_range(points,
+72456781289a6ed Mathieu Desnoyers 2026-01-11  359  				accuracy_under, accuracy_over,
+72456781289a6ed Mathieu Desnoyers 2026-01-11  360  				&points_min, &points_max);
+72456781289a6ed Mathieu Desnoyers 2026-01-11  361  	}
+72456781289a6ed Mathieu Desnoyers 2026-01-11  362  	if (oc->approximate) {
+72456781289a6ed Mathieu Desnoyers 2026-01-11  363  		/*
+72456781289a6ed Mathieu Desnoyers 2026-01-11  364  		 * Keep the process which has the highest minimum
+72456781289a6ed Mathieu Desnoyers 2026-01-11  365  		 * possible points value based on approximation.
+72456781289a6ed Mathieu Desnoyers 2026-01-11  366  		 */
+72456781289a6ed Mathieu Desnoyers 2026-01-11  367  		if (points == LONG_MIN || points_min < oc->chosen_points)
+72456781289a6ed Mathieu Desnoyers 2026-01-11  368  			goto next;
+72456781289a6ed Mathieu Desnoyers 2026-01-11  369  	} else {
+72456781289a6ed Mathieu Desnoyers 2026-01-11  370  		/*
+72456781289a6ed Mathieu Desnoyers 2026-01-11  371  		 * Eliminate processes which are certainly below the
+72456781289a6ed Mathieu Desnoyers 2026-01-11  372  		 * chosen points minimum possible value with an
+72456781289a6ed Mathieu Desnoyers 2026-01-11  373  		 * approximation.
+72456781289a6ed Mathieu Desnoyers 2026-01-11  374  		 */
+72456781289a6ed Mathieu Desnoyers 2026-01-11  375  		if (points == LONG_MIN || (long)(points_max - oc->chosen_points) < 0)
+72456781289a6ed Mathieu Desnoyers 2026-01-11  376  			goto next;
+72456781289a6ed Mathieu Desnoyers 2026-01-11  377  
+72456781289a6ed Mathieu Desnoyers 2026-01-11  378  		if (oc->nr_precise < max_precise_badness_sums) {
+72456781289a6ed Mathieu Desnoyers 2026-01-11  379  			oc->nr_precise++;
+72456781289a6ed Mathieu Desnoyers 2026-01-11  380  			/* Precise evaluation. */
+72456781289a6ed Mathieu Desnoyers 2026-01-11  381  			points_min = points_max = points = oom_badness(task, oc->totalpages, false, NULL, NULL);
+72456781289a6ed Mathieu Desnoyers 2026-01-11  382  			if (points == LONG_MIN || (long)(points - oc->chosen_points) < 0)
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  383  				goto next;
+72456781289a6ed Mathieu Desnoyers 2026-01-11  384  		}
+72456781289a6ed Mathieu Desnoyers 2026-01-11  385  	}
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  386  
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  387  select:
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  388  	if (oc->chosen)
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  389  		put_task_struct(oc->chosen);
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  390  	get_task_struct(task);
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  391  	oc->chosen = task;
+72456781289a6ed Mathieu Desnoyers 2026-01-11 @392  	oc->chosen_points = points_min;
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  393  next:
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  394  	return 0;
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  395  abort:
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  396  	if (oc->chosen)
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  397  		put_task_struct(oc->chosen);
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  398  	oc->chosen = (void *)-1UL;
+7c5f64f84483bd1 Vladimir Davydov  2016-10-07  399  	return 1;
+462607ecc519b19 David Rientjes    2012-07-31  400  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
