@@ -1,98 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1165CB672
-	for <oe-kbuild@lists.linux.dev>; Mon, 12 Jan 2026 01:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD103A8F7
+	for <oe-kbuild@lists.linux.dev>; Mon, 12 Jan 2026 02:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768182566; cv=none; b=i89xB+hHmbFkQZPEiJK4JYrRYGTZpTb9/S2Rdudo3C2Ujido74Ds1/BFS+jan6vnHaaOdtqevZRVVIaMYu6nb4nxmLDfsPRfvIWDA+0CTFuZvKMgjodcaKitLNeNwNq0X74JpwgnaEHcbhiAUD+0Gx787DKhcCmqggUjAhDEMiU=
+	t=1768184008; cv=none; b=OpPLt/O7dBTPtvCOB99D9T1B9eWm2IcLMjnLn6OU8/2vHMd/UhIzcWdO65XSWkJ2ZkImJdPvMDcWb4MNbsxdGTotK23aa7tXA/V3U4yQFkF+6Mj/n8r8N+R6aEq15TEbz/gONioIXj9EGzhVf1D7CfUg1+9ehvoe6oMJ4fnU7fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768182566; c=relaxed/simple;
-	bh=9+pJGtYCfx44jtlbZ6OeaTV89DghTIxmbzRc/4WcWYQ=;
-	h=Date:From:To:Subject:Message-ID; b=ctGg/vtps4stwfdkZIRzmvr4me8qhvnOgBKT0XzMJrutf3P4rOPGY0E/+53jkCCx8vEpzMdOe4zf3IGeIrv4juYlJh4LrBjIp1+Ll57Sl9ODQ41U91UwFpjCZH57pbirJTukSl5SWSwNKGPsCp6WZcajN+FOTZ/JeUytDZ5qcqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iYD6apaf; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1768184008; c=relaxed/simple;
+	bh=SsB+IuiB3mOS+4dLAJJiWQXQ0IHwzK8AkTVj68SZkQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AGSlMqtYeiqBe/A4LCrOW2JAeHRThPe0z9HU2LdJhQCoFbo7mi3O7PNIfR3gdixALvNjKRyC+lVVA2iHEdGKHjj2lZ7khYATiMrNe181iUU6iZvBcB44wtkFCQB5NpgaoWGnbDAF2x3E00RIOl/i/elPQ/2PEN9Q7ZCJvd1h+R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OVqsAL7X; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iYD6apaf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OVqsAL7X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768182564; x=1799718564;
-  h=date:from:to:subject:message-id;
-  bh=9+pJGtYCfx44jtlbZ6OeaTV89DghTIxmbzRc/4WcWYQ=;
-  b=iYD6apafWgL0X3yBeV4VO+fnGTDO3nwL4N75e++EsPtsHl48vkPLvlV8
-   WxwLGi2WSM667eiWcWvwmyHwGfHRlvBXFdFd4ERlsqhq+BVVY5KIPDSFm
-   HlnxhEdz2PgmRX3BCwJ58uwioNnQEUjAh/2bHh04Kf/tEj745ru8VCad+
-   Cwu3GiOxUwxSpPbXxVxE8A1iQ5tb25RRy288etoiI8hd6WNDFpDvXNvdj
-   5ncydPS5U5xfwgor2eLTNKEisZGjXl1yHbhZY9DknqYGsOyG2gduWD/mh
-   qcnIGIzngXo0MyO1Ntv9rAo/HhOAx8ieANekXfOpFTSPsfvcKPaAq+R+w
+  t=1768184006; x=1799720006;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SsB+IuiB3mOS+4dLAJJiWQXQ0IHwzK8AkTVj68SZkQk=;
+  b=OVqsAL7X+XKilo7kz2A0g6ydRgF1b/Rs0IcdXrGPcBbfEqYOFnJ4bZ0u
+   EP1y97687CNR/Ddhtftg8Khej0RvLMOXYO9Z8XyRVob7tMroV3H4k8Za+
+   7/pe7g/EQmwGS4PV116NbCg41mWINNRx48w6EA6jgVBA6MDNtfjpxyiGc
+   T4JA9eXDmubnjyhm2EUsEYLAkkOiEcoRNTEXCJzXWJGmbbrTHUw2rUhZt
+   BeVbecgihUOZUqCmQNIMBHO3XJh9JXbwzE8w1Qsp60KFr6fQ57S3syPg8
+   QyT36QHLAfst+Mzd3TWUGHzXNO4YYeyed9y7Gf/vPLHwpaVnZudjewYee
    Q==;
-X-CSE-ConnectionGUID: qsLAzykTQcme1BUARbRfeQ==
-X-CSE-MsgGUID: +oLto5e3SFeQdu2YXzdqbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69356854"
+X-CSE-ConnectionGUID: IyDh+fTfQl2JlBh/yoMHuw==
+X-CSE-MsgGUID: OZvW67KVTkGSgarieLHcDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69508704"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69356854"
+   d="scan'208";a="69508704"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 17:49:24 -0800
-X-CSE-ConnectionGUID: mm6BnYbIQ5238OPhogYiQg==
-X-CSE-MsgGUID: SAXpZXdaSsGFo5G+LDZDDg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 18:13:25 -0800
+X-CSE-ConnectionGUID: 7Ss0qhQcTQmghldeYhGSIA==
+X-CSE-MsgGUID: RnykjM52Qtay0X/SmWvOJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="241499330"
+   d="scan'208";a="241502006"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2026 17:49:24 -0800
+  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2026 18:13:24 -0800
 Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vf73a-000000000c5-00sQ
-	for oe-kbuild@lists.linux.dev;
-	Mon, 12 Jan 2026 01:49:22 +0000
-Date: Mon, 12 Jan 2026 02:48:29 +0100
+	id 1vf7Qo-000000000cb-1Nye;
+	Mon, 12 Jan 2026 02:13:22 +0000
+Date: Mon, 12 Jan 2026 03:13:04 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [cilium:max/vxlan-bigtcp 20/21] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'Socket'
-Message-ID: <202601120201.8YbsxUm2-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [nolibc:for-next 22/25] nolibc-test.c:12:10: fatal error:
+ stdio.h: No such file or directory
+Message-ID: <202601120334.gadyryQ9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: Manual check reason: "checkpatch report for netdev code"
-:::::: 
+::::::=20
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "only suspicious fbc files changed"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Daniel Borkmann <daniel@iogearbox.net>
+TO: "Thomas Wei=C3=9Fschuh" <linux@weissschuh.net>
 
-tree:   https://github.com/cilium/linux.git max/vxlan-bigtcp
-head:   de0493575c7f01a82c2b58b308fae122df5aa143
-commit: 84c940b63b7d32d92b518dc40401f8576dcd05bb [20/21] geneve: Enable BIG TCP packets
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20260112/202601120201.8YbsxUm2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/nolibc/linux-nolibc=
+.git for-next
+head:   a5f00be9b3b07d92c6689997403851a32e1874cc
+commit: 6fe8360b16acbfb50c703f52568cad46759be2ed [22/25] selftests/nolibc: =
+also test libc-test through regular selftest framework
+:::::: branch date: 14 hours ago
+:::::: commit date: 16 hours ago
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/=
+20260112/202601120334.gadyryQ9-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260112/202601120334.gadyryQ9-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601120334.gadyryQ9-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'Socket'
-#21: 
-    Socket Socket  Message  Elapsed
+Note: the nolibc/for-next HEAD a5f00be9b3b07d92c6689997403851a32e1874cc bui=
+lds fine.
+      It only hurts bisectability.
 
-WARNING:REPEATED_WORD: Possible repeated word: 'Socket'
-#32: 
-    Socket Socket  Message  Elapsed
+All errors (new ones prefixed by >>):
 
-WARNING:REPEATED_WORD: Possible repeated word: 'Socket'
-#45: 
-    Socket Socket  Message  Elapsed
+>> nolibc-test.c:12:10: fatal error: stdio.h: No such file or directory
+      12 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> nolibc-test-linkage.c:5:10: fatal error: errno.h: No such file or direct=
+ory
+       5 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 
-WARNING:REPEATED_WORD: Possible repeated word: 'Socket'
-#56: 
-    Socket Socket  Message  Elapsed
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
