@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E46355024
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 Jan 2026 22:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71E31D432D
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 Jan 2026 23:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768342012; cv=none; b=Fu9HkGL8aPEIw0T/XaC5rjjhbuhtiPHXvnjkc/L2idFAB6yTGKM8x2st1vZ0NifS5rH72idRiacmZaV1k7YQ+/dD1sPFA8UVkqmjHonY+tnPB3LF194s1m5uKlL24hWLJl2eJn0EmdpAer1Da3e0SeNlQxa2IKoOWaKOJNgEHGE=
+	t=1768345255; cv=none; b=OGcq0wbRjt4kw4wMTbjr5WXibb57+EMuCltAMjMFnKsffvDuc58HBJKs7MwcRHRPthY5QxN73gAcy/622dAPTmyac/Or7YtOJjcp2OqSvO7vA99v0icwzw/dxgjuqYG5warbsVACrPA5ocv6qkzO+t10QE7ix1Kb+a6aqNg+uKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768342012; c=relaxed/simple;
-	bh=Iqv2i0YVeOKFtan6OfB5Ofq4Ny6w1O6eamWpPA1tPqo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NRiheJI0Y21rByD6eh4CZP6uYBwdwBeB6YhQQCvdZO001fak0s9fGPKx95CCsumRSD1XVE+umiws5ILU/ryBAn5l1ytPva5lLRJjteRXwVEVJUFoJUH2xIokJX6CzaAn8W/Pnx5Z9whx4Hzvi/Wcm1xjr+CXM0jIWz4L8G1H7tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KOjQI7IS; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1768345255; c=relaxed/simple;
+	bh=T2TUgv6toCE33wl689/n7gm5FH5yaDyF0saKQ6szz5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RLSuGDMbX8d3wsk5DO+kGpXNR/X7wOzynKAIA56QSDZk5Uu/qDTXFmATLnP8bqSt4AKnS5OUiIbAxu1pxKl3sk6gWzsIaTqqXxc2/VSFcjc1qGuH3+ueR5ki0aKZnsVjco4ajCqhuI2zfxtIZvxu+f4hTAaTDz8MVRrlQNGBv3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T9YuXnUI; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KOjQI7IS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9YuXnUI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768342011; x=1799878011;
+  t=1768345252; x=1799881252;
   h=date:from:to:cc:subject:message-id;
-  bh=Iqv2i0YVeOKFtan6OfB5Ofq4Ny6w1O6eamWpPA1tPqo=;
-  b=KOjQI7ISle6E0QTFdHjO5EqcqQvINN+PQEwFkXgWHWNsPtbZBLX+elnx
-   rqPdxdkJRzjOc45NVysjnglC9lV79sEjPRldGHQjceetyJSQxNZWnhFfg
-   XBTeDE1AYhvlWLXWCyaZzCPSjgww0tLAJvjlyN0nfVyFwGErdwlgkqFcr
-   OAltTA1THTJCqkV03KFk2cBjnFtwiAObFjlBUBWXaTKZi01gCmt5B74+o
-   mThKIaeXjfqfjDsLXDkyLfrhXT8vz/GFLTRgTuDyrY5ta/EUgbkAu7edo
-   eZvKJellLBsUhLYumbQRueRY8RFIqn5bjJBkSZBTtSfOyNQXpKNEB5n1A
-   A==;
-X-CSE-ConnectionGUID: phGc0ewZR4W9RVqyMHj9kg==
-X-CSE-MsgGUID: GrKb1lovRAWgyF9hYrMDHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="73495114"
+  bh=T2TUgv6toCE33wl689/n7gm5FH5yaDyF0saKQ6szz5Q=;
+  b=T9YuXnUI1Ac6TaRJ/vfn+NYRqP0eO4wSzQ882zQkrQA9HXKTtRjPwFOR
+   HdOyDWwEm2O8NjDaYUHGd0neDMlVlg/dndqN37ZzmNUkIpOzeLJjADS95
+   7a4xlSkRBCvs7xBMpZOGqbjJ8D0/PPWxiwGeltsmz67al70cQwyReo9BB
+   g0r30AxUoaV4Xl97EblXUI+PDBKJoaetfBzrh+bvGyHQsRMINC92Ddini
+   9DNopyAWZxJG8Oe71ZqWAYLU3LNnTREpsbvSQdr4F3VsRoRIT0s76ee70
+   UaQ9E7OMUtP8ki/GHbEzo0TI1df9RzTrEuqsxO+UFa1OhtNDiJveMVGpd
+   g==;
+X-CSE-ConnectionGUID: Qq7Equb/QN+fA30+XaYtyA==
+X-CSE-MsgGUID: OoTbYPrUS7Cx5WPtElRyoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="92310891"
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="73495114"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 14:06:50 -0800
-X-CSE-ConnectionGUID: t5E4lpUaS3u9c43wTHk3Mw==
-X-CSE-MsgGUID: EGX4RfcYR3G48/daX87ClA==
+   d="scan'208";a="92310891"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 15:00:52 -0800
+X-CSE-ConnectionGUID: jS9xQG0+ReKS01jNZbNYBQ==
+X-CSE-MsgGUID: lFDAStrJSEyR3f8NDnxnww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="204777836"
+   d="scan'208";a="204399092"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Jan 2026 14:06:49 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 13 Jan 2026 15:00:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfmXG-00000000FRI-3uDk;
-	Tue, 13 Jan 2026 22:06:46 +0000
-Date: Wed, 14 Jan 2026 06:06:28 +0800
+	id 1vfnNY-00000000FT4-1nBf;
+	Tue, 13 Jan 2026 23:00:48 +0000
+Date: Wed, 14 Jan 2026 07:00:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [thesofproject:topic/sof-dev-rebase 61/76]
- sound/soc/sof/ipc4-loader.c:152:1-3: WARNING: possible condition with no
- effect (if == else)
-Message-ID: <202601140545.gBXvuViZ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: fs/gfs2/log.o: warning: objtool: gfs2_ail1_start_one+0x1dc:
+ unreachable instruction
+Message-ID: <202601140637.CVflfjUo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,70 +59,33 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-CC: Bard Liao <yung-chuan.liao@linux.intel.com>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
-CC: Liam Girdwood <liam.r.girdwood@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Andreas Gruenbacher <agruenba@redhat.com>
 
-tree:   https://github.com/thesofproject/linux topic/sof-dev-rebase
-head:   7bd887f1def360dd856aa50b7216c50d24a3a181
-commit: 408ab22a60f6ad2855bd27463fe0de8f85ff009c [61/76] ASoC: SOF: debug-dsp-ops: Add a new op to test firmware boot
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: um-randconfig-r063-20260114 (https://download.01.org/0day-ci/archive/20260114/202601140545.gBXvuViZ-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b54345928fa1dbde534e32ecaa138678fd5d2135
+commit: 5a90f8d499225512a385585ffe3e28f687263d47 gfs2: Don't start unnecessary transactions during log flush
+date:   8 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 months ago
+config: loongarch-randconfig-r053-20260108 (https://download.01.org/0day-ci/archive/20260114/202601140637.CVflfjUo-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140637.CVflfjUo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202601140545.gBXvuViZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601140637.CVflfjUo-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> sound/soc/sof/ipc4-loader.c:152:1-3: WARNING: possible condition with no effect (if == else)
+All warnings (new ones prefixed by >>):
 
-vim +152 sound/soc/sof/ipc4-loader.c
-
-c62ff366b3c998 Ranjani Sridharan 2022-05-11  144  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  145  static size_t sof_ipc4_fw_parse_basefw_ext_man(struct snd_sof_dev *sdev)
-5a932cfce44014 Peter Ujfalusi    2022-10-20  146  {
-5a932cfce44014 Peter Ujfalusi    2022-10-20  147  	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  148  	struct sof_ipc4_fw_library *fw_lib;
-5cab0d6c2bd127 Peter Ujfalusi    2022-10-25  149  	ssize_t payload_offset;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  150  	int ret;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  151  
-408ab22a60f6ad Ranjani Sridharan 2024-03-25 @152  	if (sdev->dsp_test_mode_enabled)
-408ab22a60f6ad Ranjani Sridharan 2024-03-25  153  		fw_lib = devm_kzalloc(sdev->dev, sizeof(*fw_lib), GFP_KERNEL);
-408ab22a60f6ad Ranjani Sridharan 2024-03-25  154  	else
-5a932cfce44014 Peter Ujfalusi    2022-10-20  155  		fw_lib = devm_kzalloc(sdev->dev, sizeof(*fw_lib), GFP_KERNEL);
-5a932cfce44014 Peter Ujfalusi    2022-10-20  156  	if (!fw_lib)
-5a932cfce44014 Peter Ujfalusi    2022-10-20  157  		return -ENOMEM;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  158  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  159  	fw_lib->sof_fw.fw = sdev->basefw.fw;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  160  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  161  	payload_offset = sof_ipc4_fw_parse_ext_man(sdev, fw_lib);
-408ab22a60f6ad Ranjani Sridharan 2024-03-25  162  	if (sdev->dsp_test_mode_enabled) {
-408ab22a60f6ad Ranjani Sridharan 2024-03-25  163  		devm_kfree(sdev->dev, fw_lib->modules);
-408ab22a60f6ad Ranjani Sridharan 2024-03-25  164  		devm_kfree(sdev->dev, fw_lib);
-408ab22a60f6ad Ranjani Sridharan 2024-03-25  165  		return payload_offset;
-408ab22a60f6ad Ranjani Sridharan 2024-03-25  166  	}
-408ab22a60f6ad Ranjani Sridharan 2024-03-25  167  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  168  	if (payload_offset > 0) {
-5a932cfce44014 Peter Ujfalusi    2022-10-20  169  		fw_lib->sof_fw.payload_offset = payload_offset;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  170  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  171  		/* basefw ID is 0 */
-5a932cfce44014 Peter Ujfalusi    2022-10-20  172  		fw_lib->id = 0;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  173  		ret = xa_insert(&ipc4_data->fw_lib_xa, 0, fw_lib, GFP_KERNEL);
-5a932cfce44014 Peter Ujfalusi    2022-10-20  174  		if (ret)
-5a932cfce44014 Peter Ujfalusi    2022-10-20  175  			return ret;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  176  	}
-5a932cfce44014 Peter Ujfalusi    2022-10-20  177  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  178  	return payload_offset;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  179  }
-5a932cfce44014 Peter Ujfalusi    2022-10-20  180  
+>> fs/gfs2/log.o: warning: objtool: gfs2_ail1_start_one+0x1dc: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
