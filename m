@@ -1,119 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sg-1-34.ptr.blmpb.com (sg-1-34.ptr.blmpb.com [118.26.132.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BCC35CB7A
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 Jan 2026 05:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F2935CBA4
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 Jan 2026 06:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768283372; cv=none; b=aj5qeyDzlCYur8KcF0rGjXru4ZOD5J2JqWwM8MRIAhyWK0ruG+CN6fcPBeYfUP5ONTyOzlrbf40yWHhKbzLK5+/T9cCbvlBOoh2Y3YHZW7nvKLPl5ivVrDyr8OQ4SSXjcY2coipXSam94EWaZm4/P2s5UL38Wf5LJtVYpRxJe3Q=
+	t=1768284708; cv=none; b=B8V0jpccEVUwezsc905YXxpVA7GguAoIR9uWtqFOR5wzYPMGHEJJV6850K0HPX+GnHm1p7GZ1WkpZCyVjHWNPG4JWxbZJY/sYjxK8/T3HJ4qJPjj6DrSCKOWn3zBdgYx7HkWpX86sys3VSPtsHZy4Uo/DkZOWbBTfBgHZeNiVqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768283372; c=relaxed/simple;
-	bh=meWmGmm+oNaevIUW7QsGdrTWH6ifgi/lIpzdm7J7Wws=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PqtYrcUxO9MtfdaxH8QFDmdQP6y3enEihUv2xAhmPiPgOwQuNkZZNpEVc5cOVgV2ugjXea4r21YTT++mbqyx5gDDfnxBGANEfLbElBYO6lEfcIbjxXgv/DxFv1/XT/d/b4aN4uiPekEdhWNngCDE8tIFC8qzTUesW93zs+HXi1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSwJP1xl; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768284708; c=relaxed/simple;
+	bh=u4rQpEr6bqpAUJiVuqn5Z9nnYY2HdiHfmJmnJ8TA0BI=;
+	h=Date:In-Reply-To:To:From:Message-Id:References:Cc:Subject:
+	 Mime-Version:Content-Type; b=B8K3fWSfzCjH1z71BGl736GSsqwQkWpTqkHLwMFobWUoI8xYCfKz4XXxYeLdIzmQTttOmpwAzTkWI6xXl9XKiyfsBSiiSRPRLl5OiVBhBRopoQAN8MUW0SeFITWE5apUu+PfPtdoOb5YeNR+75VqhNlENmLBhMYi1n0PPN1BWyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=pass smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=u/bmHEkY; arc=none smtp.client-ip=118.26.132.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fnnas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSwJP1xl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768283370; x=1799819370;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=meWmGmm+oNaevIUW7QsGdrTWH6ifgi/lIpzdm7J7Wws=;
-  b=nSwJP1xlaN0R0sJvN6zY1l5UP1XSbtVzBgzS/04ZkwaLfB5ItA/3itig
-   F/SJC+Rc69lZEZ9ZfvcZkCSkPXP6lbqeCkSnLRaJ151meYt+E72T5zcnp
-   eWD87IWldSWQ12lq4ZUnNzKSdKh8O1T9Yc0EjUKMys5vHtGNA32R5pS3Y
-   zUl3/ckO1h3E1SrMTJWLeyP+AE6oxQnap5z5639Zt8F8RFSnu4ITK/jdv
-   HxHnK5nW2k0UJa0+c5WXPq3r9ZomUPDM0/muSEmF71dzsvwsHjYwQI43X
-   EI/dS7nzd3ytcD++Tx28q0dTgOtnytEwc74MwbQc1z+EDxtiDYNfA4RiT
-   g==;
-X-CSE-ConnectionGUID: PybRH9LqSLqJar/C1VWKEQ==
-X-CSE-MsgGUID: E1+w7VzcRM2FedOxtrWiGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80206766"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="80206766"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 21:49:29 -0800
-X-CSE-ConnectionGUID: NDGdEMFLQK+yNBt1rafwgQ==
-X-CSE-MsgGUID: dGw+m2AxRC2PkoVWDjZUiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="234998176"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 12 Jan 2026 21:49:28 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfXHQ-00000000EI8-29kv;
-	Tue, 13 Jan 2026 05:49:24 +0000
-Date: Tue, 13 Jan 2026 13:48:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 1/4] scripts/kernel-doc: fix logic to handle unissued
- warnings
-Message-ID: <202601131310.4A2pZJUr-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="u/bmHEkY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1768284694;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=mLOgn3Nm6iKwO5Yi/JaLxxTsEFmI+8DgjMxIR9z9xjI=;
+ b=u/bmHEkYqdrMe9850eO8nnxqk5ru6gTeDuc8S7Czkc3IH4fW38rG/QQ80Oq9XJaTSKL6kG
+ TBv521paWaZuUZIrnxapfQu+4wg0e8NBpgezZGBE8Pvs9uOihi8TpHkKNn8unzNfsiuz+9
+ yd5N/drmYw7rntAiCQNzED+gTjP4Xaa7iMRqGpVvX5W9utD6zmMpHQ4+nQNqTYZS/Xwv1z
+ 0m2ucyzqAzbEkNIgmkiWEd2emDqNr4E7inoXcd4N2D7mj87Dw6XxYoGTqnhLdsnCue+o9n
+ X7/5RTCCxIdtnMpIbs9dugZcsLZIIkoRJwWGsUArSiw6OrDjuvjHlHe54bkVNQ==
+Date: Tue, 13 Jan 2026 14:11:29 +0800
+In-Reply-To: <202601130531.LGfcZsa4-lkp@intel.com>
+Received: from [192.168.1.104] ([39.182.0.185]) by smtp.feishu.cn with ESMTPS; Tue, 13 Jan 2026 14:11:31 +0800
+Reply-To: yukuai@fnnas.com
+To: "Dan Carpenter" <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>, 
+	<linux-raid@vger.kernel.org>, <linan122@huawei.com>, <yukuai@fnnas.com>
+From: "Yu Kuai" <yukuai@fnnas.com>
+Message-Id: <0b615af0-e545-4017-99ca-22c14477da7b@fnnas.com>
+References: <202601130531.LGfcZsa4-lkp@intel.com>
+Cc: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+Subject: Re: [PATCH v4 05/11] md/raid5: make sure max_sectors is not less than io_opt
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+X-Lms-Return-Path: <lba+26965e214+4872c6+lists.linux.dev+yukuai@fnnas.com>
+Content-Type: text/plain; charset=UTF-8
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
+Hi,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <afac0e4eec12bd5cc9a5040359f26058a3c1df1e.1768229902.git.mchehab+huawei@kernel.org>
-References: <afac0e4eec12bd5cc9a5040359f26058a3c1df1e.1768229902.git.mchehab+huawei@kernel.org>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Jani Nikula <jani.nikula@intel.com>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Randy Dunlap <rdunlap@infradead.org>
+=E5=9C=A8 2026/1/13 13:06, Dan Carpenter =E5=86=99=E9=81=93:
+> Hi Yu,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-merge-m=
+ddev-has_superblock-into-mddev_flags/20260112-123233
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20260112042857.2334264-6-yukuai%=
+40fnnas.com
+> patch subject: [PATCH v4 05/11] md/raid5: make sure max_sectors is not le=
+ss than io_opt
+> config: i386-randconfig-141-20260113 (https://download.01.org/0day-ci/arc=
+hive/20260113/202601130531.LGfcZsa4-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> smatch version: v0.5.0-8985-g2614ff1a
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202601130531.LGfcZsa4-lkp@intel.com/
+>
+> New smatch warnings:
+> drivers/md/raid5.c:8100 raid5_run() warn: missing error code 'ret'
+>
+> vim +/ret +8100 drivers/md/raid5.c
+>
+> cc6167b4f3b3ca NeilBrown            2016-11-02  8064  	pr_info("md/raid:%=
+s: raid level %d active with %d out of %d devices, algorithm %d\n",
+> cc6167b4f3b3ca NeilBrown            2016-11-02  8065  		mdname(mddev), co=
+nf->level,
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8066  		mddev->raid_disks=
+-mddev->degraded, mddev->raid_disks,
+> e183eaedd53807 NeilBrown            2009-03-31  8067  		mddev->new_layout=
+);
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8068
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8069  	print_raid5_conf(c=
+onf);
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8070
+> fef9c61fdfabf9 NeilBrown            2009-03-31  8071  	if (conf->reshape_=
+progress !=3D MaxSector) {
+> fef9c61fdfabf9 NeilBrown            2009-03-31  8072  		conf->reshape_saf=
+e =3D conf->reshape_progress;
+> f67055780caac6 NeilBrown            2006-03-27  8073  		atomic_set(&conf-=
+>reshape_stripes, 0);
+> f67055780caac6 NeilBrown            2006-03-27  8074  		clear_bit(MD_RECO=
+VERY_SYNC, &mddev->recovery);
+> f67055780caac6 NeilBrown            2006-03-27  8075  		clear_bit(MD_RECO=
+VERY_CHECK, &mddev->recovery);
+> f67055780caac6 NeilBrown            2006-03-27  8076  		set_bit(MD_RECOVE=
+RY_RESHAPE, &mddev->recovery);
+> ad39c08186f8a0 Yu Kuai              2024-02-01  8077  		set_bit(MD_RECOVE=
+RY_NEEDED, &mddev->recovery);
+> f67055780caac6 NeilBrown            2006-03-27  8078  	}
+> f67055780caac6 NeilBrown            2006-03-27  8079
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8080  	/* Ok, everything =
+is just fine now */
+> a64c876fd35790 NeilBrown            2010-04-14  8081  	if (mddev->to_remo=
+ve =3D=3D &raid5_attrs_group)
+> a64c876fd35790 NeilBrown            2010-04-14  8082  		mddev->to_remove =
+=3D NULL;
+> 00bcb4ac7ee7e5 NeilBrown            2010-06-01  8083  	else if (mddev->ko=
+bj.sd &&
+> 00bcb4ac7ee7e5 NeilBrown            2010-06-01  8084  	    sysfs_create_g=
+roup(&mddev->kobj, &raid5_attrs_group))
+> cc6167b4f3b3ca NeilBrown            2016-11-02  8085  		pr_warn("raid5: f=
+ailed to create sysfs attributes for %s\n",
+> 5e55e2f5fc95b3 NeilBrown            2007-03-26  8086  			mdname(mddev));
+> 4a5add49951e69 NeilBrown            2010-06-01  8087  	md_set_array_secto=
+rs(mddev, raid5_size(mddev, 0, 0));
+> 7a5febe9ffeecd NeilBrown            2005-05-16  8088
+> 176df894d79741 Christoph Hellwig    2024-03-03  8089  	if (!mddev_is_dm(m=
+ddev)) {
+> f63f17350e5373 Christoph Hellwig    2024-03-03  8090  		ret =3D raid5_set=
+_limits(mddev);
+> f63f17350e5373 Christoph Hellwig    2024-03-03  8091  		if (ret)
+> f63f17350e5373 Christoph Hellwig    2024-03-03  8092  			goto abort;
+> 9f7c2220017771 NeilBrown            2010-07-26  8093  	}
+> 23032a0eb97c8e Raz Ben-Jehuda(caro  2006-12-10  8094)
+> 585d578974395f Yu Kuai              2026-01-12  8095  	ret =3D raid5_crea=
+te_ctx_pool(conf);
+> 585d578974395f Yu Kuai              2026-01-12  8096  	if (ret)
+> 01fce9e38c0e92 Yu Kuai              2026-01-12  8097  		goto abort;
+> 01fce9e38c0e92 Yu Kuai              2026-01-12  8098
+> 845b9e229fe071 Artur Paszkiewicz    2017-04-04  8099  	if (log_init(conf,=
+ journal_dev, raid5_has_ppl(conf)))
+> 5aabf7c49d9ebe Song Liu             2016-11-17 @8100  		goto abort;
+>
+> Presumably we should propagate the error code from log_init()?
 
-Hi Mauro,
+Yes we should, but this problem looks already exist before this patch.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.19-rc5 next-20260109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/scripts-kernel-doc-fix-logic-to-handle-unissued-warnings/20260112-232714
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/afac0e4eec12bd5cc9a5040359f26058a3c1df1e.1768229902.git.mchehab%2Bhuawei%40kernel.org
-patch subject: [PATCH v2 1/4] scripts/kernel-doc: fix logic to handle unissued warnings
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: mips-cavium_octeon_defconfig (https://download.01.org/0day-ci/archive/20260113/202601131310.4A2pZJUr-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131310.4A2pZJUr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601131310.4A2pZJUr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/edac/octeon_edac-pc.c:33 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * EDAC CPU cache error callback
---
->> Warning: arch/mips/cavium-octeon/executive/cvmx-boot-vector.c:155 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Get a pointer to the per-core table of reset vector pointers
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> 5c7e81c3de9eb3 Shaohua Li           2015-08-13  8101
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8102  	return 0;
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8103  abort:
+> 7eb8ff02c1df27 Li Lingfeng          2023-08-03  8104  	md_unregister_thre=
+ad(mddev, &mddev->thread);
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8105  	print_raid5_conf(c=
+onf);
+> 95fc17aac45300 Dan Williams         2009-07-31  8106  	free_conf(conf);
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8107  	mddev->private =3D=
+ NULL;
+> cc6167b4f3b3ca NeilBrown            2016-11-02  8108  	pr_warn("md/raid:%=
+s: failed to run raid set.\n", mdname(mddev));
+> f63f17350e5373 Christoph Hellwig    2024-03-03  8109  	return ret;
+> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8110  }
+>
+--=20
+Thansk,
+Kuai
