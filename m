@@ -1,169 +1,119 @@
-Received: from sg-1-34.ptr.blmpb.com (sg-1-34.ptr.blmpb.com [118.26.132.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F2935CBA4
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 Jan 2026 06:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCA030B518
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 Jan 2026 08:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768284708; cv=none; b=B8V0jpccEVUwezsc905YXxpVA7GguAoIR9uWtqFOR5wzYPMGHEJJV6850K0HPX+GnHm1p7GZ1WkpZCyVjHWNPG4JWxbZJY/sYjxK8/T3HJ4qJPjj6DrSCKOWn3zBdgYx7HkWpX86sys3VSPtsHZy4Uo/DkZOWbBTfBgHZeNiVqA=
+	t=1768293161; cv=none; b=A7eKd8nfnNAJuFo/zleZQJAgQueMwaaCbusCY3TAKs+6JwlwELDrwqzBUQ+vgstDqazVN7kbhzOjccp3GllRbOHPvOx0D4E6PwHSLqpoqg90+K27gOZjwrYQYjPsrS5RV6PfXFGwXCynN+xmt90Rh9EpXQNzSFeBx5JAYKZrM0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768284708; c=relaxed/simple;
-	bh=u4rQpEr6bqpAUJiVuqn5Z9nnYY2HdiHfmJmnJ8TA0BI=;
-	h=Date:In-Reply-To:To:From:Message-Id:References:Cc:Subject:
-	 Mime-Version:Content-Type; b=B8K3fWSfzCjH1z71BGl736GSsqwQkWpTqkHLwMFobWUoI8xYCfKz4XXxYeLdIzmQTttOmpwAzTkWI6xXl9XKiyfsBSiiSRPRLl5OiVBhBRopoQAN8MUW0SeFITWE5apUu+PfPtdoOb5YeNR+75VqhNlENmLBhMYi1n0PPN1BWyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=pass smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=u/bmHEkY; arc=none smtp.client-ip=118.26.132.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fnnas.com
+	s=arc-20240116; t=1768293161; c=relaxed/simple;
+	bh=Jp1FLLB0w0E3GZth8L6rz6a1zQfFKseqeeQIqhmc2qY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Cbw517D8CVCWCjJFWjuS30MSBm6n3p7KD++y7x3gAy0uggDipGVAd4+d77JQKg7jd2H73QXw8+T2BhHLcQLpu/jeT5wjOca2z2ZkeFDZSvEyRbob+cL46pxVCpwY3xvxZ9t9GWtTUqdnx6kQ/m5Za5w9d3lBSrw5zAlxlaa/jqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsh7Cxo+; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="u/bmHEkY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1768284694;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=mLOgn3Nm6iKwO5Yi/JaLxxTsEFmI+8DgjMxIR9z9xjI=;
- b=u/bmHEkYqdrMe9850eO8nnxqk5ru6gTeDuc8S7Czkc3IH4fW38rG/QQ80Oq9XJaTSKL6kG
- TBv521paWaZuUZIrnxapfQu+4wg0e8NBpgezZGBE8Pvs9uOihi8TpHkKNn8unzNfsiuz+9
- yd5N/drmYw7rntAiCQNzED+gTjP4Xaa7iMRqGpVvX5W9utD6zmMpHQ4+nQNqTYZS/Xwv1z
- 0m2ucyzqAzbEkNIgmkiWEd2emDqNr4E7inoXcd4N2D7mj87Dw6XxYoGTqnhLdsnCue+o9n
- X7/5RTCCxIdtnMpIbs9dugZcsLZIIkoRJwWGsUArSiw6OrDjuvjHlHe54bkVNQ==
-Date: Tue, 13 Jan 2026 14:11:29 +0800
-In-Reply-To: <202601130531.LGfcZsa4-lkp@intel.com>
-Received: from [192.168.1.104] ([39.182.0.185]) by smtp.feishu.cn with ESMTPS; Tue, 13 Jan 2026 14:11:31 +0800
-Reply-To: yukuai@fnnas.com
-To: "Dan Carpenter" <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>, 
-	<linux-raid@vger.kernel.org>, <linan122@huawei.com>, <yukuai@fnnas.com>
-From: "Yu Kuai" <yukuai@fnnas.com>
-Message-Id: <0b615af0-e545-4017-99ca-22c14477da7b@fnnas.com>
-References: <202601130531.LGfcZsa4-lkp@intel.com>
-Cc: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-Subject: Re: [PATCH v4 05/11] md/raid5: make sure max_sectors is not less than io_opt
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsh7Cxo+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768293160; x=1799829160;
+  h=date:from:to:cc:subject:message-id;
+  bh=Jp1FLLB0w0E3GZth8L6rz6a1zQfFKseqeeQIqhmc2qY=;
+  b=hsh7Cxo+cSl61ku430tWsYi4WW7GguyiFYK5aniQqOQPlkNBzfvu3fvG
+   x5S651FyuX4iWkBd9NBQa8za9tETGiAIaH5AI8ohjabCNkG8AGwbuO5U/
+   yK77uYBlzF9qjfTLnDWHlByeAHBPfcR3C4ea1sBud2BHU/Wao1xjrA79d
+   Jc95LzG4gWty1twIAKfIE16BH+g4IL8EtKlsd0VOvb8b22aMqFJECALd/
+   zL4UI1SGW5hRXKfQsg3Wjrr4NjoujwNVIHETohsz3Y7YRV1dyK7Fji24l
+   ++gwJ1PY0aB4QCZMyyLtjl1WP+ciGJRfOjNvrSgl9ZI40yisBKPo7RN07
+   w==;
+X-CSE-ConnectionGUID: kREkZwocR/i/Ky+C99F/sA==
+X-CSE-MsgGUID: nHLFJdSqTKeKlyunNQVAXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80218242"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="80218242"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:32:39 -0800
+X-CSE-ConnectionGUID: RuCAEXajSMq7CGLEzsPikA==
+X-CSE-MsgGUID: gIlQaanoQ7SeloD5agf8pQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="208482077"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 13 Jan 2026 00:32:39 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfZpL-00000000ESq-2hTx;
+	Tue, 13 Jan 2026 08:32:35 +0000
+Date: Tue, 13 Jan 2026 16:32:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [tnguy-next-queue:dev-queue 28/75]
+ drivers/net/ethernet/intel/libie/pci.c:186:1: sparse: sparse: bad integer
+ constant expression
+Message-ID: <202601131604.x19ugmj8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+26965e214+4872c6+lists.linux.dev+yukuai@fnnas.com>
-Content-Type: text/plain; charset=UTF-8
-X-Original-From: Yu Kuai <yukuai@fnnas.com>
 
-Hi,
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/ethernet/intel/libie/pci.c:186:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
-=E5=9C=A8 2026/1/13 13:06, Dan Carpenter =E5=86=99=E9=81=93:
-> Hi Yu,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-merge-m=
-ddev-has_superblock-into-mddev_flags/20260112-123233
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20260112042857.2334264-6-yukuai%=
-40fnnas.com
-> patch subject: [PATCH v4 05/11] md/raid5: make sure max_sectors is not le=
-ss than io_opt
-> config: i386-randconfig-141-20260113 (https://download.01.org/0day-ci/arc=
-hive/20260113/202601130531.LGfcZsa4-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> smatch version: v0.5.0-8985-g2614ff1a
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202601130531.LGfcZsa4-lkp@intel.com/
->
-> New smatch warnings:
-> drivers/md/raid5.c:8100 raid5_run() warn: missing error code 'ret'
->
-> vim +/ret +8100 drivers/md/raid5.c
->
-> cc6167b4f3b3ca NeilBrown            2016-11-02  8064  	pr_info("md/raid:%=
-s: raid level %d active with %d out of %d devices, algorithm %d\n",
-> cc6167b4f3b3ca NeilBrown            2016-11-02  8065  		mdname(mddev), co=
-nf->level,
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8066  		mddev->raid_disks=
--mddev->degraded, mddev->raid_disks,
-> e183eaedd53807 NeilBrown            2009-03-31  8067  		mddev->new_layout=
-);
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8068
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8069  	print_raid5_conf(c=
-onf);
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8070
-> fef9c61fdfabf9 NeilBrown            2009-03-31  8071  	if (conf->reshape_=
-progress !=3D MaxSector) {
-> fef9c61fdfabf9 NeilBrown            2009-03-31  8072  		conf->reshape_saf=
-e =3D conf->reshape_progress;
-> f67055780caac6 NeilBrown            2006-03-27  8073  		atomic_set(&conf-=
->reshape_stripes, 0);
-> f67055780caac6 NeilBrown            2006-03-27  8074  		clear_bit(MD_RECO=
-VERY_SYNC, &mddev->recovery);
-> f67055780caac6 NeilBrown            2006-03-27  8075  		clear_bit(MD_RECO=
-VERY_CHECK, &mddev->recovery);
-> f67055780caac6 NeilBrown            2006-03-27  8076  		set_bit(MD_RECOVE=
-RY_RESHAPE, &mddev->recovery);
-> ad39c08186f8a0 Yu Kuai              2024-02-01  8077  		set_bit(MD_RECOVE=
-RY_NEEDED, &mddev->recovery);
-> f67055780caac6 NeilBrown            2006-03-27  8078  	}
-> f67055780caac6 NeilBrown            2006-03-27  8079
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8080  	/* Ok, everything =
-is just fine now */
-> a64c876fd35790 NeilBrown            2010-04-14  8081  	if (mddev->to_remo=
-ve =3D=3D &raid5_attrs_group)
-> a64c876fd35790 NeilBrown            2010-04-14  8082  		mddev->to_remove =
-=3D NULL;
-> 00bcb4ac7ee7e5 NeilBrown            2010-06-01  8083  	else if (mddev->ko=
-bj.sd &&
-> 00bcb4ac7ee7e5 NeilBrown            2010-06-01  8084  	    sysfs_create_g=
-roup(&mddev->kobj, &raid5_attrs_group))
-> cc6167b4f3b3ca NeilBrown            2016-11-02  8085  		pr_warn("raid5: f=
-ailed to create sysfs attributes for %s\n",
-> 5e55e2f5fc95b3 NeilBrown            2007-03-26  8086  			mdname(mddev));
-> 4a5add49951e69 NeilBrown            2010-06-01  8087  	md_set_array_secto=
-rs(mddev, raid5_size(mddev, 0, 0));
-> 7a5febe9ffeecd NeilBrown            2005-05-16  8088
-> 176df894d79741 Christoph Hellwig    2024-03-03  8089  	if (!mddev_is_dm(m=
-ddev)) {
-> f63f17350e5373 Christoph Hellwig    2024-03-03  8090  		ret =3D raid5_set=
-_limits(mddev);
-> f63f17350e5373 Christoph Hellwig    2024-03-03  8091  		if (ret)
-> f63f17350e5373 Christoph Hellwig    2024-03-03  8092  			goto abort;
-> 9f7c2220017771 NeilBrown            2010-07-26  8093  	}
-> 23032a0eb97c8e Raz Ben-Jehuda(caro  2006-12-10  8094)
-> 585d578974395f Yu Kuai              2026-01-12  8095  	ret =3D raid5_crea=
-te_ctx_pool(conf);
-> 585d578974395f Yu Kuai              2026-01-12  8096  	if (ret)
-> 01fce9e38c0e92 Yu Kuai              2026-01-12  8097  		goto abort;
-> 01fce9e38c0e92 Yu Kuai              2026-01-12  8098
-> 845b9e229fe071 Artur Paszkiewicz    2017-04-04  8099  	if (log_init(conf,=
- journal_dev, raid5_has_ppl(conf)))
-> 5aabf7c49d9ebe Song Liu             2016-11-17 @8100  		goto abort;
->
-> Presumably we should propagate the error code from log_init()?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: Madhu Chittim <madhu.chittim@intel.com>
+CC: Sridhar Samudrala <sridhar.samudrala@intel.com>
+CC: Larysa Zaremba <larysa.zaremba@intel.com>
 
-Yes we should, but this problem looks already exist before this patch.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   21673fafaf5db592a6529abe2c8cfb4a05d60dcc
+commit: 14d4d31c881a410a5005e8db16a7a72671c207e7 [28/75] idpf: refactor idpf to use libie_pci APIs
+:::::: branch date: 7 hours ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-061-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131604.x19ugmj8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131604.x19ugmj8-lkp@intel.com/reproduce)
 
->
-> 5c7e81c3de9eb3 Shaohua Li           2015-08-13  8101
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8102  	return 0;
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8103  abort:
-> 7eb8ff02c1df27 Li Lingfeng          2023-08-03  8104  	md_unregister_thre=
-ad(mddev, &mddev->thread);
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8105  	print_raid5_conf(c=
-onf);
-> 95fc17aac45300 Dan Williams         2009-07-31  8106  	free_conf(conf);
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8107  	mddev->private =3D=
- NULL;
-> cc6167b4f3b3ca NeilBrown            2016-11-02  8108  	pr_warn("md/raid:%=
-s: failed to run raid set.\n", mdname(mddev));
-> f63f17350e5373 Christoph Hellwig    2024-03-03  8109  	return ret;
-> ^1da177e4c3f41 Linus Torvalds       2005-04-16  8110  }
->
---=20
-Thansk,
-Kuai
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601131604.x19ugmj8-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/libie/pci.c:186:1: sparse: sparse: bad integer constant expression
+   drivers/net/ethernet/intel/libie/pci.c:186:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/net/ethernet/intel/libie/pci.c:187:1: sparse: sparse: bad integer constant expression
+   drivers/net/ethernet/intel/libie/pci.c:187:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/net/ethernet/intel/libie/pci.c:187:1: sparse: sparse: bad integer constant expression
+   drivers/net/ethernet/intel/libie/pci.c:187:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+--
+>> drivers/net/ethernet/intel/libie/controlq.c:1195:1: sparse: sparse: bad integer constant expression
+   drivers/net/ethernet/intel/libie/controlq.c:1195:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/net/ethernet/intel/libie/controlq.c:1196:1: sparse: sparse: bad integer constant expression
+   drivers/net/ethernet/intel/libie/controlq.c:1196:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
+   drivers/net/ethernet/intel/libie/controlq.c:1197:1: sparse: sparse: bad integer constant expression
+   drivers/net/ethernet/intel/libie/controlq.c:1197:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/net/ethernet/intel/libie/controlq.c:1197:1: sparse: sparse: bad integer constant expression
+   drivers/net/ethernet/intel/libie/controlq.c:1197:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +186 drivers/net/ethernet/intel/libie/pci.c
+
+008bfa38938fea Phani R Burra 2025-11-17  185  
+008bfa38938fea Phani R Burra 2025-11-17 @186  MODULE_DESCRIPTION("Common Ethernet PCI library");
+
+:::::: The code at line 186 was first introduced by commit
+:::::: 008bfa38938fea35d8290f0a203ce7836e368959 libie: add PCI device initialization helpers to libie
+
+:::::: TO: Phani R Burra <phani.r.burra@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
