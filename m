@@ -1,144 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887A835E551
-	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jan 2026 15:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49212D5C9B
+	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jan 2026 16:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768405922; cv=none; b=fC0HSjHqvHuB2cYeS0N9ZkPSTAjOTZj87CAqNfZPjl1y3hRe8X+Wc1T+l0T1+QmeIcGrePvQY2H3vd0zqWbtOuaHO4xiCT4zEyCpbk2V0gJJpOCDNZM2m+KM2f9aBX9wQowWEwMV/d0s9L+ANG5xiEqxUljDEV8jqFKwJ4aDn2c=
+	t=1768407242; cv=none; b=rNmgeuEnAWSKcdEQzNgwAY6a2v+H8AHsXZWZ8JMbeKle1PUe9/xSdJjyKphXH9pd2Nrt50M2ben7joTSBaqeXts0loQktiSax5HOsC9GwkNH64vR1/NIA5ASrMM6wFGjb8QBccv9Ya/JdeDVkADphghVDJJxzpd/yEQRZlALGCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768405922; c=relaxed/simple;
-	bh=zkDXNQZGlhq/1T4fdh2Jb+yggzldYx81Ee2Ro1AvHxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=htkid45+rmIX+wU5dNPHV5SdVbW2LtYmUGpXONy8NU0mFnzLF+w4rCjY+A7bhKcEoUd+B0/Fk1TFok7wvKfwgKa9LxU/QAc4jzIfTlW3ZJnmabH1orEncHRCwW+LwxFcLb1qOevtkU+wYl77lqKDsKINUIWzKleYyn2OyuYMsxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kkk14ynl; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768407242; c=relaxed/simple;
+	bh=sLwleOqX7Jh7aGKb/bKYobCr90qaldO3CS8bJb/lWNc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=U/A4VNxvk4EqHuh34jJSZHhOyUp1YUYezHzZrzG1/c3MLq2HqgA5yqiLkexytQSFtBJgJTe/JvOvaacgja2Pz1eufIPdSbqWuoh6j5NHyowy8E5QeoJ7BPi1JifU1kgRORXDeIwolKBvrzO47n4rZgfiU53W5GLiUoaDjw2j0ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0niOzDA; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kkk14ynl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0niOzDA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768405919; x=1799941919;
-  h=date:from:to:cc:subject:message-id;
-  bh=zkDXNQZGlhq/1T4fdh2Jb+yggzldYx81Ee2Ro1AvHxQ=;
-  b=Kkk14ynlz0g0TviMO+s1Vl0k4N82fNdbYfDXMDatqxXD359flMLUisFG
-   jRl2DdpL0Y2qaO1xQW4hO2GJcjslAnm+08NjKK6G0XCxE7jF+24eceB9u
-   bZo4y+LsN0fMXbeEszsWirU4i4l44tIYO1hwiit2gL+wWgMjfzre57ZmG
-   E/3Rjcik/9Unfw/9WwAe7GPEixcskqEXygpB7xoe08yPM17k3iUxPU4Fu
-   yAjNY0r6ktg3p9mqeGV9x9g49jev9A7nE3dAjRZCbo/Sxq/tU8rG3bCSb
-   C3ZELZ6rCDI1qf7NG6R3peMnCyWHyuT0RkdbrnoK3P9pRscx5FO7dJNMj
-   g==;
-X-CSE-ConnectionGUID: YDuf7bHsSYiuLv964nUSag==
-X-CSE-MsgGUID: lADzEQhMRQy4G2zQFKkksA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="92376964"
+  t=1768407240; x=1799943240;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sLwleOqX7Jh7aGKb/bKYobCr90qaldO3CS8bJb/lWNc=;
+  b=H0niOzDAeu5iWwt6qkSJl8HU6Kuw26DC1iwkXz60jGP8z8xMy1JfR6pX
+   L894+0GfBfoshqFIx2e7wA97egM/W/DIdWpqnau/qoM2vq41zwD5bbueT
+   CwBtQ+QKM/uF/bqxxsynn+Ssrgg1D3KXWhCkABJNGOlD5h9nn9G7CP54V
+   eBMRRSN9w4ZsUNFjdSDPrCzMdkk+8neIhPg/m5QyAcgSSO9cGi8KwZGvo
+   eKJdziDe5uaTqL0Jhic2YQ/RVgEfAnkddmEtcdyspQGeqNUiA+Ioc3VYC
+   hgEjoVA3Vr+wIjWPb97I3oEvQueacohVgNbWM1Kv86IE8VHefVVfkQRiZ
+   w==;
+X-CSE-ConnectionGUID: U08cYxBMS2KXBnwN44t3Tg==
+X-CSE-MsgGUID: FZ7fFFL3SeigeQZ+OgfShA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69769580"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="92376964"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 07:51:58 -0800
-X-CSE-ConnectionGUID: HddyV0V+TaOLttmTiOVvpg==
-X-CSE-MsgGUID: HW+FoOCVT1WNrN5OdAA9xQ==
+   d="scan'208";a="69769580"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 08:14:00 -0800
+X-CSE-ConnectionGUID: fOBVt4feRGWKEGtjbtikTA==
+X-CSE-MsgGUID: T9I9r+HIRjORRKGj+mAmdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="203845862"
+   d="scan'208";a="205133306"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 14 Jan 2026 07:51:58 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2026 08:13:59 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vg3A2-00000000GZq-1vJr;
-	Wed, 14 Jan 2026 15:51:54 +0000
-Date: Wed, 14 Jan 2026 23:51:32 +0800
+	id 1vg3VN-00000000Gd2-0otq;
+	Wed, 14 Jan 2026 16:13:57 +0000
+Date: Thu, 15 Jan 2026 00:13:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/tty/amiserial.c:456 rs_startup() warn: missing error
- code 'retval'
-Message-ID: <202601142357.wl3rZxBW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 1/2] dma-buf: heaps: add parameter to account
+ allocations using cgroup
+Message-ID: <202601142355.lNKnfhei-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/dma-buf/dma-heap.c:53:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260113-dmabuf-heap-system-memcg-v2-1-e85722cc2f24@redhat.com>
+References: <20260113-dmabuf-heap-system-memcg-v2-1-e85722cc2f24@redhat.com>
+TO: Eric Chanudet <echanude@redhat.com>
+TO: Sumit Semwal <sumit.semwal@linaro.org>
+TO: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+TO: Brian Starkey <Brian.Starkey@arm.com>
+TO: John Stultz <jstultz@google.com>
+TO: "T.J. Mercier" <tjmercier@google.com>
+TO: "Christian König" <christian.koenig@amd.com>
+TO: Maxime Ripard <mripard@redhat.com>
+CC: linux-media@vger.kernel.org
+CC: dri-devel@lists.freedesktop.org
+CC: linaro-mm-sig@lists.linaro.org
 CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
+CC: Eric Chanudet <echanude@redhat.com>
 
-Hi Josh,
+Hi Eric,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c537e12daeecaecdcd322c56a5f70659d2de7bde
-commit: 845c09e4744f111eae894ad3b67a369bb43d50fb tty: amiserial: Fix namespace collision and startup() section placement with -ffunction-sections
-date:   8 weeks ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 8 weeks ago
-config: m68k-randconfig-r072-20260114 (https://download.01.org/0day-ci/archive/20260114/202601142357.wl3rZxBW-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-smatch version: v0.5.0-8985-g2614ff1a
+[auto build test WARNING on b71e635feefc852405b14620a7fc58c4c80c0f73]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Chanudet/dma-buf-heaps-add-parameter-to-account-allocations-using-cgroup/20260114-053444
+base:   b71e635feefc852405b14620a7fc58c4c80c0f73
+patch link:    https://lore.kernel.org/r/20260113-dmabuf-heap-system-memcg-v2-1-e85722cc2f24%40redhat.com
+patch subject: [PATCH v2 1/2] dma-buf: heaps: add parameter to account allocations using cgroup
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: sh-randconfig-r133-20260114 (https://download.01.org/0day-ci/archive/20260114/202601142355.lNKnfhei-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601142355.lNKnfhei-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601142357.wl3rZxBW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601142355.lNKnfhei-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/amiserial.c:456 rs_startup() warn: missing error code 'retval'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/dma-heap.c:53:1: sparse: sparse: bad integer constant expression
+   drivers/dma-buf/dma-heap.c:53:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
+   drivers/dma-buf/dma-heap.c:54:1: sparse: sparse: bad integer constant expression
+   drivers/dma-buf/dma-heap.c:54:1: sparse: sparse: static assertion failed: "MODULE_INFO(parm, ...) contains embedded NUL byte"
 
-Old smatch warnings:
-drivers/tty/amiserial.c:343 check_modem_status() error: we previously assumed 'port->tty' could be null (see line 338)
-drivers/tty/amiserial.c:687 change_speed() warn: inconsistent indenting
+vim +53 drivers/dma-buf/dma-heap.c
 
-vim +/retval +456 drivers/tty/amiserial.c
-
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  425  
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  426  /*
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  427   * -------------------------------------------------------------------
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  428   * Here ends the serial interrupt routines.
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  429   * -------------------------------------------------------------------
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  430   */
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  431  
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  432  /*
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  433   * ---------------------------------------------------------------
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  434   * Low level utility subroutines for the serial driver:  routines to
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  435   * figure out the appropriate timeout for an interrupt chain, routines
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  436   * to initialize and startup a serial port, and routines to shutdown a
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  437   * serial port.  Useful stuff like that.
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  438   * ---------------------------------------------------------------
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  439   */
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  440  
-845c09e4744f11 drivers/tty/amiserial.c  Josh Poimboeuf 2025-11-20  441  static int rs_startup(struct tty_struct *tty, struct serial_state *info)
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  442  {
-01bd730d92bd00 drivers/tty/amiserial.c  Jiri Slaby     2012-03-05  443  	struct tty_port *port = &info->tport;
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  444  	unsigned long flags;
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  445  	int	retval=0;
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  446  	unsigned long page;
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  447  
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  448  	page = get_zeroed_page(GFP_KERNEL);
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  449  	if (!page)
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  450  		return -ENOMEM;
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  451  
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  452  	local_irq_save(flags);
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  453  
-d41861ca19c9e9 drivers/tty/amiserial.c  Peter Hurley   2016-04-09  454  	if (tty_port_initialized(port)) {
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  455  		free_page(page);
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16 @456  		goto errout;
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  457  	}
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  458  
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  459  	if (info->xmit.buf)
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  460  		free_page(page);
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  461  	else
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  462  		info->xmit.buf = (unsigned char *) page;
-^1da177e4c3f41 drivers/char/amiserial.c Linus Torvalds 2005-04-16  463  
-
-:::::: The code at line 456 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+c02a81fba74fe3 Andrew F. Davis 2019-12-03  51  
+f63f98df2f99da Eric Chanudet   2026-01-13  52  bool mem_accounting;
+f63f98df2f99da Eric Chanudet   2026-01-13 @53  module_param(mem_accounting, bool, 0444);
+f63f98df2f99da Eric Chanudet   2026-01-13  54  MODULE_PARM_DESC(mem_accounting,
+f63f98df2f99da Eric Chanudet   2026-01-13  55  		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
+f63f98df2f99da Eric Chanudet   2026-01-13  56  
 
 -- 
 0-DAY CI Kernel Test Service
