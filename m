@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD92F35294C
-	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jan 2026 07:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181A6324B09
+	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jan 2026 09:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768374214; cv=none; b=BYadAfrLm/PIXwRRg12mCvCsudZq8bEFCFMOHEZ919lu9sLqHsK56qchWihu57lehmjOuH0Se/0ld0+LZur5t1TKk5qnBglmjd1/sQlcUUXI/W4QIH82XOEethqSathb2sHQ3l3tWeVBW9rfBWKLKW9OM9HaKFwsBWkclRx5jRk=
+	t=1768383178; cv=none; b=SYQTzvuG8unOqrp+e8lNlzNVYm1MyYdOAP+d8fR0U9gFrn6NcgjhngqGwgIYybudrwkXtYumfexvE2PDSdjNTjOJJtPxA2ZJ1ELhzvraOvQPQAW9PiQ7ivp/M0MvUTQknCHjLdhfmnJLNFL5RQh+PmMLVvTWaLJied7VeeczYhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768374214; c=relaxed/simple;
-	bh=UGJZzZPtMdvlRBCn5omoorSPxZxJmyaOcsZeGbQCe3s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=r//OEwaTAWoBZ9swUwx7Rt2ZZB/wa0I74/q8PrJ2Wf9zi5wmepcEjNnSqeOnwBZJDuA9dNWD6lCOSsiYQBWf6E7B7UTfVK9imFoww+OyvRkjTGd/OUaMhaDzT5oU242LnhoEU2pc1NRwUeB1lIQIvpAyd/+nY7aupH+3woHOXWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HyMdojp3; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1768383178; c=relaxed/simple;
+	bh=+JjVmqyPOKuyj9B+LyLlME44gfxErgOVAG2QPOXBLxE=;
+	h=Date:From:To:Subject:Message-ID; b=LB9S1d4h4g/N4fxgza9SHpm6A2xCcGTVK0HRk8xt6D0lXxN7f2pdtIDh5Qn9he+yMJDgHtU4PUV4RKXD0O+zgV0QYC5PHEfhd2rWsSaB1EE2nL+sCqeB1hXu2i3i9j34ekeaQQR/jHPdvL/3PPFHz9prx0AC65tJU/ssQKzDXvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTCE+42v; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HyMdojp3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTCE+42v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768374205; x=1799910205;
-  h=date:from:to:cc:subject:message-id;
-  bh=UGJZzZPtMdvlRBCn5omoorSPxZxJmyaOcsZeGbQCe3s=;
-  b=HyMdojp350fgTJ9D6vV7Ol3CBDAHc4znOYE077B02e8k3PDb8uQ6hTEh
-   3DqvpGrqrEGXyg2j6rcxpZrocAPPq21hU9d3hRVfdmhND9FG+LGUDNKpg
-   MEI3aVwDU+5dXdh4K3+xzeARD7NLHfQrTXTCAs5zApPtsA0euAodmLt+R
-   JhBLb2R8lklolfpMLzfpwhIGkWIikDQjTMc+d8TIXL9oRyUhz+tpGICBc
-   KALjnlZxUWAy5rraUpm3SBTPPS/ju5PsL2FlLeO5hIHIUz59/XfQbI9KY
-   xM1WfRnd7ZXPEbPuREBDOLaKsVWI4MZzUPPbtCiv9Pe1dy0YwoKobJJKW
-   w==;
-X-CSE-ConnectionGUID: i6Iuxd3bSP+qpblRqjH/Ug==
-X-CSE-MsgGUID: VvPc5C5OSfC430mf0PLhDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69752538"
+  t=1768383177; x=1799919177;
+  h=date:from:to:subject:message-id;
+  bh=+JjVmqyPOKuyj9B+LyLlME44gfxErgOVAG2QPOXBLxE=;
+  b=GTCE+42vh42OceK0RunkdQEcmuaZQKb7D3U9yt90v9GG8wAaD+Gh54rv
+   OtSKVeJyMx6S3QevOPTLfmjmFOSS6t84SwYUVqShXGOjxRzirJ7TSM5lR
+   WEyIBWJ98g8OsR6braoJ007v7U1qGmxDXsqf8+tFBt/S+depMz0MHgRKS
+   9JBF6SJExowVKokaP9Sgcd8Nr4sFh34ddcDXY5XbwQrcYXSPyTTFj3Yl8
+   ynrTYAYaEVYkOWky+ZAZ5FyVziKYJ1B8HbOO4oIYOPZUNtPFEhHgwQsg2
+   Jikmku54soAAGJY2ao2kKfTYdnCg+vAHxHQLY92fTyjlwIXVF6hOd5+nW
+   g==;
+X-CSE-ConnectionGUID: owdRZO6xR+SJFXLtEfJxUQ==
+X-CSE-MsgGUID: w8ap2u+pQfCkxKIRon2I5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="73518531"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69752538"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:03:21 -0800
-X-CSE-ConnectionGUID: 19hDGNWzTFuircOroFGGMA==
-X-CSE-MsgGUID: eNQUxcLEQiyneqWURFeQrw==
+   d="scan'208";a="73518531"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 01:32:57 -0800
+X-CSE-ConnectionGUID: 3UjSiLsjQ6qbZZ86WZBH3w==
+X-CSE-MsgGUID: weWLhLX8SsmcEafv2eHDMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="209110182"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Jan 2026 23:03:20 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="204913057"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Jan 2026 01:32:56 -0800
+Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfuuT-00000000Fy8-0KRV;
-	Wed, 14 Jan 2026 07:03:17 +0000
-Date: Wed, 14 Jan 2026 15:02:27 +0800
+	id 1vfxFG-000000001NV-03Fy
+	for oe-kbuild@lists.linux.dev;
+	Wed, 14 Jan 2026 09:32:54 +0000
+Date: Wed, 14 Jan 2026 10:32:32 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 5687/5774]
- drivers/gpu/drm/amd/amdgpu/psp_v15_0_8.c:34:1: sparse: sparse: bad integer
- constant expression
-Message-ID: <202601141437.osVfCYHT-lkp@intel.com>
+Subject: [sean-jc:x86/suppress_eoi_quirk 2/2] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'and'
+Message-ID: <202601141005.ZSkaWRD5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,70 +60,26 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/amd/amdgpu/psp_v15_0_8.c:34:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alex Deucher <alexander.deucher@amd.com>
+TO: Khushit Shah <khushit.shah@nutanix.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b775e489bec70895b7ef6b66927886bbac79598f
-commit: 849db7dc012ffdeb2fb9e09609a2ab1a8f498aa0 [5687/5774] Merge branch 'drm-next' of https://gitlab.freedesktop.org/agd5f/linux.git
-:::::: branch date: 2 hours ago
-:::::: commit date: 29 hours ago
-config: s390-randconfig-r111-20260113 (https://download.01.org/0day-ci/archive/20260114/202601141437.osVfCYHT-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141437.osVfCYHT-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/suppress_eoi_quirk
+head:   81ee10c6f0d749df26ef368cbd60a579c6f8bd12
+commit: 81ee10c6f0d749df26ef368cbd60a579c6f8bd12 [2/2] KVM: x86: Add x2APIC "features" to control EOI broadcast suppression
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260114/202601141005.ZSkaWRD5-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601141437.osVfCYHT-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/amd/amdgpu/psp_v15_0_8.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:500:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/psp_v15_0_8.c:34:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/amd/amdgpu/psp_v15_0_8.c:34:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
---
-   drivers/gpu/drm/amd/amdgpu/imu_v12_1.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:500:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/imu_v12_1.c:35:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/amd/amdgpu/imu_v12_1.c:35:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
---
-   drivers/gpu/drm/amd/amdgpu/sdma_v7_1.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:500:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/sdma_v7_1.c:47:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/amd/amdgpu/sdma_v7_1.c:47:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
---
-   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:500:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:35:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:35:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
-   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:36:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:36:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
-   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:37:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:37:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
---
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:500:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c:61:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c:61:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c:62:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c:62:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
-
-vim +34 drivers/gpu/drm/amd/amdgpu/psp_v15_0_8.c
-
-c92bb14151a5971 Le Ma 2025-11-02  33  
-c92bb14151a5971 Le Ma 2025-11-02 @34  MODULE_FIRMWARE("amdgpu/psp_15_0_8_toc.bin");
-c92bb14151a5971 Le Ma 2025-11-02  35  
-
-:::::: The code at line 34 was first introduced by commit
-:::::: c92bb14151a59715c674d421d647e37dc6cedd6e drm/amdgpu: Add psp v15.0.8 ip block v3
-
-:::::: TO: Le Ma <le.ma@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+WARNING:REPEATED_WORD: Possible repeated word: 'and'
+#241: FILE: arch/x86/kvm/lapic.c:155:
++		 * is not advertised, can only be enabled KVM_SET_APIC_STATE, and
++		 * and KVM's I/O APIC doesn't emulate Directed EOIs; but if the
 
 -- 
 0-DAY CI Kernel Test Service
