@@ -1,111 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2723163
-	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jan 2026 02:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB3331281B
+	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jan 2026 02:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768356244; cv=none; b=er//hyY7cFY4qcMnS8iZGnfowsjNmq/NVLoUjivo0+04M+0n3F/r45fYJ/jvdlZqsopAlrtmrfkxAL7s5SwJrtnBkQJIjN3upnAY8nuckj1TAbI+NJ++Zy8Cvj7yvfXqRk//cdT9vfI8AZwEKxz8SLoSu2P/LfL/BAs8bNW5nG4=
+	t=1768358225; cv=none; b=OC0KXXNDVS822Xg1wbzi/MGk4hzgL0Nzsgjsl7ZKRwfW07O/ueKQyVmVHQb7IShVm3rm7FRHiWJrBGXuVlJnBGc6DnBuA5TbcIhm57+hs8kJZNKRsJ75pZCybEKyHjoOp0O14JOld2j8tyJr67MeDF2taw019It45caS603AQEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768356244; c=relaxed/simple;
-	bh=Tq3ReuQ8ENsTY4DkC546ClL2nLEajfdkRyZi7Pecv4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=MgnJ7bsOGO/o2qXIWdIlWc0q+6I66ROtglUDg+HqURzr6azTS5hzKdUoC1CM7I+Dy3FqNE6/2HoPvvBNiu1wvrWBnwyVwc4rhCC3Q7rRVh79gvNgncQmlJCUIyP5OpABDKp01gV1mtD2z8ZAxILwpfBWBrO9r7YcdtWzQvqs8WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZI4B3hL2; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1768358225; c=relaxed/simple;
+	bh=5SOhjhcdymodmCeGHDmqnSF85YkCEbneSUEOO/MtiLw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lE6EKESry++0bz2aWdB4bUfsHpwkAxwchbocc/j7HxyglJnX4FU+7FfsZeg9IFiA5mWFf2+CZy4pjLXJE8kL5s3C6wUbFChdNuFRd2y67pjxakd/zs2PeS8i1glv7zDPwGEiL70tzTre74Hu9vmtnMZFFjCJ9H1nUp6Nspd1U7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MVzTLtJL; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZI4B3hL2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MVzTLtJL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768356243; x=1799892243;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Tq3ReuQ8ENsTY4DkC546ClL2nLEajfdkRyZi7Pecv4A=;
-  b=ZI4B3hL2eb3g/mQrCpzKw2CrcJCbs4gErtZLaymPm2Ae1NIPf2gPBn2O
-   MqomkejbM5Xsd7oMlQ7IEmgtb3oett23gXWsFeR2Mqy4N8j3G3uVg1kOE
-   BXslHxNnHFQ0x15dArYTqFdWpNRV/wvzX2dyD1TThyCH0jdYS7TtjF3LL
-   SWGXI9Pj2xOLfXi98f6eUb3Vpi6BaxivLMjy/FkFuMngyz7WkJtIwKqIW
-   kWSYWd0I2voCKbN38yT42Fg0uluBWDQ16jJvfcLV8UBca2JBZRiWli/hl
-   HrkUhvIhEL0yUkRxRTDLu1AXZFv4LZf+Jkp0j+uRZ3iNzyv8htIBeMFjN
-   A==;
-X-CSE-ConnectionGUID: DBcyn9hCQVmqgPHQUJQsKA==
-X-CSE-MsgGUID: ekhMO0FzTdSZycRrMMS/iQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69560258"
+  t=1768358225; x=1799894225;
+  h=date:from:to:cc:subject:message-id;
+  bh=5SOhjhcdymodmCeGHDmqnSF85YkCEbneSUEOO/MtiLw=;
+  b=MVzTLtJLENPYUFQc4hY3kKm/7OmTxE78Z3UE7AjaiAKpPLgsSbqJ0Yza
+   UWaZOwK/2N0RBtmyB1Ar6a3wOFcJuqOOxLo2Y4L/mYp2Lr+H/xhf6mwdO
+   AIKVDa/gWJB93VObCIWMwtZN1cSXPzyVLiacMu1yzopNvvIbdSo3pcRii
+   GHyltNeVlld1UXVZnG6hF8yshNHJDkfrgv26VnhcA9hMRQ9QOHN7yIwVN
+   I5wvQBcKWUlV31IFAYX6YAdn+G+uMx2s59qTul/PazP90fthEYLHSRCGF
+   aSJOXXz2PDo0SEgXI/GVqUqBbkWYepRCC5Jo51ZOm719TTftu9tE7A+mI
+   Q==;
+X-CSE-ConnectionGUID: bxbrE7NsQzqtdlIXgZj2oA==
+X-CSE-MsgGUID: jp7T8Z0UR0ataoheDsouDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69815932"
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="69560258"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 18:04:03 -0800
-X-CSE-ConnectionGUID: 6quPyO+NSK+Mq8GxVRhbSg==
-X-CSE-MsgGUID: 1tTxWUb5R5u1zrmSMCwSAQ==
+   d="scan'208";a="69815932"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 18:37:04 -0800
+X-CSE-ConnectionGUID: mZnPcowfRlyxTpj+kEY6sA==
+X-CSE-MsgGUID: I/6tOicMTSGKj1wivTUeCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="203682400"
+   d="scan'208";a="204187678"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Jan 2026 18:04:01 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 13 Jan 2026 18:37:03 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfqEo-00000000Feg-3isw;
-	Wed, 14 Jan 2026 02:03:58 +0000
-Date: Wed, 14 Jan 2026 10:03:42 +0800
+	id 1vfqkm-00000000FgM-48KQ;
+	Wed, 14 Jan 2026 02:37:00 +0000
+Date: Wed, 14 Jan 2026 10:36:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [thomas-weissschuh:b4/vdso-powerpc-align 3/3]
- arch/powerpc/kernel/vdso/vdso32.so.dbg: dynamic relocations are not supported
-Message-ID: <202601140935.BnUvmQf5-lkp@intel.com>
+Subject: [linux-next:master 2278/5774]
+ drivers/pci/controller/pci-tegra.c:2726:1: sparse: sparse: bad integer
+ constant expression
+Message-ID: <202601141056.taAB4JSC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "dynamic relocations are not supported"
-::::::=20
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/pci/controller/pci-tegra.c:2726:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Wei=C3=9Fschuh" <thomas.weissschuh@linutronix.de>
+TO: Aaron Kling <webgeek1234@gmail.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/vdso-powerpc-align
-head:   6463c8929d2f3f4dde4bb3e5a2ad226e8e6bd731
-commit: 6463c8929d2f3f4dde4bb3e5a2ad226e8e6bd731 [3/3] powerpc/vdso: Provid=
-e clock_getres_time64()
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: powerpc-randconfig-002-20260114 (https://download.01.org/0day-ci/ar=
-chive/20260114/202601140935.BnUvmQf5-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260114/202601140935.BnUvmQf5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0f853ca2a798ead9d24d39cad99b0966815c582a
+commit: aac5ba6acc79b37b01dfc9dd23eb457c89cf06f6 [2278/5774] PCI: tegra: Allow building as a module
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 weeks ago
+config: s390-randconfig-r111-20260113 (https://download.01.org/0day-ci/archive/20260114/202601141056.taAB4JSC-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141056.taAB4JSC-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601140935.BnUvmQf5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601141056.taAB4JSC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/pci-tegra.c:2726:1: sparse: sparse: bad integer constant expression
+   drivers/pci/controller/pci-tegra.c:2726:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/pci/controller/pci-tegra.c:2727:1: sparse: sparse: bad integer constant expression
+   drivers/pci/controller/pci-tegra.c:2727:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/pci/controller/pci-tegra.c:2728:1: sparse: sparse: bad integer constant expression
+   drivers/pci/controller/pci-tegra.c:2728:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/pci/controller/pci-tegra.c:2728:1: sparse: sparse: bad integer constant expression
+   drivers/pci/controller/pci-tegra.c:2728:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
->> arch/powerpc/kernel/vdso/vdso32.so.dbg: dynamic relocations are not supp=
-orted
-   make[3]: *** [arch/powerpc/kernel/vdso/Makefile:79: arch/powerpc/kernel/=
-vdso/vdso32.so.dbg] Error 1 shuffle=3D843335742
-   make[3]: Target 'include/generated/vdso32-offsets.h' not remade because =
-of errors.
-   make[2]: *** [arch/powerpc/Makefile:388: vdso_prepare] Error 2 shuffle=
-=3D843335742
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3D843335742
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3D843335742
-   make: Target 'prepare' not remade because of errors.
+vim +2726 drivers/pci/controller/pci-tegra.c
 
---=20
+da76ba50963b81 drivers/pci/host/pci-tegra.c       Manikanta Maddireddy 2018-02-28  2715  
+d1523b52bff35e drivers/pci/host/pci-tegra.c       Thierry Reding       2013-08-09  2716  static struct platform_driver tegra_pcie_driver = {
+d1523b52bff35e drivers/pci/host/pci-tegra.c       Thierry Reding       2013-08-09  2717  	.driver = {
+d1523b52bff35e drivers/pci/host/pci-tegra.c       Thierry Reding       2013-08-09  2718  		.name = "tegra-pcie",
+d1523b52bff35e drivers/pci/host/pci-tegra.c       Thierry Reding       2013-08-09  2719  		.of_match_table = tegra_pcie_of_match,
+d1523b52bff35e drivers/pci/host/pci-tegra.c       Thierry Reding       2013-08-09  2720  		.suppress_bind_attrs = true,
+da76ba50963b81 drivers/pci/host/pci-tegra.c       Manikanta Maddireddy 2018-02-28  2721  		.pm = &tegra_pcie_pm_ops,
+d1523b52bff35e drivers/pci/host/pci-tegra.c       Thierry Reding       2013-08-09  2722  	},
+d1523b52bff35e drivers/pci/host/pci-tegra.c       Thierry Reding       2013-08-09  2723  	.probe = tegra_pcie_probe,
+d1523b52bff35e drivers/pci/host/pci-tegra.c       Thierry Reding       2013-08-09  2724  };
+aac5ba6acc79b3 drivers/pci/controller/pci-tegra.c Aaron Kling          2025-07-31  2725  builtin_platform_driver(tegra_pcie_driver);
+aac5ba6acc79b3 drivers/pci/controller/pci-tegra.c Aaron Kling          2025-07-31 @2726  MODULE_AUTHOR("Thierry Reding <treding@nvidia.com>");
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
