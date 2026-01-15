@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0639B3A0B28
-	for <oe-kbuild@lists.linux.dev>; Thu, 15 Jan 2026 13:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAAE26D4DF
+	for <oe-kbuild@lists.linux.dev>; Thu, 15 Jan 2026 14:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768483030; cv=none; b=JnGeI9tJPwDosvOyog/LJXyFhFIvaTupAcUh3o5mxuFj+rjPZyI2gS5VcTpIGzryjYpoBZiB+zgTLYaGP/tuKnBr2FIzM3PIwUr7z2tLeMQyK41/wTXov5TVmMX2y4WOqpuUPUh8lzz+PGQx8nT7MpLdu/KB4ST2s/Ig7XeE8SQ=
+	t=1768485670; cv=none; b=FgE6YTE0i3pQCQLo6KzBgqAMgkkwi7Jte35cWdgqnmG/f6W4fyMuilMBXHXCE1kdK8se1w3v5ccnGrKWTUSs5Dd5yl3Dh2ydkjRDLBJ7miXZZFNqG9FH6NGUwuiR6CEPY+y69xZIjI1pxlm+1EqLj1Mpf3QWfRhA4u2FcrJEpTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768483030; c=relaxed/simple;
-	bh=lgDneLMt+2GC4Aj8FjtJqvO6irD/zxgvBRJaaN9GSAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=WrexRVTlj0XJRFA4A+afKuwR2c9n/HvrVkFVy3rVdLfiucWol4R3LinzNTDfdMbDIiHALrORGlxi0U5SmSEn0Adm5LWwhYyxdH93Fx5x6VR2hZUjvLpvnzn/jy0nFmiUxI16SMcF8rh374UvuFI2w87IvRZ++jq/SEAxhNPv2NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQFMqpvA; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1768485670; c=relaxed/simple;
+	bh=x2dBIHcwh1zrI4qFY1GFQwh52T5nwAflHAO2imBffHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=TiKIO75pmsAd4cHOGkw/5mgi7wY4QVHxJeWwd6cgmP1U3+B0sgfyZPyU53nIvbMq4Yp7u+x6l4XMMpX1fGN7Iq32lb9OCmXgUfIBlx444/4p7MxNHBueSReZ8jDXrnDLmENIS6yxojOrfhLFd5qTD4E5xx0LKCQMUvpQ0pUxOL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dz6bZfi8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQFMqpvA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dz6bZfi8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768483029; x=1800019029;
+  t=1768485668; x=1800021668;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=lgDneLMt+2GC4Aj8FjtJqvO6irD/zxgvBRJaaN9GSAE=;
-  b=IQFMqpvAEg8VuIbQQP0OEsvyJ27PuVOl0nX3UfgoufeHiWWQ5Wye7lzN
-   OHrsq1vq1xsLfyTUF3PPsg7g81oKdq3Mxx0uJxN6FIUSqlVpWcE0FVJPn
-   lbqa1asr13D0+P4zDGyoFIPSOFf+8AMaZu+v4mk0H/FvV542gAK2uEZJV
-   dyAnEamQ0YP2GuZy8/yJPQApffYLlVFudlAy3y3/Hace0cvzsI/2SPA0e
-   NPKs/4ekDWQLuUlwt86rYK3d1ZUoICIo5wd04MmiG8zTiHxhzE9h5eUre
-   AFpZMrc+cs+IwVqorcPSBDnZuiIXaAiIAW48vJfCwzTh0f7/9ljwcs3Pt
-   A==;
-X-CSE-ConnectionGUID: 5Zz7SxunSPmDFYURwG6ZTg==
-X-CSE-MsgGUID: rvootgD2Roq1KS3kQOF8Iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="81151176"
+  bh=x2dBIHcwh1zrI4qFY1GFQwh52T5nwAflHAO2imBffHA=;
+  b=Dz6bZfi8FBWLXQSE7WcNs5eQDlu9GPiExaW0h8S+SLQULdAkz0A759HX
+   kJTWm76wPyEdlXN7QjyiRGJv9YithXevULo0Q3n9vAgXFslM8lLcIPMQK
+   KAXLMa1y4MoWPs4l8xGDQGVZQfGqtk/SK4GvJi7AJxbg3DsTjnG5+SJfd
+   6oai0XPRK5zvLqJtfCq7SLjBv35dWsied2TOGrDMTKJwZ8n7SZ+uIaB8s
+   5PpDhW4GiMpBLHq4f1qzX3IXyuHY0rZ0Za/boUtWyI+SCI/lD6URDEll6
+   sdkQgvdFK1Wn/8RWLoSeVfJTkBP1Ob0baQn7gyCkWtFRlwd3Ey0ayxDAh
+   g==;
+X-CSE-ConnectionGUID: htpEntfWR+eoNEUJkQDIqg==
+X-CSE-MsgGUID: 4ezCEtzcQ5+yvznQq9dUzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="72375517"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="81151176"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 05:17:07 -0800
-X-CSE-ConnectionGUID: xC0Z3IzASfGUtKesRUBnVA==
-X-CSE-MsgGUID: 8h7FSpRpQW2j7xUmZ9fmbQ==
+   d="scan'208";a="72375517"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:01:07 -0800
+X-CSE-ConnectionGUID: G7blLZSuTcSTEQQgVCixrg==
+X-CSE-MsgGUID: DFtEARjQTG6rz9hXg/wnLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="242493064"
+   d="scan'208";a="205452435"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jan 2026 05:17:05 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 15 Jan 2026 06:01:06 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgNDi-00000000Hzh-2dEG;
-	Thu, 15 Jan 2026 13:17:02 +0000
-Date: Thu, 15 Jan 2026 21:16:51 +0800
+	id 1vgNuK-00000000I2G-2T1J;
+	Thu, 15 Jan 2026 14:01:04 +0000
+Date: Thu, 15 Jan 2026 22:00:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/test_hmm.c:932 dmirror_migrate_to_system() error:
- uninitialized symbol 'ret'.
-Message-ID: <202601152125.McLpiKxS-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 6327/6771]
+ drivers/phy/phy-common-props-test.c:420:1: sparse: sparse: bad integer
+ constant expression
+Message-ID: <202601152139.lvd04I0E-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -63,131 +64,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
+::::::=20
+:::::: Manual check reason: "low confidence static check warning: drivers/p=
+hy/phy-common-props-test.c:420:1: sparse: sparse: bad integer constant expr=
+ession"
+::::::=20
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Alistair Popple <apopple@nvidia.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: "Bj=C3=B6rn T=C3=B6pel" <bjorn@rivosinc.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: "Bj=C3=B8rn Mork" <bjorn@mork.no>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   944aacb68baf7624ab8d277d0ebf07f025ca137c
-commit: d438d273417055241ebaaf1ba3be23459fc27cba mm: remove devmap related =
-functions and page table bits
-date:   6 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 6 months ago
-config: s390-randconfig-r071-20260115 (https://download.01.org/0day-ci/arch=
-ive/20260115/202601152125.McLpiKxS-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   9b7977f9e39b7768c70c2aa497f04e7569fd3e00
+commit: e7556b59ba65179612bce3fa56bb53d1b4fb20db [6327/6771] phy: add phy_g=
+et_rx_polarity() and phy_get_tx_polarity()
+:::::: branch date: 9 hours ago
+:::::: commit date: 25 hours ago
+config: sparc64-randconfig-r133-20260115 (https://download.01.org/0day-ci/a=
+rchive/20260115/202601152139.lvd04I0E-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8=
 addffa70cee5b2acc5454712d9cf78ce45710)
-smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260115/202601152139.lvd04I0E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601152125.McLpiKxS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601152139.lvd04I0E-lkp@intel.com/
 
-smatch warnings:
-lib/test_hmm.c:932 dmirror_migrate_to_system() error: uninitialized symbol =
-'ret'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/phy/phy-common-props-test.c:420:1: sparse: sparse: bad integer c=
+onstant expression
+   drivers/phy/phy-common-props-test.c:420:1: sparse: sparse: static assert=
+ion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/phy/phy-common-props-test.c:421:1: sparse: sparse: bad integer c=
+onstant expression
+   drivers/phy/phy-common-props-test.c:421:1: sparse: sparse: static assert=
+ion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/phy/phy-common-props-test.c:422:1: sparse: sparse: bad integer c=
+onstant expression
+   drivers/phy/phy-common-props-test.c:422:1: sparse: sparse: static assert=
+ion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/phy/phy-common-props-test.c:422:1: sparse: sparse: bad integer c=
+onstant expression
+   drivers/phy/phy-common-props-test.c:422:1: sparse: sparse: static assert=
+ion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +/ret +932 lib/test_hmm.c
+vim +420 drivers/phy/phy-common-props-test.c
 
-4c2e0f764eb4444 Alex Sierra     2022-07-15  874 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15  875  static int dmirror_migrate=
-_to_system(struct dmirror *dmirror,
-4c2e0f764eb4444 Alex Sierra     2022-07-15  876  				     struct hmm_dmirro=
-r_cmd *cmd)
-4c2e0f764eb4444 Alex Sierra     2022-07-15  877  {
-4c2e0f764eb4444 Alex Sierra     2022-07-15  878  	unsigned long start, end,=
- addr;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  879  	unsigned long size =3D cm=
-d->npages << PAGE_SHIFT;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  880  	struct mm_struct *mm =3D =
-dmirror->notifier.mm;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  881  	struct vm_area_struct *vm=
-a;
-6046a3bed1c2b02 Arnd Bergmann   2025-06-10  882  	unsigned long src_pfns[32=
-] =3D { 0 };
-6046a3bed1c2b02 Arnd Bergmann   2025-06-10  883  	unsigned long dst_pfns[32=
-] =3D { 0 };
-16ce101db85db69 Alistair Popple 2022-09-28  884  	struct migrate_vma args =
-=3D { 0 };
-4c2e0f764eb4444 Alex Sierra     2022-07-15  885  	unsigned long next;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  886  	int ret;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  887 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15  888  	start =3D cmd->addr;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  889  	end =3D start + size;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  890  	if (end < start)
-4c2e0f764eb4444 Alex Sierra     2022-07-15  891  		return -EINVAL;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  892 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15  893  	/* Since the mm is for th=
-e mirrored process, get a reference first. */
-4c2e0f764eb4444 Alex Sierra     2022-07-15  894  	if (!mmget_not_zero(mm))
-4c2e0f764eb4444 Alex Sierra     2022-07-15  895  		return -EINVAL;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  896 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15  897  	cmd->cpages =3D 0;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  898  	mmap_read_lock(mm);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  899  	for (addr =3D start; addr=
- < end; addr =3D next) {
-4c2e0f764eb4444 Alex Sierra     2022-07-15  900  		vma =3D vma_lookup(mm, a=
-ddr);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  901  		if (!vma || !(vma->vm_fl=
-ags & VM_READ)) {
-4c2e0f764eb4444 Alex Sierra     2022-07-15  902  			ret =3D -EINVAL;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  903  			goto out;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  904  		}
-4c2e0f764eb4444 Alex Sierra     2022-07-15  905  		next =3D min(end, addr +=
- (ARRAY_SIZE(src_pfns) << PAGE_SHIFT));
-4c2e0f764eb4444 Alex Sierra     2022-07-15  906  		if (next > vma->vm_end)
-4c2e0f764eb4444 Alex Sierra     2022-07-15  907  			next =3D vma->vm_end;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  908 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15  909  		args.vma =3D vma;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  910  		args.src =3D src_pfns;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  911  		args.dst =3D dst_pfns;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  912  		args.start =3D addr;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  913  		args.end =3D next;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  914  		args.pgmap_owner =3D dmi=
-rror->mdevice;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  915  		args.flags =3D dmirror_s=
-elect_device(dmirror);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  916 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15  917  		ret =3D migrate_vma_setu=
-p(&args);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  918  		if (ret)
-4c2e0f764eb4444 Alex Sierra     2022-07-15  919  			goto out;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  920 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15  921  		pr_debug("Migrating from=
- device mem to sys mem\n");
-4c2e0f764eb4444 Alex Sierra     2022-07-15  922  		dmirror_devmem_fault_all=
-oc_and_copy(&args, dmirror);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  923 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15  924  		migrate_vma_pages(&args);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  925  		cmd->cpages +=3D dmirror=
-_successful_migrated_pages(&args);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  926  		migrate_vma_finalize(&ar=
-gs);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  927  	}
-4c2e0f764eb4444 Alex Sierra     2022-07-15  928  out:
-4c2e0f764eb4444 Alex Sierra     2022-07-15  929  	mmap_read_unlock(mm);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  930  	mmput(mm);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  931 =20
-4c2e0f764eb4444 Alex Sierra     2022-07-15 @932  	return ret;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  933  }
-4c2e0f764eb4444 Alex Sierra     2022-07-15  934 =20
-
-:::::: The code at line 932 was first introduced by commit
-:::::: 4c2e0f764eb4444272cfd2fa4afeb84c453a1a34 lib: add support for device=
- coherent type in test_hmm
-
-:::::: TO: Alex Sierra <alex.sierra@amd.com>
-:::::: CC: akpm <akpm@linux-foundation.org>
+e7556b59ba6517 Vladimir Oltean 2026-01-11  419 =20
+e7556b59ba6517 Vladimir Oltean 2026-01-11 @420  MODULE_DESCRIPTION("Test mo=
+dule for PHY common properties API");
 
 --=20
 0-DAY CI Kernel Test Service
