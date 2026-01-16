@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A943B3358CB
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 02:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042A1308F3E
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 04:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768531993; cv=none; b=a7poRpAxABDM5l1lY0cK8eFksmBNNS6m7Yc5TxRmuKFouVPSJRRDOIEMWhoW6a6Z5Eqnn2dBzJwL7lQ4sPFh1Aif9WURub0ovXskDaDPQEZ2TaMwT+/ejSmT6nQ0jI/ec23dEvz/zftRboNK5Yd9qQZqVLy7srYQJYNRDHqIVos=
+	t=1768536640; cv=none; b=kNEz3q5ttqvUp5XvpjB65gEX8I6OUii81HREKZZV/Y1nBm9jxEXS6ZTrWM2Q8d42192eIXBZZ+eeQirNfhNZu3l3qI1vY4MejR+0wKrKtd9qjk2wkJIBjMNmf2reR9iPsh/ejKQ5raFUW462KMdpTg3V+nSWvUslt/BwkkSDiB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768531993; c=relaxed/simple;
-	bh=rOD+9kWujQT2h2tydh70h44c6deJyH0EQt6nxvUK/pc=;
-	h=Date:From:To:Subject:Message-ID; b=Qpk8gzyyU7BV/QhTj9cdoxxGheuL/rkPfgLt1najmLnL7ma7avpNEjSNjSG2y9zW5fMEBfp+D9Nir9NgE6nAfKIMCJDCtvJRuDj/JbnOKo5JceYoXd/iujZuIeDqqiQa7oxbS+FMi8lfARomtXALgW+Cvd1elmdZe73mQqbMlRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crtu5Cwb; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1768536640; c=relaxed/simple;
+	bh=mUkPJp/FdWabGU7EX/9rL2qWGCOQ4NQDygds8OBEk8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HCnJJi8PvXquwmFr0HmEz079Rykp4vR83zRiO8Jks2sUmnJoiWPuTUzwLhmU2rweJsNUdXxGeqdSMt31VYDiM8AXMsjfBVhoMAncZXigcKXN8yQ55iWdNDXMimiKDPFvCGnJqbD5LO7NTNVidtpDb6vGWlew5yBzNDRDyT8r/w8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hzxj0Zi3; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crtu5Cwb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hzxj0Zi3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768531992; x=1800067992;
-  h=date:from:to:subject:message-id;
-  bh=rOD+9kWujQT2h2tydh70h44c6deJyH0EQt6nxvUK/pc=;
-  b=crtu5CwbuVkB9ILMVCLDDVefm/53/4HfoU0Qh1hvY2TkFDmNebVuexYY
-   k72UJzL/kwO9ejzym5WciSD23NRcKv5ub3Uc5yp/S+vvI+jaA/m6SJPVy
-   RoRK+M7bgbC812YzNgUa4Gi1fvQAUDt2A4l9Et0SbF24aL3PQrpgoAqPa
-   Vo1gjRd1mnK1ciySrFGI+xhBGJnX+ws4Q4ZzyZpCvdX4ezoyIbCZg0bzm
-   g//K6MuvetABBWTGk+gtVxk//b3sjhiYoUl1B13v3849r0VH8WLBWFFUl
-   2Zw1FFQm+9E4mru47tAlBPD6D54yjFtw7/vuCw5LST64wZgNY2bYNLhE5
-   w==;
-X-CSE-ConnectionGUID: m7LhO2oCTvCwJkc4HXjeBg==
-X-CSE-MsgGUID: QLd7YMfMSdqCF+lqNCEXFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="87264075"
+  t=1768536638; x=1800072638;
+  h=date:from:to:cc:subject:message-id;
+  bh=mUkPJp/FdWabGU7EX/9rL2qWGCOQ4NQDygds8OBEk8Q=;
+  b=Hzxj0Zi3q2Gj+zqQwIdXbaIbu5LJIuokgulJvEab3rGdXeYXsaWCdpdI
+   hB5ec3VAzY6Gxok0BjjA9bqV1gXZTwgh6VNResoZlXq5acwyr7wFEt6N3
+   k31v3LLsGxoMeXzmsQT84h1zfkJ9gpiFWgGquLp3OpQmnXT3gtps4ijMu
+   BXejR+tg2QKGHyGCHMuDtowEYpIWfqBxzS6E2cAXitT0+Usud2x5fm0AK
+   0dO+gHZHYvu7SWdD+d5ZAyETl7H+p03iBhpPTHKmQluQcNkrxPJuANEtH
+   DTKtWZZiyY5Jl3Xh/Lv8ConjlZte8mr3GaBQmlDIiEyl/vfBoNG3Ne6JB
+   g==;
+X-CSE-ConnectionGUID: ERzHRpcYTGu889ocYrwavQ==
+X-CSE-MsgGUID: 8syjuqeKRlivFNMoOsIOdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69901970"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="87264075"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 18:53:11 -0800
-X-CSE-ConnectionGUID: Tld47oS0ReWJvM1VqNzZBA==
-X-CSE-MsgGUID: vqy2qZIKTFq5Mp2xCePdjw==
+   d="scan'208";a="69901970"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 20:10:37 -0800
+X-CSE-ConnectionGUID: mi649Nf5Tee6LChCuCLiJg==
+X-CSE-MsgGUID: 0TgYZi57TiWuwyv/h73Kng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="205163293"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 15 Jan 2026 18:53:10 -0800
-Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
+   d="scan'208";a="236387858"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Jan 2026 20:10:36 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgZxU-000000001gz-0Bju
-	for oe-kbuild@lists.linux.dev;
-	Fri, 16 Jan 2026 02:53:08 +0000
-Date: Fri, 16 Jan 2026 03:52:23 +0100
+	id 1vgbAQ-00000000KMG-00q9;
+	Fri, 16 Jan 2026 04:10:34 +0000
+Date: Fri, 16 Jan 2026 12:10:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [jlayton:exportfs-nfsd 1/30] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'that'
-Message-ID: <202601160359.k0bljTtB-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android15-6.6 4/4] fs/exfat/file.c:513
+ exfat_file_zeroed_range() error: uninitialized symbol 'err'.
+Message-ID: <202601161212.dinnPUzf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,26 +59,66 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jeff Layton <jlayton@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git exportfs-nfsd
-head:   14b8f48f4053370ead8401ff650f5abe38696ce8
-commit: 0d7ea3e82d1035c9bddef658d30e6b1d12950d86 [1/30] fs: require filesystems to explicitly opt-in to nfsd export support
-:::::: branch date: 8 hours ago
-:::::: commit date: 31 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260116/202601160359.k0bljTtB-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   a58a97026588e9128868c7778ca1ffacbb53c931
+commit: 83600dccb85d0f34a7737be22b8d457fa3dc4c05 [4/4] UPSTREAM: exfat: change to get file size from DataLength
+:::::: branch date: 5 hours ago
+:::::: commit date: 1 year, 5 months ago
+config: i386-randconfig-141-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161212.dinnPUzf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch version: v0.5.0-8985-g2614ff1a
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202601161212.dinnPUzf-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'that'
-#16: 
-check in nfsd to ensure that that flag is set for any filesystem to
+smatch warnings:
+fs/exfat/file.c:513 exfat_file_zeroed_range() error: uninitialized symbol 'err'.
+
+vim +/err +513 fs/exfat/file.c
+
+5267456e953fd8 Sungjong Seo  2020-06-18  480  
+83600dccb85d0f dongliang.cui 2024-08-26  481  static int exfat_file_zeroed_range(struct file *file, loff_t start, loff_t end)
+83600dccb85d0f dongliang.cui 2024-08-26  482  {
+83600dccb85d0f dongliang.cui 2024-08-26  483  	int err;
+83600dccb85d0f dongliang.cui 2024-08-26  484  	struct inode *inode = file_inode(file);
+83600dccb85d0f dongliang.cui 2024-08-26  485  	struct address_space *mapping = inode->i_mapping;
+83600dccb85d0f dongliang.cui 2024-08-26  486  	const struct address_space_operations *ops = mapping->a_ops;
+83600dccb85d0f dongliang.cui 2024-08-26  487  
+83600dccb85d0f dongliang.cui 2024-08-26  488  	while (start < end) {
+83600dccb85d0f dongliang.cui 2024-08-26  489  		u32 zerofrom, len;
+83600dccb85d0f dongliang.cui 2024-08-26  490  		struct page *page = NULL;
+83600dccb85d0f dongliang.cui 2024-08-26  491  
+83600dccb85d0f dongliang.cui 2024-08-26  492  		zerofrom = start & (PAGE_SIZE - 1);
+83600dccb85d0f dongliang.cui 2024-08-26  493  		len = PAGE_SIZE - zerofrom;
+83600dccb85d0f dongliang.cui 2024-08-26  494  		if (start + len > end)
+83600dccb85d0f dongliang.cui 2024-08-26  495  			len = end - start;
+83600dccb85d0f dongliang.cui 2024-08-26  496  
+83600dccb85d0f dongliang.cui 2024-08-26  497  		err = ops->write_begin(file, mapping, start, len, &page, NULL);
+83600dccb85d0f dongliang.cui 2024-08-26  498  		if (err)
+83600dccb85d0f dongliang.cui 2024-08-26  499  			goto out;
+83600dccb85d0f dongliang.cui 2024-08-26  500  
+83600dccb85d0f dongliang.cui 2024-08-26  501  		zero_user_segment(page, zerofrom, zerofrom + len);
+83600dccb85d0f dongliang.cui 2024-08-26  502  
+83600dccb85d0f dongliang.cui 2024-08-26  503  		err = ops->write_end(file, mapping, start, len, len, page, NULL);
+83600dccb85d0f dongliang.cui 2024-08-26  504  		if (err < 0)
+83600dccb85d0f dongliang.cui 2024-08-26  505  			goto out;
+83600dccb85d0f dongliang.cui 2024-08-26  506  		start += len;
+83600dccb85d0f dongliang.cui 2024-08-26  507  
+83600dccb85d0f dongliang.cui 2024-08-26  508  		balance_dirty_pages_ratelimited(mapping);
+83600dccb85d0f dongliang.cui 2024-08-26  509  		cond_resched();
+83600dccb85d0f dongliang.cui 2024-08-26  510  	}
+83600dccb85d0f dongliang.cui 2024-08-26  511  
+83600dccb85d0f dongliang.cui 2024-08-26  512  out:
+83600dccb85d0f dongliang.cui 2024-08-26 @513  	return err;
+83600dccb85d0f dongliang.cui 2024-08-26  514  }
+83600dccb85d0f dongliang.cui 2024-08-26  515  
 
 -- 
 0-DAY CI Kernel Test Service
