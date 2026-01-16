@@ -1,182 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90671B87C9
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 12:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8C323FC54
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 13:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768566543; cv=none; b=lSfT0HP4mzWip1qxmspLcwELZTehQ75lnZHqMQdF9VRmvZbDOQONwzwTyE0H6x3KcSecXgx8dUqW++s0E5TghGAI8ImT4uIudGD2QyXeCLcQ3eHPvQmdllyZcHywDj6TBUK4oK/ftFcRlFey8luShBH4OrH30ttZM+wpMpHOmyQ=
+	t=1768569664; cv=none; b=BrpIr2RKdyUAhLl4EABIMsubIEs21yBZiWGN2s0EumQZpHchY2qXChJ6ChzcjPaileKhzp7TCkDCkTslR2+DNe027t1jcRnorqqNMHaTKroWHrG//9V285fYFOm/f2tG51uNANhLSsc0dBknu3mMPRubnDlczwUm0WdKU6wXGoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768566543; c=relaxed/simple;
-	bh=WVVjSSE0kQvxP2mYu25ZUiZt+Vjez4xiLmgMU64V3fo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=G7Ms9MouAsLIidY5o8tUj2/qPaS+IPAqD316IXqFh8YOgKlVa+ag6rdTndmAkLiIyBZoFforJuDoR6XZKwnWFGt3lBgEAgwUf3jFVPueaeJiErRhA7HTQGb+AcSAgsqpWqBIguxv86IwP6FPA4v3DuUgiZQOgq7p9VWNKyJuIFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RrjxP1PT; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1768569664; c=relaxed/simple;
+	bh=L2CoeITT2YGtjnVwplvBvyEe+4RAVI4WkpGHbnKlCPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cRUUVs6sBfFLGd1hS6UK4U90vx7hm3ywbkRyeqnbqUbALqjn73RjFzaDfYg2+NfeJsidtZFClcXb+5PqUSiXVNkm7YkWWbJAkrPHkA31IriGhD1fx6SFkzTRm5DPNEGuDsdNeqLH7Ly+sv7to8DN2e1UsZKV+P8LzT6smqsXTl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCYLrzro; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RrjxP1PT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCYLrzro"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768566541; x=1800102541;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WVVjSSE0kQvxP2mYu25ZUiZt+Vjez4xiLmgMU64V3fo=;
-  b=RrjxP1PTv6tyxSQRv/8TvtOIZaOLxzLCkbJSRVdsMZkwJT2rIn6nOlfn
-   K26QQlTfBOBe7wYHUxidP3Dn0nmfqqId3E5rp4Z5aGsHCbO/kfyidlDjr
-   +Xw3NybeAwgTjbBF3KWvy5SuBDk/jskRyYKxG1vAhjsPjjAoJdGisR7My
-   mllBTwnle41UbR1smhnAaUBbdBNBwhCrIHS6poQHd+TwwJ5sE0UwxCi9V
-   +36CPbStPRQIL17lh5l5WnHAl9UDFFiyiZ7zsJNuDME/IrXJ+thgYPUXJ
-   GBFpN1DQLngkaz8MIEcgpCqSpDKNNNTSk0fY4FMlHeSxhVG0SAmAIWXOG
-   A==;
-X-CSE-ConnectionGUID: OUPP5lD4RuWvrK59znSMdw==
-X-CSE-MsgGUID: Q340w9zoTCuRwl56YjOLGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="68889853"
+  t=1768569661; x=1800105661;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L2CoeITT2YGtjnVwplvBvyEe+4RAVI4WkpGHbnKlCPc=;
+  b=aCYLrzrooduhKOoq7F140/+XMFAyxJ561+a+gbBqe7o7Am8ARp/R5SRo
+   aZTZNioRegy7aL+GeR7p/VncWxt0dd+t6UGGHJym0p6Kv9qaSvv2vpaEN
+   uji+jRtyCSE21PbefdiTv+ehJONtpEZSoKVK1XZSi7bAHaHbslPYW8fQu
+   qa8D89kMLxWbfYVuGvKnC5oGOYyclciCgbiV45/uP2R9/cGXHkK1AYo4C
+   WmnkeqcDeq2e04VnpdgOl708eoFuZKt1t59eGdUrhSB9x+bszlbj2M6C+
+   P3pR3FNSSlrAbH5a/OjZDcqig6DKmumGT5HqC2AtUULDM1wCkTAgfYNx3
+   w==;
+X-CSE-ConnectionGUID: 5RvbWqhiQYS3R1WhCyyukQ==
+X-CSE-MsgGUID: x6HgE/EuSoOUmd5sbE3gLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73735953"
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="68889853"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 04:29:00 -0800
-X-CSE-ConnectionGUID: pB2f/XHGQQWmJtWrcv255g==
-X-CSE-MsgGUID: nnqEwv5oTxaBSLsejTV1hA==
+   d="scan'208";a="73735953"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 05:21:00 -0800
+X-CSE-ConnectionGUID: ofbw+uX9RQums4QtcSECUg==
+X-CSE-MsgGUID: bri+kwH+QH+68SnxBKFg5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="204384757"
+   d="scan'208";a="236502855"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Jan 2026 04:28:59 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 16 Jan 2026 05:20:59 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgiwi-00000000KpG-0PzN;
-	Fri, 16 Jan 2026 12:28:56 +0000
-Date: Fri, 16 Jan 2026 20:28:22 +0800
+	id 1vgjl3-00000000KrO-1WBr;
+	Fri, 16 Jan 2026 13:20:57 +0000
+Date: Fri, 16 Jan 2026 21:20:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android15-6.6 4/4]
- drivers/gpu/drm/ttm/ttm_resource.c:440 ttm_resource_manager_evict_all()
- error: uninitialized symbol 'ret'.
-Message-ID: <202601162042.mrCEt4Ms-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v1 1/1] lib/crypto: tests: Add KUnit tests for AES
+Message-ID: <202601162147.fF0LZSp1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: lib/crypto/tests/aes_kunit.c:148:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20260115183831.72010-2-dengler@linux.ibm.com>
+References: <20260115183831.72010-2-dengler@linux.ibm.com>
+TO: Holger Dengler <dengler@linux.ibm.com>
+TO: Eric Biggers <ebiggers@kernel.org>
+CC: Ard Biesheuvel <ardb@kernel.org>
+CC: "Jason A . Donenfeld" <Jason@zx2c4.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Harald Freudenberger <freude@linux.ibm.com>
+CC: Holger Dengler <dengler@linux.ibm.com>
+CC: linux-kernel@vger.kernel.org
+CC: linux-crypto@vger.kernel.org
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   a58a97026588e9128868c7778ca1ffacbb53c931
-commit: 3c9ca275100e4fae48ab5206021b3ec82cf37b04 [4/4] drm/ttm: Should to r=
-eturn the evict error
-:::::: branch date: 13 hours ago
-:::::: commit date: 5 months ago
-config: i386-randconfig-141-20260116 (https://download.01.org/0day-ci/archi=
-ve/20260116/202601162042.mrCEt4Ms-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8985-g2614ff1a
+Hi Holger,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 47753e09a15d9fd7cdf114550510f4f2af9333ec]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Holger-Dengler/lib-crypto-tests-Add-KUnit-tests-for-AES/20260116-030041
+base:   47753e09a15d9fd7cdf114550510f4f2af9333ec
+patch link:    https://lore.kernel.org/r/20260115183831.72010-2-dengler%40linux.ibm.com
+patch subject: [PATCH v1 1/1] lib/crypto: tests: Add KUnit tests for AES
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: s390-randconfig-r132-20260116 (https://download.01.org/0day-ci/archive/20260116/202601162147.fF0LZSp1-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601162147.fF0LZSp1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601162042.mrCEt4Ms-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601162147.fF0LZSp1-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/ttm/ttm_resource.c:440 ttm_resource_manager_evict_all() err=
-or: uninitialized symbol 'ret'.
+sparse warnings: (new ones prefixed by >>)
+>> lib/crypto/tests/aes_kunit.c:148:1: sparse: sparse: bad integer constant expression
+   lib/crypto/tests/aes_kunit.c:148:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   lib/crypto/tests/aes_kunit.c:149:1: sparse: sparse: bad integer constant expression
+   lib/crypto/tests/aes_kunit.c:149:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   lib/crypto/tests/aes_kunit.c:149:1: sparse: sparse: bad integer constant expression
+   lib/crypto/tests/aes_kunit.c:149:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +/ret +440 drivers/gpu/drm/ttm/ttm_resource.c
+vim +148 lib/crypto/tests/aes_kunit.c
 
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  401 =20
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  402  /*
-4ce032d64c2a30c Christian K=C3=B6nig 2020-10-01  403   * ttm_resource_manag=
-er_evict_all
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  404   *
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  405   * @bdev - device to =
-use
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  406   * @man - manager to =
-use
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  407   *
-4ce032d64c2a30c Christian K=C3=B6nig 2020-10-01  408   * Evict all the obje=
-cts out of a memory manager until it is empty.
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  409   * Part of memory man=
-ager cleanup sequence.
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  410   */
-8af8a109b34fa88 Christian K=C3=B6nig 2020-10-01  411  int ttm_resource_mana=
-ger_evict_all(struct ttm_device *bdev,
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  412  				   struct ttm_res=
-ource_manager *man)
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  413  {
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  414  	struct ttm_operation=
-_ctx ctx =3D {
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  415  		.interruptible =3D =
-false,
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  416  		.no_wait_gpu =3D fa=
-lse,
-c44dfe4de053914 Christian K=C3=B6nig 2020-11-02  417  		.force_alloc =3D tr=
-ue
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  418  	};
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  419  	struct dma_fence *fe=
-nce;
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  420  	int ret;
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  421  	unsigned i;
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  422 =20
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  423  	/*
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  424  	 * Can't use standar=
-d list traversal since we're unlocking.
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  425  	 */
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  426 =20
-a1f091f8ef2b680 Christian K=C3=B6nig 2020-10-06  427  	spin_lock(&bdev->lru=
-_lock);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  428  	for (i =3D 0; i < TT=
-M_MAX_BO_PRIORITY; ++i) {
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  429  		while (!list_empty(=
-&man->lru[i])) {
-a1f091f8ef2b680 Christian K=C3=B6nig 2020-10-06  430  			spin_unlock(&bdev-=
->lru_lock);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  431  			ret =3D ttm_mem_ev=
-ict_first(bdev, man, NULL, &ctx,
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  432  						  NULL);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  433  			if (ret)
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  434  				return ret;
-a1f091f8ef2b680 Christian K=C3=B6nig 2020-10-06  435  			spin_lock(&bdev->l=
-ru_lock);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  436  		}
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  437  	}
-a1f091f8ef2b680 Christian K=C3=B6nig 2020-10-06  438  	spin_unlock(&bdev->l=
-ru_lock);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  439 =20
-3c9ca275100e4fa Emily Deng      2025-06-03 @440  	if (ret && ret !=3D -ENOE=
-NT)
-3c9ca275100e4fa Emily Deng      2025-06-03  441  		return ret;
-3c9ca275100e4fa Emily Deng      2025-06-03  442 =20
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  443  	spin_lock(&man->move=
-_lock);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  444  	fence =3D dma_fence_=
-get(man->move);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  445  	spin_unlock(&man->mo=
-ve_lock);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  446 =20
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  447  	if (fence) {
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  448  		ret =3D dma_fence_w=
-ait(fence, false);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  449  		dma_fence_put(fence=
-);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  450  		if (ret)
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  451  			return ret;
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  452  	}
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  453 =20
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  454  	return 0;
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  455  }
-4ce032d64c2a30c Christian K=C3=B6nig 2020-10-01  456  EXPORT_SYMBOL(ttm_res=
-ource_manager_evict_all);
-b2458726b38cb69 Christian K=C3=B6nig 2020-08-03  457 =20
+7f9363bd920b12 Holger Dengler 2026-01-15  147  
+7f9363bd920b12 Holger Dengler 2026-01-15 @148  MODULE_DESCRIPTION("KUnit tests and benchmark aes library");
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
