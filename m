@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3349C21B185
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 09:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32D535FF6E
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 10:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768557536; cv=none; b=OE+4sjW+Mqu1njI/2uMwo4ENy1Cdl9IeqPZVffcJHW2swjR/Nvly6gu6yQc9n12DdT+x2t4nrqaPRyB+qGhTexCkGg4nDnAQio0xpnAEKLzAj5EKVkn8UNQjeS/85CYh+64piuk1nUZxn02y6cAulDi55IWRWa+pYT9CFxZBYb8=
+	t=1768560119; cv=none; b=oyf9EKoOkpF5hJIKKt6Ggvfq9k1SJ7nxdfA7/sImmqsPT38iw7tPA9vs4NEa1an5SBFMzgDc0GoHpshaxU3fsM19UUpQ6eK9s6RYNWj7P0ufN4bz3p56U8tZzQ3hDDmlamBpI5TbWfJxCMGEWCqbrEJ6VfiHww93ips0vJ8CC44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768557536; c=relaxed/simple;
-	bh=ZQEo2PSGodhWaF/Ehq0dI+xvnuo1rhjGwTemZ1wjksU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VIJQiAexJt8bknQp01gOs8HDvQAqSgz5Np6rMJc9ZELVhKTeIAsf+8FERR2tya4VdMQOiocKvL8uHyCwNXw3eS0KW5cSV9LT/4C3in1KDsvOtRHlNjMYR+oPBYp12NB0mn/sJERqyFFhHzdZvB3cfZ4BbT5DD9/6H8tYX2NGkAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMSjB8ch; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1768560119; c=relaxed/simple;
+	bh=0u/H/srRWXV52p1bmy17Jrj4heaORIUYGCg/z7wJnsM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UNWOgdtq5e+NynLY4pdq8ftjxMZiYkB32lJtcVDzVLzpbhSueBEgSDtSL4Q32NB/W2wpGxtzGik5C+cxRtZU4ApqRo5Jvk/WvugKprOvdCW0omAv/WOOJifm4D5dSP3/j1Yalg2hjpv9cMO1DFbuirtO0IKrCNjTy8xgWpOQ1FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T1rwG8R0; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMSjB8ch"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T1rwG8R0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768557534; x=1800093534;
+  t=1768560117; x=1800096117;
   h=date:from:to:cc:subject:message-id;
-  bh=ZQEo2PSGodhWaF/Ehq0dI+xvnuo1rhjGwTemZ1wjksU=;
-  b=DMSjB8chcqBSWoGccflRrhMVNj6Ko9T5Ir6tQI9aAtUsqGSh9UQ0N/f/
-   rhezUdnNiqHb8YCYBbPQ0q5H1R6bjtvdwp9a7fTYmwfJVKNCl+Chdv0/W
-   3sd24b9eijsYmf671I27HL9eQ6vDubtInTsUIkMGykLQOpa355Hrav+Tx
-   mtP/c1cqG/5+hW6/RDBDLhALSjm5prrUswwX7958dgXtc4i/bpedlSv9D
-   JVuJjn3FGmhJ4mwTJg2NF6YItwmbflLPGygaDgwQHOVHdg+z9WDAddpyt
-   pERMFVlLSM8soeabDJ65h1a2B7iXt847oQ3jrxp8t7P4YU6dKPkjXZjl8
-   A==;
-X-CSE-ConnectionGUID: K+qjeGIKSXmEikznPr1ZTw==
-X-CSE-MsgGUID: lFzmSDqWTfe5lF8xyytbkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80591925"
+  bh=0u/H/srRWXV52p1bmy17Jrj4heaORIUYGCg/z7wJnsM=;
+  b=T1rwG8R0EkRg/9l5G4mdjWxDC6e3RDTuYpHfDUQgIZ424TlvGQVt2Sgj
+   R532rWJGw922XEmLlTJhbiRRIsSoMIcLVh+24l/Qkbo4jSQGlHPez/Zo0
+   elxNGP707dZJLizE31oUD0QspGuqEUaQR7T2y9F0nmMScvyZ4pz18JVgj
+   fuPqaZMnKK3G8eAY3UOlci2snHrAlVkcx3arEovzFrJzUpOy03cULwEhg
+   Vpf4dasQculyQkXmP1Q8TIwFEZP/mMERi9tZFkC3UpnhEtE5Rg/w2eWu1
+   uDm6LkkXafqu/2zGBt3+BGEByVH0q0OgQM8cobJDoWq6Gy1H2dh1Vm2ae
+   g==;
+X-CSE-ConnectionGUID: e7VY059TSsicqkU6MH4tbQ==
+X-CSE-MsgGUID: lW26eQCjRYOst9SHvvjPqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="68882886"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="80591925"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 01:58:54 -0800
-X-CSE-ConnectionGUID: 3eaDKIdFQYSRZilmrTKNfQ==
-X-CSE-MsgGUID: uHlcO6ipQkOORWOmNdcJBQ==
+   d="scan'208";a="68882886"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 02:41:56 -0800
+X-CSE-ConnectionGUID: njx9XL2bTY2UksINV+8jwQ==
+X-CSE-MsgGUID: SxUpglxaThuYTfmy6KgP9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="204412723"
+   d="scan'208";a="209348743"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Jan 2026 01:58:52 -0800
+  by orviesa003.jf.intel.com with ESMTP; 16 Jan 2026 02:41:54 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vggbR-00000000Kga-3LH2;
-	Fri, 16 Jan 2026 09:58:49 +0000
-Date: Fri, 16 Jan 2026 17:58:41 +0800
+	id 1vghH6-00000000KjV-0pge;
+	Fri, 16 Jan 2026 10:41:52 +0000
+Date: Fri, 16 Jan 2026 18:41:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android14-kiwi-6.1 81/81]
- lib/overflow_kunit.c:770 overflows_type_test() warn: assigning (-128) to
- unsigned variable 'v'
-Message-ID: <202601161736.YdcJ8MdL-lkp@intel.com>
+Subject: [android-common:android15-6.6 4/4]
+ kernel/cgroup/cgroup.c:5780 cgroup_create() warn: passing zero to 'ERR_PTR'
+Message-ID: <202601161853.J6x4IThy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -64,281 +63,160 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   c7c334b6f8174241add2ab05ef7db80539c8e685
-commit: 467d3baa5d70bb17784aae9e88ccc623cf2c88f9 [81/81] BACKPORT: overflow: Introduce overflows_type() and castable_to_type()
-:::::: branch date: 6 hours ago
-:::::: commit date: 2 years, 8 months ago
-config: arm-randconfig-r071-20260114 (https://download.01.org/0day-ci/archive/20260116/202601161736.YdcJ8MdL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   a58a97026588e9128868c7778ca1ffacbb53c931
+commit: 2917fe4f77b5432ae691329891513c43ce250baa [4/4] ANDROID: cgroup: Use backport reservation for freeze time
+:::::: branch date: 11 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-141-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161853.J6x4IThy-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601161736.YdcJ8MdL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601161853.J6x4IThy-lkp@intel.com/
 
-New smatch warnings:
-lib/overflow_kunit.c:770 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/overflow_kunit.c:770 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/overflow_kunit.c:791 overflows_type_test() warn: 't1 + v' 65535 can't fit into 127 'v'
-lib/overflow_kunit.c:791 overflows_type_test() warn: 't1 + v' 65535 can't fit into 127 'v'
-lib/overflow_kunit.c:800 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/overflow_kunit.c:800 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/overflow_kunit.c:815 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/overflow_kunit.c:815 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/overflow_kunit.c:817 overflows_type_test() warn: value s16min can't fit into (-128) 'v'
-lib/overflow_kunit.c:817 overflows_type_test() warn: value s16min can't fit into (-128) 'v'
-lib/overflow_kunit.c:846 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/overflow_kunit.c:846 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/overflow_kunit.c:865 overflows_type_test() warn: value s32min can't fit into (-128) 'v'
-lib/overflow_kunit.c:865 overflows_type_test() warn: value s32min can't fit into (-128) 'v'
-lib/overflow_kunit.c:869 overflows_type_test() warn: value (-32769) can't fit into s16min 'v'
-lib/overflow_kunit.c:869 overflows_type_test() warn: value (-32769) can't fit into s16min 'v'
-lib/overflow_kunit.c:871 overflows_type_test() warn: value s32min can't fit into s16min 'v'
-lib/overflow_kunit.c:871 overflows_type_test() warn: value s32min can't fit into s16min 'v'
+smatch warnings:
+kernel/cgroup/cgroup.c:5780 cgroup_create() warn: passing zero to 'ERR_PTR'
 
-Old smatch warnings:
-lib/overflow_kunit.c:420 shift_overflow_test() warn: '(_a_full << _to_shift)' 32768 can't fit into 32767 '*_d'
-lib/overflow_kunit.c:429 shift_overflow_test() warn: '(_a_full << _to_shift)' 69932 can't fit into 65535 '*_d'
-lib/overflow_kunit.c:440 shift_overflow_test() warn: '(_a_full << _to_shift)' 34966 can't fit into 32767 '*_d'
-lib/overflow_kunit.c:449 shift_overflow_test() warn: '(_a_full << _to_shift)' 300 can't fit into 127 '*_d'
-lib/overflow_kunit.c:451 shift_overflow_test() warn: '(_a_full << _to_shift)' 69932 can't fit into 32767 '*_d'
-lib/overflow_kunit.c:468 shift_truncate_test() warn: '(_a_full << _to_shift)' 65536 can't fit into 65535 '*_d'
-lib/overflow_kunit.c:469 shift_truncate_test() warn: '(_a_full << _to_shift)' 65535 can't fit into 32767 '*_d'
-lib/overflow_kunit.c:506 shift_nonsense_test() warn: '(_a_full << _to_shift)' 18446744073709551611 can't fit into 32767 '*_d'
-lib/overflow_kunit.c:507 shift_nonsense_test() warn: '(_a_full << _to_shift)' 18446744073709551611 can't fit into 65535 '*_d'
-lib/overflow_kunit.c:507 shift_nonsense_test() warn: assigning 18446744073709551611 to unsigned variable '*_d'
-lib/overflow_kunit.c:773 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/overflow_kunit.c:773 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/overflow_kunit.c:793 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/overflow_kunit.c:793 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/overflow_kunit.c:794 overflows_type_test() warn: 't1 + v' 65535 can't fit into 32767 'v'
-lib/overflow_kunit.c:794 overflows_type_test() warn: 't1 + v' 65535 can't fit into 32767 'v'
-lib/overflow_kunit.c:803 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/overflow_kunit.c:803 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/overflow_kunit.c:816 overflows_type_test() warn: 't1 + v' 32767 can't fit into 127 'v'
-lib/overflow_kunit.c:816 overflows_type_test() warn: 't1 + v' 32767 can't fit into 127 'v'
-lib/overflow_kunit.c:827 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 127 'v'
-lib/overflow_kunit.c:827 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 127 'v'
-lib/overflow_kunit.c:829 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/overflow_kunit.c:829 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/overflow_kunit.c:830 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 65535 'v'
-lib/overflow_kunit.c:830 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 65535 'v'
-lib/overflow_kunit.c:832 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/overflow_kunit.c:832 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/overflow_kunit.c:833 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 32767 'v'
-lib/overflow_kunit.c:833 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 32767 'v'
-lib/overflow_kunit.c:844 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/overflow_kunit.c:844 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/overflow_kunit.c:848 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/overflow_kunit.c:848 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/overflow_kunit.c:849 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/overflow_kunit.c:849 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/overflow_kunit.c:851 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/overflow_kunit.c:851 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/overflow_kunit.c:863 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/overflow_kunit.c:863 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/overflow_kunit.c:864 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 127 'v'
-lib/overflow_kunit.c:864 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 127 'v'
-lib/overflow_kunit.c:868 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/overflow_kunit.c:868 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/overflow_kunit.c:870 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 32767 'v'
-lib/overflow_kunit.c:870 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 32767 'v'
+vim +/ERR_PTR +5780 kernel/cgroup/cgroup.c
 
-vim +/v +770 lib/overflow_kunit.c
+c81c925ad9b046 kernel/cgroup.c        Tejun Heo          2013-12-06  5655  
+07cd12945551b6 kernel/cgroup.c        Tejun Heo          2017-01-26  5656  /*
+07cd12945551b6 kernel/cgroup.c        Tejun Heo          2017-01-26  5657   * The returned cgroup is fully initialized including its control mask, but
+a3fdeeb3f1c1fa kernel/cgroup/cgroup.c Miaohe Lin         2023-07-19  5658   * it doesn't have the control mask applied.
+07cd12945551b6 kernel/cgroup.c        Tejun Heo          2017-01-26  5659   */
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5660  static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5661  				    umode_t mode)
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5662  {
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5663  	struct cgroup_root *root = parent->root;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5664  	struct cgroup *cgrp, *tcgrp;
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5665  	struct kernfs_node *kn;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5666  	int level = parent->level + 1;
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5667  	int ret;
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5668  
+0a950f65e1e64f kernel/cgroup.c        Tejun Heo          2012-11-19  5669  	/* allocate the cgroup and its ID, 0 is reserved for the root */
+7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5670  	cgrp = kzalloc(struct_size(cgrp, ancestors, (level + 1)), GFP_KERNEL);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5671  	if (!cgrp)
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5672  		return ERR_PTR(-ENOMEM);
+0ab02ca8f88790 kernel/cgroup.c        Li Zefan           2014-02-11  5673  
+2aad2a86f6685c kernel/cgroup.c        Tejun Heo          2014-09-24  5674  	ret = percpu_ref_init(&cgrp->self.refcnt, css_release, 0, GFP_KERNEL);
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5675  	if (ret)
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5676  		goto out_free_cgrp;
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5677  
+c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5678  	ret = cgroup_rstat_init(cgrp);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5679  	if (ret)
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5680  		goto out_cancel_ref;
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5681  
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5682  	/* create the directory */
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5683  	kn = kernfs_create_dir(parent->kn, name, mode, cgrp);
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5684  	if (IS_ERR(kn)) {
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5685  		ret = PTR_ERR(kn);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5686  		goto out_stat_exit;
+976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5687  	}
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5688  	cgrp->kn = kn;
+976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5689  
+cc31edceee04a7 kernel/cgroup.c        Paul Menage        2008-10-18  5690  	init_cgroup_housekeeping(cgrp);
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5691  
+9d800df12d3173 kernel/cgroup.c        Tejun Heo          2014-05-14  5692  	cgrp->self.parent = &parent->self;
+ba0f4d761503bd kernel/cgroup.c        Tejun Heo          2014-05-13  5693  	cgrp->root = root;
+b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5694  	cgrp->level = level;
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5695  
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5696  	ret = psi_cgroup_alloc(cgrp);
+324bda9e6c5add kernel/cgroup/cgroup.c Alexei Starovoitov 2017-10-02  5697  	if (ret)
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5698  		goto out_kernfs_remove;
+b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5699  
+9e67b054198f22 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5700  	if (cgrp->root == &cgrp_dfl_root) {
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5701  		ret = cgroup_bpf_inherit(cgrp);
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5702  		if (ret)
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5703  			goto out_psi_free;
+9e67b054198f22 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5704  	}
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5705  
+2917fe4f77b543 kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5706  	cgrp->kmi_ext_info = kzalloc(sizeof(*cgrp->kmi_ext_info), GFP_KERNEL);
+2917fe4f77b543 kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5707  	if (!cgrp->kmi_ext_info)
+2917fe4f77b543 kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5708  		goto out_psi_free;
+2917fe4f77b543 kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5709  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5710  	/*
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5711  	 * New cgroup inherits effective freeze counter, and
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5712  	 * if the parent has to be frozen, the child has too.
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5713  	 */
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5714  	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
+2917fe4f77b543 kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5715  	seqcount_init(&cgrp->kmi_ext_info->freezer.freeze_seq);
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5716  	if (cgrp->freezer.e_freeze) {
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5717  		/*
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5718  		 * Set the CGRP_FREEZE flag, so when a process will be
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5719  		 * attached to the child cgroup, it will become frozen.
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5720  		 * At this point the new cgroup is unpopulated, so we can
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5721  		 * consider it frozen immediately.
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5722  		 */
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5723  		set_bit(CGRP_FREEZE, &cgrp->flags);
+2917fe4f77b543 kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5724  		cgrp->kmi_ext_info->freezer.freeze_start_nsec = ktime_get_ns();
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5725  		set_bit(CGRP_FROZEN, &cgrp->flags);
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5726  	}
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5727  
+4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5728  	spin_lock_irq(&css_set_lock);
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5729  	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp)) {
+7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5730  		cgrp->ancestors[tcgrp->level] = tcgrp;
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5731  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5732  		if (tcgrp != cgrp) {
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5733  			tcgrp->nr_descendants++;
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5734  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5735  			/*
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5736  			 * If the new cgroup is frozen, all ancestor cgroups
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5737  			 * get a new frozen descendant, but their state can't
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5738  			 * change because of this.
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5739  			 */
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5740  			if (cgrp->freezer.e_freeze)
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5741  				tcgrp->freezer.nr_frozen_descendants++;
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5742  		}
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5743  	}
+4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5744  	spin_unlock_irq(&css_set_lock);
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5745  
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5746  	if (notify_on_release(parent))
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5747  		set_bit(CGRP_NOTIFY_ON_RELEASE, &cgrp->flags);
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5748  
+2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5749  	if (test_bit(CGRP_CPUSET_CLONE_CHILDREN, &parent->flags))
+2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5750  		set_bit(CGRP_CPUSET_CLONE_CHILDREN, &cgrp->flags);
+97978e6d1f2da0 kernel/cgroup.c        Daniel Lezcano     2010-10-27  5751  
+0cb51d71c1fa92 kernel/cgroup.c        Tejun Heo          2014-05-16  5752  	cgrp->self.serial_nr = css_serial_nr_next++;
+53fa5261747a90 kernel/cgroup.c        Tejun Heo          2013-05-24  5753  
+4e139afc22cb98 kernel/cgroup.c        Tejun Heo          2012-11-19  5754  	/* allocation complete, commit to creation */
+d5c419b68e368f kernel/cgroup.c        Tejun Heo          2014-05-16  5755  	list_add_tail_rcu(&cgrp->self.sibling, &cgroup_parent(cgrp)->self.children);
+3c9c825b8b50de kernel/cgroup.c        Tejun Heo          2014-02-12  5756  	atomic_inc(&root->nr_cgrps);
+a590b90d472f2c kernel/cgroup/cgroup.c Tejun Heo          2017-04-28  5757  	cgroup_get_live(parent);
+415cf07a1c1c65 kernel/cgroup.c        Li Zefan           2013-04-08  5758  
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5759  	/*
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5760  	 * On the default hierarchy, a child doesn't automatically inherit
+667c24917144e3 kernel/cgroup.c        Tejun Heo          2014-07-08  5761  	 * subtree_control from the parent.  Each is configured manually.
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5762  	 */
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5763  	if (!cgroup_on_dfl(cgrp))
+5531dc915ba10b kernel/cgroup.c        Tejun Heo          2016-03-03  5764  		cgrp->subtree_control = cgroup_control(cgrp);
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5765  
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5766  	cgroup_propagate_control(cgrp);
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5767  
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5768  	return cgrp;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5769  
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5770  out_psi_free:
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5771  	psi_cgroup_free(cgrp);
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5772  out_kernfs_remove:
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5773  	kernfs_remove(cgrp->kn);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5774  out_stat_exit:
+c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5775  	cgroup_rstat_exit(cgrp);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5776  out_cancel_ref:
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5777  	percpu_ref_exit(&cgrp->self.refcnt);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5778  out_free_cgrp:
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5779  	kfree(cgrp);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03 @5780  	return ERR_PTR(ret);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5781  }
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5782  
 
-467d3baa5d70bb Kees Cook 2022-10-24  761  
-467d3baa5d70bb Kees Cook 2022-10-24  762  	TEST_OVERFLOWS_TYPE(u8, u8, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  763  	TEST_OVERFLOWS_TYPE(u8, u16, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  764  	TEST_OVERFLOWS_TYPE(u8, s8, U8_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  765  	TEST_OVERFLOWS_TYPE(u8, s8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  766  	TEST_OVERFLOWS_TYPE(u8, s8, (u8)S8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  767  	TEST_OVERFLOWS_TYPE(u8, s16, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  768  	TEST_OVERFLOWS_TYPE(s8, u8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  769  	TEST_OVERFLOWS_TYPE(s8, u8, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @770  	TEST_OVERFLOWS_TYPE(s8, u8, S8_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  771  	TEST_OVERFLOWS_TYPE(s8, u16, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  772  	TEST_OVERFLOWS_TYPE(s8, u16, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  773  	TEST_OVERFLOWS_TYPE(s8, u16, S8_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  774  	TEST_OVERFLOWS_TYPE(s8, u32, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  775  	TEST_OVERFLOWS_TYPE(s8, u32, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  776  	TEST_OVERFLOWS_TYPE(s8, u32, S8_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  777  #if BITS_PER_LONG == 64
-467d3baa5d70bb Kees Cook 2022-10-24  778  	TEST_OVERFLOWS_TYPE(s8, u64, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  779  	TEST_OVERFLOWS_TYPE(s8, u64, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  780  	TEST_OVERFLOWS_TYPE(s8, u64, S8_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  781  #endif
-467d3baa5d70bb Kees Cook 2022-10-24  782  	TEST_OVERFLOWS_TYPE(s8, s8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  783  	TEST_OVERFLOWS_TYPE(s8, s8, S8_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  784  	TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  785  	TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  786  	TEST_OVERFLOWS_TYPE(u16, u8, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  787  	TEST_OVERFLOWS_TYPE(u16, u8, (u16)U8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  788  	TEST_OVERFLOWS_TYPE(u16, u8, U16_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  789  	TEST_OVERFLOWS_TYPE(u16, s8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  790  	TEST_OVERFLOWS_TYPE(u16, s8, (u16)S8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @791  	TEST_OVERFLOWS_TYPE(u16, s8, U16_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  792  	TEST_OVERFLOWS_TYPE(u16, s16, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  793  	TEST_OVERFLOWS_TYPE(u16, s16, (u16)S16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  794  	TEST_OVERFLOWS_TYPE(u16, s16, U16_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  795  	TEST_OVERFLOWS_TYPE(u16, u32, U16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  796  	TEST_OVERFLOWS_TYPE(u16, s32, U16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  797  	TEST_OVERFLOWS_TYPE(s16, u8, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  798  	TEST_OVERFLOWS_TYPE(s16, u8, (s16)U8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  799  	TEST_OVERFLOWS_TYPE(s16, u8, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @800  	TEST_OVERFLOWS_TYPE(s16, u8, S16_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  801  	TEST_OVERFLOWS_TYPE(s16, u16, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  802  	TEST_OVERFLOWS_TYPE(s16, u16, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  803  	TEST_OVERFLOWS_TYPE(s16, u16, S16_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  804  	TEST_OVERFLOWS_TYPE(s16, u32, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  805  	TEST_OVERFLOWS_TYPE(s16, u32, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  806  	TEST_OVERFLOWS_TYPE(s16, u32, S16_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  807  #if BITS_PER_LONG == 64
-467d3baa5d70bb Kees Cook 2022-10-24  808  	TEST_OVERFLOWS_TYPE(s16, u64, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  809  	TEST_OVERFLOWS_TYPE(s16, u64, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  810  	TEST_OVERFLOWS_TYPE(s16, u64, S16_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  811  #endif
-467d3baa5d70bb Kees Cook 2022-10-24  812  	TEST_OVERFLOWS_TYPE(s16, s8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  813  	TEST_OVERFLOWS_TYPE(s16, s8, S8_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  814  	TEST_OVERFLOWS_TYPE(s16, s8, (s16)S8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @815  	TEST_OVERFLOWS_TYPE(s16, s8, (s16)S8_MIN - 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  816  	TEST_OVERFLOWS_TYPE(s16, s8, S16_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @817  	TEST_OVERFLOWS_TYPE(s16, s8, S16_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  818  	TEST_OVERFLOWS_TYPE(s16, s16, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  819  	TEST_OVERFLOWS_TYPE(s16, s16, S16_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  820  	TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  821  	TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  822  	TEST_OVERFLOWS_TYPE(u32, u8, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  823  	TEST_OVERFLOWS_TYPE(u32, u8, (u32)U8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  824  	TEST_OVERFLOWS_TYPE(u32, u8, U32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  825  	TEST_OVERFLOWS_TYPE(u32, s8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  826  	TEST_OVERFLOWS_TYPE(u32, s8, (u32)S8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  827  	TEST_OVERFLOWS_TYPE(u32, s8, U32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  828  	TEST_OVERFLOWS_TYPE(u32, u16, U16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  829  	TEST_OVERFLOWS_TYPE(u32, u16, U16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  830  	TEST_OVERFLOWS_TYPE(u32, u16, U32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  831  	TEST_OVERFLOWS_TYPE(u32, s16, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  832  	TEST_OVERFLOWS_TYPE(u32, s16, (u32)S16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  833  	TEST_OVERFLOWS_TYPE(u32, s16, U32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  834  	TEST_OVERFLOWS_TYPE(u32, u32, U32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  835  	TEST_OVERFLOWS_TYPE(u32, s32, S32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  836  	TEST_OVERFLOWS_TYPE(u32, s32, U32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  837  	TEST_OVERFLOWS_TYPE(u32, s32, (u32)S32_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  838  #if BITS_PER_LONG == 64
-467d3baa5d70bb Kees Cook 2022-10-24  839  	TEST_OVERFLOWS_TYPE(u32, u64, U32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  840  	TEST_OVERFLOWS_TYPE(u32, s64, U32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  841  #endif
-467d3baa5d70bb Kees Cook 2022-10-24  842  	TEST_OVERFLOWS_TYPE(s32, u8, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  843  	TEST_OVERFLOWS_TYPE(s32, u8, (s32)U8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  844  	TEST_OVERFLOWS_TYPE(s32, u16, S32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  845  	TEST_OVERFLOWS_TYPE(s32, u8, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @846  	TEST_OVERFLOWS_TYPE(s32, u8, S32_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  847  	TEST_OVERFLOWS_TYPE(s32, u16, U16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  848  	TEST_OVERFLOWS_TYPE(s32, u16, (s32)U16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  849  	TEST_OVERFLOWS_TYPE(s32, u16, S32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  850  	TEST_OVERFLOWS_TYPE(s32, u16, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  851  	TEST_OVERFLOWS_TYPE(s32, u16, S32_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  852  	TEST_OVERFLOWS_TYPE(s32, u32, S32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  853  	TEST_OVERFLOWS_TYPE(s32, u32, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  854  	TEST_OVERFLOWS_TYPE(s32, u32, S32_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  855  #if BITS_PER_LONG == 64
-467d3baa5d70bb Kees Cook 2022-10-24  856  	TEST_OVERFLOWS_TYPE(s32, u64, S32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  857  	TEST_OVERFLOWS_TYPE(s32, u64, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  858  	TEST_OVERFLOWS_TYPE(s32, u64, S32_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  859  #endif
-467d3baa5d70bb Kees Cook 2022-10-24  860  	TEST_OVERFLOWS_TYPE(s32, s8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  861  	TEST_OVERFLOWS_TYPE(s32, s8, S8_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  862  	TEST_OVERFLOWS_TYPE(s32, s8, (s32)S8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  863  	TEST_OVERFLOWS_TYPE(s32, s8, (s32)S8_MIN - 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  864  	TEST_OVERFLOWS_TYPE(s32, s8, S32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @865  	TEST_OVERFLOWS_TYPE(s32, s8, S32_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  866  	TEST_OVERFLOWS_TYPE(s32, s16, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  867  	TEST_OVERFLOWS_TYPE(s32, s16, S16_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  868  	TEST_OVERFLOWS_TYPE(s32, s16, (s32)S16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @869  	TEST_OVERFLOWS_TYPE(s32, s16, (s32)S16_MIN - 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  870  	TEST_OVERFLOWS_TYPE(s32, s16, S32_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24 @871  	TEST_OVERFLOWS_TYPE(s32, s16, S32_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  872  	TEST_OVERFLOWS_TYPE(s32, s32, S32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  873  	TEST_OVERFLOWS_TYPE(s32, s32, S32_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  874  #if BITS_PER_LONG == 64
-467d3baa5d70bb Kees Cook 2022-10-24  875  	TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  876  	TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  877  	TEST_OVERFLOWS_TYPE(u64, u8, U64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  878  	TEST_OVERFLOWS_TYPE(u64, u8, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  879  	TEST_OVERFLOWS_TYPE(u64, u8, (u64)U8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  880  	TEST_OVERFLOWS_TYPE(u64, u16, U64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  881  	TEST_OVERFLOWS_TYPE(u64, u16, U16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  882  	TEST_OVERFLOWS_TYPE(u64, u16, (u64)U16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  883  	TEST_OVERFLOWS_TYPE(u64, u32, U64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  884  	TEST_OVERFLOWS_TYPE(u64, u32, U32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  885  	TEST_OVERFLOWS_TYPE(u64, u32, (u64)U32_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  886  	TEST_OVERFLOWS_TYPE(u64, u64, U64_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  887  	TEST_OVERFLOWS_TYPE(u64, s8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  888  	TEST_OVERFLOWS_TYPE(u64, s8, (u64)S8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  889  	TEST_OVERFLOWS_TYPE(u64, s8, U64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  890  	TEST_OVERFLOWS_TYPE(u64, s16, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  891  	TEST_OVERFLOWS_TYPE(u64, s16, (u64)S16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  892  	TEST_OVERFLOWS_TYPE(u64, s16, U64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  893  	TEST_OVERFLOWS_TYPE(u64, s32, S32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  894  	TEST_OVERFLOWS_TYPE(u64, s32, (u64)S32_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  895  	TEST_OVERFLOWS_TYPE(u64, s32, U64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  896  	TEST_OVERFLOWS_TYPE(u64, s64, S64_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  897  	TEST_OVERFLOWS_TYPE(u64, s64, U64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  898  	TEST_OVERFLOWS_TYPE(u64, s64, (u64)S64_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  899  	TEST_OVERFLOWS_TYPE(s64, u8, S64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  900  	TEST_OVERFLOWS_TYPE(s64, u8, S64_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  901  	TEST_OVERFLOWS_TYPE(s64, u8, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  902  	TEST_OVERFLOWS_TYPE(s64, u8, U8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  903  	TEST_OVERFLOWS_TYPE(s64, u8, (s64)U8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  904  	TEST_OVERFLOWS_TYPE(s64, u16, S64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  905  	TEST_OVERFLOWS_TYPE(s64, u16, S64_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  906  	TEST_OVERFLOWS_TYPE(s64, u16, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  907  	TEST_OVERFLOWS_TYPE(s64, u16, U16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  908  	TEST_OVERFLOWS_TYPE(s64, u16, (s64)U16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  909  	TEST_OVERFLOWS_TYPE(s64, u32, S64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  910  	TEST_OVERFLOWS_TYPE(s64, u32, S64_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  911  	TEST_OVERFLOWS_TYPE(s64, u32, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  912  	TEST_OVERFLOWS_TYPE(s64, u32, U32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  913  	TEST_OVERFLOWS_TYPE(s64, u32, (s64)U32_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  914  	TEST_OVERFLOWS_TYPE(s64, u64, S64_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  915  	TEST_OVERFLOWS_TYPE(s64, u64, S64_MIN, true);
-467d3baa5d70bb Kees Cook 2022-10-24  916  	TEST_OVERFLOWS_TYPE(s64, u64, -1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  917  	TEST_OVERFLOWS_TYPE(s64, s8, S8_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  918  	TEST_OVERFLOWS_TYPE(s64, s8, S8_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  919  	TEST_OVERFLOWS_TYPE(s64, s8, (s64)S8_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  920  	TEST_OVERFLOWS_TYPE(s64, s8, (s64)S8_MIN - 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  921  	TEST_OVERFLOWS_TYPE(s64, s8, S64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  922  	TEST_OVERFLOWS_TYPE(s64, s16, S16_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  923  	TEST_OVERFLOWS_TYPE(s64, s16, S16_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  924  	TEST_OVERFLOWS_TYPE(s64, s16, (s64)S16_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  925  	TEST_OVERFLOWS_TYPE(s64, s16, (s64)S16_MIN - 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  926  	TEST_OVERFLOWS_TYPE(s64, s16, S64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  927  	TEST_OVERFLOWS_TYPE(s64, s32, S32_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  928  	TEST_OVERFLOWS_TYPE(s64, s32, S32_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  929  	TEST_OVERFLOWS_TYPE(s64, s32, (s64)S32_MAX + 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  930  	TEST_OVERFLOWS_TYPE(s64, s32, (s64)S32_MIN - 1, true);
-467d3baa5d70bb Kees Cook 2022-10-24  931  	TEST_OVERFLOWS_TYPE(s64, s32, S64_MAX, true);
-467d3baa5d70bb Kees Cook 2022-10-24  932  	TEST_OVERFLOWS_TYPE(s64, s64, S64_MAX, false);
-467d3baa5d70bb Kees Cook 2022-10-24  933  	TEST_OVERFLOWS_TYPE(s64, s64, S64_MIN, false);
-467d3baa5d70bb Kees Cook 2022-10-24  934  #endif
-467d3baa5d70bb Kees Cook 2022-10-24  935  
-467d3baa5d70bb Kees Cook 2022-10-24  936  	/* Check for macro side-effects. */
-467d3baa5d70bb Kees Cook 2022-10-24  937  	var = INT_MAX - 1;
-467d3baa5d70bb Kees Cook 2022-10-24  938  	__TEST_OVERFLOWS_TYPE(__overflows_type, var++, int, false);
-467d3baa5d70bb Kees Cook 2022-10-24  939  	__TEST_OVERFLOWS_TYPE(__overflows_type, var++, int, false);
-467d3baa5d70bb Kees Cook 2022-10-24  940  	__TEST_OVERFLOWS_TYPE(__overflows_type, var++, int, true);
-467d3baa5d70bb Kees Cook 2022-10-24  941  	var = INT_MAX - 1;
-467d3baa5d70bb Kees Cook 2022-10-24  942  	__TEST_OVERFLOWS_TYPE(overflows_type, var++, int, false);
-467d3baa5d70bb Kees Cook 2022-10-24  943  	__TEST_OVERFLOWS_TYPE(overflows_type, var++, int, false);
-467d3baa5d70bb Kees Cook 2022-10-24  944  	__TEST_OVERFLOWS_TYPE(overflows_type, var++, int, true);
-467d3baa5d70bb Kees Cook 2022-10-24  945  
-467d3baa5d70bb Kees Cook 2022-10-24  946  	kunit_info(test, "%d overflows_type() tests finished\n", count);
-467d3baa5d70bb Kees Cook 2022-10-24  947  #undef TEST_OVERFLOWS_TYPE
-467d3baa5d70bb Kees Cook 2022-10-24  948  #undef __TEST_OVERFLOWS_TYPE
-467d3baa5d70bb Kees Cook 2022-10-24  949  }
-467d3baa5d70bb Kees Cook 2022-10-24  950  
+:::::: The code at line 5780 was first introduced by commit
+:::::: a5bca2152036de826595723437c5cbe8f6c13983 cgroup: factor out cgroup_create() out of cgroup_mkdir()
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
