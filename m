@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61662137930
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 11:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4D93612E6
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 11:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768563300; cv=none; b=XaouZa8C/BSowOgNS3TQ10jiT8s6l+EKtntS09O/he923ep4BKRZMtZl8jOnjJjyV9jzUdceNyQL+AMOdH8AfWGOVOHLlFgv9D3BAv8z1dVG8wfs6h/k/R/MwWt6eFKpLvK5R5bk8XDtFfL/ktbd46iy9NeJ9JpUg0ihyKsUsUg=
+	t=1768563961; cv=none; b=o2Qc3rUsCaz01p1kjkkXY7mkOa2PmVo9va4X+jUHaDlzak+HJgZf5OwS9dERLMTK8RJ+nBfD/+vkiQufU1QF6NcRY2REnmPBRS/hGqGnDTH8WqF8d2KQjqzgRbrqoltxqKVdOwqEZNyaeJ4Qm3p3kDSbVP9p+9Eb4aNu9M/RrLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768563300; c=relaxed/simple;
-	bh=QiZi9Xk4J/5/NRt8NtLETbJnJttdFSfk9z4xm5mum7g=;
+	s=arc-20240116; t=1768563961; c=relaxed/simple;
+	bh=ezLnr1B+DQj4iybGuW7LsqJkOZQM1GqyJEUtpoJvgVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uw6wUMsOI4H6yyc/J5IJZmkxddw6pnfYqHyUsVW6clH3dEcCzMDkTBJqr42MOKyC837nyH79c+lRmu6OarK998PifN+RoCzm0pxcN/goP+kSquo/CMUDHRG2OTqX0Ny3HRj0obC4aFd4lhBfxe6hYZtGUcI+u+TR9Ad0Jm5bBh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gCgYsD6B; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=eq4Ilj0ckB/EVyCdwdBrtY6S2WttdJLfzmRC1vNkawNeDmedxHJ5knYTjmSZk6kog7uQvZ2nAp0+AfDW5CCeJyjZ+bugv72FY2uCWn3vZ06uJxV4wKWQdwM1uERofFECH1H7iH0b7npQXoWxyAKczfDmi0lmPeZQX9G70+hSBBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zo9kfmQH; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gCgYsD6B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zo9kfmQH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768563298; x=1800099298;
+  t=1768563958; x=1800099958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QiZi9Xk4J/5/NRt8NtLETbJnJttdFSfk9z4xm5mum7g=;
-  b=gCgYsD6B+tWk541085EAX8dHID7E/Z48/arZ+AItEyNFFSPPl2m2sNRe
-   6tGpKNDgySQQ9CgARfEK6tz0VoVAvBU9ifYK9oCZBX54rU+YsggGBl5GU
-   lP67WjHMko8ktI5GES4qzZueJE9Q8skvYAQK5FpRO4WkiRFVSozKS1DV2
-   MkZNN/FaNNuks01GxjQhVSqEsccWfs/4d+S5/co5VcqlvhddU7FRUdlbq
-   nywdwQs+TfHNUOcdoVg2FeK7QjvZG+DJu/pZV+JEM5jAxv1bPDec1RI1Y
-   L4NICHAVeFa9730iIQ83fD8jgBqSKBrRxLPcVe6YLIfhaeoeEBY+dXhGi
-   Q==;
-X-CSE-ConnectionGUID: tGWYEzZxRxyRQ3I2FAdzMg==
-X-CSE-MsgGUID: jyep/PLRSv+VGEbK0dLriw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80519793"
+  bh=ezLnr1B+DQj4iybGuW7LsqJkOZQM1GqyJEUtpoJvgVs=;
+  b=Zo9kfmQHTbzYqY/xQQeHu+YHd/rJM84dLy2Vwi6nL+uJs8V60p/hiNgu
+   xe6/p5MA7ZgRI/wNGw6pJ1vqaFoub2QlheLhDhKVA3bI8CGtTZdOn7raO
+   Tel9IjbfVHtCEGNlg1iwHkFJcD1S8WN8I46OGL2OTEq/AsajbyabOyC0N
+   /swLJ0EQfQjpUb0godKHTuF/wzogYTe5QvyDPVj5+6vd3VuygxtULjS5h
+   93vlQqB2VGHpKapU4lg/u6ybjxXbL6DWlp/Wy8o1RBg4z0JVZOR7a8dZU
+   aP0CUiJ4MaSCoe7d/nyJFOrVFdKdgFV0aER+VPgTBvFbVSYjuiP1W+aBS
+   A==;
+X-CSE-ConnectionGUID: i7rU3rjqQ5yDRBDXgal0Fw==
+X-CSE-MsgGUID: /KIpw/oJRCqPqGx4kjxp0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69789460"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="80519793"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 03:34:57 -0800
-X-CSE-ConnectionGUID: K/oOiuBwQdKhrk2z6jOenQ==
-X-CSE-MsgGUID: cyFkZoJ3T56rwnbwPGAgnw==
+   d="scan'208";a="69789460"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 03:45:57 -0800
+X-CSE-ConnectionGUID: y5vfeMZhSM6oZAQf6iuRDw==
+X-CSE-MsgGUID: ar95nAgOQROGLZvDALkX8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="204430431"
+   d="scan'208";a="228240712"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Jan 2026 03:34:57 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 16 Jan 2026 03:45:56 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgi6P-00000000Km4-3lOt;
-	Fri, 16 Jan 2026 11:34:53 +0000
-Date: Fri, 16 Jan 2026 19:34:30 +0800
+	id 1vgiH4-00000000Kmq-1LMo;
+	Fri, 16 Jan 2026 11:45:54 +0000
+Date: Fri, 16 Jan 2026 19:45:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v9 2/3] drm/bridge: imx: Add i.MX93 parallel display
- format configuration support
-Message-ID: <202601161924.VK7E8f5i-lkp@intel.com>
+Subject: Re: [PATCH 7/8] reset: tenstorrent: Add reset controller for Atlantis
+Message-ID: <202601161943.3gqYW4vg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,77 +62,70 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/bridge/imx/imx93-pdfc.c:224:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: drivers/reset/reset-tenstorrent-atlantis.c:162:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260115-v6-18-topic-imx93-parallel-display-v9-2-2c5051e4b144@pengutronix.de>
-References: <20260115-v6-18-topic-imx93-parallel-display-v9-2-2c5051e4b144@pengutronix.de>
-TO: Marco Felsch <m.felsch@pengutronix.de>
+In-Reply-To: <20260115-atlantis-clocks-v1-7-7356e671f28b@oss.tenstorrent.com>
+References: <20260115-atlantis-clocks-v1-7-7356e671f28b@oss.tenstorrent.com>
+TO: Anirudh Srinivasan <asrinivasan@oss.tenstorrent.com>
+TO: Drew Fustini <dfustini@oss.tenstorrent.com>
+TO: Joel Stanley <jms@oss.tenstorrent.com>
 TO: Rob Herring <robh@kernel.org>
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 TO: Conor Dooley <conor+dt@kernel.org>
-TO: Shawn Guo <shawnguo@kernel.org>
-TO: Sascha Hauer <s.hauer@pengutronix.de>
-TO: Pengutronix Kernel Team <kernel@pengutronix.de>
-TO: Fabio Estevam <festevam@gmail.com>
-TO: Peng Fan <peng.fan@nxp.com>
-TO: Liu Ying <victor.liu@nxp.com>
-TO: Andrzej Hajda <andrzej.hajda@intel.com>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Robert Foss <rfoss@kernel.org>
-TO: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-TO: Jonas Karlman <jonas@kwiboo.se>
-TO: Jernej Skrabec <jernej.skrabec@gmail.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: luca.ceresoli@bootlin.com
+TO: Michael Turquette <mturquette@baylibre.com>
+TO: Stephen Boyd <sboyd@kernel.org>
+TO: Anirudh Srinivasan <asrinivasan@oss.tenstorrent.com>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+CC: linux-riscv@lists.infradead.org
 CC: devicetree@vger.kernel.org
-CC: imx@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-CC: dri-devel@lists.freedesktop.org
-CC: Marco Felsch <m.felsch@pengutronix.de>
+CC: linux-clk@vger.kernel.org
+CC: joel@jms.id.au
+CC: fustini@kernel.org
+CC: mpe@kernel.org
+CC: mpe@oss.tenstorrent.com
+CC: npiggin@oss.tenstorrent.com
+CC: agross@kernel.org
+CC: agross@oss.tenstorrent.com
 
-Hi Marco,
+Hi Anirudh,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/dt-bindings-soc-imx93-media-blk-ctrl-Add-PDFC-subnode-to-schema-and-example/20260115-232607
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20260115-v6-18-topic-imx93-parallel-display-v9-2-2c5051e4b144%40pengutronix.de
-patch subject: [PATCH v9 2/3] drm/bridge: imx: Add i.MX93 parallel display format configuration support
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: powerpc64-randconfig-r133-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161924.VK7E8f5i-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161924.VK7E8f5i-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Anirudh-Srinivasan/dt-bindings-soc-tenstorrent-Add-tenstorrent-atlantis-syscon/20260116-074618
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20260115-atlantis-clocks-v1-7-7356e671f28b%40oss.tenstorrent.com
+patch subject: [PATCH 7/8] reset: tenstorrent: Add reset controller for Atlantis
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: csky-randconfig-r131-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161943.3gqYW4vg-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161943.3gqYW4vg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601161924.VK7E8f5i-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601161943.3gqYW4vg-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/bridge/imx/imx93-pdfc.c:224:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/bridge/imx/imx93-pdfc.c:224:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/gpu/drm/bridge/imx/imx93-pdfc.c:225:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/bridge/imx/imx93-pdfc.c:225:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/gpu/drm/bridge/imx/imx93-pdfc.c:226:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/bridge/imx/imx93-pdfc.c:226:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/gpu/drm/bridge/imx/imx93-pdfc.c:226:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/bridge/imx/imx93-pdfc.c:226:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+>> drivers/reset/reset-tenstorrent-atlantis.c:162:1: sparse: sparse: bad integer constant expression
+   drivers/reset/reset-tenstorrent-atlantis.c:162:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/reset/reset-tenstorrent-atlantis.c:163:1: sparse: sparse: bad integer constant expression
+   drivers/reset/reset-tenstorrent-atlantis.c:163:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/reset/reset-tenstorrent-atlantis.c:164:1: sparse: sparse: bad integer constant expression
+   drivers/reset/reset-tenstorrent-atlantis.c:164:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/reset/reset-tenstorrent-atlantis.c:164:1: sparse: sparse: bad integer constant expression
+   drivers/reset/reset-tenstorrent-atlantis.c:164:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +224 drivers/gpu/drm/bridge/imx/imx93-pdfc.c
+vim +162 drivers/reset/reset-tenstorrent-atlantis.c
 
-b6d3ebb5b43dbe Liu Ying 2026-01-15  223  
-b6d3ebb5b43dbe Liu Ying 2026-01-15 @224  MODULE_DESCRIPTION("NXP i.MX93 parallel display format configuration driver");
+6e8cb0dcc02494 Anirudh Srinivasan 2026-01-15  161  
+6e8cb0dcc02494 Anirudh Srinivasan 2026-01-15 @162  MODULE_AUTHOR("Anirudh Srinivasan <asrinivasan@oss.tenstorrent.com>");
 
 -- 
 0-DAY CI Kernel Test Service
