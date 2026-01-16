@@ -1,110 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCC83112BA;
-	Fri, 16 Jan 2026 15:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C901630BB86
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 16:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768576578; cv=none; b=AB4KRhjMv25/sCfP5qVQtoiqApCFSugiUzzgqsg6e+bETOZ+ymX5bf9mrU1F/LLo8CgndeHm6dcO8QwVBJA3I6hhOC3eApLMMaXPcV7gqmx6SAfiUbmeF6Anf7kBZf/D98mh6rSqWIm8XRHjL2XJp7oZnubjhNLxjpu+u6JAw6M=
+	t=1768580412; cv=none; b=h81HEFV9gcT80YKwpT65TLC6gXl9TiltfOdnK4MZgGQ6nSoxfhDM5JflcVRaL9v7JGFXkVZoobmEGFz5qLPdBkUIy/9OW3Pvx0g4fdmN0z39+GGTM7PtKHjiwff6IyiHyvvOt8qIHfOVJkzxG+zRtH3Q9IqoIhPAlBcs5Av4WIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768576578; c=relaxed/simple;
-	bh=OJBWRnp1m4H6GuQU1OBL5eXoCuMtqZAMeIiNK1fowqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dBgQmFTyWt4b2EeDsJ2fmY6oeWOujKtJMABlYtLmDTQjdWCdbaPx/vw/JPSK1ycJvGq/IF2588I2/X4NJXDTQdPqGcSYJY9/evLJlVk4C21Dog16+IgwXJ0OvmcD+kgHIemtYHVZ/g21HCb1wLEhwm84DVjdv4luG79brlTxmig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DVj0cz4D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768580412; c=relaxed/simple;
+	bh=FUftZ723+aooRByFDRtH3OlY6D1ad4xGgvls5osGU/U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mpqjG+G26avyPd1CXFzbD5Zsri6bpHF7oVnMlwO+MsZhzjMu9xkFCa0Jp5uervvxdUHsV730wK5/pGsO4PM282CGm2xwVrqDDNvtqGX25aTi2BEMmJzu4t3LFfzbchraWhLSbwK8c1XO8bciMbbZ6SGM+iPzGrd3oL8JSHEYhSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfNqOnZq; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DVj0cz4D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91089C16AAE;
-	Fri, 16 Jan 2026 15:16:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768576577;
-	bh=OJBWRnp1m4H6GuQU1OBL5eXoCuMtqZAMeIiNK1fowqY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DVj0cz4DdIIEZMuXiRAuQkaCCo6IjeIMmFKsAhjkFtPad2Kv6/fE/xvoNU8+zGhh9
-	 3nsypOAEclOJAfVb/u/512kWDhgaTG/uj0UlIrQmU4xYSdcj4IePH9NeULgGzmTPV+
-	 GnxeIF/n+fn8jrdt4NrOwXu3n2Oy2y0pw95I6ink=
-Date: Fri, 16 Jan 2026 16:16:15 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yaxing Guo <guoyaxing@bosc.ac.cn>
-Cc: dan.carpenter@linaro.org, oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
- uio_pci_generic_sva.c
-Message-ID: <2026011603-dorsal-unblessed-cdb2@gregkh>
-References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
- <2026011643-coastline-playtime-0ac5@gregkh>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfNqOnZq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768580411; x=1800116411;
+  h=date:from:to:cc:subject:message-id;
+  bh=FUftZ723+aooRByFDRtH3OlY6D1ad4xGgvls5osGU/U=;
+  b=jfNqOnZqz6q0iJhBt2PtIi2ldJ9bhOBnpFQE6NYCA/0vOJZRKJcnz9nZ
+   /e4cyU8am4tW3ZZR6f7c1inWQ3UlLmPd4ubqFP0mNNLXUKEQa7peSzRlA
+   vzHJyhFVPRho3ZkwD2hvASpWFaWNssQtBn6Ph9bziRNqlESeKl1TzmC1u
+   d79vMwDHVXipxrxGwtmM3KyOrEcneA+b39FnJQVl52k89iLdCaiBfAZ4w
+   L3MT7+iFDTOu7nmxQUzEwcUBcgwSS6FpPPQBtowMXNgINaVWOYrM/94WQ
+   lmk+SYsVdw6eaiJ4Rx1gbxelg2LbuTnjhNsWM/eAaEpozenLt0awteuEJ
+   Q==;
+X-CSE-ConnectionGUID: TfsGprXiS9y7v8vjLvfMpA==
+X-CSE-MsgGUID: LbJX6nkRR+KbaSIP3DOKJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69099069"
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
+   d="scan'208";a="69099069"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 08:20:10 -0800
+X-CSE-ConnectionGUID: aC6Qa2p7Sey6pIUJB2j1aQ==
+X-CSE-MsgGUID: wsIhym0JTKqfAztrSXg9Qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
+   d="scan'208";a="228292739"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Jan 2026 08:20:09 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgmYR-00000000L2O-0Nvg;
+	Fri, 16 Jan 2026 16:20:07 +0000
+Date: Sat, 17 Jan 2026 00:19:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 5534/6849]
+ drivers/gpio/gpio-bd72720.c:279:1: sparse: sparse: bad integer constant
+ expression
+Message-ID: <202601170055.OiQ239vr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026011643-coastline-playtime-0ac5@gregkh>
 
-On Fri, Jan 16, 2026 at 04:15:17PM +0100, Greg KH wrote:
-> On Tue, Dec 23, 2025 at 12:54:09PM +0800, Yaxing Guo wrote:
-> > This patch introduces a new UIO driver, uio_pci_generic_sva, which
-> > extends the functionality of uio_pci_generic by adding support for
-> > Shared Virtual Addressing (SVA) when IOMMU is enabled in the system.
-> > 
-> > The key enhancement allows PCI devices to directly use user-space virtual
-> > addresses for DMA operations, eliminating the need for bounce buffers or
-> > explicit IOVA mapping. This is achieved by leveraging the kernel's IOMMU-SVA
-> > subsystem, including process address space attachment, page fault handling,
-> > and shared context management between CPU and device.
-> > 
-> > With this driver, userspace applications can perform zero-copy DMA using
-> > native pointers:
-> > 
-> >    void *addr = malloc(N);
-> >    set_dma_addr((uint64_t)addr);  // Passing user VA directly
-> >    start_dma();
-> > 
-> > The device can now access 'addr' through the IOMMU's PASID-based translation,
-> > provided that the underlying IOMMU hardware (e.g., Intel VT-d 3.1+, AMD-Vi,
-> > ARM SMMU, RISCV IOMMU) and platform support SVA.
-> > 
-> > Dependencies:
-> > - CONFIG_IOMMU_SVA must be enabled.
-> > - The platform must support PRI (Page Request Interface) and PASID.
-> > - Device drivers/userspace must handle page faults if demand-paging is used.
-> > 
-> > The implementation reuses core logic from uio_pci_generic.c while adding
-> > PASID setting, and integration with the IOMMU SVA APIs.
-> > 
-> > Also, add a read-only sysfs attribute 'pasid' to expose the Process Address
-> > Space ID assigned by IOMMU driver when binding an SVA-enabled device.
-> > For details, refer to the ABI documentation for uio_pci_sva driver sysfs attribute
-> > (Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid).
-> > 
-> > Signed-off-by: Yaxing Guo <guoyaxing@bosc.ac.cn>
-> > ---
-> > Changes in v4:
-> >  -- Fix the errors about 'udev' could be null and double free that
-> >     reported by: kernel test robot <lkp@intel.com> and Dan Carpenter <dan.carpenter@linaro.org>
-> >     error report: https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/
-> 
-> Where is the changes from previous versions?
-> 
-> > +++ b/Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid
-> > @@ -0,0 +1,29 @@
-> > +What:		/sys/bus/pci/drivers/uio_pci_sva/<pci_dev>/pasid
-> > +Date:		September 2025
-> 
-> It's not September anymore :)
-> 
-> > +module_pci_driver(uio_pci_generic_sva_driver);
-> > +MODULE_VERSION("0.0.01");
-> 
-> No need for a module version.
-> 
-> Ah, these are all just minor things, let me go queue this up now, can
-> you send a follow-on patch to make these 2 changes?
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/gpio/gpio-bd72720.c:279:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
-Wait, I already took this a while ago, why was this resent?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
+CC: Lee Jones <lee@kernel.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
-confused,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
+commit: 6b367741e01430947f66ad863bfc1e57ad42b7bc [5534/6849] gpio: Support ROHM BD72720 gpios
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 days ago
+config: csky-randconfig-r131-20260116 (https://download.01.org/0day-ci/archive/20260117/202601170055.OiQ239vr-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170055.OiQ239vr-lkp@intel.com/reproduce)
 
-greg k-h
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601170055.OiQ239vr-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpio-bd72720.c:279:1: sparse: sparse: bad integer constant expression
+   drivers/gpio/gpio-bd72720.c:279:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/gpio/gpio-bd72720.c:280:1: sparse: sparse: bad integer constant expression
+   drivers/gpio/gpio-bd72720.c:280:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/gpio/gpio-bd72720.c:281:1: sparse: sparse: bad integer constant expression
+   drivers/gpio/gpio-bd72720.c:281:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/gpio/gpio-bd72720.c:281:1: sparse: sparse: bad integer constant expression
+   drivers/gpio/gpio-bd72720.c:281:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +279 drivers/gpio/gpio-bd72720.c
+
+6b367741e014309 Matti Vaittinen 2025-12-15  278  
+6b367741e014309 Matti Vaittinen 2025-12-15 @279  MODULE_AUTHOR("Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>");
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
