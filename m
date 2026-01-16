@@ -1,136 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60DE2512C8
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 23:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06404B665
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 23:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768604661; cv=none; b=GAQKCMgxzDYpJulPxFNiyqGCNcItqIHdtolaZwoHQLyelDggs+cLfi7A0Ldq0n76atDOI4qcdlNqEtfpn4FpphDkszprIKHbyMd0/lasaqiCdQvl+kSf8GxQPTtFVaGBnSMzOtV+6k6aAMxETJfUx9+y3Wj8Tc8e2ID2ILSP5dc=
+	t=1768605088; cv=none; b=othU5xj2/A5Pb2uJXaKBIc1jF/4p0QEOJAGoLnTZZGjbY+UgGqGEeoK/JY8i/K/iV9ZfDru1cscQe5+rwuKAUxEfYhRO5rl1+e2Zd33Lr7z/rlRtTQ7fEevr+uSp/Ih9UIbuygCehsWJj96tuIQNdY9z83TwKEa63XVIH/uuV6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768604661; c=relaxed/simple;
-	bh=A6eQqAfa9k3EFk4WZIgb2aBkNoDqUEkh1/Q56gjJPoM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k+QyS4Ox8Okas7cmi0nj0zEZIYwaAYAXIDy2Ybp093x4qu9DSNvuVzFKNywk20o706WpcUrFv59/A4WDzXyvvx9A2F7ajW4VYAXcPEM15PPdbWnXnoil2uuY1RocmOp3UDrXxWOPvlpfW6zffwqsr7qau7GDn6gikHQWKDJx1hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJfbJEfk; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1768605088; c=relaxed/simple;
+	bh=6PqptXPKzGcgVXyxpHcXSzlFGm7JcOuvE2V5g4hBupA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W+xLFXNk3xHK8mC1KiCsbGo3u3MxUhlGGd6GL7bNcKJVC+RxkJhYICIVfJ/LqFc+9pROsMWBd11g990WPrmucuS9St90Dh+1tsJ1sA9qHjpMeNKJSLfRJ6Z2XGStweMbwDsTjE8yijw11+yIczh6p/8MwfYWLPOLbkNxfMwvda0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QytQ+xdE; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJfbJEfk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QytQ+xdE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768604659; x=1800140659;
-  h=date:from:to:cc:subject:message-id;
-  bh=A6eQqAfa9k3EFk4WZIgb2aBkNoDqUEkh1/Q56gjJPoM=;
-  b=WJfbJEfkahWW5nJhPJMTYSoRXqejivN/6Z64UIHEK/ZAefA6PJw+NAkW
-   7yR3n5w8FDAv+tcbr0CsVKJSjTwzaQ4s39sV1MG7QCeLQkSHgw80rjrps
-   nzjunw1RCuupjOwWLbFyMddmh3fJdwfU97rM5UBPmBZF8myv6cLAc6wcl
-   DMWKkXfTvkvJlEAnY8+LVROIgdaBkU6MFWQb9vzVYUC7oHVDXc6cE4Kp+
-   eF7ZqVxgGfjx1sXVcD87yHv/0NR+Yc936y+ktiX0oWj4+Bd4WtJPucuUF
-   yfII9lx6AaOGEpesVIPqV9i7xcBvhg6rmLQWXJPKa7YEAYY5LEP/uc9uy
-   A==;
-X-CSE-ConnectionGUID: Xdw5A+NnRzqEJ5yTZqJM5g==
-X-CSE-MsgGUID: IMWaLL3tTcKwc8k2KTPdFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69973330"
+  t=1768605088; x=1800141088;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6PqptXPKzGcgVXyxpHcXSzlFGm7JcOuvE2V5g4hBupA=;
+  b=QytQ+xdEzQKfjEGbzdCJuP0kouBOuCXSLwDx7WY1JUW5iYA29et8zso1
+   h6bAfQ5NyL5TRaOxA7tqfYwKwgfZPAgnWk2F2Vp02Sq+6xnjHY3Fc6x23
+   p3OtvDb437DsM7YL+rD5fJprHhpck4M2Lsz0iZp485A0Do3l7uA5nN/LR
+   5PiN1NgNIkYCpUTHTtx0VpXUrmCd7B+54KhqD/jZoTjoSIDRq2EwBk2e8
+   u8PhlAaV18EF/b/g68njSot52wbHrpplGiwnYERq44NtIa6nZhr5Jp5Ot
+   Qjltzw3/7tMbxCPVpyWxyij4OxN/jo5pdh9LfA31153StVX+SzXZ2ZSkx
+   w==;
+X-CSE-ConnectionGUID: p7bL0RbXROG4mCtIVqD9dg==
+X-CSE-MsgGUID: IVfoQ4MUQYGHVxlXdQxitg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69656855"
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="69973330"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 15:04:19 -0800
-X-CSE-ConnectionGUID: 6mlgi5VvTgKY6PkHfthpqA==
-X-CSE-MsgGUID: MjrQOX7wS6Wgw/S1hY24Vw==
+   d="scan'208";a="69656855"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 15:11:27 -0800
+X-CSE-ConnectionGUID: F3lfkoQCTYi84gVFq7VboQ==
+X-CSE-MsgGUID: yH2CqqtHQn60kqIFgPzhxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="205158749"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 16 Jan 2026 15:04:18 -0800
-Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
+   d="scan'208";a="209496740"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 16 Jan 2026 15:11:26 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgsrX-000000001rp-2Sq8;
-	Fri, 16 Jan 2026 23:04:15 +0000
-Date: Sat, 17 Jan 2026 00:04:04 +0100
+	id 1vgsyR-00000000LKq-0KiT;
+	Fri, 16 Jan 2026 23:11:23 +0000
+Date: Sat, 17 Jan 2026 07:11:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [pci:dt-bindings 15/16]
- arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000
- (loongson,ls7a-pci): Unevaluated properties are not allowed
- ('#address-cells', '#size-cells', 'dc@6,1', 'device_type', 'ehci@4,1',
- 'ehci@5,1', 'gmac@3,0', 'gmac@3,1', 'gpu@6,0', 'hda@7,0...
-Message-ID: <202601170033.zwC0gvms-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+Message-ID: <202601170650.9DHhNLAV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: drivers/iio/frequency/adf41513.c:1164:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-pci@vger.kernel.org
-TO: Yao Zi <me@ziyao.cc>
-CC: Manivannan Sadhasivam <mani@kernel.org>
+In-Reply-To: <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+References: <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+TO: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+TO: linux-kernel@vger.kernel.org
+TO: linux-iio@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-doc@vger.kernel.org
+CC: Jonathan Cameron <jic23@kernel.org>
+CC: David Lechner <dlechner@baylibre.com>
+CC: Andy Shevchenko <andy@kernel.org>
+CC: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: Michael Hennerich <Michael.Hennerich@analog.com>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git dt-bindings
-head:   e74887035fba99ead63235740908debeb1326dad
-commit: d782e6e7aa798a2c28f30f984ea6dcdb63f51674 [15/16] dt-bindings: PCI: loongson: Document msi-parent property
-:::::: branch date: 10 hours ago
-:::::: commit date: 3 days ago
-config: mips-randconfig-2051-20260116 (https://download.01.org/0day-ci/archive/20260117/202601170033.zwC0gvms-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170033.zwC0gvms-lkp@intel.com/reproduce)
+Hi Rodrigo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b82f3047dae4aba38cb26c55c28444db4d77f521]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rodrigo-Alencar-via-B4-Relay/dt-bindings-iio-frequency-add-adf41513/20260116-223525
+base:   b82f3047dae4aba38cb26c55c28444db4d77f521
+patch link:    https://lore.kernel.org/r/20260116-adf41513-iio-driver-v4-3-dbb7d6782217%40analog.com
+patch subject: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: xtensa-randconfig-r121-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170650.9DHhNLAV-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170650.9DHhNLAV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601170033.zwC0gvms-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601170650.9DHhNLAV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@12,0:interrupts:0: [43, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@13,0:interrupts:0:0: 38 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@13,0:interrupts:0: [38, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@14,0:interrupts:0:0: 39 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@14,0:interrupts:0: [39, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
->> arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dc@6,1', 'device_type', 'ehci@4,1', 'ehci@5,1', 'gmac@3,0', 'gmac@3,1', 'gpu@6,0', 'hda@7,0', 'ohci@4,0', 'ohci@5,0', 'pcie@10,0', 'pcie@11,0', 'pcie@12,0', 'pcie@13,0', 'pcie@14,0', 'pcie@9,0', 'pcie@a,0', 'pcie@b,0', 'pcie@c,0', 'pcie@d,0', 'pcie@e,0', 'pcie@f,0', 'sata@8,0', 'sata@8,1', 'sata@8,2' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ohci@4,0:interrupts:0:0: 49 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ohci@4,0:interrupts:0: [49, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ehci@4,1:interrupts:0:0: 48 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ehci@4,1:interrupts:0: [48, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ohci@5,0:interrupts:0:0: 51 is not one of [1, 2, 3, 4]
---
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@12,0:interrupts:0: [43, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@13,0:interrupts:0:0: 38 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@13,0:interrupts:0: [38, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@14,0:interrupts:0:0: 39 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): pcie@14,0:interrupts:0: [39, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
->> arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dc@6,1', 'device_type', 'ehci@4,1', 'ehci@5,1', 'gmac@3,0', 'gmac@3,1', 'gpu@6,0', 'hda@7,0', 'ohci@4,0', 'ohci@5,0', 'pcie@10,0', 'pcie@11,0', 'pcie@12,0', 'pcie@13,0', 'pcie@14,0', 'pcie@9,0', 'pcie@a,0', 'pcie@b,0', 'pcie@c,0', 'pcie@d,0', 'pcie@e,0', 'pcie@f,0', 'sata@8,0', 'sata@8,1', 'sata@8,2' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ohci@4,0:interrupts:0:0: 49 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ohci@4,0:interrupts:0: [49, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ehci@4,1:interrupts:0:0: 48 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ehci@4,1:interrupts:0: [48, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: pci@1a000000 (loongson,ls7a-pci): ohci@5,0:interrupts:0:0: 51 is not one of [1, 2, 3, 4]
+sparse warnings: (new ones prefixed by >>)
+   drivers/iio/frequency/adf41513.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
+   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/iio/frequency/adf41513.c:1164:1: sparse: sparse: bad integer constant expression
+   drivers/iio/frequency/adf41513.c:1164:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/iio/frequency/adf41513.c:1165:1: sparse: sparse: bad integer constant expression
+   drivers/iio/frequency/adf41513.c:1165:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/iio/frequency/adf41513.c:1166:1: sparse: sparse: bad integer constant expression
+   drivers/iio/frequency/adf41513.c:1166:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/iio/frequency/adf41513.c:1166:1: sparse: sparse: bad integer constant expression
+   drivers/iio/frequency/adf41513.c:1166:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +1164 drivers/iio/frequency/adf41513.c
+
+14da095e190eab Rodrigo Alencar 2026-01-16  1163  
+14da095e190eab Rodrigo Alencar 2026-01-16 @1164  MODULE_AUTHOR("Rodrigo Alencar <rodrigo.alencar@analog.com>");
 
 -- 
 0-DAY CI Kernel Test Service
