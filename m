@@ -1,443 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F05B1F3FEC
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 16:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364D6246797
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 16:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768668252; cv=none; b=Yf+uE2EI3pcCik5EdHZmf9fzVBA4m/mjRUL9c+AwWttfwbHXrhnQth1x4uMFp6edg9u9D70cWRLqJWnjVbJCUddCavmHvg9wxXpzRRbHgiHg/QshC8+uk7nfWECN3/g6anGHUfiQvZ7OdukxsEud1pAAPajsMoD1y13S94nE3iU=
+	t=1768668971; cv=none; b=VIJlR+Yw9jbhsyAFaGfxXKtWsLEZ1hc7NWY+5Um4oKtUX4o2WNJf8xYyJquLcJG2HLjdgvHoMti6Ewyl6Gf9I9bzAq89ydB41t3iAyzsMa0494WpPcMKYac9zZIwiw30Mirw9zG4ydtee0ybH0Ja+OVtqDKkkympQXzfwjO/T/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768668252; c=relaxed/simple;
-	bh=1ovgbya3Nrbc6i5eGjJuj80LZV/XChRANrA+z87diFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nf/ynYgjaotGo7Exq8AhCO5bS4m+dBUwlEaCVm7fzQz+lKST6Zx8BvqfDMClWrOjzENCgU805rLU4c0G+l7OWgLuhMDVhhC4PJqWgsrbO1H22CDka2JpX1sls2Ouyi9R1Y/ZEcP+ijf5AfPEgjBns1XsAxXUdE3hXlDSIgE3WtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mDNkLmqM; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1768668971; c=relaxed/simple;
+	bh=YrPTjzn5g/KNeVC23y65Z3gV5tI7XUWnnF+jQDC6x0U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PsgDtHeOg+WZUCR4iYjLpUgA1OVGsxgQdC5OghP+PuRXr7X6I2ew6D+DQPT8xf00k0DwRzVrC95Y+SxPlt1Do15p9MIka/CWCDY3B8wyzgX31IBDfHQc/iCGee0lf0w9W1a9Ua3bgwvsEunkW7B30cgc4g9+Fmr8YoHb8RaJcrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXpbCyJM; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mDNkLmqM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXpbCyJM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768668249; x=1800204249;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1ovgbya3Nrbc6i5eGjJuj80LZV/XChRANrA+z87diFE=;
-  b=mDNkLmqMGU2AO3JF/ds+hXjkP7zBG/s1Rjo4N2cyvA/UerOKuhhujNIT
-   fxVzyWS2TKej+2ZjAEl3K5/9A0B7kZH5J+8pnBzPg/OnSwOCnEdbv/m/r
-   f/d2s/UTwBCIzB3ufffcdo+rvjuVrkjEU7a6gp+c4x94OtZHYg7Oea6JA
-   1Ipmuub6u4PCrrmmP7EG/zfpwHzwBmOXgu/PQvg2A4nrr/HfQFWLFygLM
-   c3wDAMyOFhXOFwT0nk8orSUrLHA61iXV387ClEeKUiuoEzZlDfikESD5A
-   621flZFBpx9XDVbWTFEbvlDem1fMpqpDi6hgMCCUQkdp2fqyvRlrppYd2
-   A==;
-X-CSE-ConnectionGUID: cAbH3rIlTd21IupRoENmzg==
-X-CSE-MsgGUID: o1mIy6GBSK6sY9yuTJLQqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="81396469"
+  t=1768668970; x=1800204970;
+  h=date:from:to:cc:subject:message-id;
+  bh=YrPTjzn5g/KNeVC23y65Z3gV5tI7XUWnnF+jQDC6x0U=;
+  b=jXpbCyJMX2KXiXx0WzlJkUd4hk9ZkosRj+ti2bljlIQKDj+w9r5cdO3z
+   BIgNBGSn+06TduTIyxYe+tFECnb0r9m5IGmKOT+PlJMCmN35L70hK5Pef
+   MRs2GRyK2WoU5BOEwvCyqp2F3MTUDceKceJeG4tKU72QrCrnmamt5WbYp
+   wjvYYCTrue0nfQNA1Ah7+0b10TN94LkP1zAi0fhW4d/vQ22KFoRme0Zd8
+   XFgAHyFq/65/8k9WIPznVrvFUOHhbQa+7r1Bs6Au3R37WHdEwdi/V5dDY
+   fO4p2Z+eXiN+lU2wHwSX7WN+/WwCp3mYm5a9wugJaDS2zjn7MyDAa+APt
+   w==;
+X-CSE-ConnectionGUID: T/D+c97KQYygYprtX0RZYA==
+X-CSE-MsgGUID: TCmjfZ4vSuKFj8M0eUrJ1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="69865025"
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="81396469"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 08:44:09 -0800
-X-CSE-ConnectionGUID: 9kKcElAZSxakUV1/A5+v7g==
-X-CSE-MsgGUID: BzGaffvCQ3W7NzhH1lT4LA==
+   d="scan'208";a="69865025"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 08:56:09 -0800
+X-CSE-ConnectionGUID: ZEUWg7nMTxic2MDSznL1Hw==
+X-CSE-MsgGUID: AA8WJbABT4qCAgIWy7Lg/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="205292889"
+   d="scan'208";a="205105598"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Jan 2026 08:44:07 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 17 Jan 2026 08:56:08 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh9PA-00000000M2y-3odf;
-	Sat, 17 Jan 2026 16:44:04 +0000
-Date: Sun, 18 Jan 2026 00:43:49 +0800
+	id 1vh9an-00000000M3y-2Kcf;
+	Sat, 17 Jan 2026 16:56:05 +0000
+Date: Sun, 18 Jan 2026 00:55:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 2/3] x86/entry/vdso: fix filtering of vdso compiler
- flags
-Message-ID: <202601180025.lLCHWiad-lkp@intel.com>
+Subject: [linux-next:master 3939/6849]
+ drivers/net/wireless/ath/ath12k/wifi7/core.c:67:1: sparse: sparse: bad
+ integer constant expression
+Message-ID: <202601180043.7nEPctQo-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "low confidence static check warning: drivers/net/wireless/ath/ath12k/wifi7/core.c:67:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260116204057.386268-3-hpa@zytor.com>
-References: <20260116204057.386268-3-hpa@zytor.com>
-TO: "H. Peter Anvin" <hpa@zytor.com>
-TO: Thomas Gleixner <tglx@kernel.org>
-TO: Ingo Molnar <mingo@redhat.com>
-TO: Borislav Petkov <bp@alien8.de>
-TO: Dave Hansen <dave.hansen@linux.intel.com>
-CC: "H. Peter Anvin" <hpa@zytor.com>
-CC: x86@kernel.org
-CC: Chris Mason <chris.mason@fusionio.com>
-CC: Thorsten Leemhuis <linux@leemhuis.info>
-CC: linux-kernel@vger.kernel.org
+TO: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+CC: Johannes Berg <johannes.berg@intel.com>
 
-Hi Peter,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/master]
-[also build test ERROR on next-20260116]
-[cannot apply to tip/auto-latest linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/H-Peter-Anvin/x86-entry-vdso-update-the-object-paths-for-make-vdso_install/20260117-044522
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20260116204057.386268-3-hpa%40zytor.com
-patch subject: [PATCH v2 2/3] x86/entry/vdso: fix filtering of vdso compiler flags
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: x86_64-rhel-9.4-func (https://download.01.org/0day-ci/archive/20260118/202601180025.lLCHWiad-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601180025.lLCHWiad-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
+commit: 4ea5bebe17bad6b1991fa632f2121062066b6dcc [3939/6849] Merge tag 'ath-next-20260105' of git://git.kernel.org/pub/scm/linux/kernel/git/ath/ath
+:::::: branch date: 27 hours ago
+:::::: commit date: 9 days ago
+config: parisc-randconfig-r132-20260117 (https://download.01.org/0day-ci/archive/20260118/202601180043.7nEPctQo-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601180043.7nEPctQo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601180025.lLCHWiad-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601180043.7nEPctQo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/ath/ath12k/wifi7/core.c:67:1: sparse: sparse: bad integer constant expression
+   drivers/net/wireless/ath/ath12k/wifi7/core.c:67:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/net/wireless/ath/ath12k/wifi7/core.c:68:1: sparse: sparse: bad integer constant expression
+   drivers/net/wireless/ath/ath12k/wifi7/core.c:68:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/net/wireless/ath/ath12k/wifi7/core.c:68:1: sparse: sparse: bad integer constant expression
+   drivers/net/wireless/ath/ath12k/wifi7/core.c:68:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-   In file included from include/linux/compiler_types.h:44,
-                    from <command-line>:
-   include/linux/compiler-context-analysis.h: In function '_context_unsafe_alias':
->> include/linux/compiler-context-analysis.h:237:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     237 | static inline void _context_unsafe_alias(void **p) { }
-         | ^~~~~~
-   In file included from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from arch/x86/include/asm/cache.h:5,
-                    from include/vdso/cache.h:5,
-                    from include/linux/cache.h:6,
-                    from include/linux/time.h:5,
-                    from arch/x86/entry/vdso/vdso64/../common/vclock_gettime.c:11,
-                    from arch/x86/entry/vdso/vdso64/vclock_gettime.c:1:
-   include/linux/compiler.h: In function 'offset_to_ptr':
-   include/linux/compiler.h:272:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     272 | {
-         | ^
-   In file included from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:382:
-   include/linux/kasan-checks.h: In function 'kasan_check_read':
-   include/linux/kasan-checks.h:41:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-      41 | {
-         | ^
-   include/linux/kasan-checks.h: In function 'kasan_check_write':
-   include/linux/kasan-checks.h:45:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-      45 | {
-         | ^
-   In file included from include/asm-generic/rwonce.h:27:
-   include/linux/kcsan-checks.h: In function '__kcsan_check_access':
-   include/linux/kcsan-checks.h:190:41: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     190 |                                         int type) { }
-         |                                         ^~~
-   include/linux/kcsan-checks.h: In function '__kcsan_mb':
-   include/linux/kcsan-checks.h:192:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     192 | static inline void __kcsan_mb(void)                     { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function '__kcsan_wmb':
-   include/linux/kcsan-checks.h:193:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     193 | static inline void __kcsan_wmb(void)                    { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function '__kcsan_rmb':
-   include/linux/kcsan-checks.h:194:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     194 | static inline void __kcsan_rmb(void)                    { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function '__kcsan_release':
-   include/linux/kcsan-checks.h:195:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     195 | static inline void __kcsan_release(void)                { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_disable_current':
-   include/linux/kcsan-checks.h:196:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     196 | static inline void kcsan_disable_current(void)          { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_enable_current':
-   include/linux/kcsan-checks.h:197:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     197 | static inline void kcsan_enable_current(void)           { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_enable_current_nowarn':
-   include/linux/kcsan-checks.h:198:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     198 | static inline void kcsan_enable_current_nowarn(void)    { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_nestable_atomic_begin':
-   include/linux/kcsan-checks.h:199:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     199 | static inline void kcsan_nestable_atomic_begin(void)    { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_nestable_atomic_end':
-   include/linux/kcsan-checks.h:200:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     200 | static inline void kcsan_nestable_atomic_end(void)      { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_flat_atomic_begin':
-   include/linux/kcsan-checks.h:201:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     201 | static inline void kcsan_flat_atomic_begin(void)        { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_flat_atomic_end':
-   include/linux/kcsan-checks.h:202:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     202 | static inline void kcsan_flat_atomic_end(void)          { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_atomic_next':
-   include/linux/kcsan-checks.h:203:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     203 | static inline void kcsan_atomic_next(int n)             { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_set_access_mask':
-   include/linux/kcsan-checks.h:204:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     204 | static inline void kcsan_set_access_mask(unsigned long mask) { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_begin_scoped_access':
-   include/linux/kcsan-checks.h:210:34: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     210 |                           struct kcsan_scoped_access *sa) { return sa; }
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_end_scoped_access':
-   include/linux/kcsan-checks.h:211:51: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     211 | static inline void kcsan_end_scoped_access(struct kcsan_scoped_access *sa) { }
-         |                                                   ^~~~~~~~~~~~~~~~~~~
-   include/linux/kcsan-checks.h: In function 'kcsan_check_access':
-   include/linux/kcsan-checks.h:230:39: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     230 |                                       int type) { }
-         |                                       ^~~
-   include/linux/kcsan-checks.h: In function '__kcsan_enable_current':
-   include/linux/kcsan-checks.h:231:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     231 | static inline void __kcsan_enable_current(void)  { }
-         | ^~~~~~
-   include/linux/kcsan-checks.h: In function '__kcsan_disable_current':
-   include/linux/kcsan-checks.h:232:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
---
-   include/linux/find.h: In function 'find_first_bit':
-   include/linux/find.h:207:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     207 | {
-         | ^
-   include/linux/find.h: In function 'find_nth_bit':
-   include/linux/find.h:233:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     233 | {
-         | ^
-   include/linux/find.h: In function 'find_nth_and_bit':
-   include/linux/find.h:259:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     259 | {
-         | ^
-   include/linux/find.h: In function 'find_nth_and_andnot_bit':
-   include/linux/find.h:289:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     289 | {
-         | ^
-   include/linux/find.h: In function 'find_first_and_bit':
-   include/linux/find.h:316:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     316 | {
-         | ^
-   include/linux/find.h: In function 'find_first_andnot_bit':
-   include/linux/find.h:340:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     340 | {
-         | ^
-   include/linux/find.h: In function 'find_first_and_and_bit':
-   include/linux/find.h:365:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     365 | {
-         | ^
-   include/linux/find.h: In function 'find_first_zero_bit':
-   include/linux/find.h:386:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     386 | {
-         | ^
-   include/linux/find.h: In function 'find_last_bit':
-   include/linux/find.h:407:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     407 | {
-         | ^
-   include/linux/find.h: In function 'find_next_and_bit_wrap':
-   include/linux/find.h:432:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     432 | {
-         | ^
-   include/linux/find.h: In function 'find_next_bit_wrap':
-   include/linux/find.h:454:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     454 | {
-         | ^
-   include/linux/find.h: In function '__for_each_wrap':
-   include/linux/find.h:471:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     471 | {
-         | ^
-   include/linux/find.h: In function 'find_next_zero_bit_le':
-   include/linux/find.h:511:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     511 | {
-         | ^
-   include/linux/find.h: In function 'find_next_bit_le':
-   include/linux/find.h:517:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     517 | {
-         | ^
-   include/linux/find.h: In function 'find_first_zero_bit_le':
-   include/linux/find.h:523:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     523 | {
-         | ^
-   In file included from include/linux/bitmap.h:13:
-   include/linux/string.h: In function 'memdup_array_user':
-   include/linux/string.h:33:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-      33 | {
-         | ^
-   include/linux/string.h: In function 'vmemdup_array_user':
-   include/linux/string.h:53:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-      53 | {
-         | ^
-   include/linux/string.h: In function 'strstrip':
-   include/linux/string.h:190:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     190 | {
-         | ^
-   include/linux/string.h: In function 'memset_l':
-   include/linux/string.h:237:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     237 | {
-         | ^
-   include/linux/string.h: In function 'memset_p':
-   include/linux/string.h:245:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     245 | {
-         | ^
-   include/linux/string.h: In function 'mem_is_zero':
-   include/linux/string.h:295:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     295 | {
-         | ^
-   include/linux/string.h: In function '__free_argv_free':
-   include/linux/string.h:316:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     316 | DEFINE_FREE(argv_free, char **, if (!IS_ERR_OR_NULL(_T)) argv_free(_T))
-         | ^~~~~~~~~~~
-   include/linux/string.h: In function 'memzero_explicit':
-   include/linux/string.h:365:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     365 | {
-         | ^
-   include/linux/string.h: In function 'kbasename':
-   include/linux/string.h:380:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     380 | {
-         | ^
-   In file included from include/linux/fortify-string.h:5,
-                    from include/linux/string.h:386:
-   include/linux/bitfield.h: In function 'field_multiplier':
->> include/linux/bitfield.h:202:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     202 | {
-         | ^
-   include/linux/bitfield.h: In function 'field_mask':
-   include/linux/bitfield.h:208:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     208 | {
-         | ^
-   include/linux/bitfield.h: In function 'u8_encode_bits':
-   include/linux/bitfield.h:237:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     237 | ____MAKE_OP(u8,u8,,)
-         | ^~~~~~~~~~~
-   include/linux/bitfield.h: In function 'u8_replace_bits':
-   include/linux/bitfield.h:237:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u8p_replace_bits':
-   include/linux/bitfield.h:237:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u8_get_bits':
-   include/linux/bitfield.h:237:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le16_encode_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     238 | __MAKE_OP(16)
-         | ^~~~~~~~~
-   include/linux/bitfield.h: In function 'le16_replace_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le16p_replace_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le16_get_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be16_encode_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be16_replace_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be16p_replace_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be16_get_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u16_encode_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u16_replace_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u16p_replace_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u16_get_bits':
-   include/linux/bitfield.h:238:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le32_encode_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     239 | __MAKE_OP(32)
-         | ^~~~~~~~~
-   include/linux/bitfield.h: In function 'le32_replace_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le32p_replace_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le32_get_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be32_encode_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be32_replace_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be32p_replace_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be32_get_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u32_encode_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u32_replace_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u32p_replace_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u32_get_bits':
-   include/linux/bitfield.h:239:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le64_encode_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     240 | __MAKE_OP(64)
-         | ^~~~~~~~~
-   include/linux/bitfield.h: In function 'le64_replace_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le64p_replace_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'le64_get_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be64_encode_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be64_replace_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be64p_replace_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'be64_get_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u64_encode_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u64_replace_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u64p_replace_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/bitfield.h: In function 'u64_get_bits':
-   include/linux/bitfield.h:240:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-   include/linux/fortify-string.h: In function 'strncpy':
-   include/linux/fortify-string.h:198:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-     198 | {
-         | ^
-   include/linux/fortify-string.h: In function 'strnlen':
-   include/linux/fortify-string.h:220:1: error: '-mindirect-branch' and '-fcf-protection' are not compatible
-..
+vim +67 drivers/net/wireless/ath/ath12k/wifi7/core.c
 
+387b587a861cf7 drivers/net/wireless/ath/ath12k/core_wifi7.c Kiran Venkatappa 2025-08-12  66  
+387b587a861cf7 drivers/net/wireless/ath/ath12k/core_wifi7.c Kiran Venkatappa 2025-08-12 @67  MODULE_DESCRIPTION("Driver support for Qualcomm Technologies 802.11be WLAN devices");
 
-vim +237 include/linux/compiler-context-analysis.h
+:::::: The code at line 67 was first introduced by commit
+:::::: 387b587a861cf7864df93c99c123877d28100bb3 wifi: ath12k: Move Wi-Fi 7 specific init routines to dedicated file
 
-3269701cb25662 Marco Elver 2025-12-19  221  
-3269701cb25662 Marco Elver 2025-12-19  222  /**
-3269701cb25662 Marco Elver 2025-12-19  223   * context_unsafe_alias() - helper to insert a context lock "alias barrier"
-3269701cb25662 Marco Elver 2025-12-19  224   * @p: pointer aliasing a context lock or object containing context locks
-3269701cb25662 Marco Elver 2025-12-19  225   *
-3269701cb25662 Marco Elver 2025-12-19  226   * No-op function that acts as a "context lock alias barrier", where the
-3269701cb25662 Marco Elver 2025-12-19  227   * analysis rightfully detects that we're switching aliases, but the switch is
-3269701cb25662 Marco Elver 2025-12-19  228   * considered safe but beyond the analysis reasoning abilities.
-3269701cb25662 Marco Elver 2025-12-19  229   *
-3269701cb25662 Marco Elver 2025-12-19  230   * This should be inserted before the first use of such an alias.
-3269701cb25662 Marco Elver 2025-12-19  231   *
-3269701cb25662 Marco Elver 2025-12-19  232   * Implementation Note: The compiler ignores aliases that may be reassigned but
-3269701cb25662 Marco Elver 2025-12-19  233   * their value cannot be determined (e.g. when passing a non-const pointer to an
-3269701cb25662 Marco Elver 2025-12-19  234   * alias as a function argument).
-3269701cb25662 Marco Elver 2025-12-19  235   */
-3269701cb25662 Marco Elver 2025-12-19  236  #define context_unsafe_alias(p) _context_unsafe_alias((void **)&(p))
-3269701cb25662 Marco Elver 2025-12-19 @237  static inline void _context_unsafe_alias(void **p) { }
-3269701cb25662 Marco Elver 2025-12-19  238  
+:::::: TO: Kiran Venkatappa <quic_kiranv@quicinc.com>
+:::::: CC: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
 
 -- 
 0-DAY CI Kernel Test Service
