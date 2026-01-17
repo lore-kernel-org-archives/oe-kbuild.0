@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A904C6C
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 10:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B742D5950
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 11:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768645914; cv=none; b=MOEuLn9EAn+UIlqQSOuHiuas+W4x4ME4BDQrJYeumqgcjd6IxaYBz5B2X98jrSJT8y7xkDSaAAMQbIUSAjJrUJTZ6gDwqrbsLA9FVjQ52/sNuKWD0nCKiTul9Mx4bwqc0DN+90tMme1fBh80Wsu1CMfh6POzNx1oz2qnv+FxhMM=
+	t=1768647954; cv=none; b=aM5k9wa8rfoXTUrOANWBZV1uLzvYhOftrVP6hVEem2j+KvOM4QO/u60NEsqzWCw5bExANnjssHfgfNbKgC6guW2cXE3a464hDgrbGEeUGh2Mfgzi8lniSUH5Wz1Vh70HDZ4SB6NccGTk0xw3mNegz8r+q2qPC8ZFyS4fKK9rPc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768645914; c=relaxed/simple;
-	bh=5nAPap1bFdEcEB6BnGLRRgh3L3qfwwu/gJ5osc75wak=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gtPsFURMTikrl0qC8ka0rn8sO2s40SBdTznhmVblVxMi9N0BtMZOic3NOza+kjd7fe3JIpOmTgBEGxMKNGtcM51GnkdwfSNNOmBN1iIhN2zxGl2KRSVuYXI2Woh4QzNTv5Lc3+byA+lG9H7+xeqL7PtGZurYyGJKrRi74NVJ1cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jIfrkokL; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1768647954; c=relaxed/simple;
+	bh=jzHE13bS4ZO7s47Yht1wm4xZQmHnc8lUdfIC+5lF6uM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GxmV/Kd/dokiU/ogJEH7UGn8jcoh9+9jwmj+DkjQFfAuIWcHkeQZm0nZE4UyLQeTWv1TMDsqRZV8f5OoPMokB1EnJuYgKiTDaCnt2t8fLFiBwCd6n+6dzrBzb26cCPc75C6hrbeZ4zmp54bX/I0VpUaAlTDL7wPEPARNgkHXXwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B92dpODv; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jIfrkokL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B92dpODv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768645913; x=1800181913;
+  t=1768647953; x=1800183953;
   h=date:from:to:cc:subject:message-id;
-  bh=5nAPap1bFdEcEB6BnGLRRgh3L3qfwwu/gJ5osc75wak=;
-  b=jIfrkokL6Bu9YyqETDZcBwyhfOZyuoDa3taWmadS9RXwjOUAV3cPix3+
-   Umos50KVw6sSzUO7LvaPSEIYCxD0/lXoScB+qdrUSVCgZlajq2kBcviGl
-   8vqFfoFPNFA6iayVwMki8aKUTJi2KqZLcUZyMqOnrxexM1ezl9u70+TQC
-   49ud+trbyq2bSxaymBxyBJCEBfEhYBbR7l+hULvD0iEZ3lqxyfA+VjV6d
-   bbEKRpzdE3DwXEeDtCJK7bwBsIvDadt0NtDxzkrg+G05ak6EPuwqMMP0f
-   kxp45iL3x8jpZbYzC9gg/n6YZT9jC3VbIIIIOh9HVW5tJ47ffLcy1M7Ye
-   Q==;
-X-CSE-ConnectionGUID: hwY60/vRRCOp16mSKpvOmA==
-X-CSE-MsgGUID: EBHDO8gpQeyjoftglkhdlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="72531418"
+  bh=jzHE13bS4ZO7s47Yht1wm4xZQmHnc8lUdfIC+5lF6uM=;
+  b=B92dpODvGAT1r3tomdQnBksBzbP7PXq8E3DfL+zBx2Eav0uHrA+i8Pyk
+   o67Q+Ynf8s8ra4I2a4jIosGayX8P2W+x85M/ympwFfvIE29AOVe146EYB
+   mnR9BVH5ABJ/WHfuojlnUfjwDk5ss2C3FW9Q9AEoIOBhaNceVM/FTgXxO
+   IMoh3pqFJ3bksLF+YW4CtZpgNqbw2V0VKBr1gDeQw0OUW11mimG1OrXg4
+   4KzlR8MncpW+ogRoh5UaEdc/hZf2GDmcgeyB7TlJekM4ivYDJLxG0bupt
+   o8Wj6ZSjGlNusj83J3MhwTuRzqvPaaxO/Vapwx7NnMbVykKExEQaUwEl1
+   g==;
+X-CSE-ConnectionGUID: ke02CVjySZC/FKl8BL0lqg==
+X-CSE-MsgGUID: sqP7o43TQ7S6leFaieFIAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73790864"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="72531418"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 02:31:52 -0800
-X-CSE-ConnectionGUID: 1gzORwJXTcub9TRyTYqxqw==
-X-CSE-MsgGUID: Um1X+OwKTKGWdJqrquDkwQ==
+   d="scan'208";a="73790864"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 03:05:53 -0800
+X-CSE-ConnectionGUID: Jrh5EtXeQy2yGJC+4xogLw==
+X-CSE-MsgGUID: Fm2J8pFfTjCrdnd7B8o/iA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="236139861"
+   d="scan'208";a="209950986"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Jan 2026 02:31:51 -0800
+  by orviesa004.jf.intel.com with ESMTP; 17 Jan 2026 03:05:53 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh3au-00000000LlN-2E7z;
-	Sat, 17 Jan 2026 10:31:48 +0000
-Date: Sat, 17 Jan 2026 18:31:11 +0800
+	id 1vh47q-00000000Lmi-0Pq6;
+	Sat, 17 Jan 2026 11:05:50 +0000
+Date: Sat, 17 Jan 2026 19:05:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/s390/kernel/vdso/vdso.so.dbg: dynamic relocations are
- not supported
-Message-ID: <202601171833.NOLCIAqW-lkp@intel.com>
+Subject: [glemco:staging_rv_hybrid_automata 25/25]
+ kernel/trace/rv/monitors/laxity/laxity.c:246:1: sparse: sparse: bad integer
+ constant expression
+Message-ID: <202601171935.Z85I6Ycu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,60 +61,41 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dynamic relocations are not supported"
+:::::: Manual check reason: "low confidence static check warning: kernel/trace/rv/monitors/laxity/laxity.c:246:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Heiko Carstens <hca@linux.ibm.com>
-CC: Jens Remus <jremus@linux.ibm.com>
+TO: Gabriele Monaco <gmonaco@redhat.com>
 
-Hi Heiko,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d3eeb99bbc99cc5eb94a4a75ed4415a0272254ef
-commit: c0087d807ae86cc82cc356e366d2dccf0e3bb225 s390/vdso: Rename vdso64 to vdso
-date:   8 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 weeks ago
-config: s390-randconfig-r123-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171833.NOLCIAqW-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171833.NOLCIAqW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_hybrid_automata
+head:   dca0c2a21291cb0013e3f4b51a9acc26e6a89b6f
+commit: dca0c2a21291cb0013e3f4b51a9acc26e6a89b6f [25/25] rv: Add dl_server specific monitors
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: microblaze-randconfig-r112-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171935.Z85I6Ycu-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171935.Z85I6Ycu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601171833.NOLCIAqW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601171935.Z85I6Ycu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/rv/monitors/laxity/laxity.c:246:1: sparse: sparse: bad integer constant expression
+   kernel/trace/rv/monitors/laxity/laxity.c:246:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+>> kernel/trace/rv/monitors/laxity/laxity.c:246:1: sparse: sparse: bad integer constant expression
+   kernel/trace/rv/monitors/laxity/laxity.c:246:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   kernel/trace/rv/monitors/laxity/laxity.c:247:1: sparse: sparse: bad integer constant expression
+   kernel/trace/rv/monitors/laxity/laxity.c:247:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   kernel/trace/rv/monitors/laxity/laxity.c:248:1: sparse: sparse: bad integer constant expression
+   kernel/trace/rv/monitors/laxity/laxity.c:248:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   kernel/sched/sched.h: In function 'mm_cid_get':
-   kernel/sched/sched.h:3743:18: warning: variable 'cpumask' set but not used [-Wunused-but-set-variable]
-     struct cpumask *cpumask;
-                     ^~~~~~~
->> arch/s390/kernel/vdso/vdso.so.dbg: dynamic relocations are not supported
-   make[3]: *** [arch/s390/kernel/vdso/Makefile:54: arch/s390/kernel/vdso/vdso.so.dbg] Error 1
-   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
-   make[2]: *** [arch/s390/Makefile:154: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +246 kernel/trace/rv/monitors/laxity/laxity.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_GPIO
-   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+dca0c2a21291cb Gabriele Monaco 2025-10-29  245  
+dca0c2a21291cb Gabriele Monaco 2025-10-29 @246  MODULE_LICENSE("GPL");
 
 -- 
 0-DAY CI Kernel Test Service
