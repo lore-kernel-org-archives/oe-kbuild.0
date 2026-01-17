@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B44C4A3C
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 12:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0540F1FF5E3
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 13:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768654380; cv=none; b=j5L9r02RFjr+1oCIpLSqtr5ud8K5kZ75D/5dYrbKNZjyW161FaXb/vDg5rP5mLwhOdL2tTndWFjQCXRpqixQhAjcpF2Kef38ndAcOqkN26l7EEb8BRrr5ehtKAXjiTZAiB2t5oSwuy5uNZBtkGw8ULN1iTa/PeaiwhusWuchraI=
+	t=1768656902; cv=none; b=mP6eExmaDbJPEO3db8J4nVaMafiM4KLEMOUyHxVlFiziTBo5Ug58aZef3LVj5lKvXKkVBV6SHNy3YmsdpQMfma3zreG3JyPCoo9vddB2Whd/jTD4qgICTSwELrxIewrI50nWIMIlm6huwKJ0BXk+prbDwdH6GXZMIwHX90+Da6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768654380; c=relaxed/simple;
-	bh=dYPdbYDmq0CQSiV+JZhjP/PkSlBfHPFw3y1W0QyqtTA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E2G3KpUW5+EoJuJ5ifJyI7BXaye9jtvU7dLFRJ6qI8nZ+k5ffKkJx3PElLRBKr1yTiGkaaMIv9g2V8gHRtKIRgmQJdh+MhqQdw/xDm6hyjidlT/SRragBjmrUaTYVkw9unH19KRmE6bODvIrsgSGxW8Dp6ybntvsrnN/E1pFqN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYn1hnMc; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1768656902; c=relaxed/simple;
+	bh=3lYDp8b92ZV0Gf6wjW+0kyKdXxt+P+GT7NUnhZ2MqIA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VrTNDo0Ypf82f+0jeM3FrH0j9BJk2V7+clzf3oowCQdtVXF6Yhe8DiqANZDpia1uqEmhzSXvenSiuFRCA7fuKBTk24p1qIdyxj2lMrnmsHyri+Wg/7Q9zV6VLUyhn0LjOJuIWNxTO9Yl5F3R4QcbPREjuvoVeBMfAOMgnqZTa08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ox5UJVck; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYn1hnMc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ox5UJVck"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768654379; x=1800190379;
+  t=1768656901; x=1800192901;
   h=date:from:to:cc:subject:message-id;
-  bh=dYPdbYDmq0CQSiV+JZhjP/PkSlBfHPFw3y1W0QyqtTA=;
-  b=FYn1hnMcfKfDNYKTHkFTViglU8AV+dQBq8pWkAMSx+1Eut95oep1gKNl
-   5Lyd0+r2zLPCjc1Vwk74IP0urkl0RJVca/VrGo5QrN8QZsZvennFlBsVv
-   eJW5ZxY1dCUrEVt2sz7eCMWcasBaztxhiUA+GxARsS2Cdpx2dscQFUEit
-   HT1ol0MPHolpoQmA2x87YlbpI4KAJ8fJk+heTXFA1nQUcUsuwbNruXQtQ
-   IRDL9OtnfcTpQeopANqIq8pCl8rYe1XEIMOi+tOYjLuK8t18kDjVKq16A
-   /6V5fMGmDnhdWnv/ov1wEHlDZAuPHpgSAtfuC+gCI9RgDkpM9vhqr45zb
-   w==;
-X-CSE-ConnectionGUID: IazRHfLgRP6gVe98wY/lXg==
-X-CSE-MsgGUID: upU7Yqt7Rqit42AIPuoC1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="81391207"
+  bh=3lYDp8b92ZV0Gf6wjW+0kyKdXxt+P+GT7NUnhZ2MqIA=;
+  b=Ox5UJVckTmnJllFVMHedOCoPuHTCcC/R93UNETobJF9Ij486J/ssxK0x
+   0or3AprlCeNV3axNHf6XT96B9fjoJwMYan+BG4jQloFwsNkrWPDsVYOls
+   effgSVFetmwn+DvkTn7VqF4rm/VcX0L5i4BNHqeyL8WgHnyB0umJWEnpp
+   rK57kOB4DiH74z/8iqJxIYkVhl5snYMCSuAunFWGl8z6YlxZ8Q+99vBTi
+   1O965sPd0kSOvP4S4ezQuKb8blIzmb+jTVTSNINC3KN7Zfvh8pELvTloc
+   3BL4x5zmMaiE5NNCaEmsrwfPzieTt9CF6ZfePB14lVAE36qblgJur0Kkh
+   g==;
+X-CSE-ConnectionGUID: PRahUFwFQCyBNX3EZjD94Q==
+X-CSE-MsgGUID: zHZHIfYdRUSW9RrfMWtfFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="95418858"
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="81391207"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 04:52:58 -0800
-X-CSE-ConnectionGUID: GNRf9aokQduTQRRa+QaIYA==
-X-CSE-MsgGUID: zqpYt25GT+qZ9Htq5CiwMA==
+   d="scan'208";a="95418858"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 05:35:00 -0800
+X-CSE-ConnectionGUID: Ut4kwzVVQuyuGYIv7MyTWQ==
+X-CSE-MsgGUID: 4ZCv6o+NQ/uDy64XeXY3DQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="204700109"
+   d="scan'208";a="210482906"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Jan 2026 04:52:56 -0800
+  by orviesa005.jf.intel.com with ESMTP; 17 Jan 2026 05:34:58 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh5nS-00000000LrC-2jR9;
-	Sat, 17 Jan 2026 12:52:54 +0000
-Date: Sat, 17 Jan 2026 20:52:27 +0800
+	id 1vh6S7-00000000Lsg-3ngu;
+	Sat, 17 Jan 2026 13:34:55 +0000
+Date: Sat, 17 Jan 2026 21:34:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [char-misc:char-misc-testing 6/26]
- drivers/misc/mei/mei_lb.c:309:1: sparse: sparse: bad integer constant
- expression
-Message-ID: <202601172014.Uh1EsnbQ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [pci:pwrctrl 10/15] drivers/pci/pwrctrl/core.c:198:1-7:
+ ERROR: missing put_device; call of_find_device_by_node on line 168, but
+ without a corresponding object release within this function.
+Message-ID: <202601172152.z7zStOZL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,52 +60,80 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/misc/mei/mei_lb.c:309:1: sparse: sparse: bad integer constant expression"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Simon Richter <Simon.Richter@hogyros.de>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: linux-pci@vger.kernel.org
+TO: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
+CC: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+CC: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
-head:   aced969e9bf3701dc75cfca57c78c031b7875b9d
-commit: 25f9b0d351552f63ac3f72e6c655bc8f9994f7d2 [6/26] misc/mei: Allow building Intel ME interface on non-x86
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: xtensa-randconfig-r113-20260117 (https://download.01.org/0day-ci/archive/20260117/202601172014.Uh1EsnbQ-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601172014.Uh1EsnbQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git pwrctrl
+head:   8822f062e59a4daf070cb58666cec30b63db2d3b
+commit: 4c413248920106393b35b5e014e6ac525405437e [10/15] PCI/pwrctrl: Add APIs to create, destroy pwrctrl devices
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: microblaze-randconfig-r051-20260117 (https://download.01.org/0day-ci/archive/20260117/202601172152.z7zStOZL-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 9.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601172014.Uh1EsnbQ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202601172152.z7zStOZL-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/misc/mei/mei_lb.c: note: in included file (through arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linux/sched.h, ...):
-   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/misc/mei/mei_lb.c:309:1: sparse: sparse: bad integer constant expression
-   drivers/misc/mei/mei_lb.c:309:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/misc/mei/mei_lb.c:310:1: sparse: sparse: bad integer constant expression
-   drivers/misc/mei/mei_lb.c:310:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/misc/mei/mei_lb.c:310:1: sparse: sparse: bad integer constant expression
-   drivers/misc/mei/mei_lb.c:310:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/misc/mei/mei_lb.c:311:1: sparse: sparse: bad integer constant expression
-   drivers/misc/mei/mei_lb.c:311:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing put_device; call of_find_device_by_node on line 168, but without a corresponding object release within this function.
 
-vim +309 drivers/misc/mei/mei_lb.c
+vim +198 drivers/pci/pwrctrl/core.c
 
-741eeabb7c78c55 Alexander Usyskin 2025-09-05  308  
-741eeabb7c78c55 Alexander Usyskin 2025-09-05 @309  MODULE_AUTHOR("Intel Corporation");
-
-:::::: The code at line 309 was first introduced by commit
-:::::: 741eeabb7c78c555c4c8e39df91b2b8e8d6f5ec6 mei: late_bind: add late binding component driver
-
-:::::: TO: Alexander Usyskin <alexander.usyskin@intel.com>
-:::::: CC: Lucas De Marchi <lucas.demarchi@intel.com>
+4565d2652a37e4 drivers/pci/pwrctl/core.c  Bartosz Golaszewski       2024-06-12  154  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  155  static int pci_pwrctrl_create_device(struct device_node *np,
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  156  				     struct device *parent)
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  157  {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  158  	struct platform_device *pdev;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  159  	int ret;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  160  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  161  	for_each_available_child_of_node_scoped(np, child) {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  162  		ret = pci_pwrctrl_create_device(child, parent);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  163  		if (ret)
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  164  			return ret;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  165  	}
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  166  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  167  	/* Bail out if the platform device is already available for the node */
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @168  	pdev = of_find_device_by_node(np);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  169  	if (pdev) {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  170  		platform_device_put(pdev);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  171  		return 0;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  172  	}
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  173  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  174  	/*
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  175  	 * Sanity check to make sure that the node has the compatible property
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  176  	 * to allow driver binding.
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  177  	 */
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  178  	if (!of_property_present(np, "compatible"))
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  179  		return 0;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  180  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  181  	/*
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  182  	 * Check whether the pwrctrl device really needs to be created or not.
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  183  	 * This is decided based on at least one of the power supplies being
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  184  	 * defined in the devicetree node of the device.
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  185  	 */
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  186  	if (!of_pci_supply_present(np)) {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  187  		dev_dbg(parent, "Skipping OF node: %s\n", np->name);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  188  		return 0;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  189  	}
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  190  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  191  	/* Now create the pwrctrl device */
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  192  	pdev = of_platform_device_create(np, NULL, parent);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  193  	if (!pdev) {
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  194  		dev_err(parent, "Failed to create pwrctrl device for node: %s\n", np->name);
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  195  		return -EINVAL;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  196  	}
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  197  
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @198  	return 0;
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  199  }
+4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  200  
 
 -- 
 0-DAY CI Kernel Test Service
