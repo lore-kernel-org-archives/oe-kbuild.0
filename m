@@ -1,144 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EC71367
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 12:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B44C4A3C
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 12:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768652399; cv=none; b=LWpeBc+6VbsdvObLVKOl1NRgfSBSbXx4/i+gFRF7xo66r582OGgx2CwWrZfgiAvwZKPhWlq3Ez1QToxG9UM9NevwQpFzmHnlUIUUINSJQ+FDBvIg6aqvogkLEGa723OOHRqEiDwx31pOB5J2dy34wNNhzeVAvSDPwxHKf55/AEY=
+	t=1768654380; cv=none; b=j5L9r02RFjr+1oCIpLSqtr5ud8K5kZ75D/5dYrbKNZjyW161FaXb/vDg5rP5mLwhOdL2tTndWFjQCXRpqixQhAjcpF2Kef38ndAcOqkN26l7EEb8BRrr5ehtKAXjiTZAiB2t5oSwuy5uNZBtkGw8ULN1iTa/PeaiwhusWuchraI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768652399; c=relaxed/simple;
-	bh=YwHYI/+A6svoBpPoTfA+Jmhni9sh9qm9qRyOK6p1Gso=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PbmomesC9E/kvsg7TyCF7H6Yq/VK3ayR+TtxvQZFwCVmsLWeVVbjNNRroeZTb4QCHpXTCvIZRAEYT2fLFroziHzIV7VbIBLbkB5jcEIlTrG5rhhV67rMVhvP3oHc0feoQGoJvwYeqE+wJ6iLO14UHU8D8hyStqK/GRzKQQV0NDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UXyXRPmr; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1768654380; c=relaxed/simple;
+	bh=dYPdbYDmq0CQSiV+JZhjP/PkSlBfHPFw3y1W0QyqtTA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E2G3KpUW5+EoJuJ5ifJyI7BXaye9jtvU7dLFRJ6qI8nZ+k5ffKkJx3PElLRBKr1yTiGkaaMIv9g2V8gHRtKIRgmQJdh+MhqQdw/xDm6hyjidlT/SRragBjmrUaTYVkw9unH19KRmE6bODvIrsgSGxW8Dp6ybntvsrnN/E1pFqN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYn1hnMc; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXyXRPmr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYn1hnMc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768652397; x=1800188397;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YwHYI/+A6svoBpPoTfA+Jmhni9sh9qm9qRyOK6p1Gso=;
-  b=UXyXRPmrg4BJ34pWlfvyvpgMtqUy1wObSukc5wF9vDkwVb0/golSAjG8
-   ziHeOwwHh5O3kkhZ5of3PA/YEeAqSfKF5QFX9rLWbtvEu6DdE75dzdTHF
-   u5K2efkI4lNOM/tTkpxj5M6uROvbyozvjdekdbWnLoi0fdfZVRBqvuYem
-   v2NUMlUms3lbe1lF5kgMBKywjdwGrNkirELjn0Zx3niWDX9D0WHRfFfnQ
-   M+VpEKgZxGkpQpEAe6pfNm8rDddd1TiBmG4WkFjPabzdxiRWZGUGxxEHM
-   TfOCb9S6zuZOd741lMSls5vxYJIWo8/vTJ6E1T1bfNBKAcCN1Fd92jDau
-   g==;
-X-CSE-ConnectionGUID: SM/7MiPCQuCio/Pdibsebg==
-X-CSE-MsgGUID: sHGHQCy4QYSaD5TqyZUvRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69147491"
+  t=1768654379; x=1800190379;
+  h=date:from:to:cc:subject:message-id;
+  bh=dYPdbYDmq0CQSiV+JZhjP/PkSlBfHPFw3y1W0QyqtTA=;
+  b=FYn1hnMcfKfDNYKTHkFTViglU8AV+dQBq8pWkAMSx+1Eut95oep1gKNl
+   5Lyd0+r2zLPCjc1Vwk74IP0urkl0RJVca/VrGo5QrN8QZsZvennFlBsVv
+   eJW5ZxY1dCUrEVt2sz7eCMWcasBaztxhiUA+GxARsS2Cdpx2dscQFUEit
+   HT1ol0MPHolpoQmA2x87YlbpI4KAJ8fJk+heTXFA1nQUcUsuwbNruXQtQ
+   IRDL9OtnfcTpQeopANqIq8pCl8rYe1XEIMOi+tOYjLuK8t18kDjVKq16A
+   /6V5fMGmDnhdWnv/ov1wEHlDZAuPHpgSAtfuC+gCI9RgDkpM9vhqr45zb
+   w==;
+X-CSE-ConnectionGUID: IazRHfLgRP6gVe98wY/lXg==
+X-CSE-MsgGUID: upU7Yqt7Rqit42AIPuoC1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="81391207"
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="69147491"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 04:19:57 -0800
-X-CSE-ConnectionGUID: AXg26WoNTNadHMvFEr3scw==
-X-CSE-MsgGUID: 42CQ35PLSIqCV14fnx1Whw==
+   d="scan'208";a="81391207"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 04:52:58 -0800
+X-CSE-ConnectionGUID: GNRf9aokQduTQRRa+QaIYA==
+X-CSE-MsgGUID: zqpYt25GT+qZ9Htq5CiwMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="205262623"
+   d="scan'208";a="204700109"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Jan 2026 04:19:56 -0800
+  by orviesa010.jf.intel.com with ESMTP; 17 Jan 2026 04:52:56 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh5HU-00000000Lpg-2nU4;
-	Sat, 17 Jan 2026 12:19:52 +0000
-Date: Sat, 17 Jan 2026 20:19:42 +0800
+	id 1vh5nS-00000000LrC-2jR9;
+	Sat, 17 Jan 2026 12:52:54 +0000
+Date: Sat, 17 Jan 2026 20:52:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v5 3/9] drm: verisilicon: add a driver for Verisilicon
- display controllers
-Message-ID: <202601172003.o7p0DHoA-lkp@intel.com>
+Subject: [char-misc:char-misc-testing 6/26]
+ drivers/misc/mei/mei_lb.c:309:1: sparse: sparse: bad integer constant
+ expression
+Message-ID: <202601172014.Uh1EsnbQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/verisilicon/vs_dc.c:202:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/misc/mei/mei_lb.c:309:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260116043746.336328-4-zhengxingda@iscas.ac.cn>
-References: <20260116043746.336328-4-zhengxingda@iscas.ac.cn>
-TO: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-TO: Andrzej Hajda <andrzej.hajda@intel.com>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Robert Foss <rfoss@kernel.org>
-TO: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-TO: Jonas Karlman <jonas@kwiboo.se>
-TO: Jernej Skrabec <jernej.skrabec@gmail.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Drew Fustini <fustini@kernel.org>
-TO: Guo Ren <guoren@kernel.org>
-TO: Fu Wei <wefu@redhat.com>
-CC: Philipp Zabel <p.zabel@pengutronix.de>
-CC: Dmitry Baryshkov <lumag@kernel.org>
-CC: Michal Wilczynski <m.wilczynski@samsung.com>
-CC: Luca Ceresoli <luca.ceresoli@bootlin.com>
-CC: Han Gao <rabenda.cn@gmail.com>
-CC: Yao Zi <ziyao@disroot.org>
-CC: linux-kernel@vger.kernel.org
-CC: dri-devel@lists.freedesktop.org
-CC: devicetree@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: Icenowy Zheng <uwu@icenowy.me>
+TO: Simon Richter <Simon.Richter@hogyros.de>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-Hi Icenowy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.19-rc5 next-20260116]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Icenowy-Zheng/dt-bindings-vendor-prefixes-add-verisilicon/20260116-124013
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260116043746.336328-4-zhengxingda%40iscas.ac.cn
-patch subject: [PATCH v5 3/9] drm: verisilicon: add a driver for Verisilicon display controllers
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: riscv-randconfig-r121-20260117 (https://download.01.org/0day-ci/archive/20260117/202601172003.o7p0DHoA-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601172003.o7p0DHoA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
+head:   aced969e9bf3701dc75cfca57c78c031b7875b9d
+commit: 25f9b0d351552f63ac3f72e6c655bc8f9994f7d2 [6/26] misc/mei: Allow building Intel ME interface on non-x86
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: xtensa-randconfig-r113-20260117 (https://download.01.org/0day-ci/archive/20260117/202601172014.Uh1EsnbQ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601172014.Uh1EsnbQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601172003.o7p0DHoA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601172014.Uh1EsnbQ-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> drivers/gpu/drm/verisilicon/vs_dc.c:202:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/verisilicon/vs_dc.c:202:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/gpu/drm/verisilicon/vs_dc.c:203:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/verisilicon/vs_dc.c:203:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/gpu/drm/verisilicon/vs_dc.c:204:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/verisilicon/vs_dc.c:204:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   drivers/misc/mei/mei_lb.c: note: in included file (through arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linux/sched.h, ...):
+   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/misc/mei/mei_lb.c:309:1: sparse: sparse: bad integer constant expression
+   drivers/misc/mei/mei_lb.c:309:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/misc/mei/mei_lb.c:310:1: sparse: sparse: bad integer constant expression
+   drivers/misc/mei/mei_lb.c:310:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/misc/mei/mei_lb.c:310:1: sparse: sparse: bad integer constant expression
+   drivers/misc/mei/mei_lb.c:310:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   drivers/misc/mei/mei_lb.c:311:1: sparse: sparse: bad integer constant expression
+   drivers/misc/mei/mei_lb.c:311:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
 
-vim +202 drivers/gpu/drm/verisilicon/vs_dc.c
+vim +309 drivers/misc/mei/mei_lb.c
 
-985771712428a6 Icenowy Zheng 2026-01-16  201  
-985771712428a6 Icenowy Zheng 2026-01-16 @202  MODULE_AUTHOR("Icenowy Zheng <uwu@icenowy.me>");
+741eeabb7c78c55 Alexander Usyskin 2025-09-05  308  
+741eeabb7c78c55 Alexander Usyskin 2025-09-05 @309  MODULE_AUTHOR("Intel Corporation");
+
+:::::: The code at line 309 was first introduced by commit
+:::::: 741eeabb7c78c555c4c8e39df91b2b8e8d6f5ec6 mei: late_bind: add late binding component driver
+
+:::::: TO: Alexander Usyskin <alexander.usyskin@intel.com>
+:::::: CC: Lucas De Marchi <lucas.demarchi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
