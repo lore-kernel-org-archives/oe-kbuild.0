@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9C550094B
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 00:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F3721772A
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 01:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768609160; cv=none; b=KI6D5aGaSy+YhjFiz9vat+sHEzBd8HHk8xIlp3Pt1yiBZPN1jA3qGyd6O7iLKaDr57J4ZzHUAJwkNM1O3vtitjgnEDRA2Sc5prbJRTgB9hvrKkaBYyI+SBs4hjmktjm/Tp2QdYfvAQebKRpKM7OHbInygZJyqHDzljhcAjv62sI=
+	t=1768612700; cv=none; b=o3lynI3fEX4XyaIQ6g5EBXmBt7C6E/3J0NVfUtQ6hM6TZVASzQV/3u7OxTG0Z3AK+lwzb5szktkGlDQWK4rlUYOzsOZxBV8hvRMGyu78idMxhKrKrp/22ohKTCVmu1f25ehzj3ZpxCkEEu6NRJReWRxmrW8+sW2+HEQJRW46UG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768609160; c=relaxed/simple;
-	bh=ZXRHNw4Y4q6/SC1/v5zdrnVGTFtY0cvNfhQ5iPXMyr4=;
-	h=Date:From:To:Subject:Message-ID; b=gxkWQGehah7+e+X7llRzlFK2X3dpyEJda7FUdBZe14+NbnPwL65c0kkQtPLyyVrQtcMPR+LIZ+hVAUogRfA5DE+mv5VRGaqNUUNqweWB4MJ53FP6oLUlT/BveTSt3vbkUVRAQM1EcipAn3hPykN5ibbgvxi6cdGWJMe85qMjHTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFzHtf+0; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1768612700; c=relaxed/simple;
+	bh=Cc+v29KFKK3XIX2LpIi4BlKS4jFusxGelxbFSNVvPAM=;
+	h=Date:From:To:Subject:Message-ID; b=kiHterTK4jg249iRYN5lbBVJ8/III59ALjIJOMdxKDuNobzfofbi/+2dsmu1vASyQOWnqtuy1EIuSEYViDfBXTWb2WeNp81QSvtfhwKfMqTtQnpr54n4m/Y4jKS1lbniVBvO+wNoOjZcbRNsa3YjTZG/pGxjMajJapjzi16iDIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XRqkOpka; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFzHtf+0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XRqkOpka"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768609159; x=1800145159;
+  t=1768612700; x=1800148700;
   h=date:from:to:subject:message-id;
-  bh=ZXRHNw4Y4q6/SC1/v5zdrnVGTFtY0cvNfhQ5iPXMyr4=;
-  b=oFzHtf+03C/LBkTBrCxUpZWfNbV/y0QTbZvJpmKY7eLnlzbn5iUdxJux
-   ESCMDq4xg1DslJpCu6IvAP7Q68FfkCq3oRdVNIZPUiU34Ob7Zh7QU3H5x
-   MO6aAH/AXteIBohMoAQJh2jAeXakfmwBbxwVBZPGJTnQKxksoEdKxnBqU
-   ibQ9jSp3VK7gLuCHGf6yrlUNrTFSl/VuPWQQ+XSDoa8na+4zZuecNLTdA
-   nCXNZRmllyYEF27eigwQmW20XM1wzLZR805tS/MF4vawtc/oL7KaioXqn
-   REALsf4YryABSoYg9OEtreo4oDe5ZU+mF7d6JNbsu78CkInCDd65uyaty
+  bh=Cc+v29KFKK3XIX2LpIi4BlKS4jFusxGelxbFSNVvPAM=;
+  b=XRqkOpkarmM7sIuTxx7EgfrgMWziwLeLTwxMkM+WLNwraPGUgpSO0shx
+   jGAy1oGf15SjXREz6N5JQFOHWhTXNwEQmIFymWkI2646L/Q0ypT2zur3Q
+   nmNG4201xKVpi+YGtrBw1fKzXjLV+JgOOeD1xW8lvWowqJv/AX++UzguS
+   W9EVLUuf0Hc6IJx5uBQLZ5t1BDQG84jRwjk+PotllZOTDs7hOAkIqsacL
+   Y7ZuYy46QPCg4H8nDB6stqSEPH8NbnWiU0nhfzjgXDM1mzrLpe/yQ6m0e
+   xZpMG9TrMwdsIZwe2wVA2xj6bIK2WbZzbPA54QFBcyN3tKbGSHf6nuXBm
    Q==;
-X-CSE-ConnectionGUID: TZl4C933SL2inS0SBkA34Q==
-X-CSE-MsgGUID: Rqzf9WbLSd+jlnNS3rizGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69839885"
+X-CSE-ConnectionGUID: tDKgrtwsSBm877413/kPPg==
+X-CSE-MsgGUID: 9Pwiw6oUS6aeHDwV+o6Ohw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="70095751"
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="69839885"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 16:19:18 -0800
-X-CSE-ConnectionGUID: wRGnV447STKVH4u9zRTB+A==
-X-CSE-MsgGUID: lvAZJgJ0RFaSiv48HTTndg==
+   d="scan'208";a="70095751"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 17:18:19 -0800
+X-CSE-ConnectionGUID: z2NzRbIRQgWyKryLdo2vIw==
+X-CSE-MsgGUID: k0kDRyeLRnGY/3VPwCC6nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="242922643"
+   d="scan'208";a="205802538"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jan 2026 16:19:18 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jan 2026 17:18:18 -0800
 Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgu27-000000001sL-3q3T
+	id 1vguxE-000000001st-1Prb
 	for oe-kbuild@lists.linux.dev;
-	Sat, 17 Jan 2026 00:19:15 +0000
-Date: Sat, 17 Jan 2026 01:18:29 +0100
+	Sat, 17 Jan 2026 01:18:16 +0000
+Date: Sat, 17 Jan 2026 02:17:31 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [agd5f:ib_improvements2 13/13] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'the'
-Message-ID: <202601170102.9OItmjtA-lkp@intel.com>
+Subject: [bennolossin:pin-init/sync 6/17] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'at'
+Message-ID: <202601170204.AWHz1H28-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,24 +65,20 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alex Deucher <alexander.deucher@amd.com>
+TO: Benno Lossin <lossin@kernel.org>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git ib_improvements2
-head:   3597cb2c9eaf9c0bdcfbdaa8cede6c66736f5cd8
-commit: 3597cb2c9eaf9c0bdcfbdaa8cede6c66736f5cd8 [13/13] drm/amdgpu: rework ring reset backup and reemit
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260117/202601170102.9OItmjtA-lkp@intel.com/reproduce)
+tree:   https://github.com/bennolossin/linux pin-init/sync
+head:   3026d6d1abe4c5c256bab3f23b6957b28b85120c
+commit: b8df725a61b4663c3e911aa600e2368ebb40d993 [6/17] rust: pin-init: internal: add utility API for syn error handling
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260117/202601170204.AWHz1H28-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'the'
-#8: 
-Since the VM fence is a sub-fence of the the IB fence, the IB
-
-WARNING:REPEATED_WORD: Possible repeated word: 'when'
-#14: 
-fence when when we reemit, update the start and end wptrs
+WARNING:REPEATED_WORD: Possible repeated word: 'at'
+#10: 
+by returning `Err(ErrorGuaranteed)`) and non-fatal ones at at generation
 
 -- 
 0-DAY CI Kernel Test Service
