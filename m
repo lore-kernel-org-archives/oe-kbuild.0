@@ -1,128 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06404B665
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jan 2026 23:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9C550094B
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jan 2026 00:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768605088; cv=none; b=othU5xj2/A5Pb2uJXaKBIc1jF/4p0QEOJAGoLnTZZGjbY+UgGqGEeoK/JY8i/K/iV9ZfDru1cscQe5+rwuKAUxEfYhRO5rl1+e2Zd33Lr7z/rlRtTQ7fEevr+uSp/Ih9UIbuygCehsWJj96tuIQNdY9z83TwKEa63XVIH/uuV6c=
+	t=1768609160; cv=none; b=KI6D5aGaSy+YhjFiz9vat+sHEzBd8HHk8xIlp3Pt1yiBZPN1jA3qGyd6O7iLKaDr57J4ZzHUAJwkNM1O3vtitjgnEDRA2Sc5prbJRTgB9hvrKkaBYyI+SBs4hjmktjm/Tp2QdYfvAQebKRpKM7OHbInygZJyqHDzljhcAjv62sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768605088; c=relaxed/simple;
-	bh=6PqptXPKzGcgVXyxpHcXSzlFGm7JcOuvE2V5g4hBupA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W+xLFXNk3xHK8mC1KiCsbGo3u3MxUhlGGd6GL7bNcKJVC+RxkJhYICIVfJ/LqFc+9pROsMWBd11g990WPrmucuS9St90Dh+1tsJ1sA9qHjpMeNKJSLfRJ6Z2XGStweMbwDsTjE8yijw11+yIczh6p/8MwfYWLPOLbkNxfMwvda0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QytQ+xdE; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1768609160; c=relaxed/simple;
+	bh=ZXRHNw4Y4q6/SC1/v5zdrnVGTFtY0cvNfhQ5iPXMyr4=;
+	h=Date:From:To:Subject:Message-ID; b=gxkWQGehah7+e+X7llRzlFK2X3dpyEJda7FUdBZe14+NbnPwL65c0kkQtPLyyVrQtcMPR+LIZ+hVAUogRfA5DE+mv5VRGaqNUUNqweWB4MJ53FP6oLUlT/BveTSt3vbkUVRAQM1EcipAn3hPykN5ibbgvxi6cdGWJMe85qMjHTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFzHtf+0; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QytQ+xdE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFzHtf+0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768605088; x=1800141088;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6PqptXPKzGcgVXyxpHcXSzlFGm7JcOuvE2V5g4hBupA=;
-  b=QytQ+xdEzQKfjEGbzdCJuP0kouBOuCXSLwDx7WY1JUW5iYA29et8zso1
-   h6bAfQ5NyL5TRaOxA7tqfYwKwgfZPAgnWk2F2Vp02Sq+6xnjHY3Fc6x23
-   p3OtvDb437DsM7YL+rD5fJprHhpck4M2Lsz0iZp485A0Do3l7uA5nN/LR
-   5PiN1NgNIkYCpUTHTtx0VpXUrmCd7B+54KhqD/jZoTjoSIDRq2EwBk2e8
-   u8PhlAaV18EF/b/g68njSot52wbHrpplGiwnYERq44NtIa6nZhr5Jp5Ot
-   Qjltzw3/7tMbxCPVpyWxyij4OxN/jo5pdh9LfA31153StVX+SzXZ2ZSkx
-   w==;
-X-CSE-ConnectionGUID: p7bL0RbXROG4mCtIVqD9dg==
-X-CSE-MsgGUID: IVfoQ4MUQYGHVxlXdQxitg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69656855"
+  t=1768609159; x=1800145159;
+  h=date:from:to:subject:message-id;
+  bh=ZXRHNw4Y4q6/SC1/v5zdrnVGTFtY0cvNfhQ5iPXMyr4=;
+  b=oFzHtf+03C/LBkTBrCxUpZWfNbV/y0QTbZvJpmKY7eLnlzbn5iUdxJux
+   ESCMDq4xg1DslJpCu6IvAP7Q68FfkCq3oRdVNIZPUiU34Ob7Zh7QU3H5x
+   MO6aAH/AXteIBohMoAQJh2jAeXakfmwBbxwVBZPGJTnQKxksoEdKxnBqU
+   ibQ9jSp3VK7gLuCHGf6yrlUNrTFSl/VuPWQQ+XSDoa8na+4zZuecNLTdA
+   nCXNZRmllyYEF27eigwQmW20XM1wzLZR805tS/MF4vawtc/oL7KaioXqn
+   REALsf4YryABSoYg9OEtreo4oDe5ZU+mF7d6JNbsu78CkInCDd65uyaty
+   Q==;
+X-CSE-ConnectionGUID: TZl4C933SL2inS0SBkA34Q==
+X-CSE-MsgGUID: Rqzf9WbLSd+jlnNS3rizGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69839885"
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="69656855"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 15:11:27 -0800
-X-CSE-ConnectionGUID: F3lfkoQCTYi84gVFq7VboQ==
-X-CSE-MsgGUID: yH2CqqtHQn60kqIFgPzhxw==
+   d="scan'208";a="69839885"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 16:19:18 -0800
+X-CSE-ConnectionGUID: wRGnV447STKVH4u9zRTB+A==
+X-CSE-MsgGUID: lvAZJgJ0RFaSiv48HTTndg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="209496740"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Jan 2026 15:11:26 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="242922643"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 16 Jan 2026 16:19:18 -0800
+Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgsyR-00000000LKq-0KiT;
-	Fri, 16 Jan 2026 23:11:23 +0000
-Date: Sat, 17 Jan 2026 07:11:11 +0800
+	id 1vgu27-000000001sL-3q3T
+	for oe-kbuild@lists.linux.dev;
+	Sat, 17 Jan 2026 00:19:15 +0000
+Date: Sat, 17 Jan 2026 01:18:29 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
-Message-ID: <202601170650.9DHhNLAV-lkp@intel.com>
+Subject: [agd5f:ib_improvements2 13/13] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'the'
+Message-ID: <202601170102.9OItmjtA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/iio/frequency/adf41513.c:1164:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
-References: <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
-TO: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-TO: linux-kernel@vger.kernel.org
-TO: linux-iio@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-doc@vger.kernel.org
-CC: Jonathan Cameron <jic23@kernel.org>
-CC: David Lechner <dlechner@baylibre.com>
-CC: Andy Shevchenko <andy@kernel.org>
-CC: "Lars-Peter Clausen" <lars@metafoo.de>
-CC: Michael Hennerich <Michael.Hennerich@analog.com>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Rodrigo Alencar <rodrigo.alencar@analog.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
 
-Hi Rodrigo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on b82f3047dae4aba38cb26c55c28444db4d77f521]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rodrigo-Alencar-via-B4-Relay/dt-bindings-iio-frequency-add-adf41513/20260116-223525
-base:   b82f3047dae4aba38cb26c55c28444db4d77f521
-patch link:    https://lore.kernel.org/r/20260116-adf41513-iio-driver-v4-3-dbb7d6782217%40analog.com
-patch subject: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git ib_improvements2
+head:   3597cb2c9eaf9c0bdcfbdaa8cede6c66736f5cd8
+commit: 3597cb2c9eaf9c0bdcfbdaa8cede6c66736f5cd8 [13/13] drm/amdgpu: rework ring reset backup and reemit
 :::::: branch date: 9 hours ago
 :::::: commit date: 9 hours ago
-config: xtensa-randconfig-r121-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170650.9DHhNLAV-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170650.9DHhNLAV-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20260117/202601170102.9OItmjtA-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601170650.9DHhNLAV-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/iio/frequency/adf41513.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
-   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/iio/frequency/adf41513.c:1164:1: sparse: sparse: bad integer constant expression
-   drivers/iio/frequency/adf41513.c:1164:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/frequency/adf41513.c:1165:1: sparse: sparse: bad integer constant expression
-   drivers/iio/frequency/adf41513.c:1165:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/frequency/adf41513.c:1166:1: sparse: sparse: bad integer constant expression
-   drivers/iio/frequency/adf41513.c:1166:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/frequency/adf41513.c:1166:1: sparse: sparse: bad integer constant expression
-   drivers/iio/frequency/adf41513.c:1166:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+WARNING:REPEATED_WORD: Possible repeated word: 'the'
+#8: 
+Since the VM fence is a sub-fence of the the IB fence, the IB
 
-vim +1164 drivers/iio/frequency/adf41513.c
-
-14da095e190eab Rodrigo Alencar 2026-01-16  1163  
-14da095e190eab Rodrigo Alencar 2026-01-16 @1164  MODULE_AUTHOR("Rodrigo Alencar <rodrigo.alencar@analog.com>");
+WARNING:REPEATED_WORD: Possible repeated word: 'when'
+#14: 
+fence when when we reemit, update the start and end wptrs
 
 -- 
 0-DAY CI Kernel Test Service
