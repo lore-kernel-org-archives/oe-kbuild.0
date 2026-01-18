@@ -1,197 +1,196 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165C827603C
-	for <oe-kbuild@lists.linux.dev>; Sun, 18 Jan 2026 19:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB6A3B2AA
+	for <oe-kbuild@lists.linux.dev>; Sun, 18 Jan 2026 23:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768764335; cv=none; b=UbLhOEeyKjUcemZWW2Dil7gMfdf0vu7W8FJOcPhi42bYDbTtpOSXl+Ribl6jFomjbX3KGul6G9s3CBSPyyftLGJcDgMgg9bbZY5GZt9NZk6vTP0e1G/gipyLVmfEO4JU+tosQfcQqwvD8H/pTIs1pJarKmbCO7i6naJEaiNMh0Y=
+	t=1768780652; cv=none; b=qe6ojvDSm2XcrUZPU3w2m91P/+SRgCvWZPA0jLkhqtnJYZYJBRnX7BFijbUA8j+/5Xjr/GIc5sP3/AhQOjf2Beoxl3FWL62b2MjxeBq5pHoysOxPVD7I/UbpRPazxjDlIN0zZoMceEs84JFa7fEe2Cf4Z2UBjCt11QPsOjyJ9dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768764335; c=relaxed/simple;
-	bh=BXakfJ9bt81suJHiwm28EL4sEPpsJQoZujDv59wTlxw=;
+	s=arc-20240116; t=1768780652; c=relaxed/simple;
+	bh=5wylP8CLdA/CETWxfffF2WVFRIyi3Fzo0H6OJ2s1ECk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DgnE71omN57P6HkbTWaoxmzIAjkX8/yVq5H8PhTbe0STbAZRO1NUrl7X5n+26r3b800WTjAAZroGXEbydES08eLhTml016BDpYJumw7oKXCI2o59uOC39lDo91jtxSA59FhONCkurah6x8/K00PVcQwvNYj3JPJGdjD2JK/SVfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nRDAsr0o; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=IDiFOqQh7bs04sT2amp7NaPe/A96peKutxfeLuzY40bkDgcEJX/Yv1c901Hq0hZUqNTFGlfm//0r9vummqsfDsOi+6KExqC+GFqF/p9bSyx2vLqBIInHZ0QMbD9l27ze9HZ5OvCWMd5LExow5tQmogMx1lFa3oRLaj/9yIKjnSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mRY7uT/F; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nRDAsr0o"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-432d256c2a9so3634647f8f.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 18 Jan 2026 11:25:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768764332; x=1769369132; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6CZ9ZfuHmCDX2GcmMPsb/ojS/rZ/KYtmYpm0wz9WXBA=;
-        b=nRDAsr0otXJXuig5eAKvI6G7FKfNKnyKjtSpiwHjyTVJ7Zveygnt9QWRhCTlCZS6mM
-         /po7EKRqSn3MfyeZxetf6KIOIoB+hjcq3X526+NpvPKE7ogowJp8F00aWCNiHsayjafl
-         HkRZ1asfkX7GcxtHPUENdlg8KuIwfOJsiDbkh/Rf7PfnEFzrpZIuiY13ZKvEm1cVkvfn
-         HqQQzzz37EHsgt/nlIrHS+7Nnmmtzu5HfHgPwQS0edAru0U3ClyAn8SQp50R5KOr1UlE
-         wWxhewECrXSMHJ/XeEXyOkGcGSMmeYsMQH4nO/avJ+lhysWsjecWjNgv408UkrQnr+bh
-         OeEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768764332; x=1769369132;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6CZ9ZfuHmCDX2GcmMPsb/ojS/rZ/KYtmYpm0wz9WXBA=;
-        b=DQuyCLML/mshW8y5NCNJcjrwTUUil9niAirNNG6a375fiVQk7B0/x/myP+YzKjuqTl
-         zU4fjTI1PGFx9cnqchpSIqYV4clY/0opQD8VBQruEkvZUXFAqVI6YH+YJlCs5hds4UZ/
-         7jyXQDN7TtKwjg8Wudm0cSx4sImj6R9mk3AruQww2GjMpn/jw5k/wqUEtKTxVuiwc3N0
-         y0xoyUNZ9R44JfTfUhhxV/Ks67ULi/Tv+lbfrckuPBtPP6MYI44uuThXugysjzkXdGUm
-         PL6L+3gOdMQCFrB9xNhEL0iAyxDPrJ5V/AczxXORq8THd17XN7MtWKDSD7Dst8XqA427
-         zrFw==
-X-Gm-Message-State: AOJu0Yzplbh/pJi+MdT5fw5UNsZ5Svdm/5QqehqpRYxoP0SPyy2vKaV4
-	jNREG4G4KrR7TeEW2HRaAJiqnMjo2744rmNIyqfphofJhU96YAY/GLe74eZxdIXl7HI+q6H6y3B
-	ZvEDe
-X-Gm-Gg: AY/fxX4aQQg9eKzX4029QwZ2CKG1KsiCXHRqoXKaa9nJx0/q2KhYgw89mhkuD9LN9FB
-	kcpQ6Y/RohB8G1If9+7lfVr1FmzfcePQ54G4JKJrUiy2ruBENy43tpOQKTmo+fitS2uRr2NkuAs
-	8PeTaYdUZFHKk+AXq1JexLyaRFpMJD6HKTcQ6kNoFEJIf06n7f8llYHSpFQDoGqfPfpW0nLyiJP
-	veovRETLpWscDihh6MNBo7lzIOh6kI2xwL+bwNwjTQxy7y/Ve5lmoiyju9nXjEUDs/KthBVLWjS
-	QAOGKYr6OGpGm9Q+wruXPTsKtRmmb9YVHcpO2CJjraeYO0z039463obMLG8KV3+Ju8g7HFxvF89
-	mcKCaBdKNMRYoarY90yyU7uzH1m+wTUvDRFz3xwmO3RA+y8kRZj4B7EZ+f6Lyx/HlUg9OFV5KlR
-	SHOpJjK27cZicht7X1xwkM+qzJ/0s=
-X-Received: by 2002:a05:6000:268a:b0:430:f7bc:4d0c with SMTP id ffacd0b85a97d-4356a04aaadmr11328619f8f.28.1768764332158;
-        Sun, 18 Jan 2026 11:25:32 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435696fbea8sm18634423f8f.0.2026.01.18.11.25.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 11:25:31 -0800 (PST)
-Date: Sun, 18 Jan 2026 22:25:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Prike Liang <Prike.Liang@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c:804
- amdgpu_gmc_flush_gpu_tlb_pasid() warn: inconsistent returns
- '&adev->reset_domain->sem'.
-Message-ID: <202601190121.z9C0uml5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRY7uT/F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768780650; x=1800316650;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5wylP8CLdA/CETWxfffF2WVFRIyi3Fzo0H6OJ2s1ECk=;
+  b=mRY7uT/F0mEKZRTaywnbFcVbHKfVSwZuR0XoaZbH4yn7/JZ2Q9aLpp7W
+   hvyhiP7NexOuZnGZ7V0+65dSXgJC+Mh4sJoQLzXMwTa6me2xRNhuOEoZv
+   lF55lJz4HRoJE+lbMm7PPyG20VyvaZNzo8T0Z0x+eAmuC+j0r9hcHEQWS
+   qp+fr+0z3o+Rt8RjrwTZ7XR+K3DUwETQNy2YgSyvSFHNy0Op7nWegqS9R
+   essiJrs2WaPb1b7qMaGbJHSBURCcn2T0nvnYeGEiBDPXox+dROdPrdlj6
+   Wfk9YTWbWevHTeYempfArRh4npEcbr0UmPV0QTVhVmHLF1cyNLYNpNhEc
+   Q==;
+X-CSE-ConnectionGUID: WgqhuYIdRf6BU/EkOs7ggQ==
+X-CSE-MsgGUID: a0XBDO+cSsSZDGN1o/qcSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="92664356"
+X-IronPort-AV: E=Sophos;i="6.21,236,1763452800"; 
+   d="scan'208";a="92664356"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 15:57:29 -0800
+X-CSE-ConnectionGUID: 1+C2naP0R4+Aho1Q8dMrEQ==
+X-CSE-MsgGUID: K23OVMaLRnicPmFidpgQEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,236,1763452800"; 
+   d="scan'208";a="210731420"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 18 Jan 2026 15:57:28 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhce5-00000000NIb-2KKh;
+	Sun, 18 Jan 2026 23:57:25 +0000
+Date: Mon, 19 Jan 2026 07:56:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH ipsec-next v2 4/4] xfrm: add XFRM_MSG_MIGRATE_STATE for
+ single SA migration
+Message-ID: <202601190605.ZVkgcUYl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Message-ID: <20260118192529.GOuUrMmRG4Pr-FKdqB6nVTGn72S-sz3XzygI_KiwRvw@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e84d960149e71e8d5e4db69775ce31305898ed0c
-commit: 0bea77b13b7649710108e6b67937ab4c7f8a9363 drm/amdgpu: validate the flush_gpu_tlb_pasid()
-config: powerpc64-randconfig-r071-20260118 (https://download.01.org/0day-ci/archive/20260119/202601190121.z9C0uml5-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony@secunet.com>
+References: <951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony@secunet.com>
+TO: Antony Antony <antony.antony@secunet.com>
+TO: Antony Antony <antony.antony@secunet.com>
+TO: Steffen Klassert <steffen.klassert@secunet.com>
+TO: Herbert Xu <herbert@gondor.apana.org.au>
+TO: netdev@vger.kernel.org
+CC: "David S . Miller" <davem@davemloft.net>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Chiachang Wang <chiachangwang@google.com>
+CC: Yan Yan <evitayan@google.com>
+CC: devel@linux-ipsec.org
+CC: Simon Horman <horms@kernel.org>
+CC: Paul Moore <paul@paul-moore.com>
+CC: Stephen Smalley <stephen.smalley.work@gmail.com>
+CC: Ondrej Mosnacek <omosnace@redhat.com>
+CC: linux-kernel@vger.kernel.org
+CC: selinux@vger.kernel.org
+
+Hi Antony,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on klassert-ipsec-next/master]
+[also build test WARNING on klassert-ipsec/master pcmoore-selinux/next linus/master v6.19-rc5 next-20260116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antony-Antony/xfrm-remove-redundant-assignments/20260118-041031
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+patch link:    https://lore.kernel.org/r/951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony%40secunet.com
+patch subject: [PATCH ipsec-next v2 4/4] xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: hexagon-randconfig-r072-20260118 (https://download.01.org/0day-ci/archive/20260119/202601190605.ZVkgcUYl-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
 smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601190121.z9C0uml5-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202601190605.ZVkgcUYl-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c:804 amdgpu_gmc_flush_gpu_tlb_pasid() warn: inconsistent returns '&adev->reset_domain->sem'.
+New smatch warnings:
+net/xfrm/xfrm_user.c:3299 xfrm_do_migrate_state() warn: missing error code? 'err'
 
-vim +804 drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+Old smatch warnings:
+net/xfrm/xfrm_user.c:1024 xfrm_add_sa() warn: missing error code? 'err'
+net/xfrm/xfrm_user.c:2248 xfrm_add_policy() warn: missing error code? 'err'
+net/xfrm/xfrm_user.c:3018 xfrm_add_acquire() warn: missing error code 'err'
 
-e7b90e99fa8fd6 Christian König 2023-09-04  717  int amdgpu_gmc_flush_gpu_tlb_pasid(struct amdgpu_device *adev, uint16_t pasid,
-e7b90e99fa8fd6 Christian König 2023-09-04  718  				   uint32_t flush_type, bool all_hub,
-e7b90e99fa8fd6 Christian König 2023-09-04  719  				   uint32_t inst)
-e7b90e99fa8fd6 Christian König 2023-09-04  720  {
-e7b90e99fa8fd6 Christian König 2023-09-04  721  	struct amdgpu_ring *ring = &adev->gfx.kiq[inst].ring;
-e7b90e99fa8fd6 Christian König 2023-09-04  722  	struct amdgpu_kiq *kiq = &adev->gfx.kiq[inst];
-e7b90e99fa8fd6 Christian König 2023-09-04  723  	unsigned int ndw;
-3666ed821832f4 Jay Cornwall    2025-03-21  724  	int r, cnt = 0;
-e7b90e99fa8fd6 Christian König 2023-09-04  725  	uint32_t seq;
-e7b90e99fa8fd6 Christian König 2023-09-04  726  
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  727  	/*
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  728  	 * A GPU reset should flush all TLBs anyway, so no need to do
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  729  	 * this while one is ongoing.
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  730  	 */
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  731  	if (!down_read_trylock(&adev->reset_domain->sem))
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  732  		return 0;
-08abccc9a7a7ff Christian König 2023-09-04  733  
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  734  	if (!adev->gmc.flush_pasid_uses_kiq || !ring->sched.ready) {
-0bea77b13b7649 Prike Liang     2026-01-06  735  
-0bea77b13b7649 Prike Liang     2026-01-06  736  		if (!adev->gmc.gmc_funcs->flush_gpu_tlb_pasid)
-0bea77b13b7649 Prike Liang     2026-01-06  737  			return 0;
+vim +/err +3299 net/xfrm/xfrm_user.c
 
-need to call up_read(&adev->reset_domain->sem) before returning.
-
-0bea77b13b7649 Prike Liang     2026-01-06  738  
-08abccc9a7a7ff Christian König 2023-09-04  739  		if (adev->gmc.flush_tlb_needs_extra_type_2)
-08abccc9a7a7ff Christian König 2023-09-04  740  			adev->gmc.gmc_funcs->flush_gpu_tlb_pasid(adev, pasid,
-08abccc9a7a7ff Christian König 2023-09-04  741  								 2, all_hub,
-08abccc9a7a7ff Christian König 2023-09-04  742  								 inst);
-08abccc9a7a7ff Christian König 2023-09-04  743  
-08abccc9a7a7ff Christian König 2023-09-04  744  		if (adev->gmc.flush_tlb_needs_extra_type_0 && flush_type == 2)
-08abccc9a7a7ff Christian König 2023-09-04  745  			adev->gmc.gmc_funcs->flush_gpu_tlb_pasid(adev, pasid,
-08abccc9a7a7ff Christian König 2023-09-04  746  								 0, all_hub,
-08abccc9a7a7ff Christian König 2023-09-04  747  								 inst);
-08abccc9a7a7ff Christian König 2023-09-04  748  
-3983c9fd2d8b5a Christian König 2023-09-04  749  		adev->gmc.gmc_funcs->flush_gpu_tlb_pasid(adev, pasid,
-3983c9fd2d8b5a Christian König 2023-09-04  750  							 flush_type, all_hub,
-3983c9fd2d8b5a Christian König 2023-09-04  751  							 inst);
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  752  		r = 0;
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  753  	} else {
-e7b90e99fa8fd6 Christian König 2023-09-04  754  		/* 2 dwords flush + 8 dwords fence */
-e7b90e99fa8fd6 Christian König 2023-09-04  755  		ndw = kiq->pmf->invalidate_tlbs_size + 8;
-e7b90e99fa8fd6 Christian König 2023-09-04  756  
-e7b90e99fa8fd6 Christian König 2023-09-04  757  		if (adev->gmc.flush_tlb_needs_extra_type_2)
-e7b90e99fa8fd6 Christian König 2023-09-04  758  			ndw += kiq->pmf->invalidate_tlbs_size;
-e7b90e99fa8fd6 Christian König 2023-09-04  759  
-e7b90e99fa8fd6 Christian König 2023-09-04  760  		if (adev->gmc.flush_tlb_needs_extra_type_0)
-e7b90e99fa8fd6 Christian König 2023-09-04  761  			ndw += kiq->pmf->invalidate_tlbs_size;
-e7b90e99fa8fd6 Christian König 2023-09-04  762  
-e7b90e99fa8fd6 Christian König 2023-09-04  763  		spin_lock(&adev->gfx.kiq[inst].ring_lock);
-9ff2e14cf013fa Bob Zhou        2024-06-20  764  		r = amdgpu_ring_alloc(ring, ndw);
-9ff2e14cf013fa Bob Zhou        2024-06-20  765  		if (r) {
-9ff2e14cf013fa Bob Zhou        2024-06-20  766  			spin_unlock(&adev->gfx.kiq[inst].ring_lock);
-9ff2e14cf013fa Bob Zhou        2024-06-20  767  			goto error_unlock_reset;
-9ff2e14cf013fa Bob Zhou        2024-06-20  768  		}
-e7b90e99fa8fd6 Christian König 2023-09-04  769  		if (adev->gmc.flush_tlb_needs_extra_type_2)
-e7b90e99fa8fd6 Christian König 2023-09-04  770  			kiq->pmf->kiq_invalidate_tlbs(ring, pasid, 2, all_hub);
-e7b90e99fa8fd6 Christian König 2023-09-04  771  
-e7b90e99fa8fd6 Christian König 2023-09-04  772  		if (flush_type == 2 && adev->gmc.flush_tlb_needs_extra_type_0)
-e7b90e99fa8fd6 Christian König 2023-09-04  773  			kiq->pmf->kiq_invalidate_tlbs(ring, pasid, 0, all_hub);
-e7b90e99fa8fd6 Christian König 2023-09-04  774  
-e7b90e99fa8fd6 Christian König 2023-09-04  775  		kiq->pmf->kiq_invalidate_tlbs(ring, pasid, flush_type, all_hub);
-e7b90e99fa8fd6 Christian König 2023-09-04  776  		r = amdgpu_fence_emit_polling(ring, &seq, MAX_KIQ_REG_WAIT);
-e7b90e99fa8fd6 Christian König 2023-09-04  777  		if (r) {
-e7b90e99fa8fd6 Christian König 2023-09-04  778  			amdgpu_ring_undo(ring);
-e7b90e99fa8fd6 Christian König 2023-09-04  779  			spin_unlock(&adev->gfx.kiq[inst].ring_lock);
-e7b90e99fa8fd6 Christian König 2023-09-04  780  			goto error_unlock_reset;
-e7b90e99fa8fd6 Christian König 2023-09-04  781  		}
-e7b90e99fa8fd6 Christian König 2023-09-04  782  
-e7b90e99fa8fd6 Christian König 2023-09-04  783  		amdgpu_ring_commit(ring);
-e7b90e99fa8fd6 Christian König 2023-09-04  784  		spin_unlock(&adev->gfx.kiq[inst].ring_lock);
-3666ed821832f4 Jay Cornwall    2025-03-21  785  
-3666ed821832f4 Jay Cornwall    2025-03-21  786  		r = amdgpu_fence_wait_polling(ring, seq, MAX_KIQ_REG_WAIT);
-3666ed821832f4 Jay Cornwall    2025-03-21  787  
-3666ed821832f4 Jay Cornwall    2025-03-21  788  		might_sleep();
-3666ed821832f4 Jay Cornwall    2025-03-21  789  		while (r < 1 && cnt++ < MAX_KIQ_REG_TRY &&
-3666ed821832f4 Jay Cornwall    2025-03-21  790  		       !amdgpu_reset_pending(adev->reset_domain)) {
-3666ed821832f4 Jay Cornwall    2025-03-21  791  			msleep(MAX_KIQ_REG_BAILOUT_INTERVAL);
-3666ed821832f4 Jay Cornwall    2025-03-21  792  			r = amdgpu_fence_wait_polling(ring, seq, MAX_KIQ_REG_WAIT);
-3666ed821832f4 Jay Cornwall    2025-03-21  793  		}
-3666ed821832f4 Jay Cornwall    2025-03-21  794  
-3666ed821832f4 Jay Cornwall    2025-03-21  795  		if (cnt > MAX_KIQ_REG_TRY) {
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  796  			dev_err(adev->dev, "timeout waiting for kiq fence\n");
-e7b90e99fa8fd6 Christian König 2023-09-04  797  			r = -ETIME;
-3666ed821832f4 Jay Cornwall    2025-03-21  798  		} else
-3666ed821832f4 Jay Cornwall    2025-03-21  799  			r = 0;
-9c33e5fd4fb63b Yunxiang Li     2024-05-23  800  	}
-e7b90e99fa8fd6 Christian König 2023-09-04  801  
-e7b90e99fa8fd6 Christian König 2023-09-04  802  error_unlock_reset:
-e7b90e99fa8fd6 Christian König 2023-09-04  803  	up_read(&adev->reset_domain->sem);
-e7b90e99fa8fd6 Christian König 2023-09-04 @804  	return r;
-e7b90e99fa8fd6 Christian König 2023-09-04  805  }
+d3019c1db87425 Antony Antony 2026-01-17  3239  
+d3019c1db87425 Antony Antony 2026-01-17  3240  static int xfrm_do_migrate_state(struct sk_buff *skb, struct nlmsghdr *nlh,
+d3019c1db87425 Antony Antony 2026-01-17  3241  				 struct nlattr **attrs, struct netlink_ext_ack *extack)
+d3019c1db87425 Antony Antony 2026-01-17  3242  {
+d3019c1db87425 Antony Antony 2026-01-17  3243  	int err = -ESRCH;
+d3019c1db87425 Antony Antony 2026-01-17  3244  	struct xfrm_state *x;
+d3019c1db87425 Antony Antony 2026-01-17  3245  	struct net *net = sock_net(skb->sk);
+d3019c1db87425 Antony Antony 2026-01-17  3246  	struct xfrm_encap_tmpl *encap = NULL;
+d3019c1db87425 Antony Antony 2026-01-17  3247  	struct xfrm_user_offload *xuo = NULL;
+d3019c1db87425 Antony Antony 2026-01-17  3248  	struct xfrm_migrate m = { .old_saddr.a4 = 0,};
+d3019c1db87425 Antony Antony 2026-01-17  3249  	struct xfrm_user_migrate_state *um = nlmsg_data(nlh);
+d3019c1db87425 Antony Antony 2026-01-17  3250  
+d3019c1db87425 Antony Antony 2026-01-17  3251  	if (!um->id.spi) {
+d3019c1db87425 Antony Antony 2026-01-17  3252  		NL_SET_ERR_MSG(extack, "Invalid SPI 0x0");
+d3019c1db87425 Antony Antony 2026-01-17  3253  		return -EINVAL;
+d3019c1db87425 Antony Antony 2026-01-17  3254  	}
+d3019c1db87425 Antony Antony 2026-01-17  3255  
+d3019c1db87425 Antony Antony 2026-01-17  3256  	err = copy_from_user_migrate_state(&m, um);
+d3019c1db87425 Antony Antony 2026-01-17  3257  	if (err)
+d3019c1db87425 Antony Antony 2026-01-17  3258  		return err;
+d3019c1db87425 Antony Antony 2026-01-17  3259  
+d3019c1db87425 Antony Antony 2026-01-17  3260  	x = xfrm_user_state_lookup(net, &um->id, attrs, &err);
+d3019c1db87425 Antony Antony 2026-01-17  3261  
+d3019c1db87425 Antony Antony 2026-01-17  3262  	if (x) {
+d3019c1db87425 Antony Antony 2026-01-17  3263  		struct xfrm_state *xc;
+d3019c1db87425 Antony Antony 2026-01-17  3264  
+d3019c1db87425 Antony Antony 2026-01-17  3265  		if (!x->dir) {
+d3019c1db87425 Antony Antony 2026-01-17  3266  			NL_SET_ERR_MSG(extack, "State direction is invalid");
+d3019c1db87425 Antony Antony 2026-01-17  3267  			err = -EINVAL;
+d3019c1db87425 Antony Antony 2026-01-17  3268  			goto error;
+d3019c1db87425 Antony Antony 2026-01-17  3269  		}
+d3019c1db87425 Antony Antony 2026-01-17  3270  
+d3019c1db87425 Antony Antony 2026-01-17  3271  		if (attrs[XFRMA_ENCAP]) {
+d3019c1db87425 Antony Antony 2026-01-17  3272  			encap = kmemdup(nla_data(attrs[XFRMA_ENCAP]),
+d3019c1db87425 Antony Antony 2026-01-17  3273  					sizeof(*encap), GFP_KERNEL);
+d3019c1db87425 Antony Antony 2026-01-17  3274  			if (!encap) {
+d3019c1db87425 Antony Antony 2026-01-17  3275  				err = -ENOMEM;
+d3019c1db87425 Antony Antony 2026-01-17  3276  				goto error;
+d3019c1db87425 Antony Antony 2026-01-17  3277  			}
+d3019c1db87425 Antony Antony 2026-01-17  3278  		}
+d3019c1db87425 Antony Antony 2026-01-17  3279  		if (attrs[XFRMA_OFFLOAD_DEV]) {
+d3019c1db87425 Antony Antony 2026-01-17  3280  			xuo = kmemdup(nla_data(attrs[XFRMA_OFFLOAD_DEV]),
+d3019c1db87425 Antony Antony 2026-01-17  3281  				      sizeof(*xuo), GFP_KERNEL);
+d3019c1db87425 Antony Antony 2026-01-17  3282  			if (!xuo) {
+d3019c1db87425 Antony Antony 2026-01-17  3283  				err = -ENOMEM;
+d3019c1db87425 Antony Antony 2026-01-17  3284  				goto error;
+d3019c1db87425 Antony Antony 2026-01-17  3285  			}
+d3019c1db87425 Antony Antony 2026-01-17  3286  		}
+d3019c1db87425 Antony Antony 2026-01-17  3287  		xc = xfrm_state_migrate(x, &m, encap, net, xuo, extack);
+d3019c1db87425 Antony Antony 2026-01-17  3288  		if (xc) {
+d3019c1db87425 Antony Antony 2026-01-17  3289  			xfrm_state_delete(x);
+d3019c1db87425 Antony Antony 2026-01-17  3290  			xfrm_send_migrate_state(um, encap, xuo);
+d3019c1db87425 Antony Antony 2026-01-17  3291  			err = 0;
+d3019c1db87425 Antony Antony 2026-01-17  3292  		} else {
+d3019c1db87425 Antony Antony 2026-01-17  3293  			if (extack && !extack->_msg)
+d3019c1db87425 Antony Antony 2026-01-17  3294  				NL_SET_ERR_MSG(extack, "State migration clone failed");
+d3019c1db87425 Antony Antony 2026-01-17  3295  			err = -EINVAL;
+d3019c1db87425 Antony Antony 2026-01-17  3296  		}
+d3019c1db87425 Antony Antony 2026-01-17  3297  	} else {
+d3019c1db87425 Antony Antony 2026-01-17  3298  		NL_SET_ERR_MSG(extack, "Can not find state");
+d3019c1db87425 Antony Antony 2026-01-17 @3299  		return err;
+d3019c1db87425 Antony Antony 2026-01-17  3300  	}
+d3019c1db87425 Antony Antony 2026-01-17  3301  error:
+d3019c1db87425 Antony Antony 2026-01-17  3302  	xfrm_state_put(x);
+d3019c1db87425 Antony Antony 2026-01-17  3303  	kfree(encap);
+d3019c1db87425 Antony Antony 2026-01-17  3304  	kfree(xuo);
+d3019c1db87425 Antony Antony 2026-01-17  3305  	return err;
+d3019c1db87425 Antony Antony 2026-01-17  3306  }
+d3019c1db87425 Antony Antony 2026-01-17  3307  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
