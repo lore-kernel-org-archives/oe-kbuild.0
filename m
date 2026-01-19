@@ -1,80 +1,72 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B18330649
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 05:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2CC2571B0
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 06:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768800452; cv=none; b=OTdPnB6QsMKFvsPu9YtmfKY21OIjWq769iWYOp6d1y3Iz4tfA2uG1BcnK8OLdhnYtUiK94NH+TvRduPE+MrjEYzvDeVyDhtZpVAMbgbdTtAusvNS2AQE6WmQoapBB09BeFZ27dBCmoLU280l4DPlbjshZA92Bq5wpbevK/dDlSE=
+	t=1768802767; cv=none; b=KIuJy7xeYGW12VvZEd9LbScB3HW/rz89cqzUCQQsiYyqPj7A384fghBSOW2/0YknMhPKYXvwoopwcUa20ohLUwkxI3vXfPfaURl7DRbaC6K68R+E0r0ueC6N6Ai71xf3DnxmV14eivnypu8PKHrEJ87YjiXmgWa2hrLMT3/QmEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768800452; c=relaxed/simple;
-	bh=GQyIKVnUIV+o89ZaVPW/6Orx8v9FcnDa0Oajgp1SONE=;
+	s=arc-20240116; t=1768802767; c=relaxed/simple;
+	bh=Va+j/Rk5qSJtHCpN3cszMvliYyV0sBG/ueXgguHxN58=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=XUco5NkqQiyYdrdfim6K8M7pKeZSYq2hGzyzuV1OTOV7C2MPDHSzT3sYLaajicfKv2RA67i+hNVOPuiJ9GOvvyHB/cb9Lc/Mp0RpZRPc59vep7DsrAVWfbzCejfZ9aE+LQLwfBighPipoQq7aEJ2kaNL4+oM/Y3s87n4GM4R6tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m5mkQX7f; arc=none smtp.client-ip=209.85.128.67
+	 Content-Disposition; b=t3dhele5ldQn5T52lzSjDuUtNpRZB5DQFfJT0EXVEfXwhGGkx1ODTxJuo2UzJsvUOngiJzCDgPHs1ohBEZaP6AzgX/7qMd3jM+1cN8EPXtm+AAPvCzMrrnODjQ6cmIXe577A+WFccSxjMp7hzSZ9QpXx4/bpZPcOfYqJZRxdYSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R9HTksiQ; arc=none smtp.client-ip=209.85.221.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m5mkQX7f"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4801c2fae63so21323485e9.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 18 Jan 2026 21:27:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R9HTksiQ"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-4308d81fdf6so2085973f8f.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 18 Jan 2026 22:06:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768800449; x=1769405249; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KcHNJUeHYBB6SOgT0QQnF8ZJgMw39mShpamAL4iiy6o=;
-        b=m5mkQX7fNkb4g1mLqn8qcH4P18IDLgVmZ9pCQXuu1u2NUkCG/tOLtKZNxo7uhcoEzy
-         0nf1u7ZEujz8v7l1JPESxpRyCWWR5eV1cY1FWBG9yHjV6xcmU5TpOc0Xeqv7hAsov+pU
-         kYFZKqNDD2U24u57W8gqDBItOYyG4jXE1pcbCg5dz0kPZuleIlzrguHgHvjxkK3GMydu
-         YO62ZZR4ZTBZqKrnPCfikkTAbNNbOVdHzxs1X6nWkjER4eM2s+NmVtpBg5quOklwRvNl
-         Kcaotsmi5jqWsUFjQdLgfynq6o/BM5eJDSp2YuG3AkxgTVkrNT9gICF74iNul6QycBYq
-         OC/Q==
+        d=linaro.org; s=google; t=1768802762; x=1769407562; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0pj6czBHbSzW+xAkGFcXRLhl7BE4LY0QgQrNyTPQC+4=;
+        b=R9HTksiQjrdZnUlXv6xAHZ2D2qDhckoWvBbcRaGmBgrApjaO3b8RS11aJiVcdQYbB8
+         gGN8m6QXXHXxYDeZzohXTWQVDtb6QeZfiLzhALVTSICGhEdTs0ju/HOuEWiHND6rN3Yb
+         1ABLuGi/PgoD+kPlR698UK4KRwxL0ecgCGKeiM0lKL6U1vTNz0MPjCEF+1qovUTybWdx
+         0XF1LvLm998epjkpFOwZUjftouZIx7NdBLiO0899RSbnCEEasvF6BZ8YGjLM/6/uLOFo
+         XjuChXxjsMdy5a8iVCkRqJ6jtjYUCE4g2UEarePDVLTRDWmZQ0UMZZJtKVur2L8QsnUC
+         o1hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768800449; x=1769405249;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KcHNJUeHYBB6SOgT0QQnF8ZJgMw39mShpamAL4iiy6o=;
-        b=Sm0l1IcCgIFly4YZ6RlPAtDmG029Mydz+Ts29JABBXpFaW1O4Oe5rScsJAmVuR9t6M
-         j8YElBeTAoK3biyk3KLa7wOR4KpTHUKouhOvkY8phbDBbWk1BSo7XLqy5csTnp/u7wQL
-         JT8/C+uT77qn6wdDsIlsLauoGE5gVWhb97OnuZwKphzHMvUCFpQbWC8e0OJcvATtAHNt
-         rzfYGWWy5PRD1Vk8DFBgCO0r+6i2ozU/djo7AzHlu42+k0T92KK1L8nUpn0rdOOQ3W6O
-         lDu9O9v7yU3DSyg6mFodBsF8GYzi+rVdRCx9p73npnGS9r7wmJfIBib9/J5YrHDSHcg5
-         MV+A==
-X-Gm-Message-State: AOJu0YySf/dG0QjL5iZRGNexcpktzxCwqFtL3+Pz6kHzlYFnrJtk0tZl
-	IR195x1GPO0SeqmJxV7+VmNYUJeKt59sYLQiJMuCV/FPP8FPLvFVtORBt1vNqRrHVv8YxhkwDJg
-	LwOCbP30=
-X-Gm-Gg: AY/fxX7eR3SPviTyHHS/xezX2rBbo6BqMMz0dvMo33r/Aolcu1zDc+Qozj2Tcb+A2U5
-	LpLycIdmkR7Rvl0CsXU0RgVMk2+zXeUUlemJ9Wuu+CV0eVUCc/ADHdLsQ8EggJ8tIgj7fcQ+WTn
-	LhePju0ABXnnBihjOBw5s5fxdj57gaFEkx2C0hNhJcQbQwGJ41rBo6kKx6aIh0WTPvP1yFGg78e
-	DX28RIbs2FSkfp8hnz6uARUIJpktNKQdJRS74lJyGp+EMA8G/iYuS7QRZy+SoBSpacqGkiUGqzc
-	CEbelDdOZbgPsgxPC1L0j4FRglgqbPlYfdvChMdK2c/CCMf7pf1OaUJKhXtwEiSqN8hmmBFF33k
-	cE8agNCgBGX8qVdq00LG2ny6Zg4sFx76Fcm3jCEK5duLLX6iRWVCs779IlQ0baqi/NYnlrOCkI8
-	myB9JInIyqDKhZBZ+8
-X-Received: by 2002:a05:600c:4f8a:b0:477:7b16:5f88 with SMTP id 5b1f17b1804b1-4801e2f90camr128220315e9.6.1768800449052;
-        Sun, 18 Jan 2026 21:27:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768802762; x=1769407562;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0pj6czBHbSzW+xAkGFcXRLhl7BE4LY0QgQrNyTPQC+4=;
+        b=S8lJDDbQpCM3CQp1Ta0nMP8p3/vWfsSHdRudIzqGsEZJjaZKfern566SQhC31SlZQ+
+         cuMyQrYVtitFixFpLxhYcuhjZ0lfkeee3T0RLTs/Ee7dW0aXP1bCwot0FlrN6/xBt+Wx
+         fYFVHI8mTMXcSPVIKJvjv51Ce8gWPRxHMoxsbyIq5e5RUNboC2Ellf8udxTVcLD347OM
+         rIXycGnrM56loZTgl8foFZk6HPos0t2b3dNtKxkoY21SBq3Z4BPvTpL+QXHYUIA4cQJm
+         4+JOzkrT38hAeqy+QoMllDjj8NHu0F430MoQyS+6p+8XGXEyyhy+g4Az+cQuqTST3LQW
+         UgdA==
+X-Gm-Message-State: AOJu0YwESSSO2UlOiyvwK/cHeHtAX8CSZifoKVkAcMMrHa2rZD3ldeGR
+	Z8sPO745zqZ2v0MXi4cqEVtnC6vEZ25pBl3oH2xCbXX4ErCmbKU6xNDy6S/mAVTL5GDQJhln8uC
+	2CWbD6aQ=
+X-Gm-Gg: AY/fxX6Iq7kxVuR/xBNIS8qoUZNtPxzRfwP5DYN+dALI7CuUq4NUHqVQc1zGuGSuvxz
+	ew4zCTFD1tSixi7gxQrVU/laprRA4j/hn1q4IJ2MFbqo4RO89vfc/325ixjZZ5ph62aLqi4OC6s
+	lPViGnf3lgbJS5qz7ok+TRIcQHrsxuGTnpqSAccueevKFY4nnkiNaaPfPvJieaHXbgDwYryQV3w
+	HiyEzrQeLVzShfJOVUjYwYyCJzpDlCTZF7hCA1SojAdhJWVOHM8BqVQxRe6h/kFB/U2HSxKrFTg
+	Tdhi9SmGNrGSlQiyelaunhMab55/T/LsVstJFpl39vEZHivjEb6RS44Ch+NcF2n37RATLAykyKZ
+	Ygd87wDSYxXVI30eTJZEqq25GQQYPLBilhDPGBeLjjrZXXTK2DNCkkGHxIb0T8GQcQUaw39J5Xl
+	NnaMcuzcM/hqTmq7kg
+X-Received: by 2002:a05:6000:2313:b0:432:5c43:76 with SMTP id ffacd0b85a97d-43569bc17ebmr12479480f8f.39.1768802762111;
+        Sun, 18 Jan 2026 22:06:02 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435699980e5sm20818492f8f.41.2026.01.18.21.27.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435696fbea8sm21086791f8f.0.2026.01.18.22.06.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 21:27:28 -0800 (PST)
-Date: Mon, 19 Jan 2026 08:27:25 +0300
+        Sun, 18 Jan 2026 22:06:01 -0800 (PST)
+Date: Mon, 19 Jan 2026 09:05:58 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Antony Antony <antony.antony@secunet.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>, netdev@vger.kernel.org
+To: oe-kbuild@lists.linux.dev,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chiachang Wang <chiachangwang@google.com>,
-	Yan Yan <evitayan@google.com>, devel@linux-ipsec.org,
-	Simon Horman <horms@kernel.org>, Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>, linux-kernel@vger.kernel.org,
-	selinux@vger.kernel.org
-Subject: Re: [PATCH ipsec-next v2 4/4] xfrm: add XFRM_MSG_MIGRATE_STATE for
- single SA migration
-Message-ID: <202601190605.ZVkgcUYl-lkp@intel.com>
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:uffd/refactor/v0.2 1/11] mm/userfaultfd.c:271
+ mfill_copy_folio_locked() warn: maybe return -EFAULT instead of the bytes
+ remaining?
+Message-ID: <202601190828.nHc6Gmw1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -83,109 +75,67 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony@secunet.com>
-Message-ID: <20260119052725.3ylNM0HpJmiGui5K-GhEwcfQcXGFUBmxpyQ30jFHOlw@z>
+Message-ID: <20260119060558.cRh9eGOYwb-ma-nY4IGXTOjthJxVQSsc06ZORRh6dUs@z>
 
-Hi Antony,
+Hi Mike,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antony-Antony/xfrm-remove-redundant-assignments/20260118-041031
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-patch link:    https://lore.kernel.org/r/951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony%40secunet.com
-patch subject: [PATCH ipsec-next v2 4/4] xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
-config: hexagon-randconfig-r072-20260118 (https://download.01.org/0day-ci/archive/20260119/202601190605.ZVkgcUYl-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git uffd/refactor/v0.2
+head:   2db3a86a6de3247449e068d998305d26481c5522
+commit: 46089d290ec3dea8bdbe9a706e3a8247f6c40490 [1/11] userfaultfd: introduce mfill_copy_folio_locked() helper
+config: x86_64-randconfig-161-20260119 (https://download.01.org/0day-ci/archive/20260119/202601190828.nHc6Gmw1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601190605.ZVkgcUYl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601190828.nHc6Gmw1-lkp@intel.com/
 
-New smatch warnings:
-net/xfrm/xfrm_user.c:3299 xfrm_do_migrate_state() warn: missing error code? 'err'
+smatch warnings:
+mm/userfaultfd.c:271 mfill_copy_folio_locked() warn: maybe return -EFAULT instead of the bytes remaining?
 
-Old smatch warnings:
-net/xfrm/xfrm_user.c:1024 xfrm_add_sa() warn: missing error code? 'err'
-net/xfrm/xfrm_user.c:2248 xfrm_add_policy() warn: missing error code? 'err'
-net/xfrm/xfrm_user.c:3018 xfrm_add_acquire() warn: missing error code 'err'
+vim +271 mm/userfaultfd.c
 
-vim +/err +3299 net/xfrm/xfrm_user.c
+46089d290ec3dea Mike Rapoport (Microsoft  2026-01-08  241) static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
+c1a4de99fada21e Andrea Arcangeli          2015-09-04  242  {
+07e6d4095c75bcf ZhangPeng                 2023-04-10  243  	void *kaddr;
+c1a4de99fada21e Andrea Arcangeli          2015-09-04  244  	int ret;
+c1a4de99fada21e Andrea Arcangeli          2015-09-04  245  
+07e6d4095c75bcf ZhangPeng                 2023-04-10  246  	kaddr = kmap_local_folio(folio, 0);
+5521de7dddd211e Ira Weiny                 2022-10-23  247  	/*
+5521de7dddd211e Ira Weiny                 2022-10-23  248  	 * The read mmap_lock is held here.  Despite the
+5521de7dddd211e Ira Weiny                 2022-10-23  249  	 * mmap_lock being read recursive a deadlock is still
+5521de7dddd211e Ira Weiny                 2022-10-23  250  	 * possible if a writer has taken a lock.  For example:
+5521de7dddd211e Ira Weiny                 2022-10-23  251  	 *
+5521de7dddd211e Ira Weiny                 2022-10-23  252  	 * process A thread 1 takes read lock on own mmap_lock
+5521de7dddd211e Ira Weiny                 2022-10-23  253  	 * process A thread 2 calls mmap, blocks taking write lock
+5521de7dddd211e Ira Weiny                 2022-10-23  254  	 * process B thread 1 takes page fault, read lock on own mmap lock
+5521de7dddd211e Ira Weiny                 2022-10-23  255  	 * process B thread 2 calls mmap, blocks taking write lock
+5521de7dddd211e Ira Weiny                 2022-10-23  256  	 * process A thread 1 blocks taking read lock on process B
+5521de7dddd211e Ira Weiny                 2022-10-23  257  	 * process B thread 1 blocks taking read lock on process A
+5521de7dddd211e Ira Weiny                 2022-10-23  258  	 *
+5521de7dddd211e Ira Weiny                 2022-10-23  259  	 * Disable page faults to prevent potential deadlock
+5521de7dddd211e Ira Weiny                 2022-10-23  260  	 * and retry the copy outside the mmap_lock.
+5521de7dddd211e Ira Weiny                 2022-10-23  261  	 */
+5521de7dddd211e Ira Weiny                 2022-10-23  262  	pagefault_disable();
+07e6d4095c75bcf ZhangPeng                 2023-04-10  263  	ret = copy_from_user(kaddr, (const void __user *) src_addr,
+b6ebaedb4cb1a18 Andrea Arcangeli          2015-09-04  264  			     PAGE_SIZE);
+5521de7dddd211e Ira Weiny                 2022-10-23  265  	pagefault_enable();
+07e6d4095c75bcf ZhangPeng                 2023-04-10  266  	kunmap_local(kaddr);
+b6ebaedb4cb1a18 Andrea Arcangeli          2015-09-04  267  
+46089d290ec3dea Mike Rapoport (Microsoft  2026-01-08  268) 	if (!ret)
+46089d290ec3dea Mike Rapoport (Microsoft  2026-01-08  269) 		flush_dcache_folio(folio);
+46089d290ec3dea Mike Rapoport (Microsoft  2026-01-08  270) 
+46089d290ec3dea Mike Rapoport (Microsoft  2026-01-08 @271) 	return ret;
 
-d3019c1db87425 Antony Antony 2026-01-17  3240  static int xfrm_do_migrate_state(struct sk_buff *skb, struct nlmsghdr *nlh,
-d3019c1db87425 Antony Antony 2026-01-17  3241  				 struct nlattr **attrs, struct netlink_ext_ack *extack)
-d3019c1db87425 Antony Antony 2026-01-17  3242  {
-d3019c1db87425 Antony Antony 2026-01-17  3243  	int err = -ESRCH;
-d3019c1db87425 Antony Antony 2026-01-17  3244  	struct xfrm_state *x;
-d3019c1db87425 Antony Antony 2026-01-17  3245  	struct net *net = sock_net(skb->sk);
-d3019c1db87425 Antony Antony 2026-01-17  3246  	struct xfrm_encap_tmpl *encap = NULL;
-d3019c1db87425 Antony Antony 2026-01-17  3247  	struct xfrm_user_offload *xuo = NULL;
-d3019c1db87425 Antony Antony 2026-01-17  3248  	struct xfrm_migrate m = { .old_saddr.a4 = 0,};
-d3019c1db87425 Antony Antony 2026-01-17  3249  	struct xfrm_user_migrate_state *um = nlmsg_data(nlh);
-d3019c1db87425 Antony Antony 2026-01-17  3250  
-d3019c1db87425 Antony Antony 2026-01-17  3251  	if (!um->id.spi) {
-d3019c1db87425 Antony Antony 2026-01-17  3252  		NL_SET_ERR_MSG(extack, "Invalid SPI 0x0");
-d3019c1db87425 Antony Antony 2026-01-17  3253  		return -EINVAL;
-d3019c1db87425 Antony Antony 2026-01-17  3254  	}
-d3019c1db87425 Antony Antony 2026-01-17  3255  
-d3019c1db87425 Antony Antony 2026-01-17  3256  	err = copy_from_user_migrate_state(&m, um);
-d3019c1db87425 Antony Antony 2026-01-17  3257  	if (err)
-d3019c1db87425 Antony Antony 2026-01-17  3258  		return err;
-d3019c1db87425 Antony Antony 2026-01-17  3259  
-d3019c1db87425 Antony Antony 2026-01-17  3260  	x = xfrm_user_state_lookup(net, &um->id, attrs, &err);
-d3019c1db87425 Antony Antony 2026-01-17  3261  
-d3019c1db87425 Antony Antony 2026-01-17  3262  	if (x) {
-d3019c1db87425 Antony Antony 2026-01-17  3263  		struct xfrm_state *xc;
-d3019c1db87425 Antony Antony 2026-01-17  3264  
-d3019c1db87425 Antony Antony 2026-01-17  3265  		if (!x->dir) {
-d3019c1db87425 Antony Antony 2026-01-17  3266  			NL_SET_ERR_MSG(extack, "State direction is invalid");
-d3019c1db87425 Antony Antony 2026-01-17  3267  			err = -EINVAL;
-d3019c1db87425 Antony Antony 2026-01-17  3268  			goto error;
-d3019c1db87425 Antony Antony 2026-01-17  3269  		}
-d3019c1db87425 Antony Antony 2026-01-17  3270  
-d3019c1db87425 Antony Antony 2026-01-17  3271  		if (attrs[XFRMA_ENCAP]) {
-d3019c1db87425 Antony Antony 2026-01-17  3272  			encap = kmemdup(nla_data(attrs[XFRMA_ENCAP]),
-d3019c1db87425 Antony Antony 2026-01-17  3273  					sizeof(*encap), GFP_KERNEL);
-d3019c1db87425 Antony Antony 2026-01-17  3274  			if (!encap) {
-d3019c1db87425 Antony Antony 2026-01-17  3275  				err = -ENOMEM;
-d3019c1db87425 Antony Antony 2026-01-17  3276  				goto error;
-d3019c1db87425 Antony Antony 2026-01-17  3277  			}
-d3019c1db87425 Antony Antony 2026-01-17  3278  		}
-d3019c1db87425 Antony Antony 2026-01-17  3279  		if (attrs[XFRMA_OFFLOAD_DEV]) {
-d3019c1db87425 Antony Antony 2026-01-17  3280  			xuo = kmemdup(nla_data(attrs[XFRMA_OFFLOAD_DEV]),
-d3019c1db87425 Antony Antony 2026-01-17  3281  				      sizeof(*xuo), GFP_KERNEL);
-d3019c1db87425 Antony Antony 2026-01-17  3282  			if (!xuo) {
-d3019c1db87425 Antony Antony 2026-01-17  3283  				err = -ENOMEM;
-d3019c1db87425 Antony Antony 2026-01-17  3284  				goto error;
-d3019c1db87425 Antony Antony 2026-01-17  3285  			}
-d3019c1db87425 Antony Antony 2026-01-17  3286  		}
-d3019c1db87425 Antony Antony 2026-01-17  3287  		xc = xfrm_state_migrate(x, &m, encap, net, xuo, extack);
-d3019c1db87425 Antony Antony 2026-01-17  3288  		if (xc) {
-d3019c1db87425 Antony Antony 2026-01-17  3289  			xfrm_state_delete(x);
-d3019c1db87425 Antony Antony 2026-01-17  3290  			xfrm_send_migrate_state(um, encap, xuo);
-d3019c1db87425 Antony Antony 2026-01-17  3291  			err = 0;
-d3019c1db87425 Antony Antony 2026-01-17  3292  		} else {
-d3019c1db87425 Antony Antony 2026-01-17  3293  			if (extack && !extack->_msg)
-d3019c1db87425 Antony Antony 2026-01-17  3294  				NL_SET_ERR_MSG(extack, "State migration clone failed");
-d3019c1db87425 Antony Antony 2026-01-17  3295  			err = -EINVAL;
-d3019c1db87425 Antony Antony 2026-01-17  3296  		}
-d3019c1db87425 Antony Antony 2026-01-17  3297  	} else {
-d3019c1db87425 Antony Antony 2026-01-17  3298  		NL_SET_ERR_MSG(extack, "Can not find state");
-d3019c1db87425 Antony Antony 2026-01-17 @3299  		return err;
+It doesn't affect runtime but I think this was intended to be:
 
-s/err/-ESRCH/.  err is zero/success here.
+	return ret ? -EFAULT : 0;
 
-d3019c1db87425 Antony Antony 2026-01-17  3300  	}
-d3019c1db87425 Antony Antony 2026-01-17  3301  error:
-d3019c1db87425 Antony Antony 2026-01-17  3302  	xfrm_state_put(x);
-d3019c1db87425 Antony Antony 2026-01-17  3303  	kfree(encap);
-d3019c1db87425 Antony Antony 2026-01-17  3304  	kfree(xuo);
-d3019c1db87425 Antony Antony 2026-01-17  3305  	return err;
-d3019c1db87425 Antony Antony 2026-01-17  3306  }
+46089d290ec3dea Mike Rapoport (Microsoft  2026-01-08  272) }
 
 -- 
 0-DAY CI Kernel Test Service
