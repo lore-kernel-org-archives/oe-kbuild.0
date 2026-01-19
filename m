@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0483938BF9A
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 18:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9702773C3
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 19:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768848728; cv=none; b=Ij8PL0aM6lB84YAtWnLcvWYqCxkYbCdGe07upuTKpTAgBYZoFXXD4YHjr+Xm1YDbnDmdx5GPfWsj7pFGeSB2Ii7DE9iZ3PU9xco7qh0w+a81lL/usJPRTQ3epvn9zyaqDpqi1iBdLcYeypkuZMoUXgype2+fAiJwl6PTJr0VIPQ=
+	t=1768850111; cv=none; b=eDMIU5V7Ct1rCsnT3XEJLhcWAAKZJW6mL5PblmSzUHuClJCxCXBUVq2l2rcsNCZJrl0cSZsFAAqn+Khr0NI82lwO2E5RouFqZWI9LYObtE/IIEUdSgyr3XiqSC4H4WYjqMqu1Nx5hmpE6oEcHoQpsQslt+HddX4FvkUejyfaE34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768848728; c=relaxed/simple;
-	bh=VtlK8z2dgWXPOzjnUa0xK9s3WHtsZoKmtbhZZ0KCnHg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AuO+lOl+46bBlII9J+VFjR9Il5xjdn3ngN0OKKr9UtM2Kgk9qmfuhBEStNfMlKJD74ezY6rnsnCOR5SAMTpPAQJTVaWi8ZxWgG1woOeZ6qIbwlGS4SfS+LapxSH5Ini5/feJ+/0eHLQbhnSMvOqZFDZ4GV/BUQGZyx37h7V7KOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DIDfWY/o; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768850111; c=relaxed/simple;
+	bh=636xAm3KSlP1gWGe0wHC81KP6kR7IGXrgjiKU6bsu14=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iDugoBrcelC5ioRsXnL9LoHZnLOL9raMso8ysapQh4+V3TfKVzZxmqD+urwErpQwdMMGoXEn70vuuQS/bO5N31gNJvvruamaZqzXm/vRe9ZrYy7vQLdPTaIZomBagwhnq50o/9sME27AeVJ5SF9rety2Q01LZ2PwRZyKFHjwy8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UUnp6dyZ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DIDfWY/o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUnp6dyZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768848727; x=1800384727;
+  t=1768850111; x=1800386111;
   h=date:from:to:cc:subject:message-id;
-  bh=VtlK8z2dgWXPOzjnUa0xK9s3WHtsZoKmtbhZZ0KCnHg=;
-  b=DIDfWY/ozJ4VwaJimWVnvoWV+QapDBmHqYpuyYTWnunAIar2Q1SHpvbg
-   bKKZ8WYJxXT24bgYX/ovtCNfPAelP5DzW+aiGzdLBe42vHtqXq6tikNGL
-   9m6AO9cygo5TcI7dAiQODOE3XsAtsrQ/XoW17bHD5nqm91haQ4hZTqgOO
-   wN8tXNJbbE4uWh2Dt4uVHaeZWfbihZGFt1NTvj5f7oArRDAaUOC99oPd4
-   gu07uJW/GkvTthluT6BF3UBS3x+++UYIbxpQtrJetxEnYxCvVKsWlD0Ve
-   wtlMUO23sSn4CtGb74MVNbwVNWIO40bIcFo4omn85MMqA/d9+KM8OAw3t
+  bh=636xAm3KSlP1gWGe0wHC81KP6kR7IGXrgjiKU6bsu14=;
+  b=UUnp6dyZvyDvHLoYHk8LSgIZyLMSxtsDqfIECuuxugv/RguehN5twoU+
+   dIavwcodjL9sJ/hdKwq5nmy5KJe9HUmL856DPRFuo4W5jH3a/ZJ0NKKLE
+   SN6ZnLnotx3IIULNbXg1Q4VqKiLM+kJtgMpO50beIpCrnrl77z9PVtQ5m
+   noGl99433mC+Wpfqbimo9jMYVYSliG2LHMa1NK7RkuzsjV+EbYbbuLCc9
+   Ir2HLau2VsG3uiikvzWmUAvtANu5ExZld8/YN3WWFOtDmjNCxvSeRWzar
+   STTW/lOwWkQMQZDmIFh5/ZIS+NX1z+LxIhX538rxq/AnbSrUwlP1kCl1J
    g==;
-X-CSE-ConnectionGUID: 21LtSlTZSY20LfiKRGoLcA==
-X-CSE-MsgGUID: URxRgtrOSoiSbBHvVYvrqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70035924"
+X-CSE-ConnectionGUID: 8cBIBcBtST2wJTXLX7c/XA==
+X-CSE-MsgGUID: le+sMg29T7eCDazhgdfn3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70036915"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="70035924"
+   d="scan'208";a="70036915"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 10:52:06 -0800
-X-CSE-ConnectionGUID: WPwseNlSRKyf4wDDoCj48Q==
-X-CSE-MsgGUID: qxAWUGpeSk2cW5mFcCVEZg==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 11:15:10 -0800
+X-CSE-ConnectionGUID: QOb/iukNQZyIzlFKG0nthQ==
+X-CSE-MsgGUID: jNsxbdunT0iOwv7f3zFZ1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="237197460"
+   d="scan'208";a="237202419"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2026 10:52:05 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2026 11:15:09 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhuM7-00000000OBr-1QrE;
-	Mon, 19 Jan 2026 18:52:03 +0000
-Date: Tue, 20 Jan 2026 02:51:36 +0800
+	id 1vhuiQ-00000000OCw-3Dm8;
+	Mon, 19 Jan 2026 19:15:06 +0000
+Date: Tue, 20 Jan 2026 03:14:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [vbabka-slab:slab/for-7.0/obj_metadata 8/10] mm/slub.c:904
- need_slab_obj_exts() warn: bitwise AND condition is false here
-Message-ID: <202601200218.2dRYmU4Q-lkp@intel.com>
+Subject: fs/smb/client/file.c:972 cifs_file_flush() error: we
+ previously assumed 'cfile' could be null (see line 965)
+Message-ID: <202601200301.wk0rUAMX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,56 +61,59 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-mm@kvack.org
-TO: Harry Yoo <harry.yoo@oracle.com>
-CC: Vlastimil Babka <vbabka@suse.cz>
+CC: linux-kernel@vger.kernel.org
+TO: Paulo Alcantara <pc@manguebit.org>
+CC: Steve French <stfrench@microsoft.com>
+CC: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git slab/for-7.0/obj_metadata
-head:   6edcc2867ee1ba95ae6c7695d66124bfdf0771a1
-commit: 4fad56bdb6b4c4bc0ea2d919df1ae4eef7b69919 [8/10] mm/slab: save memory by allocating slabobj_ext array from leftover
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: nios2-randconfig-r072-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200218.2dRYmU4Q-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+commit: 110fee6b9bb58a5c50047fc2594d415f741b591e smb: client: fix missing timestamp updates with O_TRUNC
+date:   3 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-r072-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200301.wk0rUAMX-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
 smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601200218.2dRYmU4Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601200301.wk0rUAMX-lkp@intel.com/
 
-New smatch warnings:
-mm/slub.c:904 need_slab_obj_exts() warn: bitwise AND condition is false here
+smatch warnings:
+fs/smb/client/file.c:972 cifs_file_flush() error: we previously assumed 'cfile' could be null (see line 965)
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
+vim +/cfile +972 fs/smb/client/file.c
 
-vim +904 mm/slub.c
-
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  890  
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  891  /*
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  892   * Check if memory cgroup or memory allocation profiling is enabled.
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  893   * If enabled, SLUB tries to reduce memory overhead of accounting
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  894   * slab objects. If neither is enabled when this function is called,
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  895   * the optimization is simply skipped to avoid affecting caches that do not
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  896   * need slabobj_ext metadata.
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  897   *
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  898   * However, this may disable optimization when memory cgroup or memory
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  899   * allocation profiling is used, but slabs are created too early
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  900   * even before those subsystems are initialized.
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  901   */
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  902  static inline bool need_slab_obj_exts(struct kmem_cache *s)
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  903  {
-4fad56bdb6b4c4b Harry Yoo 2026-01-13 @904  	if (memcg_kmem_online() && (s->flags & SLAB_ACCOUNT))
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  905  		return true;
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  906  
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  907  	if (mem_alloc_profiling_enabled())
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  908  		return true;
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  909  
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  910  	return false;
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  911  }
-4fad56bdb6b4c4b Harry Yoo 2026-01-13  912  
+b33879aa834ebe0 fs/cifs/file.c       Jeff Layton     2010-10-15  954  
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  955  int cifs_file_flush(const unsigned int xid, struct inode *inode,
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  956  		    struct cifsFileInfo *cfile)
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  957  {
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  958  	struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  959  	struct cifs_tcon *tcon;
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  960  	int rc;
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  961  
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  962  	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_NOSSYNC)
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  963  		return 0;
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  964  
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07 @965  	if (cfile && (OPEN_FMODE(cfile->f_flags) & FMODE_WRITE)) {
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  966  		tcon = tlink_tcon(cfile->tlink);
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  967  		return tcon->ses->server->ops->flush(xid, tcon,
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  968  						     &cfile->fid);
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  969  	}
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  970  	rc = cifs_get_writable_file(CIFS_I(inode), FIND_WR_ANY, &cfile);
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  971  	if (!rc) {
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07 @972  		tcon = tlink_tcon(cfile->tlink);
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  973  		rc = tcon->ses->server->ops->flush(xid, tcon, &cfile->fid);
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  974  		cifsFileInfo_put(cfile);
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  975  	} else if (rc == -EBADF) {
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  976  		rc = 0;
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  977  	}
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  978  	return rc;
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  979  }
+110fee6b9bb58a5 fs/smb/client/file.c Paulo Alcantara 2025-10-07  980  
 
 -- 
 0-DAY CI Kernel Test Service
