@@ -1,69 +1,69 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF61272E6D
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 06:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74EC22576E
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 06:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768804758; cv=none; b=UuepgeBNoDm4tuIgRMrGqtVkw/ZxulLjzhMF66nNifArJsqGkmrtqCHSiMdUp7Dnw4SZiwPvC0yqdSeK90yRyHMlMaFMUvwZL4cLpcN2KhP9pc71CDFEVHc3shlqtXzSaf8phe+Zo9hgrx5XVqSPP8LzISotKXqL1PLEpeIQJXc=
+	t=1768804801; cv=none; b=NY/EmMVzKVD7O2RfPRIbxXwoZ5/NMVJr7O6Ac+wBwNsDW4kLfIgDZHz0EG+Tz1e6tlqOzFIw5RXOBjMkxvVh55X23V5kR/zN1rE8Q9TF70Y6nLJv+3YXORFE23lJQBQJ0vjlx7OETsSHnG9yccdliUYen5fLKU3Kk1JkAx3qFIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768804758; c=relaxed/simple;
-	bh=CMzqvC4vFjv53KzEn6Dr+7lxzGvaqSADz8/9RDdZ8R4=;
+	s=arc-20240116; t=1768804801; c=relaxed/simple;
+	bh=YE5jezai2biwr3Gnu5tpda+uRI0xIpqVr5jQ76BFhaQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Xjw/1/z6g5mseaB8PN3y1q01OOhVNAfusa2BwetqMxJ0Ft8y9tWTZzE/aKxTlti8tFPyR4JakBfG7nIzHWYkvZFq0u/kVX1t85WR3O4FQqgXlOR/V2GLnXYd52aVLoat8GZLqM5ROND+KcKIq0ZNkW3nSb1T1B9QlD8GVE7hAX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHP455hM; arc=none smtp.client-ip=209.85.128.66
+	 Content-Disposition:In-Reply-To; b=GAD7iwJuaMVRWtO2CYaRsqjhgnzLv/Wtp3bWKwIuWhhcCKXwYoyWrTT3KGSVBXjieQVN8FViNE0vjcFuWkIDKJrJ0Q+AuZhokFSgVdf7Ykk4kmJ4KbfG85qPsq05zyxm21BYL2k4Hfk4zaoXLu+N+n682JkMLi3syxUbuxVnvsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B0yvjbZN; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHP455hM"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47ee07570deso25646595e9.1
-        for <oe-kbuild@lists.linux.dev>; Sun, 18 Jan 2026 22:39:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B0yvjbZN"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4801c1ad878so27687635e9.1
+        for <oe-kbuild@lists.linux.dev>; Sun, 18 Jan 2026 22:39:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768804748; x=1769409548; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1768804798; x=1769409598; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rGAwzvV5LHsn7JHpK3LYmhe0GdKjE3ya26PmaPpWPzo=;
-        b=wHP455hM5CwlKFUA5d7PLXrAWarWwbWn+gozZ1jfu2CQq5m/9/d+OJfr6R4/buGl+c
-         fANI1HcY0vMvXhGd7rg5FbnydaSxWlSOsdoOBssAOEjpn1D6G3HoLPrBMi/7/Pw7CH49
-         bXFK8esgI1yyrIi6YqXQSKVd3RbpfpBLXqxwgSyqQy6GyV12QIIos8yO7GwRGRDWoalW
-         5GQys2YPop2rNOQPx55Ai2G1S9PSukm1nB/BVHtcw3NXvxlxwi6+UotnuRfYXSIH/zoP
-         yiuNfr2ZDd3dDjAzQnNgaw0Ts8JSAiylo/dw07Hq5Eaqe4XLu4jExf7fPLSt0NY/WaFs
-         An1Q==
+        bh=Dhpuhf8aqRruGu7L/fSfGH0BgTbK0i1Gv5JjSOJHbPQ=;
+        b=B0yvjbZNRbrEsjtxkJ6eKib1MdfyNMvYzh9GfoskWvgb2wd9F9EeSKsuP0XwJ9u+2S
+         Gapr9RT3dV495Ilcg9ltZ2BuEt/HZAGszWX2ye3edIMzhp6/as2lUyPcDph+YJYJxZ4E
+         pJ/f6rtURrpbQw5LmpyIrsDEZyrw56s5ZITzZ/0nlzUksdCymvRNMJjw5tnjYlPtZ6dm
+         wV3HKJY2WTkdTCnfJxjaiEeFhNSC4KdhQBSkDyqz3u8l1LK00GCeVxNl+WqSALjcLvSE
+         piH/44H8N4W6Be1B6SAKg8sAG3BUtbnDqkwl7I2JgmON5f2Z4AsdUOMJQ/4tcfkperXb
+         yaGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768804748; x=1769409548;
+        d=1e100.net; s=20230601; t=1768804798; x=1769409598;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rGAwzvV5LHsn7JHpK3LYmhe0GdKjE3ya26PmaPpWPzo=;
-        b=TaJojoOkWqSa2EqdR6pNmi+/l5vRvgfTLvJC62ZytMLzBSyMFac7FsfVfJGK9plJ4L
-         aZtwlMdUZU6wCnyAb8g93tHlxJUYQoyVDsNOZE97xW4LbGJLw0Q0eoODZqaHBvlssBvg
-         IYhRgHRNnC+mJNl+0UfGpJxT7xHYqiYgInUifKvDNGIwRD9R70aMhbG/7LKxDKuqEn++
-         SB4I02GZBQQD+WcNKdyrcVaXDQn+zLm54abbKcXpAkVNA5lm/SY/1Mu2K1cBMN8GN47V
-         58uBmLfByLyOz741zJXGKhgB3CxAgyEvV8Wg4J7NeKWy1j35S2raRzKVzt2b9WyR3FII
-         o6Hw==
-X-Gm-Message-State: AOJu0YyKrnexjo/duBYdn4GmRSfjdmjl5Zsv5tzeAoX4bIHoWzp/VUU/
-	tmlEh1dk6Qz2NHuMHsiok2q9272X2wS48Hx0UYGgzsRSgC+M7jFL5n2I0SpUy5vFtnrY1ZgfD45
-	krFFW700=
-X-Gm-Gg: AY/fxX7CWWdGSbh+6vOeYOm3p8mssgpeWicaXFFMfka2Z+m3rVccRhSrG/viiHrncQa
-	a1BM3AkxKNhz1yW4Kh4qUblZUNmgeGqPRALsmtNjiSlLIV6PABZTT78hg871YiNx3k+bS9ZshR6
-	5ijiIRUWR6+h3/mqIsdzyOlzqcq5WA2OEWXmkkU/WoPqxHOFlT3RmZVB26jS1oyr/9i4QLW8heH
-	hVPy0B0qgThn2mSLWUVvi38sz2ZZJLmq58pOlHJ54FlFuHGdWcCLgbb9v9kTQgy5vwecw57zzgY
-	eSO2CqZ7OMMDAzV+d0DA2jChDSbYG3LNoARGE0ifD1wO564W9yagy4sy06ZoxE2sbfD+T8xm1fk
-	SFLgzKPIJ0q41vPTuxTzvyND062jRWBe2PRU8rh55Ht6Fe0Z6epskL2T2/wdPKtdEIEALU05RYY
-	V2Qxd/TGmlH7KXY4kz
-X-Received: by 2002:a05:600c:8710:b0:47e:e807:a05a with SMTP id 5b1f17b1804b1-4801eb17b45mr93501175e9.33.1768804748329;
-        Sun, 18 Jan 2026 22:39:08 -0800 (PST)
+        bh=Dhpuhf8aqRruGu7L/fSfGH0BgTbK0i1Gv5JjSOJHbPQ=;
+        b=f9TOAHYDEhGt1YrrbQ2LmsL0gjaDNX3mke/od+MN0i62bBRlMKcOZ9btnz0wE2ZNMX
+         D9ngbwaygf69dCp64gfhJywEXXazPfHIseHjbjbLS9gB87wTzyNQhjcouynSofTgH1rj
+         j6pnK0PRqNoq6MSMWf9zxOeYREBycU/WXCLmzjI3HHyDvZEAM3X5U1R9QlHQPC91bgk5
+         cVX04/PJWX5zktdndchZlTvfxrkaXfyZkIv6ptV7esIOCLCWsqRvNvOYtrf3GuO+tIe8
+         1EcbxbuqXnbqpg6gKq+jSyk/3HqyaXCHiyfKdEnhErQRcT7cY/xTDp4711ajS31ReVgr
+         B2Xg==
+X-Gm-Message-State: AOJu0Yy3OP98hvrl6F2LU18hzU/aUD6mirufPk+Klu1sbqsdmgNrcTR/
+	eB8GAaIn2QBX35ASvwkgMLUVZ4bVP1UP0SfMdIq7TGOz64VvGT7xV4wxcMuLHyaS5mhT9jGN8da
+	4A7u0T7g=
+X-Gm-Gg: AY/fxX4Qcp4SbumIcw4KMThEBD1ERZP7HMmA3Q+mlEjz6y06hN5vUsZ1XWkANQOulfB
+	L676i/oM5rgL+GtNLZa8RfHzpz/LnLigKtpcQSPgvkO8uI4KuGb2J5Uisg7NodLjAWIU+BM+W5l
+	NDwHhQ3GQ43SEDJTuC5Z+JNFzEcg4zLMV1VfSJOcxDEJqVmSVgh3yMLzpsESlvRwZEawKk7Xb07
+	wxkcbSZ2C+bavw38F4k+YZ1NmYW55HbPsTKM5AmXmEqZ3U/LP/4Pz0yiD2a00oMHvrvnvVuu4fL
+	I3T4+Ve3QcAnvV+vNjNs6bnTN+c7hcAwuaP+0LJwQuapNJ1GAt24VjmUh7Mv/xXjNM9S17Eresp
+	/1t7VLv8kow3LPnV3yawjpO7MiarB2nV4eyZMevtKBLFT4ZG+TLmsmeAIR7fx86AyJOnmz/X3uz
+	KoceLvUA+NmmPRAk8v
+X-Received: by 2002:a05:600c:4f8f:b0:477:aed0:f40a with SMTP id 5b1f17b1804b1-4801e33c2a5mr130322625e9.19.1768804797300;
+        Sun, 18 Jan 2026 22:39:57 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569922032sm21909378f8f.8.2026.01.18.22.39.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801fe3ae95sm77473395e9.4.2026.01.18.22.39.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 22:39:07 -0800 (PST)
-Date: Mon, 19 Jan 2026 09:39:05 +0300
+        Sun, 18 Jan 2026 22:39:56 -0800 (PST)
+Date: Mon, 19 Jan 2026 09:39:54 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Cristian Marussi <cristian.marussi@arm.com>
+To: oe-kbuild@lists.linux.dev, fdmanana@kernel.org,
+	linux-btrfs@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 12/17] firmware: arm_scmi: Add Telemetry components
- view
-Message-ID: <202601170503.pgixUrV3-lkp@intel.com>
+Subject: Re: [PATCH] btrfs: use the btrfs_block_group_end() helper everywhere
+Message-ID: <202601170636.WsePMV5H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,81 +72,57 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260114114638.2290765-13-cristian.marussi@arm.com>
-Message-ID: <20260119063905.G3NvmQX4_USjKDLYgsEL7bS2YpSObDfowbE2h4SrOnw@z>
+In-Reply-To: <f7afa4b2c9350b08695cc34cd917dea3bf766bce.1768559305.git.fdmanana@suse.com>
+Message-ID: <20260119063954.y7muOEEGJCClk8HsOVfyuBr60UShM_4F8qW2Th7k7Nw@z>
 
-Hi Cristian,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Define-a-common-SCMI_MAX_PROTOCOLS-value/20260114-195913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20260114114638.2290765-13-cristian.marussi%40arm.com
-patch subject: [PATCH v2 12/17] firmware: arm_scmi: Add Telemetry components view
-config: sparc-randconfig-r073-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170503.pgixUrV3-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.4.0
+url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-org/btrfs-use-the-btrfs_block_group_end-helper-everywhere/20260116-183655
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/f7afa4b2c9350b08695cc34cd917dea3bf766bce.1768559305.git.fdmanana%40suse.com
+patch subject: [PATCH] btrfs: use the btrfs_block_group_end() helper everywhere
+config: alpha-randconfig-r072-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170636.WsePMV5H-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
 smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601170503.pgixUrV3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601170636.WsePMV5H-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/arm_scmi/scmi_system_telemetry.c:2238 scmi_telemetry_de_subdir_symlink() error: uninitialized symbol 'ret'.
+New smatch warnings:
+fs/btrfs/free-space-cache.c:1207 write_pinned_extent_entries() warn: variable dereferenced before check 'block_group' (see line 1203)
 
-vim +/ret +2238 drivers/firmware/arm_scmi/scmi_system_telemetry.c
+vim +/block_group +1207 fs/btrfs/free-space-cache.c
 
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2196  static int scmi_telemetry_de_subdir_symlink(struct super_block *sb,
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2197  					    struct scmi_tlm_setup *tsp,
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2198  					    const struct scmi_telemetry_de *de,
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2199  					    struct dentry *parent)
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2200  {
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2201  	struct dentry *dentry;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2202  	struct inode *inode;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2203  	int ret;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2204  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2205  	if (IS_ERR(parent))
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2206  		return 0;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2207  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2208  	char *name __free(kfree) = kasprintf(GFP_KERNEL, "0x%08X", de->info->id);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2209  	if (!name)
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2210  		return -ENOMEM;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2211  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2212  	char *link __free(kfree) =
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2213  		kasprintf(GFP_KERNEL, "../../../../../des/0x%08X", de->info->id);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2214  	if (!link)
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2215  		return -ENOMEM;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2216  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2217  	dentry = simple_start_creating(parent, name);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2218  	if (IS_ERR(dentry))
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2219  		return PTR_ERR(dentry);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2220  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2221  	inode = stlmfs_get_inode(sb);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2222  	if (unlikely(!inode)) {
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2223  		dev_err(tsp->dev,
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2224  			"out of free dentries, cannot create '%s'", name);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2225  		return stlmfs_failed_creating(dentry);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2226  	}
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2227  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2228  	inode->i_mode = S_IFLNK | 0777;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2229  	inode->i_op = &simple_symlink_inode_operations;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2230  	inode_init_owner(&nop_mnt_idmap, inode, NULL, inode->i_mode);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2231  	inode->i_link = no_free_ptr(link);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2232  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2233  	//d_add(dentry, inode);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2234  	d_make_persistent(dentry, inode);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2235  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2236  	simple_done_creating(dentry);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2237  
-289dce6d3bc91dc Cristian Marussi 2026-01-14 @2238  	return ret;
+6701bdb39ceb48 David Sterba    2019-03-20  1196  static noinline_for_stack int write_pinned_extent_entries(
+6b45f64172e130 Nikolay Borisov 2020-01-20  1197  			    struct btrfs_trans_handle *trans,
+32da5386d9a4fd David Sterba    2019-10-29  1198  			    struct btrfs_block_group *block_group,
+4c6d1d85ad89fd Chris Mason     2015-04-06  1199  			    struct btrfs_io_ctl *io_ctl,
+d4452bc526c431 Chris Mason     2014-05-19  1200  			    int *entries)
+d4452bc526c431 Chris Mason     2014-05-19  1201  {
+d4452bc526c431 Chris Mason     2014-05-19  1202  	u64 start, extent_start, extent_end, len;
+7fc5a6968403c7 Filipe Manana   2026-01-16 @1203  	const u64 block_group_end = btrfs_block_group_end(block_group);
+                                                                                                          ^^^^^^^^^^^^
+Dereferenced.
 
-s/ret/0/;
+d4452bc526c431 Chris Mason     2014-05-19  1204  	struct extent_io_tree *unpin = NULL;
+d4452bc526c431 Chris Mason     2014-05-19  1205  	int ret;
+43be21462d8c26 Josef Bacik     2011-04-01  1206  
+5349d6c3ffead2 Miao Xie        2014-06-19 @1207  	if (!block_group)
+                                                             ^^^^^^^^^^^
+Too late.
 
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2239  }
+5349d6c3ffead2 Miao Xie        2014-06-19  1208  		return 0;
+5349d6c3ffead2 Miao Xie        2014-06-19  1209  
+43be21462d8c26 Josef Bacik     2011-04-01  1210  	/*
+43be21462d8c26 Josef Bacik     2011-04-01  1211  	 * We want to add any pinned extents to our free space cache
+43be21462d8c26 Josef Bacik     2011-04-01  1212  	 * so we don't leak the space
 
 -- 
 0-DAY CI Kernel Test Service
