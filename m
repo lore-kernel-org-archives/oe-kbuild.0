@@ -1,190 +1,129 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75D0273D84
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 06:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81166242D9D;
+	Mon, 19 Jan 2026 06:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768804681; cv=none; b=F9toZUKSh8I+NKrn1HeMbpWOly/5Br5+LB8K0E04PIyvgaWpw/1De/pjmcfpkod7Tl4j2910+3pDyV4sCSoeZ7tIbA0+B6Q0744k0CurYxBDVZaNh8k6KnN/nkCu1sC6GIhp/88wH+BQ46YoBRL9yAcHonQxGsMun0qc8e4K9To=
+	t=1768804754; cv=none; b=Yte60rTT1Mx5TFv7FxgKLaponbAY/TkJ+mwcV5QnMVLTDfGiE3HWAMizKrmi0SKqwC9QobXjz1jjAN3ggp+lcdD9TPd/4kZFDgwKtyRQI9MYSduXgFmKZyyCIfyr0VT1o5ImFKkTWSmLvzBC4A9ZLhpHctBt3TQXb+4o0owaF1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768804681; c=relaxed/simple;
-	bh=VQIElQkHzSoB4CojSAcKrVgZGqKfDuF8onKxP7DS2/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=iOtQf54sSavsVwVzJgxTGmjqnwiu66h9W2ixKf8GLiMnHV+UWDF2ofVSCyGTmRfptWDVBBeGX2+Catgb/3i+k079nuuF0XMgABKrSorKbsue4g7VjLstZCXnk62KqMQE2szr3Sc17axGST1mkbm4o6zyO4FC61i2r7CQkYeaVf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NIGEwW17; arc=none smtp.client-ip=209.85.128.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1768804754; c=relaxed/simple;
+	bh=IgQG4JO5+xJM4DwRXkVjippDTRc20JSs8PVcf6pgJoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QKjtxqN6J6n9ldwULspFUfd891WoF3aZFvgJkDb88ZJbPmIdEymW2jq89+06GNtEnU52hPlvY6XT+i9BPZ1R29fPNJxLmL6jw/ofBnQ6Qgp+HUNq5sr7bEeNaUwyqUf74LM8jvfT2PSe2V3Maj/y/ZMolVaJy9gdrwA+VBAKsI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KTGuJnt2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NIGEwW17"
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-47ee807a4c5so28426805e9.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 18 Jan 2026 22:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768804677; x=1769409477; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CbWcz9mMKDIu3Eeo2pw/1X+znIUuGvzIKZFjWHoDt0Q=;
-        b=NIGEwW17t2PsjE0k2UKSb0PfB3WjUq4zLY04vSQ2azWIcSzME1/8RLEcGhG3uh3ewd
-         MKKWiXSnZDz5EHO8DT6QA8NCBmLvWqOM5xUh2DcLmQU9Fl4w52ZrCXWycdblL1KYch8V
-         ZCYYp65PnuX/oBcYlAS4vzBaMM2Wcni+CTfNm43o16+PMsL3Of30GGdM0MtPZy1EdnTf
-         yWwwshnZFvmZdqwIbfun9eqLb7uF045DnbNWmOaU6wys8aQrWgrUV4scvXXCvKzRl0ji
-         a94q0CEVm+FceifviQDcWJHSEWbaEftEN6BBysaK6CFrT60aIkESRkih5UTUOsPbe4Hs
-         mv4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768804677; x=1769409477;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CbWcz9mMKDIu3Eeo2pw/1X+znIUuGvzIKZFjWHoDt0Q=;
-        b=KL2X1yAtu0chKs57BZWygrCLlb6emYon4bUUdk+LZnWZqytppG/9rOnbJN6xcxGWAF
-         syHXsKgJJAUWvs/g21DXSweVpIu8j9ERp6xI3JynZVe6uCaOX0f2lmnYZoUp8WlQy8DD
-         sZSVSMuYBSfAq3Hz2EUpD+zusLiKbHWW01RpICALXwWeUcXkNPS1+w2uePRarSG3p74M
-         HAxGZqc/e2s2mHMk9VSrLnHLZptqHBKwQ6ruDzb9BXUrFrS/B15fvELn0WJ8PraaeQvG
-         ZN1DSlo7Hi8rXbMYPklhpvVUr8rrYAhSMVlakADzfYV6s5V2yWMcdr7E6hIwynVPSjBX
-         Z9AA==
-X-Gm-Message-State: AOJu0Yx5hbMfCXesyh7LN4XjENtFMfRffyOknp6/TOEFpneQWRAUAsc1
-	fuW1Muv44KmB831bChAn56s4CsfbdIgK960IjggoaU575DfYm8gIzE5eCfuS3toyG2TfWT38k4R
-	ekV+DTnE=
-X-Gm-Gg: AY/fxX6nmO85wucoIfZiTEZ97lFcWQ7NMxZmRovxWdB7ci6bU+L69y3/1uyAZQoqhM6
-	EDEeqlkzymw/YMCizE5pvwe8v1wnNUD9c+39HENI2tjxdZMW9hfVMw1RXNDB6T1PL1rB2k8JjJs
-	xK1aDj6uOdIcoLBSfTP7QPsxkm5Y2F3r885Nfq067G9SnIDXytR529KB6aw6O8tFFIKAssu9vrv
-	bQLZxJlglExVApzfKUiMv145iX9XHWZJ/ddZFS6IwqlrBaQzVAIpzxhuk581cX8FERk8LW/oNzI
-	5jottxOLnYG6Lt10LaqGcLWzlWiR2Vp9s05yiqZ9FW61MMzyiO9UFxgqNZw2sYglQ3hdt0VH1pf
-	/BG5rSeGm9HBmmGN0m+O5/Hh00EzPRDUwpyY+Poj9pph3YU6piBEsbv6KQ7yQLSKXX5X/th6n71
-	Ah4mCJiJw6RAIrH3IhyCtqN1G7acA=
-X-Received: by 2002:a05:600c:37c8:b0:47e:e87f:4bba with SMTP id 5b1f17b1804b1-4801eb0e1cfmr109058555e9.29.1768804677011;
-        Sun, 18 Jan 2026 22:37:57 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801fe6d9a7sm75156405e9.17.2026.01.18.22.37.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 22:37:56 -0800 (PST)
-Date: Mon, 19 Jan 2026 09:37:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Shengjiu Wang <shengjiu.wang@nxp.com>,
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] ASoC: fsl_audmix: Add support for i.MX952 platform
-Message-ID: <202601170203.upPyGvI2-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KTGuJnt2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4E3EC116C6;
+	Mon, 19 Jan 2026 06:39:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1768804754;
+	bh=IgQG4JO5+xJM4DwRXkVjippDTRc20JSs8PVcf6pgJoo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KTGuJnt2WYf+n6ioXznpDtogqFQZE0kPaA4zfhaM57pIOa+abEmmjjKeNYOn8b+Np
+	 GIfP4CTuqDo94pjNCz/eaH1LvhSbMudVfjnRFshZ2FYAJmnNlMk4gGo+D6Z/bfaGLo
+	 BkY3acKLpVt48PhYwQ2UipLRatSGHX2JUabIJXsg=
+Date: Mon, 19 Jan 2026 07:39:10 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: yaxing guo <guoyaxing@bosc.ac.cn>
+Cc: dan.carpenter@linaro.org, oe-kbuild@lists.linux.dev, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
+ uio_pci_generic_sva.c
+Message-ID: <2026011942-print-impending-ab86@gregkh>
+References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
+ <2026011643-coastline-playtime-0ac5@gregkh>
+ <2026011603-dorsal-unblessed-cdb2@gregkh>
+ <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260116101648.377952-3-shengjiu.wang@nxp.com>
-Message-ID: <20260119063753.Uvao79tmjD0052PWhk3sALLhhN159muWicENPx-NXEo@z>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
 
-Hi Shengjiu,
+On Mon, Jan 19, 2026 at 02:16:21PM +0800, yaxing guo wrote:
+> 
+> 
+> 在 2026/1/16 23:16, Greg KH 写道:
+> > On Fri, Jan 16, 2026 at 04:15:17PM +0100, Greg KH wrote:
+> > > On Tue, Dec 23, 2025 at 12:54:09PM +0800, Yaxing Guo wrote:
+> > > > This patch introduces a new UIO driver, uio_pci_generic_sva, which
+> > > > extends the functionality of uio_pci_generic by adding support for
+> > > > Shared Virtual Addressing (SVA) when IOMMU is enabled in the system.
+> > > > 
+> > > > The key enhancement allows PCI devices to directly use user-space virtual
+> > > > addresses for DMA operations, eliminating the need for bounce buffers or
+> > > > explicit IOVA mapping. This is achieved by leveraging the kernel's IOMMU-SVA
+> > > > subsystem, including process address space attachment, page fault handling,
+> > > > and shared context management between CPU and device.
+> > > > 
+> > > > With this driver, userspace applications can perform zero-copy DMA using
+> > > > native pointers:
+> > > > 
+> > > >     void *addr = malloc(N);
+> > > >     set_dma_addr((uint64_t)addr);  // Passing user VA directly
+> > > >     start_dma();
+> > > > 
+> > > > The device can now access 'addr' through the IOMMU's PASID-based translation,
+> > > > provided that the underlying IOMMU hardware (e.g., Intel VT-d 3.1+, AMD-Vi,
+> > > > ARM SMMU, RISCV IOMMU) and platform support SVA.
+> > > > 
+> > > > Dependencies:
+> > > > - CONFIG_IOMMU_SVA must be enabled.
+> > > > - The platform must support PRI (Page Request Interface) and PASID.
+> > > > - Device drivers/userspace must handle page faults if demand-paging is used.
+> > > > 
+> > > > The implementation reuses core logic from uio_pci_generic.c while adding
+> > > > PASID setting, and integration with the IOMMU SVA APIs.
+> > > > 
+> > > > Also, add a read-only sysfs attribute 'pasid' to expose the Process Address
+> > > > Space ID assigned by IOMMU driver when binding an SVA-enabled device.
+> > > > For details, refer to the ABI documentation for uio_pci_sva driver sysfs attribute
+> > > > (Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid).
+> > > > 
+> > > > Signed-off-by: Yaxing Guo <guoyaxing@bosc.ac.cn>
+> > > > ---
+> > > > Changes in v4:
+> > > >   -- Fix the errors about 'udev' could be null and double free that
+> > > >      reported by: kernel test robot <lkp@intel.com> and Dan Carpenter <dan.carpenter@linaro.org>
+> > > >      error report: https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/
+> > > 
+> > > Where is the changes from previous versions?
+> > > 
+> > > > +++ b/Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid
+> > > > @@ -0,0 +1,29 @@
+> > > > +What:		/sys/bus/pci/drivers/uio_pci_sva/<pci_dev>/pasid
+> > > > +Date:		September 2025
+> > > 
+> > > It's not September anymore :)
+> > > 
+> > > > +module_pci_driver(uio_pci_generic_sva_driver);
+> > > > +MODULE_VERSION("0.0.01");
+> > > 
+> > > No need for a module version.
+> > > 
+> > > Ah, these are all just minor things, let me go queue this up now, can
+> > > you send a follow-on patch to make these 2 changes?
+> > 
+> > Wait, I already took this a while ago, why was this resent?
+> > 
+> After the v3 patch submission, I received error reports from Dan Carpenter
+> dan.carpenter@linaro.org and the kernel test robot lkp@intel.com (see:
+> https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
+> In response, I’ve submitted a new version (v4) of the same patch, which
+> primarily addresses the issues highlighted in that report (as described in
+> the "changes in v4" section of the cover letter).
+> If there’s anything improper in this process—such as resubmitting instead of
+> replying with fixes or other procedural concerns—please let me know, and
+> I’ll be happy to correct it accordingly.
 
-kernel test robot noticed the following build warnings:
+Yes, please submit fixes for your original commit that was accepted.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shengjiu-Wang/ASoC-dt-bindings-fsl-audmix-Add-support-for-i-MX952-platform/20260116-182050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260116101648.377952-3-shengjiu.wang%40nxp.com
-patch subject: [PATCH 2/2] ASoC: fsl_audmix: Add support for i.MX952 platform
-config: s390-randconfig-r071-20260116 (https://download.01.org/0day-ci/archive/20260117/202601170203.upPyGvI2-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-smatch version: v0.5.0-8985-g2614ff1a
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601170203.upPyGvI2-lkp@intel.com/
-
-smatch warnings:
-sound/soc/fsl/fsl_audmix.c:522 fsl_audmix_probe() warn: missing error code 'ret'
-
-vim +/ret +522 sound/soc/fsl/fsl_audmix.c
-
-be1df61cf06efb Viorel Suman  2019-01-22  465  static int fsl_audmix_probe(struct platform_device *pdev)
-be1df61cf06efb Viorel Suman  2019-01-22  466  {
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  467  	const struct fsl_audmix_soc_data *soc_data;
-62be484f7ad844 Viorel Suman  2019-04-10  468  	struct device *dev = &pdev->dev;
-be1df61cf06efb Viorel Suman  2019-01-22  469  	struct fsl_audmix *priv;
-be1df61cf06efb Viorel Suman  2019-01-22  470  	void __iomem *regs;
-be1df61cf06efb Viorel Suman  2019-01-22  471  	int ret;
-f2a36a78423ee8 Viorel Suman  2019-04-10  472  
-62be484f7ad844 Viorel Suman  2019-04-10  473  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-be1df61cf06efb Viorel Suman  2019-01-22  474  	if (!priv)
-be1df61cf06efb Viorel Suman  2019-01-22  475  		return -ENOMEM;
-be1df61cf06efb Viorel Suman  2019-01-22  476  
-be1df61cf06efb Viorel Suman  2019-01-22  477  	/* Get the addresses */
-959bb6b54d7086 YueHaibing    2019-07-27  478  	regs = devm_platform_ioremap_resource(pdev, 0);
-be1df61cf06efb Viorel Suman  2019-01-22  479  	if (IS_ERR(regs))
-be1df61cf06efb Viorel Suman  2019-01-22  480  		return PTR_ERR(regs);
-be1df61cf06efb Viorel Suman  2019-01-22  481  
-3feaba79d8f701 Shengjiu Wang 2021-03-24  482  	priv->regmap = devm_regmap_init_mmio(dev, regs, &fsl_audmix_regmap_config);
-be1df61cf06efb Viorel Suman  2019-01-22  483  	if (IS_ERR(priv->regmap)) {
-62be484f7ad844 Viorel Suman  2019-04-10  484  		dev_err(dev, "failed to init regmap\n");
-be1df61cf06efb Viorel Suman  2019-01-22  485  		return PTR_ERR(priv->regmap);
-be1df61cf06efb Viorel Suman  2019-01-22  486  	}
-be1df61cf06efb Viorel Suman  2019-01-22  487  
-62be484f7ad844 Viorel Suman  2019-04-10  488  	priv->ipg_clk = devm_clk_get(dev, "ipg");
-be1df61cf06efb Viorel Suman  2019-01-22  489  	if (IS_ERR(priv->ipg_clk)) {
-62be484f7ad844 Viorel Suman  2019-04-10  490  		dev_err(dev, "failed to get ipg clock\n");
-be1df61cf06efb Viorel Suman  2019-01-22  491  		return PTR_ERR(priv->ipg_clk);
-be1df61cf06efb Viorel Suman  2019-01-22  492  	}
-be1df61cf06efb Viorel Suman  2019-01-22  493  
-fe965096c9495d Shengjiu Wang 2019-11-11  494  	spin_lock_init(&priv->lock);
-be1df61cf06efb Viorel Suman  2019-01-22  495  	platform_set_drvdata(pdev, priv);
-62be484f7ad844 Viorel Suman  2019-04-10  496  	pm_runtime_enable(dev);
-be1df61cf06efb Viorel Suman  2019-01-22  497  
-62be484f7ad844 Viorel Suman  2019-04-10  498  	ret = devm_snd_soc_register_component(dev, &fsl_audmix_component,
-be1df61cf06efb Viorel Suman  2019-01-22  499  					      fsl_audmix_dai,
-be1df61cf06efb Viorel Suman  2019-01-22  500  					      ARRAY_SIZE(fsl_audmix_dai));
-be1df61cf06efb Viorel Suman  2019-01-22  501  	if (ret) {
-62be484f7ad844 Viorel Suman  2019-04-10  502  		dev_err(dev, "failed to register ASoC DAI\n");
-77fffa742285f2 Chuhong Yuan  2019-12-03  503  		goto err_disable_pm;
-be1df61cf06efb Viorel Suman  2019-01-22  504  	}
-be1df61cf06efb Viorel Suman  2019-01-22  505  
-294a60e5e98300 Shengjiu Wang 2025-02-26  506  	/*
-294a60e5e98300 Shengjiu Wang 2025-02-26  507  	 * If dais property exist, then register the imx-audmix card driver.
-294a60e5e98300 Shengjiu Wang 2025-02-26  508  	 * otherwise, it should be linked by audio graph card.
-294a60e5e98300 Shengjiu Wang 2025-02-26  509  	 */
-294a60e5e98300 Shengjiu Wang 2025-02-26  510  	if (of_find_property(pdev->dev.of_node, "dais", NULL)) {
-5057d108d69a55 Fabio Estevam 2020-12-02  511  		priv->pdev = platform_device_register_data(dev, "imx-audmix", 0, NULL, 0);
-be1df61cf06efb Viorel Suman  2019-01-22  512  		if (IS_ERR(priv->pdev)) {
-be1df61cf06efb Viorel Suman  2019-01-22  513  			ret = PTR_ERR(priv->pdev);
-5057d108d69a55 Fabio Estevam 2020-12-02  514  			dev_err(dev, "failed to register platform: %d\n", ret);
-77fffa742285f2 Chuhong Yuan  2019-12-03  515  			goto err_disable_pm;
-be1df61cf06efb Viorel Suman  2019-01-22  516  		}
-294a60e5e98300 Shengjiu Wang 2025-02-26  517  	}
-be1df61cf06efb Viorel Suman  2019-01-22  518  
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  519  	soc_data = of_device_get_match_data(dev);
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  520  	if (!soc_data) {
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  521  		dev_err(dev, "failed to match device\n");
-0c44e9e9e61cde Shengjiu Wang 2026-01-16 @522  		goto err_disable_pm;
-
-missing error code.
-
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  523  	}
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  524  
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  525  	if (of_property_read_bool(pdev->dev.of_node, "fsl,amix-bypass") &&
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  526  	    soc_data->bypass_index > 0) {
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  527  		ret = scmi_imx_misc_ctrl_set(soc_data->bypass_index, 0);
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  528  		if (ret)
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  529  			goto err_disable_pm;
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  530  	}
-0c44e9e9e61cde Shengjiu Wang 2026-01-16  531  
-77fffa742285f2 Chuhong Yuan  2019-12-03  532  	return 0;
-77fffa742285f2 Chuhong Yuan  2019-12-03  533  
-77fffa742285f2 Chuhong Yuan  2019-12-03  534  err_disable_pm:
-77fffa742285f2 Chuhong Yuan  2019-12-03  535  	pm_runtime_disable(dev);
-be1df61cf06efb Viorel Suman  2019-01-22  536  	return ret;
-be1df61cf06efb Viorel Suman  2019-01-22  537  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+greg k-h
