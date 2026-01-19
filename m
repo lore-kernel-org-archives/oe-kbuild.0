@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D41C284B3B
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 19:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EE42DB78A
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 19:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768850114; cv=none; b=AX7vfuGNXXg1XuPT/NqQjVFSCx26CjGdF4JuotX6S4i1rwaKnA92aFol43oAu4e2CYQRJSZBv0hOtpozLqENOgSi1KtcqzyPD+8Oqj3+YZWulYdlO7ije5KNZs7Rwrc7KJk7uK7dQoyGs9iLHiMXdOUyV1YUYvuuchP4QzrIm2o=
+	t=1768852756; cv=none; b=DBzU4Tz7HjUpTNR6hbHFoAIMH6d0Cd640j03SejJpFTFZWJSriq2ftjh4Rw2GCh/S/OskAxPq26j4k4XxtSO5em9Q0vtrbKmQVI0udR73X6vEJf2rGf5QBLQDJWm8GTtCbhs51XC2hKM9m8wp02KZDDTZVMseElUSelHwod3dyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768850114; c=relaxed/simple;
-	bh=ebL/9y1zg8bysbyDjsTrKaWGzV9hO6oBmxAjMfbrOeo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mKe90bld3n8co3HgU0mIHe7xzUbj8orA0psOO93DXufBf9gqAQF5xuFPwNjwlMSV3J6jPtK3tG5WN2V1LlP7ZPMrpZsLSLzj2hGxbPhgM3rOMTP2pWVzSSe1pdq3Bd+MON5Q2iC9JjbYmTCVnCjkHRS12P2FNSnkwWM+3y/+y4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nt5QMqEM; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768852756; c=relaxed/simple;
+	bh=a30vfeoqsblq2W7RxzRi4W+ySmHnXYq60wEFurDZ/OM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PznBliZR0RIlLxScV8eiTikGyVqaKe4EqkTTZiHvNOLMggyB2En0YsFG5OqD2mW1lzVtegXf6Sds2FyWNRC2o/4L5u+0YI5TUBBOP7AJClA3nEEegKW6iN4z8ejVTGCV8MelPrUtsD9PamfBcloU8ojztW96NJyXIP2cNFPPji4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y0TkzMKt; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nt5QMqEM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y0TkzMKt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768850112; x=1800386112;
+  t=1768852756; x=1800388756;
   h=date:from:to:cc:subject:message-id;
-  bh=ebL/9y1zg8bysbyDjsTrKaWGzV9hO6oBmxAjMfbrOeo=;
-  b=Nt5QMqEMHYPvQExU0FpYbdvEFygZBKLDL/+OYJ0jOhr6vpL9/fTdRDpa
-   el7e9/2bVgQN89TPjduZktaPy3VxZAdqID9aSxv97rhQlISiZsphMv9jy
-   WjCw03wcwWDT+XA2MLJ5AUK2Y04BAiEf0qGqSwKRX7djH0IyPyKLYRarR
-   n5Rov5mAoMxVI5YVggxIPCKnRX71yFZleLRlKgcqd4tTiApaSN2g4gaNh
-   ZiVbj+rj+IwLXN7dD+Lf78JPUUv5XcRx6BlBnPNrtE/nevTRcvuESkkar
-   xy6uZaJ6Yj9mjmRBCrvUhiyTHsN+Z/YzKLqtfjRndtziQxa5IwUKqBnaC
+  bh=a30vfeoqsblq2W7RxzRi4W+ySmHnXYq60wEFurDZ/OM=;
+  b=Y0TkzMKtIeCYuj1yA6IA69zn7o0KMyojFil8Who10yYhYr96mWqJJa+1
+   FesxGxLwMHo7n5gz/4+nsIFCHzb4kol/eggPfJYVT0QeUkZICfXnXBLnY
+   I++iffiT/8Qjodw9m3G441KTgKWZhrFJpChkX1LCOd9HreO1Qq/UVE3h9
+   0X98Yh1LoNI6xGmM/We1HaldGFn5eJOulu2xnYykEUjB4WIjo+mtMdr/b
+   0GR3JWGQZoH/AjQI1Rrpm1o9wwxo5iZrZ0lPp3eOvazMz6gmjksV0+Fku
+   3USVYDvEP5rQ3CoQ+yslFMuQ+ctJR9mL3jfGSBmH+HW7JghJF/wAKzjVJ
    w==;
-X-CSE-ConnectionGUID: w1qHBNCyRgCrajnA9ZUfYQ==
-X-CSE-MsgGUID: wIDMsZlOT/KTCQ01JShCVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70036917"
+X-CSE-ConnectionGUID: 94rRSvDqRLuCSFSuxnIOVQ==
+X-CSE-MsgGUID: 194kKBmSQjeWd4RdrmTM8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70154302"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="70036917"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 11:15:10 -0800
-X-CSE-ConnectionGUID: VCo4Vp95QOqsh7ih7OCtkA==
-X-CSE-MsgGUID: wG/fN7k8Q4yf9KqdyWGThQ==
+   d="scan'208";a="70154302"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 11:59:15 -0800
+X-CSE-ConnectionGUID: Tz4osbYBT0mESA8+iIFwKw==
+X-CSE-MsgGUID: /U+THOlYSIWV50p+Vh44aQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="237202421"
+   d="scan'208";a="210444021"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2026 11:15:09 -0800
+  by orviesa004.jf.intel.com with ESMTP; 19 Jan 2026 11:59:13 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhuiQ-00000000OCt-35hn;
-	Mon, 19 Jan 2026 19:15:06 +0000
-Date: Tue, 20 Jan 2026 03:14:55 +0800
+	id 1vhvP4-00000000OG6-34lh;
+	Mon, 19 Jan 2026 19:59:10 +0000
+Date: Tue, 20 Jan 2026 03:58:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android12-kiwi-5.10 196/196]
- drivers/usb/gadget/composite.c:919 set_config() warn: iterator used outside
- loop: 'c'
-Message-ID: <202601200312.6pgHQsnw-lkp@intel.com>
+Subject: drivers/pci/controller/pcie-rzg3s-host.c:1675
+ rzg3s_pcie_suspend_noirq() warn: 'port->refclk' from clk_prepare_enable() not
+ released on lines: 1675.
+Message-ID: <202601200310.Qy35J0Pm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,14 +62,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
+CC: Manivannan Sadhasivam <mani@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   625d1a188a3d8cbd1f0897f44e0984dae1711754
-commit: 1624cd20387974d94299c111e7316f766c331400 [196/196] usb: gadget: Set self-powered based on MaxPower and bmAttributes
-:::::: branch date: 6 days ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-161-20260114 (https://download.01.org/0day-ci/archive/20260120/202601200312.6pgHQsnw-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+commit: 7ef502fb35b283e0f85ed7b34e2d963343981a8c PCI: Add Renesas RZ/G3S host controller driver
+date:   8 weeks ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 8 weeks ago
+config: loongarch-randconfig-r072-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200310.Qy35J0Pm-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
 smatch version: v0.5.0-8985-g2614ff1a
 
@@ -77,130 +81,63 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601200312.6pgHQsnw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601200310.Qy35J0Pm-lkp@intel.com/
 
 New smatch warnings:
-drivers/usb/gadget/composite.c:919 set_config() warn: iterator used outside loop: 'c'
+drivers/pci/controller/pcie-rzg3s-host.c:1675 rzg3s_pcie_suspend_noirq() warn: 'port->refclk' from clk_prepare_enable() not released on lines: 1675.
 
 Old smatch warnings:
-drivers/usb/gadget/composite.c:919 set_config() error: we previously assumed 'c' could be null (see line 853)
-drivers/usb/gadget/composite.c:2369 composite_suspend() error: we previously assumed 'cdev->config' could be null (see line 2358)
+drivers/pci/controller/pcie-rzg3s-host.c:1348 rzg3s_pcie_parse_map_dma_ranges() warn: iterator 'i' not incremented
+arch/loongarch/include/asm/atomic.h:135 arch_atomic_fetch_add_unless() warn: inconsistent indenting
 
-vim +/c +919 drivers/usb/gadget/composite.c
+vim +1675 drivers/pci/controller/pcie-rzg3s-host.c
 
-40982be52d8f64 David Brownell    2008-06-19  817  
-40982be52d8f64 David Brownell    2008-06-19  818  static int set_config(struct usb_composite_dev *cdev,
-40982be52d8f64 David Brownell    2008-06-19  819  		const struct usb_ctrlrequest *ctrl, unsigned number)
-40982be52d8f64 David Brownell    2008-06-19  820  {
-40982be52d8f64 David Brownell    2008-06-19  821  	struct usb_gadget	*gadget = cdev->gadget;
-40982be52d8f64 David Brownell    2008-06-19  822  	struct usb_configuration *c = NULL;
-40982be52d8f64 David Brownell    2008-06-19  823  	int			result = -EINVAL;
-40982be52d8f64 David Brownell    2008-06-19  824  	unsigned		power = gadget_is_otg(gadget) ? 8 : 100;
-40982be52d8f64 David Brownell    2008-06-19  825  	int			tmp;
-40982be52d8f64 David Brownell    2008-06-19  826  
-40982be52d8f64 David Brownell    2008-06-19  827  	if (number) {
-40982be52d8f64 David Brownell    2008-06-19  828  		list_for_each_entry(c, &cdev->configs, list) {
-40982be52d8f64 David Brownell    2008-06-19  829  			if (c->bConfigurationValue == number) {
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  830  				/*
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  831  				 * We disable the FDs of the previous
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  832  				 * configuration only if the new configuration
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  833  				 * is a valid one
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  834  				 */
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  835  				if (cdev->config)
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  836  					reset_config(cdev);
-40982be52d8f64 David Brownell    2008-06-19  837  				result = 0;
-40982be52d8f64 David Brownell    2008-06-19  838  				break;
-40982be52d8f64 David Brownell    2008-06-19  839  			}
-40982be52d8f64 David Brownell    2008-06-19  840  		}
-40982be52d8f64 David Brownell    2008-06-19  841  		if (result < 0)
-40982be52d8f64 David Brownell    2008-06-19  842  			goto done;
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  843  	} else { /* Zero configuration value - need to reset the config */
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  844  		if (cdev->config)
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  845  			reset_config(cdev);
-40982be52d8f64 David Brownell    2008-06-19  846  		result = 0;
-bdb64d727216b4 Tatyana Brokhman  2011-06-29  847  	}
-40982be52d8f64 David Brownell    2008-06-19  848  
-1cbfb8c4f62d66 Joel Stanley      2019-09-30  849  	DBG(cdev, "%s config #%d: %s\n",
-e538dfdae85244 Michal Nazarewicz 2011-08-30  850  	    usb_speed_string(gadget->speed),
-e538dfdae85244 Michal Nazarewicz 2011-08-30  851  	    number, c ? c->label : "unconfigured");
-40982be52d8f64 David Brownell    2008-06-19  852  
-40982be52d8f64 David Brownell    2008-06-19  853  	if (!c)
-40982be52d8f64 David Brownell    2008-06-19  854  		goto done;
-40982be52d8f64 David Brownell    2008-06-19  855  
-6027f3173e797b Peter Chen        2014-04-29  856  	usb_gadget_set_state(gadget, USB_STATE_CONFIGURED);
-40982be52d8f64 David Brownell    2008-06-19  857  	cdev->config = c;
-40982be52d8f64 David Brownell    2008-06-19  858  
-40982be52d8f64 David Brownell    2008-06-19  859  	/* Initialize all interfaces by setting them to altsetting zero. */
-40982be52d8f64 David Brownell    2008-06-19  860  	for (tmp = 0; tmp < MAX_CONFIG_INTERFACES; tmp++) {
-40982be52d8f64 David Brownell    2008-06-19  861  		struct usb_function	*f = c->interface[tmp];
-5242658d1b9777 Laurent Pinchart  2009-10-21  862  		struct usb_descriptor_header **descriptors;
-40982be52d8f64 David Brownell    2008-06-19  863  
-40982be52d8f64 David Brownell    2008-06-19  864  		if (!f)
-40982be52d8f64 David Brownell    2008-06-19  865  			break;
-40982be52d8f64 David Brownell    2008-06-19  866  
-5242658d1b9777 Laurent Pinchart  2009-10-21  867  		/*
-5242658d1b9777 Laurent Pinchart  2009-10-21  868  		 * Record which endpoints are used by the function. This is used
-5242658d1b9777 Laurent Pinchart  2009-10-21  869  		 * to dispatch control requests targeted at that endpoint to the
-5242658d1b9777 Laurent Pinchart  2009-10-21  870  		 * function's setup callback instead of the current
-5242658d1b9777 Laurent Pinchart  2009-10-21  871  		 * configuration's setup callback.
-5242658d1b9777 Laurent Pinchart  2009-10-21  872  		 */
-f3bdbe36682631 John Youn         2016-02-05  873  		descriptors = function_descriptors(f, gadget->speed);
-5242658d1b9777 Laurent Pinchart  2009-10-21  874  
-5242658d1b9777 Laurent Pinchart  2009-10-21  875  		for (; *descriptors; ++descriptors) {
-5242658d1b9777 Laurent Pinchart  2009-10-21  876  			struct usb_endpoint_descriptor *ep;
-5242658d1b9777 Laurent Pinchart  2009-10-21  877  			int addr;
-5242658d1b9777 Laurent Pinchart  2009-10-21  878  
-5242658d1b9777 Laurent Pinchart  2009-10-21  879  			if ((*descriptors)->bDescriptorType != USB_DT_ENDPOINT)
-5242658d1b9777 Laurent Pinchart  2009-10-21  880  				continue;
-5242658d1b9777 Laurent Pinchart  2009-10-21  881  
-5242658d1b9777 Laurent Pinchart  2009-10-21  882  			ep = (struct usb_endpoint_descriptor *)*descriptors;
-5242658d1b9777 Laurent Pinchart  2009-10-21  883  			addr = ((ep->bEndpointAddress & 0x80) >> 3)
-5242658d1b9777 Laurent Pinchart  2009-10-21  884  			     |  (ep->bEndpointAddress & 0x0f);
-5242658d1b9777 Laurent Pinchart  2009-10-21  885  			set_bit(addr, f->endpoints);
-5242658d1b9777 Laurent Pinchart  2009-10-21  886  		}
-5242658d1b9777 Laurent Pinchart  2009-10-21  887  
-40982be52d8f64 David Brownell    2008-06-19  888  		result = f->set_alt(f, tmp, 0);
-40982be52d8f64 David Brownell    2008-06-19  889  		if (result < 0) {
-40982be52d8f64 David Brownell    2008-06-19  890  			DBG(cdev, "interface %d (%s/%p) alt 0 --> %d\n",
-40982be52d8f64 David Brownell    2008-06-19  891  					tmp, f->name, f, result);
-40982be52d8f64 David Brownell    2008-06-19  892  
-40982be52d8f64 David Brownell    2008-06-19  893  			reset_config(cdev);
-40982be52d8f64 David Brownell    2008-06-19  894  			goto done;
-40982be52d8f64 David Brownell    2008-06-19  895  		}
-1b9ba000177ee4 Roger Quadros     2011-05-09  896  
-1b9ba000177ee4 Roger Quadros     2011-05-09  897  		if (result == USB_GADGET_DELAYED_STATUS) {
-1b9ba000177ee4 Roger Quadros     2011-05-09  898  			DBG(cdev,
-1b9ba000177ee4 Roger Quadros     2011-05-09  899  			 "%s: interface %d (%s) requested delayed status\n",
-1b9ba000177ee4 Roger Quadros     2011-05-09  900  					__func__, tmp, f->name);
-1b9ba000177ee4 Roger Quadros     2011-05-09  901  			cdev->delayed_status++;
-1b9ba000177ee4 Roger Quadros     2011-05-09  902  			DBG(cdev, "delayed_status count %d\n",
-1b9ba000177ee4 Roger Quadros     2011-05-09  903  					cdev->delayed_status);
-1b9ba000177ee4 Roger Quadros     2011-05-09  904  		}
-40982be52d8f64 David Brownell    2008-06-19  905  	}
-40982be52d8f64 David Brownell    2008-06-19  906  
-40982be52d8f64 David Brownell    2008-06-19  907  	/* when we return, be sure our power usage is valid */
-03f4492dbff3d7 Jack Pham         2021-07-20  908  	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
-03f4492dbff3d7 Jack Pham         2021-07-20  909  		power = c->MaxPower;
-03f4492dbff3d7 Jack Pham         2021-07-20  910  	else
-03f4492dbff3d7 Jack Pham         2021-07-20  911  		power = CONFIG_USB_GADGET_VBUS_DRAW;
-03f4492dbff3d7 Jack Pham         2021-07-20  912  
-a2035411fa1d12 Jack Pham         2020-01-30  913  	if (gadget->speed < USB_SPEED_SUPER)
-a2035411fa1d12 Jack Pham         2020-01-30  914  		power = min(power, 500U);
-a2035411fa1d12 Jack Pham         2020-01-30  915  	else
-a2035411fa1d12 Jack Pham         2020-01-30  916  		power = min(power, 900U);
-40982be52d8f64 David Brownell    2008-06-19  917  done:
-1624cd20387974 Prashanth K       2025-02-17  918  	if (power > USB_SELF_POWER_VBUS_MAX_DRAW ||
-1624cd20387974 Prashanth K       2025-02-17 @919  	    !(c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
-5e5caf4fa8d303 Thinh Nguyen      2020-02-03  920  		usb_gadget_clear_selfpowered(gadget);
-1624cd20387974 Prashanth K       2025-02-17  921  	else
-1624cd20387974 Prashanth K       2025-02-17  922  		usb_gadget_set_selfpowered(gadget);
-5e5caf4fa8d303 Thinh Nguyen      2020-02-03  923  
-40982be52d8f64 David Brownell    2008-06-19  924  	usb_gadget_vbus_draw(gadget, power);
-1b9ba000177ee4 Roger Quadros     2011-05-09  925  	if (result >= 0 && cdev->delayed_status)
-1b9ba000177ee4 Roger Quadros     2011-05-09  926  		result = USB_GADGET_DELAYED_STATUS;
-40982be52d8f64 David Brownell    2008-06-19  927  	return result;
-40982be52d8f64 David Brownell    2008-06-19  928  }
-40982be52d8f64 David Brownell    2008-06-19  929  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1632  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1633  static int rzg3s_pcie_suspend_noirq(struct device *dev)
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1634  {
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1635  	struct rzg3s_pcie_host *host = dev_get_drvdata(dev);
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1636  	const struct rzg3s_pcie_soc_data *data = host->data;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1637  	struct rzg3s_pcie_port *port = &host->port;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1638  	struct regmap *sysc = host->sysc;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1639  	int ret;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1640  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1641  	ret = pm_runtime_put_sync(dev);
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1642  	if (ret)
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1643  		return ret;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1644  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1645  	clk_disable_unprepare(port->refclk);
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1646  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1647  	ret = reset_control_bulk_assert(data->num_power_resets,
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1648  					host->power_resets);
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1649  	if (ret)
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1650  		goto refclk_restore;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1651  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1652  	ret = reset_control_bulk_assert(data->num_cfg_resets,
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1653  					host->cfg_resets);
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1654  	if (ret)
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1655  		goto power_resets_restore;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1656  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1657  	ret = regmap_update_bits(sysc, RZG3S_SYS_PCIE_RST_RSM_B,
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1658  				 RZG3S_SYS_PCIE_RST_RSM_B_MASK,
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1659  				 FIELD_PREP(RZG3S_SYS_PCIE_RST_RSM_B_MASK, 0));
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1660  	if (ret)
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1661  		goto cfg_resets_restore;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1662  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1663  	return 0;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1664  
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1665  	/* Restore the previous state if any error happens */
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1666  cfg_resets_restore:
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1667  	reset_control_bulk_deassert(data->num_cfg_resets,
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1668  				    host->cfg_resets);
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1669  power_resets_restore:
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1670  	reset_control_bulk_deassert(data->num_power_resets,
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1671  				    host->power_resets);
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1672  refclk_restore:
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1673  	clk_prepare_enable(port->refclk);
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1674  	pm_runtime_resume_and_get(dev);
+7ef502fb35b283 Claudiu Beznea 2025-11-19 @1675  	return ret;
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1676  }
+7ef502fb35b283 Claudiu Beznea 2025-11-19  1677  
 
 -- 
 0-DAY CI Kernel Test Service
