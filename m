@@ -1,200 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044CF19CCF5
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 11:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98587312801
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 11:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768820488; cv=none; b=PIHd4CKApdnL7BNTqSP5GrRzswzwRvaZgDE/e8dzFrwasQ28a90eyBEDP4LT51IiL6GPOlfJiXCw7Ppgwv5C9nFHSGh2QjkoOjRLXvU3em7yclDvDaqrLxYuQXrRFpqXk4493lXfRaPb9sSm01RBBKJ/HMRj+LDirDiq014LJco=
+	t=1768822351; cv=none; b=SmSykZijWMu2h1nx9xVXU1ecuUkuRWj4aM9kzgiV2d4mSPns7h4JNC7Co/er1DW35bIMiFLImIAVxyBDqRPfUuGVPyFprkF9C+7qBXPUoGSNQZ4IyucxpeXZRP4mFaIo4oFd7mjsSpapCmZOKRiankhJSkPkwL1+oBUdxfZReuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768820488; c=relaxed/simple;
-	bh=lthhiYhBiEwTpfJrQcrc0hX4pPOZdkmYbWKNNseVNj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EUpGirreh+mVEfF76Q6Q9YhgcSzmMvty0nf1Z3LPGyUAFn6/2mbA7m27h4g7SJboBHz7bgshG5mKWdrUTnsI/uX7BVoTf2BMan7rr1k9xo1pNjdqdSjxxgqwPVc2ZFn2g6nsQdn/97fQUCpH/99kuPHqjdEKLG2igFIUfa9PsGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lvymHnIm; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1768822351; c=relaxed/simple;
+	bh=21oCjq8p8CZntMqTjDJf93Mhj1ngzBaig4VOJ6kIESQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rHHoaQwizzOOx9Si2soPdr1dNvcPwf1JUGLdiKaSAcBZWeBWG0u/WxSAFhfinBTmz5/yH84jYYhVqY4KYuRjTzS146BTiIWfIu6JSs1BTSpJ2dqPqcnpXpsB7oG8/ok+YpH+olzJfKdecn0jL1i5hT2SeIWnepC1kc/ujcMnqOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mafI6J6C; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lvymHnIm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mafI6J6C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768820486; x=1800356486;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lthhiYhBiEwTpfJrQcrc0hX4pPOZdkmYbWKNNseVNj8=;
-  b=lvymHnImVPZ/dSbtQEwVi3IxuTFuUUlEpyhdLxGqazte5qIK29RSDFme
-   8O8uX7tWeuLHZP/0PpolKgfueQecR1VbfcRvY8c3HWKuV9OvPh+/cGZX8
-   cYgzLKa2yZASw/nElZy9HTdi8spNyG7hb5xawwMFgvkHqJ9s9hHGVxYRe
-   sKbcPYNjavF4716oNuRMpSrekEb4lhMheIjPEDxX1VU6JPhyYK0e+tk9C
-   yO/9g8ONxDeKxGH5Yx8y249d181vSbjNdoWmgfTXrmTL+QCh5qWcHZVW0
-   jR4orGSHWWaLyuZWxshROO0OP7olQrrJggo4F1XuMGuH/QiIIKMuYZunu
+  t=1768822347; x=1800358347;
+  h=date:from:to:cc:subject:message-id;
+  bh=21oCjq8p8CZntMqTjDJf93Mhj1ngzBaig4VOJ6kIESQ=;
+  b=mafI6J6C0M1rGosS3ps7I9Qcb6LCr4PwIvh8WxuteqjMckADCNWRcNrM
+   jqzcIkDWRriS7Zfv7vXoG+iHwHaGOgdGN2D2L8LfgIjcR1FR8u4PTILMb
+   f4RexwvsarPnH5kvTsao6OWPA+1iE+DzUBg3jj8GZ7QwOvZST6BlfZtf2
+   ZkQpBYRChDTk3U5+ilg987beCNoNn9jmDaNWMEne31Ek37b51lLXIMYLM
+   QWFLgt1xrperCCtNAjd4g0SI79SdEk7VSKcbmLYNF3j1Z2APuQXONDD6N
+   PEGEMWz5q83KzPjxGfh84hCvrV/C91lhxwKc/QGLzsq/U9ixuAM2YX2EP
    Q==;
-X-CSE-ConnectionGUID: v4ll91RRRm676SJ03IIhmg==
-X-CSE-MsgGUID: fiRJ+qSOSBO93N8Ij/SeuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="57583420"
+X-CSE-ConnectionGUID: ql7nZBLqTCOAGlgihPXH2g==
+X-CSE-MsgGUID: E5jP1jJLTH+SJFqZszhacg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="70083602"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="57583420"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 03:01:26 -0800
-X-CSE-ConnectionGUID: x4kff6H9TCuJR9PCISe82g==
-X-CSE-MsgGUID: E6ZJ1kIYRE+fzbpnwS6Qeg==
+   d="scan'208";a="70083602"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 03:32:27 -0800
+X-CSE-ConnectionGUID: NgvtPf2xTmKgjqTa3zywhA==
+X-CSE-MsgGUID: xWW+ZLuVTw6SkJSWnD71nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="206189559"
+   d="scan'208";a="243430695"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Jan 2026 03:01:24 -0800
+  by orviesa001.jf.intel.com with ESMTP; 19 Jan 2026 03:32:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhn0c-00000000NiD-0s0f;
-	Mon, 19 Jan 2026 11:01:22 +0000
-Date: Mon, 19 Jan 2026 19:00:37 +0800
+	id 1vhnUd-00000000NjF-07di;
+	Mon, 19 Jan 2026 11:32:23 +0000
+Date: Mon, 19 Jan 2026 19:31:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 3/4] drm/xe/xe_hw_error: Add support for GT hardware
- errors
-Message-ID: <202601191846.EkolkIOM-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 196/196]
+ sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error: __memcpy()
+ 'hcp->iec_status' too small (5 vs 24)
+Message-ID: <202601191920.XWUTbCPx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260119040023.2821518-9-riana.tauro@intel.com>
-References: <20260119040023.2821518-9-riana.tauro@intel.com>
-TO: Riana Tauro <riana.tauro@intel.com>
-TO: intel-xe@lists.freedesktop.org
-TO: dri-devel@lists.freedesktop.org
-CC: aravind.iddamsetty@linux.intel.com
-CC: anshuman.gupta@intel.com
-CC: rodrigo.vivi@intel.com
-CC: joonas.lahtinen@linux.intel.com
-CC: simona.vetter@ffwll.ch
-CC: airlied@gmail.com
-CC: pratik.bari@intel.com
-CC: joshua.santosh.ranjan@intel.com
-CC: ashwin.kumar.kulkarni@intel.com
-CC: shubham.kumar@intel.com
-CC: ravi.kishore.koppuravuri@intel.com
-CC: raag.jadav@intel.com
-CC: Riana Tauro <riana.tauro@intel.com>
-CC: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Riana,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on drm/drm-next next-20260116]
-[cannot apply to drm-misc/drm-misc-next linus/master v6.19-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Riana-Tauro/drm-ras-Introduce-the-DRM-RAS-infrastructure-over-generic-netlink/20260119-113326
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20260119040023.2821518-9-riana.tauro%40intel.com
-patch subject: [PATCH v4 3/4] drm/xe/xe_hw_error: Add support for GT hardware errors
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: x86_64-randconfig-161-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191846.EkolkIOM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   625d1a188a3d8cbd1f0897f44e0984dae1711754
+commit: 4ad97b395f94bc0f546f27bbe9b8a62321f49ad3 [196/196] UPSTREAM: ASoC: hdmi-codec: Add iec958 controls
+:::::: branch date: 5 days ago
+:::::: commit date: 3 years, 5 months ago
+config: x86_64-randconfig-161-20260114 (https://download.01.org/0day-ci/archive/20260119/202601191920.XWUTbCPx-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
 smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601191846.EkolkIOM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601191920.XWUTbCPx-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/xe/xe_hw_error.c:168 gt_hw_error_handler() warn: statement has no effect 'u32'
+sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error: __memcpy() 'hcp->iec_status' too small (5 vs 24)
 
-vim +/u32 +168 drivers/gpu/drm/xe/xe_hw_error.c
+vim +504 sound/soc/codecs/hdmi-codec.c
 
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  134  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  135  static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  136  				u32 error_id)
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  137  {
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  138  	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  139  	struct xe_device *xe = tile_to_xe(tile);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  140  	struct xe_drm_ras *ras = &xe->ras;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  141  	struct xe_drm_ras_counter *info = ras->info[severity];
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  142  	struct xe_mmio *mmio = &tile->mmio;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  143  	unsigned long err_stat = 0;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  144  	int i, len;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  145  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  146  	if (xe->info.platform != XE_PVC)
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  147  		return;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  148  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  149  	if (hw_err == HARDWARE_ERROR_NONFATAL) {
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  150  		atomic64_inc(&info[error_id].counter);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  151  		log_hw_error(tile, info[error_id].name, severity);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  152  		return;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  153  	}
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  154  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  155  	len = (hw_err == HARDWARE_ERROR_CORRECTABLE) ? ERR_STAT_GT_COR_VECTOR_LEN
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  156  						     : ERR_STAT_GT_VECTOR_MAX;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  157  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  158  	for (i = 0; i < len; i++) {
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  159  		u32 vector, val;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  160  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  161  		vector = xe_mmio_read32(mmio, ERR_STAT_GT_VECTOR_REG(hw_err, i));
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  162  		if (!vector)
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  163  			continue;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  164  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  165  		switch (i) {
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  166  		case ERR_STAT_GT_VECTOR0:
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  167  		case ERR_STAT_GT_VECTOR1:
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19 @168  			u32 errbit;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  169  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  170  			val = hweight32(vector);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  171  			atomic64_add(val, &info[error_id].counter);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  172  			log_gt_err(tile, "Subslice", i, vector, severity);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  173  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  174  			/* Read Error Status Register once */
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  175  			if (err_stat)
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  176  				break;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  177  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  178  			err_stat = xe_mmio_read32(mmio, ERR_STAT_GT_REG(hw_err));
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  179  			for_each_set_bit(errbit, &err_stat, GT_HW_ERROR_MAX_ERR_BITS) {
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  180  				if (hw_err == HARDWARE_ERROR_CORRECTABLE &&
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  181  				    (BIT(errbit) & PVC_COR_ERR_MASK))
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  182  					atomic64_inc(&info[error_id].counter);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  183  				if (hw_err == HARDWARE_ERROR_FATAL &&
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  184  				    (BIT(errbit) & PVC_FAT_ERR_MASK))
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  185  					atomic64_inc(&info[error_id].counter);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  186  			}
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  187  			if (err_stat)
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  188  				xe_mmio_write32(mmio, ERR_STAT_GT_REG(hw_err), err_stat);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  189  			break;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  190  		case ERR_STAT_GT_VECTOR2:
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  191  		case ERR_STAT_GT_VECTOR3:
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  192  			val = hweight32(vector);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  193  			atomic64_add(val, &info[error_id].counter);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  194  			log_gt_err(tile, "L3 BANK", i, vector, severity);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  195  			break;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  196  		case ERR_STAT_GT_VECTOR6:
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  197  			val = hweight32(vector);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  198  			atomic64_add(val, &info[error_id].counter);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  199  			log_gt_err(tile, "TLB", i, vector, severity);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  200  			break;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  201  		case ERR_STAT_GT_VECTOR7:
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  202  			val = hweight32(vector);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  203  			atomic64_add(val, &info[error_id].counter);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  204  			break;
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  205  		default:
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  206  			log_gt_err(tile, "Undefined", i, vector, severity);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  207  		}
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  208  
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  209  		xe_mmio_write32(mmio, ERR_STAT_GT_VECTOR_REG(hw_err, i), vector);
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  210  	}
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  211  }
-7dd3f07dc4ddf18 Riana Tauro 2026-01-19  212  
+09184118a8abae Jyri Sarha        2016-03-31  483  
+09184118a8abae Jyri Sarha        2016-03-31  484  static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
+09184118a8abae Jyri Sarha        2016-03-31  485  				struct snd_pcm_hw_params *params,
+09184118a8abae Jyri Sarha        2016-03-31  486  				struct snd_soc_dai *dai)
+09184118a8abae Jyri Sarha        2016-03-31  487  {
+09184118a8abae Jyri Sarha        2016-03-31  488  	struct hdmi_codec_priv *hcp = snd_soc_dai_get_drvdata(dai);
+0cf4610b9f297e Jerome Brunet     2019-05-06  489  	struct hdmi_codec_daifmt *cf = dai->playback_dma_data;
+09184118a8abae Jyri Sarha        2016-03-31  490  	struct hdmi_codec_params hp = {
+09184118a8abae Jyri Sarha        2016-03-31  491  		.iec = {
+09184118a8abae Jyri Sarha        2016-03-31  492  			.status = { 0 },
+09184118a8abae Jyri Sarha        2016-03-31  493  			.subcode = { 0 },
+09184118a8abae Jyri Sarha        2016-03-31  494  			.pad = 0,
+09184118a8abae Jyri Sarha        2016-03-31  495  			.dig_subframe = { 0 },
+09184118a8abae Jyri Sarha        2016-03-31  496  		}
+09184118a8abae Jyri Sarha        2016-03-31  497  	};
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  498  	int ret, idx;
+09184118a8abae Jyri Sarha        2016-03-31  499  
+09184118a8abae Jyri Sarha        2016-03-31  500  	dev_dbg(dai->dev, "%s() width %d rate %d channels %d\n", __func__,
+09184118a8abae Jyri Sarha        2016-03-31  501  		params_width(params), params_rate(params),
+09184118a8abae Jyri Sarha        2016-03-31  502  		params_channels(params));
+09184118a8abae Jyri Sarha        2016-03-31  503  
+4ad97b395f94bc Maxime Ripard     2021-05-25 @504  	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
+4ad97b395f94bc Maxime Ripard     2021-05-25  505  	ret = snd_pcm_fill_iec958_consumer_hw_params(params, hp.iec.status,
+09184118a8abae Jyri Sarha        2016-03-31  506  						     sizeof(hp.iec.status));
+09184118a8abae Jyri Sarha        2016-03-31  507  	if (ret < 0) {
+09184118a8abae Jyri Sarha        2016-03-31  508  		dev_err(dai->dev, "Creating IEC958 channel status failed %d\n",
+09184118a8abae Jyri Sarha        2016-03-31  509  			ret);
+09184118a8abae Jyri Sarha        2016-03-31  510  		return ret;
+09184118a8abae Jyri Sarha        2016-03-31  511  	}
+09184118a8abae Jyri Sarha        2016-03-31  512  
+09184118a8abae Jyri Sarha        2016-03-31  513  	hdmi_audio_infoframe_init(&hp.cea);
+09184118a8abae Jyri Sarha        2016-03-31  514  	hp.cea.channels = params_channels(params);
+09184118a8abae Jyri Sarha        2016-03-31  515  	hp.cea.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
+09184118a8abae Jyri Sarha        2016-03-31  516  	hp.cea.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
+09184118a8abae Jyri Sarha        2016-03-31  517  	hp.cea.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
+09184118a8abae Jyri Sarha        2016-03-31  518  
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  519  	/* Select a channel allocation that matches with ELD and pcm channels */
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  520  	idx = hdmi_codec_get_ch_alloc_table_idx(hcp, hp.cea.channels);
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  521  	if (idx < 0) {
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  522  		dev_err(dai->dev, "Not able to map channels to speakers (%d)\n",
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  523  			idx);
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  524  		hcp->chmap_idx = HDMI_CODEC_CHMAP_IDX_UNKNOWN;
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  525  		return idx;
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  526  	}
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  527  	hp.cea.channel_allocation = hdmi_codec_channel_alloc[idx].ca_id;
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  528  	hcp->chmap_idx = hdmi_codec_channel_alloc[idx].ca_id;
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  529  
+09184118a8abae Jyri Sarha        2016-03-31  530  	hp.sample_width = params_width(params);
+09184118a8abae Jyri Sarha        2016-03-31  531  	hp.sample_rate = params_rate(params);
+09184118a8abae Jyri Sarha        2016-03-31  532  	hp.channels = params_channels(params);
+09184118a8abae Jyri Sarha        2016-03-31  533  
+49e502f0c0483e Sia Jee Heng      2021-02-04  534  	cf->bit_fmt = params_format(params);
+efc9194bcff846 Kuninori Morimoto 2016-06-24  535  	return hcp->hcd.ops->hw_params(dai->dev->parent, hcp->hcd.data,
+0cf4610b9f297e Jerome Brunet     2019-05-06  536  				       cf, &hp);
+09184118a8abae Jyri Sarha        2016-03-31  537  }
+09184118a8abae Jyri Sarha        2016-03-31  538  
 
 -- 
 0-DAY CI Kernel Test Service
