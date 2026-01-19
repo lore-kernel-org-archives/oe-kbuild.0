@@ -1,163 +1,129 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB22332ED0
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 08:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DE229B8EF
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 10:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768813109; cv=none; b=pfQkFIQXB8BDby2Pg8DSqADQVHbT1bGCyzlBIIVJwgkiBcikjjS2J/DyZU/csULfUjMhkLbOFKhH7Hd9v60ag5H/hsEONjleY7RmcANnCEoMgCQ5Dx3+sFAI330WBoZr+MJcOsIAJRT5NPe6dH18XBPsxp+9B59b6cOsoBHldXU=
+	t=1768818026; cv=none; b=usKN2FtVQmFbfJ0WnJ5Ji3MFdJvKqSZI+naqekx+J+pf8DPIfaj1Wdeyita3m5I8+nQe5IlD6iOfYK6eCks8AfSfHSpq+3LkyAS3GeqQ35SLsK0TnXuyCWO62RqrGhRgA/RK5YuhtjS4lRkz+xTsvBAb6o4GYxJrk2xJ2lWQqog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768813109; c=relaxed/simple;
-	bh=91rl6SRhYeXFCa53+VjFITo4//ysTLcIm0OJp+TUDKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OK3HI1/r8ls/ACBt9AtcVRkt5jc69EXvlmUyJmuFg38GYljVvmTWiRZCXdHQDbMf0PNdRN5ekgiiTO43jSuJlMs4wAYLDg0r/EloewSZLXQoDBiATuDSbA5ErSi68yWI2cspgXCanizJzNA7vlbZjc+xFUHGWEPml0NJ/HFbRPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cWfvjFMd; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1768818026; c=relaxed/simple;
+	bh=6/ABDuii+zKhm/XFjSSieqewZ1Ls+nWFYVrFdmrXzh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eU83xEEJz8Cp52JQgdLORwftHBs+odQKGGVGfyWaSTsW4tDUIyI6nw3jZBLhvWROe6wSQ2J5ThRXv3gSy2xAnJfdbsCD3i/5s+rWlBHW9WN9Art1oOjVqmW8pIjsa1g9kpRt3VFLthA8VrTFNcIKvyMKDi52ArBfprfgjkCfoKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIfM90n8; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cWfvjFMd"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47ee301a06aso36277655e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 00:58:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768813106; x=1769417906; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CFaMhEUUfmvBXCwj1KwYn/jVYVnwewK7bqIr5uEKUWE=;
-        b=cWfvjFMdGGbPhDeliKTbXBH7aV84aBeMEZ6Ef8aAt9tX0ez8gzW93thOmLJcynH+wB
-         rBNM3QYqFYKPu2ogyTFHesXyubpo4dQ+w/5tqDgzGED8MOckmlV4I2+rMuryeD6uDAO1
-         ENySW02HQlAitMuNO98hx6wzNuvbtyG/ctzksW/nuTrPj3ZscAc6+GM9SrGbUebMYSsl
-         cejtbTgvKjKxjia04cfisjcmq2dht3e5hyzBqliinjaFs7Z57mvOc9oIO3DE6E01rRL3
-         h9L3dXT5vT7kQy95IlWzh6vi8mOvlnXj1nBhI+nmvVB8/7IoEzgXL/epGjyZZxwaPS/3
-         VhRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768813106; x=1769417906;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CFaMhEUUfmvBXCwj1KwYn/jVYVnwewK7bqIr5uEKUWE=;
-        b=Bd52t2gE3Bum6Xq+PFTqucbFDs/i1GZT2ohRrR7ezWqaaI6mazkGLv0gDZKAKENAh5
-         pezZcSHSDu6vnQPVHA+uCtErGFVVhEC4tl4iywnq0VCEnVhqbERSvUT+2SDOO1DCT0Fd
-         rrjAP+h+N/K9p97FZxDB1PNgLSYKffXcQpu69z/K/OxaxnCmzdIcJKOslBti+Kjrmzje
-         COBD8N2ZT8JTtWkSO/cQw3SZIeGcpCG6zR7K8WO06YNq9fI/Z2sx56xYcu6E0E4h9htf
-         4mVw18M4Oo+pOkCrKI4+urf/35oeieOlbgY8OExzrGZ7PpXOF/yribhgE9zyv2Yqx+ie
-         ONdw==
-X-Forwarded-Encrypted: i=1; AJvYcCWf7zBkJ+rYVecpuz8xqdQ6sW4LusCY2rYGVzz4y/VFLnK+6m8990CPMdhM5QD85ORYma+dg165RRw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOy5rvCQn9GFuYue6wudSRlZg2fe/35Ie7P7A51BehVDIbP4E6
-	HAYGDV2+U3MIOl0cIs+JxA8BQSqJGOb7bYCne+UVUFRcRy1s+Jry/WR4jVXBuaXrPfQ=
-X-Gm-Gg: AY/fxX4Sp7tMImRNYPDsH77F0ZHUEdNzO1N+P3+sZHLb2/dRB/EtAj1O6rC0sUHxa/Z
-	UeTrPMpCYSorGpIAx2qBXUJvgA9stoR9eS9id5Vle1vB5OOk2pYbIKjF5YyMys8QCwU6j7T/imr
-	fBWjUYXaw53KcmXofrTtoexdb8AQlCIGk8+CDx3FnG6M6zhuZhymrjqk9HMG+CvNClB1x79tFpQ
-	7TFqfxIlOy3zreNywCr0/tCj1XY/y3HDtOlKoVYdM79XhZD2syHUZyAoflZU//e7cNAFCa/CEz5
-	bRNKdKoyXXu40BtXhI/f47mEWONy0e9MrQUhl98gRTkrtAPd4fDorOaiOkqjDzfVU6STrRAGj5F
-	CTgPz3dTW4TSpEWYU7ah+AEmevZY+fnU6mHaRA7KM4k1a7/Ifxbskzefu0NUB3GbK3NCNuDx592
-	0zpN8NvLdJpX7/Inbm
-X-Received: by 2002:a05:600c:6206:b0:47a:9560:5944 with SMTP id 5b1f17b1804b1-4801eb14c40mr124909725e9.34.1768813105634;
-        Mon, 19 Jan 2026 00:58:25 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e9ac373sm81081375e9.1.2026.01.19.00.58.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 00:58:25 -0800 (PST)
-Date: Mon, 19 Jan 2026 11:58:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: yaxing guo <guoyaxing@bosc.ac.cn>
-Cc: Haiyue Wang <haiyuewa@163.com>, Greg KH <gregkh@linuxfoundation.org>,
-	oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
- uio_pci_generic_sva.c
-Message-ID: <aW3yLhHwoRrBiQmw@stanley.mountain>
-References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
- <2026011643-coastline-playtime-0ac5@gregkh>
- <2026011603-dorsal-unblessed-cdb2@gregkh>
- <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
- <aW3Znz51bTVj3oxJ@stanley.mountain>
- <7b7b6ae1-be56-45a0-b43c-8a66f054584d@bosc.ac.cn>
- <b0a45763-1cd2-4638-80a9-bd88fee9d729@163.com>
- <7f8ddc11-0de7-401e-9a05-4d05579f8787@bosc.ac.cn>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIfM90n8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768818024; x=1800354024;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6/ABDuii+zKhm/XFjSSieqewZ1Ls+nWFYVrFdmrXzh4=;
+  b=ZIfM90n8g0PJd0pvN4ZGfqQNl/Trz3qUp7oIOrNaK72uE7v4cNUZG7Po
+   YXJcdhCnZ1t/ua/49XusH/VMHP3cMRtokRMThkWHNyGPpPkElhbc7HiVR
+   l5p3brZatDoLpjbR7RQCCH6kZDHQss/j1lrFuYhpDSbiIl/g7qxufRHZM
+   IdzZNs9i+ibJMbOzevAtghrljUUz2YhK0VvBYlPjOTp0GysZiODNB99E9
+   D3TtXNXElx6OAKzo2WCieZLsKgEipQNSj2sI6d67YFFqOfpJ/K0s8Cdv9
+   TKj+QI79MKZGoxOgZ7Z1f6B/Q1f2J3o/nwIsGKbxKYRPWw7sl/buoHuqf
+   g==;
+X-CSE-ConnectionGUID: 7k1uzkb0TTSBHLh/v4T+bw==
+X-CSE-MsgGUID: WGxrzY2gTymBjwIud6u4og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="81399102"
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="81399102"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 02:20:24 -0800
+X-CSE-ConnectionGUID: 7mVGteZ0SWWYoRi/CoF5tA==
+X-CSE-MsgGUID: P22l/hGoRo+isAvRZErkAA==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 19 Jan 2026 02:20:23 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhmMu-00000000NgH-2EMM;
+	Mon, 19 Jan 2026 10:20:20 +0000
+Date: Mon, 19 Jan 2026 18:19:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 2/3] thermal: spacemit: k1: Add thermal sensor support
+Message-ID: <202601191753.7KTCj6A8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7f8ddc11-0de7-401e-9a05-4d05579f8787@bosc.ac.cn>
 
-On Mon, Jan 19, 2026 at 04:38:01PM +0800, yaxing guo wrote:
-> 
-> 
-> 在 2026/1/19 16:23, Haiyue Wang 写道:
-> > 
-> > 
-> > On 1/19/2026 4:00 PM, yaxing guo wrote:
-> > > 
-> > > 
-> > > 在 2026/1/19 15:13, Dan Carpenter 写道:
-> > > > On Mon, Jan 19, 2026 at 02:16:21PM +0800, yaxing guo wrote:
-> > > > > 
-> > > > > 
-> > > > > 在 2026/1/16 23:16, Greg KH 写道:
-> > > > > > 
-> > > > > > Wait, I already took this a while ago, why was this resent?
-> > > > > > 
-> > > > > After the v3 patch submission, I received error reports from
-> > > > > Dan Carpenter
-> > > > > dan.carpenter@linaro.org and the kernel test robot lkp@intel.com (see:
-> > > > > https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
-> > > > > In response, I’ve submitted a new version (v4) of the same patch, which
-> > > > > primarily addresses the issues highlighted in that report
-> > > > > (as described in
-> > > > > the "changes in v4" section of the cover letter).
-> > > > > If there’s anything improper in this process—such as
-> > > > > resubmitting instead of
-> > > > > replying with fixes or other procedural concerns—please let
-> > > > > me know, and
-> > > > > I’ll be happy to correct it accordingly.
-> > > > 
-> > > > Since it's already merged then you will need to send the fixes
-> > > > as a separate
-> > > > patch based on Greg's latest devel tree.  Send two patches, one
-> > > > that fixes
-> > > > that && vs || bugs and one that fixes the devm_ double free. 
-> > > > Add Reported-by
-> > > > tags and the Fixes tags.
-> > > > 
-> > > > regards,
-> > > > dan carpenter
-> > > 
-> > > Hi Dan,
-> > > I noticed that on January 10, 2026, Haiyue submitted a fix for the
-> > > issue that && vs || bugs:
-> > >   https://lore.kernel.org/all/20260109175448.34309-1-haiyuewa@163.com/
-> > > Please go ahead and use his patch, and then I will fixed the devm_
-> > > double free.
-> > > 
-> > > Hi Haiyue,
-> > > I actually fixed this same issue in v4 of my patch series (dated
-> > > December 23, 2025)(https://lore.kernel.org/all/
-> > > aW3Znz51bTVj3oxJ@stanley.mountain/), which addressed the bug
-> > > reported by
-> > 
-> > I just checked the linux-next, found no fix about '&&', without
-> > searching deeply. :)
-> Yes, what I meant is that I was about to submit a separate patch to fix the
-> && vs || bug, but I happened to notice your commit from January 10th.
-> Therefore, I decided not to send a duplicate patch and will defer to yours
-> instead.
-> However, would it be possible to add the following Reported-by tags to your
-> patch?
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/thermal/spacemit/k1_tsensor.c:279:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
-Once it's merged then it's too late to add tags.  Presumably Haiyue Wang
-found the bug a different way without seeing the report.  It's not a big
-deal.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260119-patchv2-k1-thermal-v3-2-3d82c9ebe8a4@163.com>
+References: <20260119-patchv2-k1-thermal-v3-2-3d82c9ebe8a4@163.com>
+TO: Shuwei Wu <shuweiwoo@163.com>
+TO: "Rafael J. Wysocki" <rafael@kernel.org>
+TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: Zhang Rui <rui.zhang@intel.com>
+TO: Lukasz Luba <lukasz.luba@arm.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Yixun Lan <dlan@gentoo.org>
+TO: Shuwei Wu <shuweiwoo@163.com>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+TO: Paul Walmsley <pjw@kernel.org>
+TO: Palmer Dabbelt <palmer@dabbelt.com>
+TO: Albert Ou <aou@eecs.berkeley.edu>
+TO: Alexandre Ghiti <alex@ghiti.fr>
+CC: linux-pm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
+CC: spacemit@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
 
-regards,
-dan carpenter
+Hi Shuwei,
 
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuwei-Wu/dt-bindings-thermal-Add-SpacemiT-K1-thermal-sensor/20260119-104429
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20260119-patchv2-k1-thermal-v3-2-3d82c9ebe8a4%40163.com
+patch subject: [PATCH v3 2/3] thermal: spacemit: k1: Add thermal sensor support
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: alpha-randconfig-r133-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191753.7KTCj6A8-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191753.7KTCj6A8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601191753.7KTCj6A8-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/thermal/spacemit/k1_tsensor.c:279:1: sparse: sparse: bad integer constant expression
+   drivers/thermal/spacemit/k1_tsensor.c:279:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/thermal/spacemit/k1_tsensor.c:280:1: sparse: sparse: bad integer constant expression
+   drivers/thermal/spacemit/k1_tsensor.c:280:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/thermal/spacemit/k1_tsensor.c:281:1: sparse: sparse: bad integer constant expression
+   drivers/thermal/spacemit/k1_tsensor.c:281:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/thermal/spacemit/k1_tsensor.c:281:1: sparse: sparse: bad integer constant expression
+   drivers/thermal/spacemit/k1_tsensor.c:281:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +279 drivers/thermal/spacemit/k1_tsensor.c
+
+1cfda9c6e9a3a6 Shuwei Wu 2026-01-19  278  
+1cfda9c6e9a3a6 Shuwei Wu 2026-01-19 @279  MODULE_DESCRIPTION("SpacemiT K1 Thermal Sensor Driver");
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
