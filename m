@@ -1,279 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5948B24A047
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 19:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D41C284B3B
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 19:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768850113; cv=none; b=rlqVVOJ5PXfiZsLnVfQVW8K8QStrCG66uWDj+th/4f+jkY62tMqERfN/ofnTix2yV9KMhRu7BbDG7Ha7fVnS4aQSYTtOI4oKfaD9sTl4hRohVQtmyTAWcy1Nac1FDDDukRsbl2h1XZIkG4ITYYz1otk08AFWbomZjWzsrwbVaDA=
+	t=1768850114; cv=none; b=AX7vfuGNXXg1XuPT/NqQjVFSCx26CjGdF4JuotX6S4i1rwaKnA92aFol43oAu4e2CYQRJSZBv0hOtpozLqENOgSi1KtcqzyPD+8Oqj3+YZWulYdlO7ije5KNZs7Rwrc7KJk7uK7dQoyGs9iLHiMXdOUyV1YUYvuuchP4QzrIm2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768850113; c=relaxed/simple;
-	bh=n8utB8VS5rWDDQSOj7/8kIsFAO/h9eXkeidCdsfGWZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WwO7jsLA2SUVLY3//vYUq8+llgSJTkBOcO6IuSALQ7d8/QLHhvYMarPaENdVb1RuhxffFLudJDnB0RNcyaGFOv1bEDlrCCn8bySlhlCDn5OjGe8CLyslbCFuODMlIzOMByMUapyqcWBpPkHXdm0QV3+Bg7WyKMFrxODeEepuGu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StkXLlN0; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1768850114; c=relaxed/simple;
+	bh=ebL/9y1zg8bysbyDjsTrKaWGzV9hO6oBmxAjMfbrOeo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mKe90bld3n8co3HgU0mIHe7xzUbj8orA0psOO93DXufBf9gqAQF5xuFPwNjwlMSV3J6jPtK3tG5WN2V1LlP7ZPMrpZsLSLzj2hGxbPhgM3rOMTP2pWVzSSe1pdq3Bd+MON5Q2iC9JjbYmTCVnCjkHRS12P2FNSnkwWM+3y/+y4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nt5QMqEM; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StkXLlN0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nt5QMqEM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768850111; x=1800386111;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=n8utB8VS5rWDDQSOj7/8kIsFAO/h9eXkeidCdsfGWZc=;
-  b=StkXLlN0JZSvrsHb+AmfoB/cZAE23+pI2VH4dgUCqmUcSz9veHEXoEHn
-   3vXCy9MpHdFFK7wTC0/B0o6kbQd9C0TnhOxlNOeTlSMiWO5hdqiId1gJr
-   PIyoIkoaJkV6qUi1W8cTOMWf9XPodJF0VcfwWLon+grJLNmn4JwUKv6HD
-   kC2gQjHOSfzAM8Zeno774OgmDsvdfz3+TxqjK375HcbfHDWf6uzOCFrId
-   MQL/xeF+tD+YjGaVbyLdloU5ED5fyMQJrNt7zTMKdPkushwDP7GMUBUkS
-   MpGyV6oRCfloS6EpDSXmeg/03CZdZnJ36E04Z4sx/pUn7PK6/U9GVErsb
-   g==;
-X-CSE-ConnectionGUID: MfJjusJERQyBxievMtI2wQ==
-X-CSE-MsgGUID: ffbXKNizTEqceRf43ml1Qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="80784669"
+  t=1768850112; x=1800386112;
+  h=date:from:to:cc:subject:message-id;
+  bh=ebL/9y1zg8bysbyDjsTrKaWGzV9hO6oBmxAjMfbrOeo=;
+  b=Nt5QMqEMHYPvQExU0FpYbdvEFygZBKLDL/+OYJ0jOhr6vpL9/fTdRDpa
+   el7e9/2bVgQN89TPjduZktaPy3VxZAdqID9aSxv97rhQlISiZsphMv9jy
+   WjCw03wcwWDT+XA2MLJ5AUK2Y04BAiEf0qGqSwKRX7djH0IyPyKLYRarR
+   n5Rov5mAoMxVI5YVggxIPCKnRX71yFZleLRlKgcqd4tTiApaSN2g4gaNh
+   ZiVbj+rj+IwLXN7dD+Lf78JPUUv5XcRx6BlBnPNrtE/nevTRcvuESkkar
+   xy6uZaJ6Yj9mjmRBCrvUhiyTHsN+Z/YzKLqtfjRndtziQxa5IwUKqBnaC
+   w==;
+X-CSE-ConnectionGUID: w1qHBNCyRgCrajnA9ZUfYQ==
+X-CSE-MsgGUID: wIDMsZlOT/KTCQ01JShCVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70036917"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="80784669"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 11:15:10 -0800
-X-CSE-ConnectionGUID: ldFN8GktSciNTcNVkwPKOQ==
-X-CSE-MsgGUID: lLJp0UJoQW+99FMUlAPXoQ==
+   d="scan'208";a="70036917"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 11:15:10 -0800
+X-CSE-ConnectionGUID: VCo4Vp95QOqsh7ih7OCtkA==
+X-CSE-MsgGUID: wG/fN7k8Q4yf9KqdyWGThQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="205980601"
+   d="scan'208";a="237202421"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jan 2026 11:15:09 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2026 11:15:09 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhuiQ-00000000OCr-2yZG;
+	id 1vhuiQ-00000000OCt-35hn;
 	Mon, 19 Jan 2026 19:15:06 +0000
-Date: Tue, 20 Jan 2026 03:14:54 +0800
+Date: Tue, 20 Jan 2026 03:14:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 1/3] mm: unified hmm fault and migrate device pagewalk
- paths
-Message-ID: <202601200251.uRdWeQPq-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 196/196]
+ drivers/usb/gadget/composite.c:919 set_config() warn: iterator used outside
+ loop: 'c'
+Message-ID: <202601200312.6pgHQsnw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260119112502.645059-2-mpenttil@redhat.com>
-References: <20260119112502.645059-2-mpenttil@redhat.com>
-TO: mpenttil@redhat.com
-TO: linux-mm@kvack.org
-CC: linux-kernel@vger.kernel.org
-CC: "Mika Penttilä" <mpenttil@redhat.com>
-CC: David Hildenbrand <david@redhat.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Alistair Popple <apopple@nvidia.com>
-CC: Balbir Singh <balbirs@nvidia.com>
-CC: Zi Yan <ziy@nvidia.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mpenttil-redhat-com/mm-unified-hmm-fault-and-migrate-device-pagewalk-paths/20260119-193100
-base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-patch link:    https://lore.kernel.org/r/20260119112502.645059-2-mpenttil%40redhat.com
-patch subject: [PATCH v2 1/3] mm: unified hmm fault and migrate device pagewalk paths
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: sparc-randconfig-r071-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200251.uRdWeQPq-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.2.0
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   625d1a188a3d8cbd1f0897f44e0984dae1711754
+commit: 1624cd20387974d94299c111e7316f766c331400 [196/196] usb: gadget: Set self-powered based on MaxPower and bmAttributes
+:::::: branch date: 6 days ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20260114 (https://download.01.org/0day-ci/archive/20260120/202601200312.6pgHQsnw-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
 smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601200251.uRdWeQPq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601200312.6pgHQsnw-lkp@intel.com/
 
-smatch warnings:
-mm/hmm.c:960 hmm_vma_walk_pmd() warn: missing error code? 'r'
-mm/hmm.c:1310 hmm_range_fault() error: we previously assumed 'range->notifier' could be null (see line 1296)
+New smatch warnings:
+drivers/usb/gadget/composite.c:919 set_config() warn: iterator used outside loop: 'c'
 
-vim +/r +960 mm/hmm.c
+Old smatch warnings:
+drivers/usb/gadget/composite.c:919 set_config() error: we previously assumed 'c' could be null (see line 853)
+drivers/usb/gadget/composite.c:2369 composite_suspend() error: we previously assumed 'cdev->config' could be null (see line 2358)
 
-adc5de78797562 Mika Penttilä   2026-01-19   925  
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   926  static int hmm_vma_walk_pmd(pmd_t *pmdp,
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   927  			    unsigned long start,
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   928  			    unsigned long end,
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   929  			    struct mm_walk *walk)
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   930  {
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   931  	struct hmm_vma_walk *hmm_vma_walk = walk->private;
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   932  	struct hmm_range *range = hmm_vma_walk->range;
-2733ea144dcce7 Jason Gunthorpe 2020-05-01   933  	unsigned long *hmm_pfns =
-2733ea144dcce7 Jason Gunthorpe 2020-05-01   934  		&range->hmm_pfns[(start - range->start) >> PAGE_SHIFT];
-2288a9a68175ce Jason Gunthorpe 2020-03-05   935  	unsigned long npages = (end - start) >> PAGE_SHIFT;
-adc5de78797562 Mika Penttilä   2026-01-19   936  	struct mm_struct *mm = walk->vma->vm_mm;
-2288a9a68175ce Jason Gunthorpe 2020-03-05   937  	unsigned long addr = start;
-adc5de78797562 Mika Penttilä   2026-01-19   938  	enum migrate_vma_info minfo;
-adc5de78797562 Mika Penttilä   2026-01-19   939  	unsigned long i;
-adc5de78797562 Mika Penttilä   2026-01-19   940  	spinlock_t *ptl;
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   941  	pte_t *ptep;
-d08faca018c461 Jérôme Glisse   2018-10-30   942  	pmd_t pmd;
-adc5de78797562 Mika Penttilä   2026-01-19   943  	int r;
-adc5de78797562 Mika Penttilä   2026-01-19   944  
-adc5de78797562 Mika Penttilä   2026-01-19   945  	minfo = hmm_select_migrate(range);
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   946  
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   947  again:
-adc5de78797562 Mika Penttilä   2026-01-19   948  	hmm_vma_walk->locked = false;
-adc5de78797562 Mika Penttilä   2026-01-19   949  	hmm_vma_walk->pmdlocked = false;
-26e1a0c3277d7f Hugh Dickins    2023-06-08   950  	pmd = pmdp_get_lockless(pmdp);
-adc5de78797562 Mika Penttilä   2026-01-19   951  	if (pmd_none(pmd)) {
-adc5de78797562 Mika Penttilä   2026-01-19   952  		r = hmm_vma_walk_hole(start, end, -1, walk);
-adc5de78797562 Mika Penttilä   2026-01-19   953  		if (r || !minfo)
-adc5de78797562 Mika Penttilä   2026-01-19   954  			return r;
-adc5de78797562 Mika Penttilä   2026-01-19   955  
-adc5de78797562 Mika Penttilä   2026-01-19   956  		ptl = pmd_lock(walk->mm, pmdp);
-adc5de78797562 Mika Penttilä   2026-01-19   957  		if (pmd_none(*pmdp)) {
-adc5de78797562 Mika Penttilä   2026-01-19   958  			// hmm_vma_walk_hole() filled migration needs
-adc5de78797562 Mika Penttilä   2026-01-19   959  			spin_unlock(ptl);
-adc5de78797562 Mika Penttilä   2026-01-19  @960  			return r;
-adc5de78797562 Mika Penttilä   2026-01-19   961  		}
-adc5de78797562 Mika Penttilä   2026-01-19   962  		spin_unlock(ptl);
-adc5de78797562 Mika Penttilä   2026-01-19   963  	}
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   964  
-0ac881efe16468 Lorenzo Stoakes 2025-11-10   965  	if (thp_migration_supported() && pmd_is_migration_entry(pmd)) {
-adc5de78797562 Mika Penttilä   2026-01-19   966  		if (!minfo) {
-2733ea144dcce7 Jason Gunthorpe 2020-05-01   967  			if (hmm_range_need_fault(hmm_vma_walk, hmm_pfns, npages, 0)) {
-d08faca018c461 Jérôme Glisse   2018-10-30   968  				hmm_vma_walk->last = addr;
-d2e8d551165ccb Ralph Campbell  2019-07-25   969  				pmd_migration_entry_wait(walk->mm, pmdp);
-73231612dc7c90 Jérôme Glisse   2019-05-13   970  				return -EBUSY;
-d08faca018c461 Jérôme Glisse   2018-10-30   971  			}
-2288a9a68175ce Jason Gunthorpe 2020-03-05   972  		}
-adc5de78797562 Mika Penttilä   2026-01-19   973  		for (i = 0; addr < end; addr += PAGE_SIZE, i++)
-adc5de78797562 Mika Penttilä   2026-01-19   974  			hmm_pfns[i] &= HMM_PFN_INOUT_FLAGS;
-2288a9a68175ce Jason Gunthorpe 2020-03-05   975  
-adc5de78797562 Mika Penttilä   2026-01-19   976  		return 0;
-adc5de78797562 Mika Penttilä   2026-01-19   977  	}
-adc5de78797562 Mika Penttilä   2026-01-19   978  
-adc5de78797562 Mika Penttilä   2026-01-19   979  	if (minfo) {
-adc5de78797562 Mika Penttilä   2026-01-19   980  		hmm_vma_walk->ptl = pmd_lock(mm, pmdp);
-adc5de78797562 Mika Penttilä   2026-01-19   981  		hmm_vma_walk->pmdlocked = true;
-adc5de78797562 Mika Penttilä   2026-01-19   982  		pmd = pmdp_get(pmdp);
-adc5de78797562 Mika Penttilä   2026-01-19   983  	} else
-adc5de78797562 Mika Penttilä   2026-01-19   984  		pmd = pmdp_get_lockless(pmdp);
-adc5de78797562 Mika Penttilä   2026-01-19   985  
-adc5de78797562 Mika Penttilä   2026-01-19   986  	if (pmd_trans_huge(pmd) || !pmd_present(pmd)) {
-adc5de78797562 Mika Penttilä   2026-01-19   987  
-adc5de78797562 Mika Penttilä   2026-01-19   988  		if (!pmd_present(pmd)) {
-adc5de78797562 Mika Penttilä   2026-01-19   989  			r = hmm_vma_handle_absent_pmd(walk, start, end, hmm_pfns,
-10b9feee2d0dc8 Francois Dugast 2025-09-08   990  						      pmd);
-adc5de78797562 Mika Penttilä   2026-01-19   991  			if (r || !minfo)
-adc5de78797562 Mika Penttilä   2026-01-19   992  				return r;
-adc5de78797562 Mika Penttilä   2026-01-19   993  		} else {
-d08faca018c461 Jérôme Glisse   2018-10-30   994  
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   995  			/*
-adc5de78797562 Mika Penttilä   2026-01-19   996  			 * No need to take pmd_lock here if not migrating,
-adc5de78797562 Mika Penttilä   2026-01-19   997  			 * even if some other thread is splitting the huge
-adc5de78797562 Mika Penttilä   2026-01-19   998  			 * pmd we will get that event through mmu_notifier callback.
-53f5c3f489ecdd Jérôme Glisse   2018-04-10   999  			 *
-d2e8d551165ccb Ralph Campbell  2019-07-25  1000  			 * So just read pmd value and check again it's a transparent
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1001  			 * huge or device mapping one and compute corresponding pfn
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1002  			 * values.
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1003  			 */
-adc5de78797562 Mika Penttilä   2026-01-19  1004  
-adc5de78797562 Mika Penttilä   2026-01-19  1005  			if (!pmd_trans_huge(pmd)) {
-adc5de78797562 Mika Penttilä   2026-01-19  1006  				// must be lockless
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1007  				goto again;
-adc5de78797562 Mika Penttilä   2026-01-19  1008  			}
-adc5de78797562 Mika Penttilä   2026-01-19  1009  
-adc5de78797562 Mika Penttilä   2026-01-19  1010  			r = hmm_vma_handle_pmd(walk, addr, end, hmm_pfns, pmd);
-adc5de78797562 Mika Penttilä   2026-01-19  1011  
-adc5de78797562 Mika Penttilä   2026-01-19  1012  			if (r || !minfo)
-adc5de78797562 Mika Penttilä   2026-01-19  1013  				return r;
-adc5de78797562 Mika Penttilä   2026-01-19  1014  		}
-adc5de78797562 Mika Penttilä   2026-01-19  1015  
-adc5de78797562 Mika Penttilä   2026-01-19  1016  		r = hmm_vma_handle_migrate_prepare_pmd(walk, pmdp, start, end, hmm_pfns);
-adc5de78797562 Mika Penttilä   2026-01-19  1017  
-adc5de78797562 Mika Penttilä   2026-01-19  1018  		if (hmm_vma_walk->pmdlocked) {
-adc5de78797562 Mika Penttilä   2026-01-19  1019  			spin_unlock(hmm_vma_walk->ptl);
-adc5de78797562 Mika Penttilä   2026-01-19  1020  			hmm_vma_walk->pmdlocked = false;
-adc5de78797562 Mika Penttilä   2026-01-19  1021  		}
-adc5de78797562 Mika Penttilä   2026-01-19  1022  
-adc5de78797562 Mika Penttilä   2026-01-19  1023  		if (r == -ENOENT) {
-adc5de78797562 Mika Penttilä   2026-01-19  1024  			r = hmm_vma_walk_split(pmdp, addr, walk);
-adc5de78797562 Mika Penttilä   2026-01-19  1025  			if (r) {
-adc5de78797562 Mika Penttilä   2026-01-19  1026  				/* Split not successful, skip */
-adc5de78797562 Mika Penttilä   2026-01-19  1027  				return hmm_pfns_fill(start, end, hmm_vma_walk, HMM_PFN_ERROR);
-adc5de78797562 Mika Penttilä   2026-01-19  1028  			}
-adc5de78797562 Mika Penttilä   2026-01-19  1029  
-adc5de78797562 Mika Penttilä   2026-01-19  1030  			/* Split successful or "again", reloop */
-adc5de78797562 Mika Penttilä   2026-01-19  1031  			hmm_vma_walk->last = addr;
-adc5de78797562 Mika Penttilä   2026-01-19  1032  			return -EBUSY;
-adc5de78797562 Mika Penttilä   2026-01-19  1033  		}
-adc5de78797562 Mika Penttilä   2026-01-19  1034  
-adc5de78797562 Mika Penttilä   2026-01-19  1035  		return r;
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1036  
-adc5de78797562 Mika Penttilä   2026-01-19  1037  	}
-adc5de78797562 Mika Penttilä   2026-01-19  1038  
-adc5de78797562 Mika Penttilä   2026-01-19  1039  	if (hmm_vma_walk->pmdlocked) {
-adc5de78797562 Mika Penttilä   2026-01-19  1040  		spin_unlock(hmm_vma_walk->ptl);
-adc5de78797562 Mika Penttilä   2026-01-19  1041  		hmm_vma_walk->pmdlocked = false;
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1042  	}
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1043  
-d08faca018c461 Jérôme Glisse   2018-10-30  1044  	/*
-d2e8d551165ccb Ralph Campbell  2019-07-25  1045  	 * We have handled all the valid cases above ie either none, migration,
-d08faca018c461 Jérôme Glisse   2018-10-30  1046  	 * huge or transparent huge. At this point either it is a valid pmd
-d08faca018c461 Jérôme Glisse   2018-10-30  1047  	 * entry pointing to pte directory or it is a bad pmd that will not
-d08faca018c461 Jérôme Glisse   2018-10-30  1048  	 * recover.
-d08faca018c461 Jérôme Glisse   2018-10-30  1049  	 */
-2288a9a68175ce Jason Gunthorpe 2020-03-05  1050  	if (pmd_bad(pmd)) {
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  1051  		if (hmm_range_need_fault(hmm_vma_walk, hmm_pfns, npages, 0))
-2288a9a68175ce Jason Gunthorpe 2020-03-05  1052  			return -EFAULT;
-adc5de78797562 Mika Penttilä   2026-01-19  1053  		return hmm_pfns_fill(start, end, hmm_vma_walk, HMM_PFN_ERROR);
-2288a9a68175ce Jason Gunthorpe 2020-03-05  1054  	}
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1055  
-adc5de78797562 Mika Penttilä   2026-01-19  1056  	if (minfo) {
-adc5de78797562 Mika Penttilä   2026-01-19  1057  		ptep = pte_offset_map_lock(mm, pmdp, addr, &hmm_vma_walk->ptl);
-adc5de78797562 Mika Penttilä   2026-01-19  1058  		if (ptep)
-adc5de78797562 Mika Penttilä   2026-01-19  1059  			hmm_vma_walk->locked = true;
-adc5de78797562 Mika Penttilä   2026-01-19  1060  	} else
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1061  		ptep = pte_offset_map(pmdp, addr);
-6ec1905f6ec7f9 Hugh Dickins    2023-06-08  1062  	if (!ptep)
-6ec1905f6ec7f9 Hugh Dickins    2023-06-08  1063  		goto again;
-adc5de78797562 Mika Penttilä   2026-01-19  1064  
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  1065  	for (; addr < end; addr += PAGE_SIZE, ptep++, hmm_pfns++) {
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1066  
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  1067  		r = hmm_vma_handle_pte(walk, addr, end, pmdp, ptep, hmm_pfns);
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1068  		if (r) {
-dfdc22078f3f06 Jason Gunthorpe 2020-02-28  1069  			/* hmm_vma_handle_pte() did pte_unmap() */
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1070  			return r;
-53f5c3f489ecdd Jérôme Glisse   2018-04-10  1071  		}
-adc5de78797562 Mika Penttilä   2026-01-19  1072  
-adc5de78797562 Mika Penttilä   2026-01-19  1073  		r = hmm_vma_handle_migrate_prepare(walk, pmdp, ptep, addr, hmm_pfns);
-adc5de78797562 Mika Penttilä   2026-01-19  1074  		if (r == -EAGAIN) {
-adc5de78797562 Mika Penttilä   2026-01-19  1075  			goto again;
-adc5de78797562 Mika Penttilä   2026-01-19  1076  		}
-adc5de78797562 Mika Penttilä   2026-01-19  1077  		if (r) {
-adc5de78797562 Mika Penttilä   2026-01-19  1078  			hmm_pfns_fill(addr, end, hmm_vma_walk, HMM_PFN_ERROR);
-adc5de78797562 Mika Penttilä   2026-01-19  1079  			break;
-da4c3c735ea4dc Jérôme Glisse   2017-09-08  1080  		}
-adc5de78797562 Mika Penttilä   2026-01-19  1081  	}
-adc5de78797562 Mika Penttilä   2026-01-19  1082  
-adc5de78797562 Mika Penttilä   2026-01-19  1083  	if (hmm_vma_walk->locked)
-adc5de78797562 Mika Penttilä   2026-01-19  1084  		pte_unmap_unlock(ptep - 1, hmm_vma_walk->ptl);
-adc5de78797562 Mika Penttilä   2026-01-19  1085  	else
-da4c3c735ea4dc Jérôme Glisse   2017-09-08  1086  		pte_unmap(ptep - 1);
-adc5de78797562 Mika Penttilä   2026-01-19  1087  
-da4c3c735ea4dc Jérôme Glisse   2017-09-08  1088  	return 0;
-da4c3c735ea4dc Jérôme Glisse   2017-09-08  1089  }
-da4c3c735ea4dc Jérôme Glisse   2017-09-08  1090  
+vim +/c +919 drivers/usb/gadget/composite.c
+
+40982be52d8f64 David Brownell    2008-06-19  817  
+40982be52d8f64 David Brownell    2008-06-19  818  static int set_config(struct usb_composite_dev *cdev,
+40982be52d8f64 David Brownell    2008-06-19  819  		const struct usb_ctrlrequest *ctrl, unsigned number)
+40982be52d8f64 David Brownell    2008-06-19  820  {
+40982be52d8f64 David Brownell    2008-06-19  821  	struct usb_gadget	*gadget = cdev->gadget;
+40982be52d8f64 David Brownell    2008-06-19  822  	struct usb_configuration *c = NULL;
+40982be52d8f64 David Brownell    2008-06-19  823  	int			result = -EINVAL;
+40982be52d8f64 David Brownell    2008-06-19  824  	unsigned		power = gadget_is_otg(gadget) ? 8 : 100;
+40982be52d8f64 David Brownell    2008-06-19  825  	int			tmp;
+40982be52d8f64 David Brownell    2008-06-19  826  
+40982be52d8f64 David Brownell    2008-06-19  827  	if (number) {
+40982be52d8f64 David Brownell    2008-06-19  828  		list_for_each_entry(c, &cdev->configs, list) {
+40982be52d8f64 David Brownell    2008-06-19  829  			if (c->bConfigurationValue == number) {
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  830  				/*
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  831  				 * We disable the FDs of the previous
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  832  				 * configuration only if the new configuration
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  833  				 * is a valid one
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  834  				 */
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  835  				if (cdev->config)
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  836  					reset_config(cdev);
+40982be52d8f64 David Brownell    2008-06-19  837  				result = 0;
+40982be52d8f64 David Brownell    2008-06-19  838  				break;
+40982be52d8f64 David Brownell    2008-06-19  839  			}
+40982be52d8f64 David Brownell    2008-06-19  840  		}
+40982be52d8f64 David Brownell    2008-06-19  841  		if (result < 0)
+40982be52d8f64 David Brownell    2008-06-19  842  			goto done;
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  843  	} else { /* Zero configuration value - need to reset the config */
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  844  		if (cdev->config)
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  845  			reset_config(cdev);
+40982be52d8f64 David Brownell    2008-06-19  846  		result = 0;
+bdb64d727216b4 Tatyana Brokhman  2011-06-29  847  	}
+40982be52d8f64 David Brownell    2008-06-19  848  
+1cbfb8c4f62d66 Joel Stanley      2019-09-30  849  	DBG(cdev, "%s config #%d: %s\n",
+e538dfdae85244 Michal Nazarewicz 2011-08-30  850  	    usb_speed_string(gadget->speed),
+e538dfdae85244 Michal Nazarewicz 2011-08-30  851  	    number, c ? c->label : "unconfigured");
+40982be52d8f64 David Brownell    2008-06-19  852  
+40982be52d8f64 David Brownell    2008-06-19  853  	if (!c)
+40982be52d8f64 David Brownell    2008-06-19  854  		goto done;
+40982be52d8f64 David Brownell    2008-06-19  855  
+6027f3173e797b Peter Chen        2014-04-29  856  	usb_gadget_set_state(gadget, USB_STATE_CONFIGURED);
+40982be52d8f64 David Brownell    2008-06-19  857  	cdev->config = c;
+40982be52d8f64 David Brownell    2008-06-19  858  
+40982be52d8f64 David Brownell    2008-06-19  859  	/* Initialize all interfaces by setting them to altsetting zero. */
+40982be52d8f64 David Brownell    2008-06-19  860  	for (tmp = 0; tmp < MAX_CONFIG_INTERFACES; tmp++) {
+40982be52d8f64 David Brownell    2008-06-19  861  		struct usb_function	*f = c->interface[tmp];
+5242658d1b9777 Laurent Pinchart  2009-10-21  862  		struct usb_descriptor_header **descriptors;
+40982be52d8f64 David Brownell    2008-06-19  863  
+40982be52d8f64 David Brownell    2008-06-19  864  		if (!f)
+40982be52d8f64 David Brownell    2008-06-19  865  			break;
+40982be52d8f64 David Brownell    2008-06-19  866  
+5242658d1b9777 Laurent Pinchart  2009-10-21  867  		/*
+5242658d1b9777 Laurent Pinchart  2009-10-21  868  		 * Record which endpoints are used by the function. This is used
+5242658d1b9777 Laurent Pinchart  2009-10-21  869  		 * to dispatch control requests targeted at that endpoint to the
+5242658d1b9777 Laurent Pinchart  2009-10-21  870  		 * function's setup callback instead of the current
+5242658d1b9777 Laurent Pinchart  2009-10-21  871  		 * configuration's setup callback.
+5242658d1b9777 Laurent Pinchart  2009-10-21  872  		 */
+f3bdbe36682631 John Youn         2016-02-05  873  		descriptors = function_descriptors(f, gadget->speed);
+5242658d1b9777 Laurent Pinchart  2009-10-21  874  
+5242658d1b9777 Laurent Pinchart  2009-10-21  875  		for (; *descriptors; ++descriptors) {
+5242658d1b9777 Laurent Pinchart  2009-10-21  876  			struct usb_endpoint_descriptor *ep;
+5242658d1b9777 Laurent Pinchart  2009-10-21  877  			int addr;
+5242658d1b9777 Laurent Pinchart  2009-10-21  878  
+5242658d1b9777 Laurent Pinchart  2009-10-21  879  			if ((*descriptors)->bDescriptorType != USB_DT_ENDPOINT)
+5242658d1b9777 Laurent Pinchart  2009-10-21  880  				continue;
+5242658d1b9777 Laurent Pinchart  2009-10-21  881  
+5242658d1b9777 Laurent Pinchart  2009-10-21  882  			ep = (struct usb_endpoint_descriptor *)*descriptors;
+5242658d1b9777 Laurent Pinchart  2009-10-21  883  			addr = ((ep->bEndpointAddress & 0x80) >> 3)
+5242658d1b9777 Laurent Pinchart  2009-10-21  884  			     |  (ep->bEndpointAddress & 0x0f);
+5242658d1b9777 Laurent Pinchart  2009-10-21  885  			set_bit(addr, f->endpoints);
+5242658d1b9777 Laurent Pinchart  2009-10-21  886  		}
+5242658d1b9777 Laurent Pinchart  2009-10-21  887  
+40982be52d8f64 David Brownell    2008-06-19  888  		result = f->set_alt(f, tmp, 0);
+40982be52d8f64 David Brownell    2008-06-19  889  		if (result < 0) {
+40982be52d8f64 David Brownell    2008-06-19  890  			DBG(cdev, "interface %d (%s/%p) alt 0 --> %d\n",
+40982be52d8f64 David Brownell    2008-06-19  891  					tmp, f->name, f, result);
+40982be52d8f64 David Brownell    2008-06-19  892  
+40982be52d8f64 David Brownell    2008-06-19  893  			reset_config(cdev);
+40982be52d8f64 David Brownell    2008-06-19  894  			goto done;
+40982be52d8f64 David Brownell    2008-06-19  895  		}
+1b9ba000177ee4 Roger Quadros     2011-05-09  896  
+1b9ba000177ee4 Roger Quadros     2011-05-09  897  		if (result == USB_GADGET_DELAYED_STATUS) {
+1b9ba000177ee4 Roger Quadros     2011-05-09  898  			DBG(cdev,
+1b9ba000177ee4 Roger Quadros     2011-05-09  899  			 "%s: interface %d (%s) requested delayed status\n",
+1b9ba000177ee4 Roger Quadros     2011-05-09  900  					__func__, tmp, f->name);
+1b9ba000177ee4 Roger Quadros     2011-05-09  901  			cdev->delayed_status++;
+1b9ba000177ee4 Roger Quadros     2011-05-09  902  			DBG(cdev, "delayed_status count %d\n",
+1b9ba000177ee4 Roger Quadros     2011-05-09  903  					cdev->delayed_status);
+1b9ba000177ee4 Roger Quadros     2011-05-09  904  		}
+40982be52d8f64 David Brownell    2008-06-19  905  	}
+40982be52d8f64 David Brownell    2008-06-19  906  
+40982be52d8f64 David Brownell    2008-06-19  907  	/* when we return, be sure our power usage is valid */
+03f4492dbff3d7 Jack Pham         2021-07-20  908  	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
+03f4492dbff3d7 Jack Pham         2021-07-20  909  		power = c->MaxPower;
+03f4492dbff3d7 Jack Pham         2021-07-20  910  	else
+03f4492dbff3d7 Jack Pham         2021-07-20  911  		power = CONFIG_USB_GADGET_VBUS_DRAW;
+03f4492dbff3d7 Jack Pham         2021-07-20  912  
+a2035411fa1d12 Jack Pham         2020-01-30  913  	if (gadget->speed < USB_SPEED_SUPER)
+a2035411fa1d12 Jack Pham         2020-01-30  914  		power = min(power, 500U);
+a2035411fa1d12 Jack Pham         2020-01-30  915  	else
+a2035411fa1d12 Jack Pham         2020-01-30  916  		power = min(power, 900U);
+40982be52d8f64 David Brownell    2008-06-19  917  done:
+1624cd20387974 Prashanth K       2025-02-17  918  	if (power > USB_SELF_POWER_VBUS_MAX_DRAW ||
+1624cd20387974 Prashanth K       2025-02-17 @919  	    !(c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
+5e5caf4fa8d303 Thinh Nguyen      2020-02-03  920  		usb_gadget_clear_selfpowered(gadget);
+1624cd20387974 Prashanth K       2025-02-17  921  	else
+1624cd20387974 Prashanth K       2025-02-17  922  		usb_gadget_set_selfpowered(gadget);
+5e5caf4fa8d303 Thinh Nguyen      2020-02-03  923  
+40982be52d8f64 David Brownell    2008-06-19  924  	usb_gadget_vbus_draw(gadget, power);
+1b9ba000177ee4 Roger Quadros     2011-05-09  925  	if (result >= 0 && cdev->delayed_status)
+1b9ba000177ee4 Roger Quadros     2011-05-09  926  		result = USB_GADGET_DELAYED_STATUS;
+40982be52d8f64 David Brownell    2008-06-19  927  	return result;
+40982be52d8f64 David Brownell    2008-06-19  928  }
+40982be52d8f64 David Brownell    2008-06-19  929  
 
 -- 
 0-DAY CI Kernel Test Service
