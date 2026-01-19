@@ -1,144 +1,147 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out28-173.mail.aliyun.com (out28-173.mail.aliyun.com [115.124.28.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2AA3502A1
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 08:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6979350280;
+	Mon, 19 Jan 2026 08:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768812962; cv=none; b=UuaLWUG24G2xF7BuZ1vYJug6whLJqbyCzunCnQOGb1vTi9SIJgrAAsjvX/Vo60let+DsUdMUPZfiWU9M04XtEYiv9RE8yE0zFp/MRJtKy5zAsIO+K/qilaSA4IgEVYk8LyibvzV/0b70jhCu2Y6zPQmLSdF5YlCF3y6OMyg/yiI=
+	t=1768813019; cv=none; b=AgPmvojheAKF6wUzMs+m6J+Ir3zsk/+zgbzm4utayJrgYTfjYXmUghVl3BmFidDufTLV8wvnSC07tdMVuwpSm1/WBoOTXWUrGGnNgBcLT6SumIkfiltD+Ax+vek7RIFRAmBJGxDzuwuHGM2RbK26zC+4o4Qa9oj0AHHVoLagLdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768812962; c=relaxed/simple;
-	bh=yuzk4HCkmCLSzrI3p4aqbiLdRuxIs3CtoWGhU33hNLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n6sNhi0NiMh+zg789ShRawyR9K6EHpsNEg8zKhiKOsJiaGCntkuwvoAYr9/glYDIlrJcFBjAz3J9JjVo0R0MjXiWVAQALSeHKWFRZc86AS46PpP5o6E/l3U5V5Sc+HzTCw6qFduMCpcYqsoftJqJP9RqpoHwOIIxecyX+sGzRi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DT0lr5TG; arc=none smtp.client-ip=209.85.221.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DT0lr5TG"
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-430f57cd471so2010323f8f.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 00:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768812959; x=1769417759; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ltjz/smMzvjpsohpXR7hQ21/EDxVXQBbnheqC1Ei6f0=;
-        b=DT0lr5TG13ED19DXFd1zF9GfiEd0CPYwd9hXh9lgETSvpX0Jmnq4n88vMSMOGpT2eu
-         qgt1KngceRadeW3OtbcEWt79AgS3SZoRFxp6kJG9SGo9RhH3Gi/rYeImp29uba7ffKOu
-         HoPZwp/ze8qnI8yYR3rhDluPStpWVzl6i4M7SII7y7Syzh6DgloHsPNX2MkAo1CozBc/
-         /lRCQFDArrjrbRC7qv4EJmPTEqjrwqRXV56XBCMFDSHrgMlZcosAyJOhNQXeNiUzqPz9
-         UVRjcpR2q8HP8RVQs56mwiX9fDw2KjUOI5OwPvl98tjryly3bkxo5X1muGY0uELsHQri
-         8R2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768812959; x=1769417759;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ltjz/smMzvjpsohpXR7hQ21/EDxVXQBbnheqC1Ei6f0=;
-        b=uditvRUQAncLPhrlPHUxlLufZZClmsMCy1r1v8DgaByZbqWVAlFaKmZWYlEFOObmLn
-         twXPicI8rFhIzfIAAE6oHtoe+XUl1V2oYL8Sx/odp1qvZHJpIsffeZELOB/nshXNlxPV
-         zUklVjTX5KN96WVBYwzITVuaWybvd4TZaU/ngfy/G5re6kxG7vLrWtpGyIIP6uqMFpwv
-         L3y1Zwl75X1nS9oN1GMqEEEZ04kS3Jyh6wpnAr58byGwU1JcXEwFPQsqiUA2rsptKIqx
-         zbqTu3kSwiIeG1+oHyo0CLCdbtivF+YyBBKEatgVZe58Bc0jl9Gi2Fv8vvZj4PsXZawd
-         Atew==
-X-Gm-Message-State: AOJu0YxVdY5BdfRXYOccV0aKTf1mwpoOeQ1oqPnsW3427yhMBaWtyPnY
-	82xzCOjgU5vCJPndTpy1+8B7145T9DMOu/bX0e1+LwntjPu9KXP5lW4B4gydOkao3Rk=
-X-Gm-Gg: AZuq6aLm2pFg2glA7q7iJjsOmwXwRwlnzFiMB2t/E9vL6gUXezxFkfC35KtlmMA1tye
-	f8m2vBQ5jOuKpC+oa/zavdyz8ZUz5m7JfXJdaGMz/8/s/OzWCHwMfrw9Ev09ItfmuVQRJSBXZac
-	lwZpPrDw5Kqj4DFIfN7SssiT4gkQoQqwOKtFXpIz/5TixBQpgyD3yUfb737ypapiPSokruYML59
-	c1EV1rHDvcaV389RWBsy6p0hoaHuDp97m/dH3BSuQrNuED6NeVU5o4XkMRu54oLvAlSiq81M9Ei
-	ztvmVJDio4RBcUbxDr1FFmlaf6D3bgGa2BCrDgT2JydUJjdRDGpOJytD+KkTQtrplP/WdiJ2mfn
-	pmSsQlnI2qRXLjFv8GHCzT4tcVr/V5sOjkXTlDiMQ684tVCbARZlCYkBRxOyRFOinuHL4Qwhtt9
-	k2RlDheZSCuR/J1Fr7
-X-Received: by 2002:a05:6000:2505:b0:42f:f627:3aa7 with SMTP id ffacd0b85a97d-4356a0298d8mr13122462f8f.16.1768812959229;
-        Mon, 19 Jan 2026 00:55:59 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996e2d8sm21807525f8f.28.2026.01.19.00.55.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 00:55:58 -0800 (PST)
-Date: Mon, 19 Jan 2026 11:55:55 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Antony Antony <antony@phenome.org>
-Cc: oe-kbuild@lists.linux.dev, Antony Antony <antony.antony@secunet.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>, netdev@vger.kernel.org,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chiachang Wang <chiachangwang@google.com>,
-	Yan Yan <evitayan@google.com>, devel@linux-ipsec.org,
-	Simon Horman <horms@kernel.org>, Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>, linux-kernel@vger.kernel.org,
-	selinux@vger.kernel.org
-Subject: Re: [devel-ipsec] Re: [PATCH ipsec-next v2 4/4] xfrm: add
- XFRM_MSG_MIGRATE_STATE for single SA migration
-Message-ID: <aW3xmwA9tTsWImwr@stanley.mountain>
-References: <951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony@secunet.com>
- <202601190605.ZVkgcUYl-lkp@intel.com>
- <aW3pnybMNWNlIRH7@Antony2201.local>
+	s=arc-20240116; t=1768813019; c=relaxed/simple;
+	bh=gcYIsFgnwgsS0LtH/eN10wxkrRE18zzJvKrHRoPaLXs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fM8wXlxW7fWYRyXZOHcdeoBRyjRWJd39OxsjE92SRN2IReOCJzww2+SHzI8YQYbRyMXpIOkNm6DT2067pJBMphfXzcO6eIby8S4owYFSewANFkTrWPIP8XGmgID68qbkfYrJRI3mnp9tlYQrGOwQYOEBVdp3Jz5ptqau+KqJTI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bosc.ac.cn; spf=pass smtp.mailfrom=bosc.ac.cn; arc=none smtp.client-ip=115.124.28.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bosc.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bosc.ac.cn
+Received: from 172.38.31.119(mailfrom:guoyaxing@bosc.ac.cn fp:SMTPD_---.gA6HR4W_1768813011 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Mon, 19 Jan 2026 16:56:52 +0800
+Message-ID: <0eebf588-75d8-4848-b0bf-d42419e57880@bosc.ac.cn>
+Date: Mon, 19 Jan 2026 16:56:51 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aW3pnybMNWNlIRH7@Antony2201.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
+ uio_pci_generic_sva.c
+To: Haiyue Wang <haiyuewa@163.com>, Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>, oe-kbuild@lists.linux.dev,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
+ <2026011643-coastline-playtime-0ac5@gregkh>
+ <2026011603-dorsal-unblessed-cdb2@gregkh>
+ <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
+ <aW3Znz51bTVj3oxJ@stanley.mountain>
+ <7b7b6ae1-be56-45a0-b43c-8a66f054584d@bosc.ac.cn>
+ <b0a45763-1cd2-4638-80a9-bd88fee9d729@163.com>
+ <7f8ddc11-0de7-401e-9a05-4d05579f8787@bosc.ac.cn>
+ <11657a45-0d80-4f04-8eae-19fab4f43bbf@163.com>
+From: yaxing guo <guoyaxing@bosc.ac.cn>
+In-Reply-To: <11657a45-0d80-4f04-8eae-19fab4f43bbf@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 19, 2026 at 09:21:51AM +0100, Antony Antony wrote:
-> Hi Dan,
-> 
-> On Mon, Jan 19, 2026 at 08:27:25AM +0300, Dan Carpenter via Devel wrote:
-> > Hi Antony,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Antony-Antony/xfrm-remove-redundant-assignments/20260118-041031
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-> > patch link:    https://lore.kernel.org/r/951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony%40secunet.com
-> > patch subject: [PATCH ipsec-next v2 4/4] xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
-> > config: hexagon-randconfig-r072-20260118 (https://download.01.org/0day-ci/archive/20260119/202601190605.ZVkgcUYl-lkp@intel.com/config)
-> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-> > smatch version: v0.5.0-8985-g2614ff1a
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202601190605.ZVkgcUYl-lkp@intel.com/
-> > 
-> > New smatch warnings:
-> > net/xfrm/xfrm_user.c:3299 xfrm_do_migrate_state() warn: missing error code? 'err'
-> 
-> Looking at this more closely, xfrm_user_state_lookup() always sets *errp 
-> when it returns NULL.
-> 
-> > Old smatch warnings:
-> > net/xfrm/xfrm_user.c:1024 xfrm_add_sa() warn: missing error code? 'err'
-> > net/xfrm/xfrm_user.c:2248 xfrm_add_policy() warn: missing error code? 'err'
-> > net/xfrm/xfrm_user.c:3018 xfrm_add_acquire() warn: missing error code 'err'
-> 
-> Also, as the "Old smatch warnings" show, this same pattern exists elsewhere
-> in the file, most of the calls to xfrm_user_state_lookup().
-> 
-> I'm inclined to leave it as is rather than change a pattern that's 
-> consistent throughout the file. Does smatch follow the code doing
-> cross-function analysis? In this case, look into xfrm_user_state_lookup()
-> and further down to see that *errp is set when NULL is returned?
-> 
 
-Ah, right.  Sorry about that.  Yes, of course, it shouldn't be
-changed.
 
-The zero day bot can't do cross function analysis because it doesn't
-scale for the number of trees the bot tests...
-
-regards,
-dan carpenter
-
+在 2026/1/19 16:48, Haiyue Wang 写道:
+> 
+> 
+> On 1/19/2026 4:38 PM, yaxing guo wrote:
+>>
+>>
+>> 在 2026/1/19 16:23, Haiyue Wang 写道:
+>>>
+>>>
+>>> On 1/19/2026 4:00 PM, yaxing guo wrote:
+>>>>
+>>>>
+>>>> 在 2026/1/19 15:13, Dan Carpenter 写道:
+>>>>> On Mon, Jan 19, 2026 at 02:16:21PM +0800, yaxing guo wrote:
+>>>>>>
+>>>>>>
+>>>>>> 在 2026/1/16 23:16, Greg KH 写道:
+>>>>>>>
+>>>>>>> Wait, I already took this a while ago, why was this resent?
+>>>>>>>
+>>>>>> After the v3 patch submission, I received error reports from Dan 
+>>>>>> Carpenter
+>>>>>> dan.carpenter@linaro.org and the kernel test robot lkp@intel.com 
+>>>>>> (see:
+>>>>>> https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
+>>>>>> In response, I’ve submitted a new version (v4) of the same patch, 
+>>>>>> which
+>>>>>> primarily addresses the issues highlighted in that report (as 
+>>>>>> described in
+>>>>>> the "changes in v4" section of the cover letter).
+>>>>>> If there’s anything improper in this process—such as resubmitting 
+>>>>>> instead of
+>>>>>> replying with fixes or other procedural concerns—please let me 
+>>>>>> know, and
+>>>>>> I’ll be happy to correct it accordingly.
+>>>>>
+>>>>> Since it's already merged then you will need to send the fixes as a 
+>>>>> separate
+>>>>> patch based on Greg's latest devel tree.  Send two patches, one 
+>>>>> that fixes
+>>>>> that && vs || bugs and one that fixes the devm_ double free.  Add 
+>>>>> Reported-by
+>>>>> tags and the Fixes tags.
+>>>>>
+>>>>> regards,
+>>>>> dan carpenter
+>>>>
+>>>> Hi Dan,
+>>>> I noticed that on January 10, 2026, Haiyue submitted a fix for the 
+>>>> issue that && vs || bugs:
+>>>>   https://lore.kernel.org/all/20260109175448.34309-1-haiyuewa@163.com/
+>>>> Please go ahead and use his patch, and then I will fixed the devm_ 
+>>>> double free.
+>>>>
+>>>> Hi Haiyue,
+>>>> I actually fixed this same issue in v4 of my patch series (dated 
+>>>> December 23, 2025)(https://lore.kernel.org/all/ 
+>>>> aW3Znz51bTVj3oxJ@stanley.mountain/), which addressed the bug 
+>>>> reported by 
+>>>
+>>> I just checked the linux-next, found no fix about '&&', without 
+>>> searching deeply. :)
+>> Yes, what I meant is that I was about to submit a separate patch to 
+>> fix the && vs || bug, but I happened to notice your commit from 
+>> January 10th. Therefore, I decided not to send a duplicate patch and 
+>> will defer to yours instead.
+>> However, would it be possible to add the following Reported-by tags to 
+>> your patch?
+>>
+>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>>
+> 
+> In fact, I just catched the error by reading the code directly when I saw:
+> https://www.phoronix.com/news/Linux-6.19-char-misc
+> 
+> without knowing the report.
+> 
+> But I'm fine to add more information in the patch if re-sending is truly 
+> needed, since the patch has been merged already.
+Ah, got it — I wasn’t aware it had already been merged. In that case,it 
+is no longer needed :).
+> 
+>>>
+>>>> Dan Carpenter(dan.carpenter@linaro.org) and the kernel test robot 
+>>>> (lkp@intel.com). However, since the original series had already been 
+>>>> merged by then, a separate fix is needed.
+>>>> I saw your patch—thanks for picking this up! Could you please add 
+>>>> the following Reported-by tags to your commit?
+>>>
+>>> I saw the patch was merged: https://git.kernel.org/pub/scm/linux/ 
+>>> kernel/ git/gregkh/char-misc.git/commit/?h=char-misc- 
+>>> linus&id=054e1c0e6114aaf08672c5ad25d796362bc7e76b
+>>>
+>>>>
+>>>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>>>> Reported-by: kernel test robot <lkp@intel.com>
 
