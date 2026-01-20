@@ -1,139 +1,212 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE2F36C0AC
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Jan 2026 06:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E3336CE0B
+	for <oe-kbuild@lists.linux.dev>; Tue, 20 Jan 2026 06:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768890126; cv=none; b=nDKB+7hjBxtJjcYA/9rLJFQJS5cjYzjzlsFStl4RScRC84J1QN1Wq2hlULRcI9dFQ9PpWS+cDEGggNqN+Epx9xVVPtzHoEpQoEKhgmcltpCqN3gvEo2ld3ofJF5FkLLXssphzkKmkPwVEsnYSHUlstWh7k1iK8qcz9ogxdXWhF8=
+	t=1768890309; cv=none; b=mM09lt6y2pDStFQe8OwH3gcNFb47KmmvokrD5k19QJTHSPIKUgl6RVbcYxxLgBG1pbg6nkijlAu6FCpUhLSBlkVW//lmoO/Zgp3uepkpVYulIf+75RMTvcyjfkBEBx85+XMbYk9xt+xXOhqVM7nvetklSbUpuqamuAY/Xue8f7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768890126; c=relaxed/simple;
-	bh=1ag5yhK2pzA2YXeOLuPeEPZIPT1YwYQUzomD839uEXw=;
+	s=arc-20240116; t=1768890309; c=relaxed/simple;
+	bh=vhLKRi5cwQRdkwKwCl3rxCtEDizeC7M0JtR/7FgZE1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JxrlhnVCZ5IxPTmZohO5eZm6jB9PrTb/QN5tt4Q51SNL+85C5uoDQGSZh9oVNJ/s3f/4N/aLGywp85Ynxsf90HSU+l5rMabbNRYPcIyPtK/QMLJMq+U0cZ1kiGNgVmseWqwoCT8reiq2FWsuWO0X0f7KCi/xAXTays6j6giurzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lx69Vi7W; arc=none smtp.client-ip=209.85.128.67
+	 Content-Disposition; b=liXTyk6iL5Sah9XuNRyXCv3T+sbD4nM9+7tYbTxcL3ySog5HXlO0OBuR1nhsNrUvDC+qTGQxYFZR+v/Ixq/3O2PDqggGV2yMNW2u/Rhz0RyXrc4kceOFB/INzcL7G5hmQa7lfCt36XuQRXuKFqP+KFmXmKiv3KT/mXwjoo/luSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fD9bPK8g; arc=none smtp.client-ip=209.85.221.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lx69Vi7W"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4801bc32725so23691925e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 22:22:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fD9bPK8g"
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-4359249bbacso41842f8f.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 19 Jan 2026 22:25:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768890123; x=1769494923; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wqcCKSyPCqADRPm0OZTWiOZxxfMu7XITKXeHqCYF8Y0=;
-        b=lx69Vi7WoigvQELMcoxXd1+gagq8bblLc5Bibkctj/8bRAa4m5YVbVHbyxzVlBSQgI
-         +kPDzTU1YvQb+GSHGtawN60gMdsTQghcoeelfDDzH+k2c1LL/1PF0S5LJ2/Xtb6GdUR5
-         +VidkaY+aE7i2vm53qMk9ufkyh+M09ylsTtzyKFYN83RI4xqHaMpKWyjkF1ikdZb6LjI
-         HisabSPfyCkCmuaycCN7oBnnZJizhc2J3cL9zmr+1r2ngXzaexCnlIptPhEN2KkOUonG
-         iA3r4AwAerTemf0Wx3uxYYh4gC6boARa4xvSFHQeue0yrkuePX5cvJpEbXsMJksZcI0H
-         Wk0w==
+        d=linaro.org; s=google; t=1768890303; x=1769495103; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZW+7SXYCzs528iRaVu7Ui49r+v4hhw8vma3yqlv8fRA=;
+        b=fD9bPK8gZF3AMpep/J980bAlSbbyE8gBq/mFPn8HEnn4q9FmIoMJ0mJnANjvjE7gJI
+         znQ3M8iacwydVeTZBIA7HYRqiqE5trbu3p8P0+6YzzC+MxfwVU5p3jvryOkNX+F/AdVD
+         lQ1VzmFIcIvZQfiLjJjpZY3UAR/qGN2we3HfMPmOW2d7REpbI7g3NCFcIuW3FlH483z2
+         pwuGbXociKcbhff/Ttnn9CwlVLblkPrboau6vMtaj+CfV+b3Cfh7jbL+Lkw1hDVpDAWT
+         3mZQ/bJ0Nz+ABM+PASJF/VFzTZS5/2O0i/CRBVtk7rqvmxbUw7D/bb/Xf4cPk3B7MZ80
+         bmRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768890123; x=1769494923;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wqcCKSyPCqADRPm0OZTWiOZxxfMu7XITKXeHqCYF8Y0=;
-        b=q1jqt3jZ+br85pw0S7yhg8fYqUYvZbB878RpaFPYUBG8Jnmq6dqgIrgwH44UBcbzky
-         hobnM+3I/ofYu34u7TlqG3LJGVt5ozTpVbTsH0hUJbJIzOgmUZhzCQrgVMHmhN4bhnT0
-         LToRBrY60ePteOxtmhZmO0/bWCLLLSnI6nZrw95wZ0hh2jn3wUeigV8WEnnSZpFjdkvE
-         4qRAFT28s6KeT/pAQKILUxCAG+g8Y3B88jkkw4iqBIyVtbpbJMP+rWgH0S0EryJnQYsF
-         +9tgyBKq91hAPfm4N6fM63veALqwYjYl5AY+YSfWMsxi1raGAaUw2Nm/+nF+C2f0iHIU
-         k5ag==
-X-Gm-Message-State: AOJu0Yy5krExRN9d63gQs7ySqchrYH9aZLbTbGa4QogtFppkv91zR2XY
-	UfmVjvcKuuKNx6TzAtaY75zRf3l6zcLnZVVxqfHnBYNE1irKwL1904cHMjk8NOfOkHVvYowphYY
-	MUiaE
-X-Gm-Gg: AY/fxX74kvqM8ncmyQV3CeS+EWknZvNtoPKkMbXKk3x1kSyY0WdHhvAZ0pofEB2xsyK
-	i16GGy5SL+WUbwy3nLjgCuXXW6kN6jINg/5RQxlZgybcmTthRZnNH00WGcrHwRCow9/bgxVT5BE
-	N8q090J7pUOZUwgEPgreYdT9Z79EgyKLlOOwm6KNJx4CFvdzYHx/6efbr7gcVkHU8AOoijbcxVB
-	NCVlVJHcFA6tuuv0nWW/Cnt0Cv013/8vtLQsfhMqE0vqcrUZwD/Ehrq8w/4iWm3qrTBO90oFDfa
-	DLM2Qy1aoBoxqrr6cTqErB9d2GVrPkxvGs41Wp72eR8f8TM0oTyks9va3amZxaAsZ3rq7ychdpR
-	wj/fvLZlNqHpCFQzoMRc8hQZMftWk/ybf4AfmDvrAMCk8c7koeGQAUbZcNHIP1gZi2Jz2DSskCF
-	Ld+Gl+NYNKkCPUqaz7
-X-Received: by 2002:a05:600c:310e:b0:47d:885d:d2ff with SMTP id 5b1f17b1804b1-4801eb11002mr159745445e9.29.1768890122511;
-        Mon, 19 Jan 2026 22:22:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768890303; x=1769495103;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZW+7SXYCzs528iRaVu7Ui49r+v4hhw8vma3yqlv8fRA=;
+        b=TGh+H/1/noWhdFOsRi4Vuxm1tl7VXzllS75160sS0hwxUFBsPA+6eUAi5d9RH/ux8q
+         lR/LjZKtxM3bnFQGCpS1zdHlrOCoRQB3GS9MvX+Vqw8EuvQEK+o97N0RLaYvlyUE0qhs
+         q1HTcE/rjRkVaRqhGVbxjyKA2beYKTp4GugkIjen9hiFKCSLXFCxnt1vQrUUbcswD81k
+         wZqSe7BeZI7JmtjAa/yD8XKf554FAehlJrMeK9CUlRkUUHBkMkRDBuZ2QwXph18Cgdjc
+         DYiZXFmHot6v1/fLVxs5EwGe20EoCqRbr7KYq6xtp/Ie37eXj9EJ343r1eVxc4gdkN/0
+         q2/A==
+X-Gm-Message-State: AOJu0YzZUQCGKdoaxBk084KgRo4d//MBHShgPtjSVHc++TO5DMvNCn7q
+	u1p8mYJSaBOTqCTX6Wfof6et4OX71tlzuZ4P3S+ntXFHgZXlc8L9LPv+Wr1Y+t+1GXspWeQ13aC
+	8nvCToTM=
+X-Gm-Gg: AZuq6aIoqqqx1xJ1PEdTXvV0O1CSCrSq9OwDkS5YCXFCssx2zwHgH21p541/YrstKKN
+	hhBrr98UAkv+VWWygV/KBelp6a9RT3kNxrUhtdvNSqlM1gzdWUP7u1DpHMNpGkX/vNGCx8SLtYj
+	m1/QTjM+p++vWcTyNY1pFrX8DgQSh/w2JwBPryfJvIfa0UGLBKdfQbnaNDTWONtWVc7xsMse93Z
+	OuL+1EVVEhpuFjDLbkME2yD8mUWqDNmH3cu9JZxTBxzz5IfNuHOm5nigoAOanJl9ElZw3elM07I
+	7pZcFxezUuO2clf+KRTvIAnyF6HdZUG9IyZERPShBiGHwz0YeVi3yxdbEi3zuNCgaxPgNlddhND
+	RPyqZGY45rC3ioEHXWby8651WgfuvbviibWQ2C8kbQUpM3a80KWZ7oN5H/s5KnRC+GxGRWfZWep
+	+3eb7VeQqsha9s5Kh9
+X-Received: by 2002:a05:6000:240d:b0:435:932e:f924 with SMTP id ffacd0b85a97d-435932efc3dmr341035f8f.2.1768890303154;
+        Mon, 19 Jan 2026 22:25:03 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4358f12ee69sm2389711f8f.11.2026.01.19.22.22.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356997e664sm25011206f8f.30.2026.01.19.22.25.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 22:22:02 -0800 (PST)
-Date: Tue, 20 Jan 2026 09:21:59 +0300
+        Mon, 19 Jan 2026 22:25:02 -0800 (PST)
+Date: Tue, 20 Jan 2026 09:25:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 196/196]
- sound/soc/codecs/hdmi-codec.c:587 hdmi_codec_prepare() error: __memcpy()
- 'hcp->iec_status' too small (5 vs 24)
-Message-ID: <202601192317.zYZXE5wG-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: [linusw-pinctrl:devel 30/31] drivers/pinctrl/pinctrl-rockchip.c:3683
+ rockchip_pinconf_set() error: we previously assumed 'gpio->direction_output'
+ could be null (see line 3644)
+Message-ID: <202601200057.P0Lr7NDg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Message-ID: <20260120062159.d9CLHHKMUkdIg919pLhnl_9dAWqp3-cwFB7O1-qmOk4@z>
+Content-Transfer-Encoding: 8bit
+Message-ID: <20260120062500.AZXVayE1E6GW9bZFdt46gVzdXHMxWaTxOgGt6YUtbh0@z>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   625d1a188a3d8cbd1f0897f44e0984dae1711754
-commit: 9eda09e511f648adf90efdb805e2429bf5bc25cb [196/196] UPSTREAM: ASoC: hdmi-codec: Add a prepare hook
-config: x86_64-randconfig-161-20260114 (https://download.01.org/0day-ci/archive/20260119/202601192317.zYZXE5wG-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+head:   76d415763bae9488dd2b923b1348ce6f26c1f0ae
+commit: e2c58cbe3aff49fe201e81ee5f651294e313ec74 [30/31] pinctrl: rockchip: Simplify locking with scoped_guard()
+config: sh-randconfig-r073-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200057.P0Lr7NDg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
 smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601192317.zYZXE5wG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601200057.P0Lr7NDg-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/codecs/hdmi-codec.c:587 hdmi_codec_prepare() error: __memcpy() 'hcp->iec_status' too small (5 vs 24)
+smatch warnings:
+drivers/pinctrl/pinctrl-rockchip.c:3683 rockchip_pinconf_set() error: we previously assumed 'gpio->direction_output' could be null (see line 3644)
 
-Old smatch warnings:
-sound/soc/codecs/hdmi-codec.c:551 hdmi_codec_hw_params() error: __memcpy() 'hcp->iec_status' too small (5 vs 24)
+vim +3683 drivers/pinctrl/pinctrl-rockchip.c
 
-vim +587 sound/soc/codecs/hdmi-codec.c
+d3e5116119bd02e Heiko Stübner       2013-06-10  3622  static int rockchip_pinconf_set(struct pinctrl_dev *pctldev, unsigned int pin,
+03b054e9696c3cb Sherman Yin         2013-08-27  3623  				unsigned long *configs, unsigned num_configs)
+d3e5116119bd02e Heiko Stübner       2013-06-10  3624  {
+d3e5116119bd02e Heiko Stübner       2013-06-10  3625  	struct rockchip_pinctrl *info = pinctrl_dev_get_drvdata(pctldev);
+d3e5116119bd02e Heiko Stübner       2013-06-10  3626  	struct rockchip_pin_bank *bank = pin_to_bank(info, pin);
+9ce9a02039de72e Jianqun Xu          2021-08-16  3627  	struct gpio_chip *gpio = &bank->gpio_chip;
+03b054e9696c3cb Sherman Yin         2013-08-27  3628  	enum pin_config_param param;
+58957d2edfa19e9 Mika Westerberg     2017-01-23  3629  	u32 arg;
+03b054e9696c3cb Sherman Yin         2013-08-27  3630  	int i;
+03b054e9696c3cb Sherman Yin         2013-08-27  3631  	int rc;
+03b054e9696c3cb Sherman Yin         2013-08-27  3632  
+03b054e9696c3cb Sherman Yin         2013-08-27  3633  	for (i = 0; i < num_configs; i++) {
+03b054e9696c3cb Sherman Yin         2013-08-27  3634  		param = pinconf_to_config_param(configs[i]);
+03b054e9696c3cb Sherman Yin         2013-08-27  3635  		arg = pinconf_to_config_argument(configs[i]);
+d3e5116119bd02e Heiko Stübner       2013-06-10  3636  
+203a83112e097a5 Linus Walleij       2025-09-05  3637  		if (param == PIN_CONFIG_LEVEL || param == PIN_CONFIG_INPUT_ENABLE) {
+8ce5ef645468502 Caleb Connolly      2022-03-28  3638  			/*
+8ce5ef645468502 Caleb Connolly      2022-03-28  3639  			 * Check for gpio driver not being probed yet.
+8ce5ef645468502 Caleb Connolly      2022-03-28  3640  			 * The lock makes sure that either gpio-probe has completed
+8ce5ef645468502 Caleb Connolly      2022-03-28  3641  			 * or the gpio driver hasn't probed yet.
+8ce5ef645468502 Caleb Connolly      2022-03-28  3642  			 */
+e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3643  			scoped_guard(mutex, &bank->deferred_lock) {
+8ce5ef645468502 Caleb Connolly      2022-03-28 @3644  				if (!gpio || !gpio->direction_output) {
+                                                                                              ^^^^^^^^^^^^^^^^^^^^^^
+Is this check necessary?
 
-9eda09e511f648 Maxime Ripard    2021-05-25  565  static int hdmi_codec_prepare(struct snd_pcm_substream *substream,
-9eda09e511f648 Maxime Ripard    2021-05-25  566  			      struct snd_soc_dai *dai)
-9eda09e511f648 Maxime Ripard    2021-05-25  567  {
-9eda09e511f648 Maxime Ripard    2021-05-25  568  	struct hdmi_codec_priv *hcp = snd_soc_dai_get_drvdata(dai);
-9eda09e511f648 Maxime Ripard    2021-05-25  569  	struct hdmi_codec_daifmt *cf = dai->playback_dma_data;
-9eda09e511f648 Maxime Ripard    2021-05-25  570  	struct snd_pcm_runtime *runtime = substream->runtime;
-9eda09e511f648 Maxime Ripard    2021-05-25  571  	unsigned int channels = runtime->channels;
-9eda09e511f648 Maxime Ripard    2021-05-25  572  	unsigned int width = snd_pcm_format_width(runtime->format);
-9eda09e511f648 Maxime Ripard    2021-05-25  573  	unsigned int rate = runtime->rate;
-9eda09e511f648 Maxime Ripard    2021-05-25  574  	struct hdmi_codec_params hp;
-9eda09e511f648 Maxime Ripard    2021-05-25  575  	int ret;
-09184118a8abae Jyri Sarha       2016-03-31  576  
-9eda09e511f648 Maxime Ripard    2021-05-25  577  	if (!hcp->hcd.ops->prepare)
-9eda09e511f648 Maxime Ripard    2021-05-25  578  		return 0;
-9eda09e511f648 Maxime Ripard    2021-05-25  579  
-9eda09e511f648 Maxime Ripard    2021-05-25  580  	dev_dbg(dai->dev, "%s() width %d rate %d channels %d\n", __func__,
-9eda09e511f648 Maxime Ripard    2021-05-25  581  		width, rate, channels);
-9eda09e511f648 Maxime Ripard    2021-05-25  582  
-9eda09e511f648 Maxime Ripard    2021-05-25  583  	ret = hdmi_codec_fill_codec_params(dai, width, rate, channels, &hp);
-9eda09e511f648 Maxime Ripard    2021-05-25  584  	if (ret < 0)
-9eda09e511f648 Maxime Ripard    2021-05-25  585  		return ret;
-9eda09e511f648 Maxime Ripard    2021-05-25  586  
-9eda09e511f648 Maxime Ripard    2021-05-25 @587  	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
+e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3645  					rc = rockchip_pinconf_defer_pin(bank,
+e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3646  									pin - bank->pin_base,
+e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3647  									param, arg);
+8ce5ef645468502 Caleb Connolly      2022-03-28  3648  					if (rc)
+8ce5ef645468502 Caleb Connolly      2022-03-28  3649  						return rc;
+8ce5ef645468502 Caleb Connolly      2022-03-28  3650  					break;
+8ce5ef645468502 Caleb Connolly      2022-03-28  3651  				}
+e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3652  			}
+8ce5ef645468502 Caleb Connolly      2022-03-28  3653  		}
+8ce5ef645468502 Caleb Connolly      2022-03-28  3654  
+d3e5116119bd02e Heiko Stübner       2013-06-10  3655  		switch (param) {
+d3e5116119bd02e Heiko Stübner       2013-06-10  3656  		case PIN_CONFIG_BIAS_DISABLE:
+03b054e9696c3cb Sherman Yin         2013-08-27  3657  			rc =  rockchip_set_pull(bank, pin - bank->pin_base,
+03b054e9696c3cb Sherman Yin         2013-08-27  3658  				param);
+03b054e9696c3cb Sherman Yin         2013-08-27  3659  			if (rc)
+03b054e9696c3cb Sherman Yin         2013-08-27  3660  				return rc;
+44b6d93043ab677 Heiko Stübner       2013-06-16  3661  			break;
+d3e5116119bd02e Heiko Stübner       2013-06-10  3662  		case PIN_CONFIG_BIAS_PULL_UP:
+d3e5116119bd02e Heiko Stübner       2013-06-10  3663  		case PIN_CONFIG_BIAS_PULL_DOWN:
+d3e5116119bd02e Heiko Stübner       2013-06-10  3664  		case PIN_CONFIG_BIAS_PULL_PIN_DEFAULT:
+6ca5274d1d1258b Heiko Stübner       2013-10-16  3665  		case PIN_CONFIG_BIAS_BUS_HOLD:
+44b6d93043ab677 Heiko Stübner       2013-06-16  3666  			if (!rockchip_pinconf_pull_valid(info->ctrl, param))
+44b6d93043ab677 Heiko Stübner       2013-06-16  3667  				return -ENOTSUPP;
+44b6d93043ab677 Heiko Stübner       2013-06-16  3668  
+44b6d93043ab677 Heiko Stübner       2013-06-16  3669  			if (!arg)
+44b6d93043ab677 Heiko Stübner       2013-06-16  3670  				return -EINVAL;
+44b6d93043ab677 Heiko Stübner       2013-06-16  3671  
+03b054e9696c3cb Sherman Yin         2013-08-27  3672  			rc = rockchip_set_pull(bank, pin - bank->pin_base,
+03b054e9696c3cb Sherman Yin         2013-08-27  3673  				param);
+03b054e9696c3cb Sherman Yin         2013-08-27  3674  			if (rc)
+03b054e9696c3cb Sherman Yin         2013-08-27  3675  				return rc;
+d3e5116119bd02e Heiko Stübner       2013-06-10  3676  			break;
+203a83112e097a5 Linus Walleij       2025-09-05  3677  		case PIN_CONFIG_LEVEL:
+9ce9a02039de72e Jianqun Xu          2021-08-16  3678  			rc = rockchip_set_mux(bank, pin - bank->pin_base,
+9ce9a02039de72e Jianqun Xu          2021-08-16  3679  					      RK_FUNC_GPIO);
+9ce9a02039de72e Jianqun Xu          2021-08-16  3680  			if (rc != RK_FUNC_GPIO)
+9ce9a02039de72e Jianqun Xu          2021-08-16  3681  				return -EINVAL;
+9ce9a02039de72e Jianqun Xu          2021-08-16  3682  
+9ce9a02039de72e Jianqun Xu          2021-08-16 @3683  			rc = gpio->direction_output(gpio, pin - bank->pin_base,
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^
+Unchecked dereference.  This is old code so it's presumably okay.  I
+think this warning is triggering now because of changes in Smatch.
 
-Read overflow.  hp.iec.status is bigger than hcp->iec_status.
-
-9eda09e511f648 Maxime Ripard    2021-05-25  588  	ret = snd_pcm_fill_iec958_consumer(runtime, hp.iec.status,
-9eda09e511f648 Maxime Ripard    2021-05-25  589  					   sizeof(hp.iec.status));
-9eda09e511f648 Maxime Ripard    2021-05-25  590  	if (ret < 0) {
-9eda09e511f648 Maxime Ripard    2021-05-25  591  		dev_err(dai->dev, "Creating IEC958 channel status failed %d\n",
-9eda09e511f648 Maxime Ripard    2021-05-25  592  			ret);
-9eda09e511f648 Maxime Ripard    2021-05-25  593  		return ret;
-9eda09e511f648 Maxime Ripard    2021-05-25  594  	}
-9eda09e511f648 Maxime Ripard    2021-05-25  595  
-9eda09e511f648 Maxime Ripard    2021-05-25  596  	cf->bit_fmt = runtime->format;
-9eda09e511f648 Maxime Ripard    2021-05-25  597  	return hcp->hcd.ops->prepare(dai->dev->parent, hcp->hcd.data,
-0cf4610b9f297e Jerome Brunet    2019-05-06  598  				     cf, &hp);
-09184118a8abae Jyri Sarha       2016-03-31  599  }
+9ce9a02039de72e Jianqun Xu          2021-08-16  3684  						    arg);
+a076e2ed3fd26f8 Heiko Stübner       2014-04-23  3685  			if (rc)
+a076e2ed3fd26f8 Heiko Stübner       2014-04-23  3686  				return rc;
+a076e2ed3fd26f8 Heiko Stübner       2014-04-23  3687  			break;
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3688  		case PIN_CONFIG_INPUT_ENABLE:
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3689  			rc = rockchip_set_mux(bank, pin - bank->pin_base,
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3690  					      RK_FUNC_GPIO);
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3691  			if (rc != RK_FUNC_GPIO)
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3692  				return -EINVAL;
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3693  
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3694  			rc = gpio->direction_input(gpio, pin - bank->pin_base);
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3695  			if (rc)
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3696  				return rc;
+42d90a1e5caf731 Caleb Connolly      2022-03-28  3697  			break;
+b547c8007e83a47 Heiko Stübner       2014-07-20  3698  		case PIN_CONFIG_DRIVE_STRENGTH:
+b547c8007e83a47 Heiko Stübner       2014-07-20  3699  			/* rk3288 is the first with per-pin drive-strength */
+ef17f69f5bf57de Heiko Stübner       2015-06-12  3700  			if (!info->ctrl->drv_calc_reg)
+b547c8007e83a47 Heiko Stübner       2014-07-20  3701  				return -ENOTSUPP;
+b547c8007e83a47 Heiko Stübner       2014-07-20  3702  
+ef17f69f5bf57de Heiko Stübner       2015-06-12  3703  			rc = rockchip_set_drive_perpin(bank,
+ef17f69f5bf57de Heiko Stübner       2015-06-12  3704  						pin - bank->pin_base, arg);
+b547c8007e83a47 Heiko Stübner       2014-07-20  3705  			if (rc < 0)
+b547c8007e83a47 Heiko Stübner       2014-07-20  3706  				return rc;
+b547c8007e83a47 Heiko Stübner       2014-07-20  3707  			break;
+e3b357d7dfe6b38 david.wu            2017-03-02  3708  		case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
+e3b357d7dfe6b38 david.wu            2017-03-02  3709  			if (!info->ctrl->schmitt_calc_reg)
+e3b357d7dfe6b38 david.wu            2017-03-02  3710  				return -ENOTSUPP;
+e3b357d7dfe6b38 david.wu            2017-03-02  3711  
+e3b357d7dfe6b38 david.wu            2017-03-02  3712  			rc = rockchip_set_schmitt(bank,
+e3b357d7dfe6b38 david.wu            2017-03-02  3713  						  pin - bank->pin_base, arg);
+e3b357d7dfe6b38 david.wu            2017-03-02  3714  			if (rc < 0)
+e3b357d7dfe6b38 david.wu            2017-03-02  3715  				return rc;
+e3b357d7dfe6b38 david.wu            2017-03-02  3716  			break;
+d3e5116119bd02e Heiko Stübner       2013-06-10  3717  		default:
+d3e5116119bd02e Heiko Stübner       2013-06-10  3718  			return -ENOTSUPP;
+d3e5116119bd02e Heiko Stübner       2013-06-10  3719  			break;
+d3e5116119bd02e Heiko Stübner       2013-06-10  3720  		}
+03b054e9696c3cb Sherman Yin         2013-08-27  3721  	} /* for each config */
+d3e5116119bd02e Heiko Stübner       2013-06-10  3722  
+d3e5116119bd02e Heiko Stübner       2013-06-10  3723  	return 0;
+d3e5116119bd02e Heiko Stübner       2013-06-10  3724  }
 
 -- 
 0-DAY CI Kernel Test Service
