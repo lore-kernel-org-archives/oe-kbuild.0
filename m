@@ -1,127 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095B83A961B
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Jan 2026 20:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559983101A5
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Jan 2026 02:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768942796; cv=none; b=QTp4eZJhFoOdcG/w1xmTU8kMYEKiV20O01SpD6UJU2ek3o/KCarRIuolEnv9uMGRlO5vpKoIHeX69sMHf9pj4FeKh1fGdYsTHBTfSqY5d5M+/5pKonNy3BgtPckGZCftQhqpD4FG/i/F7yydhpe3agaxC78BnCpnWqwF/ILdpvc=
+	t=1768962507; cv=none; b=YR4etuS0Bi0+/mcdOioR2A6iiOJYX4hv663zfEwdQSN8Sw+TJvhNif+VJlA39/Js24D8O4RvhDhvQ86R+vJWyNkOvtImfiyf/LNvucPH3HcUOcsxWMmFm/0PrYW2WHGYMxeeGWbrEG5gqvWeWWetlTuZad08PucSOiBv4Zz3Th0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768942796; c=relaxed/simple;
-	bh=7oTb3fJ+joB5fbRcHa2H3hbIutHhe9EgGLTA8jONyVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mARg3LY4lLFawsF1pWkGlKh1Ei2D4vw1s1mJ7Ce6DEf9Ni2Nf8l2G/7Z7EWYoJkG5pEIRkN4RdQXiPgC0AmXLSMLgBYCR0AROMMxL016kxf0yEQhKdrIAxzUp+7IxAmxtAmYb4JXAeEWR/Qzq+QLPDndfFcdxPeXibIPx6l5X0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nOiL6qTf; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1768962507; c=relaxed/simple;
+	bh=f0WEp7zDFRDJqxWeybSJ4epBF7oLj5s808TO24Fsha4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Wq128jHUv9VTvhGuPVNDHuV0dz0CYA8K5E96LSFfBHRonqa4vj62A62r3ilLDwX4IKQHcxtY2bUUWSc8d8u8HUl0pH1emXhSQlWT+dZL3nPV6Ep/G2WKXvO4tXCMKgDU0PjayQyqL0ajYzYK2C6krEwN6/lUcTIkPPNiFCLOApo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LHmX+NHj; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOiL6qTf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LHmX+NHj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768942795; x=1800478795;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7oTb3fJ+joB5fbRcHa2H3hbIutHhe9EgGLTA8jONyVI=;
-  b=nOiL6qTfoh9SZ734gG51gtRPEkWoS7LnvzPdrUkygsYxNvJ8XxwGaCNF
-   WtIwJJbti/EcDAn8kcd9lhLVLhQhKHVvPZOeU+cCH90WJAmS/YjKtjl58
-   IINURqAAM4MnvpJQMP2pt987Z4j7GTtac1P50OsRaIKaw7NC4Qp/vlA0E
-   SFDTBdD/i6xIrOLZ4GArP/wMpg77LTsJCvLlIxN/qFUQ3vS/qynxI9qRO
-   5zJ7QcP/GH8FJqe0J5A2SQYRwqwtlMkJ+0tAr6pLI9bSCOGZbIOGjd0CX
-   B6OnLx2Botp/6f52KzwoDMEN7sebMUtQCuKopu1uwVqeoOAlV9Nus+YzY
-   Q==;
-X-CSE-ConnectionGUID: 27vT3JLmQvSGRM63IC4Dzg==
-X-CSE-MsgGUID: r7IuHONBT1myXTeZWGvQtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="87742482"
-X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="87742482"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 12:59:54 -0800
-X-CSE-ConnectionGUID: UM8CXbLNTrKlmeB+pbie5g==
-X-CSE-MsgGUID: LybIpzk6S2253fucA/gyjQ==
+  t=1768962503; x=1800498503;
+  h=date:from:to:cc:subject:message-id;
+  bh=f0WEp7zDFRDJqxWeybSJ4epBF7oLj5s808TO24Fsha4=;
+  b=LHmX+NHjJ9FcT51pcVl28ZQAhS5D7fJNEm9M+77j45TVAOXvdyaNXJ1p
+   7yZpdm3fiCvWdPRwO2ZQ36jWBYoiNKzgR5XRbZxPlZOSz6JT/q5vkJYyD
+   zxkSqmY+plNGoQcZYT/z/sEJ7XMIOKZVWw3CX48Rr4Dc6l0xKjsx4mHCm
+   es/mdcRhMf/o6kEPhWngiciNzCwSiorUPtebXoOqgcddipIe5Nhtv7hys
+   B4q/oYz6wetCRSZmxafraloK6p+zfKj8fNb3N9fNtxqrlhm7a22PW+5Dz
+   ycJUkMK9TO0Vf5ZBHY5eKIV0bO66u3P+s/l4kj7hw+zkN9McW9o0X4uBl
+   w==;
+X-CSE-ConnectionGUID: qplixcPVRQ60Ys+/hwOGSQ==
+X-CSE-MsgGUID: NcTsdY0HSBWImY0XnrxjvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70238660"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="70238660"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 18:28:18 -0800
+X-CSE-ConnectionGUID: GPXcRXe4TCSKhqhsl4vOFw==
+X-CSE-MsgGUID: q6MIPRqHTuGiIX6fCE7ehQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="229187451"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="206339923"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Jan 2026 12:59:53 -0800
+  by orviesa008.jf.intel.com with ESMTP; 20 Jan 2026 18:28:17 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viIpK-00000000PWV-3KrF;
-	Tue, 20 Jan 2026 20:59:50 +0000
-Date: Wed, 21 Jan 2026 04:59:26 +0800
+	id 1viNx8-00000000Pr3-1WBa;
+	Wed, 21 Jan 2026 02:28:14 +0000
+Date: Wed, 21 Jan 2026 10:27:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 2/2] hwmon: Add support for HiTRON HAC300S PSU
-Message-ID: <202601210411.O4Vhqj8h-lkp@intel.com>
+Subject: [linux-next:master 6974/8302]
+ drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:60:1: sparse: sparse: bad
+ integer constant expression
+Message-ID: <202601211049.BNLGTiRl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/hwmon/pmbus/hac300s.c:129:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:60:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260119190806.35276-3-vassilisamir@gmail.com>
-References: <20260119190806.35276-3-vassilisamir@gmail.com>
-TO: Vasileios Amoiridis <vassilisamir@gmail.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: linux@roeck-us.net
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-hwmon@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
+TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+CC: Johannes Berg <johannes.berg@intel.com>
 
-Hi Vasileios,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on robh/for-next linus/master v6.19-rc6 next-20260120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vasileios-Amoiridis/dt-bindings-trivial-devices-Add-hitron-hac300s/20260120-031007
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20260119190806.35276-3-vassilisamir%40gmail.com
-patch subject: [PATCH v2 2/2] hwmon: Add support for HiTRON HAC300S PSU
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: riscv-randconfig-r123-20260120 (https://download.01.org/0day-ci/archive/20260121/202601210411.O4Vhqj8h-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210411.O4Vhqj8h-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   053966c344dbd346e71305f530e91ea77916189f
+commit: e281760de51d25a34cd71fbaee73fdd7e69edaab [6974/8302] wifi: iwlwifi: cfg: move the MODULE_FIRMWARE to the per-rf file
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-r133-20260121 (https://download.01.org/0day-ci/archive/20260121/202601211049.BNLGTiRl-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601211049.BNLGTiRl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601210411.O4Vhqj8h-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601211049.BNLGTiRl-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> drivers/hwmon/pmbus/hac300s.c:129:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/hac300s.c:129:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/hwmon/pmbus/hac300s.c:130:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/hac300s.c:130:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/hwmon/pmbus/hac300s.c:131:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/hac300s.c:131:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/hwmon/pmbus/hac300s.c:131:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/hac300s.c:131:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/hwmon/pmbus/hac300s.c:132:1: sparse: sparse: bad integer constant expression
-   drivers/hwmon/pmbus/hac300s.c:132:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
+>> drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:60:1: sparse: sparse: bad integer constant expression
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:60:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:61:1: sparse: sparse: bad integer constant expression
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:61:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:62:1: sparse: sparse: bad integer constant expression
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:62:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:63:1: sparse: sparse: bad integer constant expression
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:63:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:64:1: sparse: sparse: bad integer constant expression
+   drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c:64:1: sparse: sparse: static assertion failed: "MODULE_INFO(firmware, ...) contains embedded NUL byte"
 
-vim +129 drivers/hwmon/pmbus/hac300s.c
+vim +60 drivers/net/wireless/intel/iwlwifi/cfg/rf-fm.c
 
-f1c1bd432f3089 Vasileios Amoiridis 2026-01-19  128  
-f1c1bd432f3089 Vasileios Amoiridis 2026-01-19 @129  MODULE_AUTHOR("Vasileios Amoiridis");
+e281760de51d25 Miri Korenblit 2025-11-10  59  
+e281760de51d25 Miri Korenblit 2025-11-10 @60  IWL_CORE_FW(IWL_BZ_A_FM_B_FW_PRE, IWL_BZ_UCODE_CORE_MAX);
 
 -- 
 0-DAY CI Kernel Test Service
