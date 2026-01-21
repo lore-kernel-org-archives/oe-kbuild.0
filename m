@@ -1,106 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429DE346E72
-	for <oe-kbuild@lists.linux.dev>; Wed, 21 Jan 2026 17:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FA331ED6C
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Jan 2026 18:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769016755; cv=none; b=A++PKRAETymECvj5tLB/DtLybDAFIe8KUuuNr4ZbN784V08GSE5waa8jsCqZ9yYDaaClEGJwTIWHU8Sf2LQIx+4+Q5sV4mPPXW5RlA9qk/Rsg1LlEpr+myTmd522vIO0mPZG077PPELpb0Zw9jOI4B5lvOQYwOPJhy4Rmvmutog=
+	t=1769020977; cv=none; b=EvTi9VvPs6lLOzwyZ4mNwnusIfvtI+zn16qVbQk/wHmJNX72uUsot6RFIWx57V1ZSIuFzSakrO3Q++Ll7jFFgzS5SzLs8hDlgO8hyPiwevPD0VDoimuf+buTCxuFowpF8DhuGw20MWfq2MbdK/73qgiA6PaAHLdKFvmttcPP2wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769016755; c=relaxed/simple;
-	bh=w9CE8iGMHUwargvmhqjcL1+e2v+GAsCOaUSkmctGafI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eZqa0sSy5Xnsa/tjqSdREReG4n94gDTqayM5Y1VST/4C1ls20zS5Qv6vc8MFoix1c8eUkg4A55fKZO9b3tKGEon5oLEXa68CfZQRRf1XsdQLNV32MUfM8N6s1CwEMT1FuHknB4T2BM05+CH84+FPYSvUiCMKxmYBdnVzR7usZc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JPrl2xmE; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1769020977; c=relaxed/simple;
+	bh=RCgcgvlRDNITFS3haiPwoegsowlBrZit/Xp22jVYkgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s9NikQhjjPfIFBlRsKLmEZElkM85mFGNJ5AiR5e7mA7PIYAQdgx/OzMAW52+/rVeQiTN5j+O5ASJignjWH84kF2Wk2P6pdPI5gblbEo1Bewg8h/G+fgBk5rePCS2fsxyWsIAEjh/A09kJg9ZK3QqFezS8/QFKmqeORj7/0PTSRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BJmjI0X6; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPrl2xmE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJmjI0X6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769016753; x=1800552753;
-  h=date:from:to:cc:subject:message-id;
-  bh=w9CE8iGMHUwargvmhqjcL1+e2v+GAsCOaUSkmctGafI=;
-  b=JPrl2xmE0l1cDwL0x2FdW0pWcRtdrTbl/S8haV/mdSufCFolcFOsQD0A
-   3MadOXp4+SL1P/9IIY5/RcuPSjRWAa89IjvdbGu4NXpyTaeTwEJgH/hbu
-   ankryFi/oP+hbg5Q55DItSIEe4DL5qq1boRUFdkvmqLhxTKDUCbAnOQrr
-   ncQcgM7pCWutjrV5mcMDae67sADuEDi0F8rHKOHr8XyrOEW7gVigtNsTh
-   Xo26LEmyl2IkwC7VPsQIkyhLK4zLcW23qUMXwxwEWyX3c0XRug8s0fTeE
-   p1SvbYH+BwGw+XwCoeFuImsp4CgNEvnPsr8WpYj8P3OnK6xgqjhaxXxp6
-   A==;
-X-CSE-ConnectionGUID: zpIpuiGFRLOUU6IXkc7A9A==
-X-CSE-MsgGUID: tqGHdLUiTluwE3DJDw9TLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70343833"
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="70343833"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 09:32:32 -0800
-X-CSE-ConnectionGUID: ZtPn88RMQKyc6ERVuu9TFw==
-X-CSE-MsgGUID: 1FUbcL/XR6mj5eQQyVUEgA==
+  t=1769020976; x=1800556976;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RCgcgvlRDNITFS3haiPwoegsowlBrZit/Xp22jVYkgM=;
+  b=BJmjI0X65CmioJk8Bngb/BUVLbaDcLKUcxB8xUU0iva+G5BvNNslm2db
+   lqM11dPsffTg5yXhxJuHV2z+ezEyoMH3hgTqOENprdTsm+CvttZIixn57
+   rEZuv0E2oav5RM/Yd9DC5BJqXcFZZyNeAHuQi6SaqOcXS1x8B8mE4pSns
+   NBjQlmSqpeTZtCtE6CcvuZXVp3XfvdImwZrURZWN2d0XuqN1payiXtBP3
+   QO+l1Ts4VEfHKMgfHfNcFxI+39pav9rmG8SRv/DUL4IMfgnnJqSv7hwSg
+   ZoL3Z0ulx7LHeZCzEAvw7BKH+CB4xRVOSSvMFF8rB5bUowZJ4ETlzYBRB
+   g==;
+X-CSE-ConnectionGUID: wKU6x95BRAKwDN7YFFhEbw==
+X-CSE-MsgGUID: Uv9U0bB2SbuZ/Zd/rPyg6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="72846877"
+X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
+   d="scan'208";a="72846877"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 10:42:55 -0800
+X-CSE-ConnectionGUID: CmUDGGagTbCycYfK2N4xDA==
+X-CSE-MsgGUID: UxPwckxORkGa4OrG+O/j7w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="237761551"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Jan 2026 09:32:30 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
+   d="scan'208";a="206768151"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 21 Jan 2026 10:42:54 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vic49-000000000Kz-3Ej8;
-	Wed, 21 Jan 2026 17:32:25 +0000
-Date: Wed, 21 Jan 2026 18:31:29 +0100
+	id 1vidAK-00000000RZb-0sjh;
+	Wed, 21 Jan 2026 18:42:52 +0000
+Date: Thu, 22 Jan 2026 02:42:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 7345/8302]
- tools/testing/selftests/vfio/vfio_dma_mapping_mmio_test.c:2:10: fatal error:
- stdio.h: No such file or directory
-Message-ID: <202601211802.7dVmKs0M-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH bpf-next v5 2/7] crypto: Add BPF hash algorithm type
+ registration module
+Message-ID: <202601220157.xo80r7ZB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: crypto/bpf_crypto_shash.c:95:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alex Mastro <amastro@fb.com>
-CC: Alex Williamson <alex@shazbot.org>
-CC: David Matlack <dmatlack@google.com>
+In-Reply-To: <20260120184701.23082-3-git@danielhodges.dev>
+References: <20260120184701.23082-3-git@danielhodges.dev>
+TO: Daniel Hodges <git@danielhodges.dev>
+TO: bpf@vger.kernel.org
+CC: Alexei Starovoitov <ast@kernel.org>
+CC: Andrii Nakryiko <andrii@kernel.org>
+CC: Daniel Borkmann <daniel@iogearbox.net>
+CC: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+CC: Song Liu <song@kernel.org>
+CC: Mykyta Yatsenko <yatsenko@meta.com>
+CC: Martin KaFai Lau <martin.lau@linux.dev>
+CC: Eduard Zingerman <eddyz87@gmail.com>
+CC: Hao Luo <haoluo@google.com>
+CC: Jiri Olsa <jolsa@kernel.org>
+CC: John Fastabend <john.fastabend@gmail.com>
+CC: KP Singh <kpsingh@kernel.org>
+CC: Stanislav Fomichev <sdf@fomichev.me>
+CC: Yonghong Song <yonghong.song@linux.dev>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: "David S . Miller" <davem@davemloft.net>
+CC: linux-crypto@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-kselftest@vger.kernel.org
+CC: Daniel Hodges <git@danielhodges.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   053966c344dbd346e71305f530e91ea77916189f
-commit: 080723f4d4c3c6fb0720aae614deb1f30ee9ef2e [7345/8302] vfio: selftests: Add vfio_dma_mapping_mmio_test
-:::::: branch date: 25 hours ago
-:::::: commit date: 2 days ago
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260121/202601211802.7dVmKs0M-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601211802.7dVmKs0M-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Hodges/bpf-Extend-bpf_crypto_type-with-hash-operations/20260121-034255
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260120184701.23082-3-git%40danielhodges.dev
+patch subject: [PATCH bpf-next v5 2/7] crypto: Add BPF hash algorithm type registration module
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: powerpc64-randconfig-r132-20260121 (https://download.01.org/0day-ci/archive/20260122/202601220157.xo80r7ZB-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220157.xo80r7ZB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601211802.7dVmKs0M-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601220157.xo80r7ZB-lkp@intel.com/
 
-Note: the linux-next/master HEAD 053966c344dbd346e71305f530e91ea77916189f builds fine.
-      It may have been fixed somewhere.
+sparse warnings: (new ones prefixed by >>)
+>> crypto/bpf_crypto_shash.c:95:1: sparse: sparse: bad integer constant expression
+   crypto/bpf_crypto_shash.c:95:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+>> crypto/bpf_crypto_shash.c:95:1: sparse: sparse: bad integer constant expression
+   crypto/bpf_crypto_shash.c:95:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   crypto/bpf_crypto_shash.c:96:1: sparse: sparse: bad integer constant expression
+   crypto/bpf_crypto_shash.c:96:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
 
-All errors (new ones prefixed by >>):
+vim +95 crypto/bpf_crypto_shash.c
 
->> tools/testing/selftests/vfio/vfio_dma_mapping_mmio_test.c:2:10: fatal error: stdio.h: No such file or directory
-       2 | #include <stdio.h>
-         |          ^~~~~~~~~
-   compilation terminated.
-
-
-vim +2 tools/testing/selftests/vfio/vfio_dma_mapping_mmio_test.c
-
-080723f4d4c3c6 Alex Mastro 2026-01-14 @2  #include <stdio.h>
-080723f4d4c3c6 Alex Mastro 2026-01-14  3  #include <sys/mman.h>
-080723f4d4c3c6 Alex Mastro 2026-01-14  4  #include <unistd.h>
-080723f4d4c3c6 Alex Mastro 2026-01-14  5  
+f9aa284e7f59b4 Daniel Hodges 2026-01-20  92  
+f9aa284e7f59b4 Daniel Hodges 2026-01-20  93  module_init(bpf_crypto_shash_init);
+f9aa284e7f59b4 Daniel Hodges 2026-01-20  94  module_exit(bpf_crypto_shash_exit);
+f9aa284e7f59b4 Daniel Hodges 2026-01-20 @95  MODULE_LICENSE("GPL");
 
 -- 
 0-DAY CI Kernel Test Service
