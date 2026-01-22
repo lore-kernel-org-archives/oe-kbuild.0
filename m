@@ -1,126 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281BE2E7F11
-	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jan 2026 05:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399653DA7E5
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jan 2026 05:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769059896; cv=none; b=YIyBpgphk2bOCxShYVo2z+YGf4aLhk/2xYHqyEDom1y8V5V3EXDtGWYhESguaJww5D16a8sSBl29P+GIzXCmuzkrGYmDMReix3WOdaqwY4uIZkDNo8uU9FILcw/GJg6bn2m5oh4p9ozuoOmP1SQTXn2fV4wj3ra3MxlyUDNI9r0=
+	t=1769061525; cv=none; b=iQZF5Ea7z3Ti6j2N9gKrOkdjdo+dn5vW++eGQ0I6SXq0g44t9xdX5Utf2QkSkL0QHp6AUcfmtZkMy6VIWck3VYR4JtQv30YSVxY1bQKVzdfzi21L2ztruN6KzUYgCIO3wATM82+ZbKQXCqClyPZyS9QW7buciP3SMqKXNMO11lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769059896; c=relaxed/simple;
-	bh=EFI+A8qKAcB6WaJCyLQ5hYdZGQ0WeBAjZoik7r7CltY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NnmdNtma0GypJWRTv+yb1fiif73W65/HG0Qv5zmYvB/Qi9SZLBdkwBpCSmXcYT8l77+el4mApkJC2sjwFCBDra1EmeRqTltFyKumQNOeJJOyURKKl4sgmqCPTMxiXxuAdgSkhfWwzeAP0kFAgtn8I7N2mg+TI9FYsGtJOgYTVzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUtx6Rw8; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1769061525; c=relaxed/simple;
+	bh=+HF5el13Vm2/4YN2y8aGepIhz4JYq6lpQPM47QqIxsM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cNIK9ChiyHyDrOs6hlfFuH9IHZ8iFnB6Hnl2nOQKAhv+3CH5DNJKkzMP54/2L44tOrR9dc/Tf1ALqLn80T9Ff5j281PNVQhGyyqp2nvflBasrdFdtSCEseA2vTUq0b4YPeC0z/LFFefHDLpJ/E4O1IKBKYUmhNPo9TnkM/XlfJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VIh46RPy; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUtx6Rw8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIh46RPy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769059894; x=1800595894;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EFI+A8qKAcB6WaJCyLQ5hYdZGQ0WeBAjZoik7r7CltY=;
-  b=TUtx6Rw8hVQxbQMjxtZmzkVJIb06PzOwxMHjnpayt+1RCSAsb1upyxpB
-   LMabs1oM/dSS0M3cdc7n1exT/Bb8e4IYxqv126p9uu4jdjQsxst5QI1V/
-   yHCGldoaJR7u2mgegAqLI1GL/HMJlgQwe2eTIWHmA+zeuEl/BNk+sZypf
-   s64wkMIxdHyE9gLttBeEGhgMwzNGqDND8KFWVBdOxineqTjeOdJ5VziI4
-   V/+Ng+kCNZWNYcKR/S1zX+cLUKUNwEmviLkW8c1dHgJo0xZXG72joWz+q
-   LcT9GINGFdNdz14uMkFUQLMugCsOw8+keOR+zgOEXvjtFFYCqmGHyUyxG
-   A==;
-X-CSE-ConnectionGUID: ajNG3KDlS1yWJflIDK1ETQ==
-X-CSE-MsgGUID: leRsSHQ8TXivIHPDC4Rjag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="81740979"
+  t=1769061522; x=1800597522;
+  h=date:from:to:cc:subject:message-id;
+  bh=+HF5el13Vm2/4YN2y8aGepIhz4JYq6lpQPM47QqIxsM=;
+  b=VIh46RPytR149aLDEde2hRQWsMYfVK+DpSocj+H9vWLYnzml4mR1Nks7
+   PxsoeEB+TfycgbbTGz23lfrx+fUWcJpLHyFAJpf34rTcEEqql9gZEcqoB
+   l90Htz4Bv5VysOG5qEFhjkJcPglCL+WbzF0QKfgQrV7wannA7F1iEIG/A
+   IMObvRXNhbRDzbnM3leQXfAIGU/mfojajTe4CIzfbrYtWdbCXc/JjmOCE
+   V1D7H4iA2rxV+tiYqCiKho3Ly1v6SRwG6lkMWOaM9r1lR88idTVGaekwq
+   tWN0lpIjbtELddZSXWxT1dBPCJ6002PdkPqFWRZmcPAuRP++dL3l9fSJ5
+   Q==;
+X-CSE-ConnectionGUID: HPZVG4YhTeuUhToJ6RtSkg==
+X-CSE-MsgGUID: PC/HhxScRbamWY5G7ffOxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="69494612"
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="81740979"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 21:31:33 -0800
-X-CSE-ConnectionGUID: 4YgXzuUSQeCcCpO4Xliuwg==
-X-CSE-MsgGUID: TOLfpubLRh6sRmAtS+qnrQ==
+   d="scan'208";a="69494612"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 21:58:40 -0800
+X-CSE-ConnectionGUID: gzSwOg76RcWP4cP288ZuDA==
+X-CSE-MsgGUID: 8IDmJe9qTQOa2cvSlDs4Jw==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Jan 2026 21:31:32 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
+   d="scan'208";a="205895531"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 21 Jan 2026 21:58:39 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vinI2-000000000RJ-1GkH;
-	Thu, 22 Jan 2026 05:31:30 +0000
-Date: Thu, 22 Jan 2026 06:30:43 +0100
+	id 1viniG-00000000SVX-2YHS;
+	Thu, 22 Jan 2026 05:58:36 +0000
+Date: Thu, 22 Jan 2026 13:58:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 2/3] dt-bindings: pinctrl: aspeed: Add support for
- AST27xx
-Message-ID: <202601220636.Tk2mF4PK-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 2904/8780]
+ drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1051
+ mlx5_lag_modify_device_vports_speed() warn: iterator 'i' not incremented
+Message-ID: <202601221358.gzX7tgY3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260120-upstream_pinctrl-v3-2-868fbf8413b5@aspeedtech.com>
-References: <20260120-upstream_pinctrl-v3-2-868fbf8413b5@aspeedtech.com>
-TO: Billy Tsai <billy_tsai@aspeedtech.com>
-TO: Lee Jones <lee@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Joel Stanley <joel@jms.id.au>
-TO: Andrew Jeffery <andrew@codeconstruct.com.au>
-TO: Linus Walleij <linusw@kernel.org>
-TO: Billy Tsai <billy_tsai@aspeedtech.com>
-TO: Bartosz Golaszewski <brgl@kernel.org>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-aspeed@lists.ozlabs.org
-CC: linux-kernel@vger.kernel.org
-CC: openbmc@lists.ozlabs.org
-CC: linux-gpio@vger.kernel.org
-CC: bmc-sw@aspeedtech.com
+TO: "Or Har-Toov" <ohartoov@nvidia.com>
+CC: Leon Romanovsky <leon@kernel.org>
+CC: Maher Sanalla <msanalla@nvidia.com>
+CC: Mark Bloch <mbloch@nvidia.com>
+CC: Edward Srouji <edwards@nvidia.com>
 
-Hi Billy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/Add-compatible-strings-for-AST2700-pinctrl-to-the-SCU-binding/20260120-200009
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20260120-upstream_pinctrl-v3-2-868fbf8413b5%40aspeedtech.com
-patch subject: [PATCH v3 2/3] dt-bindings: pinctrl: aspeed: Add support for AST27xx
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: openrisc-randconfig-2051-20260122 (https://download.01.org/0day-ci/archive/20260122/202601220636.Tk2mF4PK-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.3.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220636.Tk2mF4PK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e3b32dcb9f23e3c3927ef3eec6a5842a988fb574
+commit: 50f1d188c580222d7a73e96a338a5dc82360ccc0 [2904/8780] net/mlx5: Propagate LAG effective max_tx_speed to vports
+:::::: branch date: 13 hours ago
+:::::: commit date: 2 weeks ago
+config: alpha-randconfig-r072-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221358.gzX7tgY3-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601220636.Tk2mF4PK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202601221358.gzX7tgY3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/pinctrl/aspeed,ast2700-soc0-pinctrl.yaml: patternProperties:-state$: 'anyOf' conditional failed, one must be fixed:
-   	'pins' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-   	'type' was expected
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
->> Documentation/devicetree/bindings/pinctrl/aspeed,ast2700-soc0-pinctrl.yaml: patternProperties:-state$: 'anyOf' conditional failed, one must be fixed:
-   	'drive-strength' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-   	'type' was expected
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
->> Documentation/devicetree/bindings/pinctrl/aspeed,ast2700-soc0-pinctrl.yaml: patternProperties:-state$: 'pins' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'if', 'else', 'then', 'allOf', 'anyOf', 'oneOf', '$ref']
-   	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml
->> Documentation/devicetree/bindings/pinctrl/aspeed,ast2700-soc0-pinctrl.yaml: patternProperties:-state$: 'drive-strength' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'if', 'else', 'then', 'allOf', 'anyOf', 'oneOf', '$ref']
-   	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1051 mlx5_lag_modify_device_vports_speed() warn: iterator 'i' not incremented
+
+vim +/i +1051 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c
+
+50f1d188c58022 Or Har-Toov 2025-12-18  1035  
+50f1d188c58022 Or Har-Toov 2025-12-18  1036  static void mlx5_lag_modify_device_vports_speed(struct mlx5_core_dev *mdev,
+50f1d188c58022 Or Har-Toov 2025-12-18  1037  						u32 speed)
+50f1d188c58022 Or Har-Toov 2025-12-18  1038  {
+50f1d188c58022 Or Har-Toov 2025-12-18  1039  	u16 op_mod = MLX5_VPORT_STATE_OP_MOD_ESW_VPORT;
+50f1d188c58022 Or Har-Toov 2025-12-18  1040  	struct mlx5_eswitch *esw = mdev->priv.eswitch;
+50f1d188c58022 Or Har-Toov 2025-12-18  1041  	struct mlx5_vport *vport;
+50f1d188c58022 Or Har-Toov 2025-12-18  1042  	unsigned long i;
+50f1d188c58022 Or Har-Toov 2025-12-18  1043  	int ret;
+50f1d188c58022 Or Har-Toov 2025-12-18  1044  
+50f1d188c58022 Or Har-Toov 2025-12-18  1045  	if (!esw)
+50f1d188c58022 Or Har-Toov 2025-12-18  1046  		return;
+50f1d188c58022 Or Har-Toov 2025-12-18  1047  
+50f1d188c58022 Or Har-Toov 2025-12-18  1048  	if (!MLX5_CAP_ESW(mdev, esw_vport_state_max_tx_speed))
+50f1d188c58022 Or Har-Toov 2025-12-18  1049  		return;
+50f1d188c58022 Or Har-Toov 2025-12-18  1050  
+50f1d188c58022 Or Har-Toov 2025-12-18 @1051  	mlx5_esw_for_each_vport(esw, i, vport) {
+50f1d188c58022 Or Har-Toov 2025-12-18  1052  		if (!vport)
+50f1d188c58022 Or Har-Toov 2025-12-18  1053  			continue;
+50f1d188c58022 Or Har-Toov 2025-12-18  1054  
+50f1d188c58022 Or Har-Toov 2025-12-18  1055  		if (vport->vport == MLX5_VPORT_UPLINK)
+50f1d188c58022 Or Har-Toov 2025-12-18  1056  			continue;
+50f1d188c58022 Or Har-Toov 2025-12-18  1057  
+50f1d188c58022 Or Har-Toov 2025-12-18  1058  		ret = mlx5_modify_vport_max_tx_speed(mdev, op_mod,
+50f1d188c58022 Or Har-Toov 2025-12-18  1059  						     vport->vport, true, speed);
+50f1d188c58022 Or Har-Toov 2025-12-18  1060  		if (ret)
+50f1d188c58022 Or Har-Toov 2025-12-18  1061  			mlx5_core_dbg(mdev,
+50f1d188c58022 Or Har-Toov 2025-12-18  1062  				      "Failed to set vport %d speed %d, err=%d\n",
+50f1d188c58022 Or Har-Toov 2025-12-18  1063  				      vport->vport, speed, ret);
+50f1d188c58022 Or Har-Toov 2025-12-18  1064  	}
+50f1d188c58022 Or Har-Toov 2025-12-18  1065  }
+50f1d188c58022 Or Har-Toov 2025-12-18  1066  
 
 -- 
 0-DAY CI Kernel Test Service
