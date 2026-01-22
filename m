@@ -1,175 +1,191 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BA642317D
-	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jan 2026 06:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92841DFD8B
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jan 2026 07:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769062653; cv=none; b=R0L+Tq1+zFMrLslUtc+crutsFvvykkhZPYi6jYhzoEuaHZa9yscpCOtRewXKvAfI4Cw1jdiC0vmamVpHC+kpQ0AzQgSffgahZBkzL74yKpyTKBaKS2yNR0bdSGO+gSSBegKVEA2qHW3Nz4dFsOdx8cHY0j78LWZlLj/mb36Hwbw=
+	t=1769065914; cv=none; b=LeqGLSYHWn4OJ24kaV3A6RGWKScC8i2Grs+Zj4P2zGGdmYpbl+79ywDAPgQZHZvUkuV+Qj1AxeG7U5dpPyLhlOTZRrhAL5Io1t3WFDVQZarsVwm707vQayqrF1wZQu8JkxrDQPzzu72JTs3/Ai4UldAjJcFk1strWYEqv1ti1Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769062653; c=relaxed/simple;
-	bh=HwQQ/e13d2XeVp13BFe2FpMedQM5DZhp8KcD4K71ego=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QBxqEdF9KYLQ8J2PtvtXrPkS/nn1N2HZBd1kGLwyuMu1cYiGzBJdJzqau9sHYbYOeol1WA2RWKUqqHjEacOtSiKoExVWqCsQLPDa01siDA89wRwDqQrwi4LXnkH0v9YN8/PyNlwegnOAvUJUbYoS2y/59+cpjzOjwO9+YraV6R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eyQ+niyJ; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769065914; c=relaxed/simple;
+	bh=FgSR4ZGAVU6U8AF/LQYc9URNPtsKAfwO15s0rS4EKoM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IPZ2I7oeQNHi7sMVsL4NjlDh8v/sScPAM4LGecJpL/aaGDcTXz3FKxlUl3uWlNIuL+jPs6z5gmTVbsr7PAaY1sUQhDJfUtKi2QEyQ16HogOjAXHIHsKnPQP/WMgAvQE7L4rRLAIDaWE2wzwH0JGOxNVDkewrW+Y7sleOBU66LeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dKBbe838; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eyQ+niyJ"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47ee3da7447so4287465e9.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 21 Jan 2026 22:17:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769062644; x=1769667444; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XFWxi+AFltNFDVpcrpAcnDmVTxmCRVFES1AkiIw22SY=;
-        b=eyQ+niyJiaEA+TK48YkRPYEMCzuRLIIQNomVlaIcNWejtO737zUo6rlkb6cAVDEiQb
-         8t4joZkp4PrhZchH0aFlsVezqGh71ejVpvkGZSJaKaebKA5mMKxwHVwZn4ZbH5KxBPhx
-         bsd1CL7uQQoet6p1dfY4n+w8sXGoD4b8Ob4/D9kRLjx0igdLH8ROWCbxjpvGUcB5+qps
-         9cTlrGOY1cs67q3Pl1gh9W9JyZNCc2pYWOcT4wRSkKyd7d1q9RDlvOihwyUucIrZ89oA
-         8x/PjC91eMu7Xohxh+xyuMMIdJ996NrLYq6KM+Oe28MWo0ljrcN+VTldnbIZwufStzDg
-         ZYNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769062644; x=1769667444;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XFWxi+AFltNFDVpcrpAcnDmVTxmCRVFES1AkiIw22SY=;
-        b=ihUOkTQFkDGpdtoZTy8i+waH67rNeBU5o+rgtK36w7QokcO+Vpd8N6i/GXQ2cNKP5W
-         tkWH4iRvq0h2xvz9VWQrDb404+hx5NZ7VNkgofCCZbbX6hLsxKW5TdGIakRJFqBOFRd5
-         t2ZaQ/ZxTuFCKb1d4ioOGfunO2rpavKoBmE8vLQRneochI3aY72Xn8R6WlNR2eh9v9tz
-         2dpV6ssR2oAwdEQ7CuP2nrf2lATe02EkhVv2FBqHjaNCrLVl9CEHbBMn2yLRXmX5CUYf
-         +cAdtQbMk9yIPf/eHUUlbtKYhbPhHjWk3xQQC07O9yL4GK/E8XD50Z0T5IJFbpvATF03
-         ZmmA==
-X-Gm-Message-State: AOJu0YzUXwqpKj16pGgm+tKNTHVT5tJfSw1L2BSIzHBKE8K+uQx5lU8N
-	l5+j1p5Zcg7Q9vWji2KDz+4BXjgusb96XHwfRTUlWTDXshK672NWMH2bVY8NVLwEG1sD9sKBVLY
-	c0tGbJHQ=
-X-Gm-Gg: AZuq6aKSmyiGpz6Ykzn6+SHtoEtBiJeNOQh9vCGTVdmhOJQ1tg7d+iSQtQVGbmGVtGo
-	mFeBlzjlV7TBhyLHh59f/rkuZk72wgZwqJSzBrTJN0+068BMvrKE0MF1tQ360jq4o7BTB/WVzar
-	le2fMVcK38mclb8Non6Drjj9w977bS8cfyihGip+11I8tDSGqwYSNNHs99IvrPNIHVLfJMZ0Ite
-	lJRhCXkIjZy3hQkCE690TzyRTcCLd3a+UyavBoq18BhK+f99SjA/TamOK+fL4mLBGyD6AvHyblF
-	Ua/trWXghBEUh/wpegD5xwmQ0Kc2HtxZZbuSBmrlXw4T4bkxu9AVdtS6JdWwAg4y7wfzS517v4z
-	imZpwW5gePa/ZLWRQ779a++vD/x/+hKEFvPzlh7BK5Uhr9PGfyLsYAlFvsJ7d5lSdc80mVKkAM2
-	DqSzk8enf4iGTfTYkn
-X-Received: by 2002:a05:600c:83c8:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-48028360726mr235733975e9.7.1769062643924;
-        Wed, 21 Jan 2026 22:17:23 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804704b89bsm40122255e9.9.2026.01.21.22.17.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 22:17:23 -0800 (PST)
-Date: Thu, 22 Jan 2026 09:17:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Josua Mayer <josua@solid-run.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Peter Rosin <peda@axentia.se>, Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Vignesh R <vigneshr@ti.com>, Andi Shyti <andi.shyti@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	linux-can@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 2/7] mux: Add helper functions for getting optional
- and selected mux-state
-Message-ID: <202601221036.J0kR78Uw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dKBbe838"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769065906; x=1800601906;
+  h=date:from:to:cc:subject:message-id;
+  bh=FgSR4ZGAVU6U8AF/LQYc9URNPtsKAfwO15s0rS4EKoM=;
+  b=dKBbe838TYk85iqbOG0pnJuDxv1UvizY0A9ARiTn8btRiBnHFOXMOZFr
+   6GVLGXHsMYC9T4erQelqB4/gE6SIVMBVid8qaF4L41E1siWiubkwDelJ+
+   jbjDB7iHS2WUg+9YPXR8hoo5q6eDDO2LOhWqeT5WjrYn0iH7BTwjKSmoZ
+   2N952H1/MpcCOEAHRJEwFjyfKFp5f90fnFGC/anrnbTXjScwYmh8wA8dM
+   ILk2RFbRE600BqF4dIoWRGE+y50ntQhmeHI5hnfqjqGmMqAKqB5ruz5zS
+   04XmV34NHSYsAU5512zaBjCzwHAE9CdbFnnwe0pQNGtPy0u9DoBN0zZ2n
+   w==;
+X-CSE-ConnectionGUID: i5a1Am3CQ5iW1EZPHclMYg==
+X-CSE-MsgGUID: equhLlf6SA671JcZ9H4baQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70468280"
+X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
+   d="scan'208";a="70468280"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 23:11:43 -0800
+X-CSE-ConnectionGUID: LNAe/l//TUm+nIt9K+nqvQ==
+X-CSE-MsgGUID: 93zuSAfzSn6LTWjJfhaHow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
+   d="scan'208";a="211108111"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 21 Jan 2026 23:11:42 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vioqx-00000000SXh-3Vzo;
+	Thu, 22 Jan 2026 07:11:39 +0000
+Date: Thu, 22 Jan 2026 15:11:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [akpm-mm:mm-new 298/310] lib/maple_tree.c:3065:30-31:
+ WARNING opportunity for min()
+Message-ID: <202601221523.Igh9Bi6S-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260121-rz-sdio-mux-v6-2-38aa39527928@solid-run.com>
-Message-ID: <20260122061720.ZbUhOO_28X8eGn1A9gW27wbOJO9_dnQw7MhOOgFsFG4@z>
 
-Hi Josua,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: David Hildenbrand <david@kernel.org>
+TO: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josua-Mayer/phy-can-transceiver-rename-temporary-helper-function-to-avoid-conflict/20260121-173607
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20260121-rz-sdio-mux-v6-2-38aa39527928%40solid-run.com
-patch subject: [PATCH v6 2/7] mux: Add helper functions for getting optional and selected mux-state
-config: arm64-randconfig-r073-20260121 (https://download.01.org/0day-ci/archive/20260122/202601221036.J0kR78Uw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-smatch version: v0.5.0-8985-g2614ff1a
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   dc4fe40a11269aead253fa0beb098b00417b8694
+commit: a67dbdcf06cf473352c3752565633ec4f175d53e [298/310] maple_tree: start using maple copy node for destination
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: nios2-randconfig-r063-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221523.Igh9Bi6S-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601221036.J0kR78Uw-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202601221523.Igh9Bi6S-lkp@intel.com/
 
-New smatch warnings:
-drivers/mux/core.c:776 __devm_mux_state_get() warn: passing zero to 'PTR_ERR'
-drivers/mux/core.c:796 __devm_mux_state_get() warn: passing zero to 'ERR_PTR'
+cocci warnings: (new ones prefixed by >>)
+>> lib/maple_tree.c:3065:30-31: WARNING opportunity for min()
 
-Old smatch warnings:
-drivers/mux/core.c:722 mux_state_get() warn: passing zero to 'ERR_CAST'
+vim +3065 lib/maple_tree.c
 
-vim +/PTR_ERR +776 drivers/mux/core.c
-
-0610cc3159b786 Josua Mayer       2026-01-21  761  static struct mux_state *__devm_mux_state_get(struct device *dev, const char *mux_name,
-0610cc3159b786 Josua Mayer       2026-01-21  762  					      bool optional,
-0610cc3159b786 Josua Mayer       2026-01-21  763  					      int (*init)(struct mux_state *mstate),
-0610cc3159b786 Josua Mayer       2026-01-21  764  					      int (*exit)(struct mux_state *mstate))
-0610cc3159b786 Josua Mayer       2026-01-21  765  {
-0610cc3159b786 Josua Mayer       2026-01-21  766  	struct devm_mux_state_state *devm_state;
-0610cc3159b786 Josua Mayer       2026-01-21  767  	struct mux_state *mstate;
-0610cc3159b786 Josua Mayer       2026-01-21  768  	int ret;
-84564481bc4520 Aswath Govindraju 2022-01-07  769  
-0610cc3159b786 Josua Mayer       2026-01-21  770  	devm_state = devres_alloc(devm_mux_state_release, sizeof(*devm_state), GFP_KERNEL);
-0610cc3159b786 Josua Mayer       2026-01-21  771  	if (!devm_state)
-0610cc3159b786 Josua Mayer       2026-01-21  772  		return ERR_PTR(-ENOMEM);
-0610cc3159b786 Josua Mayer       2026-01-21  773  
-0610cc3159b786 Josua Mayer       2026-01-21  774  	mstate = mux_state_get(dev, mux_name, optional);
-0610cc3159b786 Josua Mayer       2026-01-21  775  	if (IS_ERR_OR_NULL(mstate)) {
-
-Please, change this to if (IS_ERR(mstate)) {.  The mux_state_get() never
-returns NULL.  I have written a blog about functions which return both
-error pointers and NULL.
-
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
-
-0610cc3159b786 Josua Mayer       2026-01-21 @776  		ret = PTR_ERR(mstate);
-0610cc3159b786 Josua Mayer       2026-01-21  777  		goto err_mux_state_get;
-0610cc3159b786 Josua Mayer       2026-01-21  778  	}
-0610cc3159b786 Josua Mayer       2026-01-21  779  
-0610cc3159b786 Josua Mayer       2026-01-21  780  	if (init) {
-0610cc3159b786 Josua Mayer       2026-01-21  781  		ret = init(mstate);
-0610cc3159b786 Josua Mayer       2026-01-21  782  		if (ret)
-0610cc3159b786 Josua Mayer       2026-01-21  783  			goto err_mux_state_init;
-0610cc3159b786 Josua Mayer       2026-01-21  784  	}
-0610cc3159b786 Josua Mayer       2026-01-21  785  
-0610cc3159b786 Josua Mayer       2026-01-21  786  	devm_state->mstate = mstate;
-0610cc3159b786 Josua Mayer       2026-01-21  787  	devm_state->exit = exit;
-0610cc3159b786 Josua Mayer       2026-01-21  788  	devres_add(dev, devm_state);
-0610cc3159b786 Josua Mayer       2026-01-21  789  
-0610cc3159b786 Josua Mayer       2026-01-21  790  	return mstate;
-0610cc3159b786 Josua Mayer       2026-01-21  791  
-0610cc3159b786 Josua Mayer       2026-01-21  792  err_mux_state_init:
-84564481bc4520 Aswath Govindraju 2022-01-07  793  	mux_state_put(mstate);
-0610cc3159b786 Josua Mayer       2026-01-21  794  err_mux_state_get:
-0610cc3159b786 Josua Mayer       2026-01-21  795  	devres_free(devm_state);
-0610cc3159b786 Josua Mayer       2026-01-21 @796  	return ERR_PTR(ret);
-84564481bc4520 Aswath Govindraju 2022-01-07  797  }
+216ab37d828a10f Liam R. Howlett 2026-01-21  3030  
+c93becaa5be466e Liam R. Howlett 2026-01-21  3031  static inline
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3032  void cp_data_write(struct maple_copy *cp, struct ma_state *mas)
+c93becaa5be466e Liam R. Howlett 2026-01-21  3033  {
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3034  	struct maple_node *dst, *src;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3035  	unsigned char s, d;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3036  	unsigned char dst_offset;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3037  	unsigned char data_offset;
+c93becaa5be466e Liam R. Howlett 2026-01-21  3038  	unsigned char src_end, s_offset;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3039  	unsigned char split;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3040  	unsigned long s_max, d_max;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3041  	unsigned char dst_size;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3042  	enum maple_type s_mt, d_mt;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3043  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3044  	data_offset = 0;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3045  	s = d = 0;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3046  	/* Readability help */
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3047  	src = cp->src[s].node;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3048  	dst = cp->dst[d].node;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3049  	s_offset = cp->src[s].start;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3050  	src_end = cp->src[s].end;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3051  	split = cp->split;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3052  	s_max = cp->src[s].max;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3053  	s_mt = cp->src[s].mt;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3054  	d_mt = cp->dst[d].mt;
+c93becaa5be466e Liam R. Howlett 2026-01-21  3055  	do {
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3056  		dst_offset = 0;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3057  		d_max = 0;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3058  		dst = cp->dst[d].node;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3059  		d_mt = cp->dst[d].mt;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3060  		dst_size = split + 1;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3061  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3062  		while (dst_size) {
+c93becaa5be466e Liam R. Howlett 2026-01-21  3063  			unsigned char size;
+c93becaa5be466e Liam R. Howlett 2026-01-21  3064  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21 @3065  			if (src_end - s_offset + 1 < dst_size)
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3066  				size = src_end - s_offset + 1;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3067  			else
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3068  				size = dst_size;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3069  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3070  			d_max = node_copy(mas, src, s_offset, size, s_max, s_mt,
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3071  					  dst, dst_offset, d_mt);
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3072  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3073  			dst_offset += size;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3074  			s_offset += size;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3075  			if (s_offset > src_end) {
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3076  				/* This source is exhausted */
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3077  				s++;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3078  				if (s >= cp->s_count) {
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3079  					cp->dst[d].max = d_max;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3080  					node_finalise(dst, d_mt, dst_offset);
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3081  					return;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3082  				}
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3083  				/* Reset local src */
+c93becaa5be466e Liam R. Howlett 2026-01-21  3084  				src = cp->src[s].node;
+c93becaa5be466e Liam R. Howlett 2026-01-21  3085  				s_offset = cp->src[s].start;
+c93becaa5be466e Liam R. Howlett 2026-01-21  3086  				src_end = cp->src[s].end;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3087  				s_max = cp->src[s].max;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3088  				s_mt = cp->src[s].mt;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3089  			}
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3090  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3091  			dst_size -= size;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3092  			data_offset += size;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3093  		}
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3094  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3095  		split = cp->split;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3096  		cp->dst[d].max = d_max;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3097  		/* Handle null entries */
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3098  		if (cp->dst[d].max != ULONG_MAX &&
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3099  		    !ma_slots(dst, d_mt)[dst_offset - 1]) {
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3100  			if (s_offset == cp->src[s].start) {
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3101  				s--;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3102  				src = cp->src[s].node;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3103  				src_end = cp->src[s].end;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3104  				s_max = cp->src[s].max;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3105  				s_mt = cp->src[s].mt;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3106  				s_offset = src_end;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3107  			} else {
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3108  				s_offset--;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3109  			}
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3110  			/* Set dst max and clear pivot */
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3111  			split++;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3112  			data_offset--;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3113  			dst_offset--;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3114  			cp->dst[d].max = ma_pivots(dst, d_mt)[dst_offset - 1];
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3115  		}
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3116  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3117  		node_finalise(dst, d_mt, dst_offset);
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3118  		++d; /* Next destination */
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3119  		if (d == cp->d_count - 1)
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3120  			split = cp->data - data_offset;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3121  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3122  		if (d >= cp->d_count) {
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3123  			WARN_ON(data_offset < cp->data);
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3124  			return;
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3125  		}
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3126  
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3127  	} while (data_offset <= cp->data);
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3128  }
+a67dbdcf06cf473 Liam R. Howlett 2026-01-21  3129  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
