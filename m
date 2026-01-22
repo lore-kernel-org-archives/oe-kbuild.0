@@ -1,84 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCEB449EC1
-	for <oe-kbuild@lists.linux.dev>; Wed, 21 Jan 2026 23:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA984355046
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jan 2026 01:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769038774; cv=none; b=LafG8fhIzQrYhNU8wNNYhYZM6VEQQOj8jn5wNOpzxlGehYYzXWfni/92AtpTGv19tIclRowN/m4dHzJVY0XfFdG8DXhbVJvDWQiBeqSoYLy50VvHoVuYBvHoEvRrXGKqitg7MsvlWWQmwm+t0tbWUMFmhD1lEw39zivQrzEWj6o=
+	t=1769045555; cv=none; b=ktVbKC466vrQltWvQhdTLk/jz+leiJuRyEHUXiu8YfqlJkgJPXSmn9xlm6rPNelMAammbbyfKC8IGvSA3Q4q9SLPaE3bBJlDA9jpBLqMtIazyx0eev1ykDGrrR3YLM81JJNOgSKguZw3Nh4WhXLdMAWHUTg4YTBBOE0f3ww3ZPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769038774; c=relaxed/simple;
-	bh=/mZFn7KCeGD99qqJafuk+DSUGygCJSNcLpx91X2wGVU=;
-	h=Date:From:To:Subject:Message-ID; b=QuucQzU78bcv1qOv3fvJPz4OAwI7mJ/unWrRHjfn6vWAlbpdmIJSeDCYBqcs2/2a3Ul3pHyOozF1fTxjsPAdcf7p8k8ZucCM3iLbn1QRaEZwy5/yod7GJUPDHvBqOf+luewHDfYChJn7jNT310F45R9YbVmn9RXHIX2OXoHnMq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZBTn4nF; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769045555; c=relaxed/simple;
+	bh=8xKAwXUPiwEQ1f9infafsxLngVWYChKSRMDBs7vT2EE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kP6xnKgawx2HuGfEQc6WU97UvkUT7Db9btGiX/jWfC1bXWlbEWfeZtsP33bFvFify6sc6pMTSPIZCzOmHe7oJQUMutYr4ZkVWzSynXhww59qHSszCt8ty3lj/zZlxCOOW+SkXm1E04aO1L++vdqacOhFAHBodzInh/xiQK0dKmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GnrcAtcK; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZBTn4nF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GnrcAtcK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769038772; x=1800574772;
-  h=date:from:to:subject:message-id;
-  bh=/mZFn7KCeGD99qqJafuk+DSUGygCJSNcLpx91X2wGVU=;
-  b=MZBTn4nFt7tdRnPBRyyMKNQqVwi55CBAVFG1mmEH5JQhEX5KuOZu+mJG
-   ROIaWaJCJg9+n5brGm9nsPE4EK/e57dJggubRDan3tuTPRne+o5fZrFMZ
-   wN+FXSv8OGfs8n/BBW8mR+U0lU2Ewq/CTWF9MzbiPGobynh+94M17Zssb
-   kWrjoDy5omt/w3SlJ8jTHHFe7d325WPu5sb5DTfVVd98FDzPXxjcVqxns
-   05QuK9YdMdb0rlub4XjenERZ4LM1tA1ClCo6Q9ZRx/vEO9KOHMGWn3OYi
-   K2NQvwfaAwA8rsmkSEJ92cr/xUuxsRmV1ImRZoa12KENjA9LojynlXbo1
-   Q==;
-X-CSE-ConnectionGUID: DgqpWjrnR7KXZSlScPA6wQ==
-X-CSE-MsgGUID: QZ58NDxZTLWVt+AMO7BN4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70176805"
+  t=1769045553; x=1800581553;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8xKAwXUPiwEQ1f9infafsxLngVWYChKSRMDBs7vT2EE=;
+  b=GnrcAtcKN8QJ9r2dvdJ91MbvPqDm6+yLg0rz1GCLxYPL+fobVL/kCYZH
+   96qUnjBPUi7LT6L/TfiTHWcqkW/o8s6Kb+56NQruLTjHJnhk5+s8dEAdp
+   891KhytnrnNxm469Yp1rwX5d/FZpPQEuzth73kT7SUIUskjyMLgi/HInM
+   FEH4lAGt+Tiv8bt1kglH72fqlKDmqlRmIquNDgGJnMRrRFjrAssREgqgT
+   gk1ipjMWG8UT+HYq6Yq8jxPVEbCKgvErnE2bI7vgRmLKBfss7UF8RsNRL
+   f9FG1ugPK3Rna91m4zDeYoM8tEv9HlxtDlJ0TtHYNmZkxp9GyH9FHaa+6
+   g==;
+X-CSE-ConnectionGUID: HQaBuyhrRtWbs1NYhRtnRw==
+X-CSE-MsgGUID: PUv70dO5S9Ct3gNTd29fHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80585431"
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="70176805"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 15:39:31 -0800
-X-CSE-ConnectionGUID: irh2dPnyTw+SdOVVH4H0ow==
-X-CSE-MsgGUID: wRaXBntKQj6sp1aCujHKHA==
+   d="scan'208";a="80585431"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 17:32:33 -0800
+X-CSE-ConnectionGUID: fP3QXtGTRJex/fp2oYOuwA==
+X-CSE-MsgGUID: ZmFuFdDASESYKaWUWWYbEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="206483139"
+   d="scan'208";a="211041493"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Jan 2026 15:39:30 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 21 Jan 2026 17:32:31 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vihnM-000000000OX-1OjT
-	for oe-kbuild@lists.linux.dev;
-	Wed, 21 Jan 2026 23:39:28 +0000
-Date: Thu, 22 Jan 2026 00:38:40 +0100
+	id 1vijYj-000000000Pp-0dHq;
+	Thu, 22 Jan 2026 01:32:29 +0000
+Date: Thu, 22 Jan 2026 02:31:32 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [bcachefs:master 223/232] checkpatch: WARNING:ONE_SEMICOLON:
- Statements terminations use 1 semicolon
-Message-ID: <202601220014.Z1tRfgq0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header
+ inclusions after libc ones
+Message-ID: <202601220222.UHz1JhtH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+In-Reply-To: <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
+References: <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
+TO: "Thomas Weiﬂschuh" <thomas.weissschuh@linutronix.de>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git master
-head:   0900d904d07bd8586855e5c68aaefa15f4350f9b
-commit: de374d7b7296203619ba70f976867051cebaf41b [223/232] bcachefs: Break up reconcile.c
-:::::: branch date: 32 hours ago
-:::::: commit date: 3 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20260122/202601220014.Z1tRfgq0-lkp@intel.com/reproduce)
+Hi Thomas,
 
-# many are suggestions rather than must-fix
+kernel test robot noticed the following build errors:
 
-WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
-#4779: FILE: fs/bcachefs/data/reconcile/work.c:207:
-+		BUG_ON(!buf->size);;
+[auto build test ERROR on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/selftests-net-Move-some-UAPI-header-inclusions-after-libc-ones/20260121-032048
+base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+patch link:    https://lore.kernel.org/r/20260120-uapi-sockaddr-v2-1-63c319111cf6%40linutronix.de
+patch subject: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header inclusions after libc ones
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260122/202601220222.UHz1JhtH-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220222.UHz1JhtH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601220222.UHz1JhtH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> lib/netlink.c:3:10: fatal error: net/if.h: No such file or directory
+       3 | #include <net/if.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
