@@ -1,106 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA984355046
-	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jan 2026 01:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAEE35CB86
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jan 2026 01:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769045555; cv=none; b=ktVbKC466vrQltWvQhdTLk/jz+leiJuRyEHUXiu8YfqlJkgJPXSmn9xlm6rPNelMAammbbyfKC8IGvSA3Q4q9SLPaE3bBJlDA9jpBLqMtIazyx0eev1ykDGrrR3YLM81JJNOgSKguZw3Nh4WhXLdMAWHUTg4YTBBOE0f3ww3ZPA=
+	t=1769046330; cv=none; b=E1so5+S4Krx5jSOteiN6Gez5YkoqI7Z8h37tb3F3J5lSijA8yu5DnrwQYPbaMUAS0a1YBi9FbdjsPmTadO9RMFB86wfqVfX209Rypy2ZR+7S+HO4tFgCKXsgFu5ckrh4RIj9aGfNS6Qq05sjF1U/u6mc6Kgqix8RunQ2A+jTs8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769045555; c=relaxed/simple;
-	bh=8xKAwXUPiwEQ1f9infafsxLngVWYChKSRMDBs7vT2EE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kP6xnKgawx2HuGfEQc6WU97UvkUT7Db9btGiX/jWfC1bXWlbEWfeZtsP33bFvFify6sc6pMTSPIZCzOmHe7oJQUMutYr4ZkVWzSynXhww59qHSszCt8ty3lj/zZlxCOOW+SkXm1E04aO1L++vdqacOhFAHBodzInh/xiQK0dKmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GnrcAtcK; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1769046330; c=relaxed/simple;
+	bh=NkX9AsrUWWGZW+Nc6f9QDOxqfw1R3W1kg7GwsbP0sws=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oepVlZP0Mk3jKnapk4nEoaxwI1lfB69CcCxkKThWh0juhYzEta9tSvWwc7UOj85HM0QttLLxQqV0fVAOJTbyB7ZLiS0UKVwPigvX+XHF7H9oj5vOIyzaIad5PyVwHfrZqS30WOsk0VbTUPAQUTIUFuNX3Ah5706utUPr5j+tmhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=daLuPC0h; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GnrcAtcK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="daLuPC0h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769045553; x=1800581553;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8xKAwXUPiwEQ1f9infafsxLngVWYChKSRMDBs7vT2EE=;
-  b=GnrcAtcKN8QJ9r2dvdJ91MbvPqDm6+yLg0rz1GCLxYPL+fobVL/kCYZH
-   96qUnjBPUi7LT6L/TfiTHWcqkW/o8s6Kb+56NQruLTjHJnhk5+s8dEAdp
-   891KhytnrnNxm469Yp1rwX5d/FZpPQEuzth73kT7SUIUskjyMLgi/HInM
-   FEH4lAGt+Tiv8bt1kglH72fqlKDmqlRmIquNDgGJnMRrRFjrAssREgqgT
-   gk1ipjMWG8UT+HYq6Yq8jxPVEbCKgvErnE2bI7vgRmLKBfss7UF8RsNRL
-   f9FG1ugPK3Rna91m4zDeYoM8tEv9HlxtDlJ0TtHYNmZkxp9GyH9FHaa+6
-   g==;
-X-CSE-ConnectionGUID: HQaBuyhrRtWbs1NYhRtnRw==
-X-CSE-MsgGUID: PUv70dO5S9Ct3gNTd29fHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80585431"
+  t=1769046328; x=1800582328;
+  h=date:from:to:cc:subject:message-id;
+  bh=NkX9AsrUWWGZW+Nc6f9QDOxqfw1R3W1kg7GwsbP0sws=;
+  b=daLuPC0huNaMRMMoAHOT4MHK0uWioNBO8cpbC+NKOB1Dxvk40cwMpQRw
+   7mNGE1Q2lWr8VORe0II/T4/vN6Kz7fgQTsNBmaW9EaAevMygWPhfN3GPk
+   duceZNdqAdp3CYEzAmfHm/SR6ye6F+u+Q8IDjrA7ymKnelDJbMZRpZ21s
+   5rAuzFRlph2kAw5UENDagxOW0mlVzRrumJZ4ssODMEC5l0w21KGZNpLBD
+   EzW8JHFRPya2OB0X3eQWeMrN5EJfZnENvtzpKXxzug9nXY1GH6OhMjGCD
+   rmSDxDTnO7ZMcS4R4I2gO6n8ypMP3VjLspe1bXrrkHNFiKyu0qw5I6cY9
+   Q==;
+X-CSE-ConnectionGUID: DyGGvpO5TNCB77PSE7CU6g==
+X-CSE-MsgGUID: KRM1ayCSQhGUWXwDllbJLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70450203"
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="80585431"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 17:32:33 -0800
-X-CSE-ConnectionGUID: fP3QXtGTRJex/fp2oYOuwA==
-X-CSE-MsgGUID: ZmFuFdDASESYKaWUWWYbEQ==
+   d="scan'208";a="70450203"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 17:45:28 -0800
+X-CSE-ConnectionGUID: tKoF9jnlR6iDAiD6+pe+Sw==
+X-CSE-MsgGUID: Skq83zZKTRKDlgvXSLQvnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="211041493"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Jan 2026 17:32:31 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="211114649"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 21 Jan 2026 17:45:26 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vijYj-000000000Pp-0dHq;
-	Thu, 22 Jan 2026 01:32:29 +0000
-Date: Thu, 22 Jan 2026 02:31:32 +0100
+	id 1vijlE-00000000SHV-02VL;
+	Thu, 22 Jan 2026 01:45:24 +0000
+Date: Thu, 22 Jan 2026 09:44:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header
- inclusions after libc ones
-Message-ID: <202601220222.UHz1JhtH-lkp@intel.com>
+Subject: [djwong-xfs:fuse-service-container 37/91]
+ fs/fuse/file_iomap.c:17:1: sparse: sparse: bad integer constant expression
+Message-ID: <202601220928.sk2r6bPt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: fs/fuse/file_iomap.c:17:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
-References: <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
-TO: "Thomas Weiﬂschuh" <thomas.weissschuh@linutronix.de>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/selftests-net-Move-some-UAPI-header-inclusions-after-libc-ones/20260121-032048
-base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-patch link:    https://lore.kernel.org/r/20260120-uapi-sockaddr-v2-1-63c319111cf6%40linutronix.de
-patch subject: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header inclusions after libc ones
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260122/202601220222.UHz1JhtH-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220222.UHz1JhtH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-service-container
+head:   7c9264079abdd8c696eaf2f52de323ec31015a30
+commit: 558a76ff9369b87357a7a15b976d228083d763b2 [37/91] fuse: implement the basic iomap mechanisms
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: s390-randconfig-r123-20260122 (https://download.01.org/0day-ci/archive/20260122/202601220928.sk2r6bPt-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220928.sk2r6bPt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601220222.UHz1JhtH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601220928.sk2r6bPt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/fuse/file_iomap.c:17:1: sparse: sparse: bad integer constant expression
+   fs/fuse/file_iomap.c:17:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
+   fs/fuse/file_iomap.c:18:1: sparse: sparse: bad integer constant expression
+   fs/fuse/file_iomap.c:18:1: sparse: sparse: static assertion failed: "MODULE_INFO(parm, ...) contains embedded NUL byte"
 
->> lib/netlink.c:3:10: fatal error: net/if.h: No such file or directory
-       3 | #include <net/if.h>
-         |          ^~~~~~~~~~
-   compilation terminated.
+vim +17 fs/fuse/file_iomap.c
+
+558a76ff9369b8 Darrick J. Wong 2025-05-05  10  
+558a76ff9369b8 Darrick J. Wong 2025-05-05  11  static bool __read_mostly enable_iomap =
+558a76ff9369b8 Darrick J. Wong 2025-05-05  12  #if IS_ENABLED(CONFIG_FUSE_IOMAP_BY_DEFAULT)
+558a76ff9369b8 Darrick J. Wong 2025-05-05  13  	true;
+558a76ff9369b8 Darrick J. Wong 2025-05-05  14  #else
+558a76ff9369b8 Darrick J. Wong 2025-05-05  15  	false;
+558a76ff9369b8 Darrick J. Wong 2025-05-05  16  #endif
+558a76ff9369b8 Darrick J. Wong 2025-05-05 @17  module_param(enable_iomap, bool, 0644);
+558a76ff9369b8 Darrick J. Wong 2025-05-05  18  MODULE_PARM_DESC(enable_iomap, "Enable file I/O through iomap");
+558a76ff9369b8 Darrick J. Wong 2025-05-05  19  
 
 -- 
 0-DAY CI Kernel Test Service
