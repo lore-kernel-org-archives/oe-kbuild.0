@@ -1,130 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E033EBF31
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 Jan 2026 20:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50E22EC080
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 Jan 2026 20:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769201486; cv=none; b=d06hp4vwmVqkLJoW9hPH3NBV+stiOfz0eyrXcjCLfXvAX7eVu9iSoC6UQHu09SwOjeJT4hIio8svqmbcuE0lPVLKxmedDfphdi5Yvtw1psdesXSenFn6F6us04iFIlEhyd2jBx0L7UkbDh7NAN55baVmOptBvjXSOC3u/SHS3Lo=
+	t=1769201991; cv=none; b=T+wkNGtpeLGV2evxQJ1bjs3UrYhKyIajU3QROjP5KsTbcezdv8pc48NXtlvpEJY8D1+fs5WRzfob7mG5BLZJaehhT0e3a3qj0lJElj2h1/MyUvBtAOO0a+32RQhSY2bDeHCAGAJRD0agmXexr22ykq8+8N3pHMPwtmni8c5Y8/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769201486; c=relaxed/simple;
-	bh=HJ86e1aBtylWmk4WI04vdomX0JRzSb7jste/ZDxOELE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N4JKF2b5qiXcWfXNB1onT9NmwLqxUrKL37A/54KOG1VgVx0AqovmV4gvjmAQnzm9GaE78yerdwR6XJy/vY5B77J3ZVc5b1s2WbXkhzCvbYTmdKOrY0+gvagyL5Ovral37In29K9UK1vU0Qe4bXxSqwyyiKiFqgjmJnUuzIVDIes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aY2bSqDf; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1769201991; c=relaxed/simple;
+	bh=4r2j15GJzqfbvrPVBZ6QG5xoV3Lmh3wpIkcLJHQGknA=;
+	h=Date:From:To:Subject:Message-ID; b=SH+hfr6zubNnhog89YJbYdh/bScN4/9QFj9Xvaa94jPVCnJa55uPzzZUI/imAPD9P65ab7KuyC7JWi5DWRvtoO3BvmRgOHE9kuijEHsLxwMjF4R9+A6Ql1EixE5cTuQ2HiSHZj7UCBZtKoiZbWXekuXPnhVFKFduonf5ZlKEtJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgqoblPr; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aY2bSqDf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgqoblPr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769201485; x=1800737485;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HJ86e1aBtylWmk4WI04vdomX0JRzSb7jste/ZDxOELE=;
-  b=aY2bSqDfxGRuUICXPVe+56BCSNuTu3+WvcQsl/EFdNhxUnNgzLoQygDR
-   alz5sUvFa6Ho7bRWEfeUREWw2ni/XGC+N0oAoqr4s2m9uYm4ccz67V4J2
-   cTWYVOLc32TuqNJEofOZaIIwYMvtG1absr4h9fLuf0rNop3EqYxlF9qZO
-   8TgkPc78ITB8ytyck1FhOxEAb5RZroHNh2MXSJHln5KDpEZ7jB2Z/g0QU
-   biBJShbkSy32qG1Swhuixs2NIX4cMvXWRee8Vi0PHcyrI2nfso8iH0OvW
-   CbU59I/xhREC4a19xNpGVMzg0hn3nP7FEHWbSOT54ws3gsyg/A4rAHfMF
+  t=1769201990; x=1800737990;
+  h=date:from:to:subject:message-id;
+  bh=4r2j15GJzqfbvrPVBZ6QG5xoV3Lmh3wpIkcLJHQGknA=;
+  b=IgqoblPri7UIWFZMwYb8dh4U2FIl5+IOP5V3EEOI40ybzfUI2ONN+IaX
+   xViLbN45uw74m+2OAhIExCOdv3g/JmxnUvtE+bLCFJ9P3XbwQWsBXJoZ8
+   sxet+zPdvHD/iA++MehFuUHJjHA9vamxNEaHkNAshw5+m3FiYNyamlap6
+   9PN8qg3waC1SsfHtH2kD36KQBar6CYTbYaOYTbmZn3Q5o6+OCeJynB9PK
+   G/Nv3iUZ4m/Vi/HmihWL3NIW+mUc/Qqz9QU9OR7RtWpX0B4ETiX+udKoD
+   xEalrk+aZkRAvxrOGRHl4YlZLWz1vLbrTgNiza7Mm+Y/lBiafEcZaNoom
    w==;
-X-CSE-ConnectionGUID: O2yabDdaSMqO90or0+dwxg==
-X-CSE-MsgGUID: 2IfE/SF+Rw60CUFC57j5pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="81571865"
+X-CSE-ConnectionGUID: VKpvDx7pT62Or/GrWBWVPA==
+X-CSE-MsgGUID: 2sNl16gaRfmOJwoefPt5Qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="81900149"
 X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="81571865"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 12:51:24 -0800
-X-CSE-ConnectionGUID: AlPhbGNhRfimRaPqzXxbxw==
-X-CSE-MsgGUID: rUaEgnACQ8uh7k4LhJDdVQ==
+   d="scan'208";a="81900149"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 12:59:50 -0800
+X-CSE-ConnectionGUID: HWGXb3P+Q4ieJPJEMp7KXg==
+X-CSE-MsgGUID: JVeFCF7rSUOtsnIBRQqVXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="211575253"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Jan 2026 12:51:22 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="230073638"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 23 Jan 2026 12:59:48 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjO7k-00000000USM-2KTY;
-	Fri, 23 Jan 2026 20:51:20 +0000
-Date: Sat, 24 Jan 2026 04:50:46 +0800
+	id 1vjOFu-000000000ov-26aP
+	for oe-kbuild@lists.linux.dev;
+	Fri, 23 Jan 2026 20:59:46 +0000
+Date: Fri, 23 Jan 2026 21:59:34 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v6 5/5] clk: amlogic: Add A5 clock peripherals controller
- driver
-Message-ID: <202601240405.xRri6yc6-lkp@intel.com>
+Subject: [djwong-xfs:scrub-syzbot-fixes-7.0 11/44] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'yeah'
+Message-ID: <202601232108.a79v6Gh4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/clk/meson/a5-peripherals.c:778:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260123-a5-clk-v6-5-6d3bbf0ec1ea@amlogic.com>
-References: <20260123-a5-clk-v6-5-6d3bbf0ec1ea@amlogic.com>
-TO: Chuan Liu via B4 Relay <devnull+chuan.liu.amlogic.com@kernel.org>
-TO: Chuan Liu <chuan.liu@amlogic.com>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Jerome Brunet <jbrunet@baylibre.com>
-TO: Xianwei Zhao <xianwei.zhao@amlogic.com>
-TO: Kevin Hilman <khilman@baylibre.com>
-TO: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-CC: linux-kernel@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-amlogic@lists.infradead.org
-CC: linux-arm-kernel@lists.infradead.org
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Hi Chuan,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git scrub-syzbot-fixes-7.0
+head:   2d76e519f5fa0d3323cdd2ce3404fc19e6c23f3d
+commit: c45a0220071a896d5492a1b839c518327df54f9f [11/44] fs: turn on more warnings for the filesystem code we modify most
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20260123/202601232108.a79v6Gh4-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
+# many are suggestions rather than must-fix
 
-[auto build test WARNING on f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuan-Liu-via-B4-Relay/dt-bindings-clock-Add-Amlogic-A5-SCMI-clock-controller-support/20260123-135746
-base:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
-patch link:    https://lore.kernel.org/r/20260123-a5-clk-v6-5-6d3bbf0ec1ea%40amlogic.com
-patch subject: [PATCH v6 5/5] clk: amlogic: Add A5 clock peripherals controller driver
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: arm64-randconfig-r121-20260123 (https://download.01.org/0day-ci/archive/20260124/202601240405.xRri6yc6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240405.xRri6yc6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601240405.xRri6yc6-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/meson/a5-peripherals.c:778:1: sparse: sparse: bad integer constant expression
-   drivers/clk/meson/a5-peripherals.c:778:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/clk/meson/a5-peripherals.c:779:1: sparse: sparse: bad integer constant expression
-   drivers/clk/meson/a5-peripherals.c:779:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/clk/meson/a5-peripherals.c:780:1: sparse: sparse: bad integer constant expression
-   drivers/clk/meson/a5-peripherals.c:780:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/clk/meson/a5-peripherals.c:780:1: sparse: sparse: bad integer constant expression
-   drivers/clk/meson/a5-peripherals.c:780:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/clk/meson/a5-peripherals.c:781:1: sparse: sparse: bad integer constant expression
-   drivers/clk/meson/a5-peripherals.c:781:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
-
-vim +778 drivers/clk/meson/a5-peripherals.c
-
-1a4d0bd930beb7 Chuan Liu 2026-01-23  777  
-1a4d0bd930beb7 Chuan Liu 2026-01-23 @778  MODULE_DESCRIPTION("Amlogic A5 Peripherals Clock Controller driver");
+WARNING:REPEATED_WORD: Possible repeated word: 'yeah'
+#481: FILE: fs/xfs/Makefile:73:
++ccflags-y += $(call cc-option, -Wno-error=unused-function) # yeah yeah
 
 -- 
 0-DAY CI Kernel Test Service
