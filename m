@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144223EBF01
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 Jan 2026 21:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E24A1917CD
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 Jan 2026 22:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769204787; cv=none; b=j6qvIlLaJ3LNu8bgXOjirdsB/cv+L9IUfUsONbL3DpJ2jNeyodXwkU7b0gsIMMO92XwLiK4MGUPB5T1q0ryD4ealRgPvJ95zJFQextKg2cuS0NuoJyi1MzSqu8vG1ZxmzkNFcmCOjHHSOiFrZ1q3SGK0k5pmdktk/iuCMfI3ShY=
+	t=1769206711; cv=none; b=rbtTjEfck1469raYoujOnVGHOgPgCFAYdxA+6NvW+XCthF74HByHvQWUzcwm4vQSAHZGXkjLV/EImavPHcJfzTHg4Xl6EzDIZz1Q8QFGkthGa1/HkNQy+egzO+hw4nlBp2/F8Z6Nx9KjjNKtFs486NVGeZ8mmrSKef99yTQl1VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769204787; c=relaxed/simple;
-	bh=p4evSkJSOiFfC7LqMfPqS4fWUCLGKf/mnVxpjOjrpwU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lA2FwM8hWyzv1A+Sl8QYwvndzSbmnaKLvw8B1a7v/IzNx251CZnZpLs0sZKWIN/ccQOFbkOtqEfPc4OKoyOkSKwiSeP3bch0EWPlhd+7yAF2qRYK/fuAmtlK3aJ+2Au3tshBAdcjY6ZRkzR89XIlWn21ThmokQNXc7iMZwOm//k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nzO3mdWL; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1769206711; c=relaxed/simple;
+	bh=fQqpO+FeCog0SqhsJayJ43fxBcRZJmJ+wNDwP/x/Bx4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M2rr7ENzW62xt7YYTmkdwwxtccwym+86grPVIfMKA4YVMT3RZkwjkRh9lZk+2p6Am3LPsk65M3YSek8++xlONgpCqyieK0N7uuvZTWNSw++H6Jn7RDr4Zjz4eg69CvBxKa7I9Nobc/pSBMz0NPYwbECMH8HMpQ1kAGZwJol0cyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nITMFkpX; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nzO3mdWL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nITMFkpX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769204786; x=1800740786;
+  t=1769206710; x=1800742710;
   h=date:from:to:cc:subject:message-id;
-  bh=p4evSkJSOiFfC7LqMfPqS4fWUCLGKf/mnVxpjOjrpwU=;
-  b=nzO3mdWLr7EMMZvdDmj9z2gALcZ9ZHBceHuyZLWTsXZ9vct8QRdC1hD4
-   wGaQfNCjDb6M8GXFNK3KRn8RgV+AU2pWaZ4fdxCxba4b+Zs2yIn2Z2Dw2
-   x4tZXNJCxAcFSKAngEvc+KzFmoDKzFoXkYOpbw3VsXZf4d1mhVLJdpRE7
-   y99TDqmJDnsG/T8PsUUG4bV5yzdbjReEtIcX+r7EHF6RJLBVoZHtuKKZO
-   w/hwtE+/OSueCqgefHPSC3rZoX3p4awWdTFR1rmaEiAh/6Jzctn7BCJga
-   /AKuS8YvYADKeFvS4tc2FSM3aiN2bMF4s8mAeN6UNgrZ5vlcNfvlGDYW+
-   g==;
-X-CSE-ConnectionGUID: t+Eqi4GzTDqScGFmE+GKOg==
-X-CSE-MsgGUID: YgfioLRgTFuWO2+w9xzGpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70512342"
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="70512342"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 13:46:25 -0800
-X-CSE-ConnectionGUID: f5pNREWaQD6OEObYfsN1Wg==
-X-CSE-MsgGUID: r8FClYMcQmO4qrGkd6P7mQ==
+  bh=fQqpO+FeCog0SqhsJayJ43fxBcRZJmJ+wNDwP/x/Bx4=;
+  b=nITMFkpXukfdv29uHD11Fhi7Eum+5b5kb+bOMpeEmlWIdjClLEvbmcV7
+   lnwj163uTgXclk7rv550bO/6KVq8YrBIMkxwTX0/OpXqdj57AQxjSdTqq
+   R78HUl673wlLnDTDt3y14P29XCQzCsVIkJYlod/BBmtPkNhfqQHpuYrku
+   reeQat7VmngZF81uNu3pVKuy885XvHG3aUyN9UsKyshmpcZ3776Sohg3n
+   vP1N5ZIZ7rMSh6mYKiRvLnLFesOeAtQRUAY2B1ukC3DIz2HaI/3nN+8zT
+   VV24Ej4G0xuWmIACX5fY8qwtYoe/9d6MzgOHHwTx04B79lBTq9DQAYTpG
+   Q==;
+X-CSE-ConnectionGUID: El4dHkE7QTe6Ovne8DUzrw==
+X-CSE-MsgGUID: 2pTRaeneS/+4TxzrC715bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="69660511"
+X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
+   d="scan'208";a="69660511"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 14:18:29 -0800
+X-CSE-ConnectionGUID: EovW1pp8TdGDWnZ28Etl5g==
+X-CSE-MsgGUID: jEFl/GrzTvCOqwJeXnlIsA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="230084326"
+X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
+   d="scan'208";a="207046404"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Jan 2026 13:46:24 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 23 Jan 2026 14:18:28 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjOz0-00000000UUw-1e47;
-	Fri, 23 Jan 2026 21:46:22 +0000
-Date: Sat, 24 Jan 2026 05:45:53 +0800
+	id 1vjPU2-00000000UWm-15Le;
+	Fri, 23 Jan 2026 22:18:26 +0000
+Date: Sat, 24 Jan 2026 06:17:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [djwong-xfs:scrub-syzbot-fixes-7.0 11/44] clang: error:
- unknown argument: '-femit-struct-debug-detailed=any'
-Message-ID: <202601240506.8hNhpop0-lkp@intel.com>
+Subject: [baylibre-clk-meson:clk-meson-next 5/11]
+ drivers/clk/meson/t7-peripherals.c:1268:1: sparse: sparse: bad integer
+ constant expression
+Message-ID: <202601240612.tclKAkms-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,33 +61,44 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "low confidence static check warning: drivers/clk/meson/t7-peripherals.c:1268:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: llvm@lists.linux.dev
-BCC: lkp@intel.com
+TO: Jian Hu <jian.hu@amlogic.com>
+CC: Jerome Brunet <jbrunet@baylibre.com>
 
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git scrub-syzbot-fixes-7.0
-head:   2d76e519f5fa0d3323cdd2ce3404fc19e6c23f3d
-commit: c45a0220071a896d5492a1b839c518327df54f9f [11/44] fs: turn on more warnings for the filesystem code we modify most
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 days ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260124/202601240506.8hNhpop0-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240506.8hNhpop0-lkp@intel.com/reproduce)
+tree:   https://github.com/baylibre/clk-meson.git clk-meson-next
+head:   2fe1ef40b58c2256f4682594f48bfbd584501ec5
+commit: fab4d651b592b3ebc836e410ae27b8b832a5bff2 [5/11] clk: meson: t7: add t7 clock peripherals controller driver
+:::::: branch date: 3 weeks ago
+:::::: commit date: 6 weeks ago
+config: arm64-randconfig-r121-20260123 (https://download.01.org/0day-ci/archive/20260124/202601240612.tclKAkms-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240612.tclKAkms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601240506.8hNhpop0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601240612.tclKAkms-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/meson/t7-peripherals.c:1268:1: sparse: sparse: bad integer constant expression
+   drivers/clk/meson/t7-peripherals.c:1268:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/clk/meson/t7-peripherals.c:1269:1: sparse: sparse: bad integer constant expression
+   drivers/clk/meson/t7-peripherals.c:1269:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/clk/meson/t7-peripherals.c:1270:1: sparse: sparse: bad integer constant expression
+   drivers/clk/meson/t7-peripherals.c:1270:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/clk/meson/t7-peripherals.c:1270:1: sparse: sparse: bad integer constant expression
+   drivers/clk/meson/t7-peripherals.c:1270:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   drivers/clk/meson/t7-peripherals.c:1271:1: sparse: sparse: bad integer constant expression
+   drivers/clk/meson/t7-peripherals.c:1271:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
 
->> clang: error: unknown argument: '-femit-struct-debug-detailed=any'
+vim +1268 drivers/clk/meson/t7-peripherals.c
+
+fab4d651b592b3 Jian Hu 2025-12-12  1267  
+fab4d651b592b3 Jian Hu 2025-12-12 @1268  MODULE_DESCRIPTION("Amlogic T7 Peripherals Clock Controller driver");
 
 -- 
 0-DAY CI Kernel Test Service
