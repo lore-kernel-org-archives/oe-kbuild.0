@@ -1,153 +1,109 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB712652A4
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 Jan 2026 20:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769198566; cv=pass; b=hc9CIqh5KmOq0KcnJjowaA2SXPYzykJ5nvoTYzzrs3eIg9h2igWI1TPXrNf6ZNHSVz0BNE5j9hrVTeHyA9nfyrYBD5zbYyzVq5cQVncdm9jVqxE6fgYcqQTXR97Z2DiWAICHR/MKYmlSBDyLnBIESkOfRGFpMZ4B30AEBzewyeg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769198566; c=relaxed/simple;
-	bh=N1WNpGhp0sNZGbNcGRXlb7uViIb7gYmd7lExA5LKlZ4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R78p+Y9f7m65+DM/b2oiz7raYFuorQdgqIDof8e7ZFVD/dndGsJgzgsXMzcis0pf9qhM3ovL5DAffGJt1dZv2B5Me7wv3hB3ZS7Uv99A4GcbKxU69728VXKckylhYeJbAZ9wLnkCbB1h19A1Z4ULtYhSlrHqbw0MsJIz6RrXY3c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z95udger; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98ACDE55C
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 Jan 2026 20:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769199506; cv=none; b=uobFd87b4f7ppA//wZ4sQ9PLos/4S15iRX+k8HXihJE4TWSN+kQ+ZDwvSRV2KVtqBZcxvV/cWEDSEUHpkU4xKTc4aWGGLK1vFuFn3MmWiVYDKJavLA9r15C2Jwkeny1nxrhRqcvpAiUMK7HCqs9G5W617ehyWsssX6GiMeYLUFU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769199506; c=relaxed/simple;
+	bh=dQtp6BYRFLLw0WMeL+tMXygYYZTog02vlAUxaRzfKAY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kQ6SZ9Tk2kzyB9NfhxbVGc/NF2Q8uuLUHN37GAvjeRI0276lgqHaVAkFEgV1sGQeE9kqIOlgHp4MeSkVgBAy/iCAAd32csAhv6BmQ1SeY/6ECOUqMg+UTCveANoexyBEMABFFIbIgeSHWhcFRtydAD7e0+WgAR/63FLlKr3hTP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iq2YLma+; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z95udger"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-649278a69c5so2482916d50.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 23 Jan 2026 12:02:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769198563; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UJeDcHWzHz8xEbkNK8r3lEv9j23xyPsZoU8940h22/7v9zaS/wOUYAd2U+ajPieY9w
-         MVaczlczwUHG/ymsE2Mf3ee141trGoHxMFNJsYdFdaR81D4HPSLU0qo5Sro1gq8Ha7tT
-         s5vVrmvS5ZyXBXD2VzEbrG1+qrRPtzVRG8OgylkZT+u9V0MeNP+QIUkTo+PrvvNmScXn
-         V8Crcn3WIA7Qu2gOEHbKZuUvebRRgllhOxb++sYSldh0uV6RTEh7wqcrwVT1/za+Y1pn
-         oZC3UwYWa7tXsZq6K5WTSF9XIw4tDxXYDdG1o0StsHPMQ5HtVmfrHB//WQbdHFTIK1Wa
-         MmrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EkhChGP0ZbklSidP8dLmcPOAubIdgw7SaaHGflOOdLg=;
-        fh=dZWptyzaecjuoD8VnHOlSYESdiRy0GB8XUbcxXaC6W4=;
-        b=YqlcbXKnQJ2kqbHbaGUNufBXb67MA0tggA67OPIbIKChUAWGN0MBOsQM+PFM5RNacI
-         dEPWaH+dX+xQL3C9fbAXt5zs2v50//1FxVEkoJQHWo/IVCDHtsneWwDkx4yrBdSPogJv
-         j7zvxOi/m7/F6/cBqs9TdVKKatkzJHYQgfP0ahwAS02A3lzCOR7yzndpcUGdlMU9uvVa
-         PfXGs04H6YGk7uQ9rtHh8OZVVQq1/wiOW87Q00w/v/SZRL/E6lVT89OeXlDWcgHeWRlZ
-         h1QOMyU+HiNANMWBvXjt9VUjyX5h3/9xkaeJYiJsPhXG1GwwZ7oRXZ1pRMOg4zv61Suf
-         ISfA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769198563; x=1769803363; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EkhChGP0ZbklSidP8dLmcPOAubIdgw7SaaHGflOOdLg=;
-        b=Z95udgerkRIO4l54EYbPjx4SxpWDcl2bhA/h8NcwToWraNREa/exRUHDjl/n7NSyWK
-         KXrUIn0by9YDemNdU/OcY0vNmHpzLVDljMqZNr6BnKnefzSWUT2bwwkmMtIGw4Aa92Q3
-         wMl08F6orRgZ7XvhJOeIiFlCVsu2Xs/6aFhqxN/6y22kkT+ArHl/AB+XMscEsRYHvUkj
-         C9RjMHoH17OyqcblDGuWJEvdBdVXUC5kwqyAs7Lzhf/rB46SN48qDxWfxavyqy7v0qRX
-         HjnLT3sYPyXlcXqGD57TNFh1CLIAxg/f4tcDeSrqve34sXFkm0CkRgFVQ/PE3bliL7AH
-         MRsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769198563; x=1769803363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EkhChGP0ZbklSidP8dLmcPOAubIdgw7SaaHGflOOdLg=;
-        b=DD+O98LdFXwDBUfX0RG8y+w/v4z1U2VutmEKguVDDfLdDf+6Ajsm0UCYjC4Yw6kFH1
-         yfZHMT7TfHYSqAtR0ehDkhiO5GHaivZk0SuO055LK8haZvtO5RXNQGtfKYauUNKkT9C0
-         oCJU4UCW9RfITGO5GIxT/Ybr3n1aQDIVevQYh7y3qGjf8ZnB5E9BR8+Rh19lkufjGq7w
-         IAF1dhWHsaFSbvBeU3HQXd/Yqco6W0Ous4OhgZWiWt2gZ8D1UtTcWO6SlCR0eclkowGp
-         ++q1QylR6N1uyREQE0AW3n82LAJW9fEzkETPxOJkfQq9/57pN9woPTXcz4FuMUbh9TvJ
-         IVBQ==
-X-Gm-Message-State: AOJu0Yxvr8oTfukk/64X45b+Od8Lrnk2Akvf3TMUljsNh4jZruoM/8E/
-	JqrysdatcheWKtINxo9DpRmeFKJXbVhfFnC5BsMX5Rj3pLJ06deSOxjTxxHt9ziQ6cdvxyy7g5N
-	Bni6VgxiyUJjdM6PF8gCrKZTv2oONqbc=
-X-Gm-Gg: AZuq6aLRY/FJv1gc0wsaYJD+6pA3f4b6U7ZCxc2wFY/iFccGpHuDulsvYsPRRwVEVMy
-	Mq2uNdInMhnsQ3Q4UsBQieJSOQ8gKPVtcVbvlssMsNCkywfgS/lwdLaCjiBVS83ttDBra1CyUnC
-	IxCRhPzbYSFyVD/tdOsYayBlyKlZ8wvOhK4R1SAVyjutYF2puEO5XUKMqka8zPjJgAbht/bQoWp
-	sVUOpIt9W1/RY8LP6bUewvBBEDWebXXyzDLYII3uzGrPaTFLVlf9DMBltCBR5dsQinQXIWqJCSf
-	Vus=
-X-Received: by 2002:a05:690e:4186:b0:649:6658:ea91 with SMTP id
- 956f58d0204a3-6496658ec17mr650331d50.0.1769198563454; Fri, 23 Jan 2026
- 12:02:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iq2YLma+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769199503; x=1800735503;
+  h=date:from:to:cc:subject:message-id;
+  bh=dQtp6BYRFLLw0WMeL+tMXygYYZTog02vlAUxaRzfKAY=;
+  b=iq2YLma+X5G1u+rQrp2m8emWkmVIj/aOozign8QA56JNuXcDhcYF80FT
+   7MiMqOEBjlqggKAloxzBjthbHeEXvPHRK5swR/GsjXtgjXL4joMUfjZ82
+   PhLHVhO4LFDyV0zOP569RRDSubqO6R0mnAP6HRD+rUrEbX4NVbQY3SLX5
+   ARDRIH7R9mTb2+ElypUIanrp77wMhwvhAd59G2cC2fAhfEHZ5HqQ/j7Mj
+   5GamFxj7rNkOQF0Lo1DhCmqN85Lvp/xnTrpK/GH5thr58HZuB8wc5ksAW
+   m+jS62F72SZ8ujoNBtO7gZkbxvZRmxo01Op8f0idTtPdoEoyXAbdJvmym
+   Q==;
+X-CSE-ConnectionGUID: F3Kybu47SmCnBo9loPkQBg==
+X-CSE-MsgGUID: ihsHc04ARZ6p8IN96ZBz7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="81175036"
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="81175036"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 12:18:23 -0800
+X-CSE-ConnectionGUID: YSJzrBJaTMWDZ+I/INmLog==
+X-CSE-MsgGUID: Ro8HtvQhQsCpH14HBgw0dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="244732612"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 23 Jan 2026 12:18:22 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vjNbn-00000000UQY-10Pl;
+	Fri, 23 Jan 2026 20:18:19 +0000
+Date: Sat, 24 Jan 2026 04:18:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [hch-misc:iomap-pi 32/32] fs/xfs/xfs_aops.c:665
+ xfs_zoned_writeback_submit() warn: bitwise AND condition is false here
+Message-ID: <202601240439.jKzpvda9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202601222139.VGTZ3L94-lkp@intel.com>
-In-Reply-To: <202601222139.VGTZ3L94-lkp@intel.com>
-From: jim.cromie@gmail.com
-Date: Fri, 23 Jan 2026 13:02:17 -0700
-X-Gm-Features: AZwV_Qj-bAHPt6tT84B11EMQjzpJT4i2sjpSnGjweT0wpJIk5iaoOOr7vENW8Z8
-Message-ID: <CAJfuBxyv4kXHv_YbddhwYxSA_mk-BTH=FFK7qTg2JcgZVL24xQ@mail.gmail.com>
-Subject: Re: [jimc:dd-drm-fix 45/75] lib/dynamic_debug.c:1844
- ddebug_drop_cached_prefix() warn: passing freed memory 'prefix' (line 1843)
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 22, 2026 at 8:27=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> tree:   https://github.com/jimc/linux.git dd-drm-fix
-> head:   354f9423ffa1fb2a31f8410ddeea96a7a8471ec1
-> commit: 37e1c3e5c714f09a36daac2b5c3c55b3b7f9fae4 [45/75] dyndbg: cache th=
-e dynamic prefixes per callsite.
-> config: arc-randconfig-r072-20260122 (https://download.01.org/0day-ci/arc=
-hive/20260122/202601222139.VGTZ3L94-lkp@intel.com/config)
-> compiler: arc-linux-gcc (GCC) 12.5.0
-> smatch version: v0.5.0-8985-g2614ff1a
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202601222139.VGTZ3L94-lkp@intel.com/
->
-> smatch warnings:
-> lib/dynamic_debug.c:1844 ddebug_drop_cached_prefix() warn: passing freed =
-memory 'prefix' (line 1843)
->
-> vim +/prefix +1844 lib/dynamic_debug.c
->
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1833  static void ddebug_drop_cache=
-d_prefix(const struct _ddebug *dp)
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1834  {
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1835      char *prefix;
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1836      unsigned long key =3D dde=
-bug_prefix_key(dp);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1837      unsigned long lock_flags;
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1838
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1839      spin_lock_irqsave(&pr_pre=
-fixes_lock, lock_flags);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1840      prefix =3D mtree_erase(&p=
-r_prefixes, key);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1841      spin_unlock_irqrestore(&p=
-r_prefixes_lock, lock_flags);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1842      if (prefix) {
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02 @1843              kfree(prefix);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02 @1844              v3pr_info("drop c=
-ached prefix: %s\n", prefix);
->
-> print the string first, then free it.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Christoph Hellwig <hch@lst.de>
 
-oh yes.  thank you.
+tree:   git://git.infradead.org/users/hch/misc.git iomap-pi
+head:   024c41f8c5a749e6f7d8dad9eab24cd863a99706
+commit: 024c41f8c5a749e6f7d8dad9eab24cd863a99706 [32/32] xfs: support T10 protection information
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: nios2-randconfig-r072-20260123 (https://download.01.org/0day-ci/archive/20260124/202601240439.jKzpvda9-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202601240439.jKzpvda9-lkp@intel.com/
 
->
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1845      }
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1846  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+smatch warnings:
+fs/xfs/xfs_aops.c:665 xfs_zoned_writeback_submit() warn: bitwise AND condition is false here
+
+vim +665 fs/xfs/xfs_aops.c
+
+fb7399cf2d0b338 Christoph Hellwig 2025-07-10  651  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  652  static int
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  653  xfs_zoned_writeback_submit(
+058dd70c65ab736 Christoph Hellwig 2025-02-13  654  	struct iomap_writepage_ctx	*wpc,
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  655  	int				error)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  656  {
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  657  	struct iomap_ioend		*ioend = wpc->wb_ctx;
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  658  
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  659  	ioend->io_bio.bi_end_io = xfs_end_bio;
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  660  	if (error) {
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  661  		ioend->io_bio.bi_status = errno_to_blk_status(error);
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  662  		bio_endio(&ioend->io_bio);
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  663  		return error;
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  664  	}
+024c41f8c5a749e Christoph Hellwig 2025-08-18 @665  	if (wpc->iomap.flags & IOMAP_F_INTEGRITY)
+024c41f8c5a749e Christoph Hellwig 2025-08-18  666  		fs_bio_integrity_generate(&ioend->io_bio);
+f4fa7981fa26c66 Christoph Hellwig 2025-07-10  667  	xfs_zone_alloc_and_submit(ioend, &XFS_ZWPC(wpc)->open_zone);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  668  	return 0;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  669  }
+058dd70c65ab736 Christoph Hellwig 2025-02-13  670  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
