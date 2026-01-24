@@ -1,113 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA5C1C01
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Jan 2026 20:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17208230D14
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 Jan 2026 21:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769285882; cv=none; b=uBYL3gNM+3p9kNwXY2RvQtz3slOZtllcdmeNFovZw7O/lcjQu2NHzbvaf1AiaGWYZw0p7kYfZLq7FSleVlq/qxHX4oRd8gcME2pq/03VGamhhCyC6bFRbxUWgc/7zifnL2QtGUmgyt8OEXA5odP2fRoaPloBHvsgCEocrZXyDzg=
+	t=1769288861; cv=none; b=YnkG7Q41wzrOLfn4cEFGF3GPHBCD3hNs+A58zy59v9vENJSWRnijKaz/HEA9srjL8O2cOZaQLve2/2rCKUYSZBJ2V+L7vrGWqtkTND0ziU/+BDW5//YxFJyWYJLBNV1up3pu2YeD9jcgRYR+XtxzLp+Cietd9yKNpU63WBJxN1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769285882; c=relaxed/simple;
-	bh=rXR7xENc8BR589MHzPmzQYnQywgndHT9e4K7wOPyAUs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t/5uFmubB0grjkeG4JqC2x99F+E23AxS7xTgwZi7vwXbmpSzHBUurs83OLJXKBo6JPmR+lWlaQMDm5UbhNr99SUYzOcvJPBYaPr302lhIzldn4TkXl/kCFW1KMg6lJATtdrkXn99Vq6+ibgo2TWSjMdTiT+GZ3s2w3fQ0cUORaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWMk9BMD; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1769288861; c=relaxed/simple;
+	bh=BAKckjliAyMXJNi8HXo3yrMCNm4ItFwjfT8Tov5vVyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WjXWOOhgyFT+PqN8vJB8+5ZUHp/l/a9oQIkwNADJUgHQdElTEGWlGMIYepwfBMUjZqwSjOR0vBHSvxxBQMHSS/3llNfTm6B99P3qta6HAWe1GX5BkGIO8DZbnmkbIByUwwa7CRiqwgfZVUOThG3svwB6z9zU28iVcxXF7JLBQqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VuqxzG9f; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWMk9BMD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuqxzG9f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769285881; x=1800821881;
-  h=date:from:to:cc:subject:message-id;
-  bh=rXR7xENc8BR589MHzPmzQYnQywgndHT9e4K7wOPyAUs=;
-  b=NWMk9BMDj3Z25Micd35sawgu/bVoXV3x41RkjEFEYt7jGQOkObSz02GV
-   M6bhqsgJLW8NHo5D2Jlbn6HPNghid8/Sg6cf0Am9smc9JcedeXSFB/G+h
-   x5MCibNMCyXQOFQDl3Xt9ecmOvF6659xFgQMY+ZbM13DW3fm4R77IlvVG
-   C9riSUAGXj6BmRT/P58F3UHfMKgwM3r1STNiV/2ouEBrDTB8smEbmg0kG
-   pkYDRjYcAqtVWloqGdfPOk8GoOrOfLf9sV/jgEqB+ZA9WMM5gLSuMAilv
-   dScJ5CLcq2gu6WK3AKw/Lzh4DdsYyMR/7dD2f7njipNhYa1LNQ9fAEXgQ
+  t=1769288858; x=1800824858;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BAKckjliAyMXJNi8HXo3yrMCNm4ItFwjfT8Tov5vVyg=;
+  b=VuqxzG9fiio6KyIdKUX+m4RiJRdyiMUr7IFldCBkncvgU6BGHx0PpMqU
+   xxY1udz15maESuVCAPprS+lc9sXe//R4Qvhn7pNgwGUpCggkqvQNVtC9l
+   M3y1WFq7l7MT9L3gFiEGnqnuUImF7gIQwvMb2v/zVrcZEokCyQLDfw7KX
+   at+EAw3JxYAzYC4FsVjo/Bz78z8mrbgnyGbbvq9QztgO0fUSEtxQ42hHA
+   rH2OYgoPDr2L+uyrv6YYw4yLW9qJ6z86lpzeggcU7nOnHTehzsdyk73XB
+   cuDcwR56v6u9xyULjmubeOzxfZgA6z7aejuv3HuFe+GW6O4X26KMxf3Ww
    Q==;
-X-CSE-ConnectionGUID: T2cv/+csTGe1SH7WK5C+tA==
-X-CSE-MsgGUID: +/RmRSvmRaOxRcDr2us1bQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70668573"
+X-CSE-ConnectionGUID: TKsGX1UVRKSyaojni14RYQ==
+X-CSE-MsgGUID: IGQz8Az1S+urdtMzfqcehA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70565275"
 X-IronPort-AV: E=Sophos;i="6.21,251,1763452800"; 
-   d="scan'208";a="70668573"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 12:18:00 -0800
-X-CSE-ConnectionGUID: 4p9gcdVpRMiidhnmdh7JeQ==
-X-CSE-MsgGUID: pTblbIWBRgyl7wHXB8760A==
+   d="scan'208";a="70565275"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 13:07:37 -0800
+X-CSE-ConnectionGUID: 0xe3bUPNTvGFZl2Xwq1W7w==
+X-CSE-MsgGUID: y1O8yRS6TIGP/fXTAniu1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,251,1763452800"; 
-   d="scan'208";a="212308870"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 24 Jan 2026 12:17:59 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="237978417"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 24 Jan 2026 13:07:36 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjk4z-0000000013x-0hAD;
-	Sat, 24 Jan 2026 20:17:57 +0000
-Date: Sat, 24 Jan 2026 21:17:43 +0100
+	id 1vjkqz-00000000VXm-342X;
+	Sat, 24 Jan 2026 21:07:33 +0000
+Date: Sun, 25 Jan 2026 05:07:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb:
- wifi@0 (pci17cb,1103): 'vddwlmx-supply' is a required property
-Message-ID: <202601242112.7E2bqvaF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH] ACPI: OSL: Panic when encountering a fatal ACPI error
+Message-ID: <202601250430.zebPNFK2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "low confidence static check warning: drivers/acpi/osl.c:75:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260124021859.8337-1-W_Armin@gmx.de>
+References: <20260124021859.8337-1-W_Armin@gmx.de>
+TO: Armin Wolf <W_Armin@gmx.de>
+TO: rafael@kernel.org
+TO: lenb@kernel.org
+CC: linux-acpi@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Nikita Travkin <nikita@trvn.ru>
-CC: Bjorn Andersson <andersson@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   12a0094839d095e6cfd23dc5f5336d260a363331
-commit: 263780f3189730f2efa511181c3970384e54afde arm64: dts: qcom: sc8280xp: Add EL2 overlay for WoA devices
-date:   9 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 9 months ago
-config: arm64-randconfig-2052-20260123 (https://download.01.org/0day-ci/archive/20260124/202601242112.7E2bqvaF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.13.dev4+g85cec3155
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601242112.7E2bqvaF-lkp@intel.com/reproduce)
+Hi Armin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.19-rc6 next-20260123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Armin-Wolf/ACPI-OSL-Panic-when-encountering-a-fatal-ACPI-error/20260124-102043
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20260124021859.8337-1-W_Armin%40gmx.de
+patch subject: [PATCH] ACPI: OSL: Panic when encountering a fatal ACPI error
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: x86_64-randconfig-123-20260124 (https://download.01.org/0day-ci/archive/20260125/202601250430.zebPNFK2-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601250430.zebPNFK2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601242112.7E2bqvaF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601250430.zebPNFK2-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: bluetooth (qcom,wcn6855-bt): 'vddbtcmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+sparse warnings: (new ones prefixed by >>)
+>> drivers/acpi/osl.c:75:1: sparse: sparse: bad integer constant expression
+   drivers/acpi/osl.c:75:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
+   drivers/acpi/osl.c:76:1: sparse: sparse: bad integer constant expression
+   drivers/acpi/osl.c:76:1: sparse: sparse: static assertion failed: "MODULE_INFO(parm, ...) contains embedded NUL byte"
+
+vim +75 drivers/acpi/osl.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  73  
+923740f040eb19 Armin Wolf     2026-01-24  74  static bool panic_on_fatal = CONFIG_ACPI_PANIC_ON_FATAL;
+923740f040eb19 Armin Wolf     2026-01-24 @75  module_param(panic_on_fatal, bool, 0);
+923740f040eb19 Armin Wolf     2026-01-24  76  MODULE_PARM_DESC(panic_on_fatal, "Trigger a kernel panic when encountering a fatal ACPI error");
+923740f040eb19 Armin Wolf     2026-01-24  77  
 
 -- 
 0-DAY CI Kernel Test Service
