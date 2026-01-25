@@ -1,132 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BD6171C9
-	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 08:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EE41F03D2
+	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 09:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769331118; cv=none; b=mZyx774RBOLnqoLnSdfwavbGnkdUjnMii7nXa50KvHl1efUF+d9ptGHLkqBs1HRRXwN4Uso6HiixT+Iu+aoDc3ycnyAjdnscHv/YMreLSyjIpR6VmUmByVXmtJmeS/2x02qso38EQXECAsqxlRWHZJB5cXbdS6kiOsZDy4jbOzA=
+	t=1769334669; cv=none; b=a3toVBTJc7r0mvQRT7YPEa7/L1fKDPUrdfoXc2CFIqw2i0FKvL91UJkESaIhxTdJJMd85uXoq3pWRhnHiU90S0rNEV24zs5QN2FqqXMKgvFGhc8j6r3m+sPuc+UAjOa+JB9+9lutDOvjlz71vq5BY53Tfx7NsmvUo97/G1dffX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769331118; c=relaxed/simple;
-	bh=rO3QExkFE1OZa2FvHJK2c/nlyxQFOhrWzjJfd4SonH0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pxk9XoQ7fc0zbbcOQVPRqmwZRKcT3ENx/qqiBxnMVxdDMEtthjdubvdcTRIVhGmcTaeJ9bLmV1ZcZ9a1N5JPECkn6mLv5juj52Jw6c+qaEm7yuYNHQtVS/OA/D9PxXj/2NQ9jqvZUPDYWFSqtW3eZzx2HA+sV6BPy5ujIxfqS24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IMJPz8fL; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1769334669; c=relaxed/simple;
+	bh=xXbmTpxkNVE3CmXuBy+wY35WVZyY9ywpEVYecYcpIQo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=u8aTGKMOlPieUYxjK3Swaxy7xic0+d9DUmoU5KXksYdM4Ftz8bSmM58NRd85HYHSJYu8sXMOltOQyA1XvalLJdi+QMdoXhV5nwErBzKfhh/1DbNnDi0Rw7EKL6fDE0teg2iXx+/ec1jPtxwSaLwxGDCvhsSk36Q+q0XG66dqo40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2qsyx0A; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IMJPz8fL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2qsyx0A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769331117; x=1800867117;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rO3QExkFE1OZa2FvHJK2c/nlyxQFOhrWzjJfd4SonH0=;
-  b=IMJPz8fLERkuQFYHlOjofrJjzCp99nWifX4AAwQVgCBUEgIRjzEDotQ5
-   QVn82hGd1u+AH7T2Rp/awQCxzxhxGRHZ9dO6H6gZbXflG+rCAhJCnEeWb
-   80QD6XESK9SmpwvYJL7DR5enkxmLVxQtixexpeZZ5ErCBIfvgBPF62waT
-   OEMkX/iGdXhIq1kQC3vbylMD1INct1hwdzQnLhjZIPOB+BrFmS1bDUHx9
-   lqNyvADItz6g/hpZ4AyDCqiioRO+cSrZ5mflYHH3b3bscH7W6zsD/yKRJ
-   jyRfMS+WW5NkZD/jxxaCyXDqxVAKBJ7tXBchqNJim0wtTBPYVsks9fbxp
-   A==;
-X-CSE-ConnectionGUID: h6pZEJy0RTmHgc9Fm69O2g==
-X-CSE-MsgGUID: VBut9cwkQi2vPqzE/mziZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70247909"
+  t=1769334666; x=1800870666;
+  h=date:from:to:cc:subject:message-id;
+  bh=xXbmTpxkNVE3CmXuBy+wY35WVZyY9ywpEVYecYcpIQo=;
+  b=R2qsyx0AZmiyFkeSOmC/2sDugIzkN05PAImBqkPAQg7ATedcnNHftb7i
+   WL4JUwDuo70RlxmC492Ts39p8WgoA0f09um+VI28m+MPF1qxkR8Cynq/a
+   O3V3WJwKNlegNLJbOsWOJcpIPmQayofGvz93LkIawHyiyLZBMgiH7wAUV
+   ZKnphboA2aOaPvYhSAoxZgzbvxQGxwjqJvpYvuZtb8MMqGshK7jNwn6LT
+   063WYDKUiGOzpMb2TUF5emMC1KKx8UsgnFaIyN0JVCghgV7tUH6wX8WbA
+   GM7tf8G0JPEFkj4koJNHJyPWURUeb2Y/j7ZwbWJkALz9MSW0s5xtJMar9
+   w==;
+X-CSE-ConnectionGUID: cODGEaM9QF2L171Nhy2WTg==
+X-CSE-MsgGUID: vLEx3DvwTRqzJoOJpZWF0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="69726795"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="70247909"
+   d="scan'208";a="69726795"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 00:51:55 -0800
-X-CSE-ConnectionGUID: 2ufz/fn+TRyhyt+I5DwoPQ==
-X-CSE-MsgGUID: 2/kUiLMzTOejzMNg8Z5gdg==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 01:51:06 -0800
+X-CSE-ConnectionGUID: /bRGeXSrQSae/KKTAMLqZg==
+X-CSE-MsgGUID: q0rzvaU2QJmJ7zWKJ+5RBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="211879284"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Jan 2026 00:51:54 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="211893560"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 25 Jan 2026 01:51:05 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjvqa-00000000Vt0-0G57;
-	Sun, 25 Jan 2026 08:51:52 +0000
-Date: Sun, 25 Jan 2026 16:51:48 +0800
+	id 1vjwlr-000000001BV-157j;
+	Sun, 25 Jan 2026 09:51:03 +0000
+Date: Sun, 25 Jan 2026 10:50:10 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH bpf-next v6 3/4] bpf: Add signature verification kfuncs
-Message-ID: <202601251601.ChPv1VSq-lkp@intel.com>
+Subject: [akpm-mm:mm-new 321/330] ../kselftest_harness.h:57:10: fatal
+ error: ctype.h: No such file or directory
+Message-ID: <202601251039.3LsxuyM1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: crypto/bpf_crypto_sig.c:88:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260124174349.16861-4-git@danielhodges.dev>
-References: <20260124174349.16861-4-git@danielhodges.dev>
-TO: Daniel Hodges <git@danielhodges.dev>
-TO: bpf@vger.kernel.org
-CC: ast@kernel.org
-CC: andrii@kernel.org
-CC: daniel@iogearbox.net
-CC: vadim.fedorenko@linux.dev
-CC: song@kernel.org
-CC: yatsenko@meta.com
-CC: martin.lau@linux.dev
-CC: eddyz87@gmail.com
-CC: haoluo@google.com
-CC: jolsa@kernel.org
-CC: john.fastabend@gmail.com
-CC: kpsingh@kernel.org
-CC: sdf@fomichev.me
-CC: yonghong.song@linux.dev
-CC: herbert@gondor.apana.org.au
-CC: davem@davemloft.net
-CC: linux-crypto@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: Daniel Hodges <git@danielhodges.dev>
+CC: David Hildenbrand <david@kernel.org>
+TO: Miaohe Lin <linmiaohe@huawei.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Hodges/bpf-Add-hash-kfunc-for-cryptographic-hashing/20260125-015004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260124174349.16861-4-git%40danielhodges.dev
-patch subject: [PATCH bpf-next v6 3/4] bpf: Add signature verification kfuncs
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: m68k-randconfig-r131-20260125 (https://download.01.org/0day-ci/archive/20260125/202601251601.ChPv1VSq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251601.ChPv1VSq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   5a3704ed2dce0b54a7f038b765bb752b87ee8cc2
+commit: f9ac07aede73e2d379cbdd9e634d422f835586f4 [321/330] selftests/mm: add memory failure anonymous page test
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260125/202601251039.3LsxuyM1-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251039.3LsxuyM1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601251601.ChPv1VSq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601251039.3LsxuyM1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> crypto/bpf_crypto_sig.c:88:1: sparse: sparse: bad integer constant expression
-   crypto/bpf_crypto_sig.c:88:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
->> crypto/bpf_crypto_sig.c:88:1: sparse: sparse: bad integer constant expression
-   crypto/bpf_crypto_sig.c:88:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   crypto/bpf_crypto_sig.c:89:1: sparse: sparse: bad integer constant expression
-   crypto/bpf_crypto_sig.c:89:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+Note: the akpm-mm/mm-new HEAD 5a3704ed2dce0b54a7f038b765bb752b87ee8cc2 builds fine.
+      It only hurts bisectability.
 
-vim +88 crypto/bpf_crypto_sig.c
+All errors (new ones prefixed by >>):
 
-0363f73e3051ae8 Daniel Hodges 2026-01-24  85  
-0363f73e3051ae8 Daniel Hodges 2026-01-24  86  module_init(bpf_crypto_sig_init);
-0363f73e3051ae8 Daniel Hodges 2026-01-24  87  module_exit(bpf_crypto_sig_exit);
-0363f73e3051ae8 Daniel Hodges 2026-01-24 @88  MODULE_LICENSE("GPL");
+   In file included from memory-failure.c:8:
+>> ../kselftest_harness.h:57:10: fatal error: ctype.h: No such file or directory
+      57 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   vm_util.c:2:10: fatal error: string.h: No such file or directory
+       2 | #include <string.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   thp_settings.c:2:10: fatal error: fcntl.h: No such file or directory
+       2 | #include <fcntl.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
