@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795923EBF2F
-	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 06:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6050A205E3B
+	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 06:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769321936; cv=none; b=A5zP5YcDejdiTShZJm67NevI2qejXuDHuZywNYHxsi1giuW4eOB5LdyfzbezUIUJHhY3KRZnOsNLd3tl0+zJpNZ7z6tH5DmDRZ1wOb9PUuTG30i8T3jFxpPKcJ7Q8Bvf9N6qriPHsVLtwysCzdBqyucjL7WISMW0fZKlW/1Z7/Y=
+	t=1769323508; cv=none; b=lczDpvi5tK323Viox0Ebg70kxB5po3tKYbh2FdigmnQqgiCkPZvkFCHcAW8d0L/edK47A/pBCk/y2sOTBtfWIAfJbSKffmG24DB6Cm6gol3pymBzdrZ76wIwy2fD06sUpzDNy1KstWLW3HcowZzDS/X2J/QkW/B4QQgr9+Csyuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769321936; c=relaxed/simple;
-	bh=ion/JmxJObOUwoS3zj7VoHqtc+gF+LcZlum9TzIt+bE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=apE/+34Jup9QO/Duy0pFQM5ajm6gCuOajA1lX3TPCH3qzCbOpFn3NVh+WZiApNNrOCmxQh3iy2F4ijKJni5f16KJn3GJ0vXAboFW9q8kbPm3dar/rXDg8WlQpLZOXTLZ2DZ23bfuyPebbFRFYwTPjHXX4TD8T1oowSeSebo0j0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E0hB7oU6; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1769323508; c=relaxed/simple;
+	bh=gRK6TB4itdzFe6ZESQS8rbQ8ysf6OSJ6Vx+Ik4CzCgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=EkXKO8xxdeX+Gj15DPY7LIgspbJ6ARUlL8k2TYZONEBQ2aruHPG4D8BJ15U4AY+Pq0BPFWQYXXWXYDGrCyWgzGo0V6j5oxeSe5x+tfickCEvufFewgOA0uq5Vd6h4SR4aCa5qC24ASVP3Ove5FK/GJqh8rQX+q1SQBzp8l15sV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FNRGX56i; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E0hB7oU6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FNRGX56i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769321934; x=1800857934;
+  t=1769323506; x=1800859506;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=ion/JmxJObOUwoS3zj7VoHqtc+gF+LcZlum9TzIt+bE=;
-  b=E0hB7oU6Gefj5dUEadr2XgJ0Rnokt1tE24gGOhvCkfT3jVEopHv+Tipc
-   +TtfioSBZ5xwbUOBVaMVraM8wtjk3ErbQzex35lMSGFRCYhjbVG+h7DUx
-   6i+4VNpND3+AVd2B70ZZdQv3KF5BemxYnP4eHsSVpi0WhgjvxIh+r61QD
-   enNJJgENkntOn7xR68iFTZWA81/ib+Gl2RTstSfXvGZiKN0dMpr/GMPsb
-   P1iSnntv4LqjAjXtHaBijEkdVhnfTcf38ipuq47KrsI3gCBld2tzRnMNh
-   d3XGU69VWxV4xvohyAzHpQggq8gKg4yrHD06RCffGn+2hjTYepBKeNM9U
-   A==;
-X-CSE-ConnectionGUID: /vLx4GyaRxWZMT4nkGqUGg==
-X-CSE-MsgGUID: XnZUfs3fTCqUg6NlbjJ7Gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70241890"
+  bh=gRK6TB4itdzFe6ZESQS8rbQ8ysf6OSJ6Vx+Ik4CzCgU=;
+  b=FNRGX56icIU/q2kA7GIiOUMyu69+e0Wz32s2YbDYC1RqQ6sbCdWAtNdR
+   5/0NIMrGlZyJvGSqHPFjrZ3dMib6JDR8bHO/AU0bbqO0NaXmjlPI3nWb7
+   P1Ke/xTUNPrSnoJYKmRdpjdm3JOwZUNNawpLs6hXDIanJ4lll+Do8tpzH
+   oP0amNMp9A523/vl9OrITSJ3PraSG63uTt8lrFV0USBHD1WZ0NYQtYDyK
+   3xdi79i34/i8cCaB2L9ewaXHXUFX+wf0e8TkxoCtwtBj/HEIwlZueq2QF
+   DmO2KYSA9/YVt0IaGRtiqHdZKHsyc1BWGLDfrnRwPIIU+eu2K1ChGuUdA
+   w==;
+X-CSE-ConnectionGUID: XDDrsosCSzmiObo5SStsKQ==
+X-CSE-MsgGUID: ME8AO4FwQf2/6u01fJv2XQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="69545583"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="70241890"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 22:18:52 -0800
-X-CSE-ConnectionGUID: Wr6fv1p5RpaqY3Yi+qYoRg==
-X-CSE-MsgGUID: 2l7UPldcQ5iDdg0O69qUug==
+   d="scan'208";a="69545583"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 22:45:05 -0800
+X-CSE-ConnectionGUID: 80Sj8ZnhQgmu9CVI69GwUw==
+X-CSE-MsgGUID: Jr4e4AHvR4mxQptGBjsYhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="212246648"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Jan 2026 22:18:52 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="211900273"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 24 Jan 2026 22:45:04 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjtST-00000000VpU-1n5r;
-	Sun, 25 Jan 2026 06:18:49 +0000
-Date: Sun, 25 Jan 2026 14:18:16 +0800
+	id 1vjtrp-0000000019h-49zA;
+	Sun, 25 Jan 2026 06:45:01 +0000
+Date: Sun, 25 Jan 2026 07:44:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [thomas-weissschuh:b4/kbuild-uapi-libc 5/7]
- ./usr/include/linux/bpf_perf_event.h:14:28: error: field 'regs' has
- incomplete type
-Message-ID: <202601251402.Eifyo0nq-lkp@intel.com>
+Subject: [pxa1908-mainline:pxa1908/master 15/15]
+ arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: wifi@1
+ (marvell,sd8777): marvell,caldata-txpwrlimit-2g: [1, 0, 13, 0, 92, 20, 0, 64,
+ 190, 13, 0, 0, 0, 64, 51, 0, 32, 0, 108, 6, 1, 0, 0, 17, 0, 16, 1, 1, 1, 69,
+ 1, 1, 129, 2, 0, 1, 129, ...
+Message-ID: <202601250727.suKGUBVb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,38 +67,60 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 ::::::=20
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different =
+trees"
 ::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Wei=C3=9Fschuh" <linux@weissschuh.net>
+TO: "Duje Mihanovi=C4=87" <duje@dujemihanovic.xyz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/kbuild-uapi-libc
-head:   42f8899f5959bce93a899d194c5b14d2a809bd31
-commit: dad08d57845cdf10080325af1084b1a1f6bfc05f [5/7] can compile
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/2026012=
-5/202601251402.Eifyo0nq-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
+tree:   https://gitlab.com/pxa1908-mainline/linux pxa1908/master
+head:   74b88f5cc1e571d61ad7e914990a995def7b4d66
+commit: 74b88f5cc1e571d61ad7e914990a995def7b4d66 [15/15] DONOTMERGE: Add wi=
+fi caldata
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: arm64-randconfig-2051-20260124 (https://download.01.org/0day-ci/arc=
+hive/20260125/202601250727.suKGUBVb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.13.dev4+g85cec3155
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260125/202601251402.Eifyo0nq-lkp@intel.com/reproduce)
+/20260125/202601250727.suKGUBVb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601251402.Eifyo0nq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601250727.suKGUBVb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
->> ./usr/include/linux/bpf_perf_event.h:14:28: error: field 'regs' has inco=
-mplete type
-      14 |         bpf_user_pt_regs_t regs;
-         |                            ^~~~
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dts:24.29=
+-32.5: Warning (unit_address_vs_reg): /chosen/framebuffer@17177000: node ha=
+s a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: wifi=
+@1 (marvell,sd8777): marvell,caldata-txpwrlimit-2g: [1, 0, 13, 0, 92, 20, 0=
+, 64, 190, 13, 0, 0, 0, 64, 51, 0, 32, 0, 108, 6, 1, 0, 0, 17, 0, 16, 1, 1,=
+ 1, 69, 1, 1, 129, 2, 0, 1, 129, 129, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1=
+4, 1, 11, 125, 1, 0, 7, 43, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 14=
+3, 31, 0, 0, 0, 84, 3, 0, 0, 0, 253, 253, 253, 253, 253, 253, 253, 253, 0, =
+28, 1, 55, 255, 255, 255, 255, 2, 4, 127, 1, 206, 186, 0, 0, 0, 45, 198, 19=
+2, 0, 0, 0, 0, 0, 240, 0, 0] is too short
+   	from schema $id: http://devicetree.org/schemas/net/wireless/marvell,sd8=
+787.yaml
+   arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: /soc=
+/axi@d4200000/mmc@80800/bluetooth@2: failed to match any schema with compat=
+ible: ['marvell,sd8777-bt']
+   arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: cloc=
+k-controller@82800 (marvell,pxa1908-apmu): 'reg-names' does not match any o=
+f the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/marvell,pxa1908.ya=
+ml
+   arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: cloc=
+k-controller@82800 (marvell,pxa1908-apmu): reg: [[534528, 1024], [535552, 1=
+024]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/marvell,pxa1908.ya=
+ml
 
 --=20
 0-DAY CI Kernel Test Service
