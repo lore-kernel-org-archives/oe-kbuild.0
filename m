@@ -1,118 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95514315D57
-	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 09:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E63F1397
+	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 13:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769334983; cv=none; b=mXwwuQaB5me7LsY0x/uasv9hhUO2eXm8e2qOEPEWXT4RhJFEE50TybkWe+GFU7nCyhzi6VZThLENjFwK6MLSx/JQEP0IXXsGql2/kfIQB2XshpVFJHmT9AIkJR/A6W4xV1Ll+SPJ4mRZPksKgZJdX7515AaIgomWeDHmLnN9BRQ=
+	t=1769348292; cv=none; b=GtGJDyEIxpRzxQ/wlNs5kzL/YFJc9LR+0WeMHnKL09vlS/KuzyPcyIOop/nhGVrYv5zUpnFz5X8dbOpCJhcQ0iv6UQ7SVKqIvPbRDhZtij5ddRIMCGJar8kSlFUI1aJPrcNKIWE4nRugGklL7UOd1ieBsv22iqBP5DNmTncbkJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769334983; c=relaxed/simple;
-	bh=jsZXzlFTaFdbVlk6FnHOS3vIehnXPhQdiBTDBS1gX5U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Hdo7FOHWeEXq6Ps7qgdUYJFrYy1DQhb3hsxCWjXIdi91VrHXkI8AFjlcNsM7LKrIAUbHHJPpqrAX+4MYuQJnhHVmD88OperXxdVe8cmsWQat4fhipCYbofKPyklMB+p1YeAKggXQxTjvc4qHtgm9iiftShMmagpQ5ELX+GkYD5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCPjxtPV; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1769348292; c=relaxed/simple;
+	bh=UP89tHKxPX8C+Rg5QjzQgstLSlhtdQQcLEYlhWmw4lY=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=I78z/WcfnQnCJK7xjE3P+Pq35MmCtAx5vckpCWr24BZPX7X3idewdSGsscfZ90I2d9SL1LSsBnZp029iVouO3fgBVeoEbXBxZ6IsP1mZsk9nNspEY9YimrMgvJF0N++QJrOg0ti6iO45rQsJxHinXou2AlDhT6coBhKMVfNbuD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VRwuXfij; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCPjxtPV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VRwuXfij"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769334981; x=1800870981;
-  h=date:from:to:cc:subject:message-id;
-  bh=jsZXzlFTaFdbVlk6FnHOS3vIehnXPhQdiBTDBS1gX5U=;
-  b=QCPjxtPV1BrOX8MHz8owSRPPPy1izkHE4i1ZOZkfLsWlQtT97f0wDkWI
-   xUHgC9ViMA4yjpO5kiqyjJvWtxseVuq63HjAmju4gl3rhqTK3zMZDgSx5
-   Iph2k9hXQiPOk57hYtqw51mnDYHPbJ72oE3ZFefc0So6H57Wekh+uCoOF
-   Ij9OKXL4a36VX7Q0A0kp0feWMRweI/MeUyFWS6udaAhwoN2VuzrIxX0cj
-   AnFpi8JV0bh9Yb/8TrWndDTsg4osT0MOXKPl7TOUwKr1+NUFNIn7UvG2k
-   gKaYaddpYOasOK7/yCtvlulPQ76CP+nRhVAbTfGbVZEK32mz1Cr+DHJ/A
-   g==;
-X-CSE-ConnectionGUID: 6gjjr1abShSxxYBoofHlkQ==
-X-CSE-MsgGUID: EzEbGFQ2S3OSjh6RA8jzqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70436737"
+  t=1769348291; x=1800884291;
+  h=date:from:to:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UP89tHKxPX8C+Rg5QjzQgstLSlhtdQQcLEYlhWmw4lY=;
+  b=VRwuXfijPUi5zZ6Y4Sbv1scMnw9wjNGOY4l+SwxAs0A8SKv+eimMqxlF
+   vHCzgO1NcL43tIpV0Cvd730gDxYp2HAuy/PmdeB9BHnJmcSbff+dNLxgb
+   CbxNNMe4LHpjeZlH67rRiiG3zR5kMELpGhIsS1tSaTukOJci7Q3oJwmwE
+   6d5Yt1SfwhfnC2MH+w5iXbfQ1JTobuBIDurhSlXOIuzgeLvabe8TXCd9+
+   1gJpe9sQvsB5lgGcB599t7XbyJPABlBFkURosuh+4BldmZHS1dU6D71bM
+   X9r+/3dudY+J/E48Rr39txV+GIbDbrHzrC5kBcdCs/O0aHnoZP4yiGu0S
+   A==;
+X-CSE-ConnectionGUID: VykCJwPaQLCLZ5Bh2V4CpA==
+X-CSE-MsgGUID: 19dcv+RYSfGhTt8qmCm3dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="88121257"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="70436737"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 01:56:07 -0800
-X-CSE-ConnectionGUID: AAi38rDpQaayiY9kkeXV7w==
-X-CSE-MsgGUID: SPgm2QlLTKyGc6MINYNRTw==
+   d="scan'208";a="88121257"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 05:38:10 -0800
+X-CSE-ConnectionGUID: omjEvN+JT2mnUhqIa17ILA==
+X-CSE-MsgGUID: L6zq41GzSYW4psl0r19VSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="207456588"
+   d="scan'208";a="206702532"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 25 Jan 2026 01:56:06 -0800
+  by orviesa010.jf.intel.com with ESMTP; 25 Jan 2026 05:38:10 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjwqh-000000001Bd-1ag4;
-	Sun, 25 Jan 2026 09:56:03 +0000
-Date: Sun, 25 Jan 2026 10:55:51 +0100
+	id 1vk0Jb-000000001Gr-0Ydy
+	for oe-kbuild@lists.linux.dev;
+	Sun, 25 Jan 2026 13:38:07 +0000
+Date: Sun, 25 Jan 2026 14:37:41 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb:
- pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202601251007.ClBITZ5e-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/sysfs-const-driver-attribute 16/17]
+ checkpatch: ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
+Message-ID: <202601251415.xNpW6Rej-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
+::::::=20
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "checkpatch report for netdev code"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Julien Massot <julien.massot@collabora.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: "Thomas Wei=C3=9Fschuh" <linux@weissschuh.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d91a46d6805af41e7f2286e0fc22d498f45a682b
-commit: cfe035d8662cfbd6edff9bd89c4b516bbb34c350 arm64: dts: mt6359: Rename RTC node to match binding expectations
-date:   8 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 8 months ago
-config: arm64-randconfig-2052-20260123 (https://download.01.org/0day-ci/archive/20260125/202601251007.ClBITZ5e-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.13.dev4+g85cec3155
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251007.ClBITZ5e-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
+inux.git b4/sysfs-const-driver-attribute
+head:   92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d
+commit: 445ba0f479b21cc9310a99aefa9de3d53559eeb0 [16/17] x
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260125/202601251415.x=
+NpW6Rej-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601251007.ClBITZ5e-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (graph_child_address): /soc/syscon@1c01d000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (graph_child_address): /soc/syscon@1c01d000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
+#1854: FILE: drivers/tty/hvc/hvcs.c:454:
++static ssize_t rescan_store(const struct device_driver *ddp, const char * =
+buf,
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
