@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EC03EBF04
-	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 18:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304573EBF09
+	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 21:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769365113; cv=none; b=sZ50p+SpD2bjdGgnZtA7jGzYYA85LKbnlK2oEsMai42Y5bvRycrLczOMrIVDMY4PcJYldcwptEIPWvljJwD/wlLSSnfn1xhreGZ9ZuNBg6ZX0G2fDz5hRT8W4cwMh6nJh0YFn4MmS2GMgmCat+HX+6fhZff5vkdeNCF9mMmPTa8=
+	t=1769375357; cv=none; b=mnkbDbtQUZlXPjsFttEJMianpp4hi4j454mfgoiTjGC4SwnD9x+1fXcJ2wECHGe2W4AjnmEa+i34an3wIGUkqZIdPga4L+lb+f5ykawwDZGtuUpd624jUiPj/RzWDhvPgLxPUBD8a1ZmJJl5JHOZAB/rH3ejRGeOhQ8KQGdc+b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769365113; c=relaxed/simple;
-	bh=koE4zw6XsfdI8reopglcPAe8/QFKsOG5xrz1+LzeOb4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dPWmkcSp7OZu91+Br70Wu6aFm4x2Y+yNL+q5M/Gw5IOynZPEQsl8qZRZy3sBAF9FTW34WEcvxAS0aU1g8wBUSq+HZhc3kiobSKkKrA4rej5dT58JiRI1zpeCxih3JK/D9Nzk6zUxMlJs50rY0wBxtUeNXoErSN+Rz9kxivIClHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cSZOQYOP; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1769375357; c=relaxed/simple;
+	bh=XWJCXRNcZjJDxCWdOKoM3bqv9wiswnJ7O+QOwcyN/+M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NfvYvNnw4UfljbZ0dTrqTKjS8ZUpQRnoc0mLduPCYlbxsViDsOum4wsRvvRlvQHOVeBz++TPOxvbkBZFo2rWMSKtimO00PcZTDRBxVPrnNfE2d54Y946upGIMYFP6+CRtbvS8Y1pT2sWpp8IWXrLArjAQFAFR0GAm2MTuhlQL94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DH4yQRCx; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cSZOQYOP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DH4yQRCx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769365112; x=1800901112;
+  t=1769375355; x=1800911355;
   h=date:from:to:cc:subject:message-id;
-  bh=koE4zw6XsfdI8reopglcPAe8/QFKsOG5xrz1+LzeOb4=;
-  b=cSZOQYOPzjfikkiJ+BA3BqllSZhppE5t+k8CMvCJ42wWYR2KvEI/rbqI
-   Bc8YYJHbr9MQFbdLdhJtfHDm4yxJutHXF+Kz4GgBXAjxd380e575EC3tC
-   U7rgceWRJ6SOQa9EdKXtW50+b0Cj9WX/T5pppFK3Br8/hp5PFrzwWPqE4
-   Ow7+Gd5G5aNxHvZ+/m/WtSNH9XgxoE03Bwmn0SwZDB0liJVlxcBXMIGDg
-   1O9bFxWDmAEof/NOIrCoLkXYzlOjCJn99xboEtjDCDmm/2YKZ4/oOhHkb
-   qmDsavs9cElU3JXrOGVmWYszdjPfaIulkfyMxw59dCSjeOGCCK+uBxIRG
-   A==;
-X-CSE-ConnectionGUID: ISkJb9XVTvyjRlKvvGXL+Q==
-X-CSE-MsgGUID: FF2jFYAgRs22xBL5bl0SAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="80855256"
+  bh=XWJCXRNcZjJDxCWdOKoM3bqv9wiswnJ7O+QOwcyN/+M=;
+  b=DH4yQRCxr4ScbANbL5//UmG0jRxnWedTrLnfoA5JDd88lx/LjDxGLFc3
+   uIGyZwov1X4AVGvGUNQyFJbr295JtVq6RWZT490kr4bAfYLMVukklxG4n
+   lu0fWV0/KLlShSBRmwyF9GN5sFGIc5dPdSenclZVDTDuvnQ/7IBQJ9v/t
+   nWqfhe6ZK/bgsMDEL6dVGS0VUiHQxEu3NGlmmiOunrBhWXkazzp2goqoP
+   FE0UVQQnILdP7SIHM7OfZU9BG9kOgLCUy7bwemqkJICID6/mFkg7CGUtJ
+   80dl6ZabIA67s0P5Z1UGI2O6+HVKv5cR8lat617nIh3KaVNY3E/bpgrQW
+   g==;
+X-CSE-ConnectionGUID: ZwyRpNpHRFic6kvWZrCSAA==
+X-CSE-MsgGUID: MrdbUTcQRReczh8TK8nE+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70466803"
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="80855256"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 10:18:32 -0800
-X-CSE-ConnectionGUID: BPqXGD0zQQmbqpJ5CqX1+Q==
-X-CSE-MsgGUID: iAYYcLkhTViv9ufmgvpLug==
+   d="scan'208";a="70466803"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 13:09:14 -0800
+X-CSE-ConnectionGUID: QtjwFSFeQ/uTObHen+xlOA==
+X-CSE-MsgGUID: PMcGzgjESKiQ0sNJtIg3Wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="207551390"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Jan 2026 10:18:31 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="212507885"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 25 Jan 2026 13:09:14 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk4gu-00000000WKW-1Fwa;
-	Sun, 25 Jan 2026 18:18:28 +0000
-Date: Mon, 26 Jan 2026 02:18:12 +0800
+	id 1vk7M7-000000001Mf-0gff;
+	Sun, 25 Jan 2026 21:09:11 +0000
+Date: Sun, 25 Jan 2026 22:09:02 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [pcarrier:v6.19-rc6-odin3 9/12]
- drivers/gpu/drm/panel/panel-chipone-icna3520.c:353:1: sparse: sparse: bad
- integer constant expression
-Message-ID: <202601260210.rWRNpw1g-lkp@intel.com>
+Subject: arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb:
+ spmi@10015000 (mediatek,mt8186-spmi): Unevaluated properties are not allowed
+ ('interrupts' was unexpected)
+Message-ID: <202601252231.eA6enYpy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,41 +61,38 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/panel/panel-chipone-icna3520.c:353:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Gianni Spadoni <me@gio.blue>
+CC: linux-kernel@vger.kernel.org
+TO: "Chen-Yu Tsai" <wenst@chromium.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-tree:   https://github.com/pcarrier/linux v6.19-rc6-odin3
-head:   91a28d8aa538293ebd31727779aac8f23cb73b39
-commit: deae82762fe83e6dcfda215a495c15577ce57f14 [9/12] arm64: dts: qcom: Enable display on Ayn Odin 3
-:::::: branch date: 2 days ago
-:::::: commit date: 3 days ago
-config: powerpc64-randconfig-r121-20260125 (https://download.01.org/0day-ci/archive/20260126/202601260210.rWRNpw1g-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260210.rWRNpw1g-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d91a46d6805af41e7f2286e0fc22d498f45a682b
+commit: 57ac6f86ee9ab446e49d7c72eef10b2b44d58f9e arm64: dts: mediatek: mt8186: Merge Voltorb device trees
+date:   7 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 7 months ago
+config: arm64-randconfig-2052-20260123 (https://download.01.org/0day-ci/archive/20260125/202601252231.eA6enYpy-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.13.dev4+g85cec3155
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601252231.eA6enYpy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601260210.rWRNpw1g-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601252231.eA6enYpy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/panel/panel-chipone-icna3520.c:353:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/panel/panel-chipone-icna3520.c:353:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/gpu/drm/panel/panel-chipone-icna3520.c:354:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/panel/panel-chipone-icna3520.c:354:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/gpu/drm/panel/panel-chipone-icna3520.c:355:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/panel/panel-chipone-icna3520.c:355:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/gpu/drm/panel/panel-chipone-icna3520.c:355:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/panel/panel-chipone-icna3520.c:355:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-
-vim +353 drivers/gpu/drm/panel/panel-chipone-icna3520.c
-
-deae82762fe83e Gianni Spadoni 2026-01-23  352  
-deae82762fe83e Gianni Spadoni 2026-01-23 @353  MODULE_AUTHOR("Gianni Spadoni <me@gio.blue>"); 
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: spmi@10015000 (mediatek,mt8186-spmi): Unevaluated properties are not allowed ('interrupts' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: audio-controller@11210000 (mediatek,mt8186-sound): 'memory-region' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-afe-pcm.yaml
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: sound (mediatek,mt8186-mt6366-rt5682s-max98360-sound): 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml
 
 -- 
 0-DAY CI Kernel Test Service
