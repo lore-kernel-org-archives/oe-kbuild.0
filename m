@@ -1,127 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6050A205E3B
-	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 06:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BD6171C9
+	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jan 2026 08:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769323508; cv=none; b=lczDpvi5tK323Viox0Ebg70kxB5po3tKYbh2FdigmnQqgiCkPZvkFCHcAW8d0L/edK47A/pBCk/y2sOTBtfWIAfJbSKffmG24DB6Cm6gol3pymBzdrZ76wIwy2fD06sUpzDNy1KstWLW3HcowZzDS/X2J/QkW/B4QQgr9+Csyuc=
+	t=1769331118; cv=none; b=mZyx774RBOLnqoLnSdfwavbGnkdUjnMii7nXa50KvHl1efUF+d9ptGHLkqBs1HRRXwN4Uso6HiixT+Iu+aoDc3ycnyAjdnscHv/YMreLSyjIpR6VmUmByVXmtJmeS/2x02qso38EQXECAsqxlRWHZJB5cXbdS6kiOsZDy4jbOzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769323508; c=relaxed/simple;
-	bh=gRK6TB4itdzFe6ZESQS8rbQ8ysf6OSJ6Vx+Ik4CzCgU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=EkXKO8xxdeX+Gj15DPY7LIgspbJ6ARUlL8k2TYZONEBQ2aruHPG4D8BJ15U4AY+Pq0BPFWQYXXWXYDGrCyWgzGo0V6j5oxeSe5x+tfickCEvufFewgOA0uq5Vd6h4SR4aCa5qC24ASVP3Ove5FK/GJqh8rQX+q1SQBzp8l15sV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FNRGX56i; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1769331118; c=relaxed/simple;
+	bh=rO3QExkFE1OZa2FvHJK2c/nlyxQFOhrWzjJfd4SonH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Pxk9XoQ7fc0zbbcOQVPRqmwZRKcT3ENx/qqiBxnMVxdDMEtthjdubvdcTRIVhGmcTaeJ9bLmV1ZcZ9a1N5JPECkn6mLv5juj52Jw6c+qaEm7yuYNHQtVS/OA/D9PxXj/2NQ9jqvZUPDYWFSqtW3eZzx2HA+sV6BPy5ujIxfqS24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IMJPz8fL; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FNRGX56i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IMJPz8fL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769323506; x=1800859506;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gRK6TB4itdzFe6ZESQS8rbQ8ysf6OSJ6Vx+Ik4CzCgU=;
-  b=FNRGX56icIU/q2kA7GIiOUMyu69+e0Wz32s2YbDYC1RqQ6sbCdWAtNdR
-   5/0NIMrGlZyJvGSqHPFjrZ3dMib6JDR8bHO/AU0bbqO0NaXmjlPI3nWb7
-   P1Ke/xTUNPrSnoJYKmRdpjdm3JOwZUNNawpLs6hXDIanJ4lll+Do8tpzH
-   oP0amNMp9A523/vl9OrITSJ3PraSG63uTt8lrFV0USBHD1WZ0NYQtYDyK
-   3xdi79i34/i8cCaB2L9ewaXHXUFX+wf0e8TkxoCtwtBj/HEIwlZueq2QF
-   DmO2KYSA9/YVt0IaGRtiqHdZKHsyc1BWGLDfrnRwPIIU+eu2K1ChGuUdA
-   w==;
-X-CSE-ConnectionGUID: XDDrsosCSzmiObo5SStsKQ==
-X-CSE-MsgGUID: ME8AO4FwQf2/6u01fJv2XQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="69545583"
+  t=1769331117; x=1800867117;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rO3QExkFE1OZa2FvHJK2c/nlyxQFOhrWzjJfd4SonH0=;
+  b=IMJPz8fLERkuQFYHlOjofrJjzCp99nWifX4AAwQVgCBUEgIRjzEDotQ5
+   QVn82hGd1u+AH7T2Rp/awQCxzxhxGRHZ9dO6H6gZbXflG+rCAhJCnEeWb
+   80QD6XESK9SmpwvYJL7DR5enkxmLVxQtixexpeZZ5ErCBIfvgBPF62waT
+   OEMkX/iGdXhIq1kQC3vbylMD1INct1hwdzQnLhjZIPOB+BrFmS1bDUHx9
+   lqNyvADItz6g/hpZ4AyDCqiioRO+cSrZ5mflYHH3b3bscH7W6zsD/yKRJ
+   jyRfMS+WW5NkZD/jxxaCyXDqxVAKBJ7tXBchqNJim0wtTBPYVsks9fbxp
+   A==;
+X-CSE-ConnectionGUID: h6pZEJy0RTmHgc9Fm69O2g==
+X-CSE-MsgGUID: VBut9cwkQi2vPqzE/mziZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70247909"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="69545583"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 22:45:05 -0800
-X-CSE-ConnectionGUID: 80Sj8ZnhQgmu9CVI69GwUw==
-X-CSE-MsgGUID: Jr4e4AHvR4mxQptGBjsYhA==
+   d="scan'208";a="70247909"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 00:51:55 -0800
+X-CSE-ConnectionGUID: 2ufz/fn+TRyhyt+I5DwoPQ==
+X-CSE-MsgGUID: 2/kUiLMzTOejzMNg8Z5gdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="211900273"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 24 Jan 2026 22:45:04 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="211879284"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 25 Jan 2026 00:51:54 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjtrp-0000000019h-49zA;
-	Sun, 25 Jan 2026 06:45:01 +0000
-Date: Sun, 25 Jan 2026 07:44:54 +0100
+	id 1vjvqa-00000000Vt0-0G57;
+	Sun, 25 Jan 2026 08:51:52 +0000
+Date: Sun, 25 Jan 2026 16:51:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [pxa1908-mainline:pxa1908/master 15/15]
- arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: wifi@1
- (marvell,sd8777): marvell,caldata-txpwrlimit-2g: [1, 0, 13, 0, 92, 20, 0, 64,
- 190, 13, 0, 0, 0, 64, 51, 0, 32, 0, 108, 6, 1, 0, 0, 17, 0, 16, 1, 1, 1, 69,
- 1, 1, 129, 2, 0, 1, 129, ...
-Message-ID: <202601250727.suKGUBVb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH bpf-next v6 3/4] bpf: Add signature verification kfuncs
+Message-ID: <202601251601.ChPv1VSq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: crypto/bpf_crypto_sig.c:88:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Duje Mihanovi=C4=87" <duje@dujemihanovic.xyz>
+In-Reply-To: <20260124174349.16861-4-git@danielhodges.dev>
+References: <20260124174349.16861-4-git@danielhodges.dev>
+TO: Daniel Hodges <git@danielhodges.dev>
+TO: bpf@vger.kernel.org
+CC: ast@kernel.org
+CC: andrii@kernel.org
+CC: daniel@iogearbox.net
+CC: vadim.fedorenko@linux.dev
+CC: song@kernel.org
+CC: yatsenko@meta.com
+CC: martin.lau@linux.dev
+CC: eddyz87@gmail.com
+CC: haoluo@google.com
+CC: jolsa@kernel.org
+CC: john.fastabend@gmail.com
+CC: kpsingh@kernel.org
+CC: sdf@fomichev.me
+CC: yonghong.song@linux.dev
+CC: herbert@gondor.apana.org.au
+CC: davem@davemloft.net
+CC: linux-crypto@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-kselftest@vger.kernel.org
+CC: Daniel Hodges <git@danielhodges.dev>
 
-tree:   https://gitlab.com/pxa1908-mainline/linux pxa1908/master
-head:   74b88f5cc1e571d61ad7e914990a995def7b4d66
-commit: 74b88f5cc1e571d61ad7e914990a995def7b4d66 [15/15] DONOTMERGE: Add wi=
-fi caldata
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: arm64-randconfig-2051-20260124 (https://download.01.org/0day-ci/arc=
-hive/20260125/202601250727.suKGUBVb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.13.dev4+g85cec3155
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260125/202601250727.suKGUBVb-lkp@intel.com/reproduce)
+Hi Daniel,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Hodges/bpf-Add-hash-kfunc-for-cryptographic-hashing/20260125-015004
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260124174349.16861-4-git%40danielhodges.dev
+patch subject: [PATCH bpf-next v6 3/4] bpf: Add signature verification kfuncs
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: m68k-randconfig-r131-20260125 (https://download.01.org/0day-ci/archive/20260125/202601251601.ChPv1VSq-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251601.ChPv1VSq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601250727.suKGUBVb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601251601.ChPv1VSq-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dts:24.29=
--32.5: Warning (unit_address_vs_reg): /chosen/framebuffer@17177000: node ha=
-s a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: wifi=
-@1 (marvell,sd8777): marvell,caldata-txpwrlimit-2g: [1, 0, 13, 0, 92, 20, 0=
-, 64, 190, 13, 0, 0, 0, 64, 51, 0, 32, 0, 108, 6, 1, 0, 0, 17, 0, 16, 1, 1,=
- 1, 69, 1, 1, 129, 2, 0, 1, 129, 129, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1=
-4, 1, 11, 125, 1, 0, 7, 43, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 14=
-3, 31, 0, 0, 0, 84, 3, 0, 0, 0, 253, 253, 253, 253, 253, 253, 253, 253, 0, =
-28, 1, 55, 255, 255, 255, 255, 2, 4, 127, 1, 206, 186, 0, 0, 0, 45, 198, 19=
-2, 0, 0, 0, 0, 0, 240, 0, 0] is too short
-   	from schema $id: http://devicetree.org/schemas/net/wireless/marvell,sd8=
-787.yaml
-   arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: /soc=
-/axi@d4200000/mmc@80800/bluetooth@2: failed to match any schema with compat=
-ible: ['marvell,sd8777-bt']
-   arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: cloc=
-k-controller@82800 (marvell,pxa1908-apmu): 'reg-names' does not match any o=
-f the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/clock/marvell,pxa1908.ya=
-ml
-   arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: cloc=
-k-controller@82800 (marvell,pxa1908-apmu): reg: [[534528, 1024], [535552, 1=
-024]] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/marvell,pxa1908.ya=
-ml
+sparse warnings: (new ones prefixed by >>)
+>> crypto/bpf_crypto_sig.c:88:1: sparse: sparse: bad integer constant expression
+   crypto/bpf_crypto_sig.c:88:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+>> crypto/bpf_crypto_sig.c:88:1: sparse: sparse: bad integer constant expression
+   crypto/bpf_crypto_sig.c:88:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   crypto/bpf_crypto_sig.c:89:1: sparse: sparse: bad integer constant expression
+   crypto/bpf_crypto_sig.c:89:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
 
---=20
+vim +88 crypto/bpf_crypto_sig.c
+
+0363f73e3051ae8 Daniel Hodges 2026-01-24  85  
+0363f73e3051ae8 Daniel Hodges 2026-01-24  86  module_init(bpf_crypto_sig_init);
+0363f73e3051ae8 Daniel Hodges 2026-01-24  87  module_exit(bpf_crypto_sig_exit);
+0363f73e3051ae8 Daniel Hodges 2026-01-24 @88  MODULE_LICENSE("GPL");
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
