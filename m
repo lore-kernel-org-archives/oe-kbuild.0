@@ -1,183 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9641CF7D5
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jan 2026 14:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A70B2367D5
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jan 2026 14:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769436477; cv=none; b=RicUNKJZDTAVol1LgXLopK+88E+uMmFUXxp/1B211dRHqst7ixbwnU1SiKa0gyX2SG1TqmXGRmjZoCfiqb175aQkoeun+gapiQu5Tr9h1T7OeAvtrhNOiCphvsklVp2QOaH+K90auAzBt3n9zwX7fhqjI/bSYtxvTBx9PxMZlMw=
+	t=1769438185; cv=none; b=usc8hp1BpbG3UrLMBJ0T0igRVnqY2hzKWbLm9TMIFOQUiRmZaODUrCd6nWKcvwaMV8SkrD1POGQdfrwYvIgPAtRK6euXHwxMZj88WeozQOSS9tO2FhGGRrWP9v62AX6BJz7p4/86mK4kyrhizR+eQdaARpad7/vksZkKMy3pTFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769436477; c=relaxed/simple;
-	bh=Jr9YiK9gWX9B9niV9jx+sxzOLYETR2lCKJgw0IHItxg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t14IjDFD3H7x/6pieZPjyauMJ8MJ2ZerM8QoUh6CPvypmgbPSC9A26Ue77kRucwG7dzLtVWA8ahxmEZe3tilk7jetoLPRwtDzMgVeAzA4iyjgfqa9Tn07P+pgZnhHvN7FW40BV/V1sHfxPTfZ53ehCF3E7S+SouxceMTiGA+rd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhbSgRPX; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1769438185; c=relaxed/simple;
+	bh=AjjE2XHBjFm/0HP6bsXiJOYk29LozzIWuClysXG7mgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Ad2V9HSG3vXOyoOfIfuYBq6qu6wKFzMAzeA/vceRfwOmeZnijqChNIoW2SFwpBCgWyO/g6/KOcvCbbhHMdGi/VgPFpqca5cGfDv6cyL1X0zG/kd15DGR9eP60C7tEdMyTPghGjSPXWqSDlEOaYq7uGuVCEgBghvILxrqTrsHAS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4pzTqcB; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhbSgRPX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4pzTqcB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769436475; x=1800972475;
-  h=date:from:to:cc:subject:message-id;
-  bh=Jr9YiK9gWX9B9niV9jx+sxzOLYETR2lCKJgw0IHItxg=;
-  b=hhbSgRPXbbXZidaIRCVwazFTlCLPAs/3ttyeVcLaqWwB6zk36Xby5+2j
-   cJcZhu0WwUc7QkDyPQ88gmUF6mTFZSAp+awh+fnQQ4d4pDwe4XlT0hP44
-   dfzTrDzYXpBUjsZws69AUCRkZO1URltV+sXa1YfFDoiUFUPny+m8BmKQm
-   d8Nut7eokJqtwWedwGoDNd2wq3XAf1hdqfp0UlAbZDn1+CXB75gdmOkgP
-   zdlbCsuxObkxhUWjda3ftHUKUsKqL8MIoO4sNfhaAL1x/r0ZeK3eGBCFb
-   1FDiL5WJicBoosQqNe1RcZZrxInO8sR6Sq9j4SwUoErItHBDSwZKOom9G
+  t=1769438183; x=1800974183;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=AjjE2XHBjFm/0HP6bsXiJOYk29LozzIWuClysXG7mgA=;
+  b=K4pzTqcB0Qk/OsCz1EcfziFJ893DqNLEB+uOr1kXAoYbikpRkLpikjB0
+   L4ivNFVxYfHBQrWIcLVaP88S2nwgId6no7RLEbEH5kwzsB5+Wvo5YefDp
+   M7eHeoSf9PDeVxxavud7qqbztG3rDQJdOq0oKNzXjwIvSRq+7Wk2QfzHL
+   hXjevmft80r3bqWudPl1KczIRNcqH9yCU+TqNWJOX2TXKSMRFJV/L879D
+   alUup3q5iSbXgq9vHgS3ao2f+eUTsMbFTe3rXhgrl2lKhiZotsAVTFAc/
+   sbq/r6yO6xox+c7klnHhbTSPfrPqsPpukRWPlcLJhsBt8Iiwcb2BqW9IS
    g==;
-X-CSE-ConnectionGUID: /jsf/4DEQ+iRHroQWLmeNA==
-X-CSE-MsgGUID: mWjpixN3SGWZjpzAatAeuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70579619"
+X-CSE-ConnectionGUID: Y9KtWzRkQqSRVu31cvnEtA==
+X-CSE-MsgGUID: 9CdD2Y1rQTylQ4AZ3zkJwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70513605"
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="70579619"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:07:55 -0800
-X-CSE-ConnectionGUID: swBsnab9QeGtqMoZolJVHw==
-X-CSE-MsgGUID: d+o+B9bkQdmWDrIDYTtuBg==
+   d="scan'208";a="70513605"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:36:23 -0800
+X-CSE-ConnectionGUID: qarcT4IGTPKJGW/heu17fQ==
+X-CSE-MsgGUID: XC7AMz8SS9mxGrWzwKRDpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="207288309"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Jan 2026 06:07:53 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="207491388"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 26 Jan 2026 06:36:21 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkNFv-00000000XNT-0LTB;
-	Mon, 26 Jan 2026 14:07:51 +0000
-Date: Mon, 26 Jan 2026 22:07:20 +0800
+	id 1vkNhT-000000001Y5-11Li;
+	Mon, 26 Jan 2026 14:36:19 +0000
+Date: Mon, 26 Jan 2026 15:36:10 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kvm/vgic/vgic-v4.c:508
- kvm_vgic_v4_set_forwarding() warn: inconsistent returns '&irq->irq_lock'.
-Message-ID: <202601262217.HEm1HrQR-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb:
+ usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
+Message-ID: <202601261540.Z62USPx6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Oliver Upton <oliver.upton@linux.dev>
-CC: Marc Zyngier <maz@kernel.org>
+TO: "Tom=C3=A1=C5=A1 Macholda" <tomas.macholda@nic.cz>
+CC: Gregory CLEMENT <gregory.clement@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
 head:   63804fed149a6750ffd28610c5c1c98cce6bd377
-commit: fc4dafe87b93ec94204896c4bc8cad7e71bdd151 KVM: arm64: Protect vLPI translation with vgic_irq::irq_lock
-date:   8 months ago
+commit: 0b738a2901f43980fc2307a50a26457be1c8030b arm64: dts: marvell: add d=
+ts for RIPE Atlas Probe v5
+date:   5 months ago
 :::::: branch date: 16 hours ago
-:::::: commit date: 8 months ago
-config: arm64-randconfig-r073-20260125 (https://download.01.org/0day-ci/archive/20260126/202601262217.HEm1HrQR-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-smatch version: v0.5.0-8994-gd50c5a4c
+:::::: commit date: 5 months ago
+config: arm64-randconfig-2052-20260123 (https://download.01.org/0day-ci/arc=
+hive/20260126/202601261540.Z62USPx6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.13.dev4+g85cec3155
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260126/202601261540.Z62USPx6-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601262217.HEm1HrQR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601261540.Z62USPx6-lkp@intel.com/
 
-smatch warnings:
-arch/arm64/kvm/vgic/vgic-v4.c:508 kvm_vgic_v4_set_forwarding() warn: inconsistent returns '&irq->irq_lock'.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell=
+,comphy-a3700): clock-names:0: 'mg_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110=
+.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell=
+,comphy-a3700): clock-names: ['xtal'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110=
+.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell=
+,comphy-a3700): clocks: [[4]] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110=
+.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/=
+pinctrl@18800: failed to match any schema with compatible: ['marvell,armada=
+3710-sb-pinctrl', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pinctrl@18800 (mar=
+vell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/=
+system-controller@5d800: failed to match any schema with compatible: ['marv=
+ell,armada-3700-usb2-host-device-misc', 'syscon']
+>> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: usb@5e000 (marvell=
+,armada-3700-ehci): phy-names:0: 'usb' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/=
+mailbox@b0000: failed to match any schema with compatible: ['marvell,armada=
+-3700-rwtm-mailbox']
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: mmc@d8000 (marvell=
+,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon=
+-emmc' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.=
+yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pcie@d0070000 (mar=
+vell,armada-3700-pcie): interrupt-controller: '#address-cells' does not mat=
+ch any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pci/marvell,armada-3700-=
+pcie.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /firmware/armada-3=
+700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700=
+-rwtm-firmware', 'cznic,turris-mox-rwtm']
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /firmware/armada-3=
+700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700=
+-rwtm-firmware', 'cznic,turris-mox-rwtm']
 
-vim +508 arch/arm64/kvm/vgic/vgic-v4.c
-
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  426  
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  427  int kvm_vgic_v4_set_forwarding(struct kvm *kvm, int virq,
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  428  			       struct kvm_kernel_irq_routing_entry *irq_entry)
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  429  {
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  430  	struct vgic_its *its;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  431  	struct vgic_irq *irq;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  432  	struct its_vlpi_map map;
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  433  	unsigned long flags;
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  434  	int ret = 0;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  435  
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  436  	if (!vgic_supports_direct_msis(kvm))
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  437  		return 0;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  438  
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  439  	/*
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  440  	 * Get the ITS, and escape early on error (not a valid
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  441  	 * doorbell for any of our vITSs).
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  442  	 */
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  443  	its = vgic_get_its(kvm, irq_entry);
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  444  	if (IS_ERR(its))
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  445  		return 0;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  446  
-761aabe76e6b1e arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  447  	guard(mutex)(&its->its_lock);
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  448  
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  449  	/*
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  450  	 * Perform the actual DevID/EventID -> LPI translation.
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  451  	 *
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  452  	 * Silently exit if translation fails as the guest (or userspace!) has
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  453  	 * managed to do something stupid. Emulated LPI injection will still
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  454  	 * work if the guest figures itself out at a later time.
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  455  	 */
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  456  	if (vgic_its_resolve_lpi(kvm, its, irq_entry->msi.devid,
-5c57533eb8c1ef arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-02-26  457  				 irq_entry->msi.data, &irq))
-761aabe76e6b1e arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  458  		return 0;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  459  
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  460  	raw_spin_lock_irqsave(&irq->irq_lock, flags);
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  461  
-8e4ece6889a5b1 arch/arm64/kvm/vgic/vgic-v4.c Kunkun Jiang 2023-11-20  462  	/* Silently exit if the vLPI is already mapped */
-8e4ece6889a5b1 arch/arm64/kvm/vgic/vgic-v4.c Kunkun Jiang 2023-11-20  463  	if (irq->hw)
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  464  		goto out_unlock_irq;
-8e4ece6889a5b1 arch/arm64/kvm/vgic/vgic-v4.c Kunkun Jiang 2023-11-20  465  
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  466  	/*
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  467  	 * Emit the mapping request. If it fails, the ITS probably
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  468  	 * isn't v4 compatible, so let's silently bail out. Holding
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  469  	 * the ITS lock should ensure that nothing can modify the
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  470  	 * target vcpu.
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  471  	 */
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  472  	map = (struct its_vlpi_map) {
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  473  		.vm		= &kvm->arch.vgic.its_vm,
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  474  		.vpe		= &irq->target_vcpu->arch.vgic_cpu.vgic_v3.its_vpe,
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  475  		.vintid		= irq->intid,
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  476  		.properties	= ((irq->priority & 0xfc) |
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  477  				   (irq->enabled ? LPI_PROP_ENABLED : 0) |
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  478  				   LPI_PROP_GROUP1),
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  479  		.db_enabled	= true,
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  480  	};
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  481  
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  482  	ret = its_map_vlpi(virq, &map);
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  483  	if (ret)
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  484  		goto out_unlock_irq;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  485  
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  486  	irq->hw		= true;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  487  	irq->host_irq	= virq;
-5bd90b09897315 virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2019-11-07  488  	atomic_inc(&map.vpe->vlpi_count);
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  489  
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  490  	/* Transfer pending state */
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  491  	if (!irq->pending_latch)
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  492  		goto out_unlock_irq;
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  493  
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  494  	ret = irq_set_irqchip_state(irq->host_irq, IRQCHIP_STATE_PENDING,
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  495  				    irq->pending_latch);
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  496  	WARN_RATELIMIT(ret, "IRQ %d", irq->host_irq);
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  497  
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  498  	/*
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  499  	 * Clear pending_latch and communicate this state
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  500  	 * change via vgic_queue_irq_unlock.
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  501  	 */
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  502  	irq->pending_latch = false;
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  503  	vgic_queue_irq_unlock(kvm, irq, flags);
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  504  	return ret;
-12df7429213abb arch/arm64/kvm/vgic/vgic-v4.c Zenghui Yu   2021-03-22  505  
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  506  out_unlock_irq:
-fc4dafe87b93ec arch/arm64/kvm/vgic/vgic-v4.c Oliver Upton 2025-05-23  507  	raw_spin_unlock_irqrestore(&irq->irq_lock, flags);
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27 @508  	return ret;
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  509  }
-196b136498b35f virt/kvm/arm/vgic/vgic-v4.c   Marc Zyngier 2017-10-27  510  
-
-:::::: The code at line 508 was first introduced by commit
-:::::: 196b136498b35f1cd787b84465f235e69dbc757c KVM: arm/arm64: GICv4: Wire mapping/unmapping of VLPIs in VFIO irq bypass
-
-:::::: TO: Marc Zyngier <marc.zyngier@arm.com>
-:::::: CC: Christoffer Dall <christoffer.dall@linaro.org>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
