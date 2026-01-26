@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6100C274FFD
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jan 2026 06:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38952C08D5
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jan 2026 08:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769408585; cv=none; b=glUeSNdDjkYBcuZEg8rDf4WPq3VuXU+d1SowwpJyIUGgiQJErfWrv/hfNr4L0FzMSWMwQ5VH3OAJIveycp8y4qrK9426UhH/2jG63X+58IOT+zY1H3GaiPOIpqPP+FL+4I1+k8ihz0166Vkw7QydD/M7xunDqh2OGf52727SOnA=
+	t=1769414661; cv=none; b=E8nI+2/dGRBRJWxRISvStqSGPTFuzzgfOa9k45kyYP++f4PDZvMV/0tg1HcufGNjqsDZylTfu+N9d2u22FYT0+7zxruzii1m3X+8LIY83kADncpFdw8Gg0JSdj/HeAv9KlOwrb9eKq5BBm/Vk5q/lfUQz/Nqy9r7ahyabNy2k6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769408585; c=relaxed/simple;
-	bh=4DnHksNQlP9b1DIzqw4xSEUSqJfLHDL7hEF/80wyVXk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aVQoirvtLdL9S0kY++UKQp6Rr8dfeyWxS2C+KSud/XhOkVUtaDFq4KI+HlnIjR7eS1tsyLF4a8AoIYNQcGiXG8vociHsUcTsVrQGIhbLWKz6LGvPzWaUXbFqD4vX6qaMvPtD0iVlIUTvgoLXsmVX+s/8nqmI2MSsdK5mr3x0fgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aj0wvwgM; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1769414661; c=relaxed/simple;
+	bh=I7GCOX2CvcqPnZYcyuoJ8M5Q8U62u/NoMvtLA8PJcEk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EbGxaY6b0FuGsdrTbbOzLtsP1QaRsA5TVR+5QqyraQfvXFKBGXyLLZrRqIAJaA925v1I6tzhtmYk/Ds2E9EGH/J7sFfsBJElOz9YWQjoDGFVW4yis7YxZ1NRb+vpXk0QCWHWefflHOQZ8D/KvdOyrOPYH+9WiQyN7Nym8XaYxmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4w24Snh; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aj0wvwgM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4w24Snh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769408583; x=1800944583;
+  t=1769414660; x=1800950660;
   h=date:from:to:cc:subject:message-id;
-  bh=4DnHksNQlP9b1DIzqw4xSEUSqJfLHDL7hEF/80wyVXk=;
-  b=aj0wvwgMsFpFHrvt+jM1RtmUpa3YJGJBDKN5mUZvigE23JlMDEQrp53J
-   NSevPKsuaP+3BicW2XdeQS8kl+Jyw1NT8jUh0we9sgI57DCBEkexNBEVd
-   NBqRgayiluhS6nch9nNySPe1/VTpePe5b3Bg13Af7PQD29D/+QrAVM1dg
-   6URYQr14m9+JFFrdX9J0G0vpFkWEd+qo7DY0z9nsm3p2IAAQ9v+t3gflD
-   smHnNEdR35nwRhTiLnbJXOIWl8sE2q8G+1A+95TYumYOlaMSY2SVNuT9S
-   nh96hs283lXJjDo6CnwH20w1/1+l1BVegkb39tBNDH8Ec5Vqunz9Fzhv1
-   Q==;
-X-CSE-ConnectionGUID: vf9nuHBPT0qjmxxN1BLzFA==
-X-CSE-MsgGUID: OJXje4BJRmeEEYmDzZXFMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="73170713"
+  bh=I7GCOX2CvcqPnZYcyuoJ8M5Q8U62u/NoMvtLA8PJcEk=;
+  b=g4w24SnhjBd9eco7b+62udNkJctUsbC9DbCGVzerxk6waPasijYLCjyV
+   /4vWCt0IYyY1ojxuvlASUN4ptonUDnaSeaVQWL6mJjCtKX4AlcpMgsu0F
+   AMBkf5Jeje24OZ8IsVbiRDUFOrFT9CVit+R8GOwfSQRK2WaDiHxWCzzYV
+   CFxA8ccILNY16srNXam2WpQsOziFO6rWR3dpPC9OztA+9GSgLoh9z62VV
+   x04jaIgFckri76BljW5LrFbaItXhAMps8qoWQD6kApH071Q2NbizRHzwH
+   WI04cODa2ujcFbSigVgNMKfD746RtKzyVSIVbOtIyVOHHc9K+M9Bh5aAX
+   A==;
+X-CSE-ConnectionGUID: NOSey2MSRzmNmU0WpkGSxw==
+X-CSE-MsgGUID: VofT9KXxQHGXV4c8nDW6bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="80890336"
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="73170713"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 22:23:03 -0800
-X-CSE-ConnectionGUID: +4oEd6MpRpOAMpTw1wVWsA==
-X-CSE-MsgGUID: f+uXerJNTZassNYhGFNb+A==
+   d="scan'208";a="80890336"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 00:04:19 -0800
+X-CSE-ConnectionGUID: 3PYDcqgbQtaU2+rrh1Derw==
+X-CSE-MsgGUID: kI5TfTXZT9esHc3p4Y/sMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="212582071"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Jan 2026 22:23:01 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="208047566"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 26 Jan 2026 00:04:18 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkG02-00000000X04-3ndf;
-	Mon, 26 Jan 2026 06:22:58 +0000
-Date: Mon, 26 Jan 2026 14:22:18 +0800
+	id 1vkHa4-000000001TV-01xW;
+	Mon, 26 Jan 2026 08:04:16 +0000
+Date: Mon, 26 Jan 2026 09:03:59 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android14-6.1 1/1] fs/fuse/readdir.c:601
- fuse_readdir() warn: passing zero to 'PTR_ERR'
-Message-ID: <202601261459.9u38Xu0b-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [pcarrier:v6.19-rc6-odin3 9/12]
+ arch/arm64/boot/dts/qcom/sm8750-ayn-odin3.dtb: Warning (graph_child_address):
+ Failed prerequisite 'graph_endpoint'
+Message-ID: <202601260928.MaoxN16I-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,58 +60,64 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Gianni Spadoni <me@gio.blue>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   5b3c238664a9e4ff294071a48ce7292e325e2be2
-commit: 57f3ff9648991998d008ecf32f2f9e78a08bfb8b [1/1] ANDROID: fuse-bpf v1.1
-:::::: branch date: 22 hours ago
-:::::: commit date: 3 years ago
-config: x86_64-randconfig-161-20260125 (https://download.01.org/0day-ci/archive/20260126/202601261459.9u38Xu0b-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://github.com/pcarrier/linux v6.19-rc6-odin3
+head:   91a28d8aa538293ebd31727779aac8f23cb73b39
+commit: deae82762fe83e6dcfda215a495c15577ce57f14 [9/12] arm64: dts: qcom: Enable display on Ayn Odin 3
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-2052-20260125 (https://download.01.org/0day-ci/archive/20260126/202601260928.MaoxN16I-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema version: 2025.13.dev4+g85cec3155
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260928.MaoxN16I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601261459.9u38Xu0b-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601260928.MaoxN16I-lkp@intel.com/
 
-smatch warnings:
-fs/fuse/readdir.c:601 fuse_readdir() warn: passing zero to 'PTR_ERR'
-fs/fuse/backing.c:1169 fuse_handle_backing() error: we previously assumed 'backing_inode' could be null (see line 1167)
-fs/fuse/backing.c:1287 fuse_revalidate_backing() warn: inconsistent indenting
-fs/fuse/backing.c:1935 fuse_getattr_finalize() warn: passing zero to 'ERR_PTR'
-
-vim +/PTR_ERR +601 fs/fuse/readdir.c
-
-5d7bc7e8680c7c Miklos Szeredi   2018-10-01  577  
-5d7bc7e8680c7c Miklos Szeredi   2018-10-01  578  int fuse_readdir(struct file *file, struct dir_context *ctx)
-5d7bc7e8680c7c Miklos Szeredi   2018-10-01  579  {
-5d7bc7e8680c7c Miklos Szeredi   2018-10-01  580  	struct fuse_file *ff = file->private_data;
-5d7bc7e8680c7c Miklos Szeredi   2018-10-01  581  	struct inode *inode = file_inode(file);
-5d7bc7e8680c7c Miklos Szeredi   2018-10-01  582  	int err;
-5d7bc7e8680c7c Miklos Szeredi   2018-10-01  583  
-57f3ff96489919 Daniel Rosenberg 2021-12-02  584  #ifdef CONFIG_FUSE_BPF
-57f3ff96489919 Daniel Rosenberg 2021-12-02  585  	struct fuse_err_ret fer;
-57f3ff96489919 Daniel Rosenberg 2021-12-02  586  	bool allow_force;
-57f3ff96489919 Daniel Rosenberg 2021-12-02  587  	bool force_again = false;
-57f3ff96489919 Daniel Rosenberg 2021-12-02  588  	bool is_continued = false;
-57f3ff96489919 Daniel Rosenberg 2021-12-02  589  
-57f3ff96489919 Daniel Rosenberg 2021-12-02  590  again:
-57f3ff96489919 Daniel Rosenberg 2021-12-02  591  	fer = fuse_bpf_backing(inode, struct fuse_read_io,
-57f3ff96489919 Daniel Rosenberg 2021-12-02  592  			       fuse_readdir_initialize, fuse_readdir_backing,
-57f3ff96489919 Daniel Rosenberg 2021-12-02  593  			       fuse_readdir_finalize,
-57f3ff96489919 Daniel Rosenberg 2021-12-02  594  			       file, ctx, &force_again, &allow_force, is_continued);
-57f3ff96489919 Daniel Rosenberg 2021-12-02  595  	if (force_again && !IS_ERR(fer.result)) {
-57f3ff96489919 Daniel Rosenberg 2021-12-02  596  		is_continued = true;
-57f3ff96489919 Daniel Rosenberg 2021-12-02  597  		goto again;
-57f3ff96489919 Daniel Rosenberg 2021-12-02  598  	}
-57f3ff96489919 Daniel Rosenberg 2021-12-02  599  
-57f3ff96489919 Daniel Rosenberg 2021-12-02  600  	if (fer.ret)
-57f3ff96489919 Daniel Rosenberg 2021-12-02 @601  		return PTR_ERR(fer.result);
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8750-mdss.dtsi:249.26-311.5: Warning (avoid_unnecessary_addr_size): /display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8750-mdss.dtsi:405.28-407.8: Warning (graph_endpoint): /display-subsystem@ae00000/displayport-controller@af54000/ports/port@0/endpoint: graph connection to node '/display-subsystem@ae00000/display-controller@ae01000/ports/port@2/endpoint' is not bidirectional
+   arch/arm64/boot/dts/qcom/sm8750-mdss.dtsi:413.29-416.8: Warning (graph_endpoint): /display-subsystem@ae00000/displayport-controller@af54000/ports/port@1/endpoint: graph connection to node '/soc@0/phy@88e8000/ports/port@2/endpoint' is not bidirectional
+>> arch/arm64/boot/dts/qcom/sm8750-ayn-odin3.dtb: Warning (graph_child_address): Failed prerequisite 'graph_endpoint'
+   bias-disable: size (4) error for type flag
+   bias-disable: size (4) error for type flag
+   arch/arm64/boot/dts/qcom/sm8750-ayn-odin3.dtb: / (ayn,odin3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ayn,odin3', 'qcom,sm8750'] is too short
+   	'ayn,odin3' is not one of ['qcom,apq8016-sbc', 'schneider,apq8016-hmibsc']
+   	'ayn,odin3' is not one of ['asus,sparrow', 'huawei,sturgeon', 'lg,lenok', 'samsung,matisse-wifi', 'samsung,milletwifi']
+   	'ayn,odin3' is not one of ['asus,nexus7-flo', 'lg,nexus4-mako', 'sony,xperia-yuga', 'qcom,apq8064-cm-qs600', 'qcom,apq8064-ifc6410']
+   	'ayn,odin3' is not one of ['qcom,apq8074-dragonboard']
+   	'ayn,odin3' is not one of ['qcom,apq8060-dragonboard', 'qcom,msm8660-surf']
+   	'ayn,odin3' is not one of ['qcom,apq8084-mtp', 'qcom,apq8084-sbc']
+--
+   	'qcom,qcs8550-aim300' was expected
+   	'qcom,sm8650' was expected
+   	'qcom,x1e001de' was expected
+   	'lenovo,thinkpad-t14s' was expected
+   	'qcom,x1e80100' was expected
+   	'qcom,hamoa-iot-som' was expected
+   	'asus,zenbook-a14-ux3407qa' was expected
+   	'qcom,x1p42100' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml
+   arch/arm64/boot/dts/qcom/sm8750-ayn-odin3.dtb: /: failed to match any schema with compatible: ['ayn,odin3', 'qcom,sm8750']
+>> arch/arm64/boot/dts/qcom/sm8750-ayn-odin3.dtb: pinctrl@f100000 (qcom,sm8750-tlmm): disp0-reset-n-active-state: 'oneOf' conditional failed, one must be fixed:
+   	'bias-disable', 'drive-strength', 'function', 'pins' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	0 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sm8750-tlmm.yaml
+>> arch/arm64/boot/dts/qcom/sm8750-ayn-odin3.dtb: pinctrl@f100000 (qcom,sm8750-tlmm): disp0-mipi-vdd-active-state: 'oneOf' conditional failed, one must be fixed:
+   	'bias-disable', 'drive-strength', 'function', 'pins' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	0 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sm8750-tlmm.yaml
+>> arch/arm64/boot/dts/qcom/sm8750-ayn-odin3.dtb: /display-subsystem@ae00000/dsi@ae94000/panel@0: failed to match any schema with compatible: ['chipone,icna3520']
 
 -- 
 0-DAY CI Kernel Test Service
