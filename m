@@ -1,140 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA77C22129B
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jan 2026 21:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60B027A133
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jan 2026 21:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769461768; cv=none; b=t1UC+1Upo/06DVLUv7V+vCWXc2AGA+WSPV0xJxlzezZbcdnfKOk/yXkxsqtMASKc8uDwr6XSihtgYeK7wSOlL2XfDhMmcm+8tJCBAy4vxI/vYmgD6S7GP4X6UohgikVDYvAy9pQYwMr2EmBkjE5Y7qGJRpbj7/17lR7xBKKaAZQ=
+	t=1769462256; cv=none; b=JuGW//qmEQVjfEzLfLeP1t6MoFOsX4+OmnA/e7dokylAeONf7ObqMI1wJ/TxFLkqzdcM9vs/6+01frB5TM5gQiryR6fM8qQ5ZjHKlNoKwhDIQalytYuRchKHD8rd1brQ8ANzZmncpaIhT7wJz6VjxZsegyDoNZ2NNLaVLmv9mr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769461768; c=relaxed/simple;
-	bh=Eso9dB9xRzFb6VFX8i9SjudtAJ5K8l3CvrLWCbof3P8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kOe5koWMANqpEjasGazpzTlP5BP+oFsWVKDTj71zieOYJrlzN6oOzeJyfGEd4pCgLoy9w/hiw+A+1qilmlJ8iiudPjrMIAcl0LU3o9AEiOpe7Bl1Nj5T+SU3pitvruqbKIy9GGLZl4iEQyjZICtEe5n+R8RcNwzDDNhViR/DPJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zf47x4YW; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1769462256; c=relaxed/simple;
+	bh=aqRo225RMvyW+eZ2wXhDW4Muagi0onR7UtlqVHSd0ds=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WLmvIOKFxvBIxOjU9v1NDk+taeA7HIr9H0leeRndEeB0P4wxDy1fxn7jzJx9c+zC+45x8F9cyBEF1KMFwODxeKSJqwv2GRmZ743XeQxon10CuUDIpMEGmg6D6c274MaN6OCQ5CQn5/R8Yt+497ZpPuEeWGmT/s1bH+eQ7/wok10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8Jq6vGz; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zf47x4YW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8Jq6vGz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769461766; x=1800997766;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Eso9dB9xRzFb6VFX8i9SjudtAJ5K8l3CvrLWCbof3P8=;
-  b=Zf47x4YWIQfgbG/hw35sQVzdpzCJw5nTp4JO4Mr62M3bJQ9FhjCuWDSp
-   dwMMXFBHqBUXJTKF4dF+phmmkWDIU4lk/xKWbOOYssdevF+d+g4QfGv8K
-   yAiILoyR1OpLad76weTcayMObmqPYtOnAkYMz7IhubeGp8k+TPTIivusZ
-   LCzvVixF8wwE/xcX/laYRS8Op9+Ufv49WOSeocq0qs3XmMsJl6nITSUZk
-   PpMkpdIiYhi89X2NxQXcOQG1hxiZv4bma9I4pTeGd/9iXVfz2k2HsIi6h
-   j/KZkRH3Dx0yTL0+la4Rx4ZQfvW5mMWXqJ9/kRp2ZnYJ0TxEXTbSTVYkO
-   A==;
-X-CSE-ConnectionGUID: cg1POBOfSCKAdGAGR3Hx1w==
-X-CSE-MsgGUID: 7NkpFpbERRawEJgEcm0yxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70737565"
+  t=1769462254; x=1800998254;
+  h=date:from:to:cc:subject:message-id;
+  bh=aqRo225RMvyW+eZ2wXhDW4Muagi0onR7UtlqVHSd0ds=;
+  b=m8Jq6vGzmO9GNoBCJhPHn94Zp1io+S5UkDQLuibOLotj6nQnuziFTmou
+   ylPAlg6NgN12fwsB1qyO9QzvYBkxP9QPaZQj1xlVLxCcvdlhaVqX7aCoa
+   o3QUEWzdk9ut5ZszgeUFX0oRKz8xUSVVGjjSa/Vdyj7gzs65TYXnH2pXt
+   iUaIb2we6w8F/U99A5LIm2TKm7wNh37NJMEboSsKUgdz65ZaVH/zVLm4Z
+   mrer6FCtWfC/ecIKhlT7t+FiOrejm0Iqir2rB5M83NA4qkCtJGCAEh1sX
+   +7LeughQx6t2TxdXKJYXlAtSOA6UbRITN3LlxXMsMyI0XDImuWcglZeIg
+   w==;
+X-CSE-ConnectionGUID: vZAADcI6Rvyyj2/QtR5Nog==
+X-CSE-MsgGUID: axxYEmG0S/+lWlS6+nXRJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="81366544"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="70737565"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 13:09:25 -0800
-X-CSE-ConnectionGUID: bwrSnwJ1QQi+5kFCSiyUGw==
-X-CSE-MsgGUID: 8OUNNt6gTa+IuLREjsa+Pw==
+   d="scan'208";a="81366544"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 13:17:34 -0800
+X-CSE-ConnectionGUID: A3ItdFYITyOZI/W4SfOLlw==
+X-CSE-MsgGUID: mkhxxM7GQk+uAsjyckLO+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="245390794"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 26 Jan 2026 13:09:24 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="230732223"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Jan 2026 13:17:33 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkTpp-000000001bV-3ZXY;
-	Mon, 26 Jan 2026 21:09:21 +0000
-Date: Mon, 26 Jan 2026 22:09:19 +0100
+	id 1vkTxj-00000000Xhc-0tVv;
+	Mon, 26 Jan 2026 21:17:31 +0000
+Date: Tue, 27 Jan 2026 05:16:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v1 2/3] ARM: tegra: lg-x3: add USB and power related nodes
-Message-ID: <202601262238.4W6TnGIJ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 458/799]
+ fs/bcachefs/btree/commit.c:423 btree_key_can_insert_cached_slowpath() warn:
+ inconsistent returns 'trans'.
+Message-ID: <202601270519.oH8B4Zs8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260122152713.8311-3-clamor95@gmail.com>
-References: <20260122152713.8311-3-clamor95@gmail.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Thierry Reding <thierry.reding@gmail.com>
-TO: Jonathan Hunter <jonathanh@nvidia.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: "Jonas Schwöbel" <jonasschwoebel@yahoo.de>
-CC: devicetree@vger.kernel.org
-CC: linux-tegra@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Svyatoslav,
+Hi Kent,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.19-rc7 next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/ARM-tegra-lg-x3-add-panel-and-bridge-nodes/20260123-000951
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260122152713.8311-3-clamor95%40gmail.com
-patch subject: [PATCH v1 2/3] ARM: tegra: lg-x3: add USB and power related nodes
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-2051-20260123 (https://download.01.org/0day-ci/archive/20260126/202601262238.4W6TnGIJ-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-dtschema version: 2025.13.dev4+g85cec3155
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601262238.4W6TnGIJ-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: caf90d22262c52f7c29c4b08bd50f2a27d3dbe25 [458/799] bcachefs: move btree files to subdir
+:::::: branch date: 3 months ago
+:::::: commit date: 3 months ago
+config: parisc-randconfig-r071-20260127 (https://download.01.org/0day-ci/archive/20260127/202601270519.oH8B4Zs8-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601262238.4W6TnGIJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202601270519.oH8B4Zs8-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/solomon,ssd2825.yaml
-   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: dsi@2 (solomon,ssd2825): ports:port@0:endpoint: Unevaluated properties are not allowed ('data-lines' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/solomon,ssd2825.yaml
-   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: panel@1 (jdi,dx12d100vm0eaa): 'backlight' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/renesas,r69328.yaml
-   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
-   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: sound (lg,tegra-audio-max98089-p880): nvidia,audio-routing:13: 'Mic Jack' is not one of ['Int Spk', 'Headphone Jack', 'Earpiece', 'Headset Mic', 'Internal Mic 1', 'Internal Mic 2', 'HPL', 'HPR', 'SPKL', 'SPKR', 'RECL', 'RECR', 'INA1', 'INA2', 'INB1', 'INB2', 'MIC1', 'MIC2', 'MICBIAS']
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra-audio-max9808x.yaml
->> arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: thermal-sensor-battery (generic-adc-thermal): Unevaluated properties are not allowed ('#io-channel-cells' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/generic-adc-thermal.yaml
---
-   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
-   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: gpio-leds (gpio-leds): led-power:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-   	'battery-charging' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'kbd-capslock', 'mtd', 'nand-disk', 'netdev', 'none', 'rc-feedback', 'torch', 'usb-gadget', 'usb-host', 'usbport']
-   	'battery-charging' does not match '^cpu[0-9]*$'
-   	'battery-charging' does not match '^hci[0-9]+-power$'
-   	'battery-charging' does not match '^mmc[0-9]+$'
-   	'battery-charging' does not match '^phy[0-9]+tx$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml
-   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: sound (lg,tegra-audio-max98089-p895): nvidia,audio-routing:13: 'Mic Jack' is not one of ['Int Spk', 'Headphone Jack', 'Earpiece', 'Headset Mic', 'Internal Mic 1', 'Internal Mic 2', 'HPL', 'HPR', 'SPKL', 'SPKR', 'RECL', 'RECR', 'INA1', 'INA2', 'INB1', 'INB2', 'MIC1', 'MIC2', 'MICBIAS']
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra-audio-max9808x.yaml
->> arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: thermal-sensor-battery (generic-adc-thermal): Unevaluated properties are not allowed ('#io-channel-cells' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/generic-adc-thermal.yaml
+smatch warnings:
+fs/bcachefs/btree/commit.c:423 btree_key_can_insert_cached_slowpath() warn: inconsistent returns 'trans'.
+
+vim +/trans +423 fs/bcachefs/btree/commit.c
+
+b0004d8dfac514 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2018-08-03  387  
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  388  noinline static int
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  389  btree_key_can_insert_cached_slowpath(struct btree_trans *trans, unsigned flags,
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  390  				     struct btree_path *path, unsigned new_u64s)
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  391  {
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  392  	struct bkey_cached *ck = (void *) path->l[0].b;
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  393  	struct bkey_i *new_k;
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  394  	int ret;
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  395  
+0971a72c3d1a8b fs/bcachefs/btree_trans_commit.c Kent Overstreet 2024-12-24  396  	bch2_trans_unlock_updates_write(trans);
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  397  	bch2_trans_unlock(trans);
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  398  
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  399  	new_k = kmalloc(new_u64s * sizeof(u64), GFP_KERNEL);
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  400  	if (!new_k) {
+09b9c72bd4b77a fs/bcachefs/btree_trans_commit.c Kent Overstreet 2025-05-28  401  		struct bch_fs *c = trans->c;
+09b9c72bd4b77a fs/bcachefs/btree_trans_commit.c Kent Overstreet 2025-05-28  402  		bch_err(c, "error allocating memory for key cache key, btree %s u64s %u",
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  403  			bch2_btree_id_str(path->btree_id), new_u64s);
+09b9c72bd4b77a fs/bcachefs/btree_trans_commit.c Kent Overstreet 2025-05-28  404  		return bch_err_throw(c, ENOMEM_btree_key_cache_insert);
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  405  	}
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  406  
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  407  	ret =   bch2_trans_relock(trans) ?:
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  408  		bch2_trans_lock_write(trans);
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  409  	if (unlikely(ret)) {
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  410  		kfree(new_k);
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  411  		return ret;
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  412  	}
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  413  
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  414  	memcpy(new_k, ck->k, ck->u64s * sizeof(u64));
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  415  
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  416  	trans_for_each_update(trans, i)
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  417  		if (i->old_v == &ck->k->v)
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  418  			i->old_v = &new_k->v;
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  419  
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  420  	kfree(ck->k);
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  421  	ck->u64s	= new_u64s;
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  422  	ck->k		= new_k;
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05 @423  	return 0;
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  424  }
+09b0283ee23a02 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-05  425  
+
+:::::: The code at line 423 was first introduced by commit
+:::::: 09b0283ee23a02094a43a9b93146d1060c58fc3a bcachefs: Make sure to drop/retake btree locks before reclaim
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
