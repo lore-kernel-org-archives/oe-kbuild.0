@@ -1,144 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A70B2367D5
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jan 2026 14:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2D32F999F
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jan 2026 14:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769438185; cv=none; b=usc8hp1BpbG3UrLMBJ0T0igRVnqY2hzKWbLm9TMIFOQUiRmZaODUrCd6nWKcvwaMV8SkrD1POGQdfrwYvIgPAtRK6euXHwxMZj88WeozQOSS9tO2FhGGRrWP9v62AX6BJz7p4/86mK4kyrhizR+eQdaARpad7/vksZkKMy3pTFQ=
+	t=1769438998; cv=none; b=mfVLbqXMBuzh0QUCz0G6uJmTyHjQgnwgcTMB8NCveaXE5JEy5/RjOVeZyXL9t2keX+I95JPLB3bYG44bqSWcBLX39HHXGEiGFXV9ASrviSk7FMhforDMsBR798wB4wK6Hgv1Q5b32IEL/yvTGTJHEMx3TiALiDMWRAFUMpZAFTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769438185; c=relaxed/simple;
-	bh=AjjE2XHBjFm/0HP6bsXiJOYk29LozzIWuClysXG7mgA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Ad2V9HSG3vXOyoOfIfuYBq6qu6wKFzMAzeA/vceRfwOmeZnijqChNIoW2SFwpBCgWyO/g6/KOcvCbbhHMdGi/VgPFpqca5cGfDv6cyL1X0zG/kd15DGR9eP60C7tEdMyTPghGjSPXWqSDlEOaYq7uGuVCEgBghvILxrqTrsHAS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4pzTqcB; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1769438998; c=relaxed/simple;
+	bh=lmhJ3LjYQ/dDcPAyRbfWO/W6YLr2JrZ7VVoHiSFkiz4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=e7pmMXAYglv2qM9ElQ+fvVq2piqspjiZqsi5FYCvBfv41vys7eAB9AE8NyeprRWBZQIL34N0R5KL6ogoeURttooYrY82nowXwkKZ3ug5YhrZXQtB1itlqeNJfk5c0yGH27dliVzGrD7Z/W9EcbWRLTHMPFyAhPS+k+odCfvkLEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NL41VEB/; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4pzTqcB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NL41VEB/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769438183; x=1800974183;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=AjjE2XHBjFm/0HP6bsXiJOYk29LozzIWuClysXG7mgA=;
-  b=K4pzTqcB0Qk/OsCz1EcfziFJ893DqNLEB+uOr1kXAoYbikpRkLpikjB0
-   L4ivNFVxYfHBQrWIcLVaP88S2nwgId6no7RLEbEH5kwzsB5+Wvo5YefDp
-   M7eHeoSf9PDeVxxavud7qqbztG3rDQJdOq0oKNzXjwIvSRq+7Wk2QfzHL
-   hXjevmft80r3bqWudPl1KczIRNcqH9yCU+TqNWJOX2TXKSMRFJV/L879D
-   alUup3q5iSbXgq9vHgS3ao2f+eUTsMbFTe3rXhgrl2lKhiZotsAVTFAc/
-   sbq/r6yO6xox+c7klnHhbTSPfrPqsPpukRWPlcLJhsBt8Iiwcb2BqW9IS
-   g==;
-X-CSE-ConnectionGUID: Y9KtWzRkQqSRVu31cvnEtA==
-X-CSE-MsgGUID: 9CdD2Y1rQTylQ4AZ3zkJwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70513605"
+  t=1769438997; x=1800974997;
+  h=date:from:to:cc:subject:message-id;
+  bh=lmhJ3LjYQ/dDcPAyRbfWO/W6YLr2JrZ7VVoHiSFkiz4=;
+  b=NL41VEB/3TaatKXxn30nmwpMMeznZT4s9XSTMa6nAz5Ex4K8bhu5t8wt
+   1cGhcz2gwmko9zmxv/GMPrXOHD2d7o+u+H17HmphzWATtxrfZMkreNVGS
+   LWT+q+C1OxASL50qoJ96HSCrHhhQx55kLpb/J5w31NGQZglVhxmAGUJQf
+   QMH++s4OXQi2PPnhc/MdJYn0XqVUVRc9elTMTx7hUwn9PKV3srTKwoSol
+   BsFqXVGwXNaUf+Tt3ShWT1qRtpC0Rzar/+3e9ceNg11dlHWDoWUAePKSj
+   brrR0bMo/CcSVFQfMsL0AC+NHVS52va/ktogUML+MW6SyT98xABjk78OB
+   w==;
+X-CSE-ConnectionGUID: V1vlKDqySZaoXRCyBO8fhQ==
+X-CSE-MsgGUID: E0tWHVeRQLi4lQ/5nO1Qqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="81334799"
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="70513605"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:36:23 -0800
-X-CSE-ConnectionGUID: qarcT4IGTPKJGW/heu17fQ==
-X-CSE-MsgGUID: XC7AMz8SS9mxGrWzwKRDpw==
+   d="scan'208";a="81334799"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:49:57 -0800
+X-CSE-ConnectionGUID: sA6T8x2jT6eg5MqNol2L1Q==
+X-CSE-MsgGUID: uZC1X1hgRQGUeSYnFqv99A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="207491388"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 26 Jan 2026 06:36:21 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207720982"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 26 Jan 2026 06:49:55 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkNhT-000000001Y5-11Li;
-	Mon, 26 Jan 2026 14:36:19 +0000
-Date: Mon, 26 Jan 2026 15:36:10 +0100
+	id 1vkNua-00000000XPM-2q7h;
+	Mon, 26 Jan 2026 14:49:52 +0000
+Date: Mon, 26 Jan 2026 22:49:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb:
- usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
-Message-ID: <202601261540.Z62USPx6-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 518/799]
+ fs/bcachefs/init/chardev.c:249 bch2_ioctl_disk_remove() warn: 'ca' can also
+ be NULL
+Message-ID: <202601262244.pCRcXu7I-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Tom=C3=A1=C5=A1 Macholda" <tomas.macholda@nic.cz>
-CC: Gregory CLEMENT <gregory.clement@bootlin.com>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   63804fed149a6750ffd28610c5c1c98cce6bd377
-commit: 0b738a2901f43980fc2307a50a26457be1c8030b arm64: dts: marvell: add d=
-ts for RIPE Atlas Probe v5
-date:   5 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-2052-20260123 (https://download.01.org/0day-ci/arc=
-hive/20260126/202601261540.Z62USPx6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.13.dev4+g85cec3155
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260126/202601261540.Z62USPx6-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: 383cf0dacfb4922419e7d38a3c22766d62fddc05 [518/799] bcachefs: more __free() conversion
+:::::: branch date: 3 months ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-r073-20260126 (https://download.01.org/0day-ci/archive/20260126/202601262244.pCRcXu7I-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601261540.Z62USPx6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202601262244.pCRcXu7I-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell=
-,comphy-a3700): clock-names:0: 'mg_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110=
-.yaml
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell=
-,comphy-a3700): clock-names: ['xtal'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110=
-.yaml
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell=
-,comphy-a3700): clocks: [[4]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110=
-.yaml
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/=
-pinctrl@18800: failed to match any schema with compatible: ['marvell,armada=
-3710-sb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pinctrl@18800 (mar=
-vell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/=
-system-controller@5d800: failed to match any schema with compatible: ['marv=
-ell,armada-3700-usb2-host-device-misc', 'syscon']
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: usb@5e000 (marvell=
-,armada-3700-ehci): phy-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/=
-mailbox@b0000: failed to match any schema with compatible: ['marvell,armada=
--3700-rwtm-mailbox']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: mmc@d8000 (marvell=
-,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon=
--emmc' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.=
-yaml
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pcie@d0070000 (mar=
-vell,armada-3700-pcie): interrupt-controller: '#address-cells' does not mat=
-ch any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pci/marvell,armada-3700-=
-pcie.yaml
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /firmware/armada-3=
-700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700=
--rwtm-firmware', 'cznic,turris-mox-rwtm']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /firmware/armada-3=
-700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700=
--rwtm-firmware', 'cznic,turris-mox-rwtm']
+smatch warnings:
+fs/bcachefs/init/chardev.c:249 bch2_ioctl_disk_remove() warn: 'ca' can also be NULL
 
---=20
+vim +/ca +249 fs/bcachefs/init/chardev.c
+
+ebb0fa27bb872b fs/bcachefs/chardev.c Kent Overstreet       2025-08-18  229  
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  230  static long bch2_ioctl_disk_remove(struct bch_fs *c, struct bch_ioctl_disk arg)
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  231  {
+a515d0a50c6e8b fs/bcachefs/chardev.c Tobias Geerinckx-Rice 2021-07-04  232  	if (!capable(CAP_SYS_ADMIN))
+a515d0a50c6e8b fs/bcachefs/chardev.c Tobias Geerinckx-Rice 2021-07-04  233  		return -EPERM;
+a515d0a50c6e8b fs/bcachefs/chardev.c Tobias Geerinckx-Rice 2021-07-04  234  
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  235  	if ((arg.flags & ~(BCH_FORCE_IF_DATA_LOST|
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  236  			   BCH_FORCE_IF_METADATA_LOST|
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  237  			   BCH_FORCE_IF_DEGRADED|
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  238  			   BCH_BY_INDEX)) ||
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  239  	    arg.pad)
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  240  		return -EINVAL;
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  241  
+635c5791582a65 fs/bcachefs/chardev.c Kent Overstreet       2025-07-14  242  	struct bch_dev *ca = bch2_device_lookup(c, arg.dev, arg.flags);
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  243  	if (IS_ERR(ca))
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  244  		return PTR_ERR(ca);
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  245  
+c72d1fe6d35296 fs/bcachefs/chardev.c Kent Overstreet       2025-08-18  246  	CLASS(printbuf, err)();
+c72d1fe6d35296 fs/bcachefs/chardev.c Kent Overstreet       2025-08-18  247  	int ret = bch2_dev_remove(c, ca, arg.flags, &err);
+c72d1fe6d35296 fs/bcachefs/chardev.c Kent Overstreet       2025-08-18  248  	if (ret)
+c72d1fe6d35296 fs/bcachefs/chardev.c Kent Overstreet       2025-08-18 @249  		bch_err(ca, "%s", err.buf);
+c72d1fe6d35296 fs/bcachefs/chardev.c Kent Overstreet       2025-08-18  250  	return ret;
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  251  }
+1c6fdbd8f2465d fs/bcachefs/chardev.c Kent Overstreet       2017-03-16  252  
+
+:::::: The code at line 249 was first introduced by commit
+:::::: c72d1fe6d3529612bb93391e29c5658acdf0e568 bcachefs: Plumb a printbuf for error strings through ioctls
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
