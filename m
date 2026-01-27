@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F9D30DD13
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 11:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4BA34AB00
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 11:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769514446; cv=none; b=NcHeZi7svQcsbTFmFmHLnr9sS6cRABbRK+3jw/AC6yqhSQEOWwYLFYTWzc/CjiYwe/sR3UY3AZNBSIraHdNx+TrRr402eTkzdlQQlSwRkeH/0wpsMJSZEZ5w6QdeW7rls9+KB6+9CytLkcxpGjQKYyUqzL5ROOfrzYlsUZ1V69I=
+	t=1769514446; cv=none; b=eUwZ18n1aYhx/kgGJ6Tvjl8QhNGuBGhLA3r9U9dXI0HPpriNGyUGer2BXwbpcafAb7lFFIAU4TzVy4Yt1x1Ky4eH7VzXhI6+XvlAZ2UimGD1OciRei671Xzn6ZuVvHTcB8+af4dY2su2JyLU8ebykb1xw/2/TA9s3v7qr3qWohE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769514446; c=relaxed/simple;
-	bh=M/yeurF4/04pCZRdV8yW835gVDkB0LspqooaAjvI0oQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZCWWQ4vSMDpouvgE9ZJqIl2Cg5XiCNNESs47uWFVKPg1YW5hVgQymmS7NLpWcLUDhNZiJNRrcMu6T6eOtxPq9vmsTAtJ1WXAmUSIU/gmzT1dgPfDbgmgZHAeX9L541pxcZbpMnml9lqFUVKNAPpqhLKBdXRiZP0Pk6+j9Kit03A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1em9Y2Q; arc=none smtp.client-ip=198.175.65.11
+	bh=01OcK09DrkDhxVdmhLOhHbI3q2hxHpKI4Bww6zWIclE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Nxs4vEiuQeJ+J91hBsThy4AbVOsgefUEu2WKwb30Va+2MCFMxZwnv5iG/fHnHpAoswJMEypDXTk80jfgBhB7X5i5OjBZpb5FyKRmMPPRc49pTl4IUqSpg+AHLHaIIgZSgzQwuydX5j3nFukqVuRRjYQJWzvYz+d77+/4MruGAz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cI3L6KaQ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1em9Y2Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cI3L6KaQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769514445; x=1801050445;
+  t=1769514446; x=1801050446;
   h=date:from:to:cc:subject:message-id;
-  bh=M/yeurF4/04pCZRdV8yW835gVDkB0LspqooaAjvI0oQ=;
-  b=F1em9Y2QCBFYj7uD0cQOnJNNPHHlRv/8rDr53XuYX7zkj5xl0qAYtdL6
-   OgV8dy/XEGcKYB5qzyKB9bl8ZSg90sSf0W6qR9RfDna37+frBVMKZnhPu
-   Diz/Lv4EodmBvI+heIzfsLZqdj7z8pfOFAziZeT70ymxKn8mU6HXhmCFl
-   /FCyXUuOMvNt31qQrEDzWns9/VKu1D67LAnLXXte3m4kYSu0tOiNmQyld
-   9Eindt4J1Z1y2QQMz/ErOhRAyChgCayxBnBdV5Eb7HtPzrXew2SogM473
-   3l3rpPzsfO4yywJ/ewKQDu7BPe9kdEr6xGuDJqoT1JmE9hjLEvkJSmd73
-   Q==;
-X-CSE-ConnectionGUID: P7H1BnLXSduJ54WcE+QzjQ==
-X-CSE-MsgGUID: WXM6PINWQv+GWK0tv+PROw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="81010769"
+  bh=01OcK09DrkDhxVdmhLOhHbI3q2hxHpKI4Bww6zWIclE=;
+  b=cI3L6KaQdJZFjDG9uIvBpjWsav0U/5/3Ozs9B1CuywsnqI5Bk4W9xzZ4
+   eekwc1zwCiJPYIWArVEwuFIDoKd8vqgu1uXMz7+TD6+UuITDvcHbXptrS
+   PxOnFS7csNTNlBjNrCfRR1TVsRhGQbxfTrV1HUGWpGtHVWo5NgWoH1Dcs
+   VXawLh1gC4cS66/8YnZIe1eHU1zfgu3u7s6hTEkff2MLeKA3tTgnQdZa5
+   Jq2bWiR4Su+0NwgWHzDFDRZ75RB7r+Z/h3fqfo+hbOC/GHBjRzL2hlPcR
+   b9GFCgY6N2xvJYbGXmAC1+cg637EQjDXvNaCk79LIom82cphwWi+ugIxV
+   A==;
+X-CSE-ConnectionGUID: lO8Or8OCS5KxtkOMPp5Sfg==
+X-CSE-MsgGUID: P7hvbLAqRS2nMLME5o+V0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="74552720"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="81010769"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 03:47:24 -0800
-X-CSE-ConnectionGUID: 6rrN2voTSX6PLH8tLDE5LQ==
-X-CSE-MsgGUID: bs9MmlMuS++rxY6kRViAEw==
+   d="scan'208";a="74552720"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 03:47:25 -0800
+X-CSE-ConnectionGUID: pN+/h/nGQNOFlhsOCTXfsg==
+X-CSE-MsgGUID: eyeml+43SuiQIvTFOQ6I4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="208009821"
+   d="scan'208";a="207745659"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Jan 2026 03:47:23 -0800
+  by orviesa009.jf.intel.com with ESMTP; 27 Jan 2026 03:47:24 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkhXV-00000000YQr-1xP0;
+	id 1vkhXV-00000000YQu-24nY;
 	Tue, 27 Jan 2026 11:47:21 +0000
-Date: Tue, 27 Jan 2026 19:47:05 +0800
+Date: Tue, 27 Jan 2026 19:47:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jarkko-tpmdd:vcam 5/5] drivers/media/vcamera.c:34:1:
- sparse: sparse: bad integer constant expression
-Message-ID: <202601271911.pgvfz2QT-lkp@intel.com>
+Subject: [linux-next:master 7457/9596]
+ lib/tests/min_heap_kunit.c:208:1: sparse: sparse: bad integer constant
+ expression
+Message-ID: <202601271908.kGAWYFQX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,46 +61,49 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/media/vcamera.c:34:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: lib/tests/min_heap_kunit.c:208:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jarkko Sakkinen <jarkko@kernel.org>
+TO: Ryota Sakamoto <sakamo.ryota@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git vcam
-head:   aca163adc973822190ede13e24470004c2a6d800
-commit: 4fa6033b7c74b72719b8608a01660b9e6e06d14b [5/5] media: vcamera
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 hours ago
-config: sparc64-randconfig-r131-20260127 (https://download.01.org/0day-ci/archive/20260127/202601271911.pgvfz2QT-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271911.pgvfz2QT-lkp@intel.com/reproduce)
+Hi Ryota,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   615aad0f61e0c7a898184a394dc895c610100d4f
+commit: 30edc7fafbd64d63480f6a5c8b7d919a94fde4da [7457/9596] lib/tests: convert test_min_heap module to KUnit
+:::::: branch date: 12 hours ago
+:::::: commit date: 6 days ago
+config: loongarch-randconfig-r112-20260127 (https://download.01.org/0day-ci/archive/20260127/202601271908.kGAWYFQX-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271908.kGAWYFQX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601271911.pgvfz2QT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601271908.kGAWYFQX-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/media/vcamera.c:34:1: sparse: sparse: bad integer constant expression
-   drivers/media/vcamera.c:34:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/media/vcamera.c:35:1: sparse: sparse: bad integer constant expression
-   drivers/media/vcamera.c:35:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/media/vcamera.c:36:1: sparse: sparse: bad integer constant expression
-   drivers/media/vcamera.c:36:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
-   drivers/media/vcamera.c:51:1: sparse: sparse: bad integer constant expression
-   drivers/media/vcamera.c:51:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
-   drivers/media/vcamera.c:52:1: sparse: sparse: bad integer constant expression
-   drivers/media/vcamera.c:52:1: sparse: sparse: static assertion failed: "MODULE_INFO(parm, ...) contains embedded NUL byte"
+>> lib/tests/min_heap_kunit.c:208:1: sparse: sparse: bad integer constant expression
+   lib/tests/min_heap_kunit.c:208:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   lib/tests/min_heap_kunit.c:209:1: sparse: sparse: bad integer constant expression
+   lib/tests/min_heap_kunit.c:209:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +34 drivers/media/vcamera.c
+vim +208 lib/tests/min_heap_kunit.c
 
-4fa6033b7c74b7 Jarkko Sakkinen 2026-01-23  33  
-4fa6033b7c74b7 Jarkko Sakkinen 2026-01-23 @34  MODULE_DESCRIPTION("V4L2 virtual camera driver");
-4fa6033b7c74b7 Jarkko Sakkinen 2026-01-23  35  MODULE_LICENSE("GPL");
-4fa6033b7c74b7 Jarkko Sakkinen 2026-01-23  36  MODULE_ALIAS_MISCDEV(MISC_DYNAMIC_MINOR);
-4fa6033b7c74b7 Jarkko Sakkinen 2026-01-23  37  
+6e24628d78e478 lib/test_min_heap.c Ian Rogers   2020-02-13  207  
+303474913271af lib/test_min_heap.c Jeff Johnson 2024-06-19 @208  MODULE_DESCRIPTION("Test cases for the min max heap");
+
+:::::: The code at line 208 was first introduced by commit
+:::::: 303474913271af4eb3ec1c5f955d1e01682f3e1f KUnit: add missing MODULE_DESCRIPTION() macros for lib/test_*.ko
+
+:::::: TO: Jeff Johnson <quic_jjohnson@quicinc.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
