@@ -1,125 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E201A3016F5
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 15:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6C133B6CD
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 17:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769528437; cv=none; b=IYDMionyCFIYfnt0d9NSOh564Twq6zbDIijWAkBoWk5LnnOjv4FGQmDVRIFIGqBKlvoC8SQmXVfrRxAIi/IqaTtDMp4fRtY9NCYW+VENahE6bJF/ynD7CPSqexzeA14ERQBcT+dYjlibohtG9h4SdEBzRjFfwu5uZbT9mf8x0bc=
+	t=1769534030; cv=none; b=TSAtd96TICtzNv1XJz5ec3qJD+Hs/DljlEot/iaU7leazZ+vPyZcZXMpeAF7nCmDBw6g31jH7bMn4ZBcY15Sfc+5n0WXd/olhchcxlxxAihbgVkveqe3ByLIay5FwYDXK2NoQ+s4In4ERtoKkTpU4EBujbNvupg+H1U6kqSAs4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769528437; c=relaxed/simple;
-	bh=n86Y7mWSwZwoS6mIDBaDZHaTtcM0SNEWOW4v7aMB2Uo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IeL3HEso6+Ct5oxhey/J5JTLCwJLkrHSjVmL3DdMmipgRkV4j1jx/KfQdbqzaAJCHkzbFN1Bj+iFlGNrdkIj4cg+dyQb/8FJ3PtYVE0XDNI2h/OH0TQpBNFeJU+BDcDAdoMwKabRGbIo+vFvwQD7OtTl1I4DaglYyXeOXpzpwZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KU621MiW; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1769534030; c=relaxed/simple;
+	bh=3dXKyl9CZji++Ol7Atl9xcwkn6AITq+/ImrFFh3UqX4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BTp04wJrVUROK+cyhr9fDHhKgZTLXgqXV5AdRAui38gPScdimHYP/WIP4V8b/ym4r60W7FtwT8CwwfWOg4JHP9rCxSSOdVd9QOpEsxTeFqMZjBLVTr6lX1rarET+ZpAcax/aqCRkGsQV2CROmsqDH6j043MzxIXZBT9mxl20mUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ng1fXF6o; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KU621MiW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ng1fXF6o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769528436; x=1801064436;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n86Y7mWSwZwoS6mIDBaDZHaTtcM0SNEWOW4v7aMB2Uo=;
-  b=KU621MiWm/dvOlAWh4tYuQ5G0Fawd16LQhlaoS1nnn0w5hIvliljssOL
-   nwJ0oWXeH1j5qRCDJMit3hA4nPMJEvcnQuJBfcheTpSXycKfSUjFU5I7/
-   9g8DK+03E1it+blGykFvnBM1in22nHdayQZ0xfaA4WQTR+BeJDISkKyRK
-   eM630y7PasT29T1SvKCID+CeFii5k/lyYKTEkkRLU9UwL9pkkJF3o0onH
-   rO7WQMnDr3qeOZId/+AiNp3wWfTjm8lu68XsS6H27JnLe+BNzxRNUSgu7
-   timu+jGykpWDUIX9ZdN0yvP15kTcTzLpNJo31tnQb+ePSysYie/EplWY5
+  t=1769534028; x=1801070028;
+  h=date:from:to:cc:subject:message-id;
+  bh=3dXKyl9CZji++Ol7Atl9xcwkn6AITq+/ImrFFh3UqX4=;
+  b=ng1fXF6owWWmc35nVlpcRgHVIEjXuvXGQnfbDkcg+4/T4dmROU/ErxcF
+   dZWoGKZOLyUEKTpB+WFbalQfWG+emiq60jqvrJud4fRC99WitU3rlnuN4
+   /uA2NNP3mr13U6oNdk/CKkr8SCKxL8i+m74hLIH+x42vqQiOouOg0mTNQ
+   kGSY3aIhINZbQR5cNyhCtCWom7EBo6RhRZeIh671HgK9ecX8oWXfN8zEZ
+   zG9tc0CUsi/e04i6wE6RjNkGI/hsh728iEL29sKL1IwBKQ9RlYekOt5nr
+   R2KDHHljPC33K92yP/KOPDeCshJ0MVIvrkHAoFNJUwpPgZIRepSfTpCIY
    w==;
-X-CSE-ConnectionGUID: gf+YKc2VRcqe19Fkx8JM9g==
-X-CSE-MsgGUID: pE4W/IOpShWJGeoVXitXcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70816136"
+X-CSE-ConnectionGUID: VvWMajKvRAiOX+QtsgyDbg==
+X-CSE-MsgGUID: VzUq0MLaS/6R1U8gYYTMYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70638922"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="70816136"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 07:40:35 -0800
-X-CSE-ConnectionGUID: FOMHfW15Rt2CIpZNIHl+Fg==
-X-CSE-MsgGUID: DxvKoPhYRd2OJxUVMvbz2A==
+   d="scan'208";a="70638922"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 09:13:46 -0800
+X-CSE-ConnectionGUID: YDy7nlm0RaWXdBGvxKUVgA==
+X-CSE-MsgGUID: QlVDKTD5RhaDY9HJ55AS6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="208058806"
+   d="scan'208";a="212884301"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Jan 2026 07:40:35 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jan 2026 09:13:44 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vklB9-00000000YcI-3ww8;
-	Tue, 27 Jan 2026 15:40:31 +0000
-Date: Tue, 27 Jan 2026 23:39:33 +0800
+	id 1vkmdJ-00000000Yl6-0cyH;
+	Tue, 27 Jan 2026 17:13:41 +0000
+Date: Wed, 28 Jan 2026 01:12:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v1 5/5] memory: tegra: Add Tegra114 EMC driver
-Message-ID: <202601272349.iaPF6emJ-lkp@intel.com>
+Subject: [linux-next:master 1959/9596]
+ drivers/clk/spacemit/ccu_common.c:5:1: sparse: sparse: bad integer constant
+ expression
+Message-ID: <202601280158.DSYqDHdp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/memory/tegra/tegra114-emc.c:1461:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: drivers/clk/spacemit/ccu_common.c:5:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260126190755.78475-6-clamor95@gmail.com>
-References: <20260126190755.78475-6-clamor95@gmail.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Thierry Reding <thierry.reding@gmail.com>
-TO: Jonathan Hunter <jonathanh@nvidia.com>
-TO: Mikko Perttunen <mperttunen@nvidia.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: Sumit Gupta <sumitg@nvidia.com>
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-tegra@vger.kernel.org
+TO: Inochi Amaoto <inochiama@gmail.com>
+CC: Yixun Lan <dlan@gentoo.org>
 
-Hi Svyatoslav,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on krzk-mem-ctrl/for-next]
-[also build test WARNING on tegra/for-next robh/for-next linus/master v6.19-rc7 next-20260126]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-memory-Document-Tegra114-Memory-Controller/20260127-045059
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
-patch link:    https://lore.kernel.org/r/20260126190755.78475-6-clamor95%40gmail.com
-patch subject: [PATCH v1 5/5] memory: tegra: Add Tegra114 EMC driver
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: arc-randconfig-r113-20260127 (https://download.01.org/0day-ci/archive/20260127/202601272349.iaPF6emJ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601272349.iaPF6emJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   615aad0f61e0c7a898184a394dc895c610100d4f
+commit: 5ec8cbbc54c82c0bdae4dbf0e5aecf9817bde2b9 [1959/9596] clk: spacemit: Respect Kconfig setting when building modules
+:::::: branch date: 17 hours ago
+:::::: commit date: 5 weeks ago
+config: powerpc64-randconfig-r132-20260127 (https://download.01.org/0day-ci/archive/20260128/202601280158.DSYqDHdp-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280158.DSYqDHdp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601272349.iaPF6emJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601280158.DSYqDHdp-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/memory/tegra/tegra114-emc.c:1461:1: sparse: sparse: bad integer constant expression
-   drivers/memory/tegra/tegra114-emc.c:1461:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/memory/tegra/tegra114-emc.c:1462:1: sparse: sparse: bad integer constant expression
-   drivers/memory/tegra/tegra114-emc.c:1462:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/memory/tegra/tegra114-emc.c:1463:1: sparse: sparse: bad integer constant expression
-   drivers/memory/tegra/tegra114-emc.c:1463:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+>> drivers/clk/spacemit/ccu_common.c:5:1: sparse: sparse: bad integer constant expression
+   drivers/clk/spacemit/ccu_common.c:5:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/clk/spacemit/ccu_common.c:6:1: sparse: sparse: bad integer constant expression
+   drivers/clk/spacemit/ccu_common.c:6:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/clk/spacemit/ccu_common.c:6:1: sparse: sparse: bad integer constant expression
+   drivers/clk/spacemit/ccu_common.c:6:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +1461 drivers/memory/tegra/tegra114-emc.c
+vim +5 drivers/clk/spacemit/ccu_common.c
 
-07c940ca4b749d Svyatoslav Ryhel 2026-01-26  1460  
-07c940ca4b749d Svyatoslav Ryhel 2026-01-26 @1461  MODULE_AUTHOR("Svyatoslav Ryhel <clamor95@gmail.com>");
+5ec8cbbc54c82c0 Inochi Amaoto 2025-12-19  4  
+5ec8cbbc54c82c0 Inochi Amaoto 2025-12-19 @5  MODULE_DESCRIPTION("SpacemiT CCU common clock driver");
 
 -- 
 0-DAY CI Kernel Test Service
