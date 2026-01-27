@@ -1,125 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7FB26C3B0
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 22:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8BB2F5A05
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 23:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769553462; cv=none; b=G/cYbQv4LRK6bdMwhEB7xL64LKWplKXXP4r2nTId5SFCdCL/RdB6a7wso01TKacVLrcHPSBQQ+RAl2gHXiTQ7ol+ymVho0kQiSfsYmk7NUBf3R3/RhiJAdYuaH6Os3tEov1GCEXBVLntYX9NL1VV9YM7j1UdRAyZoEOxBppeVig=
+	t=1769557747; cv=none; b=GuLRG8CscOnUkm0Ex7jf0xP+u5zTzFz/+mWsK2pwQN5NSV8sHCzgB0RpMxJ2q2tLkVwfothZdYALnCr/8ongoJpyodY9V0Gn5pPJJqInvBE0ugaOmmPHa8V/4c3RDJD5JSs8vpMNgDng98iyHM+xQ0/anJjapWzLHgp9GDU030M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769553462; c=relaxed/simple;
-	bh=VOnBrkEgGhRfL5QvgMXSI6E+IzvhIEh/XDBzIkL8qC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tOaCzYdVH3Je8ZTxhA7U63oZYTXDBV8R8r/ATdpUiuoO2GvENyLm8PBU01b7I1EGbQkmqGlzcxrDUzwZS8bv7YClOTSX/kbAxkFqm1iiyTnsHcv9+6dlzbczwuTehD24Awn+QNtMFyN9ee/4anr01bTsvXxTreW4OOmOoJOzafM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GfcRYPIz; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1769557747; c=relaxed/simple;
+	bh=B7Vp/FaLRPrl9NTx71DTsOdCSouPoDGk3f0np/P23Ac=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MKoZCKGEbP6KQ89IkSpfAXmFjbOonr5vLXVwBnvNKFUPuhih5fsvF9NSzfeFxdrW/z845B36o1LvAWruyEsehfdqY2kbN4wsLpmsti1I0r+aSUS24w2e7GB+IaA/mkL8xWR7xL9Zi+1hF/kNsC11+cfT1MBCyV8urZ0HjFmO5rE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GbhuCXzQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GfcRYPIz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GbhuCXzQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769553462; x=1801089462;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VOnBrkEgGhRfL5QvgMXSI6E+IzvhIEh/XDBzIkL8qC0=;
-  b=GfcRYPIzWuRMDm1p6nwy2GoPGPmnT8SzAnZj5U2XcRrzE4zoNxA8jhEK
-   QlnB1IQ6vy8H7RW0Ynwcm6ouNMllpwZGu8HRTUaWIttqt+yC5XpV51eiG
-   AtqSADlRFIStr/KWX7VemxiCvFvuvWlp1IKxJdA6FLgLRG3vDCZs+CThS
-   YKAjcS+uKywe9ZWxaYHqZ1yJA1LF9m/fbSEUvN6Fa68xhOIN56PoEGNPJ
-   PmMN/AndkaJZ9fNo4/HSM1G3tmmZ7xIPU3kAv0QqoksPofz0elHVvMLZu
-   oDSMhDlVYzsK66vpb2AQzd4A2ZhS+iOgo26bYafc9h1F48mrvIrqa9Eyu
-   Q==;
-X-CSE-ConnectionGUID: awZCPHC9QSGuLG/DTHricQ==
-X-CSE-MsgGUID: JMDbpVdvQsOzTUgu/yzRTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="74385846"
+  t=1769557745; x=1801093745;
+  h=date:from:to:cc:subject:message-id;
+  bh=B7Vp/FaLRPrl9NTx71DTsOdCSouPoDGk3f0np/P23Ac=;
+  b=GbhuCXzQ5Qt9zx0261F9G7fopi87s45YxWK4rm32xaFlbVy+J0glHudw
+   lKvtlx3dEaktJ7g29q81wGOpPzalnFReR1z+HcnAKfm9t0s17eTzMG6yb
+   NHK/M2EDyUYrt2mDXyaoqbJ/xAlpFKE5vjGUlxq1V3eNBHHFD6OgJwKxD
+   claNq4FzWTOaDH6RWuNUE6TQ0dcwu00GnjRAnW3QhpHQ+ATNaM3vGxWD7
+   zMabsYzmfXiJKkk43JNL5u0+UziOaHkUVfloujXIQkoHwjMDS7GyILLt9
+   nrMNunMQQUo6ydTNyiPB2lAxyYPKIBxVlLxB5Qx+jFUklE3iCambDG0n6
+   g==;
+X-CSE-ConnectionGUID: l13+S8nXQtmVvsgJlivXtA==
+X-CSE-MsgGUID: k/HZolncTF2/WZaDC9EgiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="69966088"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="74385846"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 14:37:41 -0800
-X-CSE-ConnectionGUID: roW9C/4CREmH+QyGLO+V9g==
-X-CSE-MsgGUID: aV2Wlu9iQdqu+hUtXGcKUg==
+   d="scan'208";a="69966088"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 15:49:04 -0800
+X-CSE-ConnectionGUID: wUDbx9xCTxOFdw/NHhsnrw==
+X-CSE-MsgGUID: qHPsHxxiRW62Yv2/rgmTRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="207709793"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Jan 2026 14:37:39 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="213070079"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 27 Jan 2026 15:49:01 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkrgn-000000001wf-3jFz;
-	Tue, 27 Jan 2026 22:37:37 +0000
-Date: Tue, 27 Jan 2026 23:37:02 +0100
+	id 1vksnq-00000000Z2S-1gon;
+	Tue, 27 Jan 2026 23:48:58 +0000
+Date: Wed, 28 Jan 2026 07:48:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v1 4/5] dt-bindings: memory: Document Tegra114 External
- Memory Controller
-Message-ID: <202601272325.JLrhA2rd-lkp@intel.com>
+Subject: [linux-next:master 1729/9906]
+ drivers/iio/adc/nxp-sar-adc.c:1014:1: sparse: sparse: bad integer constant
+ expression
+Message-ID: <202601280742.mvDCU5qE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: drivers/iio/adc/nxp-sar-adc.c:1014:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260126190755.78475-5-clamor95@gmail.com>
-References: <20260126190755.78475-5-clamor95@gmail.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Thierry Reding <thierry.reding@gmail.com>
-TO: Jonathan Hunter <jonathanh@nvidia.com>
-TO: Mikko Perttunen <mperttunen@nvidia.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: Sumit Gupta <sumitg@nvidia.com>
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-tegra@vger.kernel.org
+TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: "Alexandru-Catalin Ionita" <alexandru-catalin.ionita@nxp.com>
+CC: Ciprian Costea <ciprianmarian.costea@nxp.com>
+CC: "Radu Pirea (NXP OSS)" <radu-nicolae.pirea@oss.nxp.com>
+CC: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-Hi Svyatoslav,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on krzk-mem-ctrl/for-next]
-[also build test WARNING on tegra/for-next robh/for-next linus/master v6.19-rc7 next-20260127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-memory-Document-Tegra114-Memory-Controller/20260127-045059
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
-patch link:    https://lore.kernel.org/r/20260126190755.78475-5-clamor95%40gmail.com
-patch subject: [PATCH v1 4/5] dt-bindings: memory: Document Tegra114 External Memory Controller
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: arm64-randconfig-2052-20260127 (https://download.01.org/0day-ci/archive/20260127/202601272325.JLrhA2rd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.13.dev4+g85cec3155
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601272325.JLrhA2rd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4f938c7d3b25d87b356af4106c2682caf8c835a2
+commit: 4434072a893e4864519c167947083ff3e4cc2d95 [1729/9906] iio: adc: Add the NXP SAR ADC support for the s32g2/3 platforms
+:::::: branch date: 6 hours ago
+:::::: commit date: 5 weeks ago
+config: parisc-randconfig-r132-20260128 (https://download.01.org/0day-ci/archive/20260128/202601280742.mvDCU5qE-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280742.mvDCU5qE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601272325.JLrhA2rd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601280742.mvDCU5qE-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra124-pcie']
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /i2c@7000d000/pmic@40: failed to match any schema with compatible: ['ams,as3722']
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra132-mc']
->> arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: external-memory-controller@7001b000 (nvidia,tegra132-emc): compatible:0: 'nvidia,tegra132-emc' is not one of ['nvidia,tegra114-emc', 'nvidia,tegra124-emc']
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-emc.yaml
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: external-memory-controller@7001b000 (nvidia,tegra132-emc): compatible: ['nvidia,tegra132-emc', 'nvidia,tegra124-emc'] is too long
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-emc.yaml
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /external-memory-controller@7001b000: failed to match any schema with compatible: ['nvidia,tegra132-emc', 'nvidia,tegra124-emc']
-   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /ahub@70300000: failed to match any schema with compatible: ['nvidia,tegra124-ahub']
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/nxp-sar-adc.c:1014:1: sparse: sparse: bad integer constant expression
+   drivers/iio/adc/nxp-sar-adc.c:1014:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/iio/adc/nxp-sar-adc.c:1015:1: sparse: sparse: bad integer constant expression
+   drivers/iio/adc/nxp-sar-adc.c:1015:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/iio/adc/nxp-sar-adc.c:1016:1: sparse: sparse: bad integer constant expression
+   drivers/iio/adc/nxp-sar-adc.c:1016:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +1014 drivers/iio/adc/nxp-sar-adc.c
+
+4434072a893e48 Daniel Lezcano 2025-12-08  1013  
+4434072a893e48 Daniel Lezcano 2025-12-08 @1014  MODULE_AUTHOR("NXP");
 
 -- 
 0-DAY CI Kernel Test Service
