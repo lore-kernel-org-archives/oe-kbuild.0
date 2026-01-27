@@ -1,58 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8ED36E49A
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 19:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C172877D4
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 20:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769542797; cv=none; b=QHWLlHOyW7A8LQkt8rf0OlXSr5pCHsXcL2VE+/eL+zh6r8ZVWKpjPeheBeMg68indWjHuous9jYLnIeCXr3wRxTePc8N6hKBmcM6tKY2clqf5rrhBvX4FckpcQoT/9y/8La0YPHU5zuqSRyvA/3r7zDdENoPZ6H9yxv0za3b8vs=
+	t=1769546912; cv=none; b=t+Ve32IblGBMTe91Dnfp8ELUzkmLaAthUBwd2k3HLsMV0RSlKvbG6SYcnT6sZIxD0m5oaDPw7ozkh3veid+edmCQnsqJuVCO01d7a1OBaQj/F68R3w9FDbcHGHJGkIs6DIpJyxtx+qz8OOoRCDU04Z+Bf4I+ZEno0sBS373y9eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769542797; c=relaxed/simple;
-	bh=Qw5vuYKSGoQBQMT5uDynuPr4e7Ccce3SUMILdM5piVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zwwr0Z095Su1LADlNGgJV4fcueOYecK0zAP8vsiOZnIxZt0JHY0W1zfGyqAA0/6N/PTogSU+idgP4mS37udLbDkLc29W/O8uKpydKUL+pA0eyZAe3j9vNEAPoaPMzEOLSmdd52HXZFlvxmSH7pCE1zEMQHVhFIbAWnrf9lcFuug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnvFIZuh; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769546912; c=relaxed/simple;
+	bh=VrpG/5fjPAJmxCRHqaT/bh3KQR0TfOmqRHxxtWMxe40=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VgDTFkFAjiG7Xs/PVbsVehpiLej184RzYNsPsvyVQyRopzZu9ZQjr1WgszE5lJ8yMgEsAjAFNU9L6kIEHzjrhQZt3PY/EOzlsPWJb2raIDRViw211PbKahVHuKH6vpD09YXLmCVXvQ/iSGlmeFdlGa0xohY3YtJR/H5/LMZuJTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1yoyQ3V7; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnvFIZuh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769542795; x=1801078795;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qw5vuYKSGoQBQMT5uDynuPr4e7Ccce3SUMILdM5piVg=;
-  b=SnvFIZuhqVN0LjrL9Bj5NDntJ1zWrsm+Shsi6C/d6A1D77qjqCd/DY9z
-   jYlAaVuaTJdzt7nwYukuc/u0MYXzWtrGxPPyci8TwDXMisDw6rLNQTcWp
-   gwDhT+NLmG49pSqatPF+uX3MLmtM4GPn5vwcL1B/T6XdqjtGGJGL6LCa/
-   09DusH7l09qfhwNcb4DLVAEVyz1Teq4c+06GO4OmuDyihNnKRGc1yrKym
-   RbpxS+alGliYMDE8HntZDvXg1AU4tq8N2iF8dx642bGUd5aKfMfx605vn
-   aMqAoA5eRUz0JTXZv63ng7hnCapbhfG5MVyCZDcN3umGVcr6DbA/41Ss4
-   A==;
-X-CSE-ConnectionGUID: ShsMDBg1Tu6CEuo6z2OQEg==
-X-CSE-MsgGUID: s8UI1lKSRpeg+yl1sh4jYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="81856554"
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="81856554"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 11:39:54 -0800
-X-CSE-ConnectionGUID: QGwhhmzfSWW0vP6E6Zz7zQ==
-X-CSE-MsgGUID: 6Tru3zikTBSGYDEcgJYQ0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="208124552"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Jan 2026 11:39:53 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vkouk-00000000YtY-0QxU;
-	Tue, 27 Jan 2026 19:39:50 +0000
-Date: Wed, 28 Jan 2026 03:39:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 2/2] i2c: ls2x-v2: Add driver for Loongson-2K0300 I2C
- controller
-Message-ID: <202601280349.MOBaEOgK-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1yoyQ3V7"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a76b39587aso3115ad.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 12:48:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769546911; x=1770151711; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxQ/jJ5+RCHFOsLeGzry/OBxfQLFoCbuarfI17mm5NU=;
+        b=1yoyQ3V7pT2sdsa/54REeUPrK8k7VfAXZyfb86bAJV1x1K03j9f2Wc7a4a/2Kk2oe9
+         NI7l+36Fcmg8TUJJmmX1P7uSZj8t/M/LJF1L0Z7aBBtQ83NOYJh/phe7w7kRc0FDuqvU
+         tL12QOwIcVN1xxmIt28179NbgKEiQV8nvWXpofog6wJubuhvL9iajVRM9TBd4Ta+R1Wx
+         42gAmkLdtAUBu1ZxNagbADy5Jf4P0Qm4HKutyrhAY29gV+buIN94tqo4lXmXj6lqePcA
+         Un7Lfw93/39ex9FwhC7uadrGWjE6BcW/BRbqdxE2mjz8aLHWNvnSfDZCizZir8lvF0v6
+         bQWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769546911; x=1770151711;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZxQ/jJ5+RCHFOsLeGzry/OBxfQLFoCbuarfI17mm5NU=;
+        b=cDSKDpEhu0RCzisPMy36cEWc4pmbpzyQdZ84y6PvehGoHLTSLpx17YZViRHG/9iSKA
+         wct01fu5+FH5WBOB8/iQI6kIADBNWZ+es3IkVpYkjKb/WhlStVecow4XNTdCOE9yj/WZ
+         VQPMOcVO24O6tihndC8ZtSF9k8aXlcMquNJ3XsSsKrRAJi2OQVtfXVBG7QCcHKmElodQ
+         2e4vF/0VKpaUr2nH7NX9FLSssVI1+zC4+awmzrJQDGktCkJ/1Zjo++I2jlSjMK9t5Umr
+         wHRllsV2vdcxQMCaUlSM2HGgLsXOjAT5MHzIDXdbhDcC2NfVNxGvOYSI7EoDzO0Sx9SF
+         72yg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQeXOUW9Trccsmt0OcqAdX7keZ2X5Fb6Qkz3AQu86RnTxbKe/0Q5zhoxh0QCSEcLhITrRw0T+XPrw=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywg5g7EOY5wT8fXVgK0LDliwUfZG6AkXK1+tw+Zb8Y8s6xmwKO5
+	F2CqpslNvAih8rSfntvUOSpyBT+IbEDB1HFAlkGvN8v0b2FXe786ZgfBgfLY9TwLhw==
+X-Gm-Gg: AZuq6aJsp6913lZ5Q771O0c0j7qLEuZsD9iWp4keMfgfc8RDCUFoaU3VlPwNhS7vgJl
+	1Ao4F/J0IYRqOt5AsaDGG66pKR1Ir4B3iJ7CrmayoA/5B9vSQbgM0FzV0um5+iqEVkX9356LBH/
+	Qa6s90bMmPF5GR9ZYmrV4zykYR12rKgAfMOwNDsHsyckrJqoW4TJOBk0i/BqJ6yCZG/KGftGopa
+	f+xWZo4Wq7tGWMcjjL5KKNhOqdy1Wnx2aLd/YiXdrguqMmJj5uK7V19mpjWs/O0PrDwsa4Nv5jB
+	3nliGQTt568gdSw6cKFp2GoLMOKKWcFMWMqVgy0tguGmdDBCWoVmiyQl9/Zun3jX4BwSfG79rHM
+	JhH//CjQuBQfTlNTIJNnMFTEE6jFDFz22+/zCIlXcv5fCjtFouzMPK/zL78UPI1j9+omwjQeg4C
+	MaZQIRSrQWj4G1R5i2CsTy0YhoMGj/O+LxCoOHk5Cdp5PeJ/rxecE=
+X-Received: by 2002:a17:902:fc4c:b0:2a7:516d:18e2 with SMTP id d9443c01a7336-2a8708e53c0mr3360475ad.9.1769546910204;
+        Tue, 27 Jan 2026 12:48:30 -0800 (PST)
+Received: from google.com (28.117.125.34.bc.googleusercontent.com. [34.125.117.28])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b4c3e04sm2043315ad.46.2026.01.27.12.48.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jan 2026 12:48:29 -0800 (PST)
+Date: Tue, 27 Jan 2026 20:48:25 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	oe-kbuild@lists.linux.dev, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Matt Gilbride <mattgilbride@google.com>
+Subject: Re: drivers/android/binder/rust_binderfs.c:134
+ binderfs_binder_device_create() error: Calling ida_alloc_max() with a 'max'
+ argument which is a power of 2. -1 missing?
+Message-ID: <aXkkmSB06Blnk3kf@google.com>
+References: <202512181203.IOv6IChH-lkp@intel.com>
+ <aUO3ES90gStGvjxn@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,63 +80,47 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <aUO3ES90gStGvjxn@google.com>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/i2c/busses/i2c-ls2x-v2.c:543:1: sparse: sparse: bad integer constant expression"
-:::::: 
+On Thu, Dec 18, 2025 at 08:10:57AM +0000, Alice Ryhl wrote:
+> On Thu, Dec 18, 2025 at 10:17:52AM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
+> > commit: eafedbc7c050c44744fbdf80bdf3315e860b7513 rust_binder: add Rust Binder driver
+> > config: loongarch-randconfig-r071-20251218 (https://download.01.org/0day-ci/archive/20251218/202512181203.IOv6IChH-lkp@intel.com/config)
+> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+> > rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202512181203.IOv6IChH-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/android/binder/rust_binderfs.c:134 binderfs_binder_device_create() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
+> > drivers/android/binder/rust_binderfs.c:418 binderfs_binder_ctl_create() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
+> > 
+> > vim +/max +134 drivers/android/binder/rust_binderfs.c
+> > 
+> > eafedbc7c050c4 Alice Ryhl 2025-09-19  130  
+> > eafedbc7c050c4 Alice Ryhl 2025-09-19  131  	/* Reserve new minor number for the new device. */
+> > eafedbc7c050c4 Alice Ryhl 2025-09-19  132  	mutex_lock(&binderfs_minors_mutex);
+> > eafedbc7c050c4 Alice Ryhl 2025-09-19  133  	if (++info->device_count <= info->mount_opts.max)
+> > eafedbc7c050c4 Alice Ryhl 2025-09-19 @134  		minor = ida_alloc_max(&binderfs_minors,
+> > eafedbc7c050c4 Alice Ryhl 2025-09-19  135  				      use_reserve ? BINDERFS_MAX_MINOR :
+> > eafedbc7c050c4 Alice Ryhl 2025-09-19  136  						    BINDERFS_MAX_MINOR_CAPPED,
+> > 
+> > ida_alloc_max() takes the maximum valid id not the count.  These should
+> > be BINDERFS_MAX_MINOR - 1, BINDERFS_MAX_MINOR_CAPPED - 1.
+> 
+> Hmm, this is reported for rust_binderfs.c, but looks like binderfs.c has
+> the same code. That means the bug has been there for a long time.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <402121da829497fc97f1461c8aaa3a44252c3f06.1769476820.git.zhoubinbin@loongson.cn>
-References: <402121da829497fc97f1461c8aaa3a44252c3f06.1769476820.git.zhoubinbin@loongson.cn>
-TO: Binbin Zhou <zhoubinbin@loongson.cn>
-TO: Binbin Zhou <zhoubb.aaron@gmail.com>
-TO: Huacai Chen <chenhuacai@loongson.cn>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Andi Shyti <andi.shyti@kernel.org>
-TO: Wolfram Sang <wsa-dev@sang-engineering.com>
-TO: Andy Shevchenko <andy@kernel.org>
-TO: linux-i2c@vger.kernel.org
-CC: Xuerui Wang <kernel@xen0n.name>
-CC: loongarch@lists.linux.dev
-CC: devicetree@vger.kernel.org
+Yeah, this issue is also in C. Although it seems far fetch to reach that
+number of binder devices (1 << 20). This still needs to be fixed though
+as (1 << 20) overflows the max value for minor and I don't know what
+happens then. I'll send out a patch.
 
-Hi Binbin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 880977fdc7f67923d1904ee23ca75fa1e375ea46]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/dt-bindings-i2c-loongson-ls2x-Add-ls2k0300-i2c-compatible/20260127-105242
-base:   880977fdc7f67923d1904ee23ca75fa1e375ea46
-patch link:    https://lore.kernel.org/r/402121da829497fc97f1461c8aaa3a44252c3f06.1769476820.git.zhoubinbin%40loongson.cn
-patch subject: [PATCH v2 2/2] i2c: ls2x-v2: Add driver for Loongson-2K0300 I2C controller
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: sparc-randconfig-r134-20260127 (https://download.01.org/0day-ci/archive/20260128/202601280349.MOBaEOgK-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280349.MOBaEOgK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601280349.MOBaEOgK-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/i2c/busses/i2c-ls2x-v2.c:543:1: sparse: sparse: bad integer constant expression
-   drivers/i2c/busses/i2c-ls2x-v2.c:543:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/i2c/busses/i2c-ls2x-v2.c:544:1: sparse: sparse: bad integer constant expression
-   drivers/i2c/busses/i2c-ls2x-v2.c:544:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/i2c/busses/i2c-ls2x-v2.c:545:1: sparse: sparse: bad integer constant expression
-   drivers/i2c/busses/i2c-ls2x-v2.c:545:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-
-vim +543 drivers/i2c/busses/i2c-ls2x-v2.c
-
-25d8aefc85eb4d Binbin Zhou 2026-01-27  542  
-25d8aefc85eb4d Binbin Zhou 2026-01-27 @543  MODULE_DESCRIPTION("Loongson-2K0300 I2C bus driver");
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Carlos Llamas
