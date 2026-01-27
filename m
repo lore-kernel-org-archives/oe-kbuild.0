@@ -1,77 +1,58 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C172877D4
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 20:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7FB26C3B0
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 22:37:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769546912; cv=none; b=t+Ve32IblGBMTe91Dnfp8ELUzkmLaAthUBwd2k3HLsMV0RSlKvbG6SYcnT6sZIxD0m5oaDPw7ozkh3veid+edmCQnsqJuVCO01d7a1OBaQj/F68R3w9FDbcHGHJGkIs6DIpJyxtx+qz8OOoRCDU04Z+Bf4I+ZEno0sBS373y9eU=
+	t=1769553462; cv=none; b=G/cYbQv4LRK6bdMwhEB7xL64LKWplKXXP4r2nTId5SFCdCL/RdB6a7wso01TKacVLrcHPSBQQ+RAl2gHXiTQ7ol+ymVho0kQiSfsYmk7NUBf3R3/RhiJAdYuaH6Os3tEov1GCEXBVLntYX9NL1VV9YM7j1UdRAyZoEOxBppeVig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769546912; c=relaxed/simple;
-	bh=VrpG/5fjPAJmxCRHqaT/bh3KQR0TfOmqRHxxtWMxe40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VgDTFkFAjiG7Xs/PVbsVehpiLej184RzYNsPsvyVQyRopzZu9ZQjr1WgszE5lJ8yMgEsAjAFNU9L6kIEHzjrhQZt3PY/EOzlsPWJb2raIDRViw211PbKahVHuKH6vpD09YXLmCVXvQ/iSGlmeFdlGa0xohY3YtJR/H5/LMZuJTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1yoyQ3V7; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1769553462; c=relaxed/simple;
+	bh=VOnBrkEgGhRfL5QvgMXSI6E+IzvhIEh/XDBzIkL8qC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tOaCzYdVH3Je8ZTxhA7U63oZYTXDBV8R8r/ATdpUiuoO2GvENyLm8PBU01b7I1EGbQkmqGlzcxrDUzwZS8bv7YClOTSX/kbAxkFqm1iiyTnsHcv9+6dlzbczwuTehD24Awn+QNtMFyN9ee/4anr01bTsvXxTreW4OOmOoJOzafM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GfcRYPIz; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1yoyQ3V7"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a76b39587aso3115ad.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 27 Jan 2026 12:48:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769546911; x=1770151711; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZxQ/jJ5+RCHFOsLeGzry/OBxfQLFoCbuarfI17mm5NU=;
-        b=1yoyQ3V7pT2sdsa/54REeUPrK8k7VfAXZyfb86bAJV1x1K03j9f2Wc7a4a/2Kk2oe9
-         NI7l+36Fcmg8TUJJmmX1P7uSZj8t/M/LJF1L0Z7aBBtQ83NOYJh/phe7w7kRc0FDuqvU
-         tL12QOwIcVN1xxmIt28179NbgKEiQV8nvWXpofog6wJubuhvL9iajVRM9TBd4Ta+R1Wx
-         42gAmkLdtAUBu1ZxNagbADy5Jf4P0Qm4HKutyrhAY29gV+buIN94tqo4lXmXj6lqePcA
-         Un7Lfw93/39ex9FwhC7uadrGWjE6BcW/BRbqdxE2mjz8aLHWNvnSfDZCizZir8lvF0v6
-         bQWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769546911; x=1770151711;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZxQ/jJ5+RCHFOsLeGzry/OBxfQLFoCbuarfI17mm5NU=;
-        b=cDSKDpEhu0RCzisPMy36cEWc4pmbpzyQdZ84y6PvehGoHLTSLpx17YZViRHG/9iSKA
-         wct01fu5+FH5WBOB8/iQI6kIADBNWZ+es3IkVpYkjKb/WhlStVecow4XNTdCOE9yj/WZ
-         VQPMOcVO24O6tihndC8ZtSF9k8aXlcMquNJ3XsSsKrRAJi2OQVtfXVBG7QCcHKmElodQ
-         2e4vF/0VKpaUr2nH7NX9FLSssVI1+zC4+awmzrJQDGktCkJ/1Zjo++I2jlSjMK9t5Umr
-         wHRllsV2vdcxQMCaUlSM2HGgLsXOjAT5MHzIDXdbhDcC2NfVNxGvOYSI7EoDzO0Sx9SF
-         72yg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQeXOUW9Trccsmt0OcqAdX7keZ2X5Fb6Qkz3AQu86RnTxbKe/0Q5zhoxh0QCSEcLhITrRw0T+XPrw=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywg5g7EOY5wT8fXVgK0LDliwUfZG6AkXK1+tw+Zb8Y8s6xmwKO5
-	F2CqpslNvAih8rSfntvUOSpyBT+IbEDB1HFAlkGvN8v0b2FXe786ZgfBgfLY9TwLhw==
-X-Gm-Gg: AZuq6aJsp6913lZ5Q771O0c0j7qLEuZsD9iWp4keMfgfc8RDCUFoaU3VlPwNhS7vgJl
-	1Ao4F/J0IYRqOt5AsaDGG66pKR1Ir4B3iJ7CrmayoA/5B9vSQbgM0FzV0um5+iqEVkX9356LBH/
-	Qa6s90bMmPF5GR9ZYmrV4zykYR12rKgAfMOwNDsHsyckrJqoW4TJOBk0i/BqJ6yCZG/KGftGopa
-	f+xWZo4Wq7tGWMcjjL5KKNhOqdy1Wnx2aLd/YiXdrguqMmJj5uK7V19mpjWs/O0PrDwsa4Nv5jB
-	3nliGQTt568gdSw6cKFp2GoLMOKKWcFMWMqVgy0tguGmdDBCWoVmiyQl9/Zun3jX4BwSfG79rHM
-	JhH//CjQuBQfTlNTIJNnMFTEE6jFDFz22+/zCIlXcv5fCjtFouzMPK/zL78UPI1j9+omwjQeg4C
-	MaZQIRSrQWj4G1R5i2CsTy0YhoMGj/O+LxCoOHk5Cdp5PeJ/rxecE=
-X-Received: by 2002:a17:902:fc4c:b0:2a7:516d:18e2 with SMTP id d9443c01a7336-2a8708e53c0mr3360475ad.9.1769546910204;
-        Tue, 27 Jan 2026 12:48:30 -0800 (PST)
-Received: from google.com (28.117.125.34.bc.googleusercontent.com. [34.125.117.28])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b4c3e04sm2043315ad.46.2026.01.27.12.48.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 12:48:29 -0800 (PST)
-Date: Tue, 27 Jan 2026 20:48:25 +0000
-From: Carlos Llamas <cmllamas@google.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Matt Gilbride <mattgilbride@google.com>
-Subject: Re: drivers/android/binder/rust_binderfs.c:134
- binderfs_binder_device_create() error: Calling ida_alloc_max() with a 'max'
- argument which is a power of 2. -1 missing?
-Message-ID: <aXkkmSB06Blnk3kf@google.com>
-References: <202512181203.IOv6IChH-lkp@intel.com>
- <aUO3ES90gStGvjxn@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GfcRYPIz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769553462; x=1801089462;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VOnBrkEgGhRfL5QvgMXSI6E+IzvhIEh/XDBzIkL8qC0=;
+  b=GfcRYPIzWuRMDm1p6nwy2GoPGPmnT8SzAnZj5U2XcRrzE4zoNxA8jhEK
+   QlnB1IQ6vy8H7RW0Ynwcm6ouNMllpwZGu8HRTUaWIttqt+yC5XpV51eiG
+   AtqSADlRFIStr/KWX7VemxiCvFvuvWlp1IKxJdA6FLgLRG3vDCZs+CThS
+   YKAjcS+uKywe9ZWxaYHqZ1yJA1LF9m/fbSEUvN6Fa68xhOIN56PoEGNPJ
+   PmMN/AndkaJZ9fNo4/HSM1G3tmmZ7xIPU3kAv0QqoksPofz0elHVvMLZu
+   oDSMhDlVYzsK66vpb2AQzd4A2ZhS+iOgo26bYafc9h1F48mrvIrqa9Eyu
+   Q==;
+X-CSE-ConnectionGUID: awZCPHC9QSGuLG/DTHricQ==
+X-CSE-MsgGUID: JMDbpVdvQsOzTUgu/yzRTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="74385846"
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
+   d="scan'208";a="74385846"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 14:37:41 -0800
+X-CSE-ConnectionGUID: roW9C/4CREmH+QyGLO+V9g==
+X-CSE-MsgGUID: aV2Wlu9iQdqu+hUtXGcKUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
+   d="scan'208";a="207709793"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 27 Jan 2026 14:37:39 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vkrgn-000000001wf-3jFz;
+	Tue, 27 Jan 2026 22:37:37 +0000
+Date: Tue, 27 Jan 2026 23:37:02 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v1 4/5] dt-bindings: memory: Document Tegra114 External
+ Memory Controller
+Message-ID: <202601272325.JLrhA2rd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,47 +61,66 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aUO3ES90gStGvjxn@google.com>
 
-On Thu, Dec 18, 2025 at 08:10:57AM +0000, Alice Ryhl wrote:
-> On Thu, Dec 18, 2025 at 10:17:52AM +0300, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-> > commit: eafedbc7c050c44744fbdf80bdf3315e860b7513 rust_binder: add Rust Binder driver
-> > config: loongarch-randconfig-r071-20251218 (https://download.01.org/0day-ci/archive/20251218/202512181203.IOv6IChH-lkp@intel.com/config)
-> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-> > rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202512181203.IOv6IChH-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/android/binder/rust_binderfs.c:134 binderfs_binder_device_create() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
-> > drivers/android/binder/rust_binderfs.c:418 binderfs_binder_ctl_create() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
-> > 
-> > vim +/max +134 drivers/android/binder/rust_binderfs.c
-> > 
-> > eafedbc7c050c4 Alice Ryhl 2025-09-19  130  
-> > eafedbc7c050c4 Alice Ryhl 2025-09-19  131  	/* Reserve new minor number for the new device. */
-> > eafedbc7c050c4 Alice Ryhl 2025-09-19  132  	mutex_lock(&binderfs_minors_mutex);
-> > eafedbc7c050c4 Alice Ryhl 2025-09-19  133  	if (++info->device_count <= info->mount_opts.max)
-> > eafedbc7c050c4 Alice Ryhl 2025-09-19 @134  		minor = ida_alloc_max(&binderfs_minors,
-> > eafedbc7c050c4 Alice Ryhl 2025-09-19  135  				      use_reserve ? BINDERFS_MAX_MINOR :
-> > eafedbc7c050c4 Alice Ryhl 2025-09-19  136  						    BINDERFS_MAX_MINOR_CAPPED,
-> > 
-> > ida_alloc_max() takes the maximum valid id not the count.  These should
-> > be BINDERFS_MAX_MINOR - 1, BINDERFS_MAX_MINOR_CAPPED - 1.
-> 
-> Hmm, this is reported for rust_binderfs.c, but looks like binderfs.c has
-> the same code. That means the bug has been there for a long time.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Yeah, this issue is also in C. Although it seems far fetch to reach that
-number of binder devices (1 << 20). This still needs to be fixed though
-as (1 << 20) overflows the max value for minor and I don't know what
-happens then. I'll send out a patch.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260126190755.78475-5-clamor95@gmail.com>
+References: <20260126190755.78475-5-clamor95@gmail.com>
+TO: Svyatoslav Ryhel <clamor95@gmail.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: Jonathan Hunter <jonathanh@nvidia.com>
+TO: Mikko Perttunen <mperttunen@nvidia.com>
+TO: Svyatoslav Ryhel <clamor95@gmail.com>
+TO: Sumit Gupta <sumitg@nvidia.com>
+TO: Dmitry Osipenko <digetx@gmail.com>
+CC: linux-kernel@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-tegra@vger.kernel.org
 
---
-Carlos Llamas
+Hi Svyatoslav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on krzk-mem-ctrl/for-next]
+[also build test WARNING on tegra/for-next robh/for-next linus/master v6.19-rc7 next-20260127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-memory-Document-Tegra114-Memory-Controller/20260127-045059
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
+patch link:    https://lore.kernel.org/r/20260126190755.78475-5-clamor95%40gmail.com
+patch subject: [PATCH v1 4/5] dt-bindings: memory: Document Tegra114 External Memory Controller
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: arm64-randconfig-2052-20260127 (https://download.01.org/0day-ci/archive/20260127/202601272325.JLrhA2rd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.13.dev4+g85cec3155
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601272325.JLrhA2rd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601272325.JLrhA2rd-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra124-pcie']
+   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /i2c@7000d000/pmic@40: failed to match any schema with compatible: ['ams,as3722']
+   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra132-mc']
+>> arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: external-memory-controller@7001b000 (nvidia,tegra132-emc): compatible:0: 'nvidia,tegra132-emc' is not one of ['nvidia,tegra114-emc', 'nvidia,tegra124-emc']
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-emc.yaml
+   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: external-memory-controller@7001b000 (nvidia,tegra132-emc): compatible: ['nvidia,tegra132-emc', 'nvidia,tegra124-emc'] is too long
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-emc.yaml
+   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /external-memory-controller@7001b000: failed to match any schema with compatible: ['nvidia,tegra132-emc', 'nvidia,tegra124-emc']
+   arch/arm64/boot/dts/nvidia/tegra132-norrin.dtb: /ahub@70300000: failed to match any schema with compatible: ['nvidia,tegra124-ahub']
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
