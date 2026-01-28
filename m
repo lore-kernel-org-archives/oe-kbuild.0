@@ -1,125 +1,120 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CE32AF1B
-	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 01:13:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512BA2AF1B
+	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 01:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769562786; cv=none; b=fMfJicvf6iVX9a3Couh1x2qYOWpbdgLgQk1NEoKkgOzE66oqrQUx4CWMTQRJuBMLycJ/ae0UzeTWAUJIbpwaVSUNC4gvp7oLzTUmeWgfxqcCFq/HOlUK2u1NbTqzH3AFd4QrdHbbdwCEQY8O1YfyvUAze4dnkOpgKQhiTNz4mn4=
+	t=1769563124; cv=none; b=Uj3AYar4wQB+o5Nm05zyTNvhb0y4YLxuNLXgtQLUn92qI6ePGB8x4reyacxkp4eIU99iHC/OGqKGtGEedPxkULFkaDHuv1IDgN7WATzewNHfwRlG2ZDhMjAHWOctHGga94D/jR0QlT8ZdtfvHDwlhK+9ndJp4J6ngMOypvdI1QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769562786; c=relaxed/simple;
-	bh=WLZj3UdyHv6LgSlcl4wOC5xSVV99Hu32884onta6Hgw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ifa4msdOeLy3njmKRHQ+gkXVDMuxyVwGzhzAc2eSH4Gk/nkbt5F6QBN5Xrp2cBkuWts0rnIPcUs2z0m2nXA8slA1LbauT/L3CIKMqd91Jv0Pz6SEYxb2egVXGiwM6gs+ANhU+TfxwAnYqg/MARv7AjhDqYjFYFvSHp52cWckjLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDIUraib; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769563124; c=relaxed/simple;
+	bh=WlUpecIIEPg31DzqtWEKzFLoeDv0H9/dqrcITxxB35k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QdoZdxbTeulqbD9dROkTK/CrdpbwA+Iyr+52j/QrVHMhDPul8YtRzXx/2FwlEEsW4V80ZJzwjqJITEiIbxbCD1UA3AKvRktd3welaRtrqwxEPw26MRcRGvbZQLEiC3oAi+32yXNTMxdCAvkqtiISHiGLuoX3QFQ0TzTPHy3e85A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YDi28IPB; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDIUraib"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YDi28IPB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769562785; x=1801098785;
-  h=date:from:to:cc:subject:message-id;
-  bh=WLZj3UdyHv6LgSlcl4wOC5xSVV99Hu32884onta6Hgw=;
-  b=CDIUraibWJIyeTVN0/JjVN6i3EsfDIo4Jh5CsgCR84zrX4psjqHZbSKF
-   6EmKsE5IUAOz3p+CWUyDyeljWNV2jC+llhh62C4PqSAgQ1jf6qBTZFlkQ
-   eFApTGFx4RXjyWwW22HjnOnT4X8XkezixeaaRGV4RfRTtJ0zO64VKJv2p
-   xVkUd3C8N+PWVCBZH22g4V5UhFm9jgFI69rXlVfGVKStNYRXK1KrNyB5I
-   J8YxNS2IAvVaIJopivL7rsM1AT2BwVLi4oVTDBQ8+7Y39CEqj+Md0MySt
-   /jaNnBWOjUKnshDlO7PbZQsiCKiJC2WY2LMEnqgRELQ6TFLzW/QJQdo/P
-   A==;
-X-CSE-ConnectionGUID: 0m2TMZAQRgqh911m4QWHow==
-X-CSE-MsgGUID: LT12yyqlRWCtN6Dzp9cj5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70671905"
+  t=1769563122; x=1801099122;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WlUpecIIEPg31DzqtWEKzFLoeDv0H9/dqrcITxxB35k=;
+  b=YDi28IPBgjRCOTHeeQfx2m7IAKjMD5Pq7HbubXFhWNlPa39IweylcnSN
+   Akiq6wFI5uG4FhRWsGorpwoIrIUL6+x8gldBJaRpLgP8GFOYKtnpSE7lp
+   dxbaO1ugaD2oYkofoXbpewAS1zzgjDO4DOmJFYSKqjmVXEXaIWOrDE3Nd
+   a3hW54+GbCF+G2vrlRsBA1DTZ9FtiF5SAr1KZHThaIHs+jQy4MPOk87sX
+   YTim/oYRfRf3EdIFr2t22pDWGUqzAFN3mm9uPw1Z30M7zSKr8R62YEM0y
+   xdEMdvAm7AHQbkJVn2K4G4C7QLeyRT+Izk9O0KvJ5UFBztdmV757lQpJM
+   g==;
+X-CSE-ConnectionGUID: d96e+7DYRLi5yHg6XOIDMw==
+X-CSE-MsgGUID: 4Sld/+vgRmWL81AMLsOhyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70672405"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="70671905"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 17:13:04 -0800
-X-CSE-ConnectionGUID: Q3FKYHBoTxCZyZ75JbkYeQ==
-X-CSE-MsgGUID: kcvvVhgHT0uUlNhjvqaG7Q==
+   d="scan'208";a="70672405"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 17:18:41 -0800
+X-CSE-ConnectionGUID: 5D/pL+0qRcOnNBoR/he7YQ==
+X-CSE-MsgGUID: Zm754t56TF2Nb/jLzpxm3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="208580669"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Jan 2026 17:13:02 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="212986978"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jan 2026 17:18:41 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vku7A-00000000Z5I-2WpS;
-	Wed, 28 Jan 2026 01:13:00 +0000
-Date: Wed, 28 Jan 2026 09:12:31 +0800
+	id 1vkuCc-000000001xl-3LNw;
+	Wed, 28 Jan 2026 01:18:38 +0000
+Date: Wed, 28 Jan 2026 02:17:59 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [samba-ksmbd:ksmbd-for-next-next 2/2]
- fs/smb/server/connection.c:45 proc_show_clients() warn: '%pI4' can only be
- followed by one of [hnbl], not 'c'
-Message-ID: <202601280928.v9b8CZWg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3] dt-bindings: pinctrl: qcom,sm8450-lpass-lpi-pinctrl:
+ Add SA8775P and QCS8300 pinctrl
+Message-ID: <202601280223.phpgEd6Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Bahubali B Gumaji <bahubali.bg@samsung.com>
-CC: Namjae Jeon <linkinjeon@kernel.org>
-CC: Hyunchul Lee <hyc.lee@gmail.com>
-CC: "Sang-Soo Lee" <constant.lee@samsung.com>
+In-Reply-To: <20260127105511.3917491-1-mohammad.rafi.shaik@oss.qualcomm.com>
+References: <20260127105511.3917491-1-mohammad.rafi.shaik@oss.qualcomm.com>
+TO: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Linus Walleij <linusw@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Srinivas Kandagatla <srini@kernel.org>
+CC: linux-arm-msm@vger.kernel.org
+CC: linux-gpio@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-head:   71e7b7a9f9433c5c340eeb8cfaa12a72e2369f73
-commit: 71e7b7a9f9433c5c340eeb8cfaa12a72e2369f73 [2/2] ksmbd: add procfs interface for runtime monitoring and statistics
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: x86_64-randconfig-161-20260128 (https://download.01.org/0day-ci/archive/20260128/202601280928.v9b8CZWg-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
+Hi Mohammad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next robh/for-next linus/master v6.16-rc1 next-20260127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mohammad-Rafi-Shaik/dt-bindings-pinctrl-qcom-sm8450-lpass-lpi-pinctrl-Add-SA8775P-and-QCS8300-pinctrl/20260127-185807
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20260127105511.3917491-1-mohammad.rafi.shaik%40oss.qualcomm.com
+patch subject: [PATCH v3] dt-bindings: pinctrl: qcom,sm8450-lpass-lpi-pinctrl: Add SA8775P and QCS8300 pinctrl
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: openrisc-randconfig-2051-20260127 (https://download.01.org/0day-ci/archive/20260128/202601280223.phpgEd6Y-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.13.dev4+g85cec3155
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280223.phpgEd6Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601280928.v9b8CZWg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601280223.phpgEd6Y-lkp@intel.com/
 
-smatch warnings:
-fs/smb/server/connection.c:45 proc_show_clients() warn: '%pI4' can only be followed by one of [hnbl], not 'c'
-fs/smb/server/mgmt/user_session.c:97 show_proc_session() warn: '%pI4' can only be followed by one of [hnbl], not 'c'
-fs/smb/server/mgmt/user_session.c:213 show_proc_sessions() warn: '%pI4' can only be followed by one of [hnbl], not 'c'
-
-vim +45 fs/smb/server/connection.c
-
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  28  
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  29  static int proc_show_clients(struct seq_file *m, void *v)
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  30  {
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  31  	struct ksmbd_conn *conn;
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  32  	struct timespec64 now, t;
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  33  	int i;
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  34  
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  35  	seq_printf(m, "#%-20s %-10s %-10s %-10s %-10s %-10s\n",
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  36  			"<name>", "<dialect>", "<credits>", "<open files>",
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  37  			"<requests>", "<last active>");
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  38  
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  39  	down_read(&conn_list_lock);
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  40  	hash_for_each(conn_list, i, conn, hlist) {
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  41  		jiffies_to_timespec64(jiffies - conn->last_active, &t);
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  42  		ktime_get_real_ts64(&now);
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  43  		t = timespec64_sub(now, t);
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  44  		if (conn->inet_addr)
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27 @45  			seq_printf(m, "%-20pI4c", &conn->inet_addr);
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  46  		else
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  47  			seq_printf(m, "%-20pI6c", &conn->inet6_addr);
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  48  		seq_printf(m, "   0x%-10x %-10u %-12d %-10d %ptT\n",
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  49  			   conn->dialect,
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  50  			   conn->total_credits,
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  51  			   atomic_read(&conn->stats.open_files_count),
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  52  			   atomic_read(&conn->req_running),
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  53  			   &t);
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  54  	}
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  55  	up_read(&conn_list_lock);
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  56  	return 0;
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  57  }
-71e7b7a9f9433c Bahubali B Gumaji 2026-01-27  58  
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/pinctrl/qcom,sm8450-lpass-lpi-pinctrl.yaml: properties:compatible:oneOf:1: {'items': [{'enum': ['qcom,qcs8300-lpass-lpi-pinctrl', 'qcom,sa8775p-lpass-lpi-pinctrl']}, {'const': 'qcom,sm8450-lpass-lpi-pinctrl'}], 'minItems': 1, 'maxItems': 2} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/pinctrl/qcom,sm8450-lpass-lpi-pinctrl.yaml: properties:compatible:oneOf:1: {'items': [{'enum': ['qcom,qcs8300-lpass-lpi-pinctrl', 'qcom,sa8775p-lpass-lpi-pinctrl']}, {'const': 'qcom,sm8450-lpass-lpi-pinctrl'}], 'minItems': 1, 'maxItems': 2} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
 
 -- 
 0-DAY CI Kernel Test Service
