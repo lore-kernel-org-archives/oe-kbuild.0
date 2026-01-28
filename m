@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54370288CA3
-	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 13:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9475D36BCCF
+	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 15:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769606869; cv=none; b=rdstekMRKAzzo2FjDRE3P9UP19ps4Znt2BEndXtgiWLEE5efP5TaPKite6dey7JMFkHHkvFb2TC+Yuwer7FoTBXPgsyyEGAIvb3V29afVg43ZVsX2G7vYapg2EPlorWHBt9TYIiZF21YnOZYFc2I+b0cZ52OiaYqidelq2RUbqM=
+	t=1769613656; cv=none; b=JA8FRANC4VPkLxKMYBqYnlwCLtrSLW42lLAnyCbdT6L/ebpxYEC3lain26KASLAbAUFrn7gXFeJvTZUazFS7XiARV9KqwhJxOGUANoGQh9cAhuxPcGShHmv1IVbvp1x5bqSBDkwhh/C900vk7J9POiEyRg3OfI/EijlJWfj1aSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769606869; c=relaxed/simple;
-	bh=xFnKyT7YwJIP5udFuH3Aia8K1b9mvU5AGh+EbNt7I88=;
-	h=Date:From:To:Subject:Message-ID; b=ADwWFCtoWTNPTxWyDUeaKdodp+LlT0ODGbn9jhgs9bHPBOyr2o1ZBW/oss4ldqupXd0Q5vZeCBlIUujQPlrQ027I8Oozj4jk9D9CJdutSEkN9VDWDb1r95I0LJEgJkLb30T/3MfkCjXF9bKCoVwGCMxLOrZ/sQWiqEncvQttjEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C/tGAkZS; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1769613656; c=relaxed/simple;
+	bh=Wwrky0yeC8Wm9yGxZiMby7BlS0/7gAMMh/4lcRNg0po=;
+	h=Date:From:To:Subject:Message-ID; b=CelrOqcYxila0lAdVNi9rMCJ1l/P9GZ9n8Vsis7JVsx+EOJ6HdjO9+U972y8HDxwW0SZ8UCqPKA7Oa5mP8VRvSt8kDD6SI3ItsZfVtMYanLb5sWudDMUVbU+crI9N36BIXEQiuWIF6vvP8Jk0ULggPnYBYfRYR42tnOZpT+ouCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMCPuEcz; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/tGAkZS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMCPuEcz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769606868; x=1801142868;
+  t=1769613652; x=1801149652;
   h=date:from:to:subject:message-id;
-  bh=xFnKyT7YwJIP5udFuH3Aia8K1b9mvU5AGh+EbNt7I88=;
-  b=C/tGAkZSl9jQcIRsW38rNMdLwmHTylXUAhYXgsx8QBiwi2odlB/vrgMy
-   5jpzaRbkmQxyChDLIb9XRbvDuaisDV5+mTRud1bmUNK8mcAm4ItRCD0Mk
-   aJOsq9jOySwS9jtHaxwIaXhU8vD+nSu9jo4eMytnuZ8bMQ1ThLPfZ7gnB
-   A5FsbIdIVFakD7oFqc4360wc/PrmbASJG8eMo/CTNoMn8pbU96bgYWxlj
-   /XEF/S3Lzw3V79FMyYoO8W8p8Pch1NyPHGOugkgUTF5QAhic32yPyXWRJ
-   C77U89NNhCf3H3vX5MDWWueroCsN8oNVSRX8GjB0jH0scIViR9MLWDWr3
+  bh=Wwrky0yeC8Wm9yGxZiMby7BlS0/7gAMMh/4lcRNg0po=;
+  b=nMCPuEcz7GmozoIBaZ3zk78hNUayYfSQ1517dLAl96ITCXcYmkFupvaF
+   9r29bYwwnTKgdBkrznhYSFnlX4nH/csFDZu7Vnx2cRJaks38yEBvoAsNI
+   k/JjZZmh9nA+xyLbGIO8/mCwtzz2pSlFtDEiOc5G5fEr+wjyIadytgeik
+   MqCjtsfwVKx+i1grGn4BrcE9134idTTi9UqECcYjz06cMjJ3p0s0PwhcP
+   3ttUHDQnXKKLN3+5UlDB7xo1liIwZDJYtysr7svs9EoIwJ0HawbPHZntV
+   /norjEuHjzvlFRjmbnTgW9f5PveVYqXMZ3iasMOpl5lJht6mNPYg/oIxF
    A==;
-X-CSE-ConnectionGUID: 2CiYPlzzQYW8n6fFJMyK8Q==
-X-CSE-MsgGUID: /baiu7hsSqG1bS7E3ak10Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="88234477"
+X-CSE-ConnectionGUID: X5+i8JMHT7O/6DyFSYCLCw==
+X-CSE-MsgGUID: z0UAdBumQfCsuf+9ORWuTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70724072"
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="88234477"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 05:27:47 -0800
-X-CSE-ConnectionGUID: e/65UqawQ6KpFnI+MjjKmQ==
-X-CSE-MsgGUID: IHT1jRmJRbCG0Yg5+l5EqA==
+   d="scan'208";a="70724072"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 07:20:48 -0800
+X-CSE-ConnectionGUID: LX+uUo71SwuXoDCSM7CawQ==
+X-CSE-MsgGUID: EK/ZBkCMRiWuVjubPAuiaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="245875100"
+   d="scan'208";a="213263998"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 28 Jan 2026 05:27:47 -0800
+  by orviesa005.jf.intel.com with ESMTP; 28 Jan 2026 07:20:47 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vl5aC-0000000023x-0GwG
+	id 1vl7LY-0000000024r-3lFm
 	for oe-kbuild@lists.linux.dev;
-	Wed, 28 Jan 2026 13:27:44 +0000
-Date: Wed, 28 Jan 2026 14:26:49 +0100
+	Wed, 28 Jan 2026 15:20:44 +0000
+Date: Wed, 28 Jan 2026 16:19:59 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [tj-sched-ext:for-6.20 15/15] checkpatch:
- ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-Message-ID: <202601281423.vIUhX8Ip-lkp@intel.com>
+Subject: [pdx86-platform-drivers-x86:review-ilpo-fixes 51/51]
+ checkpatch: WARNING:REPEATED_WORD: Possible repeated word: 'in'
+Message-ID: <202601281632.wc3aNMeE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,24 +65,20 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Emil Tsalapatis <emil@etsalapatis.com>
+TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git for-6.20
-head:   36929ebd17ae66ed3acde9056a9daf611d81a2e5
-commit: 36929ebd17ae66ed3acde9056a9daf611d81a2e5 [15/15] tools/sched_ext: add arena based scheduler
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260128/202601281423.vIUhX8Ip-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-fixes
+head:   fe747d7112283f47169e9c16e751179a9b38611e
+commit: fe747d7112283f47169e9c16e751179a9b38611e [51/51] platform/x86: classmate-laptop: Add missing NULL pointer checks
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260128/202601281632.wc3aNMeE-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#434: FILE: tools/sched_ext/scx_sdt.bpf.c:396:
-+static sdt_desc_t * desc_find_empty(sdt_desc_t *desc, __u64 *idxp)
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#942: FILE: tools/sched_ext/scx_sdt.h:81:
-+		sdt_desc_t * descs[SDT_TASK_ENTS_PER_CHUNK];
+WARNING:REPEATED_WORD: Possible repeated word: 'in'
+#18: 
+call in in cmpc_accel_sensitivity_store_v4() returns NULL which
 
 -- 
 0-DAY CI Kernel Test Service
