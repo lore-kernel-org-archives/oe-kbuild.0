@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAC179CD
-	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 01:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8232D0C7A
+	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 02:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769563663; cv=none; b=smlPk8VBdIRHqBCNIFu4j2f22chJex2KQbT+Tgcdh0PK1XwsyH71FJ+DJBK/Ca03vyclJQE+xqMKJSu82IxwmLASyvPwePH1w3Eb7ouUdmNcpBLn0qAshwAFYLKyS3RgHQzDLL9sj6Eh51AsxdAkBblOL656G55pifNuyKqZycI=
+	t=1769567890; cv=none; b=gsWJzv6mD9jD7ZhBZ+wLfXryO32mz/y0o70zBj6ToVHqlI6ZRSSROyBVoKXGZMX7bR9Dq+/iiF7EyH4EemXpchRvM7ZHqPL77OyNRc94Xy34QzV3xt6EBr5VQxNZvfBa/dKs7w0QHLxO9nqS4hD5nBI8vvUfKBaIY8niptFeIvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769563663; c=relaxed/simple;
-	bh=CJgX8UWYLoTZ4zgZG7MbDF06eSzfwRGWmhySluWnAro=;
-	h=Date:From:To:Subject:Message-ID; b=uJ7sOhO2/DJplBsdFrAAIHld40zxFZwBE4EfE3vgWZHKN5VBOXQ0RPu4Lx1QEFXXNsNCLWNzfH/WjXfig29SAZSEvYT/KHxFCIY6OfARsfwaZC2BjJ7adcfVawU+52at7ihYtk47CDbp1j4kCze/MmXEP5B9P6nXPiSd8NqGIzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFkAvDae; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1769567890; c=relaxed/simple;
+	bh=2BjByRyX6ThPnwdvvUwf3/ZhHyLnHLawpTHhCUGV3kQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DhXzMI/HaiRxwbLzTATwAb4X8jBQXRxNVkWHLZer09l7rSdjaasiJBwVE17cricBScK1dX2FgUCrQpZxAv8Wd2aJanPBPTSYbFBHP14e7dwgelk8nC+y/jimMorcl5O06ls4LA6ms+shz+cM/q9Py/nu9srUO7TpVLir6Yb1Fmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRZwZUd6; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFkAvDae"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRZwZUd6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769563662; x=1801099662;
-  h=date:from:to:subject:message-id;
-  bh=CJgX8UWYLoTZ4zgZG7MbDF06eSzfwRGWmhySluWnAro=;
-  b=dFkAvDaeGVm0k1Czw3gPoxsjt5iBcIN624Fq+S4/I5tLTdK/ubY2C0CU
-   VbYgUXPqYmp7bbSfcowVjI/+/cjnlauDzZQxQzZxUzzU3eamHV6dCF2Y4
-   /Nen/ck/EbaGWxSntLWvGF7dRkkBkyR9zHI1POEWd1Nml4Evqa3rl9ysg
-   vM/UgWZ7bTItDD8AW83N9MbtpnqJ5doR8zYKf1lqmuz0ODzUuOGoum12s
-   Czs6YDHsZdGY9Vcp1Pn1yjAOujhz6MVrN9/owMGYN05JV7+Hulq7ZflzT
-   cobUPvr4vzpmJEDsJY32nlOQTLeGgkQuxnVry8hqMVFj8oeozYsmhdmAf
+  t=1769567889; x=1801103889;
+  h=date:from:to:cc:subject:message-id;
+  bh=2BjByRyX6ThPnwdvvUwf3/ZhHyLnHLawpTHhCUGV3kQ=;
+  b=JRZwZUd6oRWggtkKUSWHvTzeug0TH6FulMoTt4my8Rob0KvEX385vhbi
+   aCYyxYhrbcvW6QRGStrJVnHYEueGD7TWPO8Zvxd0hTF4/7WfVIdSLA2qo
+   1p7mxLoq7Hklm/+kQHlSETTouOEQmko1VNzZ55T7KfdsD9SeqcULDj3d6
+   z6WIDo7FMsHkmesCsJYHUPOakxYsMUgGilJ+OuvHeiMEXJej130Whmfs/
+   67dnxnxfbBHYDk9rp6a/6Z9phx7tpn2+B2y7n/8xH77eKePiA28cKFzkl
+   lA1QzGqgIn9TFFdTf5/UW3UsS+8yxDnwjUnHddiM57NUsmk0pgqHfY9PB
    w==;
-X-CSE-ConnectionGUID: dL551b7hRUCfiJSN3fOv7w==
-X-CSE-MsgGUID: kzPJZlMfTiGoj694uLN41Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="93430696"
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="93430696"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 17:27:42 -0800
-X-CSE-ConnectionGUID: 9xQm8q2VT++5X33oDiIm3w==
-X-CSE-MsgGUID: ruUtYo+LTM+XfxP3eVrBfA==
+X-CSE-ConnectionGUID: CNF/DCuYSdmAOPDkonOv6A==
+X-CSE-MsgGUID: DcDKhCCaR5igNBl/CepaZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="81882095"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="81882095"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 18:38:08 -0800
+X-CSE-ConnectionGUID: VX5kKhinR1WNKIa5xWkjBg==
+X-CSE-MsgGUID: oTW1ZpIQRCe4WuBcTJSROw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="231083411"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Jan 2026 17:27:40 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="207933597"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 27 Jan 2026 18:38:07 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkuLK-000000001xp-3lzg
-	for oe-kbuild@lists.linux.dev;
-	Wed, 28 Jan 2026 01:27:38 +0000
-Date: Wed, 28 Jan 2026 02:26:43 +0100
+	id 1vkvRU-00000000Z9g-40Cw;
+	Wed, 28 Jan 2026 02:38:04 +0000
+Date: Wed, 28 Jan 2026 10:37:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [daeinki-drm-exynos:exynos-drm-misc-next 1/1] checkpatch:
- ERROR:BAD_SIGN_OFF: Unrecognized email address: 'Jan Remmet <j.remmet at
- phytec.de>'
-Message-ID: <202601280217.Eoa3IKS6-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 7514/9906]
+ drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:276:1: sparse: sparse: bad
+ integer constant expression
+Message-ID: <202601281037.5Eik5saE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,25 +61,57 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence static check warning: drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:276:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+TO: Conor Dooley <conor.dooley@microchip.com>
+CC: Linus Walleij <linusw@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-misc-next
-head:   89f51ab5fa69db4ce2aeec80987befd1a60c6b68
-commit: 89f51ab5fa69db4ce2aeec80987befd1a60c6b68 [1/1] drm/bridge: samsung-dsim: Fix init order
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260128/202601280217.Eoa3IKS6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4f938c7d3b25d87b356af4106c2682caf8c835a2
+commit: 95c1762aaf34b0d5d128f5c14a82826499c563a3 [7514/9906] pinctrl: move microchip riscv pinctrl drivers to a folder
+:::::: branch date: 9 hours ago
+:::::: commit date: 7 days ago
+config: openrisc-randconfig-r133-20260128 (https://download.01.org/0day-ci/archive/20260128/202601281037.5Eik5saE-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281037.5Eik5saE-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601281037.5Eik5saE-lkp@intel.com/
 
-ERROR:BAD_SIGN_OFF: Unrecognized email address: 'Jan Remmet <j.remmet at phytec.de>'
-#61: 
-Tested-by: Jan Remmet <j.remmet at phytec.de>
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:276:1: sparse: sparse: bad integer constant expression
+   drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:276:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:277:1: sparse: sparse: bad integer constant expression
+   drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:277:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:278:1: sparse: sparse: bad integer constant expression
+   drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:278:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:278:1: sparse: sparse: bad integer constant expression
+   drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c:278:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+--
+>> drivers/pinctrl/microchip/pinctrl-pic64gx-gpio2.c:354:1: sparse: sparse: bad integer constant expression
+   drivers/pinctrl/microchip/pinctrl-pic64gx-gpio2.c:354:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/pinctrl/microchip/pinctrl-pic64gx-gpio2.c:355:1: sparse: sparse: bad integer constant expression
+   drivers/pinctrl/microchip/pinctrl-pic64gx-gpio2.c:355:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/pinctrl/microchip/pinctrl-pic64gx-gpio2.c:356:1: sparse: sparse: bad integer constant expression
+   drivers/pinctrl/microchip/pinctrl-pic64gx-gpio2.c:356:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/pinctrl/microchip/pinctrl-pic64gx-gpio2.c:356:1: sparse: sparse: bad integer constant expression
+   drivers/pinctrl/microchip/pinctrl-pic64gx-gpio2.c:356:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+
+vim +276 drivers/pinctrl/microchip/pinctrl-mpfs-iomux0.c
+
+46397274da2284f drivers/pinctrl/pinctrl-mpfs-iomux0.c Conor Dooley 2025-10-23  275  
+46397274da2284f drivers/pinctrl/pinctrl-mpfs-iomux0.c Conor Dooley 2025-10-23 @276  MODULE_AUTHOR("Conor Dooley <conor.dooley@microchip.com>");
+
+:::::: The code at line 276 was first introduced by commit
+:::::: 46397274da2284f46e550dc795de5ceeef8f89bf pinctrl: add polarfire soc iomux0 pinmux driver
+
+:::::: TO: Conor Dooley <conor.dooley@microchip.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
