@@ -1,145 +1,296 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B67355804
-	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 11:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2FE2BEC2E
+	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 12:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769599753; cv=none; b=sJQpawZHrJ/NUjmnlhE7Uxhrr0BafvNcRRF8/59BqQVeVF59XDyl2B/8PBSiPXqr/kpdaB9FvFF8dYDy5/aDLQTWbD4gEDB4Fi00rerCtg4f93ShH2QUq3VY5SjTFms3Req1sMaFYBT9XyrCaz2mp0X5rQNbRuhjQLITmL8KGX8=
+	t=1769602121; cv=none; b=C14qJOjqaPw5JlOD+NZNskmt9Zvqd+1dNPB0zp4naOF9npOpYf5dBgA5UcDN4emL+rAcwvco3BSi3orfxkgjfddhU5W4c8BeCUNFVITV/k1qm5hnP5mLNhz7GOcLkrHx/p4K41xqtutEs5poWPnc4mMzU/XfBQ/HOxzZfAPLcsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769599753; c=relaxed/simple;
-	bh=3CLtZ3wk/VMe5xps+/LNBIPD8iqcEdzqblKOKs3ukL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WF0MSuUs44VOvGwzkTjAe6Xqv4Wfu3Qp3oeQ9IQGj/qItLRDOapO9kzFl/WTdvNarsJ0dTNzGjwJfDPYorl2W+kkQjvm155OX3GFYDYCU2h6kuLIy21zpsC+hobbdJRY4Psc4ljSKFLdZwDP+NeG0h+Q7qS+sNR2J4Mzo+8VVE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PS66aF9b; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769602121; c=relaxed/simple;
+	bh=/ubPyyxnasw93KhVsMRYv8Z1FXQ2hwu82Z20tEdcShc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YIFMbPfpp+Hc02fg4GZD5/AM6hE8zGRCH3dBbevOkSJ3cpWZiSH4/7nDWGQE4diDJ4M5a/2DbXjQxs9tN8zYqV5hpuVVJkmZbcsxPJ6Cy3W2P2hIde9f9wLb/TmFDSwM1hjvRWwcA7RZI7NQsRt9sAZo/8FJgnging4g/lp7fjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AH/1JTqz; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PS66aF9b"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so8824525e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 28 Jan 2026 03:29:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769599750; x=1770204550; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wD9cjK4h2ME11R43It4jeF977U8gV/xH4Mn6b8QC/Vc=;
-        b=PS66aF9b+fuwhkX/IbK+l9EeLUWuNEvAUeciMD4nxKMpR9mNmZBtG0robS4uGyyNQV
-         7QFlk3UExYl6+uxKtNdXrdwkcwSF05kEPsgoElG8/CHQdr38GG41U/nboal+LQWsnByh
-         DdP/wyFpvZWCERkhj3CbxJSdZUvvafp8cOYpbYK2JgzWGA5vcCzoTpG7nbBTK7zb7H5v
-         xUza0RSgNVTVsrmOTKFiOP87Frn484Bc5E3RJIyvN/KLqY3KrzJ58ebf4DJoVhmH0Z2K
-         DzBGBEVEfLfuMPjfUlIIwTdlhFmwpfhO1RLcMVxtvvhLOF28ODdGgxl5KH33dPnSxYv1
-         S7Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769599750; x=1770204550;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wD9cjK4h2ME11R43It4jeF977U8gV/xH4Mn6b8QC/Vc=;
-        b=SyWpznU47QQ4HvH61QWlUKmbqX+sqAMLSN9Pr9rrQpD987xySn+9Kq1F0aMe5Iamn2
-         z3Em1P16JcSq36JIvQD/21h8DPxlHGcERgy2okluLVtQ43ObyTuV1y/O+HLzof7VOSQ4
-         h5F5xuI1+6ISsP67lY72JI7a52xbOdm82kT/4eBfaKEZaC5bh2tCBta0DA7zEUuEesbX
-         +53gDQeLFbYFVVYAAlfdkG+yHb7Y53G6GWOl/AvGXVOj36zKKembcK+QCDkLv291jJvp
-         C+HhIwCUdMyQa8aunx45Ood9Y7BpejeMC2yXpDoI5aT9wkpFzmQWwYSwx7Zu6wHspymr
-         gU+Q==
-X-Gm-Message-State: AOJu0YyPV7f26jHnHLD6cQHk80rkbVEBBeNjMwS95cxLBRcHTO7Onv71
-	/I2B0n5IdxNHMxfavJ5BmgC7qJAMR7ebgv+jt9Rdlw2jtSoSgH+97OLWbMN2WchrMdmGuvogCTw
-	F+RV+
-X-Gm-Gg: AZuq6aJ2fdwkvvRcpaIJ2oHPnZQ7bLtGn86KzjmQ5gX7Y0zqdmVxiwCwf4acHxrFMsy
-	0Ft7sAz2bkXNCkIKHRIoiwymD2KNscnr4NjugG3QlprWmHGop1KF1sTk7PUTQv30oL4dftxOqTY
-	WfUm0q2BG4eZHOUrzcYmg34qh3M/niQNuQM0CS6AYvZkqxNCiS6kCY3BeEoqZ2IAaD8SiMVb5tA
-	ihlBgJ8x4ErExcnmC5nhvNQhia3i4T1Zeg4Nvb3STh3jYDZO5IGUBd1pObmTCd7+e4ahRoOMYLF
-	PwrALkc/mZtt/oWXUYzBe4DXBgZ71iy/olUBFWGcu8YrQGXuoXdBEYfXL9DX/tPg2P8AWTtshBH
-	gci4bb1fIefZkbhRIU/wGpkgTO4ev7GFwrS6gpKiG09F1ZguOwnACniXCa/eTPgIea3CeeWW/LX
-	s0xduSZQuBZyqdLzClO+uxmLaM5fs=
-X-Received: by 2002:a05:600c:37c8:b0:480:3b26:82c3 with SMTP id 5b1f17b1804b1-48069c5b93amr61350985e9.20.1769599749669;
-        Wed, 28 Jan 2026 03:29:09 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cdd77b8sm59333515e9.3.2026.01.28.03.29.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 03:29:09 -0800 (PST)
-Date: Wed, 28 Jan 2026 14:29:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 1/1] fs/f2fs/iostat.c:210
- __update_iostat_latency() error: buffer overflow 'io_lat->sum_lat[idx]' 3 <=
- 3
-Message-ID: <202601272004.HnjloZC4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AH/1JTqz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769602117; x=1801138117;
+  h=date:from:to:cc:subject:message-id;
+  bh=/ubPyyxnasw93KhVsMRYv8Z1FXQ2hwu82Z20tEdcShc=;
+  b=AH/1JTqz+vUrQdXl8FRgB/YTUA4DKBDJsLD85Me2lZT8JgCLCdNHuUq+
+   OO3F0U1KIWY8++DALg9tWgKAjnqZvRxM3H4qqrWBhLSd0NSgBM8mm0uSg
+   GO2D7wLXQqMeHYX1V4h/4Jm80g+3I+0kH8NPZ0vie0YcltxT4GXZO5EVx
+   UadOaefu4rTRDhy0iR8jBcurJP5O9Sx0Xlv5B1VlkD4HKcPC0ipUY9J+d
+   t0f15dE8x92TK98nnm1OUUbv/YspLr/ZIxiei3q+WwWB9Ao2Ajc7kGzki
+   e83lSlLi017BuxKvhARmFyHcK2ZFG200GEx4GF/xT0aDIdm0HSr1QdEmF
+   Q==;
+X-CSE-ConnectionGUID: EfCwOdcHSkq/hcu6R6HGZQ==
+X-CSE-MsgGUID: nuofXHprTTO6bzmlBnXJhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70009999"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="70009999"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 04:08:36 -0800
+X-CSE-ConnectionGUID: jpvSlSw1Tza+cWRHWI/mJw==
+X-CSE-MsgGUID: qrVAkZuVRYeYPL5RNRHyjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="208692297"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 28 Jan 2026 04:08:35 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vl4LY-00000000Zds-1o6Y;
+	Wed, 28 Jan 2026 12:08:32 +0000
+Date: Wed, 28 Jan 2026 20:07:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linusw-pinctrl:devel 25/47] ERROR: modpost:
+ __ex_table+0x25fc references non-executable section '.data..ro_after_init'
+Message-ID: <202601282023.OyBTj6qL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260128112905.itDVBedCzGY-hIe3rm-8GywTm-k4CuNnaNOFfrtMUj4@z>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   8b96c137bec0cc9c414f85dc958b9a5785a0790f
-commit: d95bf22a4d1cbeebc288b87af27f0ea181a57218 [1/1] f2fs: introduce periodic iostat io latency traces
-config: x86_64-randconfig-161-20260126 (https://download.01.org/0day-ci/archive/20260127/202601272004.HnjloZC4-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-smatch version: v0.5.0-8994-gd50c5a4c
+:::::: 
+:::::: Manual check reason: "riscv arch toolchain issue"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-gpio@vger.kernel.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Linus Walleij <linusw@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+head:   c0b4a4feeb43305a754893d8d9c6b2b5a52d45ac
+commit: 6fe3b96b051d0ce4cbc0b76008fef0653f2e21ab [25/47] pinctrl: aw9523: Simplify locking with guard()
+:::::: branch date: 4 hours ago
+:::::: commit date: 10 days ago
+config: riscv-randconfig-001-20260128 (https://download.01.org/0day-ci/archive/20260128/202601282023.OyBTj6qL-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601282023.OyBTj6qL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601272004.HnjloZC4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601282023.OyBTj6qL-lkp@intel.com/
 
-New smatch warnings:
-fs/f2fs/iostat.c:210 __update_iostat_latency() error: buffer overflow 'io_lat->sum_lat[idx]' 3 <= 3
-fs/f2fs/iostat.c:211 __update_iostat_latency() error: buffer overflow 'io_lat->bio_cnt[idx]' 3 <= 3
-fs/f2fs/iostat.c:212 __update_iostat_latency() error: buffer overflow 'io_lat->peak_lat[idx]' 3 <= 3
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Old smatch warnings:
-fs/f2fs/iostat.c:213 __update_iostat_latency() error: buffer overflow 'io_lat->peak_lat[idx]' 3 <= 3
-
-vim +210 fs/f2fs/iostat.c
-
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  183  static inline void __update_iostat_latency(struct bio_iostat_ctx *iostat_ctx,
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  184  				int rw, bool is_sync)
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  185  {
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  186  	unsigned long ts_diff;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  187  	unsigned int iotype = iostat_ctx->type;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  188  	unsigned long flags;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  189  	struct f2fs_sb_info *sbi = iostat_ctx->sbi;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  190  	struct iostat_lat_info *io_lat = sbi->iostat_io_lat;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  191  	int idx;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  192  
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  193  	if (!sbi->iostat_enable)
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  194  		return;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  195  
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  196  	ts_diff = jiffies - iostat_ctx->submit_ts;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  197  	if (iotype >= META_FLUSH)
-
-Should this be NR_PAGE_TYPE?  The check is off by one.
-
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  198  		iotype = META;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  199  
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  200  	if (rw == 0) {
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  201  		idx = READ_IO;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  202  	} else {
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  203  		if (is_sync)
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  204  			idx = WRITE_SYNC_IO;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  205  		else
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  206  			idx = WRITE_ASYNC_IO;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  207  	}
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  208  
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  209  	spin_lock_irqsave(&sbi->iostat_lat_lock, flags);
-d95bf22a4d1cbe Daeho Jeong 2021-08-20 @210  	io_lat->sum_lat[idx][iotype] += ts_diff;
-
-
-Out of bounds if iotype is NR_PAGE_TYPE.
-
-d95bf22a4d1cbe Daeho Jeong 2021-08-20 @211  	io_lat->bio_cnt[idx][iotype]++;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20 @212  	if (ts_diff > io_lat->peak_lat[idx][iotype])
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  213  		io_lat->peak_lat[idx][iotype] = ts_diff;
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  214  	spin_unlock_irqrestore(&sbi->iostat_lat_lock, flags);
-d95bf22a4d1cbe Daeho Jeong 2021-08-20  215  }
+WARNING: modpost: vmlinux: section mismatch in reference: io_uring_cancel_generic+0x2d4 (section: .text.unlikely) -> rmem_dma_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: io_probe.isra.0+0xfa (section: .text.unlikely) -> .LBB581 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rcu_read_unlock+0xdc (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: lwq_test+0xd6 (section: .text.unlikely) -> size_cmdline (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: lwq_test+0x162 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: lwq_test+0x1d4 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: lwq_test+0x260 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kunit_log_newline_test+0x16e (section: .text.unlikely) -> early_cma_pernuma (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kunit_log_newline_test+0x1c4 (section: .text.unlikely) -> early_cma_pernuma (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: pfuze_parse_regulators_dt+0x11a (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: try_to_generate_entropy+0x456 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: tpm_tis_probe_irq_single+0x224 (section: .text.unlikely) -> dma_numa_cma_reserve (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __dev_printk+0x2c (section: .text.unlikely) -> .L115 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: delete_path.isra.0+0xc6 (section: .text.unlikely) -> .LBB574 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nfcsim_link_new+0x7c (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nfcsim_link_new+0xe4 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nfcsim_device_new+0x7e (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nfcsim_device_new+0xe0 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nvme_anatt_timeout+0x28 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_device+0x94 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_device+0xf4 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: uio_major_cleanup+0x24 (section: .text.unlikely) -> early_coherent_pool (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hub_configure+0x94 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hub_configure+0x104 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hub_configure+0x1c2 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hub_configure+0x232 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: register_root_hub+0x210 (section: .text.unlikely) -> trace_init_flags_sys_enter (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: associate_dev+0x94 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: associate_dev+0x104 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: emi26_load_firmware.isra.0+0x92 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: emi26_load_firmware.isra.0+0xfc (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: ffs_epfiles_create+0x1a8 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: elan_setup_input_device+0x78 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_input_params+0x1a6 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_input_params+0x238 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: raid5_set_limits+0x8e (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: autorun_devices+0x472 (section: .text.unlikely) -> .LBB292 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: btmrvl_wake_irq_bt+0x32 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mmc_test_save_transfer_result+0xb2 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mmc_test_save_transfer_result+0x122 (section: .text.unlikely) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __netdev_printk+0x3a (section: .text.unlikely) -> .L115 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_info+0x20 (section: .text.unlikely) -> .LBB981 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_info+0x24 (section: .text.unlikely) -> .LBE981 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_warn+0x20 (section: .text.unlikely) -> .LBB977 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_warn+0x24 (section: .text.unlikely) -> .LBB982 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_err+0x20 (section: .text.unlikely) -> .LBE978 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_err+0x24 (section: .text.unlikely) -> .LBE982 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: nfc_llcp_symm_timer+0xc (section: .text.unlikely) -> early_nbcon_pcpu_emergency_nesting (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_unknown+0x44c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_insn_misaligned+0x44c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_insn_fault+0x44c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_insn_illegal+0x44c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_load_fault+0x44c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_store_fault+0x44c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_ecall_s+0x44c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_ecall_m+0x44c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_break+0x430 (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: do_trap_ecall_u+0x64c (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: irqentry_exit+0x5d0 (section: .noinstr.text) -> trace_init_flags_sys_exit (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: irqentry_exit+0x616 (section: .noinstr.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: riscv_probe_decode_insn+0x102 (section: .kprobes.text) -> kcmp_cookies_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: riscv_probe_decode_insn+0x1b4 (section: .kprobes.text) -> rmem_dma_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: riscv_probe_decode_insn+0x1da (section: .kprobes.text) -> .LBE410 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_rtapp+0x10 (section: .exit.text) -> .LBB854 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_pagefault+0x10 (section: .exit.text) -> .LBB854 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: unregister_sleep+0x10 (section: .exit.text) -> .LBB854 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: exit_gfs2_fs+0xe6 (section: .exit.text) -> .LBE576 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: exit_gfs2_fs+0x11c (section: .exit.text) -> __setup_early_numa_cma (section: .init.setup)
+WARNING: modpost: vmlinux: section mismatch in reference: exit_f2fs_fs+0x1a (section: .exit.text) -> early_coherent_pool (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: exit_f2fs_fs+0x22 (section: .exit.text) -> .LBE346 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: exit_f2fs_fs+0x32 (section: .exit.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: exit_f2fs_fs+0x84 (section: .exit.text) -> .LBE345 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: cryptomgr_exit+0x12 (section: .exit.text) -> .LBE378 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: tpm_exit+0x4e (section: .exit.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: vudc_cleanup+0x3c (section: .exit.text) -> .LBB595 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: typec_exit+0x50 (section: .exit.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: thermal_testing_exit+0x18 (section: .exit.text) -> .L60 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: speakup_exit+0x42 (section: .exit.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: comedi_cleanup+0x28 (section: .exit.text) -> early_coherent_pool (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: comedi_test_exit+0x42 (section: .exit.text) -> .LBB597 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_exit+0x3a (section: .exit.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: exit_dns_resolver+0xa (section: .exit.text) -> .LBE158 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: yield_to+0xd8 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: out_of_line_wait_on_bit_lock+0x54 (section: .sched.text) -> .LBE383 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mutex_lock_io_nested+0x840 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __mutex_lock+0x874 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __mutex_lock+0x99c (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: down_write+0x150 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: down_write_killable+0x158 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: down_write_killable_nested+0x15a (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: down_read+0x2aa (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: down_read_interruptible+0x2b0 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: down_read_killable+0x2b2 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __percpu_down_read+0xbc (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rt_mutex_unlock+0x12c (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rt_mutex_start_proxy_lock+0x100 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rt_mutex_postunlock+0x92 (section: .sched.text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25f8 (section: __ex_table) -> __func__ (section: .rodata)
+ERROR: modpost: __ex_table+0x25f8 references non-executable section '.rodata'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25fc (section: __ex_table) -> __sbi_send_ipi (section: .data..ro_after_init)
+>> ERROR: modpost: __ex_table+0x25fc references non-executable section '.data..ro_after_init'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2604 (section: __ex_table) -> __sbi_set_timer (section: .data..ro_after_init)
+ERROR: modpost: __ex_table+0x2604 references non-executable section '.data..ro_after_init'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2608 (section: __ex_table) -> __warned (section: .data..unlikely)
+>> ERROR: modpost: __ex_table+0x2608 references non-executable section '.data..unlikely'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2610 (section: __ex_table) -> _entry (section: .data.rel.ro.local)
+ERROR: modpost: __ex_table+0x2610 references non-executable section '.data.rel.ro.local'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2614 (section: __ex_table) -> _entry (section: .data.rel.ro.local)
+ERROR: modpost: __ex_table+0x2614 references non-executable section '.data.rel.ro.local'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x261c (section: __ex_table) -> _entry (section: .data.rel.ro.local)
+ERROR: modpost: __ex_table+0x261c references non-executable section '.data.rel.ro.local'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2620 (section: __ex_table) -> _entry (section: .data.rel.ro.local)
+ERROR: modpost: __ex_table+0x2620 references non-executable section '.data.rel.ro.local'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2628 (section: __ex_table) -> __if_trace (section: _ftrace_branch)
+ERROR: modpost: __ex_table+0x2628 references non-executable section '_ftrace_branch'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x262c (section: __ex_table) -> __if_trace (section: _ftrace_branch)
+ERROR: modpost: __ex_table+0x262c references non-executable section '_ftrace_branch'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2634 (section: __ex_table) -> __if_trace (section: _ftrace_branch)
+ERROR: modpost: __ex_table+0x2634 references non-executable section '_ftrace_branch'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2638 (section: __ex_table) -> __if_trace (section: _ftrace_branch)
+ERROR: modpost: __ex_table+0x2638 references non-executable section '_ftrace_branch'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2640 (section: __ex_table) -> __if_trace (section: _ftrace_branch)
+ERROR: modpost: __ex_table+0x2640 references non-executable section '_ftrace_branch'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2644 (section: __ex_table) -> __if_trace (section: _ftrace_branch)
+ERROR: modpost: __ex_table+0x2644 references non-executable section '_ftrace_branch'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x264c (section: __ex_table) -> __if_trace (section: _ftrace_branch)
+ERROR: modpost: __ex_table+0x264c references non-executable section '_ftrace_branch'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2650 (section: __ex_table) -> __if_trace (section: _ftrace_branch)
+ERROR: modpost: __ex_table+0x2650 references non-executable section '_ftrace_branch'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2670 (section: __ex_table) -> .LC35 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x2670 references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2674 (section: __ex_table) -> .LC28 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x2674 references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x267c (section: __ex_table) -> .LC30 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x267c references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2680 (section: __ex_table) -> .LC32 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x2680 references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2688 (section: __ex_table) -> .LC34 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x2688 references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x268c (section: __ex_table) -> .LC40 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x268c references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2694 (section: __ex_table) -> .LC38 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x2694 references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2698 (section: __ex_table) -> .LC39 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x2698 references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26a0 (section: __ex_table) -> .LC43 (section: .rodata.str1.4)
+ERROR: modpost: __ex_table+0x26a0 references non-executable section '.rodata.str1.4'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26a4 (section: __ex_table) -> .LASF620 (section: .debug_str)
+ERROR: modpost: __ex_table+0x26a4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26ac (section: __ex_table) -> .LASF1 (section: .debug_line_str)
+ERROR: modpost: __ex_table+0x26ac references non-executable section '.debug_line_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26b0 (section: __ex_table) -> .Ldebug_line0 (section: .debug_line)
+ERROR: modpost: __ex_table+0x26b0 references non-executable section '.debug_line'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26c4 (section: __ex_table) -> .LASF174 (section: .debug_str)
+ERROR: modpost: __ex_table+0x26c4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26c8 (section: __ex_table) -> .LASF176 (section: .debug_str)
+ERROR: modpost: __ex_table+0x26c8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26d0 (section: __ex_table) -> .LASF177 (section: .debug_str)
+ERROR: modpost: __ex_table+0x26d0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26d4 (section: __ex_table) -> .LASF180 (section: .debug_str)
+ERROR: modpost: __ex_table+0x26d4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26dc (section: __ex_table) -> .LASF182 (section: .debug_str)
+ERROR: modpost: __ex_table+0x26dc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26e0 (section: __ex_table) -> .LASF184 (section: .debug_str)
+ERROR: modpost: __ex_table+0x26e0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26f8 (section: __ex_table) -> .LASF451 (section: .debug_str)
+ERROR: modpost: __ex_table+0x26f8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: init_task+0x514 (section: .data.rel) -> dma_contiguous_reserve (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__rt_sigreturn+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__riscv_flush_icache+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__mmap2+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__riscv_hwprobe+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: riscv_isa_vendor_ext_list+0x0 (section: .data.rel) -> .LBB863 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__unshare+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__clone3+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__clone+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__set_tid_address+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__personality+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__wait4+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__waitid+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__exit_group+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__exit+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__capset+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__capget+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__ptrace+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: init_user_ns+0x25c (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__rt_sigsuspend+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__rt_sigaction+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__sigaltstack+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__rt_tgsigqueueinfo+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__rt_sigqueueinfo+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__tkill+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__tgkill+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__pidfd_send_signal+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__kill+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__rt_sigtimedwait+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__rt_sigpending+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__rt_sigprocmask+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__restart_syscall+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__sysinfo+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__getcpu+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__prctl+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__umask+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__getrusage+0x8 (section: .data.rel) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: event_enter__setrlimit+0x8 (section: .data.rel) -> .L0  (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
