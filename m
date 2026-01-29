@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF3C3EBF1C
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Jan 2026 04:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381DB2D8DDB
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Jan 2026 05:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769662676; cv=none; b=bkFWOtyxIrfBDYrVZkqMd2Z/HIVvD8/Vqt98xSPiz+i/d0vXMsL/oMnaLlZmyrzC9XeAvh5qpanZv1KGB9fajC1AxWpP2Dce4278C8mppJEVch+Vzd/3pmCNKuxmHV+mjb9Ci4c3rHsBsTGhA6vl7v+ZoAhJfYYXk92fuFtRbS4=
+	t=1769665393; cv=none; b=h8sLmW4D4iiBwMhuOCJztgDI3preIjbcQW4KqQXXM5F1a/VSt9N423AxrZzWt3RhQgZkqZV7Jz+ypua8QqyD3uPQOJTYgNwVS68YzrPymSoXA5FnstGfPvcZz9tgfrXJi5FW0VG5m+BKe8Ut0KO6uV9kahQ8MQmHNLSIyFHXbRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769662676; c=relaxed/simple;
-	bh=iS6Ay7SABKUMKI8ipcBePxvbimpIYYXTB9F/VFxH8k0=;
-	h=Date:From:To:Subject:Message-ID; b=o4a1W0gPdDbZCY9zRkFBi68+OH6KS8gYI5CdeMyVzgLIdFM7RX09Gbkyo27vOQwfoZJKy6xe+oaemF15ZLzWyOu7D8/PwIP1q83mMTtCFkAnmmcoRVDAl8LVwAOFay3ydAma8IyOb7ZqvZ/hLDO8W2fiHEFzdsJj+s854GHab0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8fFnUnD; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1769665393; c=relaxed/simple;
+	bh=VIz/4UxjlCcPE5xgOTkLwntGq3iU5FVs3GN3zTf4MBE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QmYwrbLA1R+WAA+nlrOIk2MP7deCXDujwTv5P3JEAwXdOXdip1YD2dNkD/lbCUHHbWjUvlSeZ9iZr/SSCFpOwgYkZrDq8MVkb2X1kQ3Ck09K2cmMuORm7XKRn8vqaGGp88U/LKmBydSB1VoDHQIlOX6HUrGRErE99lXK6v1w8hM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UtgC9nsa; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8fFnUnD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UtgC9nsa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769662674; x=1801198674;
-  h=date:from:to:subject:message-id;
-  bh=iS6Ay7SABKUMKI8ipcBePxvbimpIYYXTB9F/VFxH8k0=;
-  b=m8fFnUnDWFUSH0pwQTHs20R6rIeI2YOnbUBI3SjSeDTOP5zNkvNSJQa8
-   BApvaLRFx9jEKBqdOV0zWgW8rIfSkseurcDgBKMC4GKW9JQXDd6I+BsF6
-   TMiv56tssbWj+XXEIXt0clsbX17XS6tiIxxSq78S6+cYyMS5OlcSxAVEO
-   y53dbdaRMhllwWGxyVFTTAr5/+pkHj0rF7uiloPq/xCUsIYC6j7RES/23
-   cYD7ZffGhgUx+PB0NLq03zN1m5KNCaZ95htS6dKHGtNobn7Pu46r7rnKO
-   0SAcqogSWNqFtvFdjqx3XxxVIT/lPpmU5nE6T59ECTWBo0uI1vvkWvswT
-   w==;
-X-CSE-ConnectionGUID: qlcsq2z4R06ZbHx8g7Qcnw==
-X-CSE-MsgGUID: 93p0KIyvTJekXE6yklF3Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="69904779"
+  t=1769665391; x=1801201391;
+  h=date:from:to:cc:subject:message-id;
+  bh=VIz/4UxjlCcPE5xgOTkLwntGq3iU5FVs3GN3zTf4MBE=;
+  b=UtgC9nsa8pqcg6bTqNe/bX2vTwxwHeP6hNfNNWGm6GcPwf4OHCBmm8pJ
+   gG2WNRXceUmRewRbm71Cvho3lz6W74QnGAt0d6v8COeMQtK9qphSoXK6w
+   BXy8PUIKWGi23h52F5TkH1Ks9V8Fop+nXw+cbRD1x3qn1vGjAkfGu+W75
+   n9h8GiGd0d0o1Y0zQM9bTpxoUEeRmmShbOAH/Qe80zBqq0I6AxvZLWLsg
+   q0dPdkvRFYRq0zwnWXQB/95ruVcyYAJQkLsjgdhy1yqtk9sGzFEMG0GZQ
+   ljk+OOqs8fR+y7wC4GdUgl64CazAqu1/JqwFiCetr+T6MqzWgj+f3ch1b
+   Q==;
+X-CSE-ConnectionGUID: vRAY5DlDQ9yV6LuCyWg3Cg==
+X-CSE-MsgGUID: NXelncCDRMuJ+2b0RGkulw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="58472854"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="69904779"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 20:57:53 -0800
-X-CSE-ConnectionGUID: 7R9FVvCuQvG8i2PK4tpOmA==
-X-CSE-MsgGUID: 4HzZy7Z9Q/KQq8zl2I+YdQ==
+   d="scan'208";a="58472854"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 21:43:10 -0800
+X-CSE-ConnectionGUID: NvdTzrU9Rw6keBUiDwNEQw==
+X-CSE-MsgGUID: Bfj0IOPtSk+rjnucLcOw1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="208896438"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Jan 2026 20:57:53 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207587745"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 28 Jan 2026 21:43:09 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlK6J-000000002DF-14Vr
-	for oe-kbuild@lists.linux.dev;
-	Thu, 29 Jan 2026 04:57:51 +0000
-Date: Thu, 29 Jan 2026 05:57:32 +0100
+	id 1vlKo6-00000000b8W-2AkV;
+	Thu, 29 Jan 2026 05:43:06 +0000
+Date: Thu, 29 Jan 2026 13:42:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [xfs-linux:xfs-7.0-merge 11/45] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'including'
-Message-ID: <202601290505.4nnzVAak-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [jpirko-mlxsw:combined_queue 10/10]
+ drivers/net/ethernet/marvell/mvneta.c:2678:25: sparse: sparse: unsigned value
+ that used to be signed checked against zero?
+Message-ID: <202601291340.rvErLya3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,25 +61,57 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/ethernet/marvell/mvneta.c:2678:25: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+TO: Ido Schimmel <idosch@nvidia.com>
+CC: Petr Machata <petrm@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git xfs-7.0-merge
-head:   cc7ae24232368a92156919fe1196f059c3543da2
-commit: 971ffb634113474add7c3adb07c1ea03110e7844 [11/45] xfs: rename xfs_linux.h to xfs_platform.h
-:::::: branch date: 11 hours ago
-:::::: commit date: 8 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20260129/202601290505.4nnzVAak-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   1c9a36be08e2ec0df08adea5af77949513a5e13d
+commit: 1c9a36be08e2ec0df08adea5af77949513a5e13d [10/10] TMP: Revert "module: Add compile-time check for embedded NUL characters"
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: hexagon-randconfig-r121-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291340.rvErLya3-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291340.rvErLya3-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202601291340.rvErLya3-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'including'
-#6: 
-Rename xfs_linux.h to prepare for including including it directly
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/marvell/mvneta.c:2678:25: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/net/ethernet/marvell/mvneta.c:2678:48: sparse: signed value source
+
+vim +2678 drivers/net/ethernet/marvell/mvneta.c
+
+c5aff18204da02 Thomas Petazzoni      2012-08-17  2671  
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2672) static void mvneta_free_tso_hdrs(struct mvneta_port *pp,
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2673) 				 struct mvneta_tx_queue *txq)
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2674) {
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2675) 	struct device *dev = pp->dev->dev.parent;
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2676) 	int i;
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2677) 
+33f4cefb26e98c Russell King (Oracle  2023-05-10 @2678) 	for (i = 0; i < MVNETA_MAX_TSO_PAGES; i++) {
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2679) 		if (txq->tso_hdrs[i]) {
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2680) 			dma_free_coherent(dev, MVNETA_TSO_PAGE_SIZE,
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2681) 					  txq->tso_hdrs[i],
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2682) 					  txq->tso_hdrs_phys[i]);
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2683) 			txq->tso_hdrs[i] = NULL;
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2684) 		}
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2685) 	}
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2686) }
+33f4cefb26e98c Russell King (Oracle  2023-05-10  2687) 
+
+:::::: The code at line 2678 was first introduced by commit
+:::::: 33f4cefb26e98c3cfe68ee7c88b766aa786b8733 net: mvneta: allocate TSO header DMA memory in chunks
+
+:::::: TO: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+:::::: CC: Paolo Abeni <pabeni@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
