@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35496378D8C
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Jan 2026 10:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D93325712
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Jan 2026 19:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769681641; cv=none; b=e1MSy+r/OFQnlHqSglxoRkreVEpMhc8ckPM6xle0f0KZ+fUHeh7lVA8ArYFZj2F0w5YCx0PIDTAezzMkiuKcOonMdTzg0ZoodQz1tIvxOAnU+u7P10OqZpcFa3LH8eIIqe/yQlLnBBFV3NK/hGKqvwrW7/BYPHizmaKp84zju54=
+	t=1769715722; cv=none; b=PQDqX2+L2JYfgfSMWw9fnmYYydu7CBMjiLMdsA11qi8SwHb/KXiJVXFUo5i7Ys8Ah48194pj7WpyccLMqWI43SxWBUpInoGe0OzPYpnVcENpJLBMnErnTeuhKz9vJymxg/45LlkbXhuYVTlulhBGOwYjxOCkBmDvdq2W8p+7+EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769681641; c=relaxed/simple;
-	bh=vf5KHo07770TxHVKUSBVraUBHR+ZSuB3ERAZPv9eZsQ=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ej5iceJyhQ4iDLoKytgBXmHvkleHVyBuZnpIKKCmeBDb2b8+hZuPJL8cwijz8SBkwbcebU4HluEDLD3iBYDRhvjLC62em2LxAgbG/Vz2F4L1wXRSL+Itcl4FbnOfdwm2EE2Sr2I2GLLtqUKmjZWnm3Yx+RRg2iU6xaDiNAKrYec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGCAjErA; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1769715722; c=relaxed/simple;
+	bh=05hvKusJAYUNzt955xhbjWa0MjpEIhY/LfXezM9oJOM=;
+	h=Date:From:To:Subject:Message-ID; b=eaOkLlzHPbS07wCnZPIlixiDh/YxxZ3UZRupA5yQ8v3aV05xXdp85x50rNgmiPvtNAy0Fb9J8AgZ/FHkDEATOPT9f9qmgVTLzFeT+wiaWr2PN4gYsT2/6gdcRGPIp985RQ1YGcLlQ6BTI0ct7Jy87aAHNNpHpGPZibjiFbhMiCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+W7bJ43; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGCAjErA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+W7bJ43"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769681639; x=1801217639;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=vf5KHo07770TxHVKUSBVraUBHR+ZSuB3ERAZPv9eZsQ=;
-  b=fGCAjErAN4DbC2R1y8SRg67HE6cvGnOLdNZEzOBViz68Vfh04q54N/eU
-   TTfn7ttCe1KV2R4ZXEDe2RfRvGwZYeEA0GC36Wz86p/2jlmzfC57Vtl/e
-   6SVdGHJeJY3jlsXsC5Azw0pHG8x3M7IXdgxWO8sRQ6kw2Cq+2bJuQS5UK
-   74BldUZ3gcPBzXCtX+wMgF1XPWIhOo6J1GmxtgNOLTpMonbMNkWRtmhPP
-   M6I5WfQLdlW/q+pA8OUfr3YRfdH6GVY67YR85G4ZK8aMmw/RcBMB1p1Z3
-   +hWbZvyYy60omx9jifmuKL15ewJ48rl+WboUBxco8GCT9EtA1UyEEdDmb
-   g==;
-X-CSE-ConnectionGUID: gi7EMAzjTqW4kHLcfzWhKA==
-X-CSE-MsgGUID: 3elqkmN+R4WAaGNj4jKiZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="93576646"
-X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="93576646"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 02:13:56 -0800
-X-CSE-ConnectionGUID: 9idfRLzhTtaHsGC04Q7hsQ==
-X-CSE-MsgGUID: ixzpgsmZTD+0328CpR1Kow==
+  t=1769715720; x=1801251720;
+  h=date:from:to:subject:message-id;
+  bh=05hvKusJAYUNzt955xhbjWa0MjpEIhY/LfXezM9oJOM=;
+  b=M+W7bJ43g4r4jzcjPCoWcUsNArZLcoY5bfATpHxeKfz1G07TyQrX4eNc
+   cYVzPAvI0ZrzATgUH8/uEzo02w2zC3Zsb+U+k6SMhWeULxptanLjsEP9y
+   Ocl8aP/DmXzB6WO4K/nmGK/R7VRV8VS/nMAeu6hgcUp28M2e3Oi6J33qK
+   vg4FgLgcrSsC0MogkD0E09swGxT9xNujsz1KWOjI+qNr3DWtpUiCsV1Xg
+   FY5UALKTPFYHqLqr9D93Rd7vAH/8JLVC3r6WbWIxfPfJHxZ7hSrV8bApu
+   v1u4TYEg9rdR9hgyrMPfA+BGC68mzcrWSsQZzntxKKqty8Z9T9KSb2xLM
+   A==;
+X-CSE-ConnectionGUID: bRdPDOD5Sn+McMNbYjKhjQ==
+X-CSE-MsgGUID: Oq/7ZVd4SoSA1zafO6fJtg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="81283754"
+X-IronPort-AV: E=Sophos;i="6.21,261,1763452800"; 
+   d="scan'208";a="81283754"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 11:41:59 -0800
+X-CSE-ConnectionGUID: QiaZ5pT/Tj6SKwirdhaQCA==
+X-CSE-MsgGUID: q+HrKpu0TxCb0pc7dutjLA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="207654796"
+X-IronPort-AV: E=Sophos;i="6.21,261,1763452800"; 
+   d="scan'208";a="213556175"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 29 Jan 2026 02:13:55 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 29 Jan 2026 11:41:59 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlP28-000000002Ev-2ai8
+	id 1vlXts-000000002KP-2cKj
 	for oe-kbuild@lists.linux.dev;
-	Thu, 29 Jan 2026 10:13:52 +0000
-Date: Thu, 29 Jan 2026 11:13:33 +0100
+	Thu, 29 Jan 2026 19:41:56 +0000
+Date: Thu, 29 Jan 2026 20:41:12 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: Re: [RFC PATCH 2/3] rust: nvmem: Add an abstraction for nvmem
- providers
-Message-ID: <202601291107.dmYvIvQQ-lkp@intel.com>
+Subject: [djwong-xfs:fuse-service-container 45/101] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'code'
+Message-ID: <202601292051.BN3qoF11-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
 :::::: Manual check reason: "high confidence checkpatch report"
@@ -68,37 +65,20 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260128182925.13225-3-linkmauve@linkmauve.fr>
-References: <20260128182925.13225-3-linkmauve@linkmauve.fr>
-TO: Link Mauve <linkmauve@linkmauve.fr>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Hi Link,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rust/rust-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Link-Mauve/nvmem-Document-enum-nvmem_type-and-its-variants/20260129-023240
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260128182925.13225-3-linkmauve%40linkmauve.fr
-patch subject: [RFC PATCH 2/3] rust: nvmem: Add an abstraction for nvmem providers
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260129/202601291107.dmYvIvQQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-service-container
+head:   a71b4fbb5f9908b0e1a9ad21faac5475d08987e8
+commit: 446566e6e829301b6939ce58ee5cb3ffba1dcba1 [45/101] fuse: make debugging configurable at runtime
+:::::: branch date: 83 minutes ago
+:::::: commit date: 83 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20260129/202601292051.BN3qoF11-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'bytes'
-#122: FILE: rust/kernel/nvmem.rs:61:
-+            // SAFETY: val should be non-null, and allocated for bytes bytes.
-
-WARNING:REPEATED_WORD: Possible repeated word: 'bytes'
-#142: FILE: rust/kernel/nvmem.rs:81:
-+            // SAFETY: val should be non-null, and allocated for bytes bytes.
+WARNING:REPEATED_WORD: Possible repeated word: 'code'
+#26: FILE: fs/fuse/Kconfig:104:
++	  Say N here if you don't want any debugging code code compiled in at
 
 -- 
 0-DAY CI Kernel Test Service
