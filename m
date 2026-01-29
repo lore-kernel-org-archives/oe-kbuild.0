@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E76527B357
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Jan 2026 01:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EA6823DD
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Jan 2026 01:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769648457; cv=none; b=I0MA/vDWTnOX5n7gQchAqRUzszhVRvMIsFzMTwPMmqrj3yjVKiJ3qKaNiPnG+ydQhv0/vSGXyuouc8+XMPcsYrgHTR5M6xZWacOExohe9zteblu0SssaCwdchEUhZB5wGh0U5Lc8N2vqEZ6akor122lUWcCHwGoMC+QExHIcwf4=
+	t=1769650733; cv=none; b=MvFG/70FAvaGkhyl3uo5Ag8ooSJ3awDBaD5zyd7bKvBdbNnZprQX8iyGSqlMsEKcYVUSbvV5I9twNIc9sfCfwIAOCrNGVQf7UJDW3wxXZlOBhVVURuJYLbkcrc8QEaq3bphLd80/xSh0b35YVeyWfY9geHttUmy1Actqp0wJNak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769648457; c=relaxed/simple;
-	bh=Aix14LeIYZPcjbrnOX1YmH/mTvH7yVSfpbMu6ln+6Ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hG4OOauTUfGNRBZVzSd96x+zDresXUWjUL44m7kmpooCeizKSyO4elAs1FMT1pApUJiJ6TI9PyRowV2vuo37uFUunuO7pMlhLltHmls6KgkvGUvWLGjimo5rMYI83dQfapw3/M+OriOrJrHc/dSlVLRVV24fUrJ8mfEOI3KFtnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bg9Pq16+; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1769650733; c=relaxed/simple;
+	bh=llKddvfkmwVYcLOUjA4RVImwL7FfqXRVenO/g08hNuA=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AJclKXNSX11NdoDm903M48uQ0qXjyQKfiXfA3YWYSgJhapch7rR6TsBalIPGjl+JmUNcFRXYb1lxsbu/SIu5xafG6603KYXYlbDIUUCj/NEp9AZD/NWN0DBC5uvu7Ak/rTGysRivymKh3nczlE1KO1VF61p7cLf0Q28//PLZnpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e472z7Cj; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bg9Pq16+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e472z7Cj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769648454; x=1801184454;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Aix14LeIYZPcjbrnOX1YmH/mTvH7yVSfpbMu6ln+6Ss=;
-  b=Bg9Pq16+CMOI9dibwQqVBwVXumW67voY+emcrp9mVDCOv2j/qp6aIkFM
-   Wf0GTz/COQMaM+NnHcTkrl3tj3geJg5lLpIrZOfOybw7Z5g0ywtZoB4Co
-   NsCx58NT5hhLka6fhv9QoUM3sAgD1UrNPrEeLOj3uROIeNLtcJVVHv1b3
-   kcUOl7j/OEDt2Qr++GoLKbXky3UUfzNOOLNqVM00Chxch9v1Jwhvy9Dzb
-   ZMkC/44olNL1Y2nJNIvphxn0edA8ClqxvMBW0kxRtyc9HZlv8fjANfLvf
-   X3OfxIi54tLlYx6nlcB98VkKhuYp/rgXV/fp6CRiBm3AeYUx/5tDR7muW
-   g==;
-X-CSE-ConnectionGUID: Uf3uawnPToCkyY3LUQeiiw==
-X-CSE-MsgGUID: 5Mf/w86mQK2sNCtKbvBSlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="74499084"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="74499084"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 17:00:54 -0800
-X-CSE-ConnectionGUID: tBaY9WxYRDqRwFqb1a2VxQ==
-X-CSE-MsgGUID: helyahZHSfCtvq0r89zjnQ==
+  t=1769650731; x=1801186731;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=llKddvfkmwVYcLOUjA4RVImwL7FfqXRVenO/g08hNuA=;
+  b=e472z7CjN5T3e+0+BVt7JAPSd+gxvozlKOFekYB4qmH2p1vbojYYW6D7
+   B6QCNlmXuQWE1PzxuZhLpZeGuVoLnJ4r/5haYbIlt4BjVGh7JzD98d+Tb
+   Qe8fw7JsE+wax+gX6H66lBinHJociVhPx9d3vi8gqueY2jVwSGV1+TCsL
+   1bkr5MsrIU9DIQy3BDeRO8kUuWK3Yfy9dWivb4oJfnk7XGfKoD9w5rhLK
+   VITbDzLqA/CINzHaMLRXXPiHZuFTUIkT8CrTAA1En4zUEjs+7UIE/IEus
+   I4mng3/59jLUWbOovs1qmxT8ApPaM9/3fs9+0xWGy8SxWG3bc2fSAbbqK
+   w==;
+X-CSE-ConnectionGUID: ZQKU3X1iR1GnlXUE9k7Frg==
+X-CSE-MsgGUID: 9M+cOFduTXmzj/qEZbakyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70781272"
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
+   d="scan'208";a="70781272"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 17:38:51 -0800
+X-CSE-ConnectionGUID: NiEFHXtPQWWl6ee7Yt+a4g==
+X-CSE-MsgGUID: UU0kynwaTz+/A3hZsoXtbw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="208510303"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Jan 2026 17:00:53 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
+   d="scan'208";a="208663642"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 28 Jan 2026 17:38:50 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlGOw-00000000awc-2rlG;
-	Thu, 29 Jan 2026 01:00:50 +0000
-Date: Thu, 29 Jan 2026 08:59:54 +0800
+	id 1vlGzg-0000000028z-28WQ
+	for oe-kbuild@lists.linux.dev;
+	Thu, 29 Jan 2026 01:38:48 +0000
+Date: Thu, 29 Jan 2026 02:38:28 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] usb: xhci: add interrupter type
-Message-ID: <202601290847.Cb6aLduh-lkp@intel.com>
+Subject: Re: [PATCH v4 06/15] drm/dp_tunnel: Switch private_obj
+ initialization to atomic_create_state
+Message-ID: <202601290259.AzRE51I1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,90 +62,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260128131504.124322-3-niklas.neronin@linux.intel.com>
-References: <20260128131504.124322-3-niklas.neronin@linux.intel.com>
-TO: Niklas Neronin <niklas.neronin@linux.intel.com>
-TO: mathias.nyman@linux.intel.com
-CC: linux-usb@vger.kernel.org
-CC: raoxu@uniontech.com
-CC: Niklas Neronin <niklas.neronin@linux.intel.com>
+In-Reply-To: <20260128-drm-private-obj-reset-v4-6-90891fa3d3b0@redhat.com>
+References: <20260128-drm-private-obj-reset-v4-6-90891fa3d3b0@redhat.com>
+TO: Maxime Ripard <mripard@kernel.org>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: David Airlie <airlied@gmail.com>
+TO: Simona Vetter <simona@ffwll.ch>
 
-Hi Niklas,
+Hi Maxime,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on usb/usb-testing]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 68b271a3a94cfd6c7695a96b6398b52feb89e2c2]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Neronin/usb-xhci-move-Primary-Interrupter-IMODI-setup/20260128-211728
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20260128131504.124322-3-niklas.neronin%40linux.intel.com
-patch subject: [PATCH 2/2] usb: xhci: add interrupter type
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-randconfig-161-20260129 (https://download.01.org/0day-ci/archive/20260129/202601290847.Cb6aLduh-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-atomic-Make-drm_atomic_private_obj_init-fallible/20260128-205507
+base:   68b271a3a94cfd6c7695a96b6398b52feb89e2c2
+patch link:    https://lore.kernel.org/r/20260128-drm-private-obj-reset-v4-6-90891fa3d3b0%40redhat.com
+patch subject: [PATCH v4 06/15] drm/dp_tunnel: Switch private_obj initialization to atomic_create_state
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260129/202601290259.AzRE51I1-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202601290847.Cb6aLduh-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-smatch warnings:
-drivers/usb/host/xhci.c:320 xhci_enable_interrupter() warn: variable dereferenced before check 'ir' (see line 317)
-drivers/usb/host/xhci.c:340 xhci_disable_interrupter() warn: variable dereferenced before check 'ir' (see line 337)
-
-vim +/ir +320 drivers/usb/host/xhci.c
-
-43b86af83da7db Dong Nguyen    2010-07-21  312  
-bea5892d0ed274 Mathias Nyman  2025-04-10  313  int xhci_enable_interrupter(struct xhci_interrupter *ir)
-52dd0483e822d0 Mathias Nyman  2023-02-02  314  {
-52dd0483e822d0 Mathias Nyman  2023-02-02  315  	u32 iman;
-52dd0483e822d0 Mathias Nyman  2023-02-02  316  
-486b278520fd70 Niklas Neronin 2026-01-28 @317  	if (ir->type == INTR_NOOP)
-486b278520fd70 Niklas Neronin 2026-01-28  318  		return 0;
-486b278520fd70 Niklas Neronin 2026-01-28  319  
-52dd0483e822d0 Mathias Nyman  2023-02-02 @320  	if (!ir || !ir->ir_set)
-52dd0483e822d0 Mathias Nyman  2023-02-02  321  		return -EINVAL;
-52dd0483e822d0 Mathias Nyman  2023-02-02  322  
-bf9cce90da311a Niklas Neronin 2025-05-15  323  	iman = readl(&ir->ir_set->iman);
-ff9a09b3e09c7b Niklas Neronin 2025-08-19  324  	iman &= ~IMAN_IP;
-9f7f74735ac295 Niklas Neronin 2025-05-15  325  	iman |= IMAN_IE;
-bf9cce90da311a Niklas Neronin 2025-05-15  326  	writel(iman, &ir->ir_set->iman);
-52dd0483e822d0 Mathias Nyman  2023-02-02  327  
-f5bce30ad25e74 Niklas Neronin 2025-05-15  328  	/* Read operation to guarantee the write has been flushed from posted buffers */
-bf9cce90da311a Niklas Neronin 2025-05-15  329  	readl(&ir->ir_set->iman);
-52dd0483e822d0 Mathias Nyman  2023-02-02  330  	return 0;
-52dd0483e822d0 Mathias Nyman  2023-02-02  331  }
-52dd0483e822d0 Mathias Nyman  2023-02-02  332  
-e1db856bd28891 Niklas Neronin 2025-05-15  333  int xhci_disable_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
-52dd0483e822d0 Mathias Nyman  2023-02-02  334  {
-52dd0483e822d0 Mathias Nyman  2023-02-02  335  	u32 iman;
-52dd0483e822d0 Mathias Nyman  2023-02-02  336  
-486b278520fd70 Niklas Neronin 2026-01-28 @337  	if (ir->type == INTR_NOOP)
-486b278520fd70 Niklas Neronin 2026-01-28  338  		return 0;
-486b278520fd70 Niklas Neronin 2026-01-28  339  
-52dd0483e822d0 Mathias Nyman  2023-02-02 @340  	if (!ir || !ir->ir_set)
-52dd0483e822d0 Mathias Nyman  2023-02-02  341  		return -EINVAL;
-52dd0483e822d0 Mathias Nyman  2023-02-02  342  
-bf9cce90da311a Niklas Neronin 2025-05-15  343  	iman = readl(&ir->ir_set->iman);
-ff9a09b3e09c7b Niklas Neronin 2025-08-19  344  	iman &= ~IMAN_IP;
-9f7f74735ac295 Niklas Neronin 2025-05-15  345  	iman &= ~IMAN_IE;
-bf9cce90da311a Niklas Neronin 2025-05-15  346  	writel(iman, &ir->ir_set->iman);
-52dd0483e822d0 Mathias Nyman  2023-02-02  347  
-bf9cce90da311a Niklas Neronin 2025-05-15  348  	iman = readl(&ir->ir_set->iman);
-e1db856bd28891 Niklas Neronin 2025-05-15  349  	if (iman & IMAN_IP)
-e1db856bd28891 Niklas Neronin 2025-05-15  350  		xhci_dbg(xhci, "%s: Interrupt pending\n", __func__);
-e1db856bd28891 Niklas Neronin 2025-05-15  351  
-52dd0483e822d0 Mathias Nyman  2023-02-02  352  	return 0;
-52dd0483e822d0 Mathias Nyman  2023-02-02  353  }
-52dd0483e822d0 Mathias Nyman  2023-02-02  354  
+ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
+#29: FILE: drivers/gpu/drm/display/drm_dp_tunnel.c:1500:
++static struct drm_private_state * tunnel_group_atomic_create_state(struct drm_private_obj *obj)
 
 -- 
 0-DAY CI Kernel Test Service
