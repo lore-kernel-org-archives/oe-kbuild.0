@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F444A3C
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 Jan 2026 00:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3A118A6A8
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 Jan 2026 00:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769818093; cv=none; b=HUrCqFghCeMGQf8SL9dlwWy6sqIhEVxgwqFaf17LJJEnzOSWdCSwGJphIywZGKbjWE/vJUA0XvHpxaYf1wPEmiqBRdbO4Ox5xiOVN7YJ0LVZejDfw30i2WMyWeW5M7G/0kScJ/OEEoMvlRmdxNQXKRIDTPO17fEem/54xMUiQZU=
+	t=1769818212; cv=none; b=d0lkZXr7Zid2CD6ziVckdW51ZiBap4NXcRCS3FnFLsnFnSmuTaZtJN0egy7QWvlM4N1lWxDR+nfrSL4kK21s1hPunATsQH4nahcLQwF+rZCuWzrjqG3YTQwl3kFWtP14QwpAtP4d8lZYUHgN3+dEzAXjDgpjNVgAkhzUtvRQQH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769818093; c=relaxed/simple;
-	bh=lRBBo0dOMbTjc0AVkANF3HNxvZap91mOeSd1s2OovAI=;
-	h=Date:From:To:Subject:Message-ID; b=IwAnx7NpCKFiGh66j0CYAlTgQNmqQXVa7HiL65Jny6oO5/jREq4XMCRvHAlO+NS/ltqaFldV6AuVY6cHPGZ1qUu1FG0Yowqy2XIly3PDCuUcRPsXOF8zLPn422sE73+MsPIdth+XdyMw/qwZmozDTN49K2yIdcN/Vp9mKtash3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/Zo4cFv; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1769818212; c=relaxed/simple;
+	bh=9rbZkIx7EsH21mXzfhfcOEcYAzCeHBNg6/WfNqeAVQE=;
+	h=Date:From:To:Subject:Message-ID; b=Um0RR+IM2cGZHkPV2+qq9Y9Lz4Hsv/ySufCwZvg2e50XH62+uz+6jQ1VfzJQMjbq4WMUEy9DEOCJAmD5nXZI084KaGsZln4pd+tjNPbv9w8x5mWLvh2lEszrt+G7vgDmr5SFHgm8ShT0F3skKXlN50Lb4WAlBdzSXX2KnzUiYSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AC/CERvr; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/Zo4cFv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AC/CERvr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769818092; x=1801354092;
+  t=1769818211; x=1801354211;
   h=date:from:to:subject:message-id;
-  bh=lRBBo0dOMbTjc0AVkANF3HNxvZap91mOeSd1s2OovAI=;
-  b=S/Zo4cFvVE1iMmtZUFY4GAT1NSRszjLwkVTEoRUyKPDF363l54VuByX9
-   sKidRPpdilZm++Bi8zgd9h7QzHy7Ukgm1yUlI8glDaJAnlfmxewMX81zE
-   vrGfv6bP3dLn1Tso7dheGS5qVeyJ6qfAfIsa/mKgd/KrEtgdoS98MBsm/
-   K0BuFI4Yej0UWq0aUQcuag4QW/7CeoJqujDdrgRZZ9wC/h5qLcXyWa3YJ
-   VDLNQ1I6mz8ynEJwQJlT/UBjqsEkfo0i26mnqLNWnugcNK6fu5eqVGtwU
-   5g1+wb5Om/M8n/LFW278ftm8ZCoZD34Ot+7a2DMy5jpCtZwytQAnPVYzq
-   A==;
-X-CSE-ConnectionGUID: 9618cqgXRtG9X4BjXa4qHQ==
-X-CSE-MsgGUID: D7MNOUSoTQq3f/Zp9cSnzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="73674806"
+  bh=9rbZkIx7EsH21mXzfhfcOEcYAzCeHBNg6/WfNqeAVQE=;
+  b=AC/CERvrgGslsm1m0TPBqv7cVy5IGT0+N10tk5bwxt60wyuT7L0/tKhs
+   ZKTK1p0LpECZRWN6jKmg0gu6lEsf0PPpci3O813tCqM+zMyD9uHBLoM1T
+   Qtyg+2cNR2z8w5Ans3BWqecPqLb1OEBRvCcfF59rReHmbA0EJgyML+gYI
+   MZiGLKQz8b8tbH4CGOClRZzrloBivxhKYq/AuqFUZPft13bvTTAuDnSnS
+   olAkmpQsFzd3fdCwFTF+dWoBvsKFC5n/iVOl2xWCA890ZWPsxUCMewlDo
+   RzTMXTWzGez1JuXuwVCH+HWsvgHpwDmlfpyEdjDLjcdEk2fJvpUoJZE2x
+   Q==;
+X-CSE-ConnectionGUID: r28wa34yTz+HqUELd04xmg==
+X-CSE-MsgGUID: mggbqx4PThKgmJtoJbbVyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="82182073"
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="73674806"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 16:08:11 -0800
-X-CSE-ConnectionGUID: U2PH1oHiQH6AXEdNVp/4wg==
-X-CSE-MsgGUID: cj/2f/BFQDiohYAq5XQgkQ==
+   d="scan'208";a="82182073"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 16:10:11 -0800
+X-CSE-ConnectionGUID: tTih3lOTTn6BB6pBnYiFbg==
+X-CSE-MsgGUID: uY1aD56MQZuIYUaqTqFVEA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="246598253"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 30 Jan 2026 16:08:11 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2026 16:10:10 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlyX2-000000002aJ-0dt4
+	id 1vlyYy-000000002aX-1IR9
 	for oe-kbuild@lists.linux.dev;
-	Sat, 31 Jan 2026 00:08:08 +0000
-Date: Sat, 31 Jan 2026 01:07:29 +0100
+	Sat, 31 Jan 2026 00:10:08 +0000
+Date: Sat, 31 Jan 2026 01:09:37 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [cornelisnetworks:for-upstream-20260130-1 10/23] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'revision'
-Message-ID: <202601310114.Ukc1UuQF-lkp@intel.com>
+Subject: [cornelisnetworks:for-upstream-20260130-1 11/23] checkpatch:
+ WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+Message-ID: <202601310111.yPmUoUQg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -69,35 +67,32 @@ TO: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
 
 tree:   https://github.com/cornelisnetworks/linux.git for-upstream-20260130-1
 head:   8613a3fd5b6e088624accc0967f5a063f0dd02eb
-commit: 23faa0d021c70c35300b9cfececfec71efe1a585 [10/23] RDMA/hfi2: Add in HW register access support
+commit: a51e388b723bab84b3914c7a2529c47d6d39ea4f [11/23] RDMA/hfi2: Add in trace header files
 :::::: branch date: 28 hours ago
 :::::: commit date: 28 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260131/202601310114.Ukc1UuQF-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20260131/202601310111.yPmUoUQg-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'revision'
-#5243: FILE: drivers/infiniband/hw/hfi2/chip.c:5207:
-+/* return true if this is WFR chip revision revision a */
-
-WARNING:REPEATED_WORD: Possible repeated word: 'revision'
-#5256: FILE: drivers/infiniband/hw/hfi2/chip.c:5220:
-+/* return true if this is WFR chip revision revision b or not WFR */
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#83: FILE: drivers/infiniband/hw/hfi2/trace_ctxts.h:3:
++/*
++* Copyright(c) 2015 - 2020 Intel Corporation.
 
 WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#6129: FILE: drivers/infiniband/hw/hfi2/chip.c:6093:
-+	/*
-+	* Update the counters for the corresponding status bits.
+#204: FILE: drivers/infiniband/hw/hfi2/trace_dbg.h:3:
++/*
++* Copyright(c) 2015 - 2018 Intel Corporation.
 
-WARNING:REPEATED_WORD: Possible repeated word: 'be'
-#11037: FILE: drivers/infiniband/hw/hfi2/chip.c:11001:
-+		 * Physical and Logical states should already be
-+		 * be transitioned to LinkUp and LinkInit respectively.
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#852: FILE: drivers/infiniband/hw/hfi2/trace_misc.h:3:
++/*
++* Copyright(c) 2015, 2016 Intel Corporation.
 
-WARNING:REPEATED_WORD: Possible repeated word: 'off'
-#14789: FILE: drivers/infiniband/hw/hfi2/chip.c:14753:
-+	 * the device since we are now in charge.  Turn off
-+	 * off all outbound and inbound traffic and make sure
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#1251: FILE: drivers/infiniband/hw/hfi2/trace_rc.h:3:
++/*
++* Copyright(c) 2015, 2016, 2017 Intel Corporation.
 
 -- 
 0-DAY CI Kernel Test Service
