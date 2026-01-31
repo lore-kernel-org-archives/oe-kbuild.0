@@ -1,115 +1,137 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1285C41C62
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 Jan 2026 14:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A676A3570D1
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 Jan 2026 14:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769870071; cv=none; b=AxWgo89muSxPQa19lM+eEYZYvZHo9+2CItPOkdPy7U/QZfQbLeFvHcbr165y58S32WcnuRlO8qKXnOrfQC2Vh+Y4f5ZQDEeWLuQafrYemxQkW6BOO5mFKGQGTwB3nraxPtI6EciJhEqtrPZ2xuZL+pNxgKjLtD7CJZbpnTWjWOM=
+	t=1769870165; cv=none; b=OxeeYrxmG5r4Hu5c9i3USRUcqwPTImM3OzD61kcEsjUrhqnXMdspz6r7Yy7YTZqHbZbbuuGG4NxibBqG1Cpdz2vTviIHdVHSkJD0mpysikQvb1idl34oSaMrC0/2gwHxq9xsuBc4nHyMZmNkkyrisfrQf4X4mshIs+0n4E/MPYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769870071; c=relaxed/simple;
-	bh=oJe0NcvJMaTyR62mE9pi1Nc8trO4/gp11pDxuMJ7E2A=;
+	s=arc-20240116; t=1769870165; c=relaxed/simple;
+	bh=zvie+874fTn75a3eXFaIOd8Atel+XaljTeurFJOSLEw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ss90eumVociT/axJZmp5NO04eQ7wywRuwLgr5FCExJSVYt4mO7e8zPpRqHapP34laM8q/KLxdkOZaE0N42MBo9jmGlDQmqcR9wTjH2oIkbH/JtMhjMpVPkRBCxI5XD9fjVKy3XSahJoAbwiua8Yj6Sj1OUYqb0N2E4whPRdal4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zC8diWL2; arc=none smtp.client-ip=209.85.128.44
+	 Content-Disposition:In-Reply-To; b=E/dOjRpQWVAxTbRb9wyWUURX2ehKtdqc2lhQQcGrUKMxmbQl2Deb2mMXk0Uu1RBcfGVQU0+shfr30Q79CU0GiDQ2fEIh+Ont8SljNesb7/kWb8LcsKmg53PFF8evHZLg24l3HDCyvXvpB9loyRw6UfOeaBeQaTup4K73JI9ZJoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yJvA5Nk9; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zC8diWL2"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48068ed1eccso27656755e9.2
-        for <oe-kbuild@lists.linux.dev>; Sat, 31 Jan 2026 06:34:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yJvA5Nk9"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-435a517be33so1848815f8f.0
+        for <oe-kbuild@lists.linux.dev>; Sat, 31 Jan 2026 06:36:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769870068; x=1770474868; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HGZE/FwI58g7fq6+rZcqOW9r8gwwvwF2Yhf/tTAm3u0=;
-        b=zC8diWL2167EEg/YrFVS5jU1Cu4mtPBDZYddFkLHhJUyMtWduwy458A4ts9ZqqEJ9/
-         dH0GaEJyFUO1ZSq7SVoHwyvo89FbE587SbYUlNixKO/tPTnM3AVdH6mpfsOq0GsR7+yB
-         TUB9CwnqcVYq3FG2CmqGNvKwRU3j/nu3npEyKhsSloZD59u2m1boypLZNw0Hx2Kpyhp1
-         tgWEZFciCrnZycxJfKhwmmKb0Fj6+AProEKKzVXls3epVSmbCw6cwoR6i5Vbjfr1kmTR
-         qVrWXWrEQFBUjlFz76od7NZmnARfA3lbzWpUk9EaEoWLg9jb1zySLWMS8iPtVy+zkQMS
-         Lsyw==
+        d=linaro.org; s=google; t=1769870161; x=1770474961; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sVSIbao0S7N2+ApNZzv364LLiL6KFRy4sHA0aE5O/xE=;
+        b=yJvA5Nk9cGMnqpQk/4een8veJepW86hvB/w//F72PBuPIHEgnpe/1EvA20PL7n/nHV
+         nj3EuqSVC1AMeRrCXIWhNAIJwEokOred9I4QpnxZoplaUgxxoSIb41cG+4UqY73NVQ8c
+         6/RXGa/9l1aeUijqdZi7Ye+ZsL7K6GcrOYzROs0aumYeQ+PBrtmT2SLFsrFivsntBhkl
+         J8X85dUZ9i/jQ4MryX3HyyiJan5Cm7a+se7ULWbOTdiTWJnMMB0u8KuPomOs3gSwWRp+
+         EwE2GtCQdgDAKG4e7h01p/DEKz4E++ghpmE0Cndok1jKXPW9EOG9nH+NnJGpc72SK531
+         dItA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769870068; x=1770474868;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HGZE/FwI58g7fq6+rZcqOW9r8gwwvwF2Yhf/tTAm3u0=;
-        b=dUYlI4NYH/wH1veUXRUNvKcjjNTbyDbsBsHfC/Qv793Hk52NcmbggUnbRp4oDaI7v6
-         U5lfOZLjI4tVu0kNqAKv1N8xeNAw3u9EVs9zW8rn7IdWasC4h5R4XxryCiJLQyCHEEsT
-         N8zovCLn2M7IIXtzNgn4bL1CXRIEspXFKIbxs8Z9cmPP0r1xlDFGWH+rfQjVW9a6xeca
-         MPhgXISKCRGV+A9g3lXcxRP5WzdfdCNkpesSze3Q6SHGfRFmXOswAmd9a/pb83RnFOZg
-         nB8t2fpZkkwTAdDPw7v4DCJUre1J6M02fdWaOVn7YR+knvsQUHj3L2WRl7a9VO5NLEKJ
-         kLLg==
-X-Gm-Message-State: AOJu0Yz5KXgSXJGM9njtXxn1nxyXatmDEhl97seWzbQ6ATf9iDZNyyu1
-	yWNThdp1A/0+ij+6RultcBl8UqtZlz8CFyFPPDjI9ZzceMvXncRB25egwVxS2ZFoafFltQENPJp
-	Kukea
-X-Gm-Gg: AZuq6aKtU7b0t80cC5V6VkmL6ZgwclBaNFiG9mTKwiYJqUXsTAglumgepmvRgonKwpH
-	25By/jW85h+9NcHu+Xpm0U/pXTFWO/sixAzTCXKAFMs5JaePJ1zyMmJ+nfycYR0U43Bf+u+jR3u
-	UtudUHkV9iDPpayA98Fu3h1tjYUc/eM88TX3IG1Kqfx3yBiXRl9RHGQxP8Yy8HBkKDI38jjes8u
-	KiSWqHHXu3LLxmnt72Cz+LzBvBPyNl2tGL/GJG1Wa8276KTzkP4s74DZEW7x0HHfQZDBlUv8T8c
-	f3jOqOlB4uC5Dp/FTjNatElqOF53l/jkC8E0JJi+ik+ylRn0s3XzoL/n+jUTgzvMAOFWSYoA/rO
-	QwsfkYVkDD3CBgzNOTLM3CFdOtrjNnMIziBHlLuDgw04UaSWnkJHxx4sexcyVhNpXgOeS4NdQt3
-	YbvsmvIusb0Xs6UVnj
-X-Received: by 2002:a05:600c:1c26:b0:47e:c562:a41f with SMTP id 5b1f17b1804b1-482db481c92mr84376595e9.18.1769870068280;
-        Sat, 31 Jan 2026 06:34:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769870161; x=1770474961;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sVSIbao0S7N2+ApNZzv364LLiL6KFRy4sHA0aE5O/xE=;
+        b=c8m3ZQHPJkMEh7INY+q2OlVL+09S7Kx3Oiz5YdvkBlqr9QuZHyffc1tiE+LKTDyVru
+         rTg1XXpHr0uYjApsswMnTGULm1p2NRX7ggyI8j8JLMGuLakleTJoIoV7hO16P/uhisD1
+         K7eXtMrEPXh2VQKrmijuYTXa6X7RJ0KRE2faUaK1p/ghvEfg9U1eZiMaMAtYTnjRpl1C
+         2wrfsFYd7U3nhMl7aZwvg4HRAMogHOhxcvoqebY9m1NqYdIw1a4+OApH5sqxLQS3sSZw
+         oW3goMJe0GH6bjq/AAUYYiUF9b3t9sy+pWq1oatpMTxHXjxwkJUmYSUpFsLVuj5JXm8L
+         psAQ==
+X-Gm-Message-State: AOJu0Yx6lx+5Xwyk0D7f4l8moF7aN/aAia2QoJqPLw+814xhCdvncUcq
+	V4xJIpLWW4JC7gBXaDndGDMBjVA1pVgC3W8OfLMlOwXdBVr6QaC4UulDdOIlpZDXG3w2DMfi4R4
+	sBLgz
+X-Gm-Gg: AZuq6aKJZsNDdubAiFMVvUlzOpi8EUylCq0Yi4IQW9ruPiAwlsNzQ7coKz5uwpP+Cyt
+	I7cjMVlNaTBVqDZh6tftP8BcyKhoQ4xehhsgV6x/bP3+ytGqtJGxu1IUcZuIMzoYhQJYOCSEoka
+	RKYCIIW3dB1pnGjxjIVkxaMFps1b1FXFBxuiFvrMmiQZoOFoI1Jkk/heBKgu8p5TObfF/Yc9GF1
+	nN6fP9iF0sTR9r30cVnOXw5DZbXam8fjaoiNLA0IyB6oZNKVzimTt9EnFQa/EJHCm5kaXrvFw6S
+	nfPwYYYDJ1bo+6CCC+EB+izFmzeg7PzJxQCD0gbK/CLPpiHD9732m/GcMty3XV+CqB6wv4WkYRA
+	clwcJoijnLuSETUyvlaLGwkwTgI4LfrSjX9HmmJNSkfd5ekUzGnY+HS6ZrdcFro5tpKIRORWB5u
+	C856m+d1HD9vE/+BmW
+X-Received: by 2002:a05:6000:4382:b0:435:99d5:9d8f with SMTP id ffacd0b85a97d-435f3a742f4mr9016413f8f.19.1769870160665;
+        Sat, 31 Jan 2026 06:36:00 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482e256f639sm39572795e9.13.2026.01.31.06.34.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10ee040sm29840712f8f.11.2026.01.31.06.35.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 06:34:27 -0800 (PST)
-Date: Sat, 31 Jan 2026 17:34:24 +0300
+        Sat, 31 Jan 2026 06:36:00 -0800 (PST)
+Date: Sat, 31 Jan 2026 17:35:57 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 100/100]
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1750 a5xx_gpu_init() warn: variable
- dereferenced before check 'pdev' (see line 1743)
-Message-ID: <202601311507.plKOLxfT-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Abdurrahman Hussain via B4 Relay <devnull+abdurrahman.nexthop.ai@kernel.org>,
+	Michal Simek <monstr@monstr.eu>, Andi Shyti <andi.shyti@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Abdurrahman Hussain <abdurrahman@nexthop.ai>
+Subject: Re: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
+Message-ID: <202601311615.10yziOui-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Message-ID: <20260131143424.MCBubqosRenIl_k3p275ZKw3W3rzCHA6W8ODw1NF5ZM@z>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260129-i2c-xiic-v7-5-727e434897ef@nexthop.ai>
+Message-ID: <20260131143557.bLB9YjrTgN6BVCfn95h67-M1stpF9-2DqY5TZaR3IS0@z>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   33f6e289fb06b4b8ebf1124c1fad6b68aea9d8de
-commit: 154bed0fd609e1c195d582ec3b6f647c5859acaf [100/100] drm/msm/a5xx: really check for A510 in a5xx_gpu_init
-config: arm64-randconfig-r072-20260131 (https://download.01.org/0day-ci/archive/20260131/202601311507.plKOLxfT-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
+Hi Abdurrahman,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abdurrahman-Hussain-via-B4-Relay/i2c-xiic-skip-input-clock-setup-on-non-OF-systems/20260130-054653
+base:   63804fed149a6750ffd28610c5c1c98cce6bd377
+patch link:    https://lore.kernel.org/r/20260129-i2c-xiic-v7-5-727e434897ef%40nexthop.ai
+patch subject: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
+config: i386-randconfig-141-20260130 (https://download.01.org/0day-ci/archive/20260131/202601311615.10yziOui-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601311507.plKOLxfT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601311615.10yziOui-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1750 a5xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 1743)
+drivers/i2c/busses/i2c-xiic.c:1539 xiic_i2c_remove() warn: pm_runtime_get_sync() also returns 1 on success
 
-vim +/pdev +1750 drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+vim +1539 drivers/i2c/busses/i2c-xiic.c
 
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1739  struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1740  {
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1741  	struct msm_drm_private *priv = dev->dev_private;
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1742  	struct platform_device *pdev = priv->gpu_pdev;
-154bed0fd609e1c Dmitry Baryshkov 2023-04-09 @1743  	struct adreno_platform_config *config = pdev->dev.platform_data;
-                                                                                                ^^^^^^
-Dereferenced
+e190a0c389e601 Uwe Kleine-König    2023-05-08  1529  static void xiic_i2c_remove(struct platform_device *pdev)
+e1d5b6598cdc33 Richard Röjfors     2010-02-11  1530  {
+2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1531  	struct device *dev = &pdev->dev;
+e1d5b6598cdc33 Richard Röjfors     2010-02-11  1532  	struct xiic_i2c *i2c = platform_get_drvdata(pdev);
+36ecbcab84d023 Shubhrajyoti Datta  2016-03-02  1533  	int ret;
+e1d5b6598cdc33 Richard Röjfors     2010-02-11  1534  
+e1d5b6598cdc33 Richard Röjfors     2010-02-11  1535  	/* remove adapter & data */
+e1d5b6598cdc33 Richard Röjfors     2010-02-11  1536  	i2c_del_adapter(&i2c->adap);
+e1d5b6598cdc33 Richard Röjfors     2010-02-11  1537  
+2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1538  	ret = pm_runtime_get_sync(dev);
+2557b4ba04df79 Abdurrahman Hussain 2026-01-29 @1539  	if (ret)
+2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1540  		dev_warn(dev, "Failed to activate device for removal (%pe)\n",
+810199f7315604 Uwe Kleine-König    2022-10-19  1541  			 ERR_PTR(ret));
 
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1744  	struct a5xx_gpu *a5xx_gpu = NULL;
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1745  	struct adreno_gpu *adreno_gpu;
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1746  	struct msm_gpu *gpu;
-02891701516b247 Adam Skladowski  2023-03-14  1747  	unsigned int nr_rings;
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1748  	int ret;
-b5f103ab98c77ca Jordan Crouse    2016-11-28  1749  
-b5f103ab98c77ca Jordan Crouse    2016-11-28 @1750  	if (!pdev) {
-                                                            ^^^^^
-Checked too late.
+
+pm_runtime_get_sync() can return 1 on success.  Perhaps use
+pm_runtime_resume_and_get()?
+
+810199f7315604 Uwe Kleine-König    2022-10-19  1542  	else
+e1d5b6598cdc33 Richard Röjfors     2010-02-11  1543  		xiic_deinit(i2c);
+810199f7315604 Uwe Kleine-König    2022-10-19  1544  
+2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1545  	pm_runtime_put_sync(dev);
+2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1546  	pm_runtime_dont_use_autosuspend(dev);
+e1d5b6598cdc33 Richard Röjfors     2010-02-11  1547  }
 
 -- 
 0-DAY CI Kernel Test Service
