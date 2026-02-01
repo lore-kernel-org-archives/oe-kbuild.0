@@ -1,149 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADB42E613A
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Feb 2026 08:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD22D7E0FF
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Feb 2026 15:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769936091; cv=none; b=Kb1OTWewdmM1z1+DNNJrLmlwCIUW60AXyXDAd78/8GsPom2llmK9r3wGoYWAN1yWWumtH0iCP51F+K9I0sRZu+fVjGz8LeR+itxEIfA+uXmsCdt80Vo0RR+ARorBI2OZS4q1KybVzfMaAEurMDiiCU2VYO2TF2VQ5yQEYqtUNsQ=
+	t=1769959679; cv=none; b=muTyzNRQLusvbnYiFzNOtsdPhfQx8xyec6RdvfMzmkjpGEqyNBf4K7oIHXYN72f2MAngDgDbJc9tSbpFWB9Du4zh2zlNhd1cdVaeKh50cREA20Ydb+YjSBsmx6p1dnUsFxtMC/YJZtfvgZU7JnLjo+bSoHJ9dw5dtxe8WgUlzMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769936091; c=relaxed/simple;
-	bh=TombKC88PnC8kMnggJW4+AaZfUvqghpkyLzIbhD6Yh4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tPr0folF+D/Sr7HsXe0amLzRO4NrqX2WJle/skwsEuM+H2AQZE4Jb0k+Jo+1jb4mh62Z9DEtTt3DV72/UlqNI4D2h39AejdDZOIkW2qldXUWd8+mN+Rg8UGtCHRdtryv9yA9RqKLOoRDN+Om9LegGpY/tlsZd4uk074piAQ4Teo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ioz4jfPO; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1769959679; c=relaxed/simple;
+	bh=erRsiqxSE2bLu7Zpd/e/B4Q6M7AFklkqWZVzE+I9Xa4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lWx6Fu33ID/nczV6xVRMFaz7j2TVyDpV7gYKJdOFwG7Q/nPhLfsG9EB9tl/rNewmfp0W1VieWS7bXDA8gc35jUIzYhy7X/W+pA8R7mkPY+EZy8DuNdT+eX7Knfd/mD9cEbzOe1Icq/zuOhoeGZ3LTT+UHojv1YMEl0gTDR0xPyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ac2ICeJl; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ioz4jfPO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ac2ICeJl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769936090; x=1801472090;
-  h=date:from:to:cc:subject:message-id;
-  bh=TombKC88PnC8kMnggJW4+AaZfUvqghpkyLzIbhD6Yh4=;
-  b=Ioz4jfPOk0x3kUbylgWMW/57+iUgzddlU0vGtw80yLNRqURJ/6tf1Yf2
-   fUXXReAN2zPEo0yC9XIgRZrhfG7x+v9kumY2EJ7ePaaEyQhVDRW5GfLxD
-   t7PdYioB8gLgamSLRT4pd9bn02FD83ayIjGhK0m60bIr2LGG9iY0x0ppI
-   8CGjpya2IMpDvn0z22b0wc6gMD9Uqicmh3ZLzJJO5WVgFSKkxdO9PxUnm
-   CVAeFgAzr/bnjDgSPlrIhEoiIpmTVYFXBwSTeEQQB6+BpM3KqW4NuSnHd
-   McXszVZlGvWqgVUwLGQeVQX3qIw/qvVy0M9gE5QkKiScVMsJRLv80v7MH
-   A==;
-X-CSE-ConnectionGUID: DraOrL8dSZ2cew6fb2s8JA==
-X-CSE-MsgGUID: MEhIbJCQSyWCqB+hvt5TmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="81438366"
-X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="81438366"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 00:54:48 -0800
-X-CSE-ConnectionGUID: UuRi6ECgQoWllfYOGcJk8g==
-X-CSE-MsgGUID: UnBUPBHdRgyFLEFjchYAcA==
+  t=1769959676; x=1801495676;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=erRsiqxSE2bLu7Zpd/e/B4Q6M7AFklkqWZVzE+I9Xa4=;
+  b=Ac2ICeJl4x1YGHrqsCWbyJppLWV2A1BxqM0KsrVfCngXVP1AhF2VgbRB
+   WDMtRpwduEY2q672s8WnChhIFh0DrgQ52IUAl8jRc/JVnziFT4NBBIWmk
+   MVtJYYqKFtq7zjY1AobNBTIa3DaPt9+51Di2md0X61I0xZ1DO5eo/+emz
+   pkm8dfjV/Jx+ILk/tCBc5sXTrEfoM4weAwbsTEHi1UPXqrVGZIeDrucAF
+   JAPGYR7jivKlLjocSIOnt1pIfBddcqsQVD/VyXsJZ/n1cSFNkSulbzmNf
+   6/QPmEeeR79t9JoE8Mv52uHZD7DI1TKvcYmh250scfWKBCIIeTbT1NI9V
+   Q==;
+X-CSE-ConnectionGUID: WhX00Le8RHKgvIGw523spg==
+X-CSE-MsgGUID: JtXtNuElSuCOl5ey3fIlug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="71301457"
+X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
+   d="scan'208";a="71301457"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 07:27:55 -0800
+X-CSE-ConnectionGUID: 1KcWswzrTcqTlgT8DGas9Q==
+X-CSE-MsgGUID: xXb/IvSeS7yUuzW3B2VM0w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="213323636"
+X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
+   d="scan'208";a="246893088"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 01 Feb 2026 00:54:47 -0800
+  by orviesa001.jf.intel.com with ESMTP; 01 Feb 2026 07:27:54 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmTEC-00000000egE-0A5c;
-	Sun, 01 Feb 2026 08:54:44 +0000
-Date: Sun, 01 Feb 2026 16:54:19 +0800
+	id 1vmZMd-00000000eoi-1wwj;
+	Sun, 01 Feb 2026 15:27:51 +0000
+Date: Sun, 1 Feb 2026 23:27:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: lib/tests/overflow_kunit.c:637:13-14: WARNING: array_size is
- used later (line 644) to compute the same size
-Message-ID: <202602011620.h8Kfb019-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v3] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+Message-ID: <202602012347.NI0P3lrp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260201072124.566587-1-liushuyu@aosc.io>
+References: <20260201072124.566587-1-liushuyu@aosc.io>
+TO: Zixing Liu <liushuyu@aosc.io>
+TO: WANG Xuerui <kernel@xen0n.name>
+TO: Huacai Chen <chenhuacai@kernel.org>
+TO: Bibo Mao <maobibo@loongson.cn>
+CC: Kexy Biscuit <kexybiscuit@aosc.io>
+CC: Mingcong Bai <jeffbai@aosc.io>
+CC: Zixing Liu <liushuyu@aosc.io>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Tianrui Zhao <zhaotianrui@loongson.cn>
+CC: Paul Walmsley <pjw@kernel.org>
+CC: Palmer Dabbelt <palmer@dabbelt.com>
+CC: Albert Ou <aou@eecs.berkeley.edu>
+CC: Alexandre Ghiti <alex@ghiti.fr>
+CC: kvm@vger.kernel.org
+CC: linux-doc@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <kees@kernel.org>
-CC: David Gow <davidgow@google.com>
-CC: Rae Moar <rmoar@google.com>
+CC: loongarch@lists.linux.dev
+CC: linux-riscv@lists.infradead.org
 
-Hi Kees,
+Hi Zixing,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   162b42445b585cd89f45475848845db353539605
-commit: db6fe4d61ece24193eb4d94a82d967501d53358c lib: Move KUnit tests into tests/ subdirectory
-date:   12 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-102-20260201 (https://download.01.org/0day-ci/archive/20260201/202602011620.h8Kfb019-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvm/next linus/master v6.19-rc7]
+[cannot apply to kvm/linux-next next-20260130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zixing-Liu/KVM-Add-KVM_GET_REG_LIST-ioctl-for-LoongArch/20260201-152421
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260201072124.566587-1-liushuyu%40aosc.io
+patch subject: [PATCH v3] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: loongarch-randconfig-r064-20260201 (https://download.01.org/0day-ci/archive/20260201/202602012347.NI0P3lrp-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202602011620.h8Kfb019-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602012347.NI0P3lrp-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> lib/tests/overflow_kunit.c:637:13-14: WARNING: array_size is used later (line 644) to compute the same size
---
->> lib/tests/fortify_kunit.c:211:8-9: ERROR: reference preceded by free on line 208
-   lib/tests/fortify_kunit.c:213:8-9: ERROR: reference preceded by free on line 211
-   lib/tests/fortify_kunit.c:216:8-9: ERROR: reference preceded by free on line 213
-   lib/tests/fortify_kunit.c:218:8-9: ERROR: reference preceded by free on line 216
-   lib/tests/fortify_kunit.c:220:8-9: ERROR: reference preceded by free on line 218
-   lib/tests/fortify_kunit.c:223:8-9: ERROR: reference preceded by free on line 220
-   lib/tests/fortify_kunit.c:226:8-9: ERROR: reference preceded by free on line 223
-   lib/tests/fortify_kunit.c:228:8-9: ERROR: reference preceded by free on line 226
-   lib/tests/fortify_kunit.c:230:8-9: ERROR: reference preceded by free on line 228
-   lib/tests/fortify_kunit.c:233:8-9: ERROR: reference preceded by free on line 230
-   lib/tests/fortify_kunit.c:236:8-9: ERROR: reference preceded by free on line 233
-   lib/tests/fortify_kunit.c:242:8-9: ERROR: reference preceded by free on line 236
-   lib/tests/fortify_kunit.c:247:8-9: ERROR: reference preceded by free on line 242
-   lib/tests/fortify_kunit.c:252:8-9: ERROR: reference preceded by free on line 247
-   lib/tests/fortify_kunit.c:258:54-55: ERROR: reference preceded by free on line 252
-   lib/tests/fortify_kunit.c:377:9-10: ERROR: reference preceded by free on line 375
-   lib/tests/fortify_kunit.c:375:9-10: ERROR: reference preceded by free on line 377
+>> arch/loongarch/kvm/vcpu.c:1226:5-6: WARNING: Unsigned expression compared with zero: i < 0
 
-vim +637 lib/tests/overflow_kunit.c
+vim +1226 arch/loongarch/kvm/vcpu.c
 
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  621  
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  622  #define DEFINE_TEST_ALLOC(func, free_func, want_arg, want_gfp, want_node)\
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  623  static void test_ ## func (struct kunit *test, void *arg)		\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  624  {									\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  625  	volatile size_t a = TEST_SIZE;					\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  626  	volatile size_t b = (SIZE_MAX / TEST_SIZE) + 1;			\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  627  	void *ptr;							\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  628  									\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  629  	/* Tiny allocation test. */					\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  630  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg, 1);\
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  631  	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  632  			    #func " failed regular allocation?!\n");	\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  633  	free ## want_arg (free_func, arg, ptr);				\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  634  									\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  635  	/* Wrapped allocation test. */					\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  636  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,	\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10 @637  							  a * b);	\
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  638  	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  639  			    #func " unexpectedly failed bad wrapping?!\n"); \
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  640  	free ## want_arg (free_func, arg, ptr);				\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  641  									\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  642  	/* Saturated allocation test. */				\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  643  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,	\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10 @644  						   array_size(a, b));	\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  645  	if (ptr) {							\
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  646  		KUNIT_FAIL(test, #func " missed saturation!\n");	\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  647  		free ## want_arg (free_func, arg, ptr);			\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  648  	}								\
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  649  }
-ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  650  
-
-:::::: The code at line 637 was first introduced by commit
-:::::: ca90800a91ba723d78ded634d037c1d2df8b54d6 test_overflow: Add memory allocation overflow tests
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+f93c86c7d256ca Zixing Liu 2026-02-01  1218  
+f93c86c7d256ca Zixing Liu 2026-02-01  1219  static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
+f93c86c7d256ca Zixing Liu 2026-02-01  1220  					  u64 __user *uindices)
+f93c86c7d256ca Zixing Liu 2026-02-01  1221  {
+f93c86c7d256ca Zixing Liu 2026-02-01  1222  	u64 reg;
+f93c86c7d256ca Zixing Liu 2026-02-01  1223  	unsigned int i;
+f93c86c7d256ca Zixing Liu 2026-02-01  1224  
+f93c86c7d256ca Zixing Liu 2026-02-01  1225  	i = kvm_loongarch_walk_csrs(vcpu, uindices);
+f93c86c7d256ca Zixing Liu 2026-02-01 @1226  	if (i < 0)
+f93c86c7d256ca Zixing Liu 2026-02-01  1227  		return i;
+f93c86c7d256ca Zixing Liu 2026-02-01  1228  	uindices += i;
+f93c86c7d256ca Zixing Liu 2026-02-01  1229  
+f93c86c7d256ca Zixing Liu 2026-02-01  1230  	for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
+f93c86c7d256ca Zixing Liu 2026-02-01  1231  		reg = KVM_IOC_CPUCFG(i);
+f93c86c7d256ca Zixing Liu 2026-02-01  1232  		if (put_user(reg, uindices++))
+f93c86c7d256ca Zixing Liu 2026-02-01  1233  			return -EFAULT;
+f93c86c7d256ca Zixing Liu 2026-02-01  1234  	}
+f93c86c7d256ca Zixing Liu 2026-02-01  1235  
+f93c86c7d256ca Zixing Liu 2026-02-01  1236  	reg = KVM_REG_LOONGARCH_COUNTER;
+f93c86c7d256ca Zixing Liu 2026-02-01  1237  	if (put_user(reg, uindices++))
+f93c86c7d256ca Zixing Liu 2026-02-01  1238  		return -EFAULT;
+f93c86c7d256ca Zixing Liu 2026-02-01  1239  
+f93c86c7d256ca Zixing Liu 2026-02-01  1240  	if (!kvm_guest_has_lbt(&vcpu->arch))
+f93c86c7d256ca Zixing Liu 2026-02-01  1241  		return 0;
+f93c86c7d256ca Zixing Liu 2026-02-01  1242  
+f93c86c7d256ca Zixing Liu 2026-02-01  1243  	for (i = 1; i <= NUM_LBT_REGS; i++) {
+f93c86c7d256ca Zixing Liu 2026-02-01  1244  		reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
+f93c86c7d256ca Zixing Liu 2026-02-01  1245  		if (put_user(reg, uindices++))
+f93c86c7d256ca Zixing Liu 2026-02-01  1246  			return -EFAULT;
+f93c86c7d256ca Zixing Liu 2026-02-01  1247  	}
+f93c86c7d256ca Zixing Liu 2026-02-01  1248  
+f93c86c7d256ca Zixing Liu 2026-02-01  1249  	return 0;
+f93c86c7d256ca Zixing Liu 2026-02-01  1250  }
+f93c86c7d256ca Zixing Liu 2026-02-01  1251  
 
 -- 
 0-DAY CI Kernel Test Service
