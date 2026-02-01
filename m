@@ -1,219 +1,140 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CDE2D595D
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Feb 2026 22:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8743A2D595D
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Feb 2026 23:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769984622; cv=none; b=LTfusWFtAHSEhCekbqwfGmNsZgyh2NLCSr3QlhbrLlaGofzS0iT1dhMB6LvYuOlsWvbGrftL5TTT3ra+CoT3xPfmFJIP2f/V/N0h0X23L8g16JM66sUhhieltB2edTLY9yZ/QP9kUqoEwa3ExE/rEYys0eeBeUWU9AIV4QRXpSk=
+	t=1769990357; cv=none; b=hVs0/IxYKRdC6Qavkd3jrMJrCT+wsJwXhAi7tjYjuXKcnC4rgIr327v7FITl8rDPgTCkFGzgaW3+fx06mIePDWDfGtWbmOItQuHZdmF+wzRf0qXvPZozQ5/HTYMF+KNqSPtRZi2iDYL0Ja0YGpZZZS1xJZl6JBK1ISV7zCZ3DfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769984622; c=relaxed/simple;
-	bh=8iC6WKxiYQIrJeCuFClcXSQIT1svC15xrYOO4ADNDkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jicv8ohzRGgyS9dcvnjJt6bDbeDo5myVs+rvioNmX5P2FyxzIipuTWvGtk84Yl7T796wMhPlrDy2dcu4+J3zdU/nAQvA3rFJpxQnK/OQew7FVIy77JFckkC6GFr16kKk3GP5QBgT8CFQ39nVP1HODZ7qitwjF5qgP+Yn2uDF4hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BdYSUoaO; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1769990357; c=relaxed/simple;
+	bh=CyW2Aq4aF1jKl3A8kip+s6VnqBd2OKQl3ZX8Qu/hS+I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nYImHBFIPOOniCa1352N5oX1sadlWJ7SCRuSNDOTgMx1tSt67/8gTL6ysLIX2pf8oAANkCEWxRyM4ngCke2U0za6dGMfThgMQainYL8oZgr0DiLKGARpNnTpYvAvvCry/wSLF5fEce61uaOeKcOntu1SOyDWjm5NPLBiSh4Cz00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+OhsgHH; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BdYSUoaO"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48039fdc8aeso22329675e9.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 01 Feb 2026 14:23:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1769984617; x=1770589417; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CH9BC69jP5RCt/eJVwGMK2W67lZNWhB3HFcUKx/WFj4=;
-        b=BdYSUoaOeAa590TPSxDKHPCN2/S2GyR5gX7PCiWSDjPzdZS7Tz/sYkKoIZmC6Fle2E
-         whTV0oWXLDKpwloumtMhL2vXqUqgVndOMWw0rUNF4umn+AbcWNZiFDEEew8g30IYEaf8
-         9yRMTFnju99Y6tMgI9osZJ1J5OLi7Y03onUpnUhWFj6j/YitjmSQKmheswcXdE94HcAm
-         +iIIsRRN2JjyAZhZGQnOAJc4k1rvp36Q0OqdRZX5Qj1aiWgZzf3Mz1Qiz6yDaFSVKGb7
-         eJMKD+L513sd/xYpAB+jnK4NMnjDKLskQm9jIvUGBizkeq06P2NAvzKnfoo6cCgLiiZn
-         lNSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769984617; x=1770589417;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CH9BC69jP5RCt/eJVwGMK2W67lZNWhB3HFcUKx/WFj4=;
-        b=vUyyphISqGPBHj91UQvfbORWr/PCgwb2Y54cYO4FUy4vPDSFnSCe4c2qpwcMU+jLak
-         XT2h4avTcQOJDfPm5/2bBPreZQRAX4HxT5Dr7TOUdGZbts+BzKVRPF7G1UJdYjNOyvK4
-         6J3mtYVJ7l9Gi1OLuD9qbM8hzF4Q5yqoUnLxWpCJjPVgJM9qgj4dahm6/gGAwpdFpKjC
-         otLXjAKxFsOHyqiiNz5RuDMIt+z2Tl7xjqv0bdL/mcXh5ctCp1PvJ3BgBKouDMw00xKA
-         LQ2ct3HdbE++3QGBKl3hxLOhwgsi3MttHyT0FYDafJX8Oeq3G29XVz921wbUJrAGyV8j
-         YwSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+3YVAvmefHVq4U/CFOE4LmOJZ76njOcjtnHNHwclAiMD079+y6FJ+L2ZX6Ggz6dhwhiNJHy/WjAo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwylhJWiTT0sK6x59GsT7O4nSfoVllF2VTjdN4kN46jYA+N0H5u
-	gVrB0QEQX9jIi+dU4ZvenJo1zzApSVRf2GO05m/uXoVGAq9k/7G1wXiefmNr33+6yOQ=
-X-Gm-Gg: AZuq6aIoM7kHjhu56Gtw98/XvWeQ3DjjjqCYFuy7a7ZmYQ2RcSdolN0M3+X/G+bicRw
-	2Wa1407gxTs3J/c7O0x+ubGflIKE1NwKFCceAxAA/7qb38KT24wdXeW1JV/vvWDNm729jhHFgYW
-	2DA06b2e/uQIRTozb+qG/gzJtVdBQUYP67DgU7mWAgpUzTJJPjsEr66uXM+Eq0cwPIHBpJaodKX
-	EeARGaKzA5YyuF6SOU3atASa5QPLj7tNDn+UnkYdbT/5fNkINrpCzGdwY6mcVrbxj3m3rnZFFSg
-	4N7iX60qJavqqhybmS4U3oM0hGR+Zzxc4FT9dl+qtCXXl8k0uDI74wMBCq64BfgBk1ac50+iXdG
-	LaAaCGNEGuSAsXe5k0hT4PR3VrR7hiBWyRgyzPry5HJW24dcaRQKiBsdN5eClDVqhN2qm0D+K7Y
-	IS71IaHVrEg5xAvACeBbuRiqRiVpET
-X-Received: by 2002:a05:600c:19cc:b0:480:690e:f14a with SMTP id 5b1f17b1804b1-482db4563b7mr126551145e9.14.1769984616317;
-        Sun, 01 Feb 2026 14:23:36 -0800 (PST)
-Received: from localhost (212-166-21-66.win.be. [212.166.21.66])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4806cdd79c7sm362884475e9.2.2026.02.01.14.23.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 14:23:35 -0800 (PST)
-Date: Sun, 1 Feb 2026 23:23:34 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
-	Abdurrahman Hussain via B4 Relay <devnull+abdurrahman.nexthop.ai@kernel.org>, Michal Simek <monstr@monstr.eu>, 
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-Message-ID: <r2qkeep6jf7xxjzckn72z4avgx3qiqh4g2fkvzeyu2p2o54bff@xs4kzlong7cn>
-References: <202601311615.10yziOui-lkp@intel.com>
- <81522270-1703-48E1-B64C-8CF174E1EF94@nexthop.ai>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+OhsgHH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769990356; x=1801526356;
+  h=date:from:to:cc:subject:message-id;
+  bh=CyW2Aq4aF1jKl3A8kip+s6VnqBd2OKQl3ZX8Qu/hS+I=;
+  b=a+OhsgHHi1VJjEuxwF7aql+AF5Do6d5NXdtOmIOi4MiyMqC693dlyOs+
+   q0X5CDaE2QFnssrBmTh9/MY/DFFfcSm1iMxyi/rIpZEcpvJe7SQf4CANu
+   ML0cF8m2WFtLeqgdUNebVHyVVmDXo4i+v5VI80rnOrDdNsiJ0S3zqylO8
+   jFd2ZMA17lSVvESYdqoe8biAZHe18dv0xZVBpH6ebPO6f2oQ3mryh/HpI
+   4doU0+AHI3SB7bX/c/35QyRJHHaLfyYGD0N/Zuj9W1+pdMFe78LI9Gl3K
+   LHX5EE4ZiKinzrxh+fJWAa3bW1XpbQS3LARr2eHXmLLYy5NHpLjtIH1+G
+   w==;
+X-CSE-ConnectionGUID: eI6zNYmfSS2srvzP0tHOkA==
+X-CSE-MsgGUID: y3VUmSDVSrWIi8BI6QA68g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71063057"
+X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
+   d="scan'208";a="71063057"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 15:59:15 -0800
+X-CSE-ConnectionGUID: CUnr+FqySNa1Yrq+RtHp+Q==
+X-CSE-MsgGUID: 1J+qgZXDSBW9GtRnmql14A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
+   d="scan'208";a="208904977"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 01 Feb 2026 15:59:13 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vmhLT-00000000f75-2XhM;
+	Sun, 01 Feb 2026 23:59:11 +0000
+Date: Mon, 02 Feb 2026 07:58:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: kernel/trace/blktrace.c:664 blk_trace_setup() error:
+ strcpy() 'buts2.name' too large for 'buts.name' (64 vs 32)
+Message-ID: <202602020718.GUEIRyG9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v37yrfnsg2gibrlx"
-Content-Disposition: inline
-In-Reply-To: <81522270-1703-48E1-B64C-8CF174E1EF94@nexthop.ai>
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Damien Le Moal <dlemoal@kernel.org>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
 
---v37yrfnsg2gibrlx
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-MIME-Version: 1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18f7fcd5e69a04df57b563360b88be72471d6b62
+commit: 113cbd62824afdf62d2f3f092809cf37cc7f1dd8 blktrace: pass blk_user_trace2 to setup functions
+date:   3 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 3 months ago
+config: s390-randconfig-r073-20260202 (https://download.01.org/0day-ci/archive/20260202/202602020718.GUEIRyG9-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+smatch version: v0.5.0-8994-gd50c5a4c
 
-Hello,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202602020718.GUEIRyG9-lkp@intel.com/
 
-On Sat, Jan 31, 2026 at 06:14:58PM -0800, Abdurrahman Hussain wrote:
-> > On Jan 31, 2026, at 6:35=E2=80=AFAM, Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
-> > kernel test robot noticed the following build warnings:
-> >=20
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Abdurrahman-Huss=
-ain-via-B4-Relay/i2c-xiic-skip-input-clock-setup-on-non-OF-systems/20260130=
--054653
-> > base:   63804fed149a6750ffd28610c5c1c98cce6bd377
-> > patch link:    https://lore.kernel.org/r/20260129-i2c-xiic-v7-5-727e434=
-897ef%40nexthop.ai
-> > patch subject: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-> > config: i386-randconfig-141-20260130 (https://download.01.org/0day-ci/a=
-rchive/20260131/202601311615.10yziOui-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87=
-f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > smatch version: v0.5.0-8994-gd50c5a4c
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202601311615.10yziOui-lkp@intel.com/
-> >=20
-> > smatch warnings:
-> > drivers/i2c/busses/i2c-xiic.c:1539 xiic_i2c_remove() warn: pm_runtime_g=
-et_sync() also returns 1 on success
-> >=20
-> > vim +1539 drivers/i2c/busses/i2c-xiic.c
-> >=20
-> > e190a0c389e601 Uwe Kleine-K=C3=B6nig    2023-05-08  1529  static void x=
-iic_i2c_remove(struct platform_device *pdev)
-> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1530  {
-> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1531   struct device *de=
-v =3D &pdev->dev;
-> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1532   struct xiic_=
-i2c *i2c =3D platform_get_drvdata(pdev);
-> > 36ecbcab84d023 Shubhrajyoti Datta  2016-03-02  1533   int ret;
-> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1534 =20
-> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1535   /* remove ad=
-apter & data */
-> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1536   i2c_del_adap=
-ter(&i2c->adap);
-> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1537 =20
-> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1538   ret =3D pm_runtim=
-e_get_sync(dev);
-> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29 @1539   if (ret)
-> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1540   dev_warn(dev, "Fa=
-iled to activate device for removal (%pe)\n",
-> > 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1541   ERR_PTR(ret)=
-);
-> >=20
-> >=20
-> > pm_runtime_get_sync() can return 1 on success.  Perhaps use
-> > pm_runtime_resume_and_get()?
-> >=20
-> > 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1542   else
-> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1543   xiic_deinit(=
-i2c);
-> > 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1544 =20
-> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1545   pm_runtime_put_sy=
-nc(dev);
-> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1546   pm_runtime_dont_u=
-se_autosuspend(dev);
-> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1547  }
-> >=20
-> > --=20
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> >=20
->=20
-> This maybe a false positive.
+smatch warnings:
+kernel/trace/blktrace.c:664 blk_trace_setup() error: strcpy() 'buts2.name' too large for 'buts.name' (64 vs 32)
 
-It's not.
+vim +664 kernel/trace/blktrace.c
 
-The blamed commit 2557b4ba04df ("i2c: xiic: cosmetic cleanup") has:
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  630  
+b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  631  int blk_trace_setup(struct request_queue *q, char *name, dev_t dev,
+b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  632  		    struct block_device *bdev,
+b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  633  		    char __user *arg)
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  634  {
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  635  	struct blk_user_trace_setup2 buts2;
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  636  	struct blk_user_trace_setup buts;
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  637  	struct blk_trace *bt;
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  638  	int ret;
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  639  
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  640  	ret = copy_from_user(&buts, arg, sizeof(buts));
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  641  	if (ret)
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  642  		return -EFAULT;
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  643  
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  644  	if (!buts.buf_size || !buts.buf_nr)
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  645  		return -EINVAL;
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  646  
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  647  	buts2 = (struct blk_user_trace_setup2) {
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  648  		.act_mask = buts.act_mask,
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  649  		.buf_size = buts.buf_size,
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  650  		.buf_nr = buts.buf_nr,
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  651  		.start_lba = buts.start_lba,
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  652  		.end_lba = buts.end_lba,
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  653  		.pid = buts.pid,
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  654  	};
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  655  
+b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  656  	mutex_lock(&q->debugfs_mutex);
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  657  	bt = blk_trace_setup_prepare(q, name, dev, buts.buf_size, buts.buf_nr,
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  658  				     bdev);
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  659  	if (IS_ERR(bt)) {
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  660  		mutex_unlock(&q->debugfs_mutex);
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  661  		return PTR_ERR(bt);
+42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  662  	}
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  663  	blk_trace_setup_finalize(q, name, 1, bt, &buts2);
+113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22 @664  	strcpy(buts.name, buts2.name);
+b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  665  	mutex_unlock(&q->debugfs_mutex);
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  666  
+9a8c28c8311e30 kernel/trace/blktrace.c Dmitry Monakhov    2010-02-27  667  	if (copy_to_user(arg, &buts, sizeof(buts))) {
+b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  668  		blk_trace_remove(q);
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  669  		return -EFAULT;
+9a8c28c8311e30 kernel/trace/blktrace.c Dmitry Monakhov    2010-02-27  670  	}
+171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  671  	return 0;
+1f2cac107c591c kernel/trace/blktrace.c Jens Axboe         2017-11-05  672  }
+6da127ad0918f9 block/blktrace.c        Christof Schmitt   2008-01-11  673  EXPORT_SYMBOL_GPL(blk_trace_setup);
+2056a782f8e7e6 block/blktrace.c        Jens Axboe         2006-03-23  674  
 
--       ret =3D pm_runtime_get_sync(i2c->dev);
--
--       if (ret < 0)
--               dev_warn(&pdev->dev, "Failed to activate device for removal=
- (%pe)\n",
-+       ret =3D pm_runtime_get_sync(dev);
-+       if (ret)
-+               dev_warn(dev, "Failed to activate device for removal (%pe)\=
-n",
-                         ERR_PTR(ret));
-
-So we need
-
-diff --git a/drivers/i2c/busses/i2c-xiic.c b/drivers/i2c/busses/i2c-xiic.c
-index 37a15065db60..a5334b7c46d8 100644
---- a/drivers/i2c/busses/i2c-xiic.c
-+++ b/drivers/i2c/busses/i2c-xiic.c
-@@ -1536,7 +1536,7 @@ static void xiic_i2c_remove(struct platform_device *p=
-dev)
- 	i2c_del_adapter(&i2c->adap);
-=20
- 	ret =3D pm_runtime_get_sync(dev);
--	if (ret)
-+	if (ret < 0)
- 		dev_warn(dev, "Failed to activate device for removal (%pe)\n",
- 			 ERR_PTR(ret));
- 	else
-
-Best regards
-Uwe
-
---v37yrfnsg2gibrlx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAml/0mMACgkQj4D7WH0S
-/k5SaQf+L43J+R9BBhzzRsM+a56bqT+f6V9BbGxQCgPvb2ug8BZRliJSX8Q3zsFm
-EaNRAQ5tL6LTRPZUsMsJskjVpizKEtFORW26RjcmlLbTqpKj9e24IWyIczVmHaih
-dFIe69J7Kzl6o2HzEpjf942SS2F2HD8JoJbx2GYTVnmsYM8w0JX1PZRO8+EZ5jo3
-KJxf556LsB5aK5nw2bOy7JlZYw9P2P1kH/bTMvFNf/+6u4XDGYkHmh2t1SWPSDks
-llkR84RXfcWTLzCW3uX9ecgAfNUVZ1uZxbPCF1yyz4cHJ0rFOCE6NLpHjwXpRrDS
-A6GLXBGHlpfLu3RSWb/jClQ3kpk5MA==
-=tXAs
------END PGP SIGNATURE-----
-
---v37yrfnsg2gibrlx--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
