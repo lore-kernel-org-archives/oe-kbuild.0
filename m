@@ -1,183 +1,118 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BDB1DE3B7
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Feb 2026 02:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9A71F4180
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Feb 2026 02:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769912112; cv=none; b=V8lJ1EKbsP/N0tWrIXj2I+Zf5lpy40W99H5D/4yAwJj9LAgY/BiI4JwQZjahH8JPKtwmK1An0wJZJxDsYpItNpQ54QMaygMhJMoDqVHcDfkmisKr7jyNkDtUFu27ftqzEhp9WBMGFBCU9WlhwZfA0wQuB3Vv8unijHk/fs+LRDE=
+	t=1769913808; cv=none; b=oL2IoqXv27d+00MNz55PECrX+RX4FKzAwXAx/9REYQGNDnfD2hfWMAhnPtQgyUvPjo5TE5gVVCiESX0aRI+1IzkdiWyZoS5jVkVIUfCNGfs7FpngBC09LLp3A62gwUBDIkc1qckiW93JstEgJwAvmfU+tZFjXsumqytHQzir79g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769912112; c=relaxed/simple;
-	bh=aj9lZYh7kNC+5k/nDqMXYXmMyDNkwDg0+SpPugkdyPg=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=diBOZDvnXIHhnEQe5pZVUyEE9eQjzkGHC7fLAgrZ29S0duCw+b+Yq4p11mpFLx2T13+hsZm1f875DwlkyvzmJfgYNMZBMd81p2me2v/Zt9aVSeEsdurJErh0tIYA6GA755fgSAUPTnQHQH9JqDfxrqEyK9qki76bPUa3/m89pa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=bDtxaZpa; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
+	s=arc-20240116; t=1769913808; c=relaxed/simple;
+	bh=UA0A3mY+AQVfF0k/qwhIZnRE46gIeuHxO1LGdP3a+y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pOwJM5V02TlKEDyuR/kZkocyisZah79mrsmrAOgBJ7glayHtZsxoF2hMlf5DYpEGpvpHccVOGn2RRNcX8xM2vyeGg5wWbAdg1EQkxae0emC97/JXBLkC6NkV42PhARHz0dZ5EKH1jPr5pWyjsWABzJe4crD2XivNWeDZxpvsAEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYPqPN2L; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="bDtxaZpa"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2a7b23dd036so16105755ad.3
-        for <oe-kbuild@lists.linux.dev>; Sat, 31 Jan 2026 18:15:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1769912110; x=1770516910; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sX+STYIHVNsNRwCOU5eoDnw7m2xr9Ak+mtAzKnocjoo=;
-        b=bDtxaZpaDA5tmksdqB+IzuCtF+uvTQV8MB03eTf5LdcaYPlewa3Zq0JdNQiipJsvHG
-         8R3WI9nYy6S2mL0wPznHKQK69UPkkYo3m8q9cw2uD8KTMhPpGF9zJtLLWQHv0yLOW27X
-         6L+KOONx8a/zFg8urFLSf9z8LAlcKZBptyWXgFuKAI0iL03B6VU2xJSmyf5cRIJcUTRH
-         4n3LSENE7JvfMvKjUf115w3+w33b6bORMbKGs34h/RpS6BmL6CFSo2Y0y1SWo1LDiUhj
-         AhKH9UQj+z67t9G/rhsGc+az5ueNvtKVw8YzCKG/hK1E+x1ubiuwpteFsRPAg1Cr/z/H
-         UyiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769912110; x=1770516910;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sX+STYIHVNsNRwCOU5eoDnw7m2xr9Ak+mtAzKnocjoo=;
-        b=OIaGOft6zjkJxa5FoX/MDi2XInJ3GmukSRfUSUOdGWwN86EFbuLTNhSv2KnkvVtr5C
-         aYMUzpqjDDnn+RlMlj8pv+VcRTzfgHPkWyy6PO2E5RVTAzFklbCrJKSrqP5oO2BYZ3//
-         pAl1tg5PezZjyC6rWVjRXuDZANQECIDS88+KH6ZSH2CIyahd3wZVsQbsiBTlPUH3TVWH
-         nzTEWCx//LVF30F0ywqinbBYyQwLUdxXmyDrTenm0fvjlJyDpXamxMLttkFgxmYKEuc6
-         rmpeL/sRTfaT1GhZz2CpLbeecpAeEG+gwe+3XjvN9wEiX+CSFFPyWM33vlp3LDlqPfR/
-         NDIg==
-X-Gm-Message-State: AOJu0YysIexvW+UDrlut4RFcsidgi7RgM/oPX3LdbtI1lfufeox1CzAs
-	N7Lt9xLrCQdwYVgCzq9PJ6PGCfvY5WKxQHZXSy2c3VATLOWhB8lOzV4DrNFA6WfQJs4=
-X-Gm-Gg: AZuq6aLxZBGpjt8E2lrMYTy94TMvFlolSf0M6hPjqyJDxgHnnywGLIhyFg+i161AaKI
-	u/o1tg8z9jxdnMjhQmPy7Ytz90KBaLUbvjf1sZK4c+KWOmBy3LiLdBQSpgCtt+buzG0sjBtC7gw
-	HsS2WXxkOnmQOcakrrQEicQOzyOKjNBS0CM2f7eJnvIx8H92ypy/31wEntqbRNf+YtTuQ4/1R//
-	CxDwvsve5obuID1SJLyA+x74ItKFGwKy1DJ0oOL0+BOFGTbOKYW12W5kRrCnwgyLlxMgRi09msG
-	ZP7wxUl2EKUE1YLrLUn7REMv8aaarOyjVN7Gtn94vFphm7p9RhUl2GyvG6ZbTUgXWLYNnZWdR7B
-	K5hkZHYVXteK3K8rspeyo6HSoXcjU8FTFbDhB1brb+Q3n/34DY7W8e3BSauiKvwgGkr2D5WFYUI
-	SH3YQN8CKFA3REd9D+7R4pOA5ZFmsCPGZkEGwa2THbPp4jpLc6kcW4AkvAZ8jInw2AuPGoRbs=
-X-Received: by 2002:a17:902:ebc1:b0:2a7:7872:8f52 with SMTP id d9443c01a7336-2a8d7ee6a5dmr71880265ad.26.1769912110101;
-        Sat, 31 Jan 2026 18:15:10 -0800 (PST)
-Received: from smtpclient.apple (c-24-16-26-157.hsd1.wa.comcast.net. [24.16.26.157])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a8ea985c48sm39915685ad.22.2026.01.31.18.15.09
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 31 Jan 2026 18:15:09 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYPqPN2L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769913807; x=1801449807;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UA0A3mY+AQVfF0k/qwhIZnRE46gIeuHxO1LGdP3a+y8=;
+  b=JYPqPN2LACx9aSP0OAN+VMNDRprqW+NW2+qVCvZKfbHwpGv5oHfZUu/Z
+   L0MhHjUKjdTLS1Dfgq8fo1Q/Zs/aZRfRrCBUQ7FiBL2s3+k1Xf5s98onJ
+   FtEPX9xr48agvlBvyE9RJO2aTWYoqICl4Ll4y74njzkDPJmUoLbTgjqBo
+   MRLM6/UzLW+0qm1tzsOYwaUryWYwNxtszYMcg5tNpHX1yK/T9Jd69cdnj
+   U3XcPDEU5M/hz8YtiRRSPStrCQzWb3Gfa0OfFSHPjOuSje6329749NHlG
+   J8LMJdmOZ1EW+GbSvv9f6IJB5Pz/xKKU2wq/oe9sHyZirIjFbrh5682d0
+   w==;
+X-CSE-ConnectionGUID: vnVC27fRRpiMwACFSTIjnw==
+X-CSE-MsgGUID: uZvqYMaqTLq/44mA+8W3bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="71277562"
+X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
+   d="scan'208";a="71277562"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 18:43:27 -0800
+X-CSE-ConnectionGUID: S7EgHUp7Sq6/dTt3cEpglg==
+X-CSE-MsgGUID: GwIafamtSMqVxOlcCkeo4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
+   d="scan'208";a="209268573"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 31 Jan 2026 18:43:26 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vmNQo-000000002tp-1vtR;
+	Sun, 01 Feb 2026 02:43:22 +0000
+Date: Sun, 1 Feb 2026 03:43:00 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: media: Add bindings for dim2 compatible
+ strings.
+Message-ID: <202602010321.0ycYXCDy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-From: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-In-Reply-To: <202601311615.10yziOui-lkp@intel.com>
-Date: Sat, 31 Jan 2026 18:14:58 -0800
-Cc: oe-kbuild@lists.linux.dev,
- Abdurrahman Hussain via B4 Relay <devnull+abdurrahman.nexthop.ai@kernel.org>,
- Michal Simek <monstr@monstr.eu>,
- Andi Shyti <andi.shyti@kernel.org>,
- Rob Herring <robh@kernel.org>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- lkp@intel.com,
- oe-kbuild-all@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <81522270-1703-48E1-B64C-8CF174E1EF94@nexthop.ai>
-References: <202601311615.10yziOui-lkp@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260130141442.139640-1-harshdaniel66356@gmail.com>
+References: <20260130141442.139640-1-harshdaniel66356@gmail.com>
+TO: harshdaniel66356@gmail.com
+TO: parthiban.veerasooran@microchip.com
+TO: christian.gromm@microchip.com
+TO: gregkh@linuxfoundation.org
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+CC: linux-staging@lists.linux.dev
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Harsh Daniel <harshdaniel66356@gmail.com>
 
-> On Jan 31, 2026, at 6:35=E2=80=AFAM, Dan Carpenter =
-<dan.carpenter@linaro.org> wrote:
->=20
-> Hi Abdurrahman,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> url:    =
-https://github.com/intel-lab-lkp/linux/commits/Abdurrahman-Hussain-via-B4-=
-Relay/i2c-xiic-skip-input-clock-setup-on-non-OF-systems/20260130-054653
-> base:   63804fed149a6750ffd28610c5c1c98cce6bd377
-> patch link:    =
-https://lore.kernel.org/r/20260129-i2c-xiic-v7-5-727e434897ef%40nexthop.ai=
+Hi,
 
-> patch subject: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-> config: i386-randconfig-141-20260130 =
-(https://download.01.org/0day-ci/archive/20260131/202601311615.10yziOui-lk=
-p@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project =
-87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> smatch version: v0.5.0-8994-gd50c5a4c
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: =
-https://lore.kernel.org/r/202601311615.10yziOui-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/i2c/busses/i2c-xiic.c:1539 xiic_i2c_remove() warn: =
-pm_runtime_get_sync() also returns 1 on success
->=20
-> vim +1539 drivers/i2c/busses/i2c-xiic.c
->=20
-> e190a0c389e601 Uwe Kleine-K=C3=B6nig    2023-05-08  1529  static void =
-xiic_i2c_remove(struct platform_device *pdev)
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1530  {
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1531   struct device =
-*dev =3D &pdev->dev;
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1532   struct =
-xiic_i2c *i2c =3D platform_get_drvdata(pdev);
-> 36ecbcab84d023 Shubhrajyoti Datta  2016-03-02  1533   int ret;
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1534 =20
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1535   /* remove =
-adapter & data */
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1536   =
-i2c_del_adapter(&i2c->adap);
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1537 =20
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1538   ret =3D =
-pm_runtime_get_sync(dev);
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29 @1539   if (ret)
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1540   dev_warn(dev, =
-"Failed to activate device for removal (%pe)\n",
-> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1541   =
-ERR_PTR(ret));
->=20
->=20
-> pm_runtime_get_sync() can return 1 on success.  Perhaps use
-> pm_runtime_resume_and_get()?
->=20
-> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1542   else
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1543   =
-xiic_deinit(i2c);
-> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1544 =20
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1545   =
-pm_runtime_put_sync(dev);
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1546   =
-pm_runtime_dont_use_autosuspend(dev);
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1547  }
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->=20
+kernel test robot noticed the following build warnings:
 
-This maybe a false positive.
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.19-rc7 next-20260130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The following commit switched from pm_runtime_resume_and_get() to
-pm_runtime_get_sync():
+url:    https://github.com/intel-lab-lkp/linux/commits/harshdaniel66356-gmail-com/dt-bindings-media-Add-bindings-for-dim2-compatible-strings/20260130-221618
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260130141442.139640-1-harshdaniel66356%40gmail.com
+patch subject: [PATCH] dt-bindings: media: Add bindings for dim2 compatible strings.
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-2052-20260131 (https://download.01.org/0day-ci/archive/20260201/202602010321.0ycYXCDy-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+dtschema version: 2025.13.dev4+g85cec3155
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602010321.0ycYXCDy-lkp@intel.com/reproduce)
 
-commit 810199f7315604b i2c: xiic: Make sure to disable clock on =
-.remove()
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202602010321.0ycYXCDy-lkp@intel.com/
 
-Uwe, Michal, can you guys comment on this?
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml: properties:clock-names: {'minItems': 1, 'maxItems': 2, 'items': [{'const': 'mlb'}, {'const': 'pll8_mlb'}]} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
 
-Regards,
-Abdurrahman=
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
