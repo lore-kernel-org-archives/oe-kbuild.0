@@ -1,227 +1,174 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA48F1FDA92
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Feb 2026 02:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769997997; cv=pass; b=g0KrBGibW8y9DzymzxD+mbyWyAvFrwjIERKox8KUXXo9F/rwMWel8q3V5vNUWz1uLsvZV7RL5Ybv+ZmkDnXfX+bt9bRY6yPmL1EP7zrPEubMw9UM1hJB6K0t+4g/eLmPOGogva6l5ZLuMpfUxGTjp6+gYcc6gMwFJTpHsG8XDas=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769997997; c=relaxed/simple;
-	bh=cZHOuyFSDD0YCiUahnVWqH20bORv4bma4nfHULxUbNM=;
-	h=Mime-Version:From:References:In-Reply-To:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fID/Qd7TIuFMnPKazjzZOmK0XKIBQNF+ZsHpCEeKxUMGki3oAc0MoTmXN7sxqkxzvYJhRVpifcnlvZJZy/LrNKVWp1iS2Fi3NXzECCuwQTtdOw6G+kTGAMcC/VujVilpvC4x/fhJEYL9BPjsmJ5JyCQt2mjFjTs5LyfU6kdvV7g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=bgHyg5iP; arc=pass smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5BB1D0DEE
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Feb 2026 02:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769998074; cv=none; b=Emwfeg9GQ1YgO4xpFCZgtka06URUwNH7+O56TdWUiyll5KQsQgCf+80g+lErWUNl5VdAFVip+Yym9/NV1VVP3TBjjmGvmy0duPS05eDBszWkubyWo2YyUNgFp1M+eRR8JBg+YmEv8qL89iFFlvBoO1Cq0TIU6JCGxH/JTDzSVxg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769998074; c=relaxed/simple;
+	bh=ROt5gD7XPQjhnIVF5XiuISWsGMVC+6w3Nv1xKT7Yz5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g17yu799eLiRTgSnYOh3CW1T+jK7Gt7j+25LpyQ74D5SBsQliXOThkKJQ7R3h0TkIwmVYBORXPhbjGorpitbN1IXTQTMErGz9HQhCaK9dWUfImMEPT/uuNt1LLieb1Xqcpfc+X9vNz1hCA3snMvNSczPaQeGg1O6O875wPkbJMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bIqSV/Ya; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NO0HEJ7r; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="bgHyg5iP"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-794d58b892cso3948657b3.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 01 Feb 2026 18:06:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769997995; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fJkyPdlFJRewsbL8yCF5jcYE+I+17KoS5K3XVL50FX2CVVCku87FBoz0iRAlCcvcIk
-         /vF/enXcWxZX3gi9iqIv1wO1+3J7TNuW8ZnbxrOnZ34f/7jL/38cS8ARxEOUixSPj4nu
-         mygMFySdFU06TFQrtFIKGYZo6JS/H356FiPs0jFwMF8lb1ndr+qI44yUvblneHOihVps
-         D0PgYFjYlxlHXWdawQVvJKOn0Ai0VAZ49NuqUC0CR1wgZOOzfn93vXaps/E70NuXehIH
-         R6DSb8rXgWPbhxboJeIOyxFVRp2aUWEtZFWTD2ReILfKs2v8E/pxzuslNePvCOk/FKSy
-         /MeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
-         :references:from:mime-version:dkim-signature;
-        bh=aMiZMMtcuEUphHiFBhOZs43qw2Jy4XV2UcTsb9dz3D0=;
-        fh=sjLV5qE6VCYcM4aWZr5zXd5UCCsxWuKPnztwr4znrLo=;
-        b=DgPWN3c4lLzlKhwzkUOt5tUjeobH9pcQ8jhmeefen2zcVJjvDWCpVaNgBGXl1S3KUb
-         pv1wNP5jysYEmaXD0IXBYu8BqVNPhsZhiR/LIQt02TshOOGipCwPDNPMCq6lOG26iybU
-         Symb2xC7V7Gf/rIpcUVes4cxEEnnDehFpOGuX0tRpxsQbjw7RcFJxR3wM/SFG6ypPGWv
-         HJc2aEXFfhMJqFNdK5OjlXW7Yewce1vzuXe4wx+kcuzempnZYul/7FcDzBUXiatLo02n
-         OECaAQQhLhtj6RbJwqXIth4ofRGXomz6Lti5iMax6qe8Dz0JDSnn5VsBV0tn7XOI9rox
-         +6tA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bIqSV/Ya";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NO0HEJ7r"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 611MKZuA1642240
+	for <oe-kbuild@lists.linux.dev>; Mon, 2 Feb 2026 02:07:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=BxpL/CEFN6q71yIP6BqMQzTd
+	ZY/IThsM+HhCgC/mv4I=; b=bIqSV/YalNkdPOlpP/muVM367H5bSW+xY0C9Z2/7
+	kiekDgY4iLkOMExRoy7CltSTpgV2mT5iyhiCdhGwf9W0za8iUFs4UcRLoxYitBhj
+	m8raXV1B872f5MOO+9OZFY/3Df98e+q3hrFk2QXD+iuj2xvBc+CIb64COU7pyih9
+	nOW/5YbUdrcriZQckwnrgQ18uoT0Qaz6Ix6elOZPZy8R98iO9lXv0H5ZJTf+zB1j
+	hI25lhmQpmIhbu05iynSQY5YieY0k3/xVh7kxbHmzAY71vdzTXugGTGpp9yARgKk
+	q/u4TX8Ahwmm+y+yMO2RLR2HiLAchHYKLwn102TACyV18Q==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c23h1h8q9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-kbuild@lists.linux.dev>; Mon, 02 Feb 2026 02:07:52 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8946448adbdso164765216d6.1
+        for <oe-kbuild@lists.linux.dev>; Sun, 01 Feb 2026 18:07:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1769997995; x=1770602795; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
-         :references:from:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aMiZMMtcuEUphHiFBhOZs43qw2Jy4XV2UcTsb9dz3D0=;
-        b=bgHyg5iPxcHz6bEaeXaLbSk/iPXuI5jm9GEaNtdeX9sZPllwAFjazferJbx/IgDP4s
-         /VM0yj3z4RpPZ4iFgR0BxVTqBvMO1krDMBA9OCJDeXkMcNxerd8NNyZbz7vWfXAa4l/d
-         F8eBjgQcehSxrJcBbwkRGBoG2nMmi0M04wY/EceUrO/nl2e4B84rswSK48XQvV4P0W2R
-         imG5hqd93dDhUlfVDjNDWC0GFcd1uAo0kUyv6CVu03bjVGlk8S2IlTP5eDCXP7FNq/7p
-         E5VnWQ2BGeodJiniBeNlWd+B7Cyw6AaTce+OO7jAxzFL9Up3dm8l7K0hLSXQiwceuyoC
-         gXgA==
+        d=oss.qualcomm.com; s=google; t=1769998071; x=1770602871; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BxpL/CEFN6q71yIP6BqMQzTdZY/IThsM+HhCgC/mv4I=;
+        b=NO0HEJ7rxdFLKqyd4+XSbmspjGu41ZcurnJ5REXyCEqY1spYNWKnz2fNWAC4z9Djom
+         iPtO7zSNkgOzi0h6QUr2wAGErCFVFRV/Ql443zOkcWKUrOD/MbLCHEOgtUmcz0dCR+J5
+         B971fFp+QqbUJnMNvawE0T7ptDVlMIgFz7/T4kihLs1sZoOrd4Q94FcUf7bKMmAsvIbi
+         PEEINoXlg0jxJEXyi6kzGHIuGiDmXp4yBds/H5viYlWURYuU02thfhfr7Wwl87wgYPuA
+         sivIKzNFrns0Ht6tgjU07kKs2fJIVOV8AfYRZVS+iqMXkGq3RzzTZwGAgovu13ysE7kX
+         LbYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769997995; x=1770602795;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
-         :references:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1769998071; x=1770602871;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aMiZMMtcuEUphHiFBhOZs43qw2Jy4XV2UcTsb9dz3D0=;
-        b=Pcz+u2HFIcQWZK4FMEB0MLpDMC5Wvf/mwq5m1Pb94MqyI7myDP4u6jwNAfJjChTLdq
-         FqjE7aVRCD0nhIeI6S5MiMILCtWiz7bGtdaAZh4IXhWKWlR1sloJPuFAg6uxZA19S6lW
-         1v7XivJsARfZmiYZLp12uhTZwIe9mwWCavEtOYHBoVRJH8/DtbbpQJgFL171AHvxVDPn
-         V7YzYMyTUnZqkbwJhCEOQTtpjU4u9WpwBl8fQCailt2s4d68ZcBlqxagwA9uOdcFyDJl
-         q2FYkAZxYFbu4+okIHzfI5G4cSttbucf4ZOjzK5pEPVba688gSYUs/B/uZatjYZ3Z1x+
-         A/Iw==
-X-Forwarded-Encrypted: i=1; AJvYcCWp/lUChg4SORr+kY1eKjBWddAQ5je43TAhNM4tfQvuT6qANruENfLUuA9ACeZ9KhWolaDe7hqlDbE=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSImMRDmgpLSAUvDw15/hDepEsHaKpn1F8JlV2S2jVG7/YWM8x
-	i2qeJs3SeLI4Q2a+Zo7rowFERqwjFwgCMGPL54Q3Xq8m7cMMOZG4xFkhY3gDavyVoiPutHgTs7b
-	1sKZsPtiQsbNMH8/EL1Dflf86gn9NH1EfBi5X2yWk+A==
-X-Gm-Gg: AZuq6aJ+kCGJqtpQ1/bUgk5D0TDqOWrWAU60Nl/QhpVMYet9iz7LyBLIxJj8N9woxqS
-	HlX+h8XpJobYH0ecxrdjdmgSTyTWWRIKFj2XP1JLqZkG/Gga+rVZsLzACL0wwRmPIZm6Vu/kVWf
-	85zY3NQuABQlhqDN3w1qEJv1zQtWCGnCZIXmF4tDUq6JvU3GPMoWxheu/h06+/e8mfj3rWZWjuP
-	LE+NUCKqJXNFFVheN33s8RJlhuTo/d/87yXFtdLJakHZqaWhzLY100dIdzM4/Z0cbLj6PQw
-X-Received: by 2002:a05:690c:e3e1:b0:794:198e:943b with SMTP id
- 00721157ae682-7949de7f6bfmr88706007b3.8.1769997994805; Sun, 01 Feb 2026
- 18:06:34 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 Feb 2026 02:06:34 +0000
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 Feb 2026 02:06:34 +0000
+        bh=BxpL/CEFN6q71yIP6BqMQzTdZY/IThsM+HhCgC/mv4I=;
+        b=SPwECTccJNytEeKtC3T1zIKPFXrNJuJbgIphtpjsLBYiknUEkU+qwYQGsnUVyYTsAQ
+         hKpeHEm8uo1y/1v8+4tskjkbN/26Ou4jkwD4Lx/owNVghhrGodcOXtcwCcXzVEDWmP3y
+         dZRX2Q7PjkXR237zNED2ekTlEyvMzv+FuSl9nxP+tdV5Ts2CPRq10hQV9rxvRHeqDxnm
+         N+VUj3q23UsPcSjJ1u57fyBoDbksPdVrkBRUarCrviqU1akHqEbDsQ/h+HtncIq/MHTq
+         yIK6bOHtDtCl6Xb6gcfFDF02QjxRiXCmQvUeyCggo0bwl3JBnh4iHU2n/bh4QGsfHQ+5
+         Sa9Q==
+X-Gm-Message-State: AOJu0YwU+ICRWIP5vpdKzSBvs6zchwprmzDfRtKCLttFAE0ovwAc5dvV
+	k4QBnzP6tru6U94TCjIFfxRszx9gw9cNrXZTHae0VJYdILMn/2MLARNj/MvOqaEeOCgDZq3cyqh
+	Twe5HJy83ECCPsVqwDQa6JY7yGErQHdaElKs2bBPraWgcUst0nEmtvkhVCg0B004=
+X-Gm-Gg: AZuq6aLf+YC00QY/dsAGEiS0fRCEftTNAxKExJQMV1JHNTv4RCSsKx+pCibfLyoRsyD
+	+I/UI6C2wmk3qAYlzqy9lbID1Mq5w/zDArvlmqlncJRHZytl2hSCXbvHxNqJvUedjli1/tgoqIq
+	lBNVrsAr5Gs608a92IFKQJ5/RDlCMLKA4W/FU+rKUGfs9/lWH6b9Q5dMTFfEviix3vdKXUtcY2i
+	nHuVdt3mgD6qvQFlq0kGaTApZ0hPA3BySVb4wOkBPWq6kTZRA5HNSVXnzv+zued43sVev936wUn
+	E6na8QIf0aGq1q1yxsGVuDgWa0rMY7TxyTrQ4CUn6QZBExfum7qEHiIxoRE9NDPfi7C17xVXlXx
+	90ONBZ//jZ6ZImBZwF8USMUeuXgkuA4iX8oURvg1jXZNIo1n5Xm0kHhDuHb5oh9+5yJyEQRY=
+X-Received: by 2002:ad4:5dc8:0:b0:880:4054:7edd with SMTP id 6a1803df08f44-894e9fe6b46mr152935746d6.20.1769998071624;
+        Sun, 01 Feb 2026 18:07:51 -0800 (PST)
+X-Received: by 2002:ad4:5dc8:0:b0:880:4054:7edd with SMTP id 6a1803df08f44-894e9fe6b46mr152935476d6.20.1769998071139;
+        Sun, 01 Feb 2026 18:07:51 -0800 (PST)
+Received: from yuanjiey.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711d2845fsm1148516085a.31.2026.02.01.18.07.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Feb 2026 18:07:50 -0800 (PST)
+Date: Mon, 2 Feb 2026 10:07:45 +0800
+From: yuanjiey <yuanjie.yang@oss.qualcomm.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Subject: Re: [linux-next:master 7732/9539]
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c:161
+ dpu_hw_sspp_setup_pe_config_v13() warn: variable dereferenced before check
+ 'ctx' (see line 159)
+Message-ID: <aYAG8R8nkSNqdR6b@yuanjiey.ap.qualcomm.com>
+References: <202601252214.oEaY3UZM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-From: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-X-Mailer: aerc 0.21.0
-References: <202601311615.10yziOui-lkp@intel.com> <81522270-1703-48E1-B64C-8CF174E1EF94@nexthop.ai>
- <r2qkeep6jf7xxjzckn72z4avgx3qiqh4g2fkvzeyu2p2o54bff@xs4kzlong7cn>
-In-Reply-To: <r2qkeep6jf7xxjzckn72z4avgx3qiqh4g2fkvzeyu2p2o54bff@xs4kzlong7cn>
-Date: Mon, 2 Feb 2026 02:06:34 +0000
-X-Gm-Features: AZwV_QgA40VM4P6w_-3GskOG6YPGtVtQKONh5VU7M0VmOxyGKRkaTPHiN25oam0
-Message-ID: <CAGYn4vxTAJwO3GiKmRtD1gTit-Wm4VOMnxZPxUfUJ0JEwj8dEw@mail.gmail.com>
-Subject: Re: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
-	Abdurrahman Hussain via B4 Relay <devnull+abdurrahman.nexthop.ai@kernel.org>, Michal Simek <monstr@monstr.eu>, 
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202601252214.oEaY3UZM-lkp@intel.com>
+X-Proofpoint-GUID: ntwtLtK30iSpAmGdaVYebFrvCiFO8r9n
+X-Proofpoint-ORIG-GUID: ntwtLtK30iSpAmGdaVYebFrvCiFO8r9n
+X-Authority-Analysis: v=2.4 cv=Fu8IPmrq c=1 sm=1 tr=0 ts=698006f8 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8
+ a=NEAV23lmAAAA:8 a=KKAkSRfTAAAA:8 a=wTWSiibFJaJYqoySWbQA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22 a=mmqRlSCDY2ywfjPLJ4af:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDAxNSBTYWx0ZWRfX/JaqwLYOYS9s
+ 5x+Jp4ju3kjNDOdPjak1BouoINJvsmAuKVPTWx3nyS1TQkB1G3Bc25YGTUMbq2AH7pZfYHt1984
+ WrMmKwdo8rjKykKEQoeRvSWEvStj9B3qzxox3aymtruoTc4+z1DcljkSNrHDLpklEflZrIj6t2L
+ ThTYqaDuerIkUC//Md6CEa2M8eZzPHieb6wThV3oh9C/hvrCkzOv2DxWRVV7RDIaMO3tv7ugI4m
+ JEbDxgAjheOsoGE+ruOyFMybQpmxay7HZyAKtPMjKSjFrXnIRwpjrAvucgwiygxvc8F09o9jT1N
+ E5MuaWk2pA/58B1iv9XwsyR2+lE+uLW+aculdzwVP2ZVFnnSEDvRgGCQI2tUO5c3nX6zDXL9a4B
+ 53hxjGniGMRwLuNeM7p4SrsX/oyZOlzaeUhbaBPJ/VOQZp9v0iGhK25E7Q9Xlz6a0RkdCBcYMs6
+ IJuLKJ0NriVC2ocvNNA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-01_08,2026-01-30_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
+ clxscore=1011 suspectscore=0 bulkscore=0 malwarescore=0 adultscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602020015
 
-On Sun Feb 1, 2026 at 10:23 PM UTC, Uwe Kleine-K=C3=B6nig wrote:
-> Hello,
->
-> On Sat, Jan 31, 2026 at 06:14:58PM -0800, Abdurrahman Hussain wrote:
->> > On Jan 31, 2026, at 6:35=E2=80=AFAM, Dan Carpenter <dan.carpenter@lina=
-ro.org> wrote:
->> > kernel test robot noticed the following build warnings:
->> >
->> > url:    https://github.com/intel-lab-lkp/linux/commits/Abdurrahman-Hus=
-sain-via-B4-Relay/i2c-xiic-skip-input-clock-setup-on-non-OF-systems/2026013=
-0-054653
->> > base:   63804fed149a6750ffd28610c5c1c98cce6bd377
->> > patch link:    https://lore.kernel.org/r/20260129-i2c-xiic-v7-5-727e43=
-4897ef%40nexthop.ai
->> > patch subject: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
->> > config: i386-randconfig-141-20260130 (https://download.01.org/0day-ci/=
-archive/20260131/202601311615.10yziOui-lkp@intel.com/config)
->> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 8=
-7f0227cb60147a26a1eeb4fb06e3b505e9c7261)
->> > smatch version: v0.5.0-8994-gd50c5a4c
->> >
->> > If you fix the issue in a separate patch/commit (i.e. not just a new v=
-ersion of
->> > the same patch/commit), kindly add following tags
->> > | Reported-by: kernel test robot <lkp@intel.com>
->> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->> > | Closes: https://lore.kernel.org/r/202601311615.10yziOui-lkp@intel.co=
-m/
->> >
->> > smatch warnings:
->> > drivers/i2c/busses/i2c-xiic.c:1539 xiic_i2c_remove() warn: pm_runtime_=
-get_sync() also returns 1 on success
->> >
->> > vim +1539 drivers/i2c/busses/i2c-xiic.c
->> >
->> > e190a0c389e601 Uwe Kleine-K=C3=B6nig    2023-05-08  1529  static void =
-xiic_i2c_remove(struct platform_device *pdev)
->> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1530  {
->> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1531   struct device *d=
-ev =3D &pdev->dev;
->> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1532   struct xiic=
-_i2c *i2c =3D platform_get_drvdata(pdev);
->> > 36ecbcab84d023 Shubhrajyoti Datta  2016-03-02  1533   int ret;
->> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1534
->> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1535   /* remove a=
-dapter & data */
->> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1536   i2c_del_ada=
-pter(&i2c->adap);
->> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1537
->> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1538   ret =3D pm_runti=
-me_get_sync(dev);
->> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29 @1539   if (ret)
->> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1540   dev_warn(dev, "F=
-ailed to activate device for removal (%pe)\n",
->> > 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1541   ERR_PTR(ret=
-));
->> >
->> >
->> > pm_runtime_get_sync() can return 1 on success.  Perhaps use
->> > pm_runtime_resume_and_get()?
->> >
->> > 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1542   else
->> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1543   xiic_deinit=
-(i2c);
->> > 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1544
->> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1545   pm_runtime_put_s=
-ync(dev);
->> > 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1546   pm_runtime_dont_=
-use_autosuspend(dev);
->> > e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1547  }
->> >
->> > --
->> > 0-DAY CI Kernel Test Service
->> > https://github.com/intel/lkp-tests/wiki
->> >
->>
->> This maybe a false positive.
->
-> It's not.
->
-> The blamed commit 2557b4ba04df ("i2c: xiic: cosmetic cleanup") has:
->
-> -       ret =3D pm_runtime_get_sync(i2c->dev);
-> -
-> -       if (ret < 0)
-> -               dev_warn(&pdev->dev, "Failed to activate device for remov=
-al (%pe)\n",
-> +       ret =3D pm_runtime_get_sync(dev);
-> +       if (ret)
-> +               dev_warn(dev, "Failed to activate device for removal (%pe=
-)\n",
->                          ERR_PTR(ret));
->
-> So we need
->
-> diff --git a/drivers/i2c/busses/i2c-xiic.c b/drivers/i2c/busses/i2c-xiic.=
-c
-> index 37a15065db60..a5334b7c46d8 100644
-> --- a/drivers/i2c/busses/i2c-xiic.c
-> +++ b/drivers/i2c/busses/i2c-xiic.c
-> @@ -1536,7 +1536,7 @@ static void xiic_i2c_remove(struct platform_device =
-*pdev)
->  	i2c_del_adapter(&i2c->adap);
->
->  	ret =3D pm_runtime_get_sync(dev);
-> -	if (ret)
-> +	if (ret < 0)
->  		dev_warn(dev, "Failed to activate device for removal (%pe)\n",
->  			 ERR_PTR(ret));
->  	else
->
-> Best regards
-> Uwe
+On Wed, Jan 28, 2026 at 01:04:39PM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+> commit: 688c7734002a1ee6f50a28ba9bd7aa380edbe12d [7732/9539] drm/msm/dpu: Add Kaanapali SSPP sub-block support
+> config: mips-randconfig-r071-20260125 (https://download.01.org/0day-ci/archive/20260125/202601252214.oEaY3UZM-lkp@intel.com/config)
+> compiler: mips64-linux-gcc (GCC) 15.2.0
+> smatch version: v0.5.0-8994-gd50c5a4c
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202601252214.oEaY3UZM-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c:161 dpu_hw_sspp_setup_pe_config_v13() warn: variable dereferenced before check 'ctx' (see line 159)
+> 
+> vim +/ctx +161 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c
+> 
+> 688c7734002a1e Yuanjie Yang 2026-01-15  152  static void dpu_hw_sspp_setup_pe_config_v13(struct dpu_hw_sspp *ctx,
+> 688c7734002a1e Yuanjie Yang 2026-01-15  153  					    struct dpu_hw_pixel_ext *pe_ext)
+> 688c7734002a1e Yuanjie Yang 2026-01-15  154  {
+> 688c7734002a1e Yuanjie Yang 2026-01-15  155  	struct dpu_hw_blk_reg_map *c;
+> 688c7734002a1e Yuanjie Yang 2026-01-15  156  	u8 color;
+> 688c7734002a1e Yuanjie Yang 2026-01-15  157  	u32 lr_pe[4], tb_pe[4];
+> 688c7734002a1e Yuanjie Yang 2026-01-15  158  	const u32 bytemask = 0xff;
+> 688c7734002a1e Yuanjie Yang 2026-01-15 @159  	u32 offset = ctx->cap->sblk->sspp_rec0_blk.base;
+>                                                              ^^^^^
+> Dereference
+> 
+> 688c7734002a1e Yuanjie Yang 2026-01-15  160  
+> 688c7734002a1e Yuanjie Yang 2026-01-15 @161  	if (!ctx || !pe_ext)
+>                                                      ^^^
+> NULL check is too late.
 
-Hi Uwe,
+Ok, will fix it in a new patch.
 
-Yes, indeed, I missed that. Thanks for pointing it out!
+Thanks,
+Yuanjie
 
-Best regards,
-Abdurrahman
+> 688c7734002a1e Yuanjie Yang 2026-01-15  162  		return;
+> 688c7734002a1e Yuanjie Yang 2026-01-15  163  
+> 688c7734002a1e Yuanjie Yang 2026-01-15  164  	c = &ctx->hw;
+> 688c7734002a1e Yuanjie Yang 2026-01-15  165  	/* program SW pixel extension override for all pipes*/
+> 688c7734002a1e Yuanjie Yang 2026-01-15  166  	for (color = 0; color < DPU_MAX_PLANES; color++) {
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
