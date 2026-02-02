@@ -1,147 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CD3318EF6
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Feb 2026 21:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCB5320A02
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Feb 2026 22:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770069568; cv=none; b=SdPzVoPnUbCu+wTdIpqrNbZuurI+xFw6CjbuSNIhPOAbHkxVEQCchdmE1KNPp11ibcYc3QJGD9hvawuYBrMYYEqShBmXU2XXFksHegYGX8n0VNrY3RFZwcdhMhLRPWaU2DHRNUcvnJlhtldXxu6j9/vpYwevoxFtRhSUOm4RePE=
+	t=1770070063; cv=none; b=rI3Vhmjbg96wE2hcw//+r86FmMQYoz5ZnP/i2ygbCRdachiftf1pTTKV2r2MNhsiLVOIVP8uuUa/4sfXiC0sZfAqtSlvx1XZ8AAECL3o7rMQv8lATeuiJS225cGxrF7y1F3oF404awIBq2Si+Fnyv8h1X1UOru/69IX+52Jek6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770069568; c=relaxed/simple;
-	bh=Sk7UPKsJHtoXQy6rj+ckLsiLEBoFYHt7B08QnYrVl3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gfbyhbaNboSdn6U0avq51/v7uvGPlpFvudH+wy2a9Vp0P6zGGRTVpKB3f4OENSgPEWbbOKErbzCyvrWjDGyH1W0fjUSsJsDm8Ex9W2utfN+/XuaGcWLEfGCqhbmP3fJznbrLPaFCDKomgI13dEA/TytRDb+jpnfh9LlWxpN8/00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWKd9IWr; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1770070063; c=relaxed/simple;
+	bh=FfsM64vu5YRKJJ4r2tvCEZaLCwLuRaI0DgA6fkW/s+w=;
+	h=Date:From:To:Subject:Message-ID; b=a0+PgTThZ3l+A8RZGOI/3UTCl3b8QNL3K5Ibi62ChP2dp4kQruEvClI0GIAVTbfUWYUMZlG504TXJ+GaTgp0x8G6Dx3IHJXoTVxqEX+5RvP7rYiFrz+xIUNorXGyOOACqc/aw5laTue2pPkuk1nASSADVpVzBvOppCHAP9NqDdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GYiJB1dn; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWKd9IWr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYiJB1dn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770069567; x=1801605567;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sk7UPKsJHtoXQy6rj+ckLsiLEBoFYHt7B08QnYrVl3M=;
-  b=iWKd9IWrPkE8d5Lo+dpVtXYWQefW4RpRr2Brxgq3Z4WYA5cohiTrFoep
-   RurKqwS0XRfu0EYAxAovhtcbuGpQCxakfBC9YflxdFz4iuW5KjqzuTHQR
-   /otvunhAbQKecwx17P7XsU0s6ydlA0IVLyxojqTaRmrNBISx9BXaiq0dN
-   HcVv9Q9Hy4ri8c6RJekKn4gic0xWybmwBn0AZyUaJAnm9FggvUP0Mc/Oy
-   wo6UfZs7vhXIKFHJr/YDZ8eovUDWDnAxDe1lVV84WOg7mIyAFsWgmsVOg
-   KS96WrIi8hx2Md4BVvgl3wvAVpvbJiBv0lLdF1C5BhslDkk+siD0pFSOJ
-   Q==;
-X-CSE-ConnectionGUID: PEwhh5BfSVeXaIq4cg3iTw==
-X-CSE-MsgGUID: RgrszehRRWeHnvdSQsVjEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71318196"
+  t=1770070062; x=1801606062;
+  h=date:from:to:subject:message-id;
+  bh=FfsM64vu5YRKJJ4r2tvCEZaLCwLuRaI0DgA6fkW/s+w=;
+  b=GYiJB1dnpKW9W8yV5D6j2pXtANZWkF/ebr8PXU6Z+NzgLebQWwZNJfhU
+   NSzG1FtNG5u7LvVCa582dYOafEv5Nj1GIJgDXcVI2OhSExE4KqfooDvPT
+   hRvlqQ9YR7cbe39QlymNFvEgP1m1KKMy/cO52L4npmw9VOc8NBGExGeTI
+   C3aFelndJisvHjUL3wHl/ml5MhsWuCh34vj1yiWdMZsof2zN8X8Yl3BLt
+   PsATLp+lG6MOKPQVkmWlt2sZvovUXpnu6Bx7G2ShFmgQKHs1CKih289rn
+   7jlCPC5eh5tJFD2AAqKpl+CvlwGD+RaU+Vb5UZqLk+fKPfuoEJsCCG4jU
+   A==;
+X-CSE-ConnectionGUID: X249oenZQaq+efoEac1riw==
+X-CSE-MsgGUID: KbBLFN1tR3KwyejGyGjsYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="81975373"
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="71318196"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 13:59:27 -0800
-X-CSE-ConnectionGUID: BQASxZkOSEWQk9xqVxUnyA==
-X-CSE-MsgGUID: JitYlNr8SyWo26VST5qFJA==
+   d="scan'208";a="81975373"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 14:07:41 -0800
+X-CSE-ConnectionGUID: YAwfCrk+Si6PDnFMKgUlCQ==
+X-CSE-MsgGUID: UwYX/IhURPe0Mh/irCoCxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="209864294"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Feb 2026 13:59:25 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="240323822"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 02 Feb 2026 14:07:40 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vn1x5-00000000g04-0VzS;
-	Mon, 02 Feb 2026 21:59:23 +0000
-Date: Tue, 3 Feb 2026 05:58:56 +0800
+	id 1vn253-000000003D3-2jS3
+	for oe-kbuild@lists.linux.dev;
+	Mon, 02 Feb 2026 22:07:37 +0000
+Date: Mon, 02 Feb 2026 23:06:42 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v10 4/4] irqchip/irq-loongarch-ir:Add Redirect irqchip
- support
-Message-ID: <202602030502.rQEjzv5G-lkp@intel.com>
+Subject: [superna9999:topic/sm8650/ayaneo-pocket-s2/pmos-fosdem26
+ 8/23] checkpatch: ERROR:SPACING: space required before the open parenthesis
+ '('
+Message-ID: <202602022315.glAVk8rW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/irqchip/irq-loongarch-ir.c:206:21: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260202091041.2278271-5-zhangtianyang@loongson.cn>
-References: <20260202091041.2278271-5-zhangtianyang@loongson.cn>
-TO: Tianyang Zhang <zhangtianyang@loongson.cn>
-TO: chenhuacai@kernel.org
-TO: kernel@xen0n.name
-TO: corbet@lwn.net
-TO: alexs@kernel.org
-TO: si.yanteng@linux.dev
-TO: tglx@linutronix.de
-TO: jiaxun.yang@flygoat.com
-TO: maobibo@loongson.cn
-CC: loongarch@lists.linux.dev
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Tianyang Zhang <zhangtianyang@loongson.cn>
-CC: Liupu Wang <wangliupu@loongson.cn>
+TO: KancyJoe <kancy2333@outlook.com>
 
-Hi Tianyang,
+tree:   https://github.com/superna9999/linux topic/sm8650/ayaneo-pocket-s2/pmos-fosdem26
+head:   5120936633b5138a0543b06adff90d3c8312b965
+commit: 7b10393571cd5423d6db9fef7d89da43a8f0d331 [8/23] audioreach: Add dedicated WSA2 support.
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20260202/202602022315.glAVk8rW-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
+# many are suggestions rather than must-fix
 
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on linus/master v6.19-rc8 next-20260202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Docs-LoongArch-Add-Advanced-Extended-Redirect-IRQ-model-description/20260202-171607
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20260202091041.2278271-5-zhangtianyang%40loongson.cn
-patch subject: [PATCH v10 4/4] irqchip/irq-loongarch-ir:Add Redirect irqchip support
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: loongarch-randconfig-r111-20260202 (https://download.01.org/0day-ci/archive/20260203/202602030502.rQEjzv5G-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030502.rQEjzv5G-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202602030502.rQEjzv5G-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   drivers/irqchip/irq-loongarch-ir.c:159:9: sparse: sparse: context imbalance in 'invalid_enqueue' - wrong count at exit
->> drivers/irqchip/irq-loongarch-ir.c:206:21: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/irqchip/irq-loongarch-ir.c: note: in included file (through include/linux/cpumask.h, arch/loongarch/include/asm/processor.h, arch/loongarch/include/asm/thread_info.h, ...):
-   include/linux/bitmap.h:718:32: sparse: signed value source
-   include/linux/bitmap.h:712:5: sparse: sparse: context imbalance in 'redirect_table_alloc' - wrong count at exit
-
-vim +206 drivers/irqchip/irq-loongarch-ir.c
-
-dbaee479dc4803 Tianyang Zhang 2026-02-02  192  
-dbaee479dc4803 Tianyang Zhang 2026-02-02  193  static int redirect_table_alloc(int node, u32 nr_irqs)
-dbaee479dc4803 Tianyang Zhang 2026-02-02  194  {
-dbaee479dc4803 Tianyang Zhang 2026-02-02  195  	struct redirect_table *ird_table = &irde_descs[node].ird_table;
-dbaee479dc4803 Tianyang Zhang 2026-02-02  196  	unsigned int index, order = 0;
-dbaee479dc4803 Tianyang Zhang 2026-02-02  197  
-dbaee479dc4803 Tianyang Zhang 2026-02-02  198  	if (nr_irqs > 1) {
-dbaee479dc4803 Tianyang Zhang 2026-02-02  199  		nr_irqs = __roundup_pow_of_two(nr_irqs);
-dbaee479dc4803 Tianyang Zhang 2026-02-02  200  		order = ilog2(nr_irqs);
-dbaee479dc4803 Tianyang Zhang 2026-02-02  201  	}
-dbaee479dc4803 Tianyang Zhang 2026-02-02  202  
-dbaee479dc4803 Tianyang Zhang 2026-02-02  203  	guard(raw_spinlock_irqsave)(&ird_table->lock);
-dbaee479dc4803 Tianyang Zhang 2026-02-02  204  
-dbaee479dc4803 Tianyang Zhang 2026-02-02  205  	index = bitmap_find_free_region(ird_table->bitmap, IRD_ENTRIES, order);
-dbaee479dc4803 Tianyang Zhang 2026-02-02 @206  	if (index < 0) {
-dbaee479dc4803 Tianyang Zhang 2026-02-02  207  		pr_err("No redirect entry to use\n");
-dbaee479dc4803 Tianyang Zhang 2026-02-02  208  		return -EINVAL;
-dbaee479dc4803 Tianyang Zhang 2026-02-02  209  	}
-dbaee479dc4803 Tianyang Zhang 2026-02-02  210  
-dbaee479dc4803 Tianyang Zhang 2026-02-02  211  	return index;
-dbaee479dc4803 Tianyang Zhang 2026-02-02  212  }
-dbaee479dc4803 Tianyang Zhang 2026-02-02  213  
+ERROR:SPACING: space required before the open parenthesis '('
+#31: FILE: sound/soc/qcom/qdsp6/audioreach.c:719:
++	if((intf_cfg->cfg.lpaif_type == 7 && cfg->num_channels <= 2 && intf_cfg->cfg.intf_index == 1)
 
 -- 
 0-DAY CI Kernel Test Service
