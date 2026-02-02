@@ -1,151 +1,197 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3779238166
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Feb 2026 09:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D8A34E754
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Feb 2026 11:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770023720; cv=none; b=ii2FNp3376fbhwTSMrgQmFBh2KEx5c7caBD83I9oHKacPhA+M+IunxUInfkYS1vbOFkPHiKiN92vwJV+MJgS8p3O2HClmUGwAJZ1TNMAHFsyohgDz6dKFuebvXTQwpPocCHhfFnKrZFRNkCAqRPIB9mNctEX3ntSXJytJZB1Tz0=
+	t=1770031611; cv=none; b=g30rqPm7eN2lZjghFKlkRuK4yQhF7z6cbEZduhV8XH4vOq1anbjlslmmnm5ZWBNIdr+c4Adibmhrb7HhmfDQIxLlVG8tepeoT461xLuQuXRdIMGiVPeZ+DCCTdcZL3UwF3f6ll9pnaoIMemzCb/X4jsep02ryAzooqyo8J+5dB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770023720; c=relaxed/simple;
-	bh=oCgXpI2MucJ6uycnjqvDIXXh50gaZ0qQedrWeVNOucs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sr6lcYpRK1UdTkUideGBYbFdcwKXi71lzeN7GAJRJ2j28UGSKZTBCU+p9MHDZj30rUBSFZNiG0t1/8USZHCME7Dkas6TgPv3lkAfbDBGnOsmFlgFxJC0Eh6Fkt0BNVHPePb0cM2tPAGBKj8q3SzYA5n5WTq1r9DIrgOLTOEC6ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W26VJwpQ; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770031611; c=relaxed/simple;
+	bh=T5HCjYlvczaaRNH+wPrJ/SjKiaUwV4i159Tl5kc+pIE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DleEVp8rOxDU7ckq7iIF4T4vkme3UqtXsmI5lqagRI8TL2/eLPIY02cYpcaBiJlFavtrydXJZz4rO58Jju0ylenSuF50puGhW/zYGxK6xcJiztYjj39XmFKW8S+RCNzxPyy7DTHzFRk/5Fnu3Utt2Ret3Hn3JkbyX6WS5ZPTNhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNsx9wow; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W26VJwpQ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-482f2599980so12811895e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 02 Feb 2026 01:15:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770023716; x=1770628516; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0VxT5WdxL72GGauKTl1EPnUwAVKDysEqE8T8RoyWVZg=;
-        b=W26VJwpQq0OhxN8g/Sr8UaTnnTyOWLTlvtiAvwLpAjCE9c9SwvAWQNYaO/xpAHKXsY
-         gdezu0pbshIUVL6sthatipIzZl8Jqza5NyT6GBRW3URFYFUHty0iENAqVWUs9vopMd1R
-         rvnBmMEdVTMZUCdVmTJW07XL4QkZ+TDgzeEg1oCr/EbcXn7k2moQu3E6ErrGfxxaoye7
-         WoZT2d8KleE7YMxFu/KxH957uG1xC9S47qAwskms2kjZbwa0uu9OAsuOXVyZTm361IjU
-         EvJBb+g8yfHk4IGwliDskrkVbBZX47Zk5TwpbCkz6U9AseV8lnDlZ4alwWdxfLg7n2mf
-         HudQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770023716; x=1770628516;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0VxT5WdxL72GGauKTl1EPnUwAVKDysEqE8T8RoyWVZg=;
-        b=PsyeyidFV9CPf6BlZNraON0c3NxZzEU2Y87E7U84J9LSR7jLEu0LJv37BttWOnNpHl
-         kMFeZBeZ+AQG46SkaDu7UlpsLY6/vuRbbxlo9bBkO5AZF8xo90BORSvengLZRSe8/Buw
-         ECAluFnLznIF8YyZg48KzQi8vmxngSJHsEpOwcO8tJ3babxF5bD+gwTlNjCwoAbLAXw6
-         PB5iwI26o2fADEuxCZQf1ZQifbhD9EBVvlfkQfl0LSFx4kziRDJQp59MTv7ry9fhQ17f
-         hrD6KdYkL5JMXggdw8o0rFCPxwK1YTeMN3lewjHpZH1QR89l8i2CyKa8NvI5vStAxiGQ
-         SuPQ==
-X-Gm-Message-State: AOJu0YwMBasMUa2lmQgl2/+ZBH0EdzcB8fi63nIb8p2J6k0DtmgTr3hs
-	duZGJ1lv1bNcs68PzJYfb5qur+8dBmUikhuS9qW5FAnSoWcAnEvwjawFMrcSIB9Bsi8+1ES5lMd
-	UjC8y
-X-Gm-Gg: AZuq6aI9LrLDXfQgbDzbUyg2Jur38ODfQs4uQBDQmV40+yiasNe36CFL0Udt0Ug80sK
-	U/X56DZ1c/VIJCvEXI/A0yf7Yyp0vwPqPJzhUL2WPnGFXuB1ID8k13eJuanGibJ83iRRRjScSLt
-	826DX5k+gJxjub5F/0ULcFP/hzHvO2dTZnM9LjWbyZYmJQGzfrtZWr4t1mGBxnthZi80xL37eEr
-	b4OBpNJkmqsSkNF7MDB3iPcQ1Zr0XEurcaxNw5ZQVQNs6Ln4rKQgd4LXZCGt7npnVMhdTdNsjrz
-	0p15Uw4MrHPeV+cYODNTX/mMjmthdJTZan/PulAFT5ejYCoimqqSteCVkqMGkduyQIvMJns9jX6
-	RNF9CqRemTR3/wUjq1GueohcsuT+8r2LBrIaW2I+HY/jF0tZS51Y64wwWP/CevqP0b8od5DkiV9
-	KZoQkjKhxx7kxBAery
-X-Received: by 2002:a05:600c:474f:b0:477:98f7:2aec with SMTP id 5b1f17b1804b1-482db4592e4mr156298125e9.3.1770023715933;
-        Mon, 02 Feb 2026 01:15:15 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cdd79c7sm399149035e9.2.2026.02.02.01.15.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 01:15:15 -0800 (PST)
-Date: Mon, 2 Feb 2026 12:15:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: kernel/trace/blktrace.c:664 blk_trace_setup() error: strcpy()
- 'buts2.name' too large for 'buts.name' (64 vs 32)
-Message-ID: <202602020718.GUEIRyG9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNsx9wow"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770031610; x=1801567610;
+  h=date:from:to:cc:subject:message-id;
+  bh=T5HCjYlvczaaRNH+wPrJ/SjKiaUwV4i159Tl5kc+pIE=;
+  b=ZNsx9wowJ72nZ62AJKXUFI5cRxbQiZB22j7a9+pGZXeRgYkPbTrEE1XC
+   PkWJiTfDB1aAS4sF3wBmGl+amRGixT/juc1f+ep3DfpRQegwRugjCx2GZ
+   2gD3QzidjIFYYmA3M5wwRnPjybJu2ouuuZwn4ICt3AeDyuAVMp9/nRDfd
+   jZl9KhT9qMc45KxGTiRJTmnpuRPweDjoKn4ct6qwrPTjFu06P8D3/YZ9z
+   1LCgNDhivKxgvi5hv0wVJhuaDXC/V8xgREzk/Lg5oKcTBNhG46Ij5mYlC
+   x/sgL3Gb6mumMUwvrP/E2Hxk8xh7p8iw1FrXM2VQZq37/jyQt2s2hgs4K
+   w==;
+X-CSE-ConnectionGUID: ML8K+hD8Rbq5/jVyK5pY4g==
+X-CSE-MsgGUID: xA3AFzzsTe+J05fo53v5+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="81816805"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; 
+   d="scan'208";a="81816805"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 03:26:49 -0800
+X-CSE-ConnectionGUID: 1TZIKjkgTLG13vImbS40yA==
+X-CSE-MsgGUID: GT/sIJi+Q22BmBNzEOwb0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; 
+   d="scan'208";a="209284696"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 02 Feb 2026 03:26:47 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vms4r-00000000fVs-0MB6;
+	Mon, 02 Feb 2026 11:26:45 +0000
+Date: Mon, 02 Feb 2026 19:26:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned
+ expression compared with zero: bit < 0
+Message-ID: <202602021905.rcDCOYtq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260202091512.ihSHCoBGkq7dRF5M0-e3GV3edimDaqvCSfWCWdIKzww@z>
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+
+Hi Josh,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   18f7fcd5e69a04df57b563360b88be72471d6b62
-commit: 113cbd62824afdf62d2f3f092809cf37cc7f1dd8 blktrace: pass blk_user_trace2 to setup functions
+commit: 49cf34c0815f93fb2ea3ab5cfbac1124bd9b45d0 unwind_user/x86: Enable frame pointer unwinding on x86
 date:   3 months ago
-config: s390-randconfig-r073-20260202 (https://download.01.org/0day-ci/archive/20260202/202602020718.GUEIRyG9-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-smatch version: v0.5.0-8994-gd50c5a4c
+:::::: branch date: 13 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-r061-20260201 (https://download.01.org/0day-ci/archive/20260202/202602021905.rcDCOYtq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202602020718.GUEIRyG9-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202602021905.rcDCOYtq-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/blktrace.c:664 blk_trace_setup() error: strcpy() 'buts2.name' too large for 'buts.name' (64 vs 32)
+cocci warnings: (new ones prefixed by >>)
+>> kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned expression compared with zero: bit < 0
 
-vim +664 kernel/trace/blktrace.c
+vim +257 kernel/unwind/deferred.c
 
-b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  631  int blk_trace_setup(struct request_queue *q, char *name, dev_t dev,
-b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  632  		    struct block_device *bdev,
-b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  633  		    char __user *arg)
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  634  {
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  635  	struct blk_user_trace_setup2 buts2;
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  636  	struct blk_user_trace_setup buts;
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  637  	struct blk_trace *bt;
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  638  	int ret;
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  639  
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  640  	ret = copy_from_user(&buts, arg, sizeof(buts));
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  641  	if (ret)
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  642  		return -EFAULT;
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  643  
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  644  	if (!buts.buf_size || !buts.buf_nr)
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  645  		return -EINVAL;
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  646  
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  647  	buts2 = (struct blk_user_trace_setup2) {
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  648  		.act_mask = buts.act_mask,
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  649  		.buf_size = buts.buf_size,
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  650  		.buf_nr = buts.buf_nr,
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  651  		.start_lba = buts.start_lba,
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  652  		.end_lba = buts.end_lba,
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  653  		.pid = buts.pid,
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  654  	};
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  655  
-b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  656  	mutex_lock(&q->debugfs_mutex);
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  657  	bt = blk_trace_setup_prepare(q, name, dev, buts.buf_size, buts.buf_nr,
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  658  				     bdev);
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  659  	if (IS_ERR(bt)) {
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  660  		mutex_unlock(&q->debugfs_mutex);
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  661  		return PTR_ERR(bt);
-42da88a724d8a3 kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  662  	}
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22  663  	blk_trace_setup_finalize(q, name, 1, bt, &buts2);
-113cbd62824afd kernel/trace/blktrace.c Johannes Thumshirn 2025-10-22 @664  	strcpy(buts.name, buts2.name);
+b3b9cb11aa034c Steven Rostedt 2025-07-29  204  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  205  /**
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  206   * unwind_deferred_request - Request a user stacktrace on task kernel exit
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  207   * @work: Unwind descriptor requesting the trace
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  208   * @cookie: The cookie of the first request made for this task
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  209   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  210   * Schedule a user space unwind to be done in task work before exiting the
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  211   * kernel.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  212   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  213   * The returned @cookie output is the generated cookie of the very first
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  214   * request for a user space stacktrace for this task since it entered the
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  215   * kernel. It can be from a request by any caller of this infrastructure.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  216   * Its value will also be passed to the callback function.  It can be
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  217   * used to stitch kernel and user stack traces together in post-processing.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  218   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  219   * It's valid to call this function multiple times for the same @work within
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  220   * the same task entry context.  Each call will return the same cookie
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  221   * while the task hasn't left the kernel. If the callback is not pending
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  222   * because it has already been previously called for the same entry context,
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  223   * it will be called again with the same stack trace and cookie.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  224   *
+be3d526a5b3410 Steven Rostedt 2025-07-29  225   * Return: 0 if the callback successfully was queued.
+be3d526a5b3410 Steven Rostedt 2025-07-29  226   *         1 if the callback is pending or was already executed.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  227   *         Negative if there's an error.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  228   *         @cookie holds the cookie of the first request by any user
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  229   */
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  230  int unwind_deferred_request(struct unwind_work *work, u64 *cookie)
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  231  {
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  232  	struct unwind_task_info *info = &current->unwind_info;
+a38a64712e740d Peter Zijlstra 2025-09-22  233  	int twa_mode = TWA_RESUME;
+be3d526a5b3410 Steven Rostedt 2025-07-29  234  	unsigned long old, bits;
+357eda2d745054 Steven Rostedt 2025-07-29  235  	unsigned long bit;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  236  	int ret;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  237  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  238  	*cookie = 0;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  239  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  240  	if ((current->flags & (PF_KTHREAD | PF_EXITING)) ||
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  241  	    !user_mode(task_pt_regs(current)))
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  242  		return -EINVAL;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  243  
+055c7060e7ca71 Steven Rostedt 2025-07-29  244  	/*
+055c7060e7ca71 Steven Rostedt 2025-07-29  245  	 * NMI requires having safe cmpxchg operations.
+055c7060e7ca71 Steven Rostedt 2025-07-29  246  	 * Trigger a warning to make it obvious that an architecture
+055c7060e7ca71 Steven Rostedt 2025-07-29  247  	 * is using this in NMI when it should not be.
+055c7060e7ca71 Steven Rostedt 2025-07-29  248  	 */
+a38a64712e740d Peter Zijlstra 2025-09-22  249  	if (in_nmi()) {
+a38a64712e740d Peter Zijlstra 2025-09-22  250  		if (WARN_ON_ONCE(!CAN_USE_IN_NMI))
+055c7060e7ca71 Steven Rostedt 2025-07-29  251  			return -EINVAL;
+a38a64712e740d Peter Zijlstra 2025-09-22  252  		twa_mode = TWA_NMI_CURRENT;
+a38a64712e740d Peter Zijlstra 2025-09-22  253  	}
+055c7060e7ca71 Steven Rostedt 2025-07-29  254  
+357eda2d745054 Steven Rostedt 2025-07-29  255  	/* Do not allow cancelled works to request again */
+357eda2d745054 Steven Rostedt 2025-07-29  256  	bit = READ_ONCE(work->bit);
+357eda2d745054 Steven Rostedt 2025-07-29 @257  	if (WARN_ON_ONCE(bit < 0))
+357eda2d745054 Steven Rostedt 2025-07-29  258  		return -EINVAL;
+357eda2d745054 Steven Rostedt 2025-07-29  259  
+357eda2d745054 Steven Rostedt 2025-07-29  260  	/* Only need the mask now */
+357eda2d745054 Steven Rostedt 2025-07-29  261  	bit = BIT(bit);
+357eda2d745054 Steven Rostedt 2025-07-29  262  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  263  	guard(irqsave)();
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  264  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  265  	*cookie = get_cookie(info);
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  266  
+639214f65b1db8 Peter Zijlstra 2025-09-22  267  	old = atomic_long_read(&info->unwind_mask);
+055c7060e7ca71 Steven Rostedt 2025-07-29  268  
+be3d526a5b3410 Steven Rostedt 2025-07-29  269  	/* Is this already queued or executed */
+be3d526a5b3410 Steven Rostedt 2025-07-29  270  	if (old & bit)
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  271  		return 1;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  272  
+be3d526a5b3410 Steven Rostedt 2025-07-29  273  	/*
+be3d526a5b3410 Steven Rostedt 2025-07-29  274  	 * This work's bit hasn't been set yet. Now set it with the PENDING
+be3d526a5b3410 Steven Rostedt 2025-07-29  275  	 * bit and fetch the current value of unwind_mask. If ether the
+be3d526a5b3410 Steven Rostedt 2025-07-29  276  	 * work's bit or PENDING was already set, then this is already queued
+be3d526a5b3410 Steven Rostedt 2025-07-29  277  	 * to have a callback.
+be3d526a5b3410 Steven Rostedt 2025-07-29  278  	 */
+be3d526a5b3410 Steven Rostedt 2025-07-29  279  	bits = UNWIND_PENDING | bit;
+639214f65b1db8 Peter Zijlstra 2025-09-22  280  	old = atomic_long_fetch_or(bits, &info->unwind_mask);
+be3d526a5b3410 Steven Rostedt 2025-07-29  281  	if (old & bits) {
+be3d526a5b3410 Steven Rostedt 2025-07-29  282  		/*
+be3d526a5b3410 Steven Rostedt 2025-07-29  283  		 * If the work's bit was set, whatever set it had better
+be3d526a5b3410 Steven Rostedt 2025-07-29  284  		 * have also set pending and queued a callback.
+be3d526a5b3410 Steven Rostedt 2025-07-29  285  		 */
+be3d526a5b3410 Steven Rostedt 2025-07-29  286  		WARN_ON_ONCE(!(old & UNWIND_PENDING));
+be3d526a5b3410 Steven Rostedt 2025-07-29  287  		return old & bit;
+be3d526a5b3410 Steven Rostedt 2025-07-29  288  	}
+be3d526a5b3410 Steven Rostedt 2025-07-29  289  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  290  	/* The work has been claimed, now schedule it. */
+a38a64712e740d Peter Zijlstra 2025-09-22  291  	ret = task_work_add(current, &info->work, twa_mode);
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  292  
+be3d526a5b3410 Steven Rostedt 2025-07-29  293  	if (WARN_ON_ONCE(ret))
+639214f65b1db8 Peter Zijlstra 2025-09-22  294  		atomic_long_set(&info->unwind_mask, 0);
+be3d526a5b3410 Steven Rostedt 2025-07-29  295  
+be3d526a5b3410 Steven Rostedt 2025-07-29  296  	return ret;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  297  }
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  298  
 
-BLKTRACE_BDEV_SIZE2 is 64. BLKTRACE_BDEV_SIZE is 32.  The kbuild bot
-doesn't have cross function analsys, but in linux-next the callers
-only pass BLKTRACE_BDEV_SIZE size strings.
+:::::: The code at line 257 was first introduced by commit
+:::::: 357eda2d745054eb737397368bc9b0f84814b0a5 unwind deferred: Use SRCU unwind_deferred_task_work()
 
-b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  665  	mutex_unlock(&q->debugfs_mutex);
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  666  
-9a8c28c8311e30 kernel/trace/blktrace.c Dmitry Monakhov    2010-02-27  667  	if (copy_to_user(arg, &buts, sizeof(buts))) {
-b769a2f409e7a3 kernel/trace/blktrace.c Ming Lei           2024-11-28  668  		blk_trace_remove(q);
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  669  		return -EFAULT;
-9a8c28c8311e30 kernel/trace/blktrace.c Dmitry Monakhov    2010-02-27  670  	}
-171044d449611c block/blktrace.c        Arnd Bergmann      2007-10-09  671  	return 0;
-1f2cac107c591c kernel/trace/blktrace.c Jens Axboe         2017-11-05  672  }
+:::::: TO: Steven Rostedt <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
