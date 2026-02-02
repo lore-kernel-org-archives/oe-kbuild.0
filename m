@@ -1,197 +1,342 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3F72E764B
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Feb 2026 11:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004C0277007
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Feb 2026 16:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770033132; cv=none; b=TpJWihW9UtIaHDKjrfd1J4AoTE9aMcVly6kt/OzQGXJVyhKI+EwedpgAlMnPgJS0hzsFhvSE6FDfsITz+uahOtm1TVTViES371R1C4NVZwjwJcgc/EzrB3s7/duZadLrJ37nZjmtnzEJTbYGPdbB8Fj9MnwM5QneW0I1wQrfHLY=
+	t=1770050777; cv=none; b=lUeFuwyAh3tCbNftQaARZEKuiGdvWP8SeMli+pXNWwQ+lIfSNN9pNuwOjCIscG8qER/1BIOBbPXlGexe2oxgawWbWeT4dN5q2qdjAb+Bp0nNNvPQvvklTVZjbqwn/RpGnj7f4FAeTUs5BnKZWAdew6fUy4VlTMp2pJJQP3PUw98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770033132; c=relaxed/simple;
-	bh=PU1D0A5D3Q4t408QD+cfhQE7tJ8xdTbWhsX9vjjiig4=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=iaIT7uGpCcgS0WAywSOrO41s38gcwajwi6sRyXro4U6ha+d+9JHwS7GOw64ybtY6dIqKWelONWjSdBZtBYjEEx++tIYqJ12H5i0t23XTb4UqEKjOkW3Qltbc16zHjgQfGcwcYiOwrGB3E2GLBNhQqcRHPx8zRBP7E7nZ6jsuoF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=MOQnakNi; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1770050777; c=relaxed/simple;
+	bh=92QmpRE+eMSnsFPhCXemRpPfkO2eK7tu6xdP0q1dcEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Powd6C5nKRtKoU2oTv3dQo6j1Dbyqvc2FNNGjliflIvFWmIDGu9oPglDTVE4M5iu8Sg/L3CsTAkGFH5RaR7TjuJILMGexgA9slwS99cyYWnlQ4vG0AHUsCZjHA1Z0y+TTgcK4NEe8M1WIRNXw9uyqLB6yyyxaBSgSTd6MQ276rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cL/+/zbM; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="MOQnakNi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mvlDMIo88j28ra6wZaDYPg8w1AKZhrc0BeaSGE3BhqU=;
-  b=MOQnakNiyA98KAZvJKWZpXP0t8jp48CyF5VWOK3k9u0R+UNv3I9OriFB
-   ofGPxitl6EovBCnYtDXD0ehNtoUq7TNVxs4pZXHkv72AdKa5dW06EFypN
-   6rjqh7LsOUwNz6FLkTLFLU/7IEXW4QdzHV0D38Kf8xE24XG8+5o+0MZOJ
-   8=;
-X-CSE-ConnectionGUID: 40oiM+L2S+6fVHOD97rC4w==
-X-CSE-MsgGUID: a3X2DuSzQAKeznZW8I1lHg==
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.21,268,1763420400"; 
-   d="scan'208";a="137663532"
-Received: from unknown (HELO hadrien) ([130.226.132.96])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 12:51:00 +0100
-Date: Mon, 2 Feb 2026 12:50:48 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-cc: Peter Zijlstra <peterz@infradead.org>, 
-    "Steven Rostedt (Google)" <rostedt@goodmis.org>, oe-kbuild@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned expression
- compared with zero: bit < 0 (fwd)
-Message-ID: <beb6a395-d920-6c9a-7915-ea5c5f92954@inria.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cL/+/zbM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770050774; x=1801586774;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=92QmpRE+eMSnsFPhCXemRpPfkO2eK7tu6xdP0q1dcEM=;
+  b=cL/+/zbMdS5FK1vHdv6cMluT8jlVXdlmH+s58/MNn92mDK2kutDmkrUU
+   SLI5mlm0jbjuQSJKJPwA/veoT2WVHezA4PS10juXf16n8YhOcrDmK3ILk
+   pt7q7jggNJfzDjL5oeMMaab1xGDOG2liIv8KrsckQ/28owZosM8sryOnR
+   NGSYuGxZC/sCSq7duVab5QzDS0rfgpLn6MZTqGLiNcDGMO/xoDKT7UNnA
+   Q+P9YyiGREcQzOd6d9EHjMbVrq9AUbznF5LhtkYcdKNJPaXGSWwUqVRCi
+   lGdTFOqeILWkKjPXGRaSdfaDabfQCc3bZY1xNBA3TlzBdqMmigX1+bd7F
+   Q==;
+X-CSE-ConnectionGUID: rfm2sqK/QfOxcf1gHyne0Q==
+X-CSE-MsgGUID: F11+Bi5tTaaOgbFjgvFgbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="70230996"
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="70230996"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 08:46:13 -0800
+X-CSE-ConnectionGUID: LMQKUMHdTCSAmhYw64vE3Q==
+X-CSE-MsgGUID: rZ2mmsS/RfGvw8PeWEq2fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="213687717"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 02 Feb 2026 08:46:11 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vmx3w-00000000fm0-1jcv;
+	Mon, 02 Feb 2026 16:46:08 +0000
+Date: Tue, 03 Feb 2026 00:46:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1003
+ amdgpu_cs_parser_bos() warn: inconsistent returns
+ '&p->bo_list->bo_list_mutex'.
+Message-ID: <202602030017.7E0xShmH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-
-bit is unsigned, so it should not be less than 0.
-
-julia
-
----------- Forwarded message ----------
-Date: Mon, 02 Feb 2026 19:26:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned expression
-    compared with zero: bit < 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+TO: Sunil Khatri <sunil.khatri@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 
-Hi Josh,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
 head:   18f7fcd5e69a04df57b563360b88be72471d6b62
-commit: 49cf34c0815f93fb2ea3ab5cfbac1124bd9b45d0 unwind_user/x86: Enable frame pointer unwinding on x86
-date:   3 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-r061-20260201 (https://download.01.org/0day-ci/archive/20260202/202602021905.rcDCOYtq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+commit: e095b55155ef69a8ae0eb114a7fd2a381c012f33 drm/amdgpu: use user provi=
+ded hmm_range buffer in amdgpu_ttm_tt_get_user_pages
+date:   4 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 4 months ago
+config: s390-randconfig-r072-20260202 (https://download.01.org/0day-ci/arch=
+ive/20260203/202602030017.7E0xShmH-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 10.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202602021905.rcDCOYtq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202602030017.7E0xShmH-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned expression compared with zero: bit < 0
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1003 amdgpu_cs_parser_bos() warn: in=
+consistent returns '&p->bo_list->bo_list_mutex'.
 
-vim +257 kernel/unwind/deferred.c
+vim +1003 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
 
-b3b9cb11aa034c Steven Rostedt 2025-07-29  204
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  205  /**
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  206   * unwind_deferred_request - Request a user stacktrace on task kernel exit
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  207   * @work: Unwind descriptor requesting the trace
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  208   * @cookie: The cookie of the first request made for this task
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  209   *
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  210   * Schedule a user space unwind to be done in task work before exiting the
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  211   * kernel.
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  212   *
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  213   * The returned @cookie output is the generated cookie of the very first
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  214   * request for a user space stacktrace for this task since it entered the
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  215   * kernel. It can be from a request by any caller of this infrastructure.
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  216   * Its value will also be passed to the callback function.  It can be
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  217   * used to stitch kernel and user stack traces together in post-processing.
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  218   *
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  219   * It's valid to call this function multiple times for the same @work within
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  220   * the same task entry context.  Each call will return the same cookie
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  221   * while the task hasn't left the kernel. If the callback is not pending
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  222   * because it has already been previously called for the same entry context,
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  223   * it will be called again with the same stack trace and cookie.
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  224   *
-be3d526a5b3410 Steven Rostedt 2025-07-29  225   * Return: 0 if the callback successfully was queued.
-be3d526a5b3410 Steven Rostedt 2025-07-29  226   *         1 if the callback is pending or was already executed.
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  227   *         Negative if there's an error.
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  228   *         @cookie holds the cookie of the first request by any user
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  229   */
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  230  int unwind_deferred_request(struct unwind_work *work, u64 *cookie)
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  231  {
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  232  	struct unwind_task_info *info = &current->unwind_info;
-a38a64712e740d Peter Zijlstra 2025-09-22  233  	int twa_mode = TWA_RESUME;
-be3d526a5b3410 Steven Rostedt 2025-07-29  234  	unsigned long old, bits;
-357eda2d745054 Steven Rostedt 2025-07-29  235  	unsigned long bit;
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  236  	int ret;
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  237
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  238  	*cookie = 0;
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  239
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  240  	if ((current->flags & (PF_KTHREAD | PF_EXITING)) ||
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  241  	    !user_mode(task_pt_regs(current)))
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  242  		return -EINVAL;
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  243
-055c7060e7ca71 Steven Rostedt 2025-07-29  244  	/*
-055c7060e7ca71 Steven Rostedt 2025-07-29  245  	 * NMI requires having safe cmpxchg operations.
-055c7060e7ca71 Steven Rostedt 2025-07-29  246  	 * Trigger a warning to make it obvious that an architecture
-055c7060e7ca71 Steven Rostedt 2025-07-29  247  	 * is using this in NMI when it should not be.
-055c7060e7ca71 Steven Rostedt 2025-07-29  248  	 */
-a38a64712e740d Peter Zijlstra 2025-09-22  249  	if (in_nmi()) {
-a38a64712e740d Peter Zijlstra 2025-09-22  250  		if (WARN_ON_ONCE(!CAN_USE_IN_NMI))
-055c7060e7ca71 Steven Rostedt 2025-07-29  251  			return -EINVAL;
-a38a64712e740d Peter Zijlstra 2025-09-22  252  		twa_mode = TWA_NMI_CURRENT;
-a38a64712e740d Peter Zijlstra 2025-09-22  253  	}
-055c7060e7ca71 Steven Rostedt 2025-07-29  254
-357eda2d745054 Steven Rostedt 2025-07-29  255  	/* Do not allow cancelled works to request again */
-357eda2d745054 Steven Rostedt 2025-07-29  256  	bit = READ_ONCE(work->bit);
-357eda2d745054 Steven Rostedt 2025-07-29 @257  	if (WARN_ON_ONCE(bit < 0))
-357eda2d745054 Steven Rostedt 2025-07-29  258  		return -EINVAL;
-357eda2d745054 Steven Rostedt 2025-07-29  259
-357eda2d745054 Steven Rostedt 2025-07-29  260  	/* Only need the mask now */
-357eda2d745054 Steven Rostedt 2025-07-29  261  	bit = BIT(bit);
-357eda2d745054 Steven Rostedt 2025-07-29  262
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  263  	guard(irqsave)();
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  264
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  265  	*cookie = get_cookie(info);
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  266
-639214f65b1db8 Peter Zijlstra 2025-09-22  267  	old = atomic_long_read(&info->unwind_mask);
-055c7060e7ca71 Steven Rostedt 2025-07-29  268
-be3d526a5b3410 Steven Rostedt 2025-07-29  269  	/* Is this already queued or executed */
-be3d526a5b3410 Steven Rostedt 2025-07-29  270  	if (old & bit)
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  271  		return 1;
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  272
-be3d526a5b3410 Steven Rostedt 2025-07-29  273  	/*
-be3d526a5b3410 Steven Rostedt 2025-07-29  274  	 * This work's bit hasn't been set yet. Now set it with the PENDING
-be3d526a5b3410 Steven Rostedt 2025-07-29  275  	 * bit and fetch the current value of unwind_mask. If ether the
-be3d526a5b3410 Steven Rostedt 2025-07-29  276  	 * work's bit or PENDING was already set, then this is already queued
-be3d526a5b3410 Steven Rostedt 2025-07-29  277  	 * to have a callback.
-be3d526a5b3410 Steven Rostedt 2025-07-29  278  	 */
-be3d526a5b3410 Steven Rostedt 2025-07-29  279  	bits = UNWIND_PENDING | bit;
-639214f65b1db8 Peter Zijlstra 2025-09-22  280  	old = atomic_long_fetch_or(bits, &info->unwind_mask);
-be3d526a5b3410 Steven Rostedt 2025-07-29  281  	if (old & bits) {
-be3d526a5b3410 Steven Rostedt 2025-07-29  282  		/*
-be3d526a5b3410 Steven Rostedt 2025-07-29  283  		 * If the work's bit was set, whatever set it had better
-be3d526a5b3410 Steven Rostedt 2025-07-29  284  		 * have also set pending and queued a callback.
-be3d526a5b3410 Steven Rostedt 2025-07-29  285  		 */
-be3d526a5b3410 Steven Rostedt 2025-07-29  286  		WARN_ON_ONCE(!(old & UNWIND_PENDING));
-be3d526a5b3410 Steven Rostedt 2025-07-29  287  		return old & bit;
-be3d526a5b3410 Steven Rostedt 2025-07-29  288  	}
-be3d526a5b3410 Steven Rostedt 2025-07-29  289
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  290  	/* The work has been claimed, now schedule it. */
-a38a64712e740d Peter Zijlstra 2025-09-22  291  	ret = task_work_add(current, &info->work, twa_mode);
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  292
-be3d526a5b3410 Steven Rostedt 2025-07-29  293  	if (WARN_ON_ONCE(ret))
-639214f65b1db8 Peter Zijlstra 2025-09-22  294  		atomic_long_set(&info->unwind_mask, 0);
-be3d526a5b3410 Steven Rostedt 2025-07-29  295
-be3d526a5b3410 Steven Rostedt 2025-07-29  296  	return ret;
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  297  }
-2dffa355f6c279 Josh Poimboeuf 2025-07-29  298
+9a02ece43ee49e Christian K=C3=B6nig   2018-08-17   854 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   855  static int amdgpu_c=
+s_parser_bos(struct amdgpu_cs_parser *p,
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   856  				union drm_amdgp=
+u_cs *cs)
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   857  {
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   858  	struct amdgpu_fpri=
+v *fpriv =3D p->filp->driver_priv;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   859  	struct ttm_operati=
+on_ctx ctx =3D { true, false };
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   860  	struct amdgpu_vm *=
+vm =3D &fpriv->vm;
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   861  	struct amdgpu_bo_l=
+ist_entry *e;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   862  	struct drm_gem_obj=
+ect *obj;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   863  	unsigned long inde=
+x;
+4624459c84d71e Christian K=C3=B6nig   2022-03-02   864  	unsigned int i;
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   865  	int r;
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   866 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   867  	/* p->bo_list coul=
+d already be assigned if AMDGPU_CHUNK_ID_BO_HANDLES is present */
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   868  	if (cs->in.bo_list=
+_handle) {
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   869  		if (p->bo_list)
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   870  			return -EINVAL;
+d38ceaf99ed015 Alex Deucher      2015-04-20   871 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   872  		r =3D amdgpu_bo_l=
+ist_get(fpriv, cs->in.bo_list_handle,
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   873  				       &p->bo_l=
+ist);
+bbca24d0a3c111 Ma=C3=ADra Canal       2022-08-15   874  		if (r)
+d38ceaf99ed015 Alex Deucher      2015-04-20   875  			return r;
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   876  	} else if (!p->bo_=
+list) {
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   877  		/* Create a empty=
+ bo_list when no handle is provided */
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   878  		r =3D amdgpu_bo_l=
+ist_create(p->adev, p->filp, NULL, 0,
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   879  					  &p->bo_list);
+bbca24d0a3c111 Ma=C3=ADra Canal       2022-08-15   880  		if (r)
+91e1a5207edec9 Christian K=C3=B6nig   2015-07-06   881  			return r;
+d38ceaf99ed015 Alex Deucher      2015-04-20   882  	}
+b495bd3a54e732 Christian K=C3=B6nig   2015-09-10   883 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   884  	mutex_lock(&p->bo_=
+list->bo_list_mutex);
+d5884513a31df0 Christian K=C3=B6nig   2017-09-08   885 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   886  	/* Get userptr bac=
+king pages. If pages are updated after registered
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   887  	 * in amdgpu_gem_u=
+serptr_ioctl(), amdgpu_cs_list_validate() will do
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   888  	 * amdgpu_ttm_back=
+end_bind() to flush and invalidate new pages
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   889  	 */
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   890  	amdgpu_bo_list_for=
+_each_userptr_entry(e, p->bo_list) {
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   891  		bool userpage_inv=
+alidated =3D false;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   892  		struct amdgpu_bo =
+*bo =3D e->bo;
+ad864d243826ce Andrey Grodzovsky 2017-10-10   893 =20
+e095b55155ef69 Sunil Khatri      2025-09-24   894  		e->range =3D kzalloc(s=
+izeof(*e->range), GFP_KERNEL);
+e095b55155ef69 Sunil Khatri      2025-09-24   895  		if (unlikely(!e->range=
+))
+e095b55155ef69 Sunil Khatri      2025-09-24   896  			return -ENOMEM;
+e095b55155ef69 Sunil Khatri      2025-09-24   897 =20
+e095b55155ef69 Sunil Khatri      2025-09-24   898  		r =3D amdgpu_ttm_tt_ge=
+t_user_pages(bo, e->range);
+c5b3cc417b0260 Sunil Khatri      2025-09-17   899  		if (r)
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   900  			goto out_free_us=
+er_pages;
+d38ceaf99ed015 Alex Deucher      2015-04-20   901 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   902  		for (i =3D 0; i <=
+ bo->tbo.ttm->num_pages; i++) {
+c5b3cc417b0260 Sunil Khatri      2025-09-17   903  			if (bo->tbo.ttm->page=
+s[i] !=3D hmm_pfn_to_page(e->range->hmm_pfns[i])) {
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   904  				userpage_invali=
+dated =3D true;
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   905  				break;
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   906  			}
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   907  		}
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   908  		e->user_invalidat=
+ed =3D userpage_invalidated;
+9a79588c42bf89 Christian K=C3=B6nig   2016-06-22   909  	}
+9a79588c42bf89 Christian K=C3=B6nig   2016-06-22   910 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   911  	drm_exec_until_all=
+_locked(&p->exec) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   912  		r =3D amdgpu_vm_l=
+ock_pd(&fpriv->vm, &p->exec, 1 + p->gang_size);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   913  		drm_exec_retry_on=
+_contention(&p->exec);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   914  		if (unlikely(r))
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   915  			goto out_free_us=
+er_pages;
+d38ceaf99ed015 Alex Deucher      2015-04-20   916 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   917  		amdgpu_bo_list_fo=
+r_each_entry(e, p->bo_list) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   918  			/* One fence for=
+ TTM and one for each CS job */
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   919  			r =3D drm_exec_p=
+repare_obj(&p->exec, &e->bo->tbo.base,
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   920  						 1 + p->gang_=
+size);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   921  			drm_exec_retry_o=
+n_contention(&p->exec);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   922  			if (unlikely(r))
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   923  				goto out_free_u=
+ser_pages;
+d38ceaf99ed015 Alex Deucher      2015-04-20   924 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   925  			e->bo_va =3D amd=
+gpu_vm_bo_find(vm, e->bo);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   926  		}
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   927 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   928  		if (p->uf_bo) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   929  			r =3D drm_exec_p=
+repare_obj(&p->exec, &p->uf_bo->tbo.base,
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   930  						 1 + p->gang_=
+size);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   931  			drm_exec_retry_o=
+n_contention(&p->exec);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   932  			if (unlikely(r))
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   933  				goto out_free_u=
+ser_pages;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   934  		}
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   935  	}
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   936 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   937  	amdgpu_bo_list_for=
+_each_userptr_entry(e, p->bo_list) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   938  		struct mm_struct =
+*usermm;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   939 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   940  		usermm =3D amdgpu=
+_ttm_tt_get_usermm(e->bo->tbo.ttm);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   941  		if (usermm && use=
+rmm !=3D current->mm) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   942  			r =3D -EPERM;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   943  			goto out_free_us=
+er_pages;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   944  		}
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   945 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   946  		if (amdgpu_ttm_tt=
+_is_userptr(e->bo->tbo.ttm) &&
+c5b3cc417b0260 Sunil Khatri      2025-09-17   947  		    e->user_invalidate=
+d) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   948  			amdgpu_bo_placem=
+ent_from_domain(e->bo,
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   949  							AMDGPU_GEM_D=
+OMAIN_CPU);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   950  			r =3D ttm_bo_val=
+idate(&e->bo->tbo, &e->bo->placement,
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   951  					    &ctx);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   952  			if (r)
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   953  				goto out_free_u=
+ser_pages;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   954 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   955  			amdgpu_ttm_tt_se=
+t_user_pages(e->bo->tbo.ttm,
+c5b3cc417b0260 Sunil Khatri      2025-09-17   956  						     e->range);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   957  		}
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   958  	}
+d38ceaf99ed015 Alex Deucher      2015-04-20   959 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   960  	amdgpu_cs_get_thre=
+shold_for_moves(p->adev, &p->bytes_moved_threshold,
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   961  					  &p->bytes_mo=
+ved_vis_threshold);
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   962  	p->bytes_moved =3D =
+0;
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   963  	p->bytes_moved_vis=
+ =3D 0;
+9a1b3af10d6268 Monk Liu          2017-03-08   964 =20
+50661eb1a2c88c Felix Kuehling    2024-01-03   965  	r =3D amdgpu_vm_validat=
+e(p->adev, &fpriv->vm, NULL,
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   966  			       amdgpu_cs=
+_bo_validate, p);
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   967  	if (r) {
+cc51bbc7d7a7ff Mario Limonciello 2025-07-15   968  		drm_err(adev_to_drm(p-=
+>adev), "amdgpu_vm_validate() failed.\n");
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   969  		goto out_free_use=
+r_pages;
+65333e4429c60b Monk Liu          2017-03-27   970  	}
+9a1b3af10d6268 Monk Liu          2017-03-08   971 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   972  	drm_exec_for_each_=
+locked_object(&p->exec, index, obj) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   973  		r =3D amdgpu_cs_b=
+o_validate(p, gem_to_amdgpu_bo(obj));
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   974  		if (unlikely(r))
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   975  			goto out_free_us=
+er_pages;
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   976  	}
+b07c60c0652c49 Christian K=C3=B6nig   2016-01-31   977 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   978  	if (p->uf_bo) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   979  		r =3D amdgpu_ttm_=
+alloc_gart(&p->uf_bo->tbo);
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   980  		if (unlikely(r))
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   981  			goto out_free_us=
+er_pages;
+4953b6b22ab9d7 Christian K=C3=B6nig   2022-09-13   982 =20
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   983  		p->gang_leader->u=
+f_addr +=3D amdgpu_bo_gpu_offset(p->uf_bo);
+d38ceaf99ed015 Alex Deucher      2015-04-20   984  	}
+d38ceaf99ed015 Alex Deucher      2015-04-20   985 =20
+4953b6b22ab9d7 Christian K=C3=B6nig   2022-09-13   986  	amdgpu_cs_report_m=
+oved_bytes(p->adev, p->bytes_moved,
+4953b6b22ab9d7 Christian K=C3=B6nig   2022-09-13   987  				     p->bytes_m=
+oved_vis);
+4624459c84d71e Christian K=C3=B6nig   2022-03-02   988 =20
+4624459c84d71e Christian K=C3=B6nig   2022-03-02   989  	for (i =3D 0; i < =
+p->gang_size; ++i)
+4624459c84d71e Christian K=C3=B6nig   2022-03-02   990  		amdgpu_job_set_re=
+sources(p->jobs[i], p->bo_list->gds_obj,
+4624459c84d71e Christian K=C3=B6nig   2022-03-02   991  					 p->bo_list->g=
+ws_obj,
+4624459c84d71e Christian K=C3=B6nig   2022-03-02   992  					 p->bo_list->o=
+a_obj);
+4953b6b22ab9d7 Christian K=C3=B6nig   2022-09-13   993  	return 0;
+4953b6b22ab9d7 Christian K=C3=B6nig   2022-09-13   994 =20
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   995  out_free_user_pages:
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08   996  	amdgpu_bo_list_for=
+_each_userptr_entry(e, p->bo_list) {
+ca6c1e210aa7d7 Christian K=C3=B6nig   2022-04-16   997  		struct amdgpu_bo =
+*bo =3D e->bo;
+d38ceaf99ed015 Alex Deucher      2015-04-20   998 =20
+fec8fdb54e8f74 Christian K=C3=B6nig   2022-11-10   999  		amdgpu_ttm_tt_get=
+_user_pages_done(bo->tbo.ttm, e->range);
+fec8fdb54e8f74 Christian K=C3=B6nig   2022-11-10  1000  		e->range =3D NULL;
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08  1001  	}
+c70e2166967dc4 Philip Yang       2022-11-03  1002  	mutex_unlock(&p->bo_lis=
+t->bo_list_mutex);
+d4e8ad908b2095 Christian K=C3=B6nig   2022-09-08 @1003  	return r;
+d38ceaf99ed015 Alex Deucher      2015-04-20  1004  }
+d38ceaf99ed015 Alex Deucher      2015-04-20  1005 =20
 
-:::::: The code at line 257 was first introduced by commit
-:::::: 357eda2d745054eb737397368bc9b0f84814b0a5 unwind deferred: Use SRCU unwind_deferred_task_work()
+:::::: The code at line 1003 was first introduced by commit
+:::::: d4e8ad908b2095388a300b19d76b78c170052a8a drm/amdgpu: reorder CS code
 
-:::::: TO: Steven Rostedt <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: TO: Christian K=C3=B6nig <christian.koenig@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
