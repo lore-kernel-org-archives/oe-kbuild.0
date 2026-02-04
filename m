@@ -1,74 +1,58 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF843ED119
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Feb 2026 11:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F12E2D7D42
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Feb 2026 15:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770206279; cv=none; b=N19XFJxHIaT5GOmoP6rRgLwJPJBJqsvi/lBFIcoCeBEAUbtJbNPcaDued5sbqTE0ytW9W0ltsFqt326sXOMbAWwcOV46IvQWiI5m4pYp/rL2xiC1kWnr1SNgQCmXCkBqyb3OyqkVkhJIA75X8eLckEqM43ve2aBc8/u+HcVacxo=
+	t=1770219186; cv=none; b=GNFUwnDwGMTtQPGqcBmn1KrpVdqPsjT2N98kS/MYrCxKWkPdND81gNvjMDWrckNOj2xBtOv318iP2wvPnXxVTWxG2SJSM3DpFQW6BC1LNUmP7GyZ+ZumYChwM3pU7OmZdxDy2QgfLmpqpyNE4e30bbxle/LcOZUQ9fZzfl+JcwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770206279; c=relaxed/simple;
-	bh=rPIn+Mra4o1bR6EHRdELYXEUCRMxJ4FKYJobQW4iQuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ol1mpleIWdw8/9hSk0BULYDwN2kZY0Zbo6UbcD9HAjzBfKrvi4S+mrYvgWpyB3iGtrdyCvuvlEj3cr7yRsZJAfIpEiDTn9CJS9tnoQYFcNO43K/R+/7xFEl9KJ0HrkTNltHcxtQjErJF+5dZFFd/r3vI+mg3ycz/HOL/gOZ6Z8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YpHMRirH; arc=none smtp.client-ip=209.85.221.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770219186; c=relaxed/simple;
+	bh=aqk+f4/MrMv5tDa6b7Qpl1B7y/XmrQlJu7ms0z8q6M8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=btyJbXxi3dwSjav1S7wI+UuZdanucI/aD9rKcrvhfJKhxpMyUbOGAq6VeWplRKQT2JENnKgzihCihVlCmnldDwf6IwGXh99C/mJofrIbYWXwmrR5qjc1L6JWZeWRK5HxtzXgxq4PNiGAdzS4PJynECOg84WUvkncH9tjmPPyBpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dvqf5vxV; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YpHMRirH"
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-42fb4eeb482so4609275f8f.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 04 Feb 2026 03:57:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770206277; x=1770811077; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pfxMamMtxLHcw6K0Fqk6/zfs3lYEE3ZNz2eLveiTn0g=;
-        b=YpHMRirHobbTWQYSPWwfxkgFkOdHfBFgU8YJLbs7SVmqvfyM6/CNwuFbsq9BV5tTxO
-         KE+jtwHJgJthgwNMBWY9iUHNgLFbYp6goiKNcaG6ra0+5wdqy74uXKbSe6N7dTiEwn8n
-         gvmTafJyVynHHwSUm5RdKnAW4FKNP/bEWFS0Zeuk29YnJqeAaDuiJCY27XzoEW56jy5J
-         7TFz0o6uOm5loGQJs8WkvC98iz5b6dJjsXAfRYKb/9moGd/UB9SH0uSFOL6bQ48Y5Xzr
-         /CQ7+DuWcOV0Ha4+c5yW0749vHJ0dRoUy6+f5Nx765Ul5JgU+001KZT5AO2hZjOrC6KL
-         Azwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770206277; x=1770811077;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pfxMamMtxLHcw6K0Fqk6/zfs3lYEE3ZNz2eLveiTn0g=;
-        b=RL0Ld/HvYv+OMYpmrdssuQRgUL3EmX3lvuRivDReMCTStHRsev3A0v9x/aAZ9bVhaI
-         Ag08ScbYixTHI+qWcxCrX/CN2FYCyqgvekCK4mOKyig6SEdVwphnph3aI7QZxkssq7dp
-         LonMzyy9sISXAxKW19Ux7Bj56/+Cxe6QJ1XRFHix5/jFrmrXcUY+fjbdoVYfQDMSurQ9
-         6iHL22W0reFWyPSeNpGR5O25Gx57fcvEFpi79nuNDGf3xUBU6dbY531YkENu4sYKCtIL
-         EUKQlSLG0c9iP3Owi/ZXr/UXLd9cbFlfZ8C8Zn4g8M3GK3KCT0zfqsGJIJJ9JD8oX6x/
-         7GhQ==
-X-Gm-Message-State: AOJu0YxO3OZXUd6bOvtyqpDmPCGQhgg9zfW08JZwQ5Oun3zHEOtOhvuW
-	vgOts6YXFWf8NWNqSU4a5K4MlCZxjajl8Gg2tjteNf1/jZ/8bYXTbJbCNFcNSOFZ/6U=
-X-Gm-Gg: AZuq6aK2ZswZxTCghNU/O7qgbS4PW96sMXRxJQJ3zrboGccSwhJQnWhuSq7LBvKweEb
-	P+SDuItdHuvHhgzU+Ji4qhjv95gHEhw9EEdqt2jp+Hn7OgH05X52IbFrOvBM17cZS+c0uWGwK1H
-	Wkezf06X5YL/YAwuZZJ410ovc04DMg0VomLCAHylfJfdigHoIWrbLgaO4u+lky+DnfxCOxjGIQd
-	6LqMjtq5M2u6/ZCcmaA70PfDmR14GPNJh1nj2GsED/LpKFiEM50oYqy//YVV6Sv4mdLcXcXle3+
-	d0AK6e6e1J9s+mySlc4LHUeN+Ju6B0aKYBLi11PqxMpZXZHIFgEc3N3U0GMF0WdM9MjamymJrX9
-	DA9uvl98655KYW1Zhkyn7udgqMRdOCXQ2je4gTzDLw25aWOf4oL1NwHQIR0IuQ5/IRPNyyouALV
-	LzkYil4K4BU15xBAo9
-X-Received: by 2002:a5d:5f45:0:b0:435:b0e7:ea1 with SMTP id ffacd0b85a97d-43617e400f6mr3907970f8f.19.1770206277324;
-        Wed, 04 Feb 2026 03:57:57 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43618058473sm6252472f8f.22.2026.02.04.03.57.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 03:57:56 -0800 (PST)
-Date: Wed, 4 Feb 2026 14:57:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-Cc: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>,
-	"lkp@intel.com" <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>
-Subject: Re: [linux-next:master 11349/11582] net/ipv4/tcp_output.c:754
- tcp_options_write() error: we previously assumed 'tp' could be null (see
- line 722)
-Message-ID: <aYM0QV6sdOpDAU45@stanley.mountain>
-References: <202602041310.ZBuXDXC5-lkp@intel.com>
- <PAXPR07MB7984753C52676A18C4CC9C07A398A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dvqf5vxV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770219186; x=1801755186;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aqk+f4/MrMv5tDa6b7Qpl1B7y/XmrQlJu7ms0z8q6M8=;
+  b=Dvqf5vxVQtBuPYRBuKVB5K9syssTAh7XbgQEJq2jzCI1H/0foM5k7amt
+   B68vU3c5bV9kR8yhYTXMJppcDQkLhU5I5P437gsMDnEj/dJWGVMK8oFV6
+   76MEWbjhpmnAH7ams0Jdc8GXNQzCB7zOJl69rM5U2UYHMYKtPvjjZpBtj
+   zUeSAoBp38XXhx7u1M3xJ4DE9vuQFBycGViiqH/M+TyurfoUm/LtXBKoM
+   zZ3q7grWBiWqy1aUAxSQIJ17vhCMxgjRi7336z2et1grb14KaBgxo+JrS
+   BonJ1oRZIlXbrDB86ZtGY5h2je8l08pF4giJ+1TpbsGPBYOzDoRJDYdtE
+   Q==;
+X-CSE-ConnectionGUID: ceJUxUqqRIO9P7B8G9xYxA==
+X-CSE-MsgGUID: jsp+k/+bQLaB6macRlqwHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75260835"
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="75260835"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 07:33:06 -0800
+X-CSE-ConnectionGUID: 1TtyRhaVRRiMh+/+VNItqg==
+X-CSE-MsgGUID: ismUBfGPTzaZ8OvjrcTsGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="240968579"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Feb 2026 07:33:04 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vnesI-000000003ib-1ZKJ;
+	Wed, 04 Feb 2026 15:33:02 +0000
+Date: Wed, 4 Feb 2026 16:33:01 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3] media: dt-bindings: media: microchip,dim2: Add
+ MediaLB DIM2 binding
+Message-ID: <202602041630.5LXKhtw9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,18 +61,278 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR07MB7984753C52676A18C4CC9C07A398A@PAXPR07MB7984.eurprd07.prod.outlook.com>
 
-These are automated emails based on static analysis.  The NULL checking
-in this function is weird because there are a bunch of unchecked
-dereferences followed by a couple NULL checks and then followed by
-several unchecked dereferences.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-I've actually sent this warning before and the code was explained.  :(
-https://lore.kernel.org/all/fce974f0-cea9-fa92-ecfc-4f7cc4fc95e2@arista.com/
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260203041325.12419-1-harshdaniel66356@gmail.com>
+References: <20260203041325.12419-1-harshdaniel66356@gmail.com>
+TO: harshdaniel66356@gmail.com
+TO: parthiban.veerasooran@microchip.com
+TO: christian.gromm@microchip.com
+TO: gregkh@linuxfoundation.org
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+CC: linux-staging@lists.linux.dev
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Harsh Daniel <harshdaniel66356@gmail.com>
 
-Sorry, I should have been more careful before sending duplicates.  :(
+Hi,
 
-regards,
-dan carpenter
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.19-rc8 next-20260203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/harshdaniel66356-gmail-com/media-dt-bindings-media-microchip-dim2-Add-MediaLB-DIM2-binding/20260203-121629
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260203041325.12419-1-harshdaniel66356%40gmail.com
+patch subject: [PATCH v3] media: dt-bindings: media: microchip,dim2: Add MediaLB DIM2 binding
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: arm64-randconfig-2052-20260203 (https://download.01.org/0day-ci/archive/20260204/202602041630.5LXKhtw9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.13.dev7+gd16dc68b0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602041630.5LXKhtw9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202602041630.5LXKhtw9-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77951-ulcb.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77951-ulcb.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77951-ulcb.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dtb: mlp@ec520000 (renesas,r8a7796-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible:0: 'renesas,r8a7796-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible: ['renesas,r8a7796-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7796-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible:0: 'renesas,r8a7796-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible: ['renesas,r8a7796-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77960-ulcb.dtb: mlp@ec520000 (renesas,r8a7796-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77960-ulcb.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible:0: 'renesas,r8a7796-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77960-ulcb.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible: ['renesas,r8a7796-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7796-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible:0: 'renesas,r8a7796-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible: ['renesas,r8a7796-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb: mlp@ec520000 (renesas,r8a77961-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible:0: 'renesas,r8a77961-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible: ['renesas,r8a77961-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77961-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible:0: 'renesas,r8a77961-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible: ['renesas,r8a77961-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dtb: mlp@ec520000 (renesas,r8a77965-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible:0: 'renesas,r8a77965-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible: ['renesas,r8a77965-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77965-ulcb.dtb: mlp@ec520000 (renesas,r8a77965-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77965-ulcb.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible:0: 'renesas,r8a77965-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77965-ulcb.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible: ['renesas,r8a77965-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77965-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible:0: 'renesas,r8a77965-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible: ['renesas,r8a77965-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb: mlp@ec520000 (renesas,r8a77990-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb: mlp@ec520000 (renesas,r8a77990-mlp): compatible:0: 'renesas,r8a77990-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb: mlp@ec520000 (renesas,r8a77990-mlp): compatible: ['renesas,r8a77990-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77995-draak.dtb: mlp@ec520000 (renesas,r8a77995-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77995-draak.dtb: mlp@ec520000 (renesas,r8a77995-mlp): compatible:0: 'renesas,r8a77995-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77995-draak.dtb: mlp@ec520000 (renesas,r8a77995-mlp): compatible: ['renesas,r8a77995-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb: mlp@ec520000 (renesas,r8a77961-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible:0: 'renesas,r8a77961-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible: ['renesas,r8a77961-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77961-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible:0: 'renesas,r8a77961-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible: ['renesas,r8a77961-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77951-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77951-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77951-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77951-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77951-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77951-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77960-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7796-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77960-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible:0: 'renesas,r8a7796-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77960-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible: ['renesas,r8a7796-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77960-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7796-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77960-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible:0: 'renesas,r8a7796-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77960-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7796-mlp): compatible: ['renesas,r8a7796-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77961-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77961-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77961-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible:0: 'renesas,r8a77961-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77961-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible: ['renesas,r8a77961-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77965-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77965-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible:0: 'renesas,r8a77965-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77965-salvator-x-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible: ['renesas,r8a77965-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77965-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77965-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible:0: 'renesas,r8a77965-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77965-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible: ['renesas,r8a77965-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77990-ebisu-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77990-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77990-ebisu-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77990-mlp): compatible:0: 'renesas,r8a77990-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77990-ebisu-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77990-mlp): compatible: ['renesas,r8a77990-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a77995-draak-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77995-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a77995-draak-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77995-mlp): compatible:0: 'renesas,r8a77995-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a77995-draak-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77995-mlp): compatible: ['renesas,r8a77995-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible:0: 'renesas,r8a7795-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a7795-mlp): compatible: ['renesas,r8a7795-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77961-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible:0: 'renesas,r8a77961-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77961-mlp): compatible: ['renesas,r8a77961-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+--
+   arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): 'power-domains', 'resets' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+>> arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible:0: 'renesas,r8a77965-mlp' is not one of ['fsl,imx6q-mlb150', 'renesas,rcar-gen3-mlp', 'xlnx,axi4-os62420_3pin-1.00.a', 'xlnx,axi4-os62420_6pin-1.00.a']
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+   arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs-panel-aa104xd12.dtb: mlp@ec520000 (renesas,r8a77965-mlp): compatible: ['renesas,r8a77965-mlp', 'renesas,rcar-gen3-mlp'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/microchip,dim2.yaml
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
