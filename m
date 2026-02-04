@@ -1,73 +1,58 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D332C3A4F35
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Feb 2026 09:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE1B313526
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Feb 2026 09:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770197144; cv=none; b=s12lg7XZU/PV2BToEMNzqzkAapjFz/uIY61fLEt0FGhmkbA1v4ey6WbtZPV3XRz85op70rSp5XOf/mIVSLvoyGgK+8qAZj8wdO5YS/jc/x6cCD955lA0l0dyrdh1ltOL3KHrm/bHLfe3qOWoqFSpABH655Gup5jOcTF1kn2vukM=
+	t=1770197704; cv=none; b=XGpzEcS8H7o/Ch6RC6m9j1dJ3dlqbJ9cZEm6BwHGFmyBB+YS9UJGt+BMHBALWZbSP8dReKSuE5/6V52b1+1wrVQq3UxMVh0JLpUJkUtlN+/vQUHAr7rAfE1nsfcNgmq6vQtkkVLI87m6JiCdkJkCupCg88FHXVI6fM2EU7uvSoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770197144; c=relaxed/simple;
-	bh=sfB6SZZUsG/4pFop9nPbJXi+ya9yBuo72RFii+WdciY=;
+	s=arc-20240116; t=1770197704; c=relaxed/simple;
+	bh=R3xx93enHOE0ymwrfeDosabcD7Svq/jcnqJWCCp84bw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SFeR1omyx0vRvJHt6vusRfT171UvAy1Jvpw0tGQ2GlOPs7xG2tUPyQWP+M7im25WsN49ckdF70rCLvqgHpxbYSg3MSmcYPRtb7IiaJ/KEm2QRgEqFD7QkkLzUcgkaJn4vw93aOmkvBeJ9F+bFoEOSDRyytCfPHTq1y08jWzZxu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AogeJYNB; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=BA2JX4MovZlL7Yhd/2fUgbMTwAgEb/DdWlAwqY2N/79GqdGc5pj2fFFVYUlG+MBJzpvsSczM2hWaZFJkT2EIO8JrizrdFvDGvzXUANLp8hg6QbrOLnwJ9vt4ryTf4BPDWoM6GDF3Gq55vtHJGkGQJ7yPCDxzep5dr0vEnGBkOBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m54MS+op; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AogeJYNB"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47edd6111b4so69578675e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 04 Feb 2026 01:25:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770197142; x=1770801942; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/Dwz60eN8t814Eadtkgm3VGTpt3HNP1bBhGTKSnFdw=;
-        b=AogeJYNBNqEHYE3+9xeROUM1Dj7uHPVNzXrmJCzawLktc5nagxr7N3jI7BLDFn2SLt
-         yj6af5O6+9OeUaMsSD2YG0wCYdsUeYiGGVsDYJj8K0UMYJ90gaX294WiKQCO49v03RpG
-         DkN8uMeoynEQPaXNiUVUnUl3B0L5y89dzp157EELfdSWsNTYXv+9JbZVWvBhpWXGWEBV
-         VqsFTlaqbfKAvgKQHixYDErq/AIFkzgsukdrB5U0Q8OsGNPU8VGotjC+2e9RopoEdlWS
-         Wc8eNwOgEulD2Y+qns6CJnin7nE2ZVZQKOhvIE5ig3OyPY5pN5RK/WMADGFYvR3s8LxG
-         lF1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770197142; x=1770801942;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q/Dwz60eN8t814Eadtkgm3VGTpt3HNP1bBhGTKSnFdw=;
-        b=Gc7ibMPxlOGTOXqvrLcWM7EseIkXEdxgBmEo7IKypmqMZIKqh7UDMqdYqrBTXsBomn
-         8IDm3C+7k/jLg/O+aRFrjswL1kqp4HJ9hkuvJhBKU4Z2sYWZ8IqBNVR9fsph1R38CZy0
-         mqvgrt3Z75R11p57Z3VF8yiwim4F6AsmVIJk4gV9iGczYfaAhWs3xsih8s57JBwpH7aZ
-         KnOs78qAjR6I8KJMfhdLuN3MWZzTy6QmvEMlxKNwMXFl1mMwr5aaP5JDy/u6KNeXOesG
-         mTP7Q/9t9Vws32l7zYsFhtzJTEYTdZofizBcQXnQ+lPK7tnboEmx71Bn5OHnYfiajzKR
-         M3eQ==
-X-Gm-Message-State: AOJu0YxVmisAixKGxubQm5dSjKnYXVV6ecGMiKQaT3ntvj1HCgITzgqt
-	K1uyUBHib0wFFi0NU77ZJbjxjfQ902rJBGA2lUeT9BBBXXP3bDdb5l5qx/OgXHMzIcFVIXFyHB8
-	9bJmo/n/4rA==
-X-Gm-Gg: AZuq6aIrETeHW5iGv49aZ45eviGKRId91Go+BUm4eAbbzVza2I/PXuaxO1RShbs35+M
-	ZvJwl1VTfXwUmwEQnnjdolbHVc3RiZ+Uf/iQ9pTr7R2trHKlvnhOTeLcSyQJz5wVq63RkEiOl08
-	bAKYe5rhg6gaAECaMhvtD/0n7pMWa/kwjQ+BULSC4bepUqXBPBA99MpQBDMYnbEtmjAa+Oe283T
-	AD97GNdO+p+gRp2qT3C3EUms0sD6I6uiRTCNf4NEzPr03xNRqC4M6XMxmr9lRZpqmb6y7YiDf/w
-	tX3Fo6P0+OvonE7c9Dnp5hN4aBiTgglQXvlxhKBvrdlLJRkRmo65D3XvYiUACpbNTGUrO80kWSu
-	HJ8IMJodDNhK2EWg0qUpg7EJo3XPk5YqJpQgYgeMTXv/JRH4MxjYp7XjmP1GiGPXRWgXu/HPQMC
-	4U/01nSZOpcKV17QTF
-X-Received: by 2002:a05:600c:4513:b0:47d:6856:9bd9 with SMTP id 5b1f17b1804b1-4830e97ae1emr30835985e9.23.1770197141948;
-        Wed, 04 Feb 2026 01:25:41 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830fe7cb9csm19174065e9.8.2026.02.04.01.25.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 01:25:41 -0800 (PST)
-Date: Wed, 4 Feb 2026 12:25:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, YiPeng Chai <YiPeng.Chai@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:511
- ras_core_get_utc_second_timestamp() error: we previously assumed 'ras_core'
- could be null (see line 507)
-Message-ID: <202602031229.RI8PLyjl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m54MS+op"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770197705; x=1801733705;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R3xx93enHOE0ymwrfeDosabcD7Svq/jcnqJWCCp84bw=;
+  b=m54MS+opoAyOxH91z51vBnqWYmwUwvwkEyFEJtZR4tZW5UvFRcBl60SU
+   UshW9yc6clWgatJfUg2Eyjr2HyRKbYgVycg9eFl6WlzvKc57y7rG/YTx9
+   sN4JVLWxQJqPfG56tEITCRt6MemNRsoqo/FmYmfPBrPGJYiFc09DzwGfC
+   tfQcKRcBjOhPOIaFbtM/s3/Gp+HRZEuJkSQjG8lHJ1k1e5RCpManNsUpy
+   Fb/2t8Zlw2EOMiVZEZorVhOejtPdzauXGhH0VZfSWeHyOadRTQFygB+4y
+   vlidJ3f1uqs9cEvnMQoLO4/knMbw/Zusb/Rq06a1tuUDrOmlxkhXXev0/
+   w==;
+X-CSE-ConnectionGUID: CIxz3P7TTQuEL+peSvA6ig==
+X-CSE-MsgGUID: eO0izHyeQ/O96zLxHyr+AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75000546"
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="75000546"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 01:35:04 -0800
+X-CSE-ConnectionGUID: r25+J+dMT7O1KMBTQ9YJKQ==
+X-CSE-MsgGUID: gVewnSvRSY+rXX5C3AotZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="209727843"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 04 Feb 2026 01:35:02 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vnZHo-000000003g9-1wIB;
+	Wed, 04 Feb 2026 09:35:00 +0000
+Date: Wed, 4 Feb 2026 10:34:43 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH net-next] dt-bindings: net: micrel: Fix dtbs compatible
+ too long warnings
+Message-ID: <202602041003.axw61K4w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -76,67 +61,136 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260204092538.1suHE_5qbRAgwTcCYJokAeAGErGZ60zh4JEQ3Q-8OOY@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6bd9ed02871f22beb0e50690b0c3caf457104f7c
-commit: ace232eff50e8c898103c56b3b5303e776616274 drm/amdgpu: Add ras module files into amdgpu
-config: s390-randconfig-r072-20260202 (https://download.01.org/0day-ci/archive/20260203/202602031229.RI8PLyjl-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 10.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260203121723.312336-1-biju.das.jz@bp.renesas.com>
+References: <20260203121723.312336-1-biju.das.jz@bp.renesas.com>
+TO: Biju <biju.das.au@gmail.com>
+TO: Andrew Lunn <andrew+netdev@lunn.ch>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: Biju Das <biju.das.jz@bp.renesas.com>
+CC: Stefan Eichenberger <eichest@gmail.com>
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: linux-renesas-soc@vger.kernel.org
+
+Hi Biju,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju/dt-bindings-net-micrel-Fix-dtbs-compatible-too-long-warnings/20260203-202622
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260203121723.312336-1-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH net-next] dt-bindings: net: micrel: Fix dtbs compatible too long warnings
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: riscv-randconfig-2051-20260204 (https://download.01.org/0day-ci/archive/20260204/202602041003.axw61K4w-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.4.0
+dtschema version: 2025.13.dev7+gd16dc68b0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602041003.axw61K4w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202602031229.RI8PLyjl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602041003.axw61K4w-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:511 ras_core_get_utc_second_timestamp() error: we previously assumed 'ras_core' could be null (see line 507)
-drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:530 ras_core_ras_interrupt_detected() error: we previously assumed 'ras_core' could be null (see line 526)
-drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_umc.c:210 ras_umc_log_pending_bad_bank() warn: variable dereferenced before check 'ecc_node' (see line 208)
-
-vim +/ras_core +511 drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c
-
-13c91b5b4378b5 YiPeng Chai 2025-03-17  505  uint64_t ras_core_get_utc_second_timestamp(struct ras_core_context *ras_core)
-13c91b5b4378b5 YiPeng Chai 2025-03-17  506  {
-13c91b5b4378b5 YiPeng Chai 2025-03-17 @507  	if (ras_core && ras_core->sys_fn &&
-                                                    ^^^^^^^^
-If ras_core is NULL
-
-13c91b5b4378b5 YiPeng Chai 2025-03-17  508  		ras_core->sys_fn->get_utc_second_timestamp)
-13c91b5b4378b5 YiPeng Chai 2025-03-17  509  		return ras_core->sys_fn->get_utc_second_timestamp(ras_core);
-13c91b5b4378b5 YiPeng Chai 2025-03-17  510  
-13c91b5b4378b5 YiPeng Chai 2025-03-17 @511  	RAS_DEV_ERR(ras_core->dev, "Failed to get system timestamp!\n");
-                                                            ^^^^^^^^^^^^^
-Then this will crash.
-
-13c91b5b4378b5 YiPeng Chai 2025-03-17  512  	return 0;
-13c91b5b4378b5 YiPeng Chai 2025-03-17  513  }
-13c91b5b4378b5 YiPeng Chai 2025-03-17  514  
-13c91b5b4378b5 YiPeng Chai 2025-03-17  515  int ras_core_translate_soc_pa_and_bank(struct ras_core_context *ras_core,
-13c91b5b4378b5 YiPeng Chai 2025-03-17  516  	uint64_t *soc_pa, struct umc_bank_addr *bank_addr, bool bank_to_pa)
-13c91b5b4378b5 YiPeng Chai 2025-03-17  517  {
-13c91b5b4378b5 YiPeng Chai 2025-03-17  518  	if (!ras_core || !soc_pa || !bank_addr)
-13c91b5b4378b5 YiPeng Chai 2025-03-17  519  		return -EINVAL;
-13c91b5b4378b5 YiPeng Chai 2025-03-17  520  
-13c91b5b4378b5 YiPeng Chai 2025-03-17  521  	return ras_umc_translate_soc_pa_and_bank(ras_core, soc_pa, bank_addr, bank_to_pa);
-13c91b5b4378b5 YiPeng Chai 2025-03-17  522  }
-13c91b5b4378b5 YiPeng Chai 2025-03-17  523  
-13c91b5b4378b5 YiPeng Chai 2025-03-17  524  bool ras_core_ras_interrupt_detected(struct ras_core_context *ras_core)
-13c91b5b4378b5 YiPeng Chai 2025-03-17  525  {
-13c91b5b4378b5 YiPeng Chai 2025-03-17 @526  	if (ras_core && ras_core->sys_fn &&
-13c91b5b4378b5 YiPeng Chai 2025-03-17  527  		ras_core->sys_fn->detect_ras_interrupt)
-13c91b5b4378b5 YiPeng Chai 2025-03-17  528  		return ras_core->sys_fn->detect_ras_interrupt(ras_core);
-13c91b5b4378b5 YiPeng Chai 2025-03-17  529  
-13c91b5b4378b5 YiPeng Chai 2025-03-17 @530  	RAS_DEV_ERR(ras_core->dev, "Failed to detect ras interrupt!\n");
-                                                            ^^^^^^^^^^^^^
-Same.
-
-13c91b5b4378b5 YiPeng Chai 2025-03-17  531  	return false;
-13c91b5b4378b5 YiPeng Chai 2025-03-17  532  }
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb: ethernet-phy@1 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dtb: ethernet-phy@1 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dtb: ethernet-phy@1 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb: ethernet-phy@1 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: phy@0 (ethernet-phy-ieee802.3-c22): $nodename:0: 'phy@0' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: phy@0 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: phy@0 (ethernet-phy-ieee802.3-c22): $nodename:0: 'phy@0' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: phy@0 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: phy@0 (ethernet-phy-ieee802.3-c22): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/sophgo/sg2002-licheerv-nano-b.dtb: phy@0 (ethernet-phy-ieee802.3-c22): $nodename:0: 'phy@0' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/sg2002-licheerv-nano-b.dtb: phy@0 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/sophgo/sg2042-evb-v1.dtb: phy@0 (ethernet-phy-ieee802.3-c22): $nodename:0: 'phy@0' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/sg2042-evb-v1.dtb: phy@0 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/sg2042-evb-v1.dtb: phy@0 (ethernet-phy-ieee802.3-c22): Unevaluated properties are not allowed ('reg', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/sophgo/sg2042-evb-v2.dtb: phy@0 (ethernet-phy-ieee802.3-c22): $nodename:0: 'phy@0' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/sg2042-evb-v2.dtb: phy@0 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/sg2042-evb-v2.dtb: phy@0 (ethernet-phy-ieee802.3-c22): Unevaluated properties are not allowed ('reg', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+--
+>> arch/riscv/boot/dts/sophgo/sg2044-sophgo-srd3-10.dtb: phy@0 (ethernet-phy-ieee802.3-c22): $nodename:0: 'phy@0' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/sg2044-sophgo-srd3-10.dtb: phy@0 (ethernet-phy-ieee802.3-c22): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ethernet-phy-ieee802.3-c22'] is too short
+   	'ethernet-phy-id0022.1640' was expected
+   	'ethernet-phy-ieee802.3-c22' is not one of ['ethernet-phy-id0022.1610', 'ethernet-phy-id0022.1611', 'ethernet-phy-id0022.1620', 'ethernet-phy-id0022.1631', 'ethernet-phy-id0022.1640', 'ethernet-phy-id0022.1650', 'ethernet-phy-id0022.1660', 'ethernet-phy-id0022.1670']
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
+>> arch/riscv/boot/dts/sophgo/sg2044-sophgo-srd3-10.dtb: phy@0 (ethernet-phy-ieee802.3-c22): Unevaluated properties are not allowed ('reg', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios', 'rx-internal-delay-ps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel,gigabit.yaml
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
