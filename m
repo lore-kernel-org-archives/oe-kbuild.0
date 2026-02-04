@@ -1,58 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6023EBF31
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Feb 2026 11:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF843ED119
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Feb 2026 11:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770204484; cv=none; b=EWBWIz8RpPrqQQwbW1Y1+cwg85GwE57qAmJNN51Y9DymiwumxQKXo0SdZ1tY7HyGG4Pc+6hjv0DwPrXjMJnQTnX7nZU0/uUq/0Gko51jArmy7lrgPuJRKAP+nEsB9My9qGCh3qpJ18eAtet8wEwMDbWBNiQaksvC6JE/AsAba3U=
+	t=1770206279; cv=none; b=N19XFJxHIaT5GOmoP6rRgLwJPJBJqsvi/lBFIcoCeBEAUbtJbNPcaDued5sbqTE0ytW9W0ltsFqt326sXOMbAWwcOV46IvQWiI5m4pYp/rL2xiC1kWnr1SNgQCmXCkBqyb3OyqkVkhJIA75X8eLckEqM43ve2aBc8/u+HcVacxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770204484; c=relaxed/simple;
-	bh=1iHw8mkrxyoCRG7cgtrCkgaq+WgV169IpCmhKT2RrkY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k3Jz8hfT7TogZdatuyLOwhzwOQZ8EQlMI1wkwRZqId/Gznr/JujmJ9L9OZNcaI1DKLuWKTvGbnpTeolWc/mEg08098R/l6te3NJ1/usZanYKY4y+C4CrMawcykEym/RSfRtJLvj9MSvddj92b2EKpHsEZJcXswDpnHVEMYXMLJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1oZj7yj; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770206279; c=relaxed/simple;
+	bh=rPIn+Mra4o1bR6EHRdELYXEUCRMxJ4FKYJobQW4iQuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ol1mpleIWdw8/9hSk0BULYDwN2kZY0Zbo6UbcD9HAjzBfKrvi4S+mrYvgWpyB3iGtrdyCvuvlEj3cr7yRsZJAfIpEiDTn9CJS9tnoQYFcNO43K/R+/7xFEl9KJ0HrkTNltHcxtQjErJF+5dZFFd/r3vI+mg3ycz/HOL/gOZ6Z8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YpHMRirH; arc=none smtp.client-ip=209.85.221.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1oZj7yj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770204484; x=1801740484;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=1iHw8mkrxyoCRG7cgtrCkgaq+WgV169IpCmhKT2RrkY=;
-  b=Y1oZj7yjjMolAov7lV2eUI1QxVYbmDqfmSQTaG35Etuz6HfSm6UFJVvq
-   auAUON4I1Uit4Kpp5EznoGkRV0xcJgEsn2uoXm9ZDb/ptTZ8tF+9QejyJ
-   IuU2Ux9eW3GhU5aYHCOLFihJ0Ef999+PZwdhMPi5+OZNEmphpWnQ1f8jZ
-   lH7RY3fdfyLE6eWTurVd5zHHh16MN1a/B3cm/64MWjqmwm937sAoCPu/I
-   YldsOaSX0Zg57a/OmGw0vA50R5rFjIx5m3R2tXdzZlV0sAIvj5qhT21OI
-   WaHmS+B/CepTIdvy8HvmwQAiB5plDz99NXFhegB+GyshE3QNl8PI6snkO
-   Q==;
-X-CSE-ConnectionGUID: UfAXCuSEQa+x7iWRixAluw==
-X-CSE-MsgGUID: /z6741p+TV20PiKIOIqZ4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71292927"
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="71292927"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 03:28:04 -0800
-X-CSE-ConnectionGUID: Z+vl7QmYSDmb4Kl9NfHxyw==
-X-CSE-MsgGUID: Ay5dKEhyQWCE5yBU10BSTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="247728292"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 04 Feb 2026 03:28:03 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vnb3B-000000003gn-0SyH
-	for oe-kbuild@lists.linux.dev;
-	Wed, 04 Feb 2026 11:28:01 +0000
-Date: Wed, 4 Feb 2026 12:27:52 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] btrfs: be less agressive with metadata overcommit
- when we can do full flushing
-Message-ID: <202602041225.4piRdI34-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YpHMRirH"
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-42fb4eeb482so4609275f8f.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 04 Feb 2026 03:57:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770206277; x=1770811077; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pfxMamMtxLHcw6K0Fqk6/zfs3lYEE3ZNz2eLveiTn0g=;
+        b=YpHMRirHobbTWQYSPWwfxkgFkOdHfBFgU8YJLbs7SVmqvfyM6/CNwuFbsq9BV5tTxO
+         KE+jtwHJgJthgwNMBWY9iUHNgLFbYp6goiKNcaG6ra0+5wdqy74uXKbSe6N7dTiEwn8n
+         gvmTafJyVynHHwSUm5RdKnAW4FKNP/bEWFS0Zeuk29YnJqeAaDuiJCY27XzoEW56jy5J
+         7TFz0o6uOm5loGQJs8WkvC98iz5b6dJjsXAfRYKb/9moGd/UB9SH0uSFOL6bQ48Y5Xzr
+         /CQ7+DuWcOV0Ha4+c5yW0749vHJ0dRoUy6+f5Nx765Ul5JgU+001KZT5AO2hZjOrC6KL
+         Azwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770206277; x=1770811077;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pfxMamMtxLHcw6K0Fqk6/zfs3lYEE3ZNz2eLveiTn0g=;
+        b=RL0Ld/HvYv+OMYpmrdssuQRgUL3EmX3lvuRivDReMCTStHRsev3A0v9x/aAZ9bVhaI
+         Ag08ScbYixTHI+qWcxCrX/CN2FYCyqgvekCK4mOKyig6SEdVwphnph3aI7QZxkssq7dp
+         LonMzyy9sISXAxKW19Ux7Bj56/+Cxe6QJ1XRFHix5/jFrmrXcUY+fjbdoVYfQDMSurQ9
+         6iHL22W0reFWyPSeNpGR5O25Gx57fcvEFpi79nuNDGf3xUBU6dbY531YkENu4sYKCtIL
+         EUKQlSLG0c9iP3Owi/ZXr/UXLd9cbFlfZ8C8Zn4g8M3GK3KCT0zfqsGJIJJ9JD8oX6x/
+         7GhQ==
+X-Gm-Message-State: AOJu0YxO3OZXUd6bOvtyqpDmPCGQhgg9zfW08JZwQ5Oun3zHEOtOhvuW
+	vgOts6YXFWf8NWNqSU4a5K4MlCZxjajl8Gg2tjteNf1/jZ/8bYXTbJbCNFcNSOFZ/6U=
+X-Gm-Gg: AZuq6aK2ZswZxTCghNU/O7qgbS4PW96sMXRxJQJ3zrboGccSwhJQnWhuSq7LBvKweEb
+	P+SDuItdHuvHhgzU+Ji4qhjv95gHEhw9EEdqt2jp+Hn7OgH05X52IbFrOvBM17cZS+c0uWGwK1H
+	Wkezf06X5YL/YAwuZZJ410ovc04DMg0VomLCAHylfJfdigHoIWrbLgaO4u+lky+DnfxCOxjGIQd
+	6LqMjtq5M2u6/ZCcmaA70PfDmR14GPNJh1nj2GsED/LpKFiEM50oYqy//YVV6Sv4mdLcXcXle3+
+	d0AK6e6e1J9s+mySlc4LHUeN+Ju6B0aKYBLi11PqxMpZXZHIFgEc3N3U0GMF0WdM9MjamymJrX9
+	DA9uvl98655KYW1Zhkyn7udgqMRdOCXQ2je4gTzDLw25aWOf4oL1NwHQIR0IuQ5/IRPNyyouALV
+	LzkYil4K4BU15xBAo9
+X-Received: by 2002:a5d:5f45:0:b0:435:b0e7:ea1 with SMTP id ffacd0b85a97d-43617e400f6mr3907970f8f.19.1770206277324;
+        Wed, 04 Feb 2026 03:57:57 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43618058473sm6252472f8f.22.2026.02.04.03.57.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 03:57:56 -0800 (PST)
+Date: Wed, 4 Feb 2026 14:57:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
+Cc: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>,
+	"lkp@intel.com" <lkp@intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>
+Subject: Re: [linux-next:master 11349/11582] net/ipv4/tcp_output.c:754
+ tcp_options_write() error: we previously assumed 'tp' could be null (see
+ line 722)
+Message-ID: <aYM0QV6sdOpDAU45@stanley.mountain>
+References: <202602041310.ZBuXDXC5-lkp@intel.com>
+ <PAXPR07MB7984753C52676A18C4CC9C07A398A@PAXPR07MB7984.eurprd07.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,41 +77,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <PAXPR07MB7984753C52676A18C4CC9C07A398A@PAXPR07MB7984.eurprd07.prod.outlook.com>
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
+These are automated emails based on static analysis.  The NULL checking
+in this function is weird because there are a bunch of unchecked
+dereferences followed by a couple NULL checks and then followed by
+several unchecked dereferences.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <c515344cea712e174e3cd8c0e6994adcc9f2ce35.1770161798.git.fdmanana@suse.com>
-References: <c515344cea712e174e3cd8c0e6994adcc9f2ce35.1770161798.git.fdmanana@suse.com>
-TO: fdmanana@kernel.org
-TO: linux-btrfs@vger.kernel.org
+I've actually sent this warning before and the code was explained.  :(
+https://lore.kernel.org/all/fce974f0-cea9-fa92-ecfc-4f7cc4fc95e2@arista.com/
 
-Hi,
+Sorry, I should have been more careful before sending duplicates.  :(
 
-kernel test robot noticed the following build warnings:
+regards,
+dan carpenter
 
-[auto build test WARNING on kdave/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-org/btrfs-be-less-agressive-with-metadata-overcommit-when-we-can-do-full-flushing/20260204-074123
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/c515344cea712e174e3cd8c0e6994adcc9f2ce35.1770161798.git.fdmanana%40suse.com
-patch subject: [PATCH v2 1/3] btrfs: be less agressive with metadata overcommit when we can do full flushing
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260204/202602041225.4piRdI34-lkp@intel.com/reproduce)
-
-# many are suggestions rather than must-fix
-
-WARNING:REPEATED_WORD: Possible repeated word: 'by'
-#240: 
-and got deleted by by the cleaner kthread - when the abort happened, we
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
