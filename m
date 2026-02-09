@@ -1,176 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1A337F8A7
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Feb 2026 15:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A2C2F5A3D
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Feb 2026 15:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770650846; cv=none; b=a2kn9+RHhEseULXfMYEeIrm7G+A9d9Kq7WoOqz6vA3I+J+GhchAdMNynF2QnhSBDXPIaWNjDyosF199CPncwlK3LM9LJ5f3jS7vdR9OYnXnqt3t69xstaYiZv8kHUgRIXSDoEFMY+jO5RcH55vU+1ofXT1Hd9EnW2HAkg6vVCts=
+	t=1770651454; cv=none; b=V7XUdDmK5u8CXw/VvteBM387NUkE3QDY3lBn7ZHRuON534hIjHaz7mIkoLFRFdAsifphdFOYwy8mrR5zVInWHjmlPPAgKjVxVEVdrL0YC6cd/eXDJaRL7Q9/MVrBRR+oIWNPJdyaMxA5X0WHj7IGMf90ppYhqtvGXB5rBQ0jA/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770650846; c=relaxed/simple;
-	bh=UND/UO/jsviafnfrS2ojIp4j0McN3LdkcxN9Xf+RKy0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YP8S/aIH8nOtS5sxZ8VXlbNVMAui06A2ltOjJfhd22Ajv5clXqMdJRA4eku2EsCsXk3vQ2Vb+43dvF4oNhaH+6dh0Ph+oWqC8atEx+VkYsytg5RVSLuaA9wbwxRjALjOxC/Zndc9aEzMR2z/P9DZNNBrJNc718EOVt32Bn6HsqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cayqF85/; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1770651454; c=relaxed/simple;
+	bh=q+SCsuB6YoHs0LQ3r17tt3V8ZqFOV2Y6JaxZzT+ietU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WpywmHENhQpFg4puNGELbysCyJWPNcMcJHOHNGLUBkMd35kRMwEiLQEBzwuCBDnl9RTIqJ+kwg3cNopHnAeFMaVgymlZ1wV5bP5iqMW3tVO0eIna1uhNcQDKK603rpNGSxq2v7GMfemp7KYDlPmL36EfCJdLznQUpyTUObTy+SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVBEHqTk; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cayqF85/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVBEHqTk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770650846; x=1802186846;
-  h=date:from:to:cc:subject:message-id;
-  bh=UND/UO/jsviafnfrS2ojIp4j0McN3LdkcxN9Xf+RKy0=;
-  b=cayqF85/xIipihINIpY3epSee447qwCAiSGSy0m7uIpWk7pY6UtV2uzK
-   3RR8Y88LJV3Xsd3yswLoiE/iA9bhY7mhoKgOXxOApm1NFh0p/YnflR1SN
-   nk9yXCFgwzhCuR600D7BP0KtcFMzRoptejB0DGgZ6IXoEgoTYdmQQP8Fy
-   0ckFBR2n5m4C23bqI04heuXpfrGGN22eXKESeyFUiGM9mytyQCQ/SUZk6
-   SXhqYkuqfYDddCYjRK3vJPosGcFKtDWMzi/1NAOrKIXlIdit2W5axOCdK
-   DLtMZQ/rqackRi7kg8vgQRY3RWf3vFXcldDdWAcp2/iq5Ppz429mEdBVC
-   g==;
-X-CSE-ConnectionGUID: vpkyfvahQ/S1nhe8hBY4Xw==
-X-CSE-MsgGUID: juFvQa4BSb+xxaAbY2ABUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="83204262"
+  t=1770651455; x=1802187455;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=q+SCsuB6YoHs0LQ3r17tt3V8ZqFOV2Y6JaxZzT+ietU=;
+  b=XVBEHqTkOxEEh/7j+YO4UemlshmCdVoc8v47fIV7jWdsF7LIJaMl3Co9
+   yD2Z/VvSEcWvSA7UygpFIruRj9gGJ+YPnokFz3MGpfxXXbyLJ609ItB7N
+   HhE9I7GUjk6Wq5DOjOoOfwUYvBsdwUSnasKtWZ8pG1HuuuaEkTS2wHuKb
+   scwaOZKR5Fsjm9H9+hLx8ucECFoddW9LBCWglQc5qayOLgJhaHDWv37sJ
+   c+Iw4FertjPVGywub3lesaMF93S1PO20AvvBcEFiFa4pifO+nkwgJgiCF
+   Nt0e6CB3G6xVofHs+mDsAHaL7zriqGI4pTLK9IKUpM7Ux47dposvXB2PV
+   Q==;
+X-CSE-ConnectionGUID: 8c69d1MVR9elIlYBEp+nfQ==
+X-CSE-MsgGUID: KMQ0ePIuTeidXJ67ZgACXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71665083"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="83204262"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 07:27:25 -0800
-X-CSE-ConnectionGUID: tBMgTk2PS+m9NvPITa62zg==
-X-CSE-MsgGUID: yffyJYmzSruUpQz3po76gg==
+   d="scan'208";a="71665083"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 07:37:34 -0800
+X-CSE-ConnectionGUID: ehS1ZE+0S36kY2sn3bATtg==
+X-CSE-MsgGUID: 2FxEORCfTyGCR3wDz4WrMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="216108330"
+   d="scan'208";a="211627469"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Feb 2026 07:27:23 -0800
+  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2026 07:37:32 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpTAV-00000000o4O-08zn;
-	Mon, 09 Feb 2026 15:27:19 +0000
-Date: Mon, 09 Feb 2026 23:26:25 +0800
+	id 1vpTKM-00000000o4w-2DBy;
+	Mon, 09 Feb 2026 15:37:30 +0000
+Date: Mon, 9 Feb 2026 23:37:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/ethtool/mse.c:285 mse_fill_reply() warn: missing unwind
- goto?
-Message-ID: <202602092315.jlgXdXWK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v3 14/20] mm: swap: decouple virtual swap slot from
+ backing store
+Message-ID: <202602092300.lZO4Ee4N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260208215839.87595-15-nphamcs@gmail.com>
+References: <20260208215839.87595-15-nphamcs@gmail.com>
+TO: Nhat Pham <nphamcs@gmail.com>
+TO: linux-mm@kvack.org
+CC: akpm@linux-foundation.org
+CC: hannes@cmpxchg.org
+CC: hughd@google.com
+CC: yosry.ahmed@linux.dev
+CC: mhocko@kernel.org
+CC: roman.gushchin@linux.dev
+CC: shakeel.butt@linux.dev
+CC: muchun.song@linux.dev
+CC: len.brown@intel.com
+CC: chengming.zhou@linux.dev
+CC: kasong@tencent.com
+CC: chrisl@kernel.org
+CC: huang.ying.caritas@gmail.com
+CC: ryan.roberts@arm.com
+CC: shikemeng@huaweicloud.com
+CC: viro@zeniv.linux.org.uk
+CC: baohua@kernel.org
+CC: bhe@redhat.com
+CC: osalvador@suse.de
+CC: lorenzo.stoakes@oracle.com
+CC: christophe.leroy@csgroup.eu
+CC: pavel@kernel.org
+CC: kernel-team@meta.com
 CC: linux-kernel@vger.kernel.org
-TO: Oleksij Rempel <o.rempel@pengutronix.de>
-CC: Jakub Kicinski <kuba@kernel.org>
+CC: cgroups@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+CC: peterx@redhat.com
+CC: riel@surriel.com
+CC: joshua.hahnjy@gmail.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
-commit: e6e93fb01302e9b7a15d17f3b8a00eff8a601654 ethtool: netlink: add ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-date:   3 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-161-20260209 (https://download.01.org/0day-ci/archive/20260209/202602092315.jlgXdXWK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Nhat,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/mm-swap-decouple-swap-cache-from-physical-swap-infrastructure/20260209-120606
+base:   05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+patch link:    https://lore.kernel.org/r/20260208215839.87595-15-nphamcs%40gmail.com
+patch subject: [PATCH v3 14/20] mm: swap: decouple virtual swap slot from backing store
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: powerpc-randconfig-r073-20260209 (https://download.01.org/0day-ci/archive/20260209/202602092300.lZO4Ee4N-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.2.0
 smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602092315.jlgXdXWK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602092300.lZO4Ee4N-lkp@intel.com/
 
 smatch warnings:
-net/ethtool/mse.c:285 mse_fill_reply() warn: missing unwind goto?
+mm/vswap.c:733 vswap_alloc_swap_slot() warn: variable dereferenced before check 'folio' (see line 701)
 
-vim +285 net/ethtool/mse.c
+vim +/folio +733 mm/vswap.c
 
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  233  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  234  static int mse_fill_reply(struct sk_buff *skb,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  235  			  const struct ethnl_req_info *req_base,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  236  			  const struct ethnl_reply_data *reply_base)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  237  {
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  238  	const struct mse_reply_data *data = mse_repdata(reply_base);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  239  	struct nlattr *nest;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  240  	unsigned int i;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  241  	int ret;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  242  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  243  	nest = nla_nest_start(skb, ETHTOOL_A_MSE_CAPABILITIES);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  244  	if (!nest)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  245  		return -EMSGSIZE;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  246  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  247  	if (data->capability.supported_caps & PHY_MSE_CAP_AVG) {
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  248  		ret = nla_put_uint(skb,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  249  				   ETHTOOL_A_MSE_CAPABILITIES_MAX_AVERAGE_MSE,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  250  				   data->capability.max_average_mse);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  251  		if (ret < 0)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  252  			goto nla_put_nest_failure;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  253  	}
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  254  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  255  	if (data->capability.supported_caps & (PHY_MSE_CAP_PEAK |
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  256  					       PHY_MSE_CAP_WORST_PEAK)) {
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  257  		ret = nla_put_uint(skb, ETHTOOL_A_MSE_CAPABILITIES_MAX_PEAK_MSE,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  258  				   data->capability.max_peak_mse);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  259  		if (ret < 0)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  260  			goto nla_put_nest_failure;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  261  	}
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  262  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  263  	ret = nla_put_uint(skb, ETHTOOL_A_MSE_CAPABILITIES_REFRESH_RATE_PS,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  264  			   data->capability.refresh_rate_ps);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  265  	if (ret < 0)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  266  		goto nla_put_nest_failure;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  267  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  268  	ret = nla_put_uint(skb, ETHTOOL_A_MSE_CAPABILITIES_NUM_SYMBOLS,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  269  			   data->capability.num_symbols);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  270  	if (ret < 0)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  271  		goto nla_put_nest_failure;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  272  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  273  	nla_nest_end(skb, nest);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  274  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  275  	for (i = 0; i < data->num_snapshots; i++) {
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  276  		const struct mse_snapshot_entry *s = &data->snapshots[i];
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  277  		int chan_attr;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  278  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  279  		chan_attr = mse_channel_to_attr(s->channel);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  280  		if (chan_attr < 0)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  281  			return chan_attr;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  282  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  283  		nest = nla_nest_start(skb, chan_attr);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  284  		if (!nest)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27 @285  			return -EMSGSIZE;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  286  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  287  		if (data->capability.supported_caps & PHY_MSE_CAP_AVG) {
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  288  			ret = nla_put_uint(skb,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  289  					   ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  290  					   s->snapshot.average_mse);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  291  			if (ret)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  292  				goto nla_put_nest_failure;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  293  		}
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  294  		if (data->capability.supported_caps & PHY_MSE_CAP_PEAK) {
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  295  			ret = nla_put_uint(skb, ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  296  					   s->snapshot.peak_mse);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  297  			if (ret)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  298  				goto nla_put_nest_failure;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  299  		}
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  300  		if (data->capability.supported_caps & PHY_MSE_CAP_WORST_PEAK) {
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  301  			ret = nla_put_uint(skb,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  302  					   ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE,
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  303  					   s->snapshot.worst_peak_mse);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  304  			if (ret)
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  305  				goto nla_put_nest_failure;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  306  		}
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  307  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  308  		nla_nest_end(skb, nest);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  309  	}
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  310  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  311  	return 0;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  312  
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  313  nla_put_nest_failure:
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  314  	nla_nest_cancel(skb, nest);
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  315  	return ret;
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  316  }
-e6e93fb01302e9 Oleksij Rempel 2025-10-27  317  
+19a5fe94e9aae4 Nhat Pham 2026-02-08  682  
+19a5fe94e9aae4 Nhat Pham 2026-02-08  683  /**
+19a5fe94e9aae4 Nhat Pham 2026-02-08  684   * vswap_alloc_swap_slot - allocate physical swap space for a folio that is
+19a5fe94e9aae4 Nhat Pham 2026-02-08  685   *                         already associated with virtual swap slots.
+19a5fe94e9aae4 Nhat Pham 2026-02-08  686   * @folio: folio we want to allocate physical swap space for.
+19a5fe94e9aae4 Nhat Pham 2026-02-08  687   *
+19a5fe94e9aae4 Nhat Pham 2026-02-08  688   * Note that this does NOT release existing swap backends of the folio.
+19a5fe94e9aae4 Nhat Pham 2026-02-08  689   * Callers need to handle this themselves.
+19a5fe94e9aae4 Nhat Pham 2026-02-08  690  
+19a5fe94e9aae4 Nhat Pham 2026-02-08  691   * Return: true if the folio is now backed by physical swap slots, false
+19a5fe94e9aae4 Nhat Pham 2026-02-08  692   * otherwise.
+19a5fe94e9aae4 Nhat Pham 2026-02-08  693   */
+19a5fe94e9aae4 Nhat Pham 2026-02-08  694  bool vswap_alloc_swap_slot(struct folio *folio)
+19a5fe94e9aae4 Nhat Pham 2026-02-08  695  {
+19a5fe94e9aae4 Nhat Pham 2026-02-08  696  	int i, nr = folio_nr_pages(folio);
+19a5fe94e9aae4 Nhat Pham 2026-02-08  697  	struct vswap_cluster *cluster = NULL;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  698  	struct swap_info_struct *si;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  699  	struct swap_cluster_info *ci;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  700  	swp_slot_t slot = { .val = 0 };
+19a5fe94e9aae4 Nhat Pham 2026-02-08 @701  	swp_entry_t entry = folio->swap;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  702  	struct swp_desc *desc;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  703  	bool fallback = false;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  704  
+19a5fe94e9aae4 Nhat Pham 2026-02-08  705  	/*
+19a5fe94e9aae4 Nhat Pham 2026-02-08  706  	 * We might have already allocated a backing physical swap slot in past
+19a5fe94e9aae4 Nhat Pham 2026-02-08  707  	 * attempts (for instance, when we disable zswap). If the entire range is
+19a5fe94e9aae4 Nhat Pham 2026-02-08  708  	 * already swapfile-backed we can skip swapfile case.
+19a5fe94e9aae4 Nhat Pham 2026-02-08  709  	 */
+19a5fe94e9aae4 Nhat Pham 2026-02-08  710  	if (vswap_swapfile_backed(entry, nr))
+19a5fe94e9aae4 Nhat Pham 2026-02-08  711  		return true;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  712  
+19a5fe94e9aae4 Nhat Pham 2026-02-08  713  	if (swap_slot_alloc(&slot, folio_order(folio)))
+19a5fe94e9aae4 Nhat Pham 2026-02-08  714  		return false;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  715  
+19a5fe94e9aae4 Nhat Pham 2026-02-08  716  	if (!slot.val)
+19a5fe94e9aae4 Nhat Pham 2026-02-08  717  		return false;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  718  
+7f88e3ea20f231 Nhat Pham 2026-02-08  719  	/* establish the vrtual <-> physical swap slots linkages. */
+7f88e3ea20f231 Nhat Pham 2026-02-08  720  	si = __swap_slot_to_info(slot);
+7f88e3ea20f231 Nhat Pham 2026-02-08  721  	ci = swap_cluster_lock(si, swp_slot_offset(slot));
+7f88e3ea20f231 Nhat Pham 2026-02-08  722  	vswap_rmap_set(ci, slot, entry.val, nr);
+7f88e3ea20f231 Nhat Pham 2026-02-08  723  	swap_cluster_unlock(ci);
+7f88e3ea20f231 Nhat Pham 2026-02-08  724  
+7f88e3ea20f231 Nhat Pham 2026-02-08  725  	rcu_read_lock();
+7f88e3ea20f231 Nhat Pham 2026-02-08  726  	for (i = 0; i < nr; i++) {
+7f88e3ea20f231 Nhat Pham 2026-02-08  727  		desc = vswap_iter(&cluster, entry.val + i);
+7f88e3ea20f231 Nhat Pham 2026-02-08  728  		VM_WARN_ON(!desc);
+7f88e3ea20f231 Nhat Pham 2026-02-08  729  
+19a5fe94e9aae4 Nhat Pham 2026-02-08  730  		if (desc->type == VSWAP_FOLIO) {
+19a5fe94e9aae4 Nhat Pham 2026-02-08  731  			/* case 1: fallback from zswap store failure */
+19a5fe94e9aae4 Nhat Pham 2026-02-08  732  			fallback = true;
+19a5fe94e9aae4 Nhat Pham 2026-02-08 @733  			if (!folio)
+19a5fe94e9aae4 Nhat Pham 2026-02-08  734  				folio = desc->swap_cache;
+19a5fe94e9aae4 Nhat Pham 2026-02-08  735  			else
+19a5fe94e9aae4 Nhat Pham 2026-02-08  736  				VM_WARN_ON(folio != desc->swap_cache);
+19a5fe94e9aae4 Nhat Pham 2026-02-08  737  		} else {
+19a5fe94e9aae4 Nhat Pham 2026-02-08  738  			/*
+19a5fe94e9aae4 Nhat Pham 2026-02-08  739  			 * Case 2: zswap writeback.
+19a5fe94e9aae4 Nhat Pham 2026-02-08  740  			 *
+19a5fe94e9aae4 Nhat Pham 2026-02-08  741  			 * No need to free zswap entry here - it will be freed once zswap
+19a5fe94e9aae4 Nhat Pham 2026-02-08  742  			 * writeback suceeds.
+19a5fe94e9aae4 Nhat Pham 2026-02-08  743  			 */
+19a5fe94e9aae4 Nhat Pham 2026-02-08  744  			VM_WARN_ON(desc->type != VSWAP_ZSWAP);
+19a5fe94e9aae4 Nhat Pham 2026-02-08  745  			VM_WARN_ON(fallback);
+19a5fe94e9aae4 Nhat Pham 2026-02-08  746  		}
+19a5fe94e9aae4 Nhat Pham 2026-02-08  747  		desc->type = VSWAP_SWAPFILE;
+7f88e3ea20f231 Nhat Pham 2026-02-08  748  		desc->slot.val = slot.val + i;
+7f88e3ea20f231 Nhat Pham 2026-02-08  749  	}
+7f88e3ea20f231 Nhat Pham 2026-02-08  750  	spin_unlock(&cluster->lock);
+7f88e3ea20f231 Nhat Pham 2026-02-08  751  	rcu_read_unlock();
+19a5fe94e9aae4 Nhat Pham 2026-02-08  752  	return true;
+7f88e3ea20f231 Nhat Pham 2026-02-08  753  }
+7f88e3ea20f231 Nhat Pham 2026-02-08  754  
 
 -- 
 0-DAY CI Kernel Test Service
