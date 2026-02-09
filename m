@@ -1,74 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DFC364044
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Feb 2026 09:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F54374174
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Feb 2026 12:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770629224; cv=none; b=YEWElNlE9L5+NfBInEGSBDHNGKicdT9gtF79cCeWTMosjti2hY66+cNUJzSwt6Kla0+VCso/Hickb8rKdaFkOtdYxSIA2Pi+LT/L+rWJVyt4LAqXb99C2EkPkOjCpLzqlPrIHAlf9qFDwe1CIOgCwcHco8l8MHEWBGvjSc+w4WY=
+	t=1770639271; cv=none; b=XeF7H5yV89sFydINm8FgNMaWVmOcWV0FcMswxIkE0imLKC5uG5VJFIr6iVd2Hfo5W2uREO+aOTwH8VHf5ZFujJ+qYhsrpjJVKKiABcW8cADTYGQh60aVMGKpyDbSDGqPNpiHCvJ/7JItnVBtrs7JIsbygR3Ktzbr9AlzjJIGBNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770629224; c=relaxed/simple;
-	bh=xAMEgmEkR18Uhjq2S4yBVVjI0PCMD1T+oEd4EU0lNbM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=d++dR84SZQ+HPz3YgpE0NThPbZABDZB9r1bR6VcEEPP0Gvtny5jqfh/akkrGbSf54iCWQVUh970ctvugNsqLEvAz5rZA/6Urg5HwlBFbJ7FnVpALBTkH9/UjJPP2VJzxl0pT1fb7PLm6qmY6eG51akjKKAZuikmtFTb5EVnk1E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDYUXmn1; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770639271; c=relaxed/simple;
+	bh=Qeu5oh2oGSMKfG8R5FFv5pXPyWvMjM4Up7P8B+MHFyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tTDPYywnYnaH/iHZVaXpRdRofUtNhX8MzV9sAP4ZrXm4YrimXbpPPWVb0TUdImxOVf5hFpcW8y6KhsZ/3esvjR64fFmZY5XSF+HhYEunIF5cY9r/rO5m5X0jJ+cuAueUGGUvUrUqoaQQDFmOFoYC8jLA9kY80Dxj3NFKUpM/FhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Gx1+Njif; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDYUXmn1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770629225; x=1802165225;
-  h=date:from:to:cc:subject:message-id;
-  bh=xAMEgmEkR18Uhjq2S4yBVVjI0PCMD1T+oEd4EU0lNbM=;
-  b=VDYUXmn1YPc09tQI7vFdfqmjNYk9Elgpwd/rh30yki/ssD3mO3wF9RL1
-   wr/G/Z15f6DHmtUlMhxPzNm9xPXlMl5kRCBUoTqivyFeyNwJD3+egofms
-   EMRA+cET47+Y3U64YtHGAaFolNUHwY/5TdSau/B1FjXULkCFXNhW16LDH
-   g+m3O/dMmiQYwO7/Y4tp2PRomGYThFM5uPNm8IlbI5aq+cDseU95PAAdy
-   Bls43Bzebs+nCuVZnoWrcLci32S/ELWUmXCK0qKiQht9aVxJDT6cW9YWe
-   FmCT2/t1pYlsfZ1Nvoutcss1PlMcxB5xsCd+Q23/29SmgUsjH6LLx3L3Q
-   Q==;
-X-CSE-ConnectionGUID: tDAj0AyfQJmjurIV79VySQ==
-X-CSE-MsgGUID: ZOYcCCOYROOcVNBk5Qdssg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="71776576"
-X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
-   d="scan'208";a="71776576"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 01:27:04 -0800
-X-CSE-ConnectionGUID: NpI9fyh+RtqCsB0AJZnWgQ==
-X-CSE-MsgGUID: 1Q6h6Zx9RUeYouxT9Q7ArA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
-   d="scan'208";a="215953519"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Feb 2026 01:27:02 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vpNXo-00000000mrk-02d7;
-	Mon, 09 Feb 2026 09:27:00 +0000
-Date: Mon, 09 Feb 2026 17:26:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Gx1+Njif"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso36992875e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 09 Feb 2026 04:14:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770639269; x=1771244069; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tjSHuG+TJw3YDM3QUjeBL+voKHjwYsAUwUEREaHyjX8=;
+        b=Gx1+Njif4s05RinpZUrzVi99G/tTbKCiXE/n0hHEVBCTo0y8TAOirdAO/IJY8mh84D
+         7jvIsb0kmR1Y/UShnLQ8tRzWLSb4SJdahzPDTYgds36vdtzO5iuRGGu8lLyxKGgRRLQX
+         7nAl6UHdpwsUs7acycaHZZ7ncXJeI8pKT9RvmKooML4drCepIyAc7baYCDCfqa/v7MzK
+         P/9AABzhotVGXGmsP8SOIubY54Z4E58uZgdu513ESQEzQzLbwLBPlbx8v+A0L2bs32ah
+         isUqRBV3edIJgRJJ88nOHNF00dPGGuwp7s22o10M8fxIQc0RRd+MAnzqLGY9cZqSc+YT
+         WRvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770639269; x=1771244069;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tjSHuG+TJw3YDM3QUjeBL+voKHjwYsAUwUEREaHyjX8=;
+        b=wi+dEhG0RJXErChQkRtUTkwY+87WIt0gTZjn9gtCI5elagiR00FmiwWHevcDvoYbP7
+         hn3arr4q9GlFuRVThWe4efuwVvYKziECkfSJk+zoqqI58dBeFPuezi3jKNdkqAuCltka
+         iigDViKi3IkcTyN5NTKY/FPgzBVSAjBthAfaK4bfrMfVeFc4Jkr+Q4CGVMQFy5h4YOzj
+         c1rLIkXM/yWNjj12rOojdxCfch4DeFBagS2MPk5W+Jp9A/BRz4lyMUm3unVnmT8bs/ri
+         5M8rxIxpvOFshIkCHK3PJKuIR4xfu/73lXmGm8y621BAHQDi3KJQMxfJSxTu7/2vsGxN
+         9itA==
+X-Gm-Message-State: AOJu0Yy2SrbhL/9ADwhI+hWo8UzAwVnxoAP3/t1ulBRLsagmryPZDtWq
+	u6ofhMB61xyTa96y1nWwD3DgE6I5pNXjhJHENcb1I/DGbzQ0jn7ZlPRWUmJDD5AgScnWcOZ95JF
+	WC+jI
+X-Gm-Gg: AZuq6aJCiTNk1DY30It+6H9EbTEjG5PbxXzHVP04Pz9MCzAYrbYA3w6w23YToXYUvlM
+	L/PJqk8nXS1FK5ex/w5Jr8IGOxV8OkDmGHaHmjYrBdg6AKTkGlkHnibyucalc+MJwcHtH1Pt6zK
+	fc5FnfwI2Al2FZikG3NiW90OTL+TTnJ+ADfBBDEmI8xykhJNbHJWfTKDpjTCsLu4QfbGfckPv7O
+	dJKgaSxoraRQyVEZO3PKyAM2DorOPIt8rrPunJS5m6Nis4jOnsGwjZIn29JqJ+eq8PQIEMa5ccK
+	JCB8X7A4LsL6Gr8ljmRyFcIhhtHGiDvdZIglzAaGPsJEFgP7wx3UmnQAU/VmFIMzoJleBhdq0hW
+	XU3IYsPCTmEHRlef0Bx67WQeKunCQ2CcRxSWVBNiyHZzzw9X01wC+eJYxU3P9MxZtpRw5d272qe
+	KfQbNBap9V0A8T/rXc
+X-Received: by 2002:a05:600c:19c7:b0:477:b48d:ba7a with SMTP id 5b1f17b1804b1-483202291bemr146178905e9.32.1770639268401;
+        Mon, 09 Feb 2026 04:14:28 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48320983f18sm128998195e9.8.2026.02.09.04.14.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Feb 2026 04:14:27 -0800 (PST)
+Date: Mon, 9 Feb 2026 15:14:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Filipe Manana <fdmanana@suse.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [fdmanana:for-next 15/17] fs/btrfs/free-space-tree.c:1157
  populate_free_space_tree() warn: inconsistent returns
  '&block_group->free_space_lock'.
 Message-ID: <202602091703.F4BhrHHr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Filipe Manana <fdmanana@suse.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260209121424.AGi57_bPHRzP81LkgPcscgFtd0QhMfuCk6fSngCDfJo@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/fdmanana/linux.git for-next
 head:   5a96a405b78b87a71b34c2587942af29d85da506
 commit: 0f57b1b3bcd514fc65690a93ec694ef732d46985 [15/17] btrfs: check for NULL root after calls to btrfs_extent_root()
-:::::: branch date: 11 hours ago
-:::::: commit date: 14 hours ago
 config: x86_64-randconfig-161-20260209 (https://download.01.org/0day-ci/archive/20260209/202602091703.F4BhrHHr-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch version: v0.5.0-8994-gd50c5a4c
@@ -76,7 +85,7 @@ smatch version: v0.5.0-8994-gd50c5a4c
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202602091703.F4BhrHHr-lkp@intel.com/
 
 smatch warnings:
@@ -84,12 +93,6 @@ fs/btrfs/free-space-tree.c:1157 populate_free_space_tree() warn: inconsistent re
 
 vim +1157 fs/btrfs/free-space-tree.c
 
-a5ed91828518ab0 Omar Sandoval   2015-09-29  1046  
-a5ed91828518ab0 Omar Sandoval   2015-09-29  1047  /*
-a5ed91828518ab0 Omar Sandoval   2015-09-29  1048   * Populate the free space tree by walking the extent tree. Operations on the
-a5ed91828518ab0 Omar Sandoval   2015-09-29  1049   * extent tree that happen as a result of writes to the free space tree will go
-a5ed91828518ab0 Omar Sandoval   2015-09-29  1050   * through the normal add/remove hooks.
-a5ed91828518ab0 Omar Sandoval   2015-09-29  1051   */
 a5ed91828518ab0 Omar Sandoval   2015-09-29  1052  static int populate_free_space_tree(struct btrfs_trans_handle *trans,
 32da5386d9a4fd5 David Sterba    2019-10-29  1053  				    struct btrfs_block_group *block_group)
 a5ed91828518ab0 Omar Sandoval   2015-09-29  1054  {
@@ -133,6 +136,10 @@ a5ed91828518ab0 Omar Sandoval   2015-09-29  1088
 0f57b1b3bcd514f Filipe Manana   2026-02-08  1092  			  "missing extent root for block group at offset %llu",
 0f57b1b3bcd514f Filipe Manana   2026-02-08  1093  			  key.objectid);
 0f57b1b3bcd514f Filipe Manana   2026-02-08  1094  		return -EUCLEAN;
+
+ret =  -EUCLEAN;
+goto out_locked;
+
 0f57b1b3bcd514f Filipe Manana   2026-02-08  1095  	}
 0f57b1b3bcd514f Filipe Manana   2026-02-08  1096  
 a5ed91828518ab0 Omar Sandoval   2015-09-29  1097  	ret = btrfs_search_slot_for_read(extent_root, &key, path, 1, 0);
@@ -197,14 +204,8 @@ a5ed91828518ab0 Omar Sandoval   2015-09-29  1153  	ret = 0;
 3bfd9ead8131e02 David Sterba    2025-02-24  1156  
 a5ed91828518ab0 Omar Sandoval   2015-09-29 @1157  	return ret;
 a5ed91828518ab0 Omar Sandoval   2015-09-29  1158  }
-a5ed91828518ab0 Omar Sandoval   2015-09-29  1159  
-
-:::::: The code at line 1157 was first introduced by commit
-:::::: a5ed91828518ab076209266c2bc510adabd078df Btrfs: implement the free space B-tree
-
-:::::: TO: Omar Sandoval <osandov@fb.com>
-:::::: CC: Chris Mason <clm@fb.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
