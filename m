@@ -1,126 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1658122B8AB
-	for <oe-kbuild@lists.linux.dev>; Sun,  8 Feb 2026 17:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF791D6193
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Feb 2026 03:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770572596; cv=none; b=gpEZ8XohOahEaYwStVVAav0hy/8emg2k1NRZqJYdoTWW6n4wihUaiAGQdtQsyVDNNEnUx1k4wLlZ0TCbbkp0ijNk8f4+9rHkkpb3R7hLwXoCFxNKAr1za3uQnt2szt/fIHvNiKgz+lJLYm6m7SmJPbPEBjhYoNy1SsNjkspnUfc=
+	t=1770606217; cv=none; b=iXdCwu24JUcQXlZuYCOaXhA7R2q9CBMk37Q3WJmD+os7NN4t+Lb5xKfG49ZXWYybUIkaOJGnbO1b2j6fJfIvjBCocvnVmaxb/byUWaiS/S1qG5PufWQW+AeKUEkzjnJ5RoAYZNjIufCNYNI1C4b1ZKyzIBl3olpkhHDW6z0k1ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770572596; c=relaxed/simple;
-	bh=8JWkfwFY7x1PwQ4BnetBBRyYZHp4iA+SQ8WIo14f+zo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E07znKEjY/K81Xdd1nW6ZUpsn9roq/wql0CTSPs+1SO+1KQBJzfBqNaFfe/ulY4/wrNYDk2z5flcjrTcGSMHX2hbNtbEaWYBFBmdnmznk/0IosTlJPicxWdKg9be20sqLdrNCNgA81m/sfVJ3KrvNoFei2BjbqhOw54gf3m+Mv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmCEB/as; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1770606217; c=relaxed/simple;
+	bh=LAz5tSq5adwiplCqN3VH2AR80/ObjEDNHERis21x14A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=WK9PhbwRtzcbLh/QZShsW36GfZATbpYOx12ihNGZNmJLwOcTVClhAeROJ+hQ7SWTc8aUNtuP8zUySNnsU87aZc2mgFE2pftUF3jjCKyceAz8YDYZPRQUSPLxiza9pKAhfDd/FQEOKXgZdtzmj98M/3YcbVy6m1luO6S02M5ZYpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lA+l7C+d; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmCEB/as"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lA+l7C+d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770572595; x=1802108595;
-  h=date:from:to:cc:subject:message-id;
-  bh=8JWkfwFY7x1PwQ4BnetBBRyYZHp4iA+SQ8WIo14f+zo=;
-  b=fmCEB/asAcGzdB8ojeAIztuikrThjcgqAIaNr3DcB2AC3w5UUS+EEhD1
-   HZyP/EgnWnpLk7AvraJ3l3HefabGlW1TOFWunfyIJm3eDKsuBZTb9tbRn
-   r9v9GpM+H6mhTHjJQpPrI8RjAMYrUkbuXgZpjt8GAOydUQTqeoySuEY/u
-   M1mnqQFUZGXCMZ2BGpGB/OaZb3wGZoeUsZT7E5PoXDaLSeLYioenH0FQ+
-   iXEw72O+7YyLyVGdEe8Yi1VTaNpQg4+huKz/KfxOCD5QRJJL56RTp3cdE
-   TyqqwxpW3XsyPkaI1LUVIWpkhoWlCSfn72rKZTbjWqh2UnvghujdoJiW2
-   g==;
-X-CSE-ConnectionGUID: N3HW8r3bSdeGk04lspDyZQ==
-X-CSE-MsgGUID: bTLyK9wMTQ+bjjU0Q1mfog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="82021999"
-X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
-   d="scan'208";a="82021999"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 09:43:14 -0800
-X-CSE-ConnectionGUID: fbIMh0K3QKCHGFzPk/HIIQ==
-X-CSE-MsgGUID: nWefLx9CSKS19Elvrj84jw==
+  t=1770606217; x=1802142217;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=LAz5tSq5adwiplCqN3VH2AR80/ObjEDNHERis21x14A=;
+  b=lA+l7C+d5dYTfySV3vljKhlVxasxnSJAL4wTSNjmcAZkWv/3q2wx5GmM
+   YLDVhljFWwve1dd5P+vQvFdMlcXot9xq+QKtqm29VEDTO/971be/ruFRU
+   IkTz3YaAbQOOqamsXXyMm5A3rCZNjcAwsa/5XwfmJvWHB8pvv5slGtY+g
+   vnfJdt9BWXvd/DcS61B0w2CHrwA6EIKq0BgTRzkl45UhZjqoY5G/672wX
+   oO7RUMl/RMEbHmTGk97T8lwaLdi6o47hr8bAEbgP+b5c0CVTATcQdhZgH
+   1VtnIN0OB02uiG3c2CdeHbkhJDNObfzVuLCPaB1JpqZEFEyk7UBnyLBLR
+   w==;
+X-CSE-ConnectionGUID: 8VQNektFQ3KGOsqW4/y91w==
+X-CSE-MsgGUID: Nubun36RS1ihzMm8KBTjvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="89131344"
+X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
+   d="scan'208";a="89131344"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 19:03:37 -0800
+X-CSE-ConnectionGUID: 8ZARHMGvRIO5H1247/piyQ==
+X-CSE-MsgGUID: zuTPbmyfSniuixBedOTTwA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
-   d="scan'208";a="242011931"
+X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
+   d="scan'208";a="249081502"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Feb 2026 09:43:13 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Feb 2026 19:03:35 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vp8oR-00000000mKi-0mx2;
-	Sun, 08 Feb 2026 17:43:11 +0000
-Date: Mon, 09 Feb 2026 01:42:49 +0800
+	id 1vpHYj-00000000mXA-11bh;
+	Mon, 09 Feb 2026 03:03:33 +0000
+Date: Mon, 09 Feb 2026 11:03:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [frank-w-bpi-r2-4.14:6.19-as21_192 144/144]
- drivers/net/phy/phylink.c:1022:32-35: ERROR: invalid reference to the index
- variable of the iterator on line 1011
-Message-ID: <202602090100.W0vMAD7F-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: security/landlock/errata.h:43:5: sparse: sparse: not a
+ function <noident>
+Message-ID: <202602091106.blEZkohy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "low confidence static check warning: security/=
+landlock/errata.h:43:5: sparse: sparse: not a function <noident>"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+CC: linux-kernel@vger.kernel.org
+TO: "Micka=C3=ABl Sala=C3=BCn" <mic@digikod.net>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-as21_192
-head:   a16f3f4d09f2d008300fd2068475d5a12c3df8eb
-commit: 1b3aeabfc8d801de4b51f4b902d30a50decb31e2 [144/144] net: phylink: introduce internal phylink PCS handling
-:::::: branch date: 2 days ago
-:::::: commit date: 8 weeks ago
-config: csky-randconfig-r053-20260208 (https://download.01.org/0day-ci/archive/20260209/202602090100.W0vMAD7F-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+commit: 15383a0d63dbcd63dc7e8d9ec1bf3a0f7ebf64ac landlock: Add the errata i=
+nterface
+date:   11 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 11 months ago
+config: mips-randconfig-r111-20260209 (https://download.01.org/0day-ci/arch=
+ive/20260209/202602091106.blEZkohy-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260209/202602091106.blEZkohy-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202602090100.W0vMAD7F-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602091106.blEZkohy-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/phy/phylink.c:1022:32-35: ERROR: invalid reference to the index variable of the iterator on line 1011
-   drivers/net/phy/phylink.c:1342:26-29: ERROR: invalid reference to the index variable of the iterator on line 1324
-   drivers/net/phy/phylink.c:580:7-10: ERROR: invalid reference to the index variable of the iterator on line 567
+sparse warnings: (new ones prefixed by >>)
+   security/landlock/setup.c: note: in included file:
+>> security/landlock/errata.h:43:5: sparse: sparse: not a function <noident>
+   security/landlock/errata.h:43:5: sparse: sparse: bad constant expression=
+ type
+   security/landlock/errata.h:49:5: sparse: sparse: not a function <noident>
+   security/landlock/errata.h:49:5: sparse: sparse: bad constant expression=
+ type
+   security/landlock/errata.h:55:5: sparse: sparse: not a function <noident>
+   security/landlock/errata.h:55:5: sparse: sparse: bad constant expression=
+ type
+   security/landlock/errata.h:61:5: sparse: sparse: not a function <noident>
+   security/landlock/errata.h:61:5: sparse: sparse: bad constant expression=
+ type
 
-vim +1022 drivers/net/phy/phylink.c
+vim +43 security/landlock/errata.h
 
-e9f03a6a879bff Russell King (Oracle  2025-02-10   996) 
-df874f9e52c340 Russell King (Oracle  2024-12-03   997) /* Query inband for a specific interface mode, asking the MAC for the
-df874f9e52c340 Russell King (Oracle  2024-12-03   998)  * PCS which will be used to handle the interface mode.
-df874f9e52c340 Russell King (Oracle  2024-12-03   999)  */
-df874f9e52c340 Russell King (Oracle  2024-12-03  1000) static unsigned int phylink_inband_caps(struct phylink *pl,
-df874f9e52c340 Russell King (Oracle  2024-12-03  1001) 					 phy_interface_t interface)
-df874f9e52c340 Russell King (Oracle  2024-12-03  1002) {
-df874f9e52c340 Russell King (Oracle  2024-12-03  1003) 	struct phylink_pcs *pcs;
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1004  	bool pcs_found = false;
-df874f9e52c340 Russell King (Oracle  2024-12-03  1005) 
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1006  	if (pl->mac_ops->mac_select_pcs) {
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1007  		pcs = pl->mac_ops->mac_select_pcs(pl->config,
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1008  						  interface);
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1009  		pcs_found = !!pcs;
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1010  	} else {
-1b3aeabfc8d801 Christian Marangi     2025-04-07 @1011  		list_for_each_entry(pcs, &pl->pcs_list, list) {
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1012  			if (!phylink_validate_pcs_interface(pcs, interface)) {
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1013  				pcs_found = true;
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1014  				break;
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1015  			}
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1016  		}
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1017  	}
-df874f9e52c340 Russell King (Oracle  2024-12-03  1018) 
-1b3aeabfc8d801 Christian Marangi     2025-04-07  1019  	if (!pcs_found)
-df874f9e52c340 Russell King (Oracle  2024-12-03  1020) 		return 0;
-df874f9e52c340 Russell King (Oracle  2024-12-03  1021) 
-df874f9e52c340 Russell King (Oracle  2024-12-03 @1022) 	return phylink_pcs_inband_caps(pcs, interface);
-df874f9e52c340 Russell King (Oracle  2024-12-03  1023) }
-df874f9e52c340 Russell King (Oracle  2024-12-03  1024) 
+15383a0d63dbcd6 Micka=C3=ABl Sala=C3=BCn 2025-03-18  41 =20
+15383a0d63dbcd6 Micka=C3=ABl Sala=C3=BCn 2025-03-18  42  #define LANDLOCK_E=
+RRATA_ABI 1
+15383a0d63dbcd6 Micka=C3=ABl Sala=C3=BCn 2025-03-18 @43  #if __has_include(=
+"errata/abi-1.h")
+15383a0d63dbcd6 Micka=C3=ABl Sala=C3=BCn 2025-03-18  44  #include "errata/a=
+bi-1.h"
+15383a0d63dbcd6 Micka=C3=ABl Sala=C3=BCn 2025-03-18  45  #endif
+15383a0d63dbcd6 Micka=C3=ABl Sala=C3=BCn 2025-03-18  46  #undef LANDLOCK_ER=
+RATA_ABI
+15383a0d63dbcd6 Micka=C3=ABl Sala=C3=BCn 2025-03-18  47 =20
 
-:::::: The code at line 1022 was first introduced by commit
-:::::: df874f9e52c340cc6f0a0014a97b778f67d46849 net: phylink: add pcs_inband_caps() method
-
-:::::: TO: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
