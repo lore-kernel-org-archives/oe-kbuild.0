@@ -1,141 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E27F32BF35
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 05:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8ACB26ED3E
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 05:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770701352; cv=none; b=kHsVQOoeMRfLqd7FlRcUdWge8lqrgxC4uzqfGp2W6qhbBaWf12pnYoYkclZ0KRgmVt/cV0tpZU0uV9w8cm+mlsb4RtwIrL5y2nl/3klyv82KaPnGR7CrGm4lNn0AHhKyYrplOQrEEpfI9eq/R9F61lATNsN1juFSTap4d2y6EB8=
+	t=1770702933; cv=none; b=lAMX+MgWqJG4SYcMwCdowPmmDdByYw5cC7U8tK5G484rLcjp3lrWV6qyG8GggcvC/b5oJvGg94BA+YU/qLkDJtoR9GO920SWcgXqZOzC0PQYRTVZf7joMvjEUhTpYQ2p+kSOTJ6LONfN6Bb5zh6m0/83weVpNTKEXPvGYiOUMhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770701352; c=relaxed/simple;
-	bh=0RZjiBd8+qcAM79KtNtq2Xe749hgMDpiVEKCDXHGLsM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S1Eb6yrFLaBmcpXpgFEPx2xPTQTx2RNvYFAj+86ClB82MNpUjQ+AqV3qyqDh9fBQKJwFltV2BT5kHYaMiowWtEq0S+U8zlqj5IPT3+nsp4cpQVJqaxvC6yhshoQA+AgG5JCJsZJA3F0/l6XrZb+KZHoTbu8E2gW3GeDIpC2kVeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fa2YiSIK; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1770702933; c=relaxed/simple;
+	bh=zEDfSdh1KPJqrv1rHuiALbd4UYgLoN55bU0AQo4i8jU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kRmSrigqxu3EguL0d2aWCdZsEsmC1RGc5ovr7CT33G71mGj7+9sk23+iO34NYryzUSMaUz6YAJRg4DN7E/mp680PMcjZoIQ2TNu9G18ZJilGHkxuR0c4fDRT8ZESjK6JLIC4WDpmW4fDpD2O1QNDB6n5zKxfPW7rqNZS4paO1LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRtGNvQr; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fa2YiSIK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRtGNvQr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770701350; x=1802237350;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0RZjiBd8+qcAM79KtNtq2Xe749hgMDpiVEKCDXHGLsM=;
-  b=fa2YiSIKchDPmOnK5eIPsDzniqZY//Hzf4hhQrctKprZmSm8gsrzkx/F
-   xSwxXC7HQmYTkTX7Y7e1ac2/kpsEQNQO5uB+xasveH21PQvU9cpT5D3fQ
-   2DtOFbhXBCOT0TF/NzHexm8o0byKh52HzTmPoah3eN4EFF6SrHxplnLhx
-   fIx5x7bt+GD3/4e+EWkbFN+9Pivi/YyZgQX5P6YTQjuF6tQUu0daRSR7J
-   JleSK638VAbkQgKvBXg9NZHltBpQE555UojYzPRkDmWScBP1iPKXeeebh
-   ksELNEBk1wUucrPk6n92etm/XA5WF4yc1qbGyMraGPGS9e4OfTJEjR9/N
-   A==;
-X-CSE-ConnectionGUID: NkJW2FF/THC5ua/AcF71bg==
-X-CSE-MsgGUID: etfusDEIRKyr5vT6GqhUEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71863599"
+  t=1770702932; x=1802238932;
+  h=date:from:to:cc:subject:message-id;
+  bh=zEDfSdh1KPJqrv1rHuiALbd4UYgLoN55bU0AQo4i8jU=;
+  b=KRtGNvQrFQvue5W9engnwkZe/WOZLsAYgOFfM11bbsvCmx4+to7cpvRh
+   PKR14wvkexNnYhOznXBl+IyLDWgdwb4pe/couy05Q/w3DJqbHCiIU5ygt
+   eSPMGLHwTGZITwaz/15RB82L1TGIIcKa8q4AMLqa12/pIYs11CdTE3q2R
+   8Ke/Gusr6pWwj0xmXD8B/XNg/SQnOMdAez0jKTbSkdJZdzS85P9SN/Wj+
+   md6UNRDS2UyIubHksVyurLUS9QGaAPPxf1UzoKn/96Msu8vPPazJiJOr5
+   VtsgTiOTGDYMrXNPBhCR3ku9iX0UQIo5Th1L59gzmhNxu94k/q6oHFNC5
+   g==;
+X-CSE-ConnectionGUID: oD/emAyxRDqAX3Rr/C6oXA==
+X-CSE-MsgGUID: 1SfhW3YLQPiJsV0f0mNcMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82552832"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="71863599"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 21:29:09 -0800
-X-CSE-ConnectionGUID: 3NiQsIEeSLemq/p6zAkcSw==
-X-CSE-MsgGUID: 6gErSEZiQQqW4ab+V8Mrzg==
+   d="scan'208";a="82552832"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 21:55:26 -0800
+X-CSE-ConnectionGUID: 2G2EuYqxQPCppc4PhZDzxQ==
+X-CSE-MsgGUID: AKVY0+n7Qp++tk1E4WXq4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211129849"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 09 Feb 2026 21:29:09 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="211845857"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2026 21:55:24 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpgJ5-000000000aX-1SuY;
-	Tue, 10 Feb 2026 05:29:03 +0000
-Date: Tue, 10 Feb 2026 06:28:18 +0100
+	id 1vpgiY-00000000ogY-0JvU;
+	Tue, 10 Feb 2026 05:55:22 +0000
+Date: Tue, 10 Feb 2026 13:54:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v6 14/19] perf: arm_pmuv3: Handle IRQs for Partitioned
- PMU guest counters
-Message-ID: <202602100634.QKTI6Wc4-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 5665/12313] drivers/of/unittest.c:1701
+ of_unittest_parse_interrupt_map() warn: bitwise AND condition is false here
+Message-ID: <202602101359.TShamc7y-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260209221414.2169465-15-coltonlewis@google.com>
-References: <20260209221414.2169465-15-coltonlewis@google.com>
-TO: Colton Lewis <coltonlewis@google.com>
-TO: kvm@vger.kernel.org
-CC: Alexandru Elisei <alexandru.elisei@arm.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Russell King <linux@armlinux.org.uk>
-CC: Catalin Marinas <catalin.marinas@arm.com>
-CC: Will Deacon <will@kernel.org>
-CC: Marc Zyngier <maz@kernel.org>
-CC: Oliver Upton <oliver.upton@linux.dev>
-CC: Mingwei Zhang <mizhang@google.com>
-CC: Joey Gouly <joey.gouly@arm.com>
-CC: Suzuki K Poulose <suzuki.poulose@arm.com>
-CC: Zenghui Yu <yuzenghui@huawei.com>
-CC: Mark Rutland <mark.rutland@arm.com>
-CC: Shuah Khan <skhan@linuxfoundation.org>
-CC: Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: kvmarm@lists.linux.dev
-CC: linux-perf-users@vger.kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: Colton Lewis <coltonlewis@google.com>
+TO: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
-Hi Colton,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 63804fed149a6750ffd28610c5c1c98cce6bd377]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20260210-064939
-base:   63804fed149a6750ffd28610c5c1c98cce6bd377
-patch link:    https://lore.kernel.org/r/20260209221414.2169465-15-coltonlewis%40google.com
-patch subject: [PATCH v6 14/19] perf: arm_pmuv3: Handle IRQs for Partitioned PMU guest counters
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260210/202602100634.QKTI6Wc4-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100634.QKTI6Wc4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   132737e360b4c0daa7f473faf0f55cb04ee3e15c
+commit: a9811aeb42f85bd423725996ef7dce5cd51f8ff7 [5665/12313] of: unittest: Add a test case for for_each_of_imap_item iterator
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 weeks ago
+config: riscv-randconfig-r072-20260209 (https://download.01.org/0day-ci/archive/20260210/202602101359.TShamc7y-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202602100634.QKTI6Wc4-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202602101359.TShamc7y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/of/unittest.c:1701 of_unittest_parse_interrupt_map() warn: bitwise AND condition is false here
 
-   In file included from ./arch/arm64/include/asm/kvm_host.h:38,
-                    from ./include/linux/kvm_host.h:45,
-                    from arch/arm64/kernel/asm-offsets.c:16:
->> ./include/kvm/arm_pmu.h:310:52: warning: 'struct arm_pmu' declared inside parameter list will not be visible outside of this definition or declaration
-     310 | static inline void kvm_pmu_handle_guest_irq(struct arm_pmu *pmu, u64 pmovsr) {}
-         |                                                    ^~~~~~~
-   ./include/kvm/arm_pmu.h:281:12: warning: 'kvm_vcpu_read_pmuserenr' defined but not used [-Wunused-function]
-     281 | static u64 kvm_vcpu_read_pmuserenr(struct kvm_vcpu *vcpu)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+Old smatch warnings:
+drivers/of/unittest.c:860 of_unittest_changeset() error: potential null dereference 'n1'.  (__of_node_dup returns null)
+drivers/of/unittest.c:861 of_unittest_changeset() error: potential null dereference 'n2'.  (__of_node_dup returns null)
+drivers/of/unittest.c:862 of_unittest_changeset() error: potential null dereference 'n21'.  (__of_node_dup returns null)
+drivers/of/unittest.c:1506 of_unittest_parse_interrupts() warn: bitwise AND condition is false here
+drivers/of/unittest.c:1583 of_unittest_parse_interrupts_extended() warn: bitwise AND condition is false here
+drivers/of/unittest.c:1782 of_unittest_irq_refcount() warn: bitwise AND condition is false here
+drivers/of/unittest.c:1926 of_unittest_platform_populate() warn: bitwise AND condition is false here
 
+vim +1701 drivers/of/unittest.c
 
-vim +310 ./include/kvm/arm_pmu.h
-
-baec257585c39b Colton Lewis 2026-02-09  307  
-baec257585c39b Colton Lewis 2026-02-09  308  static inline void kvm_pmu_host_counters_enable(void) {}
-baec257585c39b Colton Lewis 2026-02-09  309  static inline void kvm_pmu_host_counters_disable(void) {}
-ad5f1148c818bf Colton Lewis 2026-02-09 @310  static inline void kvm_pmu_handle_guest_irq(struct arm_pmu *pmu, u64 pmovsr) {}
-baec257585c39b Colton Lewis 2026-02-09  311  
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1692) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1693) static void __init of_unittest_parse_interrupt_map(void)
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1694) {
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1695) 	const struct of_unittest_expected_imap_item *expected_item;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1696) 	struct device_node *imap_np, *expected_parent_np;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1697) 	struct of_imap_parser imap_parser;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1698) 	struct of_imap_item imap_item;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1699) 	int count, ret, i;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1700) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14 @1701) 	if (of_irq_workarounds & (OF_IMAP_NO_PHANDLE | OF_IMAP_OLDWORLD_MAC))
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1702) 		return;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1703) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1704) 	imap_np = of_find_node_by_path("/testcase-data/interrupts/intmap2");
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1705) 	if (!imap_np) {
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1706) 		pr_err("missing testcase data\n");
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1707) 		return;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1708) 	}
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1709) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1710) 	ret = of_imap_parser_init(&imap_parser, imap_np, &imap_item);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1711) 	if (unittest(!ret, "of_imap_parser_init(%pOF) returned error %d\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1712) 		     imap_np, ret))
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1713) 		goto end;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1714) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1715) 	expected_item = of_unittest_expected_imap_items;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1716) 	count = 0;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1717) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1718) 	for_each_of_imap_item(&imap_parser, &imap_item) {
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1719) 		if (unittest(count < ARRAY_SIZE(of_unittest_expected_imap_items),
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1720) 			     "imap item number %d not expected. Max number %zu\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1721) 			     count, ARRAY_SIZE(of_unittest_expected_imap_items) - 1)) {
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1722) 			of_node_put(imap_item.parent_args.np);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1723) 			goto end;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1724) 		}
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1725) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1726) 		expected_parent_np = of_find_node_by_path(expected_item->parent_path);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1727) 		if (unittest(expected_parent_np,
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1728) 			     "missing dependent testcase data (%s)\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1729) 			     expected_item->parent_path)) {
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1730) 			of_node_put(imap_item.parent_args.np);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1731) 			goto end;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1732) 		}
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1733) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1734) 		unittest(imap_item.child_imap_count == expected_item->child_imap_count,
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1735) 			 "imap[%d] child_imap_count = %u, expected %u\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1736) 			 count, imap_item.child_imap_count,
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1737) 			 expected_item->child_imap_count);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1738) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1739) 		for (i = 0; i < expected_item->child_imap_count; i++)
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1740) 			unittest(imap_item.child_imap[i] == expected_item->child_imap[i],
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1741) 				 "imap[%d] child_imap[%d] = %u, expected %u\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1742) 				 count, i, imap_item.child_imap[i],
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1743) 				 expected_item->child_imap[i]);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1744) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1745) 		unittest(imap_item.parent_args.np == expected_parent_np,
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1746) 			 "imap[%d] parent np = %pOF, expected %pOF\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1747) 			 count, imap_item.parent_args.np, expected_parent_np);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1748) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1749) 		unittest(imap_item.parent_args.args_count == expected_item->parent_args_count,
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1750) 			 "imap[%d] parent param_count = %d, expected %d\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1751) 			 count, imap_item.parent_args.args_count,
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1752) 			 expected_item->parent_args_count);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1753) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1754) 		for (i = 0; i < expected_item->parent_args_count; i++)
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1755) 			unittest(imap_item.parent_args.args[i] == expected_item->parent_args[i],
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1756) 				 "imap[%d] parent param[%d] = %u, expected %u\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1757) 				 count, i, imap_item.parent_args.args[i],
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1758) 				 expected_item->parent_args[i]);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1759) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1760) 		of_node_put(expected_parent_np);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1761) 		count++;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1762) 		expected_item++;
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1763) 	}
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1764) 
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1765) 	unittest(count == ARRAY_SIZE(of_unittest_expected_imap_items),
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1766) 		 "Missing items. %d parsed, expected %zu\n",
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1767) 		 count, ARRAY_SIZE(of_unittest_expected_imap_items));
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1768) end:
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1769) 	of_node_put(imap_np);
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1770) }
+a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1771) 
 
 -- 
 0-DAY CI Kernel Test Service
