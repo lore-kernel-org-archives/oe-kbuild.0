@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC1A17BB21
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 07:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F413346A9
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 07:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770706890; cv=none; b=Lq7xOHN3qDliGZ2SzLWFsEdCGvgkwW9M/xSt6fUu4YxpwGD0jHotAIHjatFuZfU6lQQLu/qZ7CkrZnwg8IYkq9ZKdxF6qz5E9MFhKacQr8lqrG4OxZNymZ3eqZLenwX/BxbgZtU0Z6TO75EKYUQLUBsiIKi+q5TziodU67nE1gA=
+	t=1770708934; cv=none; b=WfXQuPjTu7BvQUMHt74QWe+azqtmn+Dz5qZ0gLnZRhMEVEggEmCYm3QuODPHbsje/TKPeZESM0nGQWZGB0iq7hC93BaiE81A3pLn/+IJR9yurCsCGW24l3RKIGx1sLTZLqKc5EGrj7uQUJi6H/1VWQzGWetU80OYaOhUo9qTfjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770706890; c=relaxed/simple;
-	bh=sjwQY7r+H4aPbSxwE1LOaV2cyQbsOVjiaY3Da1GSmcU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SGyAOUOP1tWGxw4nuyToJLzxbAA7AEvDqVLhCIfAXB0c2D9aFSubMytTfCjOPO677jYKN4aOm3ZEmY8tsT2CDe8iTk9fSFCwLeTvptxTyB71az4LagIFSe8qg8w4fKpPkTuzHI8XQ7ikg5+y5N4gZvP7Yf/9gLqwrA1n1lzyfeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3/vzGuQ; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1770708934; c=relaxed/simple;
+	bh=mk6ptaQm+xL73+oxB3UzSzwZfIIpIIJ5qXoCLkE5B/s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SCSo/PHq1GJ/FbzUWggO/pn0XhllPcheA49M2iED8hBmgA4fV649BQobmzexS43YvgpXq4TJkzGeSM3K0tJ+16z8Q1qNPG2KaF5oily7WH2FZP71EU9hOHfqvmxFudzB4nr3tyervrpm/1X7fuS4HSg5m8Z0gSETKmFzQHAqYNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJ+DOWYq; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3/vzGuQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJ+DOWYq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770706889; x=1802242889;
+  t=1770708932; x=1802244932;
   h=date:from:to:cc:subject:message-id;
-  bh=sjwQY7r+H4aPbSxwE1LOaV2cyQbsOVjiaY3Da1GSmcU=;
-  b=U3/vzGuQsz+lkqpL/Y2SpncX6JErGd/2TToktnEYHXI6L7eMrXDNrmDl
-   gA5KUU/v3U/qTnivLwv1M9q768PKE1DsG8xsK4kqIxZf/7hczvIDSyMEa
-   vlzhmuslVAI1VN2VKrBTDtOPxAmLx2FNMLSsaZm6n/h3bhqKJMlzUZjPy
-   IDk506alHGEuxJKZJ2lMvedXICTlw+hzwec1i6P7NadHpsczlbqOEJNpD
-   G3+dMM3SGEKKsQlg3dNs/K+JvfX3vNWOk1cg1ZWJWqcNuYOaTqELkZXHu
-   sORH1VjA1+l+gSNguNUexPqu6WSTy1A/I9f5QKq0Ey6V/2Dz4ONQIsWCS
-   g==;
-X-CSE-ConnectionGUID: ptxSkfBZQIyPMfr909p+Uw==
-X-CSE-MsgGUID: yQEhIqHWRdeZ/yL1sCbfug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82557046"
+  bh=mk6ptaQm+xL73+oxB3UzSzwZfIIpIIJ5qXoCLkE5B/s=;
+  b=hJ+DOWYqJWrE0M835aNDRkhUpTqvmYw7PfSL4xT3gnZ5VGm8ts1Ei2v6
+   RHtbOADY2et5hUZ+IBcNrbiKyWOUWdDfLu1eOOcvZpZ35SWgfXnqV1VYV
+   iRBIs88uKjIuCzBLsAE9pGqsVsS3FvVoCzeDQJUFt6kUAmCqPme+UMReX
+   UmgjiUvxo9ycjf8unq2Jj3RHsWVq/bwoBVrMfa4BUxnzn6oAnTXnhMwmf
+   Bh8kMqtUM5IpqXzlblwZnScgqUjcSBIR81Nsu/dKi7OI4xL9eatrBbdMD
+   HsppWhyvCutZJ3FsycIpurw6ZKhlxAp+3lJKtDUkAzIFg4V8d/mE/cR/V
+   A==;
+X-CSE-ConnectionGUID: KqtomdsWTPWIJM1ogmj8LQ==
+X-CSE-MsgGUID: +B2KjeKTSXyOGmkFBco7gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71901202"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="82557046"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 23:01:28 -0800
-X-CSE-ConnectionGUID: qrpo0LP5RROOIkyrCXqoTw==
-X-CSE-MsgGUID: ZeP8QhkISFaN4Xe4FsCHBw==
+   d="scan'208";a="71901202"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 23:35:30 -0800
+X-CSE-ConnectionGUID: 0x0Pvv73RDuilJ1comuKgg==
+X-CSE-MsgGUID: x72JCzcxS6GevJC6uFi6Jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="242443385"
+   d="scan'208";a="216012385"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 Feb 2026 23:01:27 -0800
+  by orviesa003.jf.intel.com with ESMTP; 09 Feb 2026 23:35:29 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vphkS-00000000ok2-112w;
-	Tue, 10 Feb 2026 07:01:24 +0000
-Date: Tue, 10 Feb 2026 15:00:55 +0800
+	id 1vpiHO-00000000omO-3cj3;
+	Tue, 10 Feb 2026 07:35:26 +0000
+Date: Tue, 10 Feb 2026 15:34:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [rafael-pm:bleeding-edge 301/334]
- drivers/platform/x86/toshiba_bluetooth.c:261 toshiba_bt_rfkill_probe() warn:
- 'bt_dev->rfk' is an error pointer or valid
-Message-ID: <202602101417.8r6ZtJHr-lkp@intel.com>
+Subject: 
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:1091
+ hclge_dbg_dump_dcb_pri() warn: '0x' prefix is redundant when # flag is used
+Message-ID: <202602101515.O0lYdvbg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,96 +62,66 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-acpi@vger.kernel.org
-CC: linux-pm@vger.kernel.org
-TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC: linux-kernel@vger.kernel.org
+TO: Jijie Shao <shaojijie@huawei.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   8711f3ee7e5efcf1b795c80496b0fb68713e153a
-commit: f70ea8e0b9b13e1e8f5a3f6a95280b36405770bc [301/334] platform/x86: toshiba_bluetooth: Convert ACPI driver to a platform one
-:::::: branch date: 10 hours ago
-:::::: commit date: 13 hours ago
-config: x86_64-randconfig-161-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101417.8r6ZtJHr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72c395024dac5e215136cbff793455f065603b06
+commit: 2363145ad86e701481bbe884eeda5c35c9ac658c net: hns3: use seq_file for files in reg/ in debugfs
+date:   7 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 months ago
+config: arm64-randconfig-r071-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101515.O0lYdvbg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602101417.8r6ZtJHr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602101515.O0lYdvbg-lkp@intel.com/
 
 smatch warnings:
-drivers/platform/x86/toshiba_bluetooth.c:261 toshiba_bt_rfkill_probe() warn: 'bt_dev->rfk' is an error pointer or valid
+drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:1091 hclge_dbg_dump_dcb_pri() warn: '0x' prefix is redundant when # flag is used
 
-vim +261 drivers/platform/x86/toshiba_bluetooth.c
+vim +/0x +1091 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c
 
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  230  
-f70ea8e0b9b13e Rafael J. Wysocki 2026-02-09  231  static int toshiba_bt_rfkill_probe(struct platform_device *pdev)
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  232  {
-f70ea8e0b9b13e Rafael J. Wysocki 2026-02-09  233  	struct acpi_device *device = ACPI_COMPANION(&pdev->dev);
-84c0691e514539 Azael Avalos      2015-05-03  234  	struct toshiba_bluetooth_dev *bt_dev;
-18b8696b66d790 Azael Avalos      2015-03-26  235  	int result;
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  236  
-18b8696b66d790 Azael Avalos      2015-03-26  237  	result = toshiba_bluetooth_present(device->handle);
-18b8696b66d790 Azael Avalos      2015-03-26  238  	if (result)
-18b8696b66d790 Azael Avalos      2015-03-26  239  		return result;
-18b8696b66d790 Azael Avalos      2015-03-26  240  
-18b8696b66d790 Azael Avalos      2015-03-26  241  	pr_info("Toshiba ACPI Bluetooth device driver\n");
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  242  
-84c0691e514539 Azael Avalos      2015-05-03  243  	bt_dev = kzalloc(sizeof(*bt_dev), GFP_KERNEL);
-84c0691e514539 Azael Avalos      2015-05-03  244  	if (!bt_dev)
-84c0691e514539 Azael Avalos      2015-05-03  245  		return -ENOMEM;
-84c0691e514539 Azael Avalos      2015-05-03  246  	bt_dev->acpi_dev = device;
-f70ea8e0b9b13e Rafael J. Wysocki 2026-02-09  247  
-f70ea8e0b9b13e Rafael J. Wysocki 2026-02-09  248  	platform_set_drvdata(pdev, bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  249  
-84c0691e514539 Azael Avalos      2015-05-03  250  	result = toshiba_bluetooth_sync_status(bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  251  	if (result) {
-84c0691e514539 Azael Avalos      2015-05-03  252  		kfree(bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  253  		return result;
-84c0691e514539 Azael Avalos      2015-05-03  254  	}
-84c0691e514539 Azael Avalos      2015-05-03  255  
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  256  	bt_dev->rfk = rfkill_alloc("Toshiba Bluetooth",
-f70ea8e0b9b13e Rafael J. Wysocki 2026-02-09  257  				   &pdev->dev,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  258  				   RFKILL_TYPE_BLUETOOTH,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  259  				   &rfk_ops,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  260  				   bt_dev);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03 @261  	if (!bt_dev->rfk) {
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  262  		pr_err("Unable to allocate rfkill device\n");
-84c0691e514539 Azael Avalos      2015-05-03  263  		kfree(bt_dev);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  264  		return -ENOMEM;
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  265  	}
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  266  
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  267  	rfkill_set_hw_state(bt_dev->rfk, !bt_dev->killswitch);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  268  
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  269  	result = rfkill_register(bt_dev->rfk);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  270  	if (result) {
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  271  		pr_err("Unable to register rfkill device\n");
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  272  		rfkill_destroy(bt_dev->rfk);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  273  		kfree(bt_dev);
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  274  		return result;
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  275  	}
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  276  
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  277  	result = acpi_dev_install_notify_handler(device, ACPI_DEVICE_NOTIFY,
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  278  						 toshiba_bt_rfkill_notify, bt_dev);
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  279  	if (result) {
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  280  		pr_err("Unable to register ACPI notify handler\n");
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  281  		rfkill_unregister(bt_dev->rfk);
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  282  		rfkill_destroy(bt_dev->rfk);
-acc7ae54532e0f Rafael J. Wysocki 2026-02-09  283  		kfree(bt_dev);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  284  	}
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  285  
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  286  	return result;
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  287  }
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  288  
+365e860aa7a74a Yufeng Mo   2021-05-20  1069  
+2363145ad86e70 Jijie Shao  2025-07-14  1070  static int hclge_dbg_dump_dcb_pri(struct hclge_dev *hdev, struct seq_file *s)
+365e860aa7a74a Yufeng Mo   2021-05-20  1071  {
+2a21dab594a98c Jie Wang    2021-10-27  1072  	struct hclge_dbg_bitmap_cmd req;
+365e860aa7a74a Yufeng Mo   2021-05-20  1073  	struct hclge_desc desc;
+365e860aa7a74a Yufeng Mo   2021-05-20  1074  	u8 pri_id, pri_num;
+365e860aa7a74a Yufeng Mo   2021-05-20  1075  	int ret;
+365e860aa7a74a Yufeng Mo   2021-05-20  1076  
+365e860aa7a74a Yufeng Mo   2021-05-20  1077  	ret = hclge_tm_get_pri_num(hdev, &pri_num);
+365e860aa7a74a Yufeng Mo   2021-05-20  1078  	if (ret)
+365e860aa7a74a Yufeng Mo   2021-05-20  1079  		return ret;
+365e860aa7a74a Yufeng Mo   2021-05-20  1080  
+2363145ad86e70 Jijie Shao  2025-07-14  1081  	seq_puts(s, "pri_id  pri_mask  pri_cshaping_pass  pri_pshaping_pass\n");
+365e860aa7a74a Yufeng Mo   2021-05-20  1082  	for (pri_id = 0; pri_id < pri_num; pri_id++) {
+365e860aa7a74a Yufeng Mo   2021-05-20  1083  		ret = hclge_dbg_cmd_send(hdev, &desc, pri_id, 1,
+365e860aa7a74a Yufeng Mo   2021-05-20  1084  					 HCLGE_OPC_PRI_DFX_STS);
+365e860aa7a74a Yufeng Mo   2021-05-20  1085  		if (ret)
+365e860aa7a74a Yufeng Mo   2021-05-20  1086  			return ret;
+365e860aa7a74a Yufeng Mo   2021-05-20  1087  
+2a21dab594a98c Jie Wang    2021-10-27  1088  		req.bitmap = (u8)le32_to_cpu(desc.data[1]);
+365e860aa7a74a Yufeng Mo   2021-05-20  1089  
+2363145ad86e70 Jijie Shao  2025-07-14  1090  		seq_printf(s, "%03u     %#-10x%#-19x%#-x\n",
+2a21dab594a98c Jie Wang    2021-10-27 @1091  			   pri_id, req.bit0, req.bit1, req.bit2);
+c0ebebb9ccc136 liuzhongzhu 2018-12-15  1092  	}
+c0ebebb9ccc136 liuzhongzhu 2018-12-15  1093  
+365e860aa7a74a Yufeng Mo   2021-05-20  1094  	return 0;
+365e860aa7a74a Yufeng Mo   2021-05-20  1095  }
+365e860aa7a74a Yufeng Mo   2021-05-20  1096  
 
-:::::: The code at line 261 was first introduced by commit
-:::::: 7ee8cd3319d5e57b1b5e2b348f078af44e67a577 toshiba_bluetooth: Add RFKill handler functions
+:::::: The code at line 1091 was first introduced by commit
+:::::: 2a21dab594a98c338c4bfbc31864cbca15888549 net: hns3: fix data endian problem of some functions of debugfs
 
-:::::: TO: Azael Avalos <coproscefalo@gmail.com>
-:::::: CC: Darren Hart <dvhart@linux.intel.com>
+:::::: TO: Jie Wang <wangjie125@huawei.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
