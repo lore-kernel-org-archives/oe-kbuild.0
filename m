@@ -1,253 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5422E1662E7
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 01:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF0627A904
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 03:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770688226; cv=none; b=tuHhrleGVuU+XW0ZD1z+NAeVKtxyIQRL4MdLKE4bzcN83PLbTMZG3lNZP6vw3QZTsulgFZ7Ry9gWiUgQvvkBmH27mF5mwLC8Ju4iDjT/OKYYuADyY40TuPbGgdZqKA6Py0esli+DXkfgQAt6dPgU3x7xkbMHuYjOYlK/s5Qu3pw=
+	t=1770693440; cv=none; b=VdBk/x9BRwoGi3SiWYcAqCmMPl+76wo8hGd6m9SILXT/NodR8bHPNy5n7T/ouNS83OhBqzWB10xh0XpvHzEV1lZ41WJ1R+fro7FBXEPh/9RiMP162E9NY5Ubv5FdMou+DSXBjV3NErbJuHz7zAHUcRmS3K5jxrIvvMD591sqASM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770688226; c=relaxed/simple;
-	bh=impw7OIa8koLNYTRiLOx9iAAYedHTAq2IpYxKn9oG0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n3FzD5ZdAf2UjAaBda5d+CBzP7V2WApxbXfoac64/r6V1TCqicubmDh/iY8Q55UwBEDyT0G8eP6kjSJ0xfM8CncVZb7KTM3H1pXswZBmEZkr24XG/k+Me1CU3XuwfBVa2EiUYYuI9b09momgiKCATQ2Yr3j7Vj2kmky28MEzlA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2ncMtlA; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1770693440; c=relaxed/simple;
+	bh=LwlmlBoXUejFz0ghP6f+dCwDFbh7NLPiEX5uvr0Qs/o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=F+1tF2iOvmZu1/yv+AJeJvgSNI5uc6JASH6+o/yrx/mm+cB2ErAsMhLOfgtuWMk9LAo7Qr8XA9+IzQiYCEIO1IgW0PpQMrIIOmqat24Y19pgAausGT3r9eRENXlwsIpAyW119Sq7rBVYxLez2aL++oHz6UHNyqFVvHXwTsVXOt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQ1wGr9y; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2ncMtlA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQ1wGr9y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770688223; x=1802224223;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=impw7OIa8koLNYTRiLOx9iAAYedHTAq2IpYxKn9oG0c=;
-  b=J2ncMtlA1dcJoHJYx/cy+xRN4xRbfFQfQcBJVCt1Ync7LSYRAv9lerAS
-   XmvHLnMFwm7jKa6ME3nMcQw6jYTM/lew1WfiwriKpsIKxnm2nVnkpd6RI
-   /8jK8IaOQpSV2lXfNQ5POYuaFcDzvuq68K6gB2u9hYtT0bqKzd28bKLV8
-   nz0t6ppPYn00cs+AvWVAYAJjn5etqcE6iupc0IIOsSFRiW0omaME75JyQ
-   s48ebxRwFsO4bCyapSIVuplQbnRBd4mUlegjQ0mE7uAULEnrHGK5CAphB
-   kExjzHBOLBfjmeOKdMe2qPpdSbDbsnVR6d2oeYz+LJd0Ab5NcIyN6NNtu
+  t=1770693439; x=1802229439;
+  h=date:from:to:cc:subject:message-id;
+  bh=LwlmlBoXUejFz0ghP6f+dCwDFbh7NLPiEX5uvr0Qs/o=;
+  b=JQ1wGr9yC2L/4JOwNT677hQ0rWXI5upDHOCnEw95xJ+utbEA8rvRX8re
+   Fk20+he2EKJJEJkOV6nBrLzRBg/+88hVFAnVPVHxZdkTYIW2JSdX8J63o
+   iw0Ieu/kWqNlm3GKzdqVfXDzL/QOeBxdkbt8PITniersBlpOd5YvljebC
+   UBQfwP4ms9pMoagQtj3aW339lDVRdd+PZsRyMLkCxEhO4fpAl4TkN2baX
+   HRlAdyJZTpXX1dZ1QI9P3r6gyvuAcpX2xDFPTpEle/5kUA5I6Sv051p4C
+   L/qKajNkL99oVLcp5SewPD4GbcB2gXWQu8MPdUBLscgc+9exVp0YPHSHV
    A==;
-X-CSE-ConnectionGUID: 6s2DfTZ6TE6w6k4fWm41bA==
-X-CSE-MsgGUID: VgrlFChzT36IJSREmt5GFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="75434588"
+X-CSE-ConnectionGUID: SGhvSxiBRPG4zNhZVTxIfg==
+X-CSE-MsgGUID: Kx+t+QjCQMmjMutpeT1n2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="83254044"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75434588"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 17:50:12 -0800
-X-CSE-ConnectionGUID: 8YV+gIRsQUeiRQDOD7FtFQ==
-X-CSE-MsgGUID: aQ8eE0D8TxOa0+MuWSeu6g==
+   d="scan'208";a="83254044"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 19:17:18 -0800
+X-CSE-ConnectionGUID: 0cUjgNR4TXuzQv3oawQslg==
+X-CSE-MsgGUID: NxGCqbDzTCqX+JNuWAbjHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211783399"
+   d="scan'208";a="211462284"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2026 17:50:10 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 09 Feb 2026 19:17:16 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpctD-00000000oVI-3DnN;
-	Tue, 10 Feb 2026 01:50:07 +0000
-Date: Tue, 10 Feb 2026 09:49:55 +0800
+	id 1vpeFW-00000000oZg-1Bda;
+	Tue, 10 Feb 2026 03:17:14 +0000
+Date: Tue, 10 Feb 2026 11:16:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 1/3] crash: Exclude crash kernel memory in crash core
-Message-ID: <202602100901.prDQ1kLj-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 467/799]
+ fs/bcachefs/vfs/fs.c:626:1-7: preceding lock on line 559
+Message-ID: <202602101108.St92u6VJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260209095931.2813152-2-ruanjinjie@huawei.com>
-References: <20260209095931.2813152-2-ruanjinjie@huawei.com>
-TO: Jinjie Ruan <ruanjinjie@huawei.com>
-TO: corbet@lwn.net
-TO: catalin.marinas@arm.com
-TO: will@kernel.org
-TO: chenhuacai@kernel.org
-TO: kernel@xen0n.name
-TO: maddy@linux.ibm.com
-TO: mpe@ellerman.id.au
-TO: npiggin@gmail.com
-TO: chleroy@kernel.org
-TO: pjw@kernel.org
-TO: palmer@dabbelt.com
-TO: aou@eecs.berkeley.edu
-TO: alex@ghiti.fr
-TO: tglx@kernel.org
-TO: mingo@redhat.com
-TO: bp@alien8.de
-TO: dave.hansen@linux.intel.com
-TO: hpa@zytor.com
-TO: akpm@linux-foundation.org
-TO: bhe@redhat.com
-TO: vgoyal@redhat.com
-TO: dyoung@redhat.com
-TO: rdunlap@infradead.org
-TO: pmladek@suse.com
-TO: feng.tang@linux.alibaba.com
-TO: pawan.kumar.gupta@linux.intel.com
-TO: kees@kernel.org
-TO: elver@google.com
-TO: arnd@arndb.de
-TO: lirongqing@baidu.com
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Jinjie,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes arm64/for-next/core tip/x86/core linus/master v6.19 next-20260209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/crash-Exclude-crash-kernel-memory-in-crash-core/20260209-180157
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20260209095931.2813152-2-ruanjinjie%40huawei.com
-patch subject: [PATCH v4 1/3] crash: Exclude crash kernel memory in crash core
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: riscv-randconfig-r072-20260209 (https://download.01.org/0day-ci/archive/20260210/202602100901.prDQ1kLj-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: 221177ea260493d2314aa23273a9bc7fe93529c5 [467/799] bcachefs: move vfs-specific code to vfs/
+:::::: branch date: 3 months ago
+:::::: commit date: 4 months ago
+config: arc-randconfig-r063-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101108.St92u6VJ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602100901.prDQ1kLj-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202602101108.St92u6VJ-lkp@intel.com/
 
-smatch warnings:
-kernel/crash_core.c:228 crash_prepare_elf64_headers() error: we previously assumed 'mem' could be null (see line 220)
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/vfs/fs.c:626:1-7: preceding lock on line 559
 
-vim +/mem +228 kernel/crash_core.c
+vim +626 fs/bcachefs/vfs/fs.c
 
-aefb9e75df8949 Jinjie Ruan   2026-02-09  201  
-aefb9e75df8949 Jinjie Ruan   2026-02-09  202  int crash_prepare_elf64_headers(int need_kernel_map, void **addr,
-aefb9e75df8949 Jinjie Ruan   2026-02-09  203  				unsigned long *sz, unsigned long *nr_mem_ranges,
-aefb9e75df8949 Jinjie Ruan   2026-02-09  204  				struct kimage *image, struct memory_notify *mn)
-6f991cc363a326 Eric DeVolder 2023-08-14  205  {
-6f991cc363a326 Eric DeVolder 2023-08-14  206  	unsigned long nr_cpus = num_possible_cpus(), nr_phdr, elf_sz;
-6f991cc363a326 Eric DeVolder 2023-08-14  207  	unsigned long long notes_addr;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  208  	struct crash_mem *mem = NULL;
-6f991cc363a326 Eric DeVolder 2023-08-14  209  	unsigned long mstart, mend;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  210  	unsigned int cpu, i;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  211  	unsigned char *buf;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  212  	Elf64_Ehdr *ehdr;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  213  	Elf64_Phdr *phdr;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  214  	int ret = 0;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  215  
-aefb9e75df8949 Jinjie Ruan   2026-02-09  216  	ret = arch_get_crash_memory_ranges(&mem, nr_mem_ranges, image, mn);
-aefb9e75df8949 Jinjie Ruan   2026-02-09  217  	if (ret)
-aefb9e75df8949 Jinjie Ruan   2026-02-09  218  		return ret;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  219  
-aefb9e75df8949 Jinjie Ruan   2026-02-09 @220  	if (mem) {
-aefb9e75df8949 Jinjie Ruan   2026-02-09  221  		ret = crash_exclude_mem_ranges(mem, nr_mem_ranges);
-aefb9e75df8949 Jinjie Ruan   2026-02-09  222  		if (ret)
-aefb9e75df8949 Jinjie Ruan   2026-02-09  223  			goto out;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  224  	}
-6f991cc363a326 Eric DeVolder 2023-08-14  225  
-6f991cc363a326 Eric DeVolder 2023-08-14  226  	/* extra phdr for vmcoreinfo ELF note */
-6f991cc363a326 Eric DeVolder 2023-08-14  227  	nr_phdr = nr_cpus + 1;
-6f991cc363a326 Eric DeVolder 2023-08-14 @228  	nr_phdr += mem->nr_ranges;
-6f991cc363a326 Eric DeVolder 2023-08-14  229  
-6f991cc363a326 Eric DeVolder 2023-08-14  230  	/*
-6f991cc363a326 Eric DeVolder 2023-08-14  231  	 * kexec-tools creates an extra PT_LOAD phdr for kernel text mapping
-6f991cc363a326 Eric DeVolder 2023-08-14  232  	 * area (for example, ffffffff80000000 - ffffffffa0000000 on x86_64).
-6f991cc363a326 Eric DeVolder 2023-08-14  233  	 * I think this is required by tools like gdb. So same physical
-6f991cc363a326 Eric DeVolder 2023-08-14  234  	 * memory will be mapped in two ELF headers. One will contain kernel
-6f991cc363a326 Eric DeVolder 2023-08-14  235  	 * text virtual addresses and other will have __va(physical) addresses.
-6f991cc363a326 Eric DeVolder 2023-08-14  236  	 */
-6f991cc363a326 Eric DeVolder 2023-08-14  237  
-6f991cc363a326 Eric DeVolder 2023-08-14  238  	nr_phdr++;
-6f991cc363a326 Eric DeVolder 2023-08-14  239  	elf_sz = sizeof(Elf64_Ehdr) + nr_phdr * sizeof(Elf64_Phdr);
-6f991cc363a326 Eric DeVolder 2023-08-14  240  	elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-6f991cc363a326 Eric DeVolder 2023-08-14  241  
-6f991cc363a326 Eric DeVolder 2023-08-14  242  	buf = vzalloc(elf_sz);
-aefb9e75df8949 Jinjie Ruan   2026-02-09  243  	if (!buf) {
-aefb9e75df8949 Jinjie Ruan   2026-02-09  244  		ret = -ENOMEM;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  245  		goto out;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  246  	}
-6f991cc363a326 Eric DeVolder 2023-08-14  247  
-6f991cc363a326 Eric DeVolder 2023-08-14  248  	ehdr = (Elf64_Ehdr *)buf;
-6f991cc363a326 Eric DeVolder 2023-08-14  249  	phdr = (Elf64_Phdr *)(ehdr + 1);
-6f991cc363a326 Eric DeVolder 2023-08-14  250  	memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
-6f991cc363a326 Eric DeVolder 2023-08-14  251  	ehdr->e_ident[EI_CLASS] = ELFCLASS64;
-6f991cc363a326 Eric DeVolder 2023-08-14  252  	ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
-6f991cc363a326 Eric DeVolder 2023-08-14  253  	ehdr->e_ident[EI_VERSION] = EV_CURRENT;
-6f991cc363a326 Eric DeVolder 2023-08-14  254  	ehdr->e_ident[EI_OSABI] = ELF_OSABI;
-6f991cc363a326 Eric DeVolder 2023-08-14  255  	memset(ehdr->e_ident + EI_PAD, 0, EI_NIDENT - EI_PAD);
-6f991cc363a326 Eric DeVolder 2023-08-14  256  	ehdr->e_type = ET_CORE;
-6f991cc363a326 Eric DeVolder 2023-08-14  257  	ehdr->e_machine = ELF_ARCH;
-6f991cc363a326 Eric DeVolder 2023-08-14  258  	ehdr->e_version = EV_CURRENT;
-6f991cc363a326 Eric DeVolder 2023-08-14  259  	ehdr->e_phoff = sizeof(Elf64_Ehdr);
-6f991cc363a326 Eric DeVolder 2023-08-14  260  	ehdr->e_ehsize = sizeof(Elf64_Ehdr);
-6f991cc363a326 Eric DeVolder 2023-08-14  261  	ehdr->e_phentsize = sizeof(Elf64_Phdr);
-6f991cc363a326 Eric DeVolder 2023-08-14  262  
-a396d0f81b1c81 Eric DeVolder 2023-08-14  263  	/* Prepare one phdr of type PT_NOTE for each possible CPU */
-a396d0f81b1c81 Eric DeVolder 2023-08-14  264  	for_each_possible_cpu(cpu) {
-6f991cc363a326 Eric DeVolder 2023-08-14  265  		phdr->p_type = PT_NOTE;
-6f991cc363a326 Eric DeVolder 2023-08-14  266  		notes_addr = per_cpu_ptr_to_phys(per_cpu_ptr(crash_notes, cpu));
-6f991cc363a326 Eric DeVolder 2023-08-14  267  		phdr->p_offset = phdr->p_paddr = notes_addr;
-6f991cc363a326 Eric DeVolder 2023-08-14  268  		phdr->p_filesz = phdr->p_memsz = sizeof(note_buf_t);
-6f991cc363a326 Eric DeVolder 2023-08-14  269  		(ehdr->e_phnum)++;
-6f991cc363a326 Eric DeVolder 2023-08-14  270  		phdr++;
-6f991cc363a326 Eric DeVolder 2023-08-14  271  	}
-6f991cc363a326 Eric DeVolder 2023-08-14  272  
-6f991cc363a326 Eric DeVolder 2023-08-14  273  	/* Prepare one PT_NOTE header for vmcoreinfo */
-6f991cc363a326 Eric DeVolder 2023-08-14  274  	phdr->p_type = PT_NOTE;
-6f991cc363a326 Eric DeVolder 2023-08-14  275  	phdr->p_offset = phdr->p_paddr = paddr_vmcoreinfo_note();
-6f991cc363a326 Eric DeVolder 2023-08-14  276  	phdr->p_filesz = phdr->p_memsz = VMCOREINFO_NOTE_SIZE;
-6f991cc363a326 Eric DeVolder 2023-08-14  277  	(ehdr->e_phnum)++;
-6f991cc363a326 Eric DeVolder 2023-08-14  278  	phdr++;
-6f991cc363a326 Eric DeVolder 2023-08-14  279  
-6f991cc363a326 Eric DeVolder 2023-08-14  280  	/* Prepare PT_LOAD type program header for kernel text region */
-6f991cc363a326 Eric DeVolder 2023-08-14  281  	if (need_kernel_map) {
-6f991cc363a326 Eric DeVolder 2023-08-14  282  		phdr->p_type = PT_LOAD;
-6f991cc363a326 Eric DeVolder 2023-08-14  283  		phdr->p_flags = PF_R|PF_W|PF_X;
-6f991cc363a326 Eric DeVolder 2023-08-14  284  		phdr->p_vaddr = (unsigned long) _text;
-6f991cc363a326 Eric DeVolder 2023-08-14  285  		phdr->p_filesz = phdr->p_memsz = _end - _text;
-6f991cc363a326 Eric DeVolder 2023-08-14  286  		phdr->p_offset = phdr->p_paddr = __pa_symbol(_text);
-6f991cc363a326 Eric DeVolder 2023-08-14  287  		ehdr->e_phnum++;
-6f991cc363a326 Eric DeVolder 2023-08-14  288  		phdr++;
-6f991cc363a326 Eric DeVolder 2023-08-14  289  	}
-6f991cc363a326 Eric DeVolder 2023-08-14  290  
-6f991cc363a326 Eric DeVolder 2023-08-14  291  	/* Go through all the ranges in mem->ranges[] and prepare phdr */
-6f991cc363a326 Eric DeVolder 2023-08-14  292  	for (i = 0; i < mem->nr_ranges; i++) {
-6f991cc363a326 Eric DeVolder 2023-08-14  293  		mstart = mem->ranges[i].start;
-6f991cc363a326 Eric DeVolder 2023-08-14  294  		mend = mem->ranges[i].end;
-6f991cc363a326 Eric DeVolder 2023-08-14  295  
-6f991cc363a326 Eric DeVolder 2023-08-14  296  		phdr->p_type = PT_LOAD;
-6f991cc363a326 Eric DeVolder 2023-08-14  297  		phdr->p_flags = PF_R|PF_W|PF_X;
-6f991cc363a326 Eric DeVolder 2023-08-14  298  		phdr->p_offset  = mstart;
-6f991cc363a326 Eric DeVolder 2023-08-14  299  
-6f991cc363a326 Eric DeVolder 2023-08-14  300  		phdr->p_paddr = mstart;
-6f991cc363a326 Eric DeVolder 2023-08-14  301  		phdr->p_vaddr = (unsigned long) __va(mstart);
-6f991cc363a326 Eric DeVolder 2023-08-14  302  		phdr->p_filesz = phdr->p_memsz = mend - mstart + 1;
-6f991cc363a326 Eric DeVolder 2023-08-14  303  		phdr->p_align = 0;
-6f991cc363a326 Eric DeVolder 2023-08-14  304  		ehdr->e_phnum++;
-a85ee18c7900f0 Baoquan He    2023-12-13  305  #ifdef CONFIG_KEXEC_FILE
-a85ee18c7900f0 Baoquan He    2023-12-13  306  		kexec_dprintk("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, sz=0x%llx e_phnum=%d p_offset=0x%llx\n",
-6f991cc363a326 Eric DeVolder 2023-08-14  307  			      phdr, phdr->p_vaddr, phdr->p_paddr, phdr->p_filesz,
-6f991cc363a326 Eric DeVolder 2023-08-14  308  			      ehdr->e_phnum, phdr->p_offset);
-a85ee18c7900f0 Baoquan He    2023-12-13  309  #endif
-6f991cc363a326 Eric DeVolder 2023-08-14  310  		phdr++;
-6f991cc363a326 Eric DeVolder 2023-08-14  311  	}
-6f991cc363a326 Eric DeVolder 2023-08-14  312  
-6f991cc363a326 Eric DeVolder 2023-08-14  313  	*addr = buf;
-6f991cc363a326 Eric DeVolder 2023-08-14  314  	*sz = elf_sz;
-aefb9e75df8949 Jinjie Ruan   2026-02-09  315  
-aefb9e75df8949 Jinjie Ruan   2026-02-09  316  out:
-aefb9e75df8949 Jinjie Ruan   2026-02-09  317  	kvfree(mem);
-aefb9e75df8949 Jinjie Ruan   2026-02-09  318  	return ret;
-6f991cc363a326 Eric DeVolder 2023-08-14  319  }
-6f991cc363a326 Eric DeVolder 2023-08-14  320  
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  522  
+6fed42bb7750e2 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  523  struct bch_inode_info *
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  524  __bch2_create(struct mnt_idmap *idmap,
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  525  	      struct bch_inode_info *dir, struct dentry *dentry,
+42d237320e9817 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  526  	      umode_t mode, dev_t rdev, subvol_inum snapshot_src,
+42d237320e9817 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  527  	      unsigned flags)
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  528  {
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  529  	struct bch_fs *c = dir->v.i_sb->s_fs_info;
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  530  	struct bch_inode_unpacked dir_u;
+a91bc5e50558fd fs/bcachefs/fs.c Kent Overstreet 2024-01-25  531  	struct bch_inode_info *inode;
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  532  	struct bch_inode_unpacked inode_u;
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  533  	struct posix_acl *default_acl = NULL, *acl = NULL;
+284ae18c1d7aa4 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  534  	subvol_inum inum;
+9ca4853b98af5f fs/bcachefs/fs.c Kent Overstreet 2021-10-27  535  	struct bch_subvolume subvol;
+73ab6f356db737 fs/bcachefs/fs.c Kent Overstreet 2018-07-23  536  	u64 journal_seq = 0;
+c24adfa0dfc275 fs/bcachefs/fs.c Hongbo Li       2024-08-24  537  	kuid_t kuid;
+c24adfa0dfc275 fs/bcachefs/fs.c Hongbo Li       2024-08-24  538  	kgid_t kgid;
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  539  	int ret;
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  540  
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  541  	/*
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  542  	 * preallocate acls + vfs inode before btree transaction, so that
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  543  	 * nothing can fail after the transaction succeeds:
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  544  	 */
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  545  	ret = posix_acl_create(&dir->v, &mode, &default_acl, &acl);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  546  	if (ret)
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  547  		return ERR_PTR(ret);
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  548  
+9897713fe1077c fs/bcachefs/fs.c Michal Hocko    2024-09-26  549  	inode = __bch2_new_inode(c, GFP_NOFS);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  550  	if (unlikely(!inode)) {
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  551  		posix_acl_release(default_acl);
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  552  		posix_acl_release(acl);
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  553  		return ERR_PTR(-ENOMEM);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  554  	}
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  555  
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  556  	bch2_inode_init_early(c, &inode_u);
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  557  
+6fed42bb7750e2 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  558  	if (!(flags & BCH_CREATE_TMPFILE))
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16 @559  		mutex_lock(&dir->ei_update_lock);
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  560  	/*
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  561  	 * posix_acl_create() calls get_acl -> btree transaction, don't start
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  562  	 * ours until after, ei->update_lock must also be taken first:
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  563  	 */
+0e869d7484badc fs/bcachefs/fs.c Kent Overstreet 2025-07-14  564  	CLASS(btree_trans, trans)(c);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  565  retry:
+6bd68ec266ad71 fs/bcachefs/fs.c Kent Overstreet 2023-09-12  566  	bch2_trans_begin(trans);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  567  
+c24adfa0dfc275 fs/bcachefs/fs.c Hongbo Li       2024-08-24  568  	kuid = mapped_fsuid(idmap, i_user_ns(&dir->v));
+c24adfa0dfc275 fs/bcachefs/fs.c Hongbo Li       2024-08-24  569  	kgid = mapped_fsgid(idmap, i_user_ns(&dir->v));
+112d21fd1a122f fs/bcachefs/fs.c Kent Overstreet 2024-06-08  570  	ret   = bch2_subvol_is_ro_trans(trans, dir->ei_inum.subvol) ?:
+0d72ab35a925d6 fs/bcachefs/fs.c Kent Overstreet 2023-12-29  571  		bch2_create_trans(trans,
+6fed42bb7750e2 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  572  				  inode_inum(dir), &dir_u, &inode_u,
+6fed42bb7750e2 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  573  				  !(flags & BCH_CREATE_TMPFILE)
+6fed42bb7750e2 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  574  				  ? &dentry->d_name : NULL,
+c24adfa0dfc275 fs/bcachefs/fs.c Hongbo Li       2024-08-24  575  				  from_kuid(i_user_ns(&dir->v), kuid),
+c24adfa0dfc275 fs/bcachefs/fs.c Hongbo Li       2024-08-24  576  				  from_kgid(i_user_ns(&dir->v), kgid),
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  577  				  mode, rdev,
+42d237320e9817 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  578  				  default_acl, acl, snapshot_src, flags) ?:
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  579  		bch2_quota_acct(c, bch_qid(&inode_u), Q_INO, 1,
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  580  				KEY_TYPE_QUOTA_PREALLOC);
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  581  	if (unlikely(ret))
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  582  		goto err_before_quota;
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  583  
+112d21fd1a122f fs/bcachefs/fs.c Kent Overstreet 2024-06-08  584  	inum.subvol = inode_u.bi_subvol ?: dir->ei_inum.subvol;
+9ca4853b98af5f fs/bcachefs/fs.c Kent Overstreet 2021-10-27  585  	inum.inum = inode_u.bi_inum;
+9ca4853b98af5f fs/bcachefs/fs.c Kent Overstreet 2021-10-27  586  
+ce70157112482c fs/bcachefs/fs.c Kent Overstreet 2024-12-04  587  	ret   = bch2_subvolume_get(trans, inum.subvol, true, &subvol) ?:
+6bd68ec266ad71 fs/bcachefs/fs.c Kent Overstreet 2023-09-12  588  		bch2_trans_commit(trans, NULL, &journal_seq, 0);
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  589  	if (unlikely(ret)) {
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  590  		bch2_quota_acct(c, bch_qid(&inode_u), Q_INO, -1,
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  591  				KEY_TYPE_QUOTA_WARN);
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  592  err_before_quota:
+549d173c1bd9b5 fs/bcachefs/fs.c Kent Overstreet 2022-07-17  593  		if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  594  			goto retry;
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  595  		goto err_trans;
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  596  	}
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  597  
+6fed42bb7750e2 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  598  	if (!(flags & BCH_CREATE_TMPFILE)) {
+6bd68ec266ad71 fs/bcachefs/fs.c Kent Overstreet 2023-09-12  599  		bch2_inode_update_after_write(trans, dir, &dir_u,
+e614a6c52d32c9 fs/bcachefs/fs.c Hongbo Li       2025-01-07  600  					      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  601  		mutex_unlock(&dir->ei_update_lock);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  602  	}
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  603  
+6bd68ec266ad71 fs/bcachefs/fs.c Kent Overstreet 2023-09-12  604  	bch2_vfs_inode_init(trans, inum, inode, &inode_u, &subvol);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  605  
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  606  	set_cached_acl(&inode->v, ACL_TYPE_ACCESS, acl);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  607  	set_cached_acl(&inode->v, ACL_TYPE_DEFAULT, default_acl);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  608  
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  609  	/*
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  610  	 * we must insert the new inode into the inode cache before calling
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  611  	 * bch2_trans_exit() and dropping locks, else we could race with another
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  612  	 * thread pulling the inode in and modifying it:
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  613  	 *
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  614  	 * also, calling bch2_inode_hash_insert() without passing in the
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  615  	 * transaction object is sketchy - if we could ever end up in
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  616  	 * __wait_on_freeing_inode(), we'd risk deadlock.
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  617  	 *
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  618  	 * But that shouldn't be possible, since we still have the inode locked
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  619  	 * that we just created, and we _really_ can't take a transaction
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  620  	 * restart here.
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  621  	 */
+54f7702466b3a1 fs/bcachefs/fs.c Kent Overstreet 2024-08-16  622  	inode = bch2_inode_hash_insert(c, NULL, inode);
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  623  err:
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  624  	posix_acl_release(default_acl);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  625  	posix_acl_release(acl);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16 @626  	return inode;
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  627  err_trans:
+6fed42bb7750e2 fs/bcachefs/fs.c Kent Overstreet 2021-03-16  628  	if (!(flags & BCH_CREATE_TMPFILE))
+19ee5f2ac4b346 fs/bcachefs/fs.c Kent Overstreet 2018-07-20  629  		mutex_unlock(&dir->ei_update_lock);
+19ee5f2ac4b346 fs/bcachefs/fs.c Kent Overstreet 2018-07-20  630  
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  631  	make_bad_inode(&inode->v);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  632  	iput(&inode->v);
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  633  	inode = ERR_PTR(ret);
+9638574229e3ae fs/bcachefs/fs.c Kent Overstreet 2019-10-02  634  	goto err;
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  635  }
+1c6fdbd8f2465d fs/bcachefs/fs.c Kent Overstreet 2017-03-16  636  
+
+:::::: The code at line 626 was first introduced by commit
+:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
