@@ -1,236 +1,375 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4842733D505
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 09:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A15C33DEDD
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 09:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770714435; cv=none; b=X8rOxpqWHTe3w2GoHzry6CFXaNKema5Y30z2jn3Yi1NjBeVJ6uNw0o5YRNfhLaGU29yn6MUsb4YsrIe0FB6bnZVOrMdZYlqx1r7ZrEfX6hu2OyyogXp8wLPp+hyjXyuJMqJIewQsLSKDu0BuVaJGwCsGZEn7cjqyxlqoLsDfk/Y=
+	t=1770715755; cv=none; b=JXC6hPctb51z9DgimiF+HWFtYBaZbKP4jdg4KRXV5/cYeOsTwiEGZ1nNHLKu2hTwXtz9WMZbvUTdRfYkBisblAnuvOVmbFbZ2GuVzlRA1BiqoKbleE1An9hDrSfJZH8Fr7BSWRIa0cwrsNbidQurRW7Twv3OxMnIJ/A+uwS1POU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770714435; c=relaxed/simple;
-	bh=WRC/0Q4JC+YI7P/Y6DOfNGdG2OILdYrmE1hNHYwwpzM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nO+hgCFviAgIMzBys5BvfSdzviZR8vhkfDfaHF+kewMXmT/ZS7xLJGo1OTm+ci+On70rKujZI940aElp1SY3nZTfmiQKi+u9Axivl+SfnSM9p87nQLPt1dBUOwiYEohiseNRyuq+6zN5H17DOVgeayE1QY6I6YNwdzLEmz452oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vd6rMQTB; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1770715755; c=relaxed/simple;
+	bh=TADrX0VvD/xGT7nrxtYiXte35RZVrRwmNIArVysxZrY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LtHpbPUeEs6yZxzjvJB5QvUdbAFdckUoJq76LptP7lnd9hW4JGkgqCb4RBNE1gCm3I+vYzJktlkNwNfyujVapotfKmCZ5juQsMMvlMVxozukqAxL9cqDbvRT4nQxCUvW7NAvThY8QvYiWofCSqoKCndxJV7KHW145oWX3YUd3Hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrmCJEj/; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vd6rMQTB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrmCJEj/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770714433; x=1802250433;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WRC/0Q4JC+YI7P/Y6DOfNGdG2OILdYrmE1hNHYwwpzM=;
-  b=Vd6rMQTBK1pWVy2bIQX7ZXae5NNvZPITzSFE8ZBoU0zEEejixg+GQeew
-   llVL2st+qJY2ENLKN14Fxmt5pXNZLvRTnPUV4R1oOIBY7ltSji8WKB/nX
-   azyADeNe+KtRN+unnMpjoNCo9ijM20B4AbdAUFLfe0CH4Tbl2igZrpfj3
-   0HglqrzFSuAmRlQZql32HciD8srh4IHOeb7xgANoUnt20UysbsLO+oX+M
-   KBFSR3Ybfy59KZwIo/iYONyi9AbyB6nCeSTt42MMbFXWihRhfKHPu0ER2
-   ErKA/AiH84CpqiCbyc15Gx7kQdC0ftYTEXUnWAX/e/gJ1YguiUfFJMEWF
-   Q==;
-X-CSE-ConnectionGUID: PgZd6e2cTmqHYh9MmL7aOw==
-X-CSE-MsgGUID: iiEBY1VPRaepoP6Ed+ZLUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="75464175"
+  t=1770715753; x=1802251753;
+  h=date:from:to:cc:subject:message-id;
+  bh=TADrX0VvD/xGT7nrxtYiXte35RZVrRwmNIArVysxZrY=;
+  b=VrmCJEj/DVU/DL6DqrPDwUZT7zuH/aI/WI2cd8np2UmcS/7gR7Ra9+b0
+   BRW+1z/oboDMvg5m8s8fKdrtDL5817Y9SQLZJnKyKsiJHxnWrOyFMECEZ
+   APlyfF8mThnetg0W5VyjRVrcGModZbbFS0WlPHM+DkqXV25hIe5dgx8xh
+   Q5DkaNKC1H6fXKdjJ0qKkRZKSnMiI5ZWxh5TFFTjxnog3vl+UlaS1me3P
+   0e4NWOfEXXr236zcE+t4qzPwj2xEqZMoVDbMsNY9V6otVXqqntGEcw/dm
+   4JTFRvATvIcdQFa4q/bJqDuZXgQba36RmTK3aeCG6oJju7D8p7GzHpXcf
+   w==;
+X-CSE-ConnectionGUID: bL0gTyMHTZm2zukiH2AD+A==
+X-CSE-MsgGUID: /qeN1UNzQ261lfa4VUgOWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82569193"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75464175"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 01:07:12 -0800
-X-CSE-ConnectionGUID: DSABnAz8TVmwQsRAeAQWjQ==
-X-CSE-MsgGUID: iaxBls3ERZeEj7R64uVPQw==
+   d="scan'208";a="82569193"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 01:29:13 -0800
+X-CSE-ConnectionGUID: BErzSZYTQWinXbecr+qyLQ==
+X-CSE-MsgGUID: NHL/ikYLQyCjTWhdV9DkPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="210941133"
+   d="scan'208";a="210955643"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2026 01:07:12 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 10 Feb 2026 01:29:12 -0800
 Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpji9-000000000kL-2Nq2;
-	Tue, 10 Feb 2026 09:07:09 +0000
-Date: Tue, 10 Feb 2026 10:06:30 +0100
+	id 1vpk3R-000000000kr-3lyN;
+	Tue, 10 Feb 2026 09:29:09 +0000
+Date: Tue, 10 Feb 2026 10:28:34 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] arm64: dts: qcom: hamoa: Add PSCI SYSTEM_RESET2 types
-Message-ID: <202602101056.gdC9yt4u-lkp@intel.com>
+Subject: [jarkko-tpmdd:container 4/15] signals.S:4:10: fatal error:
+ asm/unistd.h: No such file or directory
+Message-ID: <202602101009.kiSl3NYO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260209042700.1186392-1-xin.liu@oss.qualcomm.com>
-References: <20260209042700.1186392-1-xin.liu@oss.qualcomm.com>
-TO: Xin Liu <xin.liu@oss.qualcomm.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor@kernel.org>
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: xin.liu@oss.qualcomm.com
-CC: tingwei.zhang@oss.qualcomm.com
-CC: jie.gan@oss.qualcomm.com
+TO: Jarkko Sakkinen <jarkko@kernel.org>
 
-Hi Xin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.19 next-20260209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Liu/arm64-dts-qcom-hamoa-Add-PSCI-SYSTEM_RESET2-types/20260209-122910
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260209042700.1186392-1-xin.liu%40oss.qualcomm.com
-patch subject: [PATCH] arm64: dts: qcom: hamoa: Add PSCI SYSTEM_RESET2 types
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: arm64-randconfig-2051-20260209 (https://download.01.org/0day-ci/archive/20260210/202602101056.gdC9yt4u-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-dtschema: 2025.13.dev7+gd16dc68b0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101056.gdC9yt4u-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git container
+head:   f62d2a134716e021cfca8d7860048f9c71bd53c4
+commit: fb9ff38678d37c68b7cb2a895999b4a26bbdc2e7 [4/15] containers: Introduce a container type
+:::::: branch date: 5 hours ago
+:::::: commit date: 6 hours ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260210/202602101009.kiSl3NYO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101009.kiSl3NYO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202602101056.gdC9yt4u-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602101009.kiSl3NYO-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/hamoa-iot-evk.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+All errors (new ones prefixed by >>):
+
+   testcases/fake_sigreturn_bad_magic.c:10:10: fatal error: signal.h: No such file or directory
+      10 | #include <signal.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e001de-devkit.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/fake_sigreturn_bad_size.c:10:10: fatal error: signal.h: No such file or directory
+      10 | #include <signal.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/fake_sigreturn_bad_size_for_magic0.c:10:10: fatal error: signal.h: No such file or directory
+      10 | #include <signal.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/fake_sigreturn_duplicated_fpsimd.c:10:10: fatal error: signal.h: No such file or directory
+      10 | #include <signal.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/fake_sigreturn_misaligned_sp.c:10:10: fatal error: signal.h: No such file or directory
+      10 | #include <signal.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/fake_sigreturn_missing_fpsimd.c:10:10: fatal error: stdio.h: No such file or directory
+      10 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   In file included from testcases/fake_sigreturn_sme_change_vl.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e80100-dell-inspiron-14-plus-7441.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/fpmr_siginfo.c:9:10: fatal error: signal.h: No such file or directory
+       9 | #include <signal.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e80100-dell-latitude-7455.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/gcs_exception_fault.c:6:10: fatal error: errno.h: No such file or directory
+       6 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/gcs_frame.c:6:10: fatal error: signal.h: No such file or directory
+       6 | #include <signal.h>
+         |          ^~~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 --
->> arch/arm64/boot/dts/qcom/x1e80100-hp-elitebook-ultra-g1q.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14-lcd.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-hp-omnibook-x14.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e001de-devkit-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-crd-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-dell-inspiron-14-plus-7441-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-dell-latitude-7455-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-hp-elitebook-ultra-g1q-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1e80100-qcp-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14-lcd-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-crd-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-hp-omnibook-x14-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
---
->> arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16-el2.dtb: psci (arm,psci-1.0): 'reboot-mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
-   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml
+   testcases/gcs_write_fault.c:6:10: fatal error: errno.h: No such file or directory
+       6 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   test_signals.c:11:10: fatal error: sys/auxv.h: No such file or directory
+      11 | #include <sys/auxv.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+   test_signals_utils.c:4:10: fatal error: stdio.h: No such file or directory
+       4 | #include <stdio.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   testcases/testcases.c:4:10: fatal error: ctype.h: No such file or directory
+       4 | #include <ctype.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+>> signals.S:4:10: fatal error: asm/unistd.h: No such file or directory
+       4 | #include <asm/unistd.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from sve_helpers.c:9:
+   tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+..
 
 -- 
 0-DAY CI Kernel Test Service
