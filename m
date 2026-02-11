@@ -1,134 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F96353ED6
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Feb 2026 10:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715CC36AB5F
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Feb 2026 10:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770806908; cv=none; b=jsGF5YARLLrk+9nVtustk9PQyNVvhYwlVK1YyRYx2Kc9r+xm0tgOFL39RQbINRtBMlc5rGK4l0IqKy/ZabV8SxKdNoIJvhCUd/9EqoDDPCvuITX2FwnyNlB+PXaIUZBvlk2v/ZE9v3YEvp96vAFTy03LCV7WA9emreInGPBjoLo=
+	t=1770807468; cv=none; b=REwl4jD+RgY6+F4sKFPWgp+xkscOkels/23yPereKriFVdp2hBz5w/+ZXhdSbDRuMxz1edGkHIoHDbXIom/m0zM57b9DH1YGAKESucCW+/JyI7VI37jCOYPznB9Kj5o7A97/m2QvLHXTlydPd63C4YUT8HGYMb4MJmTNUXK0HNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770806908; c=relaxed/simple;
-	bh=U983C4gCLD7jO9iUkmju9PvJgp/7oDRx6dLON0BbaZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Tv1Qa1kHeutNrPdsrID2Lw2u/m3EL3esxkxsjE5fmhCAVD38kDqwcJwasXB60euodS8Cj6053Ht9f2P45v+GUUiAJT0Rs8AgujBZdR7gFAUrKvEfbVpYYl26WwivakEy2+HQtQwizevtEpxtvGEN/WRIJF9ulYhFoT6BuHP7GCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZcvFqWJB; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770807468; c=relaxed/simple;
+	bh=YkNcQ3NtAJBYnY/PDYgBtDin1rYL1T6RPzvptBiXatI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=qco5begnP+QzCFcB2ZowCnaCbxL5C0xHN0wW73LM8Xenq3PIucOAZM3MKOZeuuImF1qtUMb3wiWCbmwocGLeRwpGmYQwUcRtFatbzjMYLwDWb2b/oJf/eus8965741IwpP3uQ+b1kEDI26/UUyGWEmnUOay12cT+MAW3JRROufA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KSVALg35; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZcvFqWJB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770806907; x=1802342907;
-  h=date:from:to:cc:subject:message-id;
-  bh=U983C4gCLD7jO9iUkmju9PvJgp/7oDRx6dLON0BbaZQ=;
-  b=ZcvFqWJBZEGb8rryL2VH6gWiXd6//M/HwVNxd2rSYTvdr4nT0Fl7eM+W
-   CUIgLzVIV91ertPDLhKmHcbOCD3xSuD+0+VoQuVHuEn47knUj2ay2JCwN
-   inzlZioaUiuG83W6WuKkZXOO1hUrHwI2hSlUW3hss+qq9sCqPCjRWMQBp
-   0lSdiRXL5i9YOMhzT7BUFSnzMxnFjlkavyKlc6smx19KCNcMjoNigLhWZ
-   +JEPQZehxZ9VgarShpHzSJNHpnp/n/zvGgDQXkxB4WY0y8tdp9m5pyAJt
-   95YCFaI2Tq0HYxXIKCFQENmnRnTSvKEL+hMibEfRbjVABV83QhxTY7cW+
-   w==;
-X-CSE-ConnectionGUID: KFeMpAg7ShCqVJiBojBXCg==
-X-CSE-MsgGUID: RtvY8ftDTnmHaDyzT8RFQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75799066"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75799066"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 02:48:26 -0800
-X-CSE-ConnectionGUID: jLvp2+IQTDKgrrwtd11LQg==
-X-CSE-MsgGUID: bJlLbVZGThGb7OF+bZ8L1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="242820599"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Feb 2026 02:48:25 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vq7le-00000000pue-1EA0;
-	Wed, 11 Feb 2026 10:48:22 +0000
-Date: Wed, 11 Feb 2026 18:47:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android15-6.6 5/5] block/blk.h:344
- bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could
- be null (see line 340)
-Message-ID: <202602111857.2fZ5GeZz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KSVALg35"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4801c2fae63so54701025e9.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 11 Feb 2026 02:57:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770807464; x=1771412264; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1f6efIeKsPBmBdsMP945v7o1I22Mg2iVh32MUI/KTBg=;
+        b=KSVALg35HhZlG7u8PtyIgqJL1rm2SQdxYEExDGX9IHTBfR26YVJ1MqLUgKzVl898j7
+         T0KwSL9IaMTQOAp3bSc/Ujx6z/lc5evbemA+F1gN88kSCMxzmo6vMYFTXgrGRil8y5hH
+         daRw9V/9TZwXW2WqUo0ESUb9JI08w5cq1e680+uqszYeqeriS+cbY6mm7Ugj2KLBZSif
+         6p694ZTUNNSTJaIK/Zyk+r1nOsuqm7rvhelveOlvao/dzCtlfdqhLVBHOStw8tkFz1Qi
+         74eBYln8RRYzE6yrz/skHj7/V6HGUrTlh0sODHRMgI3t+fmOCJCqctDGOw6cjkIWZZpH
+         ZPWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770807464; x=1771412264;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1f6efIeKsPBmBdsMP945v7o1I22Mg2iVh32MUI/KTBg=;
+        b=NGCKxJ9gB2KiaJL+jvy90sw1Q3q1P657Eyx/XP1N5aBZ8pKYhSSpSkCL0NmXS+oO/x
+         saHDTy7PZgquwo2cyDEBzP13laPHGO6fkdbNuoYQgnvWLMNwUtKt8li62T7JDZKPpTTs
+         61BeOxbjT3zoB/5QQgFuIR4P9t3t1Ln9FGPz4roXLYDbCKpn5qJhVd11c8u7tayGWsqo
+         v/4cdvxRTIOz7sURTcSKXOt9l6hgYt+HGWD4Tvy/jj4fTn0ff3GeAQjvZRUq7m9ZD5yw
+         IfxH2uP4PfBack8tm15kycvX/m5bKG/184kRONItdjz21WfgIZgd+uSy0GFKRFHVG1Sy
+         4s0A==
+X-Gm-Message-State: AOJu0Yzy2AlSUh6ElKidDSdxchlap1XzZVvkzb7/xMFBpsyaZKec0bXN
+	Cf5CeOnvoxQwmoeg0SUXja2UwkiuGevtO0p7k4IxSz/pqNmDTSRJpxd//95T0A2v/k2d122gi6Y
+	RqAjU
+X-Gm-Gg: AZuq6aLgmPnwy0MU+dMkoWGmoces43s1ZCSrMz6gfpjd5vrMcBHCqwhXTlfCWXm6yS0
+	b14JvNcTWLPxcD7NMsLFFf6zCgVNVvINUx4pJchgOfHulsAOWHAbZYzB8RiXUHL7MfSxaGzzASi
+	fVrAMcDRtW6snMl3ZDo0Nun/k14VGrtXs6yXmofaEeowwciU5Ve2wMYj8H+g5D0Vj1L9ldg/cWT
+	wivMzkliZHGhQZ2o99tISn3S3nIYhwzsbhcf5F2GU9LT63E2GU6ICYuDVSrrdy+AkgGVBb3JtUh
+	T/Cntwe2xVcU8JM65OeGXPH4e1y7tF9rwVnPMx9ILrZIsY181wUd/jkCpa5wQZjSjNPB9GrBVXn
+	QWQv8Auij4RC2xy5y2QLq1J5IAMwACsjuOnOdMKdTnW8TtIU4N4unE3IweTvWiVx8Ol+Lumc1te
+	ZmCswDzcqdeif0FvX+1HlDjvDB9xw3ESKLBnLX3O4=
+X-Received: by 2002:a05:600d:17:b0:47e:e20e:bb9c with SMTP id 5b1f17b1804b1-4835dd89039mr20323065e9.8.1770807463537;
+        Wed, 11 Feb 2026 02:57:43 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4836131d4d9sm5222705e9.25.2026.02.11.02.57.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Feb 2026 02:57:43 -0800 (PST)
+Date: Wed, 11 Feb 2026 13:57:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Ethan Ferguson <ethan.ferguson@zetier.com>,
+	hirofumi@mail.parknet.co.jp
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Ethan Ferguson <ethan.ferguson@zetier.com>
+Subject: Re: [PATCH 1/2] fat: Add FS_IOC_GETFSLABEL ioctl
+Message-ID: <202602111747.QIBXIwpw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260210222310.357755-2-ethan.ferguson@zetier.com>
+Message-ID: <20260211105739.Fk4TGKJjZpMYKPnBWgAjgT0FfuIa2Nyfel2g6-2H9Rs@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+Hi Ethan,
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   8eed14b3df122c0b89590e49aa75187aac86d3ba
-commit: e2bd6241b810c128e5fcc8ed4cd6fa281c0f00b4 [5/5] ANDROID: block: Add support for filesystem requests and small segments
-:::::: branch date: 6 hours ago
-:::::: commit date: 1 year, 11 months ago
-config: i386-randconfig-r071-20260211 (https://download.01.org/0day-ci/archive/20260211/202602111857.2fZ5GeZz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Ferguson/fat-Add-FS_IOC_GETFSLABEL-ioctl/20260211-062606
+base:   9f2693489ef8558240d9e80bfad103650daed0af
+patch link:    https://lore.kernel.org/r/20260210222310.357755-2-ethan.ferguson%40zetier.com
+patch subject: [PATCH 1/2] fat: Add FS_IOC_GETFSLABEL ioctl
+config: riscv-randconfig-r071-20260211 (https://download.01.org/0day-ci/archive/20260211/202602111747.QIBXIwpw-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 9.5.0
 smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602111857.2fZ5GeZz-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202602111747.QIBXIwpw-lkp@intel.com/
 
 smatch warnings:
-block/blk.h:344 bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could be null (see line 340)
+fs/fat/file.c:160 fat_ioctl_get_volume_label() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +344 block/blk.h
+vim +160 fs/fat/file.c
 
-83d016ac86428d Bart Van Assche   2018-01-17  309  
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  310  ssize_t part_size_show(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  311  		char *buf);
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  312  ssize_t part_stat_show(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  313  		char *buf);
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  314  ssize_t part_inflight_show(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  315  		char *buf);
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  316  ssize_t part_fail_show(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  317  		char *buf);
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  318  ssize_t part_fail_store(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  319  		const char *buf, size_t count);
-581d4e28d9195a Jens Axboe        2008-09-14  320  ssize_t part_timeout_show(struct device *, struct device_attribute *, char *);
-581d4e28d9195a Jens Axboe        2008-09-14  321  ssize_t part_timeout_store(struct device *, struct device_attribute *,
-581d4e28d9195a Jens Axboe        2008-09-14  322  				const char *, size_t);
-581d4e28d9195a Jens Axboe        2008-09-14  323  
-c55ddd9082f757 Christoph Hellwig 2022-07-27  324  static inline bool bio_may_exceed_limits(struct bio *bio,
-aa261f20589d89 Bart Van Assche   2022-10-25  325  					 const struct queue_limits *lim)
-abd45c159df5fc Jens Axboe        2021-10-13  326  {
-abd45c159df5fc Jens Axboe        2021-10-13  327  	switch (bio_op(bio)) {
-abd45c159df5fc Jens Axboe        2021-10-13  328  	case REQ_OP_DISCARD:
-abd45c159df5fc Jens Axboe        2021-10-13  329  	case REQ_OP_SECURE_ERASE:
-abd45c159df5fc Jens Axboe        2021-10-13  330  	case REQ_OP_WRITE_ZEROES:
-abd45c159df5fc Jens Axboe        2021-10-13  331  		return true; /* non-trivial splitting decisions */
-abd45c159df5fc Jens Axboe        2021-10-13  332  	default:
-abd45c159df5fc Jens Axboe        2021-10-13  333  		break;
-abd45c159df5fc Jens Axboe        2021-10-13  334  	}
-abd45c159df5fc Jens Axboe        2021-10-13  335  
-abd45c159df5fc Jens Axboe        2021-10-13  336  	/*
-e2bd6241b810c1 Bart Van Assche   2023-06-12  337  	 * Check whether bio splitting should be performed. This check may
-e2bd6241b810c1 Bart Van Assche   2023-06-12  338  	 * trigger the bio splitting code even if splitting is not necessary.
-abd45c159df5fc Jens Axboe        2021-10-13  339  	 */
-e2bd6241b810c1 Bart Van Assche   2023-06-12 @340  	if (blk_queue_sub_page_limits(lim) && bio->bi_io_vec &&
-e2bd6241b810c1 Bart Van Assche   2023-06-12  341  	    bio->bi_io_vec->bv_len > lim->max_segment_size)
-e2bd6241b810c1 Bart Van Assche   2023-06-12  342  		return true;
-c55ddd9082f757 Christoph Hellwig 2022-07-27  343  	return lim->chunk_sectors || bio->bi_vcnt != 1 ||
-abd45c159df5fc Jens Axboe        2021-10-13 @344  		bio->bi_io_vec->bv_len + bio->bi_io_vec->bv_offset > PAGE_SIZE;
-abd45c159df5fc Jens Axboe        2021-10-13  345  }
-abd45c159df5fc Jens Axboe        2021-10-13  346  
+5fc1746d68b8fb Ethan Ferguson 2026-02-10  156  static int fat_ioctl_get_volume_label(struct inode *inode, char __user *arg)
+5fc1746d68b8fb Ethan Ferguson 2026-02-10  157  {
+5fc1746d68b8fb Ethan Ferguson 2026-02-10  158  	struct msdos_sb_info *sbi = MSDOS_SB(inode->i_sb);
+5fc1746d68b8fb Ethan Ferguson 2026-02-10  159  
+5fc1746d68b8fb Ethan Ferguson 2026-02-10 @160  	return copy_to_user(arg, sbi->vol_label, MSDOS_NAME);
 
-:::::: The code at line 344 was first introduced by commit
-:::::: abd45c159df5fcb7ac820e2825dac85de7c01c21 block: handle fast path of bio splitting inline
+This should be:
 
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+	if (copy_to_user(arg, sbi->vol_label, MSDOS_NAME))
+		return -EFAULT;
+
+	return 0;
+
+5fc1746d68b8fb Ethan Ferguson 2026-02-10  161  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
