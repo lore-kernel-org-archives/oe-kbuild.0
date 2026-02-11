@@ -1,606 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAB21A0BE0
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Feb 2026 01:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65B42EC56D
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Feb 2026 02:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770774385; cv=none; b=Sj+XmvNr6/8aF8sFBkYLuCT9OgbHwmHFpeQszFh0FDGL9eVTOd71GVmeqmdMMEHPlkpv7OYIBvNo0AQypev6Hs3alCd28NKbLB0U4RuClOuFfWU8z/9GRn5K1fQn11n3M8hZn42QdpsetSE+PcJd1YdyepgODr1RZY0qgt4z/1w=
+	t=1770778753; cv=none; b=kugpW5xULV8vPHKEjG/dDwI9QzOsC8XuDgL6qnedl7BvUgd/TgJN/q08NcjMM3OSjD0T/U2/eCT5D65Mpca/P7gmQwJvzmw9sIVTigET+c5CjhwsGsofCxDCBOLWFIGLSDDHrR4p/clgYbLDY219oSkULwyqUXil4fmyf+VvIsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770774385; c=relaxed/simple;
-	bh=pD/lRkQJWLC7DJBpvP/Sb+bXJodcOZotCCPvAHOhqeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Qume4uAx77/ytcyA6Xi/iiPOCIr1iiDT+OpcMvaQMK9BH+s+szcHbkWtNvE9GiSS+a5fHmX1H0XWg7voPF40QTxq8rIA67drt+tWerB7zLCnDKxpVOQATVKVe45zL4yKmC21EyorcHtsJ/2HjhDkPSyEBNVl6/V8gJb2e25o93s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RjjSLAVx; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1770778753; c=relaxed/simple;
+	bh=xEU7bQW+kl76TCBTmhWmI8we2WznOkE4gfFVMjKLbrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EG29tSERzI/WnEwCKUp3ai6fxD57XnWck87Wcf3mAwF21Y54dJE/JNU8jKUAHyDP4Sk4ThQknHZPlPXLce8xc2pnAICG8/74MgBULU1iuTZP4hCq7aA9MpR9Y+/aXo79Dmm5zOozqbgqBSFdKfEapgjRT1E+3yMqjiuTzFekY6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xc/xHXly; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RjjSLAVx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xc/xHXly"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770774383; x=1802310383;
-  h=date:from:to:cc:subject:message-id;
-  bh=pD/lRkQJWLC7DJBpvP/Sb+bXJodcOZotCCPvAHOhqeQ=;
-  b=RjjSLAVxxQBGAOtK3GCmmxKFGwq/rTzNvlkf/5PvkjACiqsvmvIkE+08
-   EgdmR3r2vf9eFBSRB9TYIsnJPKfVv1twqRUDirq5m0ndaJUZbjgxDOTZi
-   5HDfF2R4l9HOBUPj8D0/mnQ3nbqyKpCkti7ZABm5+ZxSubAB5zSSZdiZ6
-   yfRdo8LWVm9iwdimKP2LM01DlxSKY3/LtkQPLfHZPdIM+7oqTZUg0pIgB
-   w5BTnh1RcpnguOkrHc3DwjQogOdi7/4A568sUFVWndPXeK6byNRAQWpox
-   WECg9hSnwbLJ+mFlfEcItPlR3HsCSBnQ51uonPgLJnuxxGCn8uyFeb82w
-   A==;
-X-CSE-ConnectionGUID: nQCqLG/oRPOXkVJ3FPYGAA==
-X-CSE-MsgGUID: ok70iwjtQXKdG4R3HqE/ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="71813337"
+  t=1770778752; x=1802314752;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xEU7bQW+kl76TCBTmhWmI8we2WznOkE4gfFVMjKLbrA=;
+  b=Xc/xHXlyXuGBr95DjHX3DMmgy2ZhABJGd7B9GlKIkMKjHhBI4QFbAgot
+   1zlOQWN1WNGhP1zYZFuhNGJ+jaRYezBnXPZIeUMV90VwPxvfLNZfZhMuj
+   zTIy+QHl/SbGB9r9FbfZdBJMitg9fpYhMWMU4TrmNk4LvTWIkOXjGuLU3
+   jFk7hPUns2R4jhsSQExDFRIraKLsLjlFwEVeDTdOktaWZnAD4R8qviNBu
+   k/4Cuigw+KlCBv1enBRCqCljzd7FBNx/RgpHC6lrAPZ+wn8L6Fjbdi5i8
+   QMCWfz+uaiNkVTv+IMxkjJLRgL7PBXrjCFxIW6cKn9Qd8Unvh1VIm35rc
+   w==;
+X-CSE-ConnectionGUID: VhBeV30ET/+2YiFrhFnE6Q==
+X-CSE-MsgGUID: f/DeAA3MR+6+VWucNKHUgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="71126794"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="71813337"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 17:46:23 -0800
-X-CSE-ConnectionGUID: nJVDZBbNTWOijY7ZbR7vLQ==
-X-CSE-MsgGUID: VlwNbYDnSK2P2JF4PIGlWQ==
+   d="scan'208";a="71126794"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 18:59:11 -0800
+X-CSE-ConnectionGUID: AZRgJqyhSiiBPlsA+hWspA==
+X-CSE-MsgGUID: FxJ7oW2ORfezeZekgGHk5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211196574"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 10 Feb 2026 17:46:22 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="249753394"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 10 Feb 2026 18:59:09 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpzJ5-000000000yb-0E0Y;
-	Wed, 11 Feb 2026 01:46:19 +0000
-Date: Wed, 11 Feb 2026 02:45:38 +0100
+	id 1vq0RX-00000000pcG-2ig2;
+	Wed, 11 Feb 2026 02:59:07 +0000
+Date: Wed, 11 Feb 2026 10:59:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android12-kiwi-5.10 203/203]
- util/metricgroup.c:315:47: error: 'calloc' sizes specified with 'sizeof' in
- the earlier argument and not in the later argument
-Message-ID: <202602110211.utt6Qphg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH] smaps: Report correct page sizes with THP
+Message-ID: <202602111045.T7U5qnHV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "__compiletime_assert_NNN"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20260209201731.231667-1-ak@linux.intel.com>
+References: <20260209201731.231667-1-ak@linux.intel.com>
+TO: Andi Kleen <ak@linux.intel.com>
+TO: linux-mm@kvack.org
+CC: linux-fsdevel@vger.kernel.org
+CC: akpm@linux-foundation.org
+CC: willy@infradead.org
+CC: Andi Kleen <ak@linux.intel.com>
 
-Hi Kees,
+Hi Andi,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   35927ff8df047b269c671535118aa0046a689a6d
-commit: 50f3b00d4c7ba9aef6e0be4db192ee81f4f8a125 [203/203] libsubcmd: Fix use-after-free for realloc(..., 0)
-:::::: branch date: 5 hours ago
-:::::: commit date: 4 years ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260211/202602110211.utt6Qphg-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110211.utt6Qphg-lkp@intel.com/reproduce)
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.19 next-20260210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andi-Kleen/smaps-Report-correct-page-sizes-with-THP/20260210-042028
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260209201731.231667-1-ak%40linux.intel.com
+patch subject: [PATCH] smaps: Report correct page sizes with THP
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: x86_64-randconfig-015-20260210 (https://download.01.org/0day-ci/archive/20260211/202602111045.T7U5qnHV-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111045.T7U5qnHV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202602110211.utt6Qphg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602111045.T7U5qnHV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-     p = re.compile(' \* ?(?:\t| {5,8})Description$')
-   scripts/bpf_helpers_doc.py:112: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?(?:\t| {5,8})(?:\t| {8})(.*)')
-   scripts/bpf_helpers_doc.py:121: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?(?:\t| {5,8})Return$')
-   scripts/bpf_helpers_doc.py:135: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?(?:\t| {5,8})(?:\t| {8})(.*)')
-   scripts/bpf_helpers_doc.py:290: SyntaxWarning: invalid escape sequence '\ '
-     license string passed (via **attr**) to the **bpf**\ () system call, and this
-   scripts/bpf_helpers_doc.py:372: SyntaxWarning: invalid escape sequence '\ '
-     one_arg += ' {}**\ '.format(a['star'].replace('*', '\\*'))
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.so when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libc.a when searching for -lc
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: skipping incompatible /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 when searching for libgcc_s.so.1
-     PERF_VERSION = 5.10.101.g50f3b00d4c7b
-   builtin-record.c: In function 'cmd_record':
-   builtin-top.c: In function 'prompt_integer':
-   builtin-top.c:356:21: error: allocation of insufficient size '0' for type 'char' with size '1' [-Werror=alloc-size]
-     356 |         char *buf = malloc(0), *p;
-         |                     ^~~~~~
-   builtin-record.c:2688:62: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-    2688 |                 rec->switch_output.filenames = calloc(sizeof(char *),
-         |                                                              ^~~~
-   builtin-record.c:2688:62: note: earlier argument should specify number of elements, later size of each element
-   builtin-top.c: In function 'perf_top__prompt_symbol':
-   builtin-top.c:391:21: error: allocation of insufficient size '0' for type 'char' with size '1' [-Werror=alloc-size]
-     391 |         char *buf = malloc(0), *p;
-         |                     ^~~~~~
-   tests/bpf.c: In function 'epoll_pwait_loop':
-   tests/bpf.c:36:17: error: argument 2 null where non-null expected [-Werror=nonnull]
-      36 |                 epoll_pwait(-(i + 1), NULL, 0, 0, NULL);
-         |                 ^~~~~~~~~~~
-   In file included from tests/bpf.c:5:
-   /usr/aarch64-linux-gnu/include/sys/epoll.h:148:12: note: in a call to function 'epoll_pwait' declared 'nonnull'
-     148 | extern int epoll_pwait (int __epfd, struct epoll_event *__events,
-         |            ^~~~~~~~~~~
-   In file included from tools/include/linux/refcount.h:42,
-                    from tools/lib/perf/include/internal/cpumap.h:5,
-                    from util/cpumap.h:7,
-                    from builtin-sched.c:6:
-   builtin-sched.c: In function 'create_tasks':
-   tools/include/linux/kernel.h:43:24: error: comparison of distinct pointer types lacks a cast [-Werror=compare-distinct-pointer-types]
-      43 |         (void) (&_max1 == &_max2);              \
-         |                        ^~
-   builtin-sched.c:673:34: note: in expansion of macro 'max'
-     673 |                         (size_t) max(16 * 1024, PTHREAD_STACK_MIN));
-         |                                  ^~~
-   cc1: all warnings being treated as errors
-   make[4]: *** [tools/build/Makefile.build:96: tests/bpf.o] Error 1
-   make[4]: *** Waiting for unfinished jobs....
-   util/metricgroup.c: In function 'metricgroup__setup_events':
->> util/metricgroup.c:315:47: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     315 |                 metric_events = calloc(sizeof(void *),
-         |                                               ^~~~
-   util/metricgroup.c:315:47: note: earlier argument should specify number of elements, later size of each element
-   util/scripting-engines/trace-event-python.c: In function 'python_start_script':
->> util/scripting-engines/trace-event-python.c:1642:9: error: 'PySys_SetArgv' is deprecated [-Werror=deprecated-declarations]
-    1642 |         PySys_SetArgv(argc + 1, command_line);
-         |         ^~~~~~~~~~~~~
-   In file included from /usr/include/python3.13/Python.h:125,
-                    from util/scripting-engines/trace-event-python.c:22:
-   /usr/include/python3.13/sysmodule.h:10:38: note: declared here
-      10 | Py_DEPRECATED(3.11) PyAPI_FUNC(void) PySys_SetArgv(int, wchar_t **);
-         |                                      ^~~~~~~~~~~~~
-   util/synthetic-events.c: In function 'perf_event__synthesize_threads':
->> util/synthetic-events.c:936:44: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     936 |         synthesize_threads = calloc(sizeof(pthread_t), thread_nr);
-         |                                            ^~~~~~~~~
-   util/synthetic-events.c:936:44: note: earlier argument should specify number of elements, later size of each element
-   util/synthetic-events.c:940:29: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     940 |         args = calloc(sizeof(*args), thread_nr);
-         |                             ^
-   util/synthetic-events.c:940:29: note: earlier argument should specify number of elements, later size of each element
-   util/stat-shadow.c: In function 'perf_stat__collect_metric_expr':
->> util/stat-shadow.c:359:55: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     359 |                         metric_events = calloc(sizeof(struct evsel *),
-         |                                                       ^~~~~~
-   util/stat-shadow.c:359:55: note: earlier argument should specify number of elements, later size of each element
-   util/bpf-loader.c: In function 'config_bpf_program':
->> util/bpf-loader.c:331:29: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     331 |         priv = calloc(sizeof(*priv), 1);
-         |                             ^
-   util/bpf-loader.c:331:29: note: earlier argument should specify number of elements, later size of each element
-   util/bpf-loader.c: In function 'bpf__obj_config_map':
-   util/bpf-loader.c:1220:34: error: pointer 'map_opt' may be used after 'free' [-Werror=use-after-free]
-    1220 |                 *key_scan_pos += strlen(map_opt);
-         |                                  ^~~~~~~~~~~~~~~
-   util/bpf-loader.c:1218:9: note: call to 'free' here
-    1218 |         free(map_name);
-         |         ^~~~~~~~~~~~~~
-   util/hist.c: In function 'hist_entry__init':
->> util/hist.c:483:49: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     483 |                 he->res_samples = calloc(sizeof(struct res_sample),
-         |                                                 ^~~~~~
-   util/hist.c:483:49: note: earlier argument should specify number of elements, later size of each element
-   In file included from /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:46,
-                    from Context.xs:8:
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_av_remove_offset':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/config.h:1211:17: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    1211 | #define SSize_t ssize_t /* signed count of bytes */
-         |                 ^~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:226:5: note: in expansion of macro 'SSize_t'
-     226 |     SSize_t i = AvARRAY(av) - AvALLOC(av);
-         |     ^~~~~~~
-   In file included from /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:7869:
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'S_PerlEnv_putenv':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:313:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-     313 |     bool retval = putenv(str);
-         |     ^~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_rpp_context':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:1074:9: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    1074 |         SV *top = *svp;
-         |         ^~
-   In file included from /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:3329:
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_is_utf8_valid_partial_char_flags':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/handy.h:155:23: error: cast from function call of type 'STRLEN' {aka 'long unsigned int'} to non-matching type '_Bool' [-Werror=bad-function-cast]
-     155 | #define cBOOL(cbool) ((bool) (cbool))
-         |                       ^
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:3160:12: note: in expansion of macro 'cBOOL'
-    3160 |     return cBOOL(is_utf8_char_helper_(s0, e, flags));
-         |            ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_push_stackinfo':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4012:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4012 |     PERL_SI *next = PL_curstackinfo->si_next;
-         |     ^~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_pop_stackinfo':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4052:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4052 |     PERL_SI * const prev = PL_curstackinfo->si_prev;
-         |     ^~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_newPADxVOP':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4094:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4094 |     OP *o = newOP(type, flags);
-         |     ^~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_foldEQ':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4120:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4120 |     const U8 *a = (const U8 *)s1;
-         |     ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_foldEQ_latin1':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4145:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4145 |     const U8 *a = (const U8 *)s1;
-         |     ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_cop_file_avn':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4464:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4464 |     const char *file = CopFILE(cop);
-         |     ^~~~~
-   In file included from /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:7870:
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h: In function 'Perl_newSV_type':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_NULL' not handled in switch [-Werror=switch-enum]
-     433 |         switch(type) {
-         |         ^~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_IV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_NV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_INVLIST' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVIV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVNV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVMG' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_REGEXP' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVGV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVLV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVCV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVFM' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVIO' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_LAST' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:396:5: error: enumeration value 'SVt_LAST' not handled in switch [-Werror=switch-enum]
-     396 |     switch (type) {
-         |     ^~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h: In function 'Perl_sv_setpv_freshbuf':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/handy.h:155:23: error: cast from function call of type 'long int' to non-matching type '_Bool' [-Werror=bad-function-cast]
-     155 | #define cBOOL(cbool) ((bool) (cbool))
-         |                       ^
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4233:62: note: in definition of macro 'EXPECT'
-    4233 | #  define EXPECT(expr,val)                  __builtin_expect(expr,val)
-         |                                                              ^~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4254:52: note: in expansion of macro 'cBOOL'
-    4254 | #define UNLIKELY(cond)                      EXPECT(cBOOL(cond),FALSE)
-         |                                                    ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv.h:1724:13: note: in expansion of macro 'UNLIKELY'
-    1724 |         if (UNLIKELY(TAINT_get))        \
-         |             ^~~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:1028:34: note: in expansion of macro 'cBOOL'
-    1028 | #   define TAINT_get            (cBOOL(UNLIKELY(PL_tainted)))    /* Is something tainted? */
-         |                                  ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv.h:1724:22: note: in expansion of macro 'TAINT_get'
-    1724 |         if (UNLIKELY(TAINT_get))        \
-         |                      ^~~~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:1013:5: note: in expansion of macro 'SvTAINT'
-    1013 |     SvTAINT(sv);
-         |     ^~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/handy.h:155:23: error: cast from function call of type 'long int' to non-matching type '_Bool' [-Werror=bad-function-cast]
-     155 | #define cBOOL(cbool) ((bool) (cbool))
-         |                       ^
---
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4254:52: note: in expansion of macro 'cBOOL'
-    4254 | #define UNLIKELY(cond)                      EXPECT(cBOOL(cond),FALSE)
-         |                                                    ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv.h:1718:42: note: in expansion of macro 'UNLIKELY'
-    1718 | #define SvTAINTED_on(sv)  STMT_START{ if(UNLIKELY(TAINTING_get)){sv_taint(sv);}   }STMT_END
-         |                                          ^~~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:1029:34: note: in expansion of macro 'cBOOL'
-    1029 | #   define TAINTING_get         (cBOOL(UNLIKELY(PL_tainting)))
-         |                                  ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv.h:1718:51: note: in expansion of macro 'TAINTING_get'
-    1718 | #define SvTAINTED_on(sv)  STMT_START{ if(UNLIKELY(TAINTING_get)){sv_taint(sv);}   }STMT_END
-         |                                                   ^~~~~~~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv.h:1725:13: note: in expansion of macro 'SvTAINTED_on'
-    1725 |             SvTAINTED_on(sv);           \
-         |             ^~~~~~~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:1013:5: note: in expansion of macro 'SvTAINT'
-    1013 |     SvTAINT(sv);
-         |     ^~~~~~~
-   Context.c: In function 'XS_Perf__Trace__Context_common_pc':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:2496:33: error: cast from function call of type 'IV' {aka 'long int'} to non-matching type 'struct scripting_context *' [-Werror=bad-function-cast]
-    2496 | #  define INT2PTR(any,d)        (any)(d)
-         |                                 ^
-   Context.c:55:39: note: in expansion of macro 'INT2PTR'
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/handy.h:155:23: error: cast from function call of type 'long int' to non-matching type '_Bool' [-Werror=bad-function-cast]
-     155 | #define cBOOL(cbool) ((bool) (cbool))
-         |                       ^
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4233:62: note: in definition of macro 'EXPECT'
-    4233 | #  define EXPECT(expr,val)                  __builtin_expect(expr,val)
-         |                                                              ^~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4253:52: note: in expansion of macro 'cBOOL'
-    4253 | #define LIKELY(cond)                        EXPECT(cBOOL(cond),TRUE)
-         |                                                    ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:485:13: note: in expansion of macro 'LIKELY'
-     485 |         if (LIKELY(                                                     \
-         |             ^~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:1028:34: note: in expansion of macro 'cBOOL'
-    1028 | #   define TAINT_get            (cBOOL(UNLIKELY(PL_tainted)))    /* Is something tainted? */
-         |                                  ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:487:28: note: in expansion of macro 'TAINT_get'
-     487 |             & (do_taint ? !TAINT_get : 1)))                             \
-         |                            ^~~~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:556:38: note: in expansion of macro 'TARGi'
-     556 | #define PUSHi(i)        STMT_START { TARGi(i,1); PUSHs(TARG); } STMT_END
-         |                                      ^~~~~
-   Context.c:60:13: note: in expansion of macro 'PUSHi'
-   Context.c: In function 'XS_Perf__Trace__Context_common_flags':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:2496:33: error: cast from function call of type 'IV' {aka 'long int'} to non-matching type 'struct scripting_context *' [-Werror=bad-function-cast]
-    2496 | #  define INT2PTR(any,d)        (any)(d)
-         |                                 ^
-   Context.c:78:39: note: in expansion of macro 'INT2PTR'
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/handy.h:155:23: error: cast from function call of type 'long int' to non-matching type '_Bool' [-Werror=bad-function-cast]
-     155 | #define cBOOL(cbool) ((bool) (cbool))
-         |                       ^
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4233:62: note: in definition of macro 'EXPECT'
-    4233 | #  define EXPECT(expr,val)                  __builtin_expect(expr,val)
-         |                                                              ^~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4253:52: note: in expansion of macro 'cBOOL'
-    4253 | #define LIKELY(cond)                        EXPECT(cBOOL(cond),TRUE)
-         |                                                    ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:485:13: note: in expansion of macro 'LIKELY'
-     485 |         if (LIKELY(                                                     \
-         |             ^~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:1028:34: note: in expansion of macro 'cBOOL'
-    1028 | #   define TAINT_get            (cBOOL(UNLIKELY(PL_tainted)))    /* Is something tainted? */
-         |                                  ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:487:28: note: in expansion of macro 'TAINT_get'
-     487 |             & (do_taint ? !TAINT_get : 1)))                             \
-         |                            ^~~~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:556:38: note: in expansion of macro 'TARGi'
-     556 | #define PUSHi(i)        STMT_START { TARGi(i,1); PUSHs(TARG); } STMT_END
-         |                                      ^~~~~
-   Context.c:83:13: note: in expansion of macro 'PUSHi'
-   Context.c: In function 'XS_Perf__Trace__Context_common_lock_depth':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:2496:33: error: cast from function call of type 'IV' {aka 'long int'} to non-matching type 'struct scripting_context *' [-Werror=bad-function-cast]
-    2496 | #  define INT2PTR(any,d)        (any)(d)
-         |                                 ^
-   Context.c:101:39: note: in expansion of macro 'INT2PTR'
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/handy.h:155:23: error: cast from function call of type 'long int' to non-matching type '_Bool' [-Werror=bad-function-cast]
-     155 | #define cBOOL(cbool) ((bool) (cbool))
-         |                       ^
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4233:62: note: in definition of macro 'EXPECT'
-    4233 | #  define EXPECT(expr,val)                  __builtin_expect(expr,val)
-         |                                                              ^~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:4253:52: note: in expansion of macro 'cBOOL'
-    4253 | #define LIKELY(cond)                        EXPECT(cBOOL(cond),TRUE)
-         |                                                    ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:485:13: note: in expansion of macro 'LIKELY'
-     485 |         if (LIKELY(                                                     \
-         |             ^~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:1028:34: note: in expansion of macro 'cBOOL'
-    1028 | #   define TAINT_get            (cBOOL(UNLIKELY(PL_tainted)))    /* Is something tainted? */
-         |                                  ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:487:28: note: in expansion of macro 'TAINT_get'
-     487 |             & (do_taint ? !TAINT_get : 1)))                             \
-         |                            ^~~~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/pp.h:556:38: note: in expansion of macro 'TARGi'
-     556 | #define PUSHi(i)        STMT_START { TARGi(i,1); PUSHs(TARG); } STMT_END
-         |                                      ^~~~~
-   Context.c:106:13: note: in expansion of macro 'PUSHi'
-   util/machine.c: In function 'machine__create_modules':
->> util/machine.c:1382:50: error: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 0 and 4095 [-Werror=format-truncation=]
-    1382 |                 snprintf(path, sizeof(path), "%s/%s", dir_name, dent->d_name);
-         |                                                  ^~
-   In file included from /usr/aarch64-linux-gnu/include/stdio.h:970,
-                    from util/branch.h:9,
-                    from util/callchain.h:8,
-                    from util/machine.c:7:
-   In function 'snprintf',
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1382:3,
-       inlined from 'machine__set_modules_path' at util/machine.c:1436:9,
-       inlined from 'machine__create_modules' at util/machine.c:1482:7:
-   /usr/aarch64-linux-gnu/include/bits/stdio2.h:68:10: note: '__builtin___snprintf_chk' output between 2 and 4352 bytes into a destination of size 4096
-      68 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      69 |                                    __glibc_objsize (__s), __fmt,
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      70 |                                    __va_arg_pack ());
-         |                                    ~~~~~~~~~~~~~~~~~
-   util/machine.c: In function 'machine__create_modules':
->> util/machine.c:1382:50: error: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 0 and 4095 [-Werror=format-truncation=]
-    1382 |                 snprintf(path, sizeof(path), "%s/%s", dir_name, dent->d_name);
-         |                                                  ^~
-   In function 'snprintf',
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1382:3,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'machine__set_modules_path' at util/machine.c:1436:9,
-       inlined from 'machine__create_modules' at util/machine.c:1482:7:
-   /usr/aarch64-linux-gnu/include/bits/stdio2.h:68:10: note: '__builtin___snprintf_chk' output between 2 and 4352 bytes into a destination of size 4096
-      68 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      69 |                                    __glibc_objsize (__s), __fmt,
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      70 |                                    __va_arg_pack ());
-         |                                    ~~~~~~~~~~~~~~~~~
-   util/machine.c: In function 'machine__create_modules':
->> util/machine.c:1382:50: error: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 0 and 4095 [-Werror=format-truncation=]
-    1382 |                 snprintf(path, sizeof(path), "%s/%s", dir_name, dent->d_name);
-         |                                                  ^~
-   In function 'snprintf',
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1382:3,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'machine__set_modules_path' at util/machine.c:1436:9,
-       inlined from 'machine__create_modules' at util/machine.c:1482:7:
-   /usr/aarch64-linux-gnu/include/bits/stdio2.h:68:10: note: '__builtin___snprintf_chk' output between 2 and 4352 bytes into a destination of size 4096
-      68 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      69 |                                    __glibc_objsize (__s), __fmt,
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      70 |                                    __va_arg_pack ());
-         |                                    ~~~~~~~~~~~~~~~~~
-   util/machine.c: In function 'machine__create_modules':
->> util/machine.c:1382:50: error: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 0 and 4095 [-Werror=format-truncation=]
-    1382 |                 snprintf(path, sizeof(path), "%s/%s", dir_name, dent->d_name);
-         |                                                  ^~
-   In function 'snprintf',
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1382:3,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'machine__set_modules_path' at util/machine.c:1436:9,
-       inlined from 'machine__create_modules' at util/machine.c:1482:7:
-   /usr/aarch64-linux-gnu/include/bits/stdio2.h:68:10: note: '__builtin___snprintf_chk' output between 2 and 4352 bytes into a destination of size 4096
-      68 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      69 |                                    __glibc_objsize (__s), __fmt,
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      70 |                                    __va_arg_pack ());
-         |                                    ~~~~~~~~~~~~~~~~~
-   util/machine.c: In function 'machine__create_modules':
->> util/machine.c:1382:50: error: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 0 and 4095 [-Werror=format-truncation=]
-    1382 |                 snprintf(path, sizeof(path), "%s/%s", dir_name, dent->d_name);
-         |                                                  ^~
-   In function 'snprintf',
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1382:3,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'maps__set_modules_path_dir' at util/machine.c:1398:10,
-       inlined from 'machine__set_modules_path' at util/machine.c:1436:9,
-       inlined from 'machine__create_modules' at util/machine.c:1482:7:
-   /usr/aarch64-linux-gnu/include/bits/stdio2.h:68:10: note: '__builtin___snprintf_chk' output between 2 and 4352 bytes into a destination of size 4096
-      68 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      69 |                                    __glibc_objsize (__s), __fmt,
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      70 |                                    __va_arg_pack ());
-         |                                    ~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   make[4]: *** [tools/build/Makefile.build:96: util/metricgroup.o] Error 1
-   make[4]: *** Waiting for unfinished jobs....
-   In file included from /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:46,
-                    from util/scripting-engines/trace-event-perl.c:35:
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_av_remove_offset':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/config.h:1211:17: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    1211 | #define SSize_t ssize_t /* signed count of bytes */
-         |                 ^~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:226:5: note: in expansion of macro 'SSize_t'
-     226 |     SSize_t i = AvARRAY(av) - AvALLOC(av);
-         |     ^~~~~~~
-   In file included from /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:7869:
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'S_PerlEnv_putenv':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:313:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-     313 |     bool retval = putenv(str);
-         |     ^~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_rpp_context':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:1074:9: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    1074 |         SV *top = *svp;
-         |         ^~
-   In file included from /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:3329:
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_is_utf8_valid_partial_char_flags':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/handy.h:155:23: error: cast from function call of type 'STRLEN' {aka 'long unsigned int'} to non-matching type '_Bool' [-Werror=bad-function-cast]
-     155 | #define cBOOL(cbool) ((bool) (cbool))
-         |                       ^
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:3160:12: note: in expansion of macro 'cBOOL'
-    3160 |     return cBOOL(is_utf8_char_helper_(s0, e, flags));
-         |            ^~~~~
-   cc1: all warnings being treated as errors
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_push_stackinfo':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4012:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4012 |     PERL_SI *next = PL_curstackinfo->si_next;
-         |     ^~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_pop_stackinfo':
-   cc1: all warnings being treated as errors
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4052:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4052 |     PERL_SI * const prev = PL_curstackinfo->si_prev;
-         |     ^~~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_newPADxVOP':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4094:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4094 |     OP *o = newOP(type, flags);
-         |     ^~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_foldEQ':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4120:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4120 |     const U8 *a = (const U8 *)s1;
-         |     ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_foldEQ_latin1':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4145:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4145 |     const U8 *a = (const U8 *)s1;
-         |     ^~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h: In function 'Perl_cop_file_avn':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/inline.h:4464:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-    4464 |     const char *file = CopFILE(cop);
-         |     ^~~~~
-   make[3]: *** [tools/build/Makefile.build:96: builtin-top.o] Error 1
-   make[3]: *** Waiting for unfinished jobs....
-   In file included from /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/perl.h:7870:
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h: In function 'Perl_newSV_type':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_NULL' not handled in switch [-Werror=switch-enum]
-     433 |         switch(type) {
-         |         ^~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_IV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_NV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_INVLIST' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVIV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVNV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVMG' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_REGEXP' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVGV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVLV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVCV' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVFM' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_PVIO' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:433:9: error: enumeration value 'SVt_LAST' not handled in switch [-Werror=switch-enum]
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h:396:5: error: enumeration value 'SVt_LAST' not handled in switch [-Werror=switch-enum]
-     396 |     switch (type) {
-         |     ^~~~~~
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/sv_inline.h: In function 'Perl_sv_setpv_freshbuf':
-   /usr/lib/x86_64-linux-gnu/perl/5.40/CORE/handy.h:155:23: error: cast from function call of type 'long int' to non-matching type '_Bool' [-Werror=bad-function-cast]
-     155 | #define cBOOL(cbool) ((bool) (cbool))
-         |                       ^
+>> fs/proc/task_mmu.c:1372:40: error: call to '__compiletime_assert_1237' declared with 'error' attribute: BUILD_BUG failed
+    1372 |                 SEQ_PUT_DEC(" kB\nMMUPageSize:    ", HPAGE_PMD_SIZE);
+         |                                                      ^
+   include/linux/huge_mm.h:120:34: note: expanded from macro 'HPAGE_PMD_SIZE'
+     120 | #define HPAGE_PMD_SIZE  ((1UL) << HPAGE_PMD_SHIFT)
+         |                                   ^
+   include/linux/huge_mm.h:113:28: note: expanded from macro 'HPAGE_PMD_SHIFT'
+     113 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
+         |                            ^
+   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
+      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:619:2: note: expanded from macro '_compiletime_assert'
+     619 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:612:4: note: expanded from macro '__compiletime_assert'
+     612 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:288:1: note: expanded from here
+     288 | __compiletime_assert_1237
+         | ^
+   fs/proc/task_mmu.c:1378:13: error: call to '__compiletime_assert_1238' declared with 'error' attribute: BUILD_BUG failed
+    1378 |                     ps != HPAGE_PMD_SIZE)
+         |                           ^
+   include/linux/huge_mm.h:120:34: note: expanded from macro 'HPAGE_PMD_SIZE'
+     120 | #define HPAGE_PMD_SIZE  ((1UL) << HPAGE_PMD_SHIFT)
+         |                                   ^
+   include/linux/huge_mm.h:113:28: note: expanded from macro 'HPAGE_PMD_SHIFT'
+     113 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
+         |                            ^
+   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
+      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:619:2: note: expanded from macro '_compiletime_assert'
+     619 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:612:4: note: expanded from macro '__compiletime_assert'
+     612 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:2:1: note: expanded from here
+       2 | __compiletime_assert_1238
+         | ^
+   2 errors generated.
+
+
+vim +1372 fs/proc/task_mmu.c
+
+f1547959d9efd0 Vlastimil Babka   2018-08-21  1356  
+8e68d689afe328 Vlastimil Babka   2018-08-21  1357  static int show_smap(struct seq_file *m, void *v)
+8e68d689afe328 Vlastimil Babka   2018-08-21  1358  {
+8e68d689afe328 Vlastimil Babka   2018-08-21  1359  	struct vm_area_struct *vma = v;
+860a2e7fa4a186 Alexey Dobriyan   2023-09-29  1360  	struct mem_size_stats mss = {};
+8e68d689afe328 Vlastimil Babka   2018-08-21  1361  
+03b4b1149308b0 Chinwen Chang     2020-10-13  1362  	smap_gather_stats(vma, &mss, 0);
+4752c369789250 Matt Mackall      2008-02-04  1363  
+871305bb202808 Vlastimil Babka   2018-08-21  1364  	show_map_vma(m, vma);
+4752c369789250 Matt Mackall      2008-02-04  1365  
+d1be35cb6f9697 Andrei Vagin      2018-04-10  1366  	SEQ_PUT_DEC("Size:           ", vma->vm_end - vma->vm_start);
+d1be35cb6f9697 Andrei Vagin      2018-04-10  1367  	SEQ_PUT_DEC(" kB\nKernelPageSize: ", vma_kernel_pagesize(vma));
+f9a5299667dd92 Andi Kleen        2026-02-09  1368  
+f9a5299667dd92 Andi Kleen        2026-02-09  1369  	/* Only THP? */
+f9a5299667dd92 Andi Kleen        2026-02-09  1370  	if (mss.shmem_thp + mss.file_thp + mss.anonymous_thp == mss.resident &&
+f9a5299667dd92 Andi Kleen        2026-02-09  1371  	    mss.resident > 0) {
+f9a5299667dd92 Andi Kleen        2026-02-09 @1372  		SEQ_PUT_DEC(" kB\nMMUPageSize:    ", HPAGE_PMD_SIZE);
+f9a5299667dd92 Andi Kleen        2026-02-09  1373  	} else {
+f9a5299667dd92 Andi Kleen        2026-02-09  1374  		unsigned ps = vma_mmu_pagesize(vma);
+f9a5299667dd92 Andi Kleen        2026-02-09  1375  		/* Will need adjustments when more THP page sizes are added. */
+f9a5299667dd92 Andi Kleen        2026-02-09  1376  		SEQ_PUT_DEC(" kB\nMMUPageSize:    ", ps);
+f9a5299667dd92 Andi Kleen        2026-02-09  1377  		if (mss.shmem_thp + mss.file_thp + mss.anonymous_thp > 0 &&
+f9a5299667dd92 Andi Kleen        2026-02-09  1378  		    ps != HPAGE_PMD_SIZE)
+f9a5299667dd92 Andi Kleen        2026-02-09  1379  			SEQ_PUT_DEC(" kB\nMMUPageSize2:   ", HPAGE_PMD_SIZE);
+f9a5299667dd92 Andi Kleen        2026-02-09  1380  	}
+d1be35cb6f9697 Andrei Vagin      2018-04-10  1381  	seq_puts(m, " kB\n");
+d1be35cb6f9697 Andrei Vagin      2018-04-10  1382  
+ee2ad71b0756e9 Luigi Semenzato   2019-07-11  1383  	__show_smap(m, &mss, false);
+f1547959d9efd0 Vlastimil Babka   2018-08-21  1384  
+daa60ae64c6587 Hugh Dickins      2023-08-14  1385  	seq_printf(m, "THPeligible:    %8u\n",
+1f1c061089dcd2 David Hildenbrand 2025-08-15  1386  		   !!thp_vma_allowable_orders(vma, vma->vm_flags, TVA_SMAPS,
+1f1c061089dcd2 David Hildenbrand 2025-08-15  1387  					      THP_ORDERS_ALL));
+7635d9cbe8327e Michal Hocko      2018-12-28  1388  
+27cca866e3fce0 Ram Pai           2018-04-13  1389  	if (arch_pkeys_enabled())
+27cca866e3fce0 Ram Pai           2018-04-13  1390  		seq_printf(m, "ProtectionKey:  %8u\n", vma_pkey(vma));
+834f82e2aa9a8e Cyrill Gorcunov   2012-12-17  1391  	show_smap_vma_flags(m, vma);
+258f669e7e88c1 Vlastimil Babka   2018-08-21  1392  
+258f669e7e88c1 Vlastimil Babka   2018-08-21  1393  	return 0;
+258f669e7e88c1 Vlastimil Babka   2018-08-21  1394  }
+258f669e7e88c1 Vlastimil Babka   2018-08-21  1395  
 
 -- 
 0-DAY CI Kernel Test Service
