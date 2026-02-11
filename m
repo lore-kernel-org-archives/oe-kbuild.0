@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B082D8767
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Feb 2026 23:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3A833EC
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Feb 2026 00:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770766402; cv=none; b=R9/uKHHnwoYNnGnZTR++odJd2qXBKL65bIAC52AxxzDTvJM2Ya4hDL1VkPWcP8IFCUTT/uVynWPABRD4nFEr3JYtSZr9U1IMl5VSn9Tt8LQJ6/nGwx2JMXD9VeXbc9/rJrUJ1YcOWMXB6skm67u2sRxSPgJXicqnUhtOwe7ZZsE=
+	t=1770769223; cv=none; b=ltB+ILcNLIH61RuB278u7YlK8A6xRMn1b3a4xOHToxtACcAOAeIgR8b7OrQZyUmdKWFblAx3Iv3FXGrLZL7FKnuCyJBeJGvtD4+c0ItZ8uYMmVTtSURuEQi08UZ9KfBDLhKMC/B6ZsLY/BaCTJa6eDvuoDhT4cvKvoA4kjp2VFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770766402; c=relaxed/simple;
-	bh=k4gHiEk9N2mw70B3ep5Gol2qxtBf9t8mUteK+1MSbX4=;
-	h=Date:From:To:Subject:Message-ID; b=Un+zEQ6aOPQsrdZclos3Orctc4gI7KSINLW5Lm57gProzbUtbR6YWvSSZC6tNnusHjvz8GpH6ehi8JiE+83gug3y/nAGo03gN9sU/+zadZu9aODzkc7DEXl49i2OxeE/kZLtvWI0y+z3vHJ9VAeg9SyGQ/UqzJ0P5OK5OQDBXuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kXQELdhQ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1770769223; c=relaxed/simple;
+	bh=yVAmWVI36DiMsD5c3U7B/25UXLLcZd+13wvk+g4/YZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PfKpn+mlD/EoE33yRR+XK8dFoT2AOImnGJ8+WWJkwttieDp+0+YfmklDeXyxB55DxygPReTM7Kh3UUFgY4lBfMV/kaRUUX6CE6lY/ynmi5N3frK29ZL2NZ7pKfrp4HC3u1GhVbcjeJCgQd7zA93AqGXYmWPlsV4ymWsnsh9htdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M8HSmSCq; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXQELdhQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M8HSmSCq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770766401; x=1802302401;
-  h=date:from:to:subject:message-id;
-  bh=k4gHiEk9N2mw70B3ep5Gol2qxtBf9t8mUteK+1MSbX4=;
-  b=kXQELdhQiI8NOrzxR5eptoboGmVZg2qk4+hyvYSOzl6E8cjRuqiFfeZX
-   9ts+03/RNhOzQSDiEvrpTJID2+wm0Q4LwGxhkuFisdwkMPJelGnm/5/4P
-   /kzO+OcT/kW2Z0q5nKcrbj845fx9eHUq6OUAZmN1NvAX/CPXsBGbKQ2Xa
-   5D9avSEAGgjzLPiclFJ65fZNy+vDkIWqAplrU7goWGu6JgibgGR+4NqhY
-   H5qk4hxmSeypNpdLCad1K8V/rSVVhSxWIog2m1QW7GbYkNw9LcQjXZdKH
-   qvNjyotSe0olUCrpEunxXl8bicSEMGItw4fvADRt0kXLq//CJRcEY8dpq
-   w==;
-X-CSE-ConnectionGUID: RZ/J86YBQhWVgLBCdH7PRQ==
-X-CSE-MsgGUID: Xz4D5qzZQIWFp2FV1dBEhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="71802521"
+  t=1770769222; x=1802305222;
+  h=date:from:to:cc:subject:message-id;
+  bh=yVAmWVI36DiMsD5c3U7B/25UXLLcZd+13wvk+g4/YZ4=;
+  b=M8HSmSCqTV/MXClBH5aE2+4xBdp6i+GF27FDtWWYl8xr8MoPU1n15y/T
+   RXy9vwgRGY+wD3UpVMJX0amGT7Nvq/UaL9sgdpwOQ1eQ9BqO9+NUf+6md
+   GxxkHQmqJGVDb4LYqsMdbVZOEg76amqOnY+1OrDSL4pXmYOHJpCyrupRl
+   u5tRsLWDuw8HYVKmLB0QFRyzGAsFik0ylCRSOVoMmCj4FV/+qKb9mXf+D
+   8LJnwbSttnnf7IjPLy9TDeLp6mpdnLQPSWR6/bYSSaC8puJ2lgahUeqX5
+   0zjyUH7nD9suCLG6gC4+lcRPIRnEG50ORB0LZMaIzpW1YX1mwwSmM0wtk
+   g==;
+X-CSE-ConnectionGUID: EoASL5jMTtS68h7NWnGHLg==
+X-CSE-MsgGUID: H34RdWZzTTCQT5FsQxHcZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="82639848"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="71802521"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 15:33:21 -0800
-X-CSE-ConnectionGUID: Qf3qga1YSUy/rdp2Bqi/Tw==
-X-CSE-MsgGUID: XHTlQXTRTOydO5OT95dFzA==
+   d="scan'208";a="82639848"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 16:20:21 -0800
+X-CSE-ConnectionGUID: MjeCjqU/R3GqzFj6jF6fiw==
+X-CSE-MsgGUID: CZd1CxLZTFubXRaVQjic+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216232111"
+   d="scan'208";a="211909222"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 10 Feb 2026 15:33:21 -0800
+  by orviesa009.jf.intel.com with ESMTP; 10 Feb 2026 16:20:21 -0800
 Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpxEM-000000000xJ-0vSF
-	for oe-kbuild@lists.linux.dev;
-	Tue, 10 Feb 2026 23:33:18 +0000
-Date: Wed, 11 Feb 2026 00:33:17 +0100
+	id 1vpxxq-000000000xh-1yWf;
+	Wed, 11 Feb 2026 00:20:18 +0000
+Date: Wed, 11 Feb 2026 01:20:08 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [chenhuacai-loongson:loongarch-next 3/20] checkpatch:
- WARNING:BAD_SIGN_OFF: Use a single space after Co-developed-by:
-Message-ID: <202602110052.ECCZnlGs-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [anolis-intel-cloud:devel-6.6 17/17] diff:
+ tools/arch/x86/include/asm/amd/ibs.h: No such file or directory
+Message-ID: <202602110135.SuQZCSht-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,25 +60,30 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: George Guo <guodongtai@kylinos.cn>
+TO: aubrey.li@linux.intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git loongarch-next
-head:   92860256402cce9fa6268763365f5333a56c1428
-commit: f0e4b1b6e295299f5c9c79ad546dedbdf7132f45 [3/20] LoongArch: Add 128-bit atomic cmpxchg support
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260211/202602110052.ECCZnlGs-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   2ab60d4d838bf6681a144dc06814fe74c65624d2
+commit: 0028489c58bea4559be1ef503b566d40157b5d02 [17/17] x86/platform/amd: Move the <asm/amd-ibs.h> header to <asm/amd/ibs.h>
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260211/202602110135.SuQZCSht-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110135.SuQZCSht-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202602110135.SuQZCSht-lkp@intel.com/
 
-WARNING:BAD_SIGN_OFF: Use a single space after Co-developed-by:
-#22: 
-Co-developed-by:: Xi Ruoyao <xry111@xry111.site>
+All errors (new ones prefixed by >>):
+
+>> diff: tools/arch/x86/include/asm/amd/ibs.h: No such file or directory
 
 -- 
 0-DAY CI Kernel Test Service
