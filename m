@@ -1,247 +1,105 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A1C287254
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Feb 2026 05:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526593EBF31
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Feb 2026 08:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770874279; cv=none; b=f90+x5vgGGf7svcp7gp38za2TD8mtXWaXhINOwycyqEnT3moRCkwQKH4kXkBhsQ+sX7Rc0lbwLE8OYKjCO2Vl+EPiit6wXdDge39VXoytZ8+XJSksHkOPwNGdngeK6oYKbihbXC0VrF7iJ1Ed5AW+1EYgti1EewTrN4bTr3HuDY=
+	t=1770885279; cv=none; b=R3NCDVeGMO9AV3gA7rFI9vR6X/hYwsWF+T6KUxHLgmILjxB6Ett8zCHbloZ8WjAxhLPRdrZttzPk2lL+ai1S1QNNE2jafURTQNcP5+54e2U2VXeqkpPCQGQ9ld98E/UqS00TxB4v2ou4XflLFW+CPrQBVmK2ODYHa53LoMATFlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770874279; c=relaxed/simple;
-	bh=IPj99+CAjQCFOyC62JeYeciGSmJzGTFGySVzAYJSdms=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=dutFAQes1XN+6oKT4nf/yYYiR5JJlk1AlWQLQUW3c1rAuhndgVYz+nSFJu5Fg0ymmQVYtRwbxghLzKetmgEuRk02TA71U0RC079LddDL896pDMkYfgE9Kr4mOClf987uCJd5Y4FYvAIb5K5D+N2c6kDvCXTYPX6to/6rOntY9E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QeZ+5mog; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770885279; c=relaxed/simple;
+	bh=821SdxVAXQGvaSbRKXan80uMFlTM7/ZtcsUJ0HPCibs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mjPsAjd5DSEoSFpbDId9j3Se/GsGo5HsvIpHtXhfQo+LH97JfsX6phpiv0eo1sf2dVgtKV19tDNuIJdJUmECxeP+h6IcxByeiUiS/ZhhJm4JpCsmR5DMrVaQGa3BLsYb9BABZAY1i7RZgq7/uEfGRpLf0XauY5i2R0k8uaJ+LW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eySc++7/; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QeZ+5mog"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47ee0291921so58034995e9.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 11 Feb 2026 21:31:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770874275; x=1771479075; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WF/dx0Rr8xIVi+ZgBnigIYzsCPl9NNLZZ4DZuS/3Rw0=;
-        b=QeZ+5mogv75i001TrSmtFy5XyHD2qx1ZUBqmPJM4vG3Ay1Xc0qfgzo383nltaaQkJy
-         4jR9fWzdZk7LmDy2i4o0/AJFD6xpMyVSTgx0/bxyaEiU02BEbrhXH8hEmTQbSGk6P6EB
-         7K/+pqJsrHmdrOQ0vhwZ15tI9VAOABYPTxflxd9wMUZmHEl87k9AY/9zMTU22H7gGLwo
-         AUNYv0CDdG48Xq7M5V5nR5HuOsPHgkZbIwkls8c/aKj9XFA0/bmn2u2sJ+SYpa1ek8xx
-         /wNWK+X8N3NQjQPghtBDZIm3rlug53OmgIqgnYEZSeGs0ktHaQR4pEqSJtRbeviKKHVp
-         dqLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770874275; x=1771479075;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WF/dx0Rr8xIVi+ZgBnigIYzsCPl9NNLZZ4DZuS/3Rw0=;
-        b=W+Gg7rV09KoLfpXYZ/lvNACF0mwFK6hbEIpI8n4Xo/btjRi+csHoTABiVAG7Bf3Nhu
-         Hi5NF7rQky45hYQH+wHyIjUcp4/zZDo52e4rmeOnC1MeKZwr561Qp8h/2KSREPBTWFxc
-         ItivlVmnWn0AqDn20/UkrdKwKnV++6iRxALVu2GtG4MM/Op+VVDzyY1EteVADjSGKI92
-         dWIix/kCrHGLYvIjfuXfQHLWNd20LKe27ULu7qCOBaKEavXGYGBpO4STWc7u9yS9r0ql
-         2ycOwidB55Qcq7Lo7a54BI7U9OpZvD07HdhmcQeuX+5jvqLr7GdSRgT3JQnYCOmCAua/
-         m5pQ==
-X-Gm-Message-State: AOJu0YzoTIMKzTPykiv9G2w/G4A6NwnUrLOkNZFYFKawGcGnAYidBlk6
-	jVXy6TJ1J/tznJ5a84YtSc4oTnY0Luh2cAMZZvbRUgVkVGgkBsRLvP3Xe/sS8n6T7TBWDQuyTYJ
-	keD2+
-X-Gm-Gg: AZuq6aIUlB8H9FeCE86EKbyeA/bvKYiFxBp/GdFFGJtvDVx+1an+DKVQhPWqEtR5i6i
-	9f0j9XVt72+BJj4rNO5+sLtC9mSm0NPzGOujYzZakGkHswgGnm3RQGrmXC/gDp672QamJmXtAaM
-	1tDnrzveathmDY8Wpiy4vx00NChmGqJj+jsShfSOKBztADNfLtY6GOcGfQCvFci6X8wqL8P1btF
-	YcPrdVJB3FLKoDxj9S/yIdLhX58o8GO4oPje+P21Q4do1dFNxfRr+ex4sVo50f7RBXZYFuF2oh6
-	ri+7pdOvwedwB+aWgjnLpUqr6EiA2PhxP07GS/KoQRnJ6gnDjA3WCbYIAHqDzOh/PHSaNHzez3I
-	B2RXfIKJLpkH05uHGuIjlbye8olB7iTK9514LQX4UQ94bQDtTmASwZ0h4ZNTmNUmuYWXqfIa4ra
-	nGlZcAtvgzUN8K/YFkBTxOfHvJE1bD
-X-Received: by 2002:a05:600c:5287:b0:476:d494:41d2 with SMTP id 5b1f17b1804b1-48365716538mr18082855e9.29.1770874274694;
-        Wed, 11 Feb 2026 21:31:14 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d5ebd1bsm187141565e9.6.2026.02.11.21.31.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Feb 2026 21:31:14 -0800 (PST)
-Date: Thu, 12 Feb 2026 08:31:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ivan Gorinov <linux-kernel@altimeter.info>,
-	Jiri Kosina <jikos@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] HID: winwing: Enable rumble effects
-Message-ID: <202602120209.xYKh9QQp-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eySc++7/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770885277; x=1802421277;
+  h=date:from:to:cc:subject:message-id;
+  bh=821SdxVAXQGvaSbRKXan80uMFlTM7/ZtcsUJ0HPCibs=;
+  b=eySc++7/FegYpzME7Gs9V/xKIjoQMewIHT91aQ/y0IFLr6lQgoOTQVAE
+   3WMCWyxNZq+K+PVj2Hob3X2TD5iP1NHRmh641fHQchIQDLgF7kCSpaVH+
+   gQE3wjShGuM5+tAii+D5KNKBDwwWtF+skHnPMPIQZugEFqNPHQb80b/PJ
+   OYlDQcvFndomBCi6NhlcooS0PqocdQzLMTkZfp5yGI+a53eq3CQ4tBs1v
+   yzM0FCP5hOKUx/8rxkSfkVgWxrMz7vvPLDIbWlQaG3rlhjAn/2qXRNKII
+   6zapbtN9VCVx4vgZjsCYvjsLKO69/DZXHaS/WIQkcKefd5wTbUoSweJgW
+   w==;
+X-CSE-ConnectionGUID: Ox6R5aJBRM+z/FUcgXX7Sw==
+X-CSE-MsgGUID: 6V+StFr/Q4ebCY2MBlgAVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="75895065"
+X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
+   d="scan'208";a="75895065"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 00:34:37 -0800
+X-CSE-ConnectionGUID: MgvL67DwQfKIvWDU/9XRSQ==
+X-CSE-MsgGUID: 2kfThEVxQV2+A0AmxLnICg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
+   d="scan'208";a="217486254"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 12 Feb 2026 00:34:36 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vqS9g-000000001If-3tAG;
+	Thu, 12 Feb 2026 08:34:32 +0000
+Date: Thu, 12 Feb 2026 09:33:44 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: arch/arm/boot/dts/nxp/imx/imx6dl-sabrelite.dtb: camera@42
+ (ovti,ov5642): 'gp-gpios' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202602120907.HKJm7KrA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260211053116.GA20357@altimeter-info>
-Message-ID: <20260212053111.lPQt5PqgoGHIfUsPmZ000oMLJCU1DDPmDqKbekwnpWs@z>
 
-Hi Ivan,
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Frank Li <Frank.Li@nxp.com>
+CC: Shawn Guo <shawnguo@kernel.org>
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Gorinov/HID-winwing-Enable-rumble-effects/20260211-133322
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20260211053116.GA20357%40altimeter-info
-patch subject: [PATCH RESEND] HID: winwing: Enable rumble effects
-config: parisc-randconfig-r071-20260211 (https://download.01.org/0day-ci/archive/20260212/202602120209.xYKh9QQp-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   37a93dd5c49b5fda807fd204edf2547c3493319c
+commit: 0978cbfe5bccacb1f1bee5c88d667769557b5e4f ARM: dts: remove undocumented clock-names for ov5642
+date:   4 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-2051-20260206 (https://download.01.org/0day-ci/archive/20260212/202602120907.HKJm7KrA-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev7+gd16dc68b0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120907.HKJm7KrA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202602120209.xYKh9QQp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602120907.HKJm7KrA-lkp@intel.com/
 
-smatch warnings:
-drivers/hid/hid-winwing.c:235 winwing_haptic_rumble() warn: address of NULL pointer 'data->hdev'
-drivers/hid/hid-winwing.c:308 winwing_haptic_rumble_cb() warn: can 'data' even be NULL?
-drivers/hid/hid-winwing.c:339 winwing_init_ff() warn: variable dereferenced before check 'data' (see line 333)
-
-vim +235 drivers/hid/hid-winwing.c
-
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  221  static int winwing_haptic_rumble(struct winwing_drv_data *data)
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  222  {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  223  	__u8 *buf;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  224  	__u8 m;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  225  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  226  	if (!data)
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  227  		return -EINVAL;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  228  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  229  	buf = data->report_rumble;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  230  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  231  	if (!buf)
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  232  		return -EINVAL;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  233  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  234  	if (!data->hdev) {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11 @235  		hid_err(data->hdev, "data->hdev == NULL\n");
-                                                                ^^^^^^^^^^
-This doesn't end up getting dereferenced because of dev_err() magic
-but passing a NULL here is pointless.
-
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  236  		return -EINVAL;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  237  	}
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  238  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  239  	if (!data->hdev->ll_driver) {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  240  		hid_err(data->hdev, "data->hdev->ll_driver == NULL\n");
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  241  		return -EINVAL;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  242  	}
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  243  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  244  	m = convert_magnitude(data->rumble.strong_magnitude);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  245  	if (m != data->rumble_left) {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  246  		int ret;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  247  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  248  		buf[0] = 0x02;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  249  		buf[1] = 0x01;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  250  		buf[2] = 0xbf;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  251  		buf[3] = 0x00;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  252  		buf[4] = 0x00;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  253  		buf[5] = 0x03;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  254  		buf[6] = 0x49;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  255  		buf[7] = 0x00;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  256  		buf[8] = m;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  257  		buf[9] = 0x00;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  258  		buf[10] = 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  259  		buf[11] = 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  260  		buf[12] = 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  261  		buf[13] = 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  262  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  263  		ret = hid_hw_output_report(data->hdev, buf, 14);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  264  		if (ret < 0) {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  265  			hid_err(data->hdev, "error %d (%*ph)\n", ret, 14, buf);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  266  			return ret;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  267  		}
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  268  		data->rumble_left = m;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  269  	}
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  270  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  271  	m = convert_magnitude(data->rumble.weak_magnitude);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  272  	if (m != data->rumble_right) {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  273  		int ret;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  274  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  275  		buf[0] = 0x02;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  276  		buf[1] = 0x03;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  277  		buf[2] = 0xbf;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  278  		buf[3] = 0x00;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  279  		buf[4] = 0x00;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  280  		buf[5] = 0x03;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  281  		buf[6] = 0x49;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  282  		buf[7] = 0x00;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  283  		buf[8] = m;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  284  		buf[9] = 0x00;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  285  		buf[10] = 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  286  		buf[11] = 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  287  		buf[12] = 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  288  		buf[13] = 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  289  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  290  		ret = hid_hw_output_report(data->hdev, buf, 14);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  291  		if (ret < 0) {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  292  			hid_err(data->hdev, "error %d (%*ph)\n", ret, 14, buf);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  293  			return ret;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  294  		}
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  295  		data->rumble_right = m;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  296  	}
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  297  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  298  	return 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  299  }
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  300  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  301  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  302  static void winwing_haptic_rumble_cb(struct work_struct *work)
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  303  {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  304  	struct winwing_drv_data *data;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  305  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  306  	data = container_of(work, struct winwing_drv_data, rumble_work);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  307  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11 @308  	if (data)
-
-"data" can't be NULL.  It's work minus an offset.
-
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  309  		winwing_haptic_rumble(data);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  310  }
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  311  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  312  static int winwing_play_effect(struct input_dev *dev, void *context,
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  313  		struct ff_effect *effect)
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  314  {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  315  	struct winwing_drv_data *data = (struct winwing_drv_data *) context;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  316  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  317  	if (effect->type != FF_RUMBLE)
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  318  		return 0;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  319  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  320  	if (!data)
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  321  		return -EINVAL;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  322  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  323  	data->rumble = effect->u.rumble;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  324  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  325  	return schedule_work(&data->rumble_work);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  326  }
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  327  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  328  static int winwing_init_ff(struct hid_device *hdev, struct hid_input *hidinput)
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  329  {
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  330  	struct winwing_drv_data *data;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  331  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  332  	data = (struct winwing_drv_data *) hid_get_drvdata(hdev);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11 @333  	data->report_rumble = devm_kzalloc(&hdev->dev, MAX_REPORT, GFP_KERNEL);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  334  	data->rumble_left = -1;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  335  	data->rumble_right = -1;
-                                                ^^^^^^^^^^^^^^^^^^
-Dereferences here.
-
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  336  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  337  	input_set_capability(hidinput->input, EV_FF, FF_RUMBLE);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  338  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11 @339  	if (!data)
-                                                    ^^^^^^
-Checked too late.
-
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  340  		return -EINVAL;
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  341  
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  342  	return input_ff_create_memless(hidinput->input, data,
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  343  			winwing_play_effect);
-c4c97b07cd09c03 Ivan Gorinov 2026-02-11  344  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:281.4-284.29: Warning (interrupt_map): /soc/pcie@1ffc000:interrupt-map: Missing property '#address-cells' in node /soc/bus@2000000/gpc@20dc000, using 0 as fallback
+   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:281.4-284.29: Warning (interrupt_map): /soc/pcie@1ffc000:interrupt-map: Missing property '#address-cells' in node /soc/bus@2000000/gpc@20dc000, using 0 as fallback
+   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:281.4-284.29: Warning (interrupt_map): /soc/pcie@1ffc000:interrupt-map: Missing property '#address-cells' in node /soc/bus@2000000/gpc@20dc000, using 0 as fallback
+   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:281.4-284.29: Warning (interrupt_map): /soc/pcie@1ffc000:interrupt-map: Missing property '#address-cells' in node /soc/bus@2000000/gpc@20dc000, using 0 as fallback
+   arch/arm/boot/dts/nxp/imx/imx6dl-sabrelite.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml
+   arch/arm/boot/dts/nxp/imx/imx6dl-sabrelite.dtb: ethernet@2188000 (fsl,imx6q-fec): mdio: Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fec.yaml
+   arch/arm/boot/dts/nxp/imx/imx6dl-sabrelite.dtb: ethernet-phy (ethernet-phy-ieee802.3-c22): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+>> arch/arm/boot/dts/nxp/imx/imx6dl-sabrelite.dtb: camera@42 (ovti,ov5642): 'gp-gpios' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5642.yaml
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
