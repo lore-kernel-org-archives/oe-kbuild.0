@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1BD27FD45
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Feb 2026 22:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E802673AA
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Feb 2026 22:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771021495; cv=none; b=btWlfH3LLl60osPzzVFPIA0yv9yqRdCCRh7BFPlpi+NrAwBq89A2+IgmiRAel4veOPxCaiAkrC0xOB7G5tnB/AnlyGENYll3FtmLVbEqFhSgIhrFE5OWJShxjlp+ldIq68GYrpi1xMcNW3N0cFfPUJdW/iHaUpD+Xe7sGPpgaz4=
+	t=1771022391; cv=none; b=ufnHEJphJKxMCPrbUycJo3YLdf1qXtKPqhzo1xIIXzjmgUtAs/wseuorSBRnNIBVtvuUoy/ISyIkwCbPsF2n6P5BzTCifw00EfXJjxYRfi6/V9BzmMusDrEIWm9iq6pp+uA3UsvsJdGpSxw2UUkqJUz2BFEXcpDmwM7s6CXFdW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771021495; c=relaxed/simple;
-	bh=XGqFlp4z7t34bI+nwuWgztRMq0qt+ljqITTu0f3jKGk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k/XOg6YCPd0fMVE+IIF1qIN4uoo9fCY84IgpHWQndPkyv7iiGBpqadRlPDhdu0UXMyikgc4iCdyGIDkXCIpeVzQnbPBM8nAIfr0PJcy3PLOtLBCgbdrQ4aBAl5BJjTAcBemFSN8Op0C5dpBcAh5z06nB4caPfwRpo8fi0mW3t/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F02Z8uxp; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1771022391; c=relaxed/simple;
+	bh=xmkJGIvKt7JgkaJ0Zvb9Ik91zkc9EyW6M2KNKL5jAN0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S6Waz6ASZjMU5LaHCnJhNqJBbqN5EtL6OMKTbXvTijP6g91HVcE2DzFmbi6cBi+kpzSez90wSpmS8QDp0Laj6fKIv/rO7z+9WvGHnKcf6bolKxHO4Z6aGcuJA//+QITJu0UQmur7koezjlxoLfM3glKQM+3/fYjvfiw82Y1fGA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HmVIQJmf; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F02Z8uxp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HmVIQJmf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771021493; x=1802557493;
+  t=1771022390; x=1802558390;
   h=date:from:to:cc:subject:message-id;
-  bh=XGqFlp4z7t34bI+nwuWgztRMq0qt+ljqITTu0f3jKGk=;
-  b=F02Z8uxpKvLgvHGlBqumcCYFWZF7jDzzy7CkZYcOC4FYxUzZG7JDGtr3
-   iMgYly9ddMlZ+PQpG3a4Xq8IHNPHx3pzd2cE6YyXGzQXLqdSC8C24CxFC
-   V2rTnmbirlDvA+HblBLIlWLtQxc3wr0mmIOzWbn44KFU3uonA2XXhrGvE
-   9cBvRntR7R8s8WIqa5tr0yFaOUzFfy0A+X40wXuL5WrEBulhPiNz+XwVe
-   0ogdfDxwyyGNIm92hFJoxmziWmuyl1GlK23FKCS5YtMjGLGdQ0XiatbcQ
-   /97Qm0Y08B77/nFbh9kgP/nCGC1U4uNyxRp7ApNAg2BRdut82vQDGawtO
-   A==;
-X-CSE-ConnectionGUID: 3y2MVBiXTta47y9/yKn4pA==
-X-CSE-MsgGUID: Mz2frqVUSCmtyKdB5QjPzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="83653893"
+  bh=xmkJGIvKt7JgkaJ0Zvb9Ik91zkc9EyW6M2KNKL5jAN0=;
+  b=HmVIQJmfExapUFjzdAbVv9TNG61/1FPGOkFmR2phZM6HNC4Wd3X5/pUY
+   qEKGLyh8Qz3tiTAaQv8VLEp9/36eJWeZp936AYPf1NGnTAwraWxu2i+gy
+   zc9JH27zWVaWF9Ge6O06c2OjAX0l8AQAX55+NKkK+WqHJwWZyyO53OXjF
+   O5YDJI2hsJ+uh7vWO+ENFTTJiZVfZnkYG+CqTv9qZg2g+VdKvpALTKOyM
+   OZBtMV0dAUf+yt61XUA1KAfpOAw1rag2941xbRVhVayJvPzLxj5conyiI
+   HFwCKtVyXkOyxH7cFpvLvxGAEWFZNsKnA82F3Om+mOlRsGECyWzvRgfOA
+   g==;
+X-CSE-ConnectionGUID: QfxtsT8dS++saBv2NH2LUg==
+X-CSE-MsgGUID: LxqxOOecSF6QaNDoeEPcgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="59781305"
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="83653893"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 14:24:53 -0800
-X-CSE-ConnectionGUID: tGfp1T7RSK6Kp1txMgirZQ==
-X-CSE-MsgGUID: ZAvIiUZtQuuY326I3rmPpQ==
+   d="scan'208";a="59781305"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 14:39:50 -0800
+X-CSE-ConnectionGUID: dlUK7KpzRXu8QW3ES1dwQw==
+X-CSE-MsgGUID: u/GS586iSb2+KStIWMM3nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="212287943"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 13 Feb 2026 14:24:52 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="217166787"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 13 Feb 2026 14:39:49 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vr1aj-000000001hV-425Y;
-	Fri, 13 Feb 2026 22:24:49 +0000
-Date: Fri, 13 Feb 2026 23:24:12 +0100
+	id 1vr1pC-00000000vs0-1k0z;
+	Fri, 13 Feb 2026 22:39:46 +0000
+Date: Sat, 14 Feb 2026 06:39:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:mirror-poly-aosp-pixel-mbu 1/1]
- mremap_test.c:387:45: warning: 'dest_preamble_addr' may be used uninitialized
-Message-ID: <202602132342.xqFI7oan-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: arch/x86/events/intel/uncore_discovery.c:290:2-8: ERROR:
+ missing iounmap; ioremap on line 285 and execution via conditional on line
+ 289
+Message-ID: <202602140613.DQfDJYD4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,89 +60,88 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "likely FALSE maybe-used-uninitialized warning on old compiler"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Zide Chen <zide.chen@intel.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Dapeng Mi <dapeng1.mi@linux.intel.com>
 
-Hi Kevin,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-mbu
-head:   6edf3ba07207a117cb90e8ac84c475191d0d227d
-commit: 54dba9d5ae94c7df8662b6b3a09471beb342aecc [1/1] selftests/mm: build with -O2
-:::::: branch date: 9 days ago
-:::::: commit date: 12 months ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260213/202602132342.xqFI7oan-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602132342.xqFI7oan-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   44331bd6a6107a33f8082521b227ffa4ec063a40
+commit: b575fc0e33574f3a476b68057e340ebe32d7b750 perf/x86/intel/uncore: Add domain global init callback
+date:   5 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 5 weeks ago
+config: x86_64-randconfig-104-20260213 (https://download.01.org/0day-ci/archive/20260214/202602140613.DQfDJYD4-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202602132342.xqFI7oan-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202602140613.DQfDJYD4-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/events/intel/uncore_discovery.c:290:2-8: ERROR: missing iounmap; ioremap on line 285 and execution via conditional on line 289
 
-All warnings (new ones prefixed by >>):
+vim +290 arch/x86/events/intel/uncore_discovery.c
 
-   mremap_test.c: In function 'run_mremap_test_case.isra':
->> mremap_test.c:387:45: warning: 'dest_preamble_addr' may be used uninitialized [-Wmaybe-uninitialized]
-     387 |         void *addr, *src_addr, *dest_addr, *dest_preamble_addr;
-         |                                             ^~~~~~~~~~~~~~~~~~
---
-   uffd-unit-tests.c: In function 'uffd_move_test_common.isra':
->> uffd-unit-tests.c:1194:26: warning: 'orig_area_src' may be used uninitialized [-Wmaybe-uninitialized]
-    1194 |                 area_src = orig_area_src;
-         |                 ~~~~~~~~~^~~~~~~~~~~~~~~
-   uffd-unit-tests.c:1125:15: note: 'orig_area_src' was declared here
-    1125 |         char *orig_area_src, *orig_area_dst;
-         |               ^~~~~~~~~~~~~
->> uffd-unit-tests.c:1195:26: warning: 'orig_area_dst' may be used uninitialized [-Wmaybe-uninitialized]
-    1195 |                 area_dst = orig_area_dst;
-         |                 ~~~~~~~~~^~~~~~~~~~~~~~~
-   uffd-unit-tests.c:1125:31: note: 'orig_area_dst' was declared here
-    1125 |         char *orig_area_src, *orig_area_dst;
-         |                               ^~~~~~~~~~~~~
---
-   ksm_tests.c: In function 'main':
->> ksm_tests.c:947:16: warning: 'ret' may be used uninitialized [-Wmaybe-uninitialized]
-     947 |         return ret;
-         |                ^~~
-   ksm_tests.c:779:13: note: 'ret' was declared here
-     779 |         int ret, opt;
-         |             ^~~
---
-   soft-dirty.c: In function 'test_mprotect':
->> soft-dirty.c:177:17: warning: 'test_fd' may be used uninitialized [-Wmaybe-uninitialized]
-     177 |                 close(test_fd);
-         |                 ^~~~~~~~~~~~~~
-   soft-dirty.c:131:13: note: 'test_fd' was declared here
-     131 |         int test_fd;
-         |             ^~~~~~~
---
-   pkey_sighandler_tests.c: In function 'thread_segv_with_pkey0_disabled':
->> pkey_sighandler_tests.c:119:9: warning: array subscript 0 is outside array bounds of 'int[0]' [-Warray-bounds=]
-     119 |         *(int *) (0x1) = 1;
-         |         ^~~~~~~~~~~~~~
-   cc1: note: source object is likely at address zero
-   In function 'thread_segv_maperr_ptr',
-       inlined from 'test_sigsegv_handler_with_different_pkey_for_stack' at pkey_sighandler_tests.c:288:3:
-   pkey_sighandler_tests.c:148:14: warning: array subscript 0 is outside array bounds of 'int[0]' [-Warray-bounds=]
-     148 |         *bad = 1;
-         |         ~~~~~^~~
-   In function 'test_sigsegv_handler_with_different_pkey_for_stack':
-   cc1: note: source object is likely at address zero
---
-   write_to_hugetlbfs.c: In function 'main':
->> write_to_hugetlbfs.c:92:25: warning: 'strncpy' specified bound 256 equals destination size [-Wstringop-truncation]
-      92 |                         strncpy(path, optarg, sizeof(path));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+bd9514a4d5ec25 Kan Liang 2023-01-12  259  
+e75462f6c7eaa5 Zide Chen 2025-12-31  260  static int __parse_discovery_table(struct uncore_discovery_domain *domain,
+e75462f6c7eaa5 Zide Chen 2025-12-31  261  				   resource_size_t addr, int die, bool *parsed)
+edae1f06c2cda4 Kan Liang 2021-03-17  262  {
+edae1f06c2cda4 Kan Liang 2021-03-17  263  	struct uncore_global_discovery global;
+edae1f06c2cda4 Kan Liang 2021-03-17  264  	struct uncore_unit_discovery unit;
+edae1f06c2cda4 Kan Liang 2021-03-17  265  	void __iomem *io_addr;
+edae1f06c2cda4 Kan Liang 2021-03-17  266  	unsigned long size;
+edae1f06c2cda4 Kan Liang 2021-03-17  267  	int i;
+edae1f06c2cda4 Kan Liang 2021-03-17  268  
+edae1f06c2cda4 Kan Liang 2021-03-17  269  	size = UNCORE_DISCOVERY_GLOBAL_MAP_SIZE;
+edae1f06c2cda4 Kan Liang 2021-03-17  270  	io_addr = ioremap(addr, size);
+edae1f06c2cda4 Kan Liang 2021-03-17  271  	if (!io_addr)
+edae1f06c2cda4 Kan Liang 2021-03-17  272  		return -ENOMEM;
+edae1f06c2cda4 Kan Liang 2021-03-17  273  
+edae1f06c2cda4 Kan Liang 2021-03-17  274  	/* Read Global Discovery State */
+edae1f06c2cda4 Kan Liang 2021-03-17  275  	memcpy_fromio(&global, io_addr, sizeof(struct uncore_global_discovery));
+edae1f06c2cda4 Kan Liang 2021-03-17  276  	if (uncore_discovery_invalid_unit(global)) {
+edae1f06c2cda4 Kan Liang 2021-03-17  277  		pr_info("Invalid Global Discovery State: 0x%llx 0x%llx 0x%llx\n",
+edae1f06c2cda4 Kan Liang 2021-03-17  278  			global.table1, global.ctl, global.table3);
+edae1f06c2cda4 Kan Liang 2021-03-17  279  		iounmap(io_addr);
+edae1f06c2cda4 Kan Liang 2021-03-17  280  		return -EINVAL;
+edae1f06c2cda4 Kan Liang 2021-03-17  281  	}
+edae1f06c2cda4 Kan Liang 2021-03-17  282  	iounmap(io_addr);
+edae1f06c2cda4 Kan Liang 2021-03-17  283  
+edae1f06c2cda4 Kan Liang 2021-03-17  284  	size = (1 + global.max_units) * global.stride * 8;
+edae1f06c2cda4 Kan Liang 2021-03-17 @285  	io_addr = ioremap(addr, size);
+edae1f06c2cda4 Kan Liang 2021-03-17  286  	if (!io_addr)
+edae1f06c2cda4 Kan Liang 2021-03-17  287  		return -ENOMEM;
+edae1f06c2cda4 Kan Liang 2021-03-17  288  
+b575fc0e33574f Zide Chen 2025-12-31 @289  	if (domain->global_init && domain->global_init(global.ctl))
+b575fc0e33574f Zide Chen 2025-12-31 @290  		return -ENODEV;
+b575fc0e33574f Zide Chen 2025-12-31  291  
+edae1f06c2cda4 Kan Liang 2021-03-17  292  	/* Parsing Unit Discovery State */
+edae1f06c2cda4 Kan Liang 2021-03-17  293  	for (i = 0; i < global.max_units; i++) {
+edae1f06c2cda4 Kan Liang 2021-03-17  294  		memcpy_fromio(&unit, io_addr + (i + 1) * (global.stride * 8),
+edae1f06c2cda4 Kan Liang 2021-03-17  295  			      sizeof(struct uncore_unit_discovery));
+edae1f06c2cda4 Kan Liang 2021-03-17  296  
+edae1f06c2cda4 Kan Liang 2021-03-17  297  		if (uncore_discovery_invalid_unit(unit))
+edae1f06c2cda4 Kan Liang 2021-03-17  298  			continue;
+edae1f06c2cda4 Kan Liang 2021-03-17  299  
+edae1f06c2cda4 Kan Liang 2021-03-17  300  		if (unit.access_type >= UNCORE_ACCESS_MAX)
+edae1f06c2cda4 Kan Liang 2021-03-17  301  			continue;
+edae1f06c2cda4 Kan Liang 2021-03-17  302  
+e75462f6c7eaa5 Zide Chen 2025-12-31  303  		if (uncore_ignore_unit(&unit, domain))
+bd9514a4d5ec25 Kan Liang 2023-01-12  304  			continue;
+bd9514a4d5ec25 Kan Liang 2023-01-12  305  
+15a4bd51853b9c Kan Liang 2024-06-14  306  		uncore_insert_box_info(&unit, die);
+edae1f06c2cda4 Kan Liang 2021-03-17  307  	}
+edae1f06c2cda4 Kan Liang 2021-03-17  308  
+edae1f06c2cda4 Kan Liang 2021-03-17  309  	*parsed = true;
+edae1f06c2cda4 Kan Liang 2021-03-17  310  	iounmap(io_addr);
+edae1f06c2cda4 Kan Liang 2021-03-17  311  	return 0;
+edae1f06c2cda4 Kan Liang 2021-03-17  312  }
+edae1f06c2cda4 Kan Liang 2021-03-17  313  
 
 -- 
 0-DAY CI Kernel Test Service
