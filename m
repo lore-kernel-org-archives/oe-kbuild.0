@@ -1,117 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F24128816
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Feb 2026 07:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF72339A8
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Feb 2026 11:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771053199; cv=none; b=D1h43XpUYUtpqF276WcEeBOFKR7rG9Lhb/of5WxnunHBRMwvUYHiUueDSAmUaZ+lAppiIWiSczDQHtDF9QIirsG+cOpwmnxann2AvtdblgiY7lJAi3lhtiL/Mh+nQFR+1bupheHhgwpof5hKCSN9naPw7LKgqBqXGX4JUqh+bno=
+	t=1771067220; cv=none; b=RP88WfKmrVPpymTyt0T1ECeRryQjLG4sXHw3l7boKaM5qGzqWuzYwVuYE/BSEbD650zblYKVQxQMTcKhw83Hl4ge605MsE3Cl+zvlBsS/6Fbw3o6nTbX5oWvMG3Qw7MNYMRtP2asMRvI1mQUlbUQ2q4JsTIE99VaXwyiKmmw6tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771053199; c=relaxed/simple;
-	bh=Ry2qApNWuNDk3W4Q8PuRnyNeam5VVp8wUqsVygYWVD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Oc9XbzJ7nLPlWX1SLqn/CC5SQcLrKak1wLb6jYldeFmYTC1mSgj3iQQFyvqS03RO6PyH+0es71bv+Am283iNhiLkm/po3V2UFRpMXmUvHEQ7euNjuhW5XVIEQpLrKagqsnQXRgSgj5h2xJtJuBgK4FlK/oQGB+x15FskXzw7nrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WNjoU1zM; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1771067220; c=relaxed/simple;
+	bh=D0nRzgoeUWe6e9FKbbf416szegrfueqoz8bcRBofdUA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=d7JlLCxJYoAT8p/3Xj2Iit1FnSny9bbeTt9gjBwOB7/WVrok+LWf06mw39Xp1sD6ajrNSMT60R7/YSJY3FYFGkvBNr2y0otSASroUrXYoZFWymSzC5a63xUI104yAxkDLSIP4yxJNkI7x6kE9asBk05lSaZQC3ZV3+RUXgTehvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FyYzfRNu; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WNjoU1zM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FyYzfRNu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771053198; x=1802589198;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ry2qApNWuNDk3W4Q8PuRnyNeam5VVp8wUqsVygYWVD4=;
-  b=WNjoU1zM5HghXRA3ZLcauiJ4cASyUdVg7+nzztXUNilbkj0saTx83Euw
-   SxEO7vW/Lgc6BgNu57fhwDO3/lWT52ty6yfLmqM+WV2Z5AUPqtlkatF65
-   plwB9vCwdpjHZkylqNXy8juJlR1ifEzPueBaFfAVHMVNDBeUXe9Uj1jFU
-   xzUziC1qSWUpOV0QQQW8DZsi0PmgGm18FKuFYRSIjm69GUyIITcr5n/Hs
-   IYRCzZEQD7C3kHM1uNZTaAt9W/UFbK7xrfetUALG60xBNHmN7Vrq2828M
-   sHabyeY0rZUgY5x0md6ujrO3cVYo5t1cDGLCn7CJsmNjSjZakPxnTbZbU
-   A==;
-X-CSE-ConnectionGUID: qUkJ1VzvQmaWA9qCqKbpYg==
-X-CSE-MsgGUID: FjHyczY5T5WM++55j+KRBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="76077936"
+  t=1771067219; x=1802603219;
+  h=date:from:to:cc:subject:message-id;
+  bh=D0nRzgoeUWe6e9FKbbf416szegrfueqoz8bcRBofdUA=;
+  b=FyYzfRNur8uCpSD1gvGaRTF3B/iWEUoNfUySNJs8jxBOk3vuy96aQ8YJ
+   ENxVAqhcNO1kk6WnkB2tNH5MxO3t/yS+fVoN+1r0xo0TUntTV1lM7HUCf
+   Hfr5ATUQuqJS4HrdBarmKTHpELxXSiWUyv+8xQz2yUJxzRhISLEe9wga1
+   JiFYQffIFlXCzNu/UempyKGG0iry1Oq2jWme54zmCGUump2YGle5ZOyau
+   UWorZ96O3hvLZy2CTu9GUWDiBZug7M1/19mWMlvvA80RgTek5IPJtmqTz
+   /dwYoo1VJUM467R6DBOli3+K4yCTHVhy6T9iTDL8b4sg3naXktd4dHWqg
+   w==;
+X-CSE-ConnectionGUID: MTEnJ1EeSUWkLSxAFp8WIg==
+X-CSE-MsgGUID: Jfizvp0BQz6QYbj91Yz31g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="83337221"
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="76077936"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 23:13:17 -0800
-X-CSE-ConnectionGUID: g7r+QPmkQMqJSUZRCB3y1w==
-X-CSE-MsgGUID: 2JMEAS89Qt6+K7pieyPzVg==
+   d="scan'208";a="83337221"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 03:06:59 -0800
+X-CSE-ConnectionGUID: 3VKNcESzQ4CxyjAX8EPK2w==
+X-CSE-MsgGUID: Rw4VP6AGS2qeejwqgIaJRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="236111621"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Feb 2026 23:13:16 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="212253343"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 14 Feb 2026 03:06:57 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vr9q6-00000000wKy-0hnC;
-	Sat, 14 Feb 2026 07:13:14 +0000
-Date: Sat, 14 Feb 2026 15:12:59 +0800
+	id 1vrDUF-000000001pB-0Tpc;
+	Sat, 14 Feb 2026 11:06:55 +0000
+Date: Sat, 14 Feb 2026 12:06:53 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH RFC 1/2] wifi: mac80211: Add the capability to offload
- MLO link reconfiguration countdown in the NIC fw
-Message-ID: <202602141535.yS6STaer-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [wsa:renesas/hwspinlock/refactor-alloc-buildtest 4/19]
+ arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dtb: i2c@e6500000
+ (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was
+ unexpected)
+Message-ID: <202602141224.WkM68dsN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260212-mt7996-link-reconf-v1-1-2b110340d6c4@kernel.org>
-References: <20260212-mt7996-link-reconf-v1-1-2b110340d6c4@kernel.org>
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
+TO: Wolfram Sang <wsa-dev@sang-engineering.com>
 
-Hi Lorenzo,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 4eefc435c985f4dfdba9afb1c705f0e17377c084]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/wifi-mac80211-Add-the-capability-to-offload-MLO-link-reconfiguration-countdown-in-the-NIC-fw/20260212-074113
-base:   4eefc435c985f4dfdba9afb1c705f0e17377c084
-patch link:    https://lore.kernel.org/r/20260212-mt7996-link-reconf-v1-1-2b110340d6c4%40kernel.org
-patch subject: [PATCH RFC 1/2] wifi: mac80211: Add the capability to offload MLO link reconfiguration countdown in the NIC fw
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: nios2-randconfig-r071-20260214 (https://download.01.org/0day-ci/archive/20260214/202602141535.yS6STaer-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+head:   661496e362d06c7579ec2f4001cebf7d520ef601
+commit: ba752b18c89765642d2fb7facfac23b14d3e51a6 [4/19] various hacks for testing
+:::::: branch date: 17 hours ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-2051-20260213 (https://download.01.org/0day-ci/archive/20260214/202602141224.WkM68dsN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev7+gd16dc68b0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141224.WkM68dsN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602141535.yS6STaer-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602141224.WkM68dsN-lkp@intel.com/
 
-New smatch warnings:
-net/mac80211/iface.c:1787 ieee80211_ap_work() warn: clear_bit() takes a bit number
-net/mac80211/cfg.c:5329 ieee80211_mlo_reconf_complete_notify() warn: test_and_set_bit() takes a bit number
-
-Old smatch warnings:
-net/mac80211/iface.c:1940 ieee80211_setup_sdata() error: we previously assumed 'sdata->dev' could be null (see line 1896)
-
-vim +1787 net/mac80211/iface.c
-
-f5a4c24e689f54 Lorenzo Bianconi 2021-08-23  1778  
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1779  static void ieee80211_ap_work(struct ieee80211_sub_if_data *sdata)
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1780  {
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1781  	if (!test_bit(IEEE80211_IF_AP_RECONF_LINKS, &sdata->u.ap.flags))
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1782  		return;
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1783  
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1784  	cfg80211_mlo_reconf_complete_notify(sdata->dev,
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1785  					    sdata->u.ap.reconf_links);
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1786  	sdata->u.ap.reconf_links = 0;
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12 @1787  	clear_bit(IEEE80211_IF_AP_RECONF_LINKS, &sdata->u.ap.flags);
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1788  }
-5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1789  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx219.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx462.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-argon40.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-pwm.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtb: i2c@e6500000 (renesas,i2c-r8a779g0): Unevaluated properties are not allowed ('hwlocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/renesas,rcar-i2c.yaml
 
 -- 
 0-DAY CI Kernel Test Service
