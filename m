@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E72C7404E
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Feb 2026 04:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6992E7199
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Feb 2026 04:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771043101; cv=none; b=Zq+o/Vk2a4VvKCwdwCMoaPv4UX+5+f4JG6uL7kAafieKl+2Fj/K0l+TIwhUjohQSJ84PDr4CiWX84i+oHoOrPUyz1ZDs9OGsI+NxZx+c8IRYGewNS07u03NCUKJ38xXkBDUk+qna247Wgc1uD/vWHgNdQV8PWzMQqdAxI7XEevM=
+	t=1771044315; cv=none; b=Lz6/7A/ebl4+BEEtdJslWvSirR84zC3HWY6/Gl5vbGJIlJOjDAUNIErpi/L3rOeNiDw8zV8828sqGM4NZW7so2UBfIve1ix9RwgekjmK3IJKxk74ZRsNUwc6525CAJt2Zmm+wIH2y5ofRZ5R/QVZZkplc2m1C4ytxQ+tdDUBsiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771043101; c=relaxed/simple;
-	bh=znae5FFyzzRxLK+4q6VE/Kkq6vERMXyRT0SJDrzJmKY=;
-	h=Date:From:To:Subject:Message-ID; b=K/GicMTywSJc/OinPV/jLhquS7Qthw35Z7uV7Gz01FEyeWJydfRo1ZYl1VOqjVdb1aABMalgTFh9QrEcHCQS/HOzDmOl3gzC/QVhfQFUvXgY4LYB1zifa0ouizpqgYoe7SN+Q0FNacxlpwgPK74tktNpP8lC4zKJ5LlB+1MSyFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1vdh9Xu; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1771044315; c=relaxed/simple;
+	bh=9XUaKWrZoTUrIhNqTa/H8buHXTkDLrr90NQBSkb4Krc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=D50Ju7D0HSzLOnZ3kJNwWKn4jyilQHcb8/51sO/finh7ff/HesUgSeNGYov7vaBdLiE7zfXhpEFHYiGLvOFdIgIp2O7LSqT+rB0PbTuXTY96a7vG5rEkRkgg6ug7E8KQleX+MtgG4gwh0Welg1ewPZ87tXaNeo1tBHdLTxKn1hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwlkzHbL; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1vdh9Xu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwlkzHbL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771043096; x=1802579096;
-  h=date:from:to:subject:message-id;
-  bh=znae5FFyzzRxLK+4q6VE/Kkq6vERMXyRT0SJDrzJmKY=;
-  b=B1vdh9XuvVOUVycW1/GuTQe2YPm3c77vB5h6IkN6D2Tk/XCA2yjvAW0m
-   SO/8PkcEl9x0PL1b6ZahkgQHBYk3qn3Q8HJ0l0FW092UOWwNMCkC5SVvs
-   FjQLzuWrvYQhA/2BKZ7VkLUPJIp8ZssNziT39LpjtTOblZ8R/qa803ULx
-   sAuk5Wb6EooenFXW2yT2YsEgs3k4KLTX5I80y2ssjpgWLIaahoiY2vflt
-   6ErbuDIVm9ut3jacfvQ4gxZFXVoDFkcHPHgkROL6pqd9RNwmAip6FvPPB
-   A40OfWHoP3qtHL/sQnfcYGcoBy7uQNw20gqtLEGfhXq6H+rk3uEBSibur
-   w==;
-X-CSE-ConnectionGUID: CmeRBFWPR9qIboVMh5xlmQ==
-X-CSE-MsgGUID: wTMyRc1HQVimZ7z9PY7wnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="82552730"
+  t=1771044312; x=1802580312;
+  h=date:from:to:cc:subject:message-id;
+  bh=9XUaKWrZoTUrIhNqTa/H8buHXTkDLrr90NQBSkb4Krc=;
+  b=AwlkzHbLoVs3HsPxne9wgJjyg0SFGH/JlvTjr9Cq0wzMGhdjT9x5z3kx
+   7kuRVpo9v5N4GU9K5KecWcOxXpM5VuJC6TsYccjudN0WapnfsoWYZgzr+
+   OQCMW/LFZct7tZC8nI8PVorq7d6Mgxtz+n/JJVudsmwg57gG3BwaJo0kY
+   qKoVFL8j64I51YEClj00/7y6fbZahDMtxLD1T222ql//HTx4jGwjA1IpT
+   ah0YLJhzRJ/ynYQAKbw5hG6Iiipwv6PyyNyJFKIF7/P+jCtvsvmmn6JMl
+   bk4D0FPsDjSh/ebVba4D4oRWZxx3Q65i+yzdy3Prf5M08oGuyBgCQ6Klk
+   A==;
+X-CSE-ConnectionGUID: ofgl3qJzRXiOGm3Fvq6RKA==
+X-CSE-MsgGUID: JjTXH/jSRlqwKRaZ1ixEmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="97687809"
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="82552730"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 20:24:56 -0800
-X-CSE-ConnectionGUID: fZ5mfbO0Q4+FRQXJ/Ci2bA==
-X-CSE-MsgGUID: OpShhrmkQQ+lshH3MnDEuA==
+   d="scan'208";a="97687809"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 20:45:11 -0800
+X-CSE-ConnectionGUID: +Iw/eZDCQq+dxBLfRV6XYQ==
+X-CSE-MsgGUID: RtomT6mYSEqfE4iZV9qerw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="213113665"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 13 Feb 2026 20:24:55 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="212354214"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 13 Feb 2026 20:45:10 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vr7DA-000000001lN-2DP5
-	for oe-kbuild@lists.linux.dev;
-	Sat, 14 Feb 2026 04:24:52 +0000
-Date: Sat, 14 Feb 2026 05:24:34 +0100
+	id 1vr7Wm-00000000wEG-2UXB;
+	Sat, 14 Feb 2026 04:45:08 +0000
+Date: Sat, 14 Feb 2026 12:44:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [tj-sched-ext:for-next 4/4] checkpatch: ERROR:BAD_SIGN_OFF:
- Unrecognized email address: 'claude-opus-4-6-v1'
-Message-ID: <202602140507.i7bxZUPb-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [isilence:zcrx/test 2/7] io_uring/bpf-ops.c:45:28: sparse:
+ sparse: unsigned value that used to be signed checked against zero?
+Message-ID: <202602141254.ynPMDHbB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,25 +60,49 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence static check warning: io_uring/bpf-ops.c:45:28: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ihor Solodrai <ihor.solodrai@linux.dev>
+TO: Pavel Begunkov <asml.silence@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git for-next
-head:   0b82cc331d2e23537670878c62c19ee3f4147a93
-commit: 0b82cc331d2e23537670878c62c19ee3f4147a93 [4/4] selftests/sched_ext: Fix rt_stall flaky failure
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260214/202602140507.i7bxZUPb-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zcrx/test
+head:   9d9cdc9ae6c6d59154e68f65054d75893a749d14
+commit: f9cf0331a4954f4f92b49175380b67633a574bb2 [2/7] io_uring/bpf-ops: implement loop_step with BPF struct_ops
+:::::: branch date: 18 hours ago
+:::::: commit date: 2 days ago
+config: riscv-randconfig-r131-20260214 (https://download.01.org/0day-ci/archive/20260214/202602141254.ynPMDHbB-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141254.ynPMDHbB-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202602141254.ynPMDHbB-lkp@intel.com/
 
-ERROR:BAD_SIGN_OFF: Unrecognized email address: 'claude-opus-4-6-v1'
-#37: 
-Assisted-by: claude-opus-4-6-v1
+sparse warnings: (new ones prefixed by >>)
+>> io_uring/bpf-ops.c:45:28: sparse: sparse: unsigned value that used to be signed checked against zero?
+   io_uring/bpf-ops.c:45:21: sparse: signed value source
+
+vim +45 io_uring/bpf-ops.c
+
+f9cf0331a4954f Pavel Begunkov 2025-01-27  37  
+f9cf0331a4954f Pavel Begunkov 2025-01-27  38  static int bpf_io_btf_struct_access(struct bpf_verifier_log *log,
+f9cf0331a4954f Pavel Begunkov 2025-01-27  39  				    const struct bpf_reg_state *reg, int off,
+f9cf0331a4954f Pavel Begunkov 2025-01-27  40  				    int size)
+f9cf0331a4954f Pavel Begunkov 2025-01-27  41  {
+f9cf0331a4954f Pavel Begunkov 2025-01-27  42  	const struct btf_type *t = btf_type_by_id(reg->btf, reg->btf_id);
+f9cf0331a4954f Pavel Begunkov 2025-01-27  43  
+f9cf0331a4954f Pavel Begunkov 2025-01-27  44  	if (t == loop_params_type) {
+f9cf0331a4954f Pavel Begunkov 2025-01-27 @45  		if (off >= offsetof(struct iou_loop_params, cq_wait_idx) &&
+f9cf0331a4954f Pavel Begunkov 2025-01-27  46  		    off + size <= offsetofend(struct iou_loop_params, cq_wait_idx))
+f9cf0331a4954f Pavel Begunkov 2025-01-27  47  			return SCALAR_VALUE;
+f9cf0331a4954f Pavel Begunkov 2025-01-27  48  	}
+f9cf0331a4954f Pavel Begunkov 2025-01-27  49  
+f9cf0331a4954f Pavel Begunkov 2025-01-27  50  	return -EACCES;
+f9cf0331a4954f Pavel Begunkov 2025-01-27  51  }
+f9cf0331a4954f Pavel Begunkov 2025-01-27  52  
 
 -- 
 0-DAY CI Kernel Test Service
