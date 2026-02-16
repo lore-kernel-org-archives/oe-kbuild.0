@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587B1328241
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Feb 2026 15:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA390328617
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Feb 2026 15:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771255519; cv=none; b=RkplH3+TQnt3ihnmx979shGbqS3hyaujPUuTGfVMn/1slcrAHiuJ168duEQzrzT1CdJopbN9Vzb8pGRRx3LNiUNrtXSyITb0uHCenymRKtg0uyhXABtTvzWwakL9oTnk58KLG4SBdlgZbJHUns6Xhzbsh2ykGLW4zwvicWso13s=
+	t=1771255532; cv=none; b=NeHyGm0qVhXMNx2AJMwsMArgSxYbnjxtTCOrmnILZ3dkkUeIdVhpZIppwOQ1iaw20KlBQM2T59hQ/Qc+bQb6KLuVOuE8l2UEjs7csa+P0/rNoQ2KOMH/rXI/c2XS5yEMu3y1itU73n4fKQo1jOlihj3sZ4eYGeD936AM0h2r3Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771255519; c=relaxed/simple;
-	bh=WOaSSzwvGlqZDx1bA5gTDImiyKBAvLdwaFX2QMC0FnE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=P6Q40O9vOkljHyEehAQlgecJoA/f97kso4X6Xa1096hOSUGKoseS9521/PFsduQ9PKEIHpO/q0jW7F7iRywmX1B8ZHiDQaSioRbR9VW10R3cjR2BYYnlF9XXTiI38ejzWi9teiaDCII+1fkxyXAh/8YJd0SAi4NZSKWNvaOqs2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCze8H8s; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1771255532; c=relaxed/simple;
+	bh=VGKtt9SC9siU6JXAk8ZKD0YMqaHD6QvqqYazns8Ek/U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=G1YG1nUgq8nsC/CHtb68zISHxAwo6o+aL5dh8qBO0VpRrmQkK6N1rDj2EUSpz11Sow48pR410OseMvfgR3TkZzft0bp71q1GJNcD2B35YARG03e8wG2uBtZnfA/kzNZH3L5JYmSLy77UfxKn7C589QMztS8bvnKqGbcx0qa4aCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EfTUcMW8; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCze8H8s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EfTUcMW8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771255518; x=1802791518;
+  t=1771255531; x=1802791531;
   h=date:from:to:cc:subject:message-id;
-  bh=WOaSSzwvGlqZDx1bA5gTDImiyKBAvLdwaFX2QMC0FnE=;
-  b=YCze8H8sVKX+VeEETthwwO3eny5EWsQbfzI0W6nJkK+4xsiI+s5K7WqM
-   H/FhUiFhWQiZwYK3+hvyAbFfPhMu22W+ks+iVQBgcGloxd3RJjtTFwd32
-   yQfHF3X4tO4B8Q+4Us+pMICO0FJE4Jh6R7r7olkXZdTagVQlXyE7Znq+4
-   OD7xryT6EDYEEarJYbgk1Xe/PD1vkJQwWjqehkb4aLYP/xD6iOgJXb6/O
-   bTjZnF/coT5SDrES+c1YoERaPOZX+lDg+A4CCOye3Y5UY1WHzxIhbnfye
-   gjP0wrkFPu6dDFnGSFpRlfJZUPkIHCUIDtqlXK5pc8fK0d1jQ5clCXQCK
-   w==;
-X-CSE-ConnectionGUID: EH3U9pnCTR2X6W5+oHiT+g==
-X-CSE-MsgGUID: OYc0tnwcSUGcKHHXzQX/fA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="59904481"
+  bh=VGKtt9SC9siU6JXAk8ZKD0YMqaHD6QvqqYazns8Ek/U=;
+  b=EfTUcMW8AArwIpEbz3Y1FKgnD6uTKDXNm7OV+I6KUtOhg5nTwJU13nDj
+   0o7FhXR5HvRW13QzBKa1kpnTGMH7hyR1LTI313djbsW7Qkh4hLNlVh9fP
+   tW37TT0tWc7t0PA+3Tu8CEU8lspAqgs7vQCv2krnMP5BMIV6L0bmZSjFU
+   IyCWclh73IQXc63oKAIIi34SFztpekUhiQFmmsZU/1wFYmf1JR2AbC3HI
+   t50kRBM0qgea2Oa/YWcTvW5PlsWwnwwP4idAKGlS1TK3VZ25s+RsVjVdh
+   vRenuhpZX/wpUFlNH+bQMmPAliio9AT27F8JysTUUsRZhZckJPR01uGJe
+   Q==;
+X-CSE-ConnectionGUID: TfGT6LTlTmOSp8J8b701fA==
+X-CSE-MsgGUID: KRzPPSpPT1ulptEsE9328A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="83701116"
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="59904481"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 07:25:13 -0800
-X-CSE-ConnectionGUID: jDfJbPt+Tey6D8S+gxG2Kw==
-X-CSE-MsgGUID: 4n3ytbr+SyWmMSMCSoJfIQ==
+   d="scan'208";a="83701116"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 07:25:30 -0800
+X-CSE-ConnectionGUID: gP2zNKIQQbCyS+QIy3DHjA==
+X-CSE-MsgGUID: 7QLJDPc2RTi08GV130fVhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="212733371"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Feb 2026 07:25:12 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="212947319"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 16 Feb 2026 07:25:29 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vs0TF-0000000101C-3gHH;
-	Mon, 16 Feb 2026 15:25:09 +0000
-Date: Mon, 16 Feb 2026 23:24:22 +0800
+	id 1vs0TX-000000002VB-0PBj;
+	Mon, 16 Feb 2026 15:25:27 +0000
+Date: Mon, 16 Feb 2026 16:24:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: include/linux/mutex.h:226 class_mutex_try_constructor()
- warn: passing zero to 'ERR_PTR'
-Message-ID: <202602162315.vUv0w8Nb-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [drm-misc:drm-misc-next 1/25]
+ arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: lcdc@0 (ti,am33xx-tilcdc):
+ 'port' is a required property
+Message-ID: <202602161618.sku6dwEC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,46 +60,54 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Dave Jiang <dave.jiang@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
-CC: Jonathan Cameron <jonathan.cameron@huawei.com>
+CC: dri-devel@lists.freedesktop.org
+TO: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+CC: Luca Ceresoli <luca.ceresoli@bootlin.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f2acd3148e0ef42bdacbd477f90e8533f96b2ac
-commit: 857d18f23ab17284d1b6de6f61f4e74958596376 cleanup: Introduce ACQUIRE() and ACQUIRE_ERR() for conditional locks
-date:   7 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 7 months ago
-config: um-randconfig-r071-20260215 (https://download.01.org/0day-ci/archive/20260216/202602162315.vUv0w8Nb-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+head:   0ef1dcf4c16bb6d90e8fbf7b18f3d76b79fcde9d
+commit: e88bb45cf742177a18d63d306be345a294b4c1db [1/25] dt-bindings: display: tilcdc: Convert to DT schema
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 days ago
+config: arm-randconfig-2051-20260214 (https://download.01.org/0day-ci/archive/20260216/202602161618.sku6dwEC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+dtschema: 2025.13.dev7+gd16dc68b0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161618.sku6dwEC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602162315.vUv0w8Nb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602161618.sku6dwEC-lkp@intel.com/
 
-smatch warnings:
-include/linux/mutex.h:226 class_mutex_try_constructor() warn: passing zero to 'ERR_PTR'
-
-vim +/ERR_PTR +226 include/linux/mutex.h
-
-b1fca26631f76a Eric Paris     2009-03-23  224  
-54da6a0924311c Peter Zijlstra 2023-05-26  225  DEFINE_GUARD(mutex, struct mutex *, mutex_lock(_T), mutex_unlock(_T))
-e4ab322fbaaaf8 Peter Zijlstra 2023-09-17 @226  DEFINE_GUARD_COND(mutex, _try, mutex_trylock(_T))
-857d18f23ab172 Peter Zijlstra 2025-07-11  227  DEFINE_GUARD_COND(mutex, _intr, mutex_lock_interruptible(_T), _RET == 0)
-54da6a0924311c Peter Zijlstra 2023-05-26  228  
-
-:::::: The code at line 226 was first introduced by commit
-:::::: e4ab322fbaaaf84b23d6cb0e3317a7f68baf36dc cleanup: Add conditional guard support
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: /ocp/interconnect@48000000/segment@200000/target-module@0/mpu@0: failed to match any schema with compatible: ['ti,omap3-mpu']
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: segment@300000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: segment@300000 (simple-pm-bus): $nodename:0: 'segment@300000' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: /ocp/interconnect@48000000/segment@300000/target-module@0/epwmss@0: failed to match any schema with compatible: ['ti,am33xx-pwmss']
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: /ocp/interconnect@48000000/segment@300000/target-module@2000/epwmss@0: failed to match any schema with compatible: ['ti,am33xx-pwmss']
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: /ocp/interconnect@48000000/segment@300000/target-module@4000/epwmss@0: failed to match any schema with compatible: ['ti,am33xx-pwmss']
+>> arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: lcdc@0 (ti,am33xx-tilcdc): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/tilcdc/ti,am33xx-tilcdc.yaml
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: interconnect@47c00000 (ti,am33xx-l4-fw): $nodename:0: 'interconnect@47c00000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: /ocp/interconnect@47c00000: failed to match any schema with compatible: ['ti,am33xx-l4-fw', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: segment@0 (simple-bus): $nodename:0: 'segment@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: interconnect@4a000000 (ti,am33xx-l4-fast): $nodename:0: 'interconnect@4a000000' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: /ocp/interconnect@4a000000: failed to match any schema with compatible: ['ti,am33xx-l4-fast', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/am335x-base0033.dtb: segment@0 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
 
 -- 
 0-DAY CI Kernel Test Service
