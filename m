@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899401A9F88
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Feb 2026 01:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5E91D6AA
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Feb 2026 04:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771204998; cv=none; b=SQW9gwwnv2Zo60eG1NoWn4MlX/aOc98X1bSbBAyAmNhpfYrt1SenJZWCkxG2pn/s7puRkgW+WD9/+ftV97o1q8wVRpJsHGJyQ+D3KlTD38juymdii7M4Ba7HlIovuWkHyzrEZHZEYapQuXW20FFOd1yZDsEcrtuZ8+Ja6IiiMv8=
+	t=1771217845; cv=none; b=W+ZauauxWckrti3aAbRA5NdskyJHC1JIYkBe9jcJuJpdeDmToqbWoCTYQgKF4Vi2vTb4CY4TBtLTfG+eXrQ5K9g5MsjTgWXpQO04U6e76cCehZ0/J1WdNdTYothZsqU9CDCjWqjURGGE7aFUYBKlykFFK8IAuAlADuVke5ZelhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771204998; c=relaxed/simple;
-	bh=ffwexemgcH9NJWhQxgdbeNdL1x36oXE+6gecNfEdC9U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=N0vLH2RoT0m/66PfzNT6CDYjAFLiRqK8wTpkCzHJOPMSeDFjmyHwNbm+i89VBIz3BgZED82N2NJJt7DyqBLC8383/0hKYKjQF6H5a8fPfN+KJ+Rrh9CgYnN+T7xPAg//hmKASY+kMxbRd77lDlcl662xUjfKl3NXxCAmVRCROxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H6dmXJOJ; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1771217845; c=relaxed/simple;
+	bh=frPiDO4+y4GedFT9rw7lXMQvsEvN12aZzJMLr3odD4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M5GzfZ08PVSHPmjxYoeKWeqKHKOmUEIrcZpjkydS809L+3HqRZCB5zyz0Jd+E3NShAAe/NZ99VKER0kR37t4V8tZIjkR7NNfo4lNiRggpwn0ijrKWMvCfbhIyV1A773LC7monOw/Vr28V2o4RkV2gHxR6zzoSJGMBg0uGj4zK9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JudSgljp; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6dmXJOJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JudSgljp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771204997; x=1802740997;
+  t=1771217843; x=1802753843;
   h=date:from:to:cc:subject:message-id;
-  bh=ffwexemgcH9NJWhQxgdbeNdL1x36oXE+6gecNfEdC9U=;
-  b=H6dmXJOJS/8CejkCcWlKb5WY6HPZAAuT3MdZjnB0NCwQOqzfW1I+R0WE
-   aC1vWcUW7xUmjJtXqwGXsv9FJQWqICUkkh+nK7xbitlizodTaoYhugofp
-   MEuzRUDIgZ2LcnSxFBB2VKP9S57sShJsbVzGh3HmC27PFAotTB5y4qx1o
-   UjuY77T1wrq7i7ZSgE9bMcRS54LQTLvzoF7S99dprfWk8IdmkIeEQC2dM
-   rKXE3VzaOCamdE3khjVPKzMMb/+9cc8hibh6NQnU15iOKBIaBT9jVmBce
-   k1Kqx4bzPP+fwqQ0W+5uqbN0I29RSSI5xWCl6ZdtDzhJ0Ma+sfdCfFLfg
-   A==;
-X-CSE-ConnectionGUID: U2yqJNzHQfCcMal1oohGmQ==
-X-CSE-MsgGUID: KQ9ZK4DKQMaewvvOAjXp5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="71489783"
+  bh=frPiDO4+y4GedFT9rw7lXMQvsEvN12aZzJMLr3odD4Y=;
+  b=JudSgljppOkDQGO9XvNSaWxXB1SwLi9guIX8vnv2CkJtV5Edr6ZwB46k
+   KCoNw//x89bCD6uY4yRgdJlqBwg5CgNZ4RWkMTDtzGr/C1IAYTX/AFdLw
+   bfT7obM3WwID7fMROkSNhwZQZujiAdK1MBsHggXdR9/G87b1XqFqGNNhR
+   ASarA6ByFkOvKAYKNv/r1xjyBJREWktaaeavePj48WPD2DXnFct6MkYC6
+   WywQUmp04XwrhHte+Mstcr1+mYR6FNM849UDxeyMx5g7VB9SjtQrCz3ka
+   3QuxZJ0S0dq+ns+RPcR2TK/9pDTg2pcIH+92TK0pdSGdza2GeiujKdwUP
+   Q==;
+X-CSE-ConnectionGUID: +EVmo1VMRbSeQk4EBbtT0Q==
+X-CSE-MsgGUID: jovBTdJdSnWnMa53nJmT7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="82628335"
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="71489783"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 17:23:16 -0800
-X-CSE-ConnectionGUID: wBpVtGyoS7m+ThTy1d0ARA==
-X-CSE-MsgGUID: B00paBzQRkWyuEuxJMD77A==
+   d="scan'208";a="82628335"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 20:57:23 -0800
+X-CSE-ConnectionGUID: 8+Qq7vd/TxKy4WjMCCMacw==
+X-CSE-MsgGUID: oe1bogduRYe4Re7H5Iqd/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="213480305"
+   d="scan'208";a="213592841"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Feb 2026 17:23:13 -0800
+  by orviesa007.jf.intel.com with ESMTP; 15 Feb 2026 20:57:21 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrnKQ-00000000zIQ-3HqD;
-	Mon, 16 Feb 2026 01:23:10 +0000
-Date: Mon, 16 Feb 2026 09:22:38 +0800
+	id 1vrqff-00000000zPY-1UJb;
+	Mon, 16 Feb 2026 04:57:19 +0000
+Date: Mon, 16 Feb 2026 12:57:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/tests/overflow_kunit.c:566 shift_nonsense_test() warn:
- '(_a_full << _to_shift)' 18446744073709551611 can't fit into 32767 '*_d'
-Message-ID: <202602160914.vawu2qUt-lkp@intel.com>
+Subject: [rafael-pm:bleeding-edge 78/113]
+ drivers/platform/x86/toshiba_acpi.c:3574 toshiba_acpi_probe() warn:
+ '&dev->miscdev' from misc_register() not released on lines: 3574.
+Message-ID: <202602161229.GSpFNx88-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,151 +62,84 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <kees@kernel.org>
-CC: David Gow <davidgow@google.com>
-CC: Rae Moar <rmoar@google.com>
+CC: linux-acpi@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   26a4cfaff82a2dcb810f6bfd5f4842f9b6046c8a
-commit: db6fe4d61ece24193eb4d94a82d967501d53358c lib: Move KUnit tests into tests/ subdirectory
-date:   1 year ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 1 year ago
-config: um-randconfig-r071-20260215 (https://download.01.org/0day-ci/archive/20260216/202602160914.vawu2qUt-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   3cf2b08de92fc53cbd5632a8d47194932da78534
+commit: d5d26ca09253be8ea790d4926e727caaad8c5b81 [78/113] platform/x86: toshiba_acpi: Convert ACPI driver to a platform one
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: i386-randconfig-r072-20260216 (https://download.01.org/0day-ci/archive/20260216/202602161229.GSpFNx88-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602160914.vawu2qUt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602161229.GSpFNx88-lkp@intel.com/
 
 New smatch warnings:
-lib/tests/overflow_kunit.c:566 shift_nonsense_test() warn: '(_a_full << _to_shift)' 18446744073709551611 can't fit into 32767 '*_d'
+drivers/platform/x86/toshiba_acpi.c:3574 toshiba_acpi_probe() warn: '&dev->miscdev' from misc_register() not released on lines: 3574.
 
 Old smatch warnings:
-lib/tests/overflow_kunit.c:480 shift_overflow_test() warn: '(_a_full << _to_shift)' 32768 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:489 shift_overflow_test() warn: '(_a_full << _to_shift)' 69932 can't fit into 65535 '*_d'
-lib/tests/overflow_kunit.c:500 shift_overflow_test() warn: '(_a_full << _to_shift)' 34966 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:509 shift_overflow_test() warn: '(_a_full << _to_shift)' 300 can't fit into 127 '*_d'
-lib/tests/overflow_kunit.c:511 shift_overflow_test() warn: '(_a_full << _to_shift)' 69932 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:528 shift_truncate_test() warn: '(_a_full << _to_shift)' 65536 can't fit into 65535 '*_d'
-lib/tests/overflow_kunit.c:529 shift_truncate_test() warn: '(_a_full << _to_shift)' 65535 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:567 shift_nonsense_test() warn: '(_a_full << _to_shift)' 18446744073709551611 can't fit into 65535 '*_d'
-lib/tests/overflow_kunit.c:567 shift_nonsense_test() warn: assigning 18446744073709551611 to unsigned variable '*_d'
-lib/tests/overflow_kunit.c:827 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/tests/overflow_kunit.c:827 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/tests/overflow_kunit.c:830 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/tests/overflow_kunit.c:830 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/tests/overflow_kunit.c:848 overflows_type_test() warn: 't1 + v' 65535 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:848 overflows_type_test() warn: 't1 + v' 65535 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:850 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:850 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:851 overflows_type_test() warn: 't1 + v' 65535 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:851 overflows_type_test() warn: 't1 + v' 65535 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:857 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:857 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:860 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:860 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:872 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:872 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:873 overflows_type_test() warn: 't1 + v' 32767 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:873 overflows_type_test() warn: 't1 + v' 32767 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:874 overflows_type_test() warn: value s16min can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:874 overflows_type_test() warn: value s16min can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:884 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:884 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:886 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:886 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:887 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:887 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:889 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:889 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:890 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:890 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:901 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:901 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:903 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:903 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:905 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:905 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:906 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:906 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:908 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:908 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:920 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:920 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:921 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:921 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:922 overflows_type_test() warn: value s32min can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:922 overflows_type_test() warn: value s32min can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:925 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:925 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:926 overflows_type_test() warn: value (-32769) can't fit into s16min 'v'
-lib/tests/overflow_kunit.c:926 overflows_type_test() warn: value (-32769) can't fit into s16min 'v'
-lib/tests/overflow_kunit.c:927 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:927 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:928 overflows_type_test() warn: value s32min can't fit into s16min 'v'
-lib/tests/overflow_kunit.c:928 overflows_type_test() warn: value s32min can't fit into s16min 'v'
+drivers/platform/x86/toshiba_acpi.c:2707 toshiba_acpi_setup_wwan_rfkill() warn: 'dev->wwan_rfk' is an error pointer or valid
 
-vim +566 lib/tests/overflow_kunit.c
+vim +3574 drivers/platform/x86/toshiba_acpi.c
 
-779742255cb464 lib/overflow_kunit.c Kees Cook 2022-08-31  558  
-779742255cb464 lib/overflow_kunit.c Kees Cook 2022-08-31  559  static void shift_nonsense_test(struct kunit *test)
-779742255cb464 lib/overflow_kunit.c Kees Cook 2022-08-31  560  {
-779742255cb464 lib/overflow_kunit.c Kees Cook 2022-08-31  561  	int count = 0;
-779742255cb464 lib/overflow_kunit.c Kees Cook 2022-08-31  562  
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  563  	/* Nonsense: negative initial value. */
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  564  	TEST_ONE_SHIFT(-1, 0, s8, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  565  	TEST_ONE_SHIFT(-1, 0, u8, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16 @566  	TEST_ONE_SHIFT(-5, 0, s16, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  567  	TEST_ONE_SHIFT(-5, 0, u16, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  568  	TEST_ONE_SHIFT(-10, 0, int, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  569  	TEST_ONE_SHIFT(-10, 0, unsigned int, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  570  	TEST_ONE_SHIFT(-100, 0, s32, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  571  	TEST_ONE_SHIFT(-100, 0, u32, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  572  	TEST_ONE_SHIFT(-10000, 0, s64, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  573  	TEST_ONE_SHIFT(-10000, 0, u64, 0, true);
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  574  
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  575  	/* Nonsense: negative shift values. */
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  576  	TEST_ONE_SHIFT(0, -5, s8, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  577  	TEST_ONE_SHIFT(0, -5, u8, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  578  	TEST_ONE_SHIFT(0, -10, s16, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  579  	TEST_ONE_SHIFT(0, -10, u16, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  580  	TEST_ONE_SHIFT(0, -15, int, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  581  	TEST_ONE_SHIFT(0, -15, unsigned int, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  582  	TEST_ONE_SHIFT(0, -20, s32, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  583  	TEST_ONE_SHIFT(0, -20, u32, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  584  	TEST_ONE_SHIFT(0, -30, s64, 0, true);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  585  	TEST_ONE_SHIFT(0, -30, u64, 0, true);
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  586  
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  587  	/*
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  588  	 * Corner case: for unsigned types, we fail when we've shifted
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  589  	 * through the entire width of bits. For signed types, we might
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  590  	 * want to match this behavior, but that would mean noticing if
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  591  	 * we shift through all but the signed bit, and this is not
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  592  	 * currently detected (but we'll notice an overflow into the
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  593  	 * signed bit). So, for now, we will test this condition but
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  594  	 * mark it as not expected to overflow.
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  595  	 */
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  596  	TEST_ONE_SHIFT(0, 7, s8, 0, false);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  597  	TEST_ONE_SHIFT(0, 15, s16, 0, false);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  598  	TEST_ONE_SHIFT(0, 31, int, 0, false);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  599  	TEST_ONE_SHIFT(0, 31, s32, 0, false);
-617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  600  	TEST_ONE_SHIFT(0, 63, s64, 0, false);
-8e7c8ca6b98890 lib/test_overflow.c  Kees Cook 2021-09-20  601  
-779742255cb464 lib/overflow_kunit.c Kees Cook 2022-08-31  602  	kunit_info(test, "%d nonsense shift tests finished\n", count);
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  603  }
-779742255cb464 lib/overflow_kunit.c Kees Cook 2022-08-31  604  #undef TEST_ONE_SHIFT
-d36b6ad27c7b95 lib/test_overflow.c  Kees Cook 2018-08-01  605  
+c727ba4cd95a12 drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3532  
+6873f46a630c48 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2015-11-23  3533  	toshiba_wwan_available(dev);
+2fdde83443aa84 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2015-11-23  3534  	if (dev->wwan_supported)
+2fdde83443aa84 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2015-11-23  3535  		toshiba_acpi_setup_wwan_rfkill(dev);
+6873f46a630c48 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2015-11-23  3536  
+763ff32f19442b drivers/platform/x86/toshiba_acpi.c Azael Avalos      2016-01-25  3537  	toshiba_cooling_method_available(dev);
+763ff32f19442b drivers/platform/x86/toshiba_acpi.c Azael Avalos      2016-01-25  3538  
+89655fbb396aff drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3539  	toshiba_battery_charge_mode_available(dev);
+89655fbb396aff drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3540  
+0409cbced3c9ab drivers/platform/x86/toshiba_acpi.c Azael Avalos      2015-07-31  3541  	print_supported_features(dev);
+0409cbced3c9ab drivers/platform/x86/toshiba_acpi.c Azael Avalos      2015-07-31  3542  
+360f0f39d0c584 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2014-03-25  3543  	ret = sysfs_create_group(&dev->acpi_dev->dev.kobj,
+360f0f39d0c584 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2014-03-25  3544  				 &toshiba_attr_group);
+360f0f39d0c584 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2014-03-25  3545  	if (ret) {
+360f0f39d0c584 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2014-03-25  3546  		dev->sysfs_created = 0;
+360f0f39d0c584 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2014-03-25  3547  		goto error;
+360f0f39d0c584 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2014-03-25  3548  	}
+360f0f39d0c584 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2014-03-25  3549  	dev->sysfs_created = !ret;
+360f0f39d0c584 drivers/platform/x86/toshiba_acpi.c Azael Avalos      2014-03-25  3550  
+6b0b03b1b10252 drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3551  	ret = acpi_dev_install_notify_handler(acpi_dev, ACPI_DEVICE_NOTIFY,
+6b0b03b1b10252 drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3552  					      toshiba_acpi_notify, dev);
+6b0b03b1b10252 drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3553  	if (ret) {
+6b0b03b1b10252 drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3554  		dev->notify_handler_installed = 0;
+6b0b03b1b10252 drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3555  		goto error;
+6b0b03b1b10252 drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3556  	}
+6b0b03b1b10252 drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3557  	dev->notify_handler_installed = 1;
+6b0b03b1b10252 drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3558  
+36d03f93558c66 drivers/platform/x86/toshiba_acpi.c Seth Forshee      2011-09-20  3559  	create_toshiba_proc_entries(dev);
+36d03f93558c66 drivers/platform/x86/toshiba_acpi.c Seth Forshee      2011-09-20  3560  
+29cd293f9f8cd7 drivers/platform/x86/toshiba_acpi.c Seth Forshee      2012-01-18  3561  	toshiba_acpi = dev;
+29cd293f9f8cd7 drivers/platform/x86/toshiba_acpi.c Seth Forshee      2012-01-18  3562  
+8ef5db9eb084f6 drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3563  	/*
+8ef5db9eb084f6 drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3564  	 * As the battery hook relies on the static variable toshiba_acpi being
+8ef5db9eb084f6 drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3565  	 * set, this must be done after toshiba_acpi is assigned.
+8ef5db9eb084f6 drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3566  	 */
+8ef5db9eb084f6 drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3567  	if (dev->battery_charge_mode_supported)
+8ef5db9eb084f6 drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3568  		battery_hook_register(&battery_hook);
+8ef5db9eb084f6 drivers/platform/x86/toshiba_acpi.c Arvid Norlander   2022-09-02  3569  
+c41a40c58b623f drivers/acpi/toshiba_acpi.c         philipl@overt.org 2008-08-30  3570  	return 0;
+135740de77641b drivers/platform/x86/toshiba_acpi.c Seth Forshee      2011-09-20  3571  
+135740de77641b drivers/platform/x86/toshiba_acpi.c Seth Forshee      2011-09-20  3572  error:
+d5d26ca09253be drivers/platform/x86/toshiba_acpi.c Rafael J. Wysocki 2026-02-09  3573  	toshiba_acpi_remove(pdev);
+135740de77641b drivers/platform/x86/toshiba_acpi.c Seth Forshee      2011-09-20 @3574  	return ret;
+135740de77641b drivers/platform/x86/toshiba_acpi.c Seth Forshee      2011-09-20  3575  }
+135740de77641b drivers/platform/x86/toshiba_acpi.c Seth Forshee      2011-09-20  3576  
 
-:::::: The code at line 566 was first introduced by commit
-:::::: 617f55e20743fc50c989b498f9dee289eb644cfd lib: overflow: Convert to Kunit
+:::::: The code at line 3574 was first introduced by commit
+:::::: 135740de77641b4180c8a1f19abcfcd5e4351b15 toshiba_acpi: Convert to use acpi_driver
 
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+:::::: TO: Seth Forshee <seth.forshee@canonical.com>
+:::::: CC: Matthew Garrett <mjg@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
