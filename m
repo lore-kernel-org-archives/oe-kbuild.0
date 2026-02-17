@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477A31D416C
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Feb 2026 05:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BCE5FDA7
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Feb 2026 07:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771304598; cv=none; b=eDUNDLB0JVam5RefujfQLg9237kulZTNbCWZ3vopKmmg+RMsA69W5xWlAiHSngJqCbR12IDNGwwmbHrwCK6W8+6DiJ77/QIS8/mUqyOb3iP6ShAHmno6ImPmSKyAAwR0bYtSt7x9q0p8voGPlme3sn9leFPFo3lywtRQXp/MxEo=
+	t=1771314110; cv=none; b=IaENsrVHs6ZDYb/YF5HDTlPSdGGDxMsUEgQfGQZQV+AYYxwj2TOQNPXzyuAboR52mtwdmYn6W6SlLiC7YniRvPJokBy4xKyLYvCosoq5AxuwKWHEIO5HDG3o6TAhRJPyceKjpdi+0KSbkeeUXPnmYriD8xaQ5oHsgdCFTCdAN9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771304598; c=relaxed/simple;
-	bh=M64+KQasmy5M7m1wdNGIaucbnWlaENuW7+x5i0fx9OI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QI3kqZ5wa1n12Jf0C/yirQRvqyuAdYBxIETXSq8165Rs+2HYvtcB9Kwr1HqneqLnJZNMao8jtNhmVjUq4ak90otO5cOBmbP+lfTtQEneMIWKeT+X8tUQ3KM+H0pV/eIS5AL4sZ5Mzkiywc6jAL7Yxsdk/XmWi6CyqMbcasiByC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HyoZCYL0; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1771314110; c=relaxed/simple;
+	bh=c0WfR0dWVrCkh5oZvumTyvbj1n5U4CgyEtRV9DdWDdc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UJG/N+4rbSYcmnRCgmzqUmdBzWutVsUP6TZVHds2NBjOS5nTwmrntSlaNMhPB0ZXbBTFW/IsEq3lI58DGaYZ9JJJsGULtWT3aAmcaYH9/ZOj+lG+2sDXQcrorEPM88MsM0iXJp+nDc51btTtcCGyoV276s5p/wqyFzCdYZSDV0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbxhOtvv; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HyoZCYL0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbxhOtvv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771304596; x=1802840596;
+  t=1771314109; x=1802850109;
   h=date:from:to:cc:subject:message-id;
-  bh=M64+KQasmy5M7m1wdNGIaucbnWlaENuW7+x5i0fx9OI=;
-  b=HyoZCYL0nuS/Y4v/W1i2sn9if3M+oy7uxRNBmc6SwJDr6bsAWyIPlIxg
-   PmOLV1t3jWY43MmiXTYBV8WYfz3P3Ba+UjuL+UIL8J1kHb5l+vqlZvITg
-   e8eRarOVO7nEBu8YD7Tp5w3ye9ilfbSq/jCI2ee8nkBwuQkzpj6wFo5z2
-   cfE63ow9vmci7sW3u9aOyCcsUlTsyMOczHiLn+iA6COodR//S/k6eIuRI
-   YJIoQ5R5a81hzaajfHGTnWmTYWpEtLh0qSKrCQaJH/yxB9IcnJi4utXpE
-   hc8lEwn+6PGkFjKrq0Pdn4YRnNL1RV7fjnNntyqrcA6X4GJiD0/vWVmJp
-   g==;
-X-CSE-ConnectionGUID: U+m7gFp7ScqpklHXgrlaOw==
-X-CSE-MsgGUID: SsN/oos3R/KbhflkzrDboQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="89957583"
+  bh=c0WfR0dWVrCkh5oZvumTyvbj1n5U4CgyEtRV9DdWDdc=;
+  b=SbxhOtvvpwDBFoPyp+iKvebpM+DKYV42Pf6O5Bcj7v1MjTuE9VZg901N
+   bF0si/kPnmjDUxz8Wl5BitV/2DyRnUvwezMRYPsWsVXEt5TIh/1fYPC6N
+   iX38sY2dx1ShhxQBsmY/nZd+/MJS3dhTA5jne5+OPOVneeNaQTlYEqe2L
+   C4qBxA9FFEtgM0Aa3U2BU2H4MXvuid3P4D70dxmiXUs1fyTpmWElxIf6x
+   /Jp4b8J40twZjEJYUJ2rUYJIvzqcdOXKpR9XrbaPW19bYmV69YQhHfe5W
+   o4NSLkE51r5WXXUojJFcWbZoIlET+LgrfibEI2NbtP3IYRiAbZO/GfoxS
+   Q==;
+X-CSE-ConnectionGUID: Kw8W+kXhQpSO04XtGxTnog==
+X-CSE-MsgGUID: qiezn9r0RiG+9WgZpBgIkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="74980108"
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="89957583"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 21:03:16 -0800
-X-CSE-ConnectionGUID: Fe27p9/eRc+54m/p1Bqmng==
-X-CSE-MsgGUID: uokTsACYTv2MjOgF9lXw/A==
+   d="scan'208";a="74980108"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 23:41:48 -0800
+X-CSE-ConnectionGUID: M34go4/URbmemVkKIkzj4g==
+X-CSE-MsgGUID: zgzMNO77Sw+3Ka69LXK2ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="244367186"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Feb 2026 21:03:14 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="212547529"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Feb 2026 23:41:46 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsDEt-000000010cw-3NZW;
-	Tue, 17 Feb 2026 05:03:11 +0000
-Date: Tue, 17 Feb 2026 13:03:02 +0800
+	id 1vsFiK-000000002rl-0hA1;
+	Tue, 17 Feb 2026 07:41:44 +0000
+Date: Tue, 17 Feb 2026 08:41:17 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/events/core.c:5774:6-11: ERROR: iterator variable
- bound on line 5733 cannot be NULL
-Message-ID: <202602171254.1Ctbxnku-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:pr/446 1/15]
+ Documentation/devicetree/bindings/arm/apple.yaml:387:13: [warning] wrong
+ indentation: expected 14 but found 12 (indentation)
+Message-ID: <202602170845.eafVfu1H-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,137 +60,435 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ravi Bangoria <ravi.bangoria@amd.com>
+TO: Janne Grunau <j@jannau.net>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9702969978695d9a699a1f34771580cdbb153b33
-commit: 3e8671e00e57b3d006ed8ae5ef055807506e44b2 perf: Simplify perf_event_release_kernel()
-date:   10 months ago
+tree:   https://github.com/AsahiLinux/linux pr/446
+head:   e87c9d1153593ac9df5f6d1241b2f5040cb26e0d
+commit: 67e5cec167f41c6a07a635f9bc6a0ee5fe6c9f74 [1/15] dt-bindings: arm: apple: Add M3 devices (t8112 and t603x)
 :::::: branch date: 7 hours ago
-:::::: commit date: 10 months ago
-config: mips-randconfig-r064-20260215 (https://download.01.org/0day-ci/archive/20260217/202602171254.1Ctbxnku-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+:::::: commit date: 3 weeks ago
+config: microblaze-randconfig-2051-20260217 (https://download.01.org/0day-ci/archive/20260217/202602170845.eafVfu1H-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev7+gd16dc68b0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170845.eafVfu1H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202602171254.1Ctbxnku-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602170845.eafVfu1H-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/events/core.c:5774:6-11: ERROR: iterator variable bound on line 5733 cannot be NULL
+dtcheck warnings: (new ones prefixed by >>)
+   Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml:19:12: [error] string value is redundantly quoted with any quotes (quoted-strings)
+>> Documentation/devicetree/bindings/arm/apple.yaml:387:13: [warning] wrong indentation: expected 14 but found 12 (indentation)
+   Documentation/devicetree/bindings/arm/apple.yaml:393:13: [warning] wrong indentation: expected 14 but found 12 (indentation)
 
-vim +5774 kernel/events/core.c
+vim +387 Documentation/devicetree/bindings/arm/apple.yaml
 
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5689  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5690  /*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5691   * Kill an event dead; while event:refcount will preserve the event
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5692   * object, it will not preserve its functionality. Once the last 'user'
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5693   * gives up the object, we'll destroy the thing.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5694   */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5695  int perf_event_release_kernel(struct perf_event *event)
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5696  {
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5697  	struct perf_event_context *ctx = event->ctx;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5698  	struct perf_event *child, *tmp;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5699  
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5700  	/*
-bd27568117664b kernel/events/core.c Peter Zijlstra      2022-10-08  5701  	 * If we got here through err_alloc: free_event(event); we will not
-bd27568117664b kernel/events/core.c Peter Zijlstra      2022-10-08  5702  	 * have attached to a context yet.
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5703  	 */
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5704  	if (!ctx) {
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5705  		WARN_ON_ONCE(event->attach_state &
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5706  				(PERF_ATTACH_CONTEXT|PERF_ATTACH_GROUP));
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5707  		goto no_ctx;
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5708  	}
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5709  
-f86977620ee463 kernel/events/core.c Jiri Olsa           2014-08-01  5710  	if (!is_kernel_event(event))
-f86977620ee463 kernel/events/core.c Jiri Olsa           2014-08-01  5711  		perf_remove_from_owner(event);
-8882135bcd332f kernel/perf_event.c  Peter Zijlstra      2010-11-09  5712  
-5fa7c8ec57f70a kernel/events/core.c Peter Zijlstra      2016-01-26  5713  	ctx = perf_event_ctx_lock(event);
-a83fe28e2e4539 kernel/events/core.c Peter Zijlstra      2015-01-29  5714  	WARN_ON_ONCE(ctx->parent_ctx);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5715  
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5716  	/*
-d8a8cfc76919b6 kernel/events/core.c Peter Zijlstra      2017-03-16  5717  	 * Mark this event as STATE_DEAD, there is no external reference to it
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5718  	 * anymore.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5719  	 *
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5720  	 * Anybody acquiring event->child_mutex after the below loop _must_
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5721  	 * also see this, most importantly inherit_event() which will avoid
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5722  	 * placing more children on the list.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5723  	 *
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5724  	 * Thus this guarantees that we will in fact observe and kill _ALL_
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5725  	 * child events.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5726  	 */
-517e6a301f3461 kernel/events/core.c Peter Zijlstra      2022-11-24  5727  	perf_remove_from_context(event, DETACH_GROUP|DETACH_DEAD);
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5728  
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5729  	perf_event_ctx_unlock(event, ctx);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5730  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5731  again:
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5732  	mutex_lock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15 @5733  	list_for_each_entry(child, &event->child_list, child_list) {
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5734  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5735  		 * Cannot change, child events are not migrated, see the
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5736  		 * comment with perf_event_ctx_lock_nested().
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5737  		 */
-506458efaf153c kernel/events/core.c Will Deacon         2017-10-24  5738  		ctx = READ_ONCE(child->ctx);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5739  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5740  		 * Since child_mutex nests inside ctx::mutex, we must jump
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5741  		 * through hoops. We start by grabbing a reference on the ctx.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5742  		 *
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5743  		 * Since the event cannot get freed while we hold the
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5744  		 * child_mutex, the context must also exist and have a !0
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5745  		 * reference count.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5746  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5747  		get_ctx(ctx);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5748  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5749  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5750  		 * Now that we have a ctx ref, we can drop child_mutex, and
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5751  		 * acquire ctx::mutex without fear of it going away. Then we
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5752  		 * can re-acquire child_mutex.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5753  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5754  		mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5755  		mutex_lock(&ctx->mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5756  		mutex_lock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5757  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5758  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5759  		 * Now that we hold ctx::mutex and child_mutex, revalidate our
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5760  		 * state, if child is still the first entry, it didn't get freed
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5761  		 * and we can continue doing so.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5762  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5763  		tmp = list_first_entry_or_null(&event->child_list,
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5764  					       struct perf_event, child_list);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5765  		if (tmp == child) {
-0a00a43b8c200d kernel/events/core.c Peter Zijlstra      2025-01-17  5766  			perf_remove_from_context(child, DETACH_GROUP | DETACH_CHILD);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5767  		} else {
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5768  			child = NULL;
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5769  		}
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5770  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5771  		mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5772  		mutex_unlock(&ctx->mutex);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5773  
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17 @5774  		if (child) {
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5775  			/* Last reference unless ->pending_task work is pending */
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5776  			put_event(child);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5777  		}
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5778  		put_ctx(ctx);
-74751ef5c1912e kernel/events/core.c Haifeng Xu          2024-05-13  5779  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5780  		goto again;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5781  	}
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5782  	mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5783  
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5784  no_ctx:
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5785  	/*
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5786  	 * Last reference unless ->pending_task work is pending on this event
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5787  	 * or any of its children.
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5788  	 */
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5789  	put_event(event);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5790  	return 0;
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5791  }
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5792  EXPORT_SYMBOL_GPL(perf_event_release_kernel);
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5793  
+007bd42364b5b6 Hector Martin 2021-02-05    8  
+007bd42364b5b6 Hector Martin 2021-02-05    9  maintainers:
+007bd42364b5b6 Hector Martin 2021-02-05   10    - Hector Martin <marcan@marcan.st>
+007bd42364b5b6 Hector Martin 2021-02-05   11  
+007bd42364b5b6 Hector Martin 2021-02-05   12  description: |
+007bd42364b5b6 Hector Martin 2021-02-05   13    ARM platforms using SoCs designed by Apple Inc., branded "Apple Silicon".
+007bd42364b5b6 Hector Martin 2021-02-05   14  
+f30ce10e9a49f2 Nick Chan     2024-10-23   15    This currently includes devices based on the "A7" SoC:
+f30ce10e9a49f2 Nick Chan     2024-10-23   16  
+f30ce10e9a49f2 Nick Chan     2024-10-23   17    - iPhone 5s
+f30ce10e9a49f2 Nick Chan     2024-10-23   18    - iPad Air (1)
+f30ce10e9a49f2 Nick Chan     2024-10-23   19    - iPad mini 2
+f30ce10e9a49f2 Nick Chan     2024-10-23   20    - iPad mini 3
+f30ce10e9a49f2 Nick Chan     2024-10-23   21  
+474952a48a6fcf Nick Chan     2024-10-23   22    Devices based on the "A8" SoC:
+474952a48a6fcf Nick Chan     2024-10-23   23  
+474952a48a6fcf Nick Chan     2024-10-23   24    - iPhone 6
+474952a48a6fcf Nick Chan     2024-10-23   25    - iPhone 6 Plus
+474952a48a6fcf Nick Chan     2024-10-23   26    - iPad mini 4
+474952a48a6fcf Nick Chan     2024-10-23   27    - iPod touch 6
+474952a48a6fcf Nick Chan     2024-10-23   28    - Apple TV HD
+474952a48a6fcf Nick Chan     2024-10-23   29  
+bce8129bd91f7a Nick Chan     2024-10-23   30    Device based on the "A8X" SoC:
+bce8129bd91f7a Nick Chan     2024-10-23   31  
+bce8129bd91f7a Nick Chan     2024-10-23   32    - iPad Air 2
+bce8129bd91f7a Nick Chan     2024-10-23   33  
+51cec658c307ce Nick Chan     2024-10-23   34    Devices based on the "A9" SoC:
+51cec658c307ce Nick Chan     2024-10-23   35  
+51cec658c307ce Nick Chan     2024-10-23   36    - iPhone 6s
+51cec658c307ce Nick Chan     2024-10-23   37    - iPhone 6s Plus
+51cec658c307ce Nick Chan     2024-10-23   38    - iPhone SE (2016)
+51cec658c307ce Nick Chan     2024-10-23   39    - iPad 5
+51cec658c307ce Nick Chan     2024-10-23   40  
+bef712e3c109b6 Nick Chan     2024-10-23   41    Devices based on the "A9X" SoC:
+bef712e3c109b6 Nick Chan     2024-10-23   42  
+bef712e3c109b6 Nick Chan     2024-10-23   43    - iPad Pro (9.7-inch)
+bef712e3c109b6 Nick Chan     2024-10-23   44    - iPad Pro (12.9-inch)
+bef712e3c109b6 Nick Chan     2024-10-23   45  
+179626edeafe36 Nick Chan     2024-10-23   46    Devices based on the "A10" SoC:
+179626edeafe36 Nick Chan     2024-10-23   47  
+179626edeafe36 Nick Chan     2024-10-23   48    - iPhone 7
+179626edeafe36 Nick Chan     2024-10-23   49    - iPhone 7 Plus
+179626edeafe36 Nick Chan     2024-10-23   50    - iPod touch 7
+179626edeafe36 Nick Chan     2024-10-23   51    - iPad 6
+179626edeafe36 Nick Chan     2024-10-23   52    - iPad 7
+179626edeafe36 Nick Chan     2024-10-23   53  
+1600498764824f Nick Chan     2024-10-23   54    Devices based on the "A10X" SoC:
+1600498764824f Nick Chan     2024-10-23   55  
+1600498764824f Nick Chan     2024-10-23   56    - Apple TV 4K (1st generation)
+1600498764824f Nick Chan     2024-10-23   57    - iPad Pro (2nd Generation) (10.5 Inch)
+1600498764824f Nick Chan     2024-10-23   58    - iPad Pro (2nd Generation) (12.9 Inch)
+1600498764824f Nick Chan     2024-10-23   59  
+007c9b75f7e34d Nick Chan     2025-02-03   60    Devices based on the "T2" SoC:
+007c9b75f7e34d Nick Chan     2025-02-03   61  
+007c9b75f7e34d Nick Chan     2025-02-03   62    - Apple T2 MacBookPro15,2 (j132)
+007c9b75f7e34d Nick Chan     2025-02-03   63    - Apple T2 iMacPro1,1 (j137)
+007c9b75f7e34d Nick Chan     2025-02-03   64    - Apple T2 MacBookAir8,2 (j140a)
+007c9b75f7e34d Nick Chan     2025-02-03   65    - Apple T2 MacBookAir8,1 (j140k)
+007c9b75f7e34d Nick Chan     2025-02-03   66    - Apple T2 MacBookPro16,1 (j152f)
+007c9b75f7e34d Nick Chan     2025-02-03   67    - Apple T2 MacPro7,1 (j160)
+007c9b75f7e34d Nick Chan     2025-02-03   68    - Apple T2 Macmini8,1 (j174)
+007c9b75f7e34d Nick Chan     2025-02-03   69    - Apple T2 iMac20,1 (j185)
+007c9b75f7e34d Nick Chan     2025-02-03   70    - Apple T2 iMac20,2 (j185f)
+007c9b75f7e34d Nick Chan     2025-02-03   71    - Apple T2 MacBookPro15,4 (j213)
+007c9b75f7e34d Nick Chan     2025-02-03   72    - Apple T2 MacBookPro16,2 (j214k)
+007c9b75f7e34d Nick Chan     2025-02-03   73    - Apple T2 MacBookPro16,4 (j215)
+007c9b75f7e34d Nick Chan     2025-02-03   74    - Apple T2 MacBookPro16,3 (j223)
+007c9b75f7e34d Nick Chan     2025-02-03   75    - Apple T2 MacBookAir9,1 (j230k)
+007c9b75f7e34d Nick Chan     2025-02-03   76    - Apple T2 MacBookPro15,1 (j680)
+007c9b75f7e34d Nick Chan     2025-02-03   77    - Apple T2 MacBookPro15,3 (j780)
+007c9b75f7e34d Nick Chan     2025-02-03   78  
+cc35d5bc24cc47 Nick Chan     2024-10-23   79    Devices based on the "A11" SoC:
+cc35d5bc24cc47 Nick Chan     2024-10-23   80  
+cc35d5bc24cc47 Nick Chan     2024-10-23   81    - iPhone 8
+cc35d5bc24cc47 Nick Chan     2024-10-23   82    - iPhone 8 Plus
+cc35d5bc24cc47 Nick Chan     2024-10-23   83    - iPhone X
+cc35d5bc24cc47 Nick Chan     2024-10-23   84  
+f30ce10e9a49f2 Nick Chan     2024-10-23   85    Devices based on the "M1" SoC:
+007bd42364b5b6 Hector Martin 2021-02-05   86  
+007bd42364b5b6 Hector Martin 2021-02-05   87    - Mac mini (M1, 2020)
+007bd42364b5b6 Hector Martin 2021-02-05   88    - MacBook Pro (13-inch, M1, 2020)
+007bd42364b5b6 Hector Martin 2021-02-05   89    - MacBook Air (M1, 2020)
+ad1569476e7644 Janne Grunau  2021-11-23   90    - iMac (24-inch, M1, 2021)
+007bd42364b5b6 Hector Martin 2021-02-05   91  
+828fe6b6245bd9 Janne Grunau  2023-03-07   92    Devices based on the "M2" SoC:
+828fe6b6245bd9 Janne Grunau  2023-03-07   93  
+828fe6b6245bd9 Janne Grunau  2023-03-07   94    - MacBook Air (M2, 2022)
+efad8eaf6f2f00 Janne Grunau  2025-08-23   95    - MacBook Air (15-inch, M2, 2023)
+828fe6b6245bd9 Janne Grunau  2023-03-07   96    - MacBook Pro (13-inch, M2, 2022)
+828fe6b6245bd9 Janne Grunau  2023-03-07   97    - Mac mini (M2, 2023)
+828fe6b6245bd9 Janne Grunau  2023-03-07   98  
+67e5cec167f41c Janne Grunau  2026-01-26   99    Devices based on the "M3" SoC:
+67e5cec167f41c Janne Grunau  2026-01-26  100  
+67e5cec167f41c Janne Grunau  2026-01-26  101    - MacBook Air (13-inch, M3, 2024)
+67e5cec167f41c Janne Grunau  2026-01-26  102    - MacBook Air (15-inch, M3, 2024)
+67e5cec167f41c Janne Grunau  2026-01-26  103    - MacBook Pro (14-inch, M3, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  104    - iMac (24-inch, M3, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  105  
+28f94ed138c347 Janne Grunau  2025-09-14  106    Devices based on the "M1 Pro", "M1 Max" and "M1 Ultra" SoCs:
+e15b8c8563983c Hector Martin 2021-12-09  107  
+e15b8c8563983c Hector Martin 2021-12-09  108    - MacBook Pro (14-inch, M1 Pro, 2021)
+e15b8c8563983c Hector Martin 2021-12-09  109    - MacBook Pro (14-inch, M1 Max, 2021)
+e15b8c8563983c Hector Martin 2021-12-09  110    - MacBook Pro (16-inch, M1 Pro, 2021)
+e15b8c8563983c Hector Martin 2021-12-09  111    - MacBook Pro (16-inch, M1 Max, 2021)
+a450fc9a43799f Janne Grunau  2022-09-16  112    - Mac Studio (M1 Max, 2022)
+a450fc9a43799f Janne Grunau  2022-09-16  113    - Mac Studio (M1 Ultra, 2022)
+e15b8c8563983c Hector Martin 2021-12-09  114  
+28f94ed138c347 Janne Grunau  2025-09-14  115    Devices based on the "M2 Pro", "M2 Max" and "M2 Ultra" SoCs:
+28f94ed138c347 Janne Grunau  2025-09-14  116  
+28f94ed138c347 Janne Grunau  2025-09-14  117    - MacBook Pro (14-inch, M2 Pro, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  118    - MacBook Pro (14-inch, M2 Max, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  119    - MacBook Pro (16-inch, M2 Pro, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  120    - MacBook Pro (16-inch, M2 Max, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  121    - Mac mini (M2 Pro, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  122    - Mac Studio (M2 Max, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  123    - Mac Studio (M2 Ultra, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  124    - Mac Pro (M2 Ultra, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  125  
+67e5cec167f41c Janne Grunau  2026-01-26  126    Devices based on the "M3 Pro", "M3 Max" and "M3 Ultra" SoCs:
+67e5cec167f41c Janne Grunau  2026-01-26  127  
+67e5cec167f41c Janne Grunau  2026-01-26  128    - MacBook Pro (14-inch, M3 Pro, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  129    - MacBook Pro (14-inch, M3 Max, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  130    - MacBook Pro (16-inch, M3 Pro, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  131    - MacBook Pro (16-inch, M3 Max, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  132    - Mac Studio (M3 Ultra, 2025)
+67e5cec167f41c Janne Grunau  2026-01-26  133  
+007bd42364b5b6 Hector Martin 2021-02-05  134    The compatible property should follow this format:
+007bd42364b5b6 Hector Martin 2021-02-05  135  
+007bd42364b5b6 Hector Martin 2021-02-05  136    compatible = "apple,<targettype>", "apple,<socid>", "apple,arm-platform";
+007bd42364b5b6 Hector Martin 2021-02-05  137  
+007bd42364b5b6 Hector Martin 2021-02-05  138    <targettype> represents the board/device and comes from the `target-type`
+007bd42364b5b6 Hector Martin 2021-02-05  139    property of the root node of the Apple Device Tree, lowercased. It can be
+007bd42364b5b6 Hector Martin 2021-02-05  140    queried on macOS using the following command:
+007bd42364b5b6 Hector Martin 2021-02-05  141  
+007bd42364b5b6 Hector Martin 2021-02-05  142    $ ioreg -d2 -l | grep target-type
+007bd42364b5b6 Hector Martin 2021-02-05  143  
+007bd42364b5b6 Hector Martin 2021-02-05  144    <socid> is the lowercased SoC ID. Apple uses at least *five* different
+007bd42364b5b6 Hector Martin 2021-02-05  145    names for their SoCs:
+007bd42364b5b6 Hector Martin 2021-02-05  146  
+007bd42364b5b6 Hector Martin 2021-02-05  147    - Marketing name ("M1")
+007bd42364b5b6 Hector Martin 2021-02-05  148    - Internal name ("H13G")
+007bd42364b5b6 Hector Martin 2021-02-05  149    - Codename ("Tonga")
+007bd42364b5b6 Hector Martin 2021-02-05  150    - SoC ID ("T8103")
+007bd42364b5b6 Hector Martin 2021-02-05  151    - Package/IC part number ("APL1102")
+007bd42364b5b6 Hector Martin 2021-02-05  152  
+007bd42364b5b6 Hector Martin 2021-02-05  153    Devicetrees should use the lowercased SoC ID, to avoid confusion if
+007bd42364b5b6 Hector Martin 2021-02-05  154    multiple SoCs share the same marketing name. This can be obtained from
+007bd42364b5b6 Hector Martin 2021-02-05  155    the `compatible` property of the arm-io node of the Apple Device Tree,
+007bd42364b5b6 Hector Martin 2021-02-05  156    which can be queried as follows on macOS:
+007bd42364b5b6 Hector Martin 2021-02-05  157  
+007bd42364b5b6 Hector Martin 2021-02-05  158    $ ioreg -n arm-io | grep compatible
+007bd42364b5b6 Hector Martin 2021-02-05  159  
+007bd42364b5b6 Hector Martin 2021-02-05  160  properties:
+007bd42364b5b6 Hector Martin 2021-02-05  161    $nodename:
+007bd42364b5b6 Hector Martin 2021-02-05  162      const: "/"
+007bd42364b5b6 Hector Martin 2021-02-05  163    compatible:
+007bd42364b5b6 Hector Martin 2021-02-05  164      oneOf:
+f30ce10e9a49f2 Nick Chan     2024-10-23  165        - description: Apple A7 SoC based platforms
+f30ce10e9a49f2 Nick Chan     2024-10-23  166          items:
+f30ce10e9a49f2 Nick Chan     2024-10-23  167            - enum:
+f30ce10e9a49f2 Nick Chan     2024-10-23  168                - apple,j71  # iPad Air (Wi-Fi)
+f30ce10e9a49f2 Nick Chan     2024-10-23  169                - apple,j72  # iPad Air (Cellular)
+f30ce10e9a49f2 Nick Chan     2024-10-23  170                - apple,j73  # iPad Air (Cellular, China)
+f30ce10e9a49f2 Nick Chan     2024-10-23  171                - apple,j85  # iPad mini 2 (Wi-Fi)
+f30ce10e9a49f2 Nick Chan     2024-10-23  172                - apple,j85m # iPad mini 3 (Wi-Fi)
+f30ce10e9a49f2 Nick Chan     2024-10-23  173                - apple,j86  # iPad mini 2 (Cellular)
+f30ce10e9a49f2 Nick Chan     2024-10-23  174                - apple,j86m # iPad mini 3 (Cellular)
+f30ce10e9a49f2 Nick Chan     2024-10-23  175                - apple,j87  # iPad mini 2 (Cellular, China)
+f30ce10e9a49f2 Nick Chan     2024-10-23  176                - apple,j87m # iPad mini 3 (Cellular, China)
+f30ce10e9a49f2 Nick Chan     2024-10-23  177                - apple,n51  # iPhone 5s (GSM)
+f30ce10e9a49f2 Nick Chan     2024-10-23  178                - apple,n53  # iPhone 5s (LTE)
+f30ce10e9a49f2 Nick Chan     2024-10-23  179            - const: apple,s5l8960x
+f30ce10e9a49f2 Nick Chan     2024-10-23  180            - const: apple,arm-platform
+f30ce10e9a49f2 Nick Chan     2024-10-23  181  
+474952a48a6fcf Nick Chan     2024-10-23  182        - description: Apple A8 SoC based platforms
+474952a48a6fcf Nick Chan     2024-10-23  183          items:
+474952a48a6fcf Nick Chan     2024-10-23  184            - enum:
+474952a48a6fcf Nick Chan     2024-10-23  185                - apple,j42d # Apple TV HD
+474952a48a6fcf Nick Chan     2024-10-23  186                - apple,j96  # iPad mini 4 (Wi-Fi)
+474952a48a6fcf Nick Chan     2024-10-23  187                - apple,j97  # iPad mini 4 (Cellular)
+474952a48a6fcf Nick Chan     2024-10-23  188                - apple,n56  # iPhone 6 Plus
+474952a48a6fcf Nick Chan     2024-10-23  189                - apple,n61  # iPhone 6
+474952a48a6fcf Nick Chan     2024-10-23  190                - apple,n102 # iPod touch 6
+474952a48a6fcf Nick Chan     2024-10-23  191            - const: apple,t7000
+474952a48a6fcf Nick Chan     2024-10-23  192            - const: apple,arm-platform
+474952a48a6fcf Nick Chan     2024-10-23  193  
+bce8129bd91f7a Nick Chan     2024-10-23  194        - description: Apple A8X SoC based platforms
+bce8129bd91f7a Nick Chan     2024-10-23  195          items:
+bce8129bd91f7a Nick Chan     2024-10-23  196            - enum:
+bce8129bd91f7a Nick Chan     2024-10-23  197                - apple,j81 # iPad Air 2 (Wi-Fi)
+bce8129bd91f7a Nick Chan     2024-10-23  198                - apple,j82 # iPad Air 2 (Cellular)
+bce8129bd91f7a Nick Chan     2024-10-23  199            - const: apple,t7001
+bce8129bd91f7a Nick Chan     2024-10-23  200            - const: apple,arm-platform
+bce8129bd91f7a Nick Chan     2024-10-23  201  
+51cec658c307ce Nick Chan     2024-10-23  202        - description: Apple Samsung A9 SoC based platforms
+51cec658c307ce Nick Chan     2024-10-23  203          items:
+51cec658c307ce Nick Chan     2024-10-23  204            - enum:
+51cec658c307ce Nick Chan     2024-10-23  205                - apple,j71s # iPad 5 (Wi-Fi) (S8000)
+51cec658c307ce Nick Chan     2024-10-23  206                - apple,j72s # iPad 5 (Cellular) (S8000)
+51cec658c307ce Nick Chan     2024-10-23  207                - apple,n66  # iPhone 6s Plus (S8000)
+51cec658c307ce Nick Chan     2024-10-23  208                - apple,n69u # iPhone SE (S8000)
+51cec658c307ce Nick Chan     2024-10-23  209                - apple,n71  # iPhone 6S (S8000)
+51cec658c307ce Nick Chan     2024-10-23  210            - const: apple,s8000
+51cec658c307ce Nick Chan     2024-10-23  211            - const: apple,arm-platform
+51cec658c307ce Nick Chan     2024-10-23  212  
+51cec658c307ce Nick Chan     2024-10-23  213        - description: Apple TSMC A9 SoC based platforms
+51cec658c307ce Nick Chan     2024-10-23  214          items:
+51cec658c307ce Nick Chan     2024-10-23  215            - enum:
+51cec658c307ce Nick Chan     2024-10-23  216                - apple,j71t # iPad 5 (Wi-Fi) (S8003)
+51cec658c307ce Nick Chan     2024-10-23  217                - apple,j72t # iPad 5 (Cellular) (S8003)
+51cec658c307ce Nick Chan     2024-10-23  218                - apple,n66m # iPhone 6s Plus (S8003)
+51cec658c307ce Nick Chan     2024-10-23  219                - apple,n69  # iPhone SE (S8003)
+51cec658c307ce Nick Chan     2024-10-23  220                - apple,n71m # iPhone 6S (S8003)
+51cec658c307ce Nick Chan     2024-10-23  221            - const: apple,s8003
+51cec658c307ce Nick Chan     2024-10-23  222            - const: apple,arm-platform
+51cec658c307ce Nick Chan     2024-10-23  223  
+bef712e3c109b6 Nick Chan     2024-10-23  224        - description: Apple A9X SoC based platforms
+bef712e3c109b6 Nick Chan     2024-10-23  225          items:
+bef712e3c109b6 Nick Chan     2024-10-23  226            - enum:
+bef712e3c109b6 Nick Chan     2024-10-23  227                - apple,j127 # iPad Pro (9.7-inch) (Wi-Fi)
+bef712e3c109b6 Nick Chan     2024-10-23  228                - apple,j128 # iPad Pro (9.7-inch) (Cellular)
+bef712e3c109b6 Nick Chan     2024-10-23  229                - apple,j98a # iPad Pro (12.9-inch) (Wi-Fi)
+bef712e3c109b6 Nick Chan     2024-10-23  230                - apple,j99a # iPad Pro (12.9-inch) (Cellular)
+bef712e3c109b6 Nick Chan     2024-10-23  231            - const: apple,s8001
+bef712e3c109b6 Nick Chan     2024-10-23  232            - const: apple,arm-platform
+bef712e3c109b6 Nick Chan     2024-10-23  233  
+179626edeafe36 Nick Chan     2024-10-23  234        - description: Apple A10 SoC based platforms
+179626edeafe36 Nick Chan     2024-10-23  235          items:
+179626edeafe36 Nick Chan     2024-10-23  236            - enum:
+179626edeafe36 Nick Chan     2024-10-23  237                - apple,d10  # iPhone 7 (Qualcomm)
+179626edeafe36 Nick Chan     2024-10-23  238                - apple,d11  # iPhone 7 (Intel)
+179626edeafe36 Nick Chan     2024-10-23  239                - apple,d101 # iPhone 7 Plus (Qualcomm)
+179626edeafe36 Nick Chan     2024-10-23  240                - apple,d111 # iPhone 7 Plus (Intel)
+179626edeafe36 Nick Chan     2024-10-23  241                - apple,j71b # iPad 6 (Wi-Fi)
+179626edeafe36 Nick Chan     2024-10-23  242                - apple,j72b # iPad 6 (Cellular)
+179626edeafe36 Nick Chan     2024-10-23  243                - apple,j171 # iPad 7 (Wi-Fi)
+179626edeafe36 Nick Chan     2024-10-23  244                - apple,j172 # iPad 7 (Cellular)
+179626edeafe36 Nick Chan     2024-10-23  245                - apple,n112 # iPod touch 7
+179626edeafe36 Nick Chan     2024-10-23  246            - const: apple,t8010
+179626edeafe36 Nick Chan     2024-10-23  247            - const: apple,arm-platform
+179626edeafe36 Nick Chan     2024-10-23  248  
+1600498764824f Nick Chan     2024-10-23  249        - description: Apple A10X SoC based platforms
+1600498764824f Nick Chan     2024-10-23  250          items:
+1600498764824f Nick Chan     2024-10-23  251            - enum:
+1600498764824f Nick Chan     2024-10-23  252                - apple,j105a # Apple TV 4K (1st Generation)
+1600498764824f Nick Chan     2024-10-23  253                - apple,j120  # iPad Pro 2 (12.9-inch) (Wi-Fi)
+1600498764824f Nick Chan     2024-10-23  254                - apple,j121  # iPad Pro 2 (12.9-inch) (Cellular)
+1600498764824f Nick Chan     2024-10-23  255                - apple,j207  # iPad Pro 2 (10.5-inch) (Wi-Fi)
+1600498764824f Nick Chan     2024-10-23  256                - apple,j208  # iPad Pro 2 (10.5-inch) (Cellular)
+1600498764824f Nick Chan     2024-10-23  257            - const: apple,t8011
+1600498764824f Nick Chan     2024-10-23  258            - const: apple,arm-platform
+1600498764824f Nick Chan     2024-10-23  259  
+007c9b75f7e34d Nick Chan     2025-02-03  260        - description: Apple T2 SoC based platforms
+007c9b75f7e34d Nick Chan     2025-02-03  261          items:
+007c9b75f7e34d Nick Chan     2025-02-03  262            - enum:
+007c9b75f7e34d Nick Chan     2025-02-03  263                - apple,j132  # Apple T2 MacBookPro15,2 (j132)
+007c9b75f7e34d Nick Chan     2025-02-03  264                - apple,j137  # Apple T2 iMacPro1,1 (j137)
+007c9b75f7e34d Nick Chan     2025-02-03  265                - apple,j140a # Apple T2 MacBookAir8,2 (j140a)
+007c9b75f7e34d Nick Chan     2025-02-03  266                - apple,j140k # Apple T2 MacBookAir8,1 (j140k)
+007c9b75f7e34d Nick Chan     2025-02-03  267                - apple,j152f # Apple T2 MacBookPro16,1 (j152f)
+007c9b75f7e34d Nick Chan     2025-02-03  268                - apple,j160  # Apple T2 MacPro7,1 (j160)
+007c9b75f7e34d Nick Chan     2025-02-03  269                - apple,j174  # Apple T2 Macmini8,1 (j174)
+007c9b75f7e34d Nick Chan     2025-02-03  270                - apple,j185  # Apple T2 iMac20,1 (j185)
+007c9b75f7e34d Nick Chan     2025-02-03  271                - apple,j185f # Apple T2 iMac20,2 (j185f)
+007c9b75f7e34d Nick Chan     2025-02-03  272                - apple,j213  # Apple T2 MacBookPro15,4 (j213)
+007c9b75f7e34d Nick Chan     2025-02-03  273                - apple,j214k # Apple T2 MacBookPro16,2 (j214k)
+007c9b75f7e34d Nick Chan     2025-02-03  274                - apple,j215  # Apple T2 MacBookPro16,4 (j215)
+007c9b75f7e34d Nick Chan     2025-02-03  275                - apple,j223  # Apple T2 MacBookPro16,3 (j223)
+007c9b75f7e34d Nick Chan     2025-02-03  276                - apple,j230k # Apple T2 MacBookAir9,1 (j230k)
+007c9b75f7e34d Nick Chan     2025-02-03  277                - apple,j680  # Apple T2 MacBookPro15,1 (j680)
+007c9b75f7e34d Nick Chan     2025-02-03  278                - apple,j780  # Apple T2 MacBookPro15,3 (j780)
+007c9b75f7e34d Nick Chan     2025-02-03  279            - const: apple,t8012
+007c9b75f7e34d Nick Chan     2025-02-03  280            - const: apple,arm-platform
+007c9b75f7e34d Nick Chan     2025-02-03  281  
+cc35d5bc24cc47 Nick Chan     2024-10-23  282        - description: Apple A11 SoC based platforms
+cc35d5bc24cc47 Nick Chan     2024-10-23  283          items:
+cc35d5bc24cc47 Nick Chan     2024-10-23  284            - enum:
+cc35d5bc24cc47 Nick Chan     2024-10-23  285                - apple,d20  # iPhone 8 (Global)
+cc35d5bc24cc47 Nick Chan     2024-10-23  286                - apple,d21  # iPhone 8 Plus (Global)
+cc35d5bc24cc47 Nick Chan     2024-10-23  287                - apple,d22  # iPhone X (Global)
+cc35d5bc24cc47 Nick Chan     2024-10-23  288                - apple,d201 # iPhone 8 (GSM)
+cc35d5bc24cc47 Nick Chan     2024-10-23  289                - apple,d211 # iPhone 8 Plus (GSM)
+cc35d5bc24cc47 Nick Chan     2024-10-23  290                - apple,d221 # iPhone X (GSM)
+cc35d5bc24cc47 Nick Chan     2024-10-23  291            - const: apple,t8015
+cc35d5bc24cc47 Nick Chan     2024-10-23  292            - const: apple,arm-platform
+cc35d5bc24cc47 Nick Chan     2024-10-23  293  
+007bd42364b5b6 Hector Martin 2021-02-05  294        - description: Apple M1 SoC based platforms
+007bd42364b5b6 Hector Martin 2021-02-05  295          items:
+007bd42364b5b6 Hector Martin 2021-02-05  296            - enum:
+007bd42364b5b6 Hector Martin 2021-02-05  297                - apple,j274 # Mac mini (M1, 2020)
+007bd42364b5b6 Hector Martin 2021-02-05  298                - apple,j293 # MacBook Pro (13-inch, M1, 2020)
+007bd42364b5b6 Hector Martin 2021-02-05  299                - apple,j313 # MacBook Air (M1, 2020)
+ad1569476e7644 Janne Grunau  2021-11-23  300                - apple,j456 # iMac (24-inch, 4x USB-C, M1, 2021)
+ad1569476e7644 Janne Grunau  2021-11-23  301                - apple,j457 # iMac (24-inch, 2x USB-C, M1, 2021)
+007bd42364b5b6 Hector Martin 2021-02-05  302            - const: apple,t8103
+007bd42364b5b6 Hector Martin 2021-02-05  303            - const: apple,arm-platform
+a450fc9a43799f Janne Grunau  2022-09-16  304  
+828fe6b6245bd9 Janne Grunau  2023-03-07  305        - description: Apple M2 SoC based platforms
+828fe6b6245bd9 Janne Grunau  2023-03-07  306          items:
+828fe6b6245bd9 Janne Grunau  2023-03-07  307            - enum:
+828fe6b6245bd9 Janne Grunau  2023-03-07  308                - apple,j413 # MacBook Air (M2, 2022)
+efad8eaf6f2f00 Janne Grunau  2025-08-23  309                - apple,j415 # MacBook Air (15-inch, M2, 2023)
+828fe6b6245bd9 Janne Grunau  2023-03-07  310                - apple,j473 # Mac mini (M2, 2023)
+828fe6b6245bd9 Janne Grunau  2023-03-07  311                - apple,j493 # MacBook Pro (13-inch, M2, 2022)
+828fe6b6245bd9 Janne Grunau  2023-03-07  312            - const: apple,t8112
+828fe6b6245bd9 Janne Grunau  2023-03-07  313            - const: apple,arm-platform
+828fe6b6245bd9 Janne Grunau  2023-03-07  314  
+67e5cec167f41c Janne Grunau  2026-01-26  315        - description: Apple M2 SoC based platforms
+67e5cec167f41c Janne Grunau  2026-01-26  316          items:
+67e5cec167f41c Janne Grunau  2026-01-26  317            - enum:
+67e5cec167f41c Janne Grunau  2026-01-26  318                - apple,j504 # MacBook Pro (13-inch, M3, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  319                - apple,j613 # MacBook Air (13-inch, M3, 2024)
+67e5cec167f41c Janne Grunau  2026-01-26  320                - apple,j615 # MacBook Air (15-inch, M3, 2024)
+67e5cec167f41c Janne Grunau  2026-01-26  321                - apple,j433 # iMac (24-inch, 2x USB-C, M3, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  322                - apple,j434 # iMac (24-inch, 4x USB-C, M3, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  323            - const: apple,t8122
+67e5cec167f41c Janne Grunau  2026-01-26  324            - const: apple,arm-platform
+67e5cec167f41c Janne Grunau  2026-01-26  325  
+e15b8c8563983c Hector Martin 2021-12-09  326        - description: Apple M1 Pro SoC based platforms
+e15b8c8563983c Hector Martin 2021-12-09  327          items:
+e15b8c8563983c Hector Martin 2021-12-09  328            - enum:
+e15b8c8563983c Hector Martin 2021-12-09  329                - apple,j314s # MacBook Pro (14-inch, M1 Pro, 2021)
+e15b8c8563983c Hector Martin 2021-12-09  330                - apple,j316s # MacBook Pro (16-inch, M1 Pro, 2021)
+e15b8c8563983c Hector Martin 2021-12-09  331            - const: apple,t6000
+e15b8c8563983c Hector Martin 2021-12-09  332            - const: apple,arm-platform
+a450fc9a43799f Janne Grunau  2022-09-16  333  
+e15b8c8563983c Hector Martin 2021-12-09  334        - description: Apple M1 Max SoC based platforms
+e15b8c8563983c Hector Martin 2021-12-09  335          items:
+e15b8c8563983c Hector Martin 2021-12-09  336            - enum:
+e15b8c8563983c Hector Martin 2021-12-09  337                - apple,j314c # MacBook Pro (14-inch, M1 Max, 2021)
+e15b8c8563983c Hector Martin 2021-12-09  338                - apple,j316c # MacBook Pro (16-inch, M1 Max, 2021)
+a450fc9a43799f Janne Grunau  2022-09-16  339                - apple,j375c # Mac Studio (M1 Max, 2022)
+e15b8c8563983c Hector Martin 2021-12-09  340            - const: apple,t6001
+e15b8c8563983c Hector Martin 2021-12-09  341            - const: apple,arm-platform
+007bd42364b5b6 Hector Martin 2021-02-05  342  
+a450fc9a43799f Janne Grunau  2022-09-16  343        - description: Apple M1 Ultra SoC based platforms
+a450fc9a43799f Janne Grunau  2022-09-16  344          items:
+a450fc9a43799f Janne Grunau  2022-09-16  345            - enum:
+a450fc9a43799f Janne Grunau  2022-09-16  346                - apple,j375d # Mac Studio (M1 Ultra, 2022)
+a450fc9a43799f Janne Grunau  2022-09-16  347            - const: apple,t6002
+a450fc9a43799f Janne Grunau  2022-09-16  348            - const: apple,arm-platform
+a450fc9a43799f Janne Grunau  2022-09-16  349  
+28f94ed138c347 Janne Grunau  2025-09-14  350        - description: Apple M2 Pro SoC based platforms
+28f94ed138c347 Janne Grunau  2025-09-14  351          items:
+28f94ed138c347 Janne Grunau  2025-09-14  352            - enum:
+28f94ed138c347 Janne Grunau  2025-09-14  353                - apple,j414s # MacBook Pro (14-inch, M2 Pro, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  354                - apple,j416s # MacBook Pro (16-inch, M2 Pro, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  355                - apple,j474s # Mac mini (M2 Pro, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  356            - const: apple,t6020
+28f94ed138c347 Janne Grunau  2025-09-14  357            - const: apple,arm-platform
+28f94ed138c347 Janne Grunau  2025-09-14  358  
+28f94ed138c347 Janne Grunau  2025-09-14  359        - description: Apple M2 Max SoC based platforms
+28f94ed138c347 Janne Grunau  2025-09-14  360          items:
+28f94ed138c347 Janne Grunau  2025-09-14  361            - enum:
+28f94ed138c347 Janne Grunau  2025-09-14  362                - apple,j414c # MacBook Pro (14-inch, M2 Max, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  363                - apple,j416c # MacBook Pro (16-inch, M2 Max, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  364                - apple,j475c # Mac Studio (M2 Max, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  365            - const: apple,t6021
+28f94ed138c347 Janne Grunau  2025-09-14  366            - const: apple,arm-platform
+28f94ed138c347 Janne Grunau  2025-09-14  367  
+28f94ed138c347 Janne Grunau  2025-09-14  368        - description: Apple M2 Ultra SoC based platforms
+28f94ed138c347 Janne Grunau  2025-09-14  369          items:
+28f94ed138c347 Janne Grunau  2025-09-14  370            - enum:
+28f94ed138c347 Janne Grunau  2025-09-14  371                - apple,j180d # Mac Pro (M2 Ultra, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  372                - apple,j475d # Mac Studio (M2 Ultra, 2023)
+28f94ed138c347 Janne Grunau  2025-09-14  373            - const: apple,t6022
+28f94ed138c347 Janne Grunau  2025-09-14  374            - const: apple,arm-platform
+28f94ed138c347 Janne Grunau  2025-09-14  375  
+67e5cec167f41c Janne Grunau  2026-01-26  376        - description: Apple M3 Pro SoC based platforms
+67e5cec167f41c Janne Grunau  2026-01-26  377          items:
+67e5cec167f41c Janne Grunau  2026-01-26  378            - enum:
+67e5cec167f41c Janne Grunau  2026-01-26  379                - apple,j514s # MacBook Pro (14-inch, M3 Pro, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  380                - apple,j516s # MacBook Pro (16-inch, M3 Pro, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  381            - const: apple,t6030
+67e5cec167f41c Janne Grunau  2026-01-26  382            - const: apple,arm-platform
+67e5cec167f41c Janne Grunau  2026-01-26  383  
+67e5cec167f41c Janne Grunau  2026-01-26  384        - description: Apple M3 Max SoC based platforms
+67e5cec167f41c Janne Grunau  2026-01-26  385          oneOf:
+67e5cec167f41c Janne Grunau  2026-01-26  386            - items:
+67e5cec167f41c Janne Grunau  2026-01-26 @387              - enum:
+67e5cec167f41c Janne Grunau  2026-01-26  388                  - apple,j414c # MacBook Pro (14-inch, M3 Max, 16 cores, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  389                  - apple,j416c # MacBook Pro (16-inch, M3 Max, 16 cores, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  390              - const: apple,t6031
+67e5cec167f41c Janne Grunau  2026-01-26  391              - const: apple,arm-platform
+67e5cec167f41c Janne Grunau  2026-01-26  392            - items:
+67e5cec167f41c Janne Grunau  2026-01-26  393              - enum:
+67e5cec167f41c Janne Grunau  2026-01-26  394                  - apple,j414m # MacBook Pro (14-inch, M3 Max, 14 cores, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  395                  - apple,j416m # MacBook Pro (16-inch, M3 Max, 14 cores, 2023)
+67e5cec167f41c Janne Grunau  2026-01-26  396              - const: apple,t6034
+67e5cec167f41c Janne Grunau  2026-01-26  397              - const: apple,arm-platform
+67e5cec167f41c Janne Grunau  2026-01-26  398  
+67e5cec167f41c Janne Grunau  2026-01-26  399        - description: Apple M3 Ultra SoC based platforms
+67e5cec167f41c Janne Grunau  2026-01-26  400          items:
+67e5cec167f41c Janne Grunau  2026-01-26  401            - enum:
+67e5cec167f41c Janne Grunau  2026-01-26  402                - apple,j575d # Mac Studio (M3 Ultra, 2025)
+67e5cec167f41c Janne Grunau  2026-01-26  403            - const: apple,t6032
+67e5cec167f41c Janne Grunau  2026-01-26  404            - const: apple,arm-platform
+67e5cec167f41c Janne Grunau  2026-01-26  405  
 
 -- 
 0-DAY CI Kernel Test Service
