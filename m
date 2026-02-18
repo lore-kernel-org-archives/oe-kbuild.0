@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B382EBDC0
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Feb 2026 04:05:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C572E229F
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Feb 2026 04:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771387521; cv=none; b=qfAU/Ja0KoLMKt+mybSpGlSCZAbTIe8rFrty6CD8gMiiwuCrLX0tU4W494vS3y5Wtu+eR6A1p7jyZK/2ox5CstRYeGRwx/9JBVZzXc09vFQ0NxzpOil5xB6dLva9FAuXsEMjnfI8Ifbe8yAJcCdCuGmeCAz4zTOS98HNyr8rZ2U=
+	t=1771387522; cv=none; b=HKf7+6U9NXtwsPjaMfGIES5M9cTXCkPrlxelDENGOGA3P1EjtVFQI364g1Pa+omBuZqzRr5KdYQT0+UJ37BR/lcG8YM0DVVcJQ52VMD/H2M8SuB9Hfq+DazjCzhzAFOtFDa9xzhcYAovPfJMQ0LSHUZz7OixtjFGSkLCE7Kf7NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771387521; c=relaxed/simple;
-	bh=0qxaJFCA3MwGicKGvtg/hJ+Ej6OT0PrX4aOJmPFfzd8=;
+	s=arc-20240116; t=1771387522; c=relaxed/simple;
+	bh=aNMI57b06rpwfg+NgFS/gdF7c2THsTsQDeAD595IWrg=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k6aY3ZeAE0uABEQet7vZOZQ28IK7wxAprNBBdgXhdjWvt4NLZ9iqxB9ozQgDHKGwYNRpADTcyEC0cvi8WwthnxaG2mNoKmwpw/p8K79oGczLzv88E97+0DYiB9by/sgLcsIImPKxFbHsXiuqTr8PtOT3vx47dlVa10cFyggDtbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSKd+qit; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=YakaRMhD0CsSgSGKgRya2nv8D5dXdSrA9sIkja2R7V8UAIftAZpK7JiHUPKPlnLNm7zQ1aYZ5MejSrFhAN7APSvNpa2HcLr/dkpxJurutgS4gXWC7jhysSd0rbqjwJGsDkLfNJlQ4AydW7Ut4N8f0J48v0KfAedMDvB8z2rJ77A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4ch+Iks; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSKd+qit"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4ch+Iks"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771387519; x=1802923519;
+  t=1771387521; x=1802923521;
   h=date:from:to:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=0qxaJFCA3MwGicKGvtg/hJ+Ej6OT0PrX4aOJmPFfzd8=;
-  b=VSKd+qit5MtZgxiLwWwFXjZNXY7MHUghzszcZFUuHS8t6OTJ76qTO5f9
-   GSQZ9wg64WkgFGsLo6OOXCZf3Sedw+8h2h2k0qsZeH9q1GbLsEBMuhJB1
-   Hc41WZuPrjzxEJBURViGVxpPIzCI0nevKa/WAdB0wXVKfMOfCw2q8qAvE
-   Oy7vXVvHG7Vxf3ufT4fArAOFvoSoqwr0XWT4189qjfdKQd/21TzfhCOpS
-   8G3fpKyEx0acUFLXq+Zw/azZLEFtZhrI2qyF+vD7yAeaWjXVoFanrwqWh
-   +Qc+zlk6Q5QLl5TMXYmCWu+Fuvpmlq7XrdD8326wXIm9LeUiyToFXKDCW
-   A==;
-X-CSE-ConnectionGUID: cpNW0upvTA6uESSF7FDy2w==
-X-CSE-MsgGUID: 2kvHodHXRweYmwHVRYCWcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="83910126"
+  bh=aNMI57b06rpwfg+NgFS/gdF7c2THsTsQDeAD595IWrg=;
+  b=X4ch+IksPPxSNcmuyd5a3pfj1e3mMmNdl7IXGnm0PPPwfu+X8l0aSApj
+   N8WXYGw6qL6bmkMLfoO1zyd7JkZV8DGIKr/wfvyJ7fp/oSW+UJNQy62YJ
+   DBfD8TBr+ugpZr0gA2q/Nq/Y0MzbalkvpZdqyFXzAYTaS1kovbXHeTnjq
+   nETDLU9gbh1EmTcU/EWxgAYiiFya2G631UHi3gvsW+3wad8lAopKOnJai
+   hmn0QBvL6vwAIDxWiPnoMw/Iub8KCyvwZBWZtHdCJJugyfVZUJpD/QQbZ
+   00ECnWK1aIpp0gwVUVfrFVjAO8DyrsERWuCqH2DaEt3Hq7Q3F8nCWieVS
+   w==;
+X-CSE-ConnectionGUID: YCEeJnxRT+yVXfRBo8nSjA==
+X-CSE-MsgGUID: k7ZGwj4ER2G2xOjJKd42/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="83910128"
 X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
-   d="scan'208";a="83910126"
+   d="scan'208";a="83910128"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 20:05:19 -0800
-X-CSE-ConnectionGUID: n08kPH/yTpyrix66jLKCXQ==
-X-CSE-MsgGUID: nYU1mMoISFuwYFchx2LO/g==
+X-CSE-ConnectionGUID: qXm+L0+yRIKqt/H35/5bow==
+X-CSE-MsgGUID: 0z9OITKuSlanlwEkNwnGcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
-   d="scan'208";a="213325849"
+   d="scan'208";a="213325855"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 17 Feb 2026 20:05:17 -0800
+  by orviesa010.jf.intel.com with ESMTP; 17 Feb 2026 20:05:18 -0800
 Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsYoM-000000003Vn-05vR
+	id 1vsYoM-000000003Vr-0RRu
 	for oe-kbuild@lists.linux.dev;
 	Wed, 18 Feb 2026 04:05:14 +0000
-Date: Wed, 18 Feb 2026 05:04:43 +0100
+Date: Wed, 18 Feb 2026 05:04:53 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH 1/3] HID: apple: avoid memory leak in apple_report_fixup()
-Message-ID: <202602180520.2aYGtcdP-lkp@intel.com>
+Subject: Re: [PATCH 2/3] HID: magicmouse: avoid memory leak in
+ magicmouse_report_fixup()
+Message-ID: <202602180536.iRrRWeb7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,8 +70,8 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260217160125.1097578-2-gnoack@google.com>
-References: <20260217160125.1097578-2-gnoack@google.com>
+In-Reply-To: <20260217160125.1097578-3-gnoack@google.com>
+References: <20260217160125.1097578-3-gnoack@google.com>
 TO: "Günther Noack" <gnoack@google.com>
 TO: Jiri Kosina <jikos@kernel.org>
 
@@ -85,11 +86,11 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/G-nther-Noack/HID-apple-avoid-memory-leak-in-apple_report_fixup/20260218-000629
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20260217160125.1097578-2-gnoack%40google.com
-patch subject: [PATCH 1/3] HID: apple: avoid memory leak in apple_report_fixup()
+patch link:    https://lore.kernel.org/r/20260217160125.1097578-3-gnoack%40google.com
+patch subject: [PATCH 2/3] HID: magicmouse: avoid memory leak in magicmouse_report_fixup()
 :::::: branch date: 12 hours ago
 :::::: commit date: 12 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260218/202602180520.2aYGtcdP-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20260218/202602180536.iRrRWeb7-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
