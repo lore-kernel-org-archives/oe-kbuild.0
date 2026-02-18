@@ -1,131 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A927719755B
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Feb 2026 07:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50727332EDA
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Feb 2026 08:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771400060; cv=none; b=QO2dBH5SHgzlqwDxSmW96sHK/gxtLgakrq7C5Oc4CSg7Hej/EWBBrAKNmXLJZvQ5Boh7xUo4N2oAIUUNOYOxLdek1rYMt5j03p6ENyQyhStict/0lVErxJwNF7NJE84ZGs7KTSuO9APcFx5o0H0N+T15nygXKyz2Z0JOcWNvxtg=
+	t=1771405160; cv=none; b=jrhk4rG3OUXP62V+5oZgjD3ADlgKXaMZwXW4k0rjubhWeEhXCqkFdO5cc/24+Z4Tp6B9AIiZZuwrvhn8kAjWAx+5umo3vSz9Nna882K9KRpZXYq0VruwagvyLdnSgR4B0NfhqcR2cAzVPeRHIqIWMIvz3iddWLa6I+eE4KakEKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771400060; c=relaxed/simple;
-	bh=+VKKbm93GrhVxz6GR4sSjYGz5IlEYCsm9dfJaczfGUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kCDshmw2c0TOe94DNIjOC/YYmkMfJFm80riOIGWQmpQerPNYdRzdXzvSNXhmU9NJvY5RJ008i3LqBwnVxAyFk/TrEe5NZb4BRfwT6ppLdWyHc15iCiFAz5AZNIdsBmGGQxioaOrqEEikWqhPqj4BBYbEdrFMluzwR1CWmpbcdt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l7gZ/LDl; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1771405160; c=relaxed/simple;
+	bh=Vz5zL4G4T92xGkCeSyh93aCF4LoAmfACg3v9Ob5a5QI=;
+	h=Date:From:To:Subject:Message-ID; b=qh1dlVo8eXlZMn8CYpLJ9GzlqBMzfefoNiLLS2GJYfB6BQqk9EjTPHdclFu0hczKCll1lBgdTrI3JSpHJb1D0ABqba0YvyP9Rf1vCd45dYURjmHskKZv67sggivohwd3TlavhGPfL2WPlLqiQp8oti5X4h7QEf+t9pWjqtE6AOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gz1nvmJX; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7gZ/LDl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gz1nvmJX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771400058; x=1802936058;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+VKKbm93GrhVxz6GR4sSjYGz5IlEYCsm9dfJaczfGUk=;
-  b=l7gZ/LDlZXRSxqvJkD0U6J0ezj4Jg2/NNa2Pqyxg0ggU67/V/a/jWl4m
-   iKOZ9vY5wjZEPAzf0FMFN4aSSeCsicg4xc29LaSo1NByhKm8z4J9eBvtQ
-   bFxKq977wvxzWbWfrHod2cO+ciJIby9VPQFxgEf6q/HdnSrAKkiMPLW+t
-   zHxNA9fyGm8RHFpWROZKES/LmP5LDjg0ZFfBESx067GZWVCzLq+YYg4TC
-   eumdM73Q4HUxJMi5pOl0p4UnfUBdSf+XgX1uFQ4OKzVi6eJ6VEN+xfX21
-   oKsWJCoQQL1ZeIorZ7zgedjnlfA0qM+gW97gA0ynln3iDXvCnLNrHPV0E
-   A==;
-X-CSE-ConnectionGUID: KI8fc4sEQ36sMAhICUB76g==
-X-CSE-MsgGUID: bYDuzSqCRwqO9ivEWlsMyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72519775"
+  t=1771405160; x=1802941160;
+  h=date:from:to:subject:message-id;
+  bh=Vz5zL4G4T92xGkCeSyh93aCF4LoAmfACg3v9Ob5a5QI=;
+  b=Gz1nvmJXDEnOWcZU58RFK2IUUtXLv5xymo7baxmhBrnjfG7zs51JRFTM
+   txagM3er0mOVHaCO9NIrVAhBp7SLVafDipIAeVTHVol36MJbNHfl3joIY
+   XYVSdLHqvk2ygC+US3KHz3gcnILwiPqjvTsol9Hde6Q3C2PNvHJO834tg
+   OsbQg2/dYWotLREqMoMRSBNZpCLP8zT4Q2qBhBQV90q8TNqpbqpit/A1b
+   VGsMi7S2KRnhtwkWCDDUZlg4JWpBKJpJYwCvF9y4f7Fn/M9aJQWH00Z0N
+   lmctelk6/I+FOPuvrv21SN0k55ZUCBKoBAuijrUQSDb1a0xOz3uhj6raE
+   Q==;
+X-CSE-ConnectionGUID: Tnd+VJsYRpakC1wJHzOyMw==
+X-CSE-MsgGUID: d60utc+CR+in0zLHLLFa4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="83585331"
 X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
-   d="scan'208";a="72519775"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 23:34:18 -0800
-X-CSE-ConnectionGUID: 82UWbCNSQFWlhF3OmxgEqg==
-X-CSE-MsgGUID: YlrdEo+QT6W/YlH43Rm/LA==
+   d="scan'208";a="83585331"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 00:59:19 -0800
+X-CSE-ConnectionGUID: Ip6sYa5vQCyIkSWYy95d3w==
+X-CSE-MsgGUID: ha9UolXiQZiDca/VHg3E2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
-   d="scan'208";a="242975239"
+   d="scan'208";a="213346004"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Feb 2026 23:34:17 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 18 Feb 2026 00:59:17 -0800
 Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsc4d-000000003XN-1Hf6;
-	Wed, 18 Feb 2026 07:34:15 +0000
-Date: Wed, 18 Feb 2026 08:33:45 +0100
+	id 1vsdOt-000000003Xj-2WZR
+	for oe-kbuild@lists.linux.dev;
+	Wed, 18 Feb 2026 08:59:15 +0000
+Date: Wed, 18 Feb 2026 09:58:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 2/8] dt-bindings: dma: nvidia,tegra186-gpc-dma: Make
- reset optional
-Message-ID: <202602180808.ngAym04C-lkp@intel.com>
+Subject: [bcain:bcain/ebpf 43/47] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'iiii'
+Message-ID: <202602180914.HhUK6eBD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "checkpatch report for netdev code"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260217173457.18628-3-akhilrajeev@nvidia.com>
-References: <20260217173457.18628-3-akhilrajeev@nvidia.com>
-TO: Akhil R <akhilrajeev@nvidia.com>
-TO: dmaengine@vger.kernel.org
-TO: linux-tegra@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: vkoul@kernel.org
-CC: Frank.Li@kernel.org
-CC: robh@kernel.org
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: thierry.reding@gmail.com
-CC: jonathanh@nvidia.com
-CC: p.zabel@pengutronix.de
-CC: Akhil R <akhilrajeev@nvidia.com>
+TO: Brian Cain <brian.cain@oss.qualcomm.com>
 
-Hi Akhil,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/ebpf
+head:   20942a320c34a14587bd2fff48e695221e8bb9aa
+commit: e3346c299647a7b469835da18c4fb3cf0e7ac13c [43/47] hexagon: add eBPF JIT compiler
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260218/202602180914.HhUK6eBD-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
+# many are suggestions rather than must-fix
 
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on robh/for-next tegra/for-next linus/master v6.19 next-20260217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#307: FILE: arch/hexagon/net/bpf_jit.h:216:
++ *   0111 1000 iiii iiii PPii iiii iiid dddd
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-R/dt-bindings-dma-nvidia-tegra186-gpc-dma-Add-iommu-map-property/20260218-014114
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20260217173457.18628-3-akhilrajeev%40nvidia.com
-patch subject: [PATCH 2/8] dt-bindings: dma: nvidia,tegra186-gpc-dma: Make reset optional
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: microblaze-randconfig-2051-20260218 (https://download.01.org/0day-ci/archive/20260218/202602180808.ngAym04C-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 10.5.0
-dtschema: 2025.13.dev7+gd16dc68b0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602180808.ngAym04C-lkp@intel.com/reproduce)
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#353: FILE: arch/hexagon/net/bpf_jit.h:262:
++ * Encoding: 0111 0010 ii1x xxxx PPii iiii iiii iiii
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202602180808.ngAym04C-lkp@intel.com/
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#353: FILE: arch/hexagon/net/bpf_jit.h:262:
++ * Encoding: 0111 0010 ii1x xxxx PPii iiii iiii iiii
 
-dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/pci/mbvl,gpex40-pcie.yaml: maintainers:0: 'Frank Li <Frank Li@nxp.com>' does not match '^(.+ <[\\S]+@[\\S]+>|[\\S]+@[\\S]+)$'
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml
-   Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml: maintainers:2: 'Seung-Woo Kim <sw0312.kim@samsung.com' does not match '^(.+ <[\\S]+@[\\S]+>|[\\S]+@[\\S]+)$'
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml
-   Documentation/devicetree/bindings/hwmon/sensirion,shtc1.yaml: maintainers:0: 'Christopher Ruehl chris.ruehl@gtsys.com.hk' does not match '^(.+ <[\\S]+@[\\S]+>|[\\S]+@[\\S]+)$'
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml
->> Documentation/devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml: allOf:1: 'then' is a dependency of 'if'
-   	hint: Keywords must be a subset of known json-schema keywords
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
->> Documentation/devicetree/bindings/dma/nvidia,tegra186-gpc-dma.yaml: allOf:1:if: 'if' is a dependency of 'then'
-   	hint: Keywords must be a subset of known json-schema keywords
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
-   Documentation/devicetree/bindings/input/syna,rmi4.yaml: maintainers:1: 'Matthias Schiffer <matthias.schiffer@ew.tq-group.com' does not match '^(.+ <[\\S]+@[\\S]+>|[\\S]+@[\\S]+)$'
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#367: FILE: arch/hexagon/net/bpf_jit.h:276:
++ * Encoding: 0111 0001 ii1x xxxx PPii iiii iiii iiii
+
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#367: FILE: arch/hexagon/net/bpf_jit.h:276:
++ * Encoding: 0111 0001 ii1x xxxx PPii iiii iiii iiii
+
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#621: FILE: arch/hexagon/net/bpf_jit.h:530:
++ * Encoding: 0101 100i iiii iiii PPii iiii iiii iii-
+
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#621: FILE: arch/hexagon/net/bpf_jit.h:530:
++ * Encoding: 0101 100i iiii iiii PPii iiii iiii iii-
+
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#636: FILE: arch/hexagon/net/bpf_jit.h:545:
++ * Encoding: 0101 101i iiii iiii PPii iiii iiii iii0
+
+WARNING:REPEATED_WORD: Possible repeated word: 'iiii'
+#636: FILE: arch/hexagon/net/bpf_jit.h:545:
++ * Encoding: 0101 101i iiii iiii PPii iiii iiii iii0
 
 -- 
 0-DAY CI Kernel Test Service
