@@ -1,85 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9EC1AE877
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Feb 2026 00:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8431A2F1FFE
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Feb 2026 06:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771460493; cv=none; b=Vmb/XV6KOrWZyqpTDPQcTAdNUppc6GzVuFI5Re3hyzGwqFSermz9bOFuk5YHULeggv8S4Qlp0PmBjhFdPtC/3BHa8zxETYvb1ChQpVUBegu/qCuhARqjB0Va3lxrCmWzC+A/zV+aDSAG8syuMPTtlXgv+EVYfXk+VpCXjsxbswo=
+	t=1771483369; cv=none; b=Pj4ZrgFIDPTnMp6uGlTFOgtmr64DGHqi9Kfq7GFlNin4U23D2KnewfwB3Jrbv2UJo91ZnyNO+iIFNLlU5o443JJkp/8r/P2+7i+msArBNLGDUBLuuCFWhjMfRAxTxvmscTaWJX+tuM2Nm2s+XqPgos9aEFO/1CTG9CHTTy+qEeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771460493; c=relaxed/simple;
-	bh=V0NYFwHMhKr5PpSi7bIHG+k/TCt7Agre87UaGisHGoM=;
-	h=Date:From:To:Subject:Message-ID; b=HRrDL8Y8ZlUM9qsX9/Jz92guiyf/KZbV5N1wdHLjkMrijQAbL3wKlzgEoX6OglF3RxBiX/Ocio5U/aYdmqHPuETMvi+aGPdi+N+sXwahFcOFRXeLJZE++y++yk+L52jVp79W3dxKGGCVgmWSZMSzLM5eD+3gzl+8/AxWewkbw1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hm16PMoy; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771483369; c=relaxed/simple;
+	bh=Xv5tPnOd85bFHhVpV9Q4SWpKSydmdaSKUXEHVBB9p8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=eTxRh7Jiaf2X96kCr7amqIdR2Rx0vrGmCtIU5uAMAuDcbuJHiyk+nnUEMLNSoagntQRd8EpGy5SGuxC/vHYVGzKATw6TCNaS9H3nKcPkQuxsnZLazD2edDMDsQ2/ccktpGT1GoF4jKn5Io+zebToBREATMvJeRcn9RNJCShSqGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ac82hYHc; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hm16PMoy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771460492; x=1802996492;
-  h=date:from:to:subject:message-id;
-  bh=V0NYFwHMhKr5PpSi7bIHG+k/TCt7Agre87UaGisHGoM=;
-  b=Hm16PMoyDTUbjajHPrIQbsuz2afHrBv8VVQPuvdcmDdZoo9DsHtJ0ukK
-   d35SABfNY7qJdL6dup9fXaGNFNlv0lKTFxbd2GjfBOXAMTiKXsEoO0eAW
-   leHOk9Bun5wNu/ix+cVkpIVLJoCJ6jhY9b+6VMTZt0ucdB2EWm9DLeAoe
-   QMBsinwkhiEX/OOYLQgyO19EWeKfa7QU70XRMQ4J4S7h0l+xYMjRpBKmv
-   Pdfyp5zSaiY98Dtm+ewrbEwEegcAFdYegG14nHg2dMB0mAZ5cLsq2ueoV
-   VlBIQaT78VEpCYd3EZdtlrKu1IqSLemCyUGeYYE0K6166hjfcZaDIH/43
-   A==;
-X-CSE-ConnectionGUID: BTXkxpuKQw6fvFLEqtNnAw==
-X-CSE-MsgGUID: DO8uHq66SleWxpM8KJEdOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="76381777"
-X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="76381777"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 16:21:31 -0800
-X-CSE-ConnectionGUID: yOOhTwyZTaOg4Wh17KfgIA==
-X-CSE-MsgGUID: j4YKhuC1SdCD/jS6itNtiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="243082272"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Feb 2026 16:21:30 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vsrnM-000000003ob-0hMU
-	for oe-kbuild@lists.linux.dev;
-	Thu, 19 Feb 2026 00:21:28 +0000
-Date: Thu, 19 Feb 2026 01:20:56 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Subject: [jarkko-tpmdd:rootns 10/18] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'namespace'
-Message-ID: <202602190129.Jg8yp8QD-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ac82hYHc"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4807068eacbso5014185e9.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 18 Feb 2026 22:42:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1771483365; x=1772088165; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3dOFTgXyRfXc13ca2FqDNmr5YmI+fRqA0RDibyTNOH8=;
+        b=Ac82hYHcIx2BWjVj1tMx5wZ06LaDGJmvmG6XdmZcfI4daMVcWLu0JazBh+rICDK4e8
+         C6MooOSqWtaChvrDlgRCXl2VHKo0x56aaU4JgVLmSv1fzMvoCSfVept4Vshq1DnRkCYs
+         WtDC45rBSYM57BHkOGVsvy4vuxDulnJp3hgl3NWPakGH4HXMggQG193ShUmFdSoW+Jty
+         euWrhqz22lxVenIOfgkas2waehYZeOZAkS5Sq2GY7bsudWUx7HpVqy4eJOQH4dcVW4zw
+         SQN1/Fuw8gY/KPV4f67/AmyKXmRm7FVG6XWi0kCGVjavQs/ephplQb6K4Ln/CUHZCpYB
+         xS6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771483365; x=1772088165;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3dOFTgXyRfXc13ca2FqDNmr5YmI+fRqA0RDibyTNOH8=;
+        b=ZCjAXWVdwISnaXkg+72QnbcrGZaG+yYaiVBeCOXV3HjerXYP8rFWAK1rAMh0G+g3zS
+         xc2jO/nPa5NNiQEHJX9UrhwsSAHxVXI0IQK1e/jMcFiZplL2iREGbkcjIqtIh/c8QW/S
+         huA2VMsh2YVzTGldO1TTkU8DLgUYILh/lAWKhvkrwdM1AP/ol10vICtZoZY0VXyg3wpW
+         lHMDYmsI6tggZRDBs/Cwx3atTMOcHBYqPCNU2+1qsES0CXlvA8uGD6pQJ8AUGFnBq8Pq
+         J15Pwg+Tn3xT+QcxISGrFDFV/mQUzv2zpj9R8txBpiltAiVjYAg4Ilzn4yhwZit4Oz58
+         jHvQ==
+X-Gm-Message-State: AOJu0YxIAdH/2htu5a27Ng614WKNIVysrgWEe7vLbhNAhszhRNyNMySr
+	rbRY1mkzDlCmRyvTyfHd2oEV0+7JNKJaM5tPjcNjE6LaNamMHgtMf7kU8R0irVMpL2prmBtUy3x
+	nz8l8
+X-Gm-Gg: AZuq6aL719LGvvc1AcZx+EKZomy2y1SHJfSz0UVSe8Mg5eLkFYspcP4hpYeeEtffZva
+	4vD6uqKLQOFaJFiZZ+Ij9wgnGU3+4bRt7b8isOd/4mzsJW5y9MFGwwzM2TVxibIGVovsktQysdx
+	N+ISu4k+6lMBuEz+DVgSD6q4btfdAqR/5JJkAv0xkGBo6ZW3eY3n4sqOWpX+GYj21+OG9Ah82SE
+	xy4+VxswNaQFpesA+tMZYFUxaO8tjBDZWrMV8lo7YQMeO5cs2FHICzU2nx9hUIOgl8J/duh/CU5
+	Ijw8fUUUk8jd99m1omyncqTqXwWFOY/Vzp22KgjAB4b5yhq8foJupU2p+2ZQNZLgCONLmLSS891
+	kW9OvmZ7x94bIbwP8fW/ih5/P57oaGU8qbTDHmTlnwSlmGNdYS69Qhj/Gcjh2Qb7qa5aGt/UdUO
+	CIe1FBiyBdI9NY+QfSn0+1jECX5E5c
+X-Received: by 2002:a05:600c:3b11:b0:480:6ab1:ed0d with SMTP id 5b1f17b1804b1-48398a52be1mr86346975e9.9.1771483364488;
+        Wed, 18 Feb 2026 22:42:44 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4836aa0847asm739339205e9.3.2026.02.18.22.42.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Feb 2026 22:42:44 -0800 (PST)
+Date: Thu, 19 Feb 2026 09:42:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Lorenzo Bianconi <lorenzo@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 1/2] wifi: mac80211: Add the capability to offload
+ MLO link reconfiguration countdown in the NIC fw
+Message-ID: <202602141535.yS6STaer-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260212-mt7996-link-reconf-v1-1-2b110340d6c4@kernel.org>
+Message-ID: <20260219064240.tW2Wbzt4PIQg9WD0SyHUHxucBvQr74syP1D6Donpwhk@z>
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
+Hi Lorenzo,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Jarkko Sakkinen <jarkko@kernel.org>
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
-head:   b567ecc2e9f0ca2734c856c9c0c09765bf0de6f1
-commit: e39331d2791976be1c6c5d37bb0f9f0c043094b0 [10/18] rootns: Implement rootns_enter()
-:::::: branch date: 66 minutes ago
-:::::: commit date: 68 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20260219/202602190129.Jg8yp8QD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/wifi-mac80211-Add-the-capability-to-offload-MLO-link-reconfiguration-countdown-in-the-NIC-fw/20260212-074113
+base:   4eefc435c985f4dfdba9afb1c705f0e17377c084
+patch link:    https://lore.kernel.org/r/20260212-mt7996-link-reconf-v1-1-2b110340d6c4%40kernel.org
+patch subject: [PATCH RFC 1/2] wifi: mac80211: Add the capability to offload MLO link reconfiguration countdown in the NIC fw
+config: nios2-randconfig-r071-20260214 (https://download.01.org/0day-ci/archive/20260214/202602141535.yS6STaer-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202602141535.yS6STaer-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'namespace'
-#14: 
-Root namespace namespace selection is fixed at rootns_create() time.
+New smatch warnings:
+net/mac80211/iface.c:1787 ieee80211_ap_work() warn: clear_bit() takes a bit number
+net/mac80211/cfg.c:5329 ieee80211_mlo_reconf_complete_notify() warn: test_and_set_bit() takes a bit number
+
+Old smatch warnings:
+net/mac80211/iface.c:1940 ieee80211_setup_sdata() error: we previously assumed 'sdata->dev' could be null (see line 1896)
+
+vim +1787 net/mac80211/iface.c
+
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1779  static void ieee80211_ap_work(struct ieee80211_sub_if_data *sdata)
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1780  {
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1781  	if (!test_bit(IEEE80211_IF_AP_RECONF_LINKS, &sdata->u.ap.flags))
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1782  		return;
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1783  
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1784  	cfg80211_mlo_reconf_complete_notify(sdata->dev,
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1785  					    sdata->u.ap.reconf_links);
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1786  	sdata->u.ap.reconf_links = 0;
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12 @1787  	clear_bit(IEEE80211_IF_AP_RECONF_LINKS, &sdata->u.ap.flags);
+
+Presumbably IEEE80211_IF_AP_RECONF_LINKS is a BIT(x) where we should
+just pass x.
+
+5d2949a9c9ba19 Lorenzo Bianconi 2026-02-12  1788  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
