@@ -1,74 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB88331A70
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 09:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04277337BBA
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 10:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771581372; cv=none; b=ButpFgR/RQ96AWZHSuFCj6ometCxVXom7dbARzbXDc/1d6guq9VqY6Et7wGIyambiunWI9RvopN+yWgz1RZWvgfWU1guQ+FCxF88nSuUecp9lJ+Ur8y3XBUi2SFJm1MZyN3vL/BeRxvOww6nUF8Hd/p2ivmwrZXOrdl2F1nAQuQ=
+	t=1771583155; cv=none; b=uVmIpbNMvhdom79VR2aawK9eA4Sf15x3IwfkF5hWAalqHStEnNy/jNqQVZMOrKSAjSk5jSBHexSfu83tLj1tlCrtSx1v+8cLgVio66gPglhIQsLnwj0rgUIZRC5qJPw7Aut62yOJrXuu9s0O3lfRMsnedYVFZe3q3mF4111kmQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771581372; c=relaxed/simple;
-	bh=PM2Vcmkjwmsa9Uvv1ForvjP4bxAFkqctBiD4n3e8RyY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uGIvDbffmYsi9AP6/uC01aCjgNtU+muhTpxVkzxrm1rn65IcwjlPFPtHrigmIoilUgtNDtuHyYxKGKz4L281AF7McquUXWLyBPRv5KFEbZBKxAQZOHfzLHNT28i1UkrozJ5gn+TyJcadD8ccHssHocaQuFvKRa7xu2b0dv+VhgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDfjAKdN; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771583155; c=relaxed/simple;
+	bh=dCvPeAJW76/i+bvaStaj7xfjrDurZkY2/3HjRPxN9Ig=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qNmwXS4u3MpW93IOorDiSzgNcAFfEBxH5fNecAx/OX7F/2E55MpSejaR0yveBaDfrafnYxqTCHpl5We7DizT/I7S/VoAAtcxUvoUj9lMqlzEhUt2hck8S3bAXzG2RSgwdEKv2oUYuITY2vqvSz/cr93nGdlvSv1bwCKHsvo/KKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sT0QRcJO; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDfjAKdN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771581370; x=1803117370;
-  h=date:from:to:cc:subject:message-id;
-  bh=PM2Vcmkjwmsa9Uvv1ForvjP4bxAFkqctBiD4n3e8RyY=;
-  b=CDfjAKdNQkA68T+fwmZ1jsVKxYl2IqFDDx9pa7oSH6o2aaPPnW+Uh5rG
-   HKgtAreaI5mYW091mE9ccjvuGVlmYqTKA5miuvtASZtOQUo2iwTeO9RqS
-   HzpdkQ2PJQk8MgLOne7i6ZLE955xbvdImeg4iZ03Top16rwfEKiH0Ah4q
-   tMit4qNp9nLVbEzZ3de3W6g17Ok68M0qnwFeCI5XjcgBFHGFefT/NJrNQ
-   I0EJkrZAhngw+0j2OYBt3ox1P3AFnaoas8+uaDQ1iHEVF28uGIs+XEGkn
-   Rq+qDir0JiK8ym8OGgoiPJsgUH5/ETIw1XVXIRtJFSffOIVK50ppg6jxm
-   A==;
-X-CSE-ConnectionGUID: unOh7COhTJKpheoPC0/jOg==
-X-CSE-MsgGUID: 191y7ZitR16AUMoKviUS/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="71698306"
-X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
-   d="scan'208";a="71698306"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 01:56:09 -0800
-X-CSE-ConnectionGUID: MGMP6bsxT3WGxkD9G3p8DA==
-X-CSE-MsgGUID: SMDmPdsfSnW803vcJ9wa8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
-   d="scan'208";a="219355375"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Feb 2026 01:56:08 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vtNEz-000000013zw-3I34;
-	Fri, 20 Feb 2026 09:56:05 +0000
-Date: Fri, 20 Feb 2026 17:55:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [arm-integrator:b4/ks8995-fixups 5/7]
- drivers/net/dsa/ks8995.c:314 ks8995_get_revision() warn: was || intended here
- instead of &&?
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sT0QRcJO"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-483487335c2so17946735e9.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 02:25:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1771583152; x=1772187952; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kYn+3Ywjl5NbsUInHvxsRp94AMznrrcXlSDarMtm8gU=;
+        b=sT0QRcJOFhauUmLmfRY1I9ZjpCe6GMvNbHZ69ZdOu9fJgdQlE/BhYKZFo4Rmqhu7wk
+         cAdGc8mIAs0X2Y8U88Wzc7A/CgCZxusEV1pVl726GaLx4RJZBtrZ0q1VZSSq7L9VlHMC
+         iX1IAt2KTHcN4gPT4zDk+b5QXZHtOl76MYZQ04h+HYemoVfNC4owdeB0Vb3u2anfCS7X
+         IpeK8t2tIQwI4FY5hU9in8avKKeMctxCknyed90NT0XGfai6BBxeEpjzaH+9iFnFnuDA
+         4gPDSYYOmuh5B6avUbay5CkUAFRVrWK3AryRXpDtlSgsn+tocQwx9BwJSw1gaIW43g66
+         dguA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771583152; x=1772187952;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kYn+3Ywjl5NbsUInHvxsRp94AMznrrcXlSDarMtm8gU=;
+        b=CoUEnzJT0jIzbV4RWPCOM8JaUm+2BQu5C0IFLQ/tFljuHBLGVHQVi1ZKFsXR+lWLdm
+         A9xvVBGlYUYSQBbV3wFmCxJyedb3TLVojqcPENJue5fAu4bRi3e4TVyx0Kk3r4co/rVO
+         6n3GFCNT7ln1+nkxOWSYpQX685mFCyZvhvcL/A1zOxdgMnbc+FZd3J2LCayfGvhNbkf+
+         kuT6eT/QsbgZtDRMg4OiBsqgo14cyHJEWGsBHJMlyW2dG87nlEIluBvMxlRT2b5IE9CE
+         LXXgfT+q7MThp/Gi3fcVFwZRFLa11fyo8J0E+Yesx+jLXzuhqEIw6FwkpLHhs1Zaa0+M
+         6LpQ==
+X-Gm-Message-State: AOJu0YzxNq7feX1H89FFtHRbJiH4lZYFarxzohNf7u/1qO5AIbnoVlBe
+	icIv/yetN8jEzkdZTrC9a9TL/hoVk0AlrGx0K0Og/tHyr/KKevdwA9UsPHLT0OMJPgShouGI3Y/
+	IKh36
+X-Gm-Gg: AZuq6aJGv3IyXGLa7RASi1J35hskEsbXQ+wUlcbb2tjeIZiWXcTS7ROC+I4ON/lMxRK
+	sWnsZV7ujDCLTiuJhblS8MTvfDfVLRmHhH7q4bOuBI3Vf8686O1L7toVIps3xPZFdSFIsKCBX/8
+	BAM8+yFlKsLwU++v+6KsMvDX/UZ7Uxn6BYFDCCWBQMVg1RdbR/AQ1n8eXeNKfErTZynTRwbNFfO
+	rTC0B5CEd7JI98zx2qg6uMGebXKYeXc83pMBC5r6KhFw8mEE7wVlc+56A64b38fQOsZCno4t/zi
+	SS0HO/cK96OSeSkMjw+5fJUiWNLFmll5j5C1OdNsbXzeXLC9x77PIg3Ai+2IoAi/l9Koaw6qAic
+	9Dv4rhsIoLaT8Jcbc7EQweengr2O6f56ey7P8FxyHeyYkaYpLS6isTGj3aHcKI9ugBKw+EI52aa
+	iFfQ2WbrHyySdAwzIqAWmTH0w8n1ao
+X-Received: by 2002:a05:600c:46c7:b0:483:7ce6:1efb with SMTP id 5b1f17b1804b1-4839e6614c4mr86530055e9.17.1771583151722;
+        Fri, 20 Feb 2026 02:25:51 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a316c2aasm61312035e9.0.2026.02.20.02.25.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Feb 2026 02:25:51 -0800 (PST)
+Date: Fri, 20 Feb 2026 13:25:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Linus Walleij <linusw@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/ks8995-fixups 5/7] drivers/net/dsa/ks8995.c:314
+ ks8995_get_revision() warn: was || intended here instead of &&?
 Message-ID: <202602201735.XhNCovu6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linusw@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260220102547.7Q1MDobjUmBVZiIKDsRLwH0mlHgyElcTh_8pKvoXjXw@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/ks8995-fixups
 head:   ea4d9288b053886fb1063467e90076b1bac75212
 commit: 8391defbf00b98a8458722096cc571e598e5b8da [5/7] net: dsa: ks8955: Delete KSZ8864 and KSZ8795 support
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
 config: i386-randconfig-141-20260220 (https://download.01.org/0day-ci/archive/20260220/202602201735.XhNCovu6-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch version: v0.5.0-8994-gd50c5a4c
@@ -76,7 +84,7 @@ smatch version: v0.5.0-8994-gd50c5a4c
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202602201735.XhNCovu6-lkp@intel.com/
 
 smatch warnings:
@@ -84,12 +92,6 @@ drivers/net/dsa/ks8995.c:314 ks8995_get_revision() warn: was || intended here in
 
 vim +314 drivers/net/dsa/ks8995.c
 
-a8e510f682fe6d drivers/net/phy/spi_ks8995.c Frederic LAMBERT 2011-12-18  285  
-484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  286  /* ks8995_get_revision - get chip revision
-484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  287   * @ks: pointer to switch instance
-484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  288   *
-484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  289   * Verify chip family and id and get chip revision.
-484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  290   */
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  291  static int ks8995_get_revision(struct ks8995_switch *ks)
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  292  {
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  293  	int err;
@@ -115,6 +117,9 @@ a8e510f682fe6d drivers/net/phy/spi_ks8995.c Frederic LAMBERT 2011-12-18  285
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  313  	/* verify chip id */
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09 @314  	if ((get_chip_id(id1) == CHIPID_M) &&
 8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  315  	    (get_chip_id(id1) == KS8995_CHIP_ID)) {
+
+It can't be both chip IDs at the same time.
+
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  316  		/* KS8995MA */
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  317  		ks->revision_id = get_chip_rev(id1);
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  318  	} else {
@@ -125,14 +130,8 @@ c0e6cb1fed5a73 drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  322  	}
 c0e6cb1fed5a73 drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  323  
 8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  324  	return 0;
 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  325  }
-484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  326  
-
-:::::: The code at line 314 was first introduced by commit
-:::::: 484e36ff18341ca1fca4258139100b2e90530f53 net: phy: spi_ks8995: verify chip and determine revision
-
-:::::: TO: Helmut Buchsbaum <helmut.buchsbaum@gmail.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
