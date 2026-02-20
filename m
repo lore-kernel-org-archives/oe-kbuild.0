@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5C4283FE2
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 09:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB88331A70
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 09:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771579450; cv=none; b=XITYlqo7U6Z2vntjHjkitYde8zuWIYER24DyuP8bzbGcTiWgziQWT9Za4qZBCKRkCpirCPE8DJLI8rTTomPtKM0COTSzh7VHhiRQ/eVmSCvHyqxDQqgJnED+XNe1ErXPAKJ5mEhmfPa1PQUElrUgNC3/buhRyiVz+omgbHaRfEU=
+	t=1771581372; cv=none; b=ButpFgR/RQ96AWZHSuFCj6ometCxVXom7dbARzbXDc/1d6guq9VqY6Et7wGIyambiunWI9RvopN+yWgz1RZWvgfWU1guQ+FCxF88nSuUecp9lJ+Ur8y3XBUi2SFJm1MZyN3vL/BeRxvOww6nUF8Hd/p2ivmwrZXOrdl2F1nAQuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771579450; c=relaxed/simple;
-	bh=rIbmVwsKfHmHkEC0cTlA/Wyp9FFVLcYCV4XeGm080zU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LUNB+yNwWsPwIVOz9pauc6us8agA9c9Qr4Vsp5l2jNrx79aJ2CUaALRE1UA2hJDujtU6s1ycvH0D01vhjW2T0/b6IQj6s9E2X2ArYrbLfUGa3rr2Ibbv8Nmr8xYPjDNQPMwiQgcrwNUE8+z6QL/RKfaVTaCOWc6JiDZ9FJnAXTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1yB5gAd; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1771581372; c=relaxed/simple;
+	bh=PM2Vcmkjwmsa9Uvv1ForvjP4bxAFkqctBiD4n3e8RyY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uGIvDbffmYsi9AP6/uC01aCjgNtU+muhTpxVkzxrm1rn65IcwjlPFPtHrigmIoilUgtNDtuHyYxKGKz4L281AF7McquUXWLyBPRv5KFEbZBKxAQZOHfzLHNT28i1UkrozJ5gn+TyJcadD8ccHssHocaQuFvKRa7xu2b0dv+VhgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDfjAKdN; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1yB5gAd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDfjAKdN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771579448; x=1803115448;
+  t=1771581370; x=1803117370;
   h=date:from:to:cc:subject:message-id;
-  bh=rIbmVwsKfHmHkEC0cTlA/Wyp9FFVLcYCV4XeGm080zU=;
-  b=D1yB5gAdJpios7ZGMHWQc4jolz/n+5Dlr2upS9iVx4DfgDAPzIB9GWhF
-   S40vQ1CIWxemaUD6aeUrJF1DCiL/RMhn5zOCPRdQOxwvej41WwTDFOEnU
-   wOeTebnD6Z4T2LOpe5yoA0b1LMWd6xc6qD2RA8jneYlcadJSnnj3jMCVC
-   Xg/ViiWYlmpgr2M7SxK/dc1Go4kNqKkAPg/ICzrHC+t2RyOE7FXLdyeTP
-   4tgdNqT1I68xetxxIq4wdgIwJGp4eRNGW0wvMEJeBqRr59eQLofRh49+3
-   qH2EsKI1KLNCxCt6V/iv+DaS9s5KeWXQH/l5QwJgTUySeOyDa/UoAaIi0
+  bh=PM2Vcmkjwmsa9Uvv1ForvjP4bxAFkqctBiD4n3e8RyY=;
+  b=CDfjAKdNQkA68T+fwmZ1jsVKxYl2IqFDDx9pa7oSH6o2aaPPnW+Uh5rG
+   HKgtAreaI5mYW091mE9ccjvuGVlmYqTKA5miuvtASZtOQUo2iwTeO9RqS
+   HzpdkQ2PJQk8MgLOne7i6ZLE955xbvdImeg4iZ03Top16rwfEKiH0Ah4q
+   tMit4qNp9nLVbEzZ3de3W6g17Ok68M0qnwFeCI5XjcgBFHGFefT/NJrNQ
+   I0EJkrZAhngw+0j2OYBt3ox1P3AFnaoas8+uaDQ1iHEVF28uGIs+XEGkn
+   Rq+qDir0JiK8ym8OGgoiPJsgUH5/ETIw1XVXIRtJFSffOIVK50ppg6jxm
    A==;
-X-CSE-ConnectionGUID: 7pvpECgDRMeqW/jA5Af1yw==
-X-CSE-MsgGUID: 7Bmtu03WTQ+YlBXIi6wvIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="76287342"
+X-CSE-ConnectionGUID: unOh7COhTJKpheoPC0/jOg==
+X-CSE-MsgGUID: 191y7ZitR16AUMoKviUS/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="71698306"
 X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
-   d="scan'208";a="76287342"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 01:24:08 -0800
-X-CSE-ConnectionGUID: dVBdag4bRTSn0mu8Oz8L8g==
-X-CSE-MsgGUID: 1vsZlu76TbaU3uyqWszTnQ==
+   d="scan'208";a="71698306"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 01:56:09 -0800
+X-CSE-ConnectionGUID: MGMP6bsxT3WGxkD9G3p8DA==
+X-CSE-MsgGUID: SMDmPdsfSnW803vcJ9wa8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
-   d="scan'208";a="214811442"
+   d="scan'208";a="219355375"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 Feb 2026 01:24:07 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 20 Feb 2026 01:56:08 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtMk0-000000013y0-2XAs;
-	Fri, 20 Feb 2026 09:24:04 +0000
-Date: Fri, 20 Feb 2026 17:23:52 +0800
+	id 1vtNEz-000000013zw-3I34;
+	Fri, 20 Feb 2026 09:56:05 +0000
+Date: Fri, 20 Feb 2026 17:55:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn:
- variable dereferenced before check 'kms' (see line 235)
-Message-ID: <202602201720.wuEIxMsG-lkp@intel.com>
+Subject: [arm-integrator:b4/ks8995-fixups 5/7]
+ drivers/net/dsa/ks8995.c:314 ks8995_get_revision() warn: was || intended here
+ instead of &&?
+Message-ID: <202602201735.XhNCovu6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,73 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dmitry Baryshkov <lumag@kernel.org>
-CC: Rob Clark <robin.clark@oss.qualcomm.com>
+TO: Linus Walleij <linusw@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8bf22c33e7a172fbc72464f4cc484d23a6b412ba
-commit: a409b78fcdf724422fa030bd5ef177ebf3b7608a drm/msm: move wq handling to KMS code
-date:   8 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 8 months ago
-config: powerpc64-randconfig-r071-20260220 (https://download.01.org/0day-ci/archive/20260220/202602201720.wuEIxMsG-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/ks8995-fixups
+head:   ea4d9288b053886fb1063467e90076b1bac75212
+commit: 8391defbf00b98a8458722096cc571e598e5b8da [5/7] net: dsa: ks8955: Delete KSZ8864 and KSZ8795 support
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-141-20260220 (https://download.01.org/0day-ci/archive/20260220/202602201735.XhNCovu6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602201720.wuEIxMsG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202602201735.XhNCovu6-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn: variable dereferenced before check 'kms' (see line 235)
+drivers/net/dsa/ks8995.c:314 ks8995_get_revision() warn: was || intended here instead of &&?
 
-vim +/kms +251 drivers/gpu/drm/msm/msm_kms.c
+vim +314 drivers/net/dsa/ks8995.c
 
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  219  
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  220  void msm_drm_kms_uninit(struct device *dev)
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  221  {
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  222  	struct platform_device *pdev = to_platform_device(dev);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  223  	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  224  	struct drm_device *ddev = priv->dev;
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  225  	struct msm_kms *kms = priv->kms;
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  226  	int i;
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  227  
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  228  	BUG_ON(!kms);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  229  
-a409b78fcdf7244 Dmitry Baryshkov 2025-07-05  230  	/* We must cancel and cleanup any pending vblank enable/disable
-a409b78fcdf7244 Dmitry Baryshkov 2025-07-05  231  	 * work before msm_irq_uninstall() to avoid work re-enabling an
-a409b78fcdf7244 Dmitry Baryshkov 2025-07-05  232  	 * irq after uninstall has disabled it.
-a409b78fcdf7244 Dmitry Baryshkov 2025-07-05  233  	 */
-a409b78fcdf7244 Dmitry Baryshkov 2025-07-05  234  
-a409b78fcdf7244 Dmitry Baryshkov 2025-07-05 @235  	flush_workqueue(kms->wq);
-a409b78fcdf7244 Dmitry Baryshkov 2025-07-05  236  
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  237  	/* clean up event worker threads */
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  238  	for (i = 0; i < priv->num_crtcs; i++) {
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  239  		if (priv->event_thread[i].worker)
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  240  			kthread_destroy_worker(priv->event_thread[i].worker);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  241  	}
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  242  
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  243  	drm_kms_helper_poll_fini(ddev);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  244  
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  245  	msm_disp_snapshot_destroy(ddev);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  246  
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  247  	pm_runtime_get_sync(dev);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  248  	msm_irq_uninstall(ddev);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  249  	pm_runtime_put_sync(dev);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  250  
-506efcba31296e9 Dmitry Baryshkov 2023-10-09 @251  	if (kms && kms->funcs)
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  252  		kms->funcs->destroy(kms);
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  253  }
-506efcba31296e9 Dmitry Baryshkov 2023-10-09  254  
+a8e510f682fe6d drivers/net/phy/spi_ks8995.c Frederic LAMBERT 2011-12-18  285  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  286  /* ks8995_get_revision - get chip revision
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  287   * @ks: pointer to switch instance
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  288   *
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  289   * Verify chip family and id and get chip revision.
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  290   */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  291  static int ks8995_get_revision(struct ks8995_switch *ks)
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  292  {
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  293  	int err;
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  294  	u8 id0, id1;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  295  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  296  	/* read family id */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  297  	err = ks8995_read_reg(ks, KS8995_REG_ID0, &id0);
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  298  	if (err)
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  299  		return -EIO;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  300  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  301  	/* verify family id */
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  302  	if (id0 != FAMILY_KS8995) {
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  303  		dev_err(&ks->spi->dev, "chip family id mismatch: expected 0x%02x but 0x%02x read\n",
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  304  			FAMILY_KS8995, id0);
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  305  		return -ENODEV;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  306  	}
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  307  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  308  	/* try reading chip id at CHIP ID1 */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  309  	err = ks8995_read_reg(ks, KS8995_REG_ID1, &id1);
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  310  	if (err)
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  311  		return -EIO;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  312  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  313  	/* verify chip id */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09 @314  	if ((get_chip_id(id1) == CHIPID_M) &&
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  315  	    (get_chip_id(id1) == KS8995_CHIP_ID)) {
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  316  		/* KS8995MA */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  317  		ks->revision_id = get_chip_rev(id1);
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  318  	} else {
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  319  		dev_err(&ks->spi->dev, "unsupported chip id for KS8995 family: 0x%02x\n",
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  320  			id1);
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  321  		return -ENODEV;
+c0e6cb1fed5a73 drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  322  	}
+c0e6cb1fed5a73 drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  323  
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  324  	return 0;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  325  }
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  326  
 
-:::::: The code at line 251 was first introduced by commit
-:::::: 506efcba31296e9cbc4f8f148eec1e4b29039931 drm/msm: carve out KMS code from msm_drv.c
+:::::: The code at line 314 was first introduced by commit
+:::::: 484e36ff18341ca1fca4258139100b2e90530f53 net: phy: spi_ks8995: verify chip and determine revision
 
-:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-:::::: CC: Rob Clark <robdclark@chromium.org>
+:::::: TO: Helmut Buchsbaum <helmut.buchsbaum@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
