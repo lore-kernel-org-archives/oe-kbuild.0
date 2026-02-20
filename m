@@ -1,111 +1,89 @@
-Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF04D273816;
-	Fri, 20 Feb 2026 14:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF682F25F4
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 16:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771598001; cv=none; b=uDSjAQbEs/5Rr3eZBi0iXiRjZVbU0mkr7qEH79GUjqr3T7bsaT9GB4tls2P3ZPDvBZqWrY4RrYkke4KzW+YJTSRzIob5SWluarfcwIJWmoVHXryjP7oIG2pz18ogog2U0MyHOI+M4RYtX8QbDYp5FzEkuJVMYVc6HQFbkzWoiLM=
+	t=1771604814; cv=none; b=BldHOo3ZHhN/+85KyXtrftd4f+xCKHeaHaPp/aPo5eMaSsJJCm2vALQTLAUelPGmW192CCQ5kpoEv1q7zt5gdqoZBNQUXQ/JzgqXyc9nMp7l+h71NgEUkGBXd8oKRKHkaKbTKJU8AsqZc/A0U8ZIQkIi+jJuQybR6wZcX0NSGJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771598001; c=relaxed/simple;
-	bh=TYJ30ChM6gcCS6QYe5Ckg+2S4lGk8QCdkrY13mptiiI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dRajZue2l/xr+by0DLKHRCNWK70l1m5EHONJZpTI7Mz2rHiDiZaRoyD7j+Myvp5z8dFoGW9aMezGjqhUwA1GoLPZBFWl2WcN0ORv2FSWpLF2mzh8x2IcRKA0qsAXRooFZc6nFLz1V2uIrDLFJS64CwUyEkR4B3zKQ64R9PQXKio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=NIKOiXNx; arc=none smtp.client-ip=79.135.106.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1771604814; c=relaxed/simple;
+	bh=dTXWKQ685eEcd+TXzvolsbNxi+w++lIQvLa0ZuiL5v4=;
+	h=Date:From:To:Subject:Message-ID; b=KN1KeGGw/+wtw2cf03OSFw2q+X548HxsBEFUjdtN4cAm2a6gVNVAokipqvi1sVz2VBBIc5qWnN8meTwnO/v9sghXRjzzTr4Dq5HB/ab5A6UIv77XV0kOKGnkp0BG8dHVByjqmuCqqjL5GWmyaEw6N4K5YKqi84y4WQ+AYj1ZZl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P9I/UxlN; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="NIKOiXNx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1771597987; x=1771857187;
-	bh=qlD/PNnYcqmWY7VC/XbBl5Mb7IvYgw6IfOHsy2m/ZS8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=NIKOiXNxYonLwfO4TAlXq4EB63vyM7/6bACW7FQTM7bkdXmHrz3sQWJqmbCXYc03l
-	 vkf4UlJQ87xHUfiigBjjjyuBTqG0wn4IAE70I/Y6HoT7rW59eEMgZMNVOdgJyzYX+w
-	 VBSWuYgy2OoAIvuuHcWYeWLFQQeYvTQ9XMGJiYhZrD2A3cVobzY/redLaChLZmcGV3
-	 /7g+N3bfKy5mLVkxrSS/uUhYBEDcI3YV/iq2yWVAalvylDSHVDYMn3Tc4ChuCbW5s+
-	 hIdtUr6Ya1BJm8KM8hqxUA4euBLiYlyd5S087cNIEPFjHvkU26oJyJc7uFc1Z11oVp
-	 +UwP/nH92sP2g==
-Date: Fri, 20 Feb 2026 14:33:04 +0000
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, Harry Austen <hpausten@protonmail.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michal Simek <monstr@monstr.eu>
-From: Harry Austen <hpausten@protonmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 2/2] clk: clocking-wizard: add user clock monitor support
-Message-ID: <DGJV2ICCB72N.39T6HN62PUHPE@protonmail.com>
-In-Reply-To: <202602151704.qepyfVlc-lkp@intel.com>
-References: <202602151704.qepyfVlc-lkp@intel.com>
-Feedback-ID: 53116287:user:proton
-X-Pm-Message-ID: 5b0edd8755628df423df7963b1dc7428928e5e67
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P9I/UxlN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771604814; x=1803140814;
+  h=date:from:to:subject:message-id;
+  bh=dTXWKQ685eEcd+TXzvolsbNxi+w++lIQvLa0ZuiL5v4=;
+  b=P9I/UxlNvI6M7K4xEi4Zg6ZcO+DEwG8YeCUIi8RU7R2c0d+aGXIl7Z2U
+   z5jKa4XzQ/iHYY+afARE+FAAJjgj6Ku4SAVbvNtyeKPKpbBspCVaVehn9
+   55EmwmajoKjlYuZaNkF0sBy0nycvsTZCTaZhSf+YwH4lWhEgh5ykC8i+U
+   H3HiZNmaUKbXnEUXAcnJKzFmJa/rHp7lqm6Q8gXqGadYw2Q1s5B9yh4Em
+   8NPDTtpecjAI3s5R+dArgijiO9JZXM7b87ja6H74kY/sv6zfxADpWhe+K
+   1BxIYu90r6duZa9Rl8RLQekuH2MAm7sZvLX6vGVz+6Ie727+j4+Hv1Ki4
+   w==;
+X-CSE-ConnectionGUID: Zd77JflZRp+85oG0xjWEGg==
+X-CSE-MsgGUID: aZczrlCXRImmFSuASIim1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="72744556"
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="72744556"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 08:26:53 -0800
+X-CSE-ConnectionGUID: CT58vD3QSUWQkIXBGLbgNA==
+X-CSE-MsgGUID: P6pwojt2Th2iuqF03wa2gA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="213431707"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 20 Feb 2026 08:26:51 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtTL7-000000004E9-27Cj
+	for oe-kbuild@lists.linux.dev;
+	Fri, 20 Feb 2026 16:26:49 +0000
+Date: Fri, 20 Feb 2026 17:26:27 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Subject: [jlayton:kdevops 1/29] checkpatch: ERROR:POINTER_LOCATION:
+ "foo * bar" should be "foo *bar"
+Message-ID: <202602201701.FXb4IBVx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On Thu Feb 19, 2026 at 6:52 AM GMT, Dan Carpenter wrote:
-> Hi Harry,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Austen/dt-bi=
-ndings-clock-xilinx-add-description-of-user-monitor-interrupt/20260215-0215=
-54
-> base:   ea7282e99ead6d2a294cef40acd2a29ada3ab71d
-> patch link:    https://lore.kernel.org/r/20260214180933.42143-3-hpausten%=
-40protonmail.com
-> patch subject: [PATCH v4 2/2] clk: clocking-wizard: add user clock monito=
-r support
-> config: microblaze-randconfig-r072-20260215 (https://download.01.org/0day=
--ci/archive/20260215/202602151704.qepyfVlc-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 14.3.0
-> smatch version: v0.5.0-8994-gd50c5a4c
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202602151704.qepyfVlc-lkp@intel.com/
->
-> smatch warnings:
-> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:1183 clk_wzrd_user_mon_work() =
-error: dereferencing freed memory 'dump' (line 1182)
->
-> vim +/dump +1183 drivers/clk/xilinx/clk-xlnx-clock-wizard.c
->
-> 68614f228e6cbe Harry Austen 2026-02-14  1176  static void clk_wzrd_user_m=
-on_work(struct work_struct *work)
-> 68614f228e6cbe Harry Austen 2026-02-14  1177  {
-> 68614f228e6cbe Harry Austen 2026-02-14  1178  =09struct clk_wzrd *clk_wzr=
-d =3D container_of(work, struct clk_wzrd, work.work);
-> 68614f228e6cbe Harry Austen 2026-02-14  1179  =09u32 *dump =3D vmalloc(WZ=
-RD_NUM_DUMP_REGS * sizeof(*dump));
-> 68614f228e6cbe Harry Austen 2026-02-14  1180
-> 68614f228e6cbe Harry Austen 2026-02-14  1181  =09ioread32_rep(clk_wzrd->b=
-ase, dump, WZRD_NUM_DUMP_REGS);
-> 68614f228e6cbe Harry Austen 2026-02-14 @1182  =09dev_coredumpv(&clk_wzrd-=
->pdev->dev, dump, WZRD_NUM_DUMP_REGS * sizeof(*dump), GFP_KERNEL);
-> 68614f228e6cbe Harry Austen 2026-02-14 @1183  =09iowrite32(dump[WZRD_INTR=
-_STATUS / sizeof(*dump)], clk_wzrd->base + WZRD_INTR_STATUS);
->                                                           ^^^^
-> dev_coredumpv() can free dump.
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
 
-Whoops. That makes total sense. Pretty sure this can be easily resolved by =
-moving the
-dev_coredumpv call after iowrite32. Will do in next patch version.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Jeff Layton <jlayton@kernel.org>
 
->
-> 68614f228e6cbe Harry Austen 2026-02-14  1184  }
-> 68614f228e6cbe Harry Austen 2026-02-14  1185
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Hi Jeff,
 
-Thanks for the report!
-Harry
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   5aef1b33e04ec98ed6f4a02ce457ecdc39b794dd
+commit: 634702ee55bf1c95e7a3e886d048a4a8f539ccf9 [1/29] vfs: widen inode hash/lookup functions to u64
+:::::: branch date: 77 minutes ago
+:::::: commit date: 77 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20260220/202602201701.FXb4IBVx-lkp@intel.com/reproduce)
+
+# many are suggestions rather than must-fix
+
+ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
+#260: FILE: include/linux/fs.h:2954:
++extern struct inode * iget_locked(struct super_block *, u64);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
