@@ -1,98 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A3231AF07
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 12:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EE4346AF1
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 13:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771589813; cv=none; b=qUDGEPd2R6rl15tNtD82f0SCDMFAlN+UnM3LaXtZrHetFbvO9y9RJo2X/NKIzG2UD+F92kOXlgy7fMljC3s4CiEarWgNJhyPW3MV3/gq5a8Vb0a7AlrICVyO46nnzDieQYaK0bXHO9R1l11+YjgkkqeiM7LCYYZbgctc9OEQyFU=
+	t=1771593559; cv=none; b=Qs6iksx9GvHbMqwIiDwBYM/yB2tVz0lzITF775NC1f8vFUlIAdPw7ycgoeIiESxwRQ2/zlI6xmm7Jl1y4U/L9qxJy3TAQA7zXLkoHc+1Dy+lyPUVRXgXAqokHGqJwIEW/OS/E7ILkVfaWeY3mmuuKih7NwZWUL7X9BdxBhckd/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771589813; c=relaxed/simple;
-	bh=UNgX0tdWa2aLGeyOW0xfv1WjqqcJM/eRKr54mi+5f+I=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pf7+Qg4PIUBLXMnn2nE/IZd9PgO7AZkBM3jrdiJgPTwAP3i85aOtvYSdOjDBP3Vab1ITNWeKBU322wqvy1cG3zE/eM6JpXwfCyYGovam9aTyGylElp/UHwzvyHo/vJoZWxxd8GaWAi4hh8m+cQzPo8zMnO3tQ7QkFvGrN7YDWng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPXDKf4+; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771593559; c=relaxed/simple;
+	bh=NFrS2s19ZjYP5F+VHpTJ1OXLeDRGc29650+iadC8k80=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l4XtumDqb7pKBuUOK9CxLqVUv2cnVunjv95WW+U5hIjAhzKiUhzTVAufwni8OQXr8S8UtkeCbeWTS6CwGRrZP9bYnIqlefgZJV0SJXHc6+c7SXtlXP5SzqS0Jbr+4/0vtiHgIngcODbs5QY/HZHETHU34d/Ss8owTx6hEcpNPM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I02vcjDu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPXDKf4+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771589811; x=1803125811;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=UNgX0tdWa2aLGeyOW0xfv1WjqqcJM/eRKr54mi+5f+I=;
-  b=EPXDKf4+AnvUbrBnpq7kv9RhCqfo6jHfjUjkbdqjE8jtb+MFWbqVsM1q
-   FjltBy3MfJJ8Pl5kDkHDB3vLOZI7+I9eppgPpJdhU1XnB1qhsvg4EKWvO
-   /lLR0wA0pQHj/BbhBS7lMDlCBuXZQ9K/gp74vjry0F9ERDQX8AIp0JWr9
-   apTV7SzOudix8PuNA6kWNKc4GX0fnISdCreiF40Oxfk10ApaMpsGWfSZZ
-   sCWjKzRGeyOFV+/3z0segdBDOddtGCu4q4Q6xlDrxgKzQfFVSx+/sM7ZY
-   lABkBZzGao2ozEQkR4eczbOLy43I3JHMKIeHA7weN6Ln6nj0FBBATS9Dz
-   g==;
-X-CSE-ConnectionGUID: l6TlRj0GTpK3vIv5dyqZjw==
-X-CSE-MsgGUID: ucATC8h4QqeTm/iGbpR9/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="90092506"
-X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
-   d="scan'208";a="90092506"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 04:16:50 -0800
-X-CSE-ConnectionGUID: SyhEDW9ITxKlDF+1ThEKNA==
-X-CSE-MsgGUID: dp0hiXplTRG/kjqtz5MD7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
-   d="scan'208";a="213940926"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 20 Feb 2026 04:16:50 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vtPR9-000000004Bt-2xXc
-	for oe-kbuild@lists.linux.dev;
-	Fri, 20 Feb 2026 12:16:47 +0000
-Date: Fri, 20 Feb 2026 13:15:55 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH mptcp-net v2 1/2] mptcp: pm: avoid sending RM_ADDR over
- same subflow
-Message-ID: <202602201326.iQ069tJB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I02vcjDu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A1FC116D0
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 13:19:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771593559;
+	bh=NFrS2s19ZjYP5F+VHpTJ1OXLeDRGc29650+iadC8k80=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=I02vcjDupkTiiiArlDYxMHJBzkIFY1Le8R77764xjIMJa9Y0g9oqg8YGhP2vKbz0F
+	 KGlvt1Ifc/s/hotUzz2WxCTXkoO55J1NIHJx0FiP/qDC50OV7DIK0OiT1YXquEZiCH
+	 Q1o7xghYss+nB9jC53N/SBTQ4Mop7CaE0D7DDrDjOagKzvRs2Qxjg5R9rwf/ic0Ae1
+	 geqvW9bqbR16dzK3N9d83g3PP2evSAkBFjW8Tut2zo3cx0N+ecRiM3r6FakvtfGGiU
+	 yK5t0pzXJ44CrLNwWTA0XNcBT9N/IIad5n2asx3G1a7BltCxIt0FeD6mws/pnYWCay
+	 4TckT234KaEcA==
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64ae5f0777dso1774227d50.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 20 Feb 2026 05:19:18 -0800 (PST)
+X-Gm-Message-State: AOJu0YzB1Bv5cCP5C1Fi8PowXVQm8nqjqBkvsWXkJhu6MFH9LZvzpt3b
+	FfiDwvUyHNqol2YQayCyHTKjAPZjRZeVtdwMIu/M4jEXWDzAlPdDrWrrBEyCZKAWyEFA2v6SwNT
+	427eqDjtpDeA/6RWmHlsI8hIPhPEQ5mU=
+X-Received: by 2002:a05:690e:4091:b0:64a:cd80:7c77 with SMTP id
+ 956f58d0204a3-64c55587d81mr5955807d50.23.1771593558071; Fri, 20 Feb 2026
+ 05:19:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202602201735.XhNCovu6-lkp@intel.com>
+In-Reply-To: <202602201735.XhNCovu6-lkp@intel.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 20 Feb 2026 14:19:07 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=wsSQDBLnPvoyE-3naFv_a5x8fk_aM5Wp_1Bvyr=NOsQ@mail.gmail.com>
+X-Gm-Features: AaiRm53VyKWYJVpg_DokU56Cp5okgS05-2w8T1SNzl0RawPJkK6xiBL7LAJ7EdM
+Message-ID: <CAD++jL=wsSQDBLnPvoyE-3naFv_a5x8fk_aM5Wp_1Bvyr=NOsQ@mail.gmail.com>
+Subject: Re: [arm-integrator:b4/ks8995-fixups 5/7] drivers/net/dsa/ks8995.c:314
+ ks8995_get_revision() warn: was || intended here instead of &&?
+To: Dan Carpenter <dan.carpenter@linaro.org>, Helmut Buchsbaum <helmut.buchsbaum@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
+On Fri, Feb 20, 2026 at 11:25=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260220-mptcp-issue-612-v2-1-089684a6edcb@kernel.org>
-References: <20260220-mptcp-issue-612-v2-1-089684a6edcb@kernel.org>
-TO: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-TO: MPTCP Upstream <mptcp@lists.linux.dev>
+> smatch warnings:
+> drivers/net/dsa/ks8995.c:314 ks8995_get_revision() warn: was || intended =
+here instead of &&?
+(...)
+> 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  =
+313    /* verify chip id */
+> 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09 @=
+314    if ((get_chip_id(id1) =3D=3D CHIPID_M) &&
+> 8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  =
+315        (get_chip_id(id1) =3D=3D KS8995_CHIP_ID)) {
+>
+> It can't be both chip IDs at the same time.
 
-Hi Matthieu,
+#define CHIPID_M               0
+ #define KS8995_CHIP_ID         0x00
 
-kernel test robot noticed the following build warnings:
+So this is always true and the branch was always taken.
 
-[auto build test WARNING on d81a02a671623999f5ec963b73181d845c665747]
+Before the deletion of the old chips support, CHIPID_M was 0x00,
+and what is now the constant KS8995_CHIP_ID
+used to be ks->chip->chip_id, but that was *also* always zero.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthieu-Baerts-NGI0/mptcp-pm-avoid-sending-RM_ADDR-over-same-subflow/20260220-192900
-base:   d81a02a671623999f5ec963b73181d845c665747
-patch link:    https://lore.kernel.org/r/20260220-mptcp-issue-612-v2-1-089684a6edcb%40kernel.org
-patch subject: [PATCH mptcp-net v2 1/2] mptcp: pm: avoid sending RM_ADDR over same subflow
-:::::: branch date: 47 minutes ago
-:::::: commit date: 47 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20260220/202602201326.iQ069tJB-lkp@intel.com/reproduce)
+This code has been here forever, this was always true as long
+as id1 was zero, which is what it is actually testing.
 
-# many are suggestions rather than must-fix
+See
+commit 484e36ff18341ca1fca4258139100b2e90530f53
+"net: phy: spi_ks8995: verify chip and determine revision"
 
-ERROR:BAD_SIGN_OFF: Unrecognized email address: 'Frank Lorenz'
-#22: 
-Reported-by: Frank Lorenz
+I'll try to fix it up as part of this patch then... it makes no sense
+of course.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Helmut, any comments? Maybe I didn't quite get the old code.
+
+Yours,
+Linus Walleij
