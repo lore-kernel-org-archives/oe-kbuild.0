@@ -1,110 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8719F469D
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Feb 2026 12:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37833B1B3
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Feb 2026 12:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771677130; cv=none; b=KSJ5bMHxQzezG7BWqW2JXJvt+Ou1KyIEOw8lZc/SumVGUWvuxBhnZSx2ywMOeuYTACxweYnffBoJH+WldaHaMkwk8SDq/qtVAGCM9nmCp0G6Vo4pahwP8/p1Fk6UyCc0Lzl0gI9Q7sUoMqNIISxyZ6ab9UeDSzOfd7+eHx+rnkM=
+	t=1771678274; cv=none; b=OthQmdFJWp9Lopp0n2WAC8NICEzVUR3O7gd9Kp+IDd0TeddbU+FGguEHrBta524t3UcQtyyhEQZszOyU47n60b86vb4xdeagckLrGwz9plJePAko9zFV/kKUmzZxbtTnxxFCcyToCs/0dFqS8t9Cd/I+aeKXyqo6Fmc+FuHhyzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771677130; c=relaxed/simple;
-	bh=VxKSccP09HpsPgD1ruAcNi2tLoMIB0xcZ/4+kfuxXTY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RbxpqeYx0HHR46ODOieX/Rsh9bDk5m5ZwHkw4bYx5ZayMID1/jPD4fpLztXCdjbGLWcN90XrvvGLVk1EtvNfwj/F/Rz/AAZ65NtP65mhLVgbcCBaLgrN9noSRG53mcfYjbfnaXu0tABH0EwKwvXZkxYApnQ2NWdt6NfbUVh3qFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NStw85lV; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771678274; c=relaxed/simple;
+	bh=EKERHVHJC4NJMe7ZGw3YG6p1liQYgkkEoRV8QXf/eTw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dAusoRgAkHtVj70Wbs4S3yYS1OI6J0X2CU1hiZoHYiCxRWc52JyQ0m0h0M2FTs6F3hn0WucOMSh/75vaqwjJTKemJ2JSWjTFArjjXrI2tmyKdWSq2mJtgoPyn34mZgSZDxu+u1j1PsqaWTrq18yldiw4IYDHnmJ4aGPLugERDAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=icNCDIkP; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NStw85lV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771677127; x=1803213127;
-  h=date:from:to:cc:subject:message-id;
-  bh=VxKSccP09HpsPgD1ruAcNi2tLoMIB0xcZ/4+kfuxXTY=;
-  b=NStw85lVacDCFfyBAF/kqoAXt+1p/agnIczBhP8pkCE5dx7uo81pGGRu
-   V+HcgqfgZ/CA0HfdBxZHqfdh4nPO7IaKGvDBVCe3w1W4kkR6ZV98tQteq
-   ystHUeGf6QzDz1ba+XXxzMp9maDsX+ba87SsxfmjDixfZ3hzuLZKy8pH7
-   N/fzRbrTQN5OWfvKwJjJ/y0q/hoHDvs4nTFC1XigUfa5JeyOw7mfaJn21
-   eTAt8AyhdcHKYZ4BIP+fO0gu+gtusjFhoIOwAb1WG8xCsT+Rj4AFCeVuX
-   M36TiQZpQIoQtGmw4G0jxHGsSdRniqp7h8gWzPoR4H89unEDgYa8esJJ+
-   A==;
-X-CSE-ConnectionGUID: 9cmncIDIRc6e6GdELpSrxw==
-X-CSE-MsgGUID: /JZ3+7nLT4CUfHic5ijxTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="90330531"
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="90330531"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 04:32:06 -0800
-X-CSE-ConnectionGUID: nVjk19grRCy1X4F/zcgyZA==
-X-CSE-MsgGUID: uLeUyNKRSPSvbI4/6jtVvA==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Feb 2026 04:32:05 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vtm9T-000000014uQ-1nNl;
-	Sat, 21 Feb 2026 12:32:03 +0000
-Date: Sat, 21 Feb 2026 20:31:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [bjackman:lkp/page_alloc-unmapped 11/20]
- include/linux/freetype.h:98 freetype_idx() warn: maybe use && instead of &
-Message-ID: <202602212011.wzxGeqgq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="icNCDIkP"
+Message-ID: <206609d9-7bd7-4923-999a-2402388b8f64@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1771678260;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=br9Fo1dfeEMPffvOKFoumObqBOWwJq2Nx+QuBTPepjc=;
+	b=icNCDIkPBixppTwoG2YRcxRBDOFrPHs5wl46DQZbCCKYEWDIpUUWJM7LrHCsqbdvez2lmt
+	WcCr1ulB0f+kojp7ZyhjC+MKcy9vB9VrxcbDpMvUyc53mrxYFmfh27ZI2hgt1hDiDW+KSc
+	uYnmHfX2R4fnoSi9mpjtw/Jhc05YLnw=
+Date: Sat, 21 Feb 2026 20:50:35 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Subject: Re: [PATCH bpf-next v2 1/6] bpf: Introduce 64-bit bitops kfuncs
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ bpf@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Puranjay Mohan <puranjay@kernel.org>,
+ Xu Kuohai <xukuohai@huaweicloud.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Peilin Ye <yepeilin@google.com>,
+ Luis Gerhorst <luis.gerhorst@fau.de>, Viktor Malik <vmalik@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <202602210241.E7Q88vvq-lkp@intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Leon Hwang <leon.hwang@linux.dev>
+In-Reply-To: <202602210241.E7Q88vvq-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Brendan Jackman <jackmanb@google.com>
 
-tree:   https://github.com/bjackman/linux lkp/page_alloc-unmapped
-head:   bde871371ec16d6d1168f9ed687e60ba2e49acd0
-commit: 7abd65eac50331c933c3375751b3a8cebb633ed7 [11/20] mm: add definitions for allocating unmapped pages
-:::::: branch date: 19 hours ago
-:::::: commit date: 21 hours ago
-config: m68k-randconfig-r072-20260221 (https://download.01.org/0day-ci/archive/20260221/202602212011.wzxGeqgq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602212011.wzxGeqgq-lkp@intel.com/
+On 2026/2/21 17:58, Dan Carpenter wrote:
+> Hi Leon,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-Introduce-64-bit-bitops-kfuncs/20260219-223550
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> patch link:    https://lore.kernel.org/r/20260219142933.13904-2-leon.hwang%40linux.dev
+> patch subject: [PATCH bpf-next v2 1/6] bpf: Introduce 64-bit bitops kfuncs
+> config: i386-randconfig-141-20260220 (https://download.01.org/0day-ci/archive/20260221/202602210241.E7Q88vvq-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> smatch version: v0.5.0-8994-gd50c5a4c
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202602210241.E7Q88vvq-lkp@intel.com/
+> 
+> smatch warnings:
+> kernel/bpf/verifier.c:18245 bpf_kfunc_is_fastcall() error: buffer overflow 'special_kfunc_list' 64 <= 64
+> 
+> vim +/special_kfunc_list +18245 kernel/bpf/verifier.c
+> 
+> 966e89879bbea4 Leon Hwang       2026-02-19  18223  static bool bpf_kfunc_is_fastcall(struct bpf_verifier_env *env, u32 func_id, u32 flags)
+> 966e89879bbea4 Leon Hwang       2026-02-19  18224  {
+> 966e89879bbea4 Leon Hwang       2026-02-19  18225  	if (!(flags & KF_FASTCALL))
+> 966e89879bbea4 Leon Hwang       2026-02-19  18226  		return false;
+> 966e89879bbea4 Leon Hwang       2026-02-19  18227  
+> 966e89879bbea4 Leon Hwang       2026-02-19  18228  	if (!env->prog->jit_requested)
+> 966e89879bbea4 Leon Hwang       2026-02-19  18229  		return true;
+> 966e89879bbea4 Leon Hwang       2026-02-19  18230  
+> 966e89879bbea4 Leon Hwang       2026-02-19  18231  	if (func_id == special_kfunc_list[KF_bpf_clz64])
+> 966e89879bbea4 Leon Hwang       2026-02-19  18232  		return bpf_jit_inlines_kfunc_call(bpf_clz64);
+> 966e89879bbea4 Leon Hwang       2026-02-19  18233  	if (func_id == special_kfunc_list[KF_bpf_ctz64])
+> 966e89879bbea4 Leon Hwang       2026-02-19  18234  		return bpf_jit_inlines_kfunc_call(bpf_ctz64);
+> 966e89879bbea4 Leon Hwang       2026-02-19  18235  	if (func_id == special_kfunc_list[KF_bpf_ffs64])
+> 966e89879bbea4 Leon Hwang       2026-02-19  18236  		return bpf_jit_inlines_kfunc_call(bpf_ffs64);
+> 966e89879bbea4 Leon Hwang       2026-02-19  18237  	if (func_id == special_kfunc_list[KF_bpf_fls64])
+> 966e89879bbea4 Leon Hwang       2026-02-19  18238  		return bpf_jit_inlines_kfunc_call(bpf_fls64);
+> 966e89879bbea4 Leon Hwang       2026-02-19  18239  	if (func_id == special_kfunc_list[KF_bpf_bitrev64])
+> 966e89879bbea4 Leon Hwang       2026-02-19  18240  		return bpf_jit_inlines_kfunc_call(bpf_bitrev64);
+> 966e89879bbea4 Leon Hwang       2026-02-19  18241  	if (func_id == special_kfunc_list[KF_bpf_popcnt64])
+> 966e89879bbea4 Leon Hwang       2026-02-19  18242  		return bpf_jit_inlines_kfunc_call(bpf_popcnt64);
+> 966e89879bbea4 Leon Hwang       2026-02-19  18243  	if (func_id == special_kfunc_list[KF_bpf_rol64])
+> 966e89879bbea4 Leon Hwang       2026-02-19  18244  		return bpf_jit_inlines_kfunc_call(bpf_rol64);
+> 966e89879bbea4 Leon Hwang       2026-02-19 @18245  	if (func_id == special_kfunc_list[KF_bpf_ror64])
+>                                                                                           ^^^^^^^^^^^^
+> special_kfunc_list[] has 64 elements and KF_bpf_ror64 is 64 so
+> this is out of bounds.
+> 
 
-smatch warnings:
-include/linux/freetype.h:98 freetype_idx() warn: maybe use && instead of &
-include/linux/freetype.h:98 freetype_idx() warn: maybe use && instead of &
+Ack.
 
-vim +98 include/linux/freetype.h
+I'll try a new way using KF_JIT_MAY_INLINE flag in the next revision,
+which will avoid adding these kfuncs to special_kfunc_list btw.
 
-7abd65eac50331 Brendan Jackman 2025-11-13   90  
-a3ecf22582e90c Brendan Jackman 2025-09-22   91  /*
-a3ecf22582e90c Brendan Jackman 2025-09-22   92   * Return a dense linear index for freetypes that have lists in the free area.
-a3ecf22582e90c Brendan Jackman 2025-09-22   93   * Return -1 for other freetypes.
-a3ecf22582e90c Brendan Jackman 2025-09-22   94   */
-a3ecf22582e90c Brendan Jackman 2025-09-22   95  static inline int freetype_idx(freetype_t freetype)
-a3ecf22582e90c Brendan Jackman 2025-09-22   96  {
-7abd65eac50331 Brendan Jackman 2025-11-13   97  	/* For FREETYPE_UNMAPPED, only MIGRATE_UNMOVABLE has an index. */
-7abd65eac50331 Brendan Jackman 2025-11-13  @98  	if (freetype.flags & FREETYPE_UNMAPPED) {
-7abd65eac50331 Brendan Jackman 2025-11-13   99  		VM_WARN_ON_ONCE(freetype.flags & ~FREETYPE_UNMAPPED);
-7abd65eac50331 Brendan Jackman 2025-11-13  100  		if (!IS_ENABLED(CONFIG_PAGE_ALLOC_UNMAPPED))
-7abd65eac50331 Brendan Jackman 2025-11-13  101  			return -1;
-7abd65eac50331 Brendan Jackman 2025-11-13  102  		if (freetype.migratetype != MIGRATE_UNMOVABLE)
-7abd65eac50331 Brendan Jackman 2025-11-13  103  			return -1;
-7abd65eac50331 Brendan Jackman 2025-11-13  104  		return MIGRATE_TYPES;
-7abd65eac50331 Brendan Jackman 2025-11-13  105  	}
-7abd65eac50331 Brendan Jackman 2025-11-13  106  	/* No other flags are supported. */
-7abd65eac50331 Brendan Jackman 2025-11-13  107  	VM_WARN_ON_ONCE(freetype.flags);
-7abd65eac50331 Brendan Jackman 2025-11-13  108  
-a3ecf22582e90c Brendan Jackman 2025-09-22  109  	return freetype.migratetype;
-a3ecf22582e90c Brendan Jackman 2025-09-22  110  }
-a3ecf22582e90c Brendan Jackman 2025-09-22  111  
+Thanks,
+Leon
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 966e89879bbea4 Leon Hwang       2026-02-19  18246  		return bpf_jit_inlines_kfunc_call(bpf_ror64);
+> 966e89879bbea4 Leon Hwang       2026-02-19  18247  
+> 966e89879bbea4 Leon Hwang       2026-02-19  18248  	return true;
+> 966e89879bbea4 Leon Hwang       2026-02-19  18249  }
+> 
+
