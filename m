@@ -1,276 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BAE31AA94
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Feb 2026 08:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5B83016E2
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Feb 2026 09:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771661465; cv=none; b=eXzbuiUI5D3jIJanNUyxZFJTZ8DezvNgYe0fRdrkHvZSZa7G8y7m+SM65BzVuO/jCEtFf5/A7Q0wEorcLCXgHGg5Kg4G2o2dFiUd2PEvGHJuc+0ZDsFLF/fjL7QbDT4XmtNel+n7Wxd65OHr6x25A9rdOe2MiD6TqZ8X4488WLM=
+	t=1771667889; cv=none; b=peOuE81qS11Rgz++smhQOFYUiN3M3+Fddp8rq55FYFPa8fS1RaSiy8878b5u3InWCieyS+U/0xWdJcPG/mUdX+LDABhG8I8yzDM+PMn1Mn9nqEdoYuX8gDGXupzPALaPjR2UIUO4etp76URZ/ioHv+V+WTXCo609E4PV3XU5esk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771661465; c=relaxed/simple;
-	bh=Vx+ahIho8+yCypzOHe0reqhc3DaTLRdcS2fYwHChvDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Zdt6rZNIW3hBT39AW+0tV4JskgfpSpe/2kreHJNS6a3HUNHp7cWiRDk9lrFvg2XKCKGlM3XaVt4vKQX57l7NF3FSW9pyqFqPEqUN0rbuoeS/hLuWYzzrcIlMelBBgHmw2Pn+I5RVE8Dr4uNOHIxgLfRGB0ckYcvB8E2j6LKEIis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRQ6uPZq; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771667889; c=relaxed/simple;
+	bh=yeFPaj6dVZUGfQ6mk7TVN6TVYypxiVGLknPgkecZgsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=DG1UtGPp3GsREzMp1itxFC+pBvjsBVJKfxmgkwzScVHjXuy9XxJyaU/J4vdgPZuw9MTVSiheN1HMY59VD+S0DpnEvm1J6ijGi7Jj2v1OPb/l/T1n5Eago4MViJz87fTgp2kf8YXEKockqZ3ctMWW2SbVzTNOKoBlBccUtPBrpA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aIeMlcOG; arc=none smtp.client-ip=209.85.221.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRQ6uPZq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771661463; x=1803197463;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Vx+ahIho8+yCypzOHe0reqhc3DaTLRdcS2fYwHChvDU=;
-  b=jRQ6uPZqvXfH3cjYl6e5hihcIBD9THEpezgN5E0C7utR7sCjOLGrjmlC
-   qA1+bQfmCBL+AmVrYwZBZpj/K0CzRXv+ikENfWZLsfkVfGfqnuHVejiKD
-   Y37pKgs3qMzNIGEMqfT5XlFIGBoy+38hMGPsN8LyG97seMtj5pkaYXais
-   I8F0otSpE3AB1xlBmAIfx49hp6TkpjB1GLMzEFT2Oc173HSBfNjgPNRcy
-   VogpeNs49LffC5eqwmddHlUxx0C/XJcinDGePHKn3DTLb3Ml4dUmCmxhm
-   po42XIzPO+UxlZe2ZF3WGR4jYARWBnY8CQOyd3yrHBy9VtDCu/8E9vaA4
-   A==;
-X-CSE-ConnectionGUID: ADV2k7vhTEyM3PA38sU2gQ==
-X-CSE-MsgGUID: 1gY1N8ADTrqTb+Ze9jL9Cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="83060679"
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="83060679"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 00:11:00 -0800
-X-CSE-ConnectionGUID: 9Gcf++oBQnuoBkSTWQ2g1g==
-X-CSE-MsgGUID: pgmTbSJFTPqih6OUS9N4YA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="213568990"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Feb 2026 00:10:58 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vti4m-000000014ne-25b6;
-	Sat, 21 Feb 2026 08:10:56 +0000
-Date: Sat, 21 Feb 2026 16:10:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [drm-xe:drm-xe-next 1/5] drivers/gpu/drm/xe/xe_sync.c:168
- xe_sync_entry_parse() warn: missing unwind goto?
-Message-ID: <202602211614.qY5LV3ZS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aIeMlcOG"
+Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-4375d4fb4d4so1821187f8f.0
+        for <oe-kbuild@lists.linux.dev>; Sat, 21 Feb 2026 01:58:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1771667886; x=1772272686; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iG95ysl0cBzDn6owjLxKJa0jdHI3ZVF2zQtfxEizLIg=;
+        b=aIeMlcOGEncsdeMyNJysNMlTBBmRu3Tu9rLKSSsaDJyZo9SNnozfBh8hr1a1Noiaro
+         WEbJc09lriV4hcCcnd1E8RoA9CDU4BL/tEOEMY9ZTuZfVz2LJDS06QXC85ZKq/Sp08Bv
+         QW9V8xhxarOgL67ZbDVRR49GU4nqRZUeZL5pYtf6c/t1T++MnxRpU2qd7jvZCtpLWxdV
+         tcjl6r3NaexwioEQuLjs1M8T6x1/BP2OICUJDvwHq4+2GWMmcL3l8NYP+4woEyLRy0QV
+         Ymiit2V8EHugj9fjFaYv7mk0UkxLK/UwCcsno/od5OOErkwrH6KUJGK76SL29GVcG38D
+         bRsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771667886; x=1772272686;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iG95ysl0cBzDn6owjLxKJa0jdHI3ZVF2zQtfxEizLIg=;
+        b=MlNA7A+GH5R1rfAYqJ7Et7ma7LOrdLQXGtQytfEIs9l+wQsodj8fRIdl7foRmPo4P/
+         IE0tkT/Wb1EO9ALdgWzUk1tXuolc+oEYiaK+nJaXv42++DD6UxpbuOscWUpd8gtxChB0
+         2+BlGhKK2pgI644DeRhX42lEK4Osxpi67LdVA7bngMtW950W3QvYU5xfckn4khG7IhJD
+         WCSMmshnEke+ypFO2IjrV5Cn3iBMriwdoZskjZy/oO+Qw/QvvqvA8trkEcI0uF0vu2L1
+         aaYPhv0SuPCH6B5GM9Kt2qPH34rt/j8kXWfWr86NVP39GxfPhqveqQ7KmQzt57V8j1D5
+         VJHQ==
+X-Gm-Message-State: AOJu0YwAiV1958cOU0Rv9NfxLnO+ji3r3vYnpYC0T5Jr7fnhGQDkVUgS
+	XSvkhSPDbFB8woIIL5GImssRhOfLgH+U4kPS8I/WsTfcxgZtfIrEq3OqZcImK8NwEb1bo8uzX29
+	7LEGz
+X-Gm-Gg: AZuq6aLifjCVG1qmuD3JuVTXFLKhgP1mOrpIVcJl1OhTmG+OAgNp6IC9zfUpiWwBvLi
+	pS1nTolqcHjh65EIDHz7QQ7lLkDVtmgoNVWCrour3CP/7OhziQyCrJRUy1qyPp0LECr91Or18xp
+	VqQklt7y6DfuZFlC+Lb5LnrOjNaYbtt1A93Y6TOktVw4r38U4E5qm7NEAMmJkOr+GZQSJBG3dGQ
+	m9XCL5VtykXnTDqgENzoIDHWMM0r9puQkazzO6UHH5mCUQNG9iipOjd509AWiWkhOJ1960d8F9f
+	9YZCNAVCdyCFIlU1/hXpps8Ksjkk7zxYu5uJUkDKI4Vrao4cFnfyrv54fMDM61uRopHH9sAURjL
+	n6ImcW9SCUuTuxf2dobdA7pgs/mDqMgQ71XBthFxeDeqSNm+Tdj77DquXMpnLccwRAYIjPFg4XK
+	fCApP2b3R8ffojnm+bGmyYMZpwB64IkfSXtMtQzpY=
+X-Received: by 2002:a05:6000:2601:b0:437:81b0:6638 with SMTP id ffacd0b85a97d-4396f188767mr4885393f8f.59.1771667886111;
+        Sat, 21 Feb 2026 01:58:06 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bfa015sm4427011f8f.8.2026.02.21.01.58.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Feb 2026 01:58:05 -0800 (PST)
+Date: Sat, 21 Feb 2026 12:58:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Leon Hwang <leon.hwang@linux.dev>,
+	bpf@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	Xu Kuohai <xukuohai@huaweicloud.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Leon Hwang <leon.hwang@linux.dev>, Peilin Ye <yepeilin@google.com>,
+	Luis Gerhorst <luis.gerhorst@fau.de>,
+	Viktor Malik <vmalik@redhat.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2 1/6] bpf: Introduce 64-bit bitops kfuncs
+Message-ID: <202602210241.E7Q88vvq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260219142933.13904-2-leon.hwang@linux.dev>
+Message-ID: <20260221095802.cm-rCMQppinmu0ruIiNhYuoTlJnO0vWS3njuf73GUFI@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: intel-xe@lists.freedesktop.org
-TO: Shuicheng Lin <shuicheng.lin@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+Hi Leon,
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   dfeef98e55d0e5f622886d0a9980c235ff08fd97
-commit: f939bdd9207a5d1fc55cced5459858480686ce22 [1/5] drm/xe/sync: Cleanup=
- partially initialized sync on parse failure
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: parisc-randconfig-r071-20260221 (https://download.01.org/0day-ci/ar=
-chive/20260221/202602211614.qY5LV3ZS-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-Introduce-64-bit-bitops-kfuncs/20260219-223550
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260219142933.13904-2-leon.hwang%40linux.dev
+patch subject: [PATCH bpf-next v2 1/6] bpf: Introduce 64-bit bitops kfuncs
+config: i386-randconfig-141-20260220 (https://download.01.org/0day-ci/archive/20260221/202602210241.E7Q88vvq-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch version: v0.5.0-8994-gd50c5a4c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202602211614.qY5LV3ZS-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202602210241.E7Q88vvq-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/xe/xe_sync.c:168 xe_sync_entry_parse() warn: missing unwind=
- goto?
+kernel/bpf/verifier.c:18245 bpf_kfunc_is_fastcall() error: buffer overflow 'special_kfunc_list' 64 <= 64
 
-vim +168 drivers/gpu/drm/xe/xe_sync.c
+vim +/special_kfunc_list +18245 kernel/bpf/verifier.c
 
-dd08ebf6c3525a Matthew Brost      2023-03-30  112 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  113  int xe_sync_entry_parse(=
-struct xe_device *xe, struct xe_file *xef,
-dd08ebf6c3525a Matthew Brost      2023-03-30  114  			struct xe_sync_entry =
-*sync,
-dd08ebf6c3525a Matthew Brost      2023-03-30  115  			struct drm_xe_sync __=
-user *sync_user,
-adda4e855ab640 Matthew Brost      2025-10-31  116  			struct drm_syncobj *u=
-fence_syncobj,
-adda4e855ab640 Matthew Brost      2025-10-31  117  			u64 ufence_timeline_v=
-alue,
-53bf60f6d8503c Matthew Brost      2023-12-05  118  			unsigned int flags)
-dd08ebf6c3525a Matthew Brost      2023-03-30  119  {
-dd08ebf6c3525a Matthew Brost      2023-03-30  120  	struct drm_xe_sync sync=
-_in;
-dd08ebf6c3525a Matthew Brost      2023-03-30  121  	int err;
-53bf60f6d8503c Matthew Brost      2023-12-05  122  	bool exec =3D flags & S=
-YNC_PARSE_FLAG_EXEC;
-53bf60f6d8503c Matthew Brost      2023-12-05  123  	bool in_lr_mode =3D fla=
-gs & SYNC_PARSE_FLAG_LR_MODE;
-eb9702ad29863c Matthew Brost      2023-12-05  124  	bool disallow_user_fenc=
-e =3D flags & SYNC_PARSE_FLAG_DISALLOW_USER_FENCE;
-7cabe5580cb9dc Matthew Brost      2023-04-16  125  	bool signal;
-dd08ebf6c3525a Matthew Brost      2023-03-30  126 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  127  	if (copy_from_user(&syn=
-c_in, sync_user, sizeof(*sync_user)))
-dd08ebf6c3525a Matthew Brost      2023-03-30  128  		return -EFAULT;
-dd08ebf6c3525a Matthew Brost      2023-03-30  129 =20
-37d078e51b4cba Rodrigo Vivi       2023-11-22  130  	if (XE_IOCTL_DBG(xe, sy=
-nc_in.flags & ~DRM_XE_SYNC_FLAG_SIGNAL) ||
-b8c1ba831e6750 Francois Dugast    2023-07-17  131  	    XE_IOCTL_DBG(xe, sy=
-nc_in.reserved[0] || sync_in.reserved[1]))
-dd08ebf6c3525a Matthew Brost      2023-03-30  132  		return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  133 =20
-3ac4a7896d1c02 Francois Dugast    2023-11-14  134  	signal =3D sync_in.flag=
-s & DRM_XE_SYNC_FLAG_SIGNAL;
-37d078e51b4cba Rodrigo Vivi       2023-11-22  135  	switch (sync_in.type) {
-37d078e51b4cba Rodrigo Vivi       2023-11-22  136  	case DRM_XE_SYNC_TYPE_S=
-YNCOBJ:
-fdb6a05383fab3 Thomas Hellstr=C3=B6m   2023-11-27  137  		if (XE_IOCTL_DBG(=
-xe, in_lr_mode && signal))
-ee6ad13705286b Janga Rahul Kumar  2023-06-13  138  			return -EOPNOTSUPP;
-dd08ebf6c3525a Matthew Brost      2023-03-30  139 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  140  		if (XE_IOCTL_DBG(xe, u=
-pper_32_bits(sync_in.addr)))
-dd08ebf6c3525a Matthew Brost      2023-03-30  141  			return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  142 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  143  		sync->syncobj =3D drm_=
-syncobj_find(xef->drm, sync_in.handle);
-b8c1ba831e6750 Francois Dugast    2023-07-17  144  		if (XE_IOCTL_DBG(xe, !=
-sync->syncobj))
-dd08ebf6c3525a Matthew Brost      2023-03-30  145  			return -ENOENT;
-dd08ebf6c3525a Matthew Brost      2023-03-30  146 =20
-7cabe5580cb9dc Matthew Brost      2023-04-16  147  		if (!signal) {
-dd08ebf6c3525a Matthew Brost      2023-03-30  148  			sync->fence =3D drm_s=
-yncobj_fence_get(sync->syncobj);
-f939bdd9207a5d Shuicheng Lin      2026-02-19  149  			if (XE_IOCTL_DBG(xe, =
-!sync->fence)) {
-f939bdd9207a5d Shuicheng Lin      2026-02-19  150  				err =3D -EINVAL;
-f939bdd9207a5d Shuicheng Lin      2026-02-19  151  				goto free_sync;
-f939bdd9207a5d Shuicheng Lin      2026-02-19  152  			}
-dd08ebf6c3525a Matthew Brost      2023-03-30  153  		}
-dd08ebf6c3525a Matthew Brost      2023-03-30  154  		break;
-dd08ebf6c3525a Matthew Brost      2023-03-30  155 =20
-37d078e51b4cba Rodrigo Vivi       2023-11-22  156  	case DRM_XE_SYNC_TYPE_T=
-IMELINE_SYNCOBJ:
-fdb6a05383fab3 Thomas Hellstr=C3=B6m   2023-11-27  157  		if (XE_IOCTL_DBG(=
-xe, in_lr_mode && signal))
-ee6ad13705286b Janga Rahul Kumar  2023-06-13  158  			return -EOPNOTSUPP;
-dd08ebf6c3525a Matthew Brost      2023-03-30  159 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  160  		if (XE_IOCTL_DBG(xe, u=
-pper_32_bits(sync_in.addr)))
-dd08ebf6c3525a Matthew Brost      2023-03-30  161  			return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  162 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  163  		if (XE_IOCTL_DBG(xe, s=
-ync_in.timeline_value =3D=3D 0))
-dd08ebf6c3525a Matthew Brost      2023-03-30  164  			return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  165 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  166  		sync->syncobj =3D drm_=
-syncobj_find(xef->drm, sync_in.handle);
-b8c1ba831e6750 Francois Dugast    2023-07-17  167  		if (XE_IOCTL_DBG(xe, !=
-sync->syncobj))
-dd08ebf6c3525a Matthew Brost      2023-03-30 @168  			return -ENOENT;
-dd08ebf6c3525a Matthew Brost      2023-03-30  169 =20
-7cabe5580cb9dc Matthew Brost      2023-04-16  170  		if (signal) {
-dd08ebf6c3525a Matthew Brost      2023-03-30  171  			sync->chain_fence =3D =
-dma_fence_chain_alloc();
-f939bdd9207a5d Shuicheng Lin      2026-02-19  172  			if (!sync->chain_fenc=
-e) {
-f939bdd9207a5d Shuicheng Lin      2026-02-19  173  				err =3D -ENOMEM;
-f939bdd9207a5d Shuicheng Lin      2026-02-19  174  				goto free_sync;
-f939bdd9207a5d Shuicheng Lin      2026-02-19  175  			}
-dd08ebf6c3525a Matthew Brost      2023-03-30  176  		} else {
-dd08ebf6c3525a Matthew Brost      2023-03-30  177  			sync->fence =3D drm_s=
-yncobj_fence_get(sync->syncobj);
-f939bdd9207a5d Shuicheng Lin      2026-02-19  178  			if (XE_IOCTL_DBG(xe, =
-!sync->fence)) {
-f939bdd9207a5d Shuicheng Lin      2026-02-19  179  				err =3D -EINVAL;
-f939bdd9207a5d Shuicheng Lin      2026-02-19  180  				goto free_sync;
-f939bdd9207a5d Shuicheng Lin      2026-02-19  181  			}
-dd08ebf6c3525a Matthew Brost      2023-03-30  182 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  183  			err =3D dma_fence_cha=
-in_find_seqno(&sync->fence,
-dd08ebf6c3525a Matthew Brost      2023-03-30  184  							 sync_in.timeline=
-_value);
-dd08ebf6c3525a Matthew Brost      2023-03-30  185  			if (err)
-f939bdd9207a5d Shuicheng Lin      2026-02-19  186  				goto free_sync;
-dd08ebf6c3525a Matthew Brost      2023-03-30  187  		}
-dd08ebf6c3525a Matthew Brost      2023-03-30  188  		break;
-dd08ebf6c3525a Matthew Brost      2023-03-30  189 =20
-37d078e51b4cba Rodrigo Vivi       2023-11-22  190  	case DRM_XE_SYNC_TYPE_U=
-SER_FENCE:
-eb9702ad29863c Matthew Brost      2023-12-05  191  		if (XE_IOCTL_DBG(xe, d=
-isallow_user_fence))
-eb9702ad29863c Matthew Brost      2023-12-05  192  			return -EOPNOTSUPP;
-eb9702ad29863c Matthew Brost      2023-12-05  193 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  194  		if (XE_IOCTL_DBG(xe, !=
-signal))
-ee6ad13705286b Janga Rahul Kumar  2023-06-13  195  			return -EOPNOTSUPP;
-dd08ebf6c3525a Matthew Brost      2023-03-30  196 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  197  		if (XE_IOCTL_DBG(xe, s=
-ync_in.addr & 0x7))
-dd08ebf6c3525a Matthew Brost      2023-03-30  198  			return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  199 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  200  		if (exec) {
-dd08ebf6c3525a Matthew Brost      2023-03-30  201  			sync->addr =3D sync_i=
-n.addr;
-dd08ebf6c3525a Matthew Brost      2023-03-30  202  		} else {
-adda4e855ab640 Matthew Brost      2025-10-31  203  			sync->ufence_timeline=
-_value =3D ufence_timeline_value;
-dd08ebf6c3525a Matthew Brost      2023-03-30  204  			sync->ufence =3D user=
-_fence_create(xe, sync_in.addr,
-dd08ebf6c3525a Matthew Brost      2023-03-30  205  							 sync_in.timeline=
-_value);
-0fde907da2d5fd Matthew Brost      2024-07-17  206  			if (XE_IOCTL_DBG(xe, =
-IS_ERR(sync->ufence)))
-0fde907da2d5fd Matthew Brost      2024-07-17  207  				return PTR_ERR(sync-=
->ufence);
-adda4e855ab640 Matthew Brost      2025-10-31  208  			sync->ufence_chain_fe=
-nce =3D dma_fence_chain_alloc();
-adda4e855ab640 Matthew Brost      2025-10-31  209  			if (!sync->ufence_cha=
-in_fence)
-adda4e855ab640 Matthew Brost      2025-10-31  210  				return -ENOMEM;
-adda4e855ab640 Matthew Brost      2025-10-31  211  			sync->ufence_syncobj =
-=3D ufence_syncobj;
-dd08ebf6c3525a Matthew Brost      2023-03-30  212  		}
-dd08ebf6c3525a Matthew Brost      2023-03-30  213 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  214  		break;
-dd08ebf6c3525a Matthew Brost      2023-03-30  215 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  216  	default:
-dd08ebf6c3525a Matthew Brost      2023-03-30  217  		return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  218  	}
-dd08ebf6c3525a Matthew Brost      2023-03-30  219 =20
-37d078e51b4cba Rodrigo Vivi       2023-11-22  220  	sync->type =3D sync_in.=
-type;
-dd08ebf6c3525a Matthew Brost      2023-03-30  221  	sync->flags =3D sync_in=
-.flags;
-dd08ebf6c3525a Matthew Brost      2023-03-30  222  	sync->timeline_value =
-=3D sync_in.timeline_value;
-dd08ebf6c3525a Matthew Brost      2023-03-30  223 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  224  	return 0;
-f939bdd9207a5d Shuicheng Lin      2026-02-19  225 =20
-f939bdd9207a5d Shuicheng Lin      2026-02-19  226  free_sync:
-f939bdd9207a5d Shuicheng Lin      2026-02-19  227  	xe_sync_entry_cleanup(s=
-ync);
-f939bdd9207a5d Shuicheng Lin      2026-02-19  228  	return err;
-dd08ebf6c3525a Matthew Brost      2023-03-30  229  }
-70c7273778bf7f Priyanka Dandamudi 2025-02-12  230  ALLOW_ERROR_INJECTION(xe=
-_sync_entry_parse, ERRNO);
-dd08ebf6c3525a Matthew Brost      2023-03-30  231 =20
+966e89879bbea4 Leon Hwang       2026-02-19  18223  static bool bpf_kfunc_is_fastcall(struct bpf_verifier_env *env, u32 func_id, u32 flags)
+966e89879bbea4 Leon Hwang       2026-02-19  18224  {
+966e89879bbea4 Leon Hwang       2026-02-19  18225  	if (!(flags & KF_FASTCALL))
+966e89879bbea4 Leon Hwang       2026-02-19  18226  		return false;
+966e89879bbea4 Leon Hwang       2026-02-19  18227  
+966e89879bbea4 Leon Hwang       2026-02-19  18228  	if (!env->prog->jit_requested)
+966e89879bbea4 Leon Hwang       2026-02-19  18229  		return true;
+966e89879bbea4 Leon Hwang       2026-02-19  18230  
+966e89879bbea4 Leon Hwang       2026-02-19  18231  	if (func_id == special_kfunc_list[KF_bpf_clz64])
+966e89879bbea4 Leon Hwang       2026-02-19  18232  		return bpf_jit_inlines_kfunc_call(bpf_clz64);
+966e89879bbea4 Leon Hwang       2026-02-19  18233  	if (func_id == special_kfunc_list[KF_bpf_ctz64])
+966e89879bbea4 Leon Hwang       2026-02-19  18234  		return bpf_jit_inlines_kfunc_call(bpf_ctz64);
+966e89879bbea4 Leon Hwang       2026-02-19  18235  	if (func_id == special_kfunc_list[KF_bpf_ffs64])
+966e89879bbea4 Leon Hwang       2026-02-19  18236  		return bpf_jit_inlines_kfunc_call(bpf_ffs64);
+966e89879bbea4 Leon Hwang       2026-02-19  18237  	if (func_id == special_kfunc_list[KF_bpf_fls64])
+966e89879bbea4 Leon Hwang       2026-02-19  18238  		return bpf_jit_inlines_kfunc_call(bpf_fls64);
+966e89879bbea4 Leon Hwang       2026-02-19  18239  	if (func_id == special_kfunc_list[KF_bpf_bitrev64])
+966e89879bbea4 Leon Hwang       2026-02-19  18240  		return bpf_jit_inlines_kfunc_call(bpf_bitrev64);
+966e89879bbea4 Leon Hwang       2026-02-19  18241  	if (func_id == special_kfunc_list[KF_bpf_popcnt64])
+966e89879bbea4 Leon Hwang       2026-02-19  18242  		return bpf_jit_inlines_kfunc_call(bpf_popcnt64);
+966e89879bbea4 Leon Hwang       2026-02-19  18243  	if (func_id == special_kfunc_list[KF_bpf_rol64])
+966e89879bbea4 Leon Hwang       2026-02-19  18244  		return bpf_jit_inlines_kfunc_call(bpf_rol64);
+966e89879bbea4 Leon Hwang       2026-02-19 @18245  	if (func_id == special_kfunc_list[KF_bpf_ror64])
+                                                                                          ^^^^^^^^^^^^
+special_kfunc_list[] has 64 elements and KF_bpf_ror64 is 64 so
+this is out of bounds.
 
-:::::: The code at line 168 was first introduced by commit
-:::::: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM=
- driver for Intel GPUs
+966e89879bbea4 Leon Hwang       2026-02-19  18246  		return bpf_jit_inlines_kfunc_call(bpf_ror64);
+966e89879bbea4 Leon Hwang       2026-02-19  18247  
+966e89879bbea4 Leon Hwang       2026-02-19  18248  	return true;
+966e89879bbea4 Leon Hwang       2026-02-19  18249  }
 
-:::::: TO: Matthew Brost <matthew.brost@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
