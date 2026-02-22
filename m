@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8591E5702
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Feb 2026 21:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA8D3EBF3E
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Feb 2026 22:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771794679; cv=none; b=nGIcXdbIK9JGXBri1/SsRAldLOApgx9BZbvXanLGh8HKqLbfBEefBnemtzVnxwXG+ZfQdVdUmz+9sxirs6LCwskexpCpA7iQeIz7RBjLhrT25xa4kkp0JGN90AWM1qUwMaQUvpsDYP6mUDeJikWZTsatVUTSuOKjABW29KLPn0Y=
+	t=1771797681; cv=none; b=sXhEd58xqmd7nReF1/cye3FC2m5SeVzQl95hllOW0sUL31lFUvHbLR7xkmfPLoeV/DV5/Hw9r3qgSPRxtc5H8I00N9cTpUKfFGHylS9vLgZdhZWrcUzkFUNsh4vhCbTI9bHYzAWtk/QrkpfMSRm7ir2E9WOVu3gJy+cjh2plDv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771794679; c=relaxed/simple;
-	bh=ZtbQq+TktYtlSLJACcNb/8uuqMf2SjUix/Wls3lefDs=;
-	h=Date:From:To:Subject:Message-ID; b=Ipjt81tgrpnGek7/K/X08sSuxV4xqQNDethEfOoBWy8Fms5fAeL3qm6M7Zzy0biegPbJrKo5PdwZfHBwxInR1F337O4xoIS7xtsyGsZELMTQpLsParjA+MOpwL12YoGL6cjnGeHoGsnQiENSMv/8ShA06L5tovmLv9h9/obPcG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjzRZUk/; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1771797681; c=relaxed/simple;
+	bh=L7zPVk6BLR05Ve7VUWk3D8j6u5WTj+Nq7yNw3/7IEhI=;
+	h=Date:From:To:Subject:Message-ID; b=K10eu5clwyLAYxUSPQDn5FvUi/h3LbcIeCWytEMzU5E/iOzIYA8+bAf3qbDiXdzUtCA8bPm1zt0xNtLxycYCxdvISc3EYiWI/cMRxzLJTFhHKjcBgxpIlBuyTSTfxv6YpiKfy6qigvpLviHjjojJ5F3Yw5cDCZd9qQpya+1q5oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=begkb5S0; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjzRZUk/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="begkb5S0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771794677; x=1803330677;
+  t=1771797677; x=1803333677;
   h=date:from:to:subject:message-id;
-  bh=ZtbQq+TktYtlSLJACcNb/8uuqMf2SjUix/Wls3lefDs=;
-  b=WjzRZUk/7gPnaXWAUVK9JgGM0ANsd9XlY3ONCeN1ZNa/v6ztTbmi/puG
-   VAj2ZwXWr6iN/r6K6OepMqRxqlPTG0UAI+OEbRR76rEu3Ft73MnPdA2lN
-   oAt9XoOzWOc7cUaxH9UThIMclTemDO03P58SyC2OHdP7F+0l8XgxoScYz
-   Uu8V3FwFdfzLX+X1woq3K0BXWBAYx/MzO8fObYfsO60m6duIjfq37Cs4T
-   XN6r3khsg7a4qJI+dJATphPyxOyAY4IyvFNEuQ8gkzQu36PMgpvi/tT0v
-   p9LmaJEmoGcE7fgrPklOA1IwPTQihLe4m7wt0V74mOxw7FkMVYE/bd4rt
-   A==;
-X-CSE-ConnectionGUID: 76iD6vu2Riqh4KRoA6+BoA==
-X-CSE-MsgGUID: HzSOsLRSRxeOeEnd162+uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="72975155"
+  bh=L7zPVk6BLR05Ve7VUWk3D8j6u5WTj+Nq7yNw3/7IEhI=;
+  b=begkb5S0EUcLixV3HHuwXw1sAfYhNMPV5eaK8o5XuEUaRG604Sa7HXIv
+   n22MdsL8H6vRPnNPis1EgguZgph0VMP+DE+1XVBBkM7m+BtveHInE2ZtY
+   poborUiAFIcxbAPiuaLljILvbhQn8NevHr+R+pskQZ1RE42bkhrlp7UBf
+   4L0lXPEQ6tNTt1fgBnfCKwxlU0PA6OS032MnrqSAHuQpB3NSo2TQai2HR
+   XEo0tt3JRmnsZ8qtHNCBgGlmB+Hn5kmZljRIXpGEEIrF4Kgu+IS6m0NeR
+   3Zt2XAPUeTunP+hzPVSQ0zoOBOdJ2b4d7Jo6bxC7jgKW7Y6ep/qt6lpsL
+   w==;
+X-CSE-ConnectionGUID: vebk0kjTSl63LPiIclOJzg==
+X-CSE-MsgGUID: YQFLhsfcQh2f+aWqrIBscA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="76628152"
 X-IronPort-AV: E=Sophos;i="6.21,305,1763452800"; 
-   d="scan'208";a="72975155"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 13:11:16 -0800
-X-CSE-ConnectionGUID: KrfRzdmDSL6PyHTuo3u2Pw==
-X-CSE-MsgGUID: cN2cpy9RSUyAZYgXmfPn7A==
+   d="scan'208";a="76628152"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 14:01:16 -0800
+X-CSE-ConnectionGUID: exdfSRuvSJSwoi0/wW1IIg==
+X-CSE-MsgGUID: sucIJCOWQPGIdcm4+KQ8Nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,305,1763452800"; 
-   d="scan'208";a="214469941"
+   d="scan'208";a="218963436"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 22 Feb 2026 13:11:15 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 22 Feb 2026 14:01:16 -0800
 Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vuGjR-000000004iD-2EwH
+	id 1vuHVq-000000004in-00n7
 	for oe-kbuild@lists.linux.dev;
-	Sun, 22 Feb 2026 21:11:13 +0000
-Date: Sun, 22 Feb 2026 22:10:16 +0100
+	Sun, 22 Feb 2026 22:01:14 +0000
+Date: Sun, 22 Feb 2026 23:00:14 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 1/1] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'unneeded'
-Message-ID: <202602222250.ZmV8kNht-lkp@intel.com>
+Subject: [tglx-devel:sched/hrtick 27/46] checkpatch:
+ ERROR:BAD_SIGN_OFF: Unrecognized email address: 'Thomas Gleixner
+ <tglx@kernel.org'
+Message-ID: <202602222248.aw4eaXld-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,20 +66,20 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Thomas Gleixner <tglx@kernel.org>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   c1aed1c2a0028f45dcc5d2dafb4b09182e3a3795
-commit: c1aed1c2a0028f45dcc5d2dafb4b09182e3a3795 [1/1] fixup! bcachefs: fix O(n^2) eytzinger sort in accounting read
-:::::: branch date: 10 minutes ago
-:::::: commit date: 10 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20260222/202602222250.ZmV8kNht-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git sched/hrtick
+head:   108074eac008632e059c777dbc8ad2a16c39972f
+commit: 3f5d7324d398f8d02a14f801ccf4e2de314c57c1 [27/46] hrtimer: Optimize for local timers
+:::::: branch date: 34 minutes ago
+:::::: commit date: 34 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20260222/202602222248.aw4eaXld-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'unneeded'
-#60: FILE: fs/bcachefs/alloc/accounting.c:1092:
-+		 * We want to drop unneeded unneeded accounting deltas early - deltas
+ERROR:BAD_SIGN_OFF: Unrecognized email address: 'Thomas Gleixner <tglx@kernel.org'
+#28: 
+Signed-off-by: Thomas Gleixner <tglx@kernel.org
 
 -- 
 0-DAY CI Kernel Test Service
