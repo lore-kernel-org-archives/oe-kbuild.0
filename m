@@ -1,77 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8826E3A1D13
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Feb 2026 15:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433123ECBFB
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Feb 2026 15:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772118021; cv=none; b=I8Z+yn8dP8uEl2XScgYonATuYGWzV9JP3kNoPlm4M7cgyNomBaSAhQxDfzSI4+at7D5C2SkwX2JJlNq8RIpp7XHVhC+u/pJITLk8D7sEItOAAa0XgFBasD6qhktiD21jCFewtJBvve7UP/0O/Zgp4GxQY6hXcMOrr/sN74c/JSI=
+	t=1772119057; cv=none; b=lx+Szede54qYTme+CDC1nPMhlYGpLbAU5DkbGHZyrGVM9sVmll3t7FoHnvvwOtnl/r+sMXvl2qx41lrrXMVlyp3gSuwVkI2vtQOw+NzaijlXHfNCyZDVltSlYA/IzqNNfrJPQ7R7+LZmEVh+3tbFoXQncIjJdcbCdeceevLBhpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772118021; c=relaxed/simple;
-	bh=LbJhCAX1BxAukdnurLx7oZwPcZxXe5TuuBAob6038RU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YOPhgClJ5Br2nc95bFvT1f09HnOTv/WuEDgOanKmluacCXqxi3B7MFQWc+dIKL1WQKGG/TPk1hooh5SVwQCh2So2xOdLIw1RznBHhSob2NuETjH+4x0RZaMk10NtPOPo1cJ/8ozDGV+lpAMLs/ZKZOBerdGjDXBH+fF7rjqZx4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evdmbXjH; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772119057; c=relaxed/simple;
+	bh=rU4zfPhCXu/D0DAZaiyutZ8v0rxxQ3X4K2UE4yPRvNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uT+uUx8pWowRoRxRXolx48P82XvsffT4W53DYdk6fcY2mQvaRPZCKtfKzPHZ7/b4LXy2MQAHMTt0C1yC4QYv6/E8kDkGbtXi80kFeJ1J7YdMbZV1feY+fF8Mm7LsixLJxI3wMRXYrVZDfLgNTo36SkQ6Z/irHbt2FTe4PXduJi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=auHpZHWD; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evdmbXjH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772118017; x=1803654017;
-  h=date:from:to:cc:subject:message-id;
-  bh=LbJhCAX1BxAukdnurLx7oZwPcZxXe5TuuBAob6038RU=;
-  b=evdmbXjHVOxVMwb3hSb9X8iGKpp+fHB/9XYIPJl9+20AQcKccTCrlBkW
-   aFuzk9MW+k8xYpZhgvuQwjivcpTXjCpOJNZlBc5ZtUs+uIb/tFPtv17J1
-   elaQol9KIopbgRlGBRbJ8L4RPQmjFHq4cgipKAD5ujRribMAg/GOGpns7
-   i/5TxW4qZas+OIadekFpq6NVKidRc5UJQlJybMCqNZyYTMacE94JEFRwO
-   +JMs6Fc2hePm3iZ0skF2/RaByAelGIMzOhUDjv2WyInn7vvpXFgyEZXaz
-   CoIyuX3JMlk51rT0EEr0jPfeH15OCt3n0ZVHQ7tum7/0162R+8TP2X/vK
-   A==;
-X-CSE-ConnectionGUID: LWXa/E/tTYamN2zXCn8+kw==
-X-CSE-MsgGUID: 0cW9AOIeSDOVJXTGKpnjHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="72879997"
-X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
-   d="scan'208";a="72879997"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 07:00:16 -0800
-X-CSE-ConnectionGUID: fNIUEsoBT9G2dfZtczcVhw==
-X-CSE-MsgGUID: jSvxCgXUT2WawNb6EsmFMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
-   d="scan'208";a="221588127"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 26 Feb 2026 07:00:14 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vvcqE-000000009XL-0HRh;
-	Thu, 26 Feb 2026 14:59:56 +0000
-Date: Thu, 26 Feb 2026 22:59:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="auHpZHWD"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4837907f535so9359975e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 26 Feb 2026 07:17:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772119053; x=1772723853; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ohlf0bMfuezGgcZVUSaBlujFkeGEWCUNEdgGlyeWEjo=;
+        b=auHpZHWDHl4QgpTBKu5TRAtT2FdtA85Ix6EGZDVzy5Z3CygMKysjvTSBJz76htfdpZ
+         aN7d5kFONRRudMUjnXOq0tPp3RPGB6WT+sYVrbz4q3h9Lmd8pqL9WQuepd/u035XGzVa
+         TOtmJ50znbecsDudT4z8PIjIA5DOgEVjTKwfCgZnJew9VjvhZT85y5bTAYAdO35Uogh1
+         4iH6APZFF//s3/1LOMSeUo0HVoW2qisM1WJevEFdRwmmXT5UEwTNmiwxSy4G77w7KUXX
+         FJQg65sFqPv9r/lUYbIZGbZGqXca5MTW7jYCJunszmA2UAlEZpCXxDQX1bz36Ra7G+28
+         IP6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772119053; x=1772723853;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ohlf0bMfuezGgcZVUSaBlujFkeGEWCUNEdgGlyeWEjo=;
+        b=YhvReGncE7oTEKECeNg7OQeqs5IXQOXeAG/ii5HGfrqTR3Gtdij5+kaQjvSmbTd4o3
+         vvRwNyBDn4+YL4FEdcDHh4NC8ax3tlY4gbX8RX3PBI/t0G5o04OvDdM7KjXKKvgcNY9h
+         6KuMROHjKN7jEtx8Bh+iocNmHa670gvMLSF0WUUKadHw9nV4cMKI7WrS6wNYAuNLHUUH
+         l036xIkiLmLfX61NOC+4wsAcHEsHP6At/Z3a2T1bwyC3PVkwXNsFtxlAVOAf+hpBMHyA
+         YFLQH1hCt41h++MOphSwP+G9nbcgXAoMzWe0Ugsf2bTouXY+vPjrVHOcNaryuyRgucP9
+         zHRg==
+X-Gm-Message-State: AOJu0YwqZ1swL390zFqvnsEtic2CApZzggPuyT/p2JzlR2fywlzb2VU5
+	WqYXIUUekvWGUkNox9h+dxu6hTKTgGcl9UlOzQeB/ILZ8zR2q36t7YojNUGZ3/Yx5yLam2czElU
+	MyTvTy1M=
+X-Gm-Gg: ATEYQzwwjdiAtPzzPA+dU1FEZ/WhXOaj5FQajVgWw4lwEN/AQBkx73H+V9A/96s3i2H
+	OBNHM6VpNX2Ypt7S4t+/cinD2WVtBb3jO5RyTEnPjaWhYf9DpjmzSTvtfPhp+UG+0IXO+Ut1L6m
+	5ov1BrjxJ0I0RYHEU1+0MqQlZNK3Wtk2ivSFjQtZUMqFZapQbBfgGOfgOr6Cru9bcj7mZR4YYYf
+	+abv3sDo5iYP5BXKp0ZtfaD7sY7GXJzmoBC4TlUEQlN8MAtn4fuP/Vge/z58y6+lDiltO1WuYO/
+	0/3OMyYGSs8HaAe7EZJdxmpjtZTs4lD7lFeEtb2qJGloEOb4lpmV+Zp1ksou++/hkNR56aq/CyT
+	Ec1COxrtsKyCWN+uKjSF9xkniRIoc+2nJUciObMk+S9xr3hCTZsndH7socJULWFUrjNoy6Xe3aJ
+	O79fcQr3KKalyKvjq3s9Aax4g+nDcl
+X-Received: by 2002:a05:600c:8b54:b0:483:7f4e:fef6 with SMTP id 5b1f17b1804b1-483c21a01f9mr78399475e9.26.1772119053162;
+        Thu, 26 Feb 2026 07:17:33 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfcbf673sm47898775e9.19.2026.02.26.07.17.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Feb 2026 07:17:32 -0800 (PST)
+Date: Thu, 26 Feb 2026 18:17:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Sunil Khatri <sunil.khatrti@amd.com>
 Subject: [agd5f:drm-next 81/95]
  drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:593
  amdgpu_userq_signal_ioctl() error: we previously assumed 'gobj_write' could
  be null (see line 575)
 Message-ID: <202602262219.UY2pqzl2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Sunil Khatri <sunil.khatrti@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260226151729.QO2iisy8twwr3qc-OZw2d1I6HhvXv7CMAkK8rMPwlFc@z>
 
 tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
 head:   9973e64bd6ee7642860a6f3b6958cbf14e89cabd
 commit: 4ca06f6fb45da38e19e88b7dcf76b2a7e9d6a9e2 [81/95] drm/amdgpu/userq: Use drm_gem_objects_lookup in amdgpu_userq_signal_ioctl
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
 config: i386-randconfig-141-20260226 (https://download.01.org/0day-ci/archive/20260226/202602262219.UY2pqzl2-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch version: v0.5.0-8994-gd50c5a4c
@@ -79,7 +88,7 @@ smatch version: v0.5.0-8994-gd50c5a4c
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202602262219.UY2pqzl2-lkp@intel.com/
 
 smatch warnings:
@@ -88,7 +97,6 @@ drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:597 amdgpu_userq_signal_ioctl() 
 
 vim +/gobj_write +593 drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
 
-276e8beb2a0c39 Alex Deucher             2025-04-18  457  
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  458  int amdgpu_userq_signal_ioctl(struct drm_device *dev, void *data,
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  459  			      struct drm_file *filp)
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  460  {
@@ -136,6 +144,9 @@ a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  500
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  502  				   u64_to_user_ptr(args->bo_read_handles),
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  503  				   num_read_bo_handles,
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  504  				   &gobj_read);
+
+gobj_read assigned here
+
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  505  	if (r)
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  506  		goto free_syncobj;
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  507  
@@ -143,6 +154,9 @@ cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  507
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  509  				   u64_to_user_ptr(args->bo_write_handles),
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  510  				   num_write_bo_handles,
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  511  				   &gobj_write);
+
+gobj_write assigned here
+
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  512  	if (r)
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  513  		goto put_gobj_read;
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  514  
@@ -183,6 +197,9 @@ e7cf21fbb2773c Arunpravin Paneer Selvam 2024-10-30  548
 e7cf21fbb2773c Arunpravin Paneer Selvam 2024-10-30  549  	/* Lock all BOs with retry handling */
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  550  	drm_exec_until_all_locked(&exec) {
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  551  		r = drm_exec_prepare_array(&exec, gobj_read, num_read_bo_handles, 1);
+
+These are unchecked dereferences
+
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  552  		drm_exec_retry_on_contention(&exec);
 f15d4e92f7d351 Arvind Yadav             2025-01-27  553  		if (r) {
 f15d4e92f7d351 Arvind Yadav             2025-01-27  554  			amdgpu_userq_fence_cleanup(fence);
@@ -190,6 +207,9 @@ cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  555  			goto exec_fini;
 f15d4e92f7d351 Arvind Yadav             2025-01-27  556  		}
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  557  
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  558  		r = drm_exec_prepare_array(&exec, gobj_write, num_write_bo_handles, 1);
+
+Here too.
+
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  559  		drm_exec_retry_on_contention(&exec);
 f15d4e92f7d351 Arvind Yadav             2025-01-27  560  		if (r) {
 f15d4e92f7d351 Arvind Yadav             2025-01-27  561  			amdgpu_userq_fence_cleanup(fence);
@@ -199,6 +219,9 @@ f15d4e92f7d351 Arvind Yadav             2025-01-27  564  	}
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  565  
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  566  	for (i = 0; i < num_read_bo_handles; i++) {
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30 @567  		if (!gobj_read || !gobj_read[i]->resv)
+                                                                             ^^^^^^^^^
+So hopefully we can remove the NULL check on gobj_read here
+
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  568  			continue;
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  569  
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  570  		dma_resv_add_fence(gobj_read[i]->resv, fence,
@@ -207,6 +230,9 @@ cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  572  	}
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  573  
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  574  	for (i = 0; i < num_write_bo_handles; i++) {
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30 @575  		if (!gobj_write || !gobj_write[i]->resv)
+
+And this NULL check as well
+
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  576  			continue;
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  577  
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  578  		dma_resv_add_fence(gobj_write[i]->resv, fence,
@@ -225,10 +251,16 @@ a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  590  	drm_exec_fini(&exec);
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  591  put_gobj_write:
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  592  	for (i = 0; i < num_write_bo_handles; i++)
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23 @593  		drm_gem_object_put(gobj_write[i]);
+
+The error handling has no NULL checks
+
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  594  	kfree(gobj_write);
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  595  put_gobj_read:
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23  596  	for (i = 0; i < num_read_bo_handles; i++)
 4ca06f6fb45da3 Tvrtko Ursulin           2026-02-23 @597  		drm_gem_object_put(gobj_read[i]);
+                                                                                           ^^^^^^^^^^^^
+
+
 cb4a73f46f253b Arunpravin Paneer Selvam 2024-10-30  598  	kfree(gobj_read);
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  599  free_syncobj:
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  600  	while (entry-- > 0)
@@ -240,8 +272,8 @@ a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  605  	kfree(syncobj_handles)
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  606  
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  607  	return r;
 a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  608  }
-a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  609  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
