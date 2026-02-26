@@ -1,63 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4C744D02C
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Feb 2026 19:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3087389443
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Feb 2026 19:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772133381; cv=none; b=Si7pzlQwIEKhnkkbWRwleNYz+R6gMzvGTW80PrhL/VQ6vlrHeAnrRMTfQODskODo3KPAf9pdfJ+Vgmoa/ll6y6HlZmagi9TSYHCp6DAkXjtFBwy5+2jcMcnEFaqf79xKvQ+iP+D+5SVjNgge8K3rDd0TI5uWkq5LFOfzxIzpFJ8=
+	t=1772134041; cv=none; b=pzZv+9YpD6igG/6IHL1gPwxTjng/24jQYdIRVYL5malSDINfhSQ8ik0nbeHnYcc5OK7P+TN5jZuHXXc5tla6x4hgD+pbWmfN/96vg/6hdEMSP3uvqSC/n2tRAVMuhcsyA+LEk75/acejPxnOdWruw4/L5GlUEYgUsaQ8EoPN9Hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772133381; c=relaxed/simple;
-	bh=cm630kn4SFWw+nV16oW1r8UkocE4GTMzMvO1bBPca10=;
-	h=Date:From:To:Subject:Message-ID; b=c5qKG1NI6gcNcN0OW0tyVYV9jPtXOSy77s8prTz+iJ3/ozlFAtM3cHUoWS55Rm/INTOnqYXoSiAIaUYGyCclEGdk6nc2W5dEbzuUbsM+M7jRLr3odOS0jhXkaXYlP/gCZ6CezgYnEmEfwB+Jp+iq3Wc2boP0jJH+6CLae7Pm21M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgTgb0jK; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1772134041; c=relaxed/simple;
+	bh=ELIgKbpfCHThP5HIHmDA7UWzUhwQyiVx/jVNC/vuM1I=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lAVlSNYLT45YJPq6zS4UQJjNAWz5UhN2dNE4BCyHlBgNkp1GEnSpzaISBP+4RJ/2vpB4S5zkTVRKFksKlyDy3rYUX0Qe/xJcVjn0vQOraHbQ8ZWenknQk5wLFtZfElANOTUB0ohB//J7TVroy7sYTtzXhFiMvE+AE6AnQVdmDV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ch6/Ol8M; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgTgb0jK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ch6/Ol8M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772133379; x=1803669379;
-  h=date:from:to:subject:message-id;
-  bh=cm630kn4SFWw+nV16oW1r8UkocE4GTMzMvO1bBPca10=;
-  b=jgTgb0jKg02a+IHUCvsoYgYonXckf902A4S+EQsqIk82YWQ/bNa9oky1
-   +SoRWSGoZCcSMOJmc19zoQlYZi8gFLJa+4dJZAwIQ+VyDm6I0JOQblSSK
-   UfSvCcjgYJ8dvYULOF5QpsfiPz6G3cZdv+yy8m+YSwU1GXUv59gdeqtUY
-   S4cUvtxZ+NP5l2IRuvBVelL3J5oJPftz4jAF7FVJinyucc+9wNiQ6V8tq
-   6zt+VVTK/7PtcBSS1MJn6/r71xZOR0OAbto+J1/AyZNID5CzkVcRWerE2
-   rA02uWJUkG+lCpei7uwKmub9WP1BZ9M+0jArL5LVx0Jj6EKdZZWuIwAo0
+  t=1772134038; x=1803670038;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=ELIgKbpfCHThP5HIHmDA7UWzUhwQyiVx/jVNC/vuM1I=;
+  b=Ch6/Ol8M3WveNo4y/VyglST0dU1pU92Z3R8Ti7W6RgPkP4A+3ndSFtX5
+   pvoK8ticYN+I8MFHl0o0w47ylRyDYF+qvr0EIGIfKICfk+XZ43GnRLdVD
+   XhlQNmHGLlmAoWnRmDTRZA963WgMqYl5PZDN/zmgju86bWZm9tXzdnT23
+   ItmAnJR+I1BXhxhdUJGcPBPSovKTph/mWL568bVCV2Ex7vvVtkIqMuJ5Z
+   OwgZjrHtArtXFlQ52IYO7hTn0DYRuxMDK2oWb7TlpbWkeT4fniEarzVoo
+   8pk6MfSLWYaCA5Kxg2qp3GYMOJhuBUlnaMzDd6/MmEJsilf4fjMgaqc5t
    A==;
-X-CSE-ConnectionGUID: 24MS0/uxRLmm6qfrDQFd0w==
-X-CSE-MsgGUID: VOVjNX5hQTCeNcEbX1QQWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73078475"
+X-CSE-ConnectionGUID: dEUUXkv2RdKNigDxKmzY1A==
+X-CSE-MsgGUID: q2cveYeKROCnsb1zsFvS6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="83540537"
 X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
-   d="scan'208";a="73078475"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 11:16:17 -0800
-X-CSE-ConnectionGUID: Cy7OoaeJS0qaOZCyE1piZg==
-X-CSE-MsgGUID: 2AGEU4XDS1ensQsbKiXz2g==
+   d="scan'208";a="83540537"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 11:27:18 -0800
+X-CSE-ConnectionGUID: lh27Gk6aSbylwidNZTjKOQ==
+X-CSE-MsgGUID: h6AWaKDxTE+J/TONxUReMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
-   d="scan'208";a="221280651"
+   d="scan'208";a="239659108"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Feb 2026 11:16:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 26 Feb 2026 11:27:16 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvgqM-000000000HS-089O
+	id 1vvh10-000000000Hx-1bkT
 	for oe-kbuild@lists.linux.dev;
-	Thu, 26 Feb 2026 19:16:14 +0000
-Date: Thu, 26 Feb 2026 20:16:07 +0100
+	Thu, 26 Feb 2026 19:27:14 +0000
+Date: Thu, 26 Feb 2026 20:26:56 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 1/2] checkpatch:
- ERROR:BAD_SIGN_OFF: Unrecognized email address: 'feedc0de'
-Message-ID: <202602261912.rCWxNico-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v5 3/3] selftests/bpf: add test for btf__add_btf() with
+ split BTF sources
+Message-ID: <202602262053.gel5WzQC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
 :::::: Manual check reason: "high confidence checkpatch report"
@@ -65,20 +68,33 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: ProofOfConcept <poc@bcachefs.org>
+In-Reply-To: <dbaf8e09041984d90e0e3acb4aa86a3700728b00.1771950922.git.josef@toxicpanda.com>
+References: <dbaf8e09041984d90e0e3acb4aa86a3700728b00.1771950922.git.josef@toxicpanda.com>
+TO: Josef Bacik <josef@toxicpanda.com>
+TO: bpf@vger.kernel.org
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   890aec6dc1fe5551e337a2f19affcdf07578254d
-commit: f1d2f59d9e0b58c5f5c88cc7a997ce239eb45154 [1/2] bcachefs: ec: handle stale stripe pointers gracefully
-:::::: branch date: 38 minutes ago
-:::::: commit date: 83 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20260226/202602261912.rCWxNico-lkp@intel.com/reproduce)
+Hi Josef,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/net]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josef-Bacik/libbpf-support-appending-split-BTF-in-btf__add_btf/20260225-005622
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/dbaf8e09041984d90e0e3acb4aa86a3700728b00.1771950922.git.josef%40toxicpanda.com
+patch subject: [PATCH v5 3/3] selftests/bpf: add test for btf__add_btf() with split BTF sources
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20260226/202602262053.gel5WzQC-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-ERROR:BAD_SIGN_OFF: Unrecognized email address: 'feedc0de'
-#26: 
-Reported-by: feedc0de
+ERROR:BAD_SIGN_OFF: Unrecognized email address: 'Claude:claude-opus-4-6'
+#13: 
+Assisted-by: Claude:claude-opus-4-6
 
 -- 
 0-DAY CI Kernel Test Service
