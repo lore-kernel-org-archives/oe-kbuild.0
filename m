@@ -1,55 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCB63290CA
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Feb 2026 07:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC22D36BCFA
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Feb 2026 08:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772178688; cv=none; b=o1opfmxlqfnQqFwGOcwlyfRcJU8oK/CX8TZ6aqEvcKjcPpEFdYEaHxIrN0wZ5+whkDGQHW4HzHXbqG1whMBMZq9UEuzmojmH6cWyM9HJlvcAaC1mX38xQP37xgL7AO8SCjEUa+ZUn7XitXHcfQXtlmtT1u6Q/NFhcCeESf6M2OU=
+	t=1772179868; cv=none; b=CSYVTZUEubPpcEl5Vf+e4h/QgWUKHPnwCmE5WPdA3QHipPpLWG3r/V5Uw3iCm9JcoCTYwrxhE8eOsQg7t3I/mF/lkqmZy/zsFx/sEEY1rvQ2pBb8Es6ULGMV+cAtyf1b/UVeQ6kqBCZUEQjno+4a6bJWqvfM0RjL/0qioDmuT+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772178688; c=relaxed/simple;
-	bh=8/IGEfioCTeXib4ThqQJXz4Qn7DpSf/a1LlM+8TuvgU=;
+	s=arc-20240116; t=1772179868; c=relaxed/simple;
+	bh=h545sH5JP7cq0FYBaba5LSLeqkoazSa5z5sgcGMTMm0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jql8lTC2Z3XhWlSqaOxuL5RXOTFUUOzMYLbiBdjILnVPb3lYF5qeSpxYXPvBXDZCF96/Eu9Um7MmcevQLsZa/0XoYfYjty1yor8WiDelx/R+VjSHJU7yUv5VLR+D7qTF38X79sxLBHNAVZlJ7T6SfIG8OhLOF+bYkRctPKqEmG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ysaow6XW; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=TY1/jMRiOyfHhnPXMSe3QVI4cAg6SAaIeFsEfOlx2mYw5+ZR2oQyYFHNgL2otLFrnfFVw25w1Pf8Snj7kg3nV25eVCsimk2LeRH/0grULdw4orzMJhj19AGmQLR8soJBDtEvQT5IrUxeDNTQaz9Q4nr+CgGshXvMecfZ1DeOz+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jOSjRvlP; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ysaow6XW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772178686; x=1803714686;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8/IGEfioCTeXib4ThqQJXz4Qn7DpSf/a1LlM+8TuvgU=;
-  b=Ysaow6XWBye9/P7iZqP5OOqVhCcjUin3yignk7mpNcikf+MimtrhAnbe
-   jMxF/lhVwoeFEXxCagsVP8SXBMsGejJJb84+zJDnbXm3ZBWfxcGd+8Tlw
-   8clDlAOm+4/sC6BkyJem1lfCmSeh331QJpcdhUhQGeHsDx9E/Z2XZNxvF
-   2xuJizz9r+8HLgtYUv4S2rtn97CRVNe+ZpAigEyvOPoF34v31Us5mD6F9
-   /wlMIe58DVsWn+8XPNAEliIDAMcghZTc/IysQrcR5utDqUXRq3VdDBUFw
-   ohyNjBaso9Otx014AR1aovGrX7nIxQTghzyAbUyg1+7XitKW8LXVehoHx
-   g==;
-X-CSE-ConnectionGUID: vOrBBCxwQJydmf+2cs+zJQ==
-X-CSE-MsgGUID: rqScBoEoRWas4VbUDFbLXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73128772"
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="73128772"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 23:51:25 -0800
-X-CSE-ConnectionGUID: x7cxkwg1QsGQOOTBI4U6bA==
-X-CSE-MsgGUID: 6vUZjqMBTySpCZ4X6UA48Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="254608407"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 26 Feb 2026 23:51:23 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vvscb-00000000AL9-32d4;
-	Fri, 27 Feb 2026 07:50:54 +0000
-Date: Fri, 27 Feb 2026 15:50:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jOSjRvlP"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48329eb96a7so14182115e9.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 27 Feb 2026 00:11:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772179865; x=1772784665; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qZmaHsQoW2ym4yvD8dDk2Aay7lPHS5+f4YhmsNPYSH8=;
+        b=jOSjRvlPG2bzqFqebxRlzSGq0ETht4A7EgNaVQmTn+maH5ZYBRcHbpGmWaWMZQZMT7
+         6Vnk8cNrFPtUemmqunwhRZ+o70V+s5J+27lAiICIYvvasKl8pBd04+IUoPVMTdRzUaAE
+         QSEba3QoP29VXtA0VYVGZicNF7sKKc5/p0clI2n41FqX0r7DrOpxwycO7ZFaA4h5fZow
+         WwHKRa0qKV9p2XcFk9jwk9+gIYAmJwELsh9wVDBMvkQqBzWOj2SWZ/M52XX0yF2dDvP0
+         MT+MRuxEuTWC4KfiGVBzOSbaldj2hKed8srfK0EvcJwwd6uMy7WG+6YmkProCQCevfsh
+         08Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772179865; x=1772784665;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qZmaHsQoW2ym4yvD8dDk2Aay7lPHS5+f4YhmsNPYSH8=;
+        b=U/WXTmwQ25E4BU3VniSTFHsBXBCVAqMeBMpmhpM/T11i0lb96Nd4akjIeF0BL5E1BE
+         n1JRhpdCR/oCrWJ4ZXp1Ip63gnGkFVHN6sMgtD6Kt3+4rR77qcHSWhat4Rp8ylJDSW4E
+         eCHRki8vT9PlqZaTrRpMeWIRCbjd6zxzGyM01dRASzZtyg+jqY2ASGnMUQZbAkNYi2o5
+         sFfDzXnK1pn6l1KroUEXxmeBjncf3K5llffLqMLs19kt6+I4JG767cvwLbWmQj5C2EyS
+         WzM6G/yVelCjbJ5hnkM5npKP4sApJOVOLu/vUgB1devDbaoapwDDNjHpTCh3377dhTGk
+         Qj4g==
+X-Gm-Message-State: AOJu0YwhOeaFCyP3q6egREgiBWlzAmheGa+pGYocg7jlM512leZoEgwo
+	nikGFQiEI6ecKGG+XPZGXYz3itC/gUN+/gJFQYMwkdxxl+UleCCSJpzXWfZQ8GLfL95huXzCw7Z
+	ZYSpZ
+X-Gm-Gg: ATEYQzyuBOwKkAdI/nmZr2UwX9IcewbQPa2QVdJ8pG3Taw9DBNtn8BtpJ/tEMRGqvoQ
+	OI8OX+Gr+k2r1gj3fom7GbOT+ARRNfttPZhIYSnvOmG/uDgGxmwMmuEXknQPPRkpV5nVJaFMuJp
+	hXEWYfMF1GVGZ3JgNjbTeusu4wF2iIRqC/mYfl6Mw6xYst3hE5DGVT0FwXOZ/BX1YxcxYNpPu8c
+	wSzF1+HS75s5ZJqFc5Xygw37FDPpbXxVRSK46Bnw+XMn1yu4ePb8aNXIuEOyBuGanl/oEhwI6zz
+	ymJcnQ0/o8PJ6w2dVO1DtwMxXF5/p+5p1b+6/OMiSrZN01qQVknd4qdQxiSKMlT+W5VTFOJzg2c
+	ZRbyAwLjiNYeMA+li+pdMC3elEMSHKNxvGxmI8y5+CWZBSJlVhmCAGpg6IJDw1Vzn+lCEv7NTvK
+	jII0GtIl7zEdRk4Fvk7/mViYGSMWtKIlgKYtYPPeQ=
+X-Received: by 2002:a05:600c:1f91:b0:47d:92bb:2723 with SMTP id 5b1f17b1804b1-483c9ba3683mr24302515e9.3.1772179864758;
+        Fri, 27 Feb 2026 00:11:04 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b3471asm98930155e9.3.2026.02.27.00.11.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Feb 2026 00:11:04 -0800 (PST)
+Date: Fri, 27 Feb 2026 11:11:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] mshv: Introduce tracing support
 Message-ID: <202602271528.jLhA59mn-lkp@intel.com>
 Precedence: bulk
@@ -60,36 +75,19 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <177213348504.92223.5330421592610811972.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
-References: <177213348504.92223.5330421592610811972.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
-TO: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-TO: kys@microsoft.com
-TO: haiyangz@microsoft.com
-TO: wei.liu@kernel.org
-TO: decui@microsoft.com
-TO: longli@microsoft.com
-CC: linux-hyperv@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+Message-ID: <20260227081101.tzD-hLY1elWss2pgySe6UMpwfOUvCZk2hwbcx_9KWyI@z>
 
 Hi Stanislav,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.0-rc1 next-20260226]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/mshv-Introduce-tracing-support/20260227-031942
 base:   linus/master
 patch link:    https://lore.kernel.org/r/177213348504.92223.5330421592610811972.stgit%40skinsburskii-cloud-desktop.internal.cloudapp.net
 patch subject: [PATCH] mshv: Introduce tracing support
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
 config: x86_64-randconfig-161-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271528.jLhA59mn-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch version: v0.5.0-8994-gd50c5a4c
@@ -97,19 +95,15 @@ smatch version: v0.5.0-8994-gd50c5a4c
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202602271528.jLhA59mn-lkp@intel.com/
 
 New smatch warnings:
 drivers/hv/mshv_root_main.c:1177 mshv_partition_ioctl_create_vp() error: we previously assumed 'vp' could be null (see line 1110)
 drivers/hv/mshv_root_main.c:1177 mshv_partition_ioctl_create_vp() error: dereferencing freed memory 'vp' (line 1157)
 
-Old smatch warnings:
-drivers/hv/mshv_root_main.c:1148 mshv_partition_ioctl_create_vp() warn: potential spectre issue 'partition->pt_vp_array' [w]
-
 vim +/vp +1177 drivers/hv/mshv_root_main.c
 
-621191d709b148 Nuno Das Neves        2025-03-14  1056  
 621191d709b148 Nuno Das Neves        2025-03-14  1057  static long
 621191d709b148 Nuno Das Neves        2025-03-14  1058  mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
 621191d709b148 Nuno Das Neves        2025-03-14  1059  			       void __user *arg)
@@ -165,6 +159,9 @@ vim +/vp +1177 drivers/hv/mshv_root_main.c
 bf4afc53b77aea Linus Torvalds        2026-02-21  1109  	vp = kzalloc_obj(*vp);
 621191d709b148 Nuno Das Neves        2025-03-14 @1110  	if (!vp)
 621191d709b148 Nuno Das Neves        2025-03-14  1111  		goto unmap_stats_pages;
+
+vp is NULL
+
 621191d709b148 Nuno Das Neves        2025-03-14  1112  
 621191d709b148 Nuno Das Neves        2025-03-14  1113  	vp->vp_partition = mshv_partition_get(partition);
 621191d709b148 Nuno Das Neves        2025-03-14  1114  	if (!vp->vp_partition) {
@@ -211,6 +208,9 @@ ff225ba9ad71c4 Nuno Das Neves        2026-01-28  1153  	mshv_debugfs_vp_remove(v
 621191d709b148 Nuno Das Neves        2025-03-14  1155  	mshv_partition_put(partition);
 621191d709b148 Nuno Das Neves        2025-03-14  1156  free_vp:
 621191d709b148 Nuno Das Neves        2025-03-14 @1157  	kfree(vp);
+                                                              ^^
+freed.
+
 621191d709b148 Nuno Das Neves        2025-03-14  1158  unmap_stats_pages:
 d62313bdf5961b Jinank Jain           2025-10-10  1159  	mshv_vp_stats_unmap(partition->pt_id, args.vp_index, stats_pages);
 621191d709b148 Nuno Das Neves        2025-03-14  1160  unmap_ghcb_page:
@@ -231,10 +231,13 @@ d62313bdf5961b Jinank Jain           2025-10-10  1159  	mshv_vp_stats_unmap(part
 621191d709b148 Nuno Das Neves        2025-03-14  1175  	hv_call_delete_vp(partition->pt_id, args.vp_index);
 33c08ba966cf23 Stanislav Kinsburskii 2026-02-26  1176  out:
 33c08ba966cf23 Stanislav Kinsburskii 2026-02-26 @1177  	trace_mshv_create_vp(partition->pt_id, vp->vp_index, ret);
+                                                                                               ^^^^^^^^^^^^
+vp dereferenced.
+
 621191d709b148 Nuno Das Neves        2025-03-14  1178  	return ret;
 621191d709b148 Nuno Das Neves        2025-03-14  1179  }
-621191d709b148 Nuno Das Neves        2025-03-14  1180  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
