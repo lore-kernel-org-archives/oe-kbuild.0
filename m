@@ -1,42 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7552944DB70;
-	Fri, 27 Feb 2026 20:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210FC29E11B
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Feb 2026 01:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772224140; cv=none; b=qGmP8CZ5AIPWfWMEdrFdDmrmR7yjfeJzbt1pXymT3Lhvk6yrNSbA/9JuJSNVyjCEvqlak11rEJrHBL8uaczZcm0LvYq9vSpVWRVl9GMUqp8/mpNU3ztExWyE3YluBcLmURfNOKQqr7Qk2sIDBYfr1ZZYUlFDh48zDEd+IiNakzU=
+	t=1772240497; cv=none; b=ox33KdiszCM6rkaJquMkixwJKQOXh/EtwJ++5zBYb3HcvBFPJGfb2qnVFZnxHZzNB4cDf7H+mOcFipDe6GFLqYn/rOV8BWfm+NGluaKpApZHF2mhlq64X/hfSKSLsv4Udow1dI0of+MmX7fTSGkCxGSQBfDaQJ3rLLhgy03L7zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772224140; c=relaxed/simple;
-	bh=alCtN+yAPb0hO332yCZoBLY/vHWdR4J5FN+tx5wQcXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nN/hTG0GgCxA+VSV6A/uxJ2c/1Gr+YnJuVCQn/XBqR1vpRhpGifMWM0gRvH/bkISa3PBwKM9Ar7KmkeHhqR4bO9JcYgK5GdkwKpRbm1m2agFpV9d75CutbjwIP5CSedgXI8V4eruJUlz44/CTkDtr8ZeePbB5H560KqeXAHXjvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TizHpxsV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772240497; c=relaxed/simple;
+	bh=19ZvxXqBnn9xwGQY5cAhp0jtoaqhSh1ZnAG4m9MhzYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IHeBqpzoWFigZfWkG57fqqBPAbPedzYL1ADIhhtp15DY7/La7BRD3W56CgQDgmGIzU0UYXl1bqWbrX7iqQW9zMpnml8FB5CSxm8D2xWJij5sIaH64iqD9OrPOxir6gMaloEwRircRkkdV2dil9UQO7SialP6aPpTIXryoEr0P+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iY6nQMUB; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TizHpxsV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7CBAC116C6;
-	Fri, 27 Feb 2026 20:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772224140;
-	bh=alCtN+yAPb0hO332yCZoBLY/vHWdR4J5FN+tx5wQcXI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TizHpxsVDuLcmJKI8RtN3qoqg87tdMymADKj4245m40099oNeZPrzVUWTglJH54D5
-	 LlPfic6BKiP7ZCAwvX+qXSqSsWbZZ+IQ34xU8slYRhLlEILBmpNgYhaU2C7EimAY3h
-	 SNJcYSdEQ1KDJbQ4QDCYsjIIOKJrk+aA96XE3qXbLnMVTOt5FeUnYZQY0hnby+bwp2
-	 FKYwN4LgVUkKiv+h0l5OLkuiMl9Fu5dlK0/ii9lwvfB2XxufgNdgsZ20ZS66yx2WYI
-	 WeJYgqZnj2e5nhBD85pDRX+i8xmhNzHeoCtgHFhNbdz9fjqztU9trIa/FFUfyydYwp
-	 B97DqLcLtHtDw==
-Date: Fri, 27 Feb 2026 20:28:58 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Jianan Huang <huangjianan@xiaomi.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Sheng Yong <shengyong1@xiaomi.com>
-Subject: Re: [jaegeuk-f2fs:dev-test 5/5] fs/f2fs/gc.c:1286 ra_data_block()
- warn: missing error code 'err'
-Message-ID: <aaH-iiLeA7R6DOJe@google.com>
-References: <202602242237.boCX8y4A-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iY6nQMUB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772240493; x=1803776493;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=19ZvxXqBnn9xwGQY5cAhp0jtoaqhSh1ZnAG4m9MhzYw=;
+  b=iY6nQMUBJTckj1ldY1FzNKadm8CE9usuQm+yzB6PXhXU1e/6qUoBWwXS
+   3lYYODPcN/viB66HA1KovJbKc/926A7oHxd1iscmyk0CyexlSg9yyPMRu
+   jOIRjVW/C738hsbVrwtX06DLOtVpd0H7SfQ/iAI2bhDmcp9ECOybsDxrC
+   S4XbJ77bJ1qKYqtlXkxIRMS7qQfycnUAaDOYrPt1YEXLT882lzWYvojdS
+   aJ0yiaLLsxfxAwWFVp+AzNnmnBCkqG+WqS7Fc1hkPNIQtMv+RrqOLqZjp
+   AfwfbB6ol+JSG+A6gqaMW/WCsdkE6Kf0Zm84h8Uz39xR8/YthboxrrbhT
+   w==;
+X-CSE-ConnectionGUID: alzjxEbZTEedUACXj7C/5g==
+X-CSE-MsgGUID: SMO/rakaQxeJjiY+kjWH/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="90905650"
+X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
+   d="scan'208";a="90905650"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 17:01:32 -0800
+X-CSE-ConnectionGUID: +BiCof+1TK2YkRC+I6OCaQ==
+X-CSE-MsgGUID: vN/NR2jGSAmTIGxE9V4OAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
+   d="scan'208";a="240063729"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 27 Feb 2026 17:01:31 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vw8hi-00000000BDb-2mWh;
+	Sat, 28 Feb 2026 01:01:13 +0000
+Date: Sat, 28 Feb 2026 09:00:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3 2/2] iommupt: Avoid rewalking during map
+Message-ID: <202602280840.ok5l06Wt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,125 +60,129 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202602242237.boCX8y4A-lkp@intel.com>
 
-On 02/24, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-> head:   0c3712423755e851debb4021af26802b75d1cb9d
-> commit: 0c3712423755e851debb4021af26802b75d1cb9d [5/5] f2fs: avoid reading already updated pages during GC
-> config: csky-randconfig-r071-20260224 (https://download.01.org/0day-ci/archive/20260224/202602242237.boCX8y4A-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 15.2.0
-> smatch version: v0.5.0-8994-gd50c5a4c
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202602242237.boCX8y4A-lkp@intel.com/
-> 
-> smatch warnings:
-> fs/f2fs/gc.c:1286 ra_data_block() warn: missing error code 'err'
-> 
-> vim +/err +1286 fs/f2fs/gc.c
-> 
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1217  static int ra_data_block(struct inode *inode, pgoff_t index)
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1218  {
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1219  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-> f18d00769336897 Sunmin Jeong            2024-07-10  1220  	struct address_space *mapping = f2fs_is_cow_file(inode) ?
-> f18d00769336897 Sunmin Jeong            2024-07-10  1221  				F2FS_I(inode)->atomic_inode->i_mapping : inode->i_mapping;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1222  	struct dnode_of_data dn;
-> e0b89d00ea9f846 Chao Yu                 2025-10-14  1223  	struct folio *folio, *efolio;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1224  	struct f2fs_io_info fio = {
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1225  		.sbi = sbi,
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1226  		.ino = inode->i_ino,
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1227  		.type = DATA,
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1228  		.temp = COLD,
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1229  		.op = REQ_OP_READ,
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1230  		.op_flags = 0,
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1231  		.encrypted_page = NULL,
-> 2eae077e6e46f90 Chao Yu                 2023-02-02  1232  		.in_list = 0,
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1233  	};
-> 0c3712423755e85 Jianan Huang            2026-02-09  1234  	int err = 0;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1235  
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1236) 	folio = f2fs_grab_cache_folio(mapping, index, true);
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1237) 	if (IS_ERR(folio))
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1238) 		return PTR_ERR(folio);
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1239  
-> 04a91ab01684744 Christoph Hellwig       2022-11-28  1240  	if (f2fs_lookup_read_extent_cache_block(inode, index,
-> 04a91ab01684744 Christoph Hellwig       2022-11-28  1241  						&dn.data_blkaddr)) {
-> 93770ab7a6e9631 Chao Yu                 2019-04-15  1242  		if (unlikely(!f2fs_is_valid_blkaddr(sbi, dn.data_blkaddr,
-> 93770ab7a6e9631 Chao Yu                 2019-04-15  1243  						DATA_GENERIC_ENHANCE_READ))) {
-> 10f966bbf521bb9 Chao Yu                 2019-06-20  1244  			err = -EFSCORRUPTED;
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1245) 			goto put_folio;
-> 93770ab7a6e9631 Chao Yu                 2019-04-15  1246  		}
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1247  		goto got_it;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1248  	}
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1249  
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1250  	set_new_dnode(&dn, inode, NULL, NULL, 0);
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1251  	err = f2fs_get_dnode_of_data(&dn, index, LOOKUP_NODE);
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1252  	if (err)
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1253) 		goto put_folio;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1254  	f2fs_put_dnode(&dn);
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1255  
-> 93770ab7a6e9631 Chao Yu                 2019-04-15  1256  	if (!__is_valid_data_blkaddr(dn.data_blkaddr)) {
-> 93770ab7a6e9631 Chao Yu                 2019-04-15  1257  		err = -ENOENT;
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1258) 		goto put_folio;
-> 93770ab7a6e9631 Chao Yu                 2019-04-15  1259  	}
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1260  	if (unlikely(!f2fs_is_valid_blkaddr(sbi, dn.data_blkaddr,
-> 93770ab7a6e9631 Chao Yu                 2019-04-15  1261  						DATA_GENERIC_ENHANCE))) {
-> 10f966bbf521bb9 Chao Yu                 2019-06-20  1262  		err = -EFSCORRUPTED;
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1263) 		goto put_folio;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1264  	}
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1265  got_it:
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1266) 	/* read folio */
-> d342b7adad71e5a Matthew Wilcox (Oracle  2025-07-08  1267) 	fio.folio = folio;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1268  	fio.new_blkaddr = fio.old_blkaddr = dn.data_blkaddr;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1269  
-> 9bf1a3f73927492 Yunlong Song            2018-09-18  1270  	/*
-> 9bf1a3f73927492 Yunlong Song            2018-09-18  1271  	 * don't cache encrypted data into meta inode until previous dirty
-> 9bf1a3f73927492 Yunlong Song            2018-09-18  1272  	 * data were writebacked to avoid racing between GC and flush.
-> 9bf1a3f73927492 Yunlong Song            2018-09-18  1273  	 */
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1274) 	f2fs_folio_wait_writeback(folio, DATA, true, true);
-> 9bf1a3f73927492 Yunlong Song            2018-09-18  1275  
-> 9bf1a3f73927492 Yunlong Song            2018-09-18  1276  	f2fs_wait_on_block_writeback(inode, dn.data_blkaddr);
-> 9bf1a3f73927492 Yunlong Song            2018-09-18  1277  
-> e0b89d00ea9f846 Chao Yu                 2025-10-14  1278  	efolio = f2fs_filemap_get_folio(META_MAPPING(sbi), dn.data_blkaddr,
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1279  					FGP_LOCK | FGP_CREAT, GFP_NOFS);
-> e0b89d00ea9f846 Chao Yu                 2025-10-14  1280  	if (IS_ERR(efolio)) {
-> e0b89d00ea9f846 Chao Yu                 2025-10-14  1281  		err = PTR_ERR(efolio);
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1282) 		goto put_folio;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1283  	}
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1284  
-> 0c3712423755e85 Jianan Huang            2026-02-09  1285  	if (folio_test_uptodate(efolio))
-> 0c3712423755e85 Jianan Huang            2026-02-09 @1286  		goto put_encrypted_page;
-> 
-> Is this an error path?  It looks like it is...
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <2-v3-a1777ea76519+370f-iommpt_map_direct_jgg@nvidia.com>
+References: <2-v3-a1777ea76519+370f-iommpt_map_direct_jgg@nvidia.com>
+TO: Jason Gunthorpe <jgg@nvidia.com>
+TO: iommu@lists.linux.dev
+TO: Joerg Roedel <joro@8bytes.org>
+TO: Robin Murphy <robin.murphy@arm.com>
+TO: Will Deacon <will@kernel.org>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: patches@lists.linux.dev
+CC: Samiullah Khawaja <skhawaja@google.com>
 
-https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git/commit/?h=dev-test
+Hi Jason,
 
-It's not an error case, but skips to submit bio.
+kernel test robot noticed the following build warnings:
 
-> 
-> 0c3712423755e85 Jianan Huang            2026-02-09  1287  
-> e0b89d00ea9f846 Chao Yu                 2025-10-14  1288  	fio.encrypted_page = &efolio->page;
-> e0b89d00ea9f846 Chao Yu                 2025-10-14  1289  
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1290  	err = f2fs_submit_page_bio(&fio);
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1291  	if (err)
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1292  		goto put_encrypted_page;
-> 89c16629e3136f0 Yongpeng Yang           2025-10-27  1293  	f2fs_put_page(fio.encrypted_page, false);
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1294) 	f2fs_folio_put(folio, true);
-> 8b83ac81f4283ae Chao Yu                 2020-04-16  1295  
-> 34a23525601a16f Chao Yu                 2022-08-20  1296  	f2fs_update_iostat(sbi, inode, FS_DATA_READ_IO, F2FS_BLKSIZE);
-> 34a23525601a16f Chao Yu                 2022-08-20  1297  	f2fs_update_iostat(sbi, NULL, FS_GDATA_READ_IO, F2FS_BLKSIZE);
-> 8b83ac81f4283ae Chao Yu                 2020-04-16  1298  
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1299  	return 0;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1300  put_encrypted_page:
-> 89c16629e3136f0 Yongpeng Yang           2025-10-27  1301  	f2fs_put_page(fio.encrypted_page, true);
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1302) put_folio:
-> 0d53be232343c16 Matthew Wilcox (Oracle  2025-03-31  1303) 	f2fs_folio_put(folio, true);
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1304  	return err;
-> 6aa58d8ad20a332 Chao Yu                 2018-08-14  1305  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test WARNING on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/iommupt-Directly-call-iommupt-s-unmap_range/20260228-033653
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/2-v3-a1777ea76519%2B370f-iommpt_map_direct_jgg%40nvidia.com
+patch subject: [PATCH v3 2/2] iommupt: Avoid rewalking during map
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: i386-randconfig-141-20260228 (https://download.01.org/0day-ci/archive/20260228/202602280840.ok5l06Wt-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+smatch version: v0.5.0-8994-gd50c5a4c
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202602280840.ok5l06Wt-lkp@intel.com/
+
+smatch warnings:
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:897 x86_64_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:897 vtdss_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:897 amdv1_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
+
+vim +897 drivers/iommu/generic_pt/fmt/../iommu_pt.h
+
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  874  
+c4359bc14c2605 Jason Gunthorpe 2026-02-27  875  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
+c4359bc14c2605 Jason Gunthorpe 2026-02-27  876  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
+c4359bc14c2605 Jason Gunthorpe 2026-02-27  877  			 gfp_t gfp, size_t *mapped)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  878  {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  879  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  880  	struct pt_common *common = common_from_iommu(iommu_table);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  881  	struct iommu_iotlb_gather iotlb_gather;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  882  	struct pt_iommu_map_args map = {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  883  		.iotlb_gather = &iotlb_gather,
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  884  		.oa = paddr,
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  885  	};
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  886  	bool single_page = false;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  887  	struct pt_range range;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  888  	int ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  889  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  890  	iommu_iotlb_gather_init(&iotlb_gather);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  891  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  892  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  893  		return -EINVAL;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  894  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  895  	/* Check the paddr doesn't exceed what the table can store */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  896  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04 @897  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  898  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  899  	     oalog2_div(paddr, common->max_oasz_lg2)))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  900  		return -ERANGE;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  901  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  902  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  903  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  904  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  905  	map.attrs.gfp = gfp;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  906  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  907  	ret = make_range_no_check(common, &range, iova, len);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  908  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  909  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  910  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  911  	/* Calculate target page size and level for the leaves */
+c4359bc14c2605 Jason Gunthorpe 2026-02-27  912  	if (pt_has_system_page_size(common) && len == PAGE_SIZE) {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  913  		PT_WARN_ON(!(pgsize_bitmap & PAGE_SIZE));
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  914  		if (log2_mod(iova | paddr, PAGE_SHIFT))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  915  			return -ENXIO;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  916  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  917  		map.leaf_level = 0;
+c4359bc14c2605 Jason Gunthorpe 2026-02-27  918  		map.num_leaves = 1;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  919  		single_page = true;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  920  	} else {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  921  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  922  			pgsize_bitmap, range.va, range.last_va, paddr);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  923  		if (!map.leaf_pgsize_lg2)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  924  			return -ENXIO;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  925  		map.leaf_level =
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  926  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
+c4359bc14c2605 Jason Gunthorpe 2026-02-27  927  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
+c4359bc14c2605 Jason Gunthorpe 2026-02-27  928  					       range.last_va, paddr,
+c4359bc14c2605 Jason Gunthorpe 2026-02-27  929  					       map.leaf_pgsize_lg2);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  930  	}
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  931  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  932  	ret = check_map_range(iommu_table, &range, &map);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  933  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  934  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  935  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  936  	PT_WARN_ON(map.leaf_level > range.top_level);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  937  
+efa03dab7ce4ed Jason Gunthorpe 2025-10-23  938  	ret = do_map(&range, common, single_page, &map);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  939  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  940  	/*
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  941  	 * Table levels were freed and replaced with large items, flush any walk
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  942  	 * cache that may refer to the freed levels.
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  943  	 */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  944  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  945  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  946  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  947  	/* Bytes successfully mapped */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  948  	PT_WARN_ON(!ret && map.oa - paddr != len);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  949  	*mapped += map.oa - paddr;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  950  	return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  951  }
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  952  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
