@@ -1,138 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26A5365A15
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Mar 2026 12:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9884832142B
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Mar 2026 14:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772453496; cv=none; b=hhCSPAReIKYKA6MwsS/xnh6S7+tJgHtr2BVk9OHU+PuLv4GCJodRb9BgSKxIrtv7cvKHvO/76mYKfY7P0aeImPG3Bcu6v6LcmcfktxjYG2n5aiPmKG67z5qXZqHdGhwBlQ/FO47dK+HXI4THfsa+w32CHVawBugPzQva4dukrU0=
+	t=1772461583; cv=none; b=hOYDcHrmZpKc5hEj6nA5M91mPgqInfSI6cV8eQKI61juu5oQkWba2ObzXVQKIz/JI64Ux0ATQ4qjLs1wVlt2a2TdSqbezMu+in8Btwuz8y1u5u9ESsURcElTuMOkv4JrARYUA6zflzZ+0SR21sllwqwFyHdM4f+qqsWlLUhSgeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772453496; c=relaxed/simple;
-	bh=gt0R/Pg9wVKnMqgC5kovW+mI8rh2lzf5BlwXP14UT6M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M4iZ9ewmwkOi4p2bpi8CuCYD+ocJkm8LO5jHDcQ1OEjS4tyDOGsOFROBLZo1ZGwt9B3krH1A9d6aWzlMkl+qKwrGmivgG38C9amsXc7O36dvUmmAs+CUYIyPqMb0WLN9d4NzAJ43DePu1EPV+TNvSsv7yxxkPF/8qpLvx7OsGxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRj9kFxW; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772461583; c=relaxed/simple;
+	bh=0hG1QjIkWIfhocmwTRXnXu3qV5JYo6/t3gNgOnTcMBU=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
+	 Message-ID:Content-Type; b=TXUuBZ92DBfVj0KecbKA/lRdTYofwxxHOdfoIyM19BIQG7nu3CIZQtx//DkzxRCkF3ufqYx/CnqxgSN+1qkmMfwElI2/wZyhmR5jFlCOw4+/CHNJC5Jo5W1Z/wyIvnl/LnCg6XR9jFlRzBa0HvJWlz2lkMiNFzBKHdXoJr7PRwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fjAg7wy0; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRj9kFxW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772453495; x=1803989495;
-  h=date:from:to:cc:subject:message-id;
-  bh=gt0R/Pg9wVKnMqgC5kovW+mI8rh2lzf5BlwXP14UT6M=;
-  b=jRj9kFxW0n2rn+MOadsIj0UOiXuuV1eXI7wW/GPZrbzVj0gbhqm9yJkz
-   VGhBcQTO9vrdBy/1z+npUXoovTQWiOi6MLeHR8uF0Iqm8c6eOL3jTjSPM
-   ZOFqoCQy6VVQ+MdfZivjn7cx50uT2F02mpaK5CpXTB0KlmW50w1sKrx1M
-   PX4hAShCP3ylTmSrzjoVv8wuylLCCYfpctSbyXO61SzCdBxSXYyGfL87K
-   lIAXCYqCRxyibe4obqkPz30S4C/Zj0YLG0sCqq+TzxQdmxRcpCPckzktr
-   wjnTBQdtVHREELB50C4S3s9mx0KfDYERPsVsymXxr1sYPcTHOr35Nfn4q
-   g==;
-X-CSE-ConnectionGUID: 0wOQ3O3+RHKgWfUoRPbvdQ==
-X-CSE-MsgGUID: pLqYDJJ1TCCqQSs4gULxjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="72486201"
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="72486201"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 04:11:34 -0800
-X-CSE-ConnectionGUID: gxOcgz0TT6OjwulX1M4wGg==
-X-CSE-MsgGUID: TRTdqHtJQViaKAMcS1P92g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="244706514"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Mar 2026 04:11:33 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vx27X-000000000pp-0dsX;
-	Mon, 02 Mar 2026 12:11:31 +0000
-Date: Mon, 02 Mar 2026 20:11:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/bridge/inno-hdmi.c:833:21: sparse: sparse:
- unsigned value that used to be signed checked against zero?
-Message-ID: <202603022010.X4p93BCU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fjAg7wy0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772461581;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pO7nnLi7UW4tWy7PIEl56a/uNI1PWrPELBHJi4rpaTs=;
+	b=fjAg7wy0bqMZsAHMZGd2elUggSEURo5hXfQGTgfTTnHPtWTA0Y1u0bzNUS1TQ6tTgZ/os+
+	G+KFnXP4gkCxMZmWrgWxVj8GPyrUR78APcPHoEuCGOnalVhg8TSgZy9/4dnxTSOtJ7rE7y
+	nEf8RcLsmTDnKeB9e7XTC5QOo3UjO54=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-116-21J3nBu5PHa1VJ2vb8lNYg-1; Mon,
+ 02 Mar 2026 09:26:18 -0500
+X-MC-Unique: 21J3nBu5PHa1VJ2vb8lNYg-1
+X-Mimecast-MFC-AGG-ID: 21J3nBu5PHa1VJ2vb8lNYg_1772461577
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 69C051800370;
+	Mon,  2 Mar 2026 14:26:17 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.45.224.2])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8287A1956053;
+	Mon,  2 Mar 2026 14:26:15 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <202603011130.BCCzYGYx-lkp@intel.com>
+References: <202603011130.BCCzYGYx-lkp@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
+    oe-kbuild-all@lists.linux.dev
+Subject: Re: [dhowells-fs:netfs-next 5/16] fs/netfs/bvecq.c:299 netfs_shorten_bvecq_buffer() error: we previously assumed 'bq' could be null (see line 289)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Date: Mon, 02 Mar 2026 14:26:13 +0000
+Message-ID: <1409207.1772461573@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: JkK1dS5ehKVCwi0jjoXilmGf4uPcjwyV_0Y0KAeZiio_1772461577
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1409206.1772461573.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/gpu/drm/bridge/inno-hdmi.c:833:21: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-CC: Heiko Stuebner <heiko@sntech.de>
+>   int netfs_shorten_bvecq_buffer(struct bvecq *bq, unsigned int seg, size=
+_t size)
+>   {
+>   =09ssize_t retain =3D size;
+>  =20
+>   =09/* Skip through the segments we want to keep. */
+>   =09for (; bq; bq =3D bq->next) {
+>   =09=09for (; seg < bq->nr_segs; seg++) {
+>   =09=09=09retain -=3D bq->bv[seg].bv_len;
+>   =09=09=09if (retain < 0)
+>   =09=09=09=09goto found;
+>   =09=09}
+>   =09=09seg =3D 0;
+>   =09}
+>=20
+>  break statements.
+>=20
+>   =09if (WARN_ON_ONCE(retain > 0))
+>   =09=09return -EMSGSIZE;
+>   =09bq->bv[seg].bv_len +=3D retain;
+>       ^^^^^^
+> NULL dereference.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   11439c4635edd669ae435eec308f4ab8a0804808
-commit: 0244539f9a4f3b564604dfe4d639f61cecec381a drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP
-date:   7 weeks ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 7 weeks ago
-config: um-randconfig-r121-20260302 (https://download.01.org/0day-ci/archive/20260302/202603022010.X4p93BCU-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603022010.X4p93BCU-lkp@intel.com/reproduce)
+I think I should just remove this line.  retain can only be 0 here.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603022010.X4p93BCU-lkp@intel.com/
+David
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/bridge/inno-hdmi.c:833:21: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/gpu/drm/bridge/inno-hdmi.c:818:35: sparse: signed value source
-
-vim +833 drivers/gpu/drm/bridge/inno-hdmi.c
-
-412d4ae6b7a508 drivers/gpu/drm/rockchip/inno_hdmi.c Yakir Yang       2016-02-03  805  
-969325a2597ebc drivers/gpu/drm/bridge/inno-hdmi.c   Andy Yan         2025-10-16  806  static enum drm_mode_status inno_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
-969325a2597ebc drivers/gpu/drm/bridge/inno-hdmi.c   Andy Yan         2025-10-16  807  							const struct drm_display_info *info,
-26d6fd81916e62 drivers/gpu/drm/rockchip/inno_hdmi.c Dmitry Baryshkov 2024-12-14  808  							const struct drm_display_mode *mode)
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  809  {
-969325a2597ebc drivers/gpu/drm/bridge/inno-hdmi.c   Andy Yan         2025-10-16  810  	struct inno_hdmi *hdmi = bridge_to_inno_hdmi(bridge);
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  811  	unsigned long mpixelclk, max_tolerance;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  812  	long rounded_refclk;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  813  
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  814  	/* No support for double-clock modes */
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  815  	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  816  		return MODE_BAD;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  817  
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  818  	mpixelclk = mode->clock * 1000;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  819  
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  820  	if (mpixelclk < INNO_HDMI_MIN_TMDS_CLOCK)
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  821  		return MODE_CLOCK_LOW;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  822  
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  823  	if (inno_hdmi_find_phy_config(hdmi, mpixelclk) < 0)
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  824  		return MODE_CLOCK_HIGH;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  825  
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  826  	if (hdmi->refclk) {
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  827  		rounded_refclk = clk_round_rate(hdmi->refclk, mpixelclk);
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  828  		if (rounded_refclk < 0)
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  829  			return MODE_BAD;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  830  
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  831  		/* Vesa DMT standard mentions +/- 0.5% max tolerance */
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  832  		max_tolerance = mpixelclk / 200;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22 @833  		if (abs_diff((unsigned long)rounded_refclk, mpixelclk) > max_tolerance)
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  834  			return MODE_NOCLOCK;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  835  	}
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  836  
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  837  	return MODE_OK;
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  838  }
-701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  839  
-
-:::::: The code at line 833 was first introduced by commit
-:::::: 701029621d4141d0c9f8b81a88a37b95ec84ce65 drm/rockchip: inno_hdmi: Add basic mode validation
-
-:::::: TO: Alex Bee <knaerzche@gmail.com>
-:::::: CC: Heiko Stuebner <heiko@sntech.de>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
