@@ -1,74 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E683311957
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Mar 2026 17:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9DD31D367
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Mar 2026 18:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772473264; cv=none; b=NRdjymdirC65X+tW5rXzJ2gUKiDL7sk2jgfAD6ctOmLCfolEqCK/0dPSBxA1/90NaiXEYK16ahrB4LA3e37eLzqLXE0w8Jo2JEdh4QWiRuTBEJ+eZ/xpAqPy9Y5zNsoooxkkJrzbnUHH2WLmaOXYreiRA3juFaGd0UK31fiNNq0=
+	t=1772475356; cv=none; b=W5VtsFiPwIE5cc2vCiPbznt/z96HYA1MW+eYZTQKbK8NXgR48suO0R36SHY5XZGfItGBAw9t6ZoUI8WW6LiddARsPSn1845j+GU4I+PGQfpFxrT9Fn9F45C9sl90Oeoo75SUdXpnt4hSw4bTsb5sd1/PIVnMvv1brbFAQUoyTh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772473264; c=relaxed/simple;
-	bh=3O2zE5VMcfXE+mT7KAOPZNsTkU4SuMtstIyo/h5tjho=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bleq+/h1EdMzkeAx244e4lTqpqGVnht3ry5+UWggOj6/6hru7i+WrFO63UidRyJtnG/SpWKh0tdK59UdtfXIpuNLTj9iiA9v5Rgsa2CDop7COiaJkz0Ua/rgc0hadcmuWhBts7GPUEzPaz5/YFnBPbgPAPn51aoWj19mW1aQZqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRO/kenM; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772475356; c=relaxed/simple;
+	bh=h8dg6IJwiMzAKy9pUJCmeJ23bAYTBA3lGuwl7oMjj2M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R4uAYpehW82vSXgIDFyP7vrfft/ag9IhfB2xg/3535H25hLJ1hWTScI5QAZOC6rEVHTCrf34hUa9g4t+r4vhKSoiJHiiUxKYzQSZDvE1Nk3bsprwia9dh7lTyaU9/8wsgDgDhWKyPAmLJKr0XV1T/KEkA8DcLBjBAwTxH105KJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QQfD9aS0; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRO/kenM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772473264; x=1804009264;
-  h=date:from:to:cc:subject:message-id;
-  bh=3O2zE5VMcfXE+mT7KAOPZNsTkU4SuMtstIyo/h5tjho=;
-  b=jRO/kenM8LYFZyc5TlM17MVjY/9qIzHnPpChipvyAbk7WjQJYP4ByzzV
-   T1AkMa3jk7ECebZ32G1BUOsDqBCo7oayXLvlqkc5xD+9Np33RFok8zOKM
-   77AASpO9gYvn3EIngCm0wQg7svhvYNZUUGyx0a+SJg/jeSPakvT8wIzxU
-   thqw6KsX4Fd54DoBVQWTOd2hEQa9iEMLq3Enh2Udv+n4PUxS8L0I+XiVv
-   jAAeuCMnR9L7gODXDCyAQNB/fsJ94YSdKA4QNUiUg8uTbILZjZQzH8fWM
-   IiH76Q0uvf7qvLAPdSkJ0GjmeCCiHayB6SZ7E/LOnBtHHzpD3QtZs5Jdw
-   Q==;
-X-CSE-ConnectionGUID: lA7bZ+ipQLC6YLRw1qD2NA==
-X-CSE-MsgGUID: Auy7F97WRUSmiyfOty9z1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="90884665"
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="90884665"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 09:41:04 -0800
-X-CSE-ConnectionGUID: Pa86yC2KQjulAbVblxS3sg==
-X-CSE-MsgGUID: YsjCn5x7Re2UX9Cg+Zz/fw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="217829773"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Mar 2026 09:41:02 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vx7GN-000000001F3-1NDJ;
-	Mon, 02 Mar 2026 17:40:59 +0000
-Date: Tue, 03 Mar 2026 01:40:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QQfD9aS0"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48372efa020so41449405e9.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 02 Mar 2026 10:15:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772475352; x=1773080152; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ly3HA8CVT/qmA0QrPKvm+q33/myg29MXsLP+2Ew4xC0=;
+        b=QQfD9aS0/HUIKHW++nDxGNRiiwmLE+uc2dq+eElcbwCaaNXFZP/Si1GrTpOzGd6akp
+         8ExtAP+CN+xdA3xb6/gIzo0AtQZEbCn5M3Rc0zwVdwDKSqH3WP9DmsmGDnMTPBbMZTN+
+         G6N8c3LRf8XoYQx3vtFdRa0B5uBw7H8vx4XqZvcJYvvA21wTsnViOiziP7qVgQNjlZmy
+         KpH6XGZKuM7A1M3lIZSkqLrtEEO9kVFNKHsDYCGsSGgmXQhpyiiTI0RX+mdfjSZKtkoY
+         hqzvO39zb5rAMtK9ig88gpDhth6rDE8VqeplNz9y6Bg7MLHy6+aPD7ZE2XcTXSMmOxsx
+         NZJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772475352; x=1773080152;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ly3HA8CVT/qmA0QrPKvm+q33/myg29MXsLP+2Ew4xC0=;
+        b=lhkWOQij9GvIgxpUaiVc9UeODfghXdFkssNguc0L4MpeXZnMkddYZiU+IJuMp8tIZ+
+         NI7XJjWggV/qKvfaAyZ/qyzJDPqRZUePTqtl2IEQMiSXY+h+dBfulxO0K6+0x9ATs24w
+         QAxbBNDjcx9OEay7nellFchj2sSIlz46JQ/SkLAuMNSNNDlb6npkmELu8uarkipLhLle
+         pVHDT6KYziwqJ5tJLGSl53Prxccc9lVVbOaE7mezp7dPgBgXSIV407OSNDzLD8R/wSGZ
+         CYGQCxB+6teaPlGcXGaNTqtF3AVnC1HvpkATvVyxnnNst3r3srQ/I2Koy6ywkoJcGm3G
+         SUXg==
+X-Gm-Message-State: AOJu0YxVojtNNluURIQ8UCjcNGkgBAbtfh4TcW1Nap2OS7Q4MemK9F1e
+	TtnheoNnQi7RyCw7V/Ie7hlCOurWR2HwDGMtpVXlmrZ4dLSePDQZcTeF1Zdgy0daPuZwVYkrPxQ
+	VgO7T
+X-Gm-Gg: ATEYQzyeogZeTEtimttpF4vZzrn9Yall2YIa2tuj7J5rqDyxjxQ/QdFc21cG0kKGyiE
+	XIlKT14+3HKW8dqBoe+VE2ZSaQBXVna3R6eNYpDqxAFNAtWjggPRAJ+yTwO3/ioG4gP5+TXq4s7
+	MicJfVu7Sl2PXMy2nl4ciRrJEYIBEznQjr4CfgbXvBSrcR7OBwiJl1s4UVR25drU7jqABT28kx1
+	lCRDCzxLtzvRllPQACFD0AxIIdq7y8T3ysZ3MM/ZWqHaVFNAvKKDcJjAAlLTX/N40pTxJJPAdnY
+	FlhNapGkeCfr3nl279pdvUmNzZgHE15DjXjlkXSMK6RgyyTbMmuC3brxynQs4nITlHNC6rECMWl
+	4irjaEyPPpatasH0Y9Um2TMmONAuJEopvmLfb4yxmXAaYv9C0PSauv3L1B+hJCTCkpaSOeeZHEJ
+	nWP4KlU+O3sBRBrJPQvbaA3GK4FIk=
+X-Received: by 2002:a05:600c:3b18:b0:459:db7b:988e with SMTP id 5b1f17b1804b1-483c9bc1f39mr264118075e9.13.1772475352512;
+        Mon, 02 Mar 2026 10:15:52 -0800 (PST)
+Received: from localhost ([41.210.147.106])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd68826asm686222915e9.0.2026.03.02.10.15.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 10:15:52 -0800 (PST)
+Date: Mon, 2 Mar 2026 21:15:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [jgunthorpe:dmabuf_map_type 30/34]
  drivers/iommu/iommufd/pages.c:1486 iopt_map_dmabuf() warn: passing zero to
  'PTR_ERR'
 Message-ID: <202603030132.eYdqJKik-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Jason Gunthorpe <jgg@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260302181547.3sa4NyxHdBY-dIyH6KLOpiqMZRw8Ny_m4Xds3WM2cx8@z>
 
 tree:   https://github.com/jgunthorpe/linux dmabuf_map_type
 head:   c37cf2824740d833b21eb816e21f94836100291f
 commit: f8983286b743407cc7350f9635f6b3157f8bbeb1 [30/34] iommufd: Use the PAL mapping type instead of a vfio function
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
 config: i386-randconfig-141-20260302 (https://download.01.org/0day-ci/archive/20260303/202603030132.eYdqJKik-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9004-gb810ac53
@@ -76,7 +85,7 @@ smatch: v0.5.0-9004-gb810ac53
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202603030132.eYdqJKik-lkp@intel.com/
 
 smatch warnings:
@@ -84,7 +93,6 @@ drivers/iommu/iommufd/pages.c:1486 iopt_map_dmabuf() warn: passing zero to 'PTR_
 
 vim +/PTR_ERR +1486 drivers/iommu/iommufd/pages.c
 
-71db84a092c399 Jason Gunthorpe 2025-11-21  1460  
 71db84a092c399 Jason Gunthorpe 2025-11-21  1461  static int iopt_map_dmabuf(struct iommufd_ctx *ictx, struct iopt_pages *pages,
 71db84a092c399 Jason Gunthorpe 2025-11-21  1462  			   struct dma_buf *dmabuf)
 71db84a092c399 Jason Gunthorpe 2025-11-21  1463  {
@@ -111,6 +119,9 @@ f8983286b74340 Jason Gunthorpe 2026-02-09  1470  					&iopt_dmabuf_attach_revoke
 8c5f9645c3893f Leon Romanovsky 2026-01-31  1484  	rc = dma_buf_pin(attach);
 f8983286b74340 Jason Gunthorpe 2026-02-09  1485  	if (rc) {
 f8983286b74340 Jason Gunthorpe 2026-02-09 @1486  		rc = PTR_ERR(pages->dmabuf.exp_phys);
+
+Delete this line.  It's a copy and paste bug.
+
 71db84a092c399 Jason Gunthorpe 2025-11-21  1487  		goto err_detach;
 f8983286b74340 Jason Gunthorpe 2026-02-09  1488  	}
 71db84a092c399 Jason Gunthorpe 2025-11-21  1489  
@@ -142,8 +153,8 @@ f8983286b74340 Jason Gunthorpe 2026-02-09  1510  	dma_buf_pal_unmap_phys(attach,
 71db84a092c399 Jason Gunthorpe 2025-11-21  1515  	dma_buf_detach(dmabuf, attach);
 71db84a092c399 Jason Gunthorpe 2025-11-21  1516  	return rc;
 71db84a092c399 Jason Gunthorpe 2025-11-21  1517  }
-71db84a092c399 Jason Gunthorpe 2025-11-21  1518  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
