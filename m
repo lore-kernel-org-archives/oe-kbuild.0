@@ -1,188 +1,138 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F46436405C
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Mar 2026 12:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26A5365A15
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Mar 2026 12:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772452887; cv=none; b=sdM9Qs3lyKbvw0PeswsW+Z00BzP96/SwaKidmxxfvb5+LH97b7OETz5/ckM2xQoTjETx92mxLmej3ASMjCK8ygJH3qAt0YBZ46l8odpgOkQ8Bllb3uVSuOtI8ahennJiffDIxuhh+KmPoxjlAkSZ8z0HOcjGOkoFAK2YFXaRdvw=
+	t=1772453496; cv=none; b=hhCSPAReIKYKA6MwsS/xnh6S7+tJgHtr2BVk9OHU+PuLv4GCJodRb9BgSKxIrtv7cvKHvO/76mYKfY7P0aeImPG3Bcu6v6LcmcfktxjYG2n5aiPmKG67z5qXZqHdGhwBlQ/FO47dK+HXI4THfsa+w32CHVawBugPzQva4dukrU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772452887; c=relaxed/simple;
-	bh=mZU3OqyhUORbWddHGeK9rYSBeV5FAZ8hvpNJ34a52Mo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nQMG68Wcbk387gK9txTj8Vq29OlPzJ437woBXkdOgUnZZORNXBK7CZtVypC8nP0QO2JueYvRoCxMj8lUM9QDo2M2XLumnh//z4gAhxh1CClMk4HRo16/XpVs8yFf3Zbhxe+wkZCOnd7Y2Ape7zWcXK6IHGztvj4uPDdBkLfN3o4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hfHG2H/u; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772453496; c=relaxed/simple;
+	bh=gt0R/Pg9wVKnMqgC5kovW+mI8rh2lzf5BlwXP14UT6M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M4iZ9ewmwkOi4p2bpi8CuCYD+ocJkm8LO5jHDcQ1OEjS4tyDOGsOFROBLZo1ZGwt9B3krH1A9d6aWzlMkl+qKwrGmivgG38C9amsXc7O36dvUmmAs+CUYIyPqMb0WLN9d4NzAJ43DePu1EPV+TNvSsv7yxxkPF/8qpLvx7OsGxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRj9kFxW; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hfHG2H/u"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48373a4bca3so25892585e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 02 Mar 2026 04:01:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772452884; x=1773057684; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ed1MErcsumTPtgBTSePgCHuSPW3/P+pGc+oILo8JR6s=;
-        b=hfHG2H/u1l+QohjVZZF6gokAFvg7VHx3h8Fn0XgfvE+/peT+MOWS3ODAqinNPlEdM0
-         6/7FAwLCEfhtjKCQRJY+yDTC5/rScfxDSGyak6HVDNSeYrh3FfpTi8qtYovBXBmZF2yl
-         PRlWcDP8A1y3GO4G8YjkLOBhlKPRXWKfya0oh2DHA3emUwONvFKiTWpJ17j42Rujfky4
-         ozoUo+lFNm3DiVuIIzhfUMZ6tLJVaiP2cNkG66pYmygZTqKpu4vtlKS5iOtTpizlsJ3Q
-         9wPvmJp7r5bJmUKzZ81s9vEgFLfXd6uXzuFTadN9gKiQS3X4go0+BgO7XDUdhoszza2h
-         v7oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772452884; x=1773057684;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ed1MErcsumTPtgBTSePgCHuSPW3/P+pGc+oILo8JR6s=;
-        b=e6RNIbQMhrHlkVYtFKY7h76sLm2Md/V8YXO+BGp2jz3X6/4p/0ceYS3jO8/iWxYT8k
-         SqeeSXeJK6zQ3HNmyKwtOlsq6DhIzyzPomgG/XsUqGreIwVzt862hYXrNGrDxPbgNdfK
-         QwWdZ/ZvY62GsnZo5qp6uYwtcTA4ubzlzHvjutM98Pc36IZ7JZigqs09OnjIYR9Hgd8c
-         UxKqXZpt1ElYkjQ6kzXrzsIp1UGK1rqR4vO/+HNED+pFBGTywgfmpjGwpPSNsRqA/krK
-         ABPOqLYlzwsNrk9EQF7a/e7sQjNlSgLzEggTe72K7NVRfGmEd3b5kh8CE09GP7tD5c51
-         1TAQ==
-X-Gm-Message-State: AOJu0YxJIinINhQQrznzZ13hHZ8p0ZnOvAx2AyKnaNI/Yuj/M2wX1jvT
-	2buCvkQAEUD/GPq4yZ9NlljNJ66Ny1/saYVYKK+glszbCb8O8w7bGyfjyRRPUK5Gc7o=
-X-Gm-Gg: ATEYQzylZI0385rkCikuzmTA0rhddlIQcJ+KMjBUqcCrcoeWA3eyh1E+UiHR38/Dq6q
-	+q2i3HpHyrVrF1yVHYWQK9EpP16byboSkexau5qB7++0x8JBFbBIEYC8/AR+arvcINQFs+XxFNr
-	WQx5lGqoVuJD67vzKoPcQYwMo9zqZ0uvr0YGSr9hYEsWytC37iFhlVuIhaA+l5hcMEO1L01nxuI
-	UIKwrd8RhL36zK5x6XiVhS90BBMi2Lzb1GukQO14kaIKdW0Nquwy/g8T9PxZrq3NpgfzrxIeUbk
-	oGwezDI+qsKYmCn2u4F0TttR2C+psMxNaCQgiukuO5A62b1IUMBMigRbhx8YcLhAPYjkPz54Gw+
-	NX1n695nAyRIPftMTQxHtVeK0bq7M/bCYJHQv5B7xuiB+MUK5zogXMwkH8MjpyfreqlIEJVJb1d
-	9mAm06oIyv49r1xP8X6PUog87opuEf
-X-Received: by 2002:a05:600c:458b:b0:483:6d4a:7e6d with SMTP id 5b1f17b1804b1-483c9bdb6a8mr188236115e9.30.1772452883816;
-        Mon, 02 Mar 2026 04:01:23 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd68826asm650910665e9.0.2026.03.02.04.01.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 04:01:23 -0800 (PST)
-Date: Mon, 2 Mar 2026 15:01:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [dhowells-fs:netfs-next 10/16] fs/netfs/write_issue.c:850
- netfs_writeback_single() warn: inconsistent returns '&ictx->wb_lock'.
-Message-ID: <aaV8D4RTkIrcn6jd@stanley.mountain>
-References: <202603011243.LsWeX4QE-lkp@intel.com>
- <1276684.1772450239@warthog.procyon.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRj9kFxW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772453495; x=1803989495;
+  h=date:from:to:cc:subject:message-id;
+  bh=gt0R/Pg9wVKnMqgC5kovW+mI8rh2lzf5BlwXP14UT6M=;
+  b=jRj9kFxW0n2rn+MOadsIj0UOiXuuV1eXI7wW/GPZrbzVj0gbhqm9yJkz
+   VGhBcQTO9vrdBy/1z+npUXoovTQWiOi6MLeHR8uF0Iqm8c6eOL3jTjSPM
+   ZOFqoCQy6VVQ+MdfZivjn7cx50uT2F02mpaK5CpXTB0KlmW50w1sKrx1M
+   PX4hAShCP3ylTmSrzjoVv8wuylLCCYfpctSbyXO61SzCdBxSXYyGfL87K
+   lIAXCYqCRxyibe4obqkPz30S4C/Zj0YLG0sCqq+TzxQdmxRcpCPckzktr
+   wjnTBQdtVHREELB50C4S3s9mx0KfDYERPsVsymXxr1sYPcTHOr35Nfn4q
+   g==;
+X-CSE-ConnectionGUID: 0wOQ3O3+RHKgWfUoRPbvdQ==
+X-CSE-MsgGUID: pLqYDJJ1TCCqQSs4gULxjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="72486201"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="72486201"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 04:11:34 -0800
+X-CSE-ConnectionGUID: gxOcgz0TT6OjwulX1M4wGg==
+X-CSE-MsgGUID: TRTdqHtJQViaKAMcS1P92g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="244706514"
+Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 02 Mar 2026 04:11:33 -0800
+Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vx27X-000000000pp-0dsX;
+	Mon, 02 Mar 2026 12:11:31 +0000
+Date: Mon, 02 Mar 2026 20:11:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/gpu/drm/bridge/inno-hdmi.c:833:21: sparse: sparse:
+ unsigned value that used to be signed checked against zero?
+Message-ID: <202603022010.X4p93BCU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1276684.1772450239@warthog.procyon.org.uk>
 
-On Mon, Mar 02, 2026 at 11:17:19AM +0000, David Howells wrote:
-> Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> 
-> >   	if (!mutex_trylock(&ictx->wb_lock)) {
-> >   		if (wbc->sync_mode == WB_SYNC_NONE) {
-> >   			netfs_stat(&netfs_n_wb_lock_skip);
-> >   			return 0;
-> > 
-> > Unlock before returning?
-> 
-> If mutex_trylock() returns false, we don't have the lock.  Note that it's a
-> "try" so it's not guaranteed to work.
-> 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/gpu/drm/bridge/inno-hdmi.c:833:21: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: 
 
-Oops.  Sorry, that's my bad.  It's the cleanup_free which cause a
-problem.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+CC: Heiko Stuebner <heiko@sntech.de>
 
-49866ce7ea8d41 David Howells 2024-12-16  773  int netfs_writeback_single(struct address_space *mapping,
-49866ce7ea8d41 David Howells 2024-12-16  774  			   struct writeback_control *wbc,
-49866ce7ea8d41 David Howells 2024-12-16  775  			   struct iov_iter *iter)
-49866ce7ea8d41 David Howells 2024-12-16  776  {
-49866ce7ea8d41 David Howells 2024-12-16  777  	struct netfs_io_request *wreq;
-49866ce7ea8d41 David Howells 2024-12-16  778  	struct netfs_inode *ictx = netfs_inode(mapping->host);
-49866ce7ea8d41 David Howells 2024-12-16  779  	int ret;
-49866ce7ea8d41 David Howells 2024-12-16  780  
-49866ce7ea8d41 David Howells 2024-12-16  781  	if (!mutex_trylock(&ictx->wb_lock)) {
-49866ce7ea8d41 David Howells 2024-12-16  782  		if (wbc->sync_mode == WB_SYNC_NONE) {
-49866ce7ea8d41 David Howells 2024-12-16  783  			netfs_stat(&netfs_n_wb_lock_skip);
-49866ce7ea8d41 David Howells 2024-12-16  784  			return 0;
-49866ce7ea8d41 David Howells 2024-12-16  785  		}
-49866ce7ea8d41 David Howells 2024-12-16  786  		netfs_stat(&netfs_n_wb_lock_wait);
-49866ce7ea8d41 David Howells 2024-12-16  787  		mutex_lock(&ictx->wb_lock);
-49866ce7ea8d41 David Howells 2024-12-16  788  	}
-49866ce7ea8d41 David Howells 2024-12-16  789  
-49866ce7ea8d41 David Howells 2024-12-16  790  	wreq = netfs_create_write_req(mapping, NULL, 0, NETFS_WRITEBACK_SINGLE);
-49866ce7ea8d41 David Howells 2024-12-16  791  	if (IS_ERR(wreq)) {
-49866ce7ea8d41 David Howells 2024-12-16  792  		ret = PTR_ERR(wreq);
-49866ce7ea8d41 David Howells 2024-12-16  793  		goto couldnt_start;
-49866ce7ea8d41 David Howells 2024-12-16  794  	}
-4e45977f1ea9ab David Howells 2026-01-07  795  	wreq->len = iov_iter_count(iter);
-4e45977f1ea9ab David Howells 2026-01-07  796  
-a1cee75a302b7a David Howells 2026-02-28  797  	ret = netfs_extract_iter(iter, wreq->len, INT_MAX, 0, &wreq->dispatch_cursor.bvecq, 0);
-a1cee75a302b7a David Howells 2026-02-28  798  	if (ret < 0)
-a1cee75a302b7a David Howells 2026-02-28  799  		goto cleanup_free;
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   11439c4635edd669ae435eec308f4ab8a0804808
+commit: 0244539f9a4f3b564604dfe4d639f61cecec381a drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP
+date:   7 weeks ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 7 weeks ago
+config: um-randconfig-r121-20260302 (https://download.01.org/0day-ci/archive/20260302/202603022010.X4p93BCU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603022010.X4p93BCU-lkp@intel.com/reproduce)
 
-Holing the lock.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202603022010.X4p93BCU-lkp@intel.com/
 
-a1cee75a302b7a David Howells 2026-02-28  800  	if (ret < wreq->len) {
-a1cee75a302b7a David Howells 2026-02-28  801  		ret = -EIO;
-a1cee75a302b7a David Howells 2026-02-28  802  		goto cleanup_free;
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/inno-hdmi.c:833:21: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/gpu/drm/bridge/inno-hdmi.c:818:35: sparse: signed value source
 
-And here.
+vim +833 drivers/gpu/drm/bridge/inno-hdmi.c
 
-a1cee75a302b7a David Howells 2026-02-28  803  	}
-a1cee75a302b7a David Howells 2026-02-28  804  
-a1cee75a302b7a David Howells 2026-02-28  805  	bvecq_pos_attach(&wreq->collect_cursor, &wreq->dispatch_cursor);
-a1cee75a302b7a David Howells 2026-02-28  806  
-2b1424cd131cfa David Howells 2025-05-19  807  	__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &wreq->flags);
-20d72b00ca814d David Howells 2025-05-19  808  	trace_netfs_write(wreq, netfs_write_trace_writeback_single);
-49866ce7ea8d41 David Howells 2024-12-16  809  	netfs_stat(&netfs_n_wh_writepages);
-49866ce7ea8d41 David Howells 2024-12-16  810  
-49866ce7ea8d41 David Howells 2024-12-16  811  	if (__test_and_set_bit(NETFS_RREQ_UPLOAD_TO_SERVER, &wreq->flags))
-49866ce7ea8d41 David Howells 2024-12-16  812  		wreq->netfs_ops->begin_writeback(wreq);
-49866ce7ea8d41 David Howells 2024-12-16  813  
-4e45977f1ea9ab David Howells 2026-01-07  814  	for (int s = 0; s < NR_IO_STREAMS; s++) {
-4e45977f1ea9ab David Howells 2026-01-07  815  		struct netfs_io_subrequest *subreq;
-4e45977f1ea9ab David Howells 2026-01-07  816  		struct netfs_io_stream *stream = &wreq->io_streams[s];
-49866ce7ea8d41 David Howells 2024-12-16  817  
-4e45977f1ea9ab David Howells 2026-01-07  818  		if (!stream->avail)
-4e45977f1ea9ab David Howells 2026-01-07  819  			continue;
-49866ce7ea8d41 David Howells 2024-12-16  820  
-4e45977f1ea9ab David Howells 2026-01-07  821  		netfs_prepare_write(wreq, stream, 0);
-4e45977f1ea9ab David Howells 2026-01-07  822  
-4e45977f1ea9ab David Howells 2026-01-07  823  		subreq = stream->construct;
-4e45977f1ea9ab David Howells 2026-01-07  824  		subreq->len = wreq->len;
-4e45977f1ea9ab David Howells 2026-01-07  825  		stream->submit_len = subreq->len;
-4e45977f1ea9ab David Howells 2026-01-07  826  
-4e45977f1ea9ab David Howells 2026-01-07  827  		netfs_issue_write(wreq, stream);
-49866ce7ea8d41 David Howells 2024-12-16  828  	}
-49866ce7ea8d41 David Howells 2024-12-16  829  
-a1cee75a302b7a David Howells 2026-02-28  830  	wreq->submitted = wreq->len;
-49866ce7ea8d41 David Howells 2024-12-16  831  	smp_wmb(); /* Write lists before ALL_QUEUED. */
-49866ce7ea8d41 David Howells 2024-12-16  832  	set_bit(NETFS_RREQ_ALL_QUEUED, &wreq->flags);
-49866ce7ea8d41 David Howells 2024-12-16  833  
-49866ce7ea8d41 David Howells 2024-12-16  834  	mutex_unlock(&ictx->wb_lock);
-                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Drops the lock here.
+412d4ae6b7a508 drivers/gpu/drm/rockchip/inno_hdmi.c Yakir Yang       2016-02-03  805  
+969325a2597ebc drivers/gpu/drm/bridge/inno-hdmi.c   Andy Yan         2025-10-16  806  static enum drm_mode_status inno_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
+969325a2597ebc drivers/gpu/drm/bridge/inno-hdmi.c   Andy Yan         2025-10-16  807  							const struct drm_display_info *info,
+26d6fd81916e62 drivers/gpu/drm/rockchip/inno_hdmi.c Dmitry Baryshkov 2024-12-14  808  							const struct drm_display_mode *mode)
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  809  {
+969325a2597ebc drivers/gpu/drm/bridge/inno-hdmi.c   Andy Yan         2025-10-16  810  	struct inno_hdmi *hdmi = bridge_to_inno_hdmi(bridge);
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  811  	unsigned long mpixelclk, max_tolerance;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  812  	long rounded_refclk;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  813  
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  814  	/* No support for double-clock modes */
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  815  	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  816  		return MODE_BAD;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  817  
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  818  	mpixelclk = mode->clock * 1000;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  819  
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  820  	if (mpixelclk < INNO_HDMI_MIN_TMDS_CLOCK)
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  821  		return MODE_CLOCK_LOW;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  822  
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  823  	if (inno_hdmi_find_phy_config(hdmi, mpixelclk) < 0)
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  824  		return MODE_CLOCK_HIGH;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  825  
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  826  	if (hdmi->refclk) {
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  827  		rounded_refclk = clk_round_rate(hdmi->refclk, mpixelclk);
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  828  		if (rounded_refclk < 0)
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  829  			return MODE_BAD;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  830  
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  831  		/* Vesa DMT standard mentions +/- 0.5% max tolerance */
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  832  		max_tolerance = mpixelclk / 200;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22 @833  		if (abs_diff((unsigned long)rounded_refclk, mpixelclk) > max_tolerance)
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  834  			return MODE_NOCLOCK;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  835  	}
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  836  
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  837  	return MODE_OK;
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  838  }
+701029621d4141 drivers/gpu/drm/rockchip/inno_hdmi.c Alex Bee         2023-12-22  839  
 
-2b1424cd131cfa David Howells 2025-05-19  835  	netfs_wake_collector(wreq);
-49866ce7ea8d41 David Howells 2024-12-16  836  
-4e45977f1ea9ab David Howells 2026-01-07  837  	/* TODO: Might want to be async here if WB_SYNC_NONE, but then need to
-4e45977f1ea9ab David Howells 2026-01-07  838  	 * wait before modifying.
-4e45977f1ea9ab David Howells 2026-01-07  839  	 */
-4e45977f1ea9ab David Howells 2026-01-07  840  	ret = netfs_wait_for_write(wreq);
-4e45977f1ea9ab David Howells 2026-01-07  841  
-a1cee75a302b7a David Howells 2026-02-28  842  cleanup_free:
+:::::: The code at line 833 was first introduced by commit
+:::::: 701029621d4141d0c9f8b81a88a37b95ec84ce65 drm/rockchip: inno_hdmi: Add basic mode validation
 
-But the goto cleanup_free gotos are still holding the lock.
+:::::: TO: Alex Bee <knaerzche@gmail.com>
+:::::: CC: Heiko Stuebner <heiko@sntech.de>
 
-regards,
-dan carpenter
-
-20d72b00ca814d David Howells 2025-05-19  843  	netfs_put_request(wreq, netfs_rreq_trace_put_return);
-49866ce7ea8d41 David Howells 2024-12-16  844  	_leave(" = %d", ret);
-49866ce7ea8d41 David Howells 2024-12-16  845  	return ret;
-49866ce7ea8d41 David Howells 2024-12-16  846  
-49866ce7ea8d41 David Howells 2024-12-16  847  couldnt_start:
-49866ce7ea8d41 David Howells 2024-12-16  848  	mutex_unlock(&ictx->wb_lock);
-49866ce7ea8d41 David Howells 2024-12-16  849  	_leave(" = %d", ret);
-49866ce7ea8d41 David Howells 2024-12-16 @850  	return ret;
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
