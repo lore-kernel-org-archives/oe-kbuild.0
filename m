@@ -1,90 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CB927A10F
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Mar 2026 13:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD54134F495
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Mar 2026 14:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772545576; cv=none; b=VDzuU/uG5SxvLzIc53gzJsYxivgakCNLkrJsU3LrxsOL6UZAZFVe/ekz2yFdZZNEuNzrIrXsxjL/2lhik6mRVitJW+ksjHqtSDinV3KNA6qYF3OKdl+TN5bzbavpPGtjkkKAJuK34UTEFWOrw4lY21lVBZM9Zs9NVzxlcnoz1EM=
+	t=1772546662; cv=none; b=G2r5h7cM5qT3K+dP5VUBTBLjUGNeOIoNoPCFX52mR3wVcXCJJAt/Cope1PdLZB8SYP4N8Dmj/gU8LbRPvuy37UBfQ48vJswP6rVmxcgSib5N9gWYzzTGS0WZTqGTVtazZDbR0cifj/CTCjv0fXid9q8LZOgFnLcovjozeY5on8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772545576; c=relaxed/simple;
-	bh=Kb98Xjpd/uDQlGDCl7IoFu6EWmH4kgmZHq4E18a145Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FlztpoGPq95uULnqb5+nNydJEBpUY4UQW6499FPfP+ZsuaCOiB5zeFHPH2VwB5HodWqvvZ7gXX5jVyeNU1zPqddXKbQFUaFeh2WK3RU5PvCtBj5IuLaa17LEPqw8ejVKsI8mL6E+p2hCOG17YJ1HN9V5lAFZaSpafP08HotrzVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=APqPb0j5; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1772546662; c=relaxed/simple;
+	bh=jLZrJaH8V81h7hg+gYf76UOZZ6cL24pCiNkDCXSWcf8=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MOhHOpjYBMMlIQoufTEHvNHsuEmPhGauUvrUl84nqdM7jLXmvscmuYvNO+fVLbmRzdZPdRSCZv8bzMOCVzvlM8FZ8rxXENGFjth/lxvO9ZlUQwWeOpo+HlWJf+PffzQJudrnY9lJnXb27uvMDYqJvr7aLfuLFcojRYYbOBVCUSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QAEk9/XM; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="APqPb0j5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QAEk9/XM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772545575; x=1804081575;
-  h=date:from:to:cc:subject:message-id;
-  bh=Kb98Xjpd/uDQlGDCl7IoFu6EWmH4kgmZHq4E18a145Y=;
-  b=APqPb0j5C96LFal+QtUIwk9kfIvD8K4GySu2B9fanAlTfwJfcIskTuOs
-   kc8yAeCU8Dgrxlvw0hw8e8keoEvXMj3nhYq6QpQENWypwmg/y57Mnl+Q8
-   Sl+X20yvmxsEACcisyGEEJZz/Jth5qw6Ao8IiOFQsp4CLmyvDBgC7+LOy
-   kPkzZN+LvcL58Hj/WCbpM3gT3ZbInajm4JnYTZjC51GhXOmHf5TzWp5+m
-   i1dFaApMF+W3J/ubE7T5wusdWwPxxfoHUmSd5wIaK/99AwcVV7ZlntOkH
-   mTN5L3qGmzVHNalMxscw2GS0IxP1YsHxTVfDi3x51phqj7mW0sN1uJq1u
-   Q==;
-X-CSE-ConnectionGUID: 0xByiRm/Say6HDFzIKV6RA==
-X-CSE-MsgGUID: 5nLt1zhXSF6mpdujpzak3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="77449693"
+  t=1772546660; x=1804082660;
+  h=date:from:to:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jLZrJaH8V81h7hg+gYf76UOZZ6cL24pCiNkDCXSWcf8=;
+  b=QAEk9/XMhBYSe8XtWTf5Z7+ixuXa2TkXyTfM7jYgTLJUqdK/TDS9AM4S
+   0FHbNfY+LmcQ5aCLUlTRN/7h2dw9XcTHTmkYk4OGfKuvAqKpmtY6Ghxnj
+   BfaSDS2OhdBn8sxhNRnbN0/PrfKA2F2JeMv6vGI3bE2HIskTnXKr67Bsy
+   qh4POpQSRzih3W8RtlbKJpb5HU0IU32SY4YOnaXpvbpjKzm2tw7cTTe5l
+   eDw0yxEZa59WFnVMGZABBZGJUhjOUrzPeYKBEMUknvb7iSJ3H9Let3iLr
+   5aCAsTTlwBXh9WonzP98YqKe8hSdtu3JDfaXdEAr1deWyAfu147a7QuIP
+   w==;
+X-CSE-ConnectionGUID: i3ve9q0AQhKGel/q277mZA==
+X-CSE-MsgGUID: 8Bk8PJnBSM2vOfs6Ew8Qpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="73494946"
 X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="77449693"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 05:46:15 -0800
-X-CSE-ConnectionGUID: ptlPJm8dShG6LflN22/hPg==
-X-CSE-MsgGUID: b8IO3pAzQb251wYOGfFF8w==
+   d="scan'208";a="73494946"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 06:04:18 -0800
+X-CSE-ConnectionGUID: 2zqNaVsYRhikTk63KMp6xQ==
+X-CSE-MsgGUID: /ihb3GIVTXCZ1uwTaV16lA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="215085769"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Mar 2026 05:46:13 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+   d="scan'208";a="215514773"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 03 Mar 2026 06:04:17 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxQ4h-000000002Hd-2Bea;
-	Tue, 03 Mar 2026 13:46:11 +0000
-Date: Tue, 03 Mar 2026 21:46:06 +0800
+	id 1vxQMB-000000001T9-2GjT
+	for oe-kbuild@lists.linux.dev;
+	Tue, 03 Mar 2026 14:04:15 +0000
+Date: Tue, 3 Mar 2026 15:03:20 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [jpoimboe:klp-build-arm64 8/12] error: objtool: At least one
- action required
-Message-ID: <202603032119.6PpSFwCC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v3 2/4] drm/xe/userptr: Convert invalidation to two-pass
+ MMU notifier
+Message-ID: <202603031539.GzmPxSWq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
+In-Reply-To: <20260303133409.11609-3-thomas.hellstrom@linux.intel.com>
+References: <20260303133409.11609-3-thomas.hellstrom@linux.intel.com>
+TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+TO: intel-xe@lists.freedesktop.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build-arm64
-head:   3380d4a54f28033bfd7d98119ced8d69c46418af
-commit: f362ea9d6ef61174da74d84983aa124e0cc8980c [8/12] kbuild: Only run objtool if there is at least one command
-:::::: branch date: 10 hours ago
-:::::: commit date: 11 hours ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260303/202603032119.6PpSFwCC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603032119.6PpSFwCC-lkp@intel.com/reproduce)
+Hi Thomas,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603032119.6PpSFwCC-lkp@intel.com/
+kernel test robot noticed the following build warnings:
 
-All errors (new ones prefixed by >>):
+[auto build test WARNING on drm-xe/drm-xe-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->> error: objtool: At least one action required
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/mm-mmu_notifier-Allow-two-pass-struct-mmu_interval_notifiers/20260303-213841
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20260303133409.11609-3-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v3 2/4] drm/xe/userptr: Convert invalidation to two-pass MMU notifier
+:::::: branch date: 23 minutes ago
+:::::: commit date: 23 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20260303/202603031539.GzmPxSWq-lkp@intel.com/reproduce)
+
+# many are suggestions rather than must-fix
+
+ERROR:BAD_SIGN_OFF: Unrecognized email address: 'GitHub Copilot:claude-sonnet-4.6'
+#38: 
+Assisted-by: GitHub Copilot:claude-sonnet-4.6
 
 -- 
 0-DAY CI Kernel Test Service
