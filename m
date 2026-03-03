@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C641C330B0B
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Mar 2026 02:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492A0373BE9
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Mar 2026 02:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772504055; cv=none; b=N1l+WzPXgXqV4nO13EXwinXsxQoKMvNyWwzSsc1E4R9H1qGeiF9btDXbDVeRMBKyNlBnH06Dj5mNNGc4Q+WPufKw6y1t2XyJErJcE8dPYDbrlb0UXqv+QwEQwqo/ug8tVj7OLLYks+JOac4BHiHPdKVW3nUW3Bpu/nx2W1Nofnk=
+	t=1772504056; cv=none; b=Fa54At5Zw1X7tVbjnpE6xsk3KTu1BLdWsu7DWtDeRGS4LkB+sEKCz6GNvOVtO3CMtKXNiR+m6TCej0Ht/Wbr3o2knilm4ozehBHlIYKEAeFe51/TsFEfvgmBdzY1Jbr7zhqape6BQgFMo4Cm8B2aLz+6mTxlKk0nA/N+ZdKO1HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772504055; c=relaxed/simple;
-	bh=BL+yod6MDirLV75WkxQ5ib37uR6ANV2yI3nCQBKeQkM=;
-	h=Date:From:To:Subject:Message-ID; b=hN8K56GUl6dfGr75WlcmmkqNYyV0aupW2P/dD5oGycdJFSBbG996XCCOGLcLOpeNBkXOpJjH+bRkpesAafvrHF74y04o6PWyKEvYUKGkOUPotGyRI782Givav00KFczV/h4mTdgKi/c8BEs/eGsE7w0zgKnP7HSR7yP7Kk7oZSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mguyLQ3X; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1772504056; c=relaxed/simple;
+	bh=sibFcmrT5YpSQ5uoymvk8wUFfP8fGV93jOcM6NLFedo=;
+	h=Date:From:To:Subject:Message-ID; b=UWdKdtEagjHNC5x9Csl4Q/rmuMAEPSDJfYY6DcoDugqRgLM2c2nh+M5HerPxXFrcs7p9BsOdkQ1K4eaQ+Ghymp6cSm3VUMfOMt3+hPh5Tt5BWsw8JF3JNeXyQBWWT3SLC82SeI/ZhFh/Wc1a7SCFZ80WJCuy2bxpmN/6UyPVt40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kY9Fv7KC; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mguyLQ3X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kY9Fv7KC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772504053; x=1804040053;
+  t=1772504054; x=1804040054;
   h=date:from:to:subject:message-id;
-  bh=BL+yod6MDirLV75WkxQ5ib37uR6ANV2yI3nCQBKeQkM=;
-  b=mguyLQ3X4iYnzWqNWgI7w50eeqJzbhzdGVibOiibbmuz4byWKY44TGsY
-   ecYorGQjDWrMF68NKj5rmYIl9eKviqIWQkX0fzFDaX4TLWTzwIuMW9GWN
-   Ej8oCQ4FdEx9a/mLSNQCl0gM3+1HBOd3oLQnFBdCJLwGcZSXGuB5Ub2y3
-   VXhlgMhMlZLqKXjF1MDIWkj97GkR5QNe0AENMWuLqPHOHURYatPD/o3eh
-   r8IrFQa9tWkm3110qYhcPJooV/R3lC4Curw9hq4nDFD1QFkRuXiVVydpX
-   PVrjpYLlM+edANCyLqjbsMpVwnV0X+I7+kutrKcld0IQgIwqc4swGBYDI
-   w==;
-X-CSE-ConnectionGUID: eDv+BUHEQkW9DwvxtVgs6g==
-X-CSE-MsgGUID: h6K1lVi1TQWn5A/ugVO8EQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="72726943"
+  bh=sibFcmrT5YpSQ5uoymvk8wUFfP8fGV93jOcM6NLFedo=;
+  b=kY9Fv7KCXb+nFsI/8u2kvPmi+sfo0IykXkFamkQ8Ww8hVryTPaND/5Pp
+   0XEyDBEhP4mQu/R2PO9kVfCZuRo9HAMQZ8RwgWesXEdumobWGaVpqBe1q
+   mHQUynLhfBAPFaU35GIPqoUKXpZD92eJNzp+gCrdGxfhwHOM4lUOSV2E9
+   j2XQ9fjK+kSP70BwmGEZoJA7/UzV2EkOXw2eAlcBYRJcMBJ1ZxSt4Vqmw
+   I91JqaQ3rplWBqPhdteLRvxBCYv7ncCAqFhlPjCRavaEkxyDEdaOEP8c4
+   moHp9mw/9KjEqOrOkE+g4zmEkB85bgpMyWW2O1pTOLUQAaQzRW4e9SUvM
+   g==;
+X-CSE-ConnectionGUID: Kg2wsOgTTrep1V5Yk6U24Q==
+X-CSE-MsgGUID: sTolbfLpRXaolIKXaPMHdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="83866214"
 X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="72726943"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 18:14:12 -0800
-X-CSE-ConnectionGUID: si1RZp30R5m8Y2HwtzfbYQ==
-X-CSE-MsgGUID: MlcnNDhmRZGQN8NT8Icy8Q==
+   d="scan'208";a="83866214"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 18:14:12 -0800
+X-CSE-ConnectionGUID: WvwXoUSbSBKw4ZwT1TAf2g==
+X-CSE-MsgGUID: 165GgNeiR02mNYgNskQVVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="216259958"
+   d="scan'208";a="215798014"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Mar 2026 18:14:11 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 02 Mar 2026 18:14:12 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxFGz-000000001Li-2Aax
+	id 1vxFGz-000000001Lo-2Tj6
 	for oe-kbuild@lists.linux.dev;
 	Tue, 03 Mar 2026 02:14:09 +0000
-Date: Tue, 03 Mar 2026 03:13:12 +0100
+Date: Tue, 03 Mar 2026 03:13:14 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [akpm-mm:mm-nonmm-unstable 78/103] checkpatch:
+Subject: [akpm-mm:mm-nonmm-unstable 84/103] checkpatch:
  ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-Message-ID: <202603030327.PwK95qi2-lkp@intel.com>
+Message-ID: <202603030331.lxrIiuxY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -69,124 +69,96 @@ TO: Christoph Hellwig <hch@lst.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
 head:   edf9ae1454f27f84c0dd4274c9a0519d2917ff4d
-commit: 7a491a4a49d0ead8b1430f50957b90e7273c0d6f [78/103] x86: move the XOR code to lib/raid/
-:::::: branch date: 40 minutes ago
-:::::: commit date: 40 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20260303/202603030327.PwK95qi2-lkp@intel.com/reproduce)
+commit: bbea7464400fe521703ec97ffb2990c3b2321ad2 [84/103] xor: pass the entire operation to the low-level ops
+:::::: branch date: 42 minutes ago
+:::::: commit date: 42 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20260303/202603030331.lxrIiuxY-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#845: FILE: lib/raid/xor/x86/xor-sse.c:49:
-+xor_sse_2(unsigned long bytes, unsigned long * __restrict p1,
+#324: FILE: lib/raid/xor/arm64/xor-neon.c:13:
++static void __xor_neon_2(unsigned long bytes, unsigned long * __restrict p1,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#846: FILE: lib/raid/xor/x86/xor-sse.c:50:
-+	  const unsigned long * __restrict p2)
+#333: FILE: lib/raid/xor/arm64/xor-neon.c:40:
++static void __xor_neon_3(unsigned long bytes, unsigned long * __restrict p1,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#897: FILE: lib/raid/xor/x86/xor-sse.c:101:
-+xor_sse_2_pf64(unsigned long bytes, unsigned long * __restrict p1,
+#342: FILE: lib/raid/xor/arm64/xor-neon.c:76:
++static void __xor_neon_4(unsigned long bytes, unsigned long * __restrict p1,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#898: FILE: lib/raid/xor/x86/xor-sse.c:102:
-+	       const unsigned long * __restrict p2)
+#351: FILE: lib/raid/xor/arm64/xor-neon.c:121:
++static void __xor_neon_5(unsigned long bytes, unsigned long * __restrict p1,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#932: FILE: lib/raid/xor/x86/xor-sse.c:136:
-+xor_sse_3(unsigned long bytes, unsigned long * __restrict p1,
+#370: FILE: lib/raid/xor/arm64/xor-neon.c:188:
++static void __xor_eor3_3(unsigned long bytes, unsigned long * __restrict p1,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#933: FILE: lib/raid/xor/x86/xor-sse.c:137:
-+	  const unsigned long * __restrict p2,
+#379: FILE: lib/raid/xor/arm64/xor-neon.c:222:
++static void __xor_eor3_4(unsigned long bytes, unsigned long * __restrict p1,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#934: FILE: lib/raid/xor/x86/xor-sse.c:138:
-+	  const unsigned long * __restrict p3)
+#388: FILE: lib/raid/xor/arm64/xor-neon.c:265:
++static void __xor_eor3_5(unsigned long bytes, unsigned long * __restrict p1,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#992: FILE: lib/raid/xor/x86/xor-sse.c:196:
-+xor_sse_3_pf64(unsigned long bytes, unsigned long * __restrict p1,
+#537: FILE: lib/raid/xor/powerpc/xor_vmx.c:54:
++		unsigned long * __restrict v1_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#993: FILE: lib/raid/xor/x86/xor-sse.c:197:
-+	       const unsigned long * __restrict p2,
+#538: FILE: lib/raid/xor/powerpc/xor_vmx.c:55:
++		const unsigned long * __restrict v2_in)
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#994: FILE: lib/raid/xor/x86/xor-sse.c:198:
-+	       const unsigned long * __restrict p3)
+#551: FILE: lib/raid/xor/powerpc/xor_vmx.c:73:
++		unsigned long * __restrict v1_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1030: FILE: lib/raid/xor/x86/xor-sse.c:234:
-+xor_sse_4(unsigned long bytes, unsigned long * __restrict p1,
+#552: FILE: lib/raid/xor/powerpc/xor_vmx.c:74:
++		const unsigned long * __restrict v2_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1031: FILE: lib/raid/xor/x86/xor-sse.c:235:
-+	  const unsigned long * __restrict p2,
+#553: FILE: lib/raid/xor/powerpc/xor_vmx.c:75:
++		const unsigned long * __restrict v3_in)
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1032: FILE: lib/raid/xor/x86/xor-sse.c:236:
-+	  const unsigned long * __restrict p3,
+#567: FILE: lib/raid/xor/powerpc/xor_vmx.c:97:
++		unsigned long * __restrict v1_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1033: FILE: lib/raid/xor/x86/xor-sse.c:237:
-+	  const unsigned long * __restrict p4)
+#568: FILE: lib/raid/xor/powerpc/xor_vmx.c:98:
++		const unsigned long * __restrict v2_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1098: FILE: lib/raid/xor/x86/xor-sse.c:302:
-+xor_sse_4_pf64(unsigned long bytes, unsigned long * __restrict p1,
+#569: FILE: lib/raid/xor/powerpc/xor_vmx.c:99:
++		const unsigned long * __restrict v3_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1099: FILE: lib/raid/xor/x86/xor-sse.c:303:
-+	       const unsigned long * __restrict p2,
+#570: FILE: lib/raid/xor/powerpc/xor_vmx.c:100:
++		const unsigned long * __restrict v4_in)
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1100: FILE: lib/raid/xor/x86/xor-sse.c:304:
-+	       const unsigned long * __restrict p3,
+#585: FILE: lib/raid/xor/powerpc/xor_vmx.c:126:
++		unsigned long * __restrict v1_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1101: FILE: lib/raid/xor/x86/xor-sse.c:305:
-+	       const unsigned long * __restrict p4)
+#586: FILE: lib/raid/xor/powerpc/xor_vmx.c:127:
++		const unsigned long * __restrict v2_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1139: FILE: lib/raid/xor/x86/xor-sse.c:343:
-+xor_sse_5(unsigned long bytes, unsigned long * __restrict p1,
+#587: FILE: lib/raid/xor/powerpc/xor_vmx.c:128:
++		const unsigned long * __restrict v3_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1140: FILE: lib/raid/xor/x86/xor-sse.c:344:
-+	  const unsigned long * __restrict p2,
+#588: FILE: lib/raid/xor/powerpc/xor_vmx.c:129:
++		const unsigned long * __restrict v4_in,
 
 ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1141: FILE: lib/raid/xor/x86/xor-sse.c:345:
-+	  const unsigned long * __restrict p3,
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1142: FILE: lib/raid/xor/x86/xor-sse.c:346:
-+	  const unsigned long * __restrict p4,
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1143: FILE: lib/raid/xor/x86/xor-sse.c:347:
-+	  const unsigned long * __restrict p5)
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1215: FILE: lib/raid/xor/x86/xor-sse.c:419:
-+xor_sse_5_pf64(unsigned long bytes, unsigned long * __restrict p1,
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1216: FILE: lib/raid/xor/x86/xor-sse.c:420:
-+	       const unsigned long * __restrict p2,
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1217: FILE: lib/raid/xor/x86/xor-sse.c:421:
-+	       const unsigned long * __restrict p3,
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1218: FILE: lib/raid/xor/x86/xor-sse.c:422:
-+	       const unsigned long * __restrict p4,
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1219: FILE: lib/raid/xor/x86/xor-sse.c:423:
-+	       const unsigned long * __restrict p5)
+#589: FILE: lib/raid/xor/powerpc/xor_vmx.c:130:
++		const unsigned long * __restrict v5_in)
 
 -- 
 0-DAY CI Kernel Test Service
