@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC54935F179
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Mar 2026 20:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83D51E7C12
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Mar 2026 21:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772571086; cv=none; b=jNkuaDToNCmHa3A2o6RqPOm8LxRNUUtDH0PeE4yBDjhcjNwy3WQW+lU4Griib/Kv3H6tRFp73Bgnc43YlerkI48htCqbW9lhMYcIkhXsOVnVOpdnCJ1+GQywZ6d/Rm3jfFKKlj/TfXduSQF7FWzDwAcvMs1p/qaPsC8BGSi1304=
+	t=1772573545; cv=none; b=qHDZonMovm1SBfYP1WCKD5y9yFMcRxiigP+dDVpez7ichgxVUJs6sUXg/W/aRaUa5PGiP4xVTpTvCeaO+kvaL4Vbar2J6CJ9KtkjpAlOr/7PDX0uJEVTJbAAINqVqaRyJnr3aus2GJ1N0cyZbMD+OyCQUSWaWrg7Lx6z/auf4FQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772571086; c=relaxed/simple;
-	bh=wsVTVGJGOYTgWbThgGqfGi8QOHBjpkSbCDBnsEZwRgc=;
+	s=arc-20240116; t=1772573545; c=relaxed/simple;
+	bh=OtyPm9vcLkCFz94hB1nGz4sR/Ye2W5Kiy7Fs8CQRelY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=obu7PGWT6c1IBplLmc2p3oV8hKQLmSBHNZCxrBJgexTS6RwJPJeh4Rz9JB3Js+8B4pRfkM6g+7ztVONktHzgnc/QkPC1qnp6+fVB/KlBZq6AuYU/l5P+Hl9HIbTk+9u4v7QbgOWdBvV7iW1Li7gqo0XvYCFCo7c00bwxAgCr0Tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kUxBygzO; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=VgfZKKb9FJg+sJ/TR6M67oGLQhnoZ8tjIE1endZSt+ZasLnTmrBghpHdxQfGxsHeF4b5MmYRsDWOt6KdwxrtdQWj1KICW+ILejfZg/uU2svbNooIxYBzO0X1yZTBfjxxpmRPZDY0cOJ0yRDcB6wa4zfYZig7FlA6B92N1e6XuE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ifHaTzfk; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kUxBygzO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ifHaTzfk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772571083; x=1804107083;
+  t=1772573543; x=1804109543;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wsVTVGJGOYTgWbThgGqfGi8QOHBjpkSbCDBnsEZwRgc=;
-  b=kUxBygzOzVB3qot8DRmYt9UT9mulaHfJfnMKYY9ZO0hf2Bhi9tfPQWAx
-   89wEiKGdgGf775Sd4/57ZLDQTmzB2DBgKEQPf/SRf7PTaj0m0UewDlqvi
-   Y69yzxGI5Htc3bg2X2fMOCMRnHyZhSxslQ3sv39bAgyXJZJYxltyiTuv2
-   QvIDWm2xP2Nkwn8xunVJv5om2zhVxDKMz0Nc4iF2BjnurKQC1DQPKY1P7
-   +RZdywdp8domYlR3LyYpMc/IfLQuiRvSFPckEcSUgzGMyGqlL15IGCUbl
-   t/NLaYG5z9MxtKy/PXvSanCLld9kEVTCsL+3L+rCNE+xXrw1hR0efZnqD
-   g==;
-X-CSE-ConnectionGUID: U/p/K85VRQm2ViOyjTSFhg==
-X-CSE-MsgGUID: CBBS5M6VQTyk8rgCWajPkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="96233289"
+  bh=OtyPm9vcLkCFz94hB1nGz4sR/Ye2W5Kiy7Fs8CQRelY=;
+  b=ifHaTzfkCNVQzUVWI3eD7Wk4rE0Nmz3W4clg5/nC62MisGi+phsukUUo
+   2i8buk/5o83SgsU+9QMapqyrS7zGXFGww1ZgshdouJGkOpQYNvu344RMg
+   AEMfXBJ4QUgdAqx6fGFcbV7XRJcmwJs00FMYk/B4by72cJr5ukWtxaPV0
+   N4c7AaJGl5u+w5SZBEC+GxkOO+cFO2LNwwS2y5mNAFUpesNVK1ukGPKwz
+   TrStpbPzHJbzugzg+rYB/qrrUVoC7b5C0/6ngaH0sUui82aR8tOssHiMR
+   AnaXfKdXWhynTKG0WbBQnP9SdBRgwrdhUWMKVtfYoMG+Lzap1As0SekhH
+   Q==;
+X-CSE-ConnectionGUID: VvedIjICRI2lQJKrgH3PUQ==
+X-CSE-MsgGUID: T4RRMK0dSJGiGOPpu2snrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="99101070"
 X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="96233289"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 12:51:23 -0800
-X-CSE-ConnectionGUID: NUS9cmowRJS4Uya8xIVd6w==
-X-CSE-MsgGUID: cLUhBr4ESy2ngZuUwcRF0g==
+   d="scan'208";a="99101070"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 13:32:22 -0800
+X-CSE-ConnectionGUID: V7sEOtnlRsG2aOZgQEjJfg==
+X-CSE-MsgGUID: 50Pj17QuQzevQ9vecJreTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="215575451"
+   d="scan'208";a="216467227"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Mar 2026 12:51:21 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 03 Mar 2026 13:32:21 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxWi7-000000001Xl-0E55;
-	Tue, 03 Mar 2026 20:51:19 +0000
-Date: Tue, 3 Mar 2026 21:50:35 +0100
+	id 1vxXLn-000000001Y1-1FaO;
+	Tue, 03 Mar 2026 21:32:19 +0000
+Date: Tue, 3 Mar 2026 22:31:43 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH net-next v13 1/3] dt-bindings: net: nuvoton: Add schema
  for Nuvoton MA35 family GMAC
-Message-ID: <202603032130.dl5tmsDF-lkp@intel.com>
+Message-ID: <202603032200.O8iHLENY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -105,51 +105,99 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Lu/dt-bindings-net-n
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20260303092006.263715-2-a0987203069%40gmail.com
 patch subject: [PATCH net-next v13 1/3] dt-bindings: net: nuvoton: Add schema for Nuvoton MA35 family GMAC
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: loongarch-randconfig-2052-20260303 (https://download.01.org/0day-ci/archive/20260303/202603032130.dl5tmsDF-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: riscv-randconfig-2051-20260303 (https://download.01.org/0day-ci/archive/20260303/202603032200.O8iHLENY-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
 dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603032130.dl5tmsDF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603032200.O8iHLENY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603032130.dl5tmsDF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603032200.O8iHLENY-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f020000 (snps,dwmac-3.70a): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
+>> arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: ethernet@4070000 (sophgo,cv1800b-dwmac): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f020000 (snps,dwmac-3.70a): compatible: ['snps,dwmac-3.70a'] is too short
+   arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: ethernet@4070000 (sophgo,cv1800b-dwmac): phy-mode:0: 'internal' is not one of ['rmii', 'rgmii', 'rgmii-id', 'rgmii-txid', 'rgmii-rxid']
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f020000 (snps,dwmac-3.70a): 'clocks' is a required property
+--
+>> arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: ethernet@4070000 (sophgo,cv1800b-dwmac): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f020000 (snps,dwmac-3.70a): 'clock-names' is a required property
+   arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: ethernet@4070000 (sophgo,cv1800b-dwmac): phy-mode:0: 'internal' is not one of ['rmii', 'rgmii', 'rgmii-id', 'rgmii-txid', 'rgmii-rxid']
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f020000 (snps,dwmac-3.70a): 'nuvoton,sys' is a required property
+   arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: ethernet@4070000 (sophgo,cv1800b-dwmac): 'nuvoton,sys' is a required property
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f020000 (snps,dwmac-3.70a): 'resets' is a required property
+--
+>> arch/riscv/boot/dts/sophgo/sg2002-licheerv-nano-b.dtb: ethernet@4070000 (sophgo,cv1800b-dwmac): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f020000 (snps,dwmac-3.70a): 'reset-names' is a required property
+   arch/riscv/boot/dts/sophgo/sg2002-licheerv-nano-b.dtb: ethernet@4070000 (sophgo,cv1800b-dwmac): phy-mode:0: 'internal' is not one of ['rmii', 'rgmii', 'rgmii-id', 'rgmii-txid', 'rgmii-rxid']
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f020000 (snps,dwmac-3.70a): Unevaluated properties are not allowed ('bus_id' was unexpected)
+--
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): clock-names:1: 'ptp_ref' was expected
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f030000 (snps,dwmac-3.70a): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): clock-names: ['stmmaceth', 'pclk', 'apb'] is too long
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f030000 (snps,dwmac-3.70a): compatible: ['snps,dwmac-3.70a'] is too short
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): clocks: [[9, 48], [9, 44], [9, 25]] is too long
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f030000 (snps,dwmac-3.70a): 'clocks' is a required property
+>> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f030000 (snps,dwmac-3.70a): 'clock-names' is a required property
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): reg: [[255, 3875930112, 0, 8192], [255, 3959439360, 0, 4096]] is too long
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f030000 (snps,dwmac-3.70a): 'nuvoton,sys' is a required property
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): 'nuvoton,sys' is a required property
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f030000 (snps,dwmac-3.70a): 'resets' is a required property
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): 'resets' is a required property
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f030000 (snps,dwmac-3.70a): 'reset-names' is a required property
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): 'reset-names' is a required property
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
->> arch/loongarch/boot/dts/loongson-2k0500-ref.dtb: ethernet@1f030000 (snps,dwmac-3.70a): Unevaluated properties are not allowed ('bus_id' was unexpected)
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): Unevaluated properties are not allowed ('reg-names' was unexpected)
    	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): clock-names:1: 'ptp_ref' was expected
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): clock-names: ['stmmaceth', 'pclk', 'apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): clocks: [[9, 48], [9, 50], [9, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+>> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): reg: [[255, 3875995648, 0, 8192], [255, 3959435264, 0, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): 'nuvoton,sys' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): Unevaluated properties are not allowed ('reg-names' was unexpected)
+--
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7060000 (thead,th1520-gmac): clock-names:1: 'ptp_ref' was expected
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7060000 (thead,th1520-gmac): clock-names: ['stmmaceth', 'pclk', 'apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7060000 (thead,th1520-gmac): clocks: [[9, 48], [9, 44], [9, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+>> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7060000 (thead,th1520-gmac): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7060000 (thead,th1520-gmac): reg: [[255, 3875930112, 0, 8192], [255, 3959439360, 0, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): clock-names:1: 'ptp_ref' was expected
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): clock-names: ['stmmaceth', 'pclk', 'apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): clocks: [[9, 48], [9, 50], [9, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+>> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): compatible:0: 'nuvoton,ma35d1-dwmac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): reg: [[255, 3875995648, 0, 8192], [255, 3959435264, 0, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): 'nuvoton,sys' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/nuvoton,ma35d1-dwmac.yaml
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): Unevaluated properties are not allowed ('reg-names' was unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
