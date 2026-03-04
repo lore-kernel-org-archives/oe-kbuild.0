@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE0E317165
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Mar 2026 14:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290C53A453A
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Mar 2026 14:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772633036; cv=none; b=AHmwU9u31/Yt60u8Zp8UrrTvvRlTY/s++AKEWK3jwMfqkzWHizFayrFPs+GzaVrR1dt2SzH/5/R9dp7ezYRJ6OuleKUO3WWydR4F9C04nSDQgPOZMhWvId1XtkGN8LUJjzds3Lw/DKvP/4d0cJUHY/2WjC1VB9iZpeGNb9ZnU68=
+	t=1772633696; cv=none; b=TAXwGOVkCDCNuGDcvIPNbWRC5B7FVQFC4g3Tvq15gaelU+kJsc5PnQ17CT3408PsGJGj2c6POZQDc7y+QjN0uV96uPuyzEhxbhTHr0tcBvuigK13vPcuYO5qAN5bfZEQLicX/Q/FvmKxynKIapWRpI1PsnyU53AFDeU1cM0gsuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772633036; c=relaxed/simple;
-	bh=t/UbZDAKmT4t5RWlc/s1gg1JVFyk1dA0CwKrCjj6OIg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uagKwBUnVh8uuYoQ7Y7K6BPu9QcsYEPbAnBfO7TjdLYr7lI995MctXMeFisqzb7edp5Q+FeXaGhYooK9/YqoENGv+rlJh2BhVdQ2pAchNODXK2SZDFqvQTXXBFnWLFliEz9abYlk9HmocSwsTNy9kJT2kIT7H9iETUyNj62F3HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKZU2pCK; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1772633696; c=relaxed/simple;
+	bh=6RqdBaDlPI5PZm7mGbYuC0JwpVR/GnLWt1pFZkgNHGg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=a9Xg8pgSECHzsIh9/5poa9my2Kmob5DQUAM4AXQriix4c2SFHr/ddiiGLjeCoevU2PaTmm+Iq/PG6c2bZREmG1HJh8WztajeXRtpyj37Tt29bNFTcAXHR0gKLqrduMHUQZR2zkllqT+OX9zXcZHu4Z2r0DUaywcwYPNyAVHfMvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCX27rEc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nKZU2pCK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCX27rEc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772633034; x=1804169034;
+  t=1772633694; x=1804169694;
   h=date:from:to:cc:subject:message-id;
-  bh=t/UbZDAKmT4t5RWlc/s1gg1JVFyk1dA0CwKrCjj6OIg=;
-  b=nKZU2pCKe7ZDKNO8H1eK7EJXnYzJZ8AWhixv9iOeF9eLZv2PBFO2ssG9
-   JWUIz7YY6oGk9mZObHy5rKwuEFLVODIqRpvRFD+nLSskNdiCbh4fmkb/b
-   gEAc1kFi2eGOv4qVyFseEOhLAvcsV8zqjFMZAd8dJOneCNcBwY3MIfaSk
-   OQeBoGDcJOhSiuZZdVQFmTVJ3x54H5E1jVFT+UyvvnL3FXLSqiJCdWjIK
-   LNbIUbRud2HjdcQ2oC4RgeAkYmuThh3LsSwIBnU3oxdb309blv1yPHqFt
-   eiEzU6NWJ62Z8JKdFiVpNR22Mg1bEsBh/YoOPMEXNRYlrdy7NSEw+v7cO
-   Q==;
-X-CSE-ConnectionGUID: tO0eN2DSRIqBNiY8ny8uCg==
-X-CSE-MsgGUID: Yy3zsJ1aSxCKC/OeDF55/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="72718289"
+  bh=6RqdBaDlPI5PZm7mGbYuC0JwpVR/GnLWt1pFZkgNHGg=;
+  b=YCX27rEcSAPUCzeQnlxkAHPeD0Ynx5Rvv09mMfUuHu7CpMeMgvP+HwVM
+   hdLNdNUlpvm7VnHmmGf5f+4Wj7eZY5LJyONcGsP6kT8rWZ8rz8DskLJxx
+   4R4csFJfuokoCweS4u7vzYxxvx5dnFiVbTkOMoIarndTenmizCpWldnku
+   c70OsXl0KvhXX2nT9PkYvx3uAVHCEpHIBLf7wP6u5+hzPTiFmP5+pW5CT
+   KZLpnqROtYtuwWMTd6j1u/xQwbR7fDle8lJDf8S4muAhIXf6SCPCqgjD8
+   6j0uPGwlpCkeWrcWJXFRVBGBWf3ObaEcuGq7+t1wcCByzNt6LDpnL+qgP
+   A==;
+X-CSE-ConnectionGUID: iWK38NerSgiNE1TG5/WPcw==
+X-CSE-MsgGUID: 0RzMc2doTj60uK4kHNCeOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73391404"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="72718289"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 06:03:54 -0800
-X-CSE-ConnectionGUID: 9Otj48HmTR6Z6FhywepE4w==
-X-CSE-MsgGUID: VsBsCNw6QEqSIqi1qISJHQ==
+   d="scan'208";a="73391404"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 06:14:54 -0800
+X-CSE-ConnectionGUID: 52yene8mShC8f95A3/CLtA==
+X-CSE-MsgGUID: o42DxcL1TL65pdu8y8fwAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="218299315"
+   d="scan'208";a="245005888"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Mar 2026 06:03:52 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 04 Mar 2026 06:14:52 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxmpJ-000000003o7-3Idr;
-	Wed, 04 Mar 2026 14:03:49 +0000
-Date: Wed, 04 Mar 2026 22:03:22 +0800
+	id 1vxmzy-000000003oh-06qr;
+	Wed, 04 Mar 2026 14:14:50 +0000
+Date: Wed, 04 Mar 2026 22:14:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/audit.c:2533 audit_log_nf_skb() warn: missing unwind
- goto?
-Message-ID: <202603042138.70Qc4Pu2-lkp@intel.com>
+Subject: fs/btrfs/raid56.c:1154 get_rbio_vertical_errors() error: we
+ previously assumed 'faila' could be null (see line 1148)
+Message-ID: <202603042249.M8gyAc0e-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,93 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ricardo Robaina <rrobaina@redhat.com>
-CC: Paul Moore <paul@paul-moore.com>
+TO: Qu Wenruo <wqu@suse.com>
+CC: David Sterba <dsterba@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0031c06807cfa8aa51a759ff8aa09e1aa48149af
-commit: f19590b07cb620be1fcd5474c49515e21a05d406 audit: add audit_log_nf_skb helper function
+commit: 9ba67fd616d6cfbf8b90c336195819e7494645bb btrfs: raid56: prepare recover_vertical() to support bs > ps cases
 date:   3 months ago
 :::::: branch date: 16 hours ago
 :::::: commit date: 3 months ago
-config: i386-randconfig-141-20260304 (https://download.01.org/0day-ci/archive/20260304/202603042138.70Qc4Pu2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+config: sparc64-randconfig-r073-20260304 (https://download.01.org/0day-ci/archive/20260304/202603042249.M8gyAc0e-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.5.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603042138.70Qc4Pu2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603042249.M8gyAc0e-lkp@intel.com/
 
 smatch warnings:
-kernel/audit.c:2533 audit_log_nf_skb() warn: missing unwind goto?
+fs/btrfs/raid56.c:1154 get_rbio_vertical_errors() error: we previously assumed 'faila' could be null (see line 1148)
 
-vim +2533 kernel/audit.c
+vim +/faila +1154 fs/btrfs/raid56.c
 
-a51d9eaa41866ab Kees Cook       2012-07-25  2492  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2493  int audit_log_nf_skb(struct audit_buffer *ab,
-f19590b07cb620b Ricardo Robaina 2025-11-14  2494  		     const struct sk_buff *skb, u8 nfproto)
-f19590b07cb620b Ricardo Robaina 2025-11-14  2495  {
-f19590b07cb620b Ricardo Robaina 2025-11-14  2496  	/* find the IP protocol in the case of NFPROTO_BRIDGE */
-f19590b07cb620b Ricardo Robaina 2025-11-14  2497  	if (nfproto == NFPROTO_BRIDGE) {
-f19590b07cb620b Ricardo Robaina 2025-11-14  2498  		switch (eth_hdr(skb)->h_proto) {
-f19590b07cb620b Ricardo Robaina 2025-11-14  2499  		case htons(ETH_P_IP):
-f19590b07cb620b Ricardo Robaina 2025-11-14  2500  			nfproto = NFPROTO_IPV4;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2501  			break;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2502  		case htons(ETH_P_IPV6):
-f19590b07cb620b Ricardo Robaina 2025-11-14  2503  			nfproto = NFPROTO_IPV6;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2504  			break;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2505  		default:
-f19590b07cb620b Ricardo Robaina 2025-11-14  2506  			goto unknown_proto;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2507  		}
-f19590b07cb620b Ricardo Robaina 2025-11-14  2508  	}
-f19590b07cb620b Ricardo Robaina 2025-11-14  2509  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2510  	switch (nfproto) {
-f19590b07cb620b Ricardo Robaina 2025-11-14  2511  	case NFPROTO_IPV4: {
-f19590b07cb620b Ricardo Robaina 2025-11-14  2512  		struct iphdr iph;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2513  		const struct iphdr *ih;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2514  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2515  		ih = skb_header_pointer(skb, skb_network_offset(skb),
-f19590b07cb620b Ricardo Robaina 2025-11-14  2516  					sizeof(iph), &iph);
-f19590b07cb620b Ricardo Robaina 2025-11-14  2517  		if (!ih)
-f19590b07cb620b Ricardo Robaina 2025-11-14  2518  			return -ENOMEM;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2519  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2520  		audit_log_format(ab, " saddr=%pI4 daddr=%pI4 proto=%hhu",
-f19590b07cb620b Ricardo Robaina 2025-11-14  2521  				 &ih->saddr, &ih->daddr, ih->protocol);
-f19590b07cb620b Ricardo Robaina 2025-11-14  2522  		break;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2523  	}
-f19590b07cb620b Ricardo Robaina 2025-11-14  2524  	case NFPROTO_IPV6: {
-f19590b07cb620b Ricardo Robaina 2025-11-14  2525  		struct ipv6hdr iph;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2526  		const struct ipv6hdr *ih;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2527  		u8 nexthdr;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2528  		__be16 frag_off;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2529  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2530  		ih = skb_header_pointer(skb, skb_network_offset(skb),
-f19590b07cb620b Ricardo Robaina 2025-11-14  2531  					sizeof(iph), &iph);
-f19590b07cb620b Ricardo Robaina 2025-11-14  2532  		if (!ih)
-f19590b07cb620b Ricardo Robaina 2025-11-14 @2533  			return -ENOMEM;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2534  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2535  		nexthdr = ih->nexthdr;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2536  		ipv6_skip_exthdr(skb, skb_network_offset(skb) + sizeof(iph),
-f19590b07cb620b Ricardo Robaina 2025-11-14  2537  				 &nexthdr, &frag_off);
-f19590b07cb620b Ricardo Robaina 2025-11-14  2538  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2539  		audit_log_format(ab, " saddr=%pI6c daddr=%pI6c proto=%hhu",
-f19590b07cb620b Ricardo Robaina 2025-11-14  2540  				 &ih->saddr, &ih->daddr, nexthdr);
-f19590b07cb620b Ricardo Robaina 2025-11-14  2541  		break;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2542  	}
-f19590b07cb620b Ricardo Robaina 2025-11-14  2543  	default:
-f19590b07cb620b Ricardo Robaina 2025-11-14  2544  		goto unknown_proto;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2545  	}
-f19590b07cb620b Ricardo Robaina 2025-11-14  2546  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2547  	return 0;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2548  
-f19590b07cb620b Ricardo Robaina 2025-11-14  2549  unknown_proto:
-f19590b07cb620b Ricardo Robaina 2025-11-14  2550  	audit_log_format(ab, " saddr=? daddr=? proto=?");
-f19590b07cb620b Ricardo Robaina 2025-11-14  2551  	return -EPFNOSUPPORT;
-f19590b07cb620b Ricardo Robaina 2025-11-14  2552  }
-f19590b07cb620b Ricardo Robaina 2025-11-14  2553  EXPORT_SYMBOL(audit_log_nf_skb);
-f19590b07cb620b Ricardo Robaina 2025-11-14  2554  
+53b381b3abeb86f David Woodhouse 2013-01-29  1135  
+75b47033296595e Qu Wenruo       2022-11-07  1136  /*
+67da05b3f28166b Colin Ian King  2023-01-17  1137   * Return the total number of errors found in the vertical stripe of @sector_nr.
+75b47033296595e Qu Wenruo       2022-11-07  1138   *
+75b47033296595e Qu Wenruo       2022-11-07  1139   * @faila and @failb will also be updated to the first and second stripe
+75b47033296595e Qu Wenruo       2022-11-07  1140   * number of the errors.
+75b47033296595e Qu Wenruo       2022-11-07  1141   */
+9ba67fd616d6cfb Qu Wenruo       2025-11-14  1142  static int get_rbio_vertical_errors(struct btrfs_raid_bio *rbio, int sector_nr,
+75b47033296595e Qu Wenruo       2022-11-07  1143  				    int *faila, int *failb)
+75b47033296595e Qu Wenruo       2022-11-07  1144  {
+75b47033296595e Qu Wenruo       2022-11-07  1145  	int stripe_nr;
+75b47033296595e Qu Wenruo       2022-11-07  1146  	int found_errors = 0;
+75b47033296595e Qu Wenruo       2022-11-07  1147  
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07 @1148  	if (faila || failb) {
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07  1149  		/*
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07  1150  		 * Both @faila and @failb should be valid pointers if any of
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07  1151  		 * them is specified.
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07  1152  		 */
+75b47033296595e Qu Wenruo       2022-11-07  1153  		ASSERT(faila && failb);
+75b47033296595e Qu Wenruo       2022-11-07 @1154  		*faila = -1;
+75b47033296595e Qu Wenruo       2022-11-07  1155  		*failb = -1;
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07  1156  	}
+75b47033296595e Qu Wenruo       2022-11-07  1157  
+75b47033296595e Qu Wenruo       2022-11-07  1158  	for (stripe_nr = 0; stripe_nr < rbio->real_stripes; stripe_nr++) {
+75b47033296595e Qu Wenruo       2022-11-07  1159  		int total_sector_nr = stripe_nr * rbio->stripe_nsectors + sector_nr;
+75b47033296595e Qu Wenruo       2022-11-07  1160  
+75b47033296595e Qu Wenruo       2022-11-07  1161  		if (test_bit(total_sector_nr, rbio->error_bitmap)) {
+75b47033296595e Qu Wenruo       2022-11-07  1162  			found_errors++;
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07  1163  			if (faila) {
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07  1164  				/* Update faila and failb. */
+75b47033296595e Qu Wenruo       2022-11-07  1165  				if (*faila < 0)
+75b47033296595e Qu Wenruo       2022-11-07  1166  					*faila = stripe_nr;
+75b47033296595e Qu Wenruo       2022-11-07  1167  				else if (*failb < 0)
+75b47033296595e Qu Wenruo       2022-11-07  1168  					*failb = stripe_nr;
+75b47033296595e Qu Wenruo       2022-11-07  1169  			}
+75b47033296595e Qu Wenruo       2022-11-07  1170  		}
+ad3daf1c3f5bcbb Qu Wenruo       2022-11-07  1171  	}
+75b47033296595e Qu Wenruo       2022-11-07  1172  	return found_errors;
+75b47033296595e Qu Wenruo       2022-11-07  1173  }
+75b47033296595e Qu Wenruo       2022-11-07  1174  
+
+:::::: The code at line 1154 was first introduced by commit
+:::::: 75b47033296595efb208cc563cbb8cf4fb7c3ebc btrfs: raid56: migrate recovery and scrub recovery path to use error_bitmap
+
+:::::: TO: Qu Wenruo <wqu@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
