@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6389D34E774
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Mar 2026 23:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF722E414
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Mar 2026 23:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772665724; cv=none; b=u5wpN36igovAw+DB8451dVnr1aTbnmESzmOvqbqIxm0QgEWnHtHrdLOfKPsnKVmMRSyJN/ATG+v8Nv+AamlZV0D1tazkO4QztUhgPdRy+4hvXRiUV4L+ssaawoDwFTQoFsf81VX/yvScKZDUSsV0dkdUx6earBtFonyqsMrEC2A=
+	t=1772666985; cv=none; b=fnOLzcVb7aTpigdVyFtaQF2USjK9nOJJGhLxMG2M3mNnFe9i9uMJbplJ/lMF8TD7QzY4z1UIOUUFk/Uj/EWq5/F5MhyGE+45Ie8LIWA0TpT6NGCpUXjflxKsPLoKqebM8OF+nqwsa3YKhDz6XOfXB0tZYZAkY6xIn1T/d08U56w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772665724; c=relaxed/simple;
-	bh=Y2K3FIjs9ZzYJLHhd5P+CQFJpZ/o5WLJg8wJe8Q/f/I=;
+	s=arc-20240116; t=1772666985; c=relaxed/simple;
+	bh=+ZfgZBmktUp5PohBOi+dGi6XOTMo/HWMA1HvEuetSgw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RqMjGi6OStYfYGyA6/1IdDEChUWIDsMW1pa17LS4SkEJ9YgLcLYVCMCOmsK4T5magLwWtS4dGkyFILxYBTXfm84LtdZPcduGCQJQ0UTzpueLN+3dTHzjh7tIj6WYqwB4XaFfsKJlSJ02bL6hNMLtRGy2Ae/nggveoTJN8urXfeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NjHj2Ias; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=jbV5a8gqDZDzyjKaPd/HsoAvcDbOha+a+5XU9mWQLgKSNBLBV1WZP18uqACBF/EcUE0ey/LsGIuZYDCI8WWrwbfLy/BUiHxCQzNLqodZK8KyTaaSaNpE1aQ9/Jy1AxdoPTchSQFbj0pfHGSwfbm8wwmrbluAZxGWMksTE48dOzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EM9WFGR+; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NjHj2Ias"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EM9WFGR+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772665722; x=1804201722;
+  t=1772666984; x=1804202984;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y2K3FIjs9ZzYJLHhd5P+CQFJpZ/o5WLJg8wJe8Q/f/I=;
-  b=NjHj2IashWGT/GubvhC61AQOAmVvfOCKDt0Bxjta9zEu9NR2Tqfc+RdV
-   JRN5DWr59Qss6N19o+qL1pSxVs8Tn1mo622GHFVg8Dxl5VZULCN7CDM3h
-   ui64x8qwZxKNd4Ir6+rjzLRgH6x4Dzpsn0BE7Z/0tao+ZvWXGGeXNUVO1
-   f/mWgK8+H0rmlLVhiqJ5mv83wckZJbO4VafwClSwl2xZbnU4gmg4NXuHM
-   ZFWJplXbwufCaFhlYLXlqAnRj8fUWUQ4MCo+/Q9nkwKSZA2CCLK8eLWd2
-   Cxj4Q30OAAqcSmiyNty4OQYm//y/ozT5NJJdvPsUTFaAp92HoI4jNRn1g
-   Q==;
-X-CSE-ConnectionGUID: ONdk00YCQHi9A1+EcoIQJQ==
-X-CSE-MsgGUID: DOTbsS+cT82+f74oLPUwUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73647856"
+  bh=+ZfgZBmktUp5PohBOi+dGi6XOTMo/HWMA1HvEuetSgw=;
+  b=EM9WFGR+Tc8KNP0utIUL3WL6MR8G6jq6PIkdN+RJdyg1Lsdimq7THr39
+   ON2e5OcUF+n91pN68s1U0LunCIKY0UrKiUsgWpkZPVhTwhmg8Dore+ctK
+   wiyT5jOOkbRAVGNbRvXqOSb1aHBqydJUC52oXTQ6C44+jw42qb30JZmci
+   qCLHSenE40Az1dkvrrIe9CFRQ5EuNyJAcrzp48QIyLgQk3M9c+XPsuFKZ
+   i9CONBGF5BziEb5ZotYnciHmAK6ezXqy3yei8PJUuTEH617aFdrbWOuD7
+   lNbLECOqGNWknak04gyr055n7ph9P9a1RCRFokGul1ngV70kgwh3XnPUO
+   w==;
+X-CSE-ConnectionGUID: JHIcGY9AR1SbTkA3HRiyBg==
+X-CSE-MsgGUID: 4Kwx1C5JRb+aqnz++3OvkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="76346468"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="73647856"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 15:08:42 -0800
-X-CSE-ConnectionGUID: Jxhq/kBpSguFEBWFSNlTCg==
-X-CSE-MsgGUID: Cbu97FaUS7K43wl1NmhW3w==
+   d="scan'208";a="76346468"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 15:29:43 -0800
+X-CSE-ConnectionGUID: IyHU6zoPTsCFuNJ1X31Fxg==
+X-CSE-MsgGUID: QdWW3IRqSUCj3NT9kkTA1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="222632144"
+   d="scan'208";a="256374224"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Mar 2026 15:08:41 -0800
+  by orviesa001.jf.intel.com with ESMTP; 04 Mar 2026 15:29:42 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxvKY-000000004ev-13Dp;
-	Wed, 04 Mar 2026 23:08:38 +0000
-Date: Thu, 5 Mar 2026 07:07:58 +0800
+	id 1vxvet-000000004gN-2inz;
+	Wed, 04 Mar 2026 23:29:39 +0000
+Date: Thu, 5 Mar 2026 07:29:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH] fs/ntfs3: add a subset of W=1 warnings for stricter
  checks
-Message-ID: <202603050717.kw7i6toN-lkp@intel.com>
+Message-ID: <202603050701.HA6h0acg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -92,14 +92,14 @@ patch link:    https://lore.kernel.org/r/20260304095334.4254-1-almaz.alexandrovi
 patch subject: [PATCH] fs/ntfs3: add a subset of W=1 warnings for stricter checks
 :::::: branch date: 13 hours ago
 :::::: commit date: 13 hours ago
-config: sparc-randconfig-002-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050717.kw7i6toN-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050717.kw7i6toN-lkp@intel.com/reproduce)
+config: parisc-randconfig-002-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050701.HA6h0acg-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050701.HA6h0acg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603050717.kw7i6toN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603050701.HA6h0acg-lkp@intel.com/
 
 Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
 http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
@@ -107,25 +107,12 @@ http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 All warnings (new ones prefixed by >>):
 
    fs/ntfs3/fsntfs.c: In function 'ntfs_write_bh':
->> fs/ntfs3/fsntfs.c:1487:30: warning: 'sample' may be used uninitialized [-Wmaybe-uninitialized]
-    1487 |                         *ptr = sample;
-         |                         ~~~~~^~~~~~~~
-   fs/ntfs3/fsntfs.c:1444:16: note: 'sample' was declared here
-    1444 |         __le16 sample;
-         |                ^~~~~~
->> fs/ntfs3/fsntfs.c:1443:17: warning: 'fixup' may be used uninitialized [-Wmaybe-uninitialized]
-    1443 |         __le16 *fixup;
-         |                 ^~~~~
---
-   fs/ntfs3/index.c: In function 'indx_add_allocate':
->> fs/ntfs3/index.c:1572:9: warning: 'bmp_size' may be used uninitialized [-Wmaybe-uninitialized]
-    1572 |         attr_set_size(ni, ATTR_BITMAP, in->name, in->name_len,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1573 |                       &indx->bitmap_run, bmp_size, &bmp_size_v, false);
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs3/index.c:1496:13: note: 'bmp_size' was declared here
-    1496 |         u64 bmp_size, bmp_size_v;
-         |             ^~~~~~~~
+>> fs/ntfs3/fsntfs.c:1487:9: warning: 'sample' may be used uninitialized in this function [-Wmaybe-uninitialized]
+       *ptr = sample;
+       ~~~~~^~~~~~~~
+>> fs/ntfs3/fsntfs.c:1486:13: warning: 'fixup' may be used uninitialized in this function [-Wmaybe-uninitialized]
+       *++fixup = *ptr;
+       ~~~~~~~~~^~~~~~
 
 
 vim +/sample +1487 fs/ntfs3/fsntfs.c
@@ -142,7 +129,7 @@ vim +/sample +1487 fs/ntfs3/fsntfs.c
 82cae269cfa953 Konstantin Komarov      2021-08-13  1440  	u16 fo = le16_to_cpu(rhdr->fix_off);
 82cae269cfa953 Konstantin Komarov      2021-08-13  1441  	u16 fn = le16_to_cpu(rhdr->fix_num);
 82cae269cfa953 Konstantin Komarov      2021-08-13  1442  	u32 idx;
-82cae269cfa953 Konstantin Komarov      2021-08-13 @1443  	__le16 *fixup;
+82cae269cfa953 Konstantin Komarov      2021-08-13  1443  	__le16 *fixup;
 82cae269cfa953 Konstantin Komarov      2021-08-13  1444  	__le16 sample;
 82cae269cfa953 Konstantin Komarov      2021-08-13  1445  
 82cae269cfa953 Konstantin Komarov      2021-08-13  1446  	if ((fo & 1) || fo + fn * sizeof(short) > SECTOR_SIZE || !fn-- ||
@@ -185,7 +172,7 @@ fac760f5246743 Lalit Shankar Chowdhury 2025-11-28  1460  		wait_on_buffer(bh);
 82cae269cfa953 Konstantin Komarov      2021-08-13  1483  		ptr = Add2Ptr(bh_data, SECTOR_SIZE - sizeof(short));
 82cae269cfa953 Konstantin Komarov      2021-08-13  1484  
 82cae269cfa953 Konstantin Komarov      2021-08-13  1485  		do {
-82cae269cfa953 Konstantin Komarov      2021-08-13  1486  			*++fixup = *ptr;
+82cae269cfa953 Konstantin Komarov      2021-08-13 @1486  			*++fixup = *ptr;
 82cae269cfa953 Konstantin Komarov      2021-08-13 @1487  			*ptr = sample;
 82cae269cfa953 Konstantin Komarov      2021-08-13  1488  			ptr += SECTOR_SIZE / sizeof(short);
 82cae269cfa953 Konstantin Komarov      2021-08-13  1489  		} while (ptr < end_data);
