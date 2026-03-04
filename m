@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A9441754
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Mar 2026 23:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DA8241139
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Mar 2026 23:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772667516; cv=none; b=jQ/1j9rHuMcOwZu130Li+t31X9sndRtiTyBaLb7Q/XGX76q3r/Re2s/lWOlM3bqOzTxQu82Ou3bd2F2WYRZdR8y+1YmGfgQ8HGZq1ABQtgXkK/vs5IfFoNWGcCDg3gGhMJiIXje40xrYrA1SXEs+RnThXZ0EKyda/C6twsjBIdM=
+	t=1772667646; cv=none; b=JU9Phz5Oa740aal4qvx/3ElP2VUjqoMNQN3AMHCezwoCX0CxBzvd+9/Q18boeCj5bSziNkzU0ANBrjdaApRqN2wbCsVrUYOlC2TwbgFOGozUhRyNIdBdATMBkWyj/metNvEti8IqFNgA+4zkkalHf593bpQ6AjSe7ZlGoAYdL5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772667516; c=relaxed/simple;
-	bh=hf6cVX3XbAAb95dMxzdl3mNB/pE7okJOA5GxqOYcRqM=;
-	h=Date:From:To:Subject:Message-ID; b=P78gTHHP1ObtIINRVxzfxhV8z3T5lwdcnY6QZs0xgO7K4cWfzV8plIhi6ij7bsldhFsBx05sGYsWluq3ac/fVjPxYYZ1Rh0vrOOaoKCHwi6LM0+wHdzeRS7Vv8vyCkdhASMoHfSuHbjMxN+oNkI8VdRM/eET2R5JnP927KIWquk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DbZRI8ov; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1772667646; c=relaxed/simple;
+	bh=JxCOvHXOn5xY/qJFA7yw05q0dh/qRMaL0akiqGmhfHs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q6ZmqtKJur92qChs7i8EAxnLJ/BCodJzfK8WYAANuKRAeipdeUhal9Yepu91aC+drjbsOBnHbFvCVTI2VWGdOrr0/dTOUb2h/b/juvteGf38kxHM3VmCjr0XKoa2tCvi0jZpDX+4cxFRBmzVAyqW2nJ/Z/j8axb3i7hS/asmZQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIxxHgYr; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DbZRI8ov"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIxxHgYr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772667516; x=1804203516;
-  h=date:from:to:subject:message-id;
-  bh=hf6cVX3XbAAb95dMxzdl3mNB/pE7okJOA5GxqOYcRqM=;
-  b=DbZRI8ovGA9c11UF3sFGQK+l+DqrZqH7Bm7xaBQPVUEfmds3cJDbAdIV
-   +Cr1sv8akOB/XHqzZilYrE2rMeWSzVLC006E8i8Y4hdzTNiv6xW0o0mPo
-   kAiOUWHwQ9pYv0xBuczrsmfTbrLYlHEc3Jur9bVWloIXkQKxPiyXVONEt
-   1V1fcpv72uV0tzxephSkn44wK1E7JD4974aPuG/YvWrq+ZV2mWaA+DAeV
-   e4SMss00uhm8Em7THCplkqTFpFd7sag6o1cBueqkbs/4f9s6f+Oz5r1VJ
-   zLs7ZKWBYRA9oMggiECXK/bVI7AsFfImPWj4o7AoPvTJdBmUqLt6m9tUF
-   Q==;
-X-CSE-ConnectionGUID: qX0CasZjTrKwGsUU6Zlujg==
-X-CSE-MsgGUID: tWb/oOAuTWGUx5BAH7kjEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73656830"
+  t=1772667645; x=1804203645;
+  h=date:from:to:cc:subject:message-id;
+  bh=JxCOvHXOn5xY/qJFA7yw05q0dh/qRMaL0akiqGmhfHs=;
+  b=ZIxxHgYrmwenRZdU1CKkeqs6lRsoK9QfFNwJLaxZxuYfSenMWfEGRSxX
+   DK0GVJ2NxPQx12N6zngIRJGYJYxkSZI2V0HKDb+BkVISlE5n/fWw3yc0h
+   A0WeZ7vUeCtjI+RhGzluQfpNBfIdwGWV7II0ZJD5yEg/JeQQwU9vb8uVe
+   Ng0SfPWFnRkq3E/hd05Xn6gVVRQEGmdzzSmbwaiywMEq/ASfLWoHZlQbt
+   6B8KySFg3Jhp5Ikxt6drjXI273mQF5CH+7jmAfOuaEGzLvFOmnIOssk1U
+   0TLS54vAdWgejkBVrfvQt6HdGudn0zCl9VCtTSG5yNwYjeCHlWYYzie/R
+   g==;
+X-CSE-ConnectionGUID: VFM0dY1xRuiBhTNTzXPuPQ==
+X-CSE-MsgGUID: BnLzPTedS6CXyBwk8LSeTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="85214982"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="73656830"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 15:38:35 -0800
-X-CSE-ConnectionGUID: 7pGjUr0gRb+zqPblrMURGA==
-X-CSE-MsgGUID: u3ccZEjtRnqInvdJkXBR3Q==
+   d="scan'208";a="85214982"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 15:40:45 -0800
+X-CSE-ConnectionGUID: RWkmPCHYTsKs6PA4oWva4A==
+X-CSE-MsgGUID: RpJ6l289SX+U7mMnceXtYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="223459877"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 04 Mar 2026 15:38:34 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="245064085"
+Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Mar 2026 15:40:42 -0800
+Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxvnU-000000001nh-0ejx
-	for oe-kbuild@lists.linux.dev;
-	Wed, 04 Mar 2026 23:38:32 +0000
-Date: Thu, 05 Mar 2026 00:38:28 +0100
+	id 1vxvpY-000000004hl-2nI1;
+	Wed, 04 Mar 2026 23:40:40 +0000
+Date: Thu, 05 Mar 2026 07:39:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [tnguy-next-queue:main 9/14] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'very'
-Message-ID: <202603050052.473k6z6x-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: kernel/kexec_core.c:1253 crash_cma_ranges_show() warn: we
+ never enter this loop
+Message-ID: <202603050703.t77oFseJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,27 +59,48 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: Manual check reason: "checkpatch report for netdev code"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+CC: linux-kernel@vger.kernel.org
+TO: Sourabh Jain <sourabhjain@linux.ibm.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git main
-head:   4ad96a7c9e2cebbbdc68369438a736a133539f1d
-commit: 6f82cb4ecdb4f23b81d7f71e31d17a55857c8d74 [9/14] net: ipa: Grab IMEM slice base/size from DTS
-:::::: branch date: 21 hours ago
-:::::: commit date: 22 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260305/202603050052.473k6z6x-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ecc64d2dc9ff9738d2a896beb68e02c2feaf9a02
+commit: cf4340bdd967fe7f37b4361c85370515f11f4a37 kexec: move sysfs entries to /sys/kernel/kexec
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-141-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050703.t77oFseJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9004-gb810ac53
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603050703.t77oFseJ-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'very'
-#8: 
-very very different SoCs).
+smatch warnings:
+kernel/kexec_core.c:1253 crash_cma_ranges_show() warn: we never enter this loop
+
+vim +1253 kernel/kexec_core.c
+
+cf4340bdd967fe Sourabh Jain 2025-11-18  1249  
+cf4340bdd967fe Sourabh Jain 2025-11-18  1250  	ssize_t len = 0;
+cf4340bdd967fe Sourabh Jain 2025-11-18  1251  	int i;
+cf4340bdd967fe Sourabh Jain 2025-11-18  1252  
+cf4340bdd967fe Sourabh Jain 2025-11-18 @1253  	for (i = 0; i < crashk_cma_cnt; ++i) {
+cf4340bdd967fe Sourabh Jain 2025-11-18  1254  		len += sysfs_emit_at(buf, len, "%08llx-%08llx\n",
+cf4340bdd967fe Sourabh Jain 2025-11-18  1255  				     crashk_cma_ranges[i].start,
+cf4340bdd967fe Sourabh Jain 2025-11-18  1256  				     crashk_cma_ranges[i].end);
+cf4340bdd967fe Sourabh Jain 2025-11-18  1257  	}
+cf4340bdd967fe Sourabh Jain 2025-11-18  1258  	return len;
+cf4340bdd967fe Sourabh Jain 2025-11-18  1259  }
+cf4340bdd967fe Sourabh Jain 2025-11-18  1260  static struct kobj_attribute crash_cma_ranges_attr = __ATTR_RO(crash_cma_ranges);
+cf4340bdd967fe Sourabh Jain 2025-11-18  1261  #endif
+cf4340bdd967fe Sourabh Jain 2025-11-18  1262  
 
 -- 
 0-DAY CI Kernel Test Service
