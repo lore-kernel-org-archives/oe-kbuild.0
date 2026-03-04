@@ -1,263 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C7F38C435
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Mar 2026 23:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8993B2F60B2
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Mar 2026 02:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772579007; cv=none; b=OgEdTgVt0FM6b+PB1DQ3T593IVtdXF2MLii8WKBt3qZAiSXLdYfAgHPiemzlQvRH2uCiC5Z30z2UzkslrD4q3U3GcOJXEd22eLQVZRbSvpfe6NvZqDM5e3aX4AYV3ypnxVaNKY5rFCVdNnpvhO8uLTFAcdykuqYlSdujQ02q0VM=
+	t=1772592448; cv=none; b=sDcLqhW+5+g4v5gm0jGGpSVGlXiKB2zhEdfubhPuzpLaD49Du/og3IfpGhK1fqMvui6Qc+FMMdV2hPL4lqwJ3CQn0nR6GacX7V9YbDRZre5iKMz0i5RJQGe5bQ2RF9FUIH0IaPbWPO6MqaSgJpPBqAOHXboihHuBfvVXNg7CU4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772579007; c=relaxed/simple;
-	bh=5e3RYnQ4TzJvHiI6kywd5hQ151bctU0Jw2SgJogZfUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NJmb148YgdhwzJVq2RXIJRJ1SPsJDKz2FVSapkcmMQkUQ72PvSPoCdbTs0x3ra24cwJ/SR/zwCpVU42Fyy+4QBzj8803EGajU18B8cTYOM4pwIVW3bsxe431RtZ6jVRTcH6ef8ZSYHj9DLgZtCyFAZ3fzobuKq+lDtZGxAG+Auo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ne/kfZqQ; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1772592448; c=relaxed/simple;
+	bh=Asj5DfG2BbtQWic1wjX4xa8wRWnQ2UV38/vqe402oTw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HEIbuHoN5/HMv+9ab8hD4rNbt0i3wdgVQpKOQJG8V9DxPUPTMIFL73CDf6cJQchJAjWGhGBUI74V2AvEZEcCsg5bvBJlebbJMwa71NwmFuQp6EBh8StOb3zD/hsJ3MeHvRdFQmgSJiArMcpQyst84vNSwqj0YQoEbIlbSsWKVM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GeNC1wkP; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ne/kfZqQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeNC1wkP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772579005; x=1804115005;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5e3RYnQ4TzJvHiI6kywd5hQ151bctU0Jw2SgJogZfUw=;
-  b=ne/kfZqQR4FeqIM9ToQq0qUZ4hmkqWZ9kNwiAvXx6D7Z4JjwbLDRAxHw
-   8hf2quzMaXMWNt/xQ9B9qOdwt03fEpwDd6NYAoxacd4XyCiyA5QDH/p1c
-   5tZ7ippTKRA3nfjuyFP0ZnRCkos+7TONsrg3WDamAuPJIQb2XfqlgAlgE
-   7LEI+njzYFaNIptHOzue4zU9lBUufufVZZSt3ADNazeAc7UTMlMMT0gZL
-   uNzmnfQMGp+YYffcThW9ah7ff5VEd5HbjDKVZLPA6YVknVD9Tz92KGB6x
-   berkt2bYj6hfoHhUCiHrqV8tIQLt1mxN/RHBnlf5zMGL9VT5dahAOs6wh
-   g==;
-X-CSE-ConnectionGUID: Lj0MLVCYQuSqtoTC5t0o7g==
-X-CSE-MsgGUID: abz6jHWtRhSGK1v4I1c9xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="73681531"
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="73681531"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 15:03:24 -0800
-X-CSE-ConnectionGUID: Poh6wHA9TV+Z5juACeLX8g==
-X-CSE-MsgGUID: +N3DwUTbQEWGbhTOnze61A==
+  t=1772592446; x=1804128446;
+  h=date:from:to:cc:subject:message-id;
+  bh=Asj5DfG2BbtQWic1wjX4xa8wRWnQ2UV38/vqe402oTw=;
+  b=GeNC1wkPs3KcePmd4K7sbTwm2MVw3Mzq60TIGfcdm7gRdmBUB1DZdLMz
+   Nva8dJJdadEM6XKiXrG182+Mo7UEhBY11/kn9zPDqcnARQoDfKHxaddD6
+   vflUyR4Ess9KrYlhng/MQjw9h6JA8EdVcTIZkFEEXfeHsC1IiRsl/T/8l
+   Rh2KAZz4QqJX69ihZ4lnaaZRCueq/+uOuvH7lZx5rw5y0xKfYA2VBjElX
+   foXQaisEsGWhSmBHhjBji2K+wYL1Bb2Mv31Hyy+z3Oo1vJ4BHmswI7H2q
+   0YNMmAVNV4pqKy3VNgWC0UKaF9iMNPKo47JSBT8D0soU0ShXcIuR+7Mp6
+   Q==;
+X-CSE-ConnectionGUID: mrSKQpTfTseZhr2M+JQZtw==
+X-CSE-MsgGUID: B1gNmf6VTliLYAVMBvxYMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="84737334"
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="84737334"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 18:47:25 -0800
+X-CSE-ConnectionGUID: Z6m2WVYNROqa5Y5jLP+93g==
+X-CSE-MsgGUID: biemfw9TSByNaxrkRNcgSQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="217308310"
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="218157261"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 03 Mar 2026 15:03:22 -0800
+  by orviesa009.jf.intel.com with ESMTP; 03 Mar 2026 18:47:24 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxYls-000000001ZN-28Ub;
-	Tue, 03 Mar 2026 23:03:20 +0000
-Date: Wed, 4 Mar 2026 00:03:18 +0100
+	id 1vxcGg-000000001bJ-0b5c;
+	Wed, 04 Mar 2026 02:47:22 +0000
+Date: Wed, 04 Mar 2026 03:46:38 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 01/11] dt-bindings: mfd: ti,bq25703a: Expand to include
- BQ25792
-Message-ID: <202603032343.HMeJD6Ti-lkp@intel.com>
+Subject: [bluetooth-next:master 15/84]
+ arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: bluetooth
+ (qcom,qca6174-bt): Unevaluated properties are not allowed
+ ('interrupt-parent', 'interrupts' were unexpected)
+Message-ID: <202603040353.Mnk4ru8f-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260303-bq25792-v1-1-e6e5e0033458@flipper.net>
-References: <20260303-bq25792-v1-1-e6e5e0033458@flipper.net>
-TO: Alexey Charkov <alchark@flipper.net>
-TO: Lee Jones <lee@kernel.org>
-TO: Rob Herring <robh@kernel.org>
+CC: linux-bluetooth@vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Chris Morgan <macromorgan@hotmail.com>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Sebastian Reichel <sre@kernel.org>
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-pm@vger.kernel.org
-CC: Alexey Charkov <alchark@flipper.net>
+CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Hi Alexey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d517cb8cea012f43b069617fc8179b45404f8018]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Charkov/dt-bi=
-ndings-mfd-ti-bq25703a-Expand-to-include-BQ25792/20260303-234353
-base:   d517cb8cea012f43b069617fc8179b45404f8018
-patch link:    https://lore.kernel.org/r/20260303-bq25792-v1-1-e6e5e0033458=
-%40flipper.net
-patch subject: [PATCH 01/11] dt-bindings: mfd: ti,bq25703a: Expand to inclu=
-de BQ25792
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: microblaze-randconfig-2051-20260303 (https://download.01.org/0day-c=
-i/archive/20260303/202603032343.HMeJD6Ti-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   50003ce2085a7f7dacf2426065d1a69c84b5b963
+commit: 68f3769ce01631eb6710b811e2dc5d767b76c5b6 [15/84] dt-bindings: bluetooth: qcom,qca2066-bt: Split to separate schema
+:::::: branch date: 30 hours ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-2051-20260301 (https://download.01.org/0day-ci/archive/20260304/202603040353.Mnk4ru8f-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
 dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260303/202603032343.HMeJD6Ti-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603040353.Mnk4ru8f-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603032343.HMeJD6Ti-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603040353.Mnk4ru8f-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: ignoring, error =
-in schema: properties: allOf
---
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties: 'all=
-Of' should not be valid under {'$ref': '#/definitions/json-schema-prop-name=
-s'}
-   	hint: A json-schema keyword was found instead of a DT property name.
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties:allOf=
-: [{'if': {'properties': {'compatible': {'const': 'ti,bq25703a'}}}, 'then':=
- {'properties': {'input-current-limit-microamp': {'minimum': 500000, 'maxim=
-um': 6350000, 'default': 5000000}, 'regulators': {'properties': {'vbus': {'=
-properties': {'regulator-min-microamp': {'minimum': 0, 'maximum': 6350000},=
- 'regulator-max-microamp': {'minimum': 0, 'maximum': 6350000}, 'regulator-m=
-in-microvolt': {'minimum': 4480000, 'maximum': 20800000}, 'regulator-max-mi=
-crovolt': {'minimum': 4480000, 'maximum': 20800000}}}}}}}}, {'if': {'proper=
-ties': {'compatible': {'const': 'ti,bq25792'}}}, 'then': {'properties': {'i=
-nput-current-limit-microamp': {'minimum': 1000000, 'maximum': 3300000, 'def=
-ault': 3000000}, 'regulators': {'properties': {'vbus': {'properties': {'reg=
-ulator-min-microamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-max-mi=
-croamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-min-microvolt': {'m=
-inimum': 2800000, 'maximum': 22000000}, 'regulator-max-microvolt': {'minimu=
-m': 2800000, 'maximum': 22000000}}}}}}}}] is not of type 'object', 'boolean'
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties:allOf=
-: [{'if': {'properties': {'compatible': {'const': 'ti,bq25703a'}}}, 'then':=
- {'properties': {'input-current-limit-microamp': {'minimum': 500000, 'maxim=
-um': 6350000, 'default': 5000000}, 'regulators': {'properties': {'vbus': {'=
-properties': {'regulator-min-microamp': {'minimum': 0, 'maximum': 6350000},=
- 'regulator-max-microamp': {'minimum': 0, 'maximum': 6350000}, 'regulator-m=
-in-microvolt': {'minimum': 4480000, 'maximum': 20800000}, 'regulator-max-mi=
-crovolt': {'minimum': 4480000, 'maximum': 20800000}}}}}}}}, {'if': {'proper=
-ties': {'compatible': {'const': 'ti,bq25792'}}}, 'then': {'properties': {'i=
-nput-current-limit-microamp': {'minimum': 1000000, 'maximum': 3300000, 'def=
-ault': 3000000}, 'regulators': {'properties': {'vbus': {'properties': {'reg=
-ulator-min-microamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-max-mi=
-croamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-min-microvolt': {'m=
-inimum': 2800000, 'maximum': 22000000}, 'regulator-max-microvolt': {'minimu=
-m': 2800000, 'maximum': 22000000}}}}}}}}] is not of type 'object', 'boolean'
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties:allOf=
-: [{'if': {'properties': {'compatible': {'const': 'ti,bq25703a'}}}, 'then':=
- {'properties': {'input-current-limit-microamp': {'minimum': 500000, 'maxim=
-um': 6350000, 'default': 5000000}, 'regulators': {'properties': {'vbus': {'=
-properties': {'regulator-min-microamp': {'minimum': 0, 'maximum': 6350000},=
- 'regulator-max-microamp': {'minimum': 0, 'maximum': 6350000}, 'regulator-m=
-in-microvolt': {'minimum': 4480000, 'maximum': 20800000}, 'regulator-max-mi=
-crovolt': {'minimum': 4480000, 'maximum': 20800000}}}}}}}}, {'if': {'proper=
-ties': {'compatible': {'const': 'ti,bq25792'}}}, 'then': {'properties': {'i=
-nput-current-limit-microamp': {'minimum': 1000000, 'maximum': 3300000, 'def=
-ault': 3000000}, 'regulators': {'properties': {'vbus': {'properties': {'reg=
-ulator-min-microamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-max-mi=
-croamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-min-microvolt': {'m=
-inimum': 2800000, 'maximum': 22000000}, 'regulator-max-microvolt': {'minimu=
-m': 2800000, 'maximum': 22000000}}}}}}}}] is not of type 'object', 'boolean'
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties:allOf=
-: [{'if': {'properties': {'compatible': {'const': 'ti,bq25703a'}}}, 'then':=
- {'properties': {'input-current-limit-microamp': {'minimum': 500000, 'maxim=
-um': 6350000, 'default': 5000000}, 'regulators': {'properties': {'vbus': {'=
-properties': {'regulator-min-microamp': {'minimum': 0, 'maximum': 6350000},=
- 'regulator-max-microamp': {'minimum': 0, 'maximum': 6350000}, 'regulator-m=
-in-microvolt': {'minimum': 4480000, 'maximum': 20800000}, 'regulator-max-mi=
-crovolt': {'minimum': 4480000, 'maximum': 20800000}}}}}}}}, {'if': {'proper=
-ties': {'compatible': {'const': 'ti,bq25792'}}}, 'then': {'properties': {'i=
-nput-current-limit-microamp': {'minimum': 1000000, 'maximum': 3300000, 'def=
-ault': 3000000}, 'regulators': {'properties': {'vbus': {'properties': {'reg=
-ulator-min-microamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-max-mi=
-croamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-min-microvolt': {'m=
-inimum': 2800000, 'maximum': 22000000}, 'regulator-max-microvolt': {'minimu=
-m': 2800000, 'maximum': 22000000}}}}}}}}] is not of type 'object', 'boolean'
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties:allOf=
-: [{'if': {'properties': {'compatible': {'const': 'ti,bq25703a'}}}, 'then':=
- {'properties': {'input-current-limit-microamp': {'minimum': 500000, 'maxim=
-um': 6350000, 'default': 5000000}, 'regulators': {'properties': {'vbus': {'=
-properties': {'regulator-min-microamp': {'minimum': 0, 'maximum': 6350000},=
- 'regulator-max-microamp': {'minimum': 0, 'maximum': 6350000}, 'regulator-m=
-in-microvolt': {'minimum': 4480000, 'maximum': 20800000}, 'regulator-max-mi=
-crovolt': {'minimum': 4480000, 'maximum': 20800000}}}}}}}}, {'if': {'proper=
-ties': {'compatible': {'const': 'ti,bq25792'}}}, 'then': {'properties': {'i=
-nput-current-limit-microamp': {'minimum': 1000000, 'maximum': 3300000, 'def=
-ault': 3000000}, 'regulators': {'properties': {'vbus': {'properties': {'reg=
-ulator-min-microamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-max-mi=
-croamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-min-microvolt': {'m=
-inimum': 2800000, 'maximum': 22000000}, 'regulator-max-microvolt': {'minimu=
-m': 2800000, 'maximum': 22000000}}}}}}}}] is not of type 'object', 'boolean'
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties:allOf=
-: [{'if': {'properties': {'compatible': {'const': 'ti,bq25703a'}}}, 'then':=
- {'properties': {'input-current-limit-microamp': {'minimum': 500000, 'maxim=
-um': 6350000, 'default': 5000000}, 'regulators': {'properties': {'vbus': {'=
-properties': {'regulator-min-microamp': {'minimum': 0, 'maximum': 6350000},=
- 'regulator-max-microamp': {'minimum': 0, 'maximum': 6350000}, 'regulator-m=
-in-microvolt': {'minimum': 4480000, 'maximum': 20800000}, 'regulator-max-mi=
-crovolt': {'minimum': 4480000, 'maximum': 20800000}}}}}}}}, {'if': {'proper=
-ties': {'compatible': {'const': 'ti,bq25792'}}}, 'then': {'properties': {'i=
-nput-current-limit-microamp': {'minimum': 1000000, 'maximum': 3300000, 'def=
-ault': 3000000}, 'regulators': {'properties': {'vbus': {'properties': {'reg=
-ulator-min-microamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-max-mi=
-croamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-min-microvolt': {'m=
-inimum': 2800000, 'maximum': 22000000}, 'regulator-max-microvolt': {'minimu=
-m': 2800000, 'maximum': 22000000}}}}}}}}] is not of type 'object', 'boolean'
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties:allOf=
-: [{'if': {'properties': {'compatible': {'const': 'ti,bq25703a'}}}, 'then':=
- {'properties': {'input-current-limit-microamp': {'minimum': 500000, 'maxim=
-um': 6350000, 'default': 5000000}, 'regulators': {'properties': {'vbus': {'=
-properties': {'regulator-min-microamp': {'minimum': 0, 'maximum': 6350000},=
- 'regulator-max-microamp': {'minimum': 0, 'maximum': 6350000}, 'regulator-m=
-in-microvolt': {'minimum': 4480000, 'maximum': 20800000}, 'regulator-max-mi=
-crovolt': {'minimum': 4480000, 'maximum': 20800000}}}}}}}}, {'if': {'proper=
-ties': {'compatible': {'const': 'ti,bq25792'}}}, 'then': {'properties': {'i=
-nput-current-limit-microamp': {'minimum': 1000000, 'maximum': 3300000, 'def=
-ault': 3000000}, 'regulators': {'properties': {'vbus': {'properties': {'reg=
-ulator-min-microamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-max-mi=
-croamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-min-microvolt': {'m=
-inimum': 2800000, 'maximum': 22000000}, 'regulator-max-microvolt': {'minimu=
-m': 2800000, 'maximum': 22000000}}}}}}}}] is not of type 'object', 'boolean'
->> Documentation/devicetree/bindings/mfd/ti,bq25703a.yaml: properties:allOf=
-: [{'if': {'properties': {'compatible': {'const': 'ti,bq25703a'}}}, 'then':=
- {'properties': {'input-current-limit-microamp': {'minimum': 500000, 'maxim=
-um': 6350000, 'default': 5000000}, 'regulators': {'properties': {'vbus': {'=
-properties': {'regulator-min-microamp': {'minimum': 0, 'maximum': 6350000},=
- 'regulator-max-microamp': {'minimum': 0, 'maximum': 6350000}, 'regulator-m=
-in-microvolt': {'minimum': 4480000, 'maximum': 20800000}, 'regulator-max-mi=
-crovolt': {'minimum': 4480000, 'maximum': 20800000}}}}}}}}, {'if': {'proper=
-ties': {'compatible': {'const': 'ti,bq25792'}}}, 'then': {'properties': {'i=
-nput-current-limit-microamp': {'minimum': 1000000, 'maximum': 3300000, 'def=
-ault': 3000000}, 'regulators': {'properties': {'vbus': {'properties': {'reg=
-ulator-min-microamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-max-mi=
-croamp': {'minimum': 0, 'maximum': 3320000}, 'regulator-min-microvolt': {'m=
-inimum': 2800000, 'maximum': 22000000}, 'regulator-max-microvolt': {'minimu=
-m': 2800000, 'maximum': 22000000}}}}}}}}] is not of type 'object', 'boolean'
-   Traceback (most recent call last):
-     File "/usr/local/bin/dt-doc-validate", line 8, in <module>
-       sys.exit(main())
-                ~~~~^^
-     File "/usr/local/lib/python3.13/dist-packages/dtschema/doc_validate.py=
-", line 66, in main
-       ret |=3D check_doc(f)
-              ~~~~~~~~~^^^
-     File "/usr/local/lib/python3.13/dist-packages/dtschema/doc_validate.py=
-", line 37, in check_doc
-       dtsch.check_schema_refs()
-       ~~~~~~~~~~~~~~~~~~~~~~~^^
+   arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@3e000/rtc@0: failed to match any schema with compatible: ['ti,am3352-rtc', 'ti,da830-rtc']
+   arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: interconnect@48000000 (ti,am33xx-l4-per): $nodename:0: 'interconnect@48000000' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: /ocp/interconnect@48000000: failed to match any schema with compatible: ['ti,am33xx-l4-per', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: segment@0 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: segment@0 (simple-pm-bus): $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
+>> arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: bluetooth (qcom,qca6174-bt): Unevaluated properties are not allowed ('interrupt-parent', 'interrupts' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,qca2066-bt.yaml
+   arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: segment@100000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: segment@100000 (simple-pm-bus): $nodename:0: 'segment@100000' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
+   arch/arm/boot/dts/ti/omap/am335x-sancloud-bbe-extended-wifi.dtb: segment@200000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
