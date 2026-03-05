@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C004B26A1AF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79E41531C8
 	for <oe-kbuild@lists.linux.dev>; Thu,  5 Mar 2026 03:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772680542; cv=none; b=eX7mrsFGAvsoOGMnorBdZMo3FVYqsImgkuIQdVpmPLKYBdo8qG1cy6PJTJyKwDfj6qHyctMWFYW1E2OYkTemTkpkOtRIh7IhseP+7qjBT6XhXB2z7dSTYJXCAmaI9aOphNqTBhhEni8h8CKfHe/vFdGIz6g9BDaKFgFyozHn0GU=
+	t=1772680543; cv=none; b=kQU3kVqakw88UZcPmgU8mVu0hXo7yd7ubqpru5knzQXIiBm4MyH8C0cwu7TAtN0ou4PYOFzi/ikKB7xh0Z2vUWFAgV/OLQTWFyjaQ6YjPAeCj4ZtB9hZ1qCdnJUE/8fqf98IObCft7w/ojH1KvK0fL/SHm654ARO4bj9+8/fNZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772680542; c=relaxed/simple;
-	bh=2+yPBk1NKcCVchv5PR0BgjSdbQbNZ+YjCxohvFUfoYQ=;
-	h=Date:From:To:Subject:Message-ID; b=Xk7zQYeBAOYVBJeASLMCte19e5gZi573SlkhAhaNHUISXm02FG4p1ukoYG5ay1bvTcK78wtHId0dRxOGXj4n1t6JwTA4BQ8PXG7yhJqbG1fWIcDY/nyEnuFeurMktIaLsxCQgoLcV+aKfH6Od/CpayDM2bOJkFTrhQ82dg/+M/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RM4xx+/S; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1772680543; c=relaxed/simple;
+	bh=noPjzWg389hls8Gi2qAT87gRHlQLSBgfBJPApPfqw+A=;
+	h=Date:From:To:Subject:Message-ID; b=KYJO4TyzhjjLMrkRX50uqLTGp/9IVv23GvamYoJl7+UNSYSMMSfY0mOeibNK1/nxf72DGGosTg2m6vTU9TywxhbM2PhDCra7epH0IscJYX05x+Sd3ODup7YgJVFvkGsbUPx/I/h2+wWXIemgdy/TyZNHt5OeK3xmcme8gTQS83k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HduLhNaG; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RM4xx+/S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HduLhNaG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1772680542; x=1804216542;
   h=date:from:to:subject:message-id;
-  bh=2+yPBk1NKcCVchv5PR0BgjSdbQbNZ+YjCxohvFUfoYQ=;
-  b=RM4xx+/SwflfAFGGNYVcr9cOl2fffzlVSLayf+y3hiIK8xxr8fG1AJ9e
-   Txnq7NKuSqth2VUZUv+GHClnEhU+yD1VXW0k4ovgkcQtzhXDBf9OBYhaK
-   QQRm4Zo5Qldtob+lUvs1XO4M1LX/rFrb6sl2u5ltCACKkcrFrARUGn0aX
-   6YYHYgcJpB8L01aoaNDoOIk82eCjIQOTdmAk1QoSBgBFvO+rFgjTurfcQ
-   9d5GjMCiRTsHsGSgGB7nBXr7wCifP98M6mBOzcvufQFKaUabHPOEPGOe9
-   5hOWsQ2Im4R5hcB/5xSJbET16RuWQSt9r5LtDOuroFBNBAgLnl9e+LD4d
-   A==;
-X-CSE-ConnectionGUID: 9EZXxQLPSrGLEUxcDdVHnQ==
-X-CSE-MsgGUID: 73KAv/H8Q2iutXLScJOWAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="96371776"
+  bh=noPjzWg389hls8Gi2qAT87gRHlQLSBgfBJPApPfqw+A=;
+  b=HduLhNaG4aF2KCyHBfjuyiEG8jkvMS313qqN2vTfPlpEAXCrQ06zKF2S
+   rOArGbACEc4/i3MvXt/LFgPjrpiTmxgYz/j8ozgXaXD6Zq3IH9htMvjw2
+   o//Q0q9sJm6TuwVT8kPmGjlpnMsmEUfl8BWyawmOBZq22jml6ES49NlJ9
+   SBordCFXnhKjTFw2Ypeztbd8YOobxkwt6DR21nTgivCm5Ae9qbo3d2xbl
+   JnyPbxFaZLHHlIAedmfc0Wyd3Sfc8pIR6j5FcyZ2wAGFNCqweK2J7VonS
+   /XddjuH/VpBGWYc/xyVDM1yJIS0pm0qucyZOSvswdWdQumhxOpZyAfvFy
+   g==;
+X-CSE-ConnectionGUID: n6moyTvwTQCSE/+pAxB/mQ==
+X-CSE-MsgGUID: 2u0PBRE+TzmMAFt3tMrHCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="96371778"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="96371776"
+   d="scan'208";a="96371778"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 19:15:40 -0800
-X-CSE-ConnectionGUID: V/sqV+ZOQbW82KI69+kQ5A==
-X-CSE-MsgGUID: HapOwgowS+yq45cwvnjRwA==
+X-CSE-ConnectionGUID: d3RZyoDTRI6CKqJfAnfWFg==
+X-CSE-MsgGUID: ZN+U3MLQRO2m9VN7I44BaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="222692952"
+   d="scan'208";a="222692955"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
   by orviesa003.jf.intel.com with ESMTP; 04 Mar 2026 19:15:40 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxzBZ-000000001ur-1aHM
+	id 1vxzBZ-000000001uo-1Myj
 	for oe-kbuild@lists.linux.dev;
 	Thu, 05 Mar 2026 03:15:37 +0000
-Date: Thu, 05 Mar 2026 04:15:22 +0100
+Date: Thu, 05 Mar 2026 04:15:21 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [axboe:rw_iter 449/467] checkpatch: ERROR:SPACING: space
+Subject: [axboe:rw_iter 446/467] checkpatch: ERROR:SPACING: space
  required before the open brace '{'
-Message-ID: <202603050420.0yiADj9C-lkp@intel.com>
+Message-ID: <202603050430.moYSothP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -69,32 +69,20 @@ TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
 head:   fbd53fdafbefc56ceb47b7f9828fd34cdc6ac01a
-commit: 3a6a103ddd5b71c4abead5ce8c7b7a8fa4cbf727 [449/467] iio: convert remaining fops to read/write iterators
-:::::: branch date: 68 minutes ago
-:::::: commit date: 68 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20260305/202603050420.0yiADj9C-lkp@intel.com/reproduce)
+commit: 238e80bddfa18857ab3e2b2d29c31828e88e5187 [446/467] platform/x86: convert remaining fops to read/write iterators
+:::::: branch date: 67 minutes ago
+:::::: commit date: 67 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20260305/202603050430.moYSothP-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
 ERROR:SPACING: space required before the open brace '{'
-#27: FILE: drivers/iio/dac/ad3552r-hs.c:513:
-+static ssize_t ad3552r_hs_show_data_source(struct kiocb *iocb, struct iov_iter *to){
+#26: FILE: drivers/platform/x86/amd/pmc/mp1_stb.c:114:
++static ssize_t amd_stb_debugfs_read(struct kiocb *iocb, struct iov_iter *to){
 
 ERROR:SPACING: space required before the open brace '{'
-#47: FILE: drivers/iio/dac/ad3552r-hs.c:538:
-+static ssize_t ad3552r_hs_write_data_source(struct kiocb *iocb, struct iov_iter *from){
-
-ERROR:SPACING: space required before the open brace '{'
-#71: FILE: drivers/iio/dac/ad3552r-hs.c:578:
-+static ssize_t ad3552r_hs_show_data_source_avail(struct kiocb *iocb, struct iov_iter *to){
-
-ERROR:SPACING: space required before the open brace '{'
-#111: FILE: drivers/iio/imu/adis16550.c:292:
-+static ssize_t adis16550_show_firmware_revision(struct kiocb *iocb, struct iov_iter *to){
-
-ERROR:SPACING: space required before the open brace '{'
-#137: FILE: drivers/iio/imu/adis16550.c:315:
-+static ssize_t adis16550_show_firmware_date(struct kiocb *iocb, struct iov_iter *to){
+#53: FILE: drivers/platform/x86/amd/pmc/mp1_stb.c:218:
++static ssize_t amd_stb_debugfs_read_v2(struct kiocb *iocb, struct iov_iter *to){
 
 -- 
 0-DAY CI Kernel Test Service
