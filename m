@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4EB495E5
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Mar 2026 03:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB8E1EFFA1
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Mar 2026 03:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772679758; cv=none; b=s6IKjadF30ckmnOfllCY6qo1ZxmqkgzlHDm9MOeU8CU1mzaqcyWCsb4RzoeujJtGF5Q5RnTPHmGkNjlgbImywqEeKdgsZGCS6ZR09Dyryy8BqY/Ry2+NJKK7mthq8UyKAulB2yi6z65WGFozVG4sM7Dlcnbb1ssQoxUcl64kAXA=
+	t=1772679758; cv=none; b=owaaUedbEphykw+zcyiueqaBj7kdnObyVadjJiP22peR1BxjmscY9K/BqNO0cbIHl8PYOv5kslba6Vd0fnlqVlIx8jT7/VyR88twgR+UJxFQ5QR3Pba4O5FHDbB4kK6RiiU0MP00Qj0vQGgYIJZwfN0AkJPSazjA4cBHTevrwBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772679758; c=relaxed/simple;
-	bh=coqDD092GjCNY1k44bvwUoLe5WoNqN8cItEJSvm4jYY=;
-	h=Date:From:To:Subject:Message-ID; b=EMZsX1nhXNwml+AcVRPuKKJLN9zEiR0ciwNU5gNKLf5/J1CWbiOEmcKAKAPGr3FjUEcwSS+IM9mLnqpAF6UGBsRfdQjSpoKPr/fqUqDdMhy4MAZ7Ur0i+VgcWjvhhMCD6mY/BUvcxIJY5OXC9ilnyk8bsBnCw0NuU0whJKwfTJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfTBJbW7; arc=none smtp.client-ip=198.175.65.10
+	bh=6HtpbPhZ1GHrlZVAeiIR6KraLoQ3xITuzh5ixpjCD3g=;
+	h=Date:From:To:Subject:Message-ID; b=U2+75zSUVHlMMH0/WJRcu4Ady4GFNlFBFHAda5kAbkDkiOyYzSKHwH9idLfnzTEbXxmca6M+IvpryCkd1axTRB2LgFIDesFy1lVRi8FmXdOmiQQWp+1ek1mB9m1XpKZ+Oxh8s+WArvFV7skGa/gcf0aGZIM5OBHUGrsayRDqueI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GzZUGtK/; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfTBJbW7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GzZUGtK/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772679757; x=1804215757;
+  t=1772679758; x=1804215758;
   h=date:from:to:subject:message-id;
-  bh=coqDD092GjCNY1k44bvwUoLe5WoNqN8cItEJSvm4jYY=;
-  b=FfTBJbW7+dpFrcQaRf4SFsAyUUgtnhaTmy0EMxC70IVzDG+rLtEq4PYF
-   aIk7m9Rs42gG4sNnV4BdLAlXgP5ZPK6MiA4gdEYVjOAFmBy37Qv7Dooli
-   mpiOP4dCaRpOd/OByTdWCVJOADY95fPFcPXxFga2QgNGxIvKuk7IKspT1
-   uItT94SMu9jHIIH5/jPsTymjN6N8hoerpXggjyjxBs+6uOPvdJ1QCvV/Z
-   L7ig48RblWhJEttHCljVv9/yEP+6LXrcxDBjt21w9xUs/NWiBnjA1OVoJ
-   4mVWUAq1UgoXUMz4rcHD4zRO+LueSs91Sm1YYKQ8RkkkKap3gwFXYP4ur
-   A==;
-X-CSE-ConnectionGUID: awoMPtvEQ/G4IKVCaKpNKA==
-X-CSE-MsgGUID: 6uhxc1bvSqqLNsPQHVclfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="91147889"
+  bh=6HtpbPhZ1GHrlZVAeiIR6KraLoQ3xITuzh5ixpjCD3g=;
+  b=GzZUGtK/cVrUc3zqU3NLllA+z7Z03aiyBnWSLMdSlKcnxicQIJQ3I3an
+   k1xaXX38pdR5NyHnuDK0Lc2iLeH8LdXADU4lMiEhBEaARe9vOCL/T3d9M
+   PdccqdZG9q0YIUsE4FnmxwPCdqNmB6yXiKucPc4ZAYuytqr1DXtdxqygu
+   mE/fjTELS/RJUerLoBCPHXXPuxybK06w6CIZKIGfujJrJm5LWqUdb4zY6
+   MToYA3pEHxKeMXlXWwtInUpiKRYNzyIbEDAEdP3CsW9DGXdoh2XiCrzPd
+   SAe5ojEZhdmHL4+PpGh6G/5lGgNahNq2cGVdU5jiCZ5BVw/ZRJlrkcT3c
+   w==;
+X-CSE-ConnectionGUID: tDbLB5AETp6Nos/cHJ3wxQ==
+X-CSE-MsgGUID: n3xyIWDjST6zaWElmOZ6jA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73945571"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="91147889"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 19:02:37 -0800
-X-CSE-ConnectionGUID: g/wm0cDuSyiuo0qZN0UyRg==
-X-CSE-MsgGUID: D+g78AIlSwuD5OiMGVo/Pg==
+   d="scan'208";a="73945571"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 19:02:37 -0800
+X-CSE-ConnectionGUID: DxfuJC1FTsWEIA9S/1imew==
+X-CSE-MsgGUID: Pk+rQmfCQJibuWlNtaDRLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="218532428"
+   d="scan'208";a="216826711"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 04 Mar 2026 19:02:36 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 04 Mar 2026 19:02:36 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxyyw-000000001qH-0t7D
+	id 1vxyyw-000000001qM-1F0m
 	for oe-kbuild@lists.linux.dev;
 	Thu, 05 Mar 2026 03:02:34 +0000
-Date: Thu, 05 Mar 2026 04:01:42 +0100
+Date: Thu, 05 Mar 2026 04:01:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [axboe:rw_iter 282/467] checkpatch: ERROR:POINTER_LOCATION:
- "foo * bar" should be "foo *bar"
-Message-ID: <202603050357.KfjEWcrU-lkp@intel.com>
+Subject: [axboe:rw_iter 325/467] checkpatch:
+ WARNING:SIZEOF_PARENTHESIS: sizeof ibox_stat should be sizeof(ibox_stat)
+Message-ID: <202603050405.p5tnH1an-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -69,32 +69,24 @@ TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
 head:   fbd53fdafbefc56ceb47b7f9828fd34cdc6ac01a
-commit: 34a00df35a5de4bd80c9d95d811506cc53e12ecb [282/467] fs/proc: convert to read/write iterators
-:::::: branch date: 53 minutes ago
+commit: 539a090f7b3fc0c52fc8373f90763d9d34ab7c7e [325/467] powerpc/spufs: convert to read/write iterators
+:::::: branch date: 56 minutes ago
 :::::: commit date: 2 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260305/202603050357.KfjEWcrU-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20260305/202603050405.p5tnH1an-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#346: FILE: fs/proc/base.c:1308:
-+	struct inode * inode = file_inode(iocb->ki_filp);
+WARNING:SIZEOF_PARENTHESIS: sizeof ibox_stat should be sizeof(ibox_stat)
+#427: FILE: arch/powerpc/platforms/cell/spufs/file.c:777:
++	if (!copy_to_iter_full(&ibox_stat, sizeof ibox_stat, to))
 
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#367: FILE: fs/proc/base.c:1324:
-+	struct inode * inode = file_inode(iocb->ki_filp);
+WARNING:SIZEOF_PARENTHESIS: sizeof wbox_stat should be sizeof(wbox_stat)
+#508: FILE: arch/powerpc/platforms/cell/spufs/file.c:907:
++	if (!copy_to_iter_full(&wbox_stat, sizeof wbox_stat, to))
 
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#412: FILE: fs/proc/base.c:1373:
-+	struct inode * inode = file_inode(iocb->ki_filp);
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#728: FILE: fs/proc/base.c:2762:
-+	struct inode * inode = file_inode(iocb->ki_filp);
-
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#752: FILE: fs/proc/base.c:2782:
-+	struct inode * inode = file_inode(iocb->ki_filp);
+WARNING:SIZEOF_PARENTHESIS: sizeof cmd should be sizeof(cmd)
+#671: FILE: arch/powerpc/platforms/cell/spufs/file.c:1610:
++	if (!copy_from_iter_full(&cmd, sizeof cmd, from))
 
 -- 
 0-DAY CI Kernel Test Service
