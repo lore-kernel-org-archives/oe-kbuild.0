@@ -1,123 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8D4377563
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Mar 2026 10:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD54248F66
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Mar 2026 11:05:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772707492; cv=none; b=ns1O82vJcA2oTg2P4XUrCb6PQkFHbDlsOc65Qnt0QftfvFOSY+ck3HaDS1iDfnOWDxjS+cIVRVsb3m5S2WvWivHXmG/3ptZ95XMEYWqx1ReGOaw5MumkSfFlvKlfc0QrRu67e8m043yz3dn97XHzCP6KcJXTTjYNQH40YC0Dakk=
+	t=1772708746; cv=none; b=a6aXB1F1aV6QvilbDOIMZfY3sYD86MNopU3s3ulcqFhhlCeK7MV3cpOucyqZCpdCs8JrTQh7fBsTBd/sKItJNdv1xjmcDQ6OKCrpmTYx/mZczX8ize0D+04Iz9KmsCnDzqPLD4tpf2ZRuXlbI2C+qHIwUdz6wBbSuqbsTquZ7UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772707492; c=relaxed/simple;
-	bh=xYrZs/JoeePu6e25L7Fx1/5AVHE6Gsi3gX+72JC5jEE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Qq/J6Gul0hEuJ2yVs8XFnGVkl+AhW5gpxQBdBb1wf5eg9aoj7E83CqKatDRwy5SOBGQ8BCpg1ZW+tYhUExlhpH0+B6yK/kxFiY5cDzctL24MmJd4ZCr88/Vk2evUV0vITtEDtehoYK4jCCHr8Ox5EOD/IBR5RMv4bPb5EGuUBe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vso4D2C8; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1772708746; c=relaxed/simple;
+	bh=MzYMSxK0kaGueINPMc93GKoLk34rNivlup/ZGQuRG9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=N5UikFMwgtyuDgVOKHq4IP2FEuey4euZ5H7X3wW+S9Pn/R67pzGluHKrw32czF7GzRlfnCTF51A108+SjT2/5H63raU5u/u9DecvPV50+/PsXcarvj2hbFrhDe/2aZLLEkh17OyRJ3flNeMQO+SIdivypzbXmCMDK6angVrhz4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bp9Rsmfc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vso4D2C8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bp9Rsmfc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772707490; x=1804243490;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=xYrZs/JoeePu6e25L7Fx1/5AVHE6Gsi3gX+72JC5jEE=;
-  b=Vso4D2C8Znj+RTyfrECbAKuVRZ6nwkGC2TfIxgNwkveL2LuasOd7Egnl
-   G5WgApVt4BHpGMUxDLLfj8oa/8ygnKzyJFgan8ZcKmbgWr2r4Vie+0qNn
-   E6IC4/hfRyDKWcoQDFB7A4DwGP1SpY3Bkqk+0kXWaATvXkTDH7gwSRd4n
-   DTDVhtjvbiIn9ErvnJGkJeSLK4/ixny8dY0+6HSV7DhVwFA3qYLznK9Hk
-   BPQgJrKLfvE/mohBAmQ8Wg03a/32ImEM2Za9U8pB4d/H+baExTFtYHF2G
-   TspuWwAjPY9njtAX4ppAV4jNqdvIWBJIdTFp12OHKieGhnJjJUNY180rh
-   g==;
-X-CSE-ConnectionGUID: N900MwvjRUGK+FnQRfbCcA==
-X-CSE-MsgGUID: /A9GpH50QTWt1/4lTqW3Jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73761856"
+  t=1772708744; x=1804244744;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MzYMSxK0kaGueINPMc93GKoLk34rNivlup/ZGQuRG9M=;
+  b=Bp9RsmfcX5LnbtWlDM84oJNbb/WXe3KrBasG57xZIUgEEvjRYMVIkLDc
+   wThVf8MIHpmUxEEOF0flthAm61iUmZ2BfxqlUeeP561Rqv0fn9FYsa5di
+   EXXQVgiKC1BQekU7ECXTOsws2YRHKphXHaoiOy77/HD+tJxVKTU+G+zpm
+   My/MBjLWq/mdtkgSFsOpWh37yRwpQ32f8hSdcqQMfnc1CcoAQ4gyVLsOa
+   N/dQQjAu3ZgATwJ47E9A9nMXpfDDDqydJg8CrmeT2kVA5Hd0Nh2GtwzlO
+   q5PQVx99y4eQl9zPfl7JVpqmEv4YbB3YkjP0prXHgYpC1Af9AwPvDP3dF
+   A==;
+X-CSE-ConnectionGUID: Cv9gT92DRTmo34/usMAV9A==
+X-CSE-MsgGUID: 8bRTKPYCSviYKSguIIW52A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84505908"
 X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; 
-   d="scan'208";a="73761856"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 02:44:50 -0800
-X-CSE-ConnectionGUID: EvyA4gKdTNqjQjsF0u9FKQ==
-X-CSE-MsgGUID: 6OhQEWo3SM6SZfGE26BNAQ==
+   d="scan'208";a="84505908"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 03:05:43 -0800
+X-CSE-ConnectionGUID: A0FAf2J1TE+xxbovKRriPg==
+X-CSE-MsgGUID: QalFxnnSRgGnwflBjAieKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; 
-   d="scan'208";a="218648754"
-Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 05 Mar 2026 02:44:48 -0800
-Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
+   d="scan'208";a="216921728"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 05 Mar 2026 03:05:42 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vy6CE-000000000UW-0T6s;
-	Thu, 05 Mar 2026 10:44:46 +0000
-Date: Thu, 05 Mar 2026 18:43:54 +0800
+	id 1vy6WS-000000001yb-0sfH;
+	Thu, 05 Mar 2026 11:05:40 +0000
+Date: Thu, 5 Mar 2026 12:04:41 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [pci:wip/2603-farhan-s390-err-v10 1/9] drivers/pci/slot.c:40
- address_read_file() warn: impossible condition '(slot->number == -1) =>
- (0-u16max == (-1))'
-Message-ID: <202603051816.NIWQx7m0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH] spi: dt-bindings: mediatek,spi-mtk-nor: Add clock
+ bindings for mt8189
+Message-ID: <202603051115.ec1LfoyS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-pci@vger.kernel.org
-TO: Farhan Ali <alifm@linux.ibm.com>
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: Niklas Schnelle <schnelle@linux.ibm.com>
+In-Reply-To: <20260305022740.2334033-1-ot_meiker.gao@mediatek.com>
+References: <20260305022740.2334033-1-ot_meiker.gao@mediatek.com>
+TO: Meiker Gao <ot_meiker.gao@mediatek.com>
+TO: Mark Brown <broonie@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Bayi Cheng <bayi.cheng@mediatek.com>
+TO: Chuanhong Guo <gch981213@gmail.com>
+CC: linux-spi@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: Project_Global_Chrome_Upstream_Group@mediatek.com
+CC: sirius.wang@mediatek.com
+CC: vince-wl.liu@mediatek.com
+CC: jh.hsu@mediatek.com
+CC: Meiker Gao <ot_meiker.gao@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git wip/260=
-3-farhan-s390-err-v10
-head:   d72875f0a4958f51f7196e6fada9357799418a52
-commit: 77c0762d2e847cf2e8d6d79e6f88a1c2b1ca4d06 [1/9] PCI: Allow per funct=
-ion PCI slots
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-r071-20260305 (https://download.01.org/0day-ci/arch=
-ive/20260305/202603051816.NIWQx7m0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Meiker,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on robh/for-next krzk-dt/for-next linus/master v6.16-rc1 next-20260304]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Meiker-Gao/spi-dt-bindings-mediatek-spi-mtk-nor-Add-clock-bindings-for-mt8189/20260305-103450
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20260305022740.2334033-1-ot_meiker.gao%40mediatek.com
+patch subject: [PATCH] spi: dt-bindings: mediatek,spi-mtk-nor: Add clock bindings for mt8189
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: openrisc-randconfig-2051-20260305 (https://download.01.org/0day-ci/archive/20260305/202603051115.ec1LfoyS-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.3.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051115.ec1LfoyS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603051816.NIWQx7m0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603051115.ec1LfoyS-lkp@intel.com/
 
-smatch warnings:
-drivers/pci/slot.c:40 address_read_file() warn: impossible condition '(slot=
-->number =3D=3D -1) =3D> (0-u16max =3D=3D (-1))'
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/spi/mediatek,spi-mtk-nor.yaml: allOf:1:else:properties:clock-names: {'minItems': 2, 'maxItems': 2, 'items': [{'const': 'spi'}, {'const': 'sf'}, {'const': 'axi'}, {'const': 'axi_s'}]} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/spi/mediatek,spi-mtk-nor.yaml: allOf:1:then:properties:clock-names: {'minItems': 5, 'maxItems': 5, 'items': [{'const': 'spi'}, {'const': 'sf'}, {'const': 'axi_f'}, {'const': 'axi_h'}, {'const': 'axi_p'}]} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/spi/mediatek,spi-mtk-nor.yaml: allOf:1:then:properties:clock-names: 'oneOf' conditional failed, one must be fixed:
+   	False schema does not allow 5
+   	[{'const': 'spi'}, {'const': 'sf'}, {'const': 'axi_f'}, {'const': 'axi_h'}, {'const': 'axi_p'}] is too long
+   	[{'const': 'spi'}, {'const': 'sf'}, {'const': 'axi_f'}, {'const': 'axi_h'}, {'const': 'axi_p'}] is too short
+   	1 was expected
+   	5 is greater than the maximum of 2
+   	5 is greater than the maximum of 3
+   	5 is greater than the maximum of 4
+   	hint: "minItems" is only needed if less than the "items" list length
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+--
+>> Documentation/devicetree/bindings/spi/mediatek,spi-mtk-nor.yaml:20:1: [warning] too many blank lines (2 > 1) (empty-lines)
+   Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:52:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
+   Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1: [warning] too many blank lines (2 > 1) (empty-lines)
 
-vim +40 drivers/pci/slot.c
-
-f46753c5e354b8 Alex Chiang          2008-06-10  37 =20
-f46753c5e354b8 Alex Chiang          2008-06-10  38  static ssize_t address_=
-read_file(struct pci_slot *slot, char *buf)
-f46753c5e354b8 Alex Chiang          2008-06-10  39  {
-77c0762d2e847c Farhan Ali           2026-03-02 @40  	if (slot->number =3D=
-=3D -1)
-f8cf6e513ec4f0 Krzysztof Wilczy=C5=84ski 2021-06-03  41  		return sysfs_emi=
-t(buf, "%04x:%02x\n",
-f46753c5e354b8 Alex Chiang          2008-06-10  42  				  pci_domain_nr(slo=
-t->bus),
-f46753c5e354b8 Alex Chiang          2008-06-10  43  				  slot->bus->number=
-);
-f8cf6e513ec4f0 Krzysztof Wilczy=C5=84ski 2021-06-03  44 =20
-f8cf6e513ec4f0 Krzysztof Wilczy=C5=84ski 2021-06-03  45  	return sysfs_emit=
-(buf, "%04x:%02x:%02x\n",
-f46753c5e354b8 Alex Chiang          2008-06-10  46  			  pci_domain_nr(slot=
-->bus),
-f46753c5e354b8 Alex Chiang          2008-06-10  47  			  slot->bus->number,
-f46753c5e354b8 Alex Chiang          2008-06-10  48  			  slot->number);
-f46753c5e354b8 Alex Chiang          2008-06-10  49  }
-f46753c5e354b8 Alex Chiang          2008-06-10  50 =20
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
