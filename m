@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF3D396584
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Mar 2026 14:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2E13C2778
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Mar 2026 15:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772719689; cv=none; b=thsUwzYcNopKFEzBQZWqQeITYw4JL7rO8aXnQluELEqs0Rs7GUwlh3bxhQMoufjJlxMcL0uQOUFIwzCCIHDNE91nCQQgIC/tQhhZM6yByOdhPNstC1Mdcm5qA+E5vIUzQSXpRuzlgU6jiASsWK1bpoTDp2MM48aVj/dwrSRuo9c=
+	t=1772725759; cv=none; b=PROOq89SVNNioIBxRKKWqkJ6na0R4Dc9Nn3wDcNm04BAeadfu7D4/8kfzNIUiGomzaq144XeybBvaQ3NS8eQo2IPk2XOsb+inX46ZNYcE3b/qhicEgC/5DwwQPUZ5Gl9I/CWz18GZ3RgQFkVXRV3AXa1T1i1TY7eIs2GtansKoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772719689; c=relaxed/simple;
-	bh=saRUzATVq3ixQ4hOielm7GAIbOS0d02Xyq/lqQRC2H4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Eq7QbbucSxOTbknOyIFL66pYdppw+EXSnKuYy/JOrjQZvgpgIa7y10/lDU5VXU7dCAW0N+Kwh5uK240K/YqsyAvzlRMP9PKuW2cOAK3ImYsfcbl8U0jQFrNsb1PGDKnLD4XJRxPFeyRMJWULJVF5tuc6948YvJj6nqQg7yV7t7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zpa70NW5; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1772725759; c=relaxed/simple;
+	bh=inxLomMQZg9KmP73tlrCm4h8qDkjMVCY6oXiI1CQZKc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iw2mm/ap347pOkVyOQ46hWMaqEjG11LFHOaJekJiTdaGq0iZfzqkf9OYEbyIXkfWGPGaD5AmPiEGnZFNDrceLM7MjjHKO9qarRjj5i3PjZw6l78PZGic/5hzOvww3RSjOqEHSxhuoBjWQ7sjUXnqK1eX9WFKHAsB986VphiMTpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arqVL4S7; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zpa70NW5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arqVL4S7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772719687; x=1804255687;
+  t=1772725758; x=1804261758;
   h=date:from:to:cc:subject:message-id;
-  bh=saRUzATVq3ixQ4hOielm7GAIbOS0d02Xyq/lqQRC2H4=;
-  b=Zpa70NW5OG1NKM6YiJWaigylf/8vlBkwI89tUkcNVH22TF55L+ILi2n5
-   8N7Vnx0485Xa+oQukUOzdGp2oLa/ihTjuL0QnA00CQ8LZS1QYKk4/kxeG
-   S4xejf8aZi1MGTiJZ1h16qZOmdvpuc35OIhemcLicawIAVDuRNSlwU4iT
-   Egs3WXvQrPDp5v1l8VJ7UpHI/VYTAKr0SelGNVovt4Z/nVWkPHsPY44+7
-   EaSo+RgN+Sqi6jfmej1AsQZt5/suldlcoQzM0ZYoJWIIN/k3YbOArGeYa
-   5Xt94FYgTHakM6YD0sW8KMvgYT7dUronA8yXZHgn+RW5iYx0ST6Jh4hoz
-   A==;
-X-CSE-ConnectionGUID: UtZbEryORYG5oe4zTJXsFg==
-X-CSE-MsgGUID: 6OBiK1P3T0eN67ArCr8/ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="72834441"
+  bh=inxLomMQZg9KmP73tlrCm4h8qDkjMVCY6oXiI1CQZKc=;
+  b=arqVL4S7FH4vanlzjT5N4bD7kzMtPYmHLHsAnngJ+/QFtuDDPqHOkYqS
+   vud0x3NirhM3eh3cEZ91h5Wg12VI9w3CRaoJEmULSIAwfQyUjz1W4Zn4s
+   EHluQYeK1abQJGKYFQFeRzcV3tny+32DweuT9Rlp7BFZmZxH0MGAsM6Kq
+   aM50ap8U55axcSmCjW60GHFTjIEC47CGQxt719AO6+St4gMKNgZS31D/8
+   2qn7r7JFs+vKOxnwZSUG6jLb2LUv1m+hRRB4IHCyZKBHt/qrel+kJaroK
+   H1kRBGS9cmZlYC82AuaticEs77k9Iir2YPNvRFGTDGcDMZUBWvE4rKGFQ
+   Q==;
+X-CSE-ConnectionGUID: ZD8QYssySUu1EJTReWA2Rw==
+X-CSE-MsgGUID: KbZ04i30QFOInJk/Xc4qqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="61390153"
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="72834441"
+   d="scan'208";a="61390153"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 06:08:07 -0800
-X-CSE-ConnectionGUID: EcQAS+1bRM+9ruHuN5vLWg==
-X-CSE-MsgGUID: jFE0PNurTfCdn5Z8OW/iXw==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 07:49:18 -0800
+X-CSE-ConnectionGUID: 2SCuYAnDQhKDJbMxtC+kgQ==
+X-CSE-MsgGUID: O8Za6zdpQyW/pHZ0/QQvKw==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Mar 2026 06:08:05 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 05 Mar 2026 07:49:16 -0800
 Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vy9Mx-000000000ic-0OKz;
-	Thu, 05 Mar 2026 14:08:03 +0000
-Date: Thu, 05 Mar 2026 22:07:12 +0800
+	id 1vyAws-000000000rJ-02jy;
+	Thu, 05 Mar 2026 15:49:14 +0000
+Date: Thu, 05 Mar 2026 23:48:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 2966/3989]
- drivers/gpu/drm/bridge/waveshare-dsi.c:70:5-15: WARNING: Unsigned expression
- compared with zero: dsi -> lanes < 0
-Message-ID: <202603052201.P6ZmB8VT-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: test_maple_tree.c:(.init.text+0x39fb4): dangerous
+ relocation: l32r: literal target out of range (try using
+ text-section-literals): (.init.literal+0xf00)
+Message-ID: <202603052329.2z261r6Z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -58,76 +58,138 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "xtensa: dangerous relocation"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Marek Vasut <marek.vasut+renesas@mailbox.org>
-CC: Luca Ceresoli <luca.ceresoli@bootlin.com>
-CC: Joseph Guo <qijian.guo@nxp.com>
+CC: linux-kernel@vger.kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Finn Thain <fthain@linux-m68k.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d
-commit: fca11428425e92bf21d4a7f5865708c5e64430e4 [2966/3989] drm/bridge: waveshare-dsi: Add support for 1..4 DSI data lanes
-:::::: branch date: 23 hours ago
-:::::: commit date: 2 days ago
-config: powerpc64-randconfig-r054-20260305 (https://download.01.org/0day-ci/archive/20260305/202603052201.P6ZmB8VT-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c107785c7e8dbabd1c18301a1c362544b5786282
+commit: 80047d84eed25e9c92cfb9169980a0dfec110246 atomic: add alignment check to instrumented atomic operations
+date:   5 weeks ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 5 weeks ago
+config: xtensa-randconfig-r134-20260304 (https://download.01.org/0day-ci/archive/20260305/202603052329.2z261r6Z-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603052329.2z261r6Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202603052201.P6ZmB8VT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603052329.2z261r6Z-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/bridge/waveshare-dsi.c:70:5-15: WARNING: Unsigned expression compared with zero: dsi -> lanes < 0
+All errors (new ones prefixed by >>):
 
-vim +70 drivers/gpu/drm/bridge/waveshare-dsi.c
-
-dbdea37add132a Joseph Guo  2025-08-06  38  
-dbdea37add132a Joseph Guo  2025-08-06  39  static int ws_bridge_attach_dsi(struct ws_bridge *ws)
-dbdea37add132a Joseph Guo  2025-08-06  40  {
-dbdea37add132a Joseph Guo  2025-08-06  41  	const struct mipi_dsi_device_info info = {
-dbdea37add132a Joseph Guo  2025-08-06  42  		.type = "ws-bridge",
-dbdea37add132a Joseph Guo  2025-08-06  43  		.channel = 0,
-dbdea37add132a Joseph Guo  2025-08-06  44  		.node = NULL,
-dbdea37add132a Joseph Guo  2025-08-06  45  	};
-dbdea37add132a Joseph Guo  2025-08-06  46  	struct device_node *dsi_host_node;
-dbdea37add132a Joseph Guo  2025-08-06  47  	struct device *dev = ws->dev;
-dbdea37add132a Joseph Guo  2025-08-06  48  	struct mipi_dsi_device *dsi;
-dbdea37add132a Joseph Guo  2025-08-06  49  	struct mipi_dsi_host *host;
-dbdea37add132a Joseph Guo  2025-08-06  50  	int ret;
-dbdea37add132a Joseph Guo  2025-08-06  51  
-dbdea37add132a Joseph Guo  2025-08-06  52  	dsi_host_node = of_graph_get_remote_node(dev->of_node, 0, 0);
-dbdea37add132a Joseph Guo  2025-08-06  53  	if (!dsi_host_node) {
-dbdea37add132a Joseph Guo  2025-08-06  54  		dev_err(dev, "Failed to get remote port\n");
-dbdea37add132a Joseph Guo  2025-08-06  55  		return -ENODEV;
-dbdea37add132a Joseph Guo  2025-08-06  56  	}
-dbdea37add132a Joseph Guo  2025-08-06  57  	host = of_find_mipi_dsi_host_by_node(dsi_host_node);
-dbdea37add132a Joseph Guo  2025-08-06  58  	of_node_put(dsi_host_node);
-dbdea37add132a Joseph Guo  2025-08-06  59  	if (!host)
-dbdea37add132a Joseph Guo  2025-08-06  60  		return dev_err_probe(dev, -EPROBE_DEFER, "Failed to find dsi_host\n");
-dbdea37add132a Joseph Guo  2025-08-06  61  
-dbdea37add132a Joseph Guo  2025-08-06  62  	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
-dbdea37add132a Joseph Guo  2025-08-06  63  	if (IS_ERR(dsi))
-dbdea37add132a Joseph Guo  2025-08-06  64  		return dev_err_probe(dev, PTR_ERR(dsi), "Failed to create dsi device\n");
-dbdea37add132a Joseph Guo  2025-08-06  65  
-dbdea37add132a Joseph Guo  2025-08-06  66  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
-dbdea37add132a Joseph Guo  2025-08-06  67  			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-dbdea37add132a Joseph Guo  2025-08-06  68  	dsi->format = MIPI_DSI_FMT_RGB888;
-fca11428425e92 Marek Vasut 2026-01-15  69  	dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
-fca11428425e92 Marek Vasut 2026-01-15 @70  	if (dsi->lanes < 0) {
-fca11428425e92 Marek Vasut 2026-01-15  71  		dev_warn(dev, "Invalid or missing DSI lane count %d, falling back to 2 lanes\n",
-fca11428425e92 Marek Vasut 2026-01-15  72  			 dsi->lanes);
-fca11428425e92 Marek Vasut 2026-01-15  73  		dsi->lanes = 2;	/* Old DT backward compatibility */
-fca11428425e92 Marek Vasut 2026-01-15  74  	}
-dbdea37add132a Joseph Guo  2025-08-06  75  
-dbdea37add132a Joseph Guo  2025-08-06  76  	ret = devm_mipi_dsi_attach(dev, dsi);
-dbdea37add132a Joseph Guo  2025-08-06  77  	if (ret < 0)
-dbdea37add132a Joseph Guo  2025-08-06  78  		return dev_err_probe(dev, ret, "Failed to attach dsi to host\n");
-dbdea37add132a Joseph Guo  2025-08-06  79  
-dbdea37add132a Joseph Guo  2025-08-06  80  	return 0;
-dbdea37add132a Joseph Guo  2025-08-06  81  }
-dbdea37add132a Joseph Guo  2025-08-06  82  
+   lib/test_maple_tree.o: in function `check_state_handling.constprop.0':
+>> test_maple_tree.c:(.init.text+0x39fb4): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x39fbd): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x39fc0): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf04)
+   test_maple_tree.c:(.init.text+0x39fcc): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x39fe0): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x39fe9): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x39fec): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf10)
+   test_maple_tree.c:(.init.text+0x39ff8): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a00c): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a052): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf28)
+   test_maple_tree.c:(.init.text+0x3a055): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf2c)
+   test_maple_tree.c:(.init.text+0x3a070): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a079): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a085): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a098): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a0a1): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a0ad): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a0c1): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf30)
+   test_maple_tree.c:(.init.text+0x3a0e0): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a0ec): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a0f8): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a109): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a112): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a11d): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a130): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a139): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a141): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf34)
+   test_maple_tree.c:(.init.text+0x3a17c): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a185): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a191): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a1a4): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a1ad): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a1b9): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a1cc): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf30)
+   test_maple_tree.c:(.init.text+0x3a208): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a211): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a214): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf04)
+   test_maple_tree.c:(.init.text+0x3a220): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a234): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a23d): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a240): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf10)
+   test_maple_tree.c:(.init.text+0x3a24c): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a260): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a2aa): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf28)
+   test_maple_tree.c:(.init.text+0x3a2ad): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf2c)
+   test_maple_tree.c:(.init.text+0x3a2c8): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a2d1): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a2dd): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a2f0): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a2f9): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a305): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a319): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf30)
+   test_maple_tree.c:(.init.text+0x3a338): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a344): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a350): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a361): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a36a): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a375): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a388): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a391): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a399): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf34)
+   test_maple_tree.c:(.init.text+0x3a3d4): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a3dd): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a3e9): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a3fc): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a405): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a411): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a424): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf30)
+   test_maple_tree.c:(.init.text+0x3a448): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a451): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a454): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf04)
+   test_maple_tree.c:(.init.text+0x3a460): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a474): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a47d): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a480): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf10)
+   test_maple_tree.c:(.init.text+0x3a48c): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a4a0): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a4ea): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf28)
+   test_maple_tree.c:(.init.text+0x3a4ed): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf2c)
+   test_maple_tree.c:(.init.text+0x3a508): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a511): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a51d): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a530): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a539): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a545): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a559): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf30)
+   test_maple_tree.c:(.init.text+0x3a578): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a584): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a590): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a5a1): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a5aa): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a5b5): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
+   test_maple_tree.c:(.init.text+0x3a5c8): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a5d1): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf18)
+   test_maple_tree.c:(.init.text+0x3a5d9): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf34)
+   test_maple_tree.c:(.init.text+0x3a614): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a61d): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf00)
+   test_maple_tree.c:(.init.text+0x3a629): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf08)
+   test_maple_tree.c:(.init.text+0x3a63c): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a645): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf0c)
+   test_maple_tree.c:(.init.text+0x3a651): dangerous relocation: l32r: literal target out of range (try using text-section-literals): (.init.literal+0xf14)
 
 -- 
 0-DAY CI Kernel Test Service
