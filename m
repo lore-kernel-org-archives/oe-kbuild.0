@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6E4176FB1
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Mar 2026 05:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4896372ED4
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Mar 2026 07:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772775723; cv=none; b=uFZSP51aCQYSfkq8xQoatHe5xMUg5Ko/u8YQiX90ZkHPbQPAzQ6efS1mEh5nOsxahsaBO60T1Lf5puXI1exu+KEVpdwYbmT6GBs5ns5+Jltc28xI3FzcXtCY9o1sMV6s2c4qLVsm/8v1pn+tghs+wsMKXrwRsUK/Aaowu4YGNYU=
+	t=1772781868; cv=none; b=MnuoFZkkwiKKotkVjUjWgsDWZHoZ+t1LCTCi2z98RUMda6ESiXdRyALLr0py7ISZKvWxZwmoM+TDg0RBTtKluvUbL616dAcIC2T6d1jQdri/N4I9bVQWl62ellaunP6wvbiWgKzlXnUBpMES2icDegv4VeF+Rrr97fYGf2dbCI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772775723; c=relaxed/simple;
-	bh=9rqtPky6vss2xOYyZKtzEuIa4Djg2HRkyGFNa59Rf1k=;
+	s=arc-20240116; t=1772781868; c=relaxed/simple;
+	bh=xy0d2CWp8k00H5MCo4iuoVbgEJ430v37+oaK5jxtuwA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qq/RuVeF2GBwHOQCujq80VAIHQLKGVUfViKTTBi5o1vsE54JOuTRBgQgrCSwSCKKLEPlQewbxzP9zjXCld/EsHjVq7RI4ZiQu2Vh7R6Rdzw3Ot203Nwdq/NpdLMBTyTG0YKCkc/+rjrhRxyD/5TgeeWrr5S8VTIQ1Nhj/TAaUZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FisogXLJ; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=m+VkBygsW5eGym7fBuIQu90MeOhRXl7lzvhackZPtxgStfkak5Qa+qOVDedqI4f/xa/72OcJSxj+wXNo5ODErQsN5uV2fz8Z+Ryi1GkzAuSTIYGLaAzT5MjH2i5Nqyb7UfR3YVw5DsXf2NBeqZIKY9HKUXGRocghJGoSWwKXUTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pKMLwdxS; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FisogXLJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772775721; x=1804311721;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9rqtPky6vss2xOYyZKtzEuIa4Djg2HRkyGFNa59Rf1k=;
-  b=FisogXLJXh29gH1jpwCD+hJytEeog/SniFmktJQVZr1PS2I7ZtMazEjG
-   VIaFOL/96hh1rX5PDZ1yxwC2LqRkFbvx373gEWe8IsXUWm2rNtvs8E0v8
-   zcNL1HDI56ZkvPXIVg5OC7A303eAmzneZndTOc1G0LdDVYcP2ciksLxaP
-   9KAB55UqtgFuXWmV76A4UNAbdO98VZPml2KOBf7tIihjICiYTIX91l+s5
-   XNSsmCM4hM/rVCo/LFXfK42AmulqCU0pYZrfOkhVWUGQp93XuvlrENLIN
-   Tw8GAF2EcdW3x/he3zoVQM4VqO9LATWsLLntbXc+DP8TxCtxVmdrufcwB
-   g==;
-X-CSE-ConnectionGUID: Clcz16iiRBenb7z+CYVhaw==
-X-CSE-MsgGUID: Ikz3tVI3Qn2IYzQJw2tS7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="84513507"
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="84513507"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 21:42:00 -0800
-X-CSE-ConnectionGUID: u83JApP2QcSNT7GtY7ZbvA==
-X-CSE-MsgGUID: M1bVXZFsTa6A52friFNyGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="218048931"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 05 Mar 2026 21:41:59 -0800
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vyNwh-000000000PV-45W5;
-	Fri, 06 Mar 2026 05:41:55 +0000
-Date: Fri, 6 Mar 2026 13:41:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] staging: fbtft: replace -1 with proper error codes
-Message-ID: <202603061343.SFPMOq14-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pKMLwdxS"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4836f4cbe0bso76709795e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 05 Mar 2026 23:24:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772781865; x=1773386665; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XosiABtFX1f7B/CW19TAehcX0bvOa3LXzhquH++ZON4=;
+        b=pKMLwdxSbbT4DVZtqlFOQiL17em8ki9iw2nODo732exF9mrXYkccsek5F4+1+bGfmu
+         yifOCYq/+7AQZnfKyNTtxpj2Zrpr9GMoAYek0UFgSXYGU48DM5LsaTqQurEQpE8iC3my
+         hxgVyqlXpVMJoRxyNH4f5h5qi9628dFP4UVpHRTfEmxo4axp6EMGa8RxoI1vnT1gPMrU
+         /QsKJ9tFOSrmRFcBND28P6dM6VGjCYbezpUDPPCwIClmXBcagb4e5GabtQFpPo+IbQr3
+         yZGd9fnclz65CUSDLT28jUBA3hiRAym0EMAC7Ovc5CH7SzLvb+ZEBirDdjd0M6jgUkzs
+         sS8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772781865; x=1773386665;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XosiABtFX1f7B/CW19TAehcX0bvOa3LXzhquH++ZON4=;
+        b=EUJ/FjPnwpZcyvfEsCGkkbjphv35IxY9e3t2QQL5GVZi/mXHi+wDfZVaSIjghTQ4FK
+         VqKhYCuy6OzuDYt52Li8sxvoo3jDc4rfM3cSLvlJ1H4JhAP0DPkV/jp8CkN+GJ0a9XLt
+         yavpwV48/zSn5YNg570aAr4Nr1Z3zSYtyzfk0k1VBpUlexp3Ing/K8a8pRduqqkz9evZ
+         1kNyxbTA92m11vNfkCBNMtFmPPC9XRiZ/SjvljpoBf+LCPl2ZQWYylDIcfFI4XaTEDA+
+         3PM7OcQRNLHiTSLxWU+/eBDgHrwu/5sUvrxoVG9BO6sksmIngf+2qq1BWPs7smKtoLdc
+         fwEg==
+X-Gm-Message-State: AOJu0YyKxmuxmuTrF/Iu3or4jKR3PremwIMsWGGVn7yaujFPounEj6+8
+	t4g4OUMl4yGreACx2GwUH+UmjrJVFi8hVKPGiNisTZV08m1xM9wWjv+Bg6ok40fWvA8Qi8BZaiZ
+	VgFXl
+X-Gm-Gg: ATEYQzyQdvM0oufT0wOOxb8TJLYAEAXk2mPjvTG7gPbB1nTAZu5+m5XxbhvfqUri+qc
+	1dgL80uoRppXamqEmaRVfS7P6kTVZ7+wPI+IkuNBISEsVcWHKTn4mRCZuWw4VD+00UhO5ZHtMcN
+	YC78Xt+rYo+8qp3Ykl6j2vXzLnmrkZ1FCbFIiCqtG/0Pa+KNGs6YnrtnnX3X2P/6Y096nfXIAms
+	fXdt8LtATLDiWU/M4nk3H8ZKf902bj9H29khRqY5q+cRxWVKurgtcHs/N7aKAra1QlUbogH+X7K
+	gn5vFE5hK2D1Vn42ZkreBtH9EzTDQA8Nd7LvV1cY8ST8gumEqL234su+jYhkmB9pHvDA7G0Eb30
+	feARWCp9/RxOwDkE+TSKY9JTrMS5C56gP32xgWQpFvtmP0YE4cgg2Rg7d8tLmzwgjzsUAP8vToS
+	+mOJFrUxgfB8PhFKZjnLVcmDlPbmt270E/xKfwrRg=
+X-Received: by 2002:a05:600c:45d1:b0:480:6ab1:ed0d with SMTP id 5b1f17b1804b1-4852691d5f0mr15816005e9.9.1772781865058;
+        Thu, 05 Mar 2026 23:24:25 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485276bc6bbsm14138885e9.15.2026.03.05.23.24.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 23:24:24 -0800 (PST)
+Date: Fri, 6 Mar 2026 10:24:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
+Subject: drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error:
+ testing array offset 'i' after use.
+Message-ID: <202603060852.8GvwVQFk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,211 +74,81 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <20260306072420.BTF3_LJzy8MiGXwjdterqAKOXRfC9w_w1gtx581hXCA@z>
 
-::::::=20
-:::::: Manual check reason: "clang compiler bug"
-::::::=20
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260228202701.43337-1-officialsohamkute@gmail.com>
-References: <20260228202701.43337-1-officialsohamkute@gmail.com>
-TO: Soham Kute <officialsohamkute@gmail.com>
-TO: andy@kernel.org
-TO: gregkh@linuxfoundation.org
-CC: dri-devel@lists.freedesktop.org
-CC: linux-fbdev@vger.kernel.org
-CC: linux-staging@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: Soham Kute <officialsohamkute@gmail.com>
-
-Hi Soham,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Soham-Kute/staging-f=
-btft-replace-1-with-proper-error-codes/20260301-043244
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260228202701.43337-1-officialsoh=
-amkute%40gmail.com
-patch subject: [PATCH] staging: fbtft: replace -1 with proper error codes
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: mips-randconfig-r072-20260301 (https://download.01.org/0day-ci/arch=
-ive/20260306/202603061343.SFPMOq14-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a1=
-09fbb6e184ec9bcce10615949f598f4c974a9)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5ee8dbf54602dc340d6235b1d6aa17c0f283f48c
+commit: 896f1a2493b59beb2b5ccdf990503dbb16cb2256 net: qlogic/qede: fix potential out-of-bounds read in qede_tpa_cont() and qede_tpa_end()
+config: mips-randconfig-r071-20260306 (https://download.01.org/0day-ci/archive/20260306/202603060852.8GvwVQFk-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
 smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260306/202603061343.SFPMOq14-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603061343.SFPMOq14-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202603060852.8GvwVQFk-lkp@intel.com/
 
-Note: functions only called from assembly code should be annotated with the=
- asmlinkage attribute
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing array offset 'i' after use.
+drivers/net/ethernet/qlogic/qede/qede_fp.c:964 qede_tpa_cont() error: testing array offset 'i' after use.
 
-   PLEASE submit a bug report to https://github.com/llvm/llvm-project/issue=
-s/ and include the crash backtrace, preprocessed source, and associated run=
- script.
-   Stack dump:
-   0.	Program arguments: clang -Wp,-MMD,arch/mips/math-emu/.sp_fmax.o.d -no=
-stdinc -Iarch/mips/include -I./arch/mips/include/generated -Iinclude -I./in=
-clude -Iarch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclu=
-de/uapi -I./include/generated/uapi -include include/linux/compiler-version.=
-h -include include/linux/kconfig.h -include include/linux/compiler_types.h =
--D__KERNEL__ --target=3Dmipsel-linux-gnu -fintegrated-as -Werror=3Dunknown-=
-warning-option -Werror=3Dignored-optimization-argument -Werror=3Doption-ign=
-ored -Werror=3Dunused-command-line-argument -DVMLINUX_LOAD_ADDRESS=3D0xffff=
-ffff88002000 -DLINKER_LOAD_ADDRESS=3D0x88002000 -DDATAOFFSET=3D0 -fmacro-pr=
-efix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgnu11 -fshort-wchar -fun=
-signed-char -fno-common -fno-PIE -fno-strict-aliasing -mno-check-zero-divis=
-ion -mabi=3D32 -G 0 -mno-abicalls -fno-pic -pipe -msoft-float -Wa,-msoft-fl=
-oat -ffreestanding -EB -fno-stack-check -march=3Dmips3 -Wa,--trap -DTOOLCHA=
-IN_SUPPORTS_VIRT -Iarch/mips/include/asm/mach-ip22 -Iarch/mips/include/asm/=
-mach-generic -fno-asynchronous-unwind-tables -fno-delete-null-pointer-check=
-s -O2 -fno-stack-protector -fexperimental-late-parse-attributes -pg -fstric=
-t-flex-arrays=3D3 -fms-extensions -fno-strict-overflow -fno-stack-check -fn=
-o-builtin-wcslen -Wall -Wextra -Wundef -Werror=3Dimplicit-function-declarat=
-ion -Werror=3Dimplicit-int -Werror=3Dreturn-type -Werror=3Dstrict-prototype=
-s -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-pa=
-cked-member -Wmissing-declarations -Wmissing-prototypes -Wno-gnu -Wno-micro=
-soft-anon-tag -Wno-format-overflow-non-kprintf -Wno-format-truncation-non-k=
-printf -Wno-default-const-init-unsafe -Wno-type-limits -Wno-pointer-sign -W=
-cast-function-type -Wno-unterminated-string-initialization -Wimplicit-fallt=
-hrough -Werror=3Ddate-time -Werror=3Dincompatible-pointer-types -Wenum-conv=
-ersion -Wunused -Wmissing-format-attribute -Wmissing-include-dirs -Wunused-=
-const-variable -Wno-missing-field-initializers -Wno-shift-negative-value -W=
-no-enum-enum-conversion -Wno-sign-compare -Wno-unused-parameter -DRANDSTRUC=
-T -frandomize-layout-seed-file=3D./scripts/basic/randstruct.seed -fno-crash=
--diagnostics -Wno-error=3Dreturn-type -Wreturn-type -funsigned-char -Wundef=
- -falign-functions=3D64 -Iarch/mips/math-emu -Iarch/mips/math-emu -DKBUILD_=
-MODFILE=3D\"arch/mips/math-emu/sp_fmax\" -DKBUILD_BASENAME=3D\"sp_fmax\" -D=
-KBUILD_MODNAME=3D\"sp_fmax\" -D__KBUILD_MODNAME=3Dsp_fmax -c -o arch/mips/m=
-ath-emu/sp_fmax.o arch/mips/math-emu/sp_fmax.c
-   1.	<eof> parser at end of file
-   2.	Code generation
-   3.	Running pass 'Function Pass Manager' on module 'arch/mips/math-emu/sp=
-_fmax.c'.
-   4.	Running pass 'Branch Probability Basic Block Placement' on function '=
-@ieee754sp_fmax'
-    #0 0x000055ea7d92a5bb llvm::sys::PrintStackTrace(llvm::raw_ostream&, in=
-t) (clang-23+0x411f5bb)
-    #1 0x000055ea7d928184 llvm::sys::CleanupOnSignal(unsigned long) (clang-=
-23+0x411d184)
-    #2 0x000055ea7d85c360 CrashRecoverySignalHandler(int) CrashRecoveryCont=
-ext.cpp:0:0
-    #3 0x00007faf56e59df0 (/lib/x86_64-linux-gnu/libc.so.6+0x3fdf0)
-    #4 0x000055ea7ced01af llvm::TailDuplicator::shouldTailDuplicate(bool, l=
-lvm::MachineBasicBlock&) (.part.0) TailDuplicator.cpp:0:0
-    #5 0x000055ea7cbdce49 (anonymous namespace)::MachineBlockPlacement::bui=
-ldCFGChains() MachineBlockPlacement.cpp:0:0
-    #6 0x000055ea7cbe1fb0 (anonymous namespace)::MachineBlockPlacement::run=
-(llvm::MachineFunction&) MachineBlockPlacement.cpp:0:0
-    #7 0x000055ea7cbe31e1 (anonymous namespace)::MachineBlockPlacementLegac=
-y::runOnMachineFunction(llvm::MachineFunction&) (.part.0) MachineBlockPlace=
-ment.cpp:0:0
-    #8 0x000055ea7cc332e8 llvm::MachineFunctionPass::runOnFunction(llvm::Fu=
-nction&) (clang-23+0x34282e8)
-    #9 0x000055ea7d20bee9 llvm::FPPassManager::runOnFunction(llvm::Function=
-&) (clang-23+0x3a00ee9)
-   #10 0x000055ea7d20c08c llvm::FPPassManager::runOnModule(llvm::Module&) (=
-clang-23+0x3a0108c)
-   #11 0x000055ea7d20b2f8 llvm::legacy::PassManagerImpl::run(llvm::Module&)=
- (clang-23+0x3a002f8)
-   #12 0x000055ea7dd1f2b4 clang::emitBackendOutput(clang::CompilerInstance&=
-, clang::CodeGenOptions&, llvm::StringRef, llvm::Module*, clang::BackendAct=
-ion, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem>, std::unique_ptr<llvm:=
-:raw_pwrite_stream, std::default_delete<llvm::raw_pwrite_stream>>, clang::B=
-ackendConsumer*) (clang-23+0x45142b4)
-   #13 0x000055ea7e355087 clang::BackendConsumer::HandleTranslationUnit(cla=
-ng::ASTContext&) (clang-23+0x4b4a087)
-   #14 0x000055ea7fcb691c clang::ParseAST(clang::Sema&, bool, bool) (clang-=
-23+0x64ab91c)
-   #15 0x000055ea7e69fc3a clang::FrontendAction::Execute() (clang-23+0x4e94=
-c3a)
-   #16 0x000055ea7e61b2c6 clang::CompilerInstance::ExecuteAction(clang::Fro=
-ntendAction&) (clang-23+0x4e102c6)
-   #17 0x000055ea7e782e47 clang::ExecuteCompilerInvocation(clang::CompilerI=
-nstance*) (clang-23+0x4f77e47)
-   #18 0x000055ea7a752e55 cc1_main(llvm::ArrayRef<char const*>, char const*=
-, void*) (clang-23+0xf47e55)
-   #19 0x000055ea7a74ab63 ExecuteCC1Tool(llvm::SmallVectorImpl<char const*>=
-&, llvm::ToolContext const&, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem=
->) driver.cpp:0:0
-   #20 0x000055ea7a74aba3 int llvm::function_ref<int (llvm::SmallVectorImpl=
-<char const*>&)>::callback_fn<clang_main(int, char**, llvm::ToolContext con=
-st&)::'lambda'(llvm::SmallVectorImpl<char const*>&)>(long, llvm::SmallVecto=
-rImpl<char const*>&) driver.cpp:0:0
-   #21 0x000055ea7e3d3f39 void llvm::function_ref<void ()>::callback_fn<cla=
-ng::driver::CC1Command::Execute(llvm::ArrayRef<std::optional<llvm::StringRe=
-f>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocato=
-r<char>>*, bool*) const::'lambda'()>(long) Job.cpp:0:0
-   #22 0x000055ea7d85c6c3 llvm::CrashRecoveryContext::RunSafely(llvm::funct=
-ion_ref<void ()>) (clang-23+0x40516c3)
-   #23 0x000055ea7e3d4664 clang::driver::CC1Command::Execute(llvm::ArrayRef=
-<std::optional<llvm::StringRef>>, std::__cxx11::basic_string<char, std::cha=
-r_traits<char>, std::allocator<char>>*, bool*) const (.part.0) Job.cpp:0:0
-   #24 0x000055ea7e393fe8 clang::driver::Compilation::ExecuteCommand(clang:=
-:driver::Command const&, clang::driver::Command const*&, bool) const (clang=
--23+0x4b88fe8)
-   #25 0x000055ea7e394f42 clang::driver::Compilation::ExecuteJobs(clang::dr=
-iver::JobList const&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
-ommand const*>>&, bool) const (clang-23+0x4b89f42)
-   #26 0x000055ea7e3a5c8c clang::driver::Driver::ExecuteCompilation(clang::=
-driver::Compilation&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
-ommand const*>>&) (clang-23+0x4b9ac8c)
-   #27 0x000055ea7a74f80f clang_main(int, char**, llvm::ToolContext const&)=
- (clang-23+0xf4480f)
-   #28 0x000055ea7a5e7cf9 main (clang-23+0xddccf9)
-   #29 0x00007faf56e43ca8 (/lib/x86_64-linux-gnu/libc.so.6+0x29ca8)
-   #30 0x00007faf56e43d65 __libc_start_main (/lib/x86_64-linux-gnu/libc.so.=
-6+0x29d65)
-   #31 0x000055ea7a74a5a1 _start (clang-23+0xf3f5a1)
-   clang: error: clang frontend command failed due to signal (use -v to see=
- invocation)
->> /bin/bash: line 1: 2432055 Segmentation fault      clang -Wp,-MMD,arch/m=
-ips/math-emu/.sp_fmax.o.d -nostdinc -Iarch/mips/include -I./arch/mips/inclu=
-de/generated -Iinclude -I./include -Iarch/mips/include/uapi -I./arch/mips/i=
-nclude/generated/uapi -Iinclude/uapi -I./include/generated/uapi -include in=
-clude/linux/compiler-version.h -include include/linux/kconfig.h -include in=
-clude/linux/compiler_types.h -D__KERNEL__ --target=3Dmipsel-linux-gnu -fint=
-egrated-as -Werror=3Dunknown-warning-option -Werror=3Dignored-optimization-=
-argument -Werror=3Doption-ignored -Werror=3Dunused-command-line-argument -D=
-VMLINUX_LOAD_ADDRESS=3D0xffffffff88002000 -DLINKER_LOAD_ADDRESS=3D0x8800200=
-0 -DDATAOFFSET=3D0 -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -s=
-td=3Dgnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-a=
-liasing -mno-check-zero-division -mabi=3D32 -G 0 -mno-abicalls -fno-pic -pi=
-pe -msoft-float -Wa,-msoft-float -ffreestanding -EB -fno-stack-check -march=
-=3Dmips3 -Wa,--trap -DTOOLCHAIN_SUPPORTS_VIRT -Iarch/mips/include/asm/mach-=
-ip22 -Iarch/mips/include/asm/mach-generic -fno-asynchronous-unwind-tables -=
-fno-delete-null-pointer-checks -O2 -fno-stack-protector -fexperimental-late=
--parse-attributes -pg -fstrict-flex-arrays=3D3 -fms-extensions -fno-strict-=
-overflow -fno-stack-check -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=
-=3Dimplicit-function-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-ty=
-pe -Werror=3Dstrict-prototypes -Wno-format-security -Wno-trigraphs -Wno-fra=
-me-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-p=
-rototypes -Wno-gnu -Wno-microsoft-anon-tag -Wno-format-overflow-non-kprintf=
- -Wno-format-truncation-non-kprintf -Wno-default-const-init-unsafe -Wno-typ=
-e-limits -Wno-pointer-sign -Wcast-function-type -Wno-unterminated-string-in=
-itialization -Wimplicit-fallthrough -Werror=3Ddate-time -Werror=3Dincompati=
-ble-pointer-types -Wenum-conversion -Wunused -Wmissing-format-attribute -Wm=
-issing-include-dirs -Wunused-const-variable -Wno-missing-field-initializers=
- -Wno-shift-negative-value -Wno-enum-enum-conversion -Wno-sign-compare -Wno=
--unused-parameter -DRANDSTRUCT -frandomize-layout-seed-file=3D./scripts/bas=
-ic/randstruct.seed -fno-crash-diagnostics -Wno-error=3Dreturn-type -Wreturn=
--type -funsigned-char -Wundef -falign-functions=3D64 -Iarch/mips/math-emu -=
-Iarch/mips/math-emu -DKBUILD_MODFILE=3D'"arch/mips/math-emu/sp_fmax"' -DKBU=
-ILD_BASENAME=3D'"sp_fmax"' -DKBUILD_MODNAME=3D'"sp_fmax"' -D__KBUILD_MODNAM=
-E=3Dsp_fmax -c -o arch/mips/math-emu/sp_fmax.o arch/mips/math-emu/sp_fmax.c
+vim +/i +989 drivers/net/ethernet/qlogic/qede/qede_fp.c
 
---=20
+cdda926d409869 Mintz, Yuval   2017-01-01   958  static inline void qede_tpa_cont(struct qede_dev *edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   959  				 struct qede_rx_queue *rxq,
+cdda926d409869 Mintz, Yuval   2017-01-01   960  				 struct eth_fast_path_rx_tpa_cont_cqe *cqe)
+cdda926d409869 Mintz, Yuval   2017-01-01   961  {
+cdda926d409869 Mintz, Yuval   2017-01-01   962  	int i;
+cdda926d409869 Mintz, Yuval   2017-01-01   963  
+896f1a2493b59b Pavel Zhigulin 2025-11-13  @964  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
+
+Flip this around check if "i" is within bounds first before checking if
+cqe->len_list[i] is non-zero.
+
+	for (i = 0; i < ARRAY_SIZE(cqe->len_list) && cqe->len_list[i]; i++)
+
+cdda926d409869 Mintz, Yuval   2017-01-01   965  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
+cdda926d409869 Mintz, Yuval   2017-01-01   966  				   le16_to_cpu(cqe->len_list[i]));
+cdda926d409869 Mintz, Yuval   2017-01-01   967  
+cdda926d409869 Mintz, Yuval   2017-01-01   968  	if (unlikely(i > 1))
+cdda926d409869 Mintz, Yuval   2017-01-01   969  		DP_ERR(edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   970  		       "Strange - TPA cont with more than a single len_list entry\n");
+cdda926d409869 Mintz, Yuval   2017-01-01   971  }
+cdda926d409869 Mintz, Yuval   2017-01-01   972  
+10a0176e4e6eb6 Mintz, Yuval   2017-04-07   973  static int qede_tpa_end(struct qede_dev *edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   974  			struct qede_fastpath *fp,
+cdda926d409869 Mintz, Yuval   2017-01-01   975  			struct eth_fast_path_rx_tpa_end_cqe *cqe)
+cdda926d409869 Mintz, Yuval   2017-01-01   976  {
+cdda926d409869 Mintz, Yuval   2017-01-01   977  	struct qede_rx_queue *rxq = fp->rxq;
+cdda926d409869 Mintz, Yuval   2017-01-01   978  	struct qede_agg_info *tpa_info;
+cdda926d409869 Mintz, Yuval   2017-01-01   979  	struct sk_buff *skb;
+cdda926d409869 Mintz, Yuval   2017-01-01   980  	int i;
+cdda926d409869 Mintz, Yuval   2017-01-01   981  
+cdda926d409869 Mintz, Yuval   2017-01-01   982  	tpa_info = &rxq->tpa_info[cqe->tpa_agg_index];
+cdda926d409869 Mintz, Yuval   2017-01-01   983  	skb = tpa_info->skb;
+cdda926d409869 Mintz, Yuval   2017-01-01   984  
+8a8633978b842c Manish Chopra  2018-05-17   985  	if (tpa_info->buffer.page_offset == PAGE_SIZE)
+8a8633978b842c Manish Chopra  2018-05-17   986  		dma_unmap_page(rxq->dev, tpa_info->buffer.mapping,
+8a8633978b842c Manish Chopra  2018-05-17   987  			       PAGE_SIZE, rxq->data_direction);
+8a8633978b842c Manish Chopra  2018-05-17   988  
+896f1a2493b59b Pavel Zhigulin 2025-11-13  @989  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
+
+Same.
+
+cdda926d409869 Mintz, Yuval   2017-01-01   990  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
+cdda926d409869 Mintz, Yuval   2017-01-01   991  				   le16_to_cpu(cqe->len_list[i]));
+cdda926d409869 Mintz, Yuval   2017-01-01   992  	if (unlikely(i > 1))
+cdda926d409869 Mintz, Yuval   2017-01-01   993  		DP_ERR(edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   994  		       "Strange - TPA emd with more than a single len_list entry\n");
+cdda926d409869 Mintz, Yuval   2017-01-01   995  
+cdda926d409869 Mintz, Yuval   2017-01-01   996  	if (unlikely(tpa_info->state != QEDE_AGG_STATE_START))
+cdda926d409869 Mintz, Yuval   2017-01-01   997  		goto err;
+cdda926d409869 Mintz, Yuval   2017-01-01   998  
+cdda926d409869 Mintz, Yuval   2017-01-01   999  	/* Sanity */
+cdda926d409869 Mintz, Yuval   2017-01-01  1000  	if (unlikely(cqe->num_of_bds != tpa_info->frag_id + 1))
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
