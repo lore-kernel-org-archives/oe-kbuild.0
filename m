@@ -1,359 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62351DE3B7
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Mar 2026 15:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABB21917F1
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Mar 2026 18:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772896635; cv=none; b=fcwH8yDL+P0YRxPG1ZjKfQw57kj6MTSu8zXf3l1Jy4xC1FF+7rtPF6YJ2nJI8i89jgctdWa4Woea/u4N87/nU1GKcszh5gA5EbPxlh2I/v8poKGDJQ28ffmQ2d4oMOA2L1WcGGBzigN1W4gW4W+PF2+0E5HOrYI8W6pCdJ911vg=
+	t=1772906519; cv=none; b=LdfPNcqa9eD88o/lHtLpF0JdKBDYQqGWOk1v+c3SkeWO5eikdR5gfN8cjnnlJ9wivRCGgegFp2/xaAYtlgaHzMilqhPyrjo4VJCBEpGnjNfXJHa8K0THEXtlgmzsjHLu81i+XiDxe/9zSL4tbCV96y8Y9hYUcadPVs5ec2rYmbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772896635; c=relaxed/simple;
-	bh=bqnIFURb2/FpFFtqTjdotIzbayFKCHqpugjMCuZIL0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r8lFeb3wJG0J/74Nej/LL5HyBUCuDEbqNMu0DniWZjhkWEb4Mu4ZcOAegFxGANeMFNyCAFpyHPsVpQWgnfvA3EZyCJMNu9td6GH9max6oYv1MSw5OwaNtjw/a1L09Z4awNqhX5rOoobuXp4Ys5RH1Ct2EbQanMPoty+S9Xok4KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CFnNtk5i; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1772906519; c=relaxed/simple;
+	bh=e9nPflrU4cerQYZRXIiLwAGjzzleUHV/yKqX/fZ3fAo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SqVrAiJ3SBB50pnKLQlxwuTk+MJz625B5fYyBntOowQSGFdiZqVPxcss7AC7TBBQsC0tFziW2QjsSk3/XKHwMuUdtl3f4HO6UF3FdZPF7+Sa6i8DYQWlhdsTxljPTft22VO+Lxjj/5gFgvC/blyHT5FJmUUSauRTmENQSG22J3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UtekucE5; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CFnNtk5i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UtekucE5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772896633; x=1804432633;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bqnIFURb2/FpFFtqTjdotIzbayFKCHqpugjMCuZIL0Q=;
-  b=CFnNtk5iCXf+Z2g1vVcHgTkeaVqHQrTOyCFt6Hw796PnDqvZ/Tz+tOp/
-   qymNKL5tqu2VkmY96ZxbS/sxAUQYOGIUCYGCrJUNoF1iSAR87X7K+M83x
-   w0gZT3lQXnrjiT+4Hm9GMKqQT7649K59CSdyMFyYEggrX84OsGc00Qsm4
-   uMjyuiFXXMqcOU5JB8hwTYEYrlnwucMWUvZH717FbGX5qqp1NkOTGOH94
-   h29Xo5X8XL9qsoPpko2dcGPZxZfuUqf4FKDHSOKFfZCUdKfG872zhFo5K
-   8P9cFIWTDo4SutnDUbx4FmJGPd5qDm2IMMCVEqz/x+ousreLxe66jt6V1
-   A==;
-X-CSE-ConnectionGUID: J+TaAVr4SyG4woWo2A7xcw==
-X-CSE-MsgGUID: /Bn0ioGdRjmVb8uiAaU2ZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73886155"
-X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="73886155"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 07:17:12 -0800
-X-CSE-ConnectionGUID: Y25c1ZZeR7GowrJPqtDSkQ==
-X-CSE-MsgGUID: bB8BJdeUTlGNtX+Q0c6bRw==
+  t=1772906518; x=1804442518;
+  h=date:from:to:cc:subject:message-id;
+  bh=e9nPflrU4cerQYZRXIiLwAGjzzleUHV/yKqX/fZ3fAo=;
+  b=UtekucE5Z9jUkTmXx1+Xh69upwYBqBF3YYXGcKtqVRnTRCndArFA+ulN
+   BnjuhMNg9mOGri8kMBhJ5Nuri/PHlw3SZh+y23GgF4GE9d1Dx6ax1I2AI
+   zdrPR5pJdsaj8uiZ+TnbCbgsYwkR6lK/ab7ss+La+OcOsdrySgICwMEhb
+   0xFgJwgSwDYKvf5mpO3PZs4nF7Dv0aQKPYuCD10qqJ50LNqyESD0TEL1m
+   3W3pb2SiZp+R13IeggtQBtrgUnI+Y1ta9cNIAuihlv41GOjcrQPzvGeXM
+   5g/bp+Zx1wKrpDrpqjweW0X9B/xV1fI+XmyYMP9E5KeFjQXyiLw63e1PZ
+   Q==;
+X-CSE-ConnectionGUID: LXYKVRLWTduWexVW2tQUog==
+X-CSE-MsgGUID: SaiIH5ViRVmHOQ0CPiKBig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73957231"
+X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
+   d="scan'208";a="73957231"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 10:01:58 -0800
+X-CSE-ConnectionGUID: RTTYeR8KQD2fF9g6pa+viA==
+X-CSE-MsgGUID: M7cHEvN2QpafvfQBv+Aubw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="215906963"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Mar 2026 07:17:11 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
+   d="scan'208";a="218537824"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2026 10:01:56 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vytOu-000000002VV-0uuK;
-	Sat, 07 Mar 2026 15:17:08 +0000
-Date: Sat, 7 Mar 2026 16:16:53 +0100
+	id 1vyvyM-000000002Uv-0Dex;
+	Sat, 07 Mar 2026 18:01:54 +0000
+Date: Sun, 08 Mar 2026 02:01:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 3/3] arm64: dts: rockchip: Add shaping nodes for rk3576
-Message-ID: <202603071602.C6BmMe6z-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe:rw_iter 78/471] kernel/time/test_udelay.c:112
+ udelay_test_write() warn: potential spectre issue 'lbuf' [w]
+Message-ID: <202603080139.kPQTU4kp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <1772782832-216867-4-git-send-email-shawn.lin@rock-chips.com>
-References: <1772782832-216867-4-git-send-email-shawn.lin@rock-chips.com>
-TO: Shawn Lin <shawn.lin@rock-chips.com>
-TO: Ulf Hansson <ulf.hansson@linaro.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: linux-pm@vger.kernel.org
-CC: linux-rockchip@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: Shawn Lin <shawn.lin@rock-chips.com>
+TO: Jens Axboe <axboe@kernel.dk>
 
-Hi Shawn,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on rockchip/for-next krzk/for-next krzk-dt/for-next linus/master v7.0-rc2 next-20260306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/dt-bindings-power-rockchip-Add-pm_shaping-support/20260306-162446
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/1772782832-216867-4-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH 3/3] arm64: dts: rockchip: Add shaping nodes for rk3576
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
+head:   0a49759be1c3b29207758e467fdc1a90d0716d06
+commit: c560d52b8ecc57f284b2e6dbcee39fff2fc3d1a7 [78/471] kernel/time: convert to read/write iterators
 :::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
-config: arm64-randconfig-2051-20260306 (https://download.01.org/0day-ci/archive/20260307/202603071602.C6BmMe6z-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603071602.C6BmMe6z-lkp@intel.com/reproduce)
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080139.kPQTU4kp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603071602.C6BmMe6z-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603080139.kPQTU4kp-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1306.30-1328.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1306.30-1328.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1306.30-1328.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1306.30-1328.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1306.30-1328.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1306.30-1328.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1306.30-1328.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1306.30-1328.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
---
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f05088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f06088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f08188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f08208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f0a108: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f0a188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f0c088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f0f088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f10288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f10308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f10388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f10408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f10488: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f12908: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f12988: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f13288: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f13308: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f13388: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f13408: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f20088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f21088: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f22188: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/shaping@27f22208: failed to match any schema with compatible: ['rockchip,rk3576-shaping', 'syscon']
+smatch warnings:
+kernel/time/test_udelay.c:112 udelay_test_write() warn: potential spectre issue 'lbuf' [w]
+
+vim +/lbuf +112 kernel/time/test_udelay.c
+
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16   98  
+c560d52b8ecc57 kernel/time/test_udelay.c Jens Axboe  2024-04-08   99  static ssize_t udelay_test_write(struct kiocb *iocb, struct iov_iter *from)
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  100  {
+c560d52b8ecc57 kernel/time/test_udelay.c Jens Axboe  2024-04-08  101  	size_t count = iov_iter_count(from);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  102  	char lbuf[32];
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  103  	int ret;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  104  	int usecs;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  105  	int iters;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  106  
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  107  	if (count >= sizeof(lbuf))
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  108  		return -EINVAL;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  109  
+c560d52b8ecc57 kernel/time/test_udelay.c Jens Axboe  2024-04-08  110  	if (!copy_from_iter_full(lbuf, count, from))
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  111  		return -EFAULT;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16 @112  	lbuf[count] = '\0';
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  113  
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  114  	ret = sscanf(lbuf, "%d %d", &usecs, &iters);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  115  	if (ret < 1)
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  116  		return -EINVAL;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  117  	else if (ret < 2)
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  118  		iters = DEFAULT_ITERATIONS;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  119  
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  120  	mutex_lock(&udelay_test_lock);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  121  	udelay_test_usecs = usecs;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  122  	udelay_test_iterations = iters;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  123  	mutex_unlock(&udelay_test_lock);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  124  
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  125  	return count;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  126  }
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  127  
+
+:::::: The code at line 112 was first introduced by commit
+:::::: e704f93af5a083c07b8f722672d63a1d908daf55 kernel: time: Add udelay_test module to validate udelay
+
+:::::: TO: David Riley <davidriley@chromium.org>
+:::::: CC: John Stultz <john.stultz@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
