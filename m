@@ -1,132 +1,149 @@
-Received: from mgamail.intel.com (unknown [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D42E346798
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Mar 2026 11:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFA0156661
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Mar 2026 12:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772884768; cv=none; b=KsCBWDMIvkkvWLTH2gTnvze+UrU1CSuLcgfJ2wlZo59HZ94w6sj+8kmWkOo542K6vswqyfVtTzCM61XSuo0Tmp+sSiH+4IBZ3Z1qvED0aK9459bVsBy3A5KmNFxgIROXgalP0bzjDt4fxlwu1f0pmA838nQlfV4rFtOLT2Rq0NU=
+	t=1772885051; cv=none; b=jUPOgotfLpXWiS2Gn3Yp1ClyMR9m37KYEQ/rWM+CiP4fc8fF0uzT600R7rnWq1MdQHTT0BQFXxOkEOqG/xGwLuVoqLaNm99Shqxi8RGuUKDG1ALtoWJEWHDSLioLWOB9J5/lFtL6ddOLVGxdNOC4DIsLpvbxsnSzp0sWb+6RLKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772884768; c=relaxed/simple;
-	bh=fRqn2wf8nDCnXGndpEJd6spGT977KZnKYpMifdAeMJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dc7fvmcjJuDPkt/i85l6keyZe7D5+jE/M+GWK1bw36tpIR3FwFvvoEqGAqOSIa4ep7oh9zNMMwIydexwHEBtLXjOtKiR0wFYPaoBithMgKmZ7S2CdLxl8+XKPEEKCG0+751OnFuqvazdST/zKbdp/7sLOh5gaaZxCCvb6FSOee0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M4hLAbwl; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1772885051; c=relaxed/simple;
+	bh=1c5qfK/Q+i43zuk4auCDYWVaiu8EsI6llHc4WONP6Do=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XMotI+TnkPgKq5bTQsRJnWsJdFkzIp/1C6WlkPM+tTOxMWAwqy6AqXPggCtgyexR+kYNgnLcrUjx62qvbOycxc3/yxecJJyZnu83jD9qF9K0sWRYP96yX7TspiVq+Hw3dpFM/jLT46zx9L+KRzwtBWK1q+krvFQ6NiKnVv3yT3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mILZ84Zu; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M4hLAbwl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mILZ84Zu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772884761; x=1804420761;
-  h=date:from:to:cc:subject:message-id;
-  bh=fRqn2wf8nDCnXGndpEJd6spGT977KZnKYpMifdAeMJ0=;
-  b=M4hLAbwl/s+rlNhaheViLBPtxPXSP+FMxqxQZI6/fBBrMFTyR/Jc8E5J
-   bmWLO23bKccJIk1+5HVPHCwr14YYR6MQy4a9+bdbGXRAxmg7oK2scqK+D
-   h16V1v3Hlc6Tz5yylxAhUHlde9tcp2ERFODaYY3fPm89hV7fkZWz/0rx+
-   bdtkZo4/NFi02VLbr1kZ7nbIoL5gEpXMTIARcu2DrAaWDgH1SUvwzGtcy
-   yO9XqerLSlxvezsyJUCnlDpDx/8XCph4LSGzWUODNZVghR7j8qM8yc2ce
-   A9++27qhYNnnwYxI8Z752URMNxmxjCBIFP3VqFrPr831nXTxIKen8/crh
-   A==;
-X-CSE-ConnectionGUID: NXSDW5oITaO9RRuskGUldw==
-X-CSE-MsgGUID: Ew3wPhQbQ66gekw3iBuYUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="85453216"
+  t=1772885050; x=1804421050;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1c5qfK/Q+i43zuk4auCDYWVaiu8EsI6llHc4WONP6Do=;
+  b=mILZ84ZumgDyrT7rXiapBSZ72BTIZjQSTdeHxCFGVBIfk2JnZG4ndlqq
+   0jJumjgmt0BlPXPROc/fc/9w2BaMgFSUy7R3eC4CzFjISJUqoWRfJIVJr
+   LPW5L/Hep01qgUXnx5fkLwGS1ulU6srtSCwz7ws/FPJNO3vfw4kYY8JZw
+   0QhpEUppSdl0TtGihY86D/zwN4jVgoYetx5SvRM7Ru/YlpSnCcMryfsfp
+   t6mp0IBBJbUSTSMSB+D2nIWej5YyQUPX4rB+hxWR4hb1U5BjUfxedEsm7
+   aLhowhnZSau/sTfKQF3Aa6851AoMMBTowzdvnuvA3yt4t/oCtMFO17SyE
+   Q==;
+X-CSE-ConnectionGUID: fgvYRQAqTN+XEyUulg1l0w==
+X-CSE-MsgGUID: hLT/aICuQVGY0y31xQ6dBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="96593854"
 X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="85453216"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 03:59:13 -0800
-X-CSE-ConnectionGUID: mw/dXNKQQvGRSXaYBX+14g==
-X-CSE-MsgGUID: RCl3gwctQXO1DNu1X2QNwA==
+   d="scan'208";a="96593854"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 04:04:09 -0800
+X-CSE-ConnectionGUID: NE4SFJnDTxudgREl80e0GA==
+X-CSE-MsgGUID: XvrHz7mSRIiJ71fwZ+o4sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="219246188"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 07 Mar 2026 03:59:12 -0800
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
+   d="scan'208";a="222036555"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 07 Mar 2026 04:04:08 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyqJI-000000001xT-3gDi;
-	Sat, 07 Mar 2026 11:59:08 +0000
-Date: Sat, 07 Mar 2026 19:58:47 +0800
+	id 1vyqO6-000000002TN-2JZ2;
+	Sat, 07 Mar 2026 12:04:06 +0000
+Date: Sat, 7 Mar 2026 13:03:20 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe:rw_iter 79/471]
- kernel/trace/trace_events_trigger.c:352 event_trigger_regex_write() warn:
- potential spectre issue 'buf' [w]
-Message-ID: <202603071945.ARnqYo0G-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 2/3] arm: dts: mediatek: mt7623: fix pinctrl
+ controller node name
+Message-ID: <202603071201.moEsVJRi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260305-mtk-fix-mt7623-pinctl-name-v2-2-a68854a51065@baylibre.com>
+References: <20260305-mtk-fix-mt7623-pinctl-name-v2-2-a68854a51065@baylibre.com>
+TO: David Lechner <dlechner@baylibre.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: David Lechner <dlechner@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   0a49759be1c3b29207758e467fdc1a90d0716d06
-commit: a6f509b8ee48800a6cc81a95554783bf4412a23a [79/471] tracing: convert to read/write iterators
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
-config: i386-randconfig-141-20260307 (https://download.01.org/0day-ci/archive/20260307/202603071945.ARnqYo0G-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-smatch: v0.5.0-9004-gb810ac53
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3f9cd19e764b782706dbaacc69e502099cb014ba]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/arm-dts-mediatek-mt7623-fix-pinctrl-child-node-names/20260306-092239
+base:   3f9cd19e764b782706dbaacc69e502099cb014ba
+patch link:    https://lore.kernel.org/r/20260305-mtk-fix-mt7623-pinctl-name-v2-2-a68854a51065%40baylibre.com
+patch subject: [PATCH v2 2/3] arm: dts: mediatek: mt7623: fix pinctrl controller node name
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: arm-randconfig-2052-20260306 (https://download.01.org/0day-ci/archive/20260307/202603071201.moEsVJRi-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603071201.moEsVJRi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603071945.ARnqYo0G-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603071201.moEsVJRi-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/trace_events_trigger.c:352 event_trigger_regex_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace_events.c:2246 event_filter_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace_events.c:2404 subsystem_filter_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace.c:4406 tracing_cpumask_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace.c:4686 tracing_trace_options_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace.c:5688 tracing_set_trace_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace.c:7076 tracing_clock_write() warn: potential spectre issue 'buf' [w]
-
-vim +/buf +352 kernel/trace/trace_events_trigger.c
-
-85f2b08268c014 Tom Zanussi              2013-10-24  331  
-a6f509b8ee4880 Jens Axboe               2024-04-08  332  static ssize_t event_trigger_regex_write(struct kiocb *iocb,
-a6f509b8ee4880 Jens Axboe               2024-04-08  333  					 struct iov_iter *from)
-85f2b08268c014 Tom Zanussi              2013-10-24  334  {
-7f1d2f8210195c Steven Rostedt (Red Hat  2015-05-05  335) 	struct trace_event_file *event_file;
-a6f509b8ee4880 Jens Axboe               2024-04-08  336  	size_t cnt = iov_iter_count(from);
-85f2b08268c014 Tom Zanussi              2013-10-24  337  	ssize_t ret;
-63c72641683891 Steven Rostedt           2024-12-20  338  	char *buf __free(kfree) = NULL;
-85f2b08268c014 Tom Zanussi              2013-10-24  339  
-85f2b08268c014 Tom Zanussi              2013-10-24  340  	if (!cnt)
-85f2b08268c014 Tom Zanussi              2013-10-24  341  		return 0;
-85f2b08268c014 Tom Zanussi              2013-10-24  342  
-85f2b08268c014 Tom Zanussi              2013-10-24  343  	if (cnt >= PAGE_SIZE)
-85f2b08268c014 Tom Zanussi              2013-10-24  344  		return -EINVAL;
-85f2b08268c014 Tom Zanussi              2013-10-24  345  
-a6f509b8ee4880 Jens Axboe               2024-04-08  346  	buf = kmalloc(cnt + 1, GFP_KERNEL);
-a6f509b8ee4880 Jens Axboe               2024-04-08  347  	if (!buf)
-a6f509b8ee4880 Jens Axboe               2024-04-08  348  		return -ENOMEM;
-a6f509b8ee4880 Jens Axboe               2024-04-08  349  
-a6f509b8ee4880 Jens Axboe               2024-04-08  350  	if (!copy_from_iter_full(buf, cnt, from))
-a6f509b8ee4880 Jens Axboe               2024-04-08  351  		return -EFAULT;
-a6f509b8ee4880 Jens Axboe               2024-04-08 @352  	buf[cnt] = '\0';
-85f2b08268c014 Tom Zanussi              2013-10-24  353  
-63c72641683891 Steven Rostedt           2024-12-20  354  	guard(mutex)(&event_mutex);
-63c72641683891 Steven Rostedt           2024-12-20  355  
-a6f509b8ee4880 Jens Axboe               2024-04-08  356  	event_file = event_file_file(iocb->ki_filp);
-63c72641683891 Steven Rostedt           2024-12-20  357  	if (unlikely(!event_file))
-85f2b08268c014 Tom Zanussi              2013-10-24  358  		return -ENODEV;
-85f2b08268c014 Tom Zanussi              2013-10-24  359  
-63c72641683891 Steven Rostedt           2024-12-20  360  	ret = trigger_process_regex(event_file, buf);
-85f2b08268c014 Tom Zanussi              2013-10-24  361  	if (ret < 0)
-63c72641683891 Steven Rostedt           2024-12-20  362  		return ret;
-85f2b08268c014 Tom Zanussi              2013-10-24  363  
-a6f509b8ee4880 Jens Axboe               2024-04-08  364  	iocb->ki_pos += cnt;
-63c72641683891 Steven Rostedt           2024-12-20  365  	return cnt;
-85f2b08268c014 Tom Zanussi              2013-10-24  366  }
-85f2b08268c014 Tom Zanussi              2013-10-24  367  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:765.3-767.36: Warning (interrupt_map): /pcie@1a140000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:765.3-767.36: Warning (interrupt_map): /pcie@1a140000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:765.3-767.36: Warning (interrupt_map): /pcie@1a140000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:793.4-46: Warning (interrupt_map): /pcie@1a140000/pcie@0,0:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:804.4-46: Warning (interrupt_map): /pcie@1a140000/pcie@1,0:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:815.4-46: Warning (interrupt_map): /pcie@1a140000/pcie@2,0:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+>> arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: pinctrl@1000b000 (mediatek,mt7623-pinctrl): 'hdmi-default', 'hdmi_ddc-default' do not match any of the regexes: '^pinctrl-[0-9]+$', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /syscfg@10005000: failed to match any schema with compatible: ['mediatek,mt7623-pctl-a-syscfg', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt7623-scpsys', 'mediatek,mt2701-scpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt7623-scpsys', 'mediatek,mt2701-scpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: pwrap@1000d000 (mediatek,mt7623-pwrap): 'mt6323' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: pwrap@1000d000 (mediatek,mt7623-pwrap): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7623-pwrap', 'mediatek,mt2701-pwrap'] is too long
+   	['mediatek,mt7623-pwrap', 'mediatek,mt2701-pwrap'] is too short
+   	'mediatek,mt7623-pwrap' is not one of ['mediatek,mt2701-pwrap', 'mediatek,mt6765-pwrap', 'mediatek,mt6779-pwrap', 'mediatek,mt6795-pwrap', 'mediatek,mt6797-pwrap', 'mediatek,mt6873-pwrap', 'mediatek,mt7622-pwrap', 'mediatek,mt8135-pwrap', 'mediatek,mt8173-pwrap', 'mediatek,mt8183-pwrap', 'mediatek,mt8186-pwrap', 'mediatek,mt8195-pwrap', 'mediatek,mt8365-pwrap', 'mediatek,mt8516-pwrap']
+--
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:765.3-767.36: Warning (interrupt_map): /pcie@1a140000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:765.3-767.36: Warning (interrupt_map): /pcie@1a140000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:765.3-767.36: Warning (interrupt_map): /pcie@1a140000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:793.4-46: Warning (interrupt_map): /pcie@1a140000/pcie@0,0:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:804.4-46: Warning (interrupt_map): /pcie@1a140000/pcie@1,0:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623.dtsi:815.4-46: Warning (interrupt_map): /pcie@1a140000/pcie@2,0:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@10200100, using 0 as fallback
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: / (bananapi,bpi-r2): fixedregulator@0: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+>> arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: pinctrl@1000b000 (mediatek,mt7623-pinctrl): 'hdmi-default', 'hdmi_ddc-default', 'musb' do not match any of the regexes: '^pinctrl-[0-9]+$', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /syscfg@10005000: failed to match any schema with compatible: ['mediatek,mt7623-pctl-a-syscfg', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt7623-scpsys', 'mediatek,mt2701-scpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt7623-scpsys', 'mediatek,mt2701-scpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: pwrap@1000d000 (mediatek,mt7623-pwrap): 'mt6323' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: pwrap@1000d000 (mediatek,mt7623-pwrap): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7623-pwrap', 'mediatek,mt2701-pwrap'] is too long
+   	['mediatek,mt7623-pwrap', 'mediatek,mt2701-pwrap'] is too short
+   	'mediatek,mt7623-pwrap' is not one of ['mediatek,mt2701-pwrap', 'mediatek,mt6765-pwrap', 'mediatek,mt6779-pwrap', 'mediatek,mt6795-pwrap', 'mediatek,mt6797-pwrap', 'mediatek,mt6873-pwrap', 'mediatek,mt7622-pwrap', 'mediatek,mt8135-pwrap', 'mediatek,mt8173-pwrap', 'mediatek,mt8183-pwrap', 'mediatek,mt8186-pwrap', 'mediatek,mt8195-pwrap', 'mediatek,mt8365-pwrap', 'mediatek,mt8516-pwrap']
 
 -- 
 0-DAY CI Kernel Test Service
