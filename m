@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56F53603D7
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Mar 2026 19:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9BA2D9499
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Mar 2026 21:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772912227; cv=none; b=Q6g0TDEMjr5lBA5yIKkl1GuBJ1REJta+KUtjcah695uxP+Mj1OEEIzuUw37Ugj3MiGAioNuvl6mekvwsV86ex2jtIOvGYl7eQLXojaRruMlw2+BeVCkea/kPAmQOnOjLjcd7mL6xxZ++SRsHhoezhHkugyzPw1h21AploU65IIc=
+	t=1772918537; cv=none; b=bJM0CythVMBY67WgL5XnitfcwnrCEOE7SCP54t3x3OAt69eDQH0dfHfQhCR5GQjEDZp1ivcWzl8IjLtZRe+MOFYDNOfjtoxyuZ1CylJx2pzO8oClOdH2l0b0YP3Es9sRYRUDFLdfCZOr1uZzLysr9EHaMKEfIsyw2fnB6temg3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772912227; c=relaxed/simple;
-	bh=6qR1RDreGkKwP9C+ULL1GZ7pHr7ucclBZ6I+wjkjSrg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IHYGXXBPjXtrWsen4Wijw9H0DACp5A/p1iPn864l/EgkxbaoC72fMWEX7Y974RujtGgHIsiPPD3HEIq6Te2+wWlEBYqbRyV0pwhwgB4b9xcssoKHZqrUZYH/sK8XufsVyZIQtv/4w4ySqXeX9y+MhyLs+XawH9+fe3JBXoToEao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0Sh0php; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1772918537; c=relaxed/simple;
+	bh=aS5sbRzbzKOCiF4c4+AZTLDc6bSWQlpvU0vDoi82cK4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NFF3iqLQKbgTiQKln730dLX+2+vZ0aVwGdahMmtOGNucws+FjsbKVchbEt8HKHpFHIAz/PVlmQBJ4oR9tTi1zpH4eWJ3q7a+DdmMdmN1GlRi1xGJtTt2p2rnR5olYVhu077ErnrCXyynCCFKV6B5GFmAUykGKkml1m2iGf1M18Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FU6VHGv5; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0Sh0php"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FU6VHGv5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772912226; x=1804448226;
+  t=1772918533; x=1804454533;
   h=date:from:to:cc:subject:message-id;
-  bh=6qR1RDreGkKwP9C+ULL1GZ7pHr7ucclBZ6I+wjkjSrg=;
-  b=T0Sh0php6VHGt1qQ0fK0Ph4VN7dnw/T5dRiIlDR9X+vxVHB6qcfip9sX
-   EKv1+NkDKeTkIAWPNdI7jVLcxk5wCb2BrND9i6Rm2CqJpZkv/adneyP7A
-   7g5q2eF6QPbk1xJgT4XWCdNQWYWVxkCdR9mzjyXO1v5Xp9eb9lgMu+WPM
-   hPOA4993GLRHu7Zd7EBseHW2ZR1hgUzesrm0DsueaROH/pRX52zo+1WgI
-   SWsq8a2kisnJiGjM/q+csktFZenr4PppftDhRQkS+UePDEIMg+IBIbXdv
-   /GOpqdBlqlSNhXfk+zEqIu9yBbdTCBdZgZL8/o5Zwso6ySLLO5hAsr5CU
+  bh=aS5sbRzbzKOCiF4c4+AZTLDc6bSWQlpvU0vDoi82cK4=;
+  b=FU6VHGv5SIxSqz444gXKihnktAUg8W1GMowU0/7QSz/JYQgO51padbgt
+   fDcKuV4tYjB2d2OlAC54mRQ/cQpiuEnWj+UmM/rfi6xO7KhP7fuIa8cYL
+   Luxx4ORpn6Q/GTPANuVwAssDElZHMsTTTS6dJGMcclgYECcev113AaPso
+   /l59J5N5QTkpsZKTJOUf2ax0cAZ5EbzPJyhgMK/ByWjqb4j5u4NBh58pV
+   qiirwLOC0hvf10IlvekSw5F3IY6KovHuEBSeP/R95EYUwevsBYo+teuSC
+   8GNtUDu0FNaMsu2ORaYrlw3e7uM/SZ7HJ6irDqtBi2BCO/D3+IYqIW1N5
    Q==;
-X-CSE-ConnectionGUID: 9UJJpnKESaum4mvFFhWjjg==
-X-CSE-MsgGUID: QXXjcKDnRP6pGdoiXlc1Zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="77869353"
+X-CSE-ConnectionGUID: BTZ7Z3lzSluZkU5j2Xpaiw==
+X-CSE-MsgGUID: 56y3WA0lShCZkpqz+3nl7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="77596247"
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="77869353"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 11:37:05 -0800
-X-CSE-ConnectionGUID: 0mCl5pgvR8ma2znR7AqIFw==
-X-CSE-MsgGUID: qx83ITugSUKUBeBkxItnYA==
+   d="scan'208";a="77596247"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 13:22:13 -0800
+X-CSE-ConnectionGUID: 0ssdUYSkQOaVAk3ud40b8g==
+X-CSE-MsgGUID: YHoHYR4STxqvGPbIQCzPtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="257252169"
+   d="scan'208";a="224295996"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Mar 2026 11:37:04 -0800
+  by orviesa005.jf.intel.com with ESMTP; 07 Mar 2026 13:22:11 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyxSO-000000002aT-3J9X;
-	Sat, 07 Mar 2026 19:37:00 +0000
-Date: Sun, 08 Mar 2026 03:36:52 +0800
+	id 1vyz68-000000002dp-2uhB;
+	Sat, 07 Mar 2026 21:22:08 +0000
+Date: Sun, 08 Mar 2026 05:21:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe:rw_iter 79/471]
- kernel/trace/trace_events_trigger.c:352 event_trigger_regex_write() warn:
- potential spectre issue 'buf' [w]
-Message-ID: <202603080352.eQSp12OC-lkp@intel.com>
+Subject: [axboe:rw_iter 209/471] drivers/misc/lkdtm/core.c:243
+ lkdtm_debugfs_entry() warn: potential spectre issue 'buf' [w]
+Message-ID: <202603080518.9I0YClKw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -66,10 +65,10 @@ TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
 head:   0a49759be1c3b29207758e467fdc1a90d0716d06
-commit: a6f509b8ee48800a6cc81a95554783bf4412a23a [79/471] tracing: convert to read/write iterators
-:::::: branch date: 32 hours ago
-:::::: commit date: 33 hours ago
-config: i386-randconfig-141-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080352.eQSp12OC-lkp@intel.com/config)
+commit: 49454d0810eb960fba61e80f64d9b5f0f877fa17 [209/471] misc: lkdtm: convert to read/write iterators
+:::::: branch date: 34 hours ago
+:::::: commit date: 34 hours ago
+config: i386-randconfig-141-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080518.9I0YClKw-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 smatch: v0.5.0-9004-gb810ac53
 
@@ -77,56 +76,132 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603080352.eQSp12OC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603080518.9I0YClKw-lkp@intel.com/
 
 smatch warnings:
-kernel/trace/trace_events_trigger.c:352 event_trigger_regex_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace_events.c:2246 event_filter_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace_events.c:2404 subsystem_filter_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace.c:4406 tracing_cpumask_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace.c:4686 tracing_trace_options_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace.c:5688 tracing_set_trace_write() warn: potential spectre issue 'buf' [w]
-kernel/trace/trace.c:7076 tracing_clock_write() warn: potential spectre issue 'buf' [w]
+drivers/misc/lkdtm/core.c:243 lkdtm_debugfs_entry() warn: potential spectre issue 'buf' [w]
+drivers/misc/lkdtm/core.c:318 direct_entry() warn: potential spectre issue 'buf' [w]
 
-vim +/buf +352 kernel/trace/trace_events_trigger.c
+vim +/buf +243 drivers/misc/lkdtm/core.c
 
-85f2b08268c014e Tom Zanussi              2013-10-24  331  
-a6f509b8ee48800 Jens Axboe               2024-04-08  332  static ssize_t event_trigger_regex_write(struct kiocb *iocb,
-a6f509b8ee48800 Jens Axboe               2024-04-08  333  					 struct iov_iter *from)
-85f2b08268c014e Tom Zanussi              2013-10-24  334  {
-7f1d2f8210195c8 Steven Rostedt (Red Hat  2015-05-05  335) 	struct trace_event_file *event_file;
-a6f509b8ee48800 Jens Axboe               2024-04-08  336  	size_t cnt = iov_iter_count(from);
-85f2b08268c014e Tom Zanussi              2013-10-24  337  	ssize_t ret;
-63c72641683891c Steven Rostedt           2024-12-20  338  	char *buf __free(kfree) = NULL;
-85f2b08268c014e Tom Zanussi              2013-10-24  339  
-85f2b08268c014e Tom Zanussi              2013-10-24  340  	if (!cnt)
-85f2b08268c014e Tom Zanussi              2013-10-24  341  		return 0;
-85f2b08268c014e Tom Zanussi              2013-10-24  342  
-85f2b08268c014e Tom Zanussi              2013-10-24  343  	if (cnt >= PAGE_SIZE)
-85f2b08268c014e Tom Zanussi              2013-10-24  344  		return -EINVAL;
-85f2b08268c014e Tom Zanussi              2013-10-24  345  
-a6f509b8ee48800 Jens Axboe               2024-04-08  346  	buf = kmalloc(cnt + 1, GFP_KERNEL);
-a6f509b8ee48800 Jens Axboe               2024-04-08  347  	if (!buf)
-a6f509b8ee48800 Jens Axboe               2024-04-08  348  		return -ENOMEM;
-a6f509b8ee48800 Jens Axboe               2024-04-08  349  
-a6f509b8ee48800 Jens Axboe               2024-04-08  350  	if (!copy_from_iter_full(buf, cnt, from))
-a6f509b8ee48800 Jens Axboe               2024-04-08  351  		return -EFAULT;
-a6f509b8ee48800 Jens Axboe               2024-04-08 @352  	buf[cnt] = '\0';
-85f2b08268c014e Tom Zanussi              2013-10-24  353  
-63c72641683891c Steven Rostedt           2024-12-20  354  	guard(mutex)(&event_mutex);
-63c72641683891c Steven Rostedt           2024-12-20  355  
-a6f509b8ee48800 Jens Axboe               2024-04-08  356  	event_file = event_file_file(iocb->ki_filp);
-63c72641683891c Steven Rostedt           2024-12-20  357  	if (unlikely(!event_file))
-85f2b08268c014e Tom Zanussi              2013-10-24  358  		return -ENODEV;
-85f2b08268c014e Tom Zanussi              2013-10-24  359  
-63c72641683891c Steven Rostedt           2024-12-20  360  	ret = trigger_process_regex(event_file, buf);
-85f2b08268c014e Tom Zanussi              2013-10-24  361  	if (ret < 0)
-63c72641683891c Steven Rostedt           2024-12-20  362  		return ret;
-85f2b08268c014e Tom Zanussi              2013-10-24  363  
-a6f509b8ee48800 Jens Axboe               2024-04-08  364  	iocb->ki_pos += cnt;
-63c72641683891c Steven Rostedt           2024-12-20  365  	return cnt;
-85f2b08268c014e Tom Zanussi              2013-10-24  366  }
-85f2b08268c014e Tom Zanussi              2013-10-24  367  
+2b271cb7203dd4 drivers/misc/lkdtm_core.c Arnd Bergmann    2016-07-15  223  
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  224  static ssize_t lkdtm_debugfs_entry(struct kiocb *iocb, struct iov_iter *from)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  225  {
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  226  	struct crashpoint *crashpoint = file_inode(iocb->ki_filp)->i_private;
+75f98b7ab748a6 drivers/misc/lkdtm_core.c Kees Cook        2017-10-20  227  	const struct crashtype *crashtype = NULL;
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  228  	size_t count = iov_iter_count(from);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  229  	char *buf;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  230  	int err;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  231  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  232  	if (count >= PAGE_SIZE)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  233  		return -EINVAL;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  234  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  235  	buf = (char *)__get_free_page(GFP_KERNEL);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  236  	if (!buf)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  237  		return -ENOMEM;
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  238  	if (!copy_from_iter_full(buf, count, from)) {
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  239  		free_page((unsigned long) buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  240  		return -EFAULT;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  241  	}
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  242  	/* NULL-terminate and remove enter */
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05 @243  	buf[count] = '\0';
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  244  	strim(buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  245  
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook        2016-06-29  246  	crashtype = find_crashtype(buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  247  	free_page((unsigned long)buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  248  
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook        2016-06-29  249  	if (!crashtype)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  250  		return -EINVAL;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  251  
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook        2016-06-29  252  	err = lkdtm_register_cpoint(crashpoint, crashtype);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  253  	if (err < 0)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  254  		return err;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  255  
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  256  	iocb->ki_pos += count;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  257  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  258  	return count;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  259  }
+2b271cb7203dd4 drivers/misc/lkdtm_core.c Arnd Bergmann    2016-07-15  260  #endif
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  261  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  262  /* Generic read callback that just prints out the available crash types */
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  263  static ssize_t lkdtm_debugfs_read(struct kiocb *iocb, struct iov_iter *to)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  264  {
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  265  	int n, cat, idx;
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  266  	ssize_t out;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  267  	char *buf;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  268  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  269  	buf = (char *)__get_free_page(GFP_KERNEL);
+086ff4b3a7fb9c drivers/misc/lkdtm.c      Alan Cox         2012-07-30  270  	if (buf == NULL)
+086ff4b3a7fb9c drivers/misc/lkdtm.c      Alan Cox         2012-07-30  271  		return -ENOMEM;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  272  
+87bf65bc108e5d drivers/misc/lkdtm/core.c Silvio Cesare    2019-01-12  273  	n = scnprintf(buf, PAGE_SIZE, "Available crash types:\n");
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  274  
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  275  	for (cat = 0; cat < ARRAY_SIZE(crashtype_categories); cat++) {
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  276  		for (idx = 0; idx < crashtype_categories[cat]->len; idx++) {
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  277  			struct crashtype *crashtype;
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  278  
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  279  			crashtype = &crashtype_categories[cat]->crashtypes[idx];
+87bf65bc108e5d drivers/misc/lkdtm/core.c Silvio Cesare    2019-01-12  280  			n += scnprintf(buf + n, PAGE_SIZE - n, "%s\n",
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  281  				      crashtype->name);
+73f62e60d80c2d drivers/misc/lkdtm/core.c Kees Cook        2022-03-03  282  		}
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook        2016-06-29  283  	}
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  284  	buf[n] = '\0';
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  285  
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  286  	out = simple_copy_to_iter(buf, &iocb->ki_pos, n, to);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  287  	free_page((unsigned long) buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  288  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  289  	return out;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  290  }
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  291  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  292  static int lkdtm_debugfs_open(struct inode *inode, struct file *file)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  293  {
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  294  	return 0;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  295  }
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  296  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  297  /* Special entry to just crash directly. Available without KPROBEs */
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  298  static ssize_t direct_entry(struct kiocb *iocb, struct iov_iter *from)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  299  {
+75f98b7ab748a6 drivers/misc/lkdtm_core.c Kees Cook        2017-10-20  300  	const struct crashtype *crashtype;
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  301  	size_t count = iov_iter_count(from);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  302  	char *buf;
+84022cff50511e drivers/misc/lkdtm/core.c Douglas Anderson 2024-01-22  303  	int err;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  304  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  305  	if (count >= PAGE_SIZE)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  306  		return -EINVAL;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  307  	if (count < 1)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  308  		return -EINVAL;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  309  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  310  	buf = (char *)__get_free_page(GFP_KERNEL);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  311  	if (!buf)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  312  		return -ENOMEM;
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  313  	if (!copy_from_iter_full(buf, count, from)) {
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  314  		free_page((unsigned long) buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  315  		return -EFAULT;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  316  	}
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  317  	/* NULL-terminate and remove enter */
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05 @318  	buf[count] = '\0';
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  319  	strim(buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  320  
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook        2016-06-29  321  	crashtype = find_crashtype(buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  322  	free_page((unsigned long) buf);
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook        2016-06-29  323  	if (!crashtype)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  324  		return -EINVAL;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  325  
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook        2016-06-29  326  	pr_info("Performing direct entry %s\n", crashtype->name);
+84022cff50511e drivers/misc/lkdtm/core.c Douglas Anderson 2024-01-22  327  	err = lkdtm_do_action(crashtype);
+49454d0810eb96 drivers/misc/lkdtm/core.c Jens Axboe       2024-04-05  328  	iocb->ki_pos += count;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  329  
+84022cff50511e drivers/misc/lkdtm/core.c Douglas Anderson 2024-01-22  330  	if (err)
+84022cff50511e drivers/misc/lkdtm/core.c Douglas Anderson 2024-01-22  331  		return err;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  332  	return count;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  333  }
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom   2010-03-05  334  
+
+:::::: The code at line 243 was first introduced by commit
+:::::: 0347af4ee3922220f6bfe74b87b526aa709a0365 lkdtm: add debugfs access and loosen KPROBE ties
+
+:::::: TO: Simon Kagstrom <simon.kagstrom@netinsight.net>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
