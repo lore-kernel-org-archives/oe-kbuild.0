@@ -1,101 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A984C3074AE
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Mar 2026 06:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB8C2FFF8F
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Mar 2026 07:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772866750; cv=none; b=XrvAA1lL3ga+6YatARIhqsjA7+RRkemv2koaVhnn2pWQmbTCyy9hIco197/Djw0PBaxOpCmnYXCaUq7JOVnzbaHp3W0GM/NxwR6v85VHfyxZujOjN6M9AbQLEGhjaSN3VFypOeTiUJONvbqYbKu7U/NVFw81diUxb1PHm7lWQz4=
+	t=1772869193; cv=none; b=U0fe5RrmRciBwiZErtc8oCdX8rtLsmjnbSfI6zyyX5F0tH42kKDIHzKVe4fH1YM8+xNh8UDr8itk36YjbxUPMT9faW15AhGa6iZxT5RNKg4gjACsCh7XfsgoobaHC2+LoMbWjB7qjIlEEwgnm8akm1AQVPYvDXLpNlz+EnEydz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772866750; c=relaxed/simple;
-	bh=nVQn9J7CUcNNK40FWUEfebvYDP5p1wKNN0F4g2vDTAM=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u0hFoNYFVd8YdJEBlthAOksn8odgM9oq6OIXRTMGrC8hJ4JJZgmAAj5BK9CgjuvFyIE30cDYI7MhT1rFhgKjW9IHpLQc+GRlDwve2fowiu7ke2wHyDHN3zSKQqz0FCy0icrx+hzfJ7QCNOcIeFKYDO8dQr08doPI9zW8FEiPJLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SiO5foYV; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1772869193; c=relaxed/simple;
+	bh=rwNBPFXWSNGUZMXjNNrnwoDdVWQXHbl9uM6vGXUft5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DQO5RsMd94+jloZF5UAyh9iZPy9pGU7LX5fjDhc9Ywgm109rN4NaA4DmRmQyUG4kEtVEh4VCDeROt1ZaMDQ6RWuiG56O3cU+rdCavJHpOkH/YN+zIBF/Hps/W4JG3EyaOzi0WwhE9trQyC2CyA1t+vYuyeE1Fk1BhUiFtImTZT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZ/p2VKl; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SiO5foYV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZ/p2VKl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772866749; x=1804402749;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=nVQn9J7CUcNNK40FWUEfebvYDP5p1wKNN0F4g2vDTAM=;
-  b=SiO5foYVQzkRPVEsxyAxvlhe1QWKrKsNgC93xg2L+pKReEPdaGJR0HA1
-   WD/wZLanUelqBShAiEwVsVuzxYlnz4dEiutOddNeZBDmi7fGqA+/6oZsj
-   ZeD7P2GVQSw3SxSjKy5Y/db+SsSa+18FPJ4S/sSVeshebnDBAQ89tnF2/
-   YBK+tJmmZhagihtEEUnmfUC689zx0FhwXP01clmsOKIBYENfTI5SHgDun
-   4d9Rwb8jqHOhwopEjEZ3LDEbF2K2DuJT6hLwDBsyts1de2jehiIyKD5c0
-   TVhPgAd68lvpBTKPBkOy7B/LrV7X3ej4vkArRdsaTHXGKDaF4YFjgiRb7
-   Q==;
-X-CSE-ConnectionGUID: Fe9i0wWNTuGnFAKGF6o27A==
-X-CSE-MsgGUID: O9bY+dGSQ3ugJji8X0onUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73166487"
+  t=1772869191; x=1804405191;
+  h=date:from:to:cc:subject:message-id;
+  bh=rwNBPFXWSNGUZMXjNNrnwoDdVWQXHbl9uM6vGXUft5Q=;
+  b=eZ/p2VKlu0giRdPmCJZUGKolLxn5XYeItkdAEty7MclP49Ip1bcrqR5I
+   1SqryVb2AXvJUxigt/dfDOcQrYta37oUVPRD4Fme3dWbm5Sz/LFVHoylj
+   NDUTWsm6zXA0+haunyeEDnAwFajCO/TnXpZ3YcVGiAqTccn0ZayDoiJxD
+   ZdZCp6vmyFmVFrJp4RRPJHQlX9l1P1hr+NW2hwATgqehklEoHs+TQ327g
+   Q1oaVU0rHVNGvj/s+qN6ANH7cU2wYAUiilr5sS5z1Ic3sNRmm/xKDNXJY
+   vb4mJospQrY9/ez42vi8LEvUbPhEwIjMOzkPdhxP8e3NXYawvWnDbCSG6
+   w==;
+X-CSE-ConnectionGUID: poqBmIHWR4aPc2GvWTNC0g==
+X-CSE-MsgGUID: U+8u/5g4Rx2aO4LMHDeHYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73888671"
 X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="73166487"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 22:59:08 -0800
-X-CSE-ConnectionGUID: MJLXYlU1RyqblDu6RHqTRQ==
-X-CSE-MsgGUID: esX+EmJ0T5mC6XRd4Xg75A==
+   d="scan'208";a="73888671"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 23:39:50 -0800
+X-CSE-ConnectionGUID: XANBuZLoQvyHqQV3hbxRvA==
+X-CSE-MsgGUID: U0BA4VEoRW+/3gPsT3bQDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="257144152"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 06 Mar 2026 22:59:07 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="245406796"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 06 Mar 2026 23:39:49 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vylcu-000000002RR-28Fb
-	for oe-kbuild@lists.linux.dev;
-	Sat, 07 Mar 2026 06:59:04 +0000
-Date: Sat, 7 Mar 2026 07:58:15 +0100
+	id 1vymGI-000000001np-3JYR;
+	Sat, 07 Mar 2026 07:39:46 +0000
+Date: Sat, 07 Mar 2026 15:39:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH 2/3] bpf: introduce bpf_jit_insn_aux_data
-Message-ID: <202603070734.2XCn0clD-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe:rw_iter 39/471] fs/libfs.c:1514 __simple_write_iter()
+ warn: potential spectre issue 'attr->set_buf' [w]
+Message-ID: <202603071512.U3P1OXlI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260306221330.630971-3-yeoreum.yun@arm.com>
-References: <20260306221330.630971-3-yeoreum.yun@arm.com>
-TO: Yeoreum Yun <yeoreum.yun@arm.com>
-TO: bpf@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
+TO: Jens Axboe <axboe@kernel.dk>
 
-Hi Yeoreum,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
+head:   0a49759be1c3b29207758e467fdc1a90d0716d06
+commit: 7b40f9995773bf20c745784d976fc4e3cfc54699 [39/471] libfs: switch to read iter and add copy helpers
+:::::: branch date: 20 hours ago
+:::::: commit date: 2 days ago
+config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260307/202603071512.U3P1OXlI-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
 
-kernel test robot noticed the following build warnings:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603071512.U3P1OXlI-lkp@intel.com/
 
-[auto build test WARNING on bpf-next/net]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+smatch warnings:
+fs/libfs.c:1514 __simple_write_iter() warn: potential spectre issue 'attr->set_buf' [w]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yeoreum-Yun/bpf-introduce-gotox_point-in-bpf_insn_aux_data/20260307-061908
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20260306221330.630971-3-yeoreum.yun%40arm.com
-patch subject: [PATCH 2/3] bpf: introduce bpf_jit_insn_aux_data
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260307/202603070734.2XCn0clD-lkp@intel.com/reproduce)
+vim +1514 fs/libfs.c
 
-# many are suggestions rather than must-fix
-
-WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
-#209: FILE: kernel/bpf/verifier.c:23003:
-+			func[i]->aux->insn_aux_data = NULL;;
+7b40f9995773bf Jens Axboe 2024-04-03  1491  
+7b40f9995773bf Jens Axboe 2024-04-03  1492  static ssize_t __simple_write_iter(struct kiocb *iocb, struct iov_iter *from,
+7b40f9995773bf Jens Axboe 2024-04-03  1493  				   bool is_signed)
+7b40f9995773bf Jens Axboe 2024-04-03  1494  {
+7b40f9995773bf Jens Axboe 2024-04-03  1495  	struct simple_attr *attr;
+7b40f9995773bf Jens Axboe 2024-04-03  1496  	unsigned long long val;
+7b40f9995773bf Jens Axboe 2024-04-03  1497  	size_t len = iov_iter_count(from);
+7b40f9995773bf Jens Axboe 2024-04-03  1498  	size_t size;
+7b40f9995773bf Jens Axboe 2024-04-03  1499  	ssize_t ret;
+7b40f9995773bf Jens Axboe 2024-04-03  1500  
+7b40f9995773bf Jens Axboe 2024-04-03  1501  	attr = iocb->ki_filp->private_data;
+7b40f9995773bf Jens Axboe 2024-04-03  1502  	if (!attr->set)
+7b40f9995773bf Jens Axboe 2024-04-03  1503  		return -EACCES;
+7b40f9995773bf Jens Axboe 2024-04-03  1504  
+7b40f9995773bf Jens Axboe 2024-04-03  1505  	ret = mutex_lock_interruptible(&attr->mutex);
+7b40f9995773bf Jens Axboe 2024-04-03  1506  	if (ret)
+7b40f9995773bf Jens Axboe 2024-04-03  1507  		return ret;
+7b40f9995773bf Jens Axboe 2024-04-03  1508  
+7b40f9995773bf Jens Axboe 2024-04-03  1509  	ret = -EFAULT;
+7b40f9995773bf Jens Axboe 2024-04-03  1510  	size = min(sizeof(attr->set_buf) - 1, len);
+7b40f9995773bf Jens Axboe 2024-04-03  1511  	if (!copy_from_iter(attr->set_buf, size, from))
+7b40f9995773bf Jens Axboe 2024-04-03  1512  		goto out;
+7b40f9995773bf Jens Axboe 2024-04-03  1513  
+7b40f9995773bf Jens Axboe 2024-04-03 @1514  	attr->set_buf[size] = '\0';
+7b40f9995773bf Jens Axboe 2024-04-03  1515  	if (is_signed)
+7b40f9995773bf Jens Axboe 2024-04-03  1516  		ret = kstrtoll(attr->set_buf, 0, &val);
+7b40f9995773bf Jens Axboe 2024-04-03  1517  	else
+7b40f9995773bf Jens Axboe 2024-04-03  1518  		ret = kstrtoull(attr->set_buf, 0, &val);
+7b40f9995773bf Jens Axboe 2024-04-03  1519  	if (ret)
+7b40f9995773bf Jens Axboe 2024-04-03  1520  		goto out;
+7b40f9995773bf Jens Axboe 2024-04-03  1521  	ret = attr->set(attr->data, val);
+7b40f9995773bf Jens Axboe 2024-04-03  1522  	if (ret == 0)
+7b40f9995773bf Jens Axboe 2024-04-03  1523  		ret = len; /* on success, claim we got the whole input */
+7b40f9995773bf Jens Axboe 2024-04-03  1524  out:
+7b40f9995773bf Jens Axboe 2024-04-03  1525  	mutex_unlock(&attr->mutex);
+7b40f9995773bf Jens Axboe 2024-04-03  1526  	return ret;
+7b40f9995773bf Jens Axboe 2024-04-03  1527  }
+7b40f9995773bf Jens Axboe 2024-04-03  1528  
 
 -- 
 0-DAY CI Kernel Test Service
