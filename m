@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC252110E
-	for <oe-kbuild@lists.linux.dev>; Sun,  8 Mar 2026 19:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA109332614
+	for <oe-kbuild@lists.linux.dev>; Sun,  8 Mar 2026 22:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772999100; cv=none; b=gPL7vfRFarnBoPfmhqCPN1IukunZuK3e6jn+Fhct6rIIabO2glyBZt8uiHUpmEDjHxy2h88TaoksBSxkyjZZnXEKy4M60UR3u9gg98FTEiP371GouJCkDBQrg4OYGxntF9Zn/gPw2TTTGVOQCzpAqXmBw3HgrXZeh9GC8TkUIb4=
+	t=1773009008; cv=none; b=A4IH9lK2/LIbaQXphMQZxOU5SKPjIM//ulKqKVso39ALx4xFtMSEZ/F+Wh/MqAV/Hz25yDPGt6HNgjKIGKHAGVQ5HTdpvwHd8H86A2aPcRUS5we/FrROQXOWoaTkLGuh2tM/26Okz9Lqq0Q5kF5AGyQMJEB/WrVZMl0OOSa5nbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772999100; c=relaxed/simple;
-	bh=Go5H7SJHavC7lsj/MBUzDqXbjiE9iC9YQba8yoPabDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=I7S71G2Gfr6fjEOq6+t2i0VOLA5bADBv+gvvuDM683cMaofxJF2GZvfOc8gWr7Ua4KIZKkbSkO53NMC/pef/sotim1mZD05Sx+rnXcaGY4e6OZzEpmxZgedwmcUoJ4ylkQ0zKqz3HtCXoTFzSbX9abIFGynZ32UMYdXdo8mecfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cKPLNpXo; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1773009008; c=relaxed/simple;
+	bh=NNqp6QYnGBCln82vnhCO0ZoqZ2JdLbiHhj9WSL4j730=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TzkAnZy5fcWN3MzM+xJjOYxQdmmvJacxT01VtVPMuH1IxeWubMOM37T9/UwIzJF3kmlIM9/j/0x2Jl/vnLwx26H5y3xVgu2w2XS2CrzGyPAIHvPOA+cVouA+NHxUCSo60Y1q2oHG/RFPVqn5gC8zvCw5kiTI1p6G2OB1LK3Vc+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gypv5KfL; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cKPLNpXo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gypv5KfL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772999098; x=1804535098;
+  t=1773009005; x=1804545005;
   h=date:from:to:cc:subject:message-id;
-  bh=Go5H7SJHavC7lsj/MBUzDqXbjiE9iC9YQba8yoPabDQ=;
-  b=cKPLNpXoFxRWIK9Z8C8UItXrZv98ubxCbu0c3HqK4fyjCzyRLRMBrfEH
-   0wSLf+dSFmIrCJu6OjR8QR+WUNmE9BL0bf01QLi0tIFxpZWJguCn64U+a
-   t5kW9Y4RPosHUDqpoNH0yi9YZtBy8Jq4wsrqn6dFKJlfqhqIpmCGKJquK
-   3kbp8IVWUVE+ts6JU7kzxRz0nGI7hFzWzhfwTiGIcian3l3xQXCrcA0ZK
-   kxmP7PR4pHPsYPvfVZHTYf7F3ye7fHmg6/WyWhEobG5atu1Q/ONT5n5Ie
-   cY9FMsY7xthzPyB6PIotmobdeVpvZRHsov2ekVUwpHtGFfoBgTM7EA2BL
-   A==;
-X-CSE-ConnectionGUID: czTXmjivQ+e1j99Z12hLlA==
-X-CSE-MsgGUID: uA/Jcmp2SJWPbNUclMb2lQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="91604956"
+  bh=NNqp6QYnGBCln82vnhCO0ZoqZ2JdLbiHhj9WSL4j730=;
+  b=Gypv5KfLlr8r9oGgP46tTThrveG/mWKhHi4WiXA3D2eH3ZFlryOEKVpA
+   jBax8R9+33S3yWyTS5TFjyIfA/Id5n1+6oSjUnYg3xGJ+X7x9ggsI56Cz
+   xZXrnO9HNT2OODAaDBiec6cjmYjPhJZKTXI4eNlF1Equt2GflpQq2hsT2
+   pJMXTCeD5q1WDbPAKt90SjA7OxRsbguV7JPl+/qf+ikxJA4/4c0qVuA31
+   /xdK7X+Pi31iCUYYwcRbUQcK+F7Zz06iP8hLhMVW5RIlEaSSI/jJqQL/M
+   LOhclUeacAZ7oX+IRB3ooV1Csok0kN3U5pdJu2Di77fA9IfPPRJNYFgya
+   g==;
+X-CSE-ConnectionGUID: QaqsOsjLRgyGU7BqLwpBOQ==
+X-CSE-MsgGUID: BOKnDbHqTC6jj9sDCUNEaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="74080444"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="91604956"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 12:44:58 -0700
-X-CSE-ConnectionGUID: VOQDb3VgS7uWjV/7bsVhYg==
-X-CSE-MsgGUID: SW54znuRQtOF/GRWdrisLQ==
+   d="scan'208";a="74080444"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 15:30:05 -0700
+X-CSE-ConnectionGUID: itF3tMAeQba3I88Z0IudZg==
+X-CSE-MsgGUID: Tmq4KOgwTOivgyZ0C/DA2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="219675459"
+   d="scan'208";a="218713151"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Mar 2026 12:44:56 -0700
+  by orviesa006.jf.intel.com with ESMTP; 08 Mar 2026 15:30:04 -0700
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzK3a-000000003Ls-07M4;
-	Sun, 08 Mar 2026 19:44:54 +0000
-Date: Mon, 09 Mar 2026 03:44:36 +0800
+	id 1vzMdM-000000003Qu-2tFf;
+	Sun, 08 Mar 2026 22:30:00 +0000
+Date: Mon, 09 Mar 2026 06:29:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe:rw_iter 134/471] drivers/gpu/drm/drm_debugfs.c:532
- connector_write() warn: potential spectre issue 'buf' [w]
-Message-ID: <202603090315.sQKJjYjG-lkp@intel.com>
+Subject: [axboe:rw_iter 143/471]
+ drivers/gpu/drm/loongson/lsdc_crtc.c:647 lsdc_crtc_man_op_write() warn:
+ potential spectre issue 'buf' [w]
+Message-ID: <202603090633.tFwzlZSd-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,10 +66,10 @@ TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
 head:   0a49759be1c3b29207758e467fdc1a90d0716d06
-commit: 89c24f70314e152ada59b288a4cf3f0dbe7d9f46 [134/471] drm: convert debugfs helpers to be read/write iterator based
+commit: 76dedd5c839e0bd2c29550f6a8491a5676f9b0f3 [143/471] drm/loongson: convert to read/write iterators
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260309/202603090315.sQKJjYjG-lkp@intel.com/config)
+config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260309/202603090633.tFwzlZSd-lkp@intel.com/config)
 compiler: or1k-linux-gcc (GCC) 15.2.0
 smatch: v0.5.0-9004-gb810ac53
 
@@ -76,53 +77,50 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603090315.sQKJjYjG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603090633.tFwzlZSd-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/drm_debugfs.c:532 connector_write() warn: potential spectre issue 'buf' [w]
-drivers/gpu/drm/drm_debugfs_crc.c:145 crc_control_write() warn: potential spectre issue 'source' [w]
+smatch warnings:
+drivers/gpu/drm/loongson/lsdc_crtc.c:647 lsdc_crtc_man_op_write() warn: potential spectre issue 'buf' [w]
 
-Old smatch warnings:
-drivers/gpu/drm/drm_debugfs.c:230 drm_debugfs_gpuva_info() warn: argument 6 to %016llx specifier is cast from pointer
+vim +/buf +647 drivers/gpu/drm/loongson/lsdc_crtc.c
 
-vim +/buf +532 drivers/gpu/drm/drm_debugfs.c
+f39db26c54281d Sui Jingfeng 2023-06-15  632  
+76dedd5c839e0b Jens Axboe   2024-04-09  633  static ssize_t lsdc_crtc_man_op_write(struct kiocb *iocb, struct iov_iter *from)
+f39db26c54281d Sui Jingfeng 2023-06-15  634  {
+76dedd5c839e0b Jens Axboe   2024-04-09  635  	struct seq_file *m = iocb->ki_filp->private_data;
+f39db26c54281d Sui Jingfeng 2023-06-15  636  	struct lsdc_crtc *lcrtc = m->private;
+f39db26c54281d Sui Jingfeng 2023-06-15  637  	const struct lsdc_crtc_hw_ops *ops = lcrtc->hw_ops;
+76dedd5c839e0b Jens Axboe   2024-04-09  638  	size_t len = iov_iter_count(from);
+f39db26c54281d Sui Jingfeng 2023-06-15  639  	char buf[16];
+f39db26c54281d Sui Jingfeng 2023-06-15  640  
+f39db26c54281d Sui Jingfeng 2023-06-15  641  	if (len > sizeof(buf) - 1)
+f39db26c54281d Sui Jingfeng 2023-06-15  642  		return -EINVAL;
+f39db26c54281d Sui Jingfeng 2023-06-15  643  
+76dedd5c839e0b Jens Axboe   2024-04-09  644  	if (!copy_from_iter_full(buf, len, from))
+f39db26c54281d Sui Jingfeng 2023-06-15  645  		return -EFAULT;
+f39db26c54281d Sui Jingfeng 2023-06-15  646  
+f39db26c54281d Sui Jingfeng 2023-06-15 @647  	buf[len] = '\0';
+f39db26c54281d Sui Jingfeng 2023-06-15  648  
+f39db26c54281d Sui Jingfeng 2023-06-15  649  	if (sysfs_streq(buf, "soft_reset"))
+f39db26c54281d Sui Jingfeng 2023-06-15  650  		ops->soft_reset(lcrtc);
+f39db26c54281d Sui Jingfeng 2023-06-15  651  	else if (sysfs_streq(buf, "enable"))
+f39db26c54281d Sui Jingfeng 2023-06-15  652  		ops->enable(lcrtc);
+f39db26c54281d Sui Jingfeng 2023-06-15  653  	else if (sysfs_streq(buf, "disable"))
+f39db26c54281d Sui Jingfeng 2023-06-15  654  		ops->disable(lcrtc);
+f39db26c54281d Sui Jingfeng 2023-06-15  655  	else if (sysfs_streq(buf, "flip"))
+f39db26c54281d Sui Jingfeng 2023-06-15  656  		ops->flip(lcrtc);
+f39db26c54281d Sui Jingfeng 2023-06-15  657  	else if (sysfs_streq(buf, "clone"))
+f39db26c54281d Sui Jingfeng 2023-06-15  658  		ops->clone(lcrtc);
+f39db26c54281d Sui Jingfeng 2023-06-15  659  
+f39db26c54281d Sui Jingfeng 2023-06-15  660  	return len;
+f39db26c54281d Sui Jingfeng 2023-06-15  661  }
+f39db26c54281d Sui Jingfeng 2023-06-15  662  
 
-30f6570798f6c8 Thomas Wood     2014-06-18  518  
-89c24f70314e15 Jens Axboe      2024-04-09  519  static ssize_t connector_write(struct kiocb *iocb, struct iov_iter *from)
-30f6570798f6c8 Thomas Wood     2014-06-18  520  {
-89c24f70314e15 Jens Axboe      2024-04-09  521  	struct seq_file *m = iocb->ki_filp->private_data;
-30f6570798f6c8 Thomas Wood     2014-06-18  522  	struct drm_connector *connector = m->private;
-89c24f70314e15 Jens Axboe      2024-04-09  523  	size_t len = iov_iter_count(from);
-30f6570798f6c8 Thomas Wood     2014-06-18  524  	char buf[12];
-30f6570798f6c8 Thomas Wood     2014-06-18  525  
-30f6570798f6c8 Thomas Wood     2014-06-18  526  	if (len > sizeof(buf) - 1)
-30f6570798f6c8 Thomas Wood     2014-06-18  527  		return -EINVAL;
-30f6570798f6c8 Thomas Wood     2014-06-18  528  
-89c24f70314e15 Jens Axboe      2024-04-09  529  	if (!copy_from_iter_full(buf, len, from))
-30f6570798f6c8 Thomas Wood     2014-06-18  530  		return -EFAULT;
-30f6570798f6c8 Thomas Wood     2014-06-18  531  
-30f6570798f6c8 Thomas Wood     2014-06-18 @532  	buf[len] = '\0';
-30f6570798f6c8 Thomas Wood     2014-06-18  533  
-c704b17071c4dc Michael Tretter 2017-08-17  534  	if (sysfs_streq(buf, "on"))
-30f6570798f6c8 Thomas Wood     2014-06-18  535  		connector->force = DRM_FORCE_ON;
-c704b17071c4dc Michael Tretter 2017-08-17  536  	else if (sysfs_streq(buf, "digital"))
-30f6570798f6c8 Thomas Wood     2014-06-18  537  		connector->force = DRM_FORCE_ON_DIGITAL;
-c704b17071c4dc Michael Tretter 2017-08-17  538  	else if (sysfs_streq(buf, "off"))
-30f6570798f6c8 Thomas Wood     2014-06-18  539  		connector->force = DRM_FORCE_OFF;
-c704b17071c4dc Michael Tretter 2017-08-17  540  	else if (sysfs_streq(buf, "unspecified"))
-30f6570798f6c8 Thomas Wood     2014-06-18  541  		connector->force = DRM_FORCE_UNSPECIFIED;
-30f6570798f6c8 Thomas Wood     2014-06-18  542  	else
-30f6570798f6c8 Thomas Wood     2014-06-18  543  		return -EINVAL;
-30f6570798f6c8 Thomas Wood     2014-06-18  544  
-30f6570798f6c8 Thomas Wood     2014-06-18  545  	return len;
-30f6570798f6c8 Thomas Wood     2014-06-18  546  }
-30f6570798f6c8 Thomas Wood     2014-06-18  547  
+:::::: The code at line 647 was first introduced by commit
+:::::: f39db26c54281da6a785259498ca74b5e470476f drm: Add kms driver for loongson display controller
 
-:::::: The code at line 532 was first introduced by commit
-:::::: 30f6570798f6c897df4f1f2c676d803728bfec27 drm/debugfs: add a "force" file per connector
-
-:::::: TO: Thomas Wood <thomas.wood@intel.com>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: TO: Sui Jingfeng <suijingfeng@loongson.cn>
+:::::: CC: Sui Jingfeng <suijingfeng@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
