@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992C53BD62E
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Mar 2026 17:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4E02D8DCA
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Mar 2026 17:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773077277; cv=none; b=b6B+RMUloH35c6I+gksaFDlDDfQLtALRs2cRAOsSByZlBaYPLADuVB7jGoeyhtDODXYyDZxoEDPBw1VcYXmQ/WGwOHAICrzg7jatgRQwFlPkNLuBMaCNTOnW9IErINyBcPEyrKchJR6g6LLOxcM7/LdKOp+1/zVyJn2o0NzvQtA=
+	t=1773078516; cv=none; b=napVvLx2ex3R8nRSuAXNFAiYkZ2KhFonzjpKFQHkIXJM5oEnMojcYh3yAdNKsRD6iuxQqVYQqPDigWhW6/DDalw7dA+Gat2VXq/f9aO+pbupcqUVQL8313W2LatCCYoEJpegaCSv6TBrrXgOgNN1bjy0zKx235NIHRCeZkxhmk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773077277; c=relaxed/simple;
-	bh=MwQIq66PQeHlCmEYISIUwD+xmDUtJXMkGeHnncA0VBM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tmdbCzc4P630x8Ox6O+g5Di9RbWjek0McrdvEAfE1n1DasFlx3+G1DzbosPRGG0sjAr4b9zzUVNMGEDBtcatSmxhshzABRYmwzJktizKJlA1e+Tc5md2dv6MEPd2ElRJMqPZFePiXe+sO77nmrWmuHZP8N9rSn8/KuAA2VIvga8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRQE3zbJ; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1773078516; c=relaxed/simple;
+	bh=G+Ha1wAHX8A/EtKTSSLf3ySSPxl+Dgr6/klYhXDAJEI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Tbw7S68TwJNYRq6XHGJ69l43S5CvSY6hXVDqHy2420xuWR3ddrhkwYc1iTr0+VlivAJaWZBWOe8TEAH/V4OxgwtnBSOUyYAANMcV4bzmWZ/sjs1uL2HG7S6Dcr3FXdD8qbk+majoBvQPzUWDQOnmnObYQGLr5CSBZAJ0ZTU4/Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4WRf0I+; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRQE3zbJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4WRf0I+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773077275; x=1804613275;
+  t=1773078513; x=1804614513;
   h=date:from:to:cc:subject:message-id;
-  bh=MwQIq66PQeHlCmEYISIUwD+xmDUtJXMkGeHnncA0VBM=;
-  b=jRQE3zbJwuaSQjFB0tTjnTvhugg2h/OToXTheSw/woL/o6OnF55sljZd
-   Sol8snKgl01eJM8auC7Gsrsgdg/HjhXn+O9ws/eXBoKMxXPEsL/RTk/n0
-   Vp0GsM7yZyTYa0+iMLBMrzbuImnqV7ZSjmznuQ1vC3Gj2WDYZ4OBa8rM1
-   mlAg3Bmp4Ed65YgVQM9C4i7tX55ME3C9bmtwByi3xqiMdYbnebToG5p+C
-   5feykGUIC+AtNz8L5REtrJAjRFPAYgP9mFzGaYwO9brmt/5vC35Juqf2w
-   pGz/uwwo4AkGcaDyjdTQ+Fggq9rdWsgtlRt3g7RM59wRwGnasXgYXqdtv
-   w==;
-X-CSE-ConnectionGUID: fWXvvsiuRGSgKQHgDt3Uxw==
-X-CSE-MsgGUID: WXByH6/DQ3++mjSSyzX2aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="73132405"
+  bh=G+Ha1wAHX8A/EtKTSSLf3ySSPxl+Dgr6/klYhXDAJEI=;
+  b=C4WRf0I+cVPdV8U+CJqsyCAgnN55t0MaefaFsKq+uP/pzvhlU4mo3qRm
+   3ro+fhdsMms+nbFvJlAXmhRhMc6KMiks4xwaBMwZueBQBP78RiGdoq97X
+   mbyRMIQjh+wvrCIsELivkhhqG+Uu/m3RazAZY+823YqiGEBmnlwJSKGdx
+   U3Ra783Ar6pTncim8G4yseZ+Ku/ol5NQzx0M/JVMllPGO8y02XgrZ1Pwo
+   Ff0Sln7iGhyv568wNsZ/iNmhJaAFGtMezKbN3IxvznezLl8QuiZdunJDw
+   wPmaIi9oWleo0L/JqIjqnUmV/qk/izCjC2wLVN5GmWI/r55KuTTUj+Yju
+   Q==;
+X-CSE-ConnectionGUID: qAZDfxw9RJWbgjE2ZlwCtw==
+X-CSE-MsgGUID: pZos8iXVTQaOeE6255c4CQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="85200531"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="73132405"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 10:27:54 -0700
-X-CSE-ConnectionGUID: z9F/mlP0TIur2LzL1g1hBQ==
-X-CSE-MsgGUID: FtQbHluhRSeZ86WqXoLDAw==
+   d="scan'208";a="85200531"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 10:48:33 -0700
+X-CSE-ConnectionGUID: z81WH0WfTSauYZhMfaGVFQ==
+X-CSE-MsgGUID: hZbU19AYShquX7VUhl+TlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="219759918"
-Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Mar 2026 10:27:54 -0700
-Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
+   d="scan'208";a="218972980"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 09 Mar 2026 10:48:32 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzeOU-000000000cw-2w5L;
-	Mon, 09 Mar 2026 17:27:50 +0000
-Date: Tue, 10 Mar 2026 01:27:09 +0800
+	id 1vzeiT-000000002uL-2TDg;
+	Mon, 09 Mar 2026 17:48:29 +0000
+Date: Mon, 09 Mar 2026 18:48:17 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/marvell/octeontx2/nic/cn20k.c:296
- cn20k_aura_aq_init() error: we previously assumed 'pool->fc_addr' could be
- null (see line 267)
-Message-ID: <202603100110.PadmwEtH-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [at91:at91-next 4/9]
+ arch/arm/boot/dts/microchip/at91rm9200ek.dtb: timer@fffffd00
+ (atmel,at91rm9200-st): Unevaluated properties are not allowed ('watchdog' was
+ unexpected)
+Message-ID: <202603091833.WSAsXQYH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,113 +61,74 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Linu Cherian <lcherian@marvell.com>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Subbaraya Sundeep <sbhatta@marvell.com>
+TO: Akhila YS <akhilayalmati@gmail.com>
+CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
-commit: d322fbd1720382a37ec4d2cf3f3eda7e59439d40 octeontx2-pf: Initialize cn20k specific aura and pool contexts
-date:   4 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 4 months ago
-config: riscv-randconfig-r072-20260309 (https://download.01.org/0day-ci/archive/20260310/202603100110.PadmwEtH-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.2.0
-smatch: v0.5.0-9004-gb810ac53
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/at91/linux.git at91-next
+head:   f082fefaf9abb93d234835e160e54661392472bb
+commit: ae18e2543c4a07317a03c7cf042d8a0596cd5bd0 [4/9] dt-bindings: arm: atmel,at91rm9200-st: convert to DT schema
+:::::: branch date: 25 hours ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-2052-20260308 (https://download.01.org/0day-ci/archive/20260309/202603091833.WSAsXQYH-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603091833.WSAsXQYH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603100110.PadmwEtH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603091833.WSAsXQYH-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/marvell/octeontx2/nic/cn20k.c:296 cn20k_aura_aq_init() error: we previously assumed 'pool->fc_addr' could be null (see line 267)
-drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:1416 otx2_aura_aq_init() error: we previously assumed 'pool->fc_addr' could be null (see line 1388)
-
-vim +296 drivers/net/ethernet/marvell/octeontx2/nic/cn20k.c
-
-d322fbd1720382a Linu Cherian 2025-10-25  253  
-d322fbd1720382a Linu Cherian 2025-10-25  254  static int cn20k_aura_aq_init(struct otx2_nic *pfvf, int aura_id,
-d322fbd1720382a Linu Cherian 2025-10-25  255  			      int pool_id, int numptrs)
-d322fbd1720382a Linu Cherian 2025-10-25  256  {
-d322fbd1720382a Linu Cherian 2025-10-25  257  	struct npa_cn20k_aq_enq_req *aq;
-d322fbd1720382a Linu Cherian 2025-10-25  258  	struct otx2_pool *pool;
-d322fbd1720382a Linu Cherian 2025-10-25  259  	u8 bpid_idx;
-d322fbd1720382a Linu Cherian 2025-10-25  260  	int err;
-d322fbd1720382a Linu Cherian 2025-10-25  261  
-d322fbd1720382a Linu Cherian 2025-10-25  262  	pool = &pfvf->qset.pool[pool_id];
-d322fbd1720382a Linu Cherian 2025-10-25  263  
-d322fbd1720382a Linu Cherian 2025-10-25  264  	/* Allocate memory for HW to update Aura count.
-d322fbd1720382a Linu Cherian 2025-10-25  265  	 * Alloc one cache line, so that it fits all FC_STYPE modes.
-d322fbd1720382a Linu Cherian 2025-10-25  266  	 */
-d322fbd1720382a Linu Cherian 2025-10-25 @267  	if (!pool->fc_addr) {
-d322fbd1720382a Linu Cherian 2025-10-25  268  		err = qmem_alloc(pfvf->dev, &pool->fc_addr, 1, OTX2_ALIGN);
-d322fbd1720382a Linu Cherian 2025-10-25  269  		if (err)
-d322fbd1720382a Linu Cherian 2025-10-25  270  			return err;
-d322fbd1720382a Linu Cherian 2025-10-25  271  	}
-d322fbd1720382a Linu Cherian 2025-10-25  272  
-d322fbd1720382a Linu Cherian 2025-10-25  273  	/* Initialize this aura's context via AF */
-d322fbd1720382a Linu Cherian 2025-10-25  274  	aq = otx2_mbox_alloc_msg_npa_cn20k_aq_enq(&pfvf->mbox);
-d322fbd1720382a Linu Cherian 2025-10-25  275  	if (!aq) {
-d322fbd1720382a Linu Cherian 2025-10-25  276  		/* Shared mbox memory buffer is full, flush it and retry */
-d322fbd1720382a Linu Cherian 2025-10-25  277  		err = otx2_sync_mbox_msg(&pfvf->mbox);
-d322fbd1720382a Linu Cherian 2025-10-25  278  		if (err)
-d322fbd1720382a Linu Cherian 2025-10-25  279  			return err;
-d322fbd1720382a Linu Cherian 2025-10-25  280  		aq = otx2_mbox_alloc_msg_npa_cn20k_aq_enq(&pfvf->mbox);
-d322fbd1720382a Linu Cherian 2025-10-25  281  		if (!aq)
-d322fbd1720382a Linu Cherian 2025-10-25  282  			return -ENOMEM;
-d322fbd1720382a Linu Cherian 2025-10-25  283  	}
-d322fbd1720382a Linu Cherian 2025-10-25  284  
-d322fbd1720382a Linu Cherian 2025-10-25  285  	aq->aura_id = aura_id;
-d322fbd1720382a Linu Cherian 2025-10-25  286  
-d322fbd1720382a Linu Cherian 2025-10-25  287  	/* Will be filled by AF with correct pool context address */
-d322fbd1720382a Linu Cherian 2025-10-25  288  	aq->aura.pool_addr = pool_id;
-d322fbd1720382a Linu Cherian 2025-10-25  289  	aq->aura.pool_caching = 1;
-d322fbd1720382a Linu Cherian 2025-10-25  290  	aq->aura.shift = ilog2(numptrs) - 8;
-d322fbd1720382a Linu Cherian 2025-10-25  291  	aq->aura.count = numptrs;
-d322fbd1720382a Linu Cherian 2025-10-25  292  	aq->aura.limit = numptrs;
-d322fbd1720382a Linu Cherian 2025-10-25  293  	aq->aura.avg_level = 255;
-d322fbd1720382a Linu Cherian 2025-10-25  294  	aq->aura.ena = 1;
-d322fbd1720382a Linu Cherian 2025-10-25  295  	aq->aura.fc_ena = 1;
-d322fbd1720382a Linu Cherian 2025-10-25 @296  	aq->aura.fc_addr = pool->fc_addr->iova;
-d322fbd1720382a Linu Cherian 2025-10-25  297  	aq->aura.fc_hyst_bits = 0; /* Store count on all updates */
-d322fbd1720382a Linu Cherian 2025-10-25  298  
-d322fbd1720382a Linu Cherian 2025-10-25  299  	/* Enable backpressure for RQ aura */
-d322fbd1720382a Linu Cherian 2025-10-25  300  	if (aura_id < pfvf->hw.rqpool_cnt && !is_otx2_lbkvf(pfvf->pdev)) {
-d322fbd1720382a Linu Cherian 2025-10-25  301  		aq->aura.bp_ena = 0;
-d322fbd1720382a Linu Cherian 2025-10-25  302  		/* If NIX1 LF is attached then specify NIX1_RX.
-d322fbd1720382a Linu Cherian 2025-10-25  303  		 *
-d322fbd1720382a Linu Cherian 2025-10-25  304  		 * Below NPA_AURA_S[BP_ENA] is set according to the
-d322fbd1720382a Linu Cherian 2025-10-25  305  		 * NPA_BPINTF_E enumeration given as:
-d322fbd1720382a Linu Cherian 2025-10-25  306  		 * 0x0 + a*0x1 where 'a' is 0 for NIX0_RX and 1 for NIX1_RX so
-d322fbd1720382a Linu Cherian 2025-10-25  307  		 * NIX0_RX is 0x0 + 0*0x1 = 0
-d322fbd1720382a Linu Cherian 2025-10-25  308  		 * NIX1_RX is 0x0 + 1*0x1 = 1
-d322fbd1720382a Linu Cherian 2025-10-25  309  		 * But in HRM it is given that
-d322fbd1720382a Linu Cherian 2025-10-25  310  		 * "NPA_AURA_S[BP_ENA](w1[33:32]) - Enable aura backpressure to
-d322fbd1720382a Linu Cherian 2025-10-25  311  		 * NIX-RX based on [BP] level. One bit per NIX-RX; index
-d322fbd1720382a Linu Cherian 2025-10-25  312  		 * enumerated by NPA_BPINTF_E."
-d322fbd1720382a Linu Cherian 2025-10-25  313  		 */
-d322fbd1720382a Linu Cherian 2025-10-25  314  		if (pfvf->nix_blkaddr == BLKADDR_NIX1)
-d322fbd1720382a Linu Cherian 2025-10-25  315  			aq->aura.bp_ena = 1;
-d322fbd1720382a Linu Cherian 2025-10-25  316  
-d322fbd1720382a Linu Cherian 2025-10-25  317  		bpid_idx = cn20k_aura_bpid_idx(pfvf, aura_id);
-d322fbd1720382a Linu Cherian 2025-10-25  318  		aq->aura.bpid = pfvf->bpid[bpid_idx];
-d322fbd1720382a Linu Cherian 2025-10-25  319  
-d322fbd1720382a Linu Cherian 2025-10-25  320  		/* Set backpressure level for RQ's Aura */
-d322fbd1720382a Linu Cherian 2025-10-25  321  		aq->aura.bp = RQ_BP_LVL_AURA;
-d322fbd1720382a Linu Cherian 2025-10-25  322  	}
-d322fbd1720382a Linu Cherian 2025-10-25  323  
-d322fbd1720382a Linu Cherian 2025-10-25  324  	/* Fill AQ info */
-d322fbd1720382a Linu Cherian 2025-10-25  325  	aq->ctype = NPA_AQ_CTYPE_AURA;
-d322fbd1720382a Linu Cherian 2025-10-25  326  	aq->op = NPA_AQ_INSTOP_INIT;
-d322fbd1720382a Linu Cherian 2025-10-25  327  
-d322fbd1720382a Linu Cherian 2025-10-25  328  	return 0;
-d322fbd1720382a Linu Cherian 2025-10-25  329  }
-d322fbd1720382a Linu Cherian 2025-10-25  330  
+dtcheck warnings: (new ones prefixed by >>)
+   	'microchip,sama7g5' was expected
+   	'microchip,lan9662' was expected
+   	'microchip,lan9668' was expected
+   	'kontron,s1921' was expected
+   	'atmel,sams70' was expected
+   	'atmel,samv70' was expected
+   	'atmel,samv71' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/atmel-at91.yaml
+   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: /: failed to match any schema with compatible: ['atmel,at91rm9200ek', 'atmel,at91rm9200']
+   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: /ahb/apb/ramc@ffffff00: failed to match any schema with compatible: ['atmel,at91rm9200-sdramc', 'syscon']
+>> arch/arm/boot/dts/microchip/at91rm9200ek.dtb: timer@fffffd00 (atmel,at91rm9200-st): Unevaluated properties are not allowed ('watchdog' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-st.yaml
+   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: watchdog (atmel,at91rm9200-wdt): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/watchdog/atmel,at91rm9200-wdt.yaml
+   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: ethernet@fffbc000 (cdns,at91rm9200-emac): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml
+   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: ethernet-phy: 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: /ahb/apb/gadget@fffb0000: failed to match any schema with compatible: ['atmel,at91rm9200-udc']
+   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: /ahb/nand@40000000: failed to match any schema with compatible: ['atmel,at91rm9200-nand']
+   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: usb@300000 (atmel,at91rm9200-ohci): compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   	'microchip,sama7g5' was expected
+   	'microchip,lan9662' was expected
+   	'microchip,lan9668' was expected
+   	'kontron,s1921' was expected
+   	'atmel,sams70' was expected
+   	'atmel,samv70' was expected
+   	'atmel,samv71' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/atmel-at91.yaml
+   arch/arm/boot/dts/microchip/mpa1600.dtb: /: failed to match any schema with compatible: ['phontech,mpa1600', 'atmel,at91rm9200']
+   arch/arm/boot/dts/microchip/mpa1600.dtb: /ahb/apb/ramc@ffffff00: failed to match any schema with compatible: ['atmel,at91rm9200-sdramc', 'syscon']
+>> arch/arm/boot/dts/microchip/mpa1600.dtb: timer@fffffd00 (atmel,at91rm9200-st): Unevaluated properties are not allowed ('watchdog' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-st.yaml
+   arch/arm/boot/dts/microchip/mpa1600.dtb: watchdog (atmel,at91rm9200-wdt): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/watchdog/atmel,at91rm9200-wdt.yaml
+   arch/arm/boot/dts/microchip/mpa1600.dtb: /ahb/apb/gadget@fffb0000: failed to match any schema with compatible: ['atmel,at91rm9200-udc']
+   arch/arm/boot/dts/microchip/mpa1600.dtb: /ahb/nand@40000000: failed to match any schema with compatible: ['atmel,at91rm9200-nand']
+   arch/arm/boot/dts/microchip/mpa1600.dtb: usb@300000 (atmel,at91rm9200-ohci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['atmel,at91rm9200-ohci', 'usb-ohci'] is too long
+   	'atmel,at91rm9200-ohci' is not one of ['allwinner,sun4i-a10-ohci', 'allwinner,sun50i-a100-ohci', 'allwinner,sun50i-a64-ohci', 'allwinner,sun50i-h6-ohci', 'allwinner,sun50i-h616-ohci', 'allwinner,sun55i-a523-ohci', 'allwinner,sun5i-a13-ohci', 'allwinner,sun6i-a31-ohci', 'allwinner,sun7i-a20-ohci', 'allwinner,sun8i-a23-ohci', 'allwinner,sun8i-a83t-ohci', 'allwinner,sun8i-h3-ohci', 'allwinner,sun8i-r40-ohci', 'allwinner,sun8i-v3s-ohci', 'allwinner,sun9i-a80-ohci', 'allwinner,sun20i-d1-ohci', 'brcm,bcm3384-ohci', 'brcm,bcm63268-ohci', 'brcm,bcm6328-ohci', 'brcm,bcm6358-ohci', 'brcm,bcm6362-ohci', 'brcm,bcm6368-ohci', 'brcm,bcm7125-ohci', 'brcm,bcm7346-ohci', 'brcm,bcm7358-ohci', 'brcm,bcm7360-ohci', 'brcm,bcm7362-ohci', 'brcm,bcm7420-ohci', 'brcm,bcm7425-ohci', 'brcm,bcm7435-ohci', 'hpe,gxp-ohci', 'ibm,476gtr-ohci', 'ingenic,jz4740-ohci', 'rockchip,rk3588-ohci', 'snps,hsdk-v1.0-ohci']
+   	'atmel,at91rm9200-ohci' is not one of ['generic-ohci', 'ti,ohci-omap3']
+   	'atmel,at91rm9200-ohci' is not one of ['cavium,octeon-6335-ohci', 'nintendo,hollywood-usb-ohci', 'nxp,ohci-nxp', 'st,spear600-ohci']
 
 -- 
 0-DAY CI Kernel Test Service
