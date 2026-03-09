@@ -1,125 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9736413DBA0
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Mar 2026 00:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049134502A
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Mar 2026 00:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773015268; cv=none; b=XGgHbNu9igR+1+jrANcZrsqKV1lFpyZINZt44jG+r6O6T8GgKLET6p/SRagrR0jKcmFMHfrhKx3MHJ3BTa8o3koZa03k2mzbUfOGwBplD9yZL8rulIcSPmKe5Y7l0KmnJe1KVTEw2CddzzEejPQlPk0Sau0u/HeviU+RwNISPTE=
+	t=1773016458; cv=none; b=rT3VyhcbR/tjKCDrdcAek3hish7bwzFhlCH2erVI4RVE+m4DUKc5awUChKCEaeaUi2z452GuVOZYbs24UpE2Ojm0lXdiLdIBln7jfGDPuByVyCYPi2CVM3tmB06X5FU33bNEydoHAbrUO7m/Xo4ufme4NlF72u7xbAWCUHLdlcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773015268; c=relaxed/simple;
-	bh=PLoTSapWUO7DN1AVQ6QOOTennZQLu82/Z8xN0rhdK+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BURLI1PezJPrzbabVqr8eEB2jaP7bQp1jBK0ICcr/sHCvYS/2igDDJMmVfUcMAV27auMCvH44IS0xQAudyLnBqo3n8OSd836s/x8vA6F3MwRZoTI5vmSawZBGUaIiR6vf7Wdm4ij90Y6PwCJeBHpl8DqHkotenH6oNDZUTqjn8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8oLMyoc; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1773016458; c=relaxed/simple;
+	bh=N9ny5I1BogcDDN0U2yTWf/uqmrGOkC0TeJGMZg9ACjI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uBpE+m/tYGEXPjtcF9CQpPBrmCVG7kJ53yzE2AuqyyXKzrjWYXoFAgH4osEg7578CdaolDcn7NiD96KksBVzJXuGRxBwuoJFYi+m/1xhiWNLx3ik3DnNaVrslVQ7ut6yj/rQfZ3PxFRXvpsY1JN4l9/GFsTQzsc0+iSesqsX3zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mejv06bB; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8oLMyoc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mejv06bB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773015267; x=1804551267;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PLoTSapWUO7DN1AVQ6QOOTennZQLu82/Z8xN0rhdK+o=;
-  b=B8oLMyocfdH2nJ2gyQ/iirwVLvRspM8AycO7h8yKY5QzHV5lsisZd4MM
-   xR3GsQzGHvci7uy6173l0m/iRq0VipDCO7Px92En11p4m7Y1gvk4I1bBK
-   h5FgPT8OKgMtmxMpKmTIwQCSjMU1PM1Y/OhzEH5U6H2OtL8eVSocx9ppF
-   laW5MYv/nM58RYaDrLb5sugzrdojlDAzlnjvwvoYj6OoliNJ2E2Ydt13v
-   ViF6ENXK/BP+fSo0bzWphd0/DcBxaQwFdIzrUCI7fLvqQp8Qax+8BkGcZ
-   ErWhmtE3jrdxjhb8AOU1c4lWsBdc4iQN8QesKFYdb8rocDW4Y9AImlWPB
-   Q==;
-X-CSE-ConnectionGUID: aeYFnScbSsu/Z7ia1ivDpA==
-X-CSE-MsgGUID: V25mwuqaTSyLWSE5Ss5tHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="74083135"
+  t=1773016456; x=1804552456;
+  h=date:from:to:cc:subject:message-id;
+  bh=N9ny5I1BogcDDN0U2yTWf/uqmrGOkC0TeJGMZg9ACjI=;
+  b=mejv06bBvHi+Tck8sC4p3m8Ec6J+kuntaotV0kKR80E1zIXNj/GD8d2r
+   9dI/J7epETgSQvS8P3VrJJnWP7UWU6by2JSJMTZZKHYzn0hPakYRV78cs
+   Szpc78OHPBT2YGt69kgohchpJPiQXZpvXxAQBRjSp8PK0IB+rehnUgr2b
+   c1ZrkR17pm+HL7XWRLHR5RTweAXRpMfyOwgibw3AiOytyse3c0Fsaez9v
+   4VSzjBTRDpNOr2BpADAoztalMbNEbm5svCUSUASZEs3Qllk2LAIxMPdgQ
+   H1oSCaSb1Oq0+XQ+b1CsVWVfIfSy9abhO1M9hc5i3eohCRczekjJW+Xd3
+   A==;
+X-CSE-ConnectionGUID: NCPSzaTpSN2g9vedNjJ3aA==
+X-CSE-MsgGUID: QVB02KBrS1aVh2KBO3TZ1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84364822"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="74083135"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 17:14:27 -0700
-X-CSE-ConnectionGUID: qDVhnH7cRem6xa/laKpy/A==
-X-CSE-MsgGUID: K+ry+qmSTH2Ki0pOGLA5kA==
+   d="scan'208";a="84364822"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 17:34:15 -0700
+X-CSE-ConnectionGUID: /WwdsgcVQOadnd2YqgaSbA==
+X-CSE-MsgGUID: nErK+ns0QLKaGfWiKbozmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="223686438"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 08 Mar 2026 17:14:25 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="242612929"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 08 Mar 2026 17:34:13 -0700
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzOGM-000000002mL-2N7T;
-	Mon, 09 Mar 2026 00:14:22 +0000
-Date: Mon, 9 Mar 2026 01:13:51 +0100
+	id 1vzOZX-000000003Vk-0c2p;
+	Mon, 09 Mar 2026 00:34:11 +0000
+Date: Mon, 09 Mar 2026 08:34:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3] perf utilities: cln_size header
-Message-ID: <202603090131.9EqA781s-lkp@intel.com>
+Subject: arch/riscv/mm/init.c:354:39: sparse: sparse: unsigned value
+ that used to be signed checked against zero?
+Message-ID: <202603090831.oONzC4PB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: arch/riscv/mm/init.c:354:39: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260308172037.123654-1-ricky.ringler@proton.me>
-References: <20260308172037.123654-1-ricky.ringler@proton.me>
-TO: Ricky Ringler <ricky.ringler@proton.me>
-TO: namhyung@kernel.org
-CC: mingo@redhat.com
-CC: acme@kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-perf-users@vger.kernel.org
-CC: Ricky Ringler <ricky.ringler@proton.me>
+TO: Samuel Holland <samuel.holland@sifive.com>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
 
-Hi Ricky,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on tip/perf/core perf-tools/perf-tools next-20260306]
-[cannot apply to acme/perf/core linus/master v6.16-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ricky-Ringler/perf-utilities-cln_size-header/20260309-012303
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20260308172037.123654-1-ricky.ringler%40proton.me
-patch subject: [PATCH v3] perf utilities: cln_size header
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260309/202603090131.9EqA781s-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603090131.9EqA781s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fc9f248d8c591454e257edd54ac4085d84f11e6a
+commit: ea2bde36a46d5724c1b44d80cc9fafbd73c2ecf9 riscv: Support CONFIG_RELOCATABLE on riscv32
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
+config: riscv-randconfig-r121-20260308 (https://download.01.org/0day-ci/archive/20260309/202603090831.oONzC4PB-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603090831.oONzC4PB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603090131.9EqA781s-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603090831.oONzC4PB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> arch/riscv/mm/init.c:354:39: sparse: sparse: unsigned value that used to be signed checked against zero?
+   arch/riscv/mm/init.c:343:43: sparse: signed value source
 
-   Makefile.config:576: No elfutils/debuginfod.h found, no debuginfo server support, please install libdebuginfod-dev/elfutils-debuginfod-client-devel or equivalent
-   Makefile.config:963: No libllvm 13+ found, slower source file resolution, please install llvm-devel/llvm-dev
-   Makefile.config:1159: Rust is not found. Test workloads with rust are disabled.
-     PERF_VERSION = 7.0.rc1.g9c3e08ac3e9a
-   builtin-inject.c: In function 'keep_feat':
->> builtin-inject.c:2137:14: error: 'HEADER_CLNq_SIZE' undeclared (first use in this function); did you mean 'HEADER_CLN_SIZE'?
-    2137 |         case HEADER_CLNq_SIZE:
-         |              ^~~~~~~~~~~~~~~~
-         |              HEADER_CLN_SIZE
-   builtin-inject.c:2137:14: note: each undeclared identifier is reported only once for each function it appears in
-   make[3]: *** [tools/build/Makefile.build:93: builtin-inject.o] Error 1
-   make[3]: *** Waiting for unfinished jobs....
-   make[2]: *** [Makefile.perf:770: perf-in.o] Error 2
-   make[2]: *** Waiting for unfinished jobs....
-   make[1]: *** [Makefile.perf:289: sub-make] Error 2
+vim +354 arch/riscv/mm/init.c
+
+51b766c79a3d74 Samuel Holland 2024-10-26  326  
+51b766c79a3d74 Samuel Holland 2024-10-26  327  static void __init relocate_kernel(void)
+51b766c79a3d74 Samuel Holland 2024-10-26  328  {
+ea2bde36a46d57 Samuel Holland 2024-10-26  329  	Elf_Rela *rela = (Elf_Rela *)&__rela_dyn_start;
+51b766c79a3d74 Samuel Holland 2024-10-26  330  	/*
+51b766c79a3d74 Samuel Holland 2024-10-26  331  	 * This holds the offset between the linked virtual address and the
+51b766c79a3d74 Samuel Holland 2024-10-26  332  	 * relocated virtual address.
+51b766c79a3d74 Samuel Holland 2024-10-26  333  	 */
+51b766c79a3d74 Samuel Holland 2024-10-26  334  	uintptr_t reloc_offset = kernel_map.virt_addr - KERNEL_LINK_ADDR;
+51b766c79a3d74 Samuel Holland 2024-10-26  335  	/*
+51b766c79a3d74 Samuel Holland 2024-10-26  336  	 * This holds the offset between kernel linked virtual address and
+51b766c79a3d74 Samuel Holland 2024-10-26  337  	 * physical address.
+51b766c79a3d74 Samuel Holland 2024-10-26  338  	 */
+51b766c79a3d74 Samuel Holland 2024-10-26  339  	uintptr_t va_kernel_link_pa_offset = KERNEL_LINK_ADDR - kernel_map.phys_addr;
+51b766c79a3d74 Samuel Holland 2024-10-26  340  
+ea2bde36a46d57 Samuel Holland 2024-10-26  341  	for ( ; rela < (Elf_Rela *)&__rela_dyn_end; rela++) {
+ea2bde36a46d57 Samuel Holland 2024-10-26  342  		Elf_Addr addr = (rela->r_offset - va_kernel_link_pa_offset);
+ea2bde36a46d57 Samuel Holland 2024-10-26  343  		Elf_Addr relocated_addr = rela->r_addend;
+51b766c79a3d74 Samuel Holland 2024-10-26  344  
+51b766c79a3d74 Samuel Holland 2024-10-26  345  		if (rela->r_info != R_RISCV_RELATIVE)
+51b766c79a3d74 Samuel Holland 2024-10-26  346  			continue;
+51b766c79a3d74 Samuel Holland 2024-10-26  347  
+51b766c79a3d74 Samuel Holland 2024-10-26  348  		/*
+51b766c79a3d74 Samuel Holland 2024-10-26  349  		 * Make sure to not relocate vdso symbols like rt_sigreturn
+51b766c79a3d74 Samuel Holland 2024-10-26  350  		 * which are linked from the address 0 in vmlinux since
+51b766c79a3d74 Samuel Holland 2024-10-26  351  		 * vdso symbol addresses are actually used as an offset from
+51b766c79a3d74 Samuel Holland 2024-10-26  352  		 * mm->context.vdso in VDSO_OFFSET macro.
+51b766c79a3d74 Samuel Holland 2024-10-26  353  		 */
+51b766c79a3d74 Samuel Holland 2024-10-26 @354  		if (relocated_addr >= KERNEL_LINK_ADDR)
+51b766c79a3d74 Samuel Holland 2024-10-26  355  			relocated_addr += reloc_offset;
+51b766c79a3d74 Samuel Holland 2024-10-26  356  
+ea2bde36a46d57 Samuel Holland 2024-10-26  357  		*(Elf_Addr *)addr = relocated_addr;
+51b766c79a3d74 Samuel Holland 2024-10-26  358  	}
+51b766c79a3d74 Samuel Holland 2024-10-26  359  }
+51b766c79a3d74 Samuel Holland 2024-10-26  360  #endif /* CONFIG_RELOCATABLE */
+51b766c79a3d74 Samuel Holland 2024-10-26  361  
+
+:::::: The code at line 354 was first introduced by commit
+:::::: 51b766c79a3d741fb97419c3da1c58fce5e66f0e riscv: Support CONFIG_RELOCATABLE on NOMMU
+
+:::::: TO: Samuel Holland <samuel.holland@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
