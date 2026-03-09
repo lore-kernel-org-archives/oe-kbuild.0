@@ -1,135 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4E02D8DCA
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Mar 2026 17:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7C72D592F
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Mar 2026 18:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773078516; cv=none; b=napVvLx2ex3R8nRSuAXNFAiYkZ2KhFonzjpKFQHkIXJM5oEnMojcYh3yAdNKsRD6iuxQqVYQqPDigWhW6/DDalw7dA+Gat2VXq/f9aO+pbupcqUVQL8313W2LatCCYoEJpegaCSv6TBrrXgOgNN1bjy0zKx235NIHRCeZkxhmk4=
+	t=1773082627; cv=none; b=t2c+Nfe4hMGh/qvbwmbj90qH22KDYV7BDo6ZITnhuw504laDjSUiTN7BAyR/h5xdKSVlX1+a0B6aTrNz3v/ve9aubXm0tCfY0K9T601Z8ylsBFCzXjhkzt4t6bVCJnVGtzCgR5wSw/+DCn7DiTkOTgabBZRflgDsKBMaPXLzL0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773078516; c=relaxed/simple;
-	bh=G+Ha1wAHX8A/EtKTSSLf3ySSPxl+Dgr6/klYhXDAJEI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Tbw7S68TwJNYRq6XHGJ69l43S5CvSY6hXVDqHy2420xuWR3ddrhkwYc1iTr0+VlivAJaWZBWOe8TEAH/V4OxgwtnBSOUyYAANMcV4bzmWZ/sjs1uL2HG7S6Dcr3FXdD8qbk+majoBvQPzUWDQOnmnObYQGLr5CSBZAJ0ZTU4/Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4WRf0I+; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1773082627; c=relaxed/simple;
+	bh=o+UZPr2RlxrZsvTFqNOWMynxQjwbyIvkcuI1f+xNJP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=cfIEdFNamcIjmPZQf1Z2TLsvf/wnJxa1zAxJCy5nnjw+ejyptn5QHm/qJ7uQ2dNPsmqDN2S5ZsRw6aKo9D8Cu5AposceZSHLQW8KAqCnR52kx51+2u6EfVbTJcc31I4rg3hHSDus0RLbbnQZrmc85buXSUzZdygzSvCKZZR+Iq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k22OltQZ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4WRf0I+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k22OltQZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773078513; x=1804614513;
-  h=date:from:to:cc:subject:message-id;
-  bh=G+Ha1wAHX8A/EtKTSSLf3ySSPxl+Dgr6/klYhXDAJEI=;
-  b=C4WRf0I+cVPdV8U+CJqsyCAgnN55t0MaefaFsKq+uP/pzvhlU4mo3qRm
-   3ro+fhdsMms+nbFvJlAXmhRhMc6KMiks4xwaBMwZueBQBP78RiGdoq97X
-   mbyRMIQjh+wvrCIsELivkhhqG+Uu/m3RazAZY+823YqiGEBmnlwJSKGdx
-   U3Ra783Ar6pTncim8G4yseZ+Ku/ol5NQzx0M/JVMllPGO8y02XgrZ1Pwo
-   Ff0Sln7iGhyv568wNsZ/iNmhJaAFGtMezKbN3IxvznezLl8QuiZdunJDw
-   wPmaIi9oWleo0L/JqIjqnUmV/qk/izCjC2wLVN5GmWI/r55KuTTUj+Yju
-   Q==;
-X-CSE-ConnectionGUID: qAZDfxw9RJWbgjE2ZlwCtw==
-X-CSE-MsgGUID: pZos8iXVTQaOeE6255c4CQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="85200531"
+  t=1773082625; x=1804618625;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=o+UZPr2RlxrZsvTFqNOWMynxQjwbyIvkcuI1f+xNJP8=;
+  b=k22OltQZoJidKYKkRSdpJH1g87LWMwNLwYrXoqNwxGZ2cJWji9YFzJT0
+   5swsrpahqnQ5GV7A4z0iSujNViAcky7kpWpuU0n6DabL5lLjtlx82Hl3v
+   /t08FU2rnyCL+woXmhck5Hx0uCZSmUsmtkzWcjkyw4g6CCu51ANNVuZLj
+   z6EcJvUwjB3vRxzMwvk6WqvvzDl1cdr+biPpiHQi4YlX9XwygPtOHkh+y
+   eiD5xSCArNjlWjC55HpwE5d2z51TaF+RE/e+Ny8bLtbR690I/3fD3OZrb
+   zrszedtlS16mWSwlLDtxLvb6SGd9dyBTYIAbzSYSSdP6F5RPvwp+qu/QG
+   A==;
+X-CSE-ConnectionGUID: wJmaM/P5TbGtqSsTBxlqeg==
+X-CSE-MsgGUID: Jxxoc2cqTCyVmiNicyNy3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="91501255"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="85200531"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 10:48:33 -0700
-X-CSE-ConnectionGUID: z81WH0WfTSauYZhMfaGVFQ==
-X-CSE-MsgGUID: hZbU19AYShquX7VUhl+TlQ==
+   d="scan'208";a="91501255"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 11:57:04 -0700
+X-CSE-ConnectionGUID: wkiWU7RoSDmAy5JF+OYVRQ==
+X-CSE-MsgGUID: 9huvMveHT3SMXvBjihcmmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="218972980"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 09 Mar 2026 10:48:32 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="224294152"
+Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 09 Mar 2026 11:57:04 -0700
+Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzeiT-000000002uL-2TDg;
-	Mon, 09 Mar 2026 17:48:29 +0000
-Date: Mon, 09 Mar 2026 18:48:17 +0100
+	id 1vzfmn-000000000iq-0MCk;
+	Mon, 09 Mar 2026 18:57:01 +0000
+Date: Tue, 10 Mar 2026 02:56:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [at91:at91-next 4/9]
- arch/arm/boot/dts/microchip/at91rm9200ek.dtb: timer@fffffd00
- (atmel,at91rm9200-st): Unevaluated properties are not allowed ('watchdog' was
- unexpected)
-Message-ID: <202603091833.WSAsXQYH-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe:rw_iter 115/471] drivers/hid/hid-picolcd_debugfs.c:50
+ picolcd_debug_reset_write() warn: potential spectre issue 'buf' [w] (local
+ cap)
+Message-ID: <202603100207.LotLQ2MK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Akhila YS <akhilayalmati@gmail.com>
-CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+TO: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/at91/linux.git at91-next
-head:   f082fefaf9abb93d234835e160e54661392472bb
-commit: ae18e2543c4a07317a03c7cf042d8a0596cd5bd0 [4/9] dt-bindings: arm: atmel,at91rm9200-st: convert to DT schema
-:::::: branch date: 25 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-2052-20260308 (https://download.01.org/0day-ci/archive/20260309/202603091833.WSAsXQYH-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603091833.WSAsXQYH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_=
+iter
+head:   0a49759be1c3b29207758e467fdc1a90d0716d06
+commit: 7dfd9f363e6d79bc842bf6e7fa86541a21142fef [115/471] drivers/hid: con=
+vert to read/write iterators
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/=
+archive/20260310/202603100207.LotLQ2MK-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603091833.WSAsXQYH-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603100207.LotLQ2MK-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'microchip,sama7g5' was expected
-   	'microchip,lan9662' was expected
-   	'microchip,lan9668' was expected
-   	'kontron,s1921' was expected
-   	'atmel,sams70' was expected
-   	'atmel,samv70' was expected
-   	'atmel,samv71' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/atmel-at91.yaml
-   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: /: failed to match any schema with compatible: ['atmel,at91rm9200ek', 'atmel,at91rm9200']
-   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: /ahb/apb/ramc@ffffff00: failed to match any schema with compatible: ['atmel,at91rm9200-sdramc', 'syscon']
->> arch/arm/boot/dts/microchip/at91rm9200ek.dtb: timer@fffffd00 (atmel,at91rm9200-st): Unevaluated properties are not allowed ('watchdog' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-st.yaml
-   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: watchdog (atmel,at91rm9200-wdt): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/watchdog/atmel,at91rm9200-wdt.yaml
-   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: ethernet@fffbc000 (cdns,at91rm9200-emac): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml
-   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: ethernet-phy: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: /ahb/apb/gadget@fffb0000: failed to match any schema with compatible: ['atmel,at91rm9200-udc']
-   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: /ahb/nand@40000000: failed to match any schema with compatible: ['atmel,at91rm9200-nand']
-   arch/arm/boot/dts/microchip/at91rm9200ek.dtb: usb@300000 (atmel,at91rm9200-ohci): compatible: 'oneOf' conditional failed, one must be fixed:
---
-   	'microchip,sama7g5' was expected
-   	'microchip,lan9662' was expected
-   	'microchip,lan9668' was expected
-   	'kontron,s1921' was expected
-   	'atmel,sams70' was expected
-   	'atmel,samv70' was expected
-   	'atmel,samv71' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/atmel-at91.yaml
-   arch/arm/boot/dts/microchip/mpa1600.dtb: /: failed to match any schema with compatible: ['phontech,mpa1600', 'atmel,at91rm9200']
-   arch/arm/boot/dts/microchip/mpa1600.dtb: /ahb/apb/ramc@ffffff00: failed to match any schema with compatible: ['atmel,at91rm9200-sdramc', 'syscon']
->> arch/arm/boot/dts/microchip/mpa1600.dtb: timer@fffffd00 (atmel,at91rm9200-st): Unevaluated properties are not allowed ('watchdog' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-st.yaml
-   arch/arm/boot/dts/microchip/mpa1600.dtb: watchdog (atmel,at91rm9200-wdt): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/watchdog/atmel,at91rm9200-wdt.yaml
-   arch/arm/boot/dts/microchip/mpa1600.dtb: /ahb/apb/gadget@fffb0000: failed to match any schema with compatible: ['atmel,at91rm9200-udc']
-   arch/arm/boot/dts/microchip/mpa1600.dtb: /ahb/nand@40000000: failed to match any schema with compatible: ['atmel,at91rm9200-nand']
-   arch/arm/boot/dts/microchip/mpa1600.dtb: usb@300000 (atmel,at91rm9200-ohci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['atmel,at91rm9200-ohci', 'usb-ohci'] is too long
-   	'atmel,at91rm9200-ohci' is not one of ['allwinner,sun4i-a10-ohci', 'allwinner,sun50i-a100-ohci', 'allwinner,sun50i-a64-ohci', 'allwinner,sun50i-h6-ohci', 'allwinner,sun50i-h616-ohci', 'allwinner,sun55i-a523-ohci', 'allwinner,sun5i-a13-ohci', 'allwinner,sun6i-a31-ohci', 'allwinner,sun7i-a20-ohci', 'allwinner,sun8i-a23-ohci', 'allwinner,sun8i-a83t-ohci', 'allwinner,sun8i-h3-ohci', 'allwinner,sun8i-r40-ohci', 'allwinner,sun8i-v3s-ohci', 'allwinner,sun9i-a80-ohci', 'allwinner,sun20i-d1-ohci', 'brcm,bcm3384-ohci', 'brcm,bcm63268-ohci', 'brcm,bcm6328-ohci', 'brcm,bcm6358-ohci', 'brcm,bcm6362-ohci', 'brcm,bcm6368-ohci', 'brcm,bcm7125-ohci', 'brcm,bcm7346-ohci', 'brcm,bcm7358-ohci', 'brcm,bcm7360-ohci', 'brcm,bcm7362-ohci', 'brcm,bcm7420-ohci', 'brcm,bcm7425-ohci', 'brcm,bcm7435-ohci', 'hpe,gxp-ohci', 'ibm,476gtr-ohci', 'ingenic,jz4740-ohci', 'rockchip,rk3588-ohci', 'snps,hsdk-v1.0-ohci']
-   	'atmel,at91rm9200-ohci' is not one of ['generic-ohci', 'ti,ohci-omap3']
-   	'atmel,at91rm9200-ohci' is not one of ['cavium,octeon-6335-ohci', 'nintendo,hollywood-usb-ohci', 'nxp,ohci-nxp', 'st,spear600-ohci']
+smatch warnings:
+drivers/hid/hid-picolcd_debugfs.c:50 picolcd_debug_reset_write() warn: pote=
+ntial spectre issue 'buf' [w] (local cap)
 
--- 
+vim +/buf +50 drivers/hid/hid-picolcd_debugfs.c
+
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  37 =20
+7dfd9f363e6d79 Jens Axboe    2024-04-05  38  static ssize_t picolcd_debug_r=
+eset_write(struct kiocb *iocb,
+7dfd9f363e6d79 Jens Axboe    2024-04-05  39  					 struct iov_iter *from)
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  40  {
+7dfd9f363e6d79 Jens Axboe    2024-04-05  41  	struct picolcd_data *data =3D =
+((struct seq_file *)iocb->ki_filp->private_data)->private;
+7dfd9f363e6d79 Jens Axboe    2024-04-05  42  	size_t count =3D iov_iter_cou=
+nt(from);
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  43  	char buf[32];
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  44  	size_t cnt =3D min(count=
+, sizeof(buf)-1);
+7dfd9f363e6d79 Jens Axboe    2024-04-05  45  	if (!copy_from_iter_full(buf,=
+ cnt, from))
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  46  		return -EFAULT;
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  47 =20
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  48  	while (cnt > 0 && (buf[c=
+nt-1] =3D=3D ' ' || buf[cnt-1] =3D=3D '\n'))
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  49  		cnt--;
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30 @50  	buf[cnt] =3D '\0';
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  51  	if (strcmp(buf, "all") =
+=3D=3D 0) {
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  52  		picolcd_reset(data->hde=
+v);
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  53  		picolcd_fb_reset(data, =
+1);
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  54  	} else if (strcmp(buf, "=
+fb") =3D=3D 0) {
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  55  		picolcd_fb_reset(data, =
+1);
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  56  	} else {
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  57  		return -EINVAL;
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  58  	}
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  59  	return count;
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  60  }
+fabdbf2fd22fa1 Bruno Pr=C3=A9mont 2012-07-30  61 =20
+
+:::::: The code at line 50 was first introduced by commit
+:::::: fabdbf2fd22fa170b4c5340dbdda5c8cd88fb205 HID: picoLCD: split driver =
+code
+
+:::::: TO: Bruno Pr=C3=A9mont <bonbons@linux-vserver.org>
+:::::: CC: Jiri Kosina <jkosina@suse.cz>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
