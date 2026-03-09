@@ -1,150 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E42A336892
-	for <oe-kbuild@lists.linux.dev>; Sun,  8 Mar 2026 23:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9736413DBA0
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Mar 2026 00:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773014008; cv=none; b=FEXGB1ZU0F/u0SHXUbpFksL+AIVrhh6RfKqMFLRlhst19YHYpnehfhFhCdCt2dZ5Ysmojooa3yjdtpTKzZ8NVL+RBSxWQRiIva6NkCpg70erSOh7AVNXf6d6/MKKHcOoMY0Y7/SlJa07tb+eTpYMEgv1JivrEBiwXDy/kfnyQ5E=
+	t=1773015268; cv=none; b=XGgHbNu9igR+1+jrANcZrsqKV1lFpyZINZt44jG+r6O6T8GgKLET6p/SRagrR0jKcmFMHfrhKx3MHJ3BTa8o3koZa03k2mzbUfOGwBplD9yZL8rulIcSPmKe5Y7l0KmnJe1KVTEw2CddzzEejPQlPk0Sau0u/HeviU+RwNISPTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773014008; c=relaxed/simple;
-	bh=krO1SDSt9nsqAssEWIcrQ3vvthtLWs85evxGEcOgLcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Xuk+SuI6MG4RjusyAtn7cnzTSl+kTxcflsOeyD+OWg4D1R1029h80ZOO2jxP12THGLazjhKq3oJnCwAuJD1UsjBlRHCll7kxT/UQOD6NNLp8Vjh2vBDr27tD8CZhMNFf+Q4Y56NkS1oke4Fuuy8Al+RFD+bYw7fh3s/DPTk7tWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YfER3nOy; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1773015268; c=relaxed/simple;
+	bh=PLoTSapWUO7DN1AVQ6QOOTennZQLu82/Z8xN0rhdK+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BURLI1PezJPrzbabVqr8eEB2jaP7bQp1jBK0ICcr/sHCvYS/2igDDJMmVfUcMAV27auMCvH44IS0xQAudyLnBqo3n8OSd836s/x8vA6F3MwRZoTI5vmSawZBGUaIiR6vf7Wdm4ij90Y6PwCJeBHpl8DqHkotenH6oNDZUTqjn8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8oLMyoc; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YfER3nOy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8oLMyoc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773014006; x=1804550006;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=krO1SDSt9nsqAssEWIcrQ3vvthtLWs85evxGEcOgLcM=;
-  b=YfER3nOyOhm9qebuFLePmty8dZA6G2o+s5gJ83NSVqhwQIu0oHuy3mNn
-   PpPH4WUkp6JJXd/OdApcM0VoWuMRLd7InUgmW8MoIB8Y+mNp++N6fgiKj
-   ZPRUyHpJeqj3Vhi784D3tTYhHlQ8yYq4USc+PG5ma1WoYbbgqnbXJUct4
-   e/Buah4cmkPSvANHoEF/HIRjsTH0FoPESiZzY9D1GTMYMEEj1KbNH+BM9
-   o08DzT9y3uq64sjB8XWRXNTcjFGhV87FLKyfPeDRCNv3il96fk3YoWNmD
-   +X+836qIaY1uLK8prrPdzUD+zVHA3H4/ocv4RtI7judXcTf0L0ppkVPz1
+  t=1773015267; x=1804551267;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PLoTSapWUO7DN1AVQ6QOOTennZQLu82/Z8xN0rhdK+o=;
+  b=B8oLMyocfdH2nJ2gyQ/iirwVLvRspM8AycO7h8yKY5QzHV5lsisZd4MM
+   xR3GsQzGHvci7uy6173l0m/iRq0VipDCO7Px92En11p4m7Y1gvk4I1bBK
+   h5FgPT8OKgMtmxMpKmTIwQCSjMU1PM1Y/OhzEH5U6H2OtL8eVSocx9ppF
+   laW5MYv/nM58RYaDrLb5sugzrdojlDAzlnjvwvoYj6OoliNJ2E2Ydt13v
+   ViF6ENXK/BP+fSo0bzWphd0/DcBxaQwFdIzrUCI7fLvqQp8Qax+8BkGcZ
+   ErWhmtE3jrdxjhb8AOU1c4lWsBdc4iQN8QesKFYdb8rocDW4Y9AImlWPB
    Q==;
-X-CSE-ConnectionGUID: bqsdA9xBR1Kf/UUH7XPeeg==
-X-CSE-MsgGUID: iZJCnP7SS+G2TGOEsQkW0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="73954023"
+X-CSE-ConnectionGUID: aeYFnScbSsu/Z7ia1ivDpA==
+X-CSE-MsgGUID: V25mwuqaTSyLWSE5Ss5tHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="74083135"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="73954023"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 16:53:26 -0700
-X-CSE-ConnectionGUID: wvpOD6mWTByJUCvrLdSPGQ==
-X-CSE-MsgGUID: SSV9svgnSTWkiaF8fZkz4g==
+   d="scan'208";a="74083135"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 17:14:27 -0700
+X-CSE-ConnectionGUID: qDVhnH7cRem6xa/laKpy/A==
+X-CSE-MsgGUID: K+ry+qmSTH2Ki0pOGLA5kA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="218778506"
+   d="scan'208";a="223686438"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 08 Mar 2026 16:53:24 -0700
+  by orviesa003.jf.intel.com with ESMTP; 08 Mar 2026 17:14:25 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzNw2-000000002lx-0wyT;
-	Sun, 08 Mar 2026 23:53:22 +0000
-Date: Mon, 09 Mar 2026 00:53:17 +0100
+	id 1vzOGM-000000002mL-2N7T;
+	Mon, 09 Mar 2026 00:14:22 +0000
+Date: Mon, 9 Mar 2026 01:13:51 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [akpm-mm:mm-new 286/330] include/dup.h:354:25: error: stray
- '\302' in program
-Message-ID: <202603090023.npem8cfw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v3] perf utilities: cln_size header
+Message-ID: <202603090131.9EqA781s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-::::::=20
+:::::: 
 :::::: Manual check reason: "low confidence bisect report"
-::::::=20
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: David Hildenbrand <david@kernel.org>
-TO: Anthony Yznaga <anthony.yznaga@oracle.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20260308172037.123654-1-ricky.ringler@proton.me>
+References: <20260308172037.123654-1-ricky.ringler@proton.me>
+TO: Ricky Ringler <ricky.ringler@proton.me>
+TO: namhyung@kernel.org
+CC: mingo@redhat.com
+CC: acme@kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-perf-users@vger.kernel.org
+CC: Ricky Ringler <ricky.ringler@proton.me>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   167400fd4c51f9e5ea8fc9d33c89c938799be4be
-commit: 84cd8de2b92a1ccf493c43da8b31bb983d320ca7 [286/330] mm-prevent-dropp=
-able-mappings-from-being-locked-fix
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/202=
-60309/202603090023.npem8cfw-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260309/202603090023.npem8cfw-lkp@intel.com/reproduce)
+Hi Ricky,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on perf-tools-next/perf-tools-next]
+[also build test ERROR on tip/perf/core perf-tools/perf-tools next-20260306]
+[cannot apply to acme/perf/core linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricky-Ringler/perf-utilities-cln_size-header/20260309-012303
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20260308172037.123654-1-ricky.ringler%40proton.me
+patch subject: [PATCH v3] perf utilities: cln_size header
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260309/202603090131.9EqA781s-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603090131.9EqA781s-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603090023.npem8cfw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603090131.9EqA781s-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from vma_internal.h:55,
-                    from shared.h:11,
-                    from main.c:3:
->> include/dup.h:354:9: warning: ISO C99 requires whitespace after the macr=
-o name
-     354 | #define VM_NO_MLOCK_MASK=C2=A0 =C2=A0 =C2=A0 =C2=A0(VM_SPECIAL |=
- VM_DROPPABLE)
-         |         ^~~~~~~~~~~~~~~~
-   ../../../mm/vma.c: In function '__mmap_complete':
->> include/dup.h:354:25: error: stray '\302' in program
-     354 | #define VM_NO_MLOCK_MASK<U+00A0> <U+00A0> <U+00A0> <U+00A0>(VM_S=
-PECIAL | VM_DROPPABLE)
-         |                         ^~~~~~~~
-   ../../../mm/vma.c:2592:33: note: in expansion of macro 'VM_NO_MLOCK_MASK'
-    2592 |                 if ((vm_flags & VM_NO_MLOCK_MASK) || vma_is_dax(=
-vma) ||
-         |                                 ^~~~~~~~~~~~~~~~
-   include/dup.h:354:27: error: stray '\302' in program
-     354 | #define VM_NO_MLOCK_MASK<U+00A0> <U+00A0> <U+00A0> <U+00A0>(VM_S=
-PECIAL | VM_DROPPABLE)
-         |                                  ^~~~~~~~
-   ../../../mm/vma.c:2592:33: note: in expansion of macro 'VM_NO_MLOCK_MASK'
-    2592 |                 if ((vm_flags & VM_NO_MLOCK_MASK) || vma_is_dax(=
-vma) ||
-         |                                 ^~~~~~~~~~~~~~~~
-   include/dup.h:354:29: error: stray '\302' in program
-     354 | #define VM_NO_MLOCK_MASK<U+00A0> <U+00A0> <U+00A0> <U+00A0>(VM_S=
-PECIAL | VM_DROPPABLE)
-         |                                           ^~~~~~~~
-   ../../../mm/vma.c:2592:33: note: in expansion of macro 'VM_NO_MLOCK_MASK'
-    2592 |                 if ((vm_flags & VM_NO_MLOCK_MASK) || vma_is_dax(=
-vma) ||
-         |                                 ^~~~~~~~~~~~~~~~
-   include/dup.h:354:31: error: stray '\302' in program
-     354 | #define VM_NO_MLOCK_MASK<U+00A0> <U+00A0> <U+00A0> <U+00A0>(VM_S=
-PECIAL | VM_DROPPABLE)
-         |                                                    ^~~~~~~~
-   ../../../mm/vma.c:2592:33: note: in expansion of macro 'VM_NO_MLOCK_MASK'
-    2592 |                 if ((vm_flags & VM_NO_MLOCK_MASK) || vma_is_dax(=
-vma) ||
-         |                                 ^~~~~~~~~~~~~~~~
---
-   In file included from vma_internal.h:55,
-                    from shared.h:11,
-                    from shared.c:3:
->> include/dup.h:354:9: warning: ISO C99 requires whitespace after the macr=
-o name
-     354 | #define VM_NO_MLOCK_MASK=C2=A0 =C2=A0 =C2=A0 =C2=A0(VM_SPECIAL |=
- VM_DROPPABLE)
-         |         ^~~~~~~~~~~~~~~~
+   Makefile.config:576: No elfutils/debuginfod.h found, no debuginfo server support, please install libdebuginfod-dev/elfutils-debuginfod-client-devel or equivalent
+   Makefile.config:963: No libllvm 13+ found, slower source file resolution, please install llvm-devel/llvm-dev
+   Makefile.config:1159: Rust is not found. Test workloads with rust are disabled.
+     PERF_VERSION = 7.0.rc1.g9c3e08ac3e9a
+   builtin-inject.c: In function 'keep_feat':
+>> builtin-inject.c:2137:14: error: 'HEADER_CLNq_SIZE' undeclared (first use in this function); did you mean 'HEADER_CLN_SIZE'?
+    2137 |         case HEADER_CLNq_SIZE:
+         |              ^~~~~~~~~~~~~~~~
+         |              HEADER_CLN_SIZE
+   builtin-inject.c:2137:14: note: each undeclared identifier is reported only once for each function it appears in
+   make[3]: *** [tools/build/Makefile.build:93: builtin-inject.o] Error 1
+   make[3]: *** Waiting for unfinished jobs....
+   make[2]: *** [Makefile.perf:770: perf-in.o] Error 2
+   make[2]: *** Waiting for unfinished jobs....
+   make[1]: *** [Makefile.perf:289: sub-make] Error 2
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
