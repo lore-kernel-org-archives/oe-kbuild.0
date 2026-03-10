@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC3B2E1758
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Mar 2026 14:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B6628504D
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Mar 2026 15:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773153611; cv=none; b=InPvkAYEFXTXr2HNvwv475tA7TyjfznIl6hAhCHdR0AOs8ztFthAoS/xy7Zgm1xqGKO076mHUM49DarMzXVaA/xlwAxRAOhUskYSfLkNTvd6dvp+iX4+KL66b0tzOM99m1HUhgk1K8S/EqX7E5iEs5rxtanTK2wu6LzWUQxbJmM=
+	t=1773155597; cv=none; b=IaQ8q+CMN1N9RSng3W8E+RgBnJ8j14Pi82vC/ovI3U+kUpXVYb8m3ot7uV5l3qXlRAoRmFS9/2eZr1PJrnvxDx84ouQlSd9JWqf1sTlEfG0tq0s1SycAApDCiz56sdD7e4pdozgvVFOwazfj27J2yDkKiway7lmAg5S0t9uXwf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773153611; c=relaxed/simple;
-	bh=4pnzalatQSnU3vKgoTmj+419scBJXuBp5dRyfBTddH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=H5RcE2vB3af4kaOzd2PrQuzGawK6rEc48wAHXl63an5ovPijPynp8UF+RR5uEAacX+s/XD3KMjgIUQf6n+xHwmmegGyp4Ukq0Ut7hfLMRA2Lhi4NsEWdoERvx1TkxhdCR9gTLKhPTS5Igi5SvNyi1lcjfSHNHESvQVlui2Xl4Pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V1kVS1d7; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1773155597; c=relaxed/simple;
+	bh=LqmJ9LxetF4pLY/mA5jWzsTPIY84DyWqS488m9DRXiY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=oSlP5j5UVK/0YOKsPhyscRPp65Gsmwut1LVFDynlIjVeK192r8QoS/efGMDsgkTpaOM2ZVZ3e54jKtyifGqswOxICDeh9Hgp8oVjp9LM2ndGWGNvcjREQEIMv0HhVgPvT7qMA5Qan97/DATwOXMNBq2SgWmwjvzVDYEDW6RcISo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+qpKS/X; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V1kVS1d7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+qpKS/X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773153610; x=1804689610;
+  t=1773155595; x=1804691595;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=4pnzalatQSnU3vKgoTmj+419scBJXuBp5dRyfBTddH4=;
-  b=V1kVS1d7sr+cyyjXxV7O3yCJOc4GGCG8MqRA04MyWpfs0mYpXbvd5j2/
-   tPtVKh/1ifRIIRZ7P8zExKBB7xSF5Wnyr8RWcgZSBlLnI6VxzL5pp+yUr
-   1B3hie3eaRGN4A0tVllNrMTY8kKvRw5bupgjiW/JrZqsOKG5YmYBm/7j3
-   W48KEZFd1VAXGbMrUwotD20Gmi/Oh/uDN1aoW+H9kMmUdfjYwX6kTLkNN
-   7MnOwhbPBYpjcZo3uCwhzE6jgt4YuzM2z1jOFghrK9byN3Twiznmxd4Ve
-   +muonqwwM5Umcs8uFcOcmWxv6SyCUQfkS/sLu6bi/W/qaBnVXS62TX1lr
-   g==;
-X-CSE-ConnectionGUID: QLr7At9hSdK6Oa2v0OojPA==
-X-CSE-MsgGUID: 1brxv6ZDTo2VuxnPfWnKVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="85679932"
+  bh=LqmJ9LxetF4pLY/mA5jWzsTPIY84DyWqS488m9DRXiY=;
+  b=U+qpKS/XEfdmsILcghl3Dkv4Tf5VLgD9YIWYoiAACbf9auq74DS+OOnC
+   aK/9onaMlzsQ2JP8f2zvB+3uUBHr9IpUNnm2LjGf52wsUmx0gafjA2wfI
+   yzjtz8/Ds4eNe4Pm/VnclG4gNQA7jzRLtDvkLtutj2rU/3/NZixQXh3XJ
+   iGz0r0IWbTWU3q73yn1n+ZSkMaLuYpiWeJcMMcnqcjQSDGdQ9MHgzSaDP
+   /dztUjc/JFRQtvOg0rzczyd+HlrOXD6I+8fz4POHh8fKBPv5s3GRlD1Xb
+   jLiuEQ1Dje3CU6pxhYnSINDMe1aqoa+QcuObN+S9B8U2Hp5sOfYDZjIyV
+   A==;
+X-CSE-ConnectionGUID: WtfdhLUpT0GLV8ykifWLXw==
+X-CSE-MsgGUID: lGvwikTiRGKBsJAa15KeLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="73905988"
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="85679932"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 07:40:09 -0700
-X-CSE-ConnectionGUID: xcD3KfHsT7uFnX9I6T1dXw==
-X-CSE-MsgGUID: lDlmV7gLTry6JzL3ci6w7Q==
+   d="scan'208";a="73905988"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 08:13:14 -0700
+X-CSE-ConnectionGUID: ndx3t8FIRrWOMUN0PU8KqA==
+X-CSE-MsgGUID: SCqDnnAQQ9GmumUzEMDxlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="218094568"
+   d="scan'208";a="220327055"
 Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Mar 2026 07:40:07 -0700
+  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2026 08:13:13 -0700
 Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzyFg-0000000025E-49mM;
-	Tue, 10 Mar 2026 14:40:04 +0000
-Date: Tue, 10 Mar 2026 22:39:46 +0800
+	id 1vzyli-0000000027N-0fDx;
+	Tue, 10 Mar 2026 15:13:10 +0000
+Date: Tue, 10 Mar 2026 23:12:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: /bin/bash: line 1: 542036 Segmentation fault      clang
- -Wp,-MMD,arch/mips/kernel/.elf.o.d -nostdinc -Iarch/mips/include
- -I./arch/mips/include/generated -Iinclude -I./include
- -Iarch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclude/uapi
- -I....
-Message-ID: <202603102249.U9BG3zqZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpib/common/gpib_os.c:816 ibioctl() warn:
+ inconsistent returns '&board->big_gpib_mutex'.
+Message-ID: <202603102301.bMzDY9Gk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -63,194 +60,481 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "clang compiler bug"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Dmitry Baryshkov <lumag@kernel.org>
-CC: Mark Brown <broonie@kernel.org>
+TO: Dave Penkler <dpenkler@gmail.com>
+
+Hi Dave,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
-commit: e609438851928381e39b5393f17156955a84122a regulator: dt-bindings: qc=
-om,sdm845-refgen-regulator: document more platforms
-date:   6 months ago
+commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
+date:   4 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
-config: mips-randconfig-r111-20260304 (https://download.01.org/0day-ci/arch=
-ive/20260310/202603102249.U9BG3zqZ-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a1=
-09fbb6e184ec9bcce10615949f598f4c974a9)
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260310/202603102249.U9BG3zqZ-lkp@intel.com/reproduce)
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-161-20260310 (https://download.01.org/0day-ci/arc=
+hive/20260310/202603102301.bMzDY9Gk-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
+7cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603102249.U9BG3zqZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603102301.bMzDY9Gk-lkp@intel.com/
 
-Note: functions only called from assembly code should be annotated with the=
- asmlinkage attribute
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpib/common/gpib_os.c:816 ibioctl() warn: inconsistent returns '&bo=
+ard->big_gpib_mutex'.
 
-   PLEASE submit a bug report to https://github.com/llvm/llvm-project/issue=
-s/ and include the crash backtrace, preprocessed source, and associated run=
- script.
-   Stack dump:
-   0.	Program arguments: clang -Wp,-MMD,arch/mips/kernel/.elf.o.d -nostdinc=
- -Iarch/mips/include -I./arch/mips/include/generated -Iinclude -I./include =
--Iarch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclude/uap=
-i -I./include/generated/uapi -include include/linux/compiler-version.h -inc=
-lude include/linux/kconfig.h -include include/linux/compiler_types.h -D__KE=
-RNEL__ --target=3Dmipsel-linux-gnu -fintegrated-as -Werror=3Dunknown-warnin=
-g-option -Werror=3Dignored-optimization-argument -Werror=3Doption-ignored -=
-Werror=3Dunused-command-line-argument -DVMLINUX_LOAD_ADDRESS=3D0xffffffff88=
-002000 -DLINKER_LOAD_ADDRESS=3D0x88002000 -DDATAOFFSET=3D0 -fmacro-prefix-m=
-ap=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgnu11 -fshort-wchar -funsigned=
--char -fno-common -fno-PIE -fno-strict-aliasing -mno-check-zero-division -m=
-abi=3D32 -G 0 -mno-abicalls -fno-pic -pipe -msoft-float -Wa,-msoft-float -f=
-freestanding -EB -fno-stack-check -march=3Dmips3 -Wa,--trap -DTOOLCHAIN_SUP=
-PORTS_VIRT -Iarch/mips/include/asm/mach-ip22 -Iarch/mips/include/asm/mach-g=
-eneric -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 =
--fno-stack-protector -pg -fstrict-flex-arrays=3D3 -fno-strict-overflow -fno=
--stack-check -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=3Dimplicit-f=
-unction-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-type -Werror=3Ds=
-trict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wn=
-o-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wno=
--gnu -Wno-format-overflow-non-kprintf -Wno-format-truncation-non-kprintf -W=
-no-default-const-init-unsafe -Wno-pointer-sign -Wcast-function-type -Wno-un=
-terminated-string-initialization -Wimplicit-fallthrough -Werror=3Ddate-time=
- -Werror=3Dincompatible-pointer-types -Wenum-conversion -Wunused -Wmissing-=
-format-attribute -Wmissing-include-dirs -Wunused-const-variable -Wno-missin=
-g-field-initializers -Wno-type-limits -Wno-shift-negative-value -Wno-enum-e=
-num-conversion -Wno-sign-compare -Wno-unused-parameter -fno-crash-diagnosti=
-cs -Wno-error=3Dreturn-type -Wreturn-type -funsigned-char -Wundef -falign-f=
-unctions=3D64 -Iarch/mips/kernel -Iarch/mips/kernel -DKBUILD_MODFILE=3D\"ar=
-ch/mips/kernel/elf\" -DKBUILD_BASENAME=3D\"elf\" -DKBUILD_MODNAME=3D\"elf\"=
- -D__KBUILD_MODNAME=3Dkmod_elf -c -o arch/mips/kernel/elf.o arch/mips/kerne=
-l/elf.c
-   1.	<eof> parser at end of file
-   2.	Code generation
-   3.	Running pass 'Function Pass Manager' on module 'arch/mips/kernel/elf.=
-c'.
-   4.	Running pass 'Branch Probability Basic Block Placement' on function '=
-@mips_set_personality_fp'
-    #0 0x0000558b573645bb llvm::sys::PrintStackTrace(llvm::raw_ostream&, in=
-t) (clang-23+0x411f5bb)
-    #1 0x0000558b57362184 llvm::sys::CleanupOnSignal(unsigned long) (clang-=
-23+0x411d184)
-    #2 0x0000558b57296360 CrashRecoverySignalHandler(int) CrashRecoveryCont=
-ext.cpp:0:0
-    #3 0x00007f9783090df0 (/lib/x86_64-linux-gnu/libc.so.6+0x3fdf0)
-    #4 0x0000558b5690a1af llvm::TailDuplicator::shouldTailDuplicate(bool, l=
-lvm::MachineBasicBlock&) (.part.0) TailDuplicator.cpp:0:0
-    #5 0x0000558b56617654 (anonymous namespace)::MachineBlockPlacement::bui=
-ldCFGChains() MachineBlockPlacement.cpp:0:0
-    #6 0x0000558b5661bfb0 (anonymous namespace)::MachineBlockPlacement::run=
-(llvm::MachineFunction&) MachineBlockPlacement.cpp:0:0
-    #7 0x0000558b5661d1e1 (anonymous namespace)::MachineBlockPlacementLegac=
-y::runOnMachineFunction(llvm::MachineFunction&) (.part.0) MachineBlockPlace=
-ment.cpp:0:0
-    #8 0x0000558b5666d2e8 llvm::MachineFunctionPass::runOnFunction(llvm::Fu=
-nction&) (clang-23+0x34282e8)
-    #9 0x0000558b56c45ee9 llvm::FPPassManager::runOnFunction(llvm::Function=
-&) (clang-23+0x3a00ee9)
-   #10 0x0000558b56c4608c llvm::FPPassManager::runOnModule(llvm::Module&) (=
-clang-23+0x3a0108c)
-   #11 0x0000558b56c452f8 llvm::legacy::PassManagerImpl::run(llvm::Module&)=
- (clang-23+0x3a002f8)
-   #12 0x0000558b577592b4 clang::emitBackendOutput(clang::CompilerInstance&=
-, clang::CodeGenOptions&, llvm::StringRef, llvm::Module*, clang::BackendAct=
-ion, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem>, std::unique_ptr<llvm:=
-:raw_pwrite_stream, std::default_delete<llvm::raw_pwrite_stream>>, clang::B=
-ackendConsumer*) (clang-23+0x45142b4)
-   #13 0x0000558b57d8f087 clang::BackendConsumer::HandleTranslationUnit(cla=
-ng::ASTContext&) (clang-23+0x4b4a087)
-   #14 0x0000558b596f091c clang::ParseAST(clang::Sema&, bool, bool) (clang-=
-23+0x64ab91c)
-   #15 0x0000558b580d9c3a clang::FrontendAction::Execute() (clang-23+0x4e94=
-c3a)
-   #16 0x0000558b580552c6 clang::CompilerInstance::ExecuteAction(clang::Fro=
-ntendAction&) (clang-23+0x4e102c6)
-   #17 0x0000558b581bce47 clang::ExecuteCompilerInvocation(clang::CompilerI=
-nstance*) (clang-23+0x4f77e47)
-   #18 0x0000558b5418ce55 cc1_main(llvm::ArrayRef<char const*>, char const*=
-, void*) (clang-23+0xf47e55)
-   #19 0x0000558b54184b63 ExecuteCC1Tool(llvm::SmallVectorImpl<char const*>=
-&, llvm::ToolContext const&, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem=
->) driver.cpp:0:0
-   #20 0x0000558b54184ba3 int llvm::function_ref<int (llvm::SmallVectorImpl=
-<char const*>&)>::callback_fn<clang_main(int, char**, llvm::ToolContext con=
-st&)::'lambda'(llvm::SmallVectorImpl<char const*>&)>(long, llvm::SmallVecto=
-rImpl<char const*>&) driver.cpp:0:0
-   #21 0x0000558b57e0df39 void llvm::function_ref<void ()>::callback_fn<cla=
-ng::driver::CC1Command::Execute(llvm::ArrayRef<std::optional<llvm::StringRe=
-f>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocato=
-r<char>>*, bool*) const::'lambda'()>(long) Job.cpp:0:0
-   #22 0x0000558b572966c3 llvm::CrashRecoveryContext::RunSafely(llvm::funct=
-ion_ref<void ()>) (clang-23+0x40516c3)
-   #23 0x0000558b57e0e664 clang::driver::CC1Command::Execute(llvm::ArrayRef=
-<std::optional<llvm::StringRef>>, std::__cxx11::basic_string<char, std::cha=
-r_traits<char>, std::allocator<char>>*, bool*) const (.part.0) Job.cpp:0:0
-   #24 0x0000558b57dcdfe8 clang::driver::Compilation::ExecuteCommand(clang:=
-:driver::Command const&, clang::driver::Command const*&, bool) const (clang=
--23+0x4b88fe8)
-   #25 0x0000558b57dcef42 clang::driver::Compilation::ExecuteJobs(clang::dr=
-iver::JobList const&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
-ommand const*>>&, bool) const (clang-23+0x4b89f42)
-   #26 0x0000558b57ddfc8c clang::driver::Driver::ExecuteCompilation(clang::=
-driver::Compilation&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
-ommand const*>>&) (clang-23+0x4b9ac8c)
-   #27 0x0000558b5418980f clang_main(int, char**, llvm::ToolContext const&)=
- (clang-23+0xf4480f)
-   #28 0x0000558b54021cf9 main (clang-23+0xddccf9)
-   #29 0x00007f978307aca8 (/lib/x86_64-linux-gnu/libc.so.6+0x29ca8)
-   #30 0x00007f978307ad65 __libc_start_main (/lib/x86_64-linux-gnu/libc.so.=
-6+0x29d65)
-   #31 0x0000558b541845a1 _start (clang-23+0xf3f5a1)
-   clang: error: clang frontend command failed due to signal (use -v to see=
- invocation)
->> /bin/bash: line 1: 542036 Segmentation fault      clang -Wp,-MMD,arch/mi=
-ps/kernel/.elf.o.d -nostdinc -Iarch/mips/include -I./arch/mips/include/gene=
-rated -Iinclude -I./include -Iarch/mips/include/uapi -I./arch/mips/include/=
-generated/uapi -Iinclude/uapi -I./include/generated/uapi -include include/l=
-inux/compiler-version.h -include include/linux/kconfig.h -include include/l=
-inux/compiler_types.h -D__KERNEL__ --target=3Dmipsel-linux-gnu -fintegrated=
--as -Werror=3Dunknown-warning-option -Werror=3Dignored-optimization-argumen=
-t -Werror=3Doption-ignored -Werror=3Dunused-command-line-argument -DVMLINUX=
-_LOAD_ADDRESS=3D0xffffffff88002000 -DLINKER_LOAD_ADDRESS=3D0x88002000 -DDAT=
-AOFFSET=3D0 -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgn=
-u11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing=
- -mno-check-zero-division -mabi=3D32 -G 0 -mno-abicalls -fno-pic -pipe -mso=
-ft-float -Wa,-msoft-float -ffreestanding -EB -fno-stack-check -march=3Dmips=
-3 -Wa,--trap -DTOOLCHAIN_SUPPORTS_VIRT -Iarch/mips/include/asm/mach-ip22 -I=
-arch/mips/include/asm/mach-generic -fno-asynchronous-unwind-tables -fno-del=
-ete-null-pointer-checks -O2 -fno-stack-protector -pg -fstrict-flex-arrays=
-=3D3 -fno-strict-overflow -fno-stack-check -fno-builtin-wcslen -Wall -Wextr=
-a -Wundef -Werror=3Dimplicit-function-declaration -Werror=3Dimplicit-int -W=
-error=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-security -Wno-t=
-rigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declara=
-tions -Wmissing-prototypes -Wno-gnu -Wno-format-overflow-non-kprintf -Wno-f=
-ormat-truncation-non-kprintf -Wno-default-const-init-unsafe -Wno-pointer-si=
-gn -Wcast-function-type -Wno-unterminated-string-initialization -Wimplicit-=
-fallthrough -Werror=3Ddate-time -Werror=3Dincompatible-pointer-types -Wenum=
--conversion -Wunused -Wmissing-format-attribute -Wmissing-include-dirs -Wun=
-used-const-variable -Wno-missing-field-initializers -Wno-type-limits -Wno-s=
-hift-negative-value -Wno-enum-enum-conversion -Wno-sign-compare -Wno-unused=
--parameter -fno-crash-diagnostics -Wno-error=3Dreturn-type -Wreturn-type -f=
-unsigned-char -Wundef -falign-functions=3D64 -Iarch/mips/kernel -Iarch/mips=
-/kernel -DKBUILD_MODFILE=3D'"arch/mips/kernel/elf"' -DKBUILD_BASENAME=3D'"e=
-lf"' -DKBUILD_MODNAME=3D'"elf"' -D__KBUILD_MODNAME=3Dkmod_elf -c -o arch/mi=
-ps/kernel/elf.o arch/mips/kernel/elf.c
+Old smatch warnings:
+drivers/gpib/common/gpib_os.c:1291 close_dev_ioctl() warn: potential spectr=
+e issue 'file_priv->descriptors' [r] (local cap)
+
+vim +816 drivers/gpib/common/gpib_os.c
+
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  610 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  611  long ibioctl(struct file *filep, unsigned int cmd, unsigned long =
+arg)
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  612  {
+93c73ab1776fc06 drivers/staging/gpib/common/gpib_os.c Al Viro       2025-07=
+-10  613  	unsigned int minor =3D iminor(file_inode(filep));
+840459da1574dbf drivers/staging/gpib/common/gpib_os.c Michael Rubin 2025-03=
+-19  614  	struct gpib_board *board;
+c93577b9d4533af drivers/staging/gpib/common/gpib_os.c Michael Rubin 2025-04=
+-08  615  	struct gpib_file_private *file_priv =3D filep->private_data;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  616  	long retval =3D -ENOTTY;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  617 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  618  	if (minor >=3D GPIB_MAX_NUM_BOARDS) {
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  619  		pr_err("gpib: invalid minor number of device file\n");
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  620  		return -ENODEV;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  621  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  622  	board =3D &board_array[minor];
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  623 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  624  	if (mutex_lock_interruptible(&board->big_gpib_mutex))
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  625  		return -ERESTARTSYS;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  626 =20
+141765729ea7c83 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2025-02=
+-14  627  	dev_dbg(board->gpib_dev, "ioctl %d, interface=3D%s, use=3D%d, on=
+l=3D%d\n",
+141765729ea7c83 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2025-02=
+-14  628  		cmd & 0xff,
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  629  		board->interface ? board->interface->name : "",
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  630  		board->use_count,
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  631  		board->online);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  632 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  633  	switch (cmd) {
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  634  	case CFCBOARDTYPE:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  635  		retval =3D board_type_ioctl(file_priv, board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  636  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  637  	case IBONL:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  638  		retval =3D online_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  639  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  640  	default:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  641  		break;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  642  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  643  	if (!board->interface) {
+141765729ea7c83 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2025-02=
+-14  644  		dev_err(board->gpib_dev, "no gpib board configured\n");
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  645  		retval =3D -ENODEV;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  646  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  647  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  648  	if (file_priv->got_module =3D=3D 0)	{
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  649  		if (!try_module_get(board->provider_module)) {
+141765729ea7c83 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2025-02=
+-14  650  			dev_err(board->gpib_dev, "try_module_get() failed\n");
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  651  			retval =3D -EIO;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  652  			goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  653  		}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  654  		file_priv->got_module =3D 1;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  655  		board->use_count++;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  656  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  657  	switch (cmd) {
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  658  	case CFCBASE:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  659  		retval =3D iobase_ioctl(&board->config, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  660  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  661  	case CFCIRQ:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  662  		retval =3D irq_ioctl(&board->config, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  663  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  664  	case CFCDMA:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  665  		retval =3D dma_ioctl(&board->config, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  666  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  667  	case IBAUTOSPOLL:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  668  		retval =3D autospoll_ioctl(board, file_priv, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  669  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  670  	case IBBOARD_INFO:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  671  		retval =3D board_info_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  672  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  673  	case IBMUTEX:
+79d1aa8cb769594 drivers/staging/gpib/common/gpib_os.c Paul Retourn=C3=A9 20=
+25-04-11  674  		/*
+79d1aa8cb769594 drivers/staging/gpib/common/gpib_os.c Paul Retourn=C3=A9 20=
+25-04-11  675  		 * Need to unlock board->big_gpib_mutex before potentially=
+ locking board->user_mutex
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  676  		 * to maintain consistent locking order
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  677  		 */
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  678  		mutex_unlock(&board->big_gpib_mutex);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  679  		return mutex_ioctl(board, file_priv, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  680  	case IBPAD:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  681  		retval =3D pad_ioctl(board, file_priv, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  682  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  683  	case IBSAD:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  684  		retval =3D sad_ioctl(board, file_priv, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  685  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  686  	case IBSELECT_PCI:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  687  		retval =3D select_pci_ioctl(&board->config, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  688  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  689  	case IBSELECT_DEVICE_PATH:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  690  		retval =3D select_device_path_ioctl(&board->config, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  691  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  692  	default:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  693  		break;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  694  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  695 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  696  	if (!board->online) {
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  697  		retval =3D -EINVAL;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  698  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  699  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  700 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  701  	switch (cmd) {
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  702  	case IBEVENT:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  703  		retval =3D event_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  704  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  705  	case IBCLOSEDEV:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  706  		retval =3D close_dev_ioctl(filep, board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  707  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  708  	case IBOPENDEV:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  709  		retval =3D open_dev_ioctl(filep, board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  710  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  711  	case IBSPOLL_BYTES:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  712  		retval =3D status_bytes_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  713  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  714  	case IBWAIT:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  715  		retval =3D wait_ioctl(file_priv, board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  716  		if (retval =3D=3D -ERESTARTSYS)
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  717  			return retval;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  718  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  719  	case IBLINES:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  720  		retval =3D line_status_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  721  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  722  	case IBLOC:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  723  		board->interface->return_to_local(board);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  724  		retval =3D 0;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  725  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  726  	default:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  727  		break;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  728  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  729 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  730  	spin_lock(&board->locking_pid_spinlock);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  731  	if (current->pid !=3D board->locking_pid)	{
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  732  		spin_unlock(&board->locking_pid_spinlock);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  733  		retval =3D -EPERM;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  734  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  735  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  736  	spin_unlock(&board->locking_pid_spinlock);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  737 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  738  	switch (cmd) {
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  739  	case IB_T1_DELAY:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  740  		retval =3D t1_delay_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  741  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  742  	case IBCAC:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  743  		retval =3D take_control_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  744  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  745  	case IBCMD:
+79d1aa8cb769594 drivers/staging/gpib/common/gpib_os.c Paul Retourn=C3=A9 20=
+25-04-11  746  		/*
+79d1aa8cb769594 drivers/staging/gpib/common/gpib_os.c Paul Retourn=C3=A9 20=
+25-04-11  747  		 * IO ioctls can take a long time, we need to unlock board=
+->big_gpib_mutex
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  748  		 * before we call them.
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  749  		 */
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  750  		mutex_unlock(&board->big_gpib_mutex);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  751  		return command_ioctl(file_priv, board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  752  	case IBEOS:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  753  		retval =3D eos_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  754  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  755  	case IBGTS:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  756  		retval =3D ibgts(board);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  757  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  758  	case IBPPC:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  759  		retval =3D ppc_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  760  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  761  	case IBPP2_SET:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  762  		retval =3D set_local_ppoll_mode_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  763  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  764  	case IBPP2_GET:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  765  		retval =3D get_local_ppoll_mode_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  766  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  767  	case IBQUERY_BOARD_RSV:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  768  		retval =3D query_board_rsv_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  769  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  770  	case IBRD:
+79d1aa8cb769594 drivers/staging/gpib/common/gpib_os.c Paul Retourn=C3=A9 20=
+25-04-11  771  		/*
+79d1aa8cb769594 drivers/staging/gpib/common/gpib_os.c Paul Retourn=C3=A9 20=
+25-04-11  772  		 * IO ioctls can take a long time, we need to unlock board=
+->big_gpib_mutex
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  773  		 * before we call them.
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  774  		 */
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  775  		mutex_unlock(&board->big_gpib_mutex);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  776  		return read_ioctl(file_priv, board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  777  	case IBRPP:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  778  		retval =3D parallel_poll_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  779  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  780  	case IBRSC:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  781  		retval =3D request_system_control_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  782  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  783  	case IBRSP:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  784  		retval =3D serial_poll_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  785  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  786  	case IBRSV:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  787  		retval =3D request_service_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  788  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  789  	case IBRSV2:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  790  		retval =3D request_service2_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  791  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  792  	case IBSIC:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  793  		retval =3D interface_clear_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  794  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  795  	case IBSRE:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  796  		retval =3D remote_enable_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  797  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  798  	case IBTMO:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  799  		retval =3D timeout_ioctl(board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  800  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  801  	case IBWRT:
+79d1aa8cb769594 drivers/staging/gpib/common/gpib_os.c Paul Retourn=C3=A9 20=
+25-04-11  802  		/*
+79d1aa8cb769594 drivers/staging/gpib/common/gpib_os.c Paul Retourn=C3=A9 20=
+25-04-11  803  		 * IO ioctls can take a long time, we need to unlock board=
+->big_gpib_mutex
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  804  		 * before we call them.
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  805  		 */
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  806  		mutex_unlock(&board->big_gpib_mutex);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  807  		return write_ioctl(file_priv, board, arg);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  808  	default:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  809  		retval =3D -ENOTTY;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  810  		goto done;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  811  	}
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  812 =20
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  813  done:
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  814  	mutex_unlock(&board->big_gpib_mutex);
+a836d4ec8f83bbb drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-11=
+-04  815  	dev_dbg(board->gpib_dev, "ioctl done status =3D 0x%lx\n", board-=
+>status);
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18 @816  	return retval;
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  817  }
+9dde4559e93955c drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09=
+-18  818 =20
+
+:::::: The code at line 816 was first introduced by commit
+:::::: 9dde4559e93955ccc47d588f7fd051684d55c4e7 staging: gpib: Add GPIB com=
+mon core driver
+
+:::::: TO: Dave Penkler <dpenkler@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --=20
 0-DAY CI Kernel Test Service
