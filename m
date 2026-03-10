@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77013D544
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Mar 2026 23:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2264538E112
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Mar 2026 02:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773100417; cv=none; b=YSsuNwiluoDjjureMqBM6e0lDvEK3S5li+djJyU7iWy053mRbrUdlOMfnkoGBPmIynaizfISc5WPmVG8SOv0vF5vr3e+69xglo/wpIBnVD1iB8lAirALdokjbepbLmt+pISGUYeNuI38YmqqKgtMIUl8JtIxthnA1E3bnopOOpY=
+	t=1773109538; cv=none; b=uLsaTpt3CgWLo7M0I9XeE5YzDK+0l9k9/Fb9ZLECBXA1rAtemoqjgtJ+9qZnc/BFcw4L5GpBhFkah23BTSCqMymxlZi0P35gnxpHPnj8IeVQ5IebdJGyQBJOrTMFb9Xdkx4ZKSYEzB6WgPDOr3ZZyTvflacRCYby25NdpYEsQ5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773100417; c=relaxed/simple;
-	bh=GwSqJDLHHUJ6JuzHF10ipG6jY3b8kojwyzkFum2EPZw=;
-	h=Date:From:To:Subject:Message-ID; b=jh+3VXmy32UZTwqwFf/6fJ+11m9OdmjfmbMgVb3oaQfPIhEdDxIS8s4HTFAubMihYA/otJUA9kL9zIjrfIMr6Bfh0SnRRHiKtOFz9oaiWFEBPi2lCvoLgpmLtSBfilTRK6x51xnJ8aKPzNM9L8HHkv9qa6NrMP/nJKXX0zwD4J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrQR2d2t; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1773109538; c=relaxed/simple;
+	bh=vWIYUP/ktO5bgFUJZE73tgq+XAN754X0Cf5iYguGUag=;
+	h=Date:From:To:Subject:Message-ID; b=QoyXLMql2ggBltEdSArRJg0Z/eQPYV0AmUgCSqSw1SEVekzKitxMvRo6W4dG8LEvq4p0wpsuZtDuwvjdgCAwjLu6RZhpl9WWFd1oIdxfdIvozn1h9v1Kdo7tRGDsVCOFExC5Uj2FTaXqBQaYBJqieBqkl14ygEHKkxQbKef8dBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSNBzKyw; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrQR2d2t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSNBzKyw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773100416; x=1804636416;
+  t=1773109538; x=1804645538;
   h=date:from:to:subject:message-id;
-  bh=GwSqJDLHHUJ6JuzHF10ipG6jY3b8kojwyzkFum2EPZw=;
-  b=YrQR2d2tYRGYbF3ZGgzc4xFbUo3m7Ekn22ZUHRCdBrns8HFK2FFS6JHA
-   Fe73bSd/d/o7fFEh8d101foetHOaiYdkjdE2BuQgIr5fEVL5B2tQFE8N8
-   Zi3fb1eMKu7Xc+cwh049XvmY6m/7nzLRuLft6E9m3atZepBpHYsYPqYv3
-   D6AYjbkimHR/iQQ6wiZtJe1WzldyEtSDWr0EgegpRkcbqokc5n1IhBgop
-   AeTSm0A5xzkCpehAiV4HiGo04RuBZiq8OKYsd2NLqUJqB2sa6p8iMwygJ
-   +WSUi27YXagalmRQihlltQWfA6T7vfWzPxrJOotSsGETKZIiAwt53Z4dT
-   A==;
-X-CSE-ConnectionGUID: eAVLWy/rSHunCYMq0w80Kg==
-X-CSE-MsgGUID: T/8hh2ZORh+D0a6KlvTZBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="73161284"
+  bh=vWIYUP/ktO5bgFUJZE73tgq+XAN754X0Cf5iYguGUag=;
+  b=nSNBzKywoaf1pnae9+o+78QydRVw8PHc2o3/9MUAhXUXgI4HCFqF1hc4
+   TnM8KlVf22kn7Gf660w/M0ESs4n8YF5sAgJK9GhXQVgNB1401psQGCT4C
+   m12PcZ4Nc6SP65dKz2IsCTI31KWvyTR8/4qqYTFJEr3dPdpZyWG3S7TJh
+   V7AdJ/01y+/qRUtXvuCWY/1UR0liPCP2HhSN1YyozvvJXh+wNJg7b4tRN
+   FNaJSwpcb7qHUzHLQEeLd1p6jpPBxE69CtGGH42yUlSJJahAb0NgdFZkK
+   VbcOtMPaRgrcJXVHjuOWi5F1VYFEGNAPWNNtjFG9D57MCKvVXpqupR13K
+   w==;
+X-CSE-ConnectionGUID: ZZJ/Tbz3T1K+K8x5yI75hg==
+X-CSE-MsgGUID: E4Bo69FrTuOn0j/+d2CDsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="84473670"
 X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="73161284"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 16:53:35 -0700
-X-CSE-ConnectionGUID: NqxHtHMNTOySqmVeuGyl6w==
-X-CSE-MsgGUID: pHIZE9cfR92xMElMNBEoOA==
+   d="scan'208";a="84473670"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 19:25:37 -0700
+X-CSE-ConnectionGUID: oYt4JaoiTE+KpPcny4CLzw==
+X-CSE-MsgGUID: 7Xi4+JhSQfmuyo8CH3A6wQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="224367369"
+   d="scan'208";a="224878031"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 09 Mar 2026 16:53:35 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Mar 2026 19:25:36 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzkPk-000000002xx-2Ifd
+	id 1vzmmr-000000002zh-3mMH
 	for oe-kbuild@lists.linux.dev;
-	Mon, 09 Mar 2026 23:53:32 +0000
-Date: Tue, 10 Mar 2026 00:53:24 +0100
+	Tue, 10 Mar 2026 02:25:33 +0000
+Date: Tue, 10 Mar 2026 03:25:05 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Subject: [ast-bpf:stacklive 6/19] checkpatch: WARNING:REPEATED_WORD:
  Possible repeated word: 'imp'
-Message-ID: <202603100007.0obWLwny-lkp@intel.com>
+Message-ID: <202603100355.vg1E5Cyt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -68,21 +68,21 @@ CC: oe-kbuild-all@lists.linux.dev
 TO: Alexei Starovoitov <ast@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git stacklive
-head:   853bd1b6a9098ac860965e6d53ec404705f1142a
-commit: 5c983b6ca7465321a0f14441255776b56d30c57a [6/19] bpf: Add per-subprog arg tracking analysis
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260310/202603100007.0obWLwny-lkp@intel.com/reproduce)
+head:   db370bdfa624db41877645d63bccba71817183d2
+commit: e7458f1063efef67721a59784ecb7bc34c15c447 [6/19] bpf: Add per-subprog arg tracking analysis
+:::::: branch date: 40 minutes ago
+:::::: commit date: 41 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20260310/202603100355.vg1E5Cyt-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
 WARNING:REPEATED_WORD: Possible repeated word: 'imp'
-#238: FILE: kernel/bpf/liveness.c:1113:
+#281: FILE: kernel/bpf/liveness.c:1156:
 +	 * none + imp -> imp
 +	 * imp + none -> imp
 
 WARNING:REPEATED_WORD: Possible repeated word: 'imp'
-#240: FILE: kernel/bpf/liveness.c:1115:
+#283: FILE: kernel/bpf/liveness.c:1158:
 +	 * arg + imp -> imp
 +	 * imp + arg -> imp
 
