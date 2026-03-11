@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAE53C061A
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 08:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9D03BD231
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 09:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773219234; cv=none; b=NkMXTGgyv03jP+qJyaTE8jYzb2rUi/TRMChd9emlEIPX2/HGYlxrmTNLGvDbnv/XiBwro5lCaPdqEP4VhEQXY92mdfcH5t6KHtPaIbeuJDb9t72Hef+U6MOZH5XMfmGH6leNMZq1oO/Pnaezzp1GjOeIY3faDRa9PcZy/oCSyb0=
+	t=1773220442; cv=none; b=UmiShoKg/JEMWpvREP9x9vk2pjMvpiR5CmSExn08qESVg4dKGHEAh3FK3Q4KlhBdCsUhupCrzEGA7Ajj+amAeuhmVoWEw9VSndR7fPsDjVYM6YGgXhA24Cl/SuZ+3JHG31AkSLM9RlSq9GUUbKy52/+ZHM2NVQc84J4ISQhH8vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773219234; c=relaxed/simple;
-	bh=7Uu7TLMlXIfDueL1wucRb3zVixAO6tkUHaMBQ/2Y6LQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Dj1FqxBsnoa3IneM79FoCADd/khrgcxxhn+FsAJIrI3ygOIAES5CjzSOwe/pk6Lfp0zus/tdcsobJfBLKUo3wHBxFBj97bbRVd8yAInuYMlmg5uJQb5VlUevvsndVGu8xXKHVtSlAQuL9Urgp6qJN5EhL9yB9XtjSs/5tDZAEV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HYDpFWoX; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1773220442; c=relaxed/simple;
+	bh=S7SFwhJCVL7DZI2YBq2OcF9E0YWzZ4HxoNx1BTOmMn8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AQmpjRYpaJcQ2CZbDn+qyZhOupsBjJVPAKckfOpEsnS69iHwkv2lXluabthlC8jJwesDMlC6koX7EbwXImya4n/Xl2fCrosABZpmZXURmWxaYVq16pF4CnqSS6RfxDSwiozReqwRpPT27fOuWy+Tg1XnajqUmFsrL6QSbUrOvas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ho/l/QAP; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HYDpFWoX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ho/l/QAP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773219228; x=1804755228;
+  t=1773220435; x=1804756435;
   h=date:from:to:cc:subject:message-id;
-  bh=7Uu7TLMlXIfDueL1wucRb3zVixAO6tkUHaMBQ/2Y6LQ=;
-  b=HYDpFWoXREakVEO5TpcG+CwHvoxC+kn0HucgZ1xsfFI4p7EEl1NsMlUa
-   sXYTs3j1FF+8oxCH72aEwQhKq7PkQw5yWYjnRjVoGpsiEqSfyOsd/Hzmq
-   f/gn81fJcsWlBD8NYZqTUW6ADPY3C98sp6jw1/q6CA4KWh0p4aAVRGan4
-   cMViPzrJfU8x7sHdThgj/pXummyT7q4CCJduBHdwOnVAb2GhpeiW9tsQT
-   efcIzGF78NL0aQRzxdYq/Bg3MMP1/GhD66nCyMEEpUZ/QICjgQy8IRgEf
-   ZyMRnQZuZFbMnDjGEeqY5A3oorAmQewWXldknaYwwjzsHJEabWAHfu+t6
+  bh=S7SFwhJCVL7DZI2YBq2OcF9E0YWzZ4HxoNx1BTOmMn8=;
+  b=Ho/l/QAPHwHi8nApcw+0iiO0yMUpxt+wdr1td/q59+/9lHBukxromnK6
+   /WiDcxD/tXpL4KEYEdiLFt1t/VoiIllNxLVT1gF9o/XUKb3Sz3L+mJ8MH
+   6LC2xM/EqV9RqRtmUiflD9Ao5ohbuX5bUNzlq6V2QJraIKt2ogsjD8STq
+   j2G0eBqjlP12Vf4CHCUMpHreKPJiDbIIywo57Qdu4Qr4Yc5fYl1FU7Xzl
+   ILIio7fOrkgzrNeLuVQy2aa4/BPsCXp34VOrbswJsnpu/YZd3xgQO+F8G
+   xBXkRPMqdmDWWe775aR/e35b/FDKlrXJTQwjyc7xm9CLh5TUXz+gL9ElO
    Q==;
-X-CSE-ConnectionGUID: dEG/9gqXSM620D93cMNQQA==
-X-CSE-MsgGUID: WIl3HxvWRHeTwpv/HJfQyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="99746466"
+X-CSE-ConnectionGUID: qrYzuH6IRuuVWl8b9ROKWQ==
+X-CSE-MsgGUID: D+YYpmzFQPOQNuT+Nq60EQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="77887792"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="99746466"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 01:53:47 -0700
-X-CSE-ConnectionGUID: x7wDc7V3TlaB8bj9NrJRMQ==
-X-CSE-MsgGUID: TUoQDQ8zSqq2L0zOJOxYSg==
+   d="scan'208";a="77887792"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 02:13:54 -0700
+X-CSE-ConnectionGUID: 8NuGr7y5R0WtOFu05OHG3A==
+X-CSE-MsgGUID: +8TlESh2TIWMaNRhoEkYVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="246005927"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Mar 2026 01:53:46 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="224570108"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 11 Mar 2026 02:13:53 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0FK3-000000000uF-2K6e;
-	Wed, 11 Mar 2026 08:53:43 +0000
-Date: Wed, 11 Mar 2026 16:53:27 +0800
+	id 1w0FdW-000000003Ij-2OiD;
+	Wed, 11 Mar 2026 09:13:50 +0000
+Date: Wed, 11 Mar 2026 10:13:11 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/liveupdate/luo_file.c:558:5-13: ERROR: invalid
- reference to the index variable of the iterator on line 553
-Message-ID: <202603111600.DLzuFaV9-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [robh:dt-convert 348/621]
+ Documentation/devicetree/bindings/pinctrl/atmel,sama5d2-pinctrl.yaml:
+ atmel,drive-strength: missing type definition
+Message-ID: <202603111059.YCi5XuBn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,105 +60,52 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-CC: Pratyush Yadav <pratyush@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b29fb8829bff243512bb8c8908fd39406f9fd4c3
-commit: 7c722a7f44e0c1f9714084152226bc7bd644b7e3 liveupdate: luo_file: implement file systems callbacks
-date:   3 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-101-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111600.DLzuFaV9-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 602a9ba5373fab04ad0a7c22dd6da6afe8c81cc3 [348/621] dt-bindings: pinctrl: Convert atmel,sama5d2-pinctrl to DT schema
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: arc-randconfig-2051-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111059.YCi5XuBn-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111059.YCi5XuBn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202603111600.DLzuFaV9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603111059.YCi5XuBn-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/liveupdate/luo_file.c:558:5-13: ERROR: invalid reference to the index variable of the iterator on line 553
-
-vim +558 kernel/liveupdate/luo_file.c
-
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  517  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  518  /**
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  519   * luo_retrieve_file - Restores a preserved file from a file_set by its token.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  520   * @file_set: The file_set from which to retrieve the file.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  521   * @token:    The unique token identifying the file to be restored.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  522   * @filep:    Output parameter; on success, this is populated with a pointer
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  523   *            to the newly retrieved 'struct file'.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  524   *
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  525   * This function is the primary mechanism for recreating a file in the new
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  526   * kernel after a live update. It searches the file_set's list of deserialized
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  527   * files for an entry matching the provided @token.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  528   *
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  529   * The operation is idempotent: if a file has already been successfully
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  530   * retrieved, this function will simply return a pointer to the existing
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  531   * 'struct file' and report success without re-executing the retrieve
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  532   * operation. This is handled by checking the 'retrieved' flag under a lock.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  533   *
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  534   * File retrieval can happen in any order; it is not bound by the order of
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  535   * preservation.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  536   *
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  537   * Context: Can be called from an ioctl or other in-kernel code in the new
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  538   *          kernel.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  539   * Return: 0 on success. Returns a negative errno on failure:
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  540   *         -ENOENT if no file with the matching token is found.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  541   *         Any error code returned by the handler's .retrieve() op.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  542   */
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  543  int luo_retrieve_file(struct luo_file_set *file_set, u64 token,
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  544  		      struct file **filep)
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  545  {
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  546  	struct liveupdate_file_op_args args = {0};
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  547  	struct luo_file *luo_file;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  548  	int err;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  549  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  550  	if (list_empty(&file_set->files_list))
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  551  		return -ENOENT;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  552  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25 @553  	list_for_each_entry(luo_file, &file_set->files_list, list) {
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  554  		if (luo_file->token == token)
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  555  			break;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  556  	}
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  557  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25 @558  	if (luo_file->token != token)
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  559  		return -ENOENT;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  560  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  561  	guard(mutex)(&luo_file->mutex);
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  562  	if (luo_file->retrieved) {
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  563  		/*
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  564  		 * Someone is asking for this file again, so get a reference
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  565  		 * for them.
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  566  		 */
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  567  		get_file(luo_file->file);
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  568  		*filep = luo_file->file;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  569  		return 0;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  570  	}
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  571  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  572  	args.handler = luo_file->fh;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  573  	args.serialized_data = luo_file->serialized_data;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  574  	err = luo_file->fh->ops->retrieve(&args);
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  575  	if (!err) {
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  576  		luo_file->file = args.file;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  577  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  578  		/* Get reference so we can keep this file in LUO until finish */
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  579  		get_file(luo_file->file);
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  580  		*filep = luo_file->file;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  581  		luo_file->retrieved = true;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  582  	}
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  583  
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  584  	return err;
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  585  }
-7c722a7f44e0c1 Pasha Tatashin 2025-11-25  586  
+dtcheck warnings: (new ones prefixed by >>)
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-div: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-mul: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-initda: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-mmu: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,reset-addr: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,fast-tlb-miss-addr: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,exception-addr: missing type definition
+   Documentation/devicetree/bindings/mmc/cavium,octeon-6130-mmc.yaml: cavium,bus-max-width: missing type definition
+   Documentation/devicetree/bindings/memory-controllers/atmel,ebi.yaml: atmel,smc-page-mode: missing type definition
+   Documentation/devicetree/bindings/memory-controllers/marvell,mvebu-devbus.yaml: devbus,bus-width: missing type definition
+>> Documentation/devicetree/bindings/pinctrl/atmel,sama5d2-pinctrl.yaml: atmel,drive-strength: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: gpio-ext: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: timers: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: fdim: missing type definition
+   Documentation/devicetree/bindings/net/ibm,emac.yaml: mal-tx-channel: missing type definition
+   Documentation/devicetree/bindings/net/ibm,emac.yaml: mal-rx-channel: missing type definition
+   Documentation/devicetree/bindings/net/ibm,emac.yaml: rx-fifo-size: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
