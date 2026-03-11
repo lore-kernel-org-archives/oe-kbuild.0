@@ -1,162 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A5036C5BB
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 03:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2D7248873
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 03:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773198358; cv=none; b=UNSfdOELlwo8uCkNPcIh4TyaG2oRIz8N+RG65vRhDJU2FzwD1WwyV09lSq+tmP0q1TLpsD/yFEn+CQUuehnQ8G8ECuHpnd8poVysnt0IyPoMaakmN1GznRccsBAnFPq15cQgsHwGXU+ma3hFsXjiRbvvUz/bWkPI4XJPrrcKl8A=
+	t=1773200210; cv=none; b=Lg8/eKyKfxozbA/Q/PQydjTFgWq7z/XyIjf+n+ZY795Vg+sY3Sbr6MBDzahx37uclxODYzVXBb4xLN4zwqqbBx+AucC8UVY9e//5mf63qynx32HrA4qIN6YbIGOOjKb/Ay98rRnx7zhfrlZ+fUmDENeh2ngvvb0RWRtaY3W9Kw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773198358; c=relaxed/simple;
-	bh=1MNlA/sPXBVhKBvXC9I2L/mhFMobTOVarkS5CvDQJG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=TpLu9lYwlR9VSwvR1y+cfWQao86fxlzodKsZmQl19OEIPcpiiAQa8GHRsR5/EvEyASdNFL3pAtVuRCkje/GvFgmM9DlnYIfy1srJwTZ384MhZES7NFLYZN7TgGfkf1f6Omm+IfV0d3nErVUQvrPDVILKIUo4j+IpUJ8Ump1jIwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0Dex5g9; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1773200210; c=relaxed/simple;
+	bh=MY6f+Tqr77LL229UgPi0BcCbyknQ/rGfNFeLruxrU3I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tz7WcuN+oxlgGKEqHe2Cq4A+a73eKO+ktzgqkkbaGwTwC+vNjeAr297OZXAI0WQDL/8j//SGBBJDES9SVMqGllBOxHc1+L8iOaaDabRqSCmq2Qv/Xhu41K9Pb97yJ54r495d9z7teUAUiYY0o/9LuEPcAlIVYqsEjjJjthTSIWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFb0FKAJ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0Dex5g9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFb0FKAJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773198357; x=1804734357;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1MNlA/sPXBVhKBvXC9I2L/mhFMobTOVarkS5CvDQJG4=;
-  b=n0Dex5g9zkklc8BT/ljneHmS6lFpKV/u1q03IyBRY6RjpyRUtK5NZD6X
-   p5g7yJF/IYTdQSncZhJlgQKLaMV7muRwb3S6fju8FTwDhaPy6gaG4LwwI
-   YWdzl+4bams0aG8eU4dsdpKGa7xGp/xf9kC9Qq+kU0typiNVN/Te4RdAr
-   gAHrTs/QbkdF7DM9pS6I4+TLrMlxSMllIjcyMvcxZ3JC4dyeg0XsqA9Mn
-   CrDu9BEnuOS2Ql3Tl+MwwZcoGg0YxsRM1uv1YMnIU+sRoMtu0gxda9DFI
-   3lzDqmq+4j+a8aUDwoHvhJk2cDJM+zlXxnMyVWNoJkqvOJxS5IlXdckQe
-   A==;
-X-CSE-ConnectionGUID: 0wA9cpUBSK+ex7GWf9nOBw==
-X-CSE-MsgGUID: iKo19nBjTG2U29EBqJy9uA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74447315"
+  t=1773200209; x=1804736209;
+  h=date:from:to:cc:subject:message-id;
+  bh=MY6f+Tqr77LL229UgPi0BcCbyknQ/rGfNFeLruxrU3I=;
+  b=oFb0FKAJbuR+554C2sPYObCPCFt4fSMNdQ7tL+J+QSOMkUG3gAPOzWoC
+   dIx8A9u30XdanKPxPn8nlqb5RwP7gUBoVnxSIEprhBme+aCAaoY7MFJVB
+   bzvhG95Cd5k14islT4lltIpGHKBXdikWAzPNxM3HavnoZYI2O6d1B0EgU
+   ZTof/TJRrONh/qmFeqwIVWjDsEBqKrZ5Zn8WYWv2fJ+0r+f7a//igTBcM
+   qt3Bo22FD9GvoHqASQ0JIP0sIPCvjd4OnYO4FJYLHyohIaVykOGt3t6lJ
+   onnxqe+zvzGnwVL17YvU9bbe9yvpherss3y2kk2x8iEufS77QwUw4ET+Y
+   Q==;
+X-CSE-ConnectionGUID: 0Keu7m/GSQGUja7Ol7OmpQ==
+X-CSE-MsgGUID: T+JZgKa0QByBVcwrMRLwpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="85349397"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74447315"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 20:05:56 -0700
-X-CSE-ConnectionGUID: O5rwOcSJS2ytbbWNN7lhfw==
-X-CSE-MsgGUID: rWOi53q7TzqjFNKcb8/BeQ==
+   d="scan'208";a="85349397"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 20:36:49 -0700
+X-CSE-ConnectionGUID: xvR9VqbfSl2Ob4UdxN3W/w==
+X-CSE-MsgGUID: 6XLDiPlwRJ6wkvtN71If9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="216621212"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Mar 2026 20:05:54 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="220361489"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 10 Mar 2026 20:36:48 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w09tQ-000000000dC-0Swx;
-	Wed, 11 Mar 2026 03:05:52 +0000
-Date: Wed, 11 Mar 2026 11:05:29 +0800
+	id 1w0ANJ-000000003D3-3hqa;
+	Wed, 11 Mar 2026 03:36:45 +0000
+Date: Wed, 11 Mar 2026 04:35:49 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/dma-buf/dma-buf.c:841 dma_buf_get() warn: fd re-used
- after fget(): 'fd'
-Message-ID: <202603111013.X9ii6rjb-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [robh:dt-convert 192/621]
+ Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr:
+ missing type definition
+Message-ID: <202603110428.6RB7U7zA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: gaoxiang17 <gaoxiang17@xiaomi.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b4f0dd314b39ea154f62f3bd3115ed0470f9f71e
-commit: 281a226314238e8adb08d11b765347687ffb38b9 dma-buf: add some tracepoi=
-nts to debug.
-date:   3 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-r071-20260310 (https://download.01.org/0day-ci/ar=
-chive/20260311/202603111013.X9ii6rjb-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
-7cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 40d5cd8fbee8170be3d6ccdeb824a7726b9badd3 [192/621] dt-bindings: leds: Convert lacie,netxbig-leds to DT schema
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: arc-randconfig-2051-20260311 (https://download.01.org/0day-ci/archive/20260311/202603110428.6RB7U7zA-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110428.6RB7U7zA-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603111013.X9ii6rjb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603110428.6RB7U7zA-lkp@intel.com/
 
-smatch warnings:
-drivers/dma-buf/dma-buf.c:841 dma_buf_get() warn: fd re-used after fget(): =
-'fd'
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr: missing type definition
+>> Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: gpio-ext: missing type definition
+>> Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: timers: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: fdim: missing type definition
+   Traceback (most recent call last):
+     File "/usr/local/bin/dt-mk-schema", line 8, in <module>
+       sys.exit(main())
+                ~~~~^^
+     File "/usr/local/lib/python3.13/dist-packages/dtschema/mk_schema.py", line 28, in main
+       schemas = dtschema.DTValidator(args.schemas).schemas
 
-vim +/fd +841 drivers/dma-buf/dma-buf.c
-
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  815 =
-=20
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  816  /=
-**
-85804b70cca68d7 drivers/dma-buf/dma-buf.c Simona Vetter  2020-12-11  817   =
-* dma_buf_get - returns the struct dma_buf related to an fd
-85804b70cca68d7 drivers/dma-buf/dma-buf.c Simona Vetter  2020-12-11  818   =
-* @fd:	[in]	fd associated with the struct dma_buf to be returned
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  819   *
-85804b70cca68d7 drivers/dma-buf/dma-buf.c Simona Vetter  2020-12-11  820   =
-* On success, returns the struct dma_buf associated with an fd; uses
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  821   =
-* file's refcounting done by fget to increase refcount. returns ERR_PTR
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  822   =
-* otherwise.
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  823   =
-*/
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  824  s=
-truct dma_buf *dma_buf_get(int fd)
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  825  {
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  826  	=
-struct file *file;
-281a226314238e8 drivers/dma-buf/dma-buf.c gaoxiang17     2025-12-18  827  	=
-struct dma_buf *dmabuf;
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  828 =
-=20
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  829  	=
-file =3D fget(fd);
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  830 =
-=20
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  831  	=
-if (!file)
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  832  	=
-	return ERR_PTR(-EBADF);
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  833 =
-=20
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  834  	=
-if (!is_dma_buf_file(file)) {
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  835  	=
-	fput(file);
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  836  	=
-	return ERR_PTR(-EINVAL);
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  837  	}
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  838 =
-=20
-281a226314238e8 drivers/dma-buf/dma-buf.c gaoxiang17     2025-12-18  839  	=
-dmabuf =3D file->private_data;
-281a226314238e8 drivers/dma-buf/dma-buf.c gaoxiang17     2025-12-18  840 =
-=20
-281a226314238e8 drivers/dma-buf/dma-buf.c gaoxiang17     2025-12-18 @841  	=
-DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
-281a226314238e8 drivers/dma-buf/dma-buf.c gaoxiang17     2025-12-18  842 =
-=20
-281a226314238e8 drivers/dma-buf/dma-buf.c gaoxiang17     2025-12-18  843  	=
-return dmabuf;
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  844  }
-cdd30ebb1b9f361 drivers/dma-buf/dma-buf.c Peter Zijlstra 2024-12-02  845  E=
-XPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
-d15bd7ee445d070 drivers/base/dma-buf.c    Sumit Semwal   2011-12-26  846 =
-=20
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
