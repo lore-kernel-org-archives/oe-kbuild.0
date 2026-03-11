@@ -1,66 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C96B3C9EF3
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 10:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2AE13DDAE
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 10:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773225296; cv=none; b=TFntFYl+S3fZFeVKV1z8rLijyDY/vaGo6l7r/7drY2PY5P88KR7sYrsdxLHx9a3d3pbtt/lK2NDhDt+3RT4/DhagvFXhUo1yjSppqIwL0qReRV3bEvfT0tLOcsTBHOVHpljHWQkIeZ21gH5BGth5UxEIe3mTGCu0aVXmvZLzSAg=
+	t=1773225956; cv=none; b=jB+iRXxuGA3nDvrTD011cFQNwhAWi2KrjLDeMUlKmhZ9vE89cTCofEVStlP2j8+rrJntrXXIAcvm9cmv9l2QZA4CPRsND+mHqAYNui0ATG/JxEuaAu0ODgG2ODjQfgBBRKV6OuU1+ZprkytGFvVsiD+Qod/CqOE5klAxOyNF6vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773225296; c=relaxed/simple;
-	bh=Ozb7/evOn1MSElJhFmPWGpQvECETikpwo7S5Ak860p0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=naWv6bwbwhJ+6rNZ9S158lM7GQgKy99k7H59aHJodeHIESqqvitBS330rO9doq2pz2DG1S7xfE6FAoEWcvh1CurxIeZJWUxZef2QZ20qS6laYwJWXo9wxZMJtlfctdIBzQR/m6RsSHJeADIGHWXmUqZp1VeRNXQumH4ms6/zMq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j14hSx1q; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1773225956; c=relaxed/simple;
+	bh=UKsLsFfO6vdHFODlBq8YMhhFNyiuVIUBmp5fNfe0NgM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eD8xP0v5Z37ToaDEoOLo5aAQfD0u550B839An+SwmfgoQqvFGc+UCdsEZFVHG6kZG4E8pYNDYQLKRFwDY9/dJLCFfKtP3+DzZcCt6NiS7EIleZi24fttgtgbET3MPjThw/RJ3WCepgaC+i6ulM1yFftHm5sg1QD3KXLhbPTKNFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WXrSIG/8; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j14hSx1q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WXrSIG/8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773225294; x=1804761294;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ozb7/evOn1MSElJhFmPWGpQvECETikpwo7S5Ak860p0=;
-  b=j14hSx1qLQBITwyUSWU+Xxpso0xB3Aq+jKm4Bh5LTsXPKD5E9itEkZ0N
-   DxrvkV9HQboRpnLt6GaDpNlYKsUSoKxxCZr2Qc2l3/B7HYSiD+hGt4sZw
-   053bGWVYdzuUl6yHoJl+kahGB2eEPkcBBE5ZzfjdCIC3neg5a0ss601uI
-   PKBFk7m7O8pFHqylwTO/OZlDqfjf6RI1kWlgxNW7qgIL2OGAFeBbTEx/i
-   00BZCK63GPDpKrD6VIkiCSIpROJR/0rq4kqsh3oRZzfjRYJm6DjRD4wpj
-   Z+y68SB88z2kW+CqqE/gS7OG5D1r3Yl+xo4Ar8l8a7EhFjYxZqndWbGXL
-   g==;
-X-CSE-ConnectionGUID: LlhEuyVgTsaiqgd4nBhMAw==
-X-CSE-MsgGUID: Pri4BPovQI+njByM7j1qtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="61862386"
+  t=1773225954; x=1804761954;
+  h=date:from:to:cc:subject:message-id;
+  bh=UKsLsFfO6vdHFODlBq8YMhhFNyiuVIUBmp5fNfe0NgM=;
+  b=WXrSIG/8a2cL+FwDovEaX7xJvDYOF6X02Al54vrsJlgeMDznZbyNB50C
+   Mi8yJ+tuF5xmNIx4MOBvWinhfuuCiSg67ykOl9EMe4Se2A53ami4Tdox6
+   9NDRwAe2N3rfrEfKv7g3UyioTz2DtPJdPZ89elhHtmbJ7iLUPMUNSO/X7
+   UxMcC6NO3657sIe7hLrt1VT8Q0LtUUBG6e54AGa+WhtnRd5M6fp/ioIBN
+   Z6i1ABw9qKRbQrmFzDr9/244qLVOosyyGXnaiUCpiQZsnTkvwozHXcn/C
+   Lpg2XXwUtTv/PTJRcqyCOk82xnkz+izXF4KZjlt9x9vxwh4KxRArgy5o0
+   Q==;
+X-CSE-ConnectionGUID: FF4ClD3kSvqOpkmveO3ZDw==
+X-CSE-MsgGUID: CkaMvnINTDCa1LAQfSZ0bQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="84613453"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="61862386"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 03:34:54 -0700
-X-CSE-ConnectionGUID: S2H8v70jS7yADQnvq5VGUw==
-X-CSE-MsgGUID: R+C65ihXQXOxop2C9A0nig==
+   d="scan'208";a="84613453"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 03:45:53 -0700
+X-CSE-ConnectionGUID: qFlup5pDQCqAalXaWHvt9A==
+X-CSE-MsgGUID: OF/ExiaSQk+sgcp7UuO2hA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="246015868"
+   d="scan'208";a="250926772"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Mar 2026 03:34:53 -0700
+  by orviesa002.jf.intel.com with ESMTP; 11 Mar 2026 03:45:53 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0Gtu-000000003Iv-3JU2;
-	Wed, 11 Mar 2026 10:34:50 +0000
-Date: Wed, 11 Mar 2026 11:34:36 +0100
+	id 1w0H4Y-000000003J3-3lor;
+	Wed, 11 Mar 2026 10:45:50 +0000
+Date: Wed, 11 Mar 2026 11:45:01 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] spi: dt-bindings: mediatek,spi-mtk-nor: Add clock
- bindings for mt8189
-Message-ID: <202603111140.dEQ2uxSk-lkp@intel.com>
+Subject: [robh:dt-convert 374/621]
+ Documentation/devicetree/bindings/pinctrl/st,spear300-pinmux.yaml:
+ st,pinmux-mode: missing type definition
+Message-ID: <202603111114.tfvXZg9f-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -68,58 +66,47 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260311034342.721583-1-ot_meiker.gao@mediatek.com>
-References: <20260311034342.721583-1-ot_meiker.gao@mediatek.com>
-TO: Meiker Gao <ot_meiker.gao@mediatek.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: Bayi Cheng <bayi.cheng@mediatek.com>
-TO: Chuanhong Guo <gch981213@gmail.com>
-CC: linux-spi@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-mediatek@lists.infradead.org
-CC: Project_Global_Chrome_Upstream_Group@mediatek.com
-CC: sirius.wang@mediatek.com
-CC: vince-wl.liu@mediatek.com
-CC: jh.hsu@mediatek.com
-CC: Meiker Gao <ot_meiker.gao@mediatek.com>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: linux-doc@vger.kernel.org
 
-Hi Meiker,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on robh/for-next krzk-dt/for-next linus/master v7.0-rc3 next-20260310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Meiker-Gao/spi-dt-bindings-mediatek-spi-mtk-nor-Add-clock-bindings-for-mt8189/20260311-114624
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20260311034342.721583-1-ot_meiker.gao%40mediatek.com
-patch subject: [PATCH] spi: dt-bindings: mediatek,spi-mtk-nor: Add clock bindings for mt8189
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: microblaze-randconfig-2051-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111140.dEQ2uxSk-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: f1ab4a75cff33a444c9371294fbeed29e4b52888 [374/621] dt-bindings: pinctrl: Convert st,spear300-pinmux to DT schema
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: arc-randconfig-2051-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111114.tfvXZg9f-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
 dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111140.dEQ2uxSk-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111114.tfvXZg9f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603111140.dEQ2uxSk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603111114.tfvXZg9f-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/spi/mediatek,spi-mtk-nor.yaml: allOf:1:then:properties:clock-names: {'maxItems': 5, 'items': [{'const': 'spi'}, {'const': 'sf'}, {'const': 'axi_f'}, {'const': 'axi_h'}, {'const': 'axi_p'}]} should not be valid under {'required': ['maxItems']}
-   	hint: "maxItems" is not needed with an "items" list
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-div: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-mul: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-initda: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-mmu: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,reset-addr: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,fast-tlb-miss-addr: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,exception-addr: missing type definition
+   Documentation/devicetree/bindings/mmc/cavium,octeon-6130-mmc.yaml: cavium,bus-max-width: missing type definition
+   Documentation/devicetree/bindings/memory-controllers/atmel,ebi.yaml: atmel,smc-page-mode: missing type definition
+   Documentation/devicetree/bindings/memory-controllers/marvell,mvebu-devbus.yaml: devbus,bus-width: missing type definition
+>> Documentation/devicetree/bindings/pinctrl/st,spear300-pinmux.yaml: st,pinmux-mode: missing type definition
+>> Documentation/devicetree/bindings/pinctrl/st,spear300-pinmux.yaml: st,pins: missing type definition
+   Documentation/devicetree/bindings/pinctrl/atmel,sama5d2-pinctrl.yaml: atmel,drive-strength: missing type definition
+   Documentation/devicetree/bindings/pinctrl/sirf,prima2-pinctrl.yaml: sirf,function: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: gpio-ext: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: timers: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: fdim: missing type definition
+   Documentation/devicetree/bindings/net/ibm,emac.yaml: mal-tx-channel: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
