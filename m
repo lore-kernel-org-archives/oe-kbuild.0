@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979493563E5
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 15:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DC63E7156
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 18:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773241258; cv=none; b=AzF1JRznxSNk9WFC1d+qb3pfeqq0g8C9IbA40sqPKrVICBO04g1NTUCWobXqcjAZPwlaw3iRYz385QMFipNo8cKHNgf3UDiocOwZY0kpwXKi9GKAql3EF9zSfXlCRmzEjLcPU6Vh+m6oT4W1sNrwHQrGLwrcbqei3OSIF3bCbFU=
+	t=1773253616; cv=none; b=dB8A1M2mEII3wTXMmTygAVPkcdrxcy4OHNHSb6Axc7NWFaB8Q5sYTwNOtBrGR0I9Fe26wA7BJZg7WjKQ32cXQ9ahqGmGlRZU2ojoJCEdmQRCYxQ8pgkV1OyIpiwtZWNiNJk2O+v+3GTUKXxq2keviv9s5cf9oYvGH9iIJNwMY+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773241258; c=relaxed/simple;
-	bh=L1GzdzAPg/jkfF8Jm+cNEgs3Nd1oSyiSJFLHzB27YFs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=R49PvSnQZ7/ywdqikCtOQk7cgW1Qlil2WTg8u6qLlx7R1A6IwDRdXuQplD8db4D3cG1wBCOFvrlXZ8t66mWbG9jVSvwOoURDgQA6M6n5hdkfm/8V84u2zvH142cICQLwIdcOgI0SsTmoOLwiDn/JSyFReui19nms5BHX0/ZT/mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Us1yxzod; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1773253616; c=relaxed/simple;
+	bh=fk31dHo96OZ6jtk0uWsNm5LjJ8IVBz+uxheXiTVXHsc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mJYboP0OcTo+rLQyjGFtC6MYKkiJ3Kl3mSvEgV6KiYqmBhmJ5k8jszSdVFShQL36Zz7HjD1wL4zSyeKXri+3pn87Xjzr9wR76GdVjqFhX4YjCDl+EJqc5u9YiQLV76L78odMgQ1hN0Oavz50/nMGCEDgDrRasjcc3Qr3fmmDbIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BHLea3vj; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Us1yxzod"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHLea3vj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773241258; x=1804777258;
+  t=1773253613; x=1804789613;
   h=date:from:to:cc:subject:message-id;
-  bh=L1GzdzAPg/jkfF8Jm+cNEgs3Nd1oSyiSJFLHzB27YFs=;
-  b=Us1yxzod3nhdOSwPbu6jGDk3F7tfc/od0ZriRJVjs5ayw6ENRr2xJ6lk
-   s71BkWacnMkgtbyT2cHXAjakU7DT4rzSNjxTFagjocpFjb0xiDIzm/0db
-   AUFQPwwze3rfUOLhXF83aEmkqv17QkTkqjzaO+vvD+Kw4z+42ZbvEwtAt
-   iNFMBkdeLSEd+zjq4WieyNV1bcEdtwFUR9qbnF17EI416UWdkD6BCz4zd
-   FS4qmiP0PXQIY8XSFSmgebyNBiMwcEOO7lWQNqnPezZWRRlQ6AsKnyau8
-   +BFgscjwawXMXyIc3Rwym2LHJNXL9zNm2KAKAjJtLFhrXjGWITkwgWN5r
+  bh=fk31dHo96OZ6jtk0uWsNm5LjJ8IVBz+uxheXiTVXHsc=;
+  b=BHLea3vjLXlu7hMv6Kq2rBYCKHsmCChdUBICdCkbiVSlwH5pidqmPGTO
+   giRjprXliVQLKXeD4Aqc/nLHkQ1aIB9vYJXN8DITSw4p/EviKOtMMnJaS
+   rlCx6s6d6VjzcYmhas16UMYOiXtllOnri68sAROYyDCNdj48VLInG1P5D
+   RTw4PjWvQhUseqQuQAL3m/Lm1eFw4aNn/+9QZjbe3dUcbbsMWYEVbU71b
+   PNBOAmFuWWi4GaMdgUDLY9OjnbcXTSgMdm0uzivzNDcL8boh0EMvYz+vG
+   HzwGDtaQfkiMgOrLtgM58URO/LgWG4J3mgPynXuoJW9bCQwRHQ5TXAPC0
    Q==;
-X-CSE-ConnectionGUID: jYLgH1LGRSqGeDArMRw2fA==
-X-CSE-MsgGUID: VnISsVdjSkKuGiCfTPZm7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74501888"
+X-CSE-ConnectionGUID: w3fm9uuhQ9qEIAVaQX56HQ==
+X-CSE-MsgGUID: pQUMJx0OSpGFoCp4tOPSLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="85421111"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74501888"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 08:00:57 -0700
-X-CSE-ConnectionGUID: aeRvd2L5RRG0hevXpbRbNw==
-X-CSE-MsgGUID: cQ7gbD+cSMyL7+Aycw5MUg==
+   d="scan'208";a="85421111"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 11:26:50 -0700
+X-CSE-ConnectionGUID: HoFiJ00vR8m1dwcNj9SFGQ==
+X-CSE-MsgGUID: qPSJTFhNTnazDfdoAMFvig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="225198951"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Mar 2026 08:00:55 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="219686873"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 11 Mar 2026 11:26:49 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0L3N-000000003LZ-0NKJ;
-	Wed, 11 Mar 2026 15:00:53 +0000
-Date: Wed, 11 Mar 2026 16:00:33 +0100
+	id 1w0OGc-000000001a1-3GAI;
+	Wed, 11 Mar 2026 18:26:46 +0000
+Date: Thu, 12 Mar 2026 02:25:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [robh:dt-convert 621/621]
- Documentation/devicetree/bindings/mfd/maxim,max77620.yaml:
- maxim,active-fps-source: missing type definition
-Message-ID: <202603111518.6ZL9So8z-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe:rw_iter 120/471] drivers/pci/vgaarb.c:1146
+ vga_arb_write() warn: potential spectre issue 'kbuf' [w]
+Message-ID: <202603120205.VuqjC4n6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,54 +59,289 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: linux-doc@vger.kernel.org
+TO: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
-commit: c8198e311a98fefcf9efff078bf3930ff94b60d2 [621/621] fixup! dt-bindings: mfd: Convert maxim,max77620 to DT schema
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: arc-randconfig-2051-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111518.6ZL9So8z-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111518.6ZL9So8z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
+head:   0a49759be1c3b29207758e467fdc1a90d0716d06
+commit: 6efb05fdf8d9ae9c3ba8f4a9bd8ea4bc3d894c1c [120/471] drivers/pci: convert to read/write iterators
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260312/202603120205.VuqjC4n6-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603111518.6ZL9So8z-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603120205.VuqjC4n6-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/memory-controllers/marvell,mvebu-devbus.yaml: devbus,bus-width: missing type definition
-   Documentation/devicetree/bindings/powerpc/ibm,vas.yaml: name: missing type definition
-   Documentation/devicetree/bindings/sound/ti,abe-twl6040.yaml: ti,mclk-freq: missing type definition
-   Documentation/devicetree/bindings/sound/ti,abe-twl6040.yaml: ti,mcpdm: missing type definition
-   Documentation/devicetree/bindings/sound/ti,abe-twl6040.yaml: ti,dmic: missing type definition
-   Documentation/devicetree/bindings/sound/ti,abe-twl6040.yaml: ti,twl6040: missing type definition
-   Documentation/devicetree/bindings/pinctrl/st,spear300-pinmux.yaml: st,pinmux-mode: missing type definition
-   Documentation/devicetree/bindings/pinctrl/st,spear300-pinmux.yaml: st,pins: missing type definition
-   Documentation/devicetree/bindings/pinctrl/atmel,sama5d2-pinctrl.yaml: atmel,drive-strength: missing type definition
-   Documentation/devicetree/bindings/pinctrl/sirf,prima2-pinctrl.yaml: sirf,function: missing type definition
->> Documentation/devicetree/bindings/mfd/maxim,max77620.yaml: maxim,active-fps-source: missing type definition
->> Documentation/devicetree/bindings/mfd/maxim,max77620.yaml: maxim,active-fps-power-up-slot: missing type definition
->> Documentation/devicetree/bindings/mfd/maxim,max77620.yaml: maxim,active-fps-power-down-slot: missing type definition
-   Documentation/devicetree/bindings/soc/fsl/cpm_qe/cpm/fsl,cpm1-i2c.yaml: linux,i2c-index: missing type definition
-   Documentation/devicetree/bindings/soc/fsl/cpm_qe/cpm/fsl,cpm1-i2c.yaml: linux,i2c-class: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: gpio-ext: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: timers: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
-   Documentation/devicetree/bindings/net/ibm,emac.yaml: mal-tx-channel: missing type definition
-   Documentation/devicetree/bindings/net/ibm,emac.yaml: mal-rx-channel: missing type definition
-   Documentation/devicetree/bindings/net/ibm,emac.yaml: rx-fifo-size: missing type definition
+smatch warnings:
+drivers/pci/vgaarb.c:1146 vga_arb_write() warn: potential spectre issue 'kbuf' [w]
+
+vim +/kbuf +1146 drivers/pci/vgaarb.c
+
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1121  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1122  /*
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1123   * TODO: To avoid parsing inside kernel and to improve the speed we may
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1124   * consider use ioctl here
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1125   */
+6efb05fdf8d9ae drivers/pci/vgaarb.c     Jens Axboe             2024-04-05  1126  static ssize_t vga_arb_write(struct kiocb *iocb, struct iov_iter *from)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1127  {
+6efb05fdf8d9ae drivers/pci/vgaarb.c     Jens Axboe             2024-04-05  1128  	struct vga_arb_private *priv = iocb->ki_filp->private_data;
+6efb05fdf8d9ae drivers/pci/vgaarb.c     Jens Axboe             2024-04-05  1129  	size_t count = iov_iter_count(from);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1130  	struct vga_arb_user_card *uc = NULL;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1131  	struct pci_dev *pdev;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1132  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1133  	unsigned int io_state;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1134  
+49521b13cbc02a drivers/gpu/vga/vgaarb.c Dmitry Vyukov          2016-10-14  1135  	char kbuf[64], *curr_pos;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1136  	size_t remaining = count;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1137  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1138  	int ret_val;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1139  	int i;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1140  
+49521b13cbc02a drivers/gpu/vga/vgaarb.c Dmitry Vyukov          2016-10-14  1141  	if (count >= sizeof(kbuf))
+49521b13cbc02a drivers/gpu/vga/vgaarb.c Dmitry Vyukov          2016-10-14  1142  		return -EINVAL;
+6efb05fdf8d9ae drivers/pci/vgaarb.c     Jens Axboe             2024-04-05  1143  	if (!copy_from_iter_full(kbuf, count, from))
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1144  		return -EFAULT;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1145  	curr_pos = kbuf;
+cc64ca4b62f503 drivers/pci/vgaarb.c     Sui Jingfeng           2023-08-09 @1146  	kbuf[count] = '\0';
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1147  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1148  	if (strncmp(curr_pos, "lock ", 5) == 0) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1149  		curr_pos += 5;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1150  		remaining -= 5;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1151  
+2d6e9b91971034 drivers/gpu/vga/vgaarb.c Tiago Vignatti         2010-05-24  1152  		pr_debug("client 0x%p called 'lock'\n", priv);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1153  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1154  		if (!vga_str_to_iostate(curr_pos, remaining, &io_state)) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1155  			ret_val = -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1156  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1157  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1158  		if (io_state == VGA_RSRC_NONE) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1159  			ret_val = -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1160  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1161  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1162  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1163  		pdev = priv->target;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1164  		if (priv->target == NULL) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1165  			ret_val = -ENODEV;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1166  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1167  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1168  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1169  		vga_get_uninterruptible(pdev, io_state);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1170  
+cc64ca4b62f503 drivers/pci/vgaarb.c     Sui Jingfeng           2023-08-09  1171  		/* Update the client's locks lists */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1172  		for (i = 0; i < MAX_USER_CARDS; i++) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1173  			if (priv->cards[i].pdev == pdev) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1174  				if (io_state & VGA_RSRC_LEGACY_IO)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1175  					priv->cards[i].io_cnt++;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1176  				if (io_state & VGA_RSRC_LEGACY_MEM)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1177  					priv->cards[i].mem_cnt++;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1178  				break;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1179  			}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1180  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1181  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1182  		ret_val = count;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1183  		goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1184  	} else if (strncmp(curr_pos, "unlock ", 7) == 0) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1185  		curr_pos += 7;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1186  		remaining -= 7;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1187  
+2d6e9b91971034 drivers/gpu/vga/vgaarb.c Tiago Vignatti         2010-05-24  1188  		pr_debug("client 0x%p called 'unlock'\n", priv);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1189  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1190  		if (strncmp(curr_pos, "all", 3) == 0)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1191  			io_state = VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1192  		else {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1193  			if (!vga_str_to_iostate
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1194  			    (curr_pos, remaining, &io_state)) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1195  				ret_val = -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1196  				goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1197  			}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1198  			/* TODO: Add this?
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1199  			   if (io_state == VGA_RSRC_NONE) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1200  			   ret_val = -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1201  			   goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1202  			   }
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1203  			  */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1204  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1205  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1206  		pdev = priv->target;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1207  		if (priv->target == NULL) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1208  			ret_val = -ENODEV;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1209  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1210  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1211  		for (i = 0; i < MAX_USER_CARDS; i++) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1212  			if (priv->cards[i].pdev == pdev)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1213  				uc = &priv->cards[i];
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1214  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1215  
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1216  		if (!uc) {
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1217  			ret_val = -EINVAL;
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1218  			goto done;
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1219  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1220  
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1221  		if (io_state & VGA_RSRC_LEGACY_IO && uc->io_cnt == 0) {
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1222  			ret_val = -EINVAL;
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1223  			goto done;
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1224  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1225  
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1226  		if (io_state & VGA_RSRC_LEGACY_MEM && uc->mem_cnt == 0) {
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1227  			ret_val = -EINVAL;
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1228  			goto done;
+c916874d60d9da drivers/gpu/vga/vgaarb.c Julia Lawall           2011-11-15  1229  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1230  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1231  		vga_put(pdev, io_state);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1232  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1233  		if (io_state & VGA_RSRC_LEGACY_IO)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1234  			uc->io_cnt--;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1235  		if (io_state & VGA_RSRC_LEGACY_MEM)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1236  			uc->mem_cnt--;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1237  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1238  		ret_val = count;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1239  		goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1240  	} else if (strncmp(curr_pos, "trylock ", 8) == 0) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1241  		curr_pos += 8;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1242  		remaining -= 8;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1243  
+2d6e9b91971034 drivers/gpu/vga/vgaarb.c Tiago Vignatti         2010-05-24  1244  		pr_debug("client 0x%p called 'trylock'\n", priv);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1245  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1246  		if (!vga_str_to_iostate(curr_pos, remaining, &io_state)) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1247  			ret_val = -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1248  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1249  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1250  		/* TODO: Add this?
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1251  		   if (io_state == VGA_RSRC_NONE) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1252  		   ret_val = -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1253  		   goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1254  		   }
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1255  		 */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1256  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1257  		pdev = priv->target;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1258  		if (priv->target == NULL) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1259  			ret_val = -ENODEV;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1260  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1261  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1262  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1263  		if (vga_tryget(pdev, io_state)) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1264  			/* Update the client's locks lists... */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1265  			for (i = 0; i < MAX_USER_CARDS; i++) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1266  				if (priv->cards[i].pdev == pdev) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1267  					if (io_state & VGA_RSRC_LEGACY_IO)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1268  						priv->cards[i].io_cnt++;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1269  					if (io_state & VGA_RSRC_LEGACY_MEM)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1270  						priv->cards[i].mem_cnt++;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1271  					break;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1272  				}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1273  			}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1274  			ret_val = count;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1275  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1276  		} else {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1277  			ret_val = -EBUSY;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1278  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1279  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1280  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1281  	} else if (strncmp(curr_pos, "target ", 7) == 0) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1282  		unsigned int domain, bus, devfn;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1283  		struct vga_device *vgadev;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1284  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1285  		curr_pos += 7;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1286  		remaining -= 7;
+2d6e9b91971034 drivers/gpu/vga/vgaarb.c Tiago Vignatti         2010-05-24  1287  		pr_debug("client 0x%p called 'target'\n", priv);
+cc64ca4b62f503 drivers/pci/vgaarb.c     Sui Jingfeng           2023-08-09  1288  		/* If target is default */
+2cc9116c2b37c5 drivers/gpu/vga/vgaarb.c Kyle McMartin          2010-02-16  1289  		if (!strncmp(curr_pos, "default", 7))
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1290  			pdev = pci_dev_get(vga_default_device());
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1291  		else {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1292  			if (!vga_pci_str_to_vars(curr_pos, remaining,
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1293  						 &domain, &bus, &devfn)) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1294  				ret_val = -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1295  				goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1296  			}
+f85567c89e2500 drivers/gpu/vga/vgaarb.c Jiang Liu              2012-08-28  1297  			pdev = pci_get_domain_bus_and_slot(domain, bus, devfn);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1298  			if (!pdev) {
+cf590b87327017 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-18  1299  				pr_debug("invalid PCI address %04x:%02x:%02x.%x\n",
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  1300  					 domain, bus, PCI_SLOT(devfn),
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  1301  					 PCI_FUNC(devfn));
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1302  				ret_val = -ENODEV;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1303  				goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1304  			}
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  1305  
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  1306  			pr_debug("%s ==> %04x:%02x:%02x.%x pdev %p\n", curr_pos,
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  1307  				domain, bus, PCI_SLOT(devfn), PCI_FUNC(devfn),
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  1308  				pdev);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1309  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1310  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1311  		vgadev = vgadev_find(pdev);
+8b7e2e865fef94 drivers/gpu/vga/vgaarb.c Thierry Reding         2015-08-12  1312  		pr_debug("vgadev %p\n", vgadev);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1313  		if (vgadev == NULL) {
+eb6944f2fc01d5 drivers/gpu/vga/vgaarb.c Thierry Reding         2015-08-12  1314  			if (pdev) {
+cf590b87327017 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-18  1315  				vgaarb_dbg(&pdev->dev, "not a VGA device\n");
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1316  				pci_dev_put(pdev);
+eb6944f2fc01d5 drivers/gpu/vga/vgaarb.c Thierry Reding         2015-08-12  1317  			}
+eb6944f2fc01d5 drivers/gpu/vga/vgaarb.c Thierry Reding         2015-08-12  1318  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1319  			ret_val = -ENODEV;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1320  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1321  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1322  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1323  		priv->target = pdev;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1324  		for (i = 0; i < MAX_USER_CARDS; i++) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1325  			if (priv->cards[i].pdev == pdev)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1326  				break;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1327  			if (priv->cards[i].pdev == NULL) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1328  				priv->cards[i].pdev = pdev;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1329  				priv->cards[i].io_cnt = 0;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1330  				priv->cards[i].mem_cnt = 0;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1331  				break;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1332  			}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1333  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1334  		if (i == MAX_USER_CARDS) {
+cf590b87327017 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-18  1335  			vgaarb_dbg(&pdev->dev, "maximum user cards (%d) number reached, ignoring this one!\n",
+773a38dbdad034 drivers/gpu/vga/vgaarb.c Mike Travis            2010-02-02  1336  				MAX_USER_CARDS);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1337  			pci_dev_put(pdev);
+cc64ca4b62f503 drivers/pci/vgaarb.c     Sui Jingfeng           2023-08-09  1338  			/* XXX: Which value to return? */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1339  			ret_val =  -ENOMEM;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1340  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1341  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1342  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1343  		ret_val = count;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1344  		pci_dev_put(pdev);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1345  		goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1346  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1347  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1348  	} else if (strncmp(curr_pos, "decodes ", 8) == 0) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1349  		curr_pos += 8;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1350  		remaining -= 8;
+8b7e2e865fef94 drivers/gpu/vga/vgaarb.c Thierry Reding         2015-08-12  1351  		pr_debug("client 0x%p called 'decodes'\n", priv);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1352  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1353  		if (!vga_str_to_iostate(curr_pos, remaining, &io_state)) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1354  			ret_val = -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1355  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1356  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1357  		pdev = priv->target;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1358  		if (priv->target == NULL) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1359  			ret_val = -ENODEV;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1360  			goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1361  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1362  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1363  		__vga_set_legacy_decoding(pdev, io_state, true);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1364  		ret_val = count;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1365  		goto done;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1366  	}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1367  	/* If we got here, the message written is not part of the protocol! */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1368  	return -EPROTO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1369  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1370  done:
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1371  	return ret_val;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1372  }
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  1373  
+
+:::::: The code at line 1146 was first introduced by commit
+:::::: cc64ca4b62f5035c87e955f256b338c32dfdbb19 PCI/VGA: Fix typos
+
+:::::: TO: Sui Jingfeng <suijingfeng@loongson.cn>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
