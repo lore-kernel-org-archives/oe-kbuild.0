@@ -1,125 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546153CBE7B
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 09:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AE63BC66C
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Mar 2026 10:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773222429; cv=none; b=Oj0HtUylg0Spm9qDH4eTYCr++ePtiLA8MwXC3RoyDR9fHZKb3PRtZPRKM7O5alxLPR1AttyhZoOSrNMf/9eagWQAp9Qh4DMRBNQCFW+HbFfeKvhty2bRs4Cj8ifjxi9xZ8K3vP4n6iQ1CVXpCBd7MHqPpWdYyGzysSzgWmZlFtI=
+	t=1773223496; cv=none; b=TMjXcXbHz9ho6YiPCOtmsJTnOCpY9PoYyNIRUTsZrH7briR8UDeqP1h15sk+CfrC7EakjQ6PBVf02t2t6cBXxSgsf1S+XDx2s9EK2MjD7P05OdEhxYlIDQnGhez5fl5DEblCCOUcwCiIarAnrqIh58ryzDxYzsMd3XC5PWhcApA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773222429; c=relaxed/simple;
-	bh=ZxDI1VGncLWljSHCsMv2FVF+HxAZZd2iTP7TiJFgYjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Du/JSQJPylr0vwkqLDOw4cVt8bpA1uEtiQQmNPjgoN6byC7xvCQ9bscQp7YCjMVMPc1b3YWl8bIUveqpk+C8bhnH8KO6N8X5wM6VSilOq/71GVrrmWpMsJAMtJMpVE5xyzwZoMifCLgzKD2XJP9qvcP7o6+MsXiTUAP70M6ZJj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcctR1zV; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1773223496; c=relaxed/simple;
+	bh=wUytd9fOb/qRmq0f/7d3eASzCGOTzGrfqAXKMUq12Tk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pAY4f4GkPI+ZAieWkQMvkkmpOrizNhx/vIIZUES2PiZoDrkLH8K7O5AEia1um2VhuSo1GyeTOTnLOlVFIikxNSSm6tG6p/onbd0N2jz4udeKVbESSadtyuAPC+CYOkiYAAsCMJU1ket49shAGnUXTJ1tC8D3/zpvg4RvYuhQPDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0u+63JR; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcctR1zV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0u+63JR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773222426; x=1804758426;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZxDI1VGncLWljSHCsMv2FVF+HxAZZd2iTP7TiJFgYjE=;
-  b=CcctR1zVrZwPevyfZXP0di4CIZIQA+klqxEycrCkaKFGwM3RsuPdOYL6
-   Ve1f7YW42x//B5mqirKBEHJjRVPj14C7k1qsdZkRGehHG25anJsh3XkxA
-   Y0RpCTx8AHWKOXwW0cBmsK/ILbwfp/Jm5m5+1mkrxYeGsinS22eb/DmxF
-   2M3/UpypV5fjkfz2L1v0rnxBEHarzK0PPKF+rly5+wDvrFtlFQXEyrvad
-   oyex+eqQjiA5Nk4pHzHCrmqzfgxq42RRdnTxiVUae+r/eTB39c1XKwRT+
-   l8A8NlGaW5u9lOrOsszAiQJIi2Fr5G2nUJLAF8z+1xQ+5GLrnZEDrgQ9K
-   g==;
-X-CSE-ConnectionGUID: W2gy8SN+T1qv/+/k40Ai3w==
-X-CSE-MsgGUID: 8QJaQcVbRuOcoIqo6lUQdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74476413"
+  t=1773223495; x=1804759495;
+  h=date:from:to:cc:subject:message-id;
+  bh=wUytd9fOb/qRmq0f/7d3eASzCGOTzGrfqAXKMUq12Tk=;
+  b=O0u+63JRL3ZZpMAQu/+pukcadaJphSiAOzAKxzNuPB2Mz97zf54CPhbh
+   xv/Z28miIVE3voYLFuSIrLMJ6W7a0l5Ho0t9uSAvrMLCBNx/7FggJGT46
+   40YA7y1T3HAWSBnroltjSSo+DphLcAg/izSjA7pe+Nc9uGwGHkQhtsxaP
+   jYAiA7923JBYMXSSYV3Z1iN+rT7UItqNrt2JZynYpbw8h2Sp2wQfycixe
+   AG6pCHkfhrp/WzA2DsIVTxTnltOwjRrWgyhwPkTnGDnKbyU+QntZ8ZgT+
+   98GQftUfNKZNhAIDRzwsPo7YMyDFk2xygDs08vatHqClO8CrTX7XvWp2e
+   A==;
+X-CSE-ConnectionGUID: sn1zYna7SXKPwGPE+4xgKQ==
+X-CSE-MsgGUID: uxjckFn1QfW5iqq0a7xsZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="73984225"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74476413"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 02:47:06 -0700
-X-CSE-ConnectionGUID: pwYLzRnVStWmHUlNMa9auw==
-X-CSE-MsgGUID: xIxWl6gpQ32BdkFOAYZ7yA==
+   d="scan'208";a="73984225"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 03:04:54 -0700
+X-CSE-ConnectionGUID: Qe5v4xVdSSy6/svHMr+yig==
+X-CSE-MsgGUID: dbtCzEH8RFCDovpl4NmuIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="224877412"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Mar 2026 02:47:04 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="225375509"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 11 Mar 2026 03:04:54 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0G9d-000000000yH-42B4;
-	Wed, 11 Mar 2026 09:47:01 +0000
-Date: Wed, 11 Mar 2026 17:46:18 +0800
+	id 1w0GQs-000000003In-2ox8;
+	Wed, 11 Mar 2026 10:04:50 +0000
+Date: Wed, 11 Mar 2026 11:03:56 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: vmlinux.o: warning: objtool:
- =?us-ascii?Q?=5FRINvXs5=5FNtNtCshc5sK6KjdJJ=5F6kernel5alloc4kboxINtB?=
- =?us-ascii?Q?6=5F3BoxINtNtNtCsbsbRiabPlh9=5F4core3mem12maybe=5Funinit11?=
- =?us-ascii?Q?MaybeUninitINtNtBa=5F7cpufreq12RegistrationNtNvNvNvCs5hknL?=
- =?us-ascii?Q?kEiyqO=5F25doctests=5Fkernel=5Fgenerated32rust=5Fdoctest?=
- =?us-ascii?Q?=5Fkernel=5Fcpufreq=5Frs=5F34...?=
-Message-ID: <202603111737.avCZ0shm-lkp@intel.com>
+Subject: [robh:dt-convert 373/621]
+ Documentation/devicetree/bindings/pinctrl/sirf,prima2-pinctrl.yaml:
+ sirf,function: missing type definition
+Message-ID: <202603111025.XPu5RhQw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b29fb8829bff243512bb8c8908fd39406f9fd4c3
-commit: 2058f6d1660edc4a9bda9bee627792b352121b10 objtool: Refactor prefix symbol creation code
-date:   5 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-r061-20260310 (https://download.01.org/0day-ci/archive/20260311/202603111737.avCZ0shm-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111737.avCZ0shm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 9b88438c2032e54a4f82c1681d16abc5bb2b0628 [373/621] dt-bindings: pinctrl: Convert sirf,prima2-pinctrl to DT schema
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: arc-randconfig-2051-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111025.XPu5RhQw-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111025.XPu5RhQw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603111737.avCZ0shm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603111025.XPu5RhQw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   vmlinux.o: warning: objtool: _RINvMs3_NvNtCshc5sK6KjdJJ_6kernel9workqueues0_1__INtB6_12___ThePinDataNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_04main65__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_136_08MyStructKy0_E5dworkNtNtCsbsbRiabPlh9_4core7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBa_5typesINtB5G_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw12delayed_workE8ffi_initNCNCNvMs7_B8_INtB8_11DelayedWorkB16_E3new0s_0E0B5R_B3Y_EEB1e_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs3_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated35rust_doctest_kernel_alloc_kbox_rs_54main66__doctest_main__kbuild_src_consumer_rust_kernel_alloc_kbox_rs_301_05InnerNtNtB8_8spinlock15SpinLockBackendE5stateNtNtCsbsbRiabPlh9_4core7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB67_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw8spinlockE8ffi_initNCNCNvMs0_B8_INtB8_4LockB15_B3L_E3new0s_0E0B6i_B4p_EEB1d_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs3_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated43rust_doctest_kernel_sync_lock_spinlock_rs_04main73__doctest_main__kbuild_src_consumer_rust_kernel_sync_lock_spinlock_rs_34_05InnerNtNtB8_8spinlock15SpinLockBackendE5stateNtNtCsbsbRiabPlh9_4core7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB6m_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw8spinlockE8ffi_initNCNCNvMs0_B8_INtB8_4LockB15_B40_E3new0s_0E0B6x_B4E_EEB1d_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs3_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated40rust_doctest_kernel_sync_lock_mutex_rs_04main70__doctest_main__kbuild_src_consumer_rust_kernel_sync_lock_mutex_rs_36_05InnerNtNtB8_5mutex12MutexBackendE5stateNtNtCsbsbRiabPlh9_4core7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB6a_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw5mutexE8ffi_initNCNCNvMs0_B8_INtB8_4LockB15_B3U_E3new0s_0E0B6l_B4s_EEB1d_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7cpufreq12RegistrationNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated32rust_doctest_kernel_cpufreq_rs_34main63__doctest_main__kbuild_src_consumer_rust_kernel_cpufreq_rs_841_012SampleDriverEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB5s_10___internal11InitClosureNCINvYIBH_B1L_B4Z_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleB1L_E0B1L_B6o_EEB2n_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs4FileNtNtNtBX_4sync6atomic9AtomicU32EENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB36_10___internal11InitClosureNCINvYIBH_B1L_B2D_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB4m_NCINvMB1O_NtB1O_3Dir11create_fileB26_B5R_B26_Es0_0B1L_B5R_EE0B1L_B42_EECs5hknLkEiyqO_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9revocable9RevocableNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_revocable_rs_04main64__doctest_main__kbuild_src_consumer_rust_kernel_revocable_rs_73_07ExampleEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB5n_10___internal11InitClosureNCINvYIBH_B1L_B4U_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6D_NCINvMs0_B1O_B1L_3newB88_B2d_Es_0B1L_B88_EE0B1L_B6j_EEB2l_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9revocable9RevocableNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_revocable_rs_14main64__doctest_main__kbuild_src_consumer_rust_kernel_revocable_rs_94_07ExampleEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB5n_10___internal11InitClosureNCINvYIBH_B1L_B4U_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6D_NCINvMs0_B1O_B1L_3newB88_B2d_Es_0B1L_B88_EE0B1L_B6j_EEB2l_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_INtNtNtNtBa_5block2mq7tag_set6TagSetNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated33rust_doctest_kernel_block_mq_rs_04main63__doctest_main__kbuild_src_consumer_rust_kernel_block_mq_rs_58_011MyBlkDeviceEEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB66_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6Y_EEB2Z_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_INtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated29rust_doctest_kernel_list_rs_04main60__doctest_main__kbuild_src_consumer_rust_kernel_list_rs_149_06DTWrapNtB2k_1AEEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5s_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6k_EEB2q_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_INtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated29rust_doctest_kernel_list_rs_04main60__doctest_main__kbuild_src_consumer_rust_kernel_list_rs_149_06DTWrapNtB2k_1BEEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5s_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6k_EEB2q_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_04main65__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_136_08MyStructEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5u_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6m_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_14main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_35_08MyStructEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5t_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6l_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_54main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_77_08MyStructEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5t_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6l_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated40rust_doctest_kernel_sync_completion_rs_04main70__doctest_main__kbuild_src_consumer_rust_kernel_sync_completion_rs_73_06MyTaskEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5D_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6v_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated33rust_doctest_kernel_sync_arc_rs_84main64__doctest_main__kbuild_src_consumer_rust_kernel_sync_arc_rs_665_07ExampleEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5r_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6j_EEB2p_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated40rust_doctest_kernel_sync_lock_mutex_rs_04main70__doctest_main__kbuild_src_consumer_rust_kernel_sync_lock_mutex_rs_36_07ExampleENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB56_10___internal11InitClosureNCINvYIBH_B1L_B4D_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6m_NCNvMB1N_B1L_3news_0B1L_B7R_EE0B1L_B62_EEB1T_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated43rust_doctest_kernel_sync_lock_spinlock_rs_04main73__doctest_main__kbuild_src_consumer_rust_kernel_sync_lock_spinlock_rs_34_07ExampleENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB5c_10___internal11InitClosureNCINvYIBH_B1L_B4J_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6s_NCNvMB1N_B1L_3news_0B1L_B7X_EE0B1L_B68_EEB1T_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs_NtNtNtCsbsbRiabPlh9_4core4iter8adapters5chainINtB5_5ChainINtNtNtB9_7sources4once4OnceONtNtBb_3ffi6c_voidEINtNtB15_7from_fn6FromFnNCNvMNtCshc5sK6KjdJJ_6kernel6xarrayINtB2f_6XArrayINtNtNtB2h_5alloc4kbox3BoxlNtNtB32_9allocator7KmallocEE4iter0EENtNtNtB9_6traits8iterator8Iterator8try_folduNCINvXs0_NtB7_9map_whileINtB4P_8MapWhileBO_NCB2c_s_0EB3Y_8try_folduNCINvMNtNtBb_3ops9try_traitINtB5R_17NeverShortCircuituE10wrap_mut_2uINtNtNtBb_3ptr8non_null7NonNullB1t_ENCINvNvB3Y_8for_each4callB6R_NCNvXs5_B2f_B2J_NtCs57PXBekmiam_8pin_init10PinnedDrop4drop0E0E0B6c_E0INtNtB5T_12control_flow11ControlFlowB6c_EECs5hknLkEiyqO_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtNtBa_5block2mq7tag_set6TagSetNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated33rust_doctest_kernel_block_mq_rs_04main63__doctest_main__kbuild_src_consumer_rust_kernel_block_mq_rs_58_011MyBlkDeviceEEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB5d_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initB69_IB6t_NCNvMB1S_B1P_3news1_0B1P_B69_EE0B1P_B69_EEB2x_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_04main65__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_136_08MyStructEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4B_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5R_NCNvMB1R_B1P_3news_0B1P_B7o_EE0B1P_B5x_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_14main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_35_08MyStructEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4A_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5Q_NCNvMB1R_B1P_3news_0B1P_B7n_EE0B1P_B5w_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_54main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_77_08MyStructEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4A_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5Q_NCNvMB1R_B1P_3news_0B1P_B7n_EE0B1P_B5w_EEB1X_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated40rust_doctest_kernel_sync_completion_rs_04main70__doctest_main__kbuild_src_consumer_rust_kernel_sync_completion_rs_73_06MyTaskEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4K_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB60_NCNvMB1R_B1P_3news_0B1P_B7x_EE0B1P_B5G_EEB1X_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RNvXs1_NtNtNtCsbsbRiabPlh9_4core3ops8function5implsQNCINvXs0_NtNtNtBb_4iter8adapters9map_whileINtBX_8MapWhileINtNtBZ_5chain5ChainINtNtNtB11_7sources4once4OnceONtNtBb_3ffi6c_voidEINtNtB28_7from_fn6FromFnNCNvMNtCshc5sK6KjdJJ_6kernel6xarrayINtB3j_6XArrayINtNtNtB3l_5alloc4kbox3BoxlNtNtB46_9allocator7KmallocEE4iter0EENCB3g_s_0ENtNtNtB11_6traits8iterator8Iterator8try_folduNCINvMNtB9_9try_traitINtB61_17NeverShortCircuituE10wrap_mut_2uINtNtNtBb_3ptr8non_null7NonNullB2x_ENCINvNvB5c_8for_each4callB6V_NCNvXs5_B3j_B3N_NtCs57PXBekmiam_8pin_init10PinnedDrop4drop0E0E0B6g_E0INtB7_5FnMutTuB2w_EE8call_mutCs5hknLkEiyqO_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs3_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsbsbRiabPlh9_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataENtNtB1a_9allocator7KmallocEEB3s_ENtNtB8_5mutex12MutexBackendE5stateNtNtB1z_7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB60_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw5mutexE8ffi_initNCNCNvMs0_B8_INtB8_4LockB15_B3Z_E3new0s_0E0B6b_B4x_EEB2G_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_17create_file_writes0_0B27_E0B27_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10ModuleDataEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_12init_control0IB4F_NCNvMB29_B27_4inits_0B27_B6a_EE0B8k_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
+dtcheck warnings: (new ones prefixed by >>)
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-mul: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-initda: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,has-mmu: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,reset-addr: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,fast-tlb-miss-addr: missing type definition
+   Documentation/devicetree/bindings/nios2/altr,nios2-1.0.yaml: altr,exception-addr: missing type definition
+   Documentation/devicetree/bindings/mmc/cavium,octeon-6130-mmc.yaml: cavium,bus-max-width: missing type definition
+   Documentation/devicetree/bindings/memory-controllers/atmel,ebi.yaml: atmel,smc-page-mode: missing type definition
+   Documentation/devicetree/bindings/memory-controllers/marvell,mvebu-devbus.yaml: devbus,bus-width: missing type definition
+   Documentation/devicetree/bindings/pinctrl/atmel,sama5d2-pinctrl.yaml: atmel,drive-strength: missing type definition
+>> Documentation/devicetree/bindings/pinctrl/sirf,prima2-pinctrl.yaml: sirf,function: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: gpio-ext: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: timers: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: fdim: missing type definition
+   Documentation/devicetree/bindings/net/ibm,emac.yaml: mal-tx-channel: missing type definition
+   Documentation/devicetree/bindings/net/ibm,emac.yaml: mal-rx-channel: missing type definition
+   Documentation/devicetree/bindings/net/ibm,emac.yaml: rx-fifo-size: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
