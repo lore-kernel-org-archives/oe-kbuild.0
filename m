@@ -1,160 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2B4DDCD
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Mar 2026 21:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2530C21D00A
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Mar 2026 22:49:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773351397; cv=none; b=b/EwhguRlVmzSEFai4UW90tLDA9dsF4vTcbbHHSzIFHTfxDyZdkHju34T00OivhX9uHnTUX8FQNB+V10CEAb75Q730mfZwUDMvISF8srzgIqH/YgMKVOGosUETuBcG6E9DgEU/RyPb0hiymuxA+5BOMMGkOjEbAZw5ha/fu5ywU=
+	t=1773355780; cv=none; b=CPCJ+P6CZHGIQatCR2VLaJj4sUBdN9LWjAsqiAxo/561PNPyH0kL7KfLo0WbCAaw8XPS+sl5RnIotB1DPcymVrNxESXq9vUrC3Yp6s/K10SbC3ASiUudWtHLWTTRQdaMgSEWynifSdus/Q9rwQUy5AwCzbaP8uORQRC8Bq2b7EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773351397; c=relaxed/simple;
-	bh=wh2V+3QBxV8rSAUnfx1tzllp5G1Ar+raQli/pVShFIE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=p1MTea6rgo28giFejEvBmKXP1xmwjm6Y1fJKHNRh7j6sAGVVKE/L8Yl7SyKLipXEs5uEZdh01jkkgtJmTq51fJkiTWiIYbuKEW2hsy1J5nUoQFEUb+eJQMNGd5jjcsP6FSQPoC0GJnWC2tNpmf1mWUFNYlhGJBe3Zd7B82N16Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bvPpwVUQ; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1773355780; c=relaxed/simple;
+	bh=8Eww+Wc5idp0fez2ByDDg3IcQv2AoX46IBd2xJ1VNoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=M9hV0w+ZJWr0HGPcOhgGUZy0IA8XuIt069nuYFIhHzv0DUhZrRFQjGm7KQjam3DDgXuJGPK0Yum9KDoNFqtHMisRpYHuKpuHgqWtoMyF59yxOQ0IYQAmSNgFYjeR9HLMDp7/aaEBPeEZgyCgIOdm5kpx/MdInzLBaARgw6eS/Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMz8RPAT; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bvPpwVUQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMz8RPAT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773351395; x=1804887395;
-  h=date:from:to:cc:subject:message-id;
-  bh=wh2V+3QBxV8rSAUnfx1tzllp5G1Ar+raQli/pVShFIE=;
-  b=bvPpwVUQ3e7WGzd/8tSJ1FNzqPSggnSa3oNUQr4j24TthrPm/R/pWUNA
-   p61S5cfSbuydU4BDZYAw5IYK0fPfHHm155XRQsVsPNcMR1M3QE9tgnJxv
-   8fz8FP/hrI7SaTTo/piugpIGwXyEMlMNaojU/0ITZoMp2AO+Ad8+k7f8O
-   ksjXFQ6aSgNrBHPz1eQjKZS4WfA+fTZc+p6jH81RMQuf0Bi6ORNxsanLP
-   e+nCil31ikxXApnmaEEaUtHeQA8FAx+WIbQBZN0IRNSbh4KZTemjMF/Ap
-   dcak7+pQzojdnnumZN1i1kWuSubIRBjM0EgnUO4uhZyM8TglGCg2t5BkW
+  t=1773355778; x=1804891778;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8Eww+Wc5idp0fez2ByDDg3IcQv2AoX46IBd2xJ1VNoU=;
+  b=TMz8RPATyrIU8U4H/VKFW66l9XrwIjJUet9YCJTPbdf3GWddh8bwcjQn
+   nZQA9/xHCvaMXGDK9Bk+jpt9/S5wWKEAwqIxhCK+amL1kH6SKPriWs8Cc
+   xuCY9MUk4rKM22iookzBa4+BY8Y0GGj/SwRzIT5HnUhKL4nNanx6/nD5Q
+   CCCYUek3kDFN0AMlZQDW2hejnAiVRyU/vOwcsxpivW+P4mDPeVP+ZQXjw
+   PYvws+Wba25cApiW/rLxUGLcxZw6wI6/Bhfunin9biFU2Olkx1PYqsA4M
+   WM+LXCimsZgkI6AYp1oLtP7wjInfXXF6xLZFjvPDhWngEpRBK+yF67SLI
    Q==;
-X-CSE-ConnectionGUID: Ut9cuS3FTSSfaMHp5fqiuw==
-X-CSE-MsgGUID: U+AQ5mjNSS6uX76DhrTC6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="78062248"
-X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="78062248"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 14:36:35 -0700
-X-CSE-ConnectionGUID: XH55/bjdT4WImJTKp3Fw3w==
-X-CSE-MsgGUID: Ms4jgNYVTlq0WJJw4eZ7eA==
+X-CSE-ConnectionGUID: +RzO3frZRmOLnHXtRhld+Q==
+X-CSE-MsgGUID: VHdrlTtMQ+CBGwudkKmxEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="85815512"
+X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
+   d="scan'208";a="85815512"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 15:49:38 -0700
+X-CSE-ConnectionGUID: leqXsRQ5R0y+x7oTDpoyVw==
+X-CSE-MsgGUID: EtbBMBK5QT6RBrO2xwoqcw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="243996986"
+X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
+   d="scan'208";a="218742105"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Mar 2026 14:36:33 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 12 Mar 2026 15:49:36 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0nhn-000000003Ch-18vE;
-	Thu, 12 Mar 2026 21:36:31 +0000
-Date: Fri, 13 Mar 2026 05:35:37 +0800
+	id 1w0oqT-000000003E3-49ts;
+	Thu, 12 Mar 2026 22:49:33 +0000
+Date: Fri, 13 Mar 2026 06:49:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe:rw_iter 190/471] drivers/scsi/snic/snic_debugfs.c:115
- snic_reset_stats_write() warn: potential spectre issue 'buf' [w]
-Message-ID: <202603130550.fgKk1WLt-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v2 2/3] tracing: Update futex syscall trace event to show
+ more commands
+Message-ID: <202603130608.WKdib8MH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260310201036.713629966@kernel.org>
+References: <20260310201036.713629966@kernel.org>
+TO: Steven Rostedt <rostedt@goodmis.org>
+TO: linux-kernel@vger.kernel.org
+TO: linux-trace-kernel@vger.kernel.org
+CC: Masami Hiramatsu <mhiramat@kernel.org>
+CC: Mark Rutland <mark.rutland@arm.com>
+CC: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Brian Geffon <bgeffon@google.com>
+CC: John Stultz <jstultz@google.com>
+CC: Ian Rogers <irogers@google.com>
+CC: Suleiman Souhlal <suleiman@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   0a49759be1c3b29207758e467fdc1a90d0716d06
-commit: 0d07945d5b860ff47b1f9407b74746f9232896ef [190/471] scsi: snic: convert to read/write iterators
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260313/202603130550.fgKk1WLt-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
+Hi Steven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on trace/for-next akpm-mm/mm-everything linus/master v7.0-rc3 next-20260311]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Have-futex-syscall-trace-event-show-specific-user-data/20260311-041422
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20260310201036.713629966%40kernel.org
+patch subject: [PATCH v2 2/3] tracing: Update futex syscall trace event to show more commands
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20260311 (https://download.01.org/0day-ci/archive/20260313/202603130608.WKdib8MH-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603130550.fgKk1WLt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603130608.WKdib8MH-lkp@intel.com/
 
 smatch warnings:
-drivers/scsi/snic/snic_debugfs.c:115 snic_reset_stats_write() warn: potential spectre issue 'buf' [w]
+kernel/trace/trace_syscalls.c:650 futex_fields() warn: missing unwind goto?
 
-vim +/buf +115 drivers/scsi/snic/snic_debugfs.c
+vim +650 kernel/trace/trace_syscalls.c
 
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   82  
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   83  /*
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   84   * snic_reset_stats_write - Write to reset_stats debugfs file
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   85   * @filp: The file pointer to write from
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   86   * @ubuf: The buffer to copy the data from.
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   87   * @cnt: The number of bytes to write.
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   88   * @ppos: The position in the file to start writing to.
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   89   *
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   90   * Description:
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   91   * This routine writes data from user buffer @ubuf to buffer @buf and
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   92   * resets cumulative stats of snic.
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   93   *
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   94   * Returns:
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   95   * This function returns the amount of data that was written.
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   96   */
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   97  static ssize_t
-0d07945d5b860f Jens Axboe        2024-04-08   98  snic_reset_stats_write(struct kiocb *iocb, struct iov_iter *from)
-c8806b6c9e824f Narsimhulu Musini 2015-05-29   99  {
-0d07945d5b860f Jens Axboe        2024-04-08  100  	struct snic *snic = iocb->ki_filp->private_data;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  101  	struct snic_stats *stats = &snic->s_stats;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  102  	u64 *io_stats_p = (u64 *) &stats->io;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  103  	u64 *fw_stats_p = (u64 *) &stats->fw;
-0d07945d5b860f Jens Axboe        2024-04-08  104  	size_t cnt = iov_iter_count(from);
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  105  	char buf[64];
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  106  	unsigned long val;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  107  	int ret;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  108  
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  109  	if (cnt >= sizeof(buf))
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  110  		return -EINVAL;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  111  
-0d07945d5b860f Jens Axboe        2024-04-08  112  	if (!copy_from_iter_full(&buf, cnt, from))
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  113  		return -EFAULT;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  114  
-c8806b6c9e824f Narsimhulu Musini 2015-05-29 @115  	buf[cnt] = '\0';
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  116  
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  117  	ret = kstrtoul(buf, 10, &val);
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  118  	if (ret < 0)
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  119  		return ret;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  120  
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  121  	snic->reset_stats = val;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  122  
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  123  	if (snic->reset_stats) {
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  124  		/* Skip variable is used to avoid descrepancies to Num IOs
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  125  		 * and IO Completions stats. Skip incrementing No IO Compls
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  126  		 * for pending active IOs after reset_stats
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  127  		 */
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  128  		atomic64_set(&snic->io_cmpl_skip,
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  129  			     atomic64_read(&stats->io.active));
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  130  		memset(&stats->abts, 0, sizeof(struct snic_abort_stats));
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  131  		memset(&stats->reset, 0, sizeof(struct snic_reset_stats));
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  132  		memset(&stats->misc, 0, sizeof(struct snic_misc_stats));
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  133  		memset(io_stats_p+1,
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  134  			0,
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  135  			sizeof(struct snic_io_stats) - sizeof(u64));
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  136  		memset(fw_stats_p+1,
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  137  			0,
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  138  			sizeof(struct snic_fw_stats) - sizeof(u64));
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  139  	}
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  140  
-0d07945d5b860f Jens Axboe        2024-04-08  141  	iocb->ki_pos++;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  142  
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  143  	SNIC_HOST_INFO(snic->shost, "Reset Op: Driver statistics.\n");
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  144  
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  145  	return cnt;
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  146  }
-c8806b6c9e824f Narsimhulu Musini 2015-05-29  147  
-
-:::::: The code at line 115 was first introduced by commit
-:::::: c8806b6c9e824f47726f2a9b7fbbe7ebf19306fa snic: driver for Cisco SCSI HBA
-
-:::::: TO: Narsimhulu Musini <nmusini@cisco.com>
-:::::: CC: James Bottomley <JBottomley@Odin.com>
+50307a45f8515f Lai Jiangshan  2009-12-15  633  
+15901aaefa1313 Steven Rostedt 2026-03-10  634  static int __init futex_fields(struct trace_event_call *call, int offset)
+15901aaefa1313 Steven Rostedt 2026-03-10  635  {
+15901aaefa1313 Steven Rostedt 2026-03-10  636  	char *arg;
+15901aaefa1313 Steven Rostedt 2026-03-10  637  	int ret;
+15901aaefa1313 Steven Rostedt 2026-03-10  638  
+15901aaefa1313 Steven Rostedt 2026-03-10  639  	arg = kstrdup("__value", GFP_KERNEL);
+15901aaefa1313 Steven Rostedt 2026-03-10  640  	if (WARN_ON_ONCE(!arg))
+15901aaefa1313 Steven Rostedt 2026-03-10  641  		return -ENOMEM;
+15901aaefa1313 Steven Rostedt 2026-03-10  642  	ret = trace_define_field(call, "u32", arg, offset, sizeof(int), 0,
+15901aaefa1313 Steven Rostedt 2026-03-10  643  				 FILTER_OTHER);
+15901aaefa1313 Steven Rostedt 2026-03-10  644  	if (ret)
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  645  		goto free;
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  646  	offset += sizeof(int);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  647  
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  648  	arg = kstrdup("__value2", GFP_KERNEL);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  649  	if (WARN_ON_ONCE(!arg))
+f3ff4ed51edb59 Steven Rostedt 2026-03-10 @650  		return -ENOMEM;
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  651  	ret = trace_define_field(call, "u32", arg, offset, sizeof(int), 0,
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  652  				 FILTER_OTHER);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  653  	if (ret)
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  654  		goto free;
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  655  	offset += sizeof(int);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  656  
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  657  	arg = kstrdup("__ts1", GFP_KERNEL);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  658  	if (WARN_ON_ONCE(!arg))
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  659  		return -ENOMEM;
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  660  	ret = trace_define_field(call, "unsigned long", arg, offset,
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  661  				 sizeof(unsigned long), 0, FILTER_OTHER);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  662  	if (ret)
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  663  		goto free;
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  664  	offset += sizeof(long);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  665  
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  666  	arg = kstrdup("__ts2", GFP_KERNEL);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  667  	if (WARN_ON_ONCE(!arg))
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  668  		return -ENOMEM;
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  669  	ret = trace_define_field(call, "unsigned long", arg, offset,
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  670  				 sizeof(unsigned long), 0, FILTER_OTHER);
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  671  	if (ret)
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  672  		goto free;
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  673  
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  674  	return 0;
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  675  
+f3ff4ed51edb59 Steven Rostedt 2026-03-10  676  free:
+15901aaefa1313 Steven Rostedt 2026-03-10  677  	kfree(arg);
+15901aaefa1313 Steven Rostedt 2026-03-10  678  	return ret;
+15901aaefa1313 Steven Rostedt 2026-03-10  679  }
+15901aaefa1313 Steven Rostedt 2026-03-10  680  
 
 -- 
 0-DAY CI Kernel Test Service
