@@ -1,120 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55984359A71
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Mar 2026 03:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249A0258EC2
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Mar 2026 04:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773285544; cv=none; b=E8oDXtmnCA/SYhO7vkvP+YSnsVEl35a89TBlfKsHTN6kGU8/dSZbOK7kWtEs19crJL50KDhx6iX4UxzyISnB9soUdYkMlF7sAq9+FA2WeMNC68doEO3vA2SwCmrBrsmySaDT2Ob1bZXnJ+0DWHOIPELKm76TbiHMECmaik0MLQo=
+	t=1773290979; cv=none; b=sXruZp+mc2yCSG72fejZZt8nVabldzFZs5+vHGJ8I4sHwhhH7duRwlD00vyuHgxQlWc2XjiSOmBIC25SykVOKbWRGoisbutAWddjtsgda557DyN9f4L/HSCqN0eW6HzwfVITd8amYABeqRtGl1d8CwaGbFRR0dC1Ox3c0oVY0U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773285544; c=relaxed/simple;
-	bh=S27CasceZBAK7VbaYd3f5R9a+PZaSjofrCTGSD72TWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HffqN+8lf9C9Y2AdnOrvfOOncmgI1QIMh3QpBnUyV4EHtC51Qw6ezoJFsCTDlZl2IDYXu/Ez7Jtev+HhcDAbbOxtNohfxl7MdbMj30SGAOF//db1uKlDjcppR5YcLhZgwf27+0Vpid3AlmCX29xSjPw8Q8XHXrauh0OtXT+CqYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIqWi/Pj; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1773290979; c=relaxed/simple;
+	bh=XmUD97KB8rvTdfawiSUl76EUd84ZJacIwxiqamdGM30=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E3XEjDa9o0xsB+zHXwutzOXCM1qXBj6rAizuFUF8riknqczkNadWyKTsAotj/8m5gDV0XG9IaB9QXuerM94i580AodpPhej54gH4hRk/l0VKAT5wekA2sl5psIXeS4OZUaeJGS4QGAhZthxrskfTb8atCFm54B2HUKJT39Fm2fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hb74g301; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIqWi/Pj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hb74g301"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773285543; x=1804821543;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S27CasceZBAK7VbaYd3f5R9a+PZaSjofrCTGSD72TWs=;
-  b=nIqWi/PjIY5GViTAntoAnO3RIrbK1AtRTbd2lH0qiBp9hXAHy7pJnF2f
-   M1RzJIcqT83ObowYbehIcI0v81trZJtZFzvulXnlAqa9P/JIReVY7PQB7
-   6ErCI8KpMBjzZyW1cUPbPHeB9fODzWc0uqFWNADbkPJXLKPOVCnHeRFmH
-   sH1y3mkbSFgxwapTOqfjDX5l9G6aEj3cQ3p/EwXOS8cCl01eW7rYUFA6R
-   vL6aP32duGSSFmdwKElLNudzLf0KL5w0u2LbYI1XuOPWXfITDtnQhBgv+
-   gZQtaF/Qx2ifP/f25a8QuBJYZ+bnHe9vTYpOTyc4SKwhCxmdcmeOTWV4q
-   w==;
-X-CSE-ConnectionGUID: 6roxaqP2Q7ir5f51ac5WDg==
-X-CSE-MsgGUID: cmyVEA7HQkiesjt5l6eTbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84686674"
+  t=1773290977; x=1804826977;
+  h=date:from:to:cc:subject:message-id;
+  bh=XmUD97KB8rvTdfawiSUl76EUd84ZJacIwxiqamdGM30=;
+  b=Hb74g301DQzVZJhAGg5pJx9MRrcIjqhBJC/GC1bP7EDUUxeRRgvNcs6M
+   t3DaRvx3NubUgfUVwO7ba0pOAhdNvRjuseX3urwXrShVb2o6ev0kK4fTA
+   hIaUO26NTeuPJVSJQNW/oXico47RL/fS6EcvApPwxcL7WWETzbX+gutYy
+   Fx/nZ1jwHKhypBID02IAhvWK/uDzkyy2sBjUC9GPjKkK58f4D7NYg/sC3
+   oPJ4Axno7xFuVRTbHd3dh0OO5xtB+2S5NsNwWadsV0VvyjCV+5u39SasL
+   4O5G+hlGLjeD3rfh1ogDVk67l8smjgzqMKm2unGbD+4XunbfdTq8FVTeG
+   A==;
+X-CSE-ConnectionGUID: IpVijNVvQaSaSNOq5y5J7w==
+X-CSE-MsgGUID: rkH+Xyz7S8yWAshpOqjvuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="78225347"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="84686674"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 20:19:02 -0700
-X-CSE-ConnectionGUID: DHFWJUUjQGaKc6gPyOR6HA==
-X-CSE-MsgGUID: bEimZGoqQWCQ6/IZPV/tRw==
+   d="scan'208";a="78225347"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 21:49:37 -0700
+X-CSE-ConnectionGUID: Ijht3+v0TNiLrzvZHxbs+A==
+X-CSE-MsgGUID: KXbS5mj4SA62nqV+98v76A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="219946759"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 11 Mar 2026 20:19:01 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 11 Mar 2026 21:49:35 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0WZe-000000003Rl-1zz2;
-	Thu, 12 Mar 2026 03:18:58 +0000
-Date: Thu, 12 Mar 2026 04:18:44 +0100
+	id 1w0XzJ-0000000025T-0NJP;
+	Thu, 12 Mar 2026 04:49:33 +0000
+Date: Thu, 12 Mar 2026 12:48:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 7/7] riscv: dts: spacemit: k1-orangepi-rv2: add SD
- card support with UHS modes
-Message-ID: <202603120455.ZuF5ZSOi-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe:rw_iter 143/471]
+ drivers/gpu/drm/loongson/lsdc_crtc.c:647 lsdc_crtc_man_op_write() warn:
+ potential spectre issue 'buf' [w]
+Message-ID: <202603121202.TPjZgGgX-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260309-orangepi-sd-card-uhs-v2-7-5bb2b574df5d@gmail.com>
-References: <20260309-orangepi-sd-card-uhs-v2-7-5bb2b574df5d@gmail.com>
-TO: Iker Pedrosa <ikerpedrosam@gmail.com>
-TO: Ulf Hansson <ulf.hansson@linaro.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Adrian Hunter <adrian.hunter@intel.com>
-TO: Paul Walmsley <pjw@kernel.org>
-TO: Palmer Dabbelt <palmer@dabbelt.com>
-TO: Albert Ou <aou@eecs.berkeley.edu>
-TO: Alexandre Ghiti <alex@ghiti.fr>
-TO: Yixun Lan <dlan@kernel.org>
-CC: Michael Opdenacker <michael.opdenacker@rootcommit.com>
-CC: Javier Martinez Canillas <javierm@redhat.com>
-CC: linux-mmc@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: spacemit@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: Iker Pedrosa <ikerpedrosam@gmail.com>
+TO: Jens Axboe <axboe@kernel.dk>
 
-Hi Iker,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ec1fb4e55df47ed043ab2ccc6787e39b9d67e49b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Iker-Pedrosa/mmc-sdhci-of-k1-enable-essential-clock-infrastructure-for-SD-operation/20260309-194400
-base:   ec1fb4e55df47ed043ab2ccc6787e39b9d67e49b
-patch link:    https://lore.kernel.org/r/20260309-orangepi-sd-card-uhs-v2-7-5bb2b574df5d%40gmail.com
-patch subject: [PATCH v2 7/7] riscv: dts: spacemit: k1-orangepi-rv2: add SD card support with UHS modes
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: riscv-randconfig-2051-20260311 (https://download.01.org/0day-ci/archive/20260312/202603120455.ZuF5ZSOi-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120455.ZuF5ZSOi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
+head:   0a49759be1c3b29207758e467fdc1a90d0716d06
+commit: 76dedd5c839e0bd2c29550f6a8491a5676f9b0f3 [143/471] drm/loongson: convert to read/write iterators
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260312/202603121202.TPjZgGgX-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603120455.ZuF5ZSOi-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603121202.TPjZgGgX-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dtb: mmc@d4280000 (spacemit,k1-sdhci): Unevaluated properties are not allowed ('reset-names', 'resets' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/spacemit,sdhci.yaml
+smatch warnings:
+drivers/gpu/drm/loongson/lsdc_crtc.c:647 lsdc_crtc_man_op_write() warn: potential spectre issue 'buf' [w]
+
+vim +/buf +647 drivers/gpu/drm/loongson/lsdc_crtc.c
+
+f39db26c54281da Sui Jingfeng 2023-06-15  632  
+76dedd5c839e0bd Jens Axboe   2024-04-09  633  static ssize_t lsdc_crtc_man_op_write(struct kiocb *iocb, struct iov_iter *from)
+f39db26c54281da Sui Jingfeng 2023-06-15  634  {
+76dedd5c839e0bd Jens Axboe   2024-04-09  635  	struct seq_file *m = iocb->ki_filp->private_data;
+f39db26c54281da Sui Jingfeng 2023-06-15  636  	struct lsdc_crtc *lcrtc = m->private;
+f39db26c54281da Sui Jingfeng 2023-06-15  637  	const struct lsdc_crtc_hw_ops *ops = lcrtc->hw_ops;
+76dedd5c839e0bd Jens Axboe   2024-04-09  638  	size_t len = iov_iter_count(from);
+f39db26c54281da Sui Jingfeng 2023-06-15  639  	char buf[16];
+f39db26c54281da Sui Jingfeng 2023-06-15  640  
+f39db26c54281da Sui Jingfeng 2023-06-15  641  	if (len > sizeof(buf) - 1)
+f39db26c54281da Sui Jingfeng 2023-06-15  642  		return -EINVAL;
+f39db26c54281da Sui Jingfeng 2023-06-15  643  
+76dedd5c839e0bd Jens Axboe   2024-04-09  644  	if (!copy_from_iter_full(buf, len, from))
+f39db26c54281da Sui Jingfeng 2023-06-15  645  		return -EFAULT;
+f39db26c54281da Sui Jingfeng 2023-06-15  646  
+f39db26c54281da Sui Jingfeng 2023-06-15 @647  	buf[len] = '\0';
+f39db26c54281da Sui Jingfeng 2023-06-15  648  
+f39db26c54281da Sui Jingfeng 2023-06-15  649  	if (sysfs_streq(buf, "soft_reset"))
+f39db26c54281da Sui Jingfeng 2023-06-15  650  		ops->soft_reset(lcrtc);
+f39db26c54281da Sui Jingfeng 2023-06-15  651  	else if (sysfs_streq(buf, "enable"))
+f39db26c54281da Sui Jingfeng 2023-06-15  652  		ops->enable(lcrtc);
+f39db26c54281da Sui Jingfeng 2023-06-15  653  	else if (sysfs_streq(buf, "disable"))
+f39db26c54281da Sui Jingfeng 2023-06-15  654  		ops->disable(lcrtc);
+f39db26c54281da Sui Jingfeng 2023-06-15  655  	else if (sysfs_streq(buf, "flip"))
+f39db26c54281da Sui Jingfeng 2023-06-15  656  		ops->flip(lcrtc);
+f39db26c54281da Sui Jingfeng 2023-06-15  657  	else if (sysfs_streq(buf, "clone"))
+f39db26c54281da Sui Jingfeng 2023-06-15  658  		ops->clone(lcrtc);
+f39db26c54281da Sui Jingfeng 2023-06-15  659  
+f39db26c54281da Sui Jingfeng 2023-06-15  660  	return len;
+f39db26c54281da Sui Jingfeng 2023-06-15  661  }
+f39db26c54281da Sui Jingfeng 2023-06-15  662  
+
+:::::: The code at line 647 was first introduced by commit
+:::::: f39db26c54281da6a785259498ca74b5e470476f drm: Add kms driver for loongson display controller
+
+:::::: TO: Sui Jingfeng <suijingfeng@loongson.cn>
+:::::: CC: Sui Jingfeng <suijingfeng@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
