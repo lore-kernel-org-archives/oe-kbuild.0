@@ -1,154 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B66331A7B
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Mar 2026 07:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F5F317142
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Mar 2026 07:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773300051; cv=none; b=P+FJyQQFz8tVaAx61U0zmo1pkP3GI+5BVqoBCg1WAUMkN6l/6sxKCaGnHRd03jElWmuo+kTs2FvVho5vMvJ0/tjNcI91CP9QXOJMCRJ/9Dv++Mle88wZRslgNbpV2Am5VnUWwNx8ORu+3/IM69wIbD7W1kPrkfEfxKarakBg47A=
+	t=1773301612; cv=none; b=tYgISih0zK2fI7cDXfunB+TUMyW5qldAspWkwXA5+frSIKipF++51bX/6MR4eFTZE9g9l3zx/BSJwPKuu2yfskGicEtDbJAtRE8SvriiLXUZ8aLQ+g57ha6ArK9Q1BpfS0I0zho+07/ACGV7l1ALmqlae8EX+jPWPAw2ft6r1zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773300051; c=relaxed/simple;
-	bh=dUNk9h3OmTRQ5fOeeq8FmsqFtm4IE1PONfQ4xjAmroc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZbyPTQXr6kbTu1aEYl2CcMMX7VcthShK1gbrM3bh8QsgWtU4u0V7dl0Qldu+DXOqLb1gi1A1EgYFOzK1NryiG+72eZsaGS9jOek2Vz7+nEiWPHi4WOTx1GCpMOCABbU+EChSj599k6ZqM17auXDLHI6Lgha/yRJhJl7FrYPjSZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WSwpY9Pu; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1773301612; c=relaxed/simple;
+	bh=dAuwVrf631JTNO7vg87J+8nAnKgG/gVjv1VkYcWNYp8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mCMz/1OfeC/W1xPlmlWDpNltvQBAhjmQNIW0089+OtSXTHOd7ELY29Sykj4OFMt4lKJ9ywYhb1ZFeFL2OkixbtlU3oyZGLmm2Shu5Ia6XoArWUx/UZeVlfiCUKpo/eGdqeBiPfLmF4ddaqMhQr0djEdKxUPos5NUe7K3Sml1FeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2ejgHF/; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WSwpY9Pu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2ejgHF/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773300050; x=1804836050;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dUNk9h3OmTRQ5fOeeq8FmsqFtm4IE1PONfQ4xjAmroc=;
-  b=WSwpY9PuKZy7QmAxg4Eme6VurWIyG8Y+50g/49B9vx7g208zfqJB7u5f
-   LQ1kL13gVFXPxx7udIXSHcHstQtri14O9NiiY36mTQlqOV/FhiwKU+aib
-   ug6bg2w/I1mHUXYq/7PGtJDYfJZcru6cjIJRXewFv1v0Qdj0EYjlxQyMh
-   PnmM25oZUhRdk2mGKHf4mVskY6q2KtrX8C4zO2S1hnZJKSFuZCdBnsGCL
-   s/mPXMlUUKuWh16T7MwSjIOIqmfL39rqJKlCCyHnaMMgDhMoY5zreD6iV
-   MI7LpKfSmQtTU46zw3/qqiHKaKdWELtEkuFaJ8DCaF0MW0Mc0dMrPSDXy
-   w==;
-X-CSE-ConnectionGUID: nXPq4hzdRIKQswZRSfqelQ==
-X-CSE-MsgGUID: HY9PfhSmTcm1oXt9gddGTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74350098"
+  t=1773301611; x=1804837611;
+  h=date:from:to:cc:subject:message-id;
+  bh=dAuwVrf631JTNO7vg87J+8nAnKgG/gVjv1VkYcWNYp8=;
+  b=L2ejgHF/Xs2lXVHgs5fOua/jVNZnIH6aIjoeY3R9+KEXFaD+dhazutaG
+   xyroQqW28nCD0Ek1lwgXklHAyuKvbKDlmMrJfE8jegHV7/zUVl7mFFU+P
+   xPSZzTMShKkAdrlUFKKkfBD8jOBDFwn/i0CIBzIQ89tBA/IJMt1VkVPS/
+   WHXIiKNo2smg++6H7DIUEuqDsqUjPKzAb8txIEMTIXQL6PbuPVDU5Bb4e
+   GgSjOtkD2gugLG+6axkZMOXCRq0cOJw8U1TvzEOVttLWzFqSw78KdytRD
+   iL2e5X18zKEPhj6joUzxU68Lz3XVHLdCiDk6PoscDW6b4rl63jqHvJmQ2
+   A==;
+X-CSE-ConnectionGUID: xbnYay5CRBG/qZhPPXBnHg==
+X-CSE-MsgGUID: 2f56OQXWRXKUyzYmL0x5Gg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="85471395"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="74350098"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 00:20:49 -0700
-X-CSE-ConnectionGUID: tepmPXOkSgeoYWJd3uwCQw==
-X-CSE-MsgGUID: IDyAB/vbQSqrIdh9FHsXmg==
+   d="scan'208";a="85471395"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 00:46:51 -0700
+X-CSE-ConnectionGUID: rjhKdrmbQB2iSQ4CUn7CVA==
+X-CSE-MsgGUID: QBpzoVodQFeCRvaMMLugwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="225431190"
+   d="scan'208";a="224880937"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Mar 2026 00:20:47 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 Mar 2026 00:46:49 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0aLc-000000002Bb-3xeJ;
-	Thu, 12 Mar 2026 07:20:44 +0000
-Date: Thu, 12 Mar 2026 15:20:21 +0800
+	id 1w0akp-000000002DO-0bXG;
+	Thu, 12 Mar 2026 07:46:47 +0000
+Date: Thu, 12 Mar 2026 15:46:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v2 1/2] mm/swap: Add VM_WARN_ON to isolate_lock_cluster()
-Message-ID: <202603121537.6k2jt9WF-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe:rw_iter 155/471] drivers/usb/chipidea/debug.c:89
+ ci_port_test_write() warn: potential spectre issue 'buf' [w]
+Message-ID: <202603121510.vaiHWvfx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <25c1be6b4a54a69d4b57189fd84c7502c4412d7a.1773040982.git.zhuhui@kylinos.cn>
-References: <25c1be6b4a54a69d4b57189fd84c7502c4412d7a.1773040982.git.zhuhui@kylinos.cn>
-TO: Hui Zhu <hui.zhu@linux.dev>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Chris Li <chrisl@kernel.org>
-TO: Kairui Song <kasong@tencent.com>
-TO: Kemeng Shi <shikemeng@huaweicloud.com>
-TO: Nhat Pham <nphamcs@gmail.com>
-TO: Baoquan He <bhe@redhat.com>
-TO: Barry Song <baohua@kernel.org>
-TO: YoungJun Park <youngjun.park@lge.com>
-TO: linux-kernel@vger.kernel.org
-CC: Hui Zhu <zhuhui@kylinos.cn>
+TO: Jens Axboe <axboe@kernel.dk>
 
-Hi Hui,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hui-Zhu/mm-swap-Add-VM_WARN_ON-to-isolate_lock_cluster/20260309-160732
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/25c1be6b4a54a69d4b57189fd84c7502c4412d7a.1773040982.git.zhuhui%40kylinos.cn
-patch subject: [PATCH v2 1/2] mm/swap: Add VM_WARN_ON to isolate_lock_cluster()
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-053-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121537.6k2jt9WF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
+head:   0a49759be1c3b29207758e467fdc1a90d0716d06
+commit: c08703a0ede98e3db453b782579c22892e8909ab [155/471] usb: chipidea: convert to read/write iterators
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260312/202603121510.vaiHWvfx-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202603121537.6k2jt9WF-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603121510.vaiHWvfx-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> mm/swapfile.c:623:13-15: ERROR: invalid reference to the index variable of the iterator on line 605
+smatch warnings:
+drivers/usb/chipidea/debug.c:89 ci_port_test_write() warn: potential spectre issue 'buf' [w]
 
-vim +623 mm/swapfile.c
+vim +/buf +89 drivers/usb/chipidea/debug.c
 
-38d8b4e6bdc872f Ying Huang  2017-07-06  589  
-3b644773eefda88 Kairui Song 2025-01-14  590  /*
-3b644773eefda88 Kairui Song 2025-01-14  591   * Isolate and lock the first cluster that is not contented on a list,
-3b644773eefda88 Kairui Song 2025-01-14  592   * clean its flag before taken off-list. Cluster flag must be in sync
-3b644773eefda88 Kairui Song 2025-01-14  593   * with list status, so cluster updaters can always know the cluster
-3b644773eefda88 Kairui Song 2025-01-14  594   * list status without touching si lock.
-3b644773eefda88 Kairui Song 2025-01-14  595   *
-3b644773eefda88 Kairui Song 2025-01-14  596   * Note it's possible that all clusters on a list are contented so
-3b644773eefda88 Kairui Song 2025-01-14  597   * this returns NULL for an non-empty list.
-3b644773eefda88 Kairui Song 2025-01-14  598   */
-3b644773eefda88 Kairui Song 2025-01-14  599  static struct swap_cluster_info *isolate_lock_cluster(
-4fd58b51ef090e7 Kairui Song 2025-10-24  600  		struct swap_info_struct *si, struct list_head *list)
-3b644773eefda88 Kairui Song 2025-01-14  601  {
-07adc4cf1ecd316 Kairui Song 2025-09-17  602  	struct swap_cluster_info *ci, *found = NULL;
-3b644773eefda88 Kairui Song 2025-01-14  603  
-3b644773eefda88 Kairui Song 2025-01-14  604  	spin_lock(&si->lock);
-3b644773eefda88 Kairui Song 2025-01-14 @605  	list_for_each_entry(ci, list, list) {
-3b644773eefda88 Kairui Song 2025-01-14  606  		if (!spin_trylock(&ci->lock))
-3b644773eefda88 Kairui Song 2025-01-14  607  			continue;
-3b644773eefda88 Kairui Song 2025-01-14  608  
-3b644773eefda88 Kairui Song 2025-01-14  609  		/* We may only isolate and clear flags of following lists */
-3b644773eefda88 Kairui Song 2025-01-14  610  		VM_BUG_ON(!ci->flags);
-3b644773eefda88 Kairui Song 2025-01-14  611  		VM_BUG_ON(ci->flags > CLUSTER_FLAG_USABLE &&
-3b644773eefda88 Kairui Song 2025-01-14  612  			  ci->flags != CLUSTER_FLAG_FULL);
-3b644773eefda88 Kairui Song 2025-01-14  613  
-3b644773eefda88 Kairui Song 2025-01-14  614  		list_del(&ci->list);
-3b644773eefda88 Kairui Song 2025-01-14  615  		ci->flags = CLUSTER_FLAG_NONE;
-07adc4cf1ecd316 Kairui Song 2025-09-17  616  		found = ci;
-3b644773eefda88 Kairui Song 2025-01-14  617  		break;
-3b644773eefda88 Kairui Song 2025-01-14  618  	}
-3b644773eefda88 Kairui Song 2025-01-14  619  	spin_unlock(&si->lock);
-3b644773eefda88 Kairui Song 2025-01-14  620  
-07adc4cf1ecd316 Kairui Song 2025-09-17  621  	if (found && !cluster_table_is_alloced(found)) {
-bc49888aa80bcfb Hui Zhu     2026-03-09  622  		/* Table of full cluster must be allocated. */
-bc49888aa80bcfb Hui Zhu     2026-03-09 @623  		VM_WARN_ON(ci->flags == CLUSTER_FLAG_FULL);
-bc49888aa80bcfb Hui Zhu     2026-03-09  624  
-07adc4cf1ecd316 Kairui Song 2025-09-17  625  		/* Only an empty free cluster's swap table can be freed. */
-07adc4cf1ecd316 Kairui Song 2025-09-17  626  		VM_WARN_ON_ONCE(list != &si->free_clusters);
-07adc4cf1ecd316 Kairui Song 2025-09-17  627  		VM_WARN_ON_ONCE(!cluster_is_empty(found));
-07adc4cf1ecd316 Kairui Song 2025-09-17  628  		return swap_cluster_alloc_table(si, found);
-07adc4cf1ecd316 Kairui Song 2025-09-17  629  	}
-07adc4cf1ecd316 Kairui Song 2025-09-17  630  
-07adc4cf1ecd316 Kairui Song 2025-09-17  631  	return found;
-3b644773eefda88 Kairui Song 2025-01-14  632  }
-3b644773eefda88 Kairui Song 2025-01-14  633  
+e443b333629f82c Alexander Shishkin  2012-05-11   70  
+5722a8efc6c8979 Lee Jones           2020-07-03   71  /*
+2d6512892c10655 Alexander Shishkin  2013-03-30   72   * ci_port_test_write: writes port test mode
+e443b333629f82c Alexander Shishkin  2012-05-11   73   */
+c08703a0ede98e3 Jens Axboe          2024-04-11   74  static ssize_t ci_port_test_write(struct kiocb *iocb, struct iov_iter *from)
+e443b333629f82c Alexander Shishkin  2012-05-11   75  {
+c08703a0ede98e3 Jens Axboe          2024-04-11   76  	struct seq_file *s = iocb->ki_filp->private_data;
+c08703a0ede98e3 Jens Axboe          2024-04-11   77  	size_t count = iov_iter_count(from);
+8e22978c57087aa Alexander Shishkin  2013-06-24   78  	struct ci_hdrc *ci = s->private;
+e443b333629f82c Alexander Shishkin  2012-05-11   79  	unsigned long flags;
+e443b333629f82c Alexander Shishkin  2012-05-11   80  	unsigned mode;
+2d6512892c10655 Alexander Shishkin  2013-03-30   81  	char buf[32];
+2d6512892c10655 Alexander Shishkin  2013-03-30   82  	int ret;
+e443b333629f82c Alexander Shishkin  2012-05-11   83  
+bd5fb0aec3dd7cd Heinrich Schuchardt 2015-04-28   84  	count = min_t(size_t, sizeof(buf) - 1, count);
+c08703a0ede98e3 Jens Axboe          2024-04-11   85  	if (!copy_from_iter_full(buf, count, from))
+2d6512892c10655 Alexander Shishkin  2013-03-30   86  		return -EFAULT;
+e443b333629f82c Alexander Shishkin  2012-05-11   87  
+bd5fb0aec3dd7cd Heinrich Schuchardt 2015-04-28   88  	/* sscanf requires a zero terminated string */
+bd5fb0aec3dd7cd Heinrich Schuchardt 2015-04-28  @89  	buf[count] = '\0';
+bd5fb0aec3dd7cd Heinrich Schuchardt 2015-04-28   90  
+2d6512892c10655 Alexander Shishkin  2013-03-30   91  	if (sscanf(buf, "%u", &mode) != 1)
+2d6512892c10655 Alexander Shishkin  2013-03-30   92  		return -EINVAL;
+e443b333629f82c Alexander Shishkin  2012-05-11   93  
+3c724888d2b1e08 Alan                2016-02-15   94  	if (mode > 255)
+3c724888d2b1e08 Alan                2016-02-15   95  		return -EBADRQC;
+3c724888d2b1e08 Alan                2016-02-15   96  
+bc24937943d9f71 Li Jun              2015-07-29   97  	pm_runtime_get_sync(ci->dev);
+26c696c678c4ce1 Richard Zhao        2012-07-07   98  	spin_lock_irqsave(&ci->lock, flags);
+2d6512892c10655 Alexander Shishkin  2013-03-30   99  	ret = hw_port_test_set(ci, mode);
+26c696c678c4ce1 Richard Zhao        2012-07-07  100  	spin_unlock_irqrestore(&ci->lock, flags);
+bc24937943d9f71 Li Jun              2015-07-29  101  	pm_runtime_put_sync(ci->dev);
+e443b333629f82c Alexander Shishkin  2012-05-11  102  
+2d6512892c10655 Alexander Shishkin  2013-03-30  103  	return ret ? ret : count;
+e443b333629f82c Alexander Shishkin  2012-05-11  104  }
+2d6512892c10655 Alexander Shishkin  2013-03-30  105  
+
+:::::: The code at line 89 was first introduced by commit
+:::::: bd5fb0aec3dd7cde7ec4c397b10e55d4c9626d8d usb: chipidea: debug: avoid out of bound read
+
+:::::: TO: Heinrich Schuchardt <xypron.glpk@gmx.de>
+:::::: CC: Peter Chen <peter.chen@freescale.com>
 
 -- 
 0-DAY CI Kernel Test Service
