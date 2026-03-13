@@ -1,127 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B719227732
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Mar 2026 03:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5337C126F3B
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Mar 2026 05:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773374217; cv=none; b=PSHufrtHoY2NMBo3hGb+mGUEqQyI8KaS4s4sVkwmmlqq2ucU3iu9xufaYpPR2/fXljFeBYVRChHyXkM98k6tHPundR3fZEMn1hO3qVH1lGmWFqbZNkIDjg/CoGMyKsxURlFEQINWXAtdN95+iSSlbIPQ08RV35wgdT5bZNyHUJk=
+	t=1773378557; cv=none; b=QYNGYO/hLVhSr1FS9LOWeZp/NGG3qs9LB3dqFZqNPNhxVBdfIOUyJ/DoDVrZsXqNL+fCU+dYpA3b766pCoyGNtyJLUdSWgFXqao7TKeJdOY+OJlokE9/SKSUsHG6jR8gSZy2M5u8fKhD9EOm/89ONsqGHj1S9EtLh8BokWolRpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773374217; c=relaxed/simple;
-	bh=bmvdOsbvsA5sMP8kD9nBz2BI5NF7VRJlGfPMeduT1Ac=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CuuV4Z1WhcH84aeXukf5KfCg3UHBuaAQERnvMkDPQup1zLm9Da2gUdh1QHPOByqNpW3Es6EbiCDMoygjZyw3MjgML5Z3NOihDV1oLNeruYF3g1V15LLrPnfWpAXh5ovdjIOz1Bpj9flfBuY6TuX151HeAhiuSkC+emyzOtZerS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S92iR5Jn; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1773378557; c=relaxed/simple;
+	bh=xQNOrPFaTY5flTwVcIVO9CY7B+ukHarvHWwAfkAXM+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oGCnQPJCWNiEtD8dM+nXbfN3MqkV8rGqRrDAfELBDfojxZX13+lfm7cgVxtCvmNfRa320Y+baf/7KyZHKqXOqZl23ZAL4BTWrghy3pY2MdlR90T4BDViAkun0zryfqMI2zZpthmhL2ew8TutB7Gqh9LhRSbP/qbE4EUYVPiTji4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQlcTvsh; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S92iR5Jn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQlcTvsh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773374214; x=1804910214;
-  h=date:from:to:cc:subject:message-id;
-  bh=bmvdOsbvsA5sMP8kD9nBz2BI5NF7VRJlGfPMeduT1Ac=;
-  b=S92iR5JnEo0dPOoJabc+oTupuY0aNOdIOUvK/vE4SVku1U/qzEqjZmBy
-   FRXlvlrAaoQgo9B1JeVYRDfXsQXU76Tx3L6n6+wkS3VRH31lMoou9+GjH
-   wYcaTj92jdHukvtIeJf4TBzffvu5leQbcJUBkVnFMreAPXx5Atpr6uKpA
-   MPf+2j7rnNw6pvHCimib2CA+odgzdRwu+h/rT5QS/Z/+OM081FcFWyX37
-   Q+zEUD3a/wjrYy8eL/V59IrPdH6SvFoAoVf/DLUcs1yZvxz5c4WWfHevD
-   DnCkcgTG5hRfs+ka91sVfk1nOiAaabQUXNFRV8iTBDHS/8J5Csc5e6uDN
-   A==;
-X-CSE-ConnectionGUID: hf+ut59nT1aJxl2iWXSyBg==
-X-CSE-MsgGUID: DitbJ27zSsmExTcSWj5naQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="74560392"
+  t=1773378554; x=1804914554;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xQNOrPFaTY5flTwVcIVO9CY7B+ukHarvHWwAfkAXM+o=;
+  b=RQlcTvshsDGN94VBSF0j3X6iZunHWYRLGbkgsWRym1mdaHn26dlqFfnY
+   x8CYnyNjFOoHRr7bgmSrbaqAGskPQQgrxLSxkWj+OGu3gkLbgMd+SeFqz
+   CfSj8yBcwH+EZlU/IMPP5FOhpgh59NtcNXJzNboyp1gDR7QEJZj9g/Jdo
+   +6nRHzk7yD+uoki88u6HuL4mJ8Oy6uPrTqrk756jVce7IHs49kFmi9jYl
+   oMWlM8g5t0UvcFPB9z4MBkmLnBJ0462E+UoJGfJV1Dirgn0I1aa8ytkOM
+   RD/4SoU5KSXHJMapAh3/9QWZW7EyyGhQrSsuCV2bCIw0hBZ1mILDbjqTe
+   g==;
+X-CSE-ConnectionGUID: 0xLuXKHVToSk6RQjxGAKvA==
+X-CSE-MsgGUID: EWgoUxIxTaCaempPHaKbEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="85182860"
 X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
-   d="scan'208";a="74560392"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 20:56:54 -0700
-X-CSE-ConnectionGUID: aV12DFnJRwG5cmSkKyN24A==
-X-CSE-MsgGUID: pjZOuIdEQuG8eZ+PewpS3w==
+   d="scan'208";a="85182860"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 22:09:13 -0700
+X-CSE-ConnectionGUID: R/J1M96UR1mjm7JAloh+ww==
+X-CSE-MsgGUID: uVcdWN6yQkaLcl9aH4TWYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
-   d="scan'208";a="218793834"
+   d="scan'208";a="225504886"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Mar 2026 20:56:53 -0700
+  by orviesa004.jf.intel.com with ESMTP; 12 Mar 2026 22:09:13 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0tdm-000000003Pv-2nY9;
-	Fri, 13 Mar 2026 03:56:46 +0000
-Date: Fri, 13 Mar 2026 11:56:17 +0800
+	id 1w0ulq-000000003Ul-0lCk;
+	Fri, 13 Mar 2026 05:09:10 +0000
+Date: Fri, 13 Mar 2026 13:09:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe:rw_iter 357/471] drivers/ntb/test/ntb_tool.c:931
- tool_peer_mw_trans_write() warn: potential spectre issue 'buf' [w]
-Message-ID: <202603131108.MwjRtK17-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 2/3] PCI: dwc: Add helper to Program T_POWER_ON
+Message-ID: <202603131333.i5meIM3S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260311-t_power_on_fux-v3-2-9b1f1d09c6f3@oss.qualcomm.com>
+References: <20260311-t_power_on_fux-v3-2-9b1f1d09c6f3@oss.qualcomm.com>
+TO: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+TO: Manivannan Sadhasivam <mani@kernel.org>
+TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
+TO: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Bjorn Helgaas <helgaas@kernel.org>
+TO: Jingoo Han <jingoohan1@gmail.com>
+CC: linux-pci@vger.kernel.org
+CC: linux-arm-msm@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: mayank.rana@oss.qualcomm.com
+CC: quic_vbadigan@quicinc.com
+CC: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   0a49759be1c3b29207758e467fdc1a90d0716d06
-commit: d444a597dc0bb08539298adb2b3f9b69fbf4d3e2 [357/471] drivers/ntb: convert to read/write iterators
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260313/202603131108.MwjRtK17-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Krishna,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-ASPM-Add-helper-to-encode-L1SS-T_POWER_ON-fields/20260311-204306
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260311-t_power_on_fux-v3-2-9b1f1d09c6f3%40oss.qualcomm.com
+patch subject: [PATCH v3 2/3] PCI: dwc: Add helper to Program T_POWER_ON
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-123-20260312 (https://download.01.org/0day-ci/archive/20260313/202603131333.i5meIM3S-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260313/202603131333.i5meIM3S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603131108.MwjRtK17-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603131333.i5meIM3S-lkp@intel.com/
 
-smatch warnings:
-drivers/ntb/test/ntb_tool.c:931 tool_peer_mw_trans_write() warn: potential spectre issue 'buf' [w]
+All errors (new ones prefixed by >>):
 
-vim +/buf +931 drivers/ntb/test/ntb_tool.c
+>> drivers/pci/controller/dwc/pcie-designware.c:1272:2: error: call to '__compiletime_assert_506' declared with 'error' attribute: FIELD_MODIFY: value too large for the field
+    1272 |         FIELD_MODIFY(PCI_L1SS_CAP_P_PWR_ON_SCALE, &val, scale);
+         |         ^
+   include/linux/bitfield.h:193:3: note: expanded from macro 'FIELD_MODIFY'
+     193 |                 __BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");             \
+         |                 ^
+   include/linux/bitfield.h:85:3: note: expanded from macro '__BF_FIELD_CHECK'
+      85 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
+         |                 ^
+   include/linux/bitfield.h:70:3: note: expanded from macro '__BF_FIELD_CHECK_MASK'
+      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:694:2: note: expanded from macro '_compiletime_assert'
+     694 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:687:4: note: expanded from macro '__compiletime_assert'
+     687 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:8:1: note: expanded from here
+       8 | __compiletime_assert_506
+         | ^
+   1 error generated.
 
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  915  
-d444a597dc0bb0 Jens Axboe      2024-04-06  916  static ssize_t tool_peer_mw_trans_write(struct kiocb *iocb,
-d444a597dc0bb0 Jens Axboe      2024-04-06  917  					struct iov_iter *from)
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  918  {
-d444a597dc0bb0 Jens Axboe      2024-04-06  919  	struct tool_mw_wrap *outmw_wrap = iocb->ki_filp->private_data;
-7f46c8b3a5523a Serge Semin     2017-12-06  920  	struct tool_mw *outmw = outmw_wrap->mw;
-d444a597dc0bb0 Jens Axboe      2024-04-06  921  	size_t size = iov_iter_count(from);
-7f46c8b3a5523a Serge Semin     2017-12-06  922  	size_t buf_size, wsize;
-7f46c8b3a5523a Serge Semin     2017-12-06  923  	char buf[TOOL_BUF_LEN];
-7f46c8b3a5523a Serge Semin     2017-12-06  924  	int ret, n;
-7f46c8b3a5523a Serge Semin     2017-12-06  925  	u64 addr;
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  926  
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  927  	buf_size = min(size, (sizeof(buf) - 1));
-d444a597dc0bb0 Jens Axboe      2024-04-06  928  	if (!copy_from_iter_full(buf, buf_size, from))
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  929  		return -EFAULT;
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  930  
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20 @931  	buf[buf_size] = '\0';
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  932  
-21fbdc4d0b1e7f yangqixiao      2025-12-30  933  	n = sscanf(buf, "%llu:%zu", &addr, &wsize);
-7f46c8b3a5523a Serge Semin     2017-12-06  934  	if (n != 2)
-7f46c8b3a5523a Serge Semin     2017-12-06  935  		return -EINVAL;
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  936  
-7f46c8b3a5523a Serge Semin     2017-12-06  937  	tool_free_peer_mw(outmw->tc, outmw->widx);
-7f46c8b3a5523a Serge Semin     2017-12-06  938  	if (wsize) {
-7f46c8b3a5523a Serge Semin     2017-12-06  939  		ret = tool_setup_peer_mw(outmw->tc, outmw_wrap->pidx,
-7f46c8b3a5523a Serge Semin     2017-12-06  940  					 outmw->widx, addr, wsize);
-7f46c8b3a5523a Serge Semin     2017-12-06  941  		if (ret)
-7f46c8b3a5523a Serge Semin     2017-12-06  942  			return ret;
-7f46c8b3a5523a Serge Semin     2017-12-06  943  	}
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  944  
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  945  	return size;
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  946  }
-717146a2a8cbf6 Logan Gunthorpe 2016-06-20  947  
 
-:::::: The code at line 931 was first introduced by commit
-:::::: 717146a2a8cbf6dbcb8fdf4ae7cddd2d6074161c ntb_tool: Postpone memory window initialization for the user
+vim +1272 drivers/pci/controller/dwc/pcie-designware.c
 
-:::::: TO: Logan Gunthorpe <logang@deltatee.com>
-:::::: CC: Jon Mason <jdmason@kudzu.us>
+a00bba406b5a68 Bjorn Helgaas             2025-11-18  1251  
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1252  /* TODO: Need to handle multi root ports */
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1253  void dw_pcie_program_t_power_on(struct dw_pcie *pci, u16 t_power_on)
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1254  {
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1255  	u8 scale, value;
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1256  	u16 offset;
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1257  	u32 val;
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1258  
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1259  	if (!t_power_on)
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1260  		return;
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1261  
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1262  	offset = dw_pcie_find_ext_capability(pci, PCI_EXT_CAP_ID_L1SS);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1263  	if (!offset)
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1264  		return;
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1265  
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1266  	pcie_encode_t_power_on(t_power_on, &scale, &value);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1267  
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1268  	dw_pcie_dbi_ro_wr_en(pci);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1269  
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1270  	val = readl(pci->dbi_base + offset + PCI_L1SS_CAP);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1271  	val &= ~(PCI_L1SS_CAP_P_PWR_ON_SCALE | PCI_L1SS_CAP_P_PWR_ON_VALUE);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11 @1272  	FIELD_MODIFY(PCI_L1SS_CAP_P_PWR_ON_SCALE, &val, scale);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1273  	FIELD_MODIFY(PCI_L1SS_CAP_P_PWR_ON_VALUE, &val, value);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1274  
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1275  	writel(val, pci->dbi_base + offset + PCI_L1SS_CAP);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1276  
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1277  	dw_pcie_dbi_ro_wr_dis(pci);
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1278  }
+f673f1087677d7 Krishna Chaitanya Chundru 2026-03-11  1279  
 
 -- 
 0-DAY CI Kernel Test Service
