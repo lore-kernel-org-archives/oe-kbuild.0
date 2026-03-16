@@ -1,134 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A3625228D
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Mar 2026 13:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB37A303A35
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Mar 2026 14:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773666530; cv=none; b=L7AOI53kPwTah5aE8nsLAKAxSqNic2+uWN9kaQ3OYwUlUIy7lD7MPSTy398eLomDo6TsY5G+V2RHxOGkp0tNFBasyACRnXXPcB9h3UVp54Si0PmhwFd3HFiIr+fj6CNHFGA6eoNpvxJwI89A4Q2z17TUnKMo0WiTFAJ0YBJZ3Lk=
+	t=1773672889; cv=none; b=R7ti8+2SXNZZap7YhwHGUzxEmzd+RwjgjVsD12nn4PBOoZvO8YWAlAyKpcgIrwj42lZuZlq0hGgultNbpG3rSrs8Dr7bdCp/lH+q63l1Al5BrmKNhFtYJfanoSuw06Sa9RlJr3z+SL3D6RSRTyQjO/0mt1ng13rY4iyXzT66XMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773666530; c=relaxed/simple;
-	bh=kJNiFRLF7H4LjZ/coxhuUGIOAqe9bVjlbeU5PUN3VPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=flvbZhuzHan3pIGiCazGq8tokae/ZfQF2hks15337yy9YMWd26bx/HlTFBFeWmzpFBOAeeHMLLatxxzbSiy1r3T6dWWc74glezqv4zAno3zoliKTOnK8BAQeJy30cAYcGQ3IfcXbqgx31kvv7TEaMSerl5fuu1flhWqrdNTA5V8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fz+z4PRy; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1773672889; c=relaxed/simple;
+	bh=XVGp862IZFN752ZLPH2H3j+ogZwxHjDlribOPQHJ5w0=;
+	h=Date:From:To:Subject:Message-ID; b=Gs/GLy1Uo5f+dHDWgqpquLLyiJYrAKCXnicIIPqANxfufmgZy7jJPhWSzgzHHbhHtrkVJdDWAOUKmkVO/b2/KxRQ+EMAOCBcbPiPSQv6sCTiqazxFjFmbTttpGJ5FrTZnClOCnyO5hAF6agAccftlkjXEZV8Hmt78a2BFN9mu34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8p1C9G4; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fz+z4PRy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8p1C9G4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773666528; x=1805202528;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=kJNiFRLF7H4LjZ/coxhuUGIOAqe9bVjlbeU5PUN3VPU=;
-  b=fz+z4PRyfVfuOL01eO2QpmYV1DHDEIa5P1EiBYp1LjSTXNrmbbI7q34i
-   jYuPYIh7ragRw7PEYgaZHA1UI2JG1lujMBZfPfpYrfOaLNy7S+edOwgDM
-   mhW8C3t5S1+mjALokuIlPk507wyjt+1//Y6yHwaEYIYClSxg69r4zUrGo
-   YtHu7DDiu8Ceq77qpZvieAF8EatCyKtK/z6Wea0WAIgCk9Ax9+bz/ku81
-   U7/+E0dySKJKxquEHGlE2VNkup4hySjaI53cKW31hcusML5/3Zf/eb0yh
-   jb0CbMfQJxegxiMhsQUOHHKx0sFu9fR2PLMdOVsR29tWa1JmZMGgd5qsi
-   Q==;
-X-CSE-ConnectionGUID: aBTDv0AeRRihj3ATWvvI/w==
-X-CSE-MsgGUID: vzmAb8LvTlu+CSVKHitI6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="73696500"
+  t=1773672888; x=1805208888;
+  h=date:from:to:subject:message-id;
+  bh=XVGp862IZFN752ZLPH2H3j+ogZwxHjDlribOPQHJ5w0=;
+  b=n8p1C9G4JLWyQ25wKCCzfDfQ2sqvautplID3j7Q2/JHjc+Cux2xLWivR
+   /QVSq+5keEqGc442YobLZKjDxrVFimWHZ9oJVlAWJONL9t6uCczspBcQ6
+   lmQKeZi/d/VhA1UQ+TrU8srCgHapRjz0oeqFQyvkGN8kGfpy0S8kDLdNo
+   0BXqGHGwBR4jeFCjY+cXlG0aH9k5h032PCE6x5/sIwZvIa4ZkYawYROmU
+   mZjlhWRiWPecNWBBQqghvrLxoi+EVNOqp9JUIZlVOZH2e/kI1lpU3hffl
+   hT1AG/OLcf1msq6XZeze7zlZHLlmR2iPfi/HnVKZEwIU3g2aM3OsiRV9l
+   g==;
+X-CSE-ConnectionGUID: VxGCkestRQi3GzIzmp5OBQ==
+X-CSE-MsgGUID: 1VnpofetQcC3rpyxXohjuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="62257618"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="73696500"
+   d="scan'208";a="62257618"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 06:08:47 -0700
-X-CSE-ConnectionGUID: 6TKlWFBaSty9ZwT5F5QvfQ==
-X-CSE-MsgGUID: i0gUmSzTTA6+dA4IQGl4FQ==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 07:54:47 -0700
+X-CSE-ConnectionGUID: rs5PbOsiQL2wFPRzzGNrsQ==
+X-CSE-MsgGUID: 2Z6KDpk0TF6mpcaGE/dBcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="221859602"
+   d="scan'208";a="221885974"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 16 Mar 2026 06:08:45 -0700
+  by orviesa009.jf.intel.com with ESMTP; 16 Mar 2026 07:54:46 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w27gZ-000000004EP-15uf;
-	Mon, 16 Mar 2026 13:08:43 +0000
-Date: Mon, 16 Mar 2026 14:08:32 +0100
+	id 1w29LA-000000004FN-0XsW
+	for oe-kbuild@lists.linux.dev;
+	Mon, 16 Mar 2026 14:54:44 +0000
+Date: Mon, 16 Mar 2026 15:54:21 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 3/4] dt-bindings: PCI: Add UltraRISC DP1000 PCIe
- controller
-Message-ID: <202603161429.tNXnD2ov-lkp@intel.com>
+Subject: [tglx-devel:locking/futex 4/8] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'both'
+Message-ID: <202603161507.M8eOUotl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260316-ultrarisc-pcie-v1-3-ef2946ede698@ultrarisc.com>
-References: <20260316-ultrarisc-pcie-v1-3-ef2946ede698@ultrarisc.com>
-TO: Jia Wang via B4 Relay <devnull+wangjia.ultrarisc.com@kernel.org>
-TO: Paul Walmsley <pjw@kernel.org>
-TO: Palmer Dabbelt <palmer@dabbelt.com>
-TO: Albert Ou <aou@eecs.berkeley.edu>
-TO: Alexandre Ghiti <alex@ghiti.fr>
-TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
-TO: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-TO: Manivannan Sadhasivam <mani@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Bjorn Helgaas <helgaas@kernel.org>
-TO: Jingoo Han <jingoohan1@gmail.com>
-TO: Xincheng Zhang <zhangxincheng@ultrarisc.com>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-riscv@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-pci@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: Jia Wang <wangjia@ultrarisc.com>
+TO: Thomas Gleixner <tglx@kernel.org>
 
-Hi Jia,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git locking/futex
+head:   226e6782e81c88b9263e006a356f58dd8c15bef5
+commit: e2c3ab5f1ceade109d683e16a92511c7f35156c6 [4/8] futex: Add support for unlocking robust futexes
+:::::: branch date: 29 minutes ago
+:::::: commit date: 29 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20260316/202603161507.M8eOUotl-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
+# many are suggestions rather than must-fix
 
-[auto build test ERROR on f338e77383789c0cae23ca3d48adcc5e9e137e3c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jia-Wang-via-B4-Relay/riscv-add-UltraRISC-SoC-family-Kconfig-support/20260316-151310
-base:   f338e77383789c0cae23ca3d48adcc5e9e137e3c
-patch link:    https://lore.kernel.org/r/20260316-ultrarisc-pcie-v1-3-ef2946ede698%40ultrarisc.com
-patch subject: [PATCH 3/4] dt-bindings: PCI: Add UltraRISC DP1000 PCIe controller
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
-config: openrisc-randconfig-2051-20260316 (https://download.01.org/0day-ci/archive/20260316/202603161429.tNXnD2ov-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603161429.tNXnD2ov-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603161429.tNXnD2ov-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> make[3]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/pci/ultrarisc,dp1000-pcie.example.dts] Error 1
-   make[3]: *** Deleting file 'Documentation/devicetree/bindings/pci/ultrarisc,dp1000-pcie.example.dts'
-   make[3]: Target 'dt_binding_check' not remade because of errors.
-
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/pci/ultrarisc,dp1000-pcie.yaml: ignoring, error parsing file
---
->> Documentation/devicetree/bindings/pci/ultrarisc,dp1000-pcie.yaml:38:19: mapping values are not allowed here
---
->> Documentation/devicetree/bindings/pci/ultrarisc,dp1000-pcie.yaml:26:7: [warning] wrong indentation: expected 4 but found 6 (indentation)
->> Documentation/devicetree/bindings/pci/ultrarisc,dp1000-pcie.yaml:38:19: [error] syntax error: mapping values are not allowed here (syntax)
-   Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:52:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
-   Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1: [warning] too many blank lines (2 > 1) (empty-lines)
+WARNING:REPEATED_WORD: Possible repeated word: 'both'
+#63: 
+    2) The gaming emulators use both both 64-bit and compat 32-bit robust
 
 -- 
 0-DAY CI Kernel Test Service
