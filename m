@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67FE18EFD1
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Mar 2026 04:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2661A23A4
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Mar 2026 05:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773633703; cv=none; b=o+k0f2TkWXODYqg9HJfjAWlILKFDNC046RQblNgXg7jLrKHqw2J/iaU8jfdvPkFHo5cxKb7vQLsa1UJ857f4BtPYX2dUdX4rfO3ybIk0FrZDFrZ7rIE4v5LVCoGniDcDfLPOoHy3idxdQLKBqdMLAHnDKaNeL7tl6j7K+LZFKKY=
+	t=1773638564; cv=none; b=WNXa/L7VdKid6TeOXSkthnbIcXgrsJDR8N95WjkfJ1e/8ItQlmcUYJ5l076eWBjWEbmoD9OHpHC3v9i1oWX808XlgCpAAfCYXrA9twkZYQZe/0b3qpMLh5mtozv2DP84PcQO9JVveqlfRzh0qjAUCzhofmoHoXQt1IxKhF0ELlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773633703; c=relaxed/simple;
-	bh=VwqlPCJnCBd9iRML2rVbI4udgv8odzpZeouF04/B6rg=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uqq0EUnRx2+f9jgfihe9YalggeCc8SX2MwN+oK+1fDRhluolt8mULkyBP8cxlwUnZHQx0B+fSSbKeu0gjHxH2ToK7Cq3IWp3DSwks38swk/l6SE7G0FKQKRIHNn1cpz1j+1KsVnnSdsFurLlzBEUMoZLvGLXD1JR3sQdsvKnhd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bxIvvMHm; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1773638564; c=relaxed/simple;
+	bh=uM0XN8mjoIaWAnmXlA7SeTPfcK2f5EpfMEOPgNctuM0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BoZlD6/hBP/HzFdtJU4uVPC2U/vOnUR30ZwmU7m9daQRpZrLPdqvu6CSnxhrU8khHLn7NaIDX+uc9EYU/Wy/Iv0r6fa1lxIXUc8QH+MwJh1Ufqqk3baqCHqe+mmhMCSUCLG21PBG0NRARY8I5SengARt1CdTkZkMvyOXhhuD94w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iPVMYbdV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bxIvvMHm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPVMYbdV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773633701; x=1805169701;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=VwqlPCJnCBd9iRML2rVbI4udgv8odzpZeouF04/B6rg=;
-  b=bxIvvMHmQB6cmd++oHpftzqMLm5hVrLBemwAzE2Kndw9UB9HcrxWvwW+
-   xVY4mGlhXVpBX1H7HIslXTngsPWAD4Yuq3ZuevpW1hlxxcZwlS4lbRWig
-   /qOzAgPK+szhhQajnIe+LNzlMuMewkKNnH4hEfYq3T/iNW6vjk+NNuMpl
-   tmOjkigI/s8p1gQpBmPiMgRmykaRuBioExLhqCVF+x92+2bYkAfwbCjj1
-   EVG3ZK37k7Uo1pnlspKTzNcbwDBttfWVB4XLHlHELsmAUamll35L50j7m
-   6xCWUL9o/k3rhPYvdI6V3LfvCEARtG6hUu25EUDO7Venc1ArYqRCxrFSm
-   w==;
-X-CSE-ConnectionGUID: T9IyXWqXRwi5iZ4c78Bjdg==
-X-CSE-MsgGUID: HrI2jrZaQjmdpX+8CtBtcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="78537612"
+  t=1773638563; x=1805174563;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uM0XN8mjoIaWAnmXlA7SeTPfcK2f5EpfMEOPgNctuM0=;
+  b=iPVMYbdVrw3HLgatUdPKaEoT6TJ7uGZWSQ2HJDUzPn/IMRecEgcjVhaD
+   rpZLEEPBlu+gBmEG0WUKqmdJBtWa7zdTjjjc3zVQaDJPotMJE53vw4J34
+   x7hcCLpmXyy8d0XxrRR0h5oLk41f1+3ZB0Xh0LvIAx8t1G29VFJMODbP/
+   QIuAO2MXbkiHnZQT27XfAeXwhBOj1cAPTZnPyhc/ZgDBOQzbKDAd+/0AN
+   pT1o+57I4DnNdiBvF2fJMfP/66nsI8dL6PHU2YjUvS4l7bgPDmLiKuJY/
+   y8IptPAUPPwwknMRIs+Gel9mvILoJLzqvJlgXQhJctG+Vmeq3OCav2bpf
+   A==;
+X-CSE-ConnectionGUID: 2hdtqzPGSo2lCO2twF3DaA==
+X-CSE-MsgGUID: 5lEeSK1eRSyhcA4IKN6Y/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="86124741"
 X-IronPort-AV: E=Sophos;i="6.23,123,1770624000"; 
-   d="scan'208";a="78537612"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 21:01:41 -0700
-X-CSE-ConnectionGUID: rJ+SadTHTUeiJ5bVIAnw9Q==
-X-CSE-MsgGUID: JOLDHhaWT6eulzBtIpcmPA==
+   d="scan'208";a="86124741"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 22:22:43 -0700
+X-CSE-ConnectionGUID: 3R/hDT3qTEC9hvwGL56Ylg==
+X-CSE-MsgGUID: PfPWVflNRVezoYovChVxKQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,123,1770624000"; 
+   d="scan'208";a="259699252"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2026 21:01:40 -0700
+  by orviesa001.jf.intel.com with ESMTP; 15 Mar 2026 22:22:41 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1z98-0000000049h-2AmY
-	for oe-kbuild@lists.linux.dev;
-	Mon, 16 Mar 2026 04:01:38 +0000
-Date: Mon, 16 Mar 2026 05:01:10 +0100
+	id 1w20PW-0000000049x-3IeC;
+	Mon, 16 Mar 2026 05:22:38 +0000
+Date: Mon, 16 Mar 2026 06:22:16 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v6 1/2] hfsplus: refactor b-tree map page access and add
- node-type validation
-Message-ID: <202603160520.MP4tNNFl-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 3/5] dt-bindings: mfd: max77620: convert to DT schema
+Message-ID: <202603160659.9jlCaVH2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,42 +62,143 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260315172005.2066677-2-shardul.b@mpiricsoftware.com>
-References: <20260315172005.2066677-2-shardul.b@mpiricsoftware.com>
-TO: Shardul Bankar <shardul.b@mpiricsoftware.com>
-TO: slava@dubeyko.com
-TO: glaubitz@physik.fu-berlin.de
-TO: frank.li@vivo.com
-TO: linux-fsdevel@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
+In-Reply-To: <20260312085258.11431-4-clamor95@gmail.com>
+References: <20260312085258.11431-4-clamor95@gmail.com>
+TO: Svyatoslav Ryhel <clamor95@gmail.com>
+TO: Linus Walleij <linusw@kernel.org>
+TO: Bartosz Golaszewski <brgl@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Lee Jones <lee@kernel.org>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+TO: "Rafael J. Wysocki" <rafael@kernel.org>
+TO: Daniel Lezcano <daniel.lezcano@kernel.org>
+TO: Zhang Rui <rui.zhang@intel.com>
+TO: Lukasz Luba <lukasz.luba@arm.com>
+TO: Chanwoo Choi <cw00.choi@samsung.com>
+TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
+TO: Svyatoslav Ryhel <clamor95@gmail.com>
+CC: linux-gpio@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+CC: linux-rtc@vger.kernel.org
 
-Hi Shardul,
+Hi Svyatoslav,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on broonie-regulator/for-next brgl/gpio/for-next abelloni/rtc-next robh/for-next lee-mfd/for-mfd-fixes linus/master v7.0-rc3 next-20260313]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shardul-Bankar/hfsplus-refactor-b-tree-map-page-access-and-add-node-type-validation/20260316-021009
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260315172005.2066677-2-shardul.b%40mpiricsoftware.com
-patch subject: [PATCH v6 1/2] hfsplus: refactor b-tree map page access and add node-type validation
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260316/202603160520.MP4tNNFl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/regulator-dt-bindings-regulator-max77620-convert-to-DT-schema/20260312-171749
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20260312085258.11431-4-clamor95%40gmail.com
+patch subject: [PATCH v4 3/5] dt-bindings: mfd: max77620: convert to DT schema
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-2051-20260313 (https://download.01.org/0day-ci/archive/20260316/202603160659.9jlCaVH2-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603160659.9jlCaVH2-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202603160659.9jlCaVH2-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'free'
-#264: FILE: fs/hfsplus/btree.c:585:
-+		pr_crit("trying to free free bnode %u(%d)\n",
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi:49.22-55.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1138.15-1151.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: pmic@3c (maxim,max77663): 'cpu-pwr-req-hog' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: pmic@3c (maxim,max77663): regulators: 'in-sd4-supply' does not match any of the regexes: '^(sd[0-3]|ldo[0-8])$', '^in-(sd[0-3]|ldo(0-1|2|3-5|4-6|7-8))-supply$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: pmic@3c (maxim,max77663): regulators:sd0: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: pmic@3c (maxim,max77663): regulators:sd1: Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: audio-codec@1c (realtek,rt5640): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+--
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi:49.22-55.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1138.15-1151.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: pmic@3c (maxim,max77663): 'cpu-pwr-req-hog' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: pmic@3c (maxim,max77663): regulators: 'in-sd4-supply' does not match any of the regexes: '^(sd[0-3]|ldo[0-8])$', '^in-(sd[0-3]|ldo(0-1|2|3-5|4-6|7-8))-supply$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: pmic@3c (maxim,max77663): regulators:sd0: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: pmic@3c (maxim,max77663): regulators:sd1: Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: audio-codec@1c (realtek,rt5640): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+--
+   arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi:52.22-58.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1138.15-1151.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: coil@c (dongwoon,dw9714): 'enable-gpios' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9714.yaml
+   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /i2c@7000c500/camera-pmic@7d: failed to match any schema with compatible: ['ti,lp8720']
+>> arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: max77663@1c (maxim,max77663): regulators:sd0: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: max77663@1c (maxim,max77663): regulators:sd1: Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p880.dtb: sound (lg,tegra-audio-max98089-p880): nvidia,audio-routing:13: 'Mic Jack' is not one of ['Int Spk', 'Headphone Jack', 'Earpiece', 'Headset Mic', 'Internal Mic 1', 'Internal Mic 2', 'HPL', 'HPR', 'SPKL', 'SPKR', 'RECL', 'RECR', 'INA1', 'INA2', 'INB1', 'INB2', 'MIC1', 'MIC2', 'MICBIAS']
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra-audio-max9808x.yaml
+--
+   arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi:52.22-58.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1138.15-1151.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: coil@c (dongwoon,dw9714): 'enable-gpios' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9714.yaml
+   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: /i2c@7000c500/camera-pmic@7d: failed to match any schema with compatible: ['ti,lp8720']
+>> arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: max77663@1c (maxim,max77663): regulators:sd0: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: max77663@1c (maxim,max77663): regulators:sd1: Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77620.yaml
+   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+   arch/arm/boot/dts/nvidia/tegra30-lg-p895.dtb: gpio-leds (gpio-leds): led-power:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+   	'battery-charging' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'kbd-capslock', 'mtd', 'nand-disk', 'netdev', 'none', 'rc-feedback', 'torch', 'usb-gadget', 'usb-host', 'usbport']
+   	'battery-charging' does not match '^cpu[0-9]*$'
+   	'battery-charging' does not match '^hci[0-9]+-power$'
+   	'battery-charging' does not match '^mmc[0-9]+$'
+   	'battery-charging' does not match '^phy[0-9]+tx$'
 
 -- 
 0-DAY CI Kernel Test Service
