@@ -1,137 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0081B7081F
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Mar 2026 03:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FA0221FC6
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Mar 2026 05:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773803600; cv=none; b=En1CS9sk7fziWgZKVN6Qd6cqmApiqAc2tMDW4EPvT3uKYYR/Rq6D1/c4sv+g6RquXhi89EhKDLBBk1AY+ztdZ8gE015sseZ+wgxzg5watcM26IMCnMtQtD7BNRodpyqFKd6nAgq+YZwBTkTaW5MVQWTR6ILZGBQBmkUm8nqe1Cw=
+	t=1773811351; cv=none; b=bUqKXC1vU/RJS7mzR0g0+/ELQA/l/IjFQTCV9QWcW4sPN2lir2xPgpW3bAtp0qDlVr7rbOQSQEGpFlF1dBs4z7EtGCGd4KSVS+2fk52i6KD8IfQI/lQp9N9v4b1WMCPkL0hlNxTeSvJIG1Tk3P+8Q7rNs2g/uW5LKYXhvQHOiNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773803600; c=relaxed/simple;
-	bh=yR7kmSMyy706Nbt4p2Sl1rT56TGKUMdS3p/eiZ4FTIA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ksnvz7NgbX7i7bSnBpXj8XaHyhRODV8IqADNqu0sdaTrfrjqkqQhunhwxglXqTDZ/ig+zIXBMTVTbVOsHD+PNTwDj8uZkWlggceguxZNk4TvRNT/iHjtxOs2bq38itNae1ZEWagAZXZTKY8TjZuUl8MWtXHSUwcVKiF+Yja4+v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DOT8LNT+; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1773811351; c=relaxed/simple;
+	bh=l0KAT/qhus0zeDZ1D948qhcwH351/jNxjyiq0JiwPxo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ag+Za9l6shlqsrNxEZTbkt1lawAHH7dxmdFWejdHcLdF0d9EiX7qfIn4Kp6lKOtspkjJoTeWs1CR+2F0glg64uQPL0lj5+eRbgnBf377q71qtcJDAL/RawUwFLzdZ99RSo0TzxB68w9Mc/EEOIdS/H2cviW9a4YSXqH4DSll5LA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eq3O1nOv; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DOT8LNT+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eq3O1nOv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773803599; x=1805339599;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yR7kmSMyy706Nbt4p2Sl1rT56TGKUMdS3p/eiZ4FTIA=;
-  b=DOT8LNT+bGJdxDcG0yWWlgixML0TpB+PpscuEDJ7sMOoxA23bZV5EW/y
-   oIkoKONVBivcR7XFM0Sz5sLg0tNSvnMSCoFkAHpoPpdaMbcuV3Li27grY
-   fjBCTft+wIySWNF8WZakbtQrbsG0neDGEX3Dt3xwGqX8FhLVQRd8hO5Kq
-   N1o3XpD/CunMcorwKASmLmiAXBDDdCWm30X+8HsT4IOihMWf0fdEQmyth
-   yzR6S22xhHdcb14EM0AYxFaVsNfsRD1kcw2hr0u6IFWqDeFRwRBPUskMv
-   XahBMPzDuib+ThNVhcD32p5qRESrGrm6XxB4EkrWRbuxmRwd9IYKFqOpq
-   w==;
-X-CSE-ConnectionGUID: E0h8CVuaRpqt6Py7VHaX5w==
-X-CSE-MsgGUID: GPVIIk9QQvqSvSiJoLZtjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74971352"
+  t=1773811349; x=1805347349;
+  h=date:from:to:cc:subject:message-id;
+  bh=l0KAT/qhus0zeDZ1D948qhcwH351/jNxjyiq0JiwPxo=;
+  b=Eq3O1nOvffFGqWuutg7U4M1Adf64sOAt/6E1nWMkwIahCdoWgyRlGMhu
+   n8S4DXHvQq0S10j4JjXs4J4/Hbec6t8UHF3egkiW8fi4N60FIzuHfbK7j
+   FvZAtbEW2PLQXg6tFfQQy/DzOiqLjmJEVivSKSKJrobnLJ1t32XCzCijk
+   x26g0vpzG+CVVhDK6uFPd8k6lEvwx1aRi5DWOuf56TyTG0doSHOCCC2sJ
+   fQscjRBukZDWB1sChLNWcxh6Et/Tyse709LupASn67r7UztOOBi0u51cj
+   AceN5jndu2QUFLT03HrvqLQXwzY/5BOoBHXOKAv3Cs3wUnVda8XVar0R/
+   A==;
+X-CSE-ConnectionGUID: A0dvytqZQTufMbLGtgQiUA==
+X-CSE-MsgGUID: bhVpIcBcS6+6hxnG1GQ2+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74744701"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="74971352"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 20:13:18 -0700
-X-CSE-ConnectionGUID: T2IKR14xSOWe3MllYwa9YQ==
-X-CSE-MsgGUID: 4esRb+DGT3OS38BjmqMVqQ==
+   d="scan'208";a="74744701"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 22:22:29 -0700
+X-CSE-ConnectionGUID: HQfsb16ITa+lH3DS2fkzPQ==
+X-CSE-MsgGUID: 3nfcdVX5SLu257PJMIZDeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="218094381"
+   d="scan'208";a="224603826"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Mar 2026 20:13:17 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Mar 2026 22:22:27 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2hLN-000000002PN-37Mz;
-	Wed, 18 Mar 2026 03:13:13 +0000
-Date: Wed, 18 Mar 2026 11:13:12 +0800
+	id 1w2jMO-000000002YP-42Hc;
+	Wed, 18 Mar 2026 05:22:24 +0000
+Date: Wed, 18 Mar 2026 13:21:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v7 15/15] rv: Add dl_server specific monitors
-Message-ID: <202603181103.41vCG1ZQ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [dk:rw_iter 318/471] arch/x86/mm/pkeys.c:151
+ init_pkru_write_file() warn: potential spectre issue 'buf' [w]
+Message-ID: <202603181313.se1Glo5A-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: include/rv/automata.h:64:22: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260310105627.332044-16-gmonaco@redhat.com>
-References: <20260310105627.332044-16-gmonaco@redhat.com>
-TO: Gabriele Monaco <gmonaco@redhat.com>
-TO: linux-kernel@vger.kernel.org
-TO: Steven Rostedt <rostedt@goodmis.org>
-TO: Nam Cao <namcao@linutronix.de>
-TO: Juri Lelli <jlelli@redhat.com>
-TO: Gabriele Monaco <gmonaco@redhat.com>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Masami Hiramatsu <mhiramat@kernel.org>
-TO: linux-trace-kernel@vger.kernel.org
-TO: linux-doc@vger.kernel.org
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Tomas Glozar <tglozar@redhat.com>
-CC: Clark Williams <williams@redhat.com>
-CC: John Kacur <jkacur@redhat.com>
+TO: Jens Axboe <axboe@kernel.dk>
 
-Hi Gabriele,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gabriele-Monaco/rv-Unify-DA-event-handling-functions-across-monitor-types/20260310-191222
-base:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
-patch link:    https://lore.kernel.org/r/20260310105627.332044-16-gmonaco%40redhat.com
-patch subject: [PATCH v7 15/15] rv: Add dl_server specific monitors
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: arc-randconfig-r112-20260318 (https://download.01.org/0day-ci/archive/20260318/202603181103.41vCG1ZQ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603181103.41vCG1ZQ-lkp@intel.com/reproduce)
+tree:   git://git.kernel.dk/linux rw_iter
+head:   7e8e9e30f1231e9ab34d17d42798297a502683f3
+commit: a2a517bdbc607ba976ebc347c239b745943d8e35 [318/471] x86/mm: convert to read/write iterators
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: x86_64-randconfig-161-20260318 (https://download.01.org/0day-ci/archive/20260318/202603181313.se1Glo5A-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603181103.41vCG1ZQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603181313.se1Glo5A-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/rv/monitors/boost/boost.c: note: in included file (through include/rv/ha_monitor.h):
->> include/rv/automata.h:64:22: sparse: sparse: unsigned value that used to be signed checked against zero?
-   kernel/trace/rv/monitors/boost/boost.c:155:50: sparse: signed value source
+smatch warnings:
+arch/x86/mm/pkeys.c:151 init_pkru_write_file() warn: potential spectre issue 'buf' [w]
 
-vim +64 include/rv/automata.h
+vim +/buf +151 arch/x86/mm/pkeys.c
 
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  51  
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  52  /*
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  53   * model_get_next_state - process an automaton event occurrence
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  54   *
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  55   * Given the current state (curr_state) and the event (event), returns
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  56   * the next state, or INVALID_STATE in case of error.
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  57   */
-fa9b26dfa172d1 Gabriele Monaco 2025-11-26  58  static inline enum states model_get_next_state(enum states curr_state,
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  59  					enum events event)
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  60  {
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  61  	if ((curr_state < 0) || (curr_state >= STATE_MAX))
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  62  		return INVALID_STATE;
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  63  
-30984ccf31b7f0 Gabriele Monaco 2025-11-26 @64  	if ((event < 0) || (event >= EVENT_MAX))
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  65  		return INVALID_STATE;
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  66  
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  67  	return RV_AUTOMATON_NAME.function[curr_state][event];
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  68  }
-30984ccf31b7f0 Gabriele Monaco 2025-11-26  69  
+76de993727d22e Dave Hansen 2016-07-29  138  
+a2a517bdbc607b Jens Axboe  2024-04-11  139  static ssize_t init_pkru_write_file(struct kiocb *iocb, struct iov_iter *from)
+76de993727d22e Dave Hansen 2016-07-29  140  {
+a2a517bdbc607b Jens Axboe  2024-04-11  141  	size_t count = iov_iter_count(from);
+76de993727d22e Dave Hansen 2016-07-29  142  	char buf[32];
+76de993727d22e Dave Hansen 2016-07-29  143  	ssize_t len;
+76de993727d22e Dave Hansen 2016-07-29  144  	u32 new_init_pkru;
+76de993727d22e Dave Hansen 2016-07-29  145  
+76de993727d22e Dave Hansen 2016-07-29  146  	len = min(count, sizeof(buf) - 1);
+a2a517bdbc607b Jens Axboe  2024-04-11  147  	if (!copy_from_iter_full(buf, len, from))
+76de993727d22e Dave Hansen 2016-07-29  148  		return -EFAULT;
+76de993727d22e Dave Hansen 2016-07-29  149  
+76de993727d22e Dave Hansen 2016-07-29  150  	/* Make the buffer a valid string that we can not overrun */
+76de993727d22e Dave Hansen 2016-07-29 @151  	buf[len] = '\0';
+76de993727d22e Dave Hansen 2016-07-29  152  	if (kstrtouint(buf, 0, &new_init_pkru))
+76de993727d22e Dave Hansen 2016-07-29  153  		return -EINVAL;
+76de993727d22e Dave Hansen 2016-07-29  154  
+76de993727d22e Dave Hansen 2016-07-29  155  	/*
+76de993727d22e Dave Hansen 2016-07-29  156  	 * Don't allow insane settings that will blow the system
+76de993727d22e Dave Hansen 2016-07-29  157  	 * up immediately if someone attempts to disable access
+76de993727d22e Dave Hansen 2016-07-29  158  	 * or writes to pkey 0.
+76de993727d22e Dave Hansen 2016-07-29  159  	 */
+76de993727d22e Dave Hansen 2016-07-29  160  	if (new_init_pkru & (PKRU_AD_BIT|PKRU_WD_BIT))
+76de993727d22e Dave Hansen 2016-07-29  161  		return -EINVAL;
+76de993727d22e Dave Hansen 2016-07-29  162  
+76de993727d22e Dave Hansen 2016-07-29  163  	WRITE_ONCE(init_pkru_value, new_init_pkru);
+76de993727d22e Dave Hansen 2016-07-29  164  	return count;
+76de993727d22e Dave Hansen 2016-07-29  165  }
+76de993727d22e Dave Hansen 2016-07-29  166  
+
+:::::: The code at line 151 was first introduced by commit
+:::::: 76de993727d22eb29c716abacfae9d9444bb7897 x86/pkeys: Allow configuration of init_pkru
+
+:::::: TO: Dave Hansen <dave.hansen@linux.intel.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
