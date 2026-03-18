@@ -1,362 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24783D668F
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Mar 2026 12:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773837124; cv=none; b=V1YKFOTnmZF0mwwoKgp1RF3aVLHEj7LZeDkxtgShdTnOdKZviHv14iSXmIA2acA5kkyNil4DtfJtHJ/bvSWxBpCcxTo8cV43seW/cVnV5WFcRqXNsWWXizA07GWqee/IXEcrEsYyCWZn4B3nQNPMdeK/fa4gZfE/3n6TYihYVj0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773837124; c=relaxed/simple;
-	bh=7ztUVkwRLomRjKWZ2rf9sXUqe7u1JEX9FwzZbZRsboM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SfR8lkCkFOSlkQW20dqxpt7xxT6BaJrOHIIC+ObVLChCalHQ/eJEMsFCDSO1lzEBYI+EirHpJh/dVh7V9s4oP3UXQZODBZMQM7SDp7GQVz4s7tvf+gF0H4VjqCYb3IJ4HURqDyLLPwXa6jtDVX20KY5GL6LJie1xCly7Rc5ZIlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KD1Cg/9E; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E348B2135D7;
+	Wed, 18 Mar 2026 13:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773840172; cv=fail; b=catPCN/G7C7wwUf9xRh5gWV8zWi8hR1ehL9iiO4Oo2tg0Sv5mYBUoqs21nHcs7HCHkVqnp1KMMIc8ceKmtC2co9jH+AqHoAOTbTIrmMA8I9xtE/Io6fiXXxYiFfzwR+UnBVxgnxpPUHg1jtZ8MbRZyit5lyoq/56XvoF+Ewj314=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773840172; c=relaxed/simple;
+	bh=JB36LuhPTcFbdlwvwXY/sNZSyUNLkfiGqxrocFaQ4Iw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=BhDe0vyW5XeNY5QxL9x2hcdW9JFzcrdWED7xYcthgLwWimuY/+40GUbWH/tO3M6A/I1BCT3bcz316K57JGFYodq9vZ1uiBrmW2wWD+LL1DkG8RnbnLJWkQ5zKgRB/37tzKEsJ7OfZMyC4v4PJWOZtzg6RrwUUiruTHS7xsnXJww=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=f9RZ5yGz; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=0SrkKHPI; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KD1Cg/9E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773837121; x=1805373121;
-  h=date:from:to:cc:subject:message-id;
-  bh=7ztUVkwRLomRjKWZ2rf9sXUqe7u1JEX9FwzZbZRsboM=;
-  b=KD1Cg/9EYDGcqMxMdrlO67w5lqBxscm47bXBeXn57bP1VfzdubRdSpLH
-   pp4v3GbQoySdli4gOo/oteJMN7X+WplofPKvUEoqO7CQAeMbbmMUqmlcO
-   HL6sQfimpvcJWmeNct17wMmc0XyVBJHRnOtWdvG3LnPukTjJcWfM4vtrB
-   hekDsl18cHPnpvMLES4AUgxbkrcw778FcE9Bkd27wBibx6kLNyMIcPTfV
-   YCC/NetOTlWEDM8bOAbNnbkEOFjntC/j08zIg9I88RVxUS1vOKc8eC3K4
-   Mmhe7rhefR+pbsBq73ZwllHkAyyxZ/iTsrG76k47hEvqRhMiloWFChZe2
-   g==;
-X-CSE-ConnectionGUID: qDHwOhgkQ+mGqtwn5oJ6rg==
-X-CSE-MsgGUID: 9IB7Cof9RCmjTqVXNBRPwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="74861789"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="74861789"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 05:31:58 -0700
-X-CSE-ConnectionGUID: /xb87i1iS/O8czf08qy0rQ==
-X-CSE-MsgGUID: KUeB+iUbQEehRSaLC8KeYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="218644400"
-Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Mar 2026 05:31:56 -0700
-Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w2q42-000000002tr-10aW;
-	Wed, 18 Mar 2026 12:31:54 +0000
-Date: Wed, 18 Mar 2026 20:30:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [iwlwifi-next:nan_mac80211_phase2 36/57]
- net/mac80211/chan.c:1880 ieee80211_vif_use_reserved_switch() error: we
- previously assumed 'iter.link' could be null (see line 1859)
-Message-ID: <202603182055.hBqK4ZR9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="f9RZ5yGz";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="0SrkKHPI"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62I2NJ1a974947;
+	Wed, 18 Mar 2026 13:22:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=WOmAXaEyWqWh3nPcoELg2C7FaVkbkydE19fjlWUoFmg=; b=
+	f9RZ5yGz3g8rzwgCvdFsYTmXpuWGw9tSFP85Pu5oi3rwL0Vc9vm7j7bazJxim/KL
+	NDJw+M4uhMCiLYf0/uiUx2W1mE/mztLv0wp3aewxPNhAD34XBT/ZApJK+EVfhgGD
+	IpOq8DKo207+Avs0p5MMnRKfUyFKnShHp1K8/8+MBC7LohlfMQJc8naUtk5Gozqj
+	dj9v5QnM2LOv7HgC4d9eb3zQLRdvgRH2JwH0g6mz7jo8FlWBaTbAer0ztgx3W8KT
+	6+kk1kC6gLW5E1LETE5WONBrcDlVOxXgsJ9vTTrOkQQidOGmefHYiHxA5DpKhZmk
+	Jxqxfv43iftuZsyYzYs4Sg==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cw07re30g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Mar 2026 13:22:40 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62ICFotV014004;
+	Wed, 18 Mar 2026 13:22:39 GMT
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012053.outbound.protection.outlook.com [52.101.48.53])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4cvx4bkn4g-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Mar 2026 13:22:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QpadECA71bcmaGac4jLcZbl75Slg1o/dSX74X55hk7B7l7/6XGt38uYkp/wnemwh/cUs22w9tijPVyToyS01ONaPAsUD1Q89SbS/ABEWG2N1YFXTXIrt6N2fwZFpdJiuff1gEK1XmEQsqqJv04Ge27Zx7h7wYbLJoVKoRkNx6/5wbtb96tEDcCCyJsOfOHRWE6IiYouByEaPQU4jJt7StO7a7G6/gRLKidCRAs1naAx4vRX9bOdJ7cK5IR98wxQgnRVxyUyNHRQ5dp0cl+WWXVYYA3nnvszGJl4LfcN7wGY9KBOE/gZooy/wnIGBGUdnerXGWFm65pr5Gg0/fqDG7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WOmAXaEyWqWh3nPcoELg2C7FaVkbkydE19fjlWUoFmg=;
+ b=eMD4I9oAepCg0KfPuf3L1B2JrwbCqPt0KijDFqKSus+mhx2lmOjN+FeoYAmgLXkWg+3Ai+fhU25DW356ur4xtvJd79xl2pagnf6vIQ+vLeYBRymPdXk5xd9QW+J5dJ9HrV4SXcnU0/uazyzRSP++6+wfQn/cfm50WznFQSo6HgMvAozWIz6xR7odZXBr2U7cjFFSCT+htYu+501lLPR2yBjHLfcnyBMm9uSzgADMv9F5J6D+sEypw0yXNXTTeaGlMqqTlhUqFLQugKYRBcSN/GxxpaqY1raIBtUWlM3F5u9Nae/X+C8jiZhT2IN64ZcETw76lzKMXlcFwtreNvk/hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WOmAXaEyWqWh3nPcoELg2C7FaVkbkydE19fjlWUoFmg=;
+ b=0SrkKHPIzO++GZp48qmOb+4FTl1aylz5C+6+3zBrD7uD0mB9A2mVXZruZy6sZb4ReOPXuUVueEApOLaXD10pNG2r/LSr0/6+oCeLDhod+u43ngjodj5r22girmCm7QcH5uiYuqhzGCZ+L4MJdLnY9uQHLQLFH61X8HGphZFIiYA=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by DS0PR10MB7431.namprd10.prod.outlook.com (2603:10b6:8:15a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Wed, 18 Mar
+ 2026 13:22:34 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::4083:91ab:47a4:f244]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::4083:91ab:47a4:f244%4]) with mapi id 15.20.9723.018; Wed, 18 Mar 2026
+ 13:22:34 +0000
+Message-ID: <13cd936f-0e00-4d7b-bc41-129a21cc5cad@oracle.com>
+Date: Wed, 18 Mar 2026 09:22:15 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [jlayton:exportd-netlink 3/18] net/sunrpc/cache.c:1074
+ cache_release() error: dereferencing freed memory 'rq' (line 1070)
+To: Jeff Layton <jlayton@kernel.org>,
+        Dan Carpenter
+ <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <202603180258.r8Bt94T2-lkp@intel.com>
+ <03d95fada335610f65f8590e02e1ff724e854b68.camel@kernel.org>
+From: Chuck Lever <chuck.lever@oracle.com>
+Content-Language: en-US
+In-Reply-To: <03d95fada335610f65f8590e02e1ff724e854b68.camel@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH5P221CA0011.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:610:1f2::21) To BN0PR10MB5128.namprd10.prod.outlook.com
+ (2603:10b6:408:117::24)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|DS0PR10MB7431:EE_
+X-MS-Office365-Filtering-Correlation-Id: 092473df-ace4-4a3b-ad41-08de84f16a49
+X-LD-Processed: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|366016|1800799024|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+ OaIcBYj4HDWPMfEZ8pUCASA3xdxT3AFEW0Gzipq0jhRoEeWpaHS2zgyxA8hIryQhvSdd4u7ybDnQx3CcMZawWsunHJC3BRgX1Ggd4Z1/1V+gx/0ofXGA84yxzEc1AtX493Nif1aJZmK2jSGpTMisdYD8MVhetYmkAJBPzVTJDCSXteVvABq3LClXzbhKnBM4EKVVYUwgFbcMibds34ggnzFhcGLWbwaBmJrdIP3D6zdaxjFNPTHF3iorefnvu0iRCBoGuKWqJMylnyXMewff9DTIxGF7Lfte15iLV87EzftNpwygaA8aaXCi+xg1deyEvCv5YuClV7RH/QxrZCerRWL4PPzrETCY30uvL3Y+7XgLpTagnaCIZZmkzcNFWE53+BRtOhFPSWmkiXecgkS+zm3yPL3pAfluiYF7dqY9ITQ1Td0SYtQCRXAmmeZYZBU/juXJBUtxVP6k8FM4exFESNHyY30PV4zZdQbWGd3B17x/gi5aK9bQ2ysfj01mnIlVCnqzo/uwuvhLidiTYSTHZfe9z8YxUnNQcgbEsc41zIcCcI+K/h1kuuYPsy1HfIJX9tEusoCOq8f+qHBax4cq4/5NVQealfyc8sMedpkdiQC8dSsC5vwpZeQJULOqXJfNYwKtKL5s3buOwR3/vBoWh9fhJwoqilqWkWtlI199vpo3CiC63KqeJdkEkso9UzpT+DFKQCAkBJKeRtXS3BuXZQLkGA1rZ63oUiFWNvHtUJI=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?aE10OW5vME92THUrTjBmcndHOHdlSHRmTE1NcDB4QVh0QWZ6UkFDRHpaeWpF?=
+ =?utf-8?B?TlkzYUxqRk51QVlnRzdrSXE4TGcvRngvSlErRkF4RW8wY1VRcUgrZFN5UnBR?=
+ =?utf-8?B?M1djMUlaRVZIK29mbzN0TkdHQVJPOGtMMVo4YlBoQWgyYU5RNjlXY2JGSGVr?=
+ =?utf-8?B?QWJjT1VvRjFFaG1UK2EreGxPaHRLVGNHTUhKUloyOGJKWHpray9TMVd4RUpZ?=
+ =?utf-8?B?VGRlR3RmMmRub2NnUFVYQmQrZWVUYWdmeG5SODZsbHpnNTRCQlFoVWhTek94?=
+ =?utf-8?B?c1ZFYVl5VHR4NDFzcU50a1ZxYlBQbVJPVkIydGZMSlgzYUtMTzYvam5COEVv?=
+ =?utf-8?B?ZlM2bGJzOVQzbzM1L1F3dHRtQnVjbTFnNk02UDJWQThPRFlXRHF3MXB2YkVX?=
+ =?utf-8?B?NmR4RUZSV29mOXlJeVZDa1FkMkg2eFFMa2lCV3hLV1NpWWh6QmtNQU1LQS93?=
+ =?utf-8?B?UWFzLzl1djAzNC9vbXpzS1FVcm94b2t3enNJNEFBUWZNLzdOcVYwektyRndw?=
+ =?utf-8?B?WGNXZFJGcTlIUnMwcGY5RG9XSzBXanpQTVNKL1FLdlZJdzZCT08vanlUcVZ4?=
+ =?utf-8?B?QWRkMTdEWGpJQTZrNWtCek9WV1BiRUF2ZkJHQWJSWVNwMnFTMFcwcXBQUlZY?=
+ =?utf-8?B?SEJzbmxEQ082a29rYTJHMitjTDZ6QmVVSzFsZ25LbWp3WXQzaW1QOWxjR3NF?=
+ =?utf-8?B?Ui9pa0FlbDk5d1B0eGY2TXJ2eExreDMwMmYzWWxYc2pqSFpMRjlIbmcyUUU1?=
+ =?utf-8?B?VWZyNmptb0I2blZtY3MyTnoyUFRVaGpDL2VtNHFTaWFIT3RIVStFaXpXcC9B?=
+ =?utf-8?B?RlpOL0cweFJUa1FhcFl5bGpqeWNNZFNya3FVME1JeUY3OHhLWTg3dVRLUkpF?=
+ =?utf-8?B?SjYzTlIxQ3J0THdETXRsdXlCdWFYVTBobEtMUVRlWjFWUFM0aitvVVNMb3c5?=
+ =?utf-8?B?eWdvSlhhaEttNmVrN2xabURoa0dtYWg3T2x1dTk5RkhLTUdiVXFkbGNlUGNB?=
+ =?utf-8?B?NHdJM05LMlVtd0hsV1hEVHZrUXJtaWVZTWd3R2dDS3IxNmhvTmxGY0N3ei92?=
+ =?utf-8?B?c3RhMllwL1ZrWTcvd05KNThKbmxkdkM3UHptdXQzYVRCWklSYTd4NW1ESGlu?=
+ =?utf-8?B?ME9xdTdhV2F4ek91aUFyallzWVlkZFFpMTQ3OGxYZndIQmxxOExCVDU5SVBj?=
+ =?utf-8?B?bFViZnBpSTc1WUI0cXIzTU90a2tUNGRhK1hYQ3VjSkh6UjJkS0s2dDVZUitw?=
+ =?utf-8?B?MjB5a0VnNXI4b1Voc1huSzRDRDVtcExHVVllMk5GY1lTZmJCb1ozWm1qa3BV?=
+ =?utf-8?B?b3B4c0t3NXJxM3RXUUpUQUJFNDhGT0FrUlh6d3liNU5QYzNQTFREdG1aUE5G?=
+ =?utf-8?B?TmVVajkyQndHNFQ3OUVQTzFBejlRRmhUaEFyOHNMbHhPcHJrbHl4OFRyMEJv?=
+ =?utf-8?B?aityVmg2ck41SkhRdTdjNkprY2VRd2xvWW5hdGhxYTVpd00zenpvNldBQTFo?=
+ =?utf-8?B?djBxd0ZPS2M3ZHFZUWlhYkhDL2htM0dOeWVweFhMSDUvbE1FV2dETnI4emJi?=
+ =?utf-8?B?cTQ2S0ZYWWlqNFdWeUo4VmgyeFRLNXc1MnRrY2c1dDB0anRrZS9mVVpObGM1?=
+ =?utf-8?B?VjY0aFptY2xyYXdTeGlDVU01RGhJaWpwdVFRU2ROR2NwcG1hWlNXbnZKYUhE?=
+ =?utf-8?B?N1VuNzRRVFd4TitRbHppaUpjb1dwM1lHVDBKRVNqWFJxM2pndk9SY3dsdExz?=
+ =?utf-8?B?MEZWRHgxM3lPS0IwdkhWVGZnWC9xdDIxdjdMUE1VeldQaStFRzJybmtqK2Jj?=
+ =?utf-8?B?UUQ1REl4STlaL0JTVy9TaEtFc1FLZCtSVkx2eFJ2UUlCS0phdFprblJkbDB6?=
+ =?utf-8?B?NG9OVUxpUDdDWnZNVkVFM0d1Rmw1Tko0MzZwSXcvNzVrYVRhM09yMmoxdG5W?=
+ =?utf-8?B?NWt4eFJCVkxZakZyZTBucUs3ZEgwWndLVXdQQWlpdWNHUGdjalFNaEdjczhv?=
+ =?utf-8?B?ZjRkN216SkdtL25DamRTZTJhSEl3YTU0a2UzYXpndWZIV1hBQVMvSDB4aVVU?=
+ =?utf-8?B?czRtM2RJaHd2V1g3MmZvUWZnWjY1NkdkM0MwZzdzY2w5ejdROCsycU5iM1Yr?=
+ =?utf-8?B?K1FiVXpOU3BtWmduamdaK29ybUc1SlN0c1RpSFpISHJ1cmsxMkJPWXlmSzcx?=
+ =?utf-8?B?eng3M3NrdFFmckxjclZNN1NTNzNjQ0ZQMnpHd3VtbTVQaTNzWi9GN1MwWXRO?=
+ =?utf-8?B?OVVyVlBqMHdjS2FQSXdLa0lVODRGSnlCL2I0QmhzMkF3dzZEQjIxTTMwUXQ4?=
+ =?utf-8?B?THdQSVRSR2hvZUVGT0pCWENOdVJ6bkZ2aS9ibjVNcWRuZ2xmV3krUT09?=
+X-Exchange-RoutingPolicyChecked:
+	DGBzjv+ZstoA1g+4b60F4zsDYSnt7InzdmJew8d/nAVwogY3xfRiol7B93QHfZo91B8spxHV52ovYDBpLsa1ypqcaRzFsxEI177Ag4iNXRVVfqf6bkB2X+AALPPxBmIwZJXOqLnu5D+Kq2+crCkI/3bQMg5S3RLOqZ9zFJET8jAt9QVOcOxr06net/u0ParL/+hxsinPrUWTFOQo0eH4oOQ7TNHOheZ9OIlcYw89UZyuxAfLkUV9tkR5nHKxAznY0us58K9X588umSohPPW1fCP/WeiyVi92dGqpDAvJW0tFVZCCEqD4z1xAbUkouMz1PspoUCMcIm8iNtGKG0D0kA==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	gCQ/A9/9NM8BYmWnwaEb1oM7v1fbtlo1JHPOGbDnM7kW0j7EmtbHIMOYpd9PGLqODcMbFxtQmdN1lxmlCRAb68GxIhjza6tAl0Gjdqhmu/gHfpF+1we3Lj06EkJkhvf0WeSKZJLraJzmi5yOEUwIJXOif4UhOsBA10CjFUZwYHMj1MpEgbFLUoTr2U02dPfj4vIngPF+O1jZRaKKIGowtLdrTuL/l96ESx4A1fAqiZiQvo78ZLe1d1aNwVyosSs3+DU3VtY/1OUjxAAp5QMfxaFnv0GHyKAabEQskPNPh5lICuVShBhw8I5cbKPuTMNFPXWbCXKMc1p6tvrxGnct4maRFuyByBuncnst8/dFUlM8DlTtJoay7F9m3q7OmMIsLjVQ2VwQ1GvdjBncmbWWMsGbKo5ipljeskfaNRkXuougkIY+o2aWiNdQjZXC0wFwETs2T6RvUfSk4pUN0FvNDK4bg+O66CUWSwltXCEY74wtpmTXVKKz6HGfS+oLtEo8p1raOKZWb4oBCKw7iivgVB+b6z0ICFialzLmxbX9KqN2GifPf1RujatoLsF5/wsGYEZSo+pmsmtWAq41K83iRWjkAXdul8sfqFqYZkM0+sY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 092473df-ace4-4a3b-ad41-08de84f16a49
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 13:22:34.1580
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I3zvBa7/ju2ihml79wgeyMJfobz/7DDmGSpAUy8awt6+GKZsFH+C4Rjhv0q33ezf2rGUcuYzSsJX2isnbSOmqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7431
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-18_01,2026-03-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
+ phishscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2603050001
+ definitions=main-2603180113
+X-Authority-Analysis: v=2.4 cv=HcsZjyE8 c=1 sm=1 tr=0 ts=69baa720 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=7Gl3-_t3PgB9XO-mQDs3:22 a=_Byt-cMoy3atJbuEfUMA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: mSr2EENI9ytJymsokvIioHnbo7V8_DXf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE4MDExMyBTYWx0ZWRfX/WJbjhimHdv+
+ kCKyZOc/G9sN7BqvNuPEaM5N+DyhtvwUq1b+RwzztZLWN6vtjUbCAZGH8WsJ9+BkPRe1/twCxrL
+ CnCO4F8MivmzuYHYwqyhKyWD3qFRlc+itWWcSgPt37fmF1khWQoZzsgD+xDQ4ooEJpV2iZSEC/T
+ zK08fgiIm6Kd8XIakqTk1CExQlSvhDx9A8IYTMWSEkBVpSEr70EZMQSQGhYl4ks13EhVYf+kRef
+ h0necWc60Hr46akgAkmarrr89v6bo+HIlBGfZ7VxMPjRPT8V5uIfIEru2bf1KcAS2YWUrWeO3/g
+ +RPVJwy32EezPAiOiEgf9nGAaTruFBLQ98qJ+2y6KMcJ52tro/XekkgEx1n0JO2XP2X4UfvpLSG
+ UbPawtXL8ZrPxEE1svHb2/WHLauTyMjlAvGiQgw1PkRFd9l+qMfQ3Yhn8BGGa/etD9D/pnYtPsG
+ OSoPCfBTtS35metq15A==
+X-Proofpoint-GUID: mSr2EENI9ytJymsokvIioHnbo7V8_DXf
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-CC: Johannes Berg <johannes.berg@intel.com>
+On 3/18/26 6:56 AM, Jeff Layton wrote:
+> On Wed, 2026-03-18 at 10:42 +0300, Dan Carpenter wrote:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git nan_mac80211_phase2
-head:   2d6c6fa9647943d4c8ff3d8a6f82c00ea1edd2f4
-commit: 526620c0d683e120277a5daeab93c7e46620d4b2 [36/57] wifi: mac80211: add NAN local schedule support
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: i386-randconfig-141-20260318 (https://download.01.org/0day-ci/archive/20260318/202603182055.hBqK4ZR9-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
+>> Looks like a bad merge.
+>>
+> 
+> Thanks Dan,
+> 
+> Yes it does. I based this series on top of Linus' master, and then
+> merged in Chuck's nfsd-fixes, nfsd-next and nfsd-testing branches
+> before layering these patches on top.
+> 
+> It looks like the problem occurred when the nfsd-next branch was
+> merged. Both it and -fixes have the same patch.
+> 
+> I'll rebase the series on top of a sane merge later today.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603182055.hBqK4ZR9-lkp@intel.com/
+Can you identify the patch that is the same in both branches?
+Typically, the linux-next merge will catch that kind of thing.
 
-New smatch warnings:
-net/mac80211/chan.c:1880 ieee80211_vif_use_reserved_switch() error: we previously assumed 'iter.link' could be null (see line 1859)
-
-Old smatch warnings:
-net/mac80211/chan.c:1881 ieee80211_vif_use_reserved_switch() warn: missing unwind goto?
-
-vim +1880 net/mac80211/chan.c
-
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1815  
-649b2a4da5d8a39 Johannes Berg      2014-07-25  1816  static int ieee80211_vif_use_reserved_switch(struct ieee80211_local *local)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1817  {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1818  	struct ieee80211_chanctx *ctx, *ctx_tmp, *old_ctx;
-b7f2405c6bd8ae0 Kirtika Ruchandani 2016-11-23  1819  	int err, n_assigned, n_reserved, n_ready;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1820  	int n_ctx = 0, n_vifs_switch = 0, n_vifs_assign = 0, n_vifs_ctxless = 0;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1821  
-5435af6e6ac0132 Johannes Berg      2023-08-28  1822  	lockdep_assert_wiphy(local->hw.wiphy);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1823  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1824  	/*
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1825  	 * If there are 2 independent pairs of channel contexts performing
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1826  	 * cross-switch of their vifs this code will still wait until both are
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1827  	 * ready even though it could be possible to switch one before the
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1828  	 * other is ready.
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1829  	 *
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1830  	 * For practical reasons and code simplicity just do a single huge
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1831  	 * switch.
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1832  	 */
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1833  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1834  	/*
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1835  	 * Verify if the reservation is still feasible.
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1836  	 *  - if it's not then disconnect
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1837  	 *  - if it is but not all vifs necessary are ready then defer
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1838  	 */
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1839  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1840  	list_for_each_entry(ctx, &local->chanctx_list, list) {
-1ce954c98b8968e Johannes Berg      2025-11-05  1841  		struct ieee80211_chanctx_user_iter iter;
-b4f85443c17c7ed Johannes Berg      2022-05-30  1842  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1843  		if (ctx->replace_state != IEEE80211_CHANCTX_REPLACES_OTHER)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1844  			continue;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1845  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1846  		if (WARN_ON(!ctx->replace_ctx)) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1847  			err = -EINVAL;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1848  			goto err;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1849  		}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1850  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1851  		n_ctx++;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1852  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1853  		n_assigned = 0;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1854  		n_reserved = 0;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1855  		n_ready = 0;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1856  
-de3c5142349c6cd Johannes Berg      2025-11-21  1857  		for_each_chanctx_user_assigned(local, ctx->replace_ctx, &iter) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1858  			n_assigned++;
-526620c0d683e12 Miri Korenblit     2025-11-09 @1859  			if (iter.link && iter.link->reserved_chanctx) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1860  				n_reserved++;
-1ce954c98b8968e Johannes Berg      2025-11-05  1861  				if (iter.link->reserved_ready)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1862  					n_ready++;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1863  			}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1864  		}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1865  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1866  		if (n_assigned != n_reserved) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1867  			if (n_ready == n_reserved) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1868  				wiphy_info(local->hw.wiphy,
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1869  					   "channel context reservation cannot be finalized because some interfaces aren't switching\n");
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1870  				err = -EBUSY;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1871  				goto err;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1872  			}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1873  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1874  			return -EAGAIN;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1875  		}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1876  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1877  		ctx->conf.radar_enabled = false;
-1ce954c98b8968e Johannes Berg      2025-11-05  1878  		for_each_chanctx_user_reserved(local, ctx, &iter) {
-1ce954c98b8968e Johannes Berg      2025-11-05  1879  			if (ieee80211_link_has_in_place_reservation(iter.link) &&
-1ce954c98b8968e Johannes Berg      2025-11-05 @1880  			    !iter.link->reserved_ready)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1881  				return -EAGAIN;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1882  
-1ce954c98b8968e Johannes Berg      2025-11-05  1883  			old_ctx = ieee80211_link_get_chanctx(iter.link);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1884  			if (old_ctx) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1885  				if (old_ctx->replace_state ==
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1886  				    IEEE80211_CHANCTX_WILL_BE_REPLACED)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1887  					n_vifs_switch++;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1888  				else
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1889  					n_vifs_assign++;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1890  			} else {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1891  				n_vifs_ctxless++;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1892  			}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1893  
-1ce954c98b8968e Johannes Berg      2025-11-05  1894  			if (iter.radar_required)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1895  				ctx->conf.radar_enabled = true;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1896  		}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1897  	}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1898  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1899  	if (WARN_ON(n_ctx == 0) ||
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1900  	    WARN_ON(n_vifs_switch == 0 &&
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1901  		    n_vifs_assign == 0 &&
-0a44dfc07074951 Johannes Berg      2024-01-29  1902  		    n_vifs_ctxless == 0)) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1903  		err = -EINVAL;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1904  		goto err;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1905  	}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1906  
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1907  	/* update station rate control and min width before switch */
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1908  	list_for_each_entry(ctx, &local->chanctx_list, list) {
-1ce954c98b8968e Johannes Berg      2025-11-05  1909  		struct ieee80211_chanctx_user_iter iter;
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1910  
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1911  		if (ctx->replace_state != IEEE80211_CHANCTX_REPLACES_OTHER)
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1912  			continue;
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1913  
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1914  		if (WARN_ON(!ctx->replace_ctx)) {
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1915  			err = -EINVAL;
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1916  			goto err;
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1917  		}
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1918  
-1ce954c98b8968e Johannes Berg      2025-11-05  1919  		for_each_chanctx_user_reserved(local, ctx, &iter) {
-1ce954c98b8968e Johannes Berg      2025-11-05  1920  			if (!ieee80211_link_has_in_place_reservation(iter.link))
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1921  				continue;
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1922  
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1923  			ieee80211_chan_bw_change(local,
-1ce954c98b8968e Johannes Berg      2025-11-05  1924  						 ieee80211_link_get_chanctx(iter.link),
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1925  						 true, true);
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1926  		}
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1927  
-52363af3a9c989e Johannes Berg      2025-11-05  1928  		_ieee80211_recalc_chanctx_min_def(local, ctx, NULL, true);
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1929  	}
-dd7b1bdb5614419 Johannes Berg      2024-06-12  1930  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1931  	/*
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1932  	 * All necessary vifs are ready. Perform the switch now depending on
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1933  	 * reservations and driver capabilities.
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1934  	 */
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1935  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1936  	if (n_vifs_switch > 0) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1937  		err = ieee80211_chsw_switch_vifs(local, n_vifs_switch);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1938  		if (err)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1939  			goto err;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1940  	}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1941  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1942  	if (n_vifs_assign > 0 || n_vifs_ctxless > 0) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1943  		err = ieee80211_chsw_switch_ctxs(local);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1944  		if (err)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1945  			goto err;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1946  	}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1947  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1948  	/*
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1949  	 * Update all structures, values and pointers to point to new channel
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1950  	 * context(s).
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1951  	 */
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1952  	list_for_each_entry(ctx, &local->chanctx_list, list) {
-1ce954c98b8968e Johannes Berg      2025-11-05  1953  		struct ieee80211_chanctx_user_iter iter;
-b4f85443c17c7ed Johannes Berg      2022-05-30  1954  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1955  		if (ctx->replace_state != IEEE80211_CHANCTX_REPLACES_OTHER)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1956  			continue;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1957  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1958  		if (WARN_ON(!ctx->replace_ctx)) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1959  			err = -EINVAL;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1960  			goto err;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1961  		}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1962  
-1ce954c98b8968e Johannes Berg      2025-11-05  1963  		for_each_chanctx_user_reserved(local, ctx, &iter) {
-1ce954c98b8968e Johannes Berg      2025-11-05  1964  			struct ieee80211_link_data *link = iter.link;
-1ce954c98b8968e Johannes Berg      2025-11-05  1965  			struct ieee80211_sub_if_data *sdata = iter.sdata;
-d8675a63518c614 Johannes Berg      2022-06-17  1966  			struct ieee80211_bss_conf *link_conf = link->conf;
-15ddba5f43114c1 Anjaneyulu         2023-06-04  1967  			u64 changed = 0;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1968  
-b4f85443c17c7ed Johannes Berg      2022-05-30  1969  			if (!ieee80211_link_has_in_place_reservation(link))
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1970  				continue;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1971  
-b4f85443c17c7ed Johannes Berg      2022-05-30  1972  			rcu_assign_pointer(link_conf->chanctx_conf,
-d0a9123ef548def Johannes Berg      2022-05-10  1973  					   &ctx->conf);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1974  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1975  			if (sdata->vif.type == NL80211_IFTYPE_AP)
-b4f85443c17c7ed Johannes Berg      2022-05-30  1976  				__ieee80211_link_copy_chanctx_to_vlans(link,
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1977  								       false);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1978  
-17c18bf880b2464 Johannes Berg      2015-03-21  1979  			ieee80211_check_fast_xmit_iface(sdata);
-17c18bf880b2464 Johannes Berg      2015-03-21  1980  
-1ce954c98b8968e Johannes Berg      2025-11-05  1981  			link->radar_required = iter.radar_required;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1982  
-1ce954c98b8968e Johannes Berg      2025-11-05  1983  			if (link_conf->chanreq.oper.width != iter.chanreq->oper.width)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1984  				changed = BSS_CHANGED_BANDWIDTH;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1985  
-6092077ad09ce88 Johannes Berg      2024-01-29  1986  			ieee80211_link_update_chanreq(link, &link->reserved);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1987  			if (changed)
-b4f85443c17c7ed Johannes Berg      2022-05-30  1988  				ieee80211_link_info_change_notify(sdata,
-d8675a63518c614 Johannes Berg      2022-06-17  1989  								  link,
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1990  								  changed);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1991  
-c4382d5ca1af75c Emmanuel Grumbach  2024-10-07  1992  			ieee80211_recalc_txpower(link, false);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1993  		}
-73da7d5bab79ad7 Simon Wunderlich   2013-07-11  1994  
-73da7d5bab79ad7 Simon Wunderlich   2013-07-11  1995  		ieee80211_recalc_chanctx_chantype(local, ctx);
-73da7d5bab79ad7 Simon Wunderlich   2013-07-11  1996  		ieee80211_recalc_smps_chanctx(local, ctx);
-73da7d5bab79ad7 Simon Wunderlich   2013-07-11  1997  		ieee80211_recalc_radar_chanctx(local, ctx);
-52363af3a9c989e Johannes Berg      2025-11-05  1998  		ieee80211_recalc_chanctx_min_def(local, ctx);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  1999  
-1ce954c98b8968e Johannes Berg      2025-11-05  2000  		for_each_chanctx_user_reserved(local, ctx, &iter) {
-1ce954c98b8968e Johannes Berg      2025-11-05  2001  			if (ieee80211_link_get_chanctx(iter.link) != ctx)
-a1dc648aa76d61d Johannes Berg      2025-11-05  2002  				continue;
-a1dc648aa76d61d Johannes Berg      2025-11-05  2003  
-1ce954c98b8968e Johannes Berg      2025-11-05  2004  			iter.link->reserved_chanctx = NULL;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2005  
-1ce954c98b8968e Johannes Berg      2025-11-05  2006  			ieee80211_link_chanctx_reservation_complete(iter.link);
-dd7b1bdb5614419 Johannes Berg      2024-06-12  2007  			ieee80211_chan_bw_change(local, ctx, false, false);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2008  		}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2009  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2010  		/*
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2011  		 * This context might have been a dependency for an already
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2012  		 * ready re-assign reservation interface that was deferred. Do
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2013  		 * not propagate error to the caller though. The in-place
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2014  		 * reservation for originally requested interface has already
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2015  		 * succeeded at this point.
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2016  		 */
-1ce954c98b8968e Johannes Berg      2025-11-05  2017  		for_each_chanctx_user_reserved(local, ctx, &iter) {
-1ce954c98b8968e Johannes Berg      2025-11-05  2018  			struct ieee80211_link_data *link = iter.link;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2019  
-a1dc648aa76d61d Johannes Berg      2025-11-05  2020  			if (WARN_ON(ieee80211_link_has_in_place_reservation(link)))
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2021  				continue;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2022  
-b4f85443c17c7ed Johannes Berg      2022-05-30  2023  			if (!link->reserved_ready)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2024  				continue;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2025  
-b4f85443c17c7ed Johannes Berg      2022-05-30  2026  			if (ieee80211_link_get_chanctx(link))
-b4f85443c17c7ed Johannes Berg      2022-05-30  2027  				err = ieee80211_link_use_reserved_reassign(link);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2028  			else
-b4f85443c17c7ed Johannes Berg      2022-05-30  2029  				err = ieee80211_link_use_reserved_assign(link);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2030  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2031  			if (err) {
-b4f85443c17c7ed Johannes Berg      2022-05-30  2032  				link_info(link,
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2033  					  "failed to finalize (re-)assign reservation (err=%d)\n",
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2034  					  err);
-b4f85443c17c7ed Johannes Berg      2022-05-30  2035  				ieee80211_link_unreserve_chanctx(link);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2036  				cfg80211_stop_iface(local->hw.wiphy,
-b4f85443c17c7ed Johannes Berg      2022-05-30  2037  						    &link->sdata->wdev,
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2038  						    GFP_KERNEL);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2039  			}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2040  		}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2041  	}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2042  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2043  	/*
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2044  	 * Finally free old contexts
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2045  	 */
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2046  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2047  	list_for_each_entry_safe(ctx, ctx_tmp, &local->chanctx_list, list) {
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2048  		if (ctx->replace_state != IEEE80211_CHANCTX_WILL_BE_REPLACED)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2049  			continue;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2050  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2051  		ctx->replace_ctx->replace_ctx = NULL;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2052  		ctx->replace_ctx->replace_state =
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2053  				IEEE80211_CHANCTX_REPLACE_NONE;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2054  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2055  		list_del_rcu(&ctx->list);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2056  		kfree_rcu(ctx, rcu_head);
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2057  	}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2058  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2059  	return 0;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2060  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2061  err:
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2062  	list_for_each_entry(ctx, &local->chanctx_list, list) {
-1ce954c98b8968e Johannes Berg      2025-11-05  2063  		struct ieee80211_chanctx_user_iter iter;
-b4f85443c17c7ed Johannes Berg      2022-05-30  2064  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2065  		if (ctx->replace_state != IEEE80211_CHANCTX_REPLACES_OTHER)
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2066  			continue;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2067  
-1ce954c98b8968e Johannes Berg      2025-11-05  2068  		for_each_chanctx_user_reserved(local, ctx, &iter) {
-1ce954c98b8968e Johannes Berg      2025-11-05  2069  			ieee80211_link_unreserve_chanctx(iter.link);
-1ce954c98b8968e Johannes Berg      2025-11-05  2070  			ieee80211_link_chanctx_reservation_complete(iter.link);
-03078de4f928ffc Michal Kazior      2014-06-25  2071  		}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2072  	}
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2073  
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2074  	return err;
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2075  }
-5bcae31d9cb1ebf Michal Kazior      2014-06-25  2076  
-
-:::::: The code at line 1880 was first introduced by commit
-:::::: 1ce954c98b8968e66a304c8586122d706bae97c3 wifi: mac80211: add and use chanctx usage iteration
-
-:::::: TO: Johannes Berg <johannes.berg@intel.com>
-:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Chuck Lever
