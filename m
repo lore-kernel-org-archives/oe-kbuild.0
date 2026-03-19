@@ -1,126 +1,125 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490392F0C62
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Mar 2026 09:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F6A3AC0EA
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Mar 2026 09:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773911734; cv=none; b=q5n9AODYmux3H3wJrmDyK1YJkhAsV4eqhSm8EsTye9wR4uV0WOj9NCtD8VLfMJhXSIqle7h0G+BlIDuJAUYHvn7heFlsCpzcXznXMHYFG9e5+orh2IkY7F3qEOt+P6pKYqTMMNda3FVPFus818/YCDybZjOdhH02WB+8IuA3dY8=
+	t=1773911956; cv=none; b=SyHwpIRF7K+fgISVzGBrRZuRI3s+Qq+osYmCiNsxKPk1uPh457yWzsr0FeNNeK+2dHE+ZgjUFdT59HOuawSW2kaWLpVqFBov4bcn8Fu/IAc6T/qVr223IphShDRzEp5y/a2yw4RZWpAqgp17MUy0mipmvCk+ISlMNxPi7lbomQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773911734; c=relaxed/simple;
-	bh=1dmeRQal/ZpVm0L/ivgF5rD0HGR4kfmAEzevbZOVQvY=;
+	s=arc-20240116; t=1773911956; c=relaxed/simple;
+	bh=GB5iI2OcE4yKHFeakC6Myr25T9rgpaXfcCTFEzTcsT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=evM9O/hUmv+ph5A63JHf1+dWuQ79FeLKEz8mmAuMO3NECvhwVVfS0YhcqVrGt3Spy18Zmr0UwMkRw8t//L8gTFFGws1i+YeyBivE9TtjlqLilyyreEYw1/3M529/Y6vBby6hD0OLjKUxJfEEtUztZcM2DuJZkA1/teKRFmgp+Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RlTq801F; arc=none smtp.client-ip=209.85.128.51
+	 Content-Disposition; b=nkilkiuZR8ghRMh9OR3/nJO5Abr3c6dR43Kavde8QohdI0v9gwqI/e1LBarf+nRMpRg2b4rAh9rithJ4uxb4mHObeBQp/Qr3EfDRZhOSlArd6DC7Hn0FtTr264HBJLwV4ZNr9FMXAQUCEKG49gOAT7djceNQyg9/6ztXXlp10yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FcEGpRYK; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RlTq801F"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fb439299so3277285e9.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 19 Mar 2026 02:15:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FcEGpRYK"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43b41b545d9so760862f8f.2
+        for <oe-kbuild@lists.linux.dev>; Thu, 19 Mar 2026 02:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773911731; x=1774516531; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YUSCDB83co7ppHJl5GhGBtIfWncyhJhoxXMzlAxCrYI=;
-        b=RlTq801FIPqJ8LXzMsFJNmTYU/W4d457B/ogzRCF0MkrYqj8FAb7+cy1dyF17NH+cH
-         CJAM5pV7Eh2UEn5V7YD3xKch2XQt3HDtnwW9f0auaWSSWS2Jpi4TUSoknPgKhm3p60Nk
-         24I9AxDWpXbtwCPYxE8gDqQvdEn2CqhuUnUeQbB0s7zZ1+hqZw0AT5Q9ZC5fe9bEb3Qs
-         5t8LsFb2u+mBM6NLuPKBNsOYRRZ7UFusGBaX1yNKLGREbVEENh7dju9Tnx84jLczuYSX
-         9Vwf4kRzUGxphyxeUP8Td03wvEk2Eo2QhHXeWmy1JhrGKmJ3woBB7kngayFukDQd3Cs4
-         FZzA==
+        d=linaro.org; s=google; t=1773911953; x=1774516753; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zpZQSPrVeEDWYWlHuZ5D//omLGWMD/Zc19CxNG+9ojY=;
+        b=FcEGpRYK8zW7srrBkdqosgZ2GcMcZ5Z0B6XUHZv2hGqJCHJoxPLgyK2AbzgY8mU0u1
+         YwGGmVcLNhj/ShZGap5k9H/hDtkXNHXzelhoCAjTl6rBCmeoc3YigJzBXkw0nOOSJFN9
+         yO99E478YD+rOBVIx13IYN99hrEGaqs9wfHi7Gt9D9hWFULO+5eYowt7IUrgnUEKFLtY
+         ZXE2bSSMkLMuZaWDf7nkZWUuB6npP0zxEYJ/+eYP93/xqe3ZYLluYo2LVcfw0XU2jQcD
+         Pl1EbmIgAqydt1kbuBRo3GZ2Z4/AIc0sZGYYJrQu1awTKV+lXSZDR28vooCTI/TW9J7+
+         FYJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773911731; x=1774516531;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YUSCDB83co7ppHJl5GhGBtIfWncyhJhoxXMzlAxCrYI=;
-        b=TOpENv2AnD1nec9moYc34RNm2y/ZbusuDmAV5ZKMMtZVWPWD0oremL59mTXK3Wc6d6
-         kjJ5qSqnkUEa6GoneBE0BSejGQFPg6Hs5xUJtg31PPIN35f7+MScqqG1pd6YyDYvAjP5
-         Kpk4rTDHhTWIVWiyFILuGGG9IVV2QDhx3wvb0e+Y9Rmohi6aw6VUpY/XtnPucTybp4u0
-         8BdjJsMXK8RqhrHSltXROipK1OwoCAHKA0gbjgu4GiliXp2iyYZX4SjRSSAu9tW2eLxy
-         iOXVUbkJRyBOL1E1f9jWCoZzpsd12wqlj2vh12f+Rcty3esaf2XAmE9bu2Rs6gsNZUKR
-         662w==
-X-Gm-Message-State: AOJu0Yz0CzEL+NmFdsaFeUoKL+8X9zW1kQWHV2vWPBJjRjyQXaFagHKB
-	3ca5T2ajota72dCRrJpQsEFEw+tw24RtPfbtjdZRl0B+Mp786rjUn497Mb5OsT19htqWDLqS/da
-	uf8oi
-X-Gm-Gg: ATEYQzyMUDeSRj9iha9J49LKCwbgyKv4UBjJp/NSq/7TgDBIAwB/l+rmWkU8pUAU1iO
-	MpwPGUj2tMDz+Y0p6Zn23at6QYxnUVcWVhnhjJkdF4Y8WRDrkIkXL6WbC5coA5G2cvzEniOa5Ee
-	it5jEIRn0OwZUC6byfmc9hZZzBflcpz3uz+smvv8gFOSXkKjo3bvEUnd/2SvGx3pedSwDMN9V4c
-	1CoJJycAYrJjYSda1lMzZi5q+IiJHTOJzmPnnirY52+LBp/8sjqxf/ck2FmMLVcGVl3nOWhbGH0
-	jF1xpzIeXzUdOgGQ9iQU9pT54D0Wqn5QEbJqarev588XeGmh3YBBk2q6527x4SaeoIvN5Y2Odqy
-	6W8vqA2t3VkC4/uCbqK5PSCNyrf4E1IOMF2ZEOMMQHnrY6bMo7AcKi2mJSYCacfkyA84g3oYxwg
-	8QV4FYUHALalqRfmPa8L8HZY6mU35PCYNt0uQkyOk=
-X-Received: by 2002:a05:600c:6994:b0:483:79ad:f3b9 with SMTP id 5b1f17b1804b1-486f445facdmr102611195e9.28.1773911731261;
-        Thu, 19 Mar 2026 02:15:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773911953; x=1774516753;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zpZQSPrVeEDWYWlHuZ5D//omLGWMD/Zc19CxNG+9ojY=;
+        b=KB/qIqdRTpTTOHEZCzBca+OJxs4XEATZU/DK9gXAD14i/U8nTv9mrKs3vRb21KjoRr
+         3pjhQh7gIHQoYG+BN5u6t/W8HJsGpjm79qKe/1xVo0YNWUy8c+QtgUMUq9eRPKhdnkXy
+         0aq4+K26aJsXAIktQdIp04d4dgPNBZQxkuKmApjPEvkP33ukVy53wsmCULzfa+z2mBrB
+         NDeoO39fBCMOGRbUmpRZas2LeP/Apm0+9/Ua1yYGle/2/RuEPDsZEi+W4UkChuOm8gvD
+         rTD5ZeAwdAKNI4Nyc1qJQmaYjVK0PItXmR/z32ZpcAmaXNyOZNhRiJxEojdX7FGiVpF8
+         RWbw==
+X-Gm-Message-State: AOJu0YzJi/3KABt4KzdN1jjqwYNHyNlo3mzONyhtLQEHvfi40pa4XIOx
+	B6X4PBuR0e+nBIqGBKbZY5kxNzbi+l3XBCOOK6C55ZFqcfSZ3akDIQ2WjjVB00s//1//UMq/yzT
+	LIY2L
+X-Gm-Gg: ATEYQzwd/DAr3TgUX0VTw9BcuCNTGeDvNNVMCEwGXnSo/aVmxtaxFNKbvHHhpcqmGX9
+	3mj95+C3tjh+GUM/NnNT7vnxAsb2pBHr3bBieRQXdju+e9Iel/cOsVBvCbI8lJexCGECw2khhj9
+	ok+GLTQd9VBtQeiloQD/vBwTdHcFfy6QNSfsXlPT1IeGBiGZu0jEbOB0GrDjhRdh8PBiCsLhjv4
+	AYNhgK07F2acDg/KhfVu5P/PE0eWNwtF9HMgupQfZrqBavJMe4BfEvtgH0+FwcCEkzpuSLseJfh
+	tEYTRhNUuqHRR9iG6puNVzgBjtINI07papvLQd+U2vcyb+QECmLEQ17z5wLGRhCHXU5WloFpun8
+	ReZrjcMtCm5cEYlDPqimuy0sLKNqVYZtYGuf4YnKAX1p0jFuYX1JmC7rVp6c7zJ8cmeZdT1WmeJ
+	OHe4qBRfspQXgMXeOQDkbbK4399sIf
+X-Received: by 2002:a5d:5f92:0:b0:43b:4352:1be6 with SMTP id ffacd0b85a97d-43b527cbc30mr11717924f8f.48.1773911952694;
+        Thu, 19 Mar 2026 02:19:12 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f4b818aasm36720405e9.16.2026.03.19.02.15.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b51892234sm14084598f8f.24.2026.03.19.02.19.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 02:15:30 -0700 (PDT)
-Date: Thu, 19 Mar 2026 12:15:26 +0300
+        Thu, 19 Mar 2026 02:19:12 -0700 (PDT)
+Date: Thu, 19 Mar 2026 12:19:09 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
+To: oe-kbuild@lists.linux.dev, Akhil P Oommen <akhilpo@oss.qualcomm.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-block@vger.kernel.org
-Subject: [linux-next:master 6496/7246]
- drivers/block/drbd/drbd_legacy_84.c:466 drbd_conn_str_84() error: buffer
- overflow 'drbd_conn_s_names' 24 <= u32max
-Message-ID: <202603190716.h5QMTLBc-lkp@intel.com>
+	linux-kernel@vger.kernel.org,
+	Rob Clark <robin.clark@oss.qualcomm.com>
+Subject: drivers/gpu/drm/msm/adreno/a3xx_gpu.c:530 a3xx_gpu_init() warn:
+ variable dereferenced before check 'pdev' (see line 525)
+Message-ID: <202603191102.hueYyyPw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Message-ID: <20260319091526.8Dwfr0SsKeZi8QCRp37aKFMeXctG3dtVvQsJfKDqvAQ@z>
+Message-ID: <20260319091909.OCOpWytgWBZoT-pbcaLM7hGHd-BLKF5oTnWlrQowF3c@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8e42d2514a7e8eb8d740d0ba82339dd6c0b6463f
-commit: 7d6deec50773e43a5840f798ea0a730f20f74700 [6496/7246] drbd: remove BROKEN for DRBD
-config: openrisc-randconfig-r072-20260319 (https://download.01.org/0day-ci/archive/20260319/202603190716.h5QMTLBc-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8a30aeb0d1b4e4aaf7f7bae72f20f2ae75385ccb
+commit: 491fadb2b818e1d900229a1f8243de6458381306 drm/msm/adreno: Move adreno_gpu_func to catalogue
+config: arm64-randconfig-r073-20260319 (https://download.01.org/0day-ci/archive/20260319/202603191102.hueYyyPw-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603190716.h5QMTLBc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603191102.hueYyyPw-lkp@intel.com/
 
-New smatch warnings:
-drivers/block/drbd/drbd_legacy_84.c:466 drbd_conn_str_84() error: buffer overflow 'drbd_conn_s_names' 24 <= u32max
-drivers/block/drbd/drbd_transport_tcp.c:742 dtt_wait_for_connect() warn: variable dereferenced before check 'path' (see line 751)
-drivers/block/drbd/drbd_transport_tcp.c:1297 dtt_connect() error: we previously assumed 'csocket' could be null (see line 1179)
-drivers/block/drbd/drbd_transport_tcp.c:1339 dtt_connect() error: we previously assumed 'dsocket' could be null (see line 1179)
-drivers/block/drbd/drbd_req.c:995 mod_rq_state() error: we previously assumed 'peer_device' could be null (see line 924)
-drivers/block/drbd/drbd_req.c:1245 __req_mod() error: we previously assumed 'peer_device' could be null (see line 1155)
-drivers/block/drbd/drbd_req.c:1996 drbd_unplug() warn: variable dereferenced before check 'req' (see line 1993)
-drivers/block/drbd/drbd_sender.c:551 w_e_send_csum() warn: missing error code 'err'
-drivers/block/drbd/drbd_sender.c:2341 w_e_end_ov_req() warn: missing error code 'err'
-drivers/block/drbd/drbd_state.c:5178 change_cluster_wide_state() error: we previously assumed 'target_connection' could be null (see line 5170)
-drivers/block/drbd/drbd_state.c:6305 calc_data_accessible() warn: variable dereferenced before check 'nc' (see line 6303)
-drivers/block/drbd/drbd_main.c:4575 drbd_init() warn: missing error code 'err'
-drivers/block/drbd/drbd_nl.c:689 drbd_khelper() warn: variable dereferenced before check 'connection' (see line 585)
-drivers/block/drbd/drbd_receiver.c:280 drbd_sync_rule_str() error: buffer overflow 'sync_rule_names' 22 <= 22
-drivers/block/drbd/drbd_receiver.c:289 strategy_descriptor() error: buffer overflow 'sync_descriptors' 18 <= 18
+smatch warnings:
+drivers/gpu/drm/msm/adreno/a3xx_gpu.c:530 a3xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 525)
+drivers/gpu/drm/msm/adreno/a2xx_gpu.c:503 a2xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 500)
+drivers/gpu/drm/msm/adreno/a4xx_gpu.c:642 a4xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 637)
 
-vim +/drbd_conn_s_names +466 drivers/block/drbd/drbd_legacy_84.c
+vim +/pdev +530 drivers/gpu/drm/msm/adreno/a3xx_gpu.c
 
-a5747bff1fbd8c Christoph Böhmwalder 2025-12-16  463  static const char *drbd_conn_str_84(enum drbd_conn_state s)
-a5747bff1fbd8c Christoph Böhmwalder 2025-12-16  464  {
-a5747bff1fbd8c Christoph Böhmwalder 2025-12-16  465  	/* enums are unsigned... */
-a5747bff1fbd8c Christoph Böhmwalder 2025-12-16 @466  	return (int)s > (int)L_BEHIND ? "TOO_LARGE" : drbd_conn_s_names[s];
+491fadb2b818e1 Akhil P Oommen 2025-11-18  518  static struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+7198e6b03155f6 Rob Clark      2013-07-19  519  {
+7198e6b03155f6 Rob Clark      2013-07-19  520  	struct a3xx_gpu *a3xx_gpu = NULL;
+55459968176f13 Rob Clark      2013-12-05  521  	struct adreno_gpu *adreno_gpu;
+7198e6b03155f6 Rob Clark      2013-07-19  522  	struct msm_gpu *gpu;
+060530f1ea6740 Rob Clark      2014-03-03  523  	struct msm_drm_private *priv = dev->dev_private;
+060530f1ea6740 Rob Clark      2014-03-03  524  	struct platform_device *pdev = priv->gpu_pdev;
+491fadb2b818e1 Akhil P Oommen 2025-11-18 @525  	struct adreno_platform_config *config = pdev->dev.platform_data;
+                                                                                        ^^^^^^
+Patch adds a dereference.
 
-We *want* them to be unsigned.  Now if someone passes a negative s
-value then it will result in an out of bounds read where if we removed
-the casts to (int) then we can easily verify the code is safe.
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  526  	struct icc_path *ocmem_icc_path;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  527  	struct icc_path *icc_path;
+7198e6b03155f6 Rob Clark      2013-07-19  528  	int ret;
+7198e6b03155f6 Rob Clark      2013-07-19  529  
+7198e6b03155f6 Rob Clark      2013-07-19 @530  	if (!pdev) {
+                                                     ^^^^
+But the old code assumed pdev could be NULL.  Probably the NULL checks
+are unnecessary.
 
-a5747bff1fbd8c Christoph Böhmwalder 2025-12-16  467  }
+6a41da17e87dee Mamta Shukla   2018-10-20  531  		DRM_DEV_ERROR(dev->dev, "no a3xx device\n");
+7198e6b03155f6 Rob Clark      2013-07-19  532  		ret = -ENXIO;
+7198e6b03155f6 Rob Clark      2013-07-19  533  		goto fail;
+7198e6b03155f6 Rob Clark      2013-07-19  534  	}
 
 -- 
 0-DAY CI Kernel Test Service
