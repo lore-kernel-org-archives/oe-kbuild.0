@@ -1,68 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F643090E2
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Mar 2026 06:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F793371884
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Mar 2026 08:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773987332; cv=none; b=p5JjOmlWNkyJuD+w1tLfUp6C0HfOgVdvkaNAOQbseiZmq5usP2dMSDzbNS2/H3eDjz5eoaj7zWEKXqfg2qv9kHNeytNyf6VsoGd6Su/nUCAPV0YxmSOvOA8+ru/8BmziZPxSPB1uh0AeKJUCu0lpaf0OaLQjYMttBzOOTT/hpU0=
+	t=1773994773; cv=none; b=p2iAOVs++iSjM8YDAnnOIHkh/q3PoBf9ve4rasL2nFuTfg2XDnJN0nn/QACkgXRPXcQKT//YHEqcelYKLUp+izDknSbITKEkJbA0e3el0vytty40oGNomgi/3Y+OsaFdOzF6XyY7MrEc4RKO9AEVh4BFBOFokBaJ1jUskA5V3VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773987332; c=relaxed/simple;
-	bh=pSewP7+P9Hx5mNSKbdqsa1u6oZGlcXQOLeGVKqUDxt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O/9uk4goipsUEOFtDVlflOarFrSK9XHJhJjOEP+zxsJQhweoFdO1WNUY0Ki0jlBXKq5HgwDIZ0L6UgijUmhB2WLjomYqeF6n+EhbzLHioxOK3S4qGBoc/KWhFb3nehgUZkFdqifWRQjd3/c8ElFJScENmuN0MhoKDbf0AA4XYn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4I5R4rY; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1773994773; c=relaxed/simple;
+	bh=c07/6e2aF6AyocZhahPw/voBu4BUW2WwKZnAqK5pAAw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nH1+9tEm/sUhfO4RJPZyBWqi/NLFv49dqVdBQ0ySzoz68cOPaPETi4lbXCoEgCd5t0SdXUdzFg1os/NXsMS2r3csn7Fy6/dDtIWNgs4tVyedMT1vkF5Jp0jpsAThsJAxOntkikH37q4jH1wR6nWF6jMrI2oDtFAuhtW6vubOg5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JL38cQNv; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4I5R4rY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JL38cQNv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773987330; x=1805523330;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pSewP7+P9Hx5mNSKbdqsa1u6oZGlcXQOLeGVKqUDxt0=;
-  b=S4I5R4rYX26rKDtS6+gSifp4kuuvk+6H1sIMtf58c8KhcaQknhLxHygo
-   hOg4LJiyPkGwCjD/YDPMnkbMc0kF4KURN1RjxWza+lzvax2usVkjgQFVv
-   8nHJBAfjKrH4APo1ecJI8XyuIPewF9Xwp0CNtdfdi7S5PTnrnaUJvy2Hi
-   gRp1rgh40zT1p6YKUCBeRVZ+lDVbED472z6hQinhRTXhPB9cjzhTSGewk
-   ZHAJi92pANlg/6MOmpAj/uamMUyWL3wiKyyLKJEOLxwcvgDUQ942u8yyK
-   RVV2pN85U9f2cZOPF0mKjdOvmtK+jZwU7XI+upA9hTLV0pT2mdLtgfTzG
-   A==;
-X-CSE-ConnectionGUID: QIxKkbYlQ5iGIbNHupRG6g==
-X-CSE-MsgGUID: MxXmMpQZTaSPcD0fLxFRQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="92643089"
+  t=1773994771; x=1805530771;
+  h=date:from:to:cc:subject:message-id;
+  bh=c07/6e2aF6AyocZhahPw/voBu4BUW2WwKZnAqK5pAAw=;
+  b=JL38cQNvvLYHuav+r0a6j/NHqHz/w3mFdxZ2I/84LsrlrBpGED43BzmW
+   VKAgQ/FJnJ8ir1yqzmAiNMoDt00VUpTMQLyL7gJ9eA7LKGPzJ5PsZ6ApK
+   fWor/xZJCOAbxfJmwyd7aDWVYwzW/EOtn45WYz3fGs/AClp3nyObdiTVT
+   tMvefrDIIE9keXWhgy5xuJetZRv0WVYTeMcF7wbzsv5UdFlGED+sx5bNL
+   1efUhw0FdfkU0mhmnrH28BitHCkwaJuOk37HvL2xwXQ8D3O3EO56TqAv0
+   5bDCAzEGBVzsE5VQ1BCDv2+O0M8t/d60oe+TBWHd7Cq26jg6Q/jHNr/CL
+   w==;
+X-CSE-ConnectionGUID: 6MFD1SuiRqiwqHy6URa7RA==
+X-CSE-MsgGUID: hX9AdPIkRqCm2ri2H67Pig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="78935145"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="92643089"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 23:15:30 -0700
-X-CSE-ConnectionGUID: fhrJm6NySuamouF5Bfk3nQ==
-X-CSE-MsgGUID: 7EAd3wDfRJ+fbtsZLrnY3A==
+   d="scan'208";a="78935145"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:19:31 -0700
+X-CSE-ConnectionGUID: lyrCz00qQpaWKHRS6NvbqQ==
+X-CSE-MsgGUID: MptRvG4KR9euzfnd5U7JZg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="253691539"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 19 Mar 2026 23:15:29 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 Mar 2026 01:19:30 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3T8o-000000004z7-1wOQ;
-	Fri, 20 Mar 2026 06:15:26 +0000
-Date: Fri, 20 Mar 2026 07:14:57 +0100
+	id 1w3V4p-0000000050D-35sM;
+	Fri, 20 Mar 2026 08:19:27 +0000
+Date: Fri, 20 Mar 2026 09:18:46 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 3/5] dt-bindings: pci: Document the NVIDIA Tegra264 PCIe
- controller
-Message-ID: <202603200723.Bh7b8npy-lkp@intel.com>
+Subject: [at91:at91-dt 7/7]
+ arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: serial@200
+ (microchip,lan9691-usart): compatible: 'oneOf' conditional failed, one must
+ be fixed:
+Message-ID: <202603200911.oshimUAL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -70,67 +65,86 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260319160110.2131954-4-thierry.reding@kernel.org>
-References: <20260319160110.2131954-4-thierry.reding@kernel.org>
-TO: Thierry Reding <thierry.reding@kernel.org>
-TO: Thierry Reding <thierry.reding@kernel.org>
-TO: Bjorn Helgaas <helgaas@kernel.org>
-TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
-TO: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-TO: Manivannan Sadhasivam <mani@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: Jon Hunter <jonathanh@nvidia.com>
-CC: linux-pci@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-tegra@vger.kernel.org
+TO: Robert Marko <robert.marko@sartura.hr>
+CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 
-Hi Thierry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tegra/for-next]
-[cannot apply to pci/next pci/for-linus robh/for-next linus/master v6.16-rc1 next-20260319]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Reding/soc-tegra-Update-BPMP-ABI-header/20260320-025556
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260319160110.2131954-4-thierry.reding%40kernel.org
-patch subject: [PATCH 3/5] dt-bindings: pci: Document the NVIDIA Tegra264 PCIe controller
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: openrisc-randconfig-2051-20260320 (https://download.01.org/0day-ci/archive/20260320/202603200723.Bh7b8npy-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/at91/linux.git at91-dt
+head:   b5788817a793dfdcc64b7fa75d55f70fe8a0db8d
+commit: b5788817a793dfdcc64b7fa75d55f70fe8a0db8d [7/7] arm64: dts: microchip: add EV23X71A board
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: arm64-randconfig-2052-20260319 (https://download.01.org/0day-ci/archive/20260320/202603200911.oshimUAL-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200723.Bh7b8npy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200911.oshimUAL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603200723.Bh7b8npy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603200911.oshimUAL-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/pci/nvidia,tegra264-pcie.yaml:61:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
-   Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:52:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
-   Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1: [warning] too many blank lines (2 > 1) (empty-lines)
-
-vim +61 Documentation/devicetree/bindings/pci/nvidia,tegra264-pcie.yaml
-
-12a9b5ad8d4182 Thierry Reding 2026-03-19  50  
-12a9b5ad8d4182 Thierry Reding 2026-03-19  51  required:
-12a9b5ad8d4182 Thierry Reding 2026-03-19  52    - interrupt-map
-12a9b5ad8d4182 Thierry Reding 2026-03-19  53    - interrupt-map-mask
-12a9b5ad8d4182 Thierry Reding 2026-03-19  54    - iommu-map
-12a9b5ad8d4182 Thierry Reding 2026-03-19  55    - msi-map
-12a9b5ad8d4182 Thierry Reding 2026-03-19  56    - nvidia,bpmp
-12a9b5ad8d4182 Thierry Reding 2026-03-19  57  
-12a9b5ad8d4182 Thierry Reding 2026-03-19  58  allOf:
-12a9b5ad8d4182 Thierry Reding 2026-03-19  59    - $ref: /schemas/pci/pci-host-bridge.yaml#
-12a9b5ad8d4182 Thierry Reding 2026-03-19  60    - oneOf:
-12a9b5ad8d4182 Thierry Reding 2026-03-19 @61      - description: C0 controller (no UPHY)
+   arch/arm64/boot/dts/microchip/lan9691.dtsi:367.29-370.5: Warning (unique_unit_address_if_enabled): /axi/syscon@e00c0000: duplicate unit-address (also used in node /axi/switch@e00c0000)
+>> arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: serial@200 (microchip,lan9691-usart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,lan9691-usart', 'atmel,at91sam9260-usart'] is too long
+   	['microchip,lan9691-usart', 'atmel,at91sam9260-usart'] is too short
+   	'microchip,lan9691-usart' is not one of ['atmel,at91rm9200-usart', 'atmel,at91sam9260-usart']
+   	'atmel,at91rm9200-dbgu' was expected
+   	'atmel,at91sam9260-dbgu' was expected
+   	'microchip,lan9691-usart' is not one of ['microchip,sam9x60-usart', 'microchip,sam9x7-usart', 'microchip,sama7d65-usart']
+   	'microchip,sam9x60-dbgu' was expected
+   	'microchip,sam9x7-dbgu' was expected
+   	'atmel,at91rm9200-usart' was expected
+   	'microchip,sam9x60-usart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: /axi/flexcom@e0040000/serial@200: failed to match any schema with compatible: ['microchip,lan9691-usart', 'atmel,at91sam9260-usart']
+>> arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: serial@200 (microchip,lan9691-usart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,lan9691-usart', 'atmel,at91sam9260-usart'] is too long
+   	['microchip,lan9691-usart', 'atmel,at91sam9260-usart'] is too short
+   	'microchip,lan9691-usart' is not one of ['atmel,at91rm9200-usart', 'atmel,at91sam9260-usart']
+   	'atmel,at91rm9200-dbgu' was expected
+   	'atmel,at91sam9260-dbgu' was expected
+   	'microchip,lan9691-usart' is not one of ['microchip,sam9x60-usart', 'microchip,sam9x7-usart', 'microchip,sama7d65-usart']
+   	'microchip,sam9x60-dbgu' was expected
+   	'microchip,sam9x7-dbgu' was expected
+   	'atmel,at91rm9200-usart' was expected
+   	'microchip,sam9x60-usart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: /axi/flexcom@e0044000/serial@200: failed to match any schema with compatible: ['microchip,lan9691-usart', 'atmel,at91sam9260-usart']
+   arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: rng@e0048000 (microchip,lan9691-trng): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,lan9691-trng', 'atmel,at91sam9g45-trng'] is too long
+   	'microchip,lan9691-trng' is not one of ['atmel,at91sam9g45-trng', 'microchip,sam9x60-trng']
+   	'microchip,lan9691-trng' is not one of ['microchip,sama7g5-trng']
+   	'microchip,lan9691-trng' is not one of ['microchip,sam9x7-trng', 'microchip,sama7d65-trng']
+   	'microchip,sam9x60-trng' was expected
+   	from schema $id: http://devicetree.org/schemas/rng/atmel,at91-trng.yaml
+   arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: /axi/rng@e0048000: failed to match any schema with compatible: ['microchip,lan9691-trng', 'atmel,at91sam9g45-trng']
+>> arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: serial@200 (microchip,lan9691-usart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,lan9691-usart', 'atmel,at91sam9260-usart'] is too long
+   	['microchip,lan9691-usart', 'atmel,at91sam9260-usart'] is too short
+   	'microchip,lan9691-usart' is not one of ['atmel,at91rm9200-usart', 'atmel,at91sam9260-usart']
+   	'atmel,at91rm9200-dbgu' was expected
+   	'atmel,at91sam9260-dbgu' was expected
+   	'microchip,lan9691-usart' is not one of ['microchip,sam9x60-usart', 'microchip,sam9x7-usart', 'microchip,sama7d65-usart']
+   	'microchip,sam9x60-dbgu' was expected
+   	'microchip,sam9x7-dbgu' was expected
+   	'atmel,at91rm9200-usart' was expected
+   	'microchip,sam9x60-usart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: /axi/flexcom@e0060000/serial@200: failed to match any schema with compatible: ['microchip,lan9691-usart', 'atmel,at91sam9260-usart']
+>> arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: serial@200 (microchip,lan9691-usart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,lan9691-usart', 'atmel,at91sam9260-usart'] is too long
+   	['microchip,lan9691-usart', 'atmel,at91sam9260-usart'] is too short
+   	'microchip,lan9691-usart' is not one of ['atmel,at91rm9200-usart', 'atmel,at91sam9260-usart']
+   	'atmel,at91rm9200-dbgu' was expected
+   	'atmel,at91sam9260-dbgu' was expected
+   	'microchip,lan9691-usart' is not one of ['microchip,sam9x60-usart', 'microchip,sam9x7-usart', 'microchip,sama7d65-usart']
+   	'microchip,sam9x60-dbgu' was expected
+   	'microchip,sam9x7-dbgu' was expected
+   	'atmel,at91rm9200-usart' was expected
+   	'microchip,sam9x60-usart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dtb: /axi/flexcom@e0064000/serial@200: failed to match any schema with compatible: ['microchip,lan9691-usart', 'atmel,at91sam9260-usart']
 
 -- 
 0-DAY CI Kernel Test Service
