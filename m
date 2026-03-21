@@ -1,134 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F2140DFB2
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Mar 2026 01:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F38115CD7E
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Mar 2026 02:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774055028; cv=none; b=m3ki7EYqrPjAucJekWEssVqW9cqWFkt6/+XV2va/QDleyUlGqDT64IzifPF4ImmOcMpD3Be9gz+U+vRwA/5IX/2sYgLrQOxg5XGs0Ltulym0vrfavBlMLlF3hAoN/F8mJx7oYbuxVRk2oVjZWV7YVHvTc+2a0TC31lH2aEen9rA=
+	t=1774061212; cv=none; b=JnP7s4oC1C7lHhlNRzKyqKObWc7Msix+vQ0aX6XZlXbPqjUdgfBK/OGmCY3zxH8yN2dVVVzJ1Y8PWULgy+CuBQG8c0rP/LCbwaq60mtF+F8iHUlU4HvBbvwokfvr42H5J2lEFdMNPP/QaQWPKHWc6ZCwfo/GpiL6MuzNM7DtMjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774055028; c=relaxed/simple;
-	bh=Zph3b/a8wUaOe2iOCc55A/A2OnhMXsrvLGy43bJ/Liw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ah8LnU38CgvShKCUJt7/Zhd1Bo5wadZyZx/wF0q2wOBcIQwZWCpxSq5duPW2CpywXIGNs/GShGXlciGPojYAaJwgfZq2AdPxeFy8WUKjCffu/CioTr4NHL0YfxLHPdpWv8MzJt3obU2UDezLTVMGxTDlXpm8HIvGQnjbz/2bms0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gza1gdXp; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774061212; c=relaxed/simple;
+	bh=vI7zf5RulhzCJzgTsjVF8CUFUj+0NBuDAExkZlynPXM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YP3P/bbs1uQdU0LiiGSCIKzu/XJ2xQu2x+/1Gve2HbVpR8zMuTSDaLoOAkqH2+Xv32e6N77f6O4jEYEwwHBy7azAmHNVUyNx0am1WeKn7vBDCmZ8CYSZBsBId1qv3dXxGNvsa+vHLB/cr/7F2q+64ym+X2e+e5QzBk2WCb9h248=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lT3mKaIx; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gza1gdXp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lT3mKaIx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774055026; x=1805591026;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zph3b/a8wUaOe2iOCc55A/A2OnhMXsrvLGy43bJ/Liw=;
-  b=gza1gdXpE7uUb4tBpHTvZKRFLft/XliQ8b8ya5eFC2PEkBfMVsqDi/0U
-   4z7e+gUCmITleUIuMAmlT9hQ7tL+Dj2iFquonuH166Irxqpfa9brnMkNM
-   WNH2t+3T227F/MTSyWpU5QNPB1lXptbRWZhfQXXL50jcaGwyfpkBx+l5j
-   P5l2kv4OBhOLvMv9/gY2nAQ81F35YtufEKTejcFf4GkLw85F78LF7mq0b
-   BWpDpICgbWGNCJNY7zApDUT9nj1gfMQYZej/dLPGAOQCstmeYwfBUcYtV
-   ysItLD36j3L15q/DxrOf78qzw0ab8MSWBUacyw98ujOBeyCv6WTh2Pnrm
-   w==;
-X-CSE-ConnectionGUID: fzoanJX4QrSW5yU1H+Tqsg==
-X-CSE-MsgGUID: 3v56zuhUQLG9YkbPxVtLNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86510445"
+  t=1774061212; x=1805597212;
+  h=date:from:to:cc:subject:message-id;
+  bh=vI7zf5RulhzCJzgTsjVF8CUFUj+0NBuDAExkZlynPXM=;
+  b=lT3mKaIx67qS6lJtF/ja3glQprhdWq4VgG8GJnCO2JdW+83YdXG1SVjo
+   TfMNHzGwisZJ9A0Zl0ctAGVw7gUq8bTh1OzL2CMuZfN1L7YsS3MPVBuvD
+   xRBwRYNDOM37nnyY9xYAU2j/DIXEWdODK473gDo4KVrKrN3HWjJWqCosY
+   xt1EtiiCqhx+SsSqqCIJ3P3S4jDb7QLP2K9b+0u82is7f1V8/vXq+tHZq
+   BU7N+Aq8aDoGU52Gr2KJgbnoPm+Mvo/dSOJC0Krj/pNBuAk1XhazLrUPn
+   8+qym7nQH1czbVlGTB11GZRqEOaAeY7c3NzsSuozXEy+kCCsnLuAGEbUv
+   A==;
+X-CSE-ConnectionGUID: wrJ1fQjnSdiARp8TiP3z/A==
+X-CSE-MsgGUID: m0Csd62TQn+qQf4pKlYDNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="97774076"
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="86510445"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 18:03:45 -0700
-X-CSE-ConnectionGUID: RDULRqXKST+ZTn/CRoOAOg==
-X-CSE-MsgGUID: r44xcLj0Tc2kiBudWtWGYg==
+   d="scan'208";a="97774076"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 19:46:51 -0700
+X-CSE-ConnectionGUID: mUG74s8cRWqJC5Tz6snCtg==
+X-CSE-MsgGUID: 9hCtiDYDTBWPhajLuEsp1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="222668821"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 20 Mar 2026 18:03:45 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="228415293"
+Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 20 Mar 2026 19:46:49 -0700
+Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3kkg-000000005FV-1Fc7;
-	Sat, 21 Mar 2026 01:03:42 +0000
-Date: Sat, 21 Mar 2026 02:03:10 +0100
+	id 1w3mMF-000000000DF-1GkG;
+	Sat, 21 Mar 2026 02:46:38 +0000
+Date: Sat, 21 Mar 2026 10:46:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: sound: Convert Hisilicon hi6210 I2S to
- dt-schema
-Message-ID: <202603210112.cGdwd3kr-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 5929/7971]
+ drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 riscv_64_map_range() warn:
+ impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
+Message-ID: <202603211016.C56jHFl9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260318181303.5262-1-chaitanya.msabnis@gmail.com>
-References: <20260318181303.5262-1-chaitanya.msabnis@gmail.com>
-TO: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
-TO: lgirdwood@gmail.com
-TO: broonie@kernel.org
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-CC: linux-sound@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Joerg Roedel <joerg.roedel@amd.com>
+CC: Samiullah Khawaja <skhawaja@google.com>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: Lu Baolu <baolu.lu@linux.intel.com>
 
-Hi Chaitanya,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.16-rc1 next-20260320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaitanya-Sabnis/dt-bindings-sound-Convert-Hisilicon-hi6210-I2S-to-dt-schema/20260320-024434
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260318181303.5262-1-chaitanya.msabnis%40gmail.com
-patch subject: [PATCH] dt-bindings: sound: Convert Hisilicon hi6210 I2S to dt-schema
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
-config: arm64-randconfig-2051-20260320 (https://download.01.org/0day-ci/archive/20260321/202603210112.cGdwd3kr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210112.cGdwd3kr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
+commit: d6c65b0fd6218bd21ed0be7a8d3218e8f6dc91de [5929/7971] iommupt: Avoid rewalking during map
+:::::: branch date: 12 hours ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20260321 (https://download.01.org/0day-ci/archive/20260321/202603211016.C56jHFl9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603210112.cGdwd3kr-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603211016.C56jHFl9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'pvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'a2vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'v3p3-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/mailbox@f7510000: failed to match any schema with compatible: ['hisilicon,hi6220-mbox']
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dwmmc0@f723d000: failed to match any schema with compatible: ['hisilicon,hi6220-dw-mshc']
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dwmmc1@f723e000: failed to match any schema with compatible: ['hisilicon,hi6220-dw-mshc']
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dwmmc2@f723f000: failed to match any schema with compatible: ['hisilicon,hi6220-dw-mshc']
->> arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: i2s@f7118000 (hisilicon,hi6210-i2s): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/hisilicon,hi6210-i2s.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/ade@f4100000: failed to match any schema with compatible: ['hisilicon,hi6220-ade']
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dsi@f4107800: failed to match any schema with compatible: ['hisilicon,hi6220-dsi']
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: gpu@f4080000 (hisilicon,hi6220-mali): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-utgard.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: gpu@f4080000 (hisilicon,hi6220-mali): resets: [[18, 1], [84, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-utgard.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: reboot-mode-syscon@5f01000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /pmic@f8000000: failed to match any schema with compatible: ['hisilicon,hi655x-pmic']
+smatch warnings:
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 riscv_64_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
+
+vim +908 drivers/iommu/generic_pt/fmt/../iommu_pt.h
+
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  885  
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  886  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  887  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  888  			 gfp_t gfp, size_t *mapped)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  889  {
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  890  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  891  	struct pt_common *common = common_from_iommu(iommu_table);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  892  	struct iommu_iotlb_gather iotlb_gather;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  893  	struct pt_iommu_map_args map = {
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  894  		.iotlb_gather = &iotlb_gather,
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  895  		.oa = paddr,
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  896  	};
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  897  	bool single_page = false;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  898  	struct pt_range range;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  899  	int ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  900  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  901  	iommu_iotlb_gather_init(&iotlb_gather);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  902  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  903  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  904  		return -EINVAL;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  905  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  906  	/* Check the paddr doesn't exceed what the table can store */
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  907  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04 @908  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  909  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  910  	     oalog2_div(paddr, common->max_oasz_lg2)))
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  911  		return -ERANGE;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  912  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  913  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  914  	if (ret)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  915  		return ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  916  	map.attrs.gfp = gfp;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  917  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  918  	ret = make_range_no_check(common, &range, iova, len);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  919  	if (ret)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  920  		return ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  921  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  922  	/* Calculate target page size and level for the leaves */
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  923  	if (pt_has_system_page_size(common) && len == PAGE_SIZE) {
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  924  		PT_WARN_ON(!(pgsize_bitmap & PAGE_SIZE));
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  925  		if (log2_mod(iova | paddr, PAGE_SHIFT))
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  926  			return -ENXIO;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  927  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  928  		map.leaf_level = 0;
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  929  		map.num_leaves = 1;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  930  		single_page = true;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  931  	} else {
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  932  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  933  			pgsize_bitmap, range.va, range.last_va, paddr);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  934  		if (!map.leaf_pgsize_lg2)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  935  			return -ENXIO;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  936  		map.leaf_level =
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  937  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  938  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  939  					       range.last_va, paddr,
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  940  					       map.leaf_pgsize_lg2);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  941  	}
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  942  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  943  	ret = check_map_range(iommu_table, &range, &map);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  944  	if (ret)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  945  		return ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  946  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  947  	PT_WARN_ON(map.leaf_level > range.top_level);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  948  
+efa03dab7ce4ed7 Jason Gunthorpe 2025-10-23  949  	ret = do_map(&range, common, single_page, &map);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  950  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  951  	/*
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  952  	 * Table levels were freed and replaced with large items, flush any walk
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  953  	 * cache that may refer to the freed levels.
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  954  	 */
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  955  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  956  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  957  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  958  	/* Bytes successfully mapped */
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  959  	PT_WARN_ON(!ret && map.oa - paddr != len);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  960  	*mapped += map.oa - paddr;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  961  	return ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  962  }
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  963  
+
+:::::: The code at line 908 was first introduced by commit
+:::::: dcd6a011a8d523a114af2360a8753de5bd60c139 iommupt: Add map_pages op
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
