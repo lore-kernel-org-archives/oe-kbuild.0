@@ -1,180 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3444314F
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Mar 2026 00:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F2140DFB2
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Mar 2026 01:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774053839; cv=none; b=taQqFm279hv564H1r/6bQirKkAH0RQGmeXyKpuKqsxrEJ8HEuONEs/3udjOzKpvZEyLMErdDk/cchwQYRu+bCULsi2NLZZNBJVkdFm5Gq9IOjLg4Ne8+VXEq9+xCyGzzouYKzMyrRCs5red3eV6gO0uj/bLMy/ABLLZmUwrX5DY=
+	t=1774055028; cv=none; b=m3ki7EYqrPjAucJekWEssVqW9cqWFkt6/+XV2va/QDleyUlGqDT64IzifPF4ImmOcMpD3Be9gz+U+vRwA/5IX/2sYgLrQOxg5XGs0Ltulym0vrfavBlMLlF3hAoN/F8mJx7oYbuxVRk2oVjZWV7YVHvTc+2a0TC31lH2aEen9rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774053839; c=relaxed/simple;
-	bh=fcp3vc6O1qzMUVYSZyaJ0xFrKvQtcIHLLxnBIqAoSQs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=utBoUSdb7qUojQG37FRZiBa5bBkUskeESJxQu/+gHYCbvj0eQiDuIpux0j/4nWIX/OKQoSfnu8YBmMQiML7Sor3JLGX/lqiXRuSHAehvwL/tAkBTq4EIMVKyVt/lPVQlcbhwBDqARiuE6pxBdzZFGIMYYo/41QJW6aXQOdcEHNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgkVDk/5; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1774055028; c=relaxed/simple;
+	bh=Zph3b/a8wUaOe2iOCc55A/A2OnhMXsrvLGy43bJ/Liw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ah8LnU38CgvShKCUJt7/Zhd1Bo5wadZyZx/wF0q2wOBcIQwZWCpxSq5duPW2CpywXIGNs/GShGXlciGPojYAaJwgfZq2AdPxeFy8WUKjCffu/CioTr4NHL0YfxLHPdpWv8MzJt3obU2UDezLTVMGxTDlXpm8HIvGQnjbz/2bms0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gza1gdXp; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgkVDk/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gza1gdXp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774053837; x=1805589837;
-  h=date:from:to:cc:subject:message-id;
-  bh=fcp3vc6O1qzMUVYSZyaJ0xFrKvQtcIHLLxnBIqAoSQs=;
-  b=dgkVDk/5icJ0jxiMhh+BLmZDv2BFqTSlaUF8Rh9Q4wn2tXrcKjZkMkZA
-   ZqPgrHo4p7UB/sCFS/NFCmMMQzIauQAp4o5Dj/vFHcg3C4ybm16XPwSkv
-   kyhu9FcoJC6JNdkApBVAyn+w6mykWErfkX7lyhkD/FFku606QgIRF+/ET
-   1/gDvnmHXDcODsYsZzX+VzG0yqfiRmJnQI0gH+KS/s3ZfjVqpwCS3Itfr
-   /CYUU8MTYkFQLiRG3JnxpenkhStTRjppUZrnMhbolGlHAZ2VgHMFX5vY0
-   x4lewyOf4/lcbwtZlRfWxvrvL7OBIkFa0hOEQn/efBdLQKk55LvnQFgIa
-   Q==;
-X-CSE-ConnectionGUID: G5WqbdzITs6nHt91exSEaQ==
-X-CSE-MsgGUID: NFed+eFdR3yHymMMqXhMFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="74848462"
+  t=1774055026; x=1805591026;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Zph3b/a8wUaOe2iOCc55A/A2OnhMXsrvLGy43bJ/Liw=;
+  b=gza1gdXpE7uUb4tBpHTvZKRFLft/XliQ8b8ya5eFC2PEkBfMVsqDi/0U
+   4z7e+gUCmITleUIuMAmlT9hQ7tL+Dj2iFquonuH166Irxqpfa9brnMkNM
+   WNH2t+3T227F/MTSyWpU5QNPB1lXptbRWZhfQXXL50jcaGwyfpkBx+l5j
+   P5l2kv4OBhOLvMv9/gY2nAQ81F35YtufEKTejcFf4GkLw85F78LF7mq0b
+   BWpDpICgbWGNCJNY7zApDUT9nj1gfMQYZej/dLPGAOQCstmeYwfBUcYtV
+   ysItLD36j3L15q/DxrOf78qzw0ab8MSWBUacyw98ujOBeyCv6WTh2Pnrm
+   w==;
+X-CSE-ConnectionGUID: fzoanJX4QrSW5yU1H+Tqsg==
+X-CSE-MsgGUID: 3v56zuhUQLG9YkbPxVtLNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86510445"
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="74848462"
+   d="scan'208";a="86510445"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 17:43:57 -0700
-X-CSE-ConnectionGUID: vuiOkOUfQRaQNlplu3gu/A==
-X-CSE-MsgGUID: RqDmBZlXTWmM6bh0WLqtJw==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 18:03:45 -0700
+X-CSE-ConnectionGUID: RDULRqXKST+ZTn/CRoOAOg==
+X-CSE-MsgGUID: r44xcLj0Tc2kiBudWtWGYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="222665636"
-Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 20 Mar 2026 17:43:52 -0700
-Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+   d="scan'208";a="222668821"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 20 Mar 2026 18:03:45 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3kQZ-0000000006L-1ca8;
-	Sat, 21 Mar 2026 00:43:12 +0000
-Date: Sat, 21 Mar 2026 08:42:17 +0800
+	id 1w3kkg-000000005FV-1Fc7;
+	Sat, 21 Mar 2026 01:03:42 +0000
+Date: Sat, 21 Mar 2026 02:03:10 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/uio/uio_pci_generic_sva.c:140 probe() warn: passing
- devm_ allocated variable to kfree. 'udev'
-Message-ID: <202603210811.1eXTfndx-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: sound: Convert Hisilicon hi6210 I2S to
+ dt-schema
+Message-ID: <202603210112.cGdwd3kr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260318181303.5262-1-chaitanya.msabnis@gmail.com>
+References: <20260318181303.5262-1-chaitanya.msabnis@gmail.com>
+TO: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
+TO: lgirdwood@gmail.com
+TO: broonie@kernel.org
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+CC: linux-sound@vger.kernel.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Yaxing Guo <guoyaxing@bosc.ac.cn>
+CC: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   42bddab0563fe67882b2722620a66dd98c8dbf33
-commit: 3397c3cd859a2c51962ad032dcf97961d42f9db2 uio: Add SVA support for PCI devices via uio_pci_generic_sva.c
-date:   4 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-161-20260321 (https://download.01.org/0day-ci/archive/20260321/202603210811.1eXTfndx-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
+Hi Chaitanya,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.16-rc1 next-20260320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chaitanya-Sabnis/dt-bindings-sound-Convert-Hisilicon-hi6210-I2S-to-dt-schema/20260320-024434
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260318181303.5262-1-chaitanya.msabnis%40gmail.com
+patch subject: [PATCH] dt-bindings: sound: Convert Hisilicon hi6210 I2S to dt-schema
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: arm64-randconfig-2051-20260320 (https://download.01.org/0day-ci/archive/20260321/202603210112.cGdwd3kr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210112.cGdwd3kr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603210811.1eXTfndx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603210112.cGdwd3kr-lkp@intel.com/
 
-New smatch warnings:
-drivers/uio/uio_pci_generic_sva.c:140 probe() warn: passing devm_ allocated variable to kfree. 'udev'
-
-Old smatch warnings:
-drivers/uio/uio_pci_generic_sva.c:32 uio_pci_sva_open() error: we previously assumed 'udev' could be null (see line 32)
-drivers/uio/uio_pci_generic_sva.c:54 uio_pci_sva_release() error: we previously assumed 'udev' could be null (see line 54)
-
-vim +/udev +140 drivers/uio/uio_pci_generic_sva.c
-
-3397c3cd859a2c Yaxing Guo 2025-09-26   61  
-3397c3cd859a2c Yaxing Guo 2025-09-26   62  static int probe(struct pci_dev *pdev, const struct pci_device_id *id)
-3397c3cd859a2c Yaxing Guo 2025-09-26   63  {
-3397c3cd859a2c Yaxing Guo 2025-09-26   64  	struct uio_pci_sva_dev *udev;
-3397c3cd859a2c Yaxing Guo 2025-09-26   65  	int ret, i, irq = 0;
-3397c3cd859a2c Yaxing Guo 2025-09-26   66  
-3397c3cd859a2c Yaxing Guo 2025-09-26   67  	ret = pci_enable_device(pdev);
-3397c3cd859a2c Yaxing Guo 2025-09-26   68  	if (ret) {
-3397c3cd859a2c Yaxing Guo 2025-09-26   69  		dev_err(&pdev->dev, "pci_enable_device failed: %d\n", ret);
-3397c3cd859a2c Yaxing Guo 2025-09-26   70  		return ret;
-3397c3cd859a2c Yaxing Guo 2025-09-26   71  	}
-3397c3cd859a2c Yaxing Guo 2025-09-26   72  
-3397c3cd859a2c Yaxing Guo 2025-09-26   73  	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-3397c3cd859a2c Yaxing Guo 2025-09-26   74  	if (ret)
-3397c3cd859a2c Yaxing Guo 2025-09-26   75  		goto out_disable;
-3397c3cd859a2c Yaxing Guo 2025-09-26   76  
-3397c3cd859a2c Yaxing Guo 2025-09-26   77  	pci_set_master(pdev);
-3397c3cd859a2c Yaxing Guo 2025-09-26   78  
-3397c3cd859a2c Yaxing Guo 2025-09-26   79  	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSIX | PCI_IRQ_MSI);
-3397c3cd859a2c Yaxing Guo 2025-09-26   80  	if (ret > 0) {
-3397c3cd859a2c Yaxing Guo 2025-09-26   81  		irq = pci_irq_vector(pdev, 0);
-3397c3cd859a2c Yaxing Guo 2025-09-26   82  		if (irq < 0) {
-3397c3cd859a2c Yaxing Guo 2025-09-26   83  			dev_err(&pdev->dev, "Failed to get MSI vector\n");
-3397c3cd859a2c Yaxing Guo 2025-09-26   84  			ret = irq;
-3397c3cd859a2c Yaxing Guo 2025-09-26   85  			goto out_disable;
-3397c3cd859a2c Yaxing Guo 2025-09-26   86  		}
-3397c3cd859a2c Yaxing Guo 2025-09-26   87  	} else
-3397c3cd859a2c Yaxing Guo 2025-09-26   88  		dev_warn(&pdev->dev,
-3397c3cd859a2c Yaxing Guo 2025-09-26   89  			 "No IRQ vectors available (%d), using polling\n", ret);
-3397c3cd859a2c Yaxing Guo 2025-09-26   90  
-3397c3cd859a2c Yaxing Guo 2025-09-26   91  	udev = devm_kzalloc(&pdev->dev, sizeof(struct uio_pci_sva_dev),
-3397c3cd859a2c Yaxing Guo 2025-09-26   92  			    GFP_KERNEL);
-3397c3cd859a2c Yaxing Guo 2025-09-26   93  	if (!udev) {
-3397c3cd859a2c Yaxing Guo 2025-09-26   94  		ret =  -ENOMEM;
-3397c3cd859a2c Yaxing Guo 2025-09-26   95  		goto out_disable;
-3397c3cd859a2c Yaxing Guo 2025-09-26   96  	}
-3397c3cd859a2c Yaxing Guo 2025-09-26   97  
-3397c3cd859a2c Yaxing Guo 2025-09-26   98  	udev->pdev = pdev;
-3397c3cd859a2c Yaxing Guo 2025-09-26   99  	udev->info.name = "uio_pci_sva";
-3397c3cd859a2c Yaxing Guo 2025-09-26  100  	udev->info.version = "0.0.1";
-3397c3cd859a2c Yaxing Guo 2025-09-26  101  	udev->info.open = uio_pci_sva_open;
-3397c3cd859a2c Yaxing Guo 2025-09-26  102  	udev->info.release = uio_pci_sva_release;
-3397c3cd859a2c Yaxing Guo 2025-09-26  103  	udev->info.irq = irq;
-3397c3cd859a2c Yaxing Guo 2025-09-26  104  	udev->info.handler = irq_handler;
-3397c3cd859a2c Yaxing Guo 2025-09-26  105  	udev->info.priv = udev;
-3397c3cd859a2c Yaxing Guo 2025-09-26  106  
-3397c3cd859a2c Yaxing Guo 2025-09-26  107  	for (i = 0; i < MAX_UIO_MAPS; i++) {
-3397c3cd859a2c Yaxing Guo 2025-09-26  108  		struct resource *r = &pdev->resource[i];
-3397c3cd859a2c Yaxing Guo 2025-09-26  109  		struct uio_mem *uiomem = &udev->info.mem[i];
-3397c3cd859a2c Yaxing Guo 2025-09-26  110  
-3397c3cd859a2c Yaxing Guo 2025-09-26  111  		if (r->flags != (IORESOURCE_SIZEALIGN | IORESOURCE_MEM))
-3397c3cd859a2c Yaxing Guo 2025-09-26  112  			continue;
-3397c3cd859a2c Yaxing Guo 2025-09-26  113  
-3397c3cd859a2c Yaxing Guo 2025-09-26  114  		if (uiomem >= &udev->info.mem[MAX_UIO_MAPS]) {
-3397c3cd859a2c Yaxing Guo 2025-09-26  115  			dev_warn(&pdev->dev, "Do not support more than %d iomem\n",
-3397c3cd859a2c Yaxing Guo 2025-09-26  116  				 MAX_UIO_MAPS);
-3397c3cd859a2c Yaxing Guo 2025-09-26  117  			break;
-3397c3cd859a2c Yaxing Guo 2025-09-26  118  		}
-3397c3cd859a2c Yaxing Guo 2025-09-26  119  
-3397c3cd859a2c Yaxing Guo 2025-09-26  120  		uiomem->memtype = UIO_MEM_PHYS;
-3397c3cd859a2c Yaxing Guo 2025-09-26  121  		uiomem->addr = r->start & PAGE_MASK;
-3397c3cd859a2c Yaxing Guo 2025-09-26  122  		uiomem->offs = r->start & ~PAGE_MASK;
-3397c3cd859a2c Yaxing Guo 2025-09-26  123  		uiomem->size =
-3397c3cd859a2c Yaxing Guo 2025-09-26  124  			(uiomem->offs + resource_size(r) + PAGE_SIZE - 1) &
-3397c3cd859a2c Yaxing Guo 2025-09-26  125  			PAGE_MASK;
-3397c3cd859a2c Yaxing Guo 2025-09-26  126  		uiomem->name = r->name;
-3397c3cd859a2c Yaxing Guo 2025-09-26  127  	}
-3397c3cd859a2c Yaxing Guo 2025-09-26  128  
-3397c3cd859a2c Yaxing Guo 2025-09-26  129  	ret = devm_uio_register_device(&pdev->dev, &udev->info);
-3397c3cd859a2c Yaxing Guo 2025-09-26  130  	if (ret) {
-3397c3cd859a2c Yaxing Guo 2025-09-26  131  		dev_err(&pdev->dev, "Failed to register uio device\n");
-3397c3cd859a2c Yaxing Guo 2025-09-26  132  		goto out_free;
-3397c3cd859a2c Yaxing Guo 2025-09-26  133  	}
-3397c3cd859a2c Yaxing Guo 2025-09-26  134  
-3397c3cd859a2c Yaxing Guo 2025-09-26  135  	pci_set_drvdata(pdev, udev);
-3397c3cd859a2c Yaxing Guo 2025-09-26  136  
-3397c3cd859a2c Yaxing Guo 2025-09-26  137  	return 0;
-3397c3cd859a2c Yaxing Guo 2025-09-26  138  
-3397c3cd859a2c Yaxing Guo 2025-09-26  139  out_free:
-3397c3cd859a2c Yaxing Guo 2025-09-26 @140  	kfree(udev);
-3397c3cd859a2c Yaxing Guo 2025-09-26  141  out_disable:
-3397c3cd859a2c Yaxing Guo 2025-09-26  142  	pci_disable_device(pdev);
-3397c3cd859a2c Yaxing Guo 2025-09-26  143  
-3397c3cd859a2c Yaxing Guo 2025-09-26  144  	return ret;
-3397c3cd859a2c Yaxing Guo 2025-09-26  145  }
-3397c3cd859a2c Yaxing Guo 2025-09-26  146  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'pvdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'a2vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'v3p3-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/mailbox@f7510000: failed to match any schema with compatible: ['hisilicon,hi6220-mbox']
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dwmmc0@f723d000: failed to match any schema with compatible: ['hisilicon,hi6220-dw-mshc']
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dwmmc1@f723e000: failed to match any schema with compatible: ['hisilicon,hi6220-dw-mshc']
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dwmmc2@f723f000: failed to match any schema with compatible: ['hisilicon,hi6220-dw-mshc']
+>> arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: i2s@f7118000 (hisilicon,hi6210-i2s): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/hisilicon,hi6210-i2s.yaml
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/ade@f4100000: failed to match any schema with compatible: ['hisilicon,hi6220-ade']
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/dsi@f4107800: failed to match any schema with compatible: ['hisilicon,hi6220-dsi']
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: gpu@f4080000 (hisilicon,hi6220-mali): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-utgard.yaml
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: gpu@f4080000 (hisilicon,hi6220-mali): resets: [[18, 1], [84, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-utgard.yaml
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: reboot-mode-syscon@5f01000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /pmic@f8000000: failed to match any schema with compatible: ['hisilicon,hi655x-pmic']
 
 -- 
 0-DAY CI Kernel Test Service
