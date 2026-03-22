@@ -1,58 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351A51FC10C
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Mar 2026 19:15:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D4A37BE75
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Mar 2026 20:13:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774206957; cv=none; b=px/dDVTDdgMAk99F3OPUEXRBt4boX0qCBmFIdCCVIQkM4+J7n8z1nOaZTZUpmUYj2u3slfi9BZRdOh6P7wp+/uGZI6kUoQ/17mAsTty4K1VrnYWNvnWlggvppGyjgk3wKIXn3fPJwbMSGy8xM8tXnyDmET+dQN8N7XHxYwjWP8g=
+	t=1774210417; cv=none; b=CpSLwvM5RM6p6Sw4vxEPQxcMgW4EbNZbCiwho5y3K7tarcCKFe/NHJwY3srr1EPmMcuQcL0Fh41rl2UoBC6gjYroq1/KOe9M2mcHBbO4zZwcZ+DvkAmKLKdFkxps1ZcRMI/hJgDi+pje4uIUBUIUvJo+f83ZnnGKGWqR7qhIlbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774206957; c=relaxed/simple;
-	bh=IniYCvUoi1mCqWhfujba/+8hpWB9QJVclgaEr0DJjiY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i9HXmPcXx7NtFoLWtbgVz8/nhqHsQ+Gq8MVpgBdXB3bb7iBlDtIILFUyO+8Mrp97/Ke4KG2O5PHN9hZ9M3cyckRoFyMxNpkVyx7UsjVFTg4PHsNGNwK6JMhIGrvKof/iEIIIcJC9ATjeXz8qjLt2Rgv9IdXemV9wc+H3GYLd+ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BvfajpRr; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1774210417; c=relaxed/simple;
+	bh=LvMkexJ8pVbXB5FMyqpY0gFu7iPAW6FhjpROX6O7ciI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MZVPLLQ4X3sww3/0MF0Gz0Tl6jtnHA3tJaLfKNCnd7XLZgwkUh0AR2cZl4tJ0f23lzSGTCTdcrVrFvmYTvrZ0dewxnO8pEhE9wksFhYhyentBiPTGEyWlpQRzepokY/8n0NsycQSlAWt3SekuT/RKpNRoxyj51vr3UHzoF0CSnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OqtoDaq7; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BvfajpRr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OqtoDaq7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774206952; x=1805742952;
+  t=1774210416; x=1805746416;
   h=date:from:to:cc:subject:message-id;
-  bh=IniYCvUoi1mCqWhfujba/+8hpWB9QJVclgaEr0DJjiY=;
-  b=BvfajpRru89uGRvprcxIpjWamgnBaiiaAAmlsm88YC+s46YICP4/+rnZ
-   Dl+xIFwOCYhVmCRN5opHsefcWPFQw5wByfw3dWaXGqk5kDXb+kv1c3Pvw
-   86NPFoEmzGn728D+bh2jHOds2Wtwj6qD3OAcjkO5X4ABouTNkE9f8O0pq
-   Md/HLtZlOwWUCBSekw6hHjaAEHc9CwQtsABy6gvAoFhl8h3i93mjYlWIu
-   9CMuNtuzEIVdQnFCXIi058JWItwT4fzKArLyrBB08M1xId8xcN1kk23nG
-   OUJNb12+z6SQZrGIg8ef9jWj5Arzs/rOM/FobrKzJl/BJpVfFS/1MTW69
-   A==;
-X-CSE-ConnectionGUID: MvqfksxIT/6QZGypoFD+aQ==
-X-CSE-MsgGUID: fkxeuhEzTY+5GBbhrIRCkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75100499"
+  bh=LvMkexJ8pVbXB5FMyqpY0gFu7iPAW6FhjpROX6O7ciI=;
+  b=OqtoDaq7D0DnEHBAuwJNyzfwQ/WaTbYz72llk8/lKg7bZXEunLKPM4aE
+   BbWuEcf23DeGk3+WwInj3Zbkq8LcRJM2fBmprgELwahJ1VROtbnuBJuef
+   Y21vcOH5apj5maEHIMn6l2oNh/jOAVwB13NEA1wjpFEhowPM8oJEW41TF
+   TYWWBym8kUlw/trHqVsnXbbDnQW+zKkOhX8oW5JviKkLxfkyw6ccZsJrT
+   hn7EZsIjS796ZE8aoVtLuZPIAhruydDZsyvsV7LwdZAka0cSll2qTQzgk
+   3TwM3tf4Ogma+tWb37lQLhMl8E2qKUhYZcqvWQjHrIrAe1VyjQ0rVTiBs
+   w==;
+X-CSE-ConnectionGUID: TyhySqWsTRi7s2qAsDTwLA==
+X-CSE-MsgGUID: OVshQ6s/TVuPpGZBexWKbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75101783"
 X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
-   d="scan'208";a="75100499"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 12:15:52 -0700
-X-CSE-ConnectionGUID: R5OPlv8fRNKBUtt9yeLDLA==
-X-CSE-MsgGUID: I3nxEI2MSnWDiCzm0K3viw==
+   d="scan'208";a="75101783"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 13:13:36 -0700
+X-CSE-ConnectionGUID: VhQ6AiQZTaKIihzw32KyRA==
+X-CSE-MsgGUID: GzJlQrvjSM2ujs+hJVqfiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
-   d="scan'208";a="225588791"
-Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Mar 2026 12:15:49 -0700
-Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+   d="scan'208";a="222909460"
+Received: from lkp-server02.sh.intel.com (HELO c2cbc2b066eb) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 22 Mar 2026 13:13:34 -0700
+Received: from kbuild by c2cbc2b066eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4OH5-000000002YF-27QF;
-	Sun, 22 Mar 2026 19:15:47 +0000
-Date: Mon, 23 Mar 2026 03:14:00 +0800
+	id 1w4PAq-0000000003g-34EI;
+	Sun, 22 Mar 2026 20:13:26 +0000
+Date: Mon, 23 Mar 2026 04:12:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [hch-misc:lib-raid6 29/39]
- lib/raid/raid6/powerpc/altivec1.c:60:9: sparse: sparse: Trying to use
- reserved word 'return' as identifier
-Message-ID: <202603230301.fypkqcow-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/9p/vfs_inode_dotl.c:420 v9fs_vfs_mkdir_dotl() warn:
+ passing zero to 'ERR_PTR'
+Message-ID: <202603230405.g5k5W0cK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,985 +59,119 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: lib/raid/raid6/powerpc/altivec1.c:60:9: sparse: sparse: Trying to use reserved word 'return' as identifier"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel@vger.kernel.org
+TO: NeilBrown <neilb@suse.de>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Jeff Layton <jlayton@kernel.org>
+CC: Jan Kara <jack@suse.cz>
 
-tree:   git://git.infradead.org/users/hch/misc.git lib-raid6
-head:   48e7b546787ed587595618cfc032781023f62636
-commit: d5d0bf46a988bce7c7cca7e89406153cef11ac7c [29/39] raid6: move to lib/raid/
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 days ago
-config: powerpc64-randconfig-r121-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230301.fypkqcow-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230301.fypkqcow-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ec69c9e88315c4be70c283f18c2ff130da6320b5
+commit: 88d5baf69082e5b410296435008329676b687549 Change inode_operations.mkdir to return struct dentry *
+date:   1 year, 1 month ago
+:::::: branch date: 89 minutes ago
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-161-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230405.g5k5W0cK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603230301.fypkqcow-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603230405.g5k5W0cK-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file:
-   ../lib/gcc/powerpc64-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/altivec1.c:37:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:37:16: sparse: sparse: got signed
-   lib/raid/raid6/powerpc/altivec1.c:46:45: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:46:45: sparse: sparse: got SHLBYTE
-   lib/raid/raid6/powerpc/altivec1.c:49:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec1.c:49:1: sparse: sparse: got }
->> lib/raid/raid6/powerpc/altivec1.c:60:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/raid/raid6/powerpc/altivec1.c:60:27: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:60:27: sparse: sparse: got __builtin_vec_cmpgt
-   lib/raid/raid6/powerpc/altivec1.c:61:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec1.c:61:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c:73:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:73:19: sparse: sparse: got wd0
-   lib/raid/raid6/powerpc/altivec1.c:74:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:74:19: sparse: sparse: got x1d
-   lib/raid/raid6/powerpc/altivec1.c:80:17: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec1.c:80:17: sparse: sparse: got =
->> lib/raid/raid6/powerpc/altivec1.c:80:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/raid/raid6/powerpc/altivec1.c:80:25: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:80:25: sparse: sparse: got <
-   lib/raid/raid6/powerpc/altivec1.c:80:37: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:80:37: sparse: sparse: got +=
-   lib/raid/raid6/powerpc/altivec1.c:82:25: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec1.c:82:25: sparse: sparse: got =
-   lib/raid/raid6/powerpc/altivec1.c:82:17: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/raid/raid6/powerpc/altivec1.c:82:36: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:82:36: sparse: sparse: got >=
-   lib/raid/raid6/powerpc/altivec1.c:82:44: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:82:44: sparse: sparse: got --
-   lib/raid/raid6/powerpc/altivec1.c:90:17: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec1.c:90:17: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c:92:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec1.c:92:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec1.c:93:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec1.c:93:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c:98:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec1.c:98:9: sparse: sparse: got }
->> lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: Trying to use reserved word 'do' as identifier
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: got {
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: got (
->> lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: got 0
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c:105:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec1.c:105:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c:76:14: sparse: sparse: undefined identifier 'disks'
-   lib/raid/raid6/powerpc/altivec1.c:77:13: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec1.c:77:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec1.c:77:9: sparse:    int [addressable] [toplevel] p
-   lib/raid/raid6/powerpc/altivec1.c:70:12: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec1.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
-   lib/raid/raid6/powerpc/altivec1.c:78:13: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec1.c:78:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec1.c:78:9: sparse:    int [addressable] [toplevel] q
-   lib/raid/raid6/powerpc/altivec1.c:70:16: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec1.c:70:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
-   lib/raid/raid6/powerpc/altivec1.c:84:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec1.c:85:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec1.c:86:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec1.c:87:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec1.c:87:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec1.c:85)
-   lib/raid/raid6/powerpc/altivec1.c:88:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec1.c:88:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec1.c:86)
-   lib/raid/raid6/powerpc/altivec1.c:89:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec1.c:92:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec1.c:92:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec1.c:74:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec1.c:74:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec1.c:103:9: sparse: sparse: symbol 'disable_kernel_altivec' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec1.c:103:9: sparse:    int static [signed] [toplevel] disable_kernel_altivec( ... )
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file:
-   arch/powerpc/include/asm/switch_to.h:62:20: sparse: note: previously declared as:
-   arch/powerpc/include/asm/switch_to.h:62:20: sparse:    void static inline [gnu_inline] [toplevel] [unused] disable_kernel_altivec( ... )
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse: sparse: symbol 'should_resched' redeclared with different type (different argument counts):
-   lib/raid/raid6/powerpc/altivec1.c:104:9: sparse:    int static [signed] [toplevel] should_resched( ... )
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/preempt.h, include/linux/preempt.h, include/linux/spinlock.h, ...):
-   include/asm-generic/preempt.h:75:29: sparse: note: previously declared as:
-   include/asm-generic/preempt.h:75:29: sparse:    bool static inline [gnu_inline] [toplevel] [unsigned] [unused] should_resched( ... )
-   lib/raid/raid6/powerpc/altivec1.c:117:9: sparse: sparse: undefined identifier 'raid6_altivec1_gen_syndrome'
---
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file:
-   ../lib/gcc/powerpc64-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/altivec2.c:37:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:37:16: sparse: sparse: got signed
-   lib/raid/raid6/powerpc/altivec2.c:46:45: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:46:45: sparse: sparse: got SHLBYTE
-   lib/raid/raid6/powerpc/altivec2.c:49:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec2.c:49:1: sparse: sparse: got }
->> lib/raid/raid6/powerpc/altivec2.c:60:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/raid/raid6/powerpc/altivec2.c:60:27: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:60:27: sparse: sparse: got __builtin_vec_cmpgt
-   lib/raid/raid6/powerpc/altivec2.c:61:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec2.c:61:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c:73:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:73:19: sparse: sparse: got wd0
-   lib/raid/raid6/powerpc/altivec2.c:74:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:74:19: sparse: sparse: got wd1
-   lib/raid/raid6/powerpc/altivec2.c:75:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:75:19: sparse: sparse: got x1d
-   lib/raid/raid6/powerpc/altivec2.c:81:17: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec2.c:81:17: sparse: sparse: got =
->> lib/raid/raid6/powerpc/altivec2.c:81:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/raid/raid6/powerpc/altivec2.c:81:25: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:81:25: sparse: sparse: got <
-   lib/raid/raid6/powerpc/altivec2.c:81:37: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:81:37: sparse: sparse: got +=
->> lib/raid/raid6/powerpc/altivec2.c:83:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec2.c:84:25: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec2.c:84:25: sparse: sparse: got =
-   lib/raid/raid6/powerpc/altivec2.c:84:17: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/raid/raid6/powerpc/altivec2.c:84:36: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:84:36: sparse: sparse: got >=
-   lib/raid/raid6/powerpc/altivec2.c:84:44: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:84:44: sparse: sparse: got --
-   lib/raid/raid6/powerpc/altivec2.c:86:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec2.c:99:17: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec2.c:99:17: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c:101:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec2.c:101:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec2.c:102:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec2.c:102:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec2.c:103:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec2.c:103:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec2.c:104:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec2.c:104:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c:109:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec2.c:109:9: sparse: sparse: got }
->> lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: Trying to use reserved word 'do' as identifier
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: got {
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: got (
->> lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: got 0
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c:116:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec2.c:116:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c:77:14: sparse: sparse: undefined identifier 'disks'
-   lib/raid/raid6/powerpc/altivec2.c:78:13: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec2.c:78:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec2.c:78:9: sparse:    int [addressable] [toplevel] p
-   lib/raid/raid6/powerpc/altivec2.c:70:12: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec2.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
-   lib/raid/raid6/powerpc/altivec2.c:79:13: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec2.c:79:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec2.c:79:9: sparse:    int [addressable] [toplevel] q
-   lib/raid/raid6/powerpc/altivec2.c:70:16: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec2.c:70:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
-   lib/raid/raid6/powerpc/altivec2.c:83:23: sparse: sparse: undefined identifier 'wp1'
->> lib/raid/raid6/powerpc/altivec2.c:83:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec2.c:83:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec2.c:86:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec2.c:86:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec2.c:87:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec2.c:88:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec2.c:89:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec2.c:90:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec2.c:91:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec2.c:92:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec2.c:93:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec2.c:93:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:89)
-   lib/raid/raid6/powerpc/altivec2.c:94:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec2.c:94:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:90)
-   lib/raid/raid6/powerpc/altivec2.c:95:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec2.c:95:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:91)
-   lib/raid/raid6/powerpc/altivec2.c:96:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec2.c:96:25: sparse: sparse: symbol 'w11' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:92)
-   lib/raid/raid6/powerpc/altivec2.c:97:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec2.c:98:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec2.c:98:25: sparse: sparse: symbol 'wq1' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec2.c:83)
-   lib/raid/raid6/powerpc/altivec2.c:101:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec2.c:101:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec2.c:102:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec2.c:102:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec2.c:103:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec2.c:103:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec2.c:75:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec2.c:114:9: sparse: sparse: symbol 'disable_kernel_altivec' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec2.c:114:9: sparse:    int static [signed] [toplevel] disable_kernel_altivec( ... )
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file:
-   arch/powerpc/include/asm/switch_to.h:62:20: sparse: note: previously declared as:
-   arch/powerpc/include/asm/switch_to.h:62:20: sparse:    void static inline [gnu_inline] [toplevel] [unused] disable_kernel_altivec( ... )
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse: sparse: symbol 'should_resched' redeclared with different type (different argument counts):
-   lib/raid/raid6/powerpc/altivec2.c:115:9: sparse:    int static [signed] [toplevel] should_resched( ... )
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/preempt.h, include/linux/preempt.h, include/linux/spinlock.h, ...):
-   include/asm-generic/preempt.h:75:29: sparse: note: previously declared as:
-   include/asm-generic/preempt.h:75:29: sparse:    bool static inline [gnu_inline] [toplevel] [unsigned] [unused] should_resched( ... )
-   lib/raid/raid6/powerpc/altivec2.c:128:9: sparse: sparse: undefined identifier 'raid6_altivec2_gen_syndrome'
-   lib/raid/raid6/powerpc/altivec2.c:130:9: sparse: sparse: undefined identifier 'raid6_have_altivec'
---
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file:
-   ../lib/gcc/powerpc64-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/altivec4.c:37:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:37:16: sparse: sparse: got signed
-   lib/raid/raid6/powerpc/altivec4.c:46:45: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:46:45: sparse: sparse: got SHLBYTE
-   lib/raid/raid6/powerpc/altivec4.c:49:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec4.c:49:1: sparse: sparse: got }
->> lib/raid/raid6/powerpc/altivec4.c:60:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/raid/raid6/powerpc/altivec4.c:60:27: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:60:27: sparse: sparse: got __builtin_vec_cmpgt
-   lib/raid/raid6/powerpc/altivec4.c:61:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec4.c:61:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c:73:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:73:19: sparse: sparse: got wd0
-   lib/raid/raid6/powerpc/altivec4.c:74:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:74:19: sparse: sparse: got wd1
-   lib/raid/raid6/powerpc/altivec4.c:75:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:75:19: sparse: sparse: got wd2
-   lib/raid/raid6/powerpc/altivec4.c:76:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:76:19: sparse: sparse: got wd3
-   lib/raid/raid6/powerpc/altivec4.c:77:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:77:19: sparse: sparse: got x1d
-   lib/raid/raid6/powerpc/altivec4.c:83:17: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec4.c:83:17: sparse: sparse: got =
->> lib/raid/raid6/powerpc/altivec4.c:83:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/raid/raid6/powerpc/altivec4.c:83:25: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:83:25: sparse: sparse: got <
-   lib/raid/raid6/powerpc/altivec4.c:83:37: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:83:37: sparse: sparse: got +=
->> lib/raid/raid6/powerpc/altivec4.c:85:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec4.c:86:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec4.c:87:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec4.c:88:25: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec4.c:88:25: sparse: sparse: got =
-   lib/raid/raid6/powerpc/altivec4.c:88:17: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/raid/raid6/powerpc/altivec4.c:88:36: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:88:36: sparse: sparse: got >=
-   lib/raid/raid6/powerpc/altivec4.c:88:44: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:88:44: sparse: sparse: got --
-   lib/raid/raid6/powerpc/altivec4.c:90:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec4.c:91:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec4.c:92:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec4.c:117:17: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec4.c:117:17: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c:119:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec4.c:119:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec4.c:120:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec4.c:120:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec4.c:121:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec4.c:121:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec4.c:122:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec4.c:122:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec4.c:123:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec4.c:123:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec4.c:124:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec4.c:124:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec4.c:125:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec4.c:125:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec4.c:126:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec4.c:126:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c:131:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec4.c:131:9: sparse: sparse: got }
->> lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: Trying to use reserved word 'do' as identifier
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: got {
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: got (
->> lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: got 0
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c:138:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec4.c:138:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c:79:14: sparse: sparse: undefined identifier 'disks'
-   lib/raid/raid6/powerpc/altivec4.c:80:13: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec4.c:80:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:80:9: sparse:    int [addressable] [toplevel] p
-   lib/raid/raid6/powerpc/altivec4.c:70:12: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
-   lib/raid/raid6/powerpc/altivec4.c:81:13: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec4.c:81:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:81:9: sparse:    int [addressable] [toplevel] q
-   lib/raid/raid6/powerpc/altivec4.c:70:16: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:70:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
-   lib/raid/raid6/powerpc/altivec4.c:85:23: sparse: sparse: undefined identifier 'wp1'
->> lib/raid/raid6/powerpc/altivec4.c:85:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec4.c:85:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec4.c:86:23: sparse: sparse: undefined identifier 'wp2'
-   lib/raid/raid6/powerpc/altivec4.c:86:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec4.c:86:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec4.c:87:23: sparse: sparse: undefined identifier 'wp3'
-   lib/raid/raid6/powerpc/altivec4.c:87:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec4.c:87:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec4.c:90:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec4.c:90:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec4.c:91:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec4.c:91:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec4.c:92:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec4.c:92:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec4.c:93:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:94:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:95:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:96:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:97:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec4.c:98:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec4.c:99:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec4.c:100:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec4.c:101:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec4.c:102:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec4.c:103:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec4.c:104:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec4.c:105:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec4.c:105:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:97)
-   lib/raid/raid6/powerpc/altivec4.c:106:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec4.c:106:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:98)
-   lib/raid/raid6/powerpc/altivec4.c:107:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec4.c:107:25: sparse: sparse: symbol 'w22' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:99)
-   lib/raid/raid6/powerpc/altivec4.c:108:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec4.c:108:25: sparse: sparse: symbol 'w23' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:100)
-   lib/raid/raid6/powerpc/altivec4.c:109:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:109:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:101)
-   lib/raid/raid6/powerpc/altivec4.c:110:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:110:25: sparse: sparse: symbol 'w11' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:102)
-   lib/raid/raid6/powerpc/altivec4.c:111:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:111:25: sparse: sparse: symbol 'w12' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:103)
-   lib/raid/raid6/powerpc/altivec4.c:112:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:112:25: sparse: sparse: symbol 'w13' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:104)
-   lib/raid/raid6/powerpc/altivec4.c:113:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:114:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:114:25: sparse: sparse: symbol 'wq1' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:85)
-   lib/raid/raid6/powerpc/altivec4.c:115:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:115:25: sparse: sparse: symbol 'wq2' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:86)
-   lib/raid/raid6/powerpc/altivec4.c:116:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec4.c:116:25: sparse: sparse: symbol 'wq3' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec4.c:87)
-   lib/raid/raid6/powerpc/altivec4.c:119:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:119:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:120:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:120:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:121:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:121:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:122:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:122:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:123:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:123:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:124:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:124:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:125:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:125:17: sparse:    incomplete type *static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec4.c:77:9: sparse:    int static [toplevel] unative_t
-   lib/raid/raid6/powerpc/altivec4.c:136:9: sparse: sparse: symbol 'disable_kernel_altivec' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec4.c:136:9: sparse:    int static [signed] [toplevel] disable_kernel_altivec( ... )
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file:
-   arch/powerpc/include/asm/switch_to.h:62:20: sparse: note: previously declared as:
-   arch/powerpc/include/asm/switch_to.h:62:20: sparse:    void static inline [gnu_inline] [toplevel] [unused] disable_kernel_altivec( ... )
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse: sparse: symbol 'should_resched' redeclared with different type (different argument counts):
-   lib/raid/raid6/powerpc/altivec4.c:137:9: sparse:    int static [signed] [toplevel] should_resched( ... )
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/preempt.h, include/linux/preempt.h, include/linux/spinlock.h, ...):
-   include/asm-generic/preempt.h:75:29: sparse: note: previously declared as:
-   include/asm-generic/preempt.h:75:29: sparse:    bool static inline [gnu_inline] [toplevel] [unsigned] [unused] should_resched( ... )
-   lib/raid/raid6/powerpc/altivec4.c:150:9: sparse: sparse: undefined identifier 'raid6_altivec4_gen_syndrome'
-   lib/raid/raid6/powerpc/altivec4.c:152:9: sparse: sparse: undefined identifier 'raid6_have_altivec'
---
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file:
-   ../lib/gcc/powerpc64-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/altivec8.c:37:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:37:16: sparse: sparse: got signed
-   lib/raid/raid6/powerpc/altivec8.c:46:45: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:46:45: sparse: sparse: got SHLBYTE
-   lib/raid/raid6/powerpc/altivec8.c:49:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec8.c:49:1: sparse: sparse: got }
->> lib/raid/raid6/powerpc/altivec8.c:60:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/raid/raid6/powerpc/altivec8.c:60:27: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:60:27: sparse: sparse: got __builtin_vec_cmpgt
-   lib/raid/raid6/powerpc/altivec8.c:61:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec8.c:61:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c:73:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:73:19: sparse: sparse: got wd0
-   lib/raid/raid6/powerpc/altivec8.c:74:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:74:19: sparse: sparse: got wd1
-   lib/raid/raid6/powerpc/altivec8.c:75:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:75:19: sparse: sparse: got wd2
-   lib/raid/raid6/powerpc/altivec8.c:76:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:76:19: sparse: sparse: got wd3
-   lib/raid/raid6/powerpc/altivec8.c:77:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:77:19: sparse: sparse: got wd4
-   lib/raid/raid6/powerpc/altivec8.c:78:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:78:19: sparse: sparse: got wd5
-   lib/raid/raid6/powerpc/altivec8.c:79:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:79:19: sparse: sparse: got wd6
-   lib/raid/raid6/powerpc/altivec8.c:80:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:80:19: sparse: sparse: got wd7
-   lib/raid/raid6/powerpc/altivec8.c:81:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:81:19: sparse: sparse: got x1d
-   lib/raid/raid6/powerpc/altivec8.c:87:17: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec8.c:87:17: sparse: sparse: got =
->> lib/raid/raid6/powerpc/altivec8.c:87:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/raid/raid6/powerpc/altivec8.c:87:25: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:87:25: sparse: sparse: got <
-   lib/raid/raid6/powerpc/altivec8.c:87:37: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:87:37: sparse: sparse: got +=
->> lib/raid/raid6/powerpc/altivec8.c:89:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:90:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:91:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:92:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:93:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:94:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:95:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:96:25: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec8.c:96:25: sparse: sparse: got =
-   lib/raid/raid6/powerpc/altivec8.c:96:17: sparse: sparse: Trying to use reserved word 'for' as identifier
-   lib/raid/raid6/powerpc/altivec8.c:96:36: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:96:36: sparse: sparse: got >=
-   lib/raid/raid6/powerpc/altivec8.c:96:44: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:96:44: sparse: sparse: got --
-   lib/raid/raid6/powerpc/altivec8.c:98:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:99:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:100:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:101:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:102:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:103:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:104:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/altivec8.c:153:17: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec8.c:153:17: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c:155:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:155:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:156:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:156:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:157:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:157:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:158:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:158:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:159:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:159:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:160:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:160:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:161:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:161:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:162:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:162:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:163:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:163:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:164:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:164:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:165:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:165:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:166:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:166:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:167:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:167:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:168:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:168:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:169:29: sparse: sparse: Expected ) in nested declarator
-   lib/raid/raid6/powerpc/altivec8.c:169:29: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c:170:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec8.c:170:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c:175:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec8.c:175:9: sparse: sparse: got }
->> lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: Trying to use reserved word 'do' as identifier
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: got {
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: got (
->> lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: Expected ) in function declarator
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: got 0
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec8.c:181:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c:182:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid/raid6/powerpc/altivec8.c:182:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c:83:14: sparse: sparse: undefined identifier 'disks'
-   lib/raid/raid6/powerpc/altivec8.c:84:13: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:84:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec8.c:84:9: sparse:    int [addressable] [toplevel] p
-   lib/raid/raid6/powerpc/altivec8.c:70:12: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec8.c:70:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
-   lib/raid/raid6/powerpc/altivec8.c:85:13: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:85:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
-   lib/raid/raid6/powerpc/altivec8.c:85:9: sparse:    int [addressable] [toplevel] q
-   lib/raid/raid6/powerpc/altivec8.c:70:16: sparse: note: previously declared as:
-   lib/raid/raid6/powerpc/altivec8.c:70:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
-   lib/raid/raid6/powerpc/altivec8.c:89:23: sparse: sparse: undefined identifier 'wp1'
->> lib/raid/raid6/powerpc/altivec8.c:89:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:89:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:90:23: sparse: sparse: undefined identifier 'wp2'
-   lib/raid/raid6/powerpc/altivec8.c:90:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:90:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:91:23: sparse: sparse: undefined identifier 'wp3'
-   lib/raid/raid6/powerpc/altivec8.c:91:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:91:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:92:23: sparse: sparse: undefined identifier 'wp4'
-   lib/raid/raid6/powerpc/altivec8.c:92:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:92:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:93:23: sparse: sparse: undefined identifier 'wp5'
-   lib/raid/raid6/powerpc/altivec8.c:93:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:93:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:94:23: sparse: sparse: undefined identifier 'wp6'
-   lib/raid/raid6/powerpc/altivec8.c:94:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:94:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:95:23: sparse: sparse: undefined identifier 'wp7'
-   lib/raid/raid6/powerpc/altivec8.c:95:29: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:95:44: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:98:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:98:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:99:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:99:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:100:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:100:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:101:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:101:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:102:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:102:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:103:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:103:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:104:31: sparse: sparse: cannot dereference this type
-   lib/raid/raid6/powerpc/altivec8.c:104:46: sparse: sparse: undefined identifier 'dptr'
-   lib/raid/raid6/powerpc/altivec8.c:105:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:106:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:107:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:108:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:109:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:110:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:111:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:112:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:113:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec8.c:114:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec8.c:115:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec8.c:116:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec8.c:117:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec8.c:118:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec8.c:119:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec8.c:120:31: sparse: sparse: undefined identifier 'MASK'
-   lib/raid/raid6/powerpc/altivec8.c:121:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec8.c:122:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec8.c:123:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec8.c:124:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec8.c:125:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec8.c:126:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec8.c:127:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec8.c:128:31: sparse: sparse: undefined identifier 'SHLBYTE'
-   lib/raid/raid6/powerpc/altivec8.c:129:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec8.c:129:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:113)
-   lib/raid/raid6/powerpc/altivec8.c:130:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec8.c:130:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:114)
-   lib/raid/raid6/powerpc/altivec8.c:131:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec8.c:131:25: sparse: sparse: symbol 'w22' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:115)
-   lib/raid/raid6/powerpc/altivec8.c:132:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec8.c:132:25: sparse: sparse: symbol 'w23' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:116)
-   lib/raid/raid6/powerpc/altivec8.c:133:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec8.c:133:25: sparse: sparse: symbol 'w24' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:117)
-   lib/raid/raid6/powerpc/altivec8.c:134:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec8.c:134:25: sparse: sparse: symbol 'w25' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:118)
-   lib/raid/raid6/powerpc/altivec8.c:135:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec8.c:135:25: sparse: sparse: symbol 'w26' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:119)
-   lib/raid/raid6/powerpc/altivec8.c:136:31: sparse: sparse: undefined identifier '__builtin_vec_and'
-   lib/raid/raid6/powerpc/altivec8.c:136:25: sparse: sparse: symbol 'w27' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:120)
-   lib/raid/raid6/powerpc/altivec8.c:137:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:137:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:121)
-   lib/raid/raid6/powerpc/altivec8.c:138:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:138:25: sparse: sparse: symbol 'w11' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:122)
-   lib/raid/raid6/powerpc/altivec8.c:139:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:139:25: sparse: sparse: symbol 'w12' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:123)
-   lib/raid/raid6/powerpc/altivec8.c:140:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:140:25: sparse: sparse: symbol 'w13' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:124)
-   lib/raid/raid6/powerpc/altivec8.c:141:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:141:25: sparse: sparse: symbol 'w14' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:125)
-   lib/raid/raid6/powerpc/altivec8.c:142:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:142:25: sparse: sparse: symbol 'w15' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:126)
-   lib/raid/raid6/powerpc/altivec8.c:143:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:143:25: sparse: sparse: symbol 'w16' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:127)
-   lib/raid/raid6/powerpc/altivec8.c:144:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:144:25: sparse: sparse: symbol 'w17' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:128)
-   lib/raid/raid6/powerpc/altivec8.c:145:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:146:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:146:25: sparse: sparse: symbol 'wq1' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:89)
-   lib/raid/raid6/powerpc/altivec8.c:147:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:147:25: sparse: sparse: symbol 'wq2' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:90)
-   lib/raid/raid6/powerpc/altivec8.c:148:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:148:25: sparse: sparse: symbol 'wq3' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:91)
-   lib/raid/raid6/powerpc/altivec8.c:149:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:149:25: sparse: sparse: symbol 'wq4' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:92)
-   lib/raid/raid6/powerpc/altivec8.c:150:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/altivec8.c:150:25: sparse: sparse: symbol 'wq5' has multiple initializers (originally initialized at lib/raid/raid6/powerpc/altivec8.c:93)
---
-   lib/raid/raid6/powerpc/vpermxor1.c: note: in included file:
-   ../lib/gcc/powerpc64-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/vpermxor1.c:29:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor1.c:29:16: sparse: sparse: got unsigned
->> lib/raid/raid6/powerpc/vpermxor1.c:32:21: sparse: sparse: two or more data types in declaration specifiers
->> lib/raid/raid6/powerpc/vpermxor1.c:32:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
-   lib/raid/raid6/powerpc/vpermxor1.c:32:30: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor1.c:32:30: sparse: sparse: got char
-   lib/raid/raid6/powerpc/vpermxor1.c:35:21: sparse: sparse: two or more data types in declaration specifiers
-   lib/raid/raid6/powerpc/vpermxor1.c:35:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
-   lib/raid/raid6/powerpc/vpermxor1.c:35:30: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor1.c:35:30: sparse: sparse: got char
-   lib/raid/raid6/powerpc/vpermxor1.c:45:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor1.c:45:19: sparse: sparse: got wp0
->> lib/raid/raid6/powerpc/vpermxor1.c:52:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor1.c:55:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor1.c:63:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor1.c:64:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor1.c:45:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:52:17: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor1.c:52:23: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor1.c:52:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:52:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:55:25: sparse: sparse: undefined identifier 'wd0'
-   lib/raid/raid6/powerpc/vpermxor1.c:55:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:55:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:57:25: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor1.c:57:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor1.c:60:56: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor1.c:61:25: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor1.c:61:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor1.c:63:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:63:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:63:47: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor1.c:64:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:64:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor1.c:64:47: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor1.c:51:37: sparse: sparse: undefined identifier 'unative_t'
---
-   lib/raid/raid6/powerpc/vpermxor2.c: note: in included file:
-   ../lib/gcc/powerpc64-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/vpermxor2.c:29:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor2.c:29:16: sparse: sparse: got unsigned
->> lib/raid/raid6/powerpc/vpermxor2.c:32:21: sparse: sparse: two or more data types in declaration specifiers
->> lib/raid/raid6/powerpc/vpermxor2.c:32:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
-   lib/raid/raid6/powerpc/vpermxor2.c:32:30: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor2.c:32:30: sparse: sparse: got char
-   lib/raid/raid6/powerpc/vpermxor2.c:35:21: sparse: sparse: two or more data types in declaration specifiers
-   lib/raid/raid6/powerpc/vpermxor2.c:35:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
-   lib/raid/raid6/powerpc/vpermxor2.c:35:30: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor2.c:35:30: sparse: sparse: got char
-   lib/raid/raid6/powerpc/vpermxor2.c:45:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor2.c:45:19: sparse: sparse: got wp0
-   lib/raid/raid6/powerpc/vpermxor2.c:46:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor2.c:46:19: sparse: sparse: got wp1
->> lib/raid/raid6/powerpc/vpermxor2.c:53:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor2.c:54:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor2.c:57:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor2.c:58:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor2.c:69:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor2.c:70:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor2.c:71:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor2.c:72:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor2.c:45:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:46:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:53:17: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor2.c:53:23: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor2.c:53:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:53:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:54:17: sparse: sparse: undefined identifier 'wp1'
-   lib/raid/raid6/powerpc/vpermxor2.c:54:23: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor2.c:54:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:54:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:57:25: sparse: sparse: undefined identifier 'wd0'
-   lib/raid/raid6/powerpc/vpermxor2.c:57:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:57:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:58:25: sparse: sparse: undefined identifier 'wd1'
-   lib/raid/raid6/powerpc/vpermxor2.c:58:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:58:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:60:25: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor2.c:60:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor2.c:61:25: sparse: sparse: undefined identifier 'wp1'
-   lib/raid/raid6/powerpc/vpermxor2.c:61:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor2.c:64:56: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor2.c:65:56: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor2.c:66:25: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor2.c:66:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor2.c:67:25: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor2.c:67:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor2.c:69:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:69:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:69:47: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor2.c:70:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:70:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:70:47: sparse: sparse: undefined identifier 'wp1'
-   lib/raid/raid6/powerpc/vpermxor2.c:71:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:71:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:71:47: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor2.c:72:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:72:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor2.c:72:47: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor2.c:52:37: sparse: sparse: undefined identifier 'unative_t'
---
-   lib/raid/raid6/powerpc/vpermxor4.c: note: in included file:
-   ../lib/gcc/powerpc64-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/vpermxor4.c:29:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor4.c:29:16: sparse: sparse: got unsigned
->> lib/raid/raid6/powerpc/vpermxor4.c:32:21: sparse: sparse: two or more data types in declaration specifiers
->> lib/raid/raid6/powerpc/vpermxor4.c:32:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
-   lib/raid/raid6/powerpc/vpermxor4.c:32:30: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor4.c:32:30: sparse: sparse: got char
-   lib/raid/raid6/powerpc/vpermxor4.c:35:21: sparse: sparse: two or more data types in declaration specifiers
-   lib/raid/raid6/powerpc/vpermxor4.c:35:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
-   lib/raid/raid6/powerpc/vpermxor4.c:35:30: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor4.c:35:30: sparse: sparse: got char
-   lib/raid/raid6/powerpc/vpermxor4.c:45:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor4.c:45:19: sparse: sparse: got wp0
-   lib/raid/raid6/powerpc/vpermxor4.c:46:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor4.c:46:19: sparse: sparse: got wp1
-   lib/raid/raid6/powerpc/vpermxor4.c:47:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor4.c:47:19: sparse: sparse: got wp2
-   lib/raid/raid6/powerpc/vpermxor4.c:48:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor4.c:48:19: sparse: sparse: got wp3
->> lib/raid/raid6/powerpc/vpermxor4.c:55:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:56:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:57:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:58:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:61:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:62:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:63:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:64:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:81:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:82:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:83:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:84:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:85:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:86:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:87:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:88:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor4.c:45:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:46:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:47:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:48:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:55:17: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor4.c:55:23: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor4.c:55:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:55:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:56:17: sparse: sparse: undefined identifier 'wp1'
-   lib/raid/raid6/powerpc/vpermxor4.c:56:23: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor4.c:56:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:56:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:57:17: sparse: sparse: undefined identifier 'wp2'
-   lib/raid/raid6/powerpc/vpermxor4.c:57:23: sparse: sparse: undefined identifier 'wq2'
-   lib/raid/raid6/powerpc/vpermxor4.c:57:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:57:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:58:17: sparse: sparse: undefined identifier 'wp3'
-   lib/raid/raid6/powerpc/vpermxor4.c:58:23: sparse: sparse: undefined identifier 'wq3'
-   lib/raid/raid6/powerpc/vpermxor4.c:58:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:58:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:61:25: sparse: sparse: undefined identifier 'wd0'
-   lib/raid/raid6/powerpc/vpermxor4.c:61:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:61:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:62:25: sparse: sparse: undefined identifier 'wd1'
-   lib/raid/raid6/powerpc/vpermxor4.c:62:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:62:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:63:25: sparse: sparse: undefined identifier 'wd2'
-   lib/raid/raid6/powerpc/vpermxor4.c:63:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:63:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:64:25: sparse: sparse: undefined identifier 'wd3'
-   lib/raid/raid6/powerpc/vpermxor4.c:64:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:64:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:66:25: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor4.c:66:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor4.c:67:25: sparse: sparse: undefined identifier 'wp1'
-   lib/raid/raid6/powerpc/vpermxor4.c:67:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor4.c:68:25: sparse: sparse: undefined identifier 'wp2'
-   lib/raid/raid6/powerpc/vpermxor4.c:68:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor4.c:69:25: sparse: sparse: undefined identifier 'wp3'
-   lib/raid/raid6/powerpc/vpermxor4.c:69:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor4.c:72:56: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor4.c:73:56: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor4.c:74:56: sparse: sparse: undefined identifier 'wq2'
-   lib/raid/raid6/powerpc/vpermxor4.c:75:56: sparse: sparse: undefined identifier 'wq3'
-   lib/raid/raid6/powerpc/vpermxor4.c:76:25: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor4.c:76:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor4.c:77:25: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor4.c:77:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor4.c:78:25: sparse: sparse: undefined identifier 'wq2'
-   lib/raid/raid6/powerpc/vpermxor4.c:78:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor4.c:79:25: sparse: sparse: undefined identifier 'wq3'
-   lib/raid/raid6/powerpc/vpermxor4.c:79:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor4.c:81:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:81:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:81:47: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor4.c:82:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:82:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:82:47: sparse: sparse: undefined identifier 'wp1'
-   lib/raid/raid6/powerpc/vpermxor4.c:83:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:83:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:83:47: sparse: sparse: undefined identifier 'wp2'
-   lib/raid/raid6/powerpc/vpermxor4.c:84:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:84:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:84:47: sparse: sparse: undefined identifier 'wp3'
-   lib/raid/raid6/powerpc/vpermxor4.c:85:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:85:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:85:47: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor4.c:86:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:86:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:86:47: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor4.c:87:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:87:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:87:47: sparse: sparse: undefined identifier 'wq2'
-   lib/raid/raid6/powerpc/vpermxor4.c:88:19: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:88:36: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor4.c:88:47: sparse: sparse: undefined identifier 'wq3'
-   lib/raid/raid6/powerpc/vpermxor4.c:54:37: sparse: sparse: undefined identifier 'unative_t'
---
-   lib/raid/raid6/powerpc/vpermxor8.c: note: in included file:
-   ../lib/gcc/powerpc64-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/vpermxor8.c:29:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor8.c:29:16: sparse: sparse: got unsigned
->> lib/raid/raid6/powerpc/vpermxor8.c:32:21: sparse: sparse: two or more data types in declaration specifiers
->> lib/raid/raid6/powerpc/vpermxor8.c:32:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
-   lib/raid/raid6/powerpc/vpermxor8.c:32:30: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor8.c:32:30: sparse: sparse: got char
-   lib/raid/raid6/powerpc/vpermxor8.c:35:21: sparse: sparse: two or more data types in declaration specifiers
-   lib/raid/raid6/powerpc/vpermxor8.c:35:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
-   lib/raid/raid6/powerpc/vpermxor8.c:35:30: sparse: sparse: Expected ; at end of declaration
-   lib/raid/raid6/powerpc/vpermxor8.c:35:30: sparse: sparse: got char
-   lib/raid/raid6/powerpc/vpermxor8.c:45:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor8.c:45:19: sparse: sparse: got wp0
-   lib/raid/raid6/powerpc/vpermxor8.c:46:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor8.c:46:19: sparse: sparse: got wp1
-   lib/raid/raid6/powerpc/vpermxor8.c:47:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor8.c:47:19: sparse: sparse: got wp2
-   lib/raid/raid6/powerpc/vpermxor8.c:48:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor8.c:48:19: sparse: sparse: got wp3
-   lib/raid/raid6/powerpc/vpermxor8.c:49:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor8.c:49:19: sparse: sparse: got wp4
-   lib/raid/raid6/powerpc/vpermxor8.c:50:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor8.c:50:19: sparse: sparse: got wp5
-   lib/raid/raid6/powerpc/vpermxor8.c:51:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor8.c:51:19: sparse: sparse: got wp6
-   lib/raid/raid6/powerpc/vpermxor8.c:52:19: sparse: sparse: Expected ; at end of statement
-   lib/raid/raid6/powerpc/vpermxor8.c:52:19: sparse: sparse: got wp7
->> lib/raid/raid6/powerpc/vpermxor8.c:59:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:60:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:61:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:62:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:63:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:64:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:65:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:66:42: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:69:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:70:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:71:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:72:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:73:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:74:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:75:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:76:44: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:105:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:106:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:107:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:108:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:109:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:110:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:111:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:112:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:113:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:114:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:115:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:116:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:117:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:118:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:119:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:120:30: sparse: sparse: No right hand side of '*'-expression
-   lib/raid/raid6/powerpc/vpermxor8.c:45:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:46:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:47:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:48:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:49:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:50:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:51:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:52:9: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:59:17: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor8.c:59:23: sparse: sparse: undefined identifier 'wq0'
-   lib/raid/raid6/powerpc/vpermxor8.c:59:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:59:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:60:17: sparse: sparse: undefined identifier 'wp1'
-   lib/raid/raid6/powerpc/vpermxor8.c:60:23: sparse: sparse: undefined identifier 'wq1'
-   lib/raid/raid6/powerpc/vpermxor8.c:60:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:60:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:61:17: sparse: sparse: undefined identifier 'wp2'
-   lib/raid/raid6/powerpc/vpermxor8.c:61:23: sparse: sparse: undefined identifier 'wq2'
-   lib/raid/raid6/powerpc/vpermxor8.c:61:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:61:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:62:17: sparse: sparse: undefined identifier 'wp3'
-   lib/raid/raid6/powerpc/vpermxor8.c:62:23: sparse: sparse: undefined identifier 'wq3'
-   lib/raid/raid6/powerpc/vpermxor8.c:62:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:62:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:63:17: sparse: sparse: undefined identifier 'wp4'
-   lib/raid/raid6/powerpc/vpermxor8.c:63:23: sparse: sparse: undefined identifier 'wq4'
-   lib/raid/raid6/powerpc/vpermxor8.c:63:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:63:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:64:17: sparse: sparse: undefined identifier 'wp5'
-   lib/raid/raid6/powerpc/vpermxor8.c:64:23: sparse: sparse: undefined identifier 'wq5'
-   lib/raid/raid6/powerpc/vpermxor8.c:64:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:64:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:65:17: sparse: sparse: undefined identifier 'wp6'
-   lib/raid/raid6/powerpc/vpermxor8.c:65:23: sparse: sparse: undefined identifier 'wq6'
-   lib/raid/raid6/powerpc/vpermxor8.c:65:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:65:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:66:17: sparse: sparse: undefined identifier 'wp7'
-   lib/raid/raid6/powerpc/vpermxor8.c:66:23: sparse: sparse: undefined identifier 'wq7'
-   lib/raid/raid6/powerpc/vpermxor8.c:66:31: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:66:57: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:69:25: sparse: sparse: undefined identifier 'wd0'
-   lib/raid/raid6/powerpc/vpermxor8.c:69:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:69:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:70:25: sparse: sparse: undefined identifier 'wd1'
-   lib/raid/raid6/powerpc/vpermxor8.c:70:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:70:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:71:25: sparse: sparse: undefined identifier 'wd2'
-   lib/raid/raid6/powerpc/vpermxor8.c:71:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:71:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:72:25: sparse: sparse: undefined identifier 'wd3'
-   lib/raid/raid6/powerpc/vpermxor8.c:72:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:72:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:73:25: sparse: sparse: undefined identifier 'wd4'
-   lib/raid/raid6/powerpc/vpermxor8.c:73:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:73:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:74:25: sparse: sparse: undefined identifier 'wd5'
-   lib/raid/raid6/powerpc/vpermxor8.c:74:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:74:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:75:25: sparse: sparse: undefined identifier 'wd6'
-   lib/raid/raid6/powerpc/vpermxor8.c:75:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:75:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:76:25: sparse: sparse: undefined identifier 'wd7'
-   lib/raid/raid6/powerpc/vpermxor8.c:76:33: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:76:58: sparse: sparse: undefined identifier 'unative_t'
-   lib/raid/raid6/powerpc/vpermxor8.c:78:25: sparse: sparse: undefined identifier 'wp0'
-   lib/raid/raid6/powerpc/vpermxor8.c:78:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor8.c:79:25: sparse: sparse: undefined identifier 'wp1'
-   lib/raid/raid6/powerpc/vpermxor8.c:79:31: sparse: sparse: undefined identifier '__builtin_vec_xor'
-   lib/raid/raid6/powerpc/vpermxor8.c:80:25: sparse: sparse: undefined identifier 'wp2'
+New smatch warnings:
+fs/9p/vfs_inode_dotl.c:420 v9fs_vfs_mkdir_dotl() warn: passing zero to 'ERR_PTR'
+fs/9p/vfs_inode.c:695 v9fs_vfs_mkdir() warn: passing zero to 'ERR_PTR'
+
+Old smatch warnings:
+fs/9p/vfs_inode.c:1289 v9fs_vfs_link() warn: 'oldfid' can also be NULL
+
+vim +/ERR_PTR +420 fs/9p/vfs_inode_dotl.c
+
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  343  
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  344  /**
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  345   * v9fs_vfs_mkdir_dotl - VFS mkdir hook to create a directory
+c54bd91e9eaba4 Christian Brauner  2023-01-13  346   * @idmap: The idmap of the mount
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  347   * @dir:  inode that is being unlinked
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  348   * @dentry: dentry that is being unlinked
+fd2916bd77109b Fabian Frederick   2014-06-04  349   * @omode: mode for new directory
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  350   *
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  351   */
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  352  
+88d5baf69082e5 NeilBrown          2025-02-27  353  static struct dentry *v9fs_vfs_mkdir_dotl(struct mnt_idmap *idmap,
+549c7297717c32 Christian Brauner  2021-01-21  354  					  struct inode *dir, struct dentry *dentry,
+549c7297717c32 Christian Brauner  2021-01-21  355  					  umode_t omode)
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  356  {
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  357  	int err;
+fedd06210b14fe Dominique Martinet 2024-10-24  358  	struct v9fs_session_info *v9ses;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  359  	struct p9_fid *fid = NULL, *dfid = NULL;
+d4ef4e35810448 Eric W. Biederman  2013-01-30  360  	kgid_t gid;
+7880b43bdfc958 Al Viro            2017-01-12  361  	const unsigned char *name;
+d3fb612076eebe Al Viro            2011-07-23  362  	umode_t mode;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  363  	struct inode *inode;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  364  	struct p9_qid qid;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  365  	struct posix_acl *dacl = NULL, *pacl = NULL;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  366  
+4b8e992392a246 Al Viro            2014-08-19  367  	p9_debug(P9_DEBUG_VFS, "name %pd\n", dentry);
+fedd06210b14fe Dominique Martinet 2024-10-24  368  	v9ses = v9fs_inode2v9ses(dir);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  369  
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  370  	omode |= S_IFDIR;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  371  	if (dir->i_mode & S_ISGID)
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  372  		omode |= S_ISGID;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  373  
+77d5a6b7d9924e Al Viro            2016-05-29  374  	dfid = v9fs_parent_fid(dentry);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  375  	if (IS_ERR(dfid)) {
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  376  		err = PTR_ERR(dfid);
+5d3851530d6d68 Joe Perches        2011-11-28  377  		p9_debug(P9_DEBUG_VFS, "fid lookup failed %d\n", err);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  378  		goto error;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  379  	}
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  380  
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  381  	gid = v9fs_get_fsgid_for_create(dir);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  382  	mode = omode;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  383  	/* Update mode based on ACL value */
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  384  	err = v9fs_acl_mode(dir, &mode, &dacl, &pacl);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  385  	if (err) {
+5d3851530d6d68 Joe Perches        2011-11-28  386  		p9_debug(P9_DEBUG_VFS, "Failed to get acl values in mkdir %d\n",
+5d3851530d6d68 Joe Perches        2011-11-28  387  			 err);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  388  		goto error;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  389  	}
+7880b43bdfc958 Al Viro            2017-01-12  390  	name = dentry->d_name.name;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  391  	err = p9_client_mkdir_dotl(dfid, name, mode, gid, &qid);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  392  	if (err < 0)
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  393  		goto error;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  394  	fid = p9_client_walk(dfid, 1, &name, 1);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  395  	if (IS_ERR(fid)) {
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  396  		err = PTR_ERR(fid);
+5d3851530d6d68 Joe Perches        2011-11-28  397  		p9_debug(P9_DEBUG_VFS, "p9_client_walk failed %d\n",
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  398  			 err);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  399  		goto error;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  400  	}
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  401  
+3592ac44401799 Al Viro            2013-01-31  402  	/* instantiate inode and assign the unopened fid to the dentry */
+be2ca382537208 Dominique Martinet 2024-10-24  403  	inode = v9fs_get_new_inode_from_fid(v9ses, fid, dir->i_sb);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  404  	if (IS_ERR(inode)) {
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  405  		err = PTR_ERR(inode);
+5d3851530d6d68 Joe Perches        2011-11-28  406  		p9_debug(P9_DEBUG_VFS, "inode creation failed %d\n",
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  407  			 err);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  408  		goto error;
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  409  	}
+dafbe689736f62 Dominique Martinet 2022-06-12  410  	v9fs_fid_add(dentry, &fid);
+3592ac44401799 Al Viro            2013-01-31  411  	v9fs_set_create_acl(inode, fid, dacl, pacl);
+5441ae5eb3614d Aneesh Kumar K.V   2011-07-25  412  	d_instantiate(dentry, inode);
+2ea03e1d62d56c Al Viro            2013-02-28  413  	err = 0;
+b271ec47bc11de Aneesh Kumar K.V   2011-02-28  414  	inc_nlink(dir);
+d28c61f0e08aab Aneesh Kumar K.V   2011-02-28  415  	v9fs_invalidate_inode_attr(dir);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  416  error:
+b48dbb998d70b7 Dominique Martinet 2022-06-12  417  	p9_fid_put(fid);
+5fa6300ae0ccf7 Al Viro            2013-01-31  418  	v9fs_put_acl(dacl, pacl);
+b48dbb998d70b7 Dominique Martinet 2022-06-12  419  	p9_fid_put(dfid);
+88d5baf69082e5 NeilBrown          2025-02-27 @420  	return ERR_PTR(err);
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  421  }
+53c06f4e0a4621 Aneesh Kumar K.V   2011-01-10  422  
 
 -- 
 0-DAY CI Kernel Test Service
