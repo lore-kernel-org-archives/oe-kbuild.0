@@ -1,179 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4D62D73BD
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 06:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B3536920C
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 07:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774247088; cv=none; b=q49pmn2QfaaK7NXfNna2tDfZpMGZIKl1r6lpaD8qk6MLCQXu57EAeRkSBfnhch6wdWtEN0alcUsp0jfMPEGjMArdtAyJsAKXxS21jQuInr6+8se3R1eiKY3giuz0cSalSXKu1U9crSnZmGNVC6U2z+t9wlohInpu5YTeakvxlGU=
+	t=1774252783; cv=none; b=GgVSmgcr0S3TrqPkXMpOrJr2d8WsyQaCBtZnf/w6oZY4dOkAN0b7z0Rv4H9PW2vYGPDm6APYLnjXQJf+6BmDEVCUDFjIrGmC/ZH4IJ4b3sER4fAys1A124flUAy7wNjpCL0xJucqpnYjVfXO9RM+prFjNGCfxRm5tsVcPdZZljk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774247088; c=relaxed/simple;
-	bh=qIx/Uiopfyv3qgvJL+uvkQUnYG2s/+2AEgNdF2GNXH0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YJjuSetS2+Jknm/4n49JhzwiYmn2UO6s2MVUIDXe4AxVllJlotDnhRQuE6iCi6I6gGMhS4os3Ta9mWsSFCt+z8H/CAKBmvgNBoNJn298XPZHWoO6IGjzAx06ZQDkEwclbsAk9o279CdhVx4HfLJxI79ovkrHghodvHEJXThF10E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqkasg1J; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774252783; c=relaxed/simple;
+	bh=ZK4S2koWfvvbFCmInI+xOvEDaGvIpkJ+5gTQ4xr1f4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=GF4vztjLxXxrhg5qiwP7WOOcY5ISYG3y3H189vZ1kkrIqHU8gH/XWGpXS/hL2Ygzvn8eztZCwdOHWNiD4b5MXBnefnBh+jY+4Zua4qzyCtW0RzaUBttiTlYO/XMU3EqA+6APLK8POiQ40Ga4lO/g6Ygpx5r22CZtsM971sz3S/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D/ooaM1G; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqkasg1J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774247086; x=1805783086;
-  h=date:from:to:cc:subject:message-id;
-  bh=qIx/Uiopfyv3qgvJL+uvkQUnYG2s/+2AEgNdF2GNXH0=;
-  b=fqkasg1JIU35Jk/xjVSM0G3C9oZQnvC7L9/8u4otaPVE6lleBFUsnX1p
-   4jh86lAclhb0qtgMRjd9EKVlRojO7dJYPsv8hvO1TyiG2R5Aq4sXfR8y5
-   ynCXgIBfOBhI3eYFtakjUEcOLZgGHDs7AwINqBWxuVdinp8g3sskPcKcU
-   Ic0w4/K3swlYpFJzWiijcCb5sjrVgFvIwjXtKM9mwHb0Kiia+ownwH0bP
-   jLYZXfgT1EXy4+joLGwSl5bPgmso0toRH6TpARMpCbZ7MrHlZP3kWkgHJ
-   e+erIju/6wxfdLg3eACzw2gjth5QfM1UD1o3ZuitoujwWdDNCXbFJiHGg
-   w==;
-X-CSE-ConnectionGUID: fuQjWYS/QTK2HMFETEkluw==
-X-CSE-MsgGUID: BbGL25ZJRjidGjVTTc37Uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="78836328"
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="78836328"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 23:24:45 -0700
-X-CSE-ConnectionGUID: uBivxzEKQ3KBVanXcZ08uA==
-X-CSE-MsgGUID: JO2CYBq0RRGfvjVJ+9bTFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="228651019"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Mar 2026 23:24:45 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w4YiQ-00000000081-2HHa;
-	Mon, 23 Mar 2026 06:24:42 +0000
-Date: Mon, 23 Mar 2026 14:24:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5929/7971]
- drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 riscv_64_map_range() warn:
- impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
-Message-ID: <202603231414.TiHeX7r6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D/ooaM1G"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439d8dc4ae4so3351725f8f.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 00:59:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774252779; x=1774857579; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u9TDw557HHr9QxeSzljvTvjTyUstusLez8TY6c03rPs=;
+        b=D/ooaM1GK0MV7y3I2b8l/bNP4LgDXbWN/Flxo32P5LhKgaPTx3oSdYtf+immy8gS5m
+         uIeeLZS+hsxdF0EudcK8lYutsNW/nWxSjxu69nJkiz3LuYXDaJw6T8vCm86pLmfCn1mu
+         nN1OY+iZxRemRXT6LAJLm5KieQ5YcMotm2qO3gWE7AkUw7adIR+mJVZM5abwsrIsn64c
+         tB7p2jqSGxYOu6yzLOjEe7Az+vQ5x1tUiCZn4IpuG6WXQoOo7NxfKUAKZMEb8N+K2Aw5
+         W11PmY3VumSQCcBHMCXOIG7jb5CFKVyQxnzPaQxZNXCizcIzC2fCQjNMk04R6J7C57eO
+         gWQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774252779; x=1774857579;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u9TDw557HHr9QxeSzljvTvjTyUstusLez8TY6c03rPs=;
+        b=a9MM3/YGRNzBR+Ws7Pq1V3rgJtJ6Un5Na3XJUhBNQa353Mi8+NSKSYR9/lwd21YiA/
+         JlWe/yn8hE/suaYA2WE/UykTCYcrYlnVf33gf4L862ljSLwhpR/oO+fcUcHOFFpajtBH
+         MNgousQt4O0WBOM9BC6HH4IWYLTeaI7xdl6YG3R8b0nBKF6EouO9sNy6ix2hFFWZv0J6
+         oHz45O/uWXrLzmpS0arb+qRk9esOoNeqXgv5//2aUkzhWnl8lh/sLhmHBD1Z3oiW1Nd4
+         vOUSwymWKrp7VuWY1ga+Mwb+gb3lUxmZQ/mwtiMyuvUC4USwraC2ZW8Mo6bYcw0exFaI
+         9lIA==
+X-Gm-Message-State: AOJu0Yyh9gBcUjFKBzMTawuxpRbQzDTju+inJMtbg5urdE/03AjmAqcc
+	YgECNsD9XOYXeCCdh0KA2casbnBw/eH7aSpGo5SsTrwgUsM/e2eoK02jYHVX45qzuxlCrA/1Rvc
+	HVSHF
+X-Gm-Gg: ATEYQzzcw+lhzGCSSfwfmUHsI/4kncjlU41ypAZISDDn95h3KYvU8+I+0erbw20cLX0
+	q44uWoXu8TBq04a5TwEMIvoeBuoVSLZWZOpNzX8KZfONS8U5oM6QFmOj0T+uic0ce2COFDEz9FE
+	i4aXfn3ubYYdVh4GtKU6u6pvBfi0DKMqqGKHSaGa+vI9V3qJuQ3TetqX8eXrZ6WG0agIB40xmLt
+	hJlHj4iZ+Xc+6x/imeRPrsXjN6YtJhPJppE/5GTpemcG2kCcUGSgFnx+ymkMGDnzmNUPPj9WdCo
+	Fl1f3sQAicPhPTeUVTsTq67kUWEEETM/WNMfM5WgfqPXkaxYJc/dSNt5erbmkx6etZIF/G/Y/54
+	xTax06YcJBIxCoxJnGpblKEZ6f/JMYevkoTamrvg5YB/Xpw81Q33Mf0rcA+L6Pq4kRRMXHFzaF5
+	EOq4bhGpncOPlke7/0i9/+mtXzT6Td
+X-Received: by 2002:a05:6000:2889:b0:43b:4f97:9608 with SMTP id ffacd0b85a97d-43b6423a2d0mr18921847f8f.14.1774252779046;
+        Mon, 23 Mar 2026 00:59:39 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae016sm26289900f8f.4.2026.03.23.00.59.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 00:59:38 -0700 (PDT)
+Date: Mon, 23 Mar 2026 10:59:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, David Timber <dxdt@dev.snart.me>,
+	linkinjeon@kernel.org, sj1557.seo@samsung.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, yuezhang.mo@sony.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	David Timber <dxdt@dev.snart.me>
+Subject: Re: [PATCH v0 1/1] exfat: add limited FALLOC_FL_ZERO_RANGE support
+Message-ID: <202603221252.dVVrrOrL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260319043553.301185-2-dxdt@dev.snart.me>
+Message-ID: <20260323075934.BmY5Pjj7sib-Dz1nDI0cyMtWFZPrO3Gs5jQynEjH8lg@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Jason Gunthorpe <jgg@nvidia.com>
-CC: Joerg Roedel <joerg.roedel@amd.com>
-CC: Samiullah Khawaja <skhawaja@google.com>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Lu Baolu <baolu.lu@linux.intel.com>
+Hi David,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
-commit: d6c65b0fd6218bd21ed0be7a8d3218e8f6dc91de [5929/7971] iommupt: Avoid rewalking during map
-:::::: branch date: 3 days ago
-:::::: commit date: 6 days ago
-config: i386-randconfig-141-20260321 (https://download.01.org/0day-ci/archive/20260323/202603231414.TiHeX7r6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Timber/exfat-add-limited-FALLOC_FL_ZERO_RANGE-support/20260319-185700
+base:   next-20260318
+patch link:    https://lore.kernel.org/r/20260319043553.301185-2-dxdt%40dev.snart.me
+patch subject: [PATCH v0 1/1] exfat: add limited FALLOC_FL_ZERO_RANGE support
+config: i386-randconfig-141-20260322 (https://download.01.org/0day-ci/archive/20260322/202603221252.dVVrrOrL-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603231414.TiHeX7r6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202603221252.dVVrrOrL-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 riscv_64_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
+fs/exfat/file.c:183 exfat_fallocate() warn: inconsistent returns '&inode->i_rwsem'.
 
-vim +908 drivers/iommu/generic_pt/fmt/../iommu_pt.h
+vim +183 fs/exfat/file.c
 
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  885  
-d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  886  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
-d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  887  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
-d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  888  			 gfp_t gfp, size_t *mapped)
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  889  {
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  890  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  891  	struct pt_common *common = common_from_iommu(iommu_table);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  892  	struct iommu_iotlb_gather iotlb_gather;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  893  	struct pt_iommu_map_args map = {
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  894  		.iotlb_gather = &iotlb_gather,
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  895  		.oa = paddr,
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  896  	};
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  897  	bool single_page = false;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  898  	struct pt_range range;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  899  	int ret;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  900  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  901  	iommu_iotlb_gather_init(&iotlb_gather);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  902  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  903  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  904  		return -EINVAL;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  905  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  906  	/* Check the paddr doesn't exceed what the table can store */
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  907  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04 @908  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  909  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  910  	     oalog2_div(paddr, common->max_oasz_lg2)))
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  911  		return -ERANGE;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  912  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  913  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  914  	if (ret)
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  915  		return ret;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  916  	map.attrs.gfp = gfp;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  917  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  918  	ret = make_range_no_check(common, &range, iova, len);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  919  	if (ret)
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  920  		return ret;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  921  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  922  	/* Calculate target page size and level for the leaves */
-d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  923  	if (pt_has_system_page_size(common) && len == PAGE_SIZE) {
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  924  		PT_WARN_ON(!(pgsize_bitmap & PAGE_SIZE));
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  925  		if (log2_mod(iova | paddr, PAGE_SHIFT))
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  926  			return -ENXIO;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  927  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  928  		map.leaf_level = 0;
-d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  929  		map.num_leaves = 1;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  930  		single_page = true;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  931  	} else {
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  932  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  933  			pgsize_bitmap, range.va, range.last_va, paddr);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  934  		if (!map.leaf_pgsize_lg2)
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  935  			return -ENXIO;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  936  		map.leaf_level =
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  937  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
-d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  938  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
-d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  939  					       range.last_va, paddr,
-d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  940  					       map.leaf_pgsize_lg2);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  941  	}
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  942  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  943  	ret = check_map_range(iommu_table, &range, &map);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  944  	if (ret)
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  945  		return ret;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  946  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  947  	PT_WARN_ON(map.leaf_level > range.top_level);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  948  
-efa03dab7ce4ed7 Jason Gunthorpe 2025-10-23  949  	ret = do_map(&range, common, single_page, &map);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  950  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  951  	/*
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  952  	 * Table levels were freed and replaced with large items, flush any walk
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  953  	 * cache that may refer to the freed levels.
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  954  	 */
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  955  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  956  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  957  
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  958  	/* Bytes successfully mapped */
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  959  	PT_WARN_ON(!ret && map.oa - paddr != len);
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  960  	*mapped += map.oa - paddr;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  961  	return ret;
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  962  }
-dcd6a011a8d523a Jason Gunthorpe 2025-11-04  963  
+bf1797960c20f3d David Timber 2026-02-28  107  static long exfat_fallocate(struct file *file, int mode,
+bf1797960c20f3d David Timber 2026-02-28  108  			  loff_t offset, loff_t len)
+bf1797960c20f3d David Timber 2026-02-28  109  {
+bf1797960c20f3d David Timber 2026-02-28  110  	struct inode *inode = file->f_mapping->host;
+1178dacb657facf David Timber 2026-03-19  111  	loff_t newsize, isize;
+bf1797960c20f3d David Timber 2026-02-28  112  	int err = 0;
+bf1797960c20f3d David Timber 2026-02-28  113  
+bf1797960c20f3d David Timber 2026-02-28  114  	/* No support for other modes */
+1178dacb657facf David Timber 2026-03-19  115  	switch (mode) {
+1178dacb657facf David Timber 2026-03-19  116  	case FALLOC_FL_ALLOCATE_RANGE:
+1178dacb657facf David Timber 2026-03-19  117  	case FALLOC_FL_ZERO_RANGE:
+1178dacb657facf David Timber 2026-03-19  118  	case FALLOC_FL_ZERO_RANGE|FALLOC_FL_KEEP_SIZE:
+1178dacb657facf David Timber 2026-03-19  119  		break;
+1178dacb657facf David Timber 2026-03-19  120  	default:
+bf1797960c20f3d David Timber 2026-02-28  121  		return -EOPNOTSUPP;
+1178dacb657facf David Timber 2026-03-19  122  	}
+bf1797960c20f3d David Timber 2026-02-28  123  
+bf1797960c20f3d David Timber 2026-02-28  124  	/* No support for dir */
+bf1797960c20f3d David Timber 2026-02-28  125  	if (!S_ISREG(inode->i_mode))
+1178dacb657facf David Timber 2026-03-19  126  		return mode & FALLOC_FL_ZERO_RANGE ? -EINVAL : -EOPNOTSUPP;
+bf1797960c20f3d David Timber 2026-02-28  127  
+bf1797960c20f3d David Timber 2026-02-28  128  	if (unlikely(exfat_forced_shutdown(inode->i_sb)))
+bf1797960c20f3d David Timber 2026-02-28  129  		return -EIO;
+bf1797960c20f3d David Timber 2026-02-28  130  
+bf1797960c20f3d David Timber 2026-02-28  131  	inode_lock(inode);
+                                                ^^^^^^^^^^^^^^^^^^
 
-:::::: The code at line 908 was first introduced by commit
-:::::: dcd6a011a8d523a114af2360a8753de5bd60c139 iommupt: Add map_pages op
+bf1797960c20f3d David Timber 2026-02-28  132  
+1178dacb657facf David Timber 2026-03-19  133  	newsize = offset + len;
+1178dacb657facf David Timber 2026-03-19  134  	isize = i_size_read(inode);
+1178dacb657facf David Timber 2026-03-19  135  
+1178dacb657facf David Timber 2026-03-19  136  	if (mode & FALLOC_FL_ZERO_RANGE) {
+1178dacb657facf David Timber 2026-03-19  137  		struct exfat_inode_info *ei = EXFAT_I(inode);
+1178dacb657facf David Timber 2026-03-19  138  		loff_t saved_validsize = ei->valid_size;
+1178dacb657facf David Timber 2026-03-19  139  
+1178dacb657facf David Timber 2026-03-19  140  		/* The requested range must span to or past EOF */
+1178dacb657facf David Timber 2026-03-19  141  		if (newsize < isize) {
+1178dacb657facf David Timber 2026-03-19  142  			err = -EOPNOTSUPP;
+1178dacb657facf David Timber 2026-03-19  143  			goto error;
+1178dacb657facf David Timber 2026-03-19  144  		}
+1178dacb657facf David Timber 2026-03-19  145  
+1178dacb657facf David Timber 2026-03-19  146  		/* valid_size can only be truncated */
+1178dacb657facf David Timber 2026-03-19  147  		if (offset < ei->valid_size)
+1178dacb657facf David Timber 2026-03-19  148  			ei->valid_size = offset;
+1178dacb657facf David Timber 2026-03-19  149  		/* If offset >= ei->valid_size, the range is already zeroed so that'd be no-op */
+1178dacb657facf David Timber 2026-03-19  150  
+1178dacb657facf David Timber 2026-03-19  151  		if (!(mode & FALLOC_FL_KEEP_SIZE) && isize < newsize) {
+1178dacb657facf David Timber 2026-03-19  152  			err = exfat_cont_expand(inode, newsize);
+1178dacb657facf David Timber 2026-03-19  153  			if (err) {
+1178dacb657facf David Timber 2026-03-19  154  				/* inode unchanged - revert valid_size */
+1178dacb657facf David Timber 2026-03-19  155  				ei->valid_size = saved_validsize;
+1178dacb657facf David Timber 2026-03-19  156  				goto error;
+1178dacb657facf David Timber 2026-03-19  157  			}
+1178dacb657facf David Timber 2026-03-19  158  			/* inode invalidated in exfat_cont_expand() */
+1178dacb657facf David Timber 2026-03-19  159  		} else {
+1178dacb657facf David Timber 2026-03-19  160  			/* update inode */
+1178dacb657facf David Timber 2026-03-19  161  			inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
+1178dacb657facf David Timber 2026-03-19  162  
+1178dacb657facf David Timber 2026-03-19  163  			mark_inode_dirty(inode);
+1178dacb657facf David Timber 2026-03-19  164  
+1178dacb657facf David Timber 2026-03-19  165  			if (IS_SYNC(inode))
+1178dacb657facf David Timber 2026-03-19  166  				return write_inode_now(inode, 1);
 
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
+I don't think this calls inode_unlock(inode);
+
+1178dacb657facf David Timber 2026-03-19  167  		}
+1178dacb657facf David Timber 2026-03-19  168  
+1178dacb657facf David Timber 2026-03-19  169  		/* drop cache after the new valid_size */
+1178dacb657facf David Timber 2026-03-19  170  		if (ei->valid_size != saved_validsize)
+1178dacb657facf David Timber 2026-03-19  171  			truncate_pagecache(inode, ei->valid_size);
+1178dacb657facf David Timber 2026-03-19  172  	} else { /* mode == FALLOC_FL_ALLOCATE_RANGE */
+1178dacb657facf David Timber 2026-03-19  173  		if (newsize <= isize)
+bf1797960c20f3d David Timber 2026-02-28  174  			goto error;
+bf1797960c20f3d David Timber 2026-02-28  175  
+bf1797960c20f3d David Timber 2026-02-28  176  		/* This is just an expanding truncate */
+bf1797960c20f3d David Timber 2026-02-28  177  		err = exfat_cont_expand(inode, newsize);
+1178dacb657facf David Timber 2026-03-19  178  	}
+bf1797960c20f3d David Timber 2026-02-28  179  
+bf1797960c20f3d David Timber 2026-02-28  180  error:
+bf1797960c20f3d David Timber 2026-02-28  181  	inode_unlock(inode);
+bf1797960c20f3d David Timber 2026-02-28  182  
+bf1797960c20f3d David Timber 2026-02-28 @183  	return err;
+bf1797960c20f3d David Timber 2026-02-28  184  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
