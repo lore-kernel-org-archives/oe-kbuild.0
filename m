@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3D233F58F
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 10:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A815E384242
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 11:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774263368; cv=none; b=nQvdxYiFnV4w2AMl2hx5k7UrvZ3HCjZhO8haJ+32OYg7UyZj+ZJb/BmG18AAwCwqsWypgZMjmOGz5y/XSBap8b8J5xbwC9oZjDhhCkW8dbvaTg4v3/6SCSSWVLY7ohTprSRdQH6jmxydoFgkicq/BEC1Xl4uTnVkGXE5GYi7970=
+	t=1774265354; cv=none; b=Sz5tSSqVWxLM3TfZ1sEq6vywVUGN1/HKnIxy6L/UQjm3oGBvHgVjZsvwEZB5y389whR5riM+PpU1mhcFUU1MPadnPYEkr/XMeub79UlJf3MkbEmc0m2N7UKLqZ3OQ2HCq7e2OwdDq1N2/l4ZOjJwLY+FTqDact7HU8eSsDLyX/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774263368; c=relaxed/simple;
-	bh=GVCIg0JVuUFr0m5bkiUIx1XUePdcGaW2O5SqQJiMHoU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YEnJRkfhCo+cztynmHdWkDdC1txHz2mQ9zwPWF3ibVq/RhYpDpzaE3OgyJcIs6sppQtwVnAlmPsYflkMFV7OhvjTfdTNLWgLkht4lDKwvkh4+6zmT1px5TtbHW5zl2vBwQCMIHwOUqfEfYtRmx3Wpz8OadFDUch1DyYLDGCrbiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOaD3agx; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774265354; c=relaxed/simple;
+	bh=kNMwHaRLtPVDIk642/l9P6mRviNsamWl2CqZuLMpG/A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=reXB+ek2ku51+if02qOh4X+neZe9cM1lr0usqhhBz3V/VqBBNAi7hCLcYlJqvRFCe+vCO7IgfCQ1WMim8i4u0M5YhRcgQ7ZYOSBACXaYJeTJJlWBOyeWLkvmc09vDvDmVe+l2pjsP+1PHFqgoTp100kFi1kyQM4eI64HDvEG5cU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrsJHAx4; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOaD3agx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrsJHAx4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774263366; x=1805799366;
+  t=1774265351; x=1805801351;
   h=date:from:to:cc:subject:message-id;
-  bh=GVCIg0JVuUFr0m5bkiUIx1XUePdcGaW2O5SqQJiMHoU=;
-  b=iOaD3agxIEKB0tPTlXo0jwHplj2q7L1iVcrcsulBpJRptDBDF9XnzdsH
-   AIEUy/N4lI6g5xqHZFFRiHPxH6N8c1h+MMqXfgP/qnUlSG6CkmGeIM8Ir
-   EC8TtgLl1MxvxqCo+YkepLexZn70y/DRvm169K+aWN4UxZfA45+XhIYod
-   tYN1HeFN9dT0benx2INzKA6/w63rxS/CZA3P6RB061qSzNnxdKV7JoVBo
-   bh3LDjNSy1m7lB26g1+GBB+vlKytXzMobDeAseK1CWFVuyip5OT+tqUpK
-   BZaZKbgkEzS2gVXvSANd4VIXlffpq9V8JZ39q5i5HbQ0ezglisZbRkUk+
-   g==;
-X-CSE-ConnectionGUID: iDOOyQIARTWYJAK/alijUQ==
-X-CSE-MsgGUID: WXQNvw9sQH+45ECLrzcXRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="85953371"
+  bh=kNMwHaRLtPVDIk642/l9P6mRviNsamWl2CqZuLMpG/A=;
+  b=lrsJHAx4qSFR8YJX3IQUAT0EvbjK0JQXgJH82scKg2Bi6o5UDLH8RCTL
+   3+5y/Yj7FPXaDayKcCtuWpgRhhBerTYUJyiFUe4Iecx53Ak2Sn+BkSTql
+   zhS7AUD6l/LlFbEBJ4k2DgPC0xNU631k9pej+jPBWNib3ni6EGXwcIcsx
+   oyi/6+jhUIodSaD6MbKcOZROZUnw8j9jzfHg9Ag+bv1TzbHRH20f0MZF8
+   aF9OySIPK2MIKRrZVqIGyZfMpACT+tkcyrHnqYOehUEfGvFbor/XwJus6
+   +mf9xnv3SWcpQdrqfuxXq8XEc7Vo7UmvZsgQJjBv/9QVx1N0an9lECV/1
+   w==;
+X-CSE-ConnectionGUID: vSHIe8lMQkKldnnHrJmCsQ==
+X-CSE-MsgGUID: Etcz8IOySlelSxBeGDWYAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="97879786"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="85953371"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:56:05 -0700
-X-CSE-ConnectionGUID: j2Wk4KUxRKifdcCu5y+M6w==
-X-CSE-MsgGUID: SVJ0op+rTryXo6AGbsrMEg==
+   d="scan'208";a="97879786"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 04:29:10 -0700
+X-CSE-ConnectionGUID: mTN2suMEQ1K6DzAdEFdX+A==
+X-CSE-MsgGUID: m1a8iHVmSZuAuXzTmTKG7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="224205070"
+   d="scan'208";a="224015225"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 23 Mar 2026 03:56:04 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Mar 2026 04:29:10 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4cwz-000000000Nj-0A97;
-	Mon, 23 Mar 2026 10:56:01 +0000
-Date: Mon, 23 Mar 2026 18:55:59 +0800
+	id 1w4dT0-000000000SB-1ue5;
+	Mon, 23 Mar 2026 11:29:06 +0000
+Date: Mon, 23 Mar 2026 19:28:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [bvanassche:block-for-next 17/31]
- block/blk-throttle.c:1386:2: warning: releasing spinlock
- 'bdev_get_queue(ctx.bdev).queue_lock' that was not held
-Message-ID: <202603231816.9FqVML61-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: net/core/net-sysfs.c:1961 netdev_queue_add_kobject() warn:
+ Calling kobject_put|get with state->initialized unset from line: 1928
+Message-ID: <202603231946.8tLVKCeh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,112 +59,97 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Bart Van Assche <bvanassche@acm.org>
+CC: linux-kernel@vger.kernel.org
+TO: Antoine Tenart <atenart@kernel.org>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://github.com/bvanassche/linux block-for-next
-head:   9f0e2d950eb40285341043781f7e9fe8258f9ad6
-commit: e9ca43430f52e1ed72d5da4f7b9ef71d85a7fc9d [17/31] block: Enable lock context analysis
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20260323/202603231816.9FqVML61-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c369299895a591d96745d6492d4888259b004a9e
+commit: 7e54f85c60828842be27e0149f3533357225090e net-sysfs: prevent uncleared queues from being re-added
+date:   1 year, 1 month ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: mips-randconfig-r072-20260323 (https://download.01.org/0day-ci/archive/20260323/202603231946.8tLVKCeh-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c911b8492374942bf4cfe35411e90a35d3837f6a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603231816.9FqVML61-lkp@intel.com/reproduce)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603231816.9FqVML61-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603231946.8tLVKCeh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+net/core/net-sysfs.c:1961 netdev_queue_add_kobject() warn: Calling kobject_put|get with state->initialized unset from line: 1928
 
->> block/blk-throttle.c:1386:2: warning: releasing spinlock 'bdev_get_queue(ctx.bdev).queue_lock' that was not held [-Wthread-safety-analysis]
-    1386 |         blkg_conf_unprep(&ctx);
-         |         ^
->> block/blk-throttle.c:1389:2: warning: spinlock 'ctx.bdev->bd_disk->queue->queue_lock' is not held on every path through here [-Wthread-safety-analysis]
-    1389 |         blkg_conf_close_bdev(&ctx);
-         |         ^
-   block/blk-throttle.c:1364:8: note: spinlock acquired here
-    1364 |         ret = blkg_conf_prep(blkcg, &blkcg_policy_throtl, &ctx);
-         |               ^
-   block/blk-throttle.c:1607:2: warning: releasing spinlock 'bdev_get_queue(ctx.bdev).queue_lock' that was not held [-Wthread-safety-analysis]
-    1607 |         blkg_conf_unprep(&ctx);
-         |         ^
-   block/blk-throttle.c:1609:2: warning: spinlock 'ctx.bdev->bd_disk->queue->queue_lock' is not held on every path through here [-Wthread-safety-analysis]
-    1609 |         blkg_conf_close_bdev(&ctx);
-         |         ^
-   block/blk-throttle.c:1552:8: note: spinlock acquired here
-    1552 |         ret = blkg_conf_prep(blkcg, &blkcg_policy_throtl, &ctx);
-         |               ^
-   4 warnings generated.
+Old smatch warnings:
+net/core/net-sysfs.c:1262 rx_queue_add_kobject() warn: Calling kobject_put|get with state->initialized unset from line: 1224
 
+vim +1961 net/core/net-sysfs.c
 
-vim +1386 block/blk-throttle.c
+74293ea1c4db62 Breno Leitao      2024-02-16  1910  
+6b53dafe23fd1f WANG Cong         2014-07-23  1911  static int netdev_queue_add_kobject(struct net_device *dev, int index)
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1912  {
+6b53dafe23fd1f WANG Cong         2014-07-23  1913  	struct netdev_queue *queue = dev->_tx + index;
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1914  	struct kobject *kobj = &queue->kobj;
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1915  	int error = 0;
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1916  
+7e54f85c608288 Antoine Tenart    2025-02-04  1917  	/* Tx queues are cleared in netdev_queue_release to allow later
+7e54f85c608288 Antoine Tenart    2025-02-04  1918  	 * re-registration. This is triggered when their kobj refcount is
+7e54f85c608288 Antoine Tenart    2025-02-04  1919  	 * dropped.
+7e54f85c608288 Antoine Tenart    2025-02-04  1920  	 *
+7e54f85c608288 Antoine Tenart    2025-02-04  1921  	 * If a queue is removed while both a read (or write) operation and a
+7e54f85c608288 Antoine Tenart    2025-02-04  1922  	 * the re-addition of the same queue are pending (waiting on rntl_lock)
+7e54f85c608288 Antoine Tenart    2025-02-04  1923  	 * it might happen that the re-addition will execute before the read,
+7e54f85c608288 Antoine Tenart    2025-02-04  1924  	 * making the initial removal to never happen (queue's kobj refcount
+7e54f85c608288 Antoine Tenart    2025-02-04  1925  	 * won't drop enough because of the pending read). In such rare case,
+7e54f85c608288 Antoine Tenart    2025-02-04  1926  	 * return to allow the removal operation to complete.
+7e54f85c608288 Antoine Tenart    2025-02-04  1927  	 */
+7e54f85c608288 Antoine Tenart    2025-02-04  1928  	if (unlikely(kobj->state_initialized)) {
+7e54f85c608288 Antoine Tenart    2025-02-04  1929  		netdev_warn_once(dev, "Cannot re-add tx queues before their removal completed");
+7e54f85c608288 Antoine Tenart    2025-02-04  1930  		return -EAGAIN;
+7e54f85c608288 Antoine Tenart    2025-02-04  1931  	}
+7e54f85c608288 Antoine Tenart    2025-02-04  1932  
+e0b60903b434a7 Jouni Hogander    2019-12-05  1933  	/* Kobject_put later will trigger netdev_queue_release call
+e0b60903b434a7 Jouni Hogander    2019-12-05  1934  	 * which decreases dev refcount: Take that reference here
+e0b60903b434a7 Jouni Hogander    2019-12-05  1935  	 */
+d62607c3fe4591 Jakub Kicinski    2022-06-07  1936  	netdev_hold(queue->dev, &queue->dev_tracker, GFP_KERNEL);
+e0b60903b434a7 Jouni Hogander    2019-12-05  1937  
+6b53dafe23fd1f WANG Cong         2014-07-23  1938  	kobj->kset = dev->queues_kset;
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1939  	error = kobject_init_and_add(kobj, &netdev_queue_ktype, NULL,
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1940  				     "tx-%u", index);
+114cf5802165ee Tom Herbert       2011-11-28  1941  	if (error)
+b8eb718348b8fb Jouni Hogander    2019-11-20  1942  		goto err;
+114cf5802165ee Tom Herbert       2011-11-28  1943  
+b7ecc1de51ca7d Antoine Tenart    2025-02-04  1944  	queue->groups = netdev_queue_default_groups;
+b7ecc1de51ca7d Antoine Tenart    2025-02-04  1945  	error = sysfs_create_groups(kobj, queue->groups);
+b7ecc1de51ca7d Antoine Tenart    2025-02-04  1946  	if (error)
+b7ecc1de51ca7d Antoine Tenart    2025-02-04  1947  		goto err;
+b7ecc1de51ca7d Antoine Tenart    2025-02-04  1948  
+74293ea1c4db62 Breno Leitao      2024-02-16  1949  	if (netdev_uses_bql(dev)) {
+114cf5802165ee Tom Herbert       2011-11-28  1950  		error = sysfs_create_group(kobj, &dql_group);
+b8eb718348b8fb Jouni Hogander    2019-11-20  1951  		if (error)
+b7ecc1de51ca7d Antoine Tenart    2025-02-04  1952  			goto err_default_groups;
+74293ea1c4db62 Breno Leitao      2024-02-16  1953  	}
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1954  
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1955  	kobject_uevent(kobj, KOBJ_ADD);
+48a322b6f9965b Eric Dumazet      2019-11-20  1956  	return 0;
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1957  
+b7ecc1de51ca7d Antoine Tenart    2025-02-04  1958  err_default_groups:
+b7ecc1de51ca7d Antoine Tenart    2025-02-04  1959  	sysfs_remove_groups(kobj, queue->groups);
+b8eb718348b8fb Jouni Hogander    2019-11-20  1960  err:
+b8eb718348b8fb Jouni Hogander    2019-11-20 @1961  	kobject_put(kobj);
+b8eb718348b8fb Jouni Hogander    2019-11-20  1962  	return error;
+1d24eb4815d1e0 Tom Herbert       2010-11-21  1963  }
+d755407d4444c3 Christian Brauner 2020-02-27  1964  
 
-a3166c51702bb0 Yu Kuai         2024-05-09  1341  
-a3166c51702bb0 Yu Kuai         2024-05-09  1342  
-69948b070ee2bc Tejun Heo       2015-08-18  1343  static ssize_t tg_set_conf(struct kernfs_open_file *of,
-69948b070ee2bc Tejun Heo       2015-08-18  1344  			   char *buf, size_t nbytes, loff_t off, bool is_u64)
-69948b070ee2bc Tejun Heo       2015-08-18  1345  {
-69948b070ee2bc Tejun Heo       2015-08-18  1346  	struct blkcg *blkcg = css_to_blkcg(of_css(of));
-69948b070ee2bc Tejun Heo       2015-08-18  1347  	struct blkg_conf_ctx ctx;
-69948b070ee2bc Tejun Heo       2015-08-18  1348  	struct throtl_grp *tg;
-69948b070ee2bc Tejun Heo       2015-08-18  1349  	int ret;
-69948b070ee2bc Tejun Heo       2015-08-18  1350  	u64 v;
-69948b070ee2bc Tejun Heo       2015-08-18  1351  
-faffaab2895914 Tejun Heo       2023-04-12  1352  	blkg_conf_init(&ctx, buf);
-faffaab2895914 Tejun Heo       2023-04-12  1353  
-a3166c51702bb0 Yu Kuai         2024-05-09  1354  	ret = blkg_conf_open_bdev(&ctx);
-a3166c51702bb0 Yu Kuai         2024-05-09  1355  	if (ret)
-ab9ad25a727a61 Bart Van Assche 2026-03-18  1356  		return ret;
-a3166c51702bb0 Yu Kuai         2024-05-09  1357  
-a3166c51702bb0 Yu Kuai         2024-05-09  1358  	if (!blk_throtl_activated(ctx.bdev->bd_queue)) {
-a3166c51702bb0 Yu Kuai         2024-05-09  1359  		ret = blk_throtl_init(ctx.bdev->bd_disk);
-a3166c51702bb0 Yu Kuai         2024-05-09  1360  		if (ret)
-ab9ad25a727a61 Bart Van Assche 2026-03-18  1361  			goto close_bdev;
-a3166c51702bb0 Yu Kuai         2024-05-09  1362  	}
-a3166c51702bb0 Yu Kuai         2024-05-09  1363  
-faffaab2895914 Tejun Heo       2023-04-12  1364  	ret = blkg_conf_prep(blkcg, &blkcg_policy_throtl, &ctx);
-69948b070ee2bc Tejun Heo       2015-08-18  1365  	if (ret)
-ab9ad25a727a61 Bart Van Assche 2026-03-18  1366  		goto close_bdev;
-69948b070ee2bc Tejun Heo       2015-08-18  1367  
-69948b070ee2bc Tejun Heo       2015-08-18  1368  	ret = -EINVAL;
-69948b070ee2bc Tejun Heo       2015-08-18  1369  	if (sscanf(ctx.body, "%llu", &v) != 1)
-ab9ad25a727a61 Bart Van Assche 2026-03-18  1370  		goto unprep;
-69948b070ee2bc Tejun Heo       2015-08-18  1371  	if (!v)
-2ab5492de5009a Shaohua Li      2017-03-27  1372  		v = U64_MAX;
-69948b070ee2bc Tejun Heo       2015-08-18  1373  
-69948b070ee2bc Tejun Heo       2015-08-18  1374  	tg = blkg_to_tg(ctx.blkg);
-a880ae93e5b5bb Yu Kuai         2022-08-29  1375  	tg_update_carryover(tg);
-69948b070ee2bc Tejun Heo       2015-08-18  1376  
-69948b070ee2bc Tejun Heo       2015-08-18  1377  	if (is_u64)
-69948b070ee2bc Tejun Heo       2015-08-18  1378  		*(u64 *)((void *)tg + of_cft(of)->private) = v;
-69948b070ee2bc Tejun Heo       2015-08-18  1379  	else
-69948b070ee2bc Tejun Heo       2015-08-18  1380  		*(unsigned int *)((void *)tg + of_cft(of)->private) = v;
-af133ceb261033 Tejun Heo       2012-04-01  1381  
-9bb67aeb967845 Shaohua Li      2017-05-17  1382  	tg_conf_updated(tg, false);
-36aa9e5f591e84 Tejun Heo       2015-08-18  1383  	ret = 0;
-ab9ad25a727a61 Bart Van Assche 2026-03-18  1384  
-ab9ad25a727a61 Bart Van Assche 2026-03-18  1385  unprep:
-ab9ad25a727a61 Bart Van Assche 2026-03-18 @1386  	blkg_conf_unprep(&ctx);
-ab9ad25a727a61 Bart Van Assche 2026-03-18  1387  
-ab9ad25a727a61 Bart Van Assche 2026-03-18  1388  close_bdev:
-ab9ad25a727a61 Bart Van Assche 2026-03-18 @1389  	blkg_conf_close_bdev(&ctx);
-36aa9e5f591e84 Tejun Heo       2015-08-18  1390  	return ret ?: nbytes;
-60c2bc2d5a1236 Tejun Heo       2012-04-01  1391  }
-60c2bc2d5a1236 Tejun Heo       2012-04-01  1392  
+:::::: The code at line 1961 was first introduced by commit
+:::::: b8eb718348b8fb30b5a7d0a8fce26fb3f4ac741b net-sysfs: Fix reference count leak in rx|netdev_queue_add_kobject
 
-:::::: The code at line 1386 was first introduced by commit
-:::::: ab9ad25a727a61c0bddea103f63ecd24ba9c820c block/cgroup: Split blkg_conf_exit()
-
-:::::: TO: Bart Van Assche <bvanassche@acm.org>
-:::::: CC: Bart Van Assche <bvanassche@acm.org>
+:::::: TO: Jouni Hogander <jouni.hogander@unikie.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
