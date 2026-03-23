@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC3949620
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 02:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E14F29D26E
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 04:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774231662; cv=none; b=XAfCXcs8S5nXJTSujvOBhB4MNZOPAIqLH7kuuYJBdhG8lbyY9j2QzwmeMybtlPmMgWDYYVmhRqMqxvhhNtIIuqMnXBL9k3X3TtdDMYY3s4ZrmVkz1aK0wT0DaM6mV45VAskJIssmN6Ny3+iItmDqEBn5wp9LIqSQgj12x3OE4u0=
+	t=1774241883; cv=none; b=ItEyMwNkUnDsmRDLwveeCpqOzWJv2brGYpUGYTelRuaKh5UlHeP3M48lLHZnCwN86eR+20Qbn6YcnZ5rS+FJbTCFC9pB1r1RmRgKpN4LdpSWgwZQb2jut1SY8ihGUi8whsoWie5d2ACVl/iHnPEzK4Hx1/u+Zk1iCMof+vf5GZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774231662; c=relaxed/simple;
-	bh=65GyuxGLb9OC5hxvJVDlmAdkA8kiEXcC5/0/tSVEJDM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BKDYf7sZUWaxJAFBHxLwQ1dP9twzJVtJQQZisJVDYXOF5Mn1XHxfHnacEZlQcG5c9byaCM8r3ZX1bY/u48a5J3rAG0q6FHrLIQGvwkt+83qPXmiphczRHmqlyaq9S8dNvNpoJyq9ID71+NlLwGeRUUk9H8t8zABHktBg3ibXxEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NwHtb7as; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774241883; c=relaxed/simple;
+	bh=AbAbXum2jNmtaZcTN2jMWegerz9gN297CVIgoF+DGb8=;
+	h=Date:From:To:Subject:Message-ID; b=iEkvaQbY/yNQOSTrz2FfEq0Y+JLPdo+0Qo/nZ1W/v0h+B68xOvwvEK9+gPcS/Z8UQBttSiDtzGr6gWwvn8Uqaf7cgrVSRQ8KUBvTVKUyvZZbvs6UyoX7HMdLjSIm8Fk4DuCZFlQqde01+CDdVxq0JL7rkXq4H0NpClSf4Gs1l94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=luYC85Yw; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwHtb7as"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="luYC85Yw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774231660; x=1805767660;
-  h=date:from:to:cc:subject:message-id;
-  bh=65GyuxGLb9OC5hxvJVDlmAdkA8kiEXcC5/0/tSVEJDM=;
-  b=NwHtb7asK3WPjJS7FeJEHx3f41Y+K8vQQuQ4jMg4tqpr2l0L50am+T0J
-   AwZzSSRm00fgkE6IpiRA13C1e6P2hAEQ6JxaHYqL9P+imA0XAGHcxR9wk
-   H7LELR5mITT3jBqpDcKOpXr+Hn/gKL1BU+AQfnDvUM/f+H2sARzyrq9VX
-   oCuiOvlwuelrPFqgYlPNBX1F1EWkhkoccjB8y6ZtDqlO3X1stpHSnHi3r
-   6Wj8XW8W/Fa9xt7J8/7Dddl/09HsBWEJy+9tLKHtcmEnRK2j9iYI+oBR/
-   JyrgN2EeMMpppQqAfJQyJunijXT3IShBYGtGdSQZ7jx2pzjHm5j2btOzY
-   g==;
-X-CSE-ConnectionGUID: 42G8//uTQjyser6F+4XNEA==
-X-CSE-MsgGUID: wipWJuvjTniRyekvAVAIHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="85925434"
+  t=1774241882; x=1805777882;
+  h=date:from:to:subject:message-id;
+  bh=AbAbXum2jNmtaZcTN2jMWegerz9gN297CVIgoF+DGb8=;
+  b=luYC85Ywizc1/IWiiIaWPS5kJsv2f98NgzfTDv84yQHyJIJlfA1qL0N2
+   JGenvngmCNGH2fObRZY7Oq5eE30xn6fa0FEPuc6uM7Q60AhvphVACqfRF
+   A/HQpsuIKJc79pbYNyTwWHUcqgpO8Qp7SckwYkk+wDfmBiGb1i1kXr9Ki
+   U2zI8wPieW9LXVz9HicoexGp013CoufoguNAkyr3BKnGicB368kymH5um
+   h/PVxWZF67xoW3PuY2mpdKMPni64SSEm5cE64qwMRrngKRWM/cXao/MIe
+   jSubDQnhdLPc8to68iQvTL6/yfno2+0VynvN8sKiPrHr+w0igWnu5RZp7
+   A==;
+X-CSE-ConnectionGUID: Frl7gQa9SbiChnPd8XHD9g==
+X-CSE-MsgGUID: HAbie0mkSYS7fUlXE68xvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75117408"
 X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="85925434"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 19:07:40 -0700
-X-CSE-ConnectionGUID: uOQjGsQyTGyIaJW6kYaKMw==
-X-CSE-MsgGUID: B1CchKNhTV+0T/nPqtCfJQ==
+   d="scan'208";a="75117408"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 21:58:02 -0700
+X-CSE-ConnectionGUID: +m2+VbWjRGeOs+zIVb45+w==
+X-CSE-MsgGUID: guKy32EUSkue94vsOPxXYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="220646385"
-Received: from lkp-server01.sh.intel.com (HELO b2269c5cf7eb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Mar 2026 19:07:39 -0700
-Received: from kbuild by b2269c5cf7eb with local (Exim 4.98.2)
+   d="scan'208";a="222980093"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 22 Mar 2026 21:58:02 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4Uhc-00000000021-3qPf;
-	Mon, 23 Mar 2026 02:07:36 +0000
-Date: Mon, 23 Mar 2026 10:06:38 +0800
+	id 1w4XMV-000000006Yf-1TFO
+	for oe-kbuild@lists.linux.dev;
+	Mon, 23 Mar 2026 04:57:59 +0000
+Date: Mon, 23 Mar 2026 05:57:15 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: fs/btrfs/extent_map.o: warning: objtool:
- btrfs_split_extent_map+0x84: unreachable instruction
-Message-ID: <202603230936.Li8Ucr1z-lkp@intel.com>
+Subject: [mdraid:md-7.1 6/10] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'missing'
+Message-ID: <202603230557.4BGKJmyj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,40 +60,25 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Filipe Manana <fdmanana@suse.com>
-CC: David Sterba <dsterba@suse.com>
+TO: FengWei Shih <dannyshih@synology.com>
 
-Hi Filipe,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mdraid/linux md-7.1
+head:   6f507eb2bb5491327fe634dc23558d4ca5d710b8
+commit: 52e4324935be917f8f3267354b3cc06bb8ffcec1 [6/10] md/raid5: skip 2-failure compute when other disk is R5_LOCKED
+:::::: branch date: 11 hours ago
+:::::: commit date: 27 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260323/202603230557.4BGKJmyj-lkp@intel.com/reproduce)
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+# many are suggestions rather than must-fix
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c369299895a591d96745d6492d4888259b004a9e
-commit: d846a6d3b09fa046e061ea6ec6daba67e66a7101 btrfs: rename remaining exported extent map functions
-date:   10 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 10 months ago
-config: loongarch-randconfig-r053-20260318 (https://download.01.org/0day-ci/archive/20260323/202603230936.Li8Ucr1z-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230936.Li8Ucr1z-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603230936.Li8Ucr1z-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   fs/btrfs/extent_map.o: warning: objtool: merge_ondisk_extents+0x98: unreachable instruction
-   fs/btrfs/extent_map.o: warning: objtool: btrfs_add_extent_mapping+0x284: unreachable instruction
-   fs/btrfs/extent_map.o: warning: objtool: btrfs_drop_extent_map_range+0x4c8: unreachable instruction
->> fs/btrfs/extent_map.o: warning: objtool: btrfs_split_extent_map+0x84: unreachable instruction
+WARNING:REPEATED_WORD: Possible repeated word: 'missing'
+#20: 
+  mdadm -C /dev/md0 -l6 -n6 -R -f /dev/loop[0-3] missing missing
 
 -- 
 0-DAY CI Kernel Test Service
