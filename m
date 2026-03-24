@@ -1,160 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BB7401A23
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 14:54:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7E9402BAB
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 15:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774364064; cv=none; b=BExf5BtEQUl9WRomnj9s07/pmISXQCZ0A1fFiw77nv3IRT4ukCsf5Y7qNrXr9h8Eqb84kzK7QDzOTJ51WwIHoD8XKQPDWMv931FPaymFEiUXD6cbuRTE9jV5jZDrvP0YmjZHozSJ4oTHBv4+bOngdlqxa1gfqJVgVRmTnRfsYl8=
+	t=1774364785; cv=none; b=PpMJnkiwYLbdrrrLbtUXpikNhiWrVDtEpuYZ0FUXFKG/N9bm5abBJtf5BjRjQQ1sM63dDLWt3jBJRwMs+rp6nd70TEMUcoRHFC3sK83EUMPWXjTUdG9wZf3SQPdnhITVQ1Y0rOMZqLtp5PG7WE2h2U61RFEMGhb9Cu/YBqF5ewk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774364064; c=relaxed/simple;
-	bh=PUWBKqIaHzzIePSyfYF+fbI4cA2o3KF1e/OTCKKl7LI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=a9EMWHAZc4hnkgvYJ92KExWhBcbgcN0Lbxots8JPgnlHwUiGGjYhevGhiOEjY4ezCsyEGeiT8jMDZ2rbKTpE8fAUeDeNX5J41RHbotxs/RnfMt93x+pXe3peebTNCrcsZK0hZpt5Bi2s91C4SrCsHtx1iFBwQH2Qtpgal0WdkcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GxOV30aC; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1774364785; c=relaxed/simple;
+	bh=bCzLS0q+jtNRscZLM2Sr5m1oX2Mmlqc7HTNCcia7R+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=m1G/iav02ZkS/EjYJTnWC8C/pu7fBVs6iT5VYB23p1nxT28KHOVmmeYpkwG6JEwCBO8yG2L3eYt8N3EfPHR6qPAl6RLRGs5QdUc7qM9k/oBd9aV+RKD1gIgRtxB8U24ebz2w8S5SbyvLD2RCEqoUmU02RKFvgnbIeUgJY4GIV2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AEcuXVKw; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxOV30aC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AEcuXVKw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774364063; x=1805900063;
-  h=date:from:to:cc:subject:message-id;
-  bh=PUWBKqIaHzzIePSyfYF+fbI4cA2o3KF1e/OTCKKl7LI=;
-  b=GxOV30aCkoE5nASFO3MUA3fGXvh8rsgiS1sP5HMuC9EozW1ZvLqlx5rJ
-   2A3jkp9KyiiJ62NiQqg6q7MtSEcMux+nFkg3j1XfYbYB893J087mfmvHC
-   +uD0YMA3kTajpA1TfnfYk7Dt0pM4Z5a/u+vf4dN1k7aV8W3AJYdzF5OOQ
-   8EEJ3Y1IhmiQOJwsdFGajfcWbs0azpPnttHwBri+OVokBSmZ5JjvFgvgw
-   Q/sVsJVEUXpaT3USnOkKVmEMTCU0YpRpGBgTJyIDA4Jk/Kli1aHV95Ah3
-   qzVlVpaKNtPQDHqYHGWYn8eEnH7fExZbNMr+ApXpO6xkPaT3xR17RJNwl
-   w==;
-X-CSE-ConnectionGUID: Ph9LFRiuQmaizPAwt675yg==
-X-CSE-MsgGUID: WQtQxj1rQj+ZcyD3LHOrUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="85996802"
+  t=1774364784; x=1805900784;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bCzLS0q+jtNRscZLM2Sr5m1oX2Mmlqc7HTNCcia7R+4=;
+  b=AEcuXVKwC1ERZ3xVYq3KTF8tmaeOrcP01nMTl60jdsuyfXLG68UgVrwk
+   nDjhfCPoTa2IA4RqIwt+Pt/r8/l7TUWF6H1CHKFrCmNIRB3poTE3BcBcG
+   79TpiVFSO9u+umJfr6SRvd87JybXJtKKEuybKQv1A/X8gFysGoE4/RZAi
+   el3pjqfRkqTx1RTVIZenblhZtjD0Bi3ZAmwZnqSWzGfXmA9Gpq6A4uAGO
+   IPkBIDC4xDufyIeH3akdzemYUlbt8q52MtCbM6qATExaNsBumx7d3K9c7
+   CsXhiB3durrTR5bBUt0vrLL1oNmajQqtXaGZ+PV/fgSKjJQQjdeqvpDMC
+   Q==;
+X-CSE-ConnectionGUID: tu9rfPAUSjC5P8U6Ru6cWg==
+X-CSE-MsgGUID: bvKuSvwyRlSXpChoi+0k0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="92764184"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="85996802"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 07:54:23 -0700
-X-CSE-ConnectionGUID: lpI3gzL3RZ+1J9w87QYccA==
-X-CSE-MsgGUID: t+w2StW3TEeFkt30GKlSXA==
+   d="scan'208";a="92764184"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 08:06:23 -0700
+X-CSE-ConnectionGUID: 9NzYPo2DSo2AKTOTIrcIyA==
+X-CSE-MsgGUID: KXu/I1A9S8anjBv+wKNEIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="229124389"
+   d="scan'208";a="228421616"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Mar 2026 07:54:21 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 Mar 2026 08:06:22 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5398-000000004if-43B3;
-	Tue, 24 Mar 2026 14:54:18 +0000
-Date: Tue, 24 Mar 2026 22:54:13 +0800
+	id 1w53Kl-000000004jD-1LFY;
+	Tue, 24 Mar 2026 15:06:19 +0000
+Date: Tue, 24 Mar 2026 23:05:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn:
- inconsistent returns '&rme96->lock'.
-Message-ID: <202603242252.uEpptmA1-lkp@intel.com>
+Subject: drivers/usb/typec/ucsi/ucsi.c:88 ucsi_sync_control_common()
+ error: we previously assumed 'cci' could be null (see line 84)
+Message-ID: <202603242359.jnXVUjfe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Takashi Iwai <tiwai@suse.de>
+TO: Dmitry Baryshkov <lumag@kernel.org>
+CC: "=C5=81ukasz Bartosik" <ukaszb@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
 head:   c369299895a591d96745d6492d4888259b004a9e
-commit: d3424b8bf78593e1751cfa19628aa0008d2e08ce ALSA: rme96: Use guard() for spin locks
-date:   7 months ago
+commit: 667ecac55861281c1f5e107c8550ae893b3984f6 usb: typec: ucsi: return C=
+CI and message from sync_control callback
+date:   1 year, 2 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 7 months ago
-config: powerpc64-randconfig-r072-20260324 (https://download.01.org/0day-ci/archive/20260324/202603242252.uEpptmA1-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
+:::::: commit date: 1 year, 2 months ago
+config: hexagon-randconfig-r073-20260324 (https://download.01.org/0day-ci/a=
+rchive/20260324/202603242359.jnXVUjfe-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 600970=
+8b4367171ccdbf4b5905cb6a803753fe18)
 smatch: v0.5.0-9004-gb810ac53
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603242252.uEpptmA1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603242359.jnXVUjfe-lkp@intel.com/
 
-smatch warnings:
-sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn: inconsistent returns '&rme96->lock'.
-sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn: inconsistent returns 'irq'.
+New smatch warnings:
+drivers/usb/typec/ucsi/ucsi.c:88 ucsi_sync_control_common() error: we previ=
+ously assumed 'cci' could be null (see line 84)
 
-vim +1011 sound/pci/rme96.c
+Old smatch warnings:
+drivers/usb/typec/ucsi/ucsi.c:746 ucsi_get_pd_caps() warn: passing zero to =
+'ERR_PTR'
+drivers/usb/typec/ucsi/ucsi.c:1456 ucsi_dr_swap() warn: missing error code =
+'ret'
 
-^1da177e4c3f415 Linus Torvalds  2005-04-16   952  
-^1da177e4c3f415 Linus Torvalds  2005-04-16   953  static int
-a3aefd883dc8c17 Takashi Iwai    2005-11-17   954  snd_rme96_playback_hw_params(struct snd_pcm_substream *substream,
-a3aefd883dc8c17 Takashi Iwai    2005-11-17   955  			     struct snd_pcm_hw_params *params)
-^1da177e4c3f415 Linus Torvalds  2005-04-16   956  {
-a3aefd883dc8c17 Takashi Iwai    2005-11-17   957  	struct rme96 *rme96 = snd_pcm_substream_chip(substream);
-a3aefd883dc8c17 Takashi Iwai    2005-11-17   958  	struct snd_pcm_runtime *runtime = substream->runtime;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   959  	int err, rate, dummy;
-a74a821624c0c75 Takashi Iwai    2015-12-04   960  	bool apply_dac_volume = false;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   961  
-4d23359b7ec8b03 Clemens Ladisch 2005-09-05   962  	runtime->dma_area = (void __force *)(rme96->iobase +
-4d23359b7ec8b03 Clemens Ladisch 2005-09-05   963  					     RME96_IO_PLAY_BUFFER);
-^1da177e4c3f415 Linus Torvalds  2005-04-16   964  	runtime->dma_addr = rme96->port + RME96_IO_PLAY_BUFFER;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   965  	runtime->dma_bytes = RME96_BUFFER_SIZE;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   966  
-d3424b8bf78593e Takashi Iwai    2025-08-29   967  	scoped_guard(spinlock_irq, &rme96->lock) {
-da8eedb169712c8 Takashi Iwai    2021-06-08   968  		rate = 0;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   969  		if (!(rme96->wcreg & RME96_WCR_MASTER) &&
-da8eedb169712c8 Takashi Iwai    2021-06-08   970  		    snd_rme96_getinputtype(rme96) != RME96_INPUT_ANALOG)
-da8eedb169712c8 Takashi Iwai    2021-06-08   971  			rate = snd_rme96_capture_getrate(rme96, &dummy);
-da8eedb169712c8 Takashi Iwai    2021-06-08   972  		if (rate > 0) {
-^1da177e4c3f415 Linus Torvalds  2005-04-16   973  			/* slave clock */
-d3424b8bf78593e Takashi Iwai    2025-08-29   974  			if ((int)params_rate(params) != rate)
-d3424b8bf78593e Takashi Iwai    2025-08-29   975  				return -EIO;
-a74a821624c0c75 Takashi Iwai    2015-12-04   976  		} else {
-a74a821624c0c75 Takashi Iwai    2015-12-04   977  			err = snd_rme96_playback_setrate(rme96, params_rate(params));
-a74a821624c0c75 Takashi Iwai    2015-12-04   978  			if (err < 0)
-d3424b8bf78593e Takashi Iwai    2025-08-29   979  				return err;
-a74a821624c0c75 Takashi Iwai    2015-12-04   980  			apply_dac_volume = err > 0; /* need to restore volume later? */
-^1da177e4c3f415 Linus Torvalds  2005-04-16   981  		}
-a74a821624c0c75 Takashi Iwai    2015-12-04   982  
-a74a821624c0c75 Takashi Iwai    2015-12-04   983  		err = snd_rme96_playback_setformat(rme96, params_format(params));
-a74a821624c0c75 Takashi Iwai    2015-12-04   984  		if (err < 0)
-a74a821624c0c75 Takashi Iwai    2015-12-04   985  			goto error;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   986  		snd_rme96_setframelog(rme96, params_channels(params), 1);
-^1da177e4c3f415 Linus Torvalds  2005-04-16   987  		if (rme96->capture_periodsize != 0) {
-^1da177e4c3f415 Linus Torvalds  2005-04-16   988  			if (params_period_size(params) << rme96->playback_frlog !=
-d3424b8bf78593e Takashi Iwai    2025-08-29   989  			    rme96->capture_periodsize) {
-a74a821624c0c75 Takashi Iwai    2015-12-04   990  				err = -EBUSY;
-a74a821624c0c75 Takashi Iwai    2015-12-04   991  				goto error;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   992  			}
-^1da177e4c3f415 Linus Torvalds  2005-04-16   993  		}
-^1da177e4c3f415 Linus Torvalds  2005-04-16   994  		rme96->playback_periodsize =
-^1da177e4c3f415 Linus Torvalds  2005-04-16   995  			params_period_size(params) << rme96->playback_frlog;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   996  		snd_rme96_set_period_properties(rme96, rme96->playback_periodsize);
-^1da177e4c3f415 Linus Torvalds  2005-04-16   997  		/* S/PDIF setup */
-^1da177e4c3f415 Linus Torvalds  2005-04-16   998  		if ((rme96->wcreg & RME96_WCR_ADAT) == 0) {
-^1da177e4c3f415 Linus Torvalds  2005-04-16   999  			rme96->wcreg &= ~(RME96_WCR_PRO | RME96_WCR_DOLBY | RME96_WCR_EMP);
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1000  			writel(rme96->wcreg |= rme96->wcreg_spdif_stream, rme96->iobase + RME96_IO_CONTROL_REGISTER);
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1001  		}
-a74a821624c0c75 Takashi Iwai    2015-12-04  1002  
-a74a821624c0c75 Takashi Iwai    2015-12-04  1003  		err = 0;
-d3424b8bf78593e Takashi Iwai    2025-08-29  1004  	}
-a74a821624c0c75 Takashi Iwai    2015-12-04  1005   error:
-a74a821624c0c75 Takashi Iwai    2015-12-04  1006  	if (apply_dac_volume) {
-a74a821624c0c75 Takashi Iwai    2015-12-04  1007  		usleep_range(3000, 10000);
-a74a821624c0c75 Takashi Iwai    2015-12-04  1008  		snd_rme96_apply_dac_volume(rme96);
-a74a821624c0c75 Takashi Iwai    2015-12-04  1009  	}
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1010  
-a74a821624c0c75 Takashi Iwai    2015-12-04 @1011  	return err;
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1012  }
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1013  
+vim +/cci +88 drivers/usb/typec/ucsi/ucsi.c
 
-:::::: The code at line 1011 was first introduced by commit
-:::::: a74a821624c0c75388a193337babd17a8c02c740 ALSA: rme96: Fix unexpected volume reset after rate changes
+584e8df58942338 Dmitry Baryshkov 2024-06-27  57 =20
+667ecac55861281 Dmitry Baryshkov 2025-01-20  58  int ucsi_sync_control_comm=
+on(struct ucsi *ucsi, u64 command, u32 *cci,
+667ecac55861281 Dmitry Baryshkov 2025-01-20  59  			     void *data, size_t=
+ size)
+584e8df58942338 Dmitry Baryshkov 2024-06-27  60  {
+584e8df58942338 Dmitry Baryshkov 2024-06-27  61  	bool ack =3D UCSI_COMMAND=
+(command) =3D=3D UCSI_ACK_CC_CI;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  62  	int ret;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  63 =20
+584e8df58942338 Dmitry Baryshkov 2024-06-27  64  	if (ack)
+584e8df58942338 Dmitry Baryshkov 2024-06-27  65  		set_bit(ACK_PENDING, &uc=
+si->flags);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  66  	else
+584e8df58942338 Dmitry Baryshkov 2024-06-27  67  		set_bit(COMMAND_PENDING,=
+ &ucsi->flags);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  68 =20
+e37b383df91ba9b =C5=81ukasz Bartosik  2024-12-03  69  	reinit_completion(&u=
+csi->complete);
+e37b383df91ba9b =C5=81ukasz Bartosik  2024-12-03  70 =20
+584e8df58942338 Dmitry Baryshkov 2024-06-27  71  	ret =3D ucsi->ops->async_=
+control(ucsi, command);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  72  	if (ret)
+584e8df58942338 Dmitry Baryshkov 2024-06-27  73  		goto out_clear_bit;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  74 =20
+584e8df58942338 Dmitry Baryshkov 2024-06-27  75  	if (!wait_for_completion_=
+timeout(&ucsi->complete, 5 * HZ))
+584e8df58942338 Dmitry Baryshkov 2024-06-27  76  		ret =3D -ETIMEDOUT;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  77 =20
+584e8df58942338 Dmitry Baryshkov 2024-06-27  78  out_clear_bit:
+584e8df58942338 Dmitry Baryshkov 2024-06-27  79  	if (ack)
+584e8df58942338 Dmitry Baryshkov 2024-06-27  80  		clear_bit(ACK_PENDING, &=
+ucsi->flags);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  81  	else
+584e8df58942338 Dmitry Baryshkov 2024-06-27  82  		clear_bit(COMMAND_PENDIN=
+G, &ucsi->flags);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  83 =20
+667ecac55861281 Dmitry Baryshkov 2025-01-20 @84  	if (!ret && cci)
+667ecac55861281 Dmitry Baryshkov 2025-01-20  85  		ret =3D ucsi->ops->read_=
+cci(ucsi, cci);
+667ecac55861281 Dmitry Baryshkov 2025-01-20  86 =20
+667ecac55861281 Dmitry Baryshkov 2025-01-20  87  	if (!ret && data &&
+667ecac55861281 Dmitry Baryshkov 2025-01-20 @88  	    (*cci & UCSI_CCI_COMM=
+AND_COMPLETE))
+667ecac55861281 Dmitry Baryshkov 2025-01-20  89  		ret =3D ucsi->ops->read_=
+message_in(ucsi, data, size);
+667ecac55861281 Dmitry Baryshkov 2025-01-20  90 =20
+584e8df58942338 Dmitry Baryshkov 2024-06-27  91  	return ret;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  92  }
+584e8df58942338 Dmitry Baryshkov 2024-06-27  93  EXPORT_SYMBOL_GPL(ucsi_syn=
+c_control_common);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  94 =20
 
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
