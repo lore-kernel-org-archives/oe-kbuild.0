@@ -1,171 +1,225 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EABE393DD1
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 10:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774349677; cv=pass; b=XCZlmjz7FH+XKHXm9JcfDfZwSIf6jwFn9wB/QqxAH0Byong8CZm4pUmpPo32nZzanpX9GgJqUdqzn67pdIi0Z5bH8C9QByYzAbTPWcjivWc9xMDZPGt0OInQfRHjWi8/qPVvgZg+hL/Fp2Db4O//p+8s7ONWERz3cLb6T9cvN1g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774349677; c=relaxed/simple;
-	bh=RES/GDDu6KBclak6NqQ4jqepO12FsJpn6soJLgJMk2Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TmXWIhNdpJ+ghChas0jw6UAIpG70EEupAhyz9XAELCFHtCClUQtCrgzF11wIKVyloFrbQ+g6dAHXGMtT2XXrHh6SPc/6UBxdIlQqJLfcMq+dnbzATjF9s/CXWk+bqrzuYqbGvd/3+ggAtvsZcT7Ul19l3Pjvgs3KkW+MF01eqgs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZuHGbKf; arc=pass smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77943C4571
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 11:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774350246; cv=none; b=XeFibFbQ/mJlyWxx9vo7loq+6y3OUc0EkNBFtudPfbRu6/VtB3dRDdCZGzTkvwwxq1KCBY3C4aa/0WGfJ/I5ah7Vjf9pcy3v7M6ZxvMBlIt9QKmGGqSNV9VoEUdDTFOFw/bFMlluNTxWiN4HGO2FzE51HjcjwgdFkSQXx4Bvz+0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774350246; c=relaxed/simple;
+	bh=6QDquy3d5EMlbZVFn1V3VsGX8Fvat4OE4eD6l/E1vcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Wi1DQG00jFqy/938ctfQqyZlA4itZWabVLZyRM9itMIOIvpvrcJo0l5CfUNdiwDuBVhmt5y6FLtsnMLQjTcXvYEGXVXNygqrFxQEummwPVLocird6Om2fsYmTWcESKGLu58z/4ZLamszxXfZUqxw3LROKCOeASuZDWxwOu8mvnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WZdMKdgo; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZuHGbKf"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-66f3e7d9eccso685203eaf.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 03:54:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774349675; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JwFkuzbMBXnOjS8JsM1gDC2GO/RCqVkJpUcV/GS25LfoZsbjFQg1U2eXua2g1pRnNf
-         KC5OLnjyZv4vuXjEnKmoyt1V1XZepkExkVtYmcECujgAz0+Bt223CJXshANm2HqnGx+V
-         bZLPnf1RjcBHaV7iXJQgRrZKkW64nuOButkbeTFxPddIxf0ovwXeRHKotH9fwquEwbl3
-         rK1rd71EaHgR11RZEZbcguUJm6yu5N5Rl688hSJ6i1akZF6gtvVIFJlcE9QrW+8SWt00
-         ehNqFk94obnXCHsK0jWDCw8T7RWp8k+XEXnDSEITBuOaVNQS9HNlgmz1Jk9L5YdGW1Z5
-         y9rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=4xZa/0j22+oqg1nMErzFxx2lp9k+a1i473iPRNI2fUs=;
-        fh=AW/igAWuRHccj5prB5WJ0p7SR3fBsHr+9rweT4Chq/Q=;
-        b=QcVDsSP8+1azqpoEA2YEy2+IZ66AelmwQaZjT2UMvyiKzycVwyGVNuX+zDD3wryhfy
-         S0b51syFYTF1bWUgRJTzr1JGb1gk8Cr12EP2Qblwiv25CrqikHl3steJ4CMzgSJGFbiF
-         J8Iz/lwgDOZgi7cZNjV0ELbRAM5lKeuC8AD3f8LNUhk+dzL3rQiz0BYPoh9x7NY/17e6
-         EkruN0VouUfED5+bwZNFIYCrSbv7ixXIm2QMMatyjw9g89NviHJTruBKCn6f04TqQDzI
-         gG1Pw8NNGvk4BY7PSn8i/P6lZv5dZ/piDjqZeTuDkW6wTSEVz+bLYjtzp9I/qO9SZSEf
-         pRlQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774349675; x=1774954475; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4xZa/0j22+oqg1nMErzFxx2lp9k+a1i473iPRNI2fUs=;
-        b=EZuHGbKfio0kR0qmyzQpj7EaX64kCsbdQGUamgzpA5aB/4NIsv/ZTaZurn0dHhHgqo
-         6yVJHGyWpyUEQ7OB6mqIXn6+3YZ1brRXM/wEvnb+MYeG7FAg4fcE+8Aj3A7McBA1ajmz
-         b5ZpQM+SMeE2M+g0G3bPHg3FNHGeCKneTbv1kogw58hvtYS2LkjZ+jSUeQzD6lorxRYt
-         1tr+592F/7CT73HIm3DWkr7SmcDL/KksBMp0akIoVS1v4dbtZZZ/0A8Ifhgu9eDYSP6g
-         cgtst4/9lqXmtio4vtIWJ4Rlqq0lR2wYzepQQhqzx/VU5+FSuCIoDfD9Fs5n9yYo3L7S
-         Iumg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774349675; x=1774954475;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4xZa/0j22+oqg1nMErzFxx2lp9k+a1i473iPRNI2fUs=;
-        b=lX2q9T8dwSVh/i4AHdcIfk55WC5xq82UQMPq82PC5ZdON/0eVGvVp/GzQKCtaldcHK
-         UgWkcopwfoVRcmXrFSQoUmBz/mnkzKUsaJpWCy5h+F4LfCnxwQorYR2CctWXIacaKj7i
-         69++Qp/B9B0TCJyovIQmsZhV7e5MmBS14Nr9nji4C3tlixh358rcWp+hCfhJ78nZwltZ
-         ISBtQWVEqzWo7xxXdw77X+fbiDZ/cRwvuzN194FjgTGO5UU60x3t6SZkJTxQU9w3APSl
-         VXEQ2SkGZ17/w1Ou94b7i9YCgauCzww7Jy2WQZXVDEorT9byul4kLj9X8D1SFZa7tTTm
-         AoRw==
-X-Gm-Message-State: AOJu0Yz8h4jjqqeKHtt3HyGGEft5319P+f+BjXa/rHI3uFTYUWctHfJp
-	Z5J93f99o/IhV3zgbwOcqpKGabPie/sz+zGVW5fdNzgk/5V7fwK296V3ppASAw2jLTir1Qmx7VD
-	wtKQsZYYEU8gMh1bcY8FSis/e2t88J0Y=
-X-Gm-Gg: ATEYQzxnSa7ehAmXaAxZ4GaGLQgVUMkBr2+8HCzw6SDFloMRiokEIBTV7lvXLCDrs2c
-	WQspBnfXhkvP2D9BQI80kMte4amG5q0lUruNDFOl3Yhktv6PEBMduao5CYpNqRAO3BpvJ1S/FaQ
-	UQliV+pbauhVu0uIxet9jVqt1uiS/96tjv/HI63keITutbRzJkn00X/ZiR6GVmlepZacGnkX6m4
-	e9WUiT/LvxQE+R7XXpKZFkllLEL+4CHvpay5DDuYdxxGsWZhMUnG3sgFhXDH/JZE+PKG6dkL+cT
-	qnTPauPIk9SSN2PwVNHz4DZyuMTfbo2PB3qEBM2LDC2Duks9
-X-Received: by 2002:a05:6820:2d4a:b0:677:98b4:79ab with SMTP id
- 006d021491bc7-67c22f74118mr13202109eaf.33.1774349675421; Tue, 24 Mar 2026
- 03:54:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZdMKdgo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774350244; x=1805886244;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6QDquy3d5EMlbZVFn1V3VsGX8Fvat4OE4eD6l/E1vcY=;
+  b=WZdMKdgogPd6NaH1F1xO/y01R91JJ5rocXEjcYFcXojtr62uDytlLwOs
+   8efebXjYH/6rOkWHDphZueqi/ZKaZYcuq7QD9tcgVaw2HSKn2QJFWjcK+
+   KkIslYhERuEgIdDHw/RwyeaJUA5bd9vZLaSgm6bk0xgyY6LEjrHJN/Scb
+   /X8PNdvc/Fu/xByHFwN1TcweiXKc3FqjvUZATgPXQ4FfcZaa1AvWW7WtN
+   cedXIYo7x5JwQVz/LpyKdDRCBMVRqV6TkqyvkUL81ghSQBidFJmxy8com
+   2UQ+fydaXcCJ7BZoj4/jB/zpoVZV8jgI4Z90pAtZp+nhhNQ1x8ISgEOja
+   g==;
+X-CSE-ConnectionGUID: qcb6ZF0OQ223SQ6EHLOgLQ==
+X-CSE-MsgGUID: mwA7OizcSaW8bcodCPyHmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86061265"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="86061265"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:04:03 -0700
+X-CSE-ConnectionGUID: FlSPdxzRT0eNz4kLarBNlA==
+X-CSE-MsgGUID: peRcGOCcQCaIlLFg964pyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="219884599"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Mar 2026 04:04:02 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4zYF-000000004Sx-3HPL;
+	Tue, 24 Mar 2026 11:03:59 +0000
+Date: Tue, 24 Mar 2026 19:03:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:535:4-10: preceding
+ lock on line 514
+Message-ID: <202603241845.uThVuJUv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260322164943.37460-1-devnexen@gmail.com> <202603241635.qNXDPwjs-lkp@intel.com>
-In-Reply-To: <202603241635.qNXDPwjs-lkp@intel.com>
-From: David CARLIER <devnexen@gmail.com>
-Date: Tue, 24 Mar 2026 10:54:23 +0000
-X-Gm-Features: AaiRm50vrYNk_mlAnRdMfp0nxFOpfo962oTnSfj2Jot4SGUmcie4lybU4o5qGTY
-Message-ID: <CA+XhMqzK39zZu7_KG37RJSeiR56fUON2CQsDN_L1W3+BuZzHmA@mail.gmail.com>
-Subject: Re: [PATCH] mm/memcontrol: fix obj_cgroup leak in mem_cgroup_css_online()
- error path
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Qi Zheng <zhengqi.arch@bytedance.com>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Tao Zhou <tao.zhou1@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
-On Tue, 24 Mar 2026 at 09:10, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->
-> Hi David,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Carlier/mm-memcontrol-fix-obj_cgroup-leak-in-mem_cgroup_css_online-error-path/20260324-010357
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20260322164943.37460-1-devnexen%40gmail.com
-> patch subject: [PATCH] mm/memcontrol: fix obj_cgroup leak in mem_cgroup_css_online() error path
-> config: arm64-randconfig-r072-20260324 (https://download.01.org/0day-ci/archive/20260324/202603241635.qNXDPwjs-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.3.0
-> smatch: v0.5.0-9004-gb810ac53
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202603241635.qNXDPwjs-lkp@intel.com/
->
-> smatch warnings:
-> mm/memcontrol.c:4180 mem_cgroup_css_online() warn: variable dereferenced before check 'pn' (see line 4176)
->
-> vim +/pn +4180 mm/memcontrol.c
->
-> 6f0df8e16eb543 Johannes Weiner  2023-08-23  4168         * regular ID destruction during offlining.
-> 6f0df8e16eb543 Johannes Weiner  2023-08-23  4169         */
-> e77786b4682e69 Shakeel Butt     2025-12-25  4170        xa_store(&mem_cgroup_private_ids, memcg->id.id, memcg, GFP_KERNEL);
-> 6f0df8e16eb543 Johannes Weiner  2023-08-23  4171
-> 2f7dd7a4100ad4 Johannes Weiner  2014-10-02  4172        return 0;
-> 098fad3e1621cb Qi Zheng         2026-03-05  4173  free_objcg:
-> 098fad3e1621cb Qi Zheng         2026-03-05  4174        for_each_node(nid) {
-> 098fad3e1621cb Qi Zheng         2026-03-05  4175                struct mem_cgroup_per_node *pn = memcg->nodeinfo[nid];
-> 59f75a1877fbf7 David Carlier    2026-03-22 @4176                objcg = rcu_replace_pointer(pn->objcg, NULL, true);
->                                                                                             ^^^^^^^^^
-> Dereference
->
-> 59f75a1877fbf7 David Carlier    2026-03-22  4177                if (objcg)
-> 59f75a1877fbf7 David Carlier    2026-03-22  4178                        percpu_ref_kill(&objcg->refcnt);
-> 098fad3e1621cb Qi Zheng         2026-03-05  4179
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09 @4180                if (pn && pn->orig_objcg) {
->                                                                     ^^
-> Checked too late.
->
-> 098fad3e1621cb Qi Zheng         2026-03-05  4181                        obj_cgroup_put(pn->orig_objcg);
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09  4182                        /*
-> 02b5fc7885d9f8 Andrew Morton    2026-03-09  4183                         * Reset pn->orig_objcg to NULL to prevent
-> 02b5fc7885d9f8 Andrew Morton    2026-03-09  4184                         * obj_cgroup_put() from being called again in
-> 02b5fc7885d9f8 Andrew Morton    2026-03-09  4185                         * __mem_cgroup_free().
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09  4186                         */
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09  4187                        pn->orig_objcg = NULL;
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09  4188                }
-> 098fad3e1621cb Qi Zheng         2026-03-05  4189        }
-> a0dd8b1942f5bf Muchun Song      2026-03-05  4190        free_shrinker_info(memcg);
-> da0efe30944476 Muchun Song      2022-03-22  4191  offline_kmem:
-> da0efe30944476 Muchun Song      2022-03-22  4192        memcg_offline_kmem(memcg);
-> e77786b4682e69 Shakeel Butt     2025-12-25  4193        mem_cgroup_private_id_remove(memcg);
-> da0efe30944476 Muchun Song      2022-03-22  4194        return -ENOMEM;
-> 8cdea7c0545426 Balbir Singh     2008-02-07  4195  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c369299895a591d96745d6492d4888259b004a9e
+commit: 8652920d2c00243e8a8ca91560a30488d95d9a1b drm/amdgpu: add mutex lock=
+ for cper ring
+date:   1 year, 1 month ago
+:::::: branch date: 2 days ago
+:::::: commit date: 1 year, 1 month ago
+config: s390-randconfig-r052-20260323 (https://download.01.org/0day-ci/arch=
+ive/20260324/202603241845.uThVuJUv-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c91=
+1b8492374942bf4cfe35411e90a35d3837f6a)
 
-Seems Smatch is flagging the inconsistency, but pn cannot be NULL at
-the free_objcg label because all nodeinfo[] entries were fully
-allocated in
-  mem_cgroup_alloc() before css_online() runs. The old pn && check was
-unnecessary defensive code.
-Kind regards.
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202603241845.uThVuJUv-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:535:4-10: preceding lock on lin=
+e 514
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:540:4-10: preceding lock on lin=
+e 514
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:576:1-7: preceding lock on line=
+ 514
+
+vim +535 drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+
+d38ceaf99ed015 Alex Deucher    2015-04-20  490 =20
+4f4824b55650fa Tom St Denis    2016-04-27  491  /* Layout of file is 12 byt=
+es consisting of
+4f4824b55650fa Tom St Denis    2016-04-27  492   * - rptr
+4f4824b55650fa Tom St Denis    2016-04-27  493   * - wptr
+4f4824b55650fa Tom St Denis    2016-04-27  494   * - driver's copy of wptr
+4f4824b55650fa Tom St Denis    2016-04-27  495   *
+4f4824b55650fa Tom St Denis    2016-04-27  496   * followed by n-words of r=
+ing data
+4f4824b55650fa Tom St Denis    2016-04-27  497   */
+4f4824b55650fa Tom St Denis    2016-04-27  498  static ssize_t amdgpu_debug=
+fs_ring_read(struct file *f, char __user *buf,
+4f4824b55650fa Tom St Denis    2016-04-27  499  					size_t size, loff_t *p=
+os)
+d38ceaf99ed015 Alex Deucher    2015-04-20  500  {
+450630975da9e7 Al Viro         2016-12-04  501  	struct amdgpu_ring *ring =
+=3D file_inode(f)->i_private;
+4f4824b55650fa Tom St Denis    2016-04-27  502  	uint32_t value, result, ea=
+rly[3];
+5a1428242952f2 Tao Zhou        2025-01-22  503  	uint64_t p;
+ebbc2ada5c636a Tim Huang       2024-04-25  504  	loff_t i;
+ebbc2ada5c636a Tim Huang       2024-04-25  505  	int r;
+d38ceaf99ed015 Alex Deucher    2015-04-20  506 =20
+c71dbd93eb0039 Tom St Denis    2016-05-02  507  	if (*pos & 3 || size & 3)
+4f4824b55650fa Tom St Denis    2016-04-27  508  		return -EINVAL;
+d38ceaf99ed015 Alex Deucher    2015-04-20  509 =20
+4f4824b55650fa Tom St Denis    2016-04-27  510  	result =3D 0;
+c7e6be2303d0b6 Christian K=C3=B6nig 2016-01-21  511 =20
+4f4824b55650fa Tom St Denis    2016-04-27  512  	if (*pos < 12) {
+8652920d2c0024 Tao Zhou        2025-02-10  513  		if (ring->funcs->type =3D=
+=3D AMDGPU_RING_TYPE_CPER)
+8652920d2c0024 Tao Zhou        2025-02-10 @514  			mutex_lock(&ring->adev->=
+cper.ring_lock);
+8652920d2c0024 Tao Zhou        2025-02-10  515 =20
+9c5c71bbed4132 Tom St Denis    2018-03-01  516  		early[0] =3D amdgpu_ring_=
+get_rptr(ring) & ring->buf_mask;
+ec63982e90a879 Tom St Denis    2017-03-29  517  		early[1] =3D amdgpu_ring_=
+get_wptr(ring) & ring->buf_mask;
+ec63982e90a879 Tom St Denis    2017-03-29  518  		early[2] =3D ring->wptr &=
+ ring->buf_mask;
+4f4824b55650fa Tom St Denis    2016-04-27  519  		for (i =3D *pos / 4; i < =
+3 && size; i++) {
+4f4824b55650fa Tom St Denis    2016-04-27  520  			r =3D put_user(early[i],=
+ (uint32_t *)buf);
+8652920d2c0024 Tao Zhou        2025-02-10  521  			if (r) {
+8652920d2c0024 Tao Zhou        2025-02-10  522  				result =3D r;
+8652920d2c0024 Tao Zhou        2025-02-10  523  				goto out;
+8652920d2c0024 Tao Zhou        2025-02-10  524  			}
+4f4824b55650fa Tom St Denis    2016-04-27  525  			buf +=3D 4;
+4f4824b55650fa Tom St Denis    2016-04-27  526  			result +=3D 4;
+4f4824b55650fa Tom St Denis    2016-04-27  527  			size -=3D 4;
+4f4824b55650fa Tom St Denis    2016-04-27  528  			*pos +=3D 4;
+4f4824b55650fa Tom St Denis    2016-04-27  529  		}
+4f4824b55650fa Tom St Denis    2016-04-27  530  	}
+d38ceaf99ed015 Alex Deucher    2015-04-20  531 =20
+5a1428242952f2 Tao Zhou        2025-01-22  532  	if (ring->funcs->type !=3D =
+AMDGPU_RING_TYPE_CPER) {
+4f4824b55650fa Tom St Denis    2016-04-27  533  		while (size) {
+4f4824b55650fa Tom St Denis    2016-04-27  534  			if (*pos >=3D (ring->rin=
+g_size + 12))
+4f4824b55650fa Tom St Denis    2016-04-27 @535  				return result;
+d38ceaf99ed015 Alex Deucher    2015-04-20  536 =20
+4f4824b55650fa Tom St Denis    2016-04-27  537  			value =3D ring->ring[(*p=
+os - 12)/4];
+4f4824b55650fa Tom St Denis    2016-04-27  538  			r =3D put_user(value, (u=
+int32_t *)buf);
+4f4824b55650fa Tom St Denis    2016-04-27  539  			if (r)
+4f4824b55650fa Tom St Denis    2016-04-27  540  				return r;
+4f4824b55650fa Tom St Denis    2016-04-27  541  			buf +=3D 4;
+4f4824b55650fa Tom St Denis    2016-04-27  542  			result +=3D 4;
+4f4824b55650fa Tom St Denis    2016-04-27  543  			size -=3D 4;
+4f4824b55650fa Tom St Denis    2016-04-27  544  			*pos +=3D 4;
+d38ceaf99ed015 Alex Deucher    2015-04-20  545  		}
+5a1428242952f2 Tao Zhou        2025-01-22  546  	} else {
+5a1428242952f2 Tao Zhou        2025-01-22  547  		p =3D early[0];
+5a1428242952f2 Tao Zhou        2025-01-22  548  		if (early[0] <=3D early[1=
+])
+5a1428242952f2 Tao Zhou        2025-01-22  549  			size =3D (early[1] - ear=
+ly[0]);
+5a1428242952f2 Tao Zhou        2025-01-22  550  		else
+5a1428242952f2 Tao Zhou        2025-01-22  551  			size =3D ring->ring_size=
+ - (early[0] - early[1]);
+5a1428242952f2 Tao Zhou        2025-01-22  552 =20
+5a1428242952f2 Tao Zhou        2025-01-22  553  		while (size) {
+5a1428242952f2 Tao Zhou        2025-01-22  554  			if (p =3D=3D early[1])
+8652920d2c0024 Tao Zhou        2025-02-10  555  				goto out;
+5a1428242952f2 Tao Zhou        2025-01-22  556 =20
+5a1428242952f2 Tao Zhou        2025-01-22  557  			value =3D ring->ring[p];
+5a1428242952f2 Tao Zhou        2025-01-22  558  			r =3D put_user(value, (u=
+int32_t *)buf);
+8652920d2c0024 Tao Zhou        2025-02-10  559  			if (r) {
+8652920d2c0024 Tao Zhou        2025-02-10  560  				result =3D r;
+8652920d2c0024 Tao Zhou        2025-02-10  561  				goto out;
+8652920d2c0024 Tao Zhou        2025-02-10  562  			}
+5a1428242952f2 Tao Zhou        2025-01-22  563 =20
+5a1428242952f2 Tao Zhou        2025-01-22  564  			buf +=3D 4;
+5a1428242952f2 Tao Zhou        2025-01-22  565  			result +=3D 4;
+5a1428242952f2 Tao Zhou        2025-01-22  566  			size--;
+5a1428242952f2 Tao Zhou        2025-01-22  567  			p++;
+5a1428242952f2 Tao Zhou        2025-01-22  568  			p &=3D ring->ptr_mask;
+5a1428242952f2 Tao Zhou        2025-01-22  569  		}
+5a1428242952f2 Tao Zhou        2025-01-22  570  	}
+4f4824b55650fa Tom St Denis    2016-04-27  571 =20
+8652920d2c0024 Tao Zhou        2025-02-10  572  out:
+8652920d2c0024 Tao Zhou        2025-02-10  573  	if (ring->funcs->type =3D=
+=3D AMDGPU_RING_TYPE_CPER)
+8652920d2c0024 Tao Zhou        2025-02-10  574  		mutex_unlock(&ring->adev-=
+>cper.ring_lock);
+8652920d2c0024 Tao Zhou        2025-02-10  575 =20
+4f4824b55650fa Tom St Denis    2016-04-27  576  	return result;
+d38ceaf99ed015 Alex Deucher    2015-04-20  577  }
+d38ceaf99ed015 Alex Deucher    2015-04-20  578 =20
+
+:::::: The code at line 535 was first introduced by commit
+:::::: 4f4824b55650fa7014eedf18cb1f9f243cb2b45e drm/amd/amdgpu: Convert rin=
+g debugfs entries to binary
+
+:::::: TO: Tom St Denis <tom.stdenis@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
