@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7895C3E3DBE
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 14:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BB7401A23
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 14:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774363469; cv=none; b=uC6TfF7zORUonZqiF6lTb94gC+29SgbiUUo1ggVqUzajnWlYGriNXB7x7G9C/lQhbfJkKn0eWS1Zeday5CxJHm/BbX6qXzQR/FMPNIzP+SWcd/ZJNBOfRDNH2aCkWUl8QeuQrNpuU+1M4B22gUxlzDYsqsSiVI7ku4vXaphW46w=
+	t=1774364064; cv=none; b=BExf5BtEQUl9WRomnj9s07/pmISXQCZ0A1fFiw77nv3IRT4ukCsf5Y7qNrXr9h8Eqb84kzK7QDzOTJ51WwIHoD8XKQPDWMv931FPaymFEiUXD6cbuRTE9jV5jZDrvP0YmjZHozSJ4oTHBv4+bOngdlqxa1gfqJVgVRmTnRfsYl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774363469; c=relaxed/simple;
-	bh=g/KFONkrNV9C2127e1mH/udpZPDMbWaE09cs+QNwb5U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IQb+A27xVdnUMafmzfMaK0bTYW1w936umo8WhRBJ6VnRr0aIV6gbtzmUpe710tsTIWBHCPGZP/mB5AKNqVEugj8zORRK83zmcSqPKdq2BF0wlrRpR17420Mu0ZqlvULi0ik418S6sM/PlxGe2QOcRcE611rCLjUfNi73+P5JA7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IUcCfFZx; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1774364064; c=relaxed/simple;
+	bh=PUWBKqIaHzzIePSyfYF+fbI4cA2o3KF1e/OTCKKl7LI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=a9EMWHAZc4hnkgvYJ92KExWhBcbgcN0Lbxots8JPgnlHwUiGGjYhevGhiOEjY4ezCsyEGeiT8jMDZ2rbKTpE8fAUeDeNX5J41RHbotxs/RnfMt93x+pXe3peebTNCrcsZK0hZpt5Bi2s91C4SrCsHtx1iFBwQH2Qtpgal0WdkcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GxOV30aC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUcCfFZx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxOV30aC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774363466; x=1805899466;
+  t=1774364063; x=1805900063;
   h=date:from:to:cc:subject:message-id;
-  bh=g/KFONkrNV9C2127e1mH/udpZPDMbWaE09cs+QNwb5U=;
-  b=IUcCfFZxbq90neGI5O2b4yRIbKTrvWvvMZ+Uz+8W8lXFUOQNKdh+L8Ce
-   8RVLzR7EqFXzVLKqdiwWtH4EUUlV+6/l86YHRwBdTQc+IAEjCmv2sawBD
-   P19SNgZzrspb3454d71wZIGovBDNmUKirVHQQLpfFrr0tnkzSlIJxd31/
-   nxuhgQzMSvTG8HV0c5v8ZPDvrx480LLoyzwFwCe9p9lVRqvDkdx0QVkM9
-   3XxrT1MHrjSHUabXc6T9+KmH7W+AB77/ss0dPh9osnA9YWTEUCMBMeK+W
-   fQZGq5u2pNhj3OO/brH+1yuCJ1PcTV/ACHnSk9gw7SV5WVb1epUogGT+i
-   A==;
-X-CSE-ConnectionGUID: iXMvEfvWTlCLIk8S17cH/g==
-X-CSE-MsgGUID: tS+Fwg9FQwiYCKGsxovN6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="62931679"
+  bh=PUWBKqIaHzzIePSyfYF+fbI4cA2o3KF1e/OTCKKl7LI=;
+  b=GxOV30aCkoE5nASFO3MUA3fGXvh8rsgiS1sP5HMuC9EozW1ZvLqlx5rJ
+   2A3jkp9KyiiJ62NiQqg6q7MtSEcMux+nFkg3j1XfYbYB893J087mfmvHC
+   +uD0YMA3kTajpA1TfnfYk7Dt0pM4Z5a/u+vf4dN1k7aV8W3AJYdzF5OOQ
+   8EEJ3Y1IhmiQOJwsdFGajfcWbs0azpPnttHwBri+OVokBSmZ5JjvFgvgw
+   Q/sVsJVEUXpaT3USnOkKVmEMTCU0YpRpGBgTJyIDA4Jk/Kli1aHV95Ah3
+   qzVlVpaKNtPQDHqYHGWYn8eEnH7fExZbNMr+ApXpO6xkPaT3xR17RJNwl
+   w==;
+X-CSE-ConnectionGUID: Ph9LFRiuQmaizPAwt675yg==
+X-CSE-MsgGUID: WQtQxj1rQj+ZcyD3LHOrUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="85996802"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="62931679"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 07:44:23 -0700
-X-CSE-ConnectionGUID: weFF9v8KQLSHqTc4p24Cpw==
-X-CSE-MsgGUID: V3q3bj2wTjuX+lIEG0X90A==
+   d="scan'208";a="85996802"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 07:54:23 -0700
+X-CSE-ConnectionGUID: lpI3gzL3RZ+1J9w87QYccA==
+X-CSE-MsgGUID: t+w2StW3TEeFkt30GKlSXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="224615580"
+   d="scan'208";a="229124389"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 24 Mar 2026 07:44:21 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 Mar 2026 07:54:21 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w52zS-000000004iF-1nka;
-	Tue, 24 Mar 2026 14:44:18 +0000
-Date: Tue, 24 Mar 2026 22:43:47 +0800
+	id 1w5398-000000004if-43B3;
+	Tue, 24 Mar 2026 14:54:18 +0000
+Date: Tue, 24 Mar 2026 22:54:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/hda/codecs/generic.c:198 parse_user_hints() warn:
- assigning (-2) to unsigned variable 'spec->mixer_nid'
-Message-ID: <202603242209.Uk9YrhEH-lkp@intel.com>
+Subject: sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn:
+ inconsistent returns '&rme96->lock'.
+Message-ID: <202603242252.uEpptmA1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -63,136 +63,94 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
 TO: Takashi Iwai <tiwai@suse.de>
-CC: Richard Fitzgerald <rf@opensource.cirrus.com>
-
-Hi Takashi,
-
-First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c369299895a591d96745d6492d4888259b004a9e
-commit: 6014e9021b28e634935c776c0271b5cbcabdc5d6 ALSA: hda: Move codec drivers into sound/hda/codecs directory
-date:   9 months ago
+commit: d3424b8bf78593e1751cfa19628aa0008d2e08ce ALSA: rme96: Use guard() for spin locks
+date:   7 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 9 months ago
-config: openrisc-randconfig-r072-20260324 (https://download.01.org/0day-ci/archive/20260324/202603242209.Uk9YrhEH-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
+:::::: commit date: 7 months ago
+config: powerpc64-randconfig-r072-20260324 (https://download.01.org/0day-ci/archive/20260324/202603242252.uEpptmA1-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 10.5.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603242209.Uk9YrhEH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603242252.uEpptmA1-lkp@intel.com/
 
 smatch warnings:
-sound/hda/codecs/generic.c:198 parse_user_hints() warn: assigning (-2) to unsigned variable 'spec->mixer_nid'
+sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn: inconsistent returns '&rme96->lock'.
+sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn: inconsistent returns 'irq'.
 
-vim +198 sound/hda/codecs/generic.c
+vim +1011 sound/pci/rme96.c
 
-^1da177e4c3f415 sound/pci/hda/hda_generic.c Linus Torvalds 2005-04-16  101  
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  102  /*
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  103   * store user hints
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  104   */
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  105  static void parse_user_hints(struct hda_codec *codec)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  106  {
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  107  	struct hda_gen_spec *spec = codec->spec;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  108  	int val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  109  
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  110  	val = snd_hda_get_bool_hint(codec, "jack_detect");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  111  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  112  		codec->no_jack_detect = !val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  113  	val = snd_hda_get_bool_hint(codec, "inv_jack_detect");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  114  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  115  		codec->inv_jack_detect = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  116  	val = snd_hda_get_bool_hint(codec, "trigger_sense");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  117  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  118  		codec->no_trigger_sense = !val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  119  	val = snd_hda_get_bool_hint(codec, "inv_eapd");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  120  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  121  		codec->inv_eapd = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  122  	val = snd_hda_get_bool_hint(codec, "pcm_format_first");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  123  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  124  		codec->pcm_format_first = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  125  	val = snd_hda_get_bool_hint(codec, "sticky_stream");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  126  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  127  		codec->no_sticky_stream = !val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  128  	val = snd_hda_get_bool_hint(codec, "spdif_status_reset");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  129  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  130  		codec->spdif_status_reset = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  131  	val = snd_hda_get_bool_hint(codec, "pin_amp_workaround");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  132  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  133  		codec->pin_amp_workaround = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  134  	val = snd_hda_get_bool_hint(codec, "single_adc_amp");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  135  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  136  		codec->single_adc_amp = !!val;
-967b1307b69b8ad sound/pci/hda/hda_generic.c Takashi Iwai   2015-03-20  137  	val = snd_hda_get_bool_hint(codec, "power_save_node");
-e6feb5d08509be1 sound/pci/hda/hda_generic.c Takashi Iwai   2015-03-16  138  	if (val >= 0)
-967b1307b69b8ad sound/pci/hda/hda_generic.c Takashi Iwai   2015-03-20  139  		codec->power_save_node = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  140  
-f72706be354b35f sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-16  141  	val = snd_hda_get_bool_hint(codec, "auto_mute");
-f72706be354b35f sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-16  142  	if (val >= 0)
-f72706be354b35f sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-16  143  		spec->suppress_auto_mute = !val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  144  	val = snd_hda_get_bool_hint(codec, "auto_mic");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  145  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  146  		spec->suppress_auto_mic = !val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  147  	val = snd_hda_get_bool_hint(codec, "line_in_auto_switch");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  148  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  149  		spec->line_in_auto_switch = !!val;
-7eebffd3f4328c6 sound/pci/hda/hda_generic.c Takashi Iwai   2013-06-24  150  	val = snd_hda_get_bool_hint(codec, "auto_mute_via_amp");
-7eebffd3f4328c6 sound/pci/hda/hda_generic.c Takashi Iwai   2013-06-24  151  	if (val >= 0)
-7eebffd3f4328c6 sound/pci/hda/hda_generic.c Takashi Iwai   2013-06-24  152  		spec->auto_mute_via_amp = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  153  	val = snd_hda_get_bool_hint(codec, "need_dac_fix");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  154  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  155  		spec->need_dac_fix = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  156  	val = snd_hda_get_bool_hint(codec, "primary_hp");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  157  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  158  		spec->no_primary_hp = !val;
-da96fb5b0185d27 sound/pci/hda/hda_generic.c Takashi Iwai   2013-07-29  159  	val = snd_hda_get_bool_hint(codec, "multi_io");
-da96fb5b0185d27 sound/pci/hda/hda_generic.c Takashi Iwai   2013-07-29  160  	if (val >= 0)
-da96fb5b0185d27 sound/pci/hda/hda_generic.c Takashi Iwai   2013-07-29  161  		spec->no_multi_io = !val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  162  	val = snd_hda_get_bool_hint(codec, "multi_cap_vol");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  163  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  164  		spec->multi_cap_vol = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  165  	val = snd_hda_get_bool_hint(codec, "inv_dmic_split");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  166  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  167  		spec->inv_dmic_split = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  168  	val = snd_hda_get_bool_hint(codec, "indep_hp");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  169  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  170  		spec->indep_hp = !!val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  171  	val = snd_hda_get_bool_hint(codec, "add_stereo_mix_input");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  172  	if (val >= 0)
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  173  		spec->add_stereo_mix_input = !!val;
-f811c3cf8fae63e sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  174  	/* the following two are just for compatibility */
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  175  	val = snd_hda_get_bool_hint(codec, "add_out_jack_modes");
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  176  	if (val >= 0)
-f811c3cf8fae63e sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  177  		spec->add_jack_modes = !!val;
-29476558deb3017 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-17  178  	val = snd_hda_get_bool_hint(codec, "add_in_jack_modes");
-29476558deb3017 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-17  179  	if (val >= 0)
-f811c3cf8fae63e sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  180  		spec->add_jack_modes = !!val;
-f811c3cf8fae63e sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  181  	val = snd_hda_get_bool_hint(codec, "add_jack_modes");
-f811c3cf8fae63e sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  182  	if (val >= 0)
-f811c3cf8fae63e sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  183  		spec->add_jack_modes = !!val;
-55196fffc951059 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-24  184  	val = snd_hda_get_bool_hint(codec, "power_down_unused");
-55196fffc951059 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-24  185  	if (val >= 0)
-55196fffc951059 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-24  186  		spec->power_down_unused = !!val;
-967303dabc22335 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  187  	val = snd_hda_get_bool_hint(codec, "add_hp_mic");
-967303dabc22335 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  188  	if (val >= 0)
-967303dabc22335 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  189  		spec->hp_mic = !!val;
-967303dabc22335 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  190  	val = snd_hda_get_bool_hint(codec, "hp_mic_detect");
-967303dabc22335 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  191  	if (val >= 0)
-967303dabc22335 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  192  		spec->suppress_hp_mic_detect = !val;
-7480316c265c9fc sound/pci/hda/hda_generic.c Takashi Iwai   2017-04-10  193  	val = snd_hda_get_bool_hint(codec, "vmaster");
-7480316c265c9fc sound/pci/hda/hda_generic.c Takashi Iwai   2017-04-10  194  	if (val >= 0)
-7480316c265c9fc sound/pci/hda/hda_generic.c Takashi Iwai   2017-04-10  195  		spec->suppress_vmaster = !val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  196  
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  197  	if (!snd_hda_get_int_hint(codec, "mixer_nid", &val))
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11 @198  		spec->mixer_nid = val;
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  199  }
-1c70a583417e8db sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  200  
+^1da177e4c3f415 Linus Torvalds  2005-04-16   952  
+^1da177e4c3f415 Linus Torvalds  2005-04-16   953  static int
+a3aefd883dc8c17 Takashi Iwai    2005-11-17   954  snd_rme96_playback_hw_params(struct snd_pcm_substream *substream,
+a3aefd883dc8c17 Takashi Iwai    2005-11-17   955  			     struct snd_pcm_hw_params *params)
+^1da177e4c3f415 Linus Torvalds  2005-04-16   956  {
+a3aefd883dc8c17 Takashi Iwai    2005-11-17   957  	struct rme96 *rme96 = snd_pcm_substream_chip(substream);
+a3aefd883dc8c17 Takashi Iwai    2005-11-17   958  	struct snd_pcm_runtime *runtime = substream->runtime;
+^1da177e4c3f415 Linus Torvalds  2005-04-16   959  	int err, rate, dummy;
+a74a821624c0c75 Takashi Iwai    2015-12-04   960  	bool apply_dac_volume = false;
+^1da177e4c3f415 Linus Torvalds  2005-04-16   961  
+4d23359b7ec8b03 Clemens Ladisch 2005-09-05   962  	runtime->dma_area = (void __force *)(rme96->iobase +
+4d23359b7ec8b03 Clemens Ladisch 2005-09-05   963  					     RME96_IO_PLAY_BUFFER);
+^1da177e4c3f415 Linus Torvalds  2005-04-16   964  	runtime->dma_addr = rme96->port + RME96_IO_PLAY_BUFFER;
+^1da177e4c3f415 Linus Torvalds  2005-04-16   965  	runtime->dma_bytes = RME96_BUFFER_SIZE;
+^1da177e4c3f415 Linus Torvalds  2005-04-16   966  
+d3424b8bf78593e Takashi Iwai    2025-08-29   967  	scoped_guard(spinlock_irq, &rme96->lock) {
+da8eedb169712c8 Takashi Iwai    2021-06-08   968  		rate = 0;
+^1da177e4c3f415 Linus Torvalds  2005-04-16   969  		if (!(rme96->wcreg & RME96_WCR_MASTER) &&
+da8eedb169712c8 Takashi Iwai    2021-06-08   970  		    snd_rme96_getinputtype(rme96) != RME96_INPUT_ANALOG)
+da8eedb169712c8 Takashi Iwai    2021-06-08   971  			rate = snd_rme96_capture_getrate(rme96, &dummy);
+da8eedb169712c8 Takashi Iwai    2021-06-08   972  		if (rate > 0) {
+^1da177e4c3f415 Linus Torvalds  2005-04-16   973  			/* slave clock */
+d3424b8bf78593e Takashi Iwai    2025-08-29   974  			if ((int)params_rate(params) != rate)
+d3424b8bf78593e Takashi Iwai    2025-08-29   975  				return -EIO;
+a74a821624c0c75 Takashi Iwai    2015-12-04   976  		} else {
+a74a821624c0c75 Takashi Iwai    2015-12-04   977  			err = snd_rme96_playback_setrate(rme96, params_rate(params));
+a74a821624c0c75 Takashi Iwai    2015-12-04   978  			if (err < 0)
+d3424b8bf78593e Takashi Iwai    2025-08-29   979  				return err;
+a74a821624c0c75 Takashi Iwai    2015-12-04   980  			apply_dac_volume = err > 0; /* need to restore volume later? */
+^1da177e4c3f415 Linus Torvalds  2005-04-16   981  		}
+a74a821624c0c75 Takashi Iwai    2015-12-04   982  
+a74a821624c0c75 Takashi Iwai    2015-12-04   983  		err = snd_rme96_playback_setformat(rme96, params_format(params));
+a74a821624c0c75 Takashi Iwai    2015-12-04   984  		if (err < 0)
+a74a821624c0c75 Takashi Iwai    2015-12-04   985  			goto error;
+^1da177e4c3f415 Linus Torvalds  2005-04-16   986  		snd_rme96_setframelog(rme96, params_channels(params), 1);
+^1da177e4c3f415 Linus Torvalds  2005-04-16   987  		if (rme96->capture_periodsize != 0) {
+^1da177e4c3f415 Linus Torvalds  2005-04-16   988  			if (params_period_size(params) << rme96->playback_frlog !=
+d3424b8bf78593e Takashi Iwai    2025-08-29   989  			    rme96->capture_periodsize) {
+a74a821624c0c75 Takashi Iwai    2015-12-04   990  				err = -EBUSY;
+a74a821624c0c75 Takashi Iwai    2015-12-04   991  				goto error;
+^1da177e4c3f415 Linus Torvalds  2005-04-16   992  			}
+^1da177e4c3f415 Linus Torvalds  2005-04-16   993  		}
+^1da177e4c3f415 Linus Torvalds  2005-04-16   994  		rme96->playback_periodsize =
+^1da177e4c3f415 Linus Torvalds  2005-04-16   995  			params_period_size(params) << rme96->playback_frlog;
+^1da177e4c3f415 Linus Torvalds  2005-04-16   996  		snd_rme96_set_period_properties(rme96, rme96->playback_periodsize);
+^1da177e4c3f415 Linus Torvalds  2005-04-16   997  		/* S/PDIF setup */
+^1da177e4c3f415 Linus Torvalds  2005-04-16   998  		if ((rme96->wcreg & RME96_WCR_ADAT) == 0) {
+^1da177e4c3f415 Linus Torvalds  2005-04-16   999  			rme96->wcreg &= ~(RME96_WCR_PRO | RME96_WCR_DOLBY | RME96_WCR_EMP);
+^1da177e4c3f415 Linus Torvalds  2005-04-16  1000  			writel(rme96->wcreg |= rme96->wcreg_spdif_stream, rme96->iobase + RME96_IO_CONTROL_REGISTER);
+^1da177e4c3f415 Linus Torvalds  2005-04-16  1001  		}
+a74a821624c0c75 Takashi Iwai    2015-12-04  1002  
+a74a821624c0c75 Takashi Iwai    2015-12-04  1003  		err = 0;
+d3424b8bf78593e Takashi Iwai    2025-08-29  1004  	}
+a74a821624c0c75 Takashi Iwai    2015-12-04  1005   error:
+a74a821624c0c75 Takashi Iwai    2015-12-04  1006  	if (apply_dac_volume) {
+a74a821624c0c75 Takashi Iwai    2015-12-04  1007  		usleep_range(3000, 10000);
+a74a821624c0c75 Takashi Iwai    2015-12-04  1008  		snd_rme96_apply_dac_volume(rme96);
+a74a821624c0c75 Takashi Iwai    2015-12-04  1009  	}
+^1da177e4c3f415 Linus Torvalds  2005-04-16  1010  
+a74a821624c0c75 Takashi Iwai    2015-12-04 @1011  	return err;
+^1da177e4c3f415 Linus Torvalds  2005-04-16  1012  }
+^1da177e4c3f415 Linus Torvalds  2005-04-16  1013  
 
-:::::: The code at line 198 was first introduced by commit
-:::::: 1c70a583417e8db1e1d5069d7651ba294e9499de ALSA: hda - Allow user to give hints for codec parser behavior
+:::::: The code at line 1011 was first introduced by commit
+:::::: a74a821624c0c75388a193337babd17a8c02c740 ALSA: rme96: Fix unexpected volume reset after rate changes
 
 :::::: TO: Takashi Iwai <tiwai@suse.de>
 :::::: CC: Takashi Iwai <tiwai@suse.de>
