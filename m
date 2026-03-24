@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B533845AC
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 23:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6DB4A32
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 00:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774308385; cv=none; b=rGVWvBy4kF2teQUWWbZExR3P9xKREagRpRchatDeS0EoaveBVpZfpU2pXbyCHIjof050t/i6sR1TEuMj5ZQ5iOKIy0rB5mcIvdDEmjlbp1+M7XdbT4Uui4blZl88VjuyzTN2ptpElgaICie4LFqtq6Yww0DV69ZDw3nIyR6aBD4=
+	t=1774311029; cv=none; b=kXtGAcmQwk7NvbwIzLKxOIAp4+9TfBQnrDo28obehdz31TjNUZnnfGt+f97sCBtcMvqf6IruC+Uen33KS0SS4CgAd1UmiOCphMAl2BmNvFg0Bc5nYO1EjFbSmKjHxeTot58xG30JY6nZjDyrl2rmWwsPMEQUlH6TsD/9y1/V8Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774308385; c=relaxed/simple;
-	bh=1U3A/6fj1kfFS9MLrLSBorB9fQjS/Py2hwhOK18Zek0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rF0EGeqo8sOD4OQ7RYtiU56/rkmr7OdOgLN3f22SEByUrHDIRhIHCoP93ngFb5ES/+GNnPLbkHOrqM7meS6k+K5f0sMWz7koP5Z7JIaPqoCRImf1tOsFIEbNBeI5Lt6G+RCLoaQ6xz25VqogesFXbYv8uYWdRnk1dhdQKH+ScwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QED7SKxp; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1774311029; c=relaxed/simple;
+	bh=xl/Sug/zBBauz9/K7boTvrp8ITKksDRqr4Ny1HloKuM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MR3jSDtc3FowLGqddlhW42rRqZw82Fih9ZIJPN2oz5EH3XTp/PkMPmZ8y6ey5JDlvPNCibbkZGqD5oTEdKOjAV2NIVLGUwVmj+IatWci7JbvdbleEpzSB0x6nHpoQJlVU48/8nLmpC6O6eK4iekKJZAI5meNj+H/nGCRNDUBBl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e07kNe+q; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QED7SKxp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e07kNe+q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774308383; x=1805844383;
+  t=1774311029; x=1805847029;
   h=date:from:to:cc:subject:message-id;
-  bh=1U3A/6fj1kfFS9MLrLSBorB9fQjS/Py2hwhOK18Zek0=;
-  b=QED7SKxpCvP0xxuuYM+DFiKMEy5fXZgPnRD9PPHS6lXwepU/HxwOFFOW
-   htE5vIAFgdneW/GfWf5draio+sGXMT5hjQtFIlQev980UXGT9v1s3kkWy
-   SJzqbfvZSoWIUai7CQLfw/bs7pSoOjMb73YLLIQc7S8iqjZiKILN9WzyZ
-   lzv4KTXBj0TEasfyJo2ZNQa99VL8taMn2t8M49t4/sYc0XpkAJmVtdBFE
-   utZzfKQ1vplf6PmiD9gsuHiv4A77boiZXb2uV5/+PdZVpqLoKijyBEel9
-   yJVfmtA6r079+zZhfYEBl005pOyoxXcP8TqTYmcqXFXkMC6mqNK2d0l/R
-   w==;
-X-CSE-ConnectionGUID: L/ZkSGNkSbKFmybZxpR5jw==
-X-CSE-MsgGUID: mzfp1GHdQl+6sv/9mCRTwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="97937872"
+  bh=xl/Sug/zBBauz9/K7boTvrp8ITKksDRqr4Ny1HloKuM=;
+  b=e07kNe+qaMyT0kG+hF5K6xtmvh2WKIDaH4zvdnnqcpkGr8q2WF1azQ84
+   7IyW0FLvgo73PB/X6GtB0Cwu6Q7iSp0JhuSW/ondgT+UW/r3ziYBvLm/V
+   CC3lkCoiKdC6/w2Ot1uwBye6q+Wa06HC+9kL8YvYlMoEpfGhbI8hi2QvE
+   T5SarItIjPvhlxOu6rJSzjXont6VAPeu4VuXPBR/fPleSTeuxavq3AWDC
+   fO3OHVBafXuOprDAMLiMrBlY+cNA9bD5Bn6BhbDmipLf0Kkv9NPeeCtnF
+   P7hx3zRpDcM6Sxg89SoTSbLufXkS6WMG32B4VKj23AziGdJcu7QSIi7fy
+   Q==;
+X-CSE-ConnectionGUID: btkapC1ITdWOUYJnMVpZXw==
+X-CSE-MsgGUID: PbSd6TMqSEa1oEsLt3zuPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75343265"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="97937872"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 16:26:22 -0700
-X-CSE-ConnectionGUID: mLNHhuSNRJSd1UjKyRIS8A==
-X-CSE-MsgGUID: c3Obkev5Qz63EPPyaR94pw==
+   d="scan'208";a="75343265"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 17:10:28 -0700
+X-CSE-ConnectionGUID: 0qg35yM2TJmLOH/SDNnE3Q==
+X-CSE-MsgGUID: RfhcKO17QwWjkUIIwYFNyQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="225860442"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Mar 2026 16:26:21 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Mar 2026 17:10:25 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4of5-000000003ON-1k3r;
-	Mon, 23 Mar 2026 23:26:19 +0000
-Date: Tue, 24 Mar 2026 07:25:43 +0800
+	id 1w4pLj-000000003QR-0kVa;
+	Tue, 24 Mar 2026 00:10:23 +0000
+Date: Tue, 24 Mar 2026 08:09:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7490/8143] fs/gfs2/log.c:1044
- gfs2_remove_from_journal() error: dereferencing freed memory 'bh' (line 1038)
-Message-ID: <202603240754.C7jumMeJ-lkp@intel.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/disp.c:137
+ r535_curs_init() warn: 'args' can also be NULL
+Message-ID: <202603240817.wKCjtHNi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,68 +61,63 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Andreas Gruenbacher <agruenba@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Ben Skeggs <bskeggs@nvidia.com>
+CC: Dave Airlie <airlied@redhat.com>
+CC: Timur Tabi <ttabi@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   09c0f7f1bcdbc3c37a5a760cbec76bf18f278406
-commit: a6ce9e1e687685298eca177d82e68ac61c01e10a [7490/8143] gfs2: Move gfs2_remove_from_journal to log.c
-:::::: branch date: 6 hours ago
-:::::: commit date: 24 hours ago
-config: s390-randconfig-r072-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240754.C7jumMeJ-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c369299895a591d96745d6492d4888259b004a9e
+commit: c472d828348cafa7874816f4ad2a2314d0000419 drm/nouveau/gsp: move subdev/engine impls to subdev/gsp/rm/r535/
+date:   10 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-r073-20260323 (https://download.01.org/0day-ci/archive/20260324/202603240817.wKCjtHNi-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603240754.C7jumMeJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603240817.wKCjtHNi-lkp@intel.com/
 
 New smatch warnings:
-fs/gfs2/log.c:1044 gfs2_remove_from_journal() error: dereferencing freed memory 'bh' (line 1038)
-fs/gfs2/log.c:1051 gfs2_remove_from_journal() warn: passing freed memory 'bh' (line 1038)
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/disp.c:137 r535_curs_init() warn: 'args' can also be NULL
 
 Old smatch warnings:
-fs/gfs2/log.c:1181 gfs2_log_flush() error: we previously assumed 'sdp->sd_jdesc' could be null (see line 1134)
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/disp.c:190 r535_dmac_init() warn: 'args' can also be NULL
 
-vim +/bh +1044 fs/gfs2/log.c
+vim +/args +137 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/disp.c
 
-462582b99b6079 Bob Peterson        2020-08-21  1019  
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1020  void gfs2_remove_from_journal(struct buffer_head *bh, int meta)
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1021  {
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1022  	struct address_space *mapping = bh->b_folio->mapping;
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1023  	struct gfs2_sbd *sdp = gfs2_mapping2sbd(mapping);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1024  	struct gfs2_bufdata *bd = bh->b_private;
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1025  	struct gfs2_trans *tr = current->journal_info;
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1026  	int was_pinned = 0;
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1027  
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1028  	if (test_clear_buffer_pinned(bh)) {
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1029  		trace_gfs2_pin(bd, 0);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1030  		atomic_dec(&sdp->sd_log_pinned);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1031  		list_del_init(&bd->bd_list);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1032  		if (meta == REMOVE_META)
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1033  			tr->tr_num_buf_rm++;
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1034  		else
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1035  			tr->tr_num_databuf_rm++;
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1036  		set_bit(TR_TOUCHED, &tr->tr_flags);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1037  		was_pinned = 1;
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13 @1038  		brelse(bh);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1039  	}
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1040  	if (bd) {
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1041  		if (bd->bd_tr) {
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1042  			gfs2_trans_add_revoke(sdp, bd);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1043  		} else if (was_pinned) {
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13 @1044  			bh->b_private = NULL;
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1045  			kmem_cache_free(gfs2_bufdata_cachep, bd);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1046  		} else if (!list_empty(&bd->bd_ail_st_list) &&
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1047  			   !list_empty(&bd->bd_ail_gl_list)) {
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1048  			gfs2_remove_from_ail(bd);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1049  		}
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1050  	}
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13 @1051  	clear_buffer_dirty(bh);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1052  	clear_buffer_uptodate(bh);
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1053  }
-a6ce9e1e687685 Andreas Gruenbacher 2026-03-13  1054  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  120  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  121  static int
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  122  r535_curs_init(struct nvkm_disp_chan *chan)
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  123  {
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  124  	NV50VAIO_CHANNELPIO_ALLOCATION_PARAMETERS *args;
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  125  	int ret;
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  126  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  127  	ret = r535_chan_push(chan);
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  128  	if (ret)
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  129  		return ret;
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  130  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  131  	args = nvkm_gsp_rm_alloc_get(&chan->disp->rm.object,
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  132  				     (chan->object.oclass << 16) | chan->head,
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  133  				     chan->object.oclass, sizeof(*args), &chan->rm.object);
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  134  	if (IS_ERR(args))
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  135  		return PTR_ERR(args);
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  136  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19 @137  	args->channelInstance = chan->head;
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  138  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  139  	return nvkm_gsp_rm_alloc_wr(&chan->rm.object, args);
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  140  }
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  141  
+
+:::::: The code at line 137 was first introduced by commit
+:::::: 9e99444490238d210a421cef3598432c5da2e086 drm/nouveau/disp/r535: initial support
+
+:::::: TO: Ben Skeggs <bskeggs@redhat.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
