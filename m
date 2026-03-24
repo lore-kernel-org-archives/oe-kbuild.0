@@ -1,225 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77943C4571
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 11:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2380935BDDC
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 12:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774350246; cv=none; b=XeFibFbQ/mJlyWxx9vo7loq+6y3OUc0EkNBFtudPfbRu6/VtB3dRDdCZGzTkvwwxq1KCBY3C4aa/0WGfJ/I5ah7Vjf9pcy3v7M6ZxvMBlIt9QKmGGqSNV9VoEUdDTFOFw/bFMlluNTxWiN4HGO2FzE51HjcjwgdFkSQXx4Bvz+0=
+	t=1774354810; cv=none; b=LQjJ0h3TUSeB8RXArRNyt0aATk8mLTgDstS7scKrfS2RikKhciO93j3UwuucrmonnIaJrq8teOy4Tlbr75RPZwMhVd3UEJdq4n9BDBL4F2lj8OWDne2vluB6zs0YqFQz34BgpNKEYE1MaLMYsAau7hJwJh7Dd8RXbkCOS7Ic6Tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774350246; c=relaxed/simple;
-	bh=6QDquy3d5EMlbZVFn1V3VsGX8Fvat4OE4eD6l/E1vcY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Wi1DQG00jFqy/938ctfQqyZlA4itZWabVLZyRM9itMIOIvpvrcJo0l5CfUNdiwDuBVhmt5y6FLtsnMLQjTcXvYEGXVXNygqrFxQEummwPVLocird6Om2fsYmTWcESKGLu58z/4ZLamszxXfZUqxw3LROKCOeASuZDWxwOu8mvnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WZdMKdgo; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774354810; c=relaxed/simple;
+	bh=d3lAtlSzRLlPIHcAfUrP5eAjLzQiHBjCC5ASb6DOKZg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tVdy3mmG5bcEvQ6GlWSx34t8wWKI6qPYR0Ehty3+icq08SiDcVArU/QMKypkZqzBGXyCJckFBZOmFfF2uy8/GJExwGNTG2srNNBGcQCoVxZXhwbiPlDkc8Z97PeHtGCbt111HqjLu2wHE4xBU+XaBRwDcFZUJ3njIKCjjZX1lbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YNkpa8/3; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZdMKdgo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YNkpa8/3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774350244; x=1805886244;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6QDquy3d5EMlbZVFn1V3VsGX8Fvat4OE4eD6l/E1vcY=;
-  b=WZdMKdgogPd6NaH1F1xO/y01R91JJ5rocXEjcYFcXojtr62uDytlLwOs
-   8efebXjYH/6rOkWHDphZueqi/ZKaZYcuq7QD9tcgVaw2HSKn2QJFWjcK+
-   KkIslYhERuEgIdDHw/RwyeaJUA5bd9vZLaSgm6bk0xgyY6LEjrHJN/Scb
-   /X8PNdvc/Fu/xByHFwN1TcweiXKc3FqjvUZATgPXQ4FfcZaa1AvWW7WtN
-   cedXIYo7x5JwQVz/LpyKdDRCBMVRqV6TkqyvkUL81ghSQBidFJmxy8com
-   2UQ+fydaXcCJ7BZoj4/jB/zpoVZV8jgI4Z90pAtZp+nhhNQ1x8ISgEOja
-   g==;
-X-CSE-ConnectionGUID: qcb6ZF0OQ223SQ6EHLOgLQ==
-X-CSE-MsgGUID: mwA7OizcSaW8bcodCPyHmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86061265"
+  t=1774354809; x=1805890809;
+  h=date:from:to:cc:subject:message-id;
+  bh=d3lAtlSzRLlPIHcAfUrP5eAjLzQiHBjCC5ASb6DOKZg=;
+  b=YNkpa8/3tQRp41oPZ+KKh449c0N+2WAY7SNdNXRcZ6oUHlnDYiHQnUfA
+   TnuLhUMmpsocdYscm3cCzihFpiKJ8nLShIdeMy78xukdeVmm6NSwS6YII
+   ml2UA86jNfUwReMkhuViiglYUzw2TnrcZkZbv4v6+Hh2S0Ov9vlvKGXw+
+   Cus5tjwlQZ5YV4aS2TIXW6iLDdv1E3NTzojGyzKfebUWM8G6rIWLY4Q2c
+   wTaAKGDcaGALKrlZ+bGf11g01se7ybhOb69VO9UpgP51TIF2x6FM20pp2
+   cf6qbr2lg22q6cdG6WAVgS+TtXUEMElzdRY3SQ9hYFHnKbZp6FFsfvt9i
+   A==;
+X-CSE-ConnectionGUID: dug7yciJS6+ijevTbTBpYg==
+X-CSE-MsgGUID: ++4qhE0ATY23+tvXr8o0sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="74390523"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="86061265"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:04:03 -0700
-X-CSE-ConnectionGUID: FlSPdxzRT0eNz4kLarBNlA==
-X-CSE-MsgGUID: peRcGOCcQCaIlLFg964pyw==
+   d="scan'208";a="74390523"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 05:20:08 -0700
+X-CSE-ConnectionGUID: /QMq8wHSS0y5WD8x/0y3PA==
+X-CSE-MsgGUID: FQqcOI8gTdGinEHK6/zarg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="219884599"
+   d="scan'208";a="225982219"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Mar 2026 04:04:02 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 24 Mar 2026 05:20:07 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4zYF-000000004Sx-3HPL;
-	Tue, 24 Mar 2026 11:03:59 +0000
-Date: Tue, 24 Mar 2026 19:03:23 +0800
+	id 1w50jt-000000004X7-169u;
+	Tue, 24 Mar 2026 12:20:05 +0000
+Date: Tue, 24 Mar 2026 20:19:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:535:4-10: preceding
- lock on line 514
-Message-ID: <202603241845.uThVuJUv-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 5542/8143]
+ drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 riscv_64_map_range() warn:
+ impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
+Message-ID: <202603242042.NpB68xva-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tao Zhou <tao.zhou1@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Joerg Roedel <joerg.roedel@amd.com>
+CC: Samiullah Khawaja <skhawaja@google.com>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: Lu Baolu <baolu.lu@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c369299895a591d96745d6492d4888259b004a9e
-commit: 8652920d2c00243e8a8ca91560a30488d95d9a1b drm/amdgpu: add mutex lock=
- for cper ring
-date:   1 year, 1 month ago
-:::::: branch date: 2 days ago
-:::::: commit date: 1 year, 1 month ago
-config: s390-randconfig-r052-20260323 (https://download.01.org/0day-ci/arch=
-ive/20260324/202603241845.uThVuJUv-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c91=
-1b8492374942bf4cfe35411e90a35d3837f6a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   09c0f7f1bcdbc3c37a5a760cbec76bf18f278406
+commit: d6c65b0fd6218bd21ed0be7a8d3218e8f6dc91de [5542/8143] iommupt: Avoid rewalking during map
+:::::: branch date: 19 hours ago
+:::::: commit date: 7 days ago
+config: i386-randconfig-141-20260321 (https://download.01.org/0day-ci/archive/20260324/202603242042.NpB68xva-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9004-gb810ac53
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202603241845.uThVuJUv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603242042.NpB68xva-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:535:4-10: preceding lock on lin=
-e 514
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:540:4-10: preceding lock on lin=
-e 514
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:576:1-7: preceding lock on line=
- 514
+smatch warnings:
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 riscv_64_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
 
-vim +535 drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+vim +908 drivers/iommu/generic_pt/fmt/../iommu_pt.h
 
-d38ceaf99ed015 Alex Deucher    2015-04-20  490 =20
-4f4824b55650fa Tom St Denis    2016-04-27  491  /* Layout of file is 12 byt=
-es consisting of
-4f4824b55650fa Tom St Denis    2016-04-27  492   * - rptr
-4f4824b55650fa Tom St Denis    2016-04-27  493   * - wptr
-4f4824b55650fa Tom St Denis    2016-04-27  494   * - driver's copy of wptr
-4f4824b55650fa Tom St Denis    2016-04-27  495   *
-4f4824b55650fa Tom St Denis    2016-04-27  496   * followed by n-words of r=
-ing data
-4f4824b55650fa Tom St Denis    2016-04-27  497   */
-4f4824b55650fa Tom St Denis    2016-04-27  498  static ssize_t amdgpu_debug=
-fs_ring_read(struct file *f, char __user *buf,
-4f4824b55650fa Tom St Denis    2016-04-27  499  					size_t size, loff_t *p=
-os)
-d38ceaf99ed015 Alex Deucher    2015-04-20  500  {
-450630975da9e7 Al Viro         2016-12-04  501  	struct amdgpu_ring *ring =
-=3D file_inode(f)->i_private;
-4f4824b55650fa Tom St Denis    2016-04-27  502  	uint32_t value, result, ea=
-rly[3];
-5a1428242952f2 Tao Zhou        2025-01-22  503  	uint64_t p;
-ebbc2ada5c636a Tim Huang       2024-04-25  504  	loff_t i;
-ebbc2ada5c636a Tim Huang       2024-04-25  505  	int r;
-d38ceaf99ed015 Alex Deucher    2015-04-20  506 =20
-c71dbd93eb0039 Tom St Denis    2016-05-02  507  	if (*pos & 3 || size & 3)
-4f4824b55650fa Tom St Denis    2016-04-27  508  		return -EINVAL;
-d38ceaf99ed015 Alex Deucher    2015-04-20  509 =20
-4f4824b55650fa Tom St Denis    2016-04-27  510  	result =3D 0;
-c7e6be2303d0b6 Christian K=C3=B6nig 2016-01-21  511 =20
-4f4824b55650fa Tom St Denis    2016-04-27  512  	if (*pos < 12) {
-8652920d2c0024 Tao Zhou        2025-02-10  513  		if (ring->funcs->type =3D=
-=3D AMDGPU_RING_TYPE_CPER)
-8652920d2c0024 Tao Zhou        2025-02-10 @514  			mutex_lock(&ring->adev->=
-cper.ring_lock);
-8652920d2c0024 Tao Zhou        2025-02-10  515 =20
-9c5c71bbed4132 Tom St Denis    2018-03-01  516  		early[0] =3D amdgpu_ring_=
-get_rptr(ring) & ring->buf_mask;
-ec63982e90a879 Tom St Denis    2017-03-29  517  		early[1] =3D amdgpu_ring_=
-get_wptr(ring) & ring->buf_mask;
-ec63982e90a879 Tom St Denis    2017-03-29  518  		early[2] =3D ring->wptr &=
- ring->buf_mask;
-4f4824b55650fa Tom St Denis    2016-04-27  519  		for (i =3D *pos / 4; i < =
-3 && size; i++) {
-4f4824b55650fa Tom St Denis    2016-04-27  520  			r =3D put_user(early[i],=
- (uint32_t *)buf);
-8652920d2c0024 Tao Zhou        2025-02-10  521  			if (r) {
-8652920d2c0024 Tao Zhou        2025-02-10  522  				result =3D r;
-8652920d2c0024 Tao Zhou        2025-02-10  523  				goto out;
-8652920d2c0024 Tao Zhou        2025-02-10  524  			}
-4f4824b55650fa Tom St Denis    2016-04-27  525  			buf +=3D 4;
-4f4824b55650fa Tom St Denis    2016-04-27  526  			result +=3D 4;
-4f4824b55650fa Tom St Denis    2016-04-27  527  			size -=3D 4;
-4f4824b55650fa Tom St Denis    2016-04-27  528  			*pos +=3D 4;
-4f4824b55650fa Tom St Denis    2016-04-27  529  		}
-4f4824b55650fa Tom St Denis    2016-04-27  530  	}
-d38ceaf99ed015 Alex Deucher    2015-04-20  531 =20
-5a1428242952f2 Tao Zhou        2025-01-22  532  	if (ring->funcs->type !=3D =
-AMDGPU_RING_TYPE_CPER) {
-4f4824b55650fa Tom St Denis    2016-04-27  533  		while (size) {
-4f4824b55650fa Tom St Denis    2016-04-27  534  			if (*pos >=3D (ring->rin=
-g_size + 12))
-4f4824b55650fa Tom St Denis    2016-04-27 @535  				return result;
-d38ceaf99ed015 Alex Deucher    2015-04-20  536 =20
-4f4824b55650fa Tom St Denis    2016-04-27  537  			value =3D ring->ring[(*p=
-os - 12)/4];
-4f4824b55650fa Tom St Denis    2016-04-27  538  			r =3D put_user(value, (u=
-int32_t *)buf);
-4f4824b55650fa Tom St Denis    2016-04-27  539  			if (r)
-4f4824b55650fa Tom St Denis    2016-04-27  540  				return r;
-4f4824b55650fa Tom St Denis    2016-04-27  541  			buf +=3D 4;
-4f4824b55650fa Tom St Denis    2016-04-27  542  			result +=3D 4;
-4f4824b55650fa Tom St Denis    2016-04-27  543  			size -=3D 4;
-4f4824b55650fa Tom St Denis    2016-04-27  544  			*pos +=3D 4;
-d38ceaf99ed015 Alex Deucher    2015-04-20  545  		}
-5a1428242952f2 Tao Zhou        2025-01-22  546  	} else {
-5a1428242952f2 Tao Zhou        2025-01-22  547  		p =3D early[0];
-5a1428242952f2 Tao Zhou        2025-01-22  548  		if (early[0] <=3D early[1=
-])
-5a1428242952f2 Tao Zhou        2025-01-22  549  			size =3D (early[1] - ear=
-ly[0]);
-5a1428242952f2 Tao Zhou        2025-01-22  550  		else
-5a1428242952f2 Tao Zhou        2025-01-22  551  			size =3D ring->ring_size=
- - (early[0] - early[1]);
-5a1428242952f2 Tao Zhou        2025-01-22  552 =20
-5a1428242952f2 Tao Zhou        2025-01-22  553  		while (size) {
-5a1428242952f2 Tao Zhou        2025-01-22  554  			if (p =3D=3D early[1])
-8652920d2c0024 Tao Zhou        2025-02-10  555  				goto out;
-5a1428242952f2 Tao Zhou        2025-01-22  556 =20
-5a1428242952f2 Tao Zhou        2025-01-22  557  			value =3D ring->ring[p];
-5a1428242952f2 Tao Zhou        2025-01-22  558  			r =3D put_user(value, (u=
-int32_t *)buf);
-8652920d2c0024 Tao Zhou        2025-02-10  559  			if (r) {
-8652920d2c0024 Tao Zhou        2025-02-10  560  				result =3D r;
-8652920d2c0024 Tao Zhou        2025-02-10  561  				goto out;
-8652920d2c0024 Tao Zhou        2025-02-10  562  			}
-5a1428242952f2 Tao Zhou        2025-01-22  563 =20
-5a1428242952f2 Tao Zhou        2025-01-22  564  			buf +=3D 4;
-5a1428242952f2 Tao Zhou        2025-01-22  565  			result +=3D 4;
-5a1428242952f2 Tao Zhou        2025-01-22  566  			size--;
-5a1428242952f2 Tao Zhou        2025-01-22  567  			p++;
-5a1428242952f2 Tao Zhou        2025-01-22  568  			p &=3D ring->ptr_mask;
-5a1428242952f2 Tao Zhou        2025-01-22  569  		}
-5a1428242952f2 Tao Zhou        2025-01-22  570  	}
-4f4824b55650fa Tom St Denis    2016-04-27  571 =20
-8652920d2c0024 Tao Zhou        2025-02-10  572  out:
-8652920d2c0024 Tao Zhou        2025-02-10  573  	if (ring->funcs->type =3D=
-=3D AMDGPU_RING_TYPE_CPER)
-8652920d2c0024 Tao Zhou        2025-02-10  574  		mutex_unlock(&ring->adev-=
->cper.ring_lock);
-8652920d2c0024 Tao Zhou        2025-02-10  575 =20
-4f4824b55650fa Tom St Denis    2016-04-27  576  	return result;
-d38ceaf99ed015 Alex Deucher    2015-04-20  577  }
-d38ceaf99ed015 Alex Deucher    2015-04-20  578 =20
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  885  
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27  886  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27  887  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27  888  			 gfp_t gfp, size_t *mapped)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  889  {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  890  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  891  	struct pt_common *common = common_from_iommu(iommu_table);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  892  	struct iommu_iotlb_gather iotlb_gather;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  893  	struct pt_iommu_map_args map = {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  894  		.iotlb_gather = &iotlb_gather,
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  895  		.oa = paddr,
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  896  	};
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  897  	bool single_page = false;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  898  	struct pt_range range;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  899  	int ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  900  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  901  	iommu_iotlb_gather_init(&iotlb_gather);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  902  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  903  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  904  		return -EINVAL;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  905  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  906  	/* Check the paddr doesn't exceed what the table can store */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  907  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04 @908  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  909  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  910  	     oalog2_div(paddr, common->max_oasz_lg2)))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  911  		return -ERANGE;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  912  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  913  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  914  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  915  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  916  	map.attrs.gfp = gfp;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  917  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  918  	ret = make_range_no_check(common, &range, iova, len);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  919  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  920  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  921  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  922  	/* Calculate target page size and level for the leaves */
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27  923  	if (pt_has_system_page_size(common) && len == PAGE_SIZE) {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  924  		PT_WARN_ON(!(pgsize_bitmap & PAGE_SIZE));
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  925  		if (log2_mod(iova | paddr, PAGE_SHIFT))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  926  			return -ENXIO;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  927  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  928  		map.leaf_level = 0;
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27  929  		map.num_leaves = 1;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  930  		single_page = true;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  931  	} else {
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  932  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  933  			pgsize_bitmap, range.va, range.last_va, paddr);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  934  		if (!map.leaf_pgsize_lg2)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  935  			return -ENXIO;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  936  		map.leaf_level =
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  937  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27  938  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27  939  					       range.last_va, paddr,
+d6c65b0fd6218b Jason Gunthorpe 2026-02-27  940  					       map.leaf_pgsize_lg2);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  941  	}
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  942  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  943  	ret = check_map_range(iommu_table, &range, &map);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  944  	if (ret)
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  945  		return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  946  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  947  	PT_WARN_ON(map.leaf_level > range.top_level);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  948  
+efa03dab7ce4ed Jason Gunthorpe 2025-10-23  949  	ret = do_map(&range, common, single_page, &map);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  950  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  951  	/*
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  952  	 * Table levels were freed and replaced with large items, flush any walk
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  953  	 * cache that may refer to the freed levels.
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  954  	 */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  955  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  956  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  957  
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  958  	/* Bytes successfully mapped */
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  959  	PT_WARN_ON(!ret && map.oa - paddr != len);
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  960  	*mapped += map.oa - paddr;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  961  	return ret;
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  962  }
+dcd6a011a8d523 Jason Gunthorpe 2025-11-04  963  
 
-:::::: The code at line 535 was first introduced by commit
-:::::: 4f4824b55650fa7014eedf18cb1f9f243cb2b45e drm/amd/amdgpu: Convert rin=
-g debugfs entries to binary
+:::::: The code at line 908 was first introduced by commit
+:::::: dcd6a011a8d523a114af2360a8753de5bd60c139 iommupt: Add map_pages op
 
-:::::: TO: Tom St Denis <tom.stdenis@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
