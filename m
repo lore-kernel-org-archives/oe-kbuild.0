@@ -1,252 +1,290 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52D33BE166
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 06:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF0C346A1F
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Mar 2026 07:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774335116; cv=none; b=sE6CMmobLUFr8ujLgRJb9rm7flWjzhCrn1Fa2PIpna4SdJWNupxaqqogU0zWQEk7ZdV5Ojg/lafGXOokqEfO5D0fjqnbYgD10Q4kzxReGQNgQaPWSDR5QJR3xSMoGX+2FnbMdUia1j5bqjuECDIavbGehTmoQw+enXdoMUOtX1E=
+	t=1774337381; cv=none; b=P6I5AhghjGnPct0ElSr5Ene3tp6aMIHpfu5pw2TLyOVgoiRGr4jQzY+gGaIifyDqTxOw3x22enw0WT0Gn6ipHNyBge/W+yNg/THdXwbsha/e2LIkKf6gsYSH2ouUGjlHfAXUPYyHPc0IHLoLFfl9NPod4ZpGV+IILY4fcy2FjLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774335116; c=relaxed/simple;
-	bh=VCtse7tAdTCA5ZJIBrW0eGxWEBkFF83C5PCbdKrhPeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pnIwSszrqw2siCNksz2AWArtIYrZ5iUEAORtDHKWItM6Q78NZXLiqpibuoE9Ox+I6BMwqu2fzVDsva0TgNWqTdGMPeyexsTg5soNjnuUDW8SVi2zhFMod/tPuT/wA9H2TxvuefnW9tB0jTUuE3o2CDPZYmFbru18QFi2+rW/pDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zaHcm/5U; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1774337381; c=relaxed/simple;
+	bh=UmvqAdl7PTXq7FkKkv3vtennQsq0cCtvWZUG/LvgXmI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=R6Bu4XRF9j+WL/QfJ7oyIxVpsO2AyL2Q/dFQJy3wMHEt+xe7OOxsXMcu8KBkWHab9PkXMglly3cR//mdnrvDjYA3xv0L7EvJcODI+9Ql9cxDA1qYtbk3MO6Mw1XrtWhdo/Va1u9jbp4ZFplTH4nwJarBEhfK/C41QkjpmO6/2nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3HLYfkq; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zaHcm/5U"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486b9675d36so40694325e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 23 Mar 2026 23:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774335104; x=1774939904; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DK47Cs15T9o8qt84I0FUwLw3AfJ/Ss95D5OXzj/f7u8=;
-        b=zaHcm/5UO27ps9L0QNQ4BKDvJcbeX6KUwNOx7JPNNiJ4YK8JUFWKPNeJ1gMe84xkfS
-         pwSLoX8SE2bWt9w8s234m0Y8gInaMuxX7HorRCzhb2JvAyxhfEUPu9XixsbtapyP89Ok
-         Pbr3R1+VjMk+LY//AbfhjsgLcJ37HeA2WzK2bzSuKCaAZ+1jZOrV7xRSVJZfSPhOPq8Q
-         HOWDZEJH73eim0r1vj1/ehRwl4MCaBO7yDTMZZp13SoPKRt634dJATLrCmrGbhbZnb6K
-         TCMmmXQ0wJ5DoPv7oJZPlQBREUfKf9KQ1XdOFQG+y3HOqlgkljRDXajB23T0t9v2rpDV
-         Aydg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774335104; x=1774939904;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DK47Cs15T9o8qt84I0FUwLw3AfJ/Ss95D5OXzj/f7u8=;
-        b=CbQCTWfEU6ZdAYSQjHWqUsqPuOc45tLEOWsRa5p/3bwa/ggXJ5wWyvcIgf7Lq6UxXx
-         kKdbtmMwoKGBGnjMhllWwE6v3esnrSMfOayYUKw5kPfg63yS2VuoW6tycx0pqQEY7mbL
-         dW+EaeBxFU7ckk9yQQZGQeGSv2ZMwNPBL+lz3e3MghzhRiTyNGykamkEvz1ps2obxpDI
-         mGo0wHWQgJVdG1rGq69mJGKeJehw01t+GzyBnVU32wsjKHxANxCY6+cYnY4FKSjglOyO
-         ijx7iLNKfkkG3l2MnBzaJuaBofSSSz21J7TLQX3mPT3Zy2Vx/ZRsq544Mp1uLp93Yhik
-         PDfA==
-X-Gm-Message-State: AOJu0YyvNn4V7ElUWfriV/a5Ie+emGwIIQfUGvzmPqk5tx9OuJdqrGrR
-	ir3U6ImJp3Lhk92nK2DZJ84xJYwOXrht8Kd1wjVvEXEqeG/vsRlz5iksuq6QowQjCc5xd89mfsp
-	pkUYV
-X-Gm-Gg: ATEYQzwGv/22pCctUss9HfUekc+zeFDPlVUbFJBpRkGha2v0e6jXpMpbAdSm5lYyFkB
-	zS0uvPfL7+sBhwahgFfsAhhXdIX5eriQxay8+h+RnnvMkGl3FF9wYLXQ+0ATx4yISCu1ginIa/Y
-	S7T8vdBum7+O8TB8M17oHTYYj/ZNKK/6NyLF+OBIeW8VECVD0pAFB6winyEBpgJhF3T/RnodWN+
-	RbteY6m9pwaI8XOJLB5TXkVkUTmEl/DHL0LHtFgp6m/YAp359ceFKqTFgvF+446WM6jKbirElo8
-	yzERDU1qAcHvz9/itNmhiu8Yda7aKnl7qxAB4BRXRWhHZuZMgOn0NDtbNQbi/rNEhzSLLvVh0vr
-	tI1Y6qZBkZ3Sx5TJiDK4fyygHSraBr8uNiLN3WLHDMEL/vreLzV2lt8ovk86sMQ+Tyw0LB+3AdX
-	POsb2a0aJqkGnA5MbooxkwlmzlGaw1
-X-Received: by 2002:a05:600c:8b31:b0:485:469f:5320 with SMTP id 5b1f17b1804b1-486fee2d9e0mr213160815e9.30.1774335103411;
-        Mon, 23 Mar 2026 23:51:43 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116d82f1sm27501465e9.11.2026.03.23.23.51.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 23:51:42 -0700 (PDT)
-Date: Tue, 24 Mar 2026 09:51:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Mahesh Rao <mahesh.rao@altera.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
-	Matthew Gerlach <matthew.gerlach@altera.com>
-Subject: drivers/firmware/stratix10-svc.c:1119
- stratix10_svc_add_async_client() error: Calling ida_alloc_max() with a 'max'
- argument which is a power of 2. -1 missing?
-Message-ID: <202603241328.naBWhr1K-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3HLYfkq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774337371; x=1805873371;
+  h=date:from:to:cc:subject:message-id;
+  bh=UmvqAdl7PTXq7FkKkv3vtennQsq0cCtvWZUG/LvgXmI=;
+  b=B3HLYfkq09J2guesPLbkwRqMn8hyCw3cGbZJJ0liJPp1vaLMgQImj8iX
+   pFBJWjbh5TGvwRJWdUSdZnPm5Z7533sVyoNQQDlHighfgrmSmQWoqf3HR
+   GIHGYauHyEzB7yduqUopwUZJb6bJHHOg7RDq6Qmht/ejeYE3jiyRIaX8Q
+   XVtHEP854h0pliQcJZ8YquF0HFNFko/+r+WMDu98y6P7qU/+g0rIb8ge2
+   aeCf9crHiOUINDJrj9CELZE4tJosFPyUfPv7vLPX5zC4QnUrz5CVIisdd
+   2N5tgKpNcX6O3swFQKG30ESvYXw6hfLMcs5jpdhSOTYdnQTTGNgDVzNNz
+   Q==;
+X-CSE-ConnectionGUID: Y1qaoGZiQham/MfM9YUpBg==
+X-CSE-MsgGUID: yYiAIJm6RjWd08WRbDL6Yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75538929"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="75538929"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 00:29:30 -0700
+X-CSE-ConnectionGUID: F0UVJ1rpRTKFItKU0DakZg==
+X-CSE-MsgGUID: z/Rf6g7bRJ6JIAcumHixBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="219386135"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 24 Mar 2026 00:29:28 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4wCc-0000000048z-0hH6;
+	Tue, 24 Mar 2026 07:29:26 +0000
+Date: Tue, 24 Mar 2026 15:28:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/bridge/tda998x_drv.c:1883:8-28: WARNING:
+ Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
+ it is nested IRQ)
+Message-ID: <202603241527.fX06FemQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260324065139.p5mY8VsPeVmpC71QRdFmHinrK7Ri3ReMI7fgtS1LBKQ@z>
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Dmitry Baryshkov <lumag@kernel.org>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c369299895a591d96745d6492d4888259b004a9e
-commit: bcb9f4f0706147afc62c48533276a18fe7b8f354 firmware: stratix10-svc: Add support for async communication
-config: arm64-randconfig-r072-20260324 (https://download.01.org/0day-ci/archive/20260324/202603241328.naBWhr1K-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-smatch: v0.5.0-9004-gb810ac53
+commit: 325ba852d148434c5bcb06d513af1933a7f77b70 drm/i2c: move TDA998x driver under drivers/gpu/drm/bridge
+date:   1 year, 1 month ago
+:::::: branch date: 34 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: s390-randconfig-r052-20260323 (https://download.01.org/0day-ci/archive/20260324/202603241527.fX06FemQ-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c911b8492374942bf4cfe35411e90a35d3837f6a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603241328.naBWhr1K-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202603241527.fX06FemQ-lkp@intel.com/
 
-New smatch warnings:
-drivers/firmware/stratix10-svc.c:1119 stratix10_svc_add_async_client() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
-drivers/firmware/stratix10-svc.c:1256 stratix10_svc_async_send() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/tda998x_drv.c:1883:8-28: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
-Old smatch warnings:
-drivers/firmware/stratix10-svc.c:1302 stratix10_svc_async_send() warn: inconsistent indenting
-drivers/firmware/stratix10-svc.c:1630 stratix10_svc_send() warn: inconsistent indenting
+vim +1883 drivers/gpu/drm/bridge/tda998x_drv.c
 
-vim +/max +1119 drivers/firmware/stratix10-svc.c
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1773  
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1774  static int tda998x_create(struct device *dev)
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1775  {
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1776  	struct i2c_client *client = to_i2c_client(dev);
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1777  	struct device_node *np = client->dev.of_node;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1778  	struct i2c_board_info cec_info;
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1779  	struct tda998x_priv *priv;
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1780  	u32 video;
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1781  	int rev_lo, rev_hi, ret;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1782  
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1783  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1784  	if (!priv)
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1785  		return -ENOMEM;
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1786  
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1787  	dev_set_drvdata(dev, priv);
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1788  
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1789  	mutex_init(&priv->mutex);	/* protect the page access */
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1790  	mutex_init(&priv->audio_mutex); /* protect access from audio thread */
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1791  	mutex_init(&priv->edid_mutex);
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1792  	INIT_LIST_HEAD(&priv->bridge.list);
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1793  	init_waitqueue_head(&priv->edid_delay_waitq);
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1794  	timer_setup(&priv->edid_delay_timer, tda998x_edid_delay_done, 0);
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1795  	INIT_WORK(&priv->detect_work, tda998x_detect_work);
+ba300c1787f793 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1796  
+5e74c22cd1e0f9 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2013-08-14  1797  	priv->vip_cntrl_0 = VIP_CNTRL_0_SWAP_A(2) | VIP_CNTRL_0_SWAP_B(3);
+5e74c22cd1e0f9 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2013-08-14  1798  	priv->vip_cntrl_1 = VIP_CNTRL_1_SWAP_C(0) | VIP_CNTRL_1_SWAP_D(1);
+5e74c22cd1e0f9 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2013-08-14  1799  	priv->vip_cntrl_2 = VIP_CNTRL_2_SWAP_E(4) | VIP_CNTRL_2_SWAP_F(5);
+5e74c22cd1e0f9 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2013-08-14  1800  
+14e5b5889d7589 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1801  	/* CEC I2C address bound to TDA998x I2C addr by configuration pins */
+14e5b5889d7589 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1802  	priv->cec_addr = 0x34 + (client->addr & 0x03);
+2eb4c7b1e7f275 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1803  	priv->current_page = 0xff;
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1804  	priv->hdmi = client;
+ed9a84262a83ab drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-11-29  1805  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1806  	/* wake up the device: */
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1807  	cec_write(priv, REG_CEC_ENAMODS,
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1808  			CEC_ENAMODS_EN_RXSENS | CEC_ENAMODS_EN_HDMI);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1809  
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1810  	tda998x_reset(priv);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1811  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1812  	/* read version: */
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1813  	rev_lo = reg_read(priv, REG_VERSION_LSB);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1814  	if (rev_lo < 0) {
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1815  		dev_err(dev, "failed to read version: %d\n", rev_lo);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1816  		return rev_lo;
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1817  	}
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1818  
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1819  	rev_hi = reg_read(priv, REG_VERSION_MSB);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1820  	if (rev_hi < 0) {
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1821  		dev_err(dev, "failed to read version: %d\n", rev_hi);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1822  		return rev_hi;
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1823  	}
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1824  
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1825  	priv->rev = rev_lo | rev_hi << 8;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1826  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1827  	/* mask off feature bits: */
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1828  	priv->rev &= ~0x30; /* not-hdcp and not-scalar bit */
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1829  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1830  	switch (priv->rev) {
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1831  	case TDA9989N2:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1832  		dev_info(dev, "found TDA9989 n2");
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1833  		break;
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1834  	case TDA19989:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1835  		dev_info(dev, "found TDA19989");
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1836  		break;
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1837  	case TDA19989N2:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1838  		dev_info(dev, "found TDA19989 n2");
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1839  		break;
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1840  	case TDA19988:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1841  		dev_info(dev, "found TDA19988");
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1842  		break;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1843  	default:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1844  		dev_err(dev, "found unsupported device: %04x\n", priv->rev);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1845  		return -ENXIO;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1846  	}
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1847  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1848  	/* after reset, enable DDC: */
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1849  	reg_write(priv, REG_DDC_DISABLE, 0x00);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1850  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1851  	/* set clock on DDC channel: */
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1852  	reg_write(priv, REG_TX3, 39);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1853  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1854  	/* if necessary, disable multi-master: */
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1855  	if (priv->rev == TDA19989)
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1856  		reg_set(priv, REG_I2C_MASTER, I2C_MASTER_DIS_MM);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1857  
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1858  	cec_write(priv, REG_CEC_FRO_IM_CLK_CTRL,
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1859  			CEC_FRO_IM_CLK_CTRL_GHOST_DIS | CEC_FRO_IM_CLK_CTRL_IMCLK_SEL);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1860  
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1861  	/* ensure interrupts are disabled */
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1862  	cec_write(priv, REG_CEC_RXSHPDINTENA, 0);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1863  
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1864  	/* clear pending interrupts */
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1865  	cec_read(priv, REG_CEC_RXSHPDINT);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1866  	reg_read(priv, REG_INT_FLAGS_0);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1867  	reg_read(priv, REG_INT_FLAGS_1);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1868  	reg_read(priv, REG_INT_FLAGS_2);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1869  
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1870  	/* initialize the optional IRQ */
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1871  	if (client->irq) {
+ae81553c30ef86 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1872  		unsigned long irq_flags;
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1873  
+6833d26ef823b2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-11-29  1874  		/* init read EDID waitqueue and HDP work */
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1875  		init_waitqueue_head(&priv->wq_edid);
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1876  
+ae81553c30ef86 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1877  		irq_flags =
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1878  			irqd_get_trigger_type(irq_get_irq_data(client->irq));
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1879  
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1880  		priv->cec_glue.irq_flags = irq_flags;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1881  
+ae81553c30ef86 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1882  		irq_flags |= IRQF_SHARED | IRQF_ONESHOT;
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25 @1883  		ret = request_threaded_irq(client->irq, NULL,
+ae81553c30ef86 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1884  					   tda998x_irq_thread, irq_flags,
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1885  					   "tda998x", priv);
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1886  		if (ret) {
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1887  			dev_err(dev, "failed to request IRQ#%u: %d\n",
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1888  				client->irq, ret);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1889  			goto err_irq;
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1890  		}
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1891  
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1892  		/* enable HPD irq */
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1893  		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1894  	}
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1895  
+ece485d550dce2 drivers/gpu/drm/i2c/tda998x_drv.c Dariusz Marcinkiewicz 2019-10-17  1896  	priv->cec_notify = cec_notifier_conn_register(dev, NULL, NULL);
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1897  	if (!priv->cec_notify) {
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1898  		ret = -ENOMEM;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1899  		goto fail;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1900  	}
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1901  
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1902  	priv->cec_glue.parent = dev;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1903  	priv->cec_glue.data = priv;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1904  	priv->cec_glue.init = tda998x_cec_hook_init;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1905  	priv->cec_glue.exit = tda998x_cec_hook_exit;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1906  	priv->cec_glue.open = tda998x_cec_hook_open;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1907  	priv->cec_glue.release = tda998x_cec_hook_release;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1908  
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1909  	/*
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1910  	 * Some TDA998x are actually two I2C devices merged onto one piece
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1911  	 * of silicon: TDA9989 and TDA19989 combine the HDMI transmitter
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1912  	 * with a slightly modified TDA9950 CEC device.  The CEC device
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1913  	 * is at the TDA9950 address, with the address pins strapped across
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1914  	 * to the TDA998x address pins.  Hence, it always has the same
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1915  	 * offset.
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1916  	 */
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1917  	memset(&cec_info, 0, sizeof(cec_info));
+f4a0659f823e5a drivers/gpu/drm/i2c/tda998x_drv.c Azeem Shaikh          2023-05-22  1918  	strscpy(cec_info.type, "tda9950", sizeof(cec_info.type));
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1919  	cec_info.addr = priv->cec_addr;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1920  	cec_info.platform_data = &priv->cec_glue;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1921  	cec_info.irq = client->irq;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1922  
+bf2993c19b00af drivers/gpu/drm/i2c/tda998x_drv.c Wolfram Sang          2020-03-26  1923  	priv->cec = i2c_new_client_device(client->adapter, &cec_info);
+bf2993c19b00af drivers/gpu/drm/i2c/tda998x_drv.c Wolfram Sang          2020-03-26  1924  	if (IS_ERR(priv->cec)) {
+bf2993c19b00af drivers/gpu/drm/i2c/tda998x_drv.c Wolfram Sang          2020-03-26  1925  		ret = PTR_ERR(priv->cec);
+101e996b8d3215 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1926  		goto fail;
+101e996b8d3215 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1927  	}
+101e996b8d3215 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1928  
+e47826274e8871 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1929  	/* enable EDID read irq: */
+e47826274e8871 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1930  	reg_set(priv, REG_INT_FLAGS_2, INT_FLAGS_2_EDID_BLK_RD);
+e47826274e8871 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1931  
+6c1187aaa2912f drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1932  	if (np) {
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1933  		/* get the device tree parameters */
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1934  		ret = of_property_read_u32(np, "video-ports", &video);
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1935  		if (ret == 0) {
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1936  			priv->vip_cntrl_0 = video >> 16;
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1937  			priv->vip_cntrl_1 = video >> 8;
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1938  			priv->vip_cntrl_2 = video;
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1939  		}
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1940  
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1941  		ret = tda998x_get_audio_ports(priv, np);
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1942  		if (ret)
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1943  			goto fail;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1944  
+7168916072b549 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2019-03-01  1945  		if (priv->audio_port_enable[AUDIO_ROUTE_I2S] ||
+7168916072b549 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2019-03-01  1946  		    priv->audio_port_enable[AUDIO_ROUTE_SPDIF])
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1947  			tda998x_audio_codec_init(priv, &client->dev);
+6c1187aaa2912f drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1948  	}
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1949  
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1950  	priv->bridge.funcs = &tda998x_bridge_funcs;
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1951  #ifdef CONFIG_OF
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1952  	priv->bridge.of_node = dev->of_node;
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1953  #endif
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1954  
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1955  	drm_bridge_add(&priv->bridge);
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1956  
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1957  	return 0;
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1958  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1959  fail:
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1960  	tda998x_destroy(dev);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1961  err_irq:
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1962  	return ret;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1963  }
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1964  
 
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1082  int stratix10_svc_add_async_client(struct stratix10_svc_chan *chan,
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1083  				   bool use_unique_clientid)
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1084  {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1085  	struct stratix10_svc_controller *ctrl;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1086  	struct stratix10_async_ctrl *actrl;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1087  	struct stratix10_async_chan *achan;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1088  	int ret = 0;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1089  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1090  	if (!chan)
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1091  		return -EINVAL;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1092  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1093  	ctrl = chan->ctrl;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1094  	actrl = &ctrl->actrl;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1095  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1096  	if (!actrl->initialized) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1097  		dev_err(ctrl->dev, "Async controller not initialized\n");
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1098  		return -EINVAL;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1099  	}
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1100  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1101  	if (chan->async_chan) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1102  		dev_err(ctrl->dev, "async channel already allocated\n");
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1103  		return -EALREADY;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1104  	}
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1105  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1106  	if (use_unique_clientid &&
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1107  	    atomic_read(&actrl->common_achan_refcount) > 0) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1108  		chan->async_chan = actrl->common_async_chan;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1109  		atomic_inc(&actrl->common_achan_refcount);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1110  		return 0;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1111  	}
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1112  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1113  	achan = kzalloc(sizeof(*achan), GFP_KERNEL);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1114  	if (!achan)
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1115  		return -ENOMEM;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1116  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1117  	ida_init(&achan->job_id_pool);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1118  
-bcb9f4f0706147a Mahesh Rao   2025-10-27 @1119  	ret = ida_alloc_max(&actrl->async_id_pool, MAX_SDM_CLIENT_IDS,
-                                                                                           ^^^^^^^^^^^^^^^^^^
-This should be "MAX_SDM_CLIENT_IDS - 1".
+:::::: The code at line 1883 was first introduced by commit
+:::::: 12473b7d8e6074c7d4c2816afa6027354ce9a502 drm/i2c: tda998x: use irq for connection status and EDID read
 
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1120  			    GFP_KERNEL);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1121  	if (ret < 0) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1122  		dev_err(ctrl->dev,
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1123  			"Failed to allocate async client id\n");
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1124  		ida_destroy(&achan->job_id_pool);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1125  		kfree(achan);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1126  		return ret;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1127  	}
-
-[ snip ]
-
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1223  int stratix10_svc_async_send(struct stratix10_svc_chan *chan, void *msg,
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1224  			     void **handler, async_callback_t cb, void *cb_arg)
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1225  {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1226  	struct arm_smccc_1_2_regs args = { 0 }, res = { 0 };
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1227  	struct stratix10_svc_async_handler *handle = NULL;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1228  	struct stratix10_svc_client_msg *p_msg =
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1229  		(struct stratix10_svc_client_msg *)msg;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1230  	struct stratix10_svc_controller *ctrl;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1231  	struct stratix10_async_ctrl *actrl;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1232  	struct stratix10_async_chan *achan;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1233  	int ret = 0;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1234  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1235  	if (!chan || !msg || !handler)
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1236  		return -EINVAL;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1237  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1238  	achan = chan->async_chan;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1239  	ctrl = chan->ctrl;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1240  	actrl = &ctrl->actrl;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1241  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1242  	if (!actrl->initialized) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1243  		dev_err(ctrl->dev, "Async controller not initialized\n");
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1244  		return -EINVAL;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1245  	}
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1246  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1247  	if (!achan) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1248  		dev_err(ctrl->dev, "Async channel not allocated\n");
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1249  		return -EINVAL;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1250  	}
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1251  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1252  	handle = kzalloc(sizeof(*handle), GFP_KERNEL);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1253  	if (!handle)
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1254  		return -ENOMEM;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1255  
-bcb9f4f0706147a Mahesh Rao   2025-10-27 @1256  	ret = ida_alloc_max(&achan->job_id_pool, MAX_SDM_JOB_IDS,
-                                                                                        ^^^^^^^^^^^^^^^^^^
-"MAX_SDM_CLIENT_IDS - 1" as well.
-
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1257  			    GFP_KERNEL);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1258  	if (ret < 0) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1259  		dev_err(ctrl->dev, "Failed to allocate job id\n");
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1260  		kfree(handle);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1261  		return -ENOMEM;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1262  	}
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1263  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1264  	handle->transaction_id =
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1265  		STRATIX10_SET_TRANSACTIONID(achan->async_client_id, ret);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1266  	handle->cb = cb;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1267  	handle->msg = p_msg;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1268  	handle->cb_arg = cb_arg;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1269  	handle->achan = achan;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1270  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1271  	/*set the transaction jobid in args.a1*/
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1272  	args.a1 =
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1273  		STRATIX10_SIP_SMC_SET_TRANSACTIONID_X1(handle->transaction_id);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1274  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1275  	switch (p_msg->command) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1276  	default:
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1277  		dev_err(ctrl->dev, "Invalid command ,%d\n", p_msg->command);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1278  		ret = -EINVAL;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1279  		goto deallocate_id;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1280  	}
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1281  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1282  	/**
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1283  	 * There is a chance that during the execution of async_send()
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1284  	 * in one core, an interrupt might be received in another core;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1285  	 * to mitigate this we are adding the handle to the DB and then
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1286  	 * send the smc call. If the smc call is rejected or busy then
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1287  	 * we will deallocate the handle for the client to retry again.
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1288  	 */
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1289  	scoped_guard(spinlock_bh, &actrl->trx_list_lock) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1290  		hash_add(actrl->trx_list, &handle->next,
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1291  			 handle->transaction_id);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1292  	}
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1293  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1294  	actrl->invoke_fn(actrl, &args, &res);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1295  
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1296  	switch (res.a0) {
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1297  	case INTEL_SIP_SMC_STATUS_OK:
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1298  		dev_dbg(ctrl->dev,
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1299  			"Async message sent with transaction_id 0x%02x\n",
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1300  			handle->transaction_id);
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1301  			*handler = handle;
-                                                                ^^^^^^^^^^^^^^^^^^
-This line is indented one tab too far.
-
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1302  		return 0;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1303  	case INTEL_SIP_SMC_STATUS_BUSY:
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1304  		dev_warn(ctrl->dev, "Mailbox is busy, try after some time\n");
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1305  		ret = -EAGAIN;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1306  		break;
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1307  	case INTEL_SIP_SMC_STATUS_REJECTED:
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1308  		dev_err(ctrl->dev, "Async message rejected\n");
-bcb9f4f0706147a Mahesh Rao   2025-10-27  1309  		ret = -EBADF;
+:::::: TO: Jean-Francois Moine <moinejf@free.fr>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
