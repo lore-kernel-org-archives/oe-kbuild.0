@@ -1,113 +1,145 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB463AF647
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 11:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587A13CAE79
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 11:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774437819; cv=none; b=fDThfIOPmb71eZO+BV0j2nGDrhYEtqNk+C8ryUfFEln46nB2mdJvP1aaIIqpKirglWILzXLq6iaBI+klQ7BsuShZwMPYbkAnEfnuf1J22CXSrZb5fVE9TF0uzVrmGV8tn2tp0GohNPUvmsOjurqPhLuafA0zYmS5138NS2yuj+E=
+	t=1774438465; cv=none; b=TCLBWN4ySmkQNUfdqIMs+FbEDA2arM/fN5H1+0dgSgLUK4jZ6VMF7UXqd5mrfKIj2p89X4kS60GVSAg+clCw2jY8v2HmD+TC6hww/cIuo6eQqC8UZTrEChIYcmi89kd6VyBZlRc4j+dx8gyiCSc7G7WkicNdq8ouDn2H0BO6Lz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774437819; c=relaxed/simple;
-	bh=aQPjhGoLjKR6KJbLzFxM9LH/dwDE9aGTxVk3RYZBWn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W6RpHt23EDJLw5ocLwNOH/8LlfJhJE4vtd+VLXeL6Pk89We5RDd5H/mdcNqXpfy8OId9DkjzDSrdzJT9/ugVa9SU9ULI/pQ0Ugj3F+zvkjQlnOjZ9YYOjPsyI+MPD7t2lLBCGkSRUaTV3Svu1Aw0xtl55n8AZRU9nIR1PzVIi74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g8gSnHzR; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1774438465; c=relaxed/simple;
+	bh=qvHHicjs56tiriJIWrzzekf27YCHbq7wTCsUMMPvVbw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GuKDvpsDTiTwHB4V41zv4nI1u0XACJ4rq9sY6QvjU/D0fd8l/rMVFQMPcLZ1PjcKRPFato7Tvtds73qUD4PU52yTcBwTctVGigwr8fOVFex7kdCrTLJIanDNA8n5KFaxBkDI0awz8vMVtfLOuFM0VkVrLAmgwF1ET1+zeTlJJ4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QLS8Pq2r; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g8gSnHzR"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486fb112c09so44430335e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 04:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774437815; x=1775042615; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yNcT6N4Da6oBh6vGHmp71lE7h4MsMXPkCvZSzQpZPVs=;
-        b=g8gSnHzRqyX+UdwapjJIuTiT+5/oZZc2YSTRyVT5AYWPXaB1HGv9+fiH/YpWVRjRm/
-         eW4WSHvYrgzttsogGIoLp3dJby2MDp18SH+AW2K1Aqi6La286hPKo0qUSyZVyFvE1cEw
-         FwUef5kRtebNiVfBYSMlZCX3o2uiuwaNdPb682UvQph+16L5yLAJpPRw/2mzaKN7iuej
-         VAlICWLwHlNz56nf1YjUCjowSKvoxkvTrUlH2QEeucwDk0jRGvZRC42H+TRNXdI37mEd
-         9UUEmh6DUzZudAl4/tB6TVEhzZBtvu1Ncf9FpTXmjP2B+gC7ShBhfx5z+n9FEQeAb4nz
-         BBVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774437815; x=1775042615;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yNcT6N4Da6oBh6vGHmp71lE7h4MsMXPkCvZSzQpZPVs=;
-        b=djNv1RwXkDqPdl1ZypyzqJqznOQHWTU/aYdb3007kUOS0MOU8++G1RLtGHKalQbj8Q
-         i+EGwlhtQ1H2BB2YnleASrY7xRFUGZ4OqduRwZmF5kB6eIG0chAElKM8x3v0paSnLy9N
-         jeRKFDFTNVINSMTpARSHCCoFSOhNXyxQrmu+7vIhv/ZpZlr8ZaBwNeRgb/1SI5cKC+7n
-         5IAeue+bHtztOX6F/i0wBtG9CX4GaOSWgrXD1IPMyIgxo6YYuMVx6hU9uylJ6J87jnJS
-         D4QEHDUA393+HrdP/L+w6IZAgWOZ79Nc7nMIJDJBhqFV5bSnNMDr6Apscg8FkwGfbF2m
-         DkjA==
-X-Gm-Message-State: AOJu0Yx8SZ2FxqUVGDu2ZAuM80vqaC720qRbs6sTvGgaDWBe9V9vho+5
-	JAolpxd+BeR63Sa+KbZC4gV+Nm0tRy/hXWoG3THB5y9q8gKkN0vLGHOBlIIvQxX1wFhEihfyzSd
-	TA7Hn
-X-Gm-Gg: ATEYQzzQE/nN76eRuLfiUE2HH+afGRyThUpZsI/kz6MIvv+dXEbWXjHJVSQ4TwE5+Ts
-	ybMkId0IK/Yc3meLKGSJqBzPkKZeuJEQGRWkWUKWxDJqlRNMDhWO27M+MT5E1Z6nxF0FHOVTNoJ
-	MpP5y7N9QkL+lUMP5Vam5K1mX/3Rtqh/nNq86uUu/IEV2Y8HS41ljh4R+FZIpox9uFtj+HUjSFb
-	h8osX6b3PMWEYI/JF+z0IOREoXu0RtuMrjN+bSA04TEgqbYZg/uoAyo/emav2qVYNJp/Ugjhkk/
-	eZp4peiq9BsZg1tvgnfmqr0NqoI/FiimgCSF9Cf/weiARtI/FRGUxwkMMf0Tr3gRuyutIy8oG7C
-	niVtbFO0rmj82baBFwLHHTf0hrC1XLzqtZfYp+f079S8tRhKPp7eLhhOq9+wtm3+jwfUm3XsP0K
-	RIwD/WgKC/4A25WGzcUlXYByVIwFKm
-X-Received: by 2002:a05:600c:45d4:b0:486:fbf6:abd4 with SMTP id 5b1f17b1804b1-48715fd607cmr48967895e9.9.1774437815363;
-        Wed, 25 Mar 2026 04:23:35 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4871174f2cesm125063335e9.10.2026.03.25.04.23.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 04:23:34 -0700 (PDT)
-Date: Wed, 25 Mar 2026 14:23:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Charlie Jenkins <charlie@rivosinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: arch/s390/include/asm/syscall.h:23 syscall_get_nr() warn: check sign
- expansion for '-1'
-Message-ID: <202603251953.xOfBpOhW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QLS8Pq2r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774438464; x=1805974464;
+  h=date:from:to:cc:subject:message-id;
+  bh=qvHHicjs56tiriJIWrzzekf27YCHbq7wTCsUMMPvVbw=;
+  b=QLS8Pq2rlS2Tk0+ZmD3WRSz42dXF5WLJPp8fohZD7yp7nebdyrXrLnqr
+   geYAYOJO68WhRprZSkGnxY5Prc+UAuKuWUqxiV0aeCJj7b66gIby2WMdS
+   gYIEiRPdulz4c32vauzg3OMWoJsaK8SrCQ1kRdndwHEL7OrNlKTUpV0q8
+   FiUvzpXhzPfZjtDyfAsbO8pAaIogPrTSFVPXJQPn1DLXZIWqGpl5lwKHJ
+   fEqC+U1JMhpxWWaCKbap/hDfumM5mmI8on4ZpgysE0JafG1RGWnDWfa7m
+   0gsHhMoRun6OH07CiCcrmc7OxpHQhGK9Aphn6PQf9w4SFM/kGtarFkCJ2
+   w==;
+X-CSE-ConnectionGUID: PSjA4ETcSZWd5v+Np2OGNw==
+X-CSE-MsgGUID: UwbZ/ojuSUGpLEQHleEhtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75586208"
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="75586208"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:34:23 -0700
+X-CSE-ConnectionGUID: d5y+R/cIQim4RsMoNJX/gg==
+X-CSE-MsgGUID: VNn0eLgSSU+da/WUnzsXRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="218083510"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Mar 2026 04:33:28 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5MUG-000000006k7-404S;
+	Wed, 25 Mar 2026 11:33:24 +0000
+Date: Wed, 25 Mar 2026 19:32:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/of/unittest.c:1666 of_unittest_irq_refcount() warn:
+ bitwise AND condition is false here
+Message-ID: <202603251949.lhGr6twD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260325112331.TgVyHbOMCasihU0E_0MO3H9-sqZo09aTCxUXFFPC3mY@z>
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Zijun Hu <quic_zijuhu@quicinc.com>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bbeb83d3182abe0d245318e274e8531e5dd7a948
-commit: e43b8bb56e537bfc8d9076793091e7679020fc9c entry: Inline syscall_exit_to_user_mode()
-config: s390-randconfig-r072-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251953.xOfBpOhW-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+commit: 65f4be07ad1010f41dbe329398da881a38051c98 of: unittest: Add a case to test if API of_irq_parse_one() leaks refcount
+date:   1 year, 1 month ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: openrisc-randconfig-r073-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251949.lhGr6twD-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603251953.xOfBpOhW-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603251949.lhGr6twD-lkp@intel.com/
 
-smatch warnings:
-arch/s390/include/asm/syscall.h:23 syscall_get_nr() warn: check sign expansion for '-1'
+New smatch warnings:
+drivers/of/unittest.c:1666 of_unittest_irq_refcount() warn: bitwise AND condition is false here
 
-vim +23 arch/s390/include/asm/syscall.h
+Old smatch warnings:
+drivers/of/unittest.c:860 of_unittest_changeset() error: potential null dereference 'n1'.  (__of_node_dup returns null)
+drivers/of/unittest.c:861 of_unittest_changeset() error: potential null dereference 'n2'.  (__of_node_dup returns null)
+drivers/of/unittest.c:862 of_unittest_changeset() error: potential null dereference 'n21'.  (__of_node_dup returns null)
+drivers/of/unittest.c:1506 of_unittest_parse_interrupts() warn: bitwise AND condition is false here
+drivers/of/unittest.c:1583 of_unittest_parse_interrupts_extended() warn: bitwise AND condition is false here
+drivers/of/unittest.c:1789 of_unittest_platform_populate() warn: bitwise AND condition is false here
 
-753c4dd6a2fa2a Martin Schwidefsky 2008-10-10  20  static inline long syscall_get_nr(struct task_struct *task,
-753c4dd6a2fa2a Martin Schwidefsky 2008-10-10  21  				  struct pt_regs *regs)
-753c4dd6a2fa2a Martin Schwidefsky 2008-10-10  22  {
-d3a73acbc26a4a Martin Schwidefsky 2014-04-15 @23  	return test_pt_regs_flag(regs, PIF_SYSCALL) ?
-aa33c8cbbae2eb Martin Schwidefsky 2011-12-27  24  		(regs->int_code & 0xffff) : -1;
+vim +1666 drivers/of/unittest.c
 
-
-regs->int_code is a u32, so the -1 becomes UINT_MAX where -1 was
-obviously intended.  Maybe change the function to return int or change
-the -1 to -1L?
-
-753c4dd6a2fa2a Martin Schwidefsky 2008-10-10  25  }
+79d9701559a9f3 drivers/of/selftest.c Grant Likely 2013-09-19  1656  
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1657  #if IS_ENABLED(CONFIG_OF_DYNAMIC)
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1658  static void __init of_unittest_irq_refcount(void)
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1659  {
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1660  	struct of_phandle_args args;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1661  	struct device_node *intc0, *int_ext0;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1662  	unsigned int ref_c0, ref_c1, ref_c2;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1663  	int rc;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1664  	bool passed;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1665  
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09 @1666  	if (of_irq_workarounds & OF_IMAP_OLDWORLD_MAC)
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1667  		return;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1668  
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1669  	intc0 = of_find_node_by_path("/testcase-data/interrupts/intc0");
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1670  	int_ext0 = of_find_node_by_path("/testcase-data/interrupts/interrupts-extended0");
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1671  	if (!intc0 || !int_ext0) {
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1672  		pr_err("missing testcase data\n");
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1673  		goto out;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1674  	}
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1675  
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1676  	/* Test refcount for API of_irq_parse_one() */
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1677  	passed = true;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1678  	ref_c0 = OF_KREF_READ(intc0);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1679  	ref_c1 = ref_c0 + 1;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1680  	memset(&args, 0, sizeof(args));
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1681  	rc = of_irq_parse_one(int_ext0, 0, &args);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1682  	ref_c2 = OF_KREF_READ(intc0);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1683  	of_node_put(args.np);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1684  
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1685  	passed &= !rc;
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1686  	passed &= (args.np == intc0);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1687  	passed &= (args.args_count == 1);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1688  	passed &= (args.args[0] == 1);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1689  	passed &= (ref_c1 == ref_c2);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1690  	unittest(passed, "IRQ refcount case #1 failed, original(%u) expected(%u) got(%u)\n",
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1691  		 ref_c0, ref_c1, ref_c2);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1692  
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1693  out:
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1694  	of_node_put(int_ext0);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1695  	of_node_put(intc0);
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1696  }
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1697  #else
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1698  static inline void __init of_unittest_irq_refcount(void) { }
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1699  #endif
+65f4be07ad1010 drivers/of/unittest.c Zijun Hu     2025-02-09  1700  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
