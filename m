@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AFF3FB05A
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 16:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03464014BB
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 17:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774457897; cv=none; b=M5y1MQakjyVpuYQv/jfx/7zJR1/eVAYtWiI2i0rmDGgUeudSbtx8o6YW1lYPJBa4KWtFqGNNXfFHMzQMCGwnNvO7klBGU+Gjt+dub32jtiXwLXpBDBuH4bQco7f3IyZQkeCjuXauBMyeGEu5NKfI5HuZM7L3wSGPRf7wKYEWB4g=
+	t=1774458564; cv=none; b=IJIh8/942FpdP9bCIwFNk1YdqmkgkV8Z1Iuyi6Z424ilrTT9wAiY8/ZEIC22351+7PgeYS2813qD3G5gFdjs5cFxQxmNeG03Wlxi2HOrQTPbFhtLBvDdIyq8Lpo6vC0dAe/wcdrKRlaGVVAs6O3vyG5rI47adBNJRIGMYUwkZCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774457897; c=relaxed/simple;
-	bh=KZTgRTZpZk2WOkHqdF6pP60XB+OWISERWucW06+2tD0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MZSbqXiR7DeDoBElubSTfKjI4DXZmkLR9nUKYDracw3tE/SEs/QuAr16yUxfBXhR3ORk48nKJjPWN6Ct6TRcJdECdCQ/WlsaKlekuIU07UaYz576GyHnlAWhVfd9v7lcboxmUi20t8/3nt5sN2gKsE2oOw/1AV20K+blv1dg19o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dXxAB0Jy; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1774458564; c=relaxed/simple;
+	bh=oPWoJQGrKC9432QkUzNOET0l7R6fWaoi9RPiriqBPhs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XzZ1ahpC8nY7XkKmzfTC7zWQRTt6ay3EJASjvGRKV+RhLSEGa+pmH1jS9XxO/IZtkEj6kC1H9AVn9ZN3xBWjYnyk2ria9ft4wfgl6S4zteJ5Em23pAKaCAvzho6gcnsqdwiXSNc6ia5sKwQSiPCNkGYTQlsTgsRty4gKgGAD/XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKVJM322; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXxAB0Jy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKVJM322"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774457894; x=1805993894;
+  t=1774458556; x=1805994556;
   h=date:from:to:cc:subject:message-id;
-  bh=KZTgRTZpZk2WOkHqdF6pP60XB+OWISERWucW06+2tD0=;
-  b=dXxAB0JyyVI4UxZrYrVyLmFSMrotYM85s99R1uzCvXeqmx/CNMHfgeMr
-   6PzliL25zozAK4RpFDcy1o6DXZZuQ8nPXK/A15GaJ5DrisbpN89vjixy5
-   Rb13AYl0mwgEU0gqOP4XpIgi4LMGlwxyQqtSTi3sDRxigeNBUpcFUnB2j
-   KRSAH/Rtpy75eB75ZiBWD/iw3kX/IR5uOjgfjFkjWh7WcptpEbhGH7K07
-   GKWqYNlLdYcrwAYZkS6Nc3vhyaumjhicAenf6i0XrG3H9RZ5aU0g4hrmC
-   +rTKPBIBs2+92Ok6t3ESk9hNbzE9F9zw8pO3L22V+fkk6sZhw+7r0zRQ3
-   Q==;
-X-CSE-ConnectionGUID: WgLyyewwT+icdp3t9CNykA==
-X-CSE-MsgGUID: UdnEIGMeQPGmm8kvTg8mMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75522367"
+  bh=oPWoJQGrKC9432QkUzNOET0l7R6fWaoi9RPiriqBPhs=;
+  b=OKVJM322rfYcKIMgp6CJfoWKr6tHuGjdavOBDk20VCki93qpVeNxk1tK
+   DP+4fzJrWOPDRInNsTQo7uulMmZsR4Nd3UtTUaSMWDYnAOWsdxGr4ZqLm
+   gbK0vr20GiC0dMwbl7/fgefDdx6OMek04QD/KC2IefwWtxlIbl1DbmonJ
+   QcM8LZLMuDXQriwKhvpKdoXc16hBvZHRqoIT7Bs9dvlmlRx448GxPCNGR
+   gebhWSbFjuQWJpYSl5xIgSlcvV1W5TIAfSjRl+rInWDySLgc2E8gvPda7
+   HSmJ4FYm8LG14+u1gbxnfqx/+Zus38pegluQ4hT2cz5pp7arVv7Hxrzi2
+   w==;
+X-CSE-ConnectionGUID: PoS510wCTs6wlsb2t5th4w==
+X-CSE-MsgGUID: Hh5ulT68SDeu4Mgw60rZFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75219346"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75522367"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 09:58:13 -0700
-X-CSE-ConnectionGUID: 2BdPY2TvRz+ZRX3QHecd0g==
-X-CSE-MsgGUID: layYorq5Rg2WIStAAxjzxw==
+   d="scan'208";a="75219346"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 10:09:14 -0700
+X-CSE-ConnectionGUID: Exm13xE3SJ2UAiKaPp9nWA==
+X-CSE-MsgGUID: zhu3RXgER62yfV3H10qdmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="220335259"
+   d="scan'208";a="228811663"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Mar 2026 09:58:12 -0700
+  by orviesa003.jf.intel.com with ESMTP; 25 Mar 2026 10:09:13 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5RYX-000000007Jr-2TPo;
-	Wed, 25 Mar 2026 16:58:09 +0000
-Date: Thu, 26 Mar 2026 00:57:44 +0800
+	id 1w5RjC-000000007Kv-1q6X;
+	Wed, 25 Mar 2026 17:09:10 +0000
+Date: Thu, 26 Mar 2026 01:08:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/tee/qcomtee/core.c:193 qcomtee_idx_erase() warn:
- impossible condition '(idx > ((~0))) => (2147483649-u32max > u32max)'
-Message-ID: <202603260026.qDIAqzZw-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/clk/renesas/clk-rz.o: error: objtool:
+ __rz_cpg_clks_of_clk_init_declare+0x290: can't find jump dest instruction at
+ .init.text+0x524
+Message-ID: <202603260147.FOYtWJsh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,46 +60,34 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-CC: Jens Wiklander <jens.wiklander@linaro.org>
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bbeb83d3182abe0d245318e274e8531e5dd7a948
-commit: d6e290837e50f73f88f31f19bd8a7213d92e6e46 tee: add Qualcomm TEE driver
-date:   6 months ago
+commit: 1fd1dc41724319406b0aff221a352a400b0ddfc5 objtool: Fix ERROR_INSN() error message
+date:   3 weeks ago
 :::::: branch date: 17 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-r073-20260325 (https://download.01.org/0day-ci/archive/20260326/202603260026.qDIAqzZw-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+:::::: commit date: 3 weeks ago
+config: powerpc-randconfig-r072-20260325 (https://download.01.org/0day-ci/archive/20260326/202603260147.FOYtWJsh-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260147.FOYtWJsh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603260026.qDIAqzZw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603260147.FOYtWJsh-lkp@intel.com/
 
-smatch warnings:
-drivers/tee/qcomtee/core.c:193 qcomtee_idx_erase() warn: impossible condition '(idx > ((~0))) => (2147483649-u32max > u32max)'
+All errors (new ones prefixed by >>):
 
-vim +193 drivers/tee/qcomtee/core.c
-
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  187  
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  188  struct qcomtee_object *qcomtee_idx_erase(struct qcomtee_object_invoke_ctx *oic,
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  189  					 u32 idx)
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  190  {
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  191  	struct qcomtee *qcomtee = tee_get_drvdata(oic->ctx->teedev);
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  192  
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11 @193  	if (idx < QCOMTEE_OBJECT_ID_START || idx > QCOMTEE_OBJECT_ID_END)
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  194  		return NULL_QCOMTEE_OBJECT;
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  195  
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  196  	return xa_erase(&qcomtee->xa_local_objects, idx);
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  197  }
-d6e290837e50f7 Amirreza Zarrabi 2025-09-11  198  
+>> drivers/clk/renesas/clk-rz.o: error: objtool: __rz_cpg_clks_of_clk_init_declare+0x290: can't find jump dest instruction at .init.text+0x524
 
 -- 
 0-DAY CI Kernel Test Service
