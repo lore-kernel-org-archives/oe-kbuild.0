@@ -1,171 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2553E2740
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 15:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E751DE3B7
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 15:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774453443; cv=none; b=WBZsHNHieMG68Jbo/lZzkd492qHMT/uwxkisD8h7GMmFSUzxa9vKky0jSCCuJdyB6Mmt8bKmUGi6Bn0d05bXA0yIxMOhAD/RSQoJdmLC03D7IwmWmJXotSUVCdx8f59zJvMtrGjipD9v6yIhKQENL7rdYiC6ANguWQCgIe+qt7M=
+	t=1774454165; cv=none; b=tu5lq8BqdZTUykayAgI/xIIaUKFaiGZo7fRQ5TQ99fUooJ9flozi6fGxOfrNNjB+YZLV4AN6gKUD3GsT55URAuxa0lugKIXdxyazYSl6s9BLxPIgKWuUvWpj2RptkDhOwZhMXWpE5nctGoCkvTfJJAhKwiUa9cyfTva9lTwC7To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774453443; c=relaxed/simple;
-	bh=CO+NBKV2qnR2llBu67aWWaN4KZbmgy3/r1ea5tpEkaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VKHDzwxyOnyuOLjBAuLCjnBH1Ye/V0BLcWyCF9TgkZ22eqv9KVWIWHGOxJLlSWYt7YR0LuNARw3vFu5hrpW/8AJw5+q5U6j7JyzHAQmNN3bkE5Y8uugQWB3MUKRO6pIx1pX8J/pkWEZPJO/loVnQKuPjlobo11YNkD6yWxigDck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SsQ+c1Eb; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1774454165; c=relaxed/simple;
+	bh=6Rc3w25XcneMfU84iFCkvowufnTMIp99LEwnHCb0Ws4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Jrm/m/FqBQnBgjBxQwo2nEs1FDrX34dbd3FOBddMX7IhTH6+uMMDWVqUiS9Lug85SMOJ8yrlSY5IvVNj5f1DLn73QaLcQMN3w7GK1xuXj8XCXWg1ljFEncQD8MdnV5gCeXlAJ31ApomCsHDr+qYnGWAZT1vvQzxGHSazh0FPqs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEd52Huh; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SsQ+c1Eb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEd52Huh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774453442; x=1805989442;
-  h=date:from:to:cc:subject:message-id;
-  bh=CO+NBKV2qnR2llBu67aWWaN4KZbmgy3/r1ea5tpEkaQ=;
-  b=SsQ+c1Ebm9Fe6yTVzDFahJYNC3Gc0G+Kqs7CZFhQJxeu7v5XNX5M7pDD
-   54H/NOgKRE+weTMlzraRQRJ4KVavcLwgU6jF4CmqC8xeveypC2xEFsQlQ
-   bVSNj0z1YXyWqp35e4XKjXZfDuJ3xnkxRg2toKpRfNnmN6fET+bJxV2QG
-   jRuoha/5qgtyHoumfIg9DTp58S8//HZrozNyi1ObDYS3JzlrlAwZM7z65
-   zvFkms7XU+3iaR4qe2y5wN/YTK2zOLBRptszgPOCNWEJmVWCJtiVBXgIt
-   13qaCRYtN/iOQZWFIKRaKCorSGYxZTR3PKa4ri/nufIinrMdIC8zqMYSm
-   w==;
-X-CSE-ConnectionGUID: 2pjtDDphTSK7O3HBKY292g==
-X-CSE-MsgGUID: yuMOxW+HTAOln7a8jKoaaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75381626"
+  t=1774454163; x=1805990163;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6Rc3w25XcneMfU84iFCkvowufnTMIp99LEwnHCb0Ws4=;
+  b=KEd52Huhm1rg/BDqXaFMTWK8vSwKfKNYnKQleRrtVfYLcWonRIvI3VcV
+   o0JGAlE35SXks10gKEMZKCd/G0rujhaQhb16vHazDV08VxjIan8JQfm9u
+   AsOd2ofm3YXbHaHj6jqCcFDFl3HdQvR4bowZ7A3NOuZjHJueh/vNJzOID
+   16lrUu2GERvb3b68439AoIi/ROHhVZLWIxZPKZmMo/HI5AYVWE2xdjZXN
+   Bi3eof4cdBHwRdOQqEBzml1d2iFNBZEvtSq77COvzzAWE9ZjcjC5Y1bHM
+   Duc22e9r9VoBa9CgbV+8NE7ZVyG5XpgrZsOL8CQhcP9o9wW2xrNOxmaSJ
+   Q==;
+X-CSE-ConnectionGUID: 8c+INGlYS76HfcaZVSoriQ==
+X-CSE-MsgGUID: og2pmLg4T/yYLujx7QMIog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75382841"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75381626"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 08:44:02 -0700
-X-CSE-ConnectionGUID: DHULTaZOS9q9FciCtlFGaA==
-X-CSE-MsgGUID: tEtS+aJ8QA2UWmqy0Ryb7w==
+   d="scan'208";a="75382841"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 08:56:02 -0700
+X-CSE-ConnectionGUID: wqtOlmjZRcSJf1b2nlegPQ==
+X-CSE-MsgGUID: 45AtPZK1TEioLeeTQpFEJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="229172838"
+   d="scan'208";a="229655552"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Mar 2026 08:44:01 -0700
+  by orviesa005.jf.intel.com with ESMTP; 25 Mar 2026 08:56:01 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5QOk-000000007AX-1mNe;
-	Wed, 25 Mar 2026 15:43:58 +0000
-Date: Wed, 25 Mar 2026 23:43:12 +0800
+	id 1w5QaM-000000007B9-40Fv;
+	Wed, 25 Mar 2026 15:55:58 +0000
+Date: Wed, 25 Mar 2026 23:55:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1529:51-61:
- opportunity for str_enable_disable(enablement)
-Message-ID: <202603252333.8uMxBNjr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 2/4] iio: adc: ad4691: add initial driver for AD4691
+ family
+Message-ID: <202603252324.oRI6hslc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181@analog.com>
+References: <20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181@analog.com>
+TO: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+TO: "Lars-Peter Clausen" <lars@metafoo.de>
+TO: Michael Hennerich <Michael.Hennerich@analog.com>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: David Lechner <dlechner@baylibre.com>
+TO: "Nuno Sá" <nuno.sa@analog.com>
+TO: Andy Shevchenko <andy@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: "Uwe Kleine-König" <ukleinek@kernel.org>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+TO: Linus Walleij <linusw@kernel.org>
+TO: Bartosz Golaszewski <brgl@kernel.org>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+CC: linux-iio@vger.kernel.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+CC: linux-pwm@vger.kernel.org
+CC: linux-gpio@vger.kernel.org
+CC: Radu Sabau <radu.sabau@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bbeb83d3182abe0d245318e274e8531e5dd7a948
-commit: c7fc0f372374cf463be2ba4b5b21c20c3c051bb6 drm/amd: Enable SMU 15_0_0 support
-date:   3 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 3 months ago
-config: s390-randconfig-r052-20260323 (https://download.01.org/0day-ci/archive/20260325/202603252333.8uMxBNjr-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c911b8492374942bf4cfe35411e90a35d3837f6a)
+Hi Radu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 11439c4635edd669ae435eec308f4ab8a0804808]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau-via-B4-Relay/dt-bindings-iio-adc-add-bindings-for-AD4691-family/20260314-040740
+base:   11439c4635edd669ae435eec308f4ab8a0804808
+patch link:    https://lore.kernel.org/r/20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181%40analog.com
+patch subject: [PATCH v3 2/4] iio: adc: ad4691: add initial driver for AD4691 family
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260325/202603252324.oRI6hslc-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252324.oRI6hslc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202603252333.8uMxBNjr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603252324.oRI6hslc-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1529:51-61: opportunity for str_enable_disable(enablement)
-   drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1537:49-59: opportunity for str_enable_disable(enablement)
-   drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1545:49-59: opportunity for str_enable_disable(enablement)
-   drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1553:51-61: opportunity for str_enable_disable(enablement)
-   drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1561:49-59: opportunity for str_enable_disable(enablement)
-   drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1569:48-58: opportunity for str_enable_disable(enablement)
-   drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1577:56-66: opportunity for str_enable_disable(enablement)
-   drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c:1585:51-61: opportunity for str_enable_disable(enablement)
+All errors (new ones prefixed by >>):
 
-vim +1529 drivers/gpu/drm/amd/pm/swsmu/smu15/smu_v15_0.c
+>> drivers/iio/adc/ad4691.c:419:9: error: call to '__compiletime_assert_476' declared with 'error' attribute: clamp(freq, 1, st->chip->max_rate) signedness error
+     419 |         freq = clamp(freq, 1, st->chip->max_rate);
+         |                ^
+   include/linux/minmax.h:206:28: note: expanded from macro 'clamp'
+     206 | #define clamp(val, lo, hi) __careful_clamp(auto, val, lo, hi)
+         |                            ^
+   include/linux/minmax.h:195:2: note: expanded from macro '__careful_clamp'
+     195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
+         |         ^
+   include/linux/minmax.h:190:2: note: expanded from macro '__clamp_once'
+     190 |         BUILD_BUG_ON_MSG(!__types_ok3(uval, ulo, uhi),                          \
+         |         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:694:2: note: expanded from macro '_compiletime_assert'
+     694 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:687:4: note: expanded from macro '__compiletime_assert'
+     687 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:234:1: note: expanded from here
+     234 | __compiletime_assert_476
+         | ^
+>> drivers/iio/adc/ad4691.c:419:9: error: call to '__compiletime_assert_476' declared with 'error' attribute: clamp(freq, 1, st->chip->max_rate) signedness error
+   include/linux/minmax.h:206:28: note: expanded from macro 'clamp'
+     206 | #define clamp(val, lo, hi) __careful_clamp(auto, val, lo, hi)
+         |                            ^
+   include/linux/minmax.h:195:2: note: expanded from macro '__careful_clamp'
+     195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
+         |         ^
+   include/linux/minmax.h:190:2: note: expanded from macro '__clamp_once'
+     190 |         BUILD_BUG_ON_MSG(!__types_ok3(uval, ulo, uhi),                          \
+         |         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:694:2: note: expanded from macro '_compiletime_assert'
+     694 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:687:4: note: expanded from macro '__compiletime_assert'
+     687 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:234:1: note: expanded from here
+     234 | __compiletime_assert_476
+         | ^
+   2 errors generated.
 
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1519  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1520  int smu_v15_0_deep_sleep_control(struct smu_context *smu,
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1521  				 bool enablement)
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1522  {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1523  	struct amdgpu_device *adev = smu->adev;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1524  	int ret = 0;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1525  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1526  	if (smu_cmn_feature_is_supported(smu, SMU_FEATURE_DS_GFXCLK_BIT)) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1527  		ret = smu_cmn_feature_set_enabled(smu, SMU_FEATURE_DS_GFXCLK_BIT, enablement);
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1528  		if (ret) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05 @1529  			dev_err(adev->dev, "Failed to %s GFXCLK DS!\n", enablement ? "enable" : "disable");
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1530  			return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1531  		}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1532  	}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1533  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1534  	if (smu_cmn_feature_is_supported(smu, SMU_FEATURE_DS_UCLK_BIT)) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1535  		ret = smu_cmn_feature_set_enabled(smu, SMU_FEATURE_DS_UCLK_BIT, enablement);
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1536  		if (ret) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1537  			dev_err(adev->dev, "Failed to %s UCLK DS!\n", enablement ? "enable" : "disable");
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1538  			return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1539  		}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1540  	}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1541  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1542  	if (smu_cmn_feature_is_supported(smu, SMU_FEATURE_DS_FCLK_BIT)) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1543  		ret = smu_cmn_feature_set_enabled(smu, SMU_FEATURE_DS_FCLK_BIT, enablement);
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1544  		if (ret) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1545  			dev_err(adev->dev, "Failed to %s FCLK DS!\n", enablement ? "enable" : "disable");
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1546  			return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1547  		}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1548  	}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1549  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1550  	if (smu_cmn_feature_is_supported(smu, SMU_FEATURE_DS_SOCCLK_BIT)) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1551  		ret = smu_cmn_feature_set_enabled(smu, SMU_FEATURE_DS_SOCCLK_BIT, enablement);
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1552  		if (ret) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1553  			dev_err(adev->dev, "Failed to %s SOCCLK DS!\n", enablement ? "enable" : "disable");
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1554  			return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1555  		}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1556  	}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1557  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1558  	if (smu_cmn_feature_is_supported(smu, SMU_FEATURE_DS_LCLK_BIT)) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1559  		ret = smu_cmn_feature_set_enabled(smu, SMU_FEATURE_DS_LCLK_BIT, enablement);
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1560  		if (ret) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1561  			dev_err(adev->dev, "Failed to %s LCLK DS!\n", enablement ? "enable" : "disable");
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1562  			return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1563  		}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1564  	}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1565  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1566  	if (smu_cmn_feature_is_supported(smu, SMU_FEATURE_DS_VCN_BIT)) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1567  		ret = smu_cmn_feature_set_enabled(smu, SMU_FEATURE_DS_VCN_BIT, enablement);
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1568  		if (ret) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1569  			dev_err(adev->dev, "Failed to %s VCN DS!\n", enablement ? "enable" : "disable");
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1570  			return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1571  		}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1572  	}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1573  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1574  	if (smu_cmn_feature_is_supported(smu, SMU_FEATURE_DS_MP0CLK_BIT)) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1575  		ret = smu_cmn_feature_set_enabled(smu, SMU_FEATURE_DS_MP0CLK_BIT, enablement);
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1576  		if (ret) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1577  			dev_err(adev->dev, "Failed to %s MP0/MPIOCLK DS!\n", enablement ? "enable" : "disable");
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1578  			return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1579  		}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1580  	}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1581  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1582  	if (smu_cmn_feature_is_supported(smu, SMU_FEATURE_DS_MP1CLK_BIT)) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1583  		ret = smu_cmn_feature_set_enabled(smu, SMU_FEATURE_DS_MP1CLK_BIT, enablement);
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1584  		if (ret) {
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1585  			dev_err(adev->dev, "Failed to %s MP1CLK DS!\n", enablement ? "enable" : "disable");
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1586  			return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1587  		}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1588  	}
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1589  
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1590  	return ret;
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1591  }
-c7fc0f372374cf Pratik Vishwakarma 2025-12-05  1592  
+
+vim +419 drivers/iio/adc/ad4691.c
+
+f6641d8e9f8523c Radu Sabau 2026-03-13  411  
+f6641d8e9f8523c Radu Sabau 2026-03-13  412  static int __ad4691_set_sampling_freq(struct ad4691_state *st, int freq)
+f6641d8e9f8523c Radu Sabau 2026-03-13  413  {
+f6641d8e9f8523c Radu Sabau 2026-03-13  414  	unsigned long long target, ref_clk_period_ns;
+f6641d8e9f8523c Radu Sabau 2026-03-13  415  	struct pwm_state cnv_state;
+f6641d8e9f8523c Radu Sabau 2026-03-13  416  
+f6641d8e9f8523c Radu Sabau 2026-03-13  417  	pwm_init_state(st->conv_trigger, &cnv_state);
+f6641d8e9f8523c Radu Sabau 2026-03-13  418  
+f6641d8e9f8523c Radu Sabau 2026-03-13 @419  	freq = clamp(freq, 1, st->chip->max_rate);
+f6641d8e9f8523c Radu Sabau 2026-03-13  420  	target = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate, freq);
+f6641d8e9f8523c Radu Sabau 2026-03-13  421  	ref_clk_period_ns = DIV_ROUND_CLOSEST_ULL(NANO, st->ref_clk_rate);
+f6641d8e9f8523c Radu Sabau 2026-03-13  422  	st->cnv_period = ref_clk_period_ns * target;
+f6641d8e9f8523c Radu Sabau 2026-03-13  423  	cnv_state.period = ref_clk_period_ns * target;
+f6641d8e9f8523c Radu Sabau 2026-03-13  424  	cnv_state.duty_cycle = AD4691_CNV_DUTY_CYCLE_NS;
+f6641d8e9f8523c Radu Sabau 2026-03-13  425  	cnv_state.enabled = false;
+f6641d8e9f8523c Radu Sabau 2026-03-13  426  
+f6641d8e9f8523c Radu Sabau 2026-03-13  427  	return pwm_apply_might_sleep(st->conv_trigger, &cnv_state);
+f6641d8e9f8523c Radu Sabau 2026-03-13  428  }
+f6641d8e9f8523c Radu Sabau 2026-03-13  429  
 
 -- 
 0-DAY CI Kernel Test Service
