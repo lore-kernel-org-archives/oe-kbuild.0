@@ -1,190 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E751DE3B7
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 15:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AFF3FB05A
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 16:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774454165; cv=none; b=tu5lq8BqdZTUykayAgI/xIIaUKFaiGZo7fRQ5TQ99fUooJ9flozi6fGxOfrNNjB+YZLV4AN6gKUD3GsT55URAuxa0lugKIXdxyazYSl6s9BLxPIgKWuUvWpj2RptkDhOwZhMXWpE5nctGoCkvTfJJAhKwiUa9cyfTva9lTwC7To=
+	t=1774457897; cv=none; b=M5y1MQakjyVpuYQv/jfx/7zJR1/eVAYtWiI2i0rmDGgUeudSbtx8o6YW1lYPJBa4KWtFqGNNXfFHMzQMCGwnNvO7klBGU+Gjt+dub32jtiXwLXpBDBuH4bQco7f3IyZQkeCjuXauBMyeGEu5NKfI5HuZM7L3wSGPRf7wKYEWB4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774454165; c=relaxed/simple;
-	bh=6Rc3w25XcneMfU84iFCkvowufnTMIp99LEwnHCb0Ws4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jrm/m/FqBQnBgjBxQwo2nEs1FDrX34dbd3FOBddMX7IhTH6+uMMDWVqUiS9Lug85SMOJ8yrlSY5IvVNj5f1DLn73QaLcQMN3w7GK1xuXj8XCXWg1ljFEncQD8MdnV5gCeXlAJ31ApomCsHDr+qYnGWAZT1vvQzxGHSazh0FPqs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEd52Huh; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1774457897; c=relaxed/simple;
+	bh=KZTgRTZpZk2WOkHqdF6pP60XB+OWISERWucW06+2tD0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MZSbqXiR7DeDoBElubSTfKjI4DXZmkLR9nUKYDracw3tE/SEs/QuAr16yUxfBXhR3ORk48nKJjPWN6Ct6TRcJdECdCQ/WlsaKlekuIU07UaYz576GyHnlAWhVfd9v7lcboxmUi20t8/3nt5sN2gKsE2oOw/1AV20K+blv1dg19o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dXxAB0Jy; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEd52Huh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXxAB0Jy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774454163; x=1805990163;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6Rc3w25XcneMfU84iFCkvowufnTMIp99LEwnHCb0Ws4=;
-  b=KEd52Huhm1rg/BDqXaFMTWK8vSwKfKNYnKQleRrtVfYLcWonRIvI3VcV
-   o0JGAlE35SXks10gKEMZKCd/G0rujhaQhb16vHazDV08VxjIan8JQfm9u
-   AsOd2ofm3YXbHaHj6jqCcFDFl3HdQvR4bowZ7A3NOuZjHJueh/vNJzOID
-   16lrUu2GERvb3b68439AoIi/ROHhVZLWIxZPKZmMo/HI5AYVWE2xdjZXN
-   Bi3eof4cdBHwRdOQqEBzml1d2iFNBZEvtSq77COvzzAWE9ZjcjC5Y1bHM
-   Duc22e9r9VoBa9CgbV+8NE7ZVyG5XpgrZsOL8CQhcP9o9wW2xrNOxmaSJ
+  t=1774457894; x=1805993894;
+  h=date:from:to:cc:subject:message-id;
+  bh=KZTgRTZpZk2WOkHqdF6pP60XB+OWISERWucW06+2tD0=;
+  b=dXxAB0JyyVI4UxZrYrVyLmFSMrotYM85s99R1uzCvXeqmx/CNMHfgeMr
+   6PzliL25zozAK4RpFDcy1o6DXZZuQ8nPXK/A15GaJ5DrisbpN89vjixy5
+   Rb13AYl0mwgEU0gqOP4XpIgi4LMGlwxyQqtSTi3sDRxigeNBUpcFUnB2j
+   KRSAH/Rtpy75eB75ZiBWD/iw3kX/IR5uOjgfjFkjWh7WcptpEbhGH7K07
+   GKWqYNlLdYcrwAYZkS6Nc3vhyaumjhicAenf6i0XrG3H9RZ5aU0g4hrmC
+   +rTKPBIBs2+92Ok6t3ESk9hNbzE9F9zw8pO3L22V+fkk6sZhw+7r0zRQ3
    Q==;
-X-CSE-ConnectionGUID: 8c+INGlYS76HfcaZVSoriQ==
-X-CSE-MsgGUID: og2pmLg4T/yYLujx7QMIog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75382841"
+X-CSE-ConnectionGUID: WgLyyewwT+icdp3t9CNykA==
+X-CSE-MsgGUID: UdnEIGMeQPGmm8kvTg8mMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75522367"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75382841"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 08:56:02 -0700
-X-CSE-ConnectionGUID: wqtOlmjZRcSJf1b2nlegPQ==
-X-CSE-MsgGUID: 45AtPZK1TEioLeeTQpFEJg==
+   d="scan'208";a="75522367"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 09:58:13 -0700
+X-CSE-ConnectionGUID: 2BdPY2TvRz+ZRX3QHecd0g==
+X-CSE-MsgGUID: layYorq5Rg2WIStAAxjzxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="229655552"
+   d="scan'208";a="220335259"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Mar 2026 08:56:01 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 25 Mar 2026 09:58:12 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5QaM-000000007B9-40Fv;
-	Wed, 25 Mar 2026 15:55:58 +0000
-Date: Wed, 25 Mar 2026 23:55:10 +0800
+	id 1w5RYX-000000007Jr-2TPo;
+	Wed, 25 Mar 2026 16:58:09 +0000
+Date: Thu, 26 Mar 2026 00:57:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 2/4] iio: adc: ad4691: add initial driver for AD4691
- family
-Message-ID: <202603252324.oRI6hslc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/tee/qcomtee/core.c:193 qcomtee_idx_erase() warn:
+ impossible condition '(idx > ((~0))) => (2147483649-u32max > u32max)'
+Message-ID: <202603260026.qDIAqzZw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
-:::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181@analog.com>
-References: <20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181@analog.com>
-TO: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-TO: "Lars-Peter Clausen" <lars@metafoo.de>
-TO: Michael Hennerich <Michael.Hennerich@analog.com>
-TO: Jonathan Cameron <jic23@kernel.org>
-TO: David Lechner <dlechner@baylibre.com>
-TO: "Nuno Sá" <nuno.sa@analog.com>
-TO: Andy Shevchenko <andy@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: "Uwe Kleine-König" <ukleinek@kernel.org>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Linus Walleij <linusw@kernel.org>
-TO: Bartosz Golaszewski <brgl@kernel.org>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-CC: linux-iio@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-pwm@vger.kernel.org
-CC: linux-gpio@vger.kernel.org
-CC: Radu Sabau <radu.sabau@analog.com>
+TO: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+CC: Jens Wiklander <jens.wiklander@linaro.org>
 
-Hi Radu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 11439c4635edd669ae435eec308f4ab8a0804808]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau-via-B4-Relay/dt-bindings-iio-adc-add-bindings-for-AD4691-family/20260314-040740
-base:   11439c4635edd669ae435eec308f4ab8a0804808
-patch link:    https://lore.kernel.org/r/20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181%40analog.com
-patch subject: [PATCH v3 2/4] iio: adc: ad4691: add initial driver for AD4691 family
-:::::: branch date: 12 days ago
-:::::: commit date: 12 days ago
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260325/202603252324.oRI6hslc-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252324.oRI6hslc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bbeb83d3182abe0d245318e274e8531e5dd7a948
+commit: d6e290837e50f73f88f31f19bd8a7213d92e6e46 tee: add Qualcomm TEE driver
+date:   6 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 6 months ago
+config: riscv-randconfig-r073-20260325 (https://download.01.org/0day-ci/archive/20260326/202603260026.qDIAqzZw-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603252324.oRI6hslc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603260026.qDIAqzZw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/tee/qcomtee/core.c:193 qcomtee_idx_erase() warn: impossible condition '(idx > ((~0))) => (2147483649-u32max > u32max)'
 
->> drivers/iio/adc/ad4691.c:419:9: error: call to '__compiletime_assert_476' declared with 'error' attribute: clamp(freq, 1, st->chip->max_rate) signedness error
-     419 |         freq = clamp(freq, 1, st->chip->max_rate);
-         |                ^
-   include/linux/minmax.h:206:28: note: expanded from macro 'clamp'
-     206 | #define clamp(val, lo, hi) __careful_clamp(auto, val, lo, hi)
-         |                            ^
-   include/linux/minmax.h:195:2: note: expanded from macro '__careful_clamp'
-     195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-         |         ^
-   include/linux/minmax.h:190:2: note: expanded from macro '__clamp_once'
-     190 |         BUILD_BUG_ON_MSG(!__types_ok3(uval, ulo, uhi),                          \
-         |         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:694:2: note: expanded from macro '_compiletime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:687:4: note: expanded from macro '__compiletime_assert'
-     687 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:234:1: note: expanded from here
-     234 | __compiletime_assert_476
-         | ^
->> drivers/iio/adc/ad4691.c:419:9: error: call to '__compiletime_assert_476' declared with 'error' attribute: clamp(freq, 1, st->chip->max_rate) signedness error
-   include/linux/minmax.h:206:28: note: expanded from macro 'clamp'
-     206 | #define clamp(val, lo, hi) __careful_clamp(auto, val, lo, hi)
-         |                            ^
-   include/linux/minmax.h:195:2: note: expanded from macro '__careful_clamp'
-     195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-         |         ^
-   include/linux/minmax.h:190:2: note: expanded from macro '__clamp_once'
-     190 |         BUILD_BUG_ON_MSG(!__types_ok3(uval, ulo, uhi),                          \
-         |         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:694:2: note: expanded from macro '_compiletime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:687:4: note: expanded from macro '__compiletime_assert'
-     687 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:234:1: note: expanded from here
-     234 | __compiletime_assert_476
-         | ^
-   2 errors generated.
+vim +193 drivers/tee/qcomtee/core.c
 
-
-vim +419 drivers/iio/adc/ad4691.c
-
-f6641d8e9f8523c Radu Sabau 2026-03-13  411  
-f6641d8e9f8523c Radu Sabau 2026-03-13  412  static int __ad4691_set_sampling_freq(struct ad4691_state *st, int freq)
-f6641d8e9f8523c Radu Sabau 2026-03-13  413  {
-f6641d8e9f8523c Radu Sabau 2026-03-13  414  	unsigned long long target, ref_clk_period_ns;
-f6641d8e9f8523c Radu Sabau 2026-03-13  415  	struct pwm_state cnv_state;
-f6641d8e9f8523c Radu Sabau 2026-03-13  416  
-f6641d8e9f8523c Radu Sabau 2026-03-13  417  	pwm_init_state(st->conv_trigger, &cnv_state);
-f6641d8e9f8523c Radu Sabau 2026-03-13  418  
-f6641d8e9f8523c Radu Sabau 2026-03-13 @419  	freq = clamp(freq, 1, st->chip->max_rate);
-f6641d8e9f8523c Radu Sabau 2026-03-13  420  	target = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate, freq);
-f6641d8e9f8523c Radu Sabau 2026-03-13  421  	ref_clk_period_ns = DIV_ROUND_CLOSEST_ULL(NANO, st->ref_clk_rate);
-f6641d8e9f8523c Radu Sabau 2026-03-13  422  	st->cnv_period = ref_clk_period_ns * target;
-f6641d8e9f8523c Radu Sabau 2026-03-13  423  	cnv_state.period = ref_clk_period_ns * target;
-f6641d8e9f8523c Radu Sabau 2026-03-13  424  	cnv_state.duty_cycle = AD4691_CNV_DUTY_CYCLE_NS;
-f6641d8e9f8523c Radu Sabau 2026-03-13  425  	cnv_state.enabled = false;
-f6641d8e9f8523c Radu Sabau 2026-03-13  426  
-f6641d8e9f8523c Radu Sabau 2026-03-13  427  	return pwm_apply_might_sleep(st->conv_trigger, &cnv_state);
-f6641d8e9f8523c Radu Sabau 2026-03-13  428  }
-f6641d8e9f8523c Radu Sabau 2026-03-13  429  
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  187  
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  188  struct qcomtee_object *qcomtee_idx_erase(struct qcomtee_object_invoke_ctx *oic,
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  189  					 u32 idx)
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  190  {
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  191  	struct qcomtee *qcomtee = tee_get_drvdata(oic->ctx->teedev);
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  192  
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11 @193  	if (idx < QCOMTEE_OBJECT_ID_START || idx > QCOMTEE_OBJECT_ID_END)
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  194  		return NULL_QCOMTEE_OBJECT;
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  195  
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  196  	return xa_erase(&qcomtee->xa_local_objects, idx);
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  197  }
+d6e290837e50f7 Amirreza Zarrabi 2025-09-11  198  
 
 -- 
 0-DAY CI Kernel Test Service
