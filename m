@@ -1,77 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72312DCBF4
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 15:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C622C3C456B
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 15:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774452193; cv=none; b=sazVDNwpsFhlGMn2pCvX8RMrOEl8BGm3X1UAHWo4paQyR2aRA1E8cSCkghEevQ3Bh8LweO3LyGyoYvF4NOLioZ62MOw2AwfhsZsriZhuvRqIQ1ZRyCYhQ4jtvsgkVJe1rslMV1wOYTwyOFFet/PZ17ZSNvjeYH9zrkaSR5egvRY=
+	t=1774452373; cv=none; b=qzNki4h7GGoKoNdKUcKaVQdoY/grw2GugbBjSp0lrWC/ed/8z59h/7tCKHc1G5KtLdIBKxEredZoLfs0QW0YJ7yqgVlNkBw7v1MFxUbvQgDi0Jb+J2Pov5l2io0uxwn7RGudtXDKphUcJ20Fkrs5/MWw/ZhMovtJAYZ4UYfQLBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774452193; c=relaxed/simple;
-	bh=oNLHpH7T5kJwifYo81vK9X66FiYRwFm60XFqdt55kbM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rvOulLKefBW8CYr/2RluTL05sd9umiGPGbknaV+2gUmr25Z18SmK/4/GdQtg1BM6tmAD1I4FRkVR04RH2ZXVz9xk56tdRWxUQ2B8xea8D61QPd6u7QT7KHfNm0tRpmE/qUWCEu5vCaJlJCHI7rP4e0LUA5odk8xm80rj8PrHDec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDNmFveq; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774452373; c=relaxed/simple;
+	bh=q7luRxJOP9RIbOM4Cco7d+3w5W3pWV71Lw+M+1CAY+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KZ6YKxLDGUDcemOIdJitw0cMSkRxagP5eP+9u4ppakPEf8GuBQbsSjjke9fyQpYliR4BEkaB+IM3uanGrIgs8TDVBhs4ybOep1O/tICdPvX/iEYgL2397nDu9gfm0IzQt1dkP89v8xuA6wDRh46+UYXkn857B8cPVF2G4g/kq0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hm1QsCVz; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDNmFveq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774452191; x=1805988191;
-  h=date:from:to:cc:subject:message-id;
-  bh=oNLHpH7T5kJwifYo81vK9X66FiYRwFm60XFqdt55kbM=;
-  b=bDNmFveqO2iLRiEgmjCTETs3tl5RnKFyL+91ZYVfl9e3WTmMzZxWZxZ9
-   /h+K0G0qFgInTSGZYgetbMe/L+cshy+IDvwi9exkc7x+f9ZrC460zixpH
-   rT89LHKz7vB0jMAVQ41+rea2kYefvCX7K7kMvHl7LL5HYGsHYPsJYtWeJ
-   GFUvzdntyoe/jS8E18NoRiTDqD2E5t1N6tOmxnHSpnKsu4nbPsBM/rFvy
-   /WeRsTr63X/QPdjcInOPQ/xape7wAGzF3pKb2jRn0nf/6TD67DO3BWUFC
-   j+XXWN4YdFD4SyJWGPNT+vJ9LV/Ewp4wvDp8UGLJaedbj6VC7xJCX8DnC
-   g==;
-X-CSE-ConnectionGUID: ZrPKFvFLTh670UxqzPwYtw==
-X-CSE-MsgGUID: TYJTuX+RQT6Cc3LKUgyP2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86572244"
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="86572244"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 08:23:00 -0700
-X-CSE-ConnectionGUID: mkD8GkTtQByBIGRWmWPg4A==
-X-CSE-MsgGUID: Dp3sUMqRRP+e3TjK3o+pQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="248211227"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Mar 2026 08:22:59 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5Q4O-0000000077l-3iap;
-	Wed, 25 Mar 2026 15:22:56 +0000
-Date: Wed, 25 Mar 2026 23:22:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hm1QsCVz"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so50200095e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 25 Mar 2026 08:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774452369; x=1775057169; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LLXdwZgz3OX7xFXei4hlC2wY0sZDRlHVahArePn31D8=;
+        b=Hm1QsCVzAVtiRZCPAiDmiSTMPhZms77zMh9wJycG+psbSmM7PrAMxPD3/IhLmd0okv
+         +K4pK92YtMvLRPeVBmAXkBTa1ZXcIq2NLLRXhkZ5D9rI8JU6XTSoHCKTlTzf+wUCQkEP
+         doyf6OgPJMO22OCWpoLCbC3KOEtYZEN6h22iYN9jncGU+TZRAg2ddSG2FJr3Fb3R9wqE
+         ZVtIQIBtXm0gWWq62rrqyb34hK+TZIke5UUVR37jugj+e+uDE3DY38kRl7YX5MGKrVke
+         /3VJPSkLjdR1VEzqKn7jpDMYSskjAPe969c/S1BpvVnUszuv2oJ/6OwaMQNxh4Aj0B86
+         PIng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774452369; x=1775057169;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LLXdwZgz3OX7xFXei4hlC2wY0sZDRlHVahArePn31D8=;
+        b=NPho5jOC4LFA07K7ehADrDfNMcj9UQ/jVEkPrLwm0bnogfJb0MUR3vEEN0flBeOJjf
+         Li9eSokyCY38tAbMGCPdW31taPP4SrTvQvpBnIf/QLWbekFnCt/BVG/NUchh/40Z/Dcb
+         Sbbr3K2LpO8pEcve7CzUZfgwxR5q9pw4ZAxOXxfp/DPsw1e+xONCDeplk2areKdll1AF
+         gO5NRIt/z6sBVPXZvgOpnhkq9DnV6HC5DhE6sSZWifYgSmWlgKJKd75maMwk5eBtyxWw
+         24Gu6W+/dlS3IN0Zo5s3d4cKsAyff8/2AMKr0Bo0lhraV8s2svoeqE3f9h9N3bMJvxIw
+         q/cA==
+X-Gm-Message-State: AOJu0YxV8i+ZPqZZpo8++d/hqpa7pPGrTL0iA0I1OpWPPz5QLT3RD9Nf
+	f7VjevJLW79eT0yhUyJnbhGnN7dfaRZ2yuCdU/6OQ51Rxfk/XXb/uBgyJpKAx5khQOFQXzUMt8+
+	DFYQD
+X-Gm-Gg: ATEYQzznzpkR7cti0jYCoz6wCj/0psuHAIAAiaaUn3/kOrUHJnC21IfhLoH4ZzYHnoZ
+	VxJ8WbPL0B1wYPoMYWAr2IIdpxRo2wnxgZXOMffRRaroL7A5xqNhEV+bs/+H0/Qb2msJalvkxKz
+	FBH7B5Ph2Kz9j0dZxhSawXVbekjZaTjWmXuFvRK2FtLgr+Rkn/Y2f8amgbBENRC9skmSSMER8v2
+	NmlcVXhYlCYNswz6ORUe37+ZlrDKNdcJj9t/8IEBgAzZWqp2OfnF4WCOODdzCykYDomC+CuMzEU
+	OVWggcwatM4zwjQD91wH5ugjiXEt3zWxkwGGyKBEMUPqqMd8LBKp8FjGZbgw3SZU1MTdiKSNjW4
+	RORMtRuhBwKtRUR7ClVFIPx6GDoKhO9lLThb5UhUmYMIeGytNn486UaB/UBemb+oo7TTZEV0rmr
+	XeUCIIIuj7yD1BfkT3k1KTjkZYdmwf
+X-Received: by 2002:a05:600c:630d:b0:485:3586:1e28 with SMTP id 5b1f17b1804b1-48716034eb4mr57109245e9.18.1774452368866;
+        Wed, 25 Mar 2026 08:26:08 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e533sm692368f8f.2.2026.03.25.08.26.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 08:26:07 -0700 (PDT)
+Date: Wed, 25 Mar 2026 18:26:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Niravkumar L Rabara <niravkumarlaxmidas.rabara@altera.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>
 Subject: drivers/mtd/nand/raw/cadence-nand-controller.c:2956
  cadence_nand_init() warn: variable dereferenced before check
  'cdns_ctrl->dmac' (see line 2918)
 Message-ID: <202603252339.fQzI6oc8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Niravkumar L Rabara <niravkumarlaxmidas.rabara@altera.com>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260325152604.p1CqC26vyGT0zzJ02LSJ2X8JUAVUf41IXzwGGKrhhjw@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bbeb83d3182abe0d245318e274e8531e5dd7a948
 commit: 5c56bf214af85ca042bf97f8584aab2151035840 mtd: rawnand: cadence: fix DMA device NULL pointer dereference
-date:   5 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 months ago
 config: openrisc-randconfig-r073-20260325 (https://download.01.org/0day-ci/archive/20260325/202603252339.fQzI6oc8-lkp@intel.com/config)
 compiler: or1k-linux-gcc (GCC) 15.2.0
 smatch: v0.5.0-9004-gb810ac53
@@ -79,7 +88,7 @@ smatch: v0.5.0-9004-gb810ac53
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202603252339.fQzI6oc8-lkp@intel.com/
 
 smatch warnings:
@@ -87,7 +96,6 @@ drivers/mtd/nand/raw/cadence-nand-controller.c:2956 cadence_nand_init() warn: va
 
 vim +2956 drivers/mtd/nand/raw/cadence-nand-controller.c
 
-ec4ba01e894d316 Piotr Sroka         2019-09-26  2870  
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2871  static int cadence_nand_init(struct cdns_nand_ctrl *cdns_ctrl)
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2872  {
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2873  	dma_cap_mask_t mask;
@@ -128,6 +136,9 @@ ec4ba01e894d316 Piotr Sroka         2019-09-26  2907  	dma_cap_set(DMA_MEMCPY, m
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2908  
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2909  	if (cdns_ctrl->caps1->has_dma) {
 2b9df00cded911e Niravkumar L Rabara 2025-02-10  2910  		cdns_ctrl->dmac = dma_request_chan_by_mask(&mask);
+                                                                ^^^^^^^^^^^^^^^
+->dmac assigned here.
+
 2b9df00cded911e Niravkumar L Rabara 2025-02-10  2911  		if (IS_ERR(cdns_ctrl->dmac)) {
 2b9df00cded911e Niravkumar L Rabara 2025-02-10  2912  			ret = dev_err_probe(cdns_ctrl->dev, PTR_ERR(cdns_ctrl->dmac),
 2b9df00cded911e Niravkumar L Rabara 2025-02-10  2913  					    "%d: Failed to get a DMA channel\n", ret);
@@ -136,6 +147,10 @@ ec4ba01e894d316 Piotr Sroka         2019-09-26  2915  		}
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2916  	}
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2917  
 5c56bf214af85ca Niravkumar L Rabara 2025-10-23 @2918  	dma_dev = cdns_ctrl->dmac->device;
+
+This feels like it should be in the if statement.  Smatch complains that
+we check it for NULL later.
+
 d76d22b5096c5b0 Niravkumar L Rabara 2025-02-10  2919  	cdns_ctrl->io.iova_dma = dma_map_resource(dma_dev->dev, cdns_ctrl->io.dma,
 d76d22b5096c5b0 Niravkumar L Rabara 2025-02-10  2920  						  cdns_ctrl->io.size,
 d76d22b5096c5b0 Niravkumar L Rabara 2025-02-10  2921  						  DMA_BIDIRECTIONAL, 0);
@@ -174,6 +189,9 @@ d76d22b5096c5b0 Niravkumar L Rabara 2025-02-10  2953  			   cdns_ctrl->io.size, 
 d76d22b5096c5b0 Niravkumar L Rabara 2025-02-10  2954  
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2955  dma_release_chnl:
 ec4ba01e894d316 Piotr Sroka         2019-09-26 @2956  	if (cdns_ctrl->dmac)
+                                                            ^^^^^^^^^^^^^^^
+Checked here.
+
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2957  		dma_release_channel(cdns_ctrl->dmac);
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2958  
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2959  disable_irq:
@@ -188,14 +206,8 @@ ec4ba01e894d316 Piotr Sroka         2019-09-26  2967  			  cdns_ctrl->cdma_desc,
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2968  
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2969  	return ret;
 ec4ba01e894d316 Piotr Sroka         2019-09-26  2970  }
-ec4ba01e894d316 Piotr Sroka         2019-09-26  2971  
-
-:::::: The code at line 2956 was first introduced by commit
-:::::: ec4ba01e894d3165e4d1ccbef782ef5593b708b4 mtd: rawnand: Add new Cadence NAND driver to MTD subsystem
-
-:::::: TO: Piotr Sroka <piotrs@cadence.com>
-:::::: CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
