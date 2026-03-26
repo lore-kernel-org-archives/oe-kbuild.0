@@ -1,115 +1,341 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCED43E4C88
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 21:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5822E23BCFD
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 21:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774561308; cv=none; b=HYSERzC5qXs5Dw1GLfcE0FIb+8zJ3ASeeZ8eFcpbhD1Yv54bWSkbvA/FGlacTw1Rj4l/d08o416CSldMGyZx2Po7MJO72l/3POBHD93HNsu9u3uuxEPdatZ5AamJqcFbHhClh7zNoUwORA9Vn4JZhIAJw8ul+qomP1FMRK7GlMI=
+	t=1774562055; cv=none; b=FCS8lvwhM9OSLOFv7LdjlNSs7KqEuMh7cdKYdF0EYCjusqm6gK1Sbjq0jjTEHHPAYmUTmu0FasI8c20Iw0CeNbx3chaJbNB8tlVXFW3hiJo/K9h3ZMCbs7XAl9ZByWj2egTHDp0J6SSFMsmguke/HGv6GoGQEwQxEzunBgbpvhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774561308; c=relaxed/simple;
-	bh=ehMGmv94vYYDce8t/2TehARg/N+8sRkjotnedFPzKcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LVX8KZNtGod3G2SMJOgaxjUdGeCwoARTVHozpNJCGxM64Zo+4A6FsJqPrgcu6q/FujIbmdIewNRsCuybEtOeRnRjztCFh3AsXXyByjv7n211eSRCotIAkOrYDZrllXchg2sMJqIZHJ1PJNHKVu+xcFPaY/vZ1XO07rtb8EjjJnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E+vsF4mH; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1774562055; c=relaxed/simple;
+	bh=cCMhW7VMchE7hdJIHS1mKlszrWLG3ScZaU3Y/xU8fsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=I2jpNIUmEzEdeAdLcnURupcXxgDIU4pUJKYXfNE6+p5pwDF4AeZWf6mBwplYtH7i7lj88kNtP9P64FvZFPrj2UiMd5bHOflUqCc2/F3ZFguoZUETGvq4kzm/xmzuaTUCOJBsltKz8cbH8NVFQD+aQBYND9df7JB0P2Z8IA5cftg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3haJyls; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+vsF4mH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3haJyls"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774561307; x=1806097307;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ehMGmv94vYYDce8t/2TehARg/N+8sRkjotnedFPzKcU=;
-  b=E+vsF4mHuTliVVP80B/dks/11OazoTvRdYQqBfCdcKb5hQXVP65G73TK
-   meU6vWZ35gcWsMe3iT0hAN2y+FNmNcrGQGIucguIrikCEDAEwzBBusvO9
-   4HG2nzk8nTSgoil9HJJURdVl3jL0VpNEWPbDwtBsq4iWyl6MMS9W9FeA6
-   4hcreXrmIKLS3qYaAZbph9IfeFPVPpjdN3hvUdP/tOaUuV3rG4Yl/3u7q
-   b3vHty7EtQdQi8nAJj4Fl1l5JUitCGhVdKbwKbWfincU7AVVwRhu1olBf
-   jTem2fJTyA12faxH52dplxt02maKEWUXIw5Sr6Agy9KL3ncLtIJHfFaVE
+  t=1774562053; x=1806098053;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cCMhW7VMchE7hdJIHS1mKlszrWLG3ScZaU3Y/xU8fsQ=;
+  b=T3haJylsPj0UZmprfriakUJpqU2ngBIJktPVMc/9KsEM3/XavuhQt0Yf
+   //CV0FzNNbt2z8ZSENZkBS7smQma4DeXJpqM6xF3UiP2z/tt2UvF5Az06
+   CzgfN9drZAgUxulSdnTO3gHbjPSmkobKMHoPCR+4dKgu19Z908jg77kIG
+   1gqQ2xzP8xyRx4FI/oPHJRckBT4suxC6pmxXdm7XVRyo5MZ+6TKA8FuPj
+   iNiL6hQ4l2zvK+p8uMIwMRAdoVyfTMqQsDp1/DvpeCk/wPfc16Qkq+U7o
+   suCfQCpla5k/hZGROJLnKU2emx65FeTPqYb0L8BredFt45OCvsGUfSjeP
    A==;
-X-CSE-ConnectionGUID: Of+3uOtKQ22OWXG9W0CbXw==
-X-CSE-MsgGUID: 0J7ScfkpQTeG1KvvZ3DVQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="63190820"
+X-CSE-ConnectionGUID: eGhh+0y7Tu+4wEsDPJw1mg==
+X-CSE-MsgGUID: WL9xbjMoTlSfLgjdmCHe4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="85939903"
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="63190820"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 14:41:46 -0700
-X-CSE-ConnectionGUID: XszOgYWCTq+TVr/Udwxd/A==
-X-CSE-MsgGUID: lC9qmRZETrKOcaPhYG4ieg==
+   d="scan'208";a="85939903"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 14:54:13 -0700
+X-CSE-ConnectionGUID: NW55/yaGSw6Mp75g7L5s1Q==
+X-CSE-MsgGUID: JasUICQ5RxSQZJV0OYbV5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="225128752"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 26 Mar 2026 14:41:45 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="229911913"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 26 Mar 2026 14:54:11 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5sSU-000000007L3-2qD4;
-	Thu, 26 Mar 2026 21:41:42 +0000
-Date: Thu, 26 Mar 2026 22:40:52 +0100
+	id 1w5seW-000000009PR-45le;
+	Thu, 26 Mar 2026 21:54:08 +0000
+Date: Fri, 27 Mar 2026 05:53:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3] dt-bindings: arm: mediatek: mediatek,g3dsys: Convert
- to DT schema
-Message-ID: <202603262256.pghVlnTN-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpib/fmh_gpib/fmh_gpib.c:1476 fmh_gpib_attach_impl()
+ warn: 'e_priv->fifo_base' from ioremap() not released on lines:
+ 1451,1457,1465.
+Message-ID: <202603270519.dmcjTDy4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260325181509.3430-1-challauday369@gmail.com>
-References: <20260325181509.3430-1-challauday369@gmail.com>
-TO: Udaya Kiran Challa <challauday369@gmail.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: skhan@linuxfoundation.org
-CC: Udaya Kiran Challa <challauday369@gmail.com>
+TO: Dave Penkler <dpenkler@gmail.com>
 
-Hi Udaya,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   46b513250491a7bfc97d98791dbe6a10bcc8129d
+commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
+date:   4 months ago
+:::::: branch date: 42 minutes ago
+:::::: commit date: 4 months ago
+config: alpha-randconfig-r071-20260327 (https://download.01.org/0day-ci/arc=
+hive/20260327/202603270519.dmcjTDy4-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9004-gb810ac53
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.16-rc1 next-20260326]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Udaya-Kiran-Challa/dt-bindings-arm-mediatek-mediatek-g3dsys-Convert-to-DT-schema/20260326-174611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260325181509.3430-1-challauday369%40gmail.com
-patch subject: [PATCH v3] dt-bindings: arm: mediatek: mediatek,g3dsys: Convert to DT schema
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: arc-randconfig-2051-20260326 (https://download.01.org/0day-ci/archive/20260326/202603262256.pghVlnTN-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 9.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603262256.pghVlnTN-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603262256.pghVlnTN-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603270519.dmcjTDy4-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/soc/mediatek/mediatek,mt2701-g3dsys.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
-    	 $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mt2701-g3dsys.yaml
-    	file: Documentation/devicetree/bindings/soc/mediatek/mediatek,mt2701-g3dsys.yaml
+New smatch warnings:
+drivers/gpib/fmh_gpib/fmh_gpib.c:1476 fmh_gpib_attach_impl() warn: 'e_priv-=
+>fifo_base' from ioremap() not released on lines: 1451,1457,1465.
+drivers/gpib/fmh_gpib/fmh_gpib.c:1476 fmh_gpib_attach_impl() warn: 'irq' fr=
+om request_irq() not released on lines: 1465.
+drivers/gpib/fmh_gpib/fmh_gpib.c:1476 fmh_gpib_attach_impl() warn: 'nec_pri=
+v->mmiobase' from ioremap() not released on lines: 1430,1436,1451,1457,1465.
+drivers/gpib/fmh_gpib/fmh_gpib.c:1476 fmh_gpib_attach_impl() warn: 'res->st=
+art' from __request_region() not released on lines: 1430,1436,1451,1457,146=
+5.
 
--- 
+Old smatch warnings:
+internal error: arch/alpha/include/asm/io_trivial.h:70 SQL error #2: near "=
+and": syntax error
+internal error: arch/alpha/include/asm/io_trivial.h:70 SQL: 'select * from =
+return_states where  and type =3D 1044 and parameter =3D -1 and key =3D '$'=
+ limit 1;'
+drivers/gpib/fmh_gpib/fmh_gpib.c:1476 fmh_gpib_attach_impl() warn: 'res->st=
+art' from __request_region() not released on lines: 1451,1457,1465.
+
+vim +1476 drivers/gpib/fmh_gpib/fmh_gpib.c
+
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1376 =20
+c3c7a472d6f72b drivers/staging/gpib/fmh_gpib/fmh_gpib.c Michael Rubin 2025-=
+04-08  1377  static int fmh_gpib_attach_impl(struct gpib_board *board, cons=
+t struct gpib_board_config *config,
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1378  				unsigned int handshake_mode, int acquire_dma)
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1379  {
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1380  	struct fmh_priv *e_priv;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1381  	struct nec7210_priv *nec_priv;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1382  	int retval;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1383  	int irq;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1384  	struct resource *res;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1385  	struct platform_device *pdev;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1386 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1387  	board->dev =3D driver_find_device(&fmh_gpib_platform_driver.d=
+river,
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1388  					NULL, (const void *)config, &fmh_gpib_device_match);
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1389  	if (!board->dev)	{
+acdf4581545b83 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2025-=
+02-14  1390  		dev_err(board->gpib_dev, "No matching fmh_gpib_core device w=
+as found, attach failed.");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1391  		return -ENODEV;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1392  	}
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1393  	// currently only used to mark the device as already attached
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1394  	dev_set_drvdata(board->dev, board);
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1395  	pdev =3D to_platform_device(board->dev);
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1396 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1397  	retval =3D fmh_gpib_generic_attach(board);
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1398  	if (retval)
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1399  		return retval;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1400 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1401  	e_priv =3D board->private_data;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1402  	nec_priv =3D &e_priv->nec7210_priv;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1403 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1404  	res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "g=
+pib_control_status");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1405  	if (!res) {
+acdf4581545b83 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2025-=
+02-14  1406  		dev_err(board->dev, "Unable to locate mmio resource\n");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1407  		return -ENODEV;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1408  	}
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1409 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1410  	if (request_mem_region(res->start,
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1411  			       resource_size(res),
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1412  			       pdev->name) =3D=3D NULL) {
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1413  		dev_err(board->dev, "cannot claim registers\n");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1414  		return -ENXIO;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1415  	}
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1416  	e_priv->gpib_iomem_res =3D res;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1417 =20
+baf8855c916007 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Arnd Bergmann 2024-=
+12-13  1418  	nec_priv->mmiobase =3D ioremap(e_priv->gpib_iomem_res->start,
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1419  				     resource_size(e_priv->gpib_iomem_res));
+baf8855c916007 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Arnd Bergmann 2024-=
+12-13  1420  	if (!nec_priv->mmiobase) {
+acdf4581545b83 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2025-=
+02-14  1421  		dev_err(board->dev, "Could not map I/O memory\n");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1422  		return -ENOMEM;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1423  	}
+acdf4581545b83 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2025-=
+02-14  1424  	dev_dbg(board->dev, "iobase %pr remapped to %p\n",
+baf8855c916007 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Arnd Bergmann 2024-=
+12-13  1425  		e_priv->gpib_iomem_res, nec_priv->mmiobase);
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1426 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1427  	res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "d=
+ma_fifos");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1428  	if (!res) {
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1429  		dev_err(board->dev, "Unable to locate mmio resource for gpib=
+ dma port\n");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1430  		return -ENODEV;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1431  	}
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1432  	if (request_mem_region(res->start,
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1433  			       resource_size(res),
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1434  			       pdev->name) =3D=3D NULL) {
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1435  		dev_err(board->dev, "cannot claim registers\n");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1436  		return -ENXIO;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1437  	}
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1438  	e_priv->dma_port_res =3D res;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1439  	e_priv->fifo_base =3D ioremap(e_priv->dma_port_res->start,
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1440  				    resource_size(e_priv->dma_port_res));
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1441  	if (!e_priv->fifo_base) {
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1442  		dev_err(board->dev, "Could not map I/O memory for fifos\n");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1443  		return -ENOMEM;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1444  	}
+acdf4581545b83 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2025-=
+02-14  1445  	dev_dbg(board->dev, "dma fifos 0x%lx remapped to %p, length=
+=3D%ld\n",
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1446  		(unsigned long)e_priv->dma_port_res->start, e_priv->fifo_bas=
+e,
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1447  		(unsigned long)resource_size(e_priv->dma_port_res));
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1448 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1449  	irq =3D platform_get_irq(pdev, 0);
+1269b01cdf3fd3 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Chen Ni       2025-=
+04-07  1450  	if (irq < 0)
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1451  		return -EBUSY;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1452  	retval =3D request_irq(irq, fmh_gpib_interrupt, IRQF_SHARED, =
+pdev->name, board);
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1453  	if (retval) {
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1454  		dev_err(board->dev,
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1455  			"cannot register interrupt handler err=3D%d\n",
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1456  			retval);
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1457  		return retval;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1458  	}
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1459  	e_priv->irq =3D irq;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1460 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1461  	if (acquire_dma) {
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1462  		e_priv->dma_channel =3D dma_request_slave_channel(board->dev=
+, "rxtx");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1463  		if (!e_priv->dma_channel) {
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1464  			dev_err(board->dev, "failed to acquire dma channel \"rxtx\"=
+.\n");
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1465  			return -EIO;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1466  		}
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1467  	}
+6008c89dbdfc86 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Paul Retourn=C3=A9 =
+2025-04-11  1468  	/*
+6008c89dbdfc86 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Paul Retourn=C3=A9 =
+2025-04-11  1469  	 * in the future we might want to know the half-fifo size
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1470  	 * (dma_burst_length) even when not using dma, so go ahead an
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1471  	 * initialize it unconditionally.
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1472  	 */
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1473  	e_priv->dma_burst_length =3D fifos_read(e_priv, FIFO_MAX_BURS=
+T_LENGTH_REG) &
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1474  		fifo_max_burst_length_mask;
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1475 =20
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18 @1476  	return fmh_gpib_init(e_priv, board, handshake_mode);
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1477  }
+8e4841a0888c74 drivers/staging/gpib/fmh_gpib/fmh_gpib.c Dave Penkler  2024-=
+09-18  1478 =20
+
+:::::: The code at line 1476 was first introduced by commit
+:::::: 8e4841a0888c74bdcb6ba115d6405206f0c2e8b4 staging: gpib: Add Frank Mo=
+ri Hess FPGA PCI GPIB driver
+
+:::::: TO: Dave Penkler <dpenkler@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
