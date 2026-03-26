@@ -1,102 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7501FD4
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 02:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B25392817
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 03:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774490739; cv=none; b=EmksLx8jtmsTrvipwsEExa8N0Nn+LAKw6CGLqqf2mu7dIJaHBSV2CDCbpYSft4TadDv86Y3Km9HaPpqIALuIhyNUQtTsbgdPA21DHuKkAcMw7LxZC/PCYjVf1elFiv6N7EOrWM1iPXh9vz8ARC3SNxbNwvV827hXltJ9d2fwqa8=
+	t=1774495799; cv=none; b=Irypp9db4NE9iAusC/vsFCzijiZKnRoSR08DYpP2hbkVW7+khgVjqDhPQM/vwI2qYFRWJGitm1rXAnuInSoTG6meuMZ0VgvWqo4vg4qs+jO7oXXprLUDzZ7NRkj5H1jyJKt80Nz1W7BU01UHsgYwNXFPqEeAPpNRFRxDUgx97xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774490739; c=relaxed/simple;
-	bh=ppEnwCB7FlgesPNJ2mhe6aIPipnhPeub6cpqeS8VW4I=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=apHB9bqQgBSDCLclfHPtQoBdjO/5SlKQr4h4Vxfp15wO9HmNNNf1QPqlteoJjcpsGIuXdVMKOXX7dP+3zDI4Q405SMSrJ6Ql5/Tik+V6KmcoIOcMcTNTKFDnZHT8jnKqqk2aB7T5AyRMWiowLu1zd6jmksNfSZUMi1xCE++KHhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GwSwRHLG; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1774495799; c=relaxed/simple;
+	bh=US73AgaIWdPJ+40qQEYjME1EUy2ULO9Wf4q6tLA1se4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Hk79SQossdF6o6UFG7YxGL0qvCSYIC33ZIbTYTlDu8Q/5cETWcrQGFKB5v2GxBlYYcalG7JpDYY2wqBjH0tHO7iXQDHOOpj1K3eUR3xxtU7mkrVkbcubw4IsB5sY8HiMdGP8xGYssIMR2E5Ed/lPY7tsl6bCZJAjZiONwBBWsWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpqivTXK; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GwSwRHLG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpqivTXK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774490738; x=1806026738;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=ppEnwCB7FlgesPNJ2mhe6aIPipnhPeub6cpqeS8VW4I=;
-  b=GwSwRHLGdfM1DpuTv/54EPheNQXxb4BUdvWfWkNgS37hQVUO4XcOnbDP
-   rbfL8LMARlA9C9cVduOpseoip77OjFzVBYfUkeN9iU7/Iqs77x7Wpji2+
-   vSZWnZmPuFCNTSCCJbWGPcGH8DLXKt+dB6LrowPqX7F17yfoPOXUNAqH8
-   /mrDOkCoIhULKe0n7ZXZqHTI6t1x9k1jbJKDtn+a1D8TkO/qpFFjtrJAk
-   Lk3g1b1Xueb8itKApzLipPakWqLYTMviaSLun1cXdkfNlhVPRPcdrme8d
-   wJ6P+faSQmwQSphWQkPdMFPAgYd7t4+t8slsRR/hvS+5B3KVayKuNSNNm
-   A==;
-X-CSE-ConnectionGUID: 2SRJOVykR9+XqDQLGI533Q==
-X-CSE-MsgGUID: Y+kw4HZLSGySJf2epBy/ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="78138083"
+  t=1774495797; x=1806031797;
+  h=date:from:to:cc:subject:message-id;
+  bh=US73AgaIWdPJ+40qQEYjME1EUy2ULO9Wf4q6tLA1se4=;
+  b=HpqivTXKuaurESmhyJCFji3SVrZSkMnTwEtE3ZJjDKV8UKYDUdl0T18l
+   C6/rUMkCyr+xyK4+OCeJPGCsSiVbcpCcSm1GrL/7RlfEqlZOZbVpf13ID
+   lXQQ/js+G0Ybu1iel0jd1YjAsqT+G6g7G/qhOxfrlcpUrTW27nbfS4pgT
+   V3/fmRITZxxdfA2HKk/wvEKODGVOXhdUOGhO11a53SDJPCUMJdLpIxkSb
+   J5PVOKL+sqM/iosBrMztaiIiHoKImCcjwuXCOLCEtNVYOB6eM+IRlpSJg
+   ednUmlzh1v6svy7RUHngBFCElR5+P6fnudfaSo/JNj9iUgWFXosadRJvu
+   w==;
+X-CSE-ConnectionGUID: OS7197ztRvmdzNRGkVAgjw==
+X-CSE-MsgGUID: tE0XGLTMQgattb6Sp9VAEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75659882"
 X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="78138083"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 19:05:37 -0700
-X-CSE-ConnectionGUID: /xZ07Z0mQ4WzSoXsDd0raQ==
-X-CSE-MsgGUID: fA3ZQes7QtaMxTLSJQx7Iw==
+   d="scan'208";a="75659882"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 20:29:56 -0700
+X-CSE-ConnectionGUID: H0p7yehMQWaxUK/Bfc66OA==
+X-CSE-MsgGUID: +YbPccZuQamsv+EOR3dDEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="221542670"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Mar 2026 19:05:37 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="224898228"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 25 Mar 2026 20:29:55 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5a6J-000000007Cv-0Vxb
-	for oe-kbuild@lists.linux.dev;
-	Thu, 26 Mar 2026 02:05:35 +0000
-Date: Thu, 26 Mar 2026 03:04:59 +0100
+	id 1w5bPs-0000000084J-2xPq;
+	Thu, 26 Mar 2026 03:29:52 +0000
+Date: Thu, 26 Mar 2026 11:29:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v15 bpf-next 2/9] libbpf: Support layout section handling
- in BTF
-Message-ID: <202603260354.b3sBunXo-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/pinctrl/uniphier/pinctrl-uniphier-core.o: error:
+ objtool: uniphier_pctl_pin_dbg_show+0xd8: can't find jump dest instruction at
+ .text.uniphier_pctl_pin_dbg_show+0x164
+Message-ID: <202603261149.IqJxHMOs-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260324174450.1570809-3-alan.maguire@oracle.com>
-References: <20260324174450.1570809-3-alan.maguire@oracle.com>
-TO: Alan Maguire <alan.maguire@oracle.com>
-TO: andrii@kernel.org
-TO: ast@kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
-Hi Alan,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0138af2472dfdef0d56fc4697416eaa0ff2589bd
+commit: 1fd1dc41724319406b0aff221a352a400b0ddfc5 objtool: Fix ERROR_INSN() error message
+date:   3 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 3 weeks ago
+config: powerpc-randconfig-r073-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261149.IqJxHMOs-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.3.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261149.IqJxHMOs-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202603261149.IqJxHMOs-lkp@intel.com/
 
-[auto build test WARNING on bpf-next/master]
+All errors (new ones prefixed by >>):
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alan-Maguire/btf-Add-BTF-kind-layout-encoding-to-UAPI/20260325-201854
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260324174450.1570809-3-alan.maguire%40oracle.com
-patch subject: [PATCH v15 bpf-next 2/9] libbpf: Support layout section handling in BTF
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260326/202603260354.b3sBunXo-lkp@intel.com/reproduce)
-
-# many are suggestions rather than must-fix
-
-WARNING:MINMAX: min() should probably be min_t(size_t, hdr_len, sizeof(struct btf_header))
-#192: FILE: tools/lib/bpf/btf.c:290:
-+	memcpy(&btf->hdr, hdr, min((size_t)hdr_len, sizeof(struct btf_header)));
-
-WARNING:MINMAX: min() should probably be min_t(__u32, sizeof(struct btf_header), hdr->hdr_len)
-#419: FILE: tools/lib/bpf/btf.c:1712:
-+	memcpy(p, hdr, min((__u32)sizeof(struct btf_header), hdr->hdr_len));
+>> drivers/pinctrl/uniphier/pinctrl-uniphier-core.o: error: objtool: uniphier_pctl_pin_dbg_show+0xd8: can't find jump dest instruction at .text.uniphier_pctl_pin_dbg_show+0x164
 
 -- 
 0-DAY CI Kernel Test Service
