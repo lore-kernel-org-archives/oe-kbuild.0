@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3431F38F930
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 11:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D2033ADB0
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 12:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774524263; cv=none; b=QIGFVyrPcSSFsLRjVk3nrRpNyUqVirprK2a2PyGDuFVp+KA1wx0xIoZ14WXte2E66AR0ElhMSomH0apzMvEqFSHgEgLJvCRDeBsDuxNn7mHSMMPfPE2PzLx8dX10yAesdZPBOfBkbAOqTLePF4rHezDjaLBrehE9Vg2SQP2xL60=
+	t=1774526911; cv=none; b=uTSqlXzP8bm/w0Ecy3ok68m5PB6iWOaSaTWq4MLmMfzC+zNf8PfU0Siq03SWtNyECskMuSfyZcHliiSwPd4bieQTswFjm8MX0PsqouMHhGCisiDdKLIdtxy6BaBk/vV5Rp7dNSl9GozkOjWSBnRGHMo6KjMJXKJeNNtG2nHjJcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774524263; c=relaxed/simple;
-	bh=OMxCbt/Ams0vAutv80Zct6fevpIihNou4B1W0rcDFGY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OIuf5/jH+9LisdZQrklz4RTu9v1NCiXDAo+2lHVXtzEPjysbHl+EbblQnfr/Tr2fjut9rJG0Ed/yI1gjGIredZLUT7ts5woZfE6W+S3G5M8tDuE7rWVRDetuoFpPuyieZtoq9OsJXIp3/tjqdC/XQ3cK5Scyp3wjmXZW+4B+KZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VN3bPYFb; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1774526911; c=relaxed/simple;
+	bh=EJ3PnYrmj1f8o1j+YEHp1ejHg19GNiCsj3gR3SpLRyw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rXPqHhrwULZis029LjYUKZmzMZlZ9XO7UyIiONnEoeN1vSIIKFwsrOuDYC0HT++QxdgYQZJwgjX/h/CvkyPColwBwQa8aptnW7Xsn5GZq8AZndtvc8Ge5EORZAY+QSc7ijANXDLvnMC1vcaEe7svBacGoyZQseernoXn7jMBBXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hvJbeT7K; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VN3bPYFb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hvJbeT7K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774524262; x=1806060262;
+  t=1774526907; x=1806062907;
   h=date:from:to:cc:subject:message-id;
-  bh=OMxCbt/Ams0vAutv80Zct6fevpIihNou4B1W0rcDFGY=;
-  b=VN3bPYFbrWQ0usqLv1mGxoj9I/V9Gbj2+cPWd03Ze4wDRH3NLzY5KveE
-   zz/f4gsOYrC0sEohgszwIWXGow7SR+XW1EEd4u/AdytTOCrl+R1CDhi1W
-   V/mWC7EGA895OMaInIUkQV2rMMlfLCKfu5U5/0em720WY1UNZVF6MygqB
-   UWRIFQHEngn0ZptLEy4If7mbhRkbf+phcspioNEieR2STjAuOnm6rjmoZ
-   OSLjYabXuWBPQHXQoMPRjiAr3/zjLjm1uAUzhs3H0BCgfLIvD+LxzMNBs
-   NQuNkc4JUD9gOsQXp4Kfju7bS2zFes2yMNCPxDPaU4ejWDvC3RtNJ8jcz
-   Q==;
-X-CSE-ConnectionGUID: QpQVYGUtSOm27CQHKfQOfg==
-X-CSE-MsgGUID: g2hXTV+uTnuEXo7m3tAWng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86657319"
+  bh=EJ3PnYrmj1f8o1j+YEHp1ejHg19GNiCsj3gR3SpLRyw=;
+  b=hvJbeT7Kyp4UmVc2oieibsk1Mkc7HSNW3JB/vLlmWQGI8PrLIiP5daXF
+   6catP94jKzEDF7JN590NN+rOXRe6Agp8Sbmh8RZs3ohKq+RYrfzSJGWXr
+   gyZH78On+vSCRJhjzbm9dIV/f4bIwkOF9e8gB8qwGtcSK4rtaLhUgsxPp
+   7Ys+Ro5AW56Z2+1+sLiY5uXVtBCP3XBYr52WML139Wnt6B3nqp7tebnlA
+   xV++99HMceOcPy0AAHu5aSw76QHN+Ayyh4CZVCi3It8X6Oj1J+Eqw53Gc
+   lh6PniIpNhxfVAoTQAAihqG55gQWH3h1nIN+vsS3bGvCTr1a/0/4y15on
+   g==;
+X-CSE-ConnectionGUID: jfF24ad8Q5uGLkuN6MDRXA==
+X-CSE-MsgGUID: VmvN6mvkR3CBmXrr7rGZcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="92963627"
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="86657319"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 04:24:21 -0700
-X-CSE-ConnectionGUID: i2JHu22wS2CRoa2LY3jgjA==
-X-CSE-MsgGUID: V3GYV2etTbK7u1clT09oyQ==
+   d="scan'208";a="92963627"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 05:08:26 -0700
+X-CSE-ConnectionGUID: uGSkW+hYQSictkv7sv/Cjg==
+X-CSE-MsgGUID: fvXTpgEiQR+5zYSDgJI18w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="226618790"
+   d="scan'208";a="255484740"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2026 04:24:20 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Mar 2026 05:08:24 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5ip0-000000008nJ-066k;
-	Thu, 26 Mar 2026 11:24:18 +0000
-Date: Thu, 26 Mar 2026 19:24:10 +0800
+	id 1w5jVd-000000008pf-2dXB;
+	Thu, 26 Mar 2026 12:08:21 +0000
+Date: Thu, 26 Mar 2026 20:08:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe:rw_iter 496/525] drivers/acpi/proc.c:100
- acpi_system_write_wakeup_device() warn: potential spectre issue 'strbuf' [w]
-Message-ID: <202603261940.bDKprUrW-lkp@intel.com>
+Subject: sound/soc/renesas/rcar/adg.c:431 rsnd_adg_clk_control()
+ warn: 'adg->adg' from clk_prepare_enable() not released on lines: 431.
+Message-ID: <202603261906.JNHLbEKn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,71 +61,93 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+CC: linux-kernel@vger.kernel.org
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   d5f290ca006c2bdabff8aa383fd3cf9cf9194259
-commit: 231ea82faf415697c02c65ecb06a61d77a0953be [496/525] ACPI: convert proc_write to ->proc_write_iter()
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: x86_64-randconfig-161-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261940.bDKprUrW-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0138af2472dfdef0d56fc4697416eaa0ff2589bd
+commit: 0cc88846cbfb3018c036a20390acb1e35de03e1d ASoC: renesas: rsnd: enable to use "adg" clock
+date:   11 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 11 months ago
+config: powerpc64-randconfig-r071-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261906.JNHLbEKn-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603261940.bDKprUrW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603261906.JNHLbEKn-lkp@intel.com/
 
-smatch warnings:
-drivers/acpi/proc.c:100 acpi_system_write_wakeup_device() warn: potential spectre issue 'strbuf' [w]
+New smatch warnings:
+sound/soc/renesas/rcar/adg.c:431 rsnd_adg_clk_control() warn: 'adg->adg' from clk_prepare_enable() not released on lines: 431.
 
-vim +/strbuf +100 drivers/acpi/proc.c
+Old smatch warnings:
+sound/soc/renesas/rcar/adg.c:444 rsnd_adg_create_null_clk() warn: passing zero to 'ERR_CAST'
 
-76acae04c89228 drivers/acpi/sleep/proc.c Rafael J. Wysocki 2008-10-03   86  
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   87  static ssize_t
-231ea82faf4156 drivers/acpi/proc.c       Jens Axboe        2026-03-18   88  acpi_system_write_wakeup_device(struct kiocb *iocb, struct iov_iter *from)
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   89  {
-07761a4cd43c1d drivers/acpi/proc.c       chenqiwu          2020-02-23   90  	struct acpi_device *dev, *tmp;
-231ea82faf4156 drivers/acpi/proc.c       Jens Axboe        2026-03-18   91  	size_t count = iov_iter_count(from);
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   92  	char strbuf[5];
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   93  	char str[5] = "";
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   94  
-05bce79e6d24ee drivers/acpi/proc.c       Cyril Roelandt    2012-11-22   95  	if (count > 4)
-05bce79e6d24ee drivers/acpi/proc.c       Cyril Roelandt    2012-11-22   96  		count = 4;
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   97  
-231ea82faf4156 drivers/acpi/proc.c       Jens Axboe        2026-03-18   98  	if (!copy_from_iter_full(strbuf, count, from))
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   99  		return -EFAULT;
-05bce79e6d24ee drivers/acpi/proc.c       Cyril Roelandt    2012-11-22 @100  	strbuf[count] = '\0';
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  101  	sscanf(strbuf, "%s", str);
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  102  
-9090589d87506c drivers/acpi/proc.c       Shaohua Li        2009-04-07  103  	mutex_lock(&acpi_device_lock);
-07761a4cd43c1d drivers/acpi/proc.c       chenqiwu          2020-02-23  104  	list_for_each_entry_safe(dev, tmp, &acpi_wakeup_device_list,
-07761a4cd43c1d drivers/acpi/proc.c       chenqiwu          2020-02-23  105  				 wakeup_list) {
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  106  		if (!dev->wakeup.flags.valid)
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  107  			continue;
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  108  
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  109  		if (!strncmp(dev->pnp.bus_id, str, 4)) {
-f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  110  			if (device_can_wakeup(&dev->dev)) {
-f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  111  				bool enable = !device_may_wakeup(&dev->dev);
-f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  112  				device_set_wakeup_enable(&dev->dev, enable);
-f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  113  			} else {
-76acae04c89228 drivers/acpi/sleep/proc.c Rafael J. Wysocki 2008-10-03  114  				physical_device_enable_wakeup(dev);
-f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  115  			}
-b014f4f1aad3f2 drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  116  			break;
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  117  		}
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  118  	}
-9090589d87506c drivers/acpi/proc.c       Shaohua Li        2009-04-07  119  	mutex_unlock(&acpi_device_lock);
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  120  	return count;
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  121  }
-^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  122  
+vim +431 sound/soc/renesas/rcar/adg.c
 
-:::::: The code at line 100 was first introduced by commit
-:::::: 05bce79e6d24ee6eb2beddf0f6314358404d472f ACPI: drop unnecessary local variable from acpi_system_write_wakeup_device()
+dfc9403b7c1f56 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2013-07-21  381  
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  382  int rsnd_adg_clk_control(struct rsnd_priv *priv, int enable)
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  383  {
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  384  	struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  385  	struct rsnd_mod *adg_mod = rsnd_mod_get(adg);
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  386  	struct clk *clk;
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  387  	int ret = 0, i;
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  388  
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  389  	if (enable) {
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  390  		ret = clk_prepare_enable(adg->adg);
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  391  		if (ret < 0)
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  392  			return ret;
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  393  
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  394  		rsnd_mod_bset(adg_mod, BRGCKR, 0x80770000, adg->ckr);
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  395  		rsnd_mod_write(adg_mod, BRRA,  adg->brga);
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  396  		rsnd_mod_write(adg_mod, BRRB,  adg->brgb);
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  397  	}
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  398  
+4bbff16d26e83a sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-02-01  399  	for_each_rsnd_clkin(clk, adg, i) {
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  400  		if (enable) {
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  401  			ret = clk_prepare_enable(clk);
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  402  
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  403  			/*
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  404  			 * We shouldn't use clk_get_rate() under
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  405  			 * atomic context. Let's keep it when
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  406  			 * rsnd_adg_clk_enable() was called
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  407  			 */
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  408  			if (ret < 0)
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  409  				break;
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  410  
+4bbff16d26e83a sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-02-01  411  			adg->clkin_rate[i] = clk_get_rate(clk);
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  412  		} else {
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  413  			if (adg->clkin_rate[i])
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  414  				clk_disable_unprepare(clk);
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  415  
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  416  			adg->clkin_rate[i] = 0;
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  417  		}
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  418  	}
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  419  
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  420  	/*
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  421  	 * rsnd_adg_clk_enable() might return error (_disable() will not).
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  422  	 * We need to rollback in such case
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  423  	 */
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  424  	if (ret < 0)
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  425  		rsnd_adg_clk_disable(priv);
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  426  
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  427  	/* disable adg */
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  428  	if (!enable)
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  429  		clk_disable_unprepare(adg->adg);
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  430  
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09 @431  	return ret;
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  432  }
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  433  
 
-:::::: TO: Cyril Roelandt <tipecaml@gmail.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: The code at line 431 was first introduced by commit
+:::::: 139fa599cea0fd9d38e00246ea9f79af6c59acbd ASoC: rsnd: check rsnd_adg_clk_enable() return value
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
