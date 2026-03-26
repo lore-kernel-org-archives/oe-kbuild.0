@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC37348860
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 09:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3431F38F930
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 11:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774517839; cv=none; b=KcQdI8nysl7LVzaNIhPiDuwkYitilo2zTPUouetT2ZY6nQ0+f0cv6v3IMBnXkXLm6AkLq8IOgsM28thVS4kYcTbCNBxRnrnhgm3tsX8gR4TtHCh7eLUftYLApVREWB9QteYXSCU1sr7bRm25C2Me8vZfhCm+Ip+l8LNGsFDbQlY=
+	t=1774524263; cv=none; b=QIGFVyrPcSSFsLRjVk3nrRpNyUqVirprK2a2PyGDuFVp+KA1wx0xIoZ14WXte2E66AR0ElhMSomH0apzMvEqFSHgEgLJvCRDeBsDuxNn7mHSMMPfPE2PzLx8dX10yAesdZPBOfBkbAOqTLePF4rHezDjaLBrehE9Vg2SQP2xL60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774517839; c=relaxed/simple;
-	bh=mcZT0/uOL7VmqDzwttISaIzbOvcP/kIQQXxg9sxoO6E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=b6c6b8Iu+YiGo4zUGxrhRhvwCovH4mNf5/2+mUe2mTzkVH8IYGmMeiqEyiGFfta3wiXd4cSW10RMvWGsmYLpdrb7cgxWDQWUAwokTzqzwYG6khp13DD3xfb7obkLg2OCNZIXBpZpYTuHD799Qg61WmPSBfGCNbUsAVC/BO0c+PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8qrHRrk; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1774524263; c=relaxed/simple;
+	bh=OMxCbt/Ams0vAutv80Zct6fevpIihNou4B1W0rcDFGY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OIuf5/jH+9LisdZQrklz4RTu9v1NCiXDAo+2lHVXtzEPjysbHl+EbblQnfr/Tr2fjut9rJG0Ed/yI1gjGIredZLUT7ts5woZfE6W+S3G5M8tDuE7rWVRDetuoFpPuyieZtoq9OsJXIp3/tjqdC/XQ3cK5Scyp3wjmXZW+4B+KZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VN3bPYFb; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8qrHRrk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VN3bPYFb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774517838; x=1806053838;
+  t=1774524262; x=1806060262;
   h=date:from:to:cc:subject:message-id;
-  bh=mcZT0/uOL7VmqDzwttISaIzbOvcP/kIQQXxg9sxoO6E=;
-  b=X8qrHRrkd64JNBZZ7lAP3XdB7AzeIJHm4n9XfGF9C9pxJJibwEIObk5h
-   NUKWhXEDNuKONZflHDtO/BaS8I0nQqhoILkKw61mSSnEu3LF4FEQz6IDD
-   /bcngt89VILPan9byjD+L+g+FvNx7B3rZxr9BBW5VHbHA/XrTFLuJlQON
-   2aIV5WQ3bX0EBNlsQIlVcyaPMPIFX0goUG6Yow9rFazZNb8//teoWbCFO
-   jEKHoIRFfUGNE1BZ+FI/6esngHwzfM7YH48EYkctGyjxRfapNk/5s4kev
-   mkJbP4bl20gyTWphrHb5a/sm3XGylArJ1VkUD98JkmZqHh+wvwwcUEjfX
+  bh=OMxCbt/Ams0vAutv80Zct6fevpIihNou4B1W0rcDFGY=;
+  b=VN3bPYFbrWQ0usqLv1mGxoj9I/V9Gbj2+cPWd03Ze4wDRH3NLzY5KveE
+   zz/f4gsOYrC0sEohgszwIWXGow7SR+XW1EEd4u/AdytTOCrl+R1CDhi1W
+   V/mWC7EGA895OMaInIUkQV2rMMlfLCKfu5U5/0em720WY1UNZVF6MygqB
+   UWRIFQHEngn0ZptLEy4If7mbhRkbf+phcspioNEieR2STjAuOnm6rjmoZ
+   OSLjYabXuWBPQHXQoMPRjiAr3/zjLjm1uAUzhs3H0BCgfLIvD+LxzMNBs
+   NQuNkc4JUD9gOsQXp4Kfju7bS2zFes2yMNCPxDPaU4ejWDvC3RtNJ8jcz
    Q==;
-X-CSE-ConnectionGUID: t1gJ0NSbSn6mN5pqsJMhrw==
-X-CSE-MsgGUID: 0t5A43W0Q6uIZPSeymwtYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="78166272"
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="78166272"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 02:37:17 -0700
-X-CSE-ConnectionGUID: SrJ9FEnwRjCjvW7obfsVPA==
-X-CSE-MsgGUID: ok6m5x85SiCm3T4VK7LKqA==
+X-CSE-ConnectionGUID: QpQVYGUtSOm27CQHKfQOfg==
+X-CSE-MsgGUID: g2hXTV+uTnuEXo7m3tAWng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86657319"
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="86657319"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 04:24:21 -0700
+X-CSE-ConnectionGUID: i2JHu22wS2CRoa2LY3jgjA==
+X-CSE-MsgGUID: V3GYV2etTbK7u1clT09oyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="229721608"
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="226618790"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Mar 2026 02:37:15 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2026 04:24:20 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5h9N-000000008jF-0PnN;
-	Thu, 26 Mar 2026 09:37:13 +0000
-Date: Thu, 26 Mar 2026 17:36:20 +0800
+	id 1w5ip0-000000008nJ-066k;
+	Thu, 26 Mar 2026 11:24:18 +0000
+Date: Thu, 26 Mar 2026 19:24:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe:rw_iter 492/525] kernel/sched/psi.c:1556 psi_write()
- warn: potential spectre issue 'buf' [w]
-Message-ID: <202603261744.GyycPJWm-lkp@intel.com>
+Subject: [axboe:rw_iter 496/525] drivers/acpi/proc.c:100
+ acpi_system_write_wakeup_device() warn: potential spectre issue 'strbuf' [w]
+Message-ID: <202603261940.bDKprUrW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,75 +65,67 @@ TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
 head:   d5f290ca006c2bdabff8aa383fd3cf9cf9194259
-commit: d7ac12f1381ba682dc4eff47d1716229d6cd5606 [492/525] sched/psi: convert proc_write to ->proc_write_iter()
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: sparc-randconfig-r072-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261744.GyycPJWm-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.5.0
+commit: 231ea82faf415697c02c65ecb06a61d77a0953be [496/525] ACPI: convert proc_write to ->proc_write_iter()
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: x86_64-randconfig-161-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261940.bDKprUrW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603261744.GyycPJWm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603261940.bDKprUrW-lkp@intel.com/
 
 smatch warnings:
-kernel/sched/psi.c:1556 psi_write() warn: potential spectre issue 'buf' [w]
+drivers/acpi/proc.c:100 acpi_system_write_wakeup_device() warn: potential spectre issue 'strbuf' [w]
 
-vim +/buf +1556 kernel/sched/psi.c
+vim +/strbuf +100 drivers/acpi/proc.c
 
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1536  
-d7ac12f1381ba6 Jens Axboe         2026-03-18  1537  static ssize_t psi_write(struct kiocb *iocb, struct iov_iter *from,
-d7ac12f1381ba6 Jens Axboe         2026-03-18  1538  			 enum psi_res res)
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1539  {
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1540  	char buf[32];
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1541  	size_t buf_size;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1542  	struct seq_file *seq;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1543  	struct psi_trigger *new;
-d7ac12f1381ba6 Jens Axboe         2026-03-18  1544  	size_t nbytes = iov_iter_count(from);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1545  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1546  	if (static_branch_likely(&psi_disabled))
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1547  		return -EOPNOTSUPP;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1548  
-6fcca0fa48118e Suren Baghdasaryan 2020-02-03  1549  	if (!nbytes)
-6fcca0fa48118e Suren Baghdasaryan 2020-02-03  1550  		return -EINVAL;
-6fcca0fa48118e Suren Baghdasaryan 2020-02-03  1551  
-4adcdcea717cb2 Miles Chen         2019-09-12  1552  	buf_size = min(nbytes, sizeof(buf));
-d7ac12f1381ba6 Jens Axboe         2026-03-18  1553  	if (!copy_from_iter_full(buf, buf_size, from))
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1554  		return -EFAULT;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1555  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14 @1556  	buf[buf_size - 1] = '\0';
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1557  
-d7ac12f1381ba6 Jens Axboe         2026-03-18  1558  	seq = iocb->ki_filp->private_data;
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1559  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1560  	/* Take seq->lock to protect seq->private from concurrent writes */
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1561  	mutex_lock(&seq->lock);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1562  
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1563  	/* Allow only one trigger per file descriptor */
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1564  	if (seq->private) {
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1565  		mutex_unlock(&seq->lock);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1566  		return -EBUSY;
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1567  	}
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1568  
-d7ac12f1381ba6 Jens Axboe         2026-03-18  1569  	new = psi_trigger_create(&psi_system, buf, res, iocb->ki_filp, NULL);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1570  	if (IS_ERR(new)) {
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1571  		mutex_unlock(&seq->lock);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1572  		return PTR_ERR(new);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1573  	}
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1574  
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1575  	smp_store_release(&seq->private, new);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1576  	mutex_unlock(&seq->lock);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1577  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1578  	return nbytes;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1579  }
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1580  
+76acae04c89228 drivers/acpi/sleep/proc.c Rafael J. Wysocki 2008-10-03   86  
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   87  static ssize_t
+231ea82faf4156 drivers/acpi/proc.c       Jens Axboe        2026-03-18   88  acpi_system_write_wakeup_device(struct kiocb *iocb, struct iov_iter *from)
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   89  {
+07761a4cd43c1d drivers/acpi/proc.c       chenqiwu          2020-02-23   90  	struct acpi_device *dev, *tmp;
+231ea82faf4156 drivers/acpi/proc.c       Jens Axboe        2026-03-18   91  	size_t count = iov_iter_count(from);
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   92  	char strbuf[5];
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   93  	char str[5] = "";
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   94  
+05bce79e6d24ee drivers/acpi/proc.c       Cyril Roelandt    2012-11-22   95  	if (count > 4)
+05bce79e6d24ee drivers/acpi/proc.c       Cyril Roelandt    2012-11-22   96  		count = 4;
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   97  
+231ea82faf4156 drivers/acpi/proc.c       Jens Axboe        2026-03-18   98  	if (!copy_from_iter_full(strbuf, count, from))
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16   99  		return -EFAULT;
+05bce79e6d24ee drivers/acpi/proc.c       Cyril Roelandt    2012-11-22 @100  	strbuf[count] = '\0';
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  101  	sscanf(strbuf, "%s", str);
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  102  
+9090589d87506c drivers/acpi/proc.c       Shaohua Li        2009-04-07  103  	mutex_lock(&acpi_device_lock);
+07761a4cd43c1d drivers/acpi/proc.c       chenqiwu          2020-02-23  104  	list_for_each_entry_safe(dev, tmp, &acpi_wakeup_device_list,
+07761a4cd43c1d drivers/acpi/proc.c       chenqiwu          2020-02-23  105  				 wakeup_list) {
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  106  		if (!dev->wakeup.flags.valid)
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  107  			continue;
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  108  
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  109  		if (!strncmp(dev->pnp.bus_id, str, 4)) {
+f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  110  			if (device_can_wakeup(&dev->dev)) {
+f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  111  				bool enable = !device_may_wakeup(&dev->dev);
+f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  112  				device_set_wakeup_enable(&dev->dev, enable);
+f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  113  			} else {
+76acae04c89228 drivers/acpi/sleep/proc.c Rafael J. Wysocki 2008-10-03  114  				physical_device_enable_wakeup(dev);
+f2b56bc808addb drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  115  			}
+b014f4f1aad3f2 drivers/acpi/proc.c       Rafael J. Wysocki 2011-01-06  116  			break;
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  117  		}
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  118  	}
+9090589d87506c drivers/acpi/proc.c       Shaohua Li        2009-04-07  119  	mutex_unlock(&acpi_device_lock);
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  120  	return count;
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  121  }
+^1da177e4c3f41 drivers/acpi/sleep/proc.c Linus Torvalds    2005-04-16  122  
 
-:::::: The code at line 1556 was first introduced by commit
-:::::: 0e94682b73bfa6c44c98af7a26771c9c08c055d5 psi: introduce psi monitor
+:::::: The code at line 100 was first introduced by commit
+:::::: 05bce79e6d24ee6eb2beddf0f6314358404d472f ACPI: drop unnecessary local variable from acpi_system_write_wakeup_device()
 
-:::::: TO: Suren Baghdasaryan <surenb@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Cyril Roelandt <tipecaml@gmail.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
