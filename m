@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC8033BBBD
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 14:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD69D3A873C
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Mar 2026 16:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774535676; cv=none; b=hgVfk1wPhvRAUnJKSseM2fXlrWL4A2HnBK3JuuhOb7bEivmZNkMcq2Ba7Njl8K0pCW2w7vQVXKCFmCOK/dqWsY/U9ZlCUHGO7AGKLS1EtsvPg/UCSWAmm8h6ZtQ2pmcC2duRNP3jmBSKMve2UewLa+Za3k+JClFMu4B5j+tkPHk=
+	t=1774541872; cv=none; b=dSr+JF3ogZa5KE0yIjN2pjRrr9ZcjOo2M9rwMtKQjB68GeCAMFv18/B7LN8KBo1iHvX+K5HNX3aMTtfpZSpJknTX1dtcltlrv3eGmE94tPtK0AV1P1ajN47sJvqTlYfGDcLMge11MEHp0393UrB2Llusn8ERiDs4b4mNU1gAyTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774535676; c=relaxed/simple;
-	bh=aYW5EXUt1q1BFq4O4EeNn8CeQHjqDOfcV6Lk++YTlmY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZPbh3PBMAYsTwmSTEGLp5HJZr83lg7fHe89FcyMrUZInw8BBcEHDYEM6LY/N+5fKrUpHvPEuiG6PClRzhZHdKqGB8iS9eoyPnAsMEvGuPWxQ+Kiu1P3LtOsBhH7CwvoR3qy7bRrcGEDokEfvF2ctwwV0C0WR9fDMCWaLc1INpKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CtHi3wsA; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1774541872; c=relaxed/simple;
+	bh=QBrsfWkKWmxj1NBXqbU/IpOLvZEzMMj0sVfH4cfkvQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cdC+o7/vhGxOJFVoR47HjwqosG0kp/JpskRxJjmUTMhGlvvIuCoiRn5dGGpjC8alzEFyS6amtzW5Bg7usy3uiwUEMABIUOTK8yDLXF0TjysRf6JDztpxdRSfGvQxR/J8uWuoKTMW0ZfI/Nu/JLr080+kJxvQTmTFgPB2bAWwTgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfuiro3t; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CtHi3wsA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfuiro3t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774535673; x=1806071673;
+  t=1774541867; x=1806077867;
   h=date:from:to:cc:subject:message-id;
-  bh=aYW5EXUt1q1BFq4O4EeNn8CeQHjqDOfcV6Lk++YTlmY=;
-  b=CtHi3wsAmEMbQwbxyw5GMOEX8hyvJysrQzKl4xdCv6jVm9B8Pq2ziXi5
-   ascx++AYWkbwudrBxRZ98Hj7AKVhECXVYD0cLmsf3J/oXM1k52/Ivk8LA
-   ZzW/hXxQY9EEuvrsatn2DKpjfqHg9GDciWTeZYnF7kGpDMQBxU02DQr5G
-   BrvIJ9Y1y/GqiHBsi371fIucVKHKCN1UkmCKU7M6OT7Gj2Bx+q9DB8L9O
-   7xeSpZQCLEAIDnDd050ltLZtm6ezl9M8ztrbWpbGGmWfatOGx2nq6wgru
-   ZckX9qitQ9wasnDHxPphGTXv88dJkumn68bplK++q7U4yptQ6305k3oHO
-   g==;
-X-CSE-ConnectionGUID: XBLmpFoRSUKz4OaArEZVog==
-X-CSE-MsgGUID: 1aEkIbX/R56j1nY+FC9t5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="92978658"
+  bh=QBrsfWkKWmxj1NBXqbU/IpOLvZEzMMj0sVfH4cfkvQQ=;
+  b=jfuiro3tZt4ZM9O8s/BLHwsSdO9dON2HRyrjpYpQWzwACLcEH/zee/s4
+   8KuVftlXayoLrfSNX/WUcBLTwC1LM6iuqkOBst+p4efYMyJm8eIgYkDox
+   Uli8dGEqVLnTbXmcNM7EWyOVALn9DB3owHuKQTMuiQ13T1zkYFM2XnfGl
+   NhPfgsvUG8UlxsgI/GcrGDn0G1+c5Ec+Ngo/gUw7HQGpvuId6KsWESl0n
+   1yV1N0ntyO/8WMXf3q20K/O4Y3ks961/0uTPR+6koBEU/1awlCj2fjbHc
+   mDDkySEtsUlJ4GWRyUWik8zc9YqkGVwnvkSEk4ELDzf5pK6AWnzlXqI7o
+   w==;
+X-CSE-ConnectionGUID: JtwHMUN7T3eZ4kqDOWoYfA==
+X-CSE-MsgGUID: fP+EB85jTWiOpAW94vyldw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="74634099"
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="92978658"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 07:34:32 -0700
-X-CSE-ConnectionGUID: JEFTxAzgR+y0MNdK4Mqdbg==
-X-CSE-MsgGUID: yk5QMZhvRlS54WfGpfbOUw==
+   d="scan'208";a="74634099"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 09:17:45 -0700
+X-CSE-ConnectionGUID: dLHemMIQQ167yxg4b3Oebg==
+X-CSE-MsgGUID: XpQfnOOsQvmz9AOAxL97dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="226654382"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2026 07:34:30 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="225305604"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 26 Mar 2026 09:17:44 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5ln1-000000008vh-3osH;
-	Thu, 26 Mar 2026 14:34:27 +0000
-Date: Thu, 26 Mar 2026 22:33:37 +0800
+	id 1w5nOv-000000007Jy-2nkU;
+	Thu, 26 Mar 2026 16:17:41 +0000
+Date: Thu, 26 Mar 2026 17:16:56 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6519/9273]
- drivers/net/ethernet/airoha/airoha_ppe.c:97 airoha_ppe_set_cpu_port() warn:
- subtract is higher precedence than shift
-Message-ID: <202603262225.ctC5Z0rj-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [rockchip:v7.1-armsoc/dts64 41/44]
+ arch/arm64/boot/dts/rockchip/rk3528-armsom-sige1.dtb: /soc/efuse@ffce0000:
+ failed to match any schema with compatible: ['rockchip,rk3528-otp']
+Message-ID: <202603261743.1sZZBWgh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,50 +60,47 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Simon Horman <horms@kernel.org>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+TO: Jonas Karlman <jonas@kwiboo.se>
+CC: Heiko Stuebner <heiko@sntech.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   66ba480978ce390e631e870b740a3406e3eb6b01
-commit: f44218cd5e6a3d98b137344b808ee154117ce765 [6519/9273] net: airoha: Reset PPE cpu port configuration in airoha_ppe_hw_init()
-:::::: branch date: 20 hours ago
-:::::: commit date: 6 days ago
-config: sparc-randconfig-r071-20260326 (https://download.01.org/0day-ci/archive/20260326/202603262225.ctC5Z0rj-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9004-gb810ac53
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v7.1-armsoc/dts64
+head:   6cb4ec63ba9a5831621cf951b7af55c67beeb97b
+commit: 8c2c73084bd10237a9bc8f1d5fd49fe3107e4562 [41/44] arm64: dts: rockchip: Enable OTP controller for RK3528
+:::::: branch date: 17 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-2051-20260325 (https://download.01.org/0day-ci/archive/20260326/202603261743.1sZZBWgh-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261743.1sZZBWgh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603262225.ctC5Z0rj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603261743.1sZZBWgh-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/airoha/airoha_ppe.c:97 airoha_ppe_set_cpu_port() warn: subtract is higher precedence than shift
-drivers/net/ethernet/airoha/airoha_ppe.c:97 airoha_ppe_set_cpu_port() warn: subtract is higher precedence than shift
-drivers/net/ethernet/airoha/airoha_ppe.c:97 airoha_ppe_set_cpu_port() warn: subtract is higher precedence than shift
-drivers/net/ethernet/airoha/airoha_ppe.c:97 airoha_ppe_set_cpu_port() warn: subtract is higher precedence than shift
-
-vim +97 drivers/net/ethernet/airoha/airoha_ppe.c
-
-00a7678310fe3d Lorenzo Bianconi 2025-02-28   87  
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   88  void airoha_ppe_set_cpu_port(struct airoha_gdm_port *port, u8 ppe_id)
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   89  {
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   90  	struct airoha_qdma *qdma = port->qdma;
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   91  	u8 fport = airoha_get_fe_port(port);
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   92  	struct airoha_eth *eth = qdma->eth;
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   93  	u8 qdma_id = qdma - &eth->qdma[0];
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   94  	u32 fe_cpu_port;
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   95  
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   96  	fe_cpu_port = qdma_id ? FE_PSE_PORT_CDM2 : FE_PSE_PORT_CDM1;
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17  @97  	airoha_fe_rmw(eth, REG_PPE_DFT_CPORT(ppe_id, fport),
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   98  		      DFT_CPORT_MASK(fport),
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17   99  		      __field_prep(DFT_CPORT_MASK(fport), fe_cpu_port));
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17  100  }
-f44218cd5e6a3d Lorenzo Bianconi 2026-03-17  101  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3528.dtsi:280.6-1276.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/rockchip/rk3528-armsom-sige1.dtb: /soc/efuse@ffce0000: failed to match any schema with compatible: ['rockchip,rk3528-otp']
+--
+   arch/arm64/boot/dts/rockchip/rk3528.dtsi:280.6-1276.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/rockchip/rk3528-nanopi-zero2.dtb: /soc/efuse@ffce0000: failed to match any schema with compatible: ['rockchip,rk3528-otp']
+--
+   arch/arm64/boot/dts/rockchip/rk3528.dtsi:280.6-1276.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/rockchip/rk3528-radxa-e20c.dtb: /soc/efuse@ffce0000: failed to match any schema with compatible: ['rockchip,rk3528-otp']
+--
+   arch/arm64/boot/dts/rockchip/rk3528.dtsi:280.6-1276.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/rockchip/rk3528-rock-2a.dtb: /soc/efuse@ffce0000: failed to match any schema with compatible: ['rockchip,rk3528-otp']
+--
+   arch/arm64/boot/dts/rockchip/rk3528.dtsi:280.6-1276.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/rockchip/rk3528-rock-2f.dtb: /soc/efuse@ffce0000: failed to match any schema with compatible: ['rockchip,rk3528-otp']
 
 -- 
 0-DAY CI Kernel Test Service
