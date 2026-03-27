@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BDE1A683B
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Mar 2026 21:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AF930594E
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Mar 2026 23:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774648800; cv=none; b=LncBlH+FUG/LZAsudGHb8ZmKC7FlEnZ+H8eoshRJgpgOM9v3rJTQtSC16p1rkJyaSLS2yp4C78CTYE7Kb77oeCb7gYS+vZgZHvwBUUZpq6Y//YTK0a7+07jr225nH6LCIgQuJ5ZJksWpT2/s3rNXJF+HyxJ/JLt01bYm3UV9qWQ=
+	t=1774654238; cv=none; b=iTo1W5bbnLLqBQXz7dPHQEoVj0lWibA7/shkH7H6hXNY7JHnbE6nt87nD0qMjDacC6ddeNSBYxemCEhOXwiHTigaxgDOy9zXce2XFDKrIvQ99SceN6OSkCYScGaulq9+TtVHL2m3QFBgpGsEKPD4Drcnbe8rgKmD8QwFPVjpPfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774648800; c=relaxed/simple;
-	bh=v4jcmf+vYzZtgXxYJFC1+P1QnKcRwv8nrcxf9sDoEOc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WK3iQL7WpxzoCKPrlVoMH7Jsgii7BSLS5ISV6tHccm6RjZVHH0bYGNltwAiO1Wkl+WJ6tjyUZgbuccXIVgOvzfV7vvOep/JL7i4RiQ3I8VVacIfoslpgpjCc3wxgnkXvDHa2i3pSy0zYoePex9l4suWjfFMlbtPEm/YwGMppm5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wk9l0V0Y; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1774654238; c=relaxed/simple;
+	bh=fCJhKcNVAa4fNKfvhXffM+YZUECKafTGdbL2k6Wg8kI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=b3lPNp7gH6cwDMPz7dq54z9FH6CZzaEU71LT/BbiVutph28SaEPwJ1BFFD2+tGr2r75wqSjzqiUpbgbxeKg8k646yKVgRiRrALFQY1ilXBnXtQ55D/o1va8NQqrfwh4etJo1mCXHInGgunVL8isEC56m9sDbUr/RXMXATHNGObk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYbtAS7B; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wk9l0V0Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYbtAS7B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774648798; x=1806184798;
+  t=1774654237; x=1806190237;
   h=date:from:to:cc:subject:message-id;
-  bh=v4jcmf+vYzZtgXxYJFC1+P1QnKcRwv8nrcxf9sDoEOc=;
-  b=Wk9l0V0Y6d9ZdJyLcZqRtW22au6KgDcWaWfRpmMAo1M/1JHzay/Y7bhx
-   X+C2NVZAjgDK3Av9WJgZB94Wqy9/FjkXhc+rqQ/TE4Z/jP9u7UdxxE8f+
-   TwEgymIUZBOXDv69wu3Y03nyuRTLhyx6+uaZ3c0WL6xkzM2Y27v0/kY+Y
-   w67Mh3eVu3JZ2AMV2+Kzddb5EwjlWCfurLGo83wo8cE/o0qe/T8FiMDZU
-   mP9MgOYQi03psDMuVNlnGiD9etvSb93XWZxdDeELuSGqSc7TbVf6UacS3
-   X0QvLbvz+VLeEXn7bUh91HV27ruEh7KKBrPVIIbtzDp52gaIRaMwddJu5
+  bh=fCJhKcNVAa4fNKfvhXffM+YZUECKafTGdbL2k6Wg8kI=;
+  b=JYbtAS7BsumQgb5GtWo0AMz+gFxeewg1wIIMGLbc69YExrDD1HH9ZaJe
+   NkvGrY12TawwuRnK2TEeUkScdGlIxuc6X1h2QXyZAkOk14wVN7B3iJu5i
+   KpKKs0Guj5IXJuWvPMwPU1OqvCPYleiw2pWYEuwUrdc3uKZmW7Umy7nab
+   PCtzaY590PsepzVRgv0n7BdVTAyobTXpa+KMCJN8lh+pKp7p4dwOjT3o2
+   jGE8cLznJaKDBJisMtuTlhF4iWBXn+MX8vdzcStInGxhx/AbgSF3bef5l
+   w4WtHVkrxI97bTSm6KoiWmH/0winISkaT0jp+XqrmeaF73BKxkeb3bMjh
    Q==;
-X-CSE-ConnectionGUID: rpnjACiLROSzciIxbtcb9g==
-X-CSE-MsgGUID: OJz8MoTqQBqK6dIg1QFSIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="78329715"
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="78329715"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 14:59:57 -0700
-X-CSE-ConnectionGUID: GlXpeI7kSfm2MCdXRl7y1g==
-X-CSE-MsgGUID: O6vDhZX6Rt+2CBqWuutfZg==
+X-CSE-ConnectionGUID: K5c3ja65Q66tsVfp89IzSQ==
+X-CSE-MsgGUID: ZlmzCY6qSo6h5ToO1mtIXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="63287590"
+X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
+   d="scan'208";a="63287590"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 16:30:36 -0700
+X-CSE-ConnectionGUID: j6Gb+3fDTXGuoRYYhJTJ3g==
+X-CSE-MsgGUID: 70YEpPIWQC+fGioODgw4Tw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="224473952"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 27 Mar 2026 14:59:56 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
+   d="scan'208";a="230235248"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Mar 2026 16:30:35 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6FDe-000000007YT-2jGN;
-	Fri, 27 Mar 2026 21:59:54 +0000
-Date: Fri, 27 Mar 2026 22:59:09 +0100
+	id 1w6GdM-00000000Asj-2UnE;
+	Fri, 27 Mar 2026 23:30:32 +0000
+Date: Sat, 28 Mar 2026 07:30:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [frank-li:imx/dt64 45/139]
- arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb:
- system-controller@4ac10000 (fsl,imx93-media-blk-ctrl): 'dpi-bridge' does not
- match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202603272235.EXXeHyl8-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/ext4/inode.c:4758 check_igot_inode() warn: missing unwind
+ goto?
+Message-ID: <202603280739.cx4SRYnV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,34 +59,77 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Wig Cheng <onlywig@gmail.com>
-CC: Frank Li <Frank.Li@nxp.com>
+CC: linux-kernel@vger.kernel.org
+TO: Jann Horn <jannh@google.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
+CC: Jan Kara <jack@suse.cz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git imx/dt64
-head:   825b8c7e1d2918d89eb378b761530d1e51dba82e
-commit: 3147e56028a4e7afff47ffd77e99178e7fe113f0 [45/139] arm64: dts: freescale: add pixpaper display overlay for i.MX93 FRDM
-:::::: branch date: 8 hours ago
-:::::: commit date: 2 weeks ago
-config: arm64-randconfig-2051-20260326 (https://download.01.org/0day-ci/archive/20260327/202603272235.EXXeHyl8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603272235.EXXeHyl8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   46b513250491a7bfc97d98791dbe6a10bcc8129d
+commit: 642335f3ea2b3fd6dba03e57e01fa9587843a497 ext4: don't treat fhandle lookup of ea_inode as FS corruption
+date:   12 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-141-20260322 (https://download.01.org/0day-ci/archive/20260328/202603280739.cx4SRYnV-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603272235.EXXeHyl8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603280739.cx4SRYnV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: system-controller@4ac10000 (fsl,imx93-media-blk-ctrl): 'dpi-bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx93-media-blk-ctrl.yaml
->> arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: /soc@0/system-controller@4ac10000/dpi-bridge: failed to match any schema with compatible: ['nxp,imx93-pdfc']
+New smatch warnings:
+fs/ext4/inode.c:4758 check_igot_inode() warn: missing unwind goto?
+
+Old smatch warnings:
+fs/ext4/inode.c:2469 mpage_prepare_extent_to_map() warn: missing error code 'err'
+
+vim +4758 fs/ext4/inode.c
+
+e254d1afac83fd Eryu Guan     2018-05-10  4734  
+642335f3ea2b3f Jann Horn     2024-11-29  4735  static int check_igot_inode(struct inode *inode, ext4_iget_flags flags,
+642335f3ea2b3f Jann Horn     2024-11-29  4736  			    const char *function, unsigned int line)
+b3e6bcb94590de Theodore Ts'o 2023-05-23  4737  {
+642335f3ea2b3f Jann Horn     2024-11-29  4738  	const char *err_str;
+642335f3ea2b3f Jann Horn     2024-11-29  4739  
+b3e6bcb94590de Theodore Ts'o 2023-05-23  4740  	if (flags & EXT4_IGET_EA_INODE) {
+642335f3ea2b3f Jann Horn     2024-11-29  4741  		if (!(EXT4_I(inode)->i_flags & EXT4_EA_INODE_FL)) {
+642335f3ea2b3f Jann Horn     2024-11-29  4742  			err_str = "missing EA_INODE flag";
+642335f3ea2b3f Jann Horn     2024-11-29  4743  			goto error;
+642335f3ea2b3f Jann Horn     2024-11-29  4744  		}
+2bc7e7c1a3bc9b Theodore Ts'o 2023-05-23  4745  		if (ext4_test_inode_state(inode, EXT4_STATE_XATTR) ||
+642335f3ea2b3f Jann Horn     2024-11-29  4746  		    EXT4_I(inode)->i_file_acl) {
+642335f3ea2b3f Jann Horn     2024-11-29  4747  			err_str = "ea_inode with extended attributes";
+642335f3ea2b3f Jann Horn     2024-11-29  4748  			goto error;
+642335f3ea2b3f Jann Horn     2024-11-29  4749  		}
+b3e6bcb94590de Theodore Ts'o 2023-05-23  4750  	} else {
+642335f3ea2b3f Jann Horn     2024-11-29  4751  		if ((EXT4_I(inode)->i_flags & EXT4_EA_INODE_FL)) {
+642335f3ea2b3f Jann Horn     2024-11-29  4752  			/*
+642335f3ea2b3f Jann Horn     2024-11-29  4753  			 * open_by_handle_at() could provide an old inode number
+642335f3ea2b3f Jann Horn     2024-11-29  4754  			 * that has since been reused for an ea_inode; this does
+642335f3ea2b3f Jann Horn     2024-11-29  4755  			 * not indicate filesystem corruption
+642335f3ea2b3f Jann Horn     2024-11-29  4756  			 */
+642335f3ea2b3f Jann Horn     2024-11-29  4757  			if (flags & EXT4_IGET_HANDLE)
+642335f3ea2b3f Jann Horn     2024-11-29 @4758  				return -ESTALE;
+642335f3ea2b3f Jann Horn     2024-11-29  4759  			err_str = "unexpected EA_INODE flag";
+642335f3ea2b3f Jann Horn     2024-11-29  4760  			goto error;
+b3e6bcb94590de Theodore Ts'o 2023-05-23  4761  		}
+642335f3ea2b3f Jann Horn     2024-11-29  4762  	}
+642335f3ea2b3f Jann Horn     2024-11-29  4763  	if (is_bad_inode(inode) && !(flags & EXT4_IGET_BAD)) {
+642335f3ea2b3f Jann Horn     2024-11-29  4764  		err_str = "unexpected bad inode w/o EXT4_IGET_BAD";
+642335f3ea2b3f Jann Horn     2024-11-29  4765  		goto error;
+642335f3ea2b3f Jann Horn     2024-11-29  4766  	}
+642335f3ea2b3f Jann Horn     2024-11-29  4767  	return 0;
+642335f3ea2b3f Jann Horn     2024-11-29  4768  
+642335f3ea2b3f Jann Horn     2024-11-29  4769  error:
+642335f3ea2b3f Jann Horn     2024-11-29  4770  	ext4_error_inode(inode, function, line, 0, err_str);
+642335f3ea2b3f Jann Horn     2024-11-29  4771  	return -EFSCORRUPTED;
+b3e6bcb94590de Theodore Ts'o 2023-05-23  4772  }
+b3e6bcb94590de Theodore Ts'o 2023-05-23  4773  
 
 -- 
 0-DAY CI Kernel Test Service
