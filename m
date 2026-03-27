@@ -1,194 +1,230 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1116279329
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Mar 2026 01:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4702347FDF
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Mar 2026 03:05:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774576317; cv=none; b=BLdG8pxqVfZTAzIAh0d57Qcg5T+HdCz9JRwkCAVPxgjHgBVjrqawny1ApZGwdcEMUonmKsyY8bLO4f+dwC4PYl4/bND8H27gUalOFMtgjec9yXxv+4QKlfd/NBgE16FgaFUaEY19EIaTzF6TYrwGzb+pBKl10Qbyy+qnE/Rs6D8=
+	t=1774580745; cv=none; b=eLftVDgI5dVQ2gqhj3mY4kOtnFJUhznAJqqlQu2l4gr27/8wwwI5QZOLVzxKKb+XeWvj/ABoOoqlKyJg05hZPE5R24MHBXQqvtGr9Q2tV/W0UiKnEKYSE1Mv8SJW8RPKZhm6pdxFt3sWUTM8o9cAd9HTNySnuiM0nNWtycn1eT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774576317; c=relaxed/simple;
-	bh=2NegYH4QBZCmtwDFHQK+uzaX5PBhxlvTQ8TkDvq01qk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gs+zjMBguPnJjGWP9TNQb8EMX7eAIz/UNdJpoJ6S+mHqsOCTs8eXXFjifHU4cGqMXyITb0q674e2KA86WNHw5GhjkvpjHLs5eBUjMxPpxdlrIntK15yHqdUfmaT91bIUj9KprTB39goPxymmc3FRsS8g7S7JGw6dfoIbavZEM6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRjObhlR; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1774580745; c=relaxed/simple;
+	bh=HZGzi38LzVUWgjEpX6bjCJi55IOxutbZ/dQU/7YnIsM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gl/uicCHnzxcx22kCkRjQP1wRl8BIr2XI1XqaS4a59a62hkVKuhL/y47Oxlm3gOlcwDkW8/tSOgpp093Mpe8NmxMdJcZmYL1kV/C+rn483SjFFIFQSNcUHxCkCUICJd2mUHAN6amM7/h03NcCtwgsTI09KEVQ6HnOPdnv3HSsg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djVIbQ0B; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRjObhlR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djVIbQ0B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774576315; x=1806112315;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2NegYH4QBZCmtwDFHQK+uzaX5PBhxlvTQ8TkDvq01qk=;
-  b=FRjObhlRDBZ/Pfsj0MmZqsOff1Tm/LhLPDDcFt8oS3qtEVGqcX11xoLV
-   Wl351o4szwHdPP0MwJkGFDE+FrI39gUNDF/HD+DCpbCzB9iFNmvm1lpu1
-   w6Ad9U/hRwB4S3srQEXrO0Sd8k+/Qp030cz+tph2vOldaqO0hwqDBQMcc
-   Jo+8iO9BaBRt1Ix2w/RpcBSR/ydsLhVU3mjYt9CosEGWa8Tuqr3yqhdaz
-   lrE7lpxADGjuOUI1FItGuaxeV+K4vicoOTTPAAUAUlIDd8CspVZUq0jw7
-   VM2x4epK/8OVSfdHvyUaBmYbB0yHplL5XZz+PhNNmAQf4cJHyawFTDvbV
+  t=1774580744; x=1806116744;
+  h=date:from:to:cc:subject:message-id;
+  bh=HZGzi38LzVUWgjEpX6bjCJi55IOxutbZ/dQU/7YnIsM=;
+  b=djVIbQ0B3aEiGMJBkXsQMckJVqXISjRToS2L+yy37y+dxK2CPQZuDwAI
+   54toMnNPO5q273DIAo/qtrAf6JefyBcBWFh0wuy3hP0ai1paXosY00+d4
+   9Lvt768Mel8KJ7Y9fCSAMJqS4bYEYmhWgPqRa7F06WCC+bq/xb87Y2FjB
+   pXukUpq568JDSD+ceq49WzgxT+GSRnfvyRTGuzxvnE+bQjPy5fjLhMuFB
+   MtL9159HDGD/Wm2BwRP8Djjv4Acd89cFa6pPvCYpLQxikx6NmEpQSAarM
+   31dheRzBx7Rxs/IL1LSjBqz2p6k8TVxXsBPbnpzM4oeUsjhzI6ctKCu9y
    Q==;
-X-CSE-ConnectionGUID: 5iDOX4E3RgK02O659RBRwg==
-X-CSE-MsgGUID: uMYbCOJ4RLGRO0Vym7em2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75760867"
+X-CSE-ConnectionGUID: SBnpb1o4TcyFSIMpIe09jw==
+X-CSE-MsgGUID: cL2caxL6T/SilanIle3Clw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75534250"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="75760867"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 18:51:52 -0700
-X-CSE-ConnectionGUID: jqY4Y1vYQmub7UoHHq74WQ==
-X-CSE-MsgGUID: TR59ySk6QDOo+fzh9BrCUg==
+   d="scan'208";a="75534250"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 20:05:43 -0700
+X-CSE-ConnectionGUID: iHOe4YlqSiSWrDsEVEIk9w==
+X-CSE-MsgGUID: tguP1cA0Rj+oASjSBaRrTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="229954172"
+   d="scan'208";a="224377638"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Mar 2026 18:51:38 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 Mar 2026 20:05:42 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5wMJ-000000009e5-0sJh;
-	Fri, 27 Mar 2026 01:51:35 +0000
-Date: Fri, 27 Mar 2026 09:51:34 +0800
+	id 1w5xVz-000000009i9-1L1V;
+	Fri, 27 Mar 2026 03:05:39 +0000
+Date: Fri, 27 Mar 2026 11:04:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCHv2] firmware/tegra: add COMPILE_TEST
-Message-ID: <202603270938.4x8EN1r4-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/jfs/namei.c:311 jfs_mkdir() warn: passing zero to
+ 'ERR_PTR'
+Message-ID: <202603271007.DBfSkXuZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/clk/tegra/clk-dfll.c:1721:61: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260324015722.12507-1-rosenp@gmail.com>
-References: <20260324015722.12507-1-rosenp@gmail.com>
-TO: Rosen Penev <rosenp@gmail.com>
-TO: linux-tegra@vger.kernel.org
-CC: Michael Turquette <mturquette@baylibre.com>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: Thierry Reding <thierry.reding@gmail.com>
-CC: Jonathan Hunter <jonathanh@nvidia.com>
-CC: linux-clk@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
+TO: NeilBrown <neilb@suse.de>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Jeff Layton <jlayton@kernel.org>
+CC: Jan Kara <jack@suse.cz>
 
-Hi Rosen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20260325]
-[cannot apply to tegra/for-next clk/clk-next drm-tegra/drm/tegra/for-next v7.0-rc5 v7.0-rc4 v7.0-rc3 linus/master v7.0-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/firmware-tegra-add-COMPILE_TEST/20260326-124230
-base:   next-20260325
-patch link:    https://lore.kernel.org/r/20260324015722.12507-1-rosenp%40gmail.com
-patch subject: [PATCHv2] firmware/tegra: add COMPILE_TEST
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: mips-randconfig-r131-20260327 (https://download.01.org/0day-ci/archive/20260327/202603270938.4x8EN1r4-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270938.4x8EN1r4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   46b513250491a7bfc97d98791dbe6a10bcc8129d
+commit: 88d5baf69082e5b410296435008329676b687549 Change inode_operations.mkdir to return struct dentry *
+date:   1 year, 1 month ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: i386-randconfig-141-20260322 (https://download.01.org/0day-ci/archive/20260327/202603271007.DBfSkXuZ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603270938.4x8EN1r4-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603271007.DBfSkXuZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/tegra/clk-dfll.c:1721:61: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/clk/tegra/clk-dfll.c:1721:61: sparse: signed value source
+smatch warnings:
+fs/jfs/namei.c:311 jfs_mkdir() warn: passing zero to 'ERR_PTR'
+fs/orangefs/namei.c:369 orangefs_mkdir() warn: passing zero to 'ERR_PTR'
 
-vim +1721 drivers/clk/tegra/clk-dfll.c
+vim +/ERR_PTR +311 fs/jfs/namei.c
 
-36541f0499fe025 Joseph Lo        2019-01-04  1686  
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1687  /**
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1688   * dfll_build_i2c_lut - build the I2C voltage register lookup table
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1689   * @td: DFLL instance
-36541f0499fe025 Joseph Lo        2019-01-04  1690   * @v_max: Vmax from OPP table
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1691   *
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1692   * The DFLL hardware has 33 bytes of look-up table RAM that must be filled with
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1693   * PMIC voltage register values that span the entire DFLL operating range.
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1694   * This function builds the look-up table based on the OPP table provided by
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1695   * the soc-specific platform driver (td->soc->opp_dev) and the PMIC
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1696   * register-to-voltage mapping queried from the regulator framework.
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1697   *
-36541f0499fe025 Joseph Lo        2019-01-04  1698   * On success, fills in td->lut and returns 0, or -err on failure.
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1699   */
-36541f0499fe025 Joseph Lo        2019-01-04  1700  static int dfll_build_i2c_lut(struct tegra_dfll *td, unsigned long v_max)
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1701  {
-36541f0499fe025 Joseph Lo        2019-01-04  1702  	unsigned long rate, v, v_opp;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1703  	int ret = -EINVAL;
-36541f0499fe025 Joseph Lo        2019-01-04  1704  	int j, selector, lut;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1705  
-27ed2f7e7ca5c38 Thierry Reding   2016-04-08  1706  	v = td->soc->cvb->min_millivolts * 1000;
-c5a132a84a692f8 Stephen Boyd     2015-08-25  1707  	lut = find_vdd_map_entry_exact(td, v);
-c5a132a84a692f8 Stephen Boyd     2015-08-25  1708  	if (lut < 0)
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1709  		goto out;
-36541f0499fe025 Joseph Lo        2019-01-04  1710  	td->lut[0] = lut;
-36541f0499fe025 Joseph Lo        2019-01-04  1711  	td->lut_bottom = 0;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1712  
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1713  	for (j = 1, rate = 0; ; rate++) {
-36541f0499fe025 Joseph Lo        2019-01-04  1714  		struct dev_pm_opp *opp;
-36541f0499fe025 Joseph Lo        2019-01-04  1715  
-62a8a094b0e1de7 Tuomas Tynkkynen 2015-05-13  1716  		opp = dev_pm_opp_find_freq_ceil(td->soc->dev, &rate);
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1717  		if (IS_ERR(opp))
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1718  			break;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1719  		v_opp = dev_pm_opp_get_voltage(opp);
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1720  
-27ed2f7e7ca5c38 Thierry Reding   2016-04-08 @1721  		if (v_opp <= td->soc->cvb->min_millivolts * 1000)
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1722  			td->dvco_rate_min = dev_pm_opp_get_freq(opp);
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1723  
-8a31d9d94297b1e Viresh Kumar     2017-01-23  1724  		dev_pm_opp_put(opp);
-8a31d9d94297b1e Viresh Kumar     2017-01-23  1725  
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1726  		for (;;) {
-36541f0499fe025 Joseph Lo        2019-01-04  1727  			v += max(1UL, (v_max - v) / (MAX_DFLL_VOLTAGES - j));
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1728  			if (v >= v_opp)
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1729  				break;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1730  
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1731  			selector = find_vdd_map_entry_min(td, v);
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1732  			if (selector < 0)
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1733  				goto out;
-36541f0499fe025 Joseph Lo        2019-01-04  1734  			if (selector != td->lut[j - 1])
-36541f0499fe025 Joseph Lo        2019-01-04  1735  				td->lut[j++] = selector;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1736  		}
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1737  
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1738  		v = (j == MAX_DFLL_VOLTAGES - 1) ? v_max : v_opp;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1739  		selector = find_vdd_map_entry_exact(td, v);
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1740  		if (selector < 0)
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1741  			goto out;
-36541f0499fe025 Joseph Lo        2019-01-04  1742  		if (selector != td->lut[j - 1])
-36541f0499fe025 Joseph Lo        2019-01-04  1743  			td->lut[j++] = selector;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1744  
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1745  		if (v >= v_max)
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1746  			break;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1747  	}
-36541f0499fe025 Joseph Lo        2019-01-04  1748  	td->lut_size = j;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1749  
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1750  	if (!td->dvco_rate_min)
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1751  		dev_err(td->dev, "no opp above DFLL minimum voltage %d mV\n",
-27ed2f7e7ca5c38 Thierry Reding   2016-04-08  1752  			td->soc->cvb->min_millivolts);
-36541f0499fe025 Joseph Lo        2019-01-04  1753  	else {
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1754  		ret = 0;
-36541f0499fe025 Joseph Lo        2019-01-04  1755  		for (j = 0; j < td->lut_size; j++)
-36541f0499fe025 Joseph Lo        2019-01-04  1756  			td->lut_uv[j] =
-36541f0499fe025 Joseph Lo        2019-01-04  1757  				regulator_list_voltage(td->vdd_reg,
-36541f0499fe025 Joseph Lo        2019-01-04  1758  						       td->lut[j]);
-36541f0499fe025 Joseph Lo        2019-01-04  1759  	}
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1760  
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1761  out:
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1762  	return ret;
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1763  }
-c4fe70ada40f53e Tuomas Tynkkynen 2015-05-13  1764  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  178  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  179  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  180  /*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  181   * NAME:	jfs_mkdir(dip, dentry, mode)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  182   *
+^1da177e4c3f41 Linus Torvalds    2005-04-16  183   * FUNCTION:	create a child directory in the parent directory <dip>
+^1da177e4c3f41 Linus Torvalds    2005-04-16  184   *		with name = <from dentry> and mode = <mode>
+^1da177e4c3f41 Linus Torvalds    2005-04-16  185   *
+^1da177e4c3f41 Linus Torvalds    2005-04-16  186   * PARAMETER:	dip	- parent directory vnode
+^1da177e4c3f41 Linus Torvalds    2005-04-16  187   *		dentry	- dentry of child directory
+^1da177e4c3f41 Linus Torvalds    2005-04-16  188   *		mode	- create mode (rwxrwxrwx).
+^1da177e4c3f41 Linus Torvalds    2005-04-16  189   *
+88d5baf69082e5 NeilBrown         2025-02-27  190   * RETURN:	ERR_PTR() of errors from subroutines.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  191   *
+^1da177e4c3f41 Linus Torvalds    2005-04-16  192   * note:
+a83722f45c5baa Colin Ian King    2018-10-26  193   * EACCES: user needs search+write permission on the parent directory
+^1da177e4c3f41 Linus Torvalds    2005-04-16  194   */
+88d5baf69082e5 NeilBrown         2025-02-27  195  static struct dentry *jfs_mkdir(struct mnt_idmap *idmap, struct inode *dip,
+549c7297717c32 Christian Brauner 2021-01-21  196  				struct dentry *dentry, umode_t mode)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  197  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  198  	int rc = 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  199  	tid_t tid;		/* transaction id */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  200  	struct inode *ip = NULL;	/* child directory inode */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  201  	ino_t ino;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  202  	struct component_name dname;	/* child directory name */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  203  	struct btstack btstack;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  204  	struct inode *iplist[2];
+^1da177e4c3f41 Linus Torvalds    2005-04-16  205  	struct tblock *tblk;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  206  
+a455589f181e60 Al Viro           2014-10-21  207  	jfs_info("jfs_mkdir: dip:0x%p name:%pd", dip, dentry);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  208  
+acc84b05b1f463 Dave Kleikamp     2015-07-15  209  	rc = dquot_initialize(dip);
+acc84b05b1f463 Dave Kleikamp     2015-07-15  210  	if (rc)
+acc84b05b1f463 Dave Kleikamp     2015-07-15  211  		goto out1;
+907f4554e2521c Christoph Hellwig 2010-03-03  212  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  213  	/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  214  	 * search parent directory for entry/freespace
+^1da177e4c3f41 Linus Torvalds    2005-04-16  215  	 * (dtSearch() returns parent directory page pinned)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  216  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  217  	if ((rc = get_UCSname(&dname, dentry)))
+^1da177e4c3f41 Linus Torvalds    2005-04-16  218  		goto out1;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  219  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  220  	/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  221  	 * Either iAlloc() or txBegin() may block.  Deadlock can occur if we
+^1da177e4c3f41 Linus Torvalds    2005-04-16  222  	 * block there while holding dtree page, so we allocate the inode &
+^1da177e4c3f41 Linus Torvalds    2005-04-16  223  	 * begin the transaction before we search the directory.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  224  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  225  	ip = ialloc(dip, S_IFDIR | mode);
+087387f90f577f Akinobu Mita      2006-09-14  226  	if (IS_ERR(ip)) {
+087387f90f577f Akinobu Mita      2006-09-14  227  		rc = PTR_ERR(ip);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  228  		goto out2;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  229  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  230  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  231  	tid = txBegin(dip->i_sb, 0);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  232  
+82d5b9a7c63054 Dave Kleikamp     2007-01-09  233  	mutex_lock_nested(&JFS_IP(dip)->commit_mutex, COMMIT_MUTEX_PARENT);
+82d5b9a7c63054 Dave Kleikamp     2007-01-09  234  	mutex_lock_nested(&JFS_IP(ip)->commit_mutex, COMMIT_MUTEX_CHILD);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  235  
+4f4b401bfaa97e Dave Kleikamp     2005-09-01  236  	rc = jfs_init_acl(tid, ip, dip);
+4f4b401bfaa97e Dave Kleikamp     2005-09-01  237  	if (rc)
+4f4b401bfaa97e Dave Kleikamp     2005-09-01  238  		goto out3;
+4f4b401bfaa97e Dave Kleikamp     2005-09-01  239  
+2a7dba391e5628 Eric Paris        2011-02-01  240  	rc = jfs_init_security(tid, ip, dip, &dentry->d_name);
+1d15b10f95d4c4 Dave Kleikamp     2005-09-01  241  	if (rc) {
+1d15b10f95d4c4 Dave Kleikamp     2005-09-01  242  		txAbort(tid, 0);
+1d15b10f95d4c4 Dave Kleikamp     2005-09-01  243  		goto out3;
+1d15b10f95d4c4 Dave Kleikamp     2005-09-01  244  	}
+1d15b10f95d4c4 Dave Kleikamp     2005-09-01  245  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  246  	if ((rc = dtSearch(dip, &dname, &ino, &btstack, JFS_CREATE))) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  247  		jfs_err("jfs_mkdir: dtSearch returned %d", rc);
+4f4b401bfaa97e Dave Kleikamp     2005-09-01  248  		txAbort(tid, 0);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  249  		goto out3;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  250  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  251  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  252  	tblk = tid_to_tblock(tid);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  253  	tblk->xflag |= COMMIT_CREATE;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  254  	tblk->ino = ip->i_ino;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  255  	tblk->u.ixpxd = JFS_IP(ip)->ixpxd;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  256  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  257  	iplist[0] = dip;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  258  	iplist[1] = ip;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  259  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  260  	/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  261  	 * initialize the child directory in-line in inode
+^1da177e4c3f41 Linus Torvalds    2005-04-16  262  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  263  	dtInitRoot(tid, ip, dip->i_ino);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  264  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  265  	/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  266  	 * create entry in parent directory for child directory
+^1da177e4c3f41 Linus Torvalds    2005-04-16  267  	 * (dtInsert() releases parent directory page)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  268  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  269  	ino = ip->i_ino;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  270  	if ((rc = dtInsert(tid, dip, &dname, &ino, &btstack))) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  271  		if (rc == -EIO) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  272  			jfs_err("jfs_mkdir: dtInsert returned -EIO");
+^1da177e4c3f41 Linus Torvalds    2005-04-16  273  			txAbort(tid, 1);	/* Marks Filesystem dirty */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  274  		} else
+^1da177e4c3f41 Linus Torvalds    2005-04-16  275  			txAbort(tid, 0);	/* Filesystem full */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  276  		goto out3;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  277  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  278  
+bfe8684869601d Miklos Szeredi    2011-10-28  279  	set_nlink(ip, 2);	/* for '.' */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  280  	ip->i_op = &jfs_dir_inode_operations;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  281  	ip->i_fop = &jfs_dir_operations;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  282  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  283  	mark_inode_dirty(ip);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  284  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  285  	/* update parent directory inode */
+d8c76e6f45c111 Dave Hansen       2006-09-30  286  	inc_nlink(dip);		/* for '..' from child directory */
+dc34d1330c2c08 Jeff Layton       2023-10-04  287  	inode_set_mtime_to_ts(dip, inode_set_ctime_current(dip));
+^1da177e4c3f41 Linus Torvalds    2005-04-16  288  	mark_inode_dirty(dip);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  289  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  290  	rc = txCommit(tid, 2, &iplist[0], 0);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  291  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  292        out3:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  293  	txEnd(tid);
+1de87444f8f910 Ingo Molnar       2006-01-24  294  	mutex_unlock(&JFS_IP(ip)->commit_mutex);
+48ce8b056c8892 Evgeniy Dushistov 2006-06-05  295  	mutex_unlock(&JFS_IP(dip)->commit_mutex);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  296  	if (rc) {
+4f4b401bfaa97e Dave Kleikamp     2005-09-01  297  		free_ea_wmap(ip);
+6d6b77f163c7ea Miklos Szeredi    2011-10-28  298  		clear_nlink(ip);
+a6cbedfa8783b4 Al Viro           2018-06-29  299  		discard_new_inode(ip);
+1f3403fa640f9f Dave Kleikamp     2008-12-30  300  	} else {
+1e2e547a93a00e Al Viro           2018-05-04  301  		d_instantiate_new(dentry, ip);
+1f3403fa640f9f Dave Kleikamp     2008-12-30  302  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  303  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  304        out2:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  305  	free_UCSname(&dname);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  306  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  307  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  308        out1:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  309  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  310  	jfs_info("jfs_mkdir: rc:%d", rc);
+88d5baf69082e5 NeilBrown         2025-02-27 @311  	return ERR_PTR(rc);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  312  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  313  
 
 -- 
 0-DAY CI Kernel Test Service
