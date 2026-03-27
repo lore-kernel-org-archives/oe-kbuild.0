@@ -1,158 +1,221 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC13B3D669C
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Mar 2026 09:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A02A3382C5
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Mar 2026 10:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774604785; cv=none; b=iL3ejI0tKDQO2wP9Awzld9BzxVjZkGiAXTNANvTdVbgdcEzc+jNLUPZzIAK0uS9sfWCX0DKnlclUQ7wdByy28U/7sshg5imixtEuW9GsQ0tBywkIeUvZ7odHo92p3WyEkpKz1jYsGZL35tWp7P23wd+1Yxnu82HEYUxTc3ptnOw=
+	t=1774608094; cv=none; b=KNTek75mpJ+Rojp9yV2674e4V5aFBCO23UYKd/Mb5k8//bsSSVgbVZNceAPqHXj5RoSqzngBcD2tSD2HjPelxCyzd8+/rCy204xllAigwGyFKYG8X9V0bZhWkzzRceN3V/BIbfgCcpPQljgbY31OErm3lB29TPtBwezdJJl/1XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774604785; c=relaxed/simple;
-	bh=+1iaz7/4WTDk9hvmrxiKQD2alrae1+L0YG6nWO1z2D0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TVkt7L4ebteysg+7gIL3/yFUlvM1OyMJxu2oFK3nk/srDFQfqYetpFTugxOXw9do7cP9mycgVLxvJa0enHgrPfnSolaihohgPHvhv/RZgIyDQq8J28pbskg1ZvtuQTYjsPHgZMNvVqo3r/WrZHga/V+mZJF34KBU+scqSPGsYhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ea5omjUW; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1774608094; c=relaxed/simple;
+	bh=iMZZtTtiKx3dxDJrshbql7rrNlJQDWcm/6WaVCAdMTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eKwrTGM2ZSChxRioiWQkWJ0R4MCkSksRNojJ24Pq0U0Yy+f9CXoly1duBN8+oSoYNWlXmp7OHX7vCDtINa5CGbsawvnj6IXzWSH53CAs4/TF9LxKAJVcDBfE28FURm+bVAgLNxJNigm5wCVE+M5i4KkbEHMMjwsx8t4+hNpGbpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQz3U/fz; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ea5omjUW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQz3U/fz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774604783; x=1806140783;
-  h=date:from:to:cc:subject:message-id;
-  bh=+1iaz7/4WTDk9hvmrxiKQD2alrae1+L0YG6nWO1z2D0=;
-  b=ea5omjUWCT+5P6gWAbsIiKQOyt6hDIg6N8AlKSgR99BOFZujAsK4h1HH
-   lxrMwJvN3ezxghGOqQWhsuW5aRoknoAA2AFIpB/B5U2bQ4XMIhHQs/Wdw
-   lFQ1oSwLShZZ5OkQdWuB8zj3mQLEZsP6DnhzMW6pBkYaB1GdHpow8QmUw
-   gnvXpng/ukJAZ26wSmtHltURGBR7irnTt78Vjkn+R4YEOJvjDmHCmbhx3
-   6Pn14U1Sa91DFTKWvsFWpUM3yoHrpJ8O8oH1Xc5jRW2jBryzbxr83hkSS
-   V03cWMsvf521B2m8GQUTp/5Sv7aH2wdXqa1IG/ZHl+6zbKGQQWxH/pB+x
-   g==;
-X-CSE-ConnectionGUID: YfQt1FEkQFqOGZ0Ozm2c/A==
-X-CSE-MsgGUID: EIw2+tEdRMWGUIEl5noCKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75790826"
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="75790826"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:46:22 -0700
-X-CSE-ConnectionGUID: fIpU7vZ4Tdi3NVM6jN5iLg==
-X-CSE-MsgGUID: Pg7jkrrxRzGoJVjARh98bA==
+  t=1774608091; x=1806144091;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iMZZtTtiKx3dxDJrshbql7rrNlJQDWcm/6WaVCAdMTI=;
+  b=YQz3U/fzVzObLlOtCNxzEGoV9vHyXZJTL3rNLQYKDmP86wy6Xv6C+enz
+   4DPaR9eI1dImFOCGKgXvPvTA1+PEG9MdNYHfBXWh5dcE8cOLnfni6q82Z
+   +DdjjE5OM3cy7Gqx3tEdyDmPTihx5U/Xwto3Gla/J6DfRDPKXiw7sAkMd
+   su6NJ2s+MeMet6hI0tmDERhPh4edWe+nBew5ckHjnDyMaNFqOcvOc0hRj
+   u2Vi8ItsLtaY6CL7DgjGM/34doYiJJdObNMRWcYUvlggkglIfUB9b64LI
+   //9Ukh4sExjQELyPJfyO8QAwXw7nTbK1sJftiRvXSg+m7R+7v1gB15LQW
+   Q==;
+X-CSE-ConnectionGUID: G8tgdvc9TcyG9oMWxZcKvg==
+X-CSE-MsgGUID: lcYi+ZioSnKIUPwCwjE2lA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="85986953"
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="85986953"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 03:41:28 -0700
+X-CSE-ConnectionGUID: HnFw39NUS8mxL4YKT22xhQ==
+X-CSE-MsgGUID: gI7ImrncQq+Z5gn7SKeAQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="255768517"
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="225202177"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Mar 2026 02:46:20 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Mar 2026 03:41:25 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w63li-00000000A81-091n;
-	Fri, 27 Mar 2026 09:46:18 +0000
-Date: Fri, 27 Mar 2026 17:46:11 +0800
+	id 1w64cz-00000000AAn-10tS;
+	Fri, 27 Mar 2026 10:41:21 +0000
+Date: Fri, 27 Mar 2026 18:40:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe:rw_iter 204/525]
- drivers/misc/bcm-vk/bcm_vk_msg.c:1054 bcm_vk_read() error: we previously
- assumed 'entry' could be null (see line 1045)
-Message-ID: <202603271746.xX5EENwP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH 1/2] rust: kasan: do not pass -Zsanitizer-recover
+Message-ID: <202603271853.RhfDTdOp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260325-kasan-rust-sw-tags-v1-1-7d3a765a72aa@google.com>
+References: <20260325-kasan-rust-sw-tags-v1-1-7d3a765a72aa@google.com>
+TO: Alice Ryhl <aliceryhl@google.com>
+TO: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+TO: Alexander Potapenko <glider@google.com>
+TO: Andrey Konovalov <andreyknvl@gmail.com>
+TO: Dmitry Vyukov <dvyukov@google.com>
+TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
+TO: Nathan Chancellor <nathan@kernel.org>
+TO: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+TO: Bill Wendling <morbo@google.com>
+TO: Justin Stitt <justinstitt@google.com>
+TO: Miguel Ojeda <ojeda@kernel.org>
+CC: Boqun Feng <boqun@kernel.org>
+CC: Gary Guo <gary@garyguo.net>
+CC: "Björn Roy Baron" <bjorn3_gh@protonmail.com>
+CC: Benno Lossin <lossin@kernel.org>
+CC: Andreas Hindborg <a.hindborg@kernel.org>
+CC: Trevor Gross <tmgross@umich.edu>
+CC: Danilo Krummrich <dakr@kernel.org>
+CC: linux-kernel@vger.kernel.org
+CC: kasan-dev@googlegroups.com
+CC: rust-for-linux@vger.kernel.org
+CC: llvm@lists.linux.dev
+CC: Alice Ryhl <aliceryhl@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   520344cda122ca1903fafb19768f56509e3db8b1
-commit: 0629d32f614c429b7dc371a2ac04475bb82b909f [204/525] misc: bcm_vk: convert to iterators
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: loongarch-randconfig-r072-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271746.xX5EENwP-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Alice,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-kasan-do-not-pass-Zsanitizer-recover/20260326-213339
+base:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
+patch link:    https://lore.kernel.org/r/20260325-kasan-rust-sw-tags-v1-1-7d3a765a72aa%40google.com
+patch subject: [PATCH 1/2] rust: kasan: do not pass -Zsanitizer-recover
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: x86_64-randconfig-071-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271853.RhfDTdOp-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271853.RhfDTdOp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603271746.xX5EENwP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603271853.RhfDTdOp-lkp@intel.com/
 
-smatch warnings:
-drivers/misc/bcm-vk/bcm_vk_msg.c:1054 bcm_vk_read() error: we previously assumed 'entry' could be null (see line 1045)
+All errors (new ones prefixed by >>):
 
-vim +/entry +1054 drivers/misc/bcm-vk/bcm_vk_msg.c
-
-22c30607d1e0c60 Scott Branden 2021-01-20  1001  
-0629d32f614c429 Jens Axboe    2024-04-05  1002  ssize_t bcm_vk_read(struct kiocb *iocb, struct iov_iter *to)
-111d746bb4767ad Scott Branden 2021-01-20  1003  {
-111d746bb4767ad Scott Branden 2021-01-20  1004  	ssize_t rc = -ENOMSG;
-0629d32f614c429 Jens Axboe    2024-04-05  1005  	struct bcm_vk_ctx *ctx = iocb->ki_filp->private_data;
-111d746bb4767ad Scott Branden 2021-01-20  1006  	struct bcm_vk *vk = container_of(ctx->miscdev, struct bcm_vk,
-111d746bb4767ad Scott Branden 2021-01-20  1007  					 miscdev);
-111d746bb4767ad Scott Branden 2021-01-20  1008  	struct device *dev = &vk->pdev->dev;
-111d746bb4767ad Scott Branden 2021-01-20  1009  	struct bcm_vk_msg_chan *chan = &vk->to_h_msg_chan;
-88517757a829e9c Jakob Koschel 2022-03-27  1010  	struct bcm_vk_wkent *entry = NULL, *iter;
-0629d32f614c429 Jens Axboe    2024-04-05  1011  	size_t count = iov_iter_count(to);
-111d746bb4767ad Scott Branden 2021-01-20  1012  	u32 q_num;
-111d746bb4767ad Scott Branden 2021-01-20  1013  	u32 rsp_length;
-111d746bb4767ad Scott Branden 2021-01-20  1014  
-111d746bb4767ad Scott Branden 2021-01-20  1015  	if (!bcm_vk_drv_access_ok(vk))
-111d746bb4767ad Scott Branden 2021-01-20  1016  		return -EPERM;
-111d746bb4767ad Scott Branden 2021-01-20  1017  
-111d746bb4767ad Scott Branden 2021-01-20  1018  	dev_dbg(dev, "Buf count %zu\n", count);
-111d746bb4767ad Scott Branden 2021-01-20  1019  
-111d746bb4767ad Scott Branden 2021-01-20  1020  	/*
-111d746bb4767ad Scott Branden 2021-01-20  1021  	 * search through the pendq on the to_h chan, and return only those
-111d746bb4767ad Scott Branden 2021-01-20  1022  	 * that belongs to the same context.  Search is always from the high to
-111d746bb4767ad Scott Branden 2021-01-20  1023  	 * the low priority queues
-111d746bb4767ad Scott Branden 2021-01-20  1024  	 */
-111d746bb4767ad Scott Branden 2021-01-20  1025  	spin_lock(&chan->pendq_lock);
-111d746bb4767ad Scott Branden 2021-01-20  1026  	for (q_num = 0; q_num < chan->q_nr; q_num++) {
-88517757a829e9c Jakob Koschel 2022-03-27  1027  		list_for_each_entry(iter, &chan->pendq[q_num], node) {
-88517757a829e9c Jakob Koschel 2022-03-27  1028  			if (iter->ctx->idx == ctx->idx) {
-111d746bb4767ad Scott Branden 2021-01-20  1029  				if (count >=
-88517757a829e9c Jakob Koschel 2022-03-27  1030  				    (iter->to_h_blks * VK_MSGQ_BLK_SIZE)) {
-88517757a829e9c Jakob Koschel 2022-03-27  1031  					list_del(&iter->node);
-111d746bb4767ad Scott Branden 2021-01-20  1032  					atomic_dec(&ctx->pend_cnt);
-88517757a829e9c Jakob Koschel 2022-03-27  1033  					entry = iter;
-111d746bb4767ad Scott Branden 2021-01-20  1034  				} else {
-111d746bb4767ad Scott Branden 2021-01-20  1035  					/* buffer not big enough */
-111d746bb4767ad Scott Branden 2021-01-20  1036  					rc = -EMSGSIZE;
-111d746bb4767ad Scott Branden 2021-01-20  1037  				}
-111d746bb4767ad Scott Branden 2021-01-20  1038  				goto read_loop_exit;
-111d746bb4767ad Scott Branden 2021-01-20  1039  			}
-111d746bb4767ad Scott Branden 2021-01-20  1040  		}
-111d746bb4767ad Scott Branden 2021-01-20  1041  	}
-111d746bb4767ad Scott Branden 2021-01-20  1042  read_loop_exit:
-111d746bb4767ad Scott Branden 2021-01-20  1043  	spin_unlock(&chan->pendq_lock);
-111d746bb4767ad Scott Branden 2021-01-20  1044  
-88517757a829e9c Jakob Koschel 2022-03-27 @1045  	if (entry) {
-111d746bb4767ad Scott Branden 2021-01-20  1046  		/* retrieve the passed down msg_id */
-111d746bb4767ad Scott Branden 2021-01-20  1047  		set_msg_id(&entry->to_h_msg[0], entry->usr_msg_id);
-111d746bb4767ad Scott Branden 2021-01-20  1048  		rsp_length = entry->to_h_blks * VK_MSGQ_BLK_SIZE;
-0629d32f614c429 Jens Axboe    2024-04-05  1049  		if (!copy_to_iter_full(entry->to_h_msg, rsp_length, to))
-111d746bb4767ad Scott Branden 2021-01-20  1050  			rc = rsp_length;
-111d746bb4767ad Scott Branden 2021-01-20  1051  
-111d746bb4767ad Scott Branden 2021-01-20  1052  		bcm_vk_free_wkent(dev, entry);
-111d746bb4767ad Scott Branden 2021-01-20  1053  	} else if (rc == -EMSGSIZE) {
-0629d32f614c429 Jens Axboe    2024-04-05 @1054  		struct vk_msg_blk tmp_msg = entry->to_h_msg[0];
-0629d32f614c429 Jens Axboe    2024-04-05  1055  
-111d746bb4767ad Scott Branden 2021-01-20  1056  		/*
-111d746bb4767ad Scott Branden 2021-01-20  1057  		 * in this case, return just the first block, so
-111d746bb4767ad Scott Branden 2021-01-20  1058  		 * that app knows what size it is looking for.
-111d746bb4767ad Scott Branden 2021-01-20  1059  		 */
-0629d32f614c429 Jens Axboe    2024-04-05  1060  		set_msg_id(&tmp_msg, entry->usr_msg_id);
-0629d32f614c429 Jens Axboe    2024-04-05  1061  		tmp_msg.size = entry->to_h_blks - 1;
-0629d32f614c429 Jens Axboe    2024-04-05  1062  		if (!copy_to_iter_full(&tmp_msg, VK_MSGQ_BLK_SIZE, to)) {
-111d746bb4767ad Scott Branden 2021-01-20  1063  			dev_err(dev, "Error return 1st block in -EMSGSIZE\n");
-111d746bb4767ad Scott Branden 2021-01-20  1064  			rc = -EFAULT;
-111d746bb4767ad Scott Branden 2021-01-20  1065  		}
-111d746bb4767ad Scott Branden 2021-01-20  1066  	}
-111d746bb4767ad Scott Branden 2021-01-20  1067  	return rc;
-111d746bb4767ad Scott Branden 2021-01-20  1068  }
-111d746bb4767ad Scott Branden 2021-01-20  1069  
+>> ld.lld: error: undefined symbol: __asan_report_load8
+   >>> referenced by kvec.rs:847 (rust/kernel/alloc/kvec.rs:847)
+   >>>               samples/rust/rust_soc.o:(core::ptr::drop_in_place::<kernel::str::CString>) in archive vmlinux.a
+   >>> referenced by kvec.rs:847 (rust/kernel/alloc/kvec.rs:847)
+   >>>               samples/rust/rust_soc.o:(core::ptr::drop_in_place::<kernel::str::CString>) in archive vmlinux.a
+   >>> referenced by aref.rs:170 (rust/kernel/sync/aref.rs:170)
+   >>>               samples/rust/rust_soc.o:(<kernel::driver::Registration<kernel::platform::Adapter<rust_soc::SampleSocDriver>>>::post_unbind_callback) in archive vmlinux.a
+   >>> referenced 3034 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_store8
+   >>> referenced by mod.rs:1655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1655)
+   >>>               samples/rust/rust_soc.o:(<kernel::platform::Adapter<rust_soc::SampleSocDriver>>::probe_callback) in archive vmlinux.a
+   >>> referenced by mod.rs:1655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1655)
+   >>>               samples/rust/rust_soc.o:(<kernel::platform::Adapter<rust_soc::SampleSocDriver>>::probe_callback) in archive vmlinux.a
+   >>> referenced by rust_configfs.rs:86 (samples/rust/rust_configfs.rs:86)
+   >>>               samples/rust/rust_configfs.o:(<rust_configfs::Configuration as kernel::configfs::GroupOperations>::make_group) in archive vmlinux.a
+   >>> referenced 1783 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_load16
+   >>> referenced by num.rs:648 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:648)
+   >>>               rust/core.o:(<u128 as core::fmt::Display>::fmt) in archive vmlinux.a
+   >>> referenced by num.rs:655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:655)
+   >>>               rust/core.o:(<i128 as core::fmt::Display>::fmt) in archive vmlinux.a
+   >>> referenced by niche_types.rs:100 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/niche_types.rs:100)
+   >>>               rust/core.o:(<core::num::niche_types::NonZeroU128Inner as core::fmt::Debug>::fmt) in archive vmlinux.a
+   >>> referenced 9 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_store16
+   >>> referenced by option.rs:1279 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:1279)
+   >>>               rust/core.o:(<core::num::nonzero::NonZero<u128> as core::str::traits::FromStr>::from_str) in archive vmlinux.a
+   >>> referenced by option.rs:1279 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:1279)
+   >>>               rust/core.o:(<core::num::nonzero::NonZero<i128> as core::str::traits::FromStr>::from_str) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: __asan_report_load1
+   >>> referenced by c_str.rs:416 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ffi/c_str.rs:416)
+   >>>               samples/rust/rust_configfs.o:(<kernel::configfs::GroupOperationsVTable<rust_configfs::Configuration, rust_configfs::Child>>::make_group) in archive vmlinux.a
+   >>> referenced by c_str.rs:416 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ffi/c_str.rs:416)
+   >>>               samples/rust/rust_configfs.o:(<kernel::configfs::GroupOperationsVTable<rust_configfs::Child, rust_configfs::GrandChild>>::make_group) in archive vmlinux.a
+   >>> referenced by revocable.rs:218 (rust/kernel/revocable.rs:218)
+   >>>               samples/rust/rust_driver_auxiliary.o:(core::ptr::drop_in_place::<kernel::sync::arc::Arc<kernel::revocable::Revocable<kernel::auxiliary::Registration>>>) in archive vmlinux.a
+   >>> referenced 890 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_store4
+   >>> referenced by mod.rs:1655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1655)
+   >>>               samples/rust/rust_configfs.o:(<kernel::configfs::GroupOperationsVTable<rust_configfs::Configuration, rust_configfs::Child>>::make_group) in archive vmlinux.a
+   >>> referenced by mod.rs:1655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1655)
+   >>>               samples/rust/rust_configfs.o:(<kernel::configfs::GroupOperationsVTable<rust_configfs::Child, rust_configfs::GrandChild>>::make_group) in archive vmlinux.a
+   >>> referenced by result.rs:2050 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/result.rs:2050)
+   >>>               samples/rust/rust_configfs.o:(<rust_configfs::Configuration as kernel::configfs::GroupOperations>::make_group) in archive vmlinux.a
+   >>> referenced 539 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_store1
+   >>> referenced by atomic.rs:3845 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/sync/atomic.rs:3845)
+   >>>               samples/rust/rust_driver_auxiliary.o:(core::ptr::drop_in_place::<kernel::devres::Devres<kernel::auxiliary::Registration>>) in archive vmlinux.a
+   >>> referenced by mod.rs:1655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1655)
+>> >>>               samples/rust/rust_driver_auxiliary.o:(pin_init::pin_init_scope::<kernel::devres::Devres<kernel::auxiliary::Registration>, kernel::error::Error, <kernel::auxiliary::Registration>::new::{closure#0}, core::result::Result<kernel::devres::Devres<kernel::auxiliary::Registration>, kernel::error::Error>>::{closure#0}) in archive vmlinux.a
+   >>> referenced by atomic.rs:3845 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/sync/atomic.rs:3845)
+   >>>               samples/rust/rust_driver_pci.o:(core::ptr::drop_in_place::<kernel::devres::Devres<kernel::pci::io::Bar<16>>>) in archive vmlinux.a
+   >>> referenced 356 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_load4
+   >>> referenced by lib.rs:1300 (rust/pin-init/src/lib.rs:1300)
+>> >>>               samples/rust/rust_driver_auxiliary.o:(pin_init::pin_init_scope::<kernel::devres::Devres<kernel::auxiliary::Registration>, kernel::error::Error, <kernel::auxiliary::Registration>::new::{closure#0}, core::result::Result<kernel::devres::Devres<kernel::auxiliary::Registration>, kernel::error::Error>>::{closure#0}) in archive vmlinux.a
+   >>> referenced by io.rs:261 (rust/kernel/pci/io.rs:261)
+   >>>               samples/rust/rust_driver_pci.o:(core::ptr::drop_in_place::<kernel::devres::Devres<kernel::pci::io::Bar<16>>>) in archive vmlinux.a
+   >>> referenced by io.rs:261 (rust/kernel/pci/io.rs:261)
+   >>>               samples/rust/rust_driver_pci.o:(core::ptr::drop_in_place::<kernel::sync::arc::Arc<kernel::revocable::Revocable<kernel::pci::io::Bar<16>>>>) in archive vmlinux.a
+   >>> referenced 320 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_store_n
+   >>> referenced by mod.rs:1655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1655)
+>> >>>               samples/rust/rust_driver_auxiliary.o:(pin_init::pin_init_scope::<kernel::devres::Devres<kernel::auxiliary::Registration>, kernel::error::Error, <kernel::auxiliary::Registration>::new::{closure#0}, core::result::Result<kernel::devres::Devres<kernel::auxiliary::Registration>, kernel::error::Error>>::{closure#0}) in archive vmlinux.a
+   >>> referenced by mod.rs:1655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1655)
+>> >>>               samples/rust/rust_driver_auxiliary.o:(pin_init::pin_init_scope::<kernel::devres::Devres<kernel::auxiliary::Registration>, kernel::error::Error, <kernel::auxiliary::Registration>::new::{closure#0}, core::result::Result<kernel::devres::Devres<kernel::auxiliary::Registration>, kernel::error::Error>>::{closure#0}) in archive vmlinux.a
+   >>> referenced by mod.rs:1655 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1655)
+   >>>               samples/rust/rust_driver_pci.o:(<kernel::pci::Adapter<rust_driver_pci::SampleDriver>>::probe_callback) in archive vmlinux.a
+   >>> referenced 105 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_load2
+   >>> referenced by pci.rs:372 (rust/kernel/pci.rs:372)
+   >>>               samples/rust/rust_driver_pci.o:(<kernel::pci::Adapter<rust_driver_pci::SampleDriver>>::probe_callback) in archive vmlinux.a
+   >>> referenced by pci.rs:381 (rust/kernel/pci.rs:381)
+   >>>               samples/rust/rust_driver_pci.o:(<kernel::pci::Adapter<rust_driver_pci::SampleDriver>>::probe_callback) in archive vmlinux.a
+   >>> referenced by pci.rs:372 (rust/kernel/pci.rs:372)
+   >>>               samples/rust/rust_driver_auxiliary.o:(<rust_driver_auxiliary::AuxiliaryDriver as kernel::auxiliary::Driver>::probe) in archive vmlinux.a
+   >>> referenced 54 more times
+--
+>> ld.lld: error: undefined symbol: __asan_report_load_n
+   >>> referenced by mod.rs:3753 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/intrinsics/mod.rs:3753)
+   >>>               drivers/android/binder/rust_binder_main.o:(<[u8]>::copy_from_slice) in archive vmlinux.a
+   >>> referenced by mod.rs:3753 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/intrinsics/mod.rs:3753)
+   >>>               drivers/android/binder/rust_binder_main.o:(<[u8]>::copy_from_slice) in archive vmlinux.a
+   >>> referenced by mod.rs:864 (/opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/mod.rs:864)
+   >>>               drivers/android/binder/rust_binder_main.o:(<rust_binder_main::range_alloc::tree::Descriptor<rust_binder_main::allocation::AllocationInfo>>::try_change_state::<<rust_binder_main::range_alloc::tree::TreeRangeAllocator<rust_binder_main::allocation::AllocationInfo>>::reservation_abort::{closure#1}, (rust_binder_main::range_alloc::Reservation, kernel::rbtree::RBTreeNodeReservation<(usize, usize), ()>)>) in archive vmlinux.a
+   >>> referenced 81 more times
+..
 
 -- 
 0-DAY CI Kernel Test Service
