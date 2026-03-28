@@ -1,179 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9814A20C029
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Mar 2026 05:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DEA30E0C0
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Mar 2026 08:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774675974; cv=none; b=Q89jl5ftnB/FJRZD8aLtiaoPO9deqswm46nzHTl8/1cQQqtV4zfPi/9yaF6uMNOkPX8BvyFzNN5b26+bkqPR/xomwdJRfLDFCess91nJA3jmdmgTaXLGknP6eSyfjGbLr1wJZeuKNfAJ3kEMLfsrVZuwkWnoYScNcWUg5eSNvJk=
+	t=1774685038; cv=none; b=bi+iWKmnzuW1sj2gBiYB9TsnQzmOXDyGymSTROujrMoWiabNWWuTfLNOyFpwFBPsGhQ45sj9MmST2vUbEvHyoDf5IAGwRO1jjzsAJO5NN3awS3E85F/UF1KG3VrcaayIkJI4x3NeEeRoyWeZ/bW8Bg6goCV644bZsXdTsYGUmK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774675974; c=relaxed/simple;
-	bh=7B1vFecjq3VFgex9cCbvyvBtigg33uKiXsxrFepFe4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ab4ytqTBQIb6dROIKXtRyXZLa3OUPGDklxwKxeosVH7yl7tAjqEtl9I9oQITD9zRT/dxCKc9mWKeB0Gu5plTMdtYR0hcMjyWT9dJEf2waAkUjwicc47k1HLyRCAmYH1UEZ4FtVDPZyOKdMVgQan4DyCTQQ7vqUWydtvwnfesgNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VIMiBGdb; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774685038; c=relaxed/simple;
+	bh=NH+hEFS8hz3IE+U1Z5XdJyaeNSgXk9PM8mmULE+qStI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Su8MyyPJo0NvtuMnqBMBfxahs99U8dr//wV0qv2uJb2Zqs4P9lkHigHudKZAEKCvDOJMsvYpBZNziWtyLjMnoy+1ieBk+rmt61X/uuDGd6AlcQN8TcjtTKFyhV65tGe7HkUMcNfp7m7fr3/5na7EjxYyFZSPwqOfuafjhYD1iJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PaZajXTg; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIMiBGdb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774675973; x=1806211973;
-  h=date:from:to:cc:subject:message-id;
-  bh=7B1vFecjq3VFgex9cCbvyvBtigg33uKiXsxrFepFe4Y=;
-  b=VIMiBGdbUF0brrgHLBsLeBp8sgk/nBgvYqv2TAmiLNSFvKENr8VI4wCW
-   o3GikTS2uNr4LZNzwKzlrQ1ZtQxv64VgdyunVGno69pa+rAdiab4ZhpSk
-   fdXBHhNnqzugbCLAxO4TtvoZOI6dAGxAo4Qc48fHZ8JHDnBD497Xz3M2K
-   cIP2IRj/sWavQSfCsaiw0o7iAK48usnVLznhkHJnBAnGe5/1+7CBRE4T6
-   Iy8znbY/P7Ta6nuR8jXQVuiZM56le+h286JJWIsLwX1aPkTRtV2IQgAjy
-   AIoKxc+s+cmqh2qECTdqH/MpQaxPwlJhCu9r1q/faikVat2uiJSQDGmFu
-   w==;
-X-CSE-ConnectionGUID: BZwOnnz5QKudrZ3buo4hyA==
-X-CSE-MsgGUID: c0P1UnGzTfuLJq6iZJmhGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="79651428"
-X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
-   d="scan'208";a="79651428"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 22:32:52 -0700
-X-CSE-ConnectionGUID: 7/C4JrkqSeGGAGgbbstIQQ==
-X-CSE-MsgGUID: X7lwlgn1TmKgtVKH9eVp+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
-   d="scan'208";a="230291459"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Mar 2026 22:32:51 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w6MHw-00000000B5p-2Q34;
-	Sat, 28 Mar 2026 05:32:48 +0000
-Date: Sat, 28 Mar 2026 13:32:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 9060/10350]
- drivers/pinctrl/renesas/pinctrl-rzt2h.c:518 rzt2h_pinctrl_pinconf_get() warn:
- subtract is higher precedence than shift
-Message-ID: <202603281332.dmdyeUJT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PaZajXTg"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48538c5956bso27883195e9.0
+        for <oe-kbuild@lists.linux.dev>; Sat, 28 Mar 2026 01:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774685035; x=1775289835; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RljilLjsuRo1BCKXyXXUIO51n5ZE6ILez8/GHw5fO4w=;
+        b=PaZajXTgF/a2hDa05hLb/wPaGI+O9d0JVQDLX7/QhY9Po0ZMJtN/cTBcsviBGLynO0
+         Xjhu/KjY8+YZOBy7ZgPIDI0G755g/zlU8/CONoolQF8k5Ak5s5mSIFgsjYRSq9UDk91C
+         0iUlOBQAZjCsN0h0T/DHiZGuGRh8vInhwW6S6pXfOQGEEyrtnQTLHqxmFiAI8UqQWx1r
+         hlJfrsh4HBB2x1mxi0tOzQtsIMXRxNUFwq0yWMnufshRo7e5LKUlClBMr5n2ZhHQtL4o
+         YVk1L6wdbC1yQeNjyqhW9LKcVVcH72kQ62ZG/QKdXbexyS2DOd1rnu8L36Rq+PIC0CEo
+         hhMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774685035; x=1775289835;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RljilLjsuRo1BCKXyXXUIO51n5ZE6ILez8/GHw5fO4w=;
+        b=ccvPD4SiwqL7i7+7fRJ84UKeFqr9JP5/0kk+yaGa5oDZcgdMfJo/RPk8HKfSzK2cBk
+         013qqgiOw+QeVWyUsNHnUucn1m/I5wuKFPFXChKP7O3DVnbrymlzhZnnEoeAdn5wSqaN
+         WB4kMFBoHh1ZSNK8zqLSsOZHlY0rYx9tZDpi+ejuy8dsArhG61OJtaCpHXs+pZrSY3d5
+         qSWouMcWD76i6LDkbZiz1t8Dq0huo3oiqq6DlitMkWJBX3M0i5cZs+oBnmyK0gBBzO3P
+         8t/VOdScSuvYbJbWsfS7rz6iEGz58PRbxJul8A98qDpUMJRHscwATTcH7XH5c7wKrcY/
+         bxEA==
+X-Gm-Message-State: AOJu0YwgLm2xAPnz4rZKlwTqcPOSKEW/M3pMSFxj1PBf1yr1TT1427eU
+	KyTnUBNyJO6r0Kzra/FqlQFCdOGT8fpNlPBOSihV7QlZ7PqtVufRHyVrWXsQig==
+X-Gm-Gg: ATEYQzwG8wEZAul84fP3q9Dhh5pQ5FQMGHXKGe0nycB82Ed1ldHtx7CqdfyAsEeWQLY
+	g69KDVI5RjaGnI6GovczXTfWoI2bZGdBb/+bw7mR4kaR3i0zgXT1KQkM77q8t6a/5YRNcOz+ZR8
+	93aaiRAYuZsh/fWRjfk4fRA02m5L6sswIIC/bNR+xqgj8mSh5VUug3hTwfJkuE8GNzZHOzOh7C3
+	o25rrXLeiVyO1bF9m4ylVEJiKawyhjhiglJRQt7jNAKhFTMCrjmaAEfVpB7nnA59jigpDlGxVOz
+	F4+4wkauyGlwu39cJt9oRuktvcfyOL6ySZ8So0md4OGTSPaF7TLJnxIB5Vz42Y6WLeydWFVYkVq
+	dCgPBDXUmhP3kyq3zcYVXuzWxcHKFvtFZrTNSoPcz0zR0n+tAzajmyoxCZdjBeE+CT66yX+9ek1
+	OcDmLody4VrFP6ZqX0LZM=
+X-Received: by 2002:a05:600c:792:b0:485:4f11:aabc with SMTP id 5b1f17b1804b1-48722bf80d6mr69911705e9.15.1774685034825;
+        Sat, 28 Mar 2026 01:03:54 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e29b1sm3485077f8f.8.2026.03.28.01.03.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 01:03:53 -0700 (PDT)
+Date: Sat, 28 Mar 2026 11:03:50 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Linux PM <linux-pm@vger.kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mauricio Faria de Oliveira <mfo@igalia.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v1] thermal: core: Address thermal zone removal races
+ with resume
+Message-ID: <202603280307.P9324SuS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12876512.O9o76ZdvQC@rafael.j.wysocki>
+Message-ID: <20260328080350.q6uFrZHWvsnPWZMntEnmtsmr68HvCocnwjUCgVlOOc8@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Linus Walleij <linusw@kernel.org>
+Hi Rafael,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3b058d1aeeeff27a7289529c4944291613b364e9
-commit: 494feecd60e876a4310cdda279d918e91f930091 [9060/10350] pinctrl: renesas: rzt2h: Add pin configuration support
-:::::: branch date: 7 hours ago
-:::::: commit date: 34 hours ago
-config: arm64-randconfig-r073-20260328 (https://download.01.org/0day-ci/archive/20260328/202603281332.dmdyeUJT-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-J-Wysocki/thermal-core-Address-thermal-zone-removal-races-with-resume/20260327-222101
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/12876512.O9o76ZdvQC%40rafael.j.wysocki
+patch subject: [PATCH v1] thermal: core: Address thermal zone removal races with resume
+config: i386-randconfig-141-20260328 (https://download.01.org/0day-ci/archive/20260328/202603280307.P9324SuS-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603281332.dmdyeUJT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603280307.P9324SuS-lkp@intel.com/
 
-New smatch warnings:
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:518 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:518 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:518 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:518 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
+smatch warnings:
+drivers/thermal/thermal_core.c:1913 thermal_init() warn: missing error code 'result'
 
-Old smatch warnings:
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:551 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:551 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:551 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:551 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
+vim +/result +1913 drivers/thermal/thermal_core.c
 
-vim +518 drivers/pinctrl/renesas/pinctrl-rzt2h.c
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui         2008-01-17  1900  static int __init thermal_init(void)
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui         2008-01-17  1901  {
+80a26a5c22b90a drivers/thermal/thermal_core.c Zhang Rui         2013-03-26  1902  	int result;
+80a26a5c22b90a drivers/thermal/thermal_core.c Zhang Rui         2013-03-26  1903  
+755113d7678681 drivers/thermal/thermal_core.c Daniel Lezcano    2024-01-09  1904  	thermal_debug_init();
+755113d7678681 drivers/thermal/thermal_core.c Daniel Lezcano    2024-01-09  1905  
+d2a89b52839597 drivers/thermal/thermal_core.c Daniel Lezcano    2020-07-17  1906  	result = thermal_netlink_init();
+d2a89b52839597 drivers/thermal/thermal_core.c Daniel Lezcano    2020-07-17  1907  	if (result)
+d2a89b52839597 drivers/thermal/thermal_core.c Daniel Lezcano    2020-07-17  1908  		goto error;
+d2a89b52839597 drivers/thermal/thermal_core.c Daniel Lezcano    2020-07-17  1909  
+f777132b791874 drivers/thermal/thermal_core.c Rafael J. Wysocki 2026-03-26  1910  	thermal_wq = alloc_workqueue("thermal_events",
+f777132b791874 drivers/thermal/thermal_core.c Rafael J. Wysocki 2026-03-26  1911  				      WQ_FREEZABLE | WQ_POWER_EFFICIENT | WQ_PERCPU, 0);
+f777132b791874 drivers/thermal/thermal_core.c Rafael J. Wysocki 2026-03-26  1912  	if (!thermal_wq)
+f777132b791874 drivers/thermal/thermal_core.c Rafael J. Wysocki 2026-03-26 @1913  		goto unregister_netlink;
 
-34d4d093077a5c Thierry Bultel 2025-08-08  489  
-494feecd60e876 Lad Prabhakar  2026-03-19  490  static int rzt2h_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
-494feecd60e876 Lad Prabhakar  2026-03-19  491  				     unsigned int pin,
-494feecd60e876 Lad Prabhakar  2026-03-19  492  				     unsigned long *config)
-494feecd60e876 Lad Prabhakar  2026-03-19  493  {
-494feecd60e876 Lad Prabhakar  2026-03-19  494  	struct rzt2h_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
-494feecd60e876 Lad Prabhakar  2026-03-19  495  	u32 port, param = pinconf_to_config_param(*config);
-494feecd60e876 Lad Prabhakar  2026-03-19  496  	unsigned int arg;
-494feecd60e876 Lad Prabhakar  2026-03-19  497  	u8 port_pin;
-494feecd60e876 Lad Prabhakar  2026-03-19  498  	u64 drctl;
-494feecd60e876 Lad Prabhakar  2026-03-19  499  	int ret;
-494feecd60e876 Lad Prabhakar  2026-03-19  500  
-494feecd60e876 Lad Prabhakar  2026-03-19  501  	ret = rzt2h_validate_pin(pctrl, pin);
-494feecd60e876 Lad Prabhakar  2026-03-19  502  	if (ret)
-494feecd60e876 Lad Prabhakar  2026-03-19  503  		return ret;
-494feecd60e876 Lad Prabhakar  2026-03-19  504  
-494feecd60e876 Lad Prabhakar  2026-03-19  505  	port = RZT2H_PIN_ID_TO_PORT(pin);
-494feecd60e876 Lad Prabhakar  2026-03-19  506  	port_pin = RZT2H_PIN_ID_TO_PIN(pin);
-494feecd60e876 Lad Prabhakar  2026-03-19  507  
-494feecd60e876 Lad Prabhakar  2026-03-19  508  	switch (param) {
-494feecd60e876 Lad Prabhakar  2026-03-19  509  	case PIN_CONFIG_SLEW_RATE:
-494feecd60e876 Lad Prabhakar  2026-03-19  510  		drctl = rzt2h_pinctrl_readq(pctrl, port, DRCTL(port));
-494feecd60e876 Lad Prabhakar  2026-03-19  511  		arg = field_get(DRCTL_SR_PIN_MASK(port_pin), drctl);
-494feecd60e876 Lad Prabhakar  2026-03-19  512  		break;
-494feecd60e876 Lad Prabhakar  2026-03-19  513  
-494feecd60e876 Lad Prabhakar  2026-03-19  514  	case PIN_CONFIG_BIAS_DISABLE:
-494feecd60e876 Lad Prabhakar  2026-03-19  515  	case PIN_CONFIG_BIAS_PULL_UP:
-494feecd60e876 Lad Prabhakar  2026-03-19  516  	case PIN_CONFIG_BIAS_PULL_DOWN:
-494feecd60e876 Lad Prabhakar  2026-03-19  517  		drctl = rzt2h_pinctrl_readq(pctrl, port, DRCTL(port));
-494feecd60e876 Lad Prabhakar  2026-03-19 @518  		arg = field_get(DRCTL_PUD_PIN_MASK(port_pin), drctl);
-494feecd60e876 Lad Prabhakar  2026-03-19  519  		/* for PIN_CONFIG_BIAS_PULL_UP/DOWN when enabled we just return 1 */
-494feecd60e876 Lad Prabhakar  2026-03-19  520  		switch (arg) {
-494feecd60e876 Lad Prabhakar  2026-03-19  521  		case DRCTL_PUD_NONE:
-494feecd60e876 Lad Prabhakar  2026-03-19  522  			if (param != PIN_CONFIG_BIAS_DISABLE)
-494feecd60e876 Lad Prabhakar  2026-03-19  523  				return -EINVAL;
-494feecd60e876 Lad Prabhakar  2026-03-19  524  			break;
-494feecd60e876 Lad Prabhakar  2026-03-19  525  		case DRCTL_PUD_PULL_UP:
-494feecd60e876 Lad Prabhakar  2026-03-19  526  			if (param != PIN_CONFIG_BIAS_PULL_UP)
-494feecd60e876 Lad Prabhakar  2026-03-19  527  				return -EINVAL;
-494feecd60e876 Lad Prabhakar  2026-03-19  528  			arg = 1;
-494feecd60e876 Lad Prabhakar  2026-03-19  529  			break;
-494feecd60e876 Lad Prabhakar  2026-03-19  530  		case DRCTL_PUD_PULL_DOWN:
-494feecd60e876 Lad Prabhakar  2026-03-19  531  			if (param != PIN_CONFIG_BIAS_PULL_DOWN)
-494feecd60e876 Lad Prabhakar  2026-03-19  532  				return -EINVAL;
-494feecd60e876 Lad Prabhakar  2026-03-19  533  			arg = 1;
-494feecd60e876 Lad Prabhakar  2026-03-19  534  			break;
-494feecd60e876 Lad Prabhakar  2026-03-19  535  		default:
-494feecd60e876 Lad Prabhakar  2026-03-19  536  			return -EINVAL;
-494feecd60e876 Lad Prabhakar  2026-03-19  537  		}
-494feecd60e876 Lad Prabhakar  2026-03-19  538  		break;
-494feecd60e876 Lad Prabhakar  2026-03-19  539  
-494feecd60e876 Lad Prabhakar  2026-03-19  540  	case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
-494feecd60e876 Lad Prabhakar  2026-03-19  541  		drctl = rzt2h_pinctrl_readq(pctrl, port, DRCTL(port));
-494feecd60e876 Lad Prabhakar  2026-03-19  542  		arg = field_get(DRCTL_SMT_PIN_MASK(port_pin), drctl);
-494feecd60e876 Lad Prabhakar  2026-03-19  543  		if (!arg)
-494feecd60e876 Lad Prabhakar  2026-03-19  544  			return -EINVAL;
-494feecd60e876 Lad Prabhakar  2026-03-19  545  		break;
-494feecd60e876 Lad Prabhakar  2026-03-19  546  
-494feecd60e876 Lad Prabhakar  2026-03-19  547  	case PIN_CONFIG_DRIVE_STRENGTH_UA: {
-494feecd60e876 Lad Prabhakar  2026-03-19  548  		int idx_drv;
-494feecd60e876 Lad Prabhakar  2026-03-19  549  
-494feecd60e876 Lad Prabhakar  2026-03-19  550  		drctl = rzt2h_pinctrl_readq(pctrl, port, DRCTL(port));
-494feecd60e876 Lad Prabhakar  2026-03-19  551  		arg = field_get(DRCTL_DRV_PIN_MASK(port_pin), drctl);
-494feecd60e876 Lad Prabhakar  2026-03-19  552  		idx_drv = rzt2h_drive_strength_idx_to_ua(arg);
-494feecd60e876 Lad Prabhakar  2026-03-19  553  		if (idx_drv < 0)
-494feecd60e876 Lad Prabhakar  2026-03-19  554  			return idx_drv;
-494feecd60e876 Lad Prabhakar  2026-03-19  555  		arg = idx_drv;
-494feecd60e876 Lad Prabhakar  2026-03-19  556  		break;
-494feecd60e876 Lad Prabhakar  2026-03-19  557  	}
-494feecd60e876 Lad Prabhakar  2026-03-19  558  
-494feecd60e876 Lad Prabhakar  2026-03-19  559  	default:
-494feecd60e876 Lad Prabhakar  2026-03-19  560  		return -ENOTSUPP;
-494feecd60e876 Lad Prabhakar  2026-03-19  561  	}
-494feecd60e876 Lad Prabhakar  2026-03-19  562  
-494feecd60e876 Lad Prabhakar  2026-03-19  563  	*config = pinconf_to_config_packed(param, arg);
-494feecd60e876 Lad Prabhakar  2026-03-19  564  	return 0;
-494feecd60e876 Lad Prabhakar  2026-03-19  565  }
-494feecd60e876 Lad Prabhakar  2026-03-19  566  
+result = -ENOMEM;
+
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
