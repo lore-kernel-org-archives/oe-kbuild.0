@@ -1,136 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE43F282F2C
-	for <oe-kbuild@lists.linux.dev>; Sun, 29 Mar 2026 14:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA01279DCC
+	for <oe-kbuild@lists.linux.dev>; Sun, 29 Mar 2026 15:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774793910; cv=none; b=L59BvP6lBf/0gYXPg2Ek5Ag2qFz/6yXyatMi9aSsKt3jQM34dXMksDkYaof8kuHf9eYR59agdZOVMg3MNGliDwZFM1OG7/tlGhn7E+MfLVJ/P4axiUYr/e/BGrFVnEO/hCarwATh0M82hngPdVMj53aygjnwYlnFrqdtLNpWE1c=
+	t=1774796721; cv=none; b=pEzFuAVsz9ftzQ/9XPJCf6BcSRf4dFPaSe/TybwLZH3l5P/aAFd/HI/R1W8xbx4ftLfJBM4RflYv0Pagj15S4qXkp6k0yZaEUqsY0yUgAyuuvGG6vG/eB/VXQzFeVqoxikdHcEZqrzDYbjX+WfdUHGpwDYUcUxOz58r1Tf2gSII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774793910; c=relaxed/simple;
-	bh=ZI1Wi5WRzA6tR5xDBsNxe7aBmKydLyf28xbG/w55ZPM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CILmrG4EF8UuHbOLTH3gevNMxsgd9N+nOPrfEYFO0cYz0q4tnbd7jP2e7dc3NwvqNunTaqBr57PaL4f4XKLopTJSPS0FM1Rvi7mjo7esLhPS7CuniI5WzPfoJQE8KIjMd17awBobtCXHLFf+38/vMz0yEHTha2K+8YWd+kBCVEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gv4eT8iy; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1774796721; c=relaxed/simple;
+	bh=eWlf0yXAlw+2QppnN7cmid53z+YUXgPNeyT6QswVnrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n8PjMn6vnzy+nzW/nGFP1AQnIe5swmljY/8y0OgVIichE9h2rJu7vtq7+cG0R5OK+ZI7+XieS3ZOa+FSyY70I8a3/gKEyhia4IF99LnPKWMhQ8Cy20SSUDpK7DAVOh4o+foYfYH35sJNXWvBSTisI9qaw8Mv45IFJ85WdNK21WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCMx3yC+; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gv4eT8iy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCMx3yC+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774793907; x=1806329907;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZI1Wi5WRzA6tR5xDBsNxe7aBmKydLyf28xbG/w55ZPM=;
-  b=Gv4eT8iyj0DE1IJHIGkZbxpgsxWo765QiI0YKAisEyhe4FyRyS3Ny976
-   hvQInQtHpo59f6Ih0MuQs6lKPcNyj0qeXYfsqzNy9Qk16q4aOxp0WM4w/
-   FKC07+tin2nINGZA0xuTnDkRqR64VMJMnV9b3y4B9qa0AmJ6/KKQ/R7/6
-   EdjApXNAgdZAWvqFdQAZzY7PlxYmGDSttPGO0nad+kWzlF/DbWxyjySBd
-   ElxqgbEEjaOo65r1p3j/2k8FP1cUeWBeMhYVUe8Ow6Xk2IhWFvH6u/6gD
-   15C2CPQqTdtMS6rcAP/mQbvJ8pGrtM8EB9qPDiSlEGc96U9oOKL17Se30
-   Q==;
-X-CSE-ConnectionGUID: f6RTPxMBT8WfFqAq4qyXaw==
-X-CSE-MsgGUID: 1M8CkbCnRA6dmO1q3Wf9Ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="78398069"
+  t=1774796720; x=1806332720;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eWlf0yXAlw+2QppnN7cmid53z+YUXgPNeyT6QswVnrA=;
+  b=GCMx3yC+miTT4oGRYGdS7B0Qowsz13TEENG9tWoym6Q9eEQD5KUOsKmH
+   TMoWzGeZ11/4WWL3bae7jkxYeeSRIY4HWjN2cNF19tO99iRR9CFaheyCN
+   9Y5W5yVmTKL4OFVB/wIKLvrMd7f0qoIN1enazySIre7bRUz6kjTEBjrEB
+   xvyezKUGwvoAvB9ObYnTMAjmpvYiE9my0mIg4YmKC1TDvYz5dqKmGAtmz
+   chEC0RKTDJ1kfy2k5ty3jCGlzUGHqvafJw7c25UUNRsmov39yH2/6edwi
+   dO+9A0/yOnMDuVxeixmS7tu2/t+LkoQnj3fyjGAntK2YSXMvdia6QsUS8
+   A==;
+X-CSE-ConnectionGUID: zDdMkovCR8uNkZXCzU+BaA==
+X-CSE-MsgGUID: DJ+v0vPpTyOiqXsO8s7b5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75773126"
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="78398069"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 07:18:26 -0700
-X-CSE-ConnectionGUID: QCg3VhakRW+e6PxxFlGjTw==
-X-CSE-MsgGUID: xTMwzj5oR6WGvHTAomJNBg==
+   d="scan'208";a="75773126"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 08:05:20 -0700
+X-CSE-ConnectionGUID: cF+L1oaYRIuyTZtXuhlXtA==
+X-CSE-MsgGUID: z6RpElvkTYu4DKyLfvZVMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="221404854"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Mar 2026 07:18:25 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="249031822"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 29 Mar 2026 08:05:18 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6qy6-00000000CRF-3rW4;
-	Sun, 29 Mar 2026 14:18:22 +0000
-Date: Sun, 29 Mar 2026 22:17:51 +0800
+	id 1w6rhT-000000007vh-318i;
+	Sun, 29 Mar 2026 15:05:15 +0000
+Date: Sun, 29 Mar 2026 17:04:18 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:android-mainline 12/12]
- drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing put_device; call
- of_find_device_by_node on line 168, but without a corresponding object
- release within this function.
-Message-ID: <202603292219.7I3EgPFc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v5] perf utilities: cln_size header
+Message-ID: <202603291618.3giyFism-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20260328200442.134489-1-ricky.ringler@proton.me>
+References: <20260328200442.134489-1-ricky.ringler@proton.me>
+TO: Ricky Ringler <ricky.ringler@proton.me>
+TO: namhyung@kernel.org
+CC: irogers@google.com
+CC: mingo@redhat.com
+CC: acme@kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-perf-users@vger.kernel.org
+CC: Ricky Ringler <ricky.ringler@proton.me>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   f913cf91bd605dfe1c02404e4ed46d65b9a40169
-commit: 4c413248920106393b35b5e014e6ac525405437e [12/12] PCI/pwrctrl: Add APIs to create, destroy pwrctrl devices
-:::::: branch date: 20 hours ago
-:::::: commit date: 2 months ago
-config: arm-randconfig-r064-20260329 (https://download.01.org/0day-ci/archive/20260329/202603292219.7I3EgPFc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+Hi Ricky,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on perf-tools-next/perf-tools-next]
+[also build test ERROR on tip/perf/core perf-tools/perf-tools next-20260327]
+[cannot apply to acme/perf/core linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricky-Ringler/perf-utilities-cln_size-header/20260329-205729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20260328200442.134489-1-ricky.ringler%40proton.me
+patch subject: [PATCH v5] perf utilities: cln_size header
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260329/202603291618.3giyFism-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291618.3giyFism-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202603292219.7I3EgPFc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603291618.3giyFism-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pci/pwrctrl/core.c:198:1-7: ERROR: missing put_device; call of_find_device_by_node on line 168, but without a corresponding object release within this function.
+All errors (new ones prefixed by >>):
 
-vim +198 drivers/pci/pwrctrl/core.c
-
-4565d2652a37e4 drivers/pci/pwrctl/core.c  Bartosz Golaszewski       2024-06-12  154  
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  155  static int pci_pwrctrl_create_device(struct device_node *np,
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  156  				     struct device *parent)
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  157  {
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  158  	struct platform_device *pdev;
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  159  	int ret;
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  160  
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  161  	for_each_available_child_of_node_scoped(np, child) {
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  162  		ret = pci_pwrctrl_create_device(child, parent);
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  163  		if (ret)
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  164  			return ret;
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  165  	}
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  166  
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  167  	/* Bail out if the platform device is already available for the node */
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @168  	pdev = of_find_device_by_node(np);
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  169  	if (pdev) {
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  170  		platform_device_put(pdev);
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  171  		return 0;
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  172  	}
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  173  
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  174  	/*
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  175  	 * Sanity check to make sure that the node has the compatible property
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  176  	 * to allow driver binding.
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  177  	 */
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  178  	if (!of_property_present(np, "compatible"))
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  179  		return 0;
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  180  
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  181  	/*
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  182  	 * Check whether the pwrctrl device really needs to be created or not.
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  183  	 * This is decided based on at least one of the power supplies being
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  184  	 * defined in the devicetree node of the device.
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  185  	 */
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  186  	if (!of_pci_supply_present(np)) {
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  187  		dev_dbg(parent, "Skipping OF node: %s\n", np->name);
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  188  		return 0;
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  189  	}
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  190  
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  191  	/* Now create the pwrctrl device */
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  192  	pdev = of_platform_device_create(np, NULL, parent);
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  193  	if (!pdev) {
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  194  		dev_err(parent, "Failed to create pwrctrl device for node: %s\n", np->name);
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  195  		return -EINVAL;
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  196  	}
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  197  
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15 @198  	return 0;
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  199  }
-4c413248920106 drivers/pci/pwrctrl/core.c Krishna Chaitanya Chundru 2026-01-15  200  
+   Makefile.config:576: No elfutils/debuginfod.h found, no debuginfo server support, please install libdebuginfod-dev/elfutils-debuginfod-client-devel or equivalent
+   Makefile.config:963: No libllvm 13+ found, slower source file resolution, please install llvm-devel/llvm-dev
+   Makefile.config:1159: Rust is not found. Test workloads with rust are disabled.
+     PERF_VERSION = 7.0.rc4.ga971d40d4a8d
+   util/header.c: In function 'write_cln_size':
+>> util/header.c:1308:32: error: expected expression before '=' token
+    1308 | #define DEFAULT_CACHELINE_SIZE = 64
+         |                                ^
+   util/header.c:1317:28: note: in expansion of macro 'DEFAULT_CACHELINE_SIZE'
+    1317 |                 cln_size = DEFAULT_CACHELINE_SIZE;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   make[4]: *** [tools/build/Makefile.build:95: util/header.o] Error 1
+   make[4]: *** Waiting for unfinished jobs....
+   make[3]: *** [tools/build/Makefile.build:158: util] Error 2
+   make[2]: *** [Makefile.perf:797: perf-util-in.o] Error 2
+   make[2]: *** Waiting for unfinished jobs....
+   make[1]: *** [Makefile.perf:289: sub-make] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
