@@ -1,132 +1,245 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF0B26A1A7
-	for <oe-kbuild@lists.linux.dev>; Sun, 29 Mar 2026 19:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28D926FA60
+	for <oe-kbuild@lists.linux.dev>; Sun, 29 Mar 2026 23:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774812772; cv=none; b=gGzAaUHCMEXrcxTs9IakEBni/n4WPxuxcUXWU6K4BeJCGn/HxsFlVlMypMxnw25NgSx8s0oFG5ArCc0gop3hctk/S4zq0Zt3ySD6na687cP3uwBlk7K9RN613VI1W44wNyYElP+VcxccG+AS+NJX5zQns5MOHuSiubalwMfOn9w=
+	t=1774827665; cv=none; b=uiejS39csq9Mp/SMNRofkR5FpuZrupoNU+R8wbgT/HBSwiN5SNA7b3vXAlqM4xQ1ouecE4n4vCKNtpkDqjjgCdNADJDIMIwK2FrIrjqqSjo3xJ/sUBZF6U5L30iAQ+03/e1Z7UjidazfoUikVy2cL38Kf9OCa6D4iGsEfXmM/v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774812772; c=relaxed/simple;
-	bh=rNOtyqE88EoocoFnJ6NlEKgjiMn4d7nnMXQvCbvkJXE=;
+	s=arc-20240116; t=1774827665; c=relaxed/simple;
+	bh=Xlm7+aVT7FxzAA3u5Q91zmzFmBCgLorPw0f/JHL9HEY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kd/D6rza2u9BRtbS4vO6RmpW/aFwCziDtrCMc6q2z8VY2N4ksOy2FzqnElkWabmmycVvIUyn8NzJH7lA819f1n4PJCanbKGpoM94kWj9VW/4mPiVZmq0Rz4QMbmjw2vl1+lmNeugkWoByKybpvpPAlN9k7EcYBRaqJqMAI1Ucks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uskf1CWn; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Disposition; b=V8asdihHPL6y3g3j6Fa4kHwkgiSGGW0Zulh2fke9k+flM6c169az1op8r9hd81Rn5BprNV6KWRgz5Gy40/u6aac0rzhXAeBCOgHCgbYC47h4tgbr0Dzy0lq9N3/huccUo3mXyfAQqsEOQJHFISSr7U86zjd4T2ZzCgVH9Cdb9hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NXp8u1D0; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uskf1CWn"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4870206f73bso22209495e9.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 29 Mar 2026 12:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774812769; x=1775417569; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a6VvwY2um+1G+zyhgax4hPE5TziXAcWpnu+VdKulIUc=;
-        b=Uskf1CWns/v5/n6BN6j7m/9DrD2nAAKDlolC/gYz7Dyvj63ujggUED9kFzbBFfsSTe
-         twt3SSxI2jmgkKkr7QNhacNOZEKImFbotrEa4tlCV/6lv58O3h0aCF5Iv1P2VDARKrvn
-         kHxoK9mSnGIKQnZjgZwtt/tqmJbQ4NpZQrwd6q74rZ6GRLUFTU9wJVdH6BjtnHgZwG9L
-         c0fDxy1zWL5PQbEQMVdIv8UHilGy4ZSwlNkGqRC24Z0rIT+U5i5ZzYigSdneHUH5KR8U
-         wfISBrkDM0IpHClW2N3bBAJq/zUc16/ozQ6x0/YbN2PjNFoI5DPdJaz1Ivej1SLjgPT7
-         fXeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774812769; x=1775417569;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a6VvwY2um+1G+zyhgax4hPE5TziXAcWpnu+VdKulIUc=;
-        b=SzdF4bMaUFaqqKF/w3PY+iGBmFYk380dy1fErg2lSdP4L6qRlGLOQhHPS1KI4IYgHV
-         HFZFnbnAMPXvf7HG8nLo3za4qJV6yKHoqZgQfxt4KNi4DsqOi7MYK2EjInnBHGh8FGcw
-         /+G+vLhgOhtWBP3V2hN4/PYKSihMEQ5nOU2gorq1FA8Pfysy5PFfpW5x1myMKtA8jjWY
-         OZQEsfmqDPKiqiid2SJXS24ygc7fx1SP7Cr1SpMBFlb+jZ1QPELrqGb7dwudLDfrXBI/
-         SNTXv1PTS9RkmZO6zVCEXJZRYf591J/kzNoOmxDmwE5NBkEZkj1TZYceCFuuPI48PGqM
-         gbvg==
-X-Gm-Message-State: AOJu0YwRVfbD3UxArtmT2sTaITm/ujFPlrqEyf69gridnFJV+5eLDviz
-	7St9gzzFwSRtStl0UzPE4TejFVnpkfxuUnTJXQMWWOqF4MYBRo+Ywry6Uxra3w==
-X-Gm-Gg: ATEYQzxOj9rP3LJls/st2J33koM6ojZ7fiy1BbJRcOv7Hb7RX62WPsvkUrk3VcW/A1b
-	+jXSjlc1aNuex1SnnX0XcGvRS4wt3lwiqdh0glrrZdRt1uLsyvCEFv0anxNxPdJaPRWpuGzTogm
-	mgJXVrpgoHZFjjbnG+9b27QE/PGRyUAd+4txfivhoOfRL5N29EJeWoRaNfYwa7H7PTV/o0ahahp
-	B4s2A9VqsNN7xCkvk7s1SCiDixyPxzGhZAWsownBRHFImW8pyCm9OFhsmEapRPFDa3TSXoPHpvx
-	3YksgP6ek5vWELhGlxaHbKaDIcettpcn++XoPK/Pce5F8T/kgaP0yDlz16NoumvJSRRTsgSNMw4
-	SAcn4fvDl3P16hJyI1Dnz3Yo4S51jFOyMmNg+Yf/zl2PISB9W7WDfVCQZ4uwCz8JdjWChDHrEYw
-	uj9zaXkfPt7rbUHFT3wVI=
-X-Received: by 2002:a05:600d:8:b0:486:fb0b:ad79 with SMTP id 5b1f17b1804b1-48727f7b951mr140290415e9.20.1774812768409;
-        Sun, 29 Mar 2026 12:32:48 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf245e4b9sm12127140f8f.20.2026.03.29.12.32.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 12:32:47 -0700 (PDT)
-Date: Sun, 29 Mar 2026 22:32:44 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 7/7] kernel/sched/deadline.c:2501
- find_later_rq() error: we previously assumed 'exec_ctx' could be null (see
- line 2494)
-Message-ID: <202603282157.m7MFAEFC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NXp8u1D0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774827662; x=1806363662;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Xlm7+aVT7FxzAA3u5Q91zmzFmBCgLorPw0f/JHL9HEY=;
+  b=NXp8u1D0T1lO5aY9k+zWrEh1+tlPTQTcFG+hwyDjF75LnFwr2aVqFEkf
+   L6FKqp05F6tFXhg4JXYc+/x0RbJ5fk57Oz5QJFBlGXP33rA5xtxIF1ZXv
+   GH8VsRAiPDL6W1U1lqK2xZiwg9Tjgk7hp9U7QUQGG6CK0IFAJtCpQqqtE
+   Lk7bNkbEkYxR7Ay2NfDgoV0ysUs4PFOQJ/YpK05uHI99Vl3iBAhtIkjQL
+   a/KP4D6tAmzevhcDTpKwXxuYD+L0H69McGvREcCgFE1K3ynvmImRNmuHb
+   /fSKtaALOZkYWq21mok0Q09olc3Hsnc1jq971csURKA+G33y5h9lIAC9C
+   w==;
+X-CSE-ConnectionGUID: QM/s2oTGT9CH8BrMosTHSg==
+X-CSE-MsgGUID: 65It/N3RTdOXFlyQfEgr6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="79680497"
+X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
+   d="scan'208";a="79680497"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 16:41:01 -0700
+X-CSE-ConnectionGUID: yK1AKhfqTrmUnP4DsIsfww==
+X-CSE-MsgGUID: bfgTrElvQWmtu+UbXE7MZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
+   d="scan'208";a="225888294"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 29 Mar 2026 16:41:00 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w6zkX-000000000Kb-3t6k;
+	Sun, 29 Mar 2026 23:40:57 +0000
+Date: Mon, 30 Mar 2026 07:40:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 3/4] dmaengine: dma-axi-dmac: fix use-after-free on
+ unbind
+Message-ID: <202603300705.jhDfInJk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Message-ID: <20260329193244.nJOeGleGJ1WnKUupjWOmLoAIw7PMQTVKzoDcjx-mGGk@z>
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   1eeff75d058d17b506a97fa282e7bbb55074c8d1
-commit: 57d50e9d7fc2f224ab09145b7ba2aae530ec798e [7/7] ANDROID: sched: Add find_exec_ctx helper
-config: i386-randconfig-141-20260328 (https://download.01.org/0day-ci/archive/20260328/202603282157.m7MFAEFC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260327-dma-dmac-handle-vunmap-v2-3-021f95f0e87b@analog.com>
+References: <20260327-dma-dmac-handle-vunmap-v2-3-021f95f0e87b@analog.com>
+TO: "Nuno Sá via B4 Relay" <devnull+nuno.sa.analog.com@kernel.org>
+TO: dmaengine@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Frank Li <Frank.Li@kernel.org>
+
+Hi Nuno,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b7560798466a07d9c3fb011698e92c335ab28baf]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S-via-B4-Relay/dmaengine-Fix-possuible-use-after-free/20260329-160000
+base:   b7560798466a07d9c3fb011698e92c335ab28baf
+patch link:    https://lore.kernel.org/r/20260327-dma-dmac-handle-vunmap-v2-3-021f95f0e87b%40analog.com
+patch subject: [PATCH v2 3/4] dmaengine: dma-axi-dmac: fix use-after-free on unbind
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: loongarch-randconfig-r071-20260329 (https://download.01.org/0day-ci/archive/20260330/202603300705.jhDfInJk-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.2.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603282157.m7MFAEFC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603300705.jhDfInJk-lkp@intel.com/
 
 smatch warnings:
-kernel/sched/deadline.c:2501 find_later_rq() error: we previously assumed 'exec_ctx' could be null (see line 2494)
+drivers/dma/dma-axi-dmac.c:1342 axi_dmac_probe() warn: address of NULL pointer 'dmac'
 
-vim +/exec_ctx +2501 kernel/sched/deadline.c
+vim +/dmac +1342 drivers/dma/dma-axi-dmac.c
 
-c621dead3a640a Connor O'Brien    2023-11-08  2483  static int find_later_rq(struct task_struct *sched_ctx, struct task_struct *exec_ctx)
-1baca4ce16b8cc Juri Lelli        2013-11-07  2484  {
-1baca4ce16b8cc Juri Lelli        2013-11-07  2485  	struct sched_domain *sd;
-4ba2968420fa9d Christoph Lameter 2014-08-26  2486  	struct cpumask *later_mask = this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
-1baca4ce16b8cc Juri Lelli        2013-11-07  2487  	int this_cpu = smp_processor_id();
-c621dead3a640a Connor O'Brien    2023-11-08  2488  	int cpu = task_cpu(sched_ctx);
-1baca4ce16b8cc Juri Lelli        2013-11-07  2489  
-1baca4ce16b8cc Juri Lelli        2013-11-07  2490  	/* Make sure the mask is initialized first */
-1baca4ce16b8cc Juri Lelli        2013-11-07  2491  	if (unlikely(!later_mask))
-1baca4ce16b8cc Juri Lelli        2013-11-07  2492  		return -1;
-1baca4ce16b8cc Juri Lelli        2013-11-07  2493  
-57d50e9d7fc2f2 Connor O'Brien    2023-11-08 @2494  	if (exec_ctx && exec_ctx->nr_cpus_allowed == 1)
-                                                            ^^^^^^^^
-Check for NULL.
-
-1baca4ce16b8cc Juri Lelli        2013-11-07  2495  		return -1;
-1baca4ce16b8cc Juri Lelli        2013-11-07  2496  
-91ec6778ec4f96 Juri Lelli        2014-09-19  2497  	/*
-91ec6778ec4f96 Juri Lelli        2014-09-19  2498  	 * We have to consider system topology and task affinity
-97fb7a0a8944bd Ingo Molnar       2018-03-03  2499  	 * first, then we can look for a suitable CPU.
-91ec6778ec4f96 Juri Lelli        2014-09-19  2500  	 */
-c621dead3a640a Connor O'Brien    2023-11-08 @2501  	if (!cpudl_find(&task_rq(exec_ctx)->rd->cpudl, sched_ctx, exec_ctx, later_mask))
-                                                                                 ^^^^^^^^
-If exec_ctx were really NULL on line 2494 then the kernel would crash
-here.
-
-1baca4ce16b8cc Juri Lelli        2013-11-07  2502  		return -1;
-1baca4ce16b8cc Juri Lelli        2013-11-07  2503  
-1baca4ce16b8cc Juri Lelli        2013-11-07  2504  	/*
-b18c3ca11c20ca Byungchul Park    2017-05-23  2505  	 * If we are here, some targets have been found, including
-b18c3ca11c20ca Byungchul Park    2017-05-23  2506  	 * the most suitable which is, among the runqueues where the
-b18c3ca11c20ca Byungchul Park    2017-05-23  2507  	 * current tasks have later deadlines than the task's one, the
-b18c3ca11c20ca Byungchul Park    2017-05-23  2508  	 * rq with the latest possible one.
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1231  
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1232  static int axi_dmac_probe(struct platform_device *pdev)
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1233  {
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1234  	struct dma_device *dma_dev;
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1235  	struct axi_dmac *__dmac;
+a5b982af953bcc8 Chuhong Yuan       2019-12-09  1236  	struct regmap *regmap;
+b377e670bac558a Alexandru Ardelean 2020-08-25  1237  	unsigned int version;
+238f68a08e19a61 Paul Cercueil      2023-12-15  1238  	u32 irq_mask = 0;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1239  	int ret;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1240  
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1241  	struct axi_dmac *dmac __free(kfree) = kzalloc_obj(struct axi_dmac);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1242  	if (!dmac)
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1243  		return -ENOMEM;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1244  
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1245  	dmac->irq = platform_get_irq(pdev, 0);
+50dc60a25597e10 Lars-Peter Clausen 2016-07-01  1246  	if (dmac->irq < 0)
+50dc60a25597e10 Lars-Peter Clausen 2016-07-01  1247  		return dmac->irq;
+50dc60a25597e10 Lars-Peter Clausen 2016-07-01  1248  	if (dmac->irq == 0)
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1249  		return -EINVAL;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1250  
+4b23603a251d240 Tudor Ambarus      2022-11-10  1251  	dmac->base = devm_platform_ioremap_resource(pdev, 0);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1252  	if (IS_ERR(dmac->base))
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1253  		return PTR_ERR(dmac->base);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1254  
+779a44831a4f646 Nuno Sa            2024-03-28  1255  	dmac->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1256  	if (IS_ERR(dmac->clk))
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1257  		return PTR_ERR(dmac->clk);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1258  
+78a2f92e4c4a3b7 Alexandru Ardelean 2020-08-25  1259  	version = axi_dmac_read(dmac, ADI_AXI_REG_VERSION);
+78a2f92e4c4a3b7 Alexandru Ardelean 2020-08-25  1260  
+78a2f92e4c4a3b7 Alexandru Ardelean 2020-08-25  1261  	if (version >= ADI_AXI_PCORE_VER(4, 3, 'a'))
+78a2f92e4c4a3b7 Alexandru Ardelean 2020-08-25  1262  		ret = axi_dmac_read_chan_config(&pdev->dev, dmac);
+78a2f92e4c4a3b7 Alexandru Ardelean 2020-08-25  1263  	else
+06b6e88c7ecf48e Alexandru Ardelean 2020-08-25  1264  		ret = axi_dmac_parse_dt(&pdev->dev, dmac);
+78a2f92e4c4a3b7 Alexandru Ardelean 2020-08-25  1265  
+06b6e88c7ecf48e Alexandru Ardelean 2020-08-25  1266  	if (ret < 0)
+779a44831a4f646 Nuno Sa            2024-03-28  1267  		return ret;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1268  
+a88fdece44d40cd Alexandru Ardelean 2020-08-25  1269  	INIT_LIST_HEAD(&dmac->chan.active_descs);
+a88fdece44d40cd Alexandru Ardelean 2020-08-25  1270  
+921234e0c5d77b5 Lars-Peter Clausen 2019-03-08  1271  	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1272  
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1273  	dma_dev = &dmac->dma_dev;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1274  	dma_cap_set(DMA_SLAVE, dma_dev->cap_mask);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1275  	dma_cap_set(DMA_CYCLIC, dma_dev->cap_mask);
+9a05045d2a681d3 Dragos Bogdan      2019-03-26  1276  	dma_cap_set(DMA_INTERLEAVE, dma_dev->cap_mask);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1277  	dma_dev->device_free_chan_resources = axi_dmac_free_chan_resources;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1278  	dma_dev->device_tx_status = dma_cookie_status;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1279  	dma_dev->device_issue_pending = axi_dmac_issue_pending;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1280  	dma_dev->device_prep_slave_sg = axi_dmac_prep_slave_sg;
+74609e5686701ed Paul Cercueil      2024-06-20  1281  	dma_dev->device_prep_peripheral_dma_vec = axi_dmac_prep_peripheral_dma_vec;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1282  	dma_dev->device_prep_dma_cyclic = axi_dmac_prep_dma_cyclic;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1283  	dma_dev->device_prep_interleaved_dma = axi_dmac_prep_interleaved;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1284  	dma_dev->device_terminate_all = axi_dmac_terminate_all;
+860dd64c4382709 Lars-Peter Clausen 2015-10-20  1285  	dma_dev->device_synchronize = axi_dmac_synchronize;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1286  	dma_dev->dev = &pdev->dev;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1287  	dma_dev->src_addr_widths = BIT(dmac->chan.src_width);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1288  	dma_dev->dst_addr_widths = BIT(dmac->chan.dest_width);
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1289  	dma_dev->device_release = axi_dmac_release;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1290  	dma_dev->directions = BIT(dmac->chan.direction);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1291  	dma_dev->residue_granularity = DMA_RESIDUE_GRANULARITY_DESCRIPTOR;
+e97dc7435972d28 Paul Cercueil      2023-12-15  1292  	dma_dev->max_sg_burst = 31; /* 31 SGs maximum in one burst */
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1293  	INIT_LIST_HEAD(&dma_dev->channels);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1294  
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1295  	dmac->chan.vchan.desc_free = axi_dmac_desc_free;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1296  	vchan_init(&dmac->chan.vchan, dma_dev);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1297  
+b377e670bac558a Alexandru Ardelean 2020-08-25  1298  	ret = axi_dmac_detect_caps(dmac, version);
+b5d89905d0391de Lars-Peter Clausen 2019-05-16  1299  	if (ret)
+779a44831a4f646 Nuno Sa            2024-03-28  1300  		return ret;
+56009f0d2f54e4c Lars-Peter Clausen 2019-03-26  1301  
+5b969bd1d9cdfc8 Alexandru Ardelean 2019-05-27  1302  	dma_dev->copy_align = (dmac->chan.address_align_mask + 1);
+56009f0d2f54e4c Lars-Peter Clausen 2019-03-26  1303  
+238f68a08e19a61 Paul Cercueil      2023-12-15  1304  	if (dmac->chan.hw_sg)
+238f68a08e19a61 Paul Cercueil      2023-12-15  1305  		irq_mask |= AXI_DMAC_IRQ_SOT;
+238f68a08e19a61 Paul Cercueil      2023-12-15  1306  
+238f68a08e19a61 Paul Cercueil      2023-12-15  1307  	axi_dmac_write(dmac, AXI_DMAC_REG_IRQ_MASK, irq_mask);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1308  
+9327c7e7539371c Mathias Tausen     2022-07-26  1309  	if (of_dma_is_coherent(pdev->dev.of_node)) {
+9327c7e7539371c Mathias Tausen     2022-07-26  1310  		ret = axi_dmac_read(dmac, AXI_DMAC_REG_COHERENCY_DESC);
+9327c7e7539371c Mathias Tausen     2022-07-26  1311  
+9327c7e7539371c Mathias Tausen     2022-07-26  1312  		if (version < ADI_AXI_PCORE_VER(4, 4, 'a') ||
+9327c7e7539371c Mathias Tausen     2022-07-26  1313  		    !AXI_DMAC_DST_COHERENT_GET(ret)) {
+9327c7e7539371c Mathias Tausen     2022-07-26  1314  			dev_err(dmac->dma_dev.dev,
+9327c7e7539371c Mathias Tausen     2022-07-26  1315  				"Coherent DMA not supported in hardware");
+779a44831a4f646 Nuno Sa            2024-03-28  1316  			return -EINVAL;
+9327c7e7539371c Mathias Tausen     2022-07-26  1317  		}
+9327c7e7539371c Mathias Tausen     2022-07-26  1318  	}
+9327c7e7539371c Mathias Tausen     2022-07-26  1319  
+779a44831a4f646 Nuno Sa            2024-03-28  1320  	ret = dmaenginem_async_device_register(dma_dev);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1321  	if (ret)
+779a44831a4f646 Nuno Sa            2024-03-28  1322  		return ret;
+779a44831a4f646 Nuno Sa            2024-03-28  1323  
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1324  	/*
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1325  	 * From this point on, our dmac object has it's lifetime bounded with
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1326  	 * dma_dev. Will be freed when dma_dev refcount goes to 0. That means,
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1327  	 * no more automatic kfree(). Also note that dmac is now NULL so we
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1328  	 * need __dmac.
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1329  	 */
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1330  	__dmac = no_free_ptr(dmac);
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1331  	get_device(&pdev->dev);
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1332  
+779a44831a4f646 Nuno Sa            2024-03-28  1333  	/*
+779a44831a4f646 Nuno Sa            2024-03-28  1334  	 * Put the action in here so it get's done before unregistering the DMA
+779a44831a4f646 Nuno Sa            2024-03-28  1335  	 * device.
+779a44831a4f646 Nuno Sa            2024-03-28  1336  	 */
+779a44831a4f646 Nuno Sa            2024-03-28  1337  	ret = devm_add_action_or_reset(&pdev->dev, axi_dmac_tasklet_kill,
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1338  				       &__dmac->chan.vchan.task);
+779a44831a4f646 Nuno Sa            2024-03-28  1339  	if (ret)
+779a44831a4f646 Nuno Sa            2024-03-28  1340  		return ret;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1341  
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20 @1342  	ret = of_dma_controller_register(pdev->dev.of_node,
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1343  		of_dma_xlate_by_chan_id, dma_dev);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1344  	if (ret)
+779a44831a4f646 Nuno Sa            2024-03-28  1345  		return ret;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1346  
+779a44831a4f646 Nuno Sa            2024-03-28  1347  	ret = devm_add_action_or_reset(&pdev->dev, axi_dmac_free_dma_controller,
+779a44831a4f646 Nuno Sa            2024-03-28  1348  				       pdev->dev.of_node);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1349  	if (ret)
+779a44831a4f646 Nuno Sa            2024-03-28  1350  		return ret;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1351  
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1352  	/* So that we can mark the device as unbound and disable it */
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1353  	ret = devm_add_action_or_reset(&pdev->dev, axi_dmac_disable, __dmac);
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1354  	if (ret)
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1355  		return ret;
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1356  
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1357  	ret = devm_request_irq(&pdev->dev, __dmac->irq, axi_dmac_interrupt_handler,
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1358  			       IRQF_SHARED, dev_name(&pdev->dev), __dmac);
+779a44831a4f646 Nuno Sa            2024-03-28  1359  	if (ret)
+779a44831a4f646 Nuno Sa            2024-03-28  1360  		return ret;
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1361  
+e6cff0d5c22ce16 Nuno Sá            2026-03-27  1362  	regmap = devm_regmap_init_mmio(&pdev->dev, __dmac->base,
+a5b982af953bcc8 Chuhong Yuan       2019-12-09  1363  				       &axi_dmac_regmap_config);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1364  
+779a44831a4f646 Nuno Sa            2024-03-28  1365  	return PTR_ERR_OR_ZERO(regmap);
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1366  }
+0e3b67b348b838d Lars-Peter Clausen 2015-08-20  1367  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
