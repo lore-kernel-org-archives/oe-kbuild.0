@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532C82367B5
-	for <oe-kbuild@lists.linux.dev>; Sun, 29 Mar 2026 07:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045F140DFD3
+	for <oe-kbuild@lists.linux.dev>; Sun, 29 Mar 2026 09:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774768218; cv=none; b=ZJ1y9K/uBA3/ioBg7cD6p97IBz4Gya0wzEbIGXHF8p4VsjTn8R7Qzr6bTsvq8E996te+ycliNrZB9RLpQu/q5H5eN/CCgPevYISEaVNyAr2+2/gwWPoWxkHWEBeHW+fAYfOzZUd+JtMpE0M1iPXSWzxDwervPhfYO9mlTbf4O3A=
+	t=1774775139; cv=none; b=LkQcbc32GO0Huj3Vmxwd3l4qW1pjHFw/QQPShxZ/X12zafaY8wH6TaDjH6H+Vnk1Se3KRguf6FgudbyFzxhd7UHy8XCSlJ/SkL6uKg+vxEj2gySOpNR+PiwagqThk8K/AYFZPN1ol4XTnqhed8/k1RLidpzaFV4oQU0MtjEGYIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774768218; c=relaxed/simple;
-	bh=u7Z+b6xVMj1LInZD1/PyavsmE1iRv9+iWcd8vzrrJIc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XVNXhOJUZbnY/isYnUJkeDFLbsIuvncUQ9c/b+h9MOGxalNaGROVT/oig43iwsV1r7ZjJ+gEQ8YYrRjwoN7tzv9ctlZnRHZLaLGhCn2csrajr29kGlzdLtY6KCbRjh7JMN6JtCVcyTeMnlriR6bap4sFaRSU3gfY62V1E83Cf2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyKHUry8; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1774775139; c=relaxed/simple;
+	bh=b98N+gYenJFSyHf1L+ANLT0H/NjztsL8rWl7fXkmHwg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=A92Wxx+/E0g/x3/cRe2kCEAXPZo+28fqJLA6itew+uRjn7ERn8UfBdRCrTwwO9aGVANQvCYq+Ks+SSkG6JD8vPXhvSFsBkG7Wm8LzhjepKfQlqWxmMlUNNp+Nkz9ZA7yFsi9dfyYb8a5LtoQpJrQIYlHEx/isYSw8967JNClZo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4arh/Dd; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyKHUry8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4arh/Dd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774768216; x=1806304216;
+  t=1774775138; x=1806311138;
   h=date:from:to:cc:subject:message-id;
-  bh=u7Z+b6xVMj1LInZD1/PyavsmE1iRv9+iWcd8vzrrJIc=;
-  b=cyKHUry8NyHKTUaT+eDo7QPFp9NNz0Ww/ZOs3I8e3g4Fr/8MTP2jdB2u
-   sumhqMT+4c3Bh/g3ZE4RsFBCwFMFgZdFkiUMWjDGbP6lvU8jXYo7AZ14t
-   iEQXtI/sxrdAy7yoPGDrwOq61zSaP3rmbGzYqTxywZqhMHLIs5gdLgcIW
-   QYrbmtwO3VC8fmlTdZJ8llVDUznRpTakvTk6kRC0VAnvVfARuxgUYEUhM
-   VJtB1CAoGO6IZPkPJdp2vKdsx3MWzsGGOQM6KjrpvEzPj+PL5HhXGrg7V
-   XcqW2ATsqlubfbAnyFOiSTcocJysvtauzwNf/MluV65g2ZN4lcycjSh9F
-   A==;
-X-CSE-ConnectionGUID: UT6j+2rGSnysRpuA+xhmag==
-X-CSE-MsgGUID: riaiTwSaQrOw/xBeACCHJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75851487"
+  bh=b98N+gYenJFSyHf1L+ANLT0H/NjztsL8rWl7fXkmHwg=;
+  b=C4arh/DdhWuMaejl51yuVgBNgb4z1e9/NdZiRfIR48VRxEI0NrrvEWVS
+   qNWxjPsC6HEgM7HtJDvls4oTK+7r+0/eZ3ZZw9XsHTH5RzeTHj4kuwcKs
+   MqiWJ7JIo4YwCyrVGvkQWsTrx9P+hI2Auo+HL4qFTchhtujOV1SkGnUjx
+   MR7xEYzL4OJ2hgMvMOFWiAuDZooPH1IP0JOeBjkucNIYa8GNDrdlLumpQ
+   luPRUhciTeoPMvHbki0H1RgzxVFfGq+EBdakbMCA9WM5DucB4LYQoxQZF
+   YcH0FXt4SsRBhJJNntqtQjdzu2FOiYezXpWGwsSXbEyf7cT1GW1rDixxj
+   g==;
+X-CSE-ConnectionGUID: 4qyQlmj7Tf2rYwJtnf2dZw==
+X-CSE-MsgGUID: qDgtSCdURCG+AdGvIP5TLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="74822902"
 X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
-   d="scan'208";a="75851487"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 00:10:15 -0700
-X-CSE-ConnectionGUID: RHyXOGRKRLuOXq6xDXFvzw==
-X-CSE-MsgGUID: sALiAMTDT46eY9YNyd+ykw==
+   d="scan'208";a="74822902"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 02:05:37 -0700
+X-CSE-ConnectionGUID: m/Kwr/VQQQOwqQFtMTJtZQ==
+X-CSE-MsgGUID: VByNh/dzS12czQkeisLEPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
-   d="scan'208";a="222421393"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Mar 2026 00:10:15 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="224939687"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 29 Mar 2026 02:05:36 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6kHk-000000007s5-1uxZ;
-	Sun, 29 Mar 2026 07:10:12 +0000
-Date: Sun, 29 Mar 2026 09:09:27 +0200
+	id 1w6m5N-00000000CED-3aYS;
+	Sun, 29 Mar 2026 09:05:33 +0000
+Date: Sun, 29 Mar 2026 17:05:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: 
- arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: pmic
- (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202603290938.O0uzLthO-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/dma/pxa_dma.c:595 clear_chan_irq() warn: variable
+ dereferenced before check 'phy->vchan' (see line 593)
+Message-ID: <202603291747.rkUqnuhi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,41 +59,59 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Frank Wunderlich <frank-w@public-files.de>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Vinod Koul <vkoul@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cbfffcca2bf0622b601b7eaf477aa29035169184
-commit: ce7b1d58609abc2941a1f38094147f439fb74233 arm64: dts: mediatek: Apply mt8395-radxa DT overlay at build time
-date:   3 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-2055-20260328 (https://download.01.org/0day-ci/archive/20260329/202603290938.O0uzLthO-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603290938.O0uzLthO-lkp@intel.com/reproduce)
+commit: 9fc2f03e85952ee52558ab844473a8284d924a56 dmaengine: pxa: Enable compile test
+date:   1 year, 2 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 1 year, 2 months ago
+config: powerpc64-randconfig-r072-20260329 (https://download.01.org/0day-ci/archive/20260329/202603291747.rkUqnuhi-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603290938.O0uzLthO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603291747.rkUqnuhi-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+smatch warnings:
+drivers/dma/pxa_dma.c:595 clear_chan_irq() warn: variable dereferenced before check 'phy->vchan' (see line 593)
+
+vim +595 drivers/dma/pxa_dma.c
+
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  583  
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  584  static unsigned int clear_chan_irq(struct pxad_phy *phy)
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  585  {
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  586  	u32 dcsr;
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  587  	u32 dint = readl(phy->base + DINT);
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  588  
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  589  	if (!(dint & BIT(phy->idx)))
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  590  		return PXA_DCSR_RUN;
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  591  
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  592  	/* clear irq */
+a57e16cf03339c2 Robert Jarzmik 2015-05-25 @593  	dcsr = phy_readl_relaxed(phy, DCSR);
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  594  	phy_writel(phy, dcsr, DCSR);
+a57e16cf03339c2 Robert Jarzmik 2015-05-25 @595  	if ((dcsr & PXA_DCSR_BUSERR) && (phy->vchan))
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  596  		dev_warn(&phy->vchan->vc.chan.dev->device,
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  597  			 "%s(chan=%p): PXA_DCSR_BUSERR\n",
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  598  			 __func__, &phy->vchan);
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  599  
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  600  	return dcsr & ~PXA_DCSR_RUN;
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  601  }
+a57e16cf03339c2 Robert Jarzmik 2015-05-25  602  
+
+:::::: The code at line 595 was first introduced by commit
+:::::: a57e16cf03339c20b09642f46f60190069ff70c7 dmaengine: pxa: add pxa dmaengine driver
+
+:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
+:::::: CC: Vinod Koul <vinod.koul@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
