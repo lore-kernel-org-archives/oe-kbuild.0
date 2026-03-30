@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0CA4C6D
-	for <oe-kbuild@lists.linux.dev>; Mon, 30 Mar 2026 00:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F151DF27F
+	for <oe-kbuild@lists.linux.dev>; Mon, 30 Mar 2026 03:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774829772; cv=none; b=tl8RJu+bwUGmSCS70vh0Vm2AhpcoinoaGoyZKAYAAyCBWlUVrLFB/M0hQ/Kf2soEkasnGHsqgybYQwYFuBTS6KgtHogppaExd6y/EbdNp6B8zlaok0ap4Oq75hiM3HuKbj1NM5rNR8Mst3SvIfQskcz6ZLZ+KtYb3pHHmXb/Ksc=
+	t=1774843109; cv=none; b=ga1dTM9ugn6G0XmSyMgg1BVEabKX5n9xAyccYWpSl2k3tDsXboYkRmAn2Fel5+A9mfXM7uPYQTSbbRw7VXrj5rmbIcbExVT1AeDQMjXMc0tsR1oXB41LHklDbglIj721jp5AbAlbbViUoSUnfEmiuUwAAk0PnNo9QxfaRBGD/vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774829772; c=relaxed/simple;
-	bh=KY04GoxBj2jXhQmJdTti24SgcYzAdrDz/9D2UBHmcUc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Q6N1B5CJUUglI7lfaOiVWFckDrjrCvCM20i5mrp+uhtEJtCb2rcl9mEfpUYk3JnMTtkV+7d0oB5cJsUO/gpMvtOpNSmq3ZCtxAorD1mAi+UsdZT9mwgPyLnwVGAL2cHNxnYddWyIiu52X60+/Wcpy3MniNOP/sUiG2s5IRjWb88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYWTv7gY; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774843109; c=relaxed/simple;
+	bh=LogL95qoJ9OYQTZ/TJ6D1k34eHcmmvXnqMLAJpDPpRk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XAoEoWBbRhNzbAm/MWwwCtB/dX1yRaxfcq6hmoMBXxjDJAoRz0LNXfddKkTU5suSmW7nJW/XA9Qr6G0W5XGGe/Evfa4y/6WDLisY2Mb0cZgGCDmDZTm91wBm6TidZkpVhc5Led/gZOVk1UuyIDnvBJFoeYyxhY8lrSgQS3H3w+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eNmyNBrM; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYWTv7gY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eNmyNBrM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774829771; x=1806365771;
+  t=1774843106; x=1806379106;
   h=date:from:to:cc:subject:message-id;
-  bh=KY04GoxBj2jXhQmJdTti24SgcYzAdrDz/9D2UBHmcUc=;
-  b=LYWTv7gYaJfYlaOqjsyfc8Rf8S1A6qyjMb3Sgt4/mqO0dgdGje2yJPqb
-   YuJ1xwSFATMPbLsq248Af9vwan74j3kgjjpPv7jRnoVKjn+pb/fdYwLGv
-   T4x7+gNg7nnBAOyfoj8Pym8KUp1IOvHOWrbvZjypGVCIG7LChbdE1An6L
-   Zl0DZdC5bXZ2mIhtTqiuKII8P5+Ottk89fXVxTNqXMaj5nZ/1/1w8EebQ
-   SZHVzVw67vXHW1WTjfsLAnnoGugY+Hp/m7gWJQaJCI4fY5cQuwR+syaSg
-   dP488TrQ2N+/A2atpXD++HsjgcbViobBhi8J6ujGY08ClAm+jVbqS4ZaM
-   g==;
-X-CSE-ConnectionGUID: qFJS7pGwQgSpWOh9Ad84Nw==
-X-CSE-MsgGUID: OpXWtDXEQ+qC2mteZGE30g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86511535"
-X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="86511535"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 17:16:10 -0700
-X-CSE-ConnectionGUID: mc+SPwk3RhWNYr888Iyugw==
-X-CSE-MsgGUID: PBIJvALYQMy96+hfha6IiA==
+  bh=LogL95qoJ9OYQTZ/TJ6D1k34eHcmmvXnqMLAJpDPpRk=;
+  b=eNmyNBrMCAdC/ia4SLa2wHc1ulZ8yZm0zt1jCyGTrNoBf1WjrYGjc0RD
+   g+P2AqV67l2cMtTAVriFoji5oJa28LZZl6CfL1q9gfniFnxuh+fX6OygI
+   mdHw8ra8z4rhxUBsN+vt36j2MFP1gco5WFe0Ppvu9AbiNWVNEZCfwl6sO
+   zunzz9Z7YYY0gbwO2IPVyidYc2H0f+ud038L8BXXHxOkBLaWtXSBgyimq
+   QAvwPSFFczB3Xz4Ukt8ln+RnMaGEk4w/yvYYWr4UFoXGRlEkdt3+X819x
+   6sdNPuNYddQ2gTkDCKeuICbMC/cdvIT9Qd+WS5DChoD2C8yeUnzs2lu1r
+   w==;
+X-CSE-ConnectionGUID: gWt3IRFxSXmXIwLt892msA==
+X-CSE-MsgGUID: 9GnB3/UjT42wUVdCd8xolQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75715707"
+X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
+   d="scan'208";a="75715707"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 20:58:25 -0700
+X-CSE-ConnectionGUID: EFqJja5BRgOQFU0atJ6WVw==
+X-CSE-MsgGUID: VQEggDTYT1Cj58tgMIplHg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="225892184"
+X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
+   d="scan'208";a="221530626"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 Mar 2026 17:16:09 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 Mar 2026 20:58:24 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w70IY-000000000RB-25x1;
-	Mon, 30 Mar 2026 00:16:06 +0000
-Date: Mon, 30 Mar 2026 08:15:32 +0800
+	id 1w73ld-000000000dS-3PJt;
+	Mon, 30 Mar 2026 03:58:21 +0000
+Date: Mon, 30 Mar 2026 11:58:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: scripts/mod/modpost.c:57:13: warning: variable 'extra_warn'
- set but not used
-Message-ID: <202603300830.fbqcSGEA-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/nilfs2/namei.c:261 nilfs_mkdir() warn: passing zero to
+ 'ERR_PTR'
+Message-ID: <202603301142.FjsO2qF0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,75 +59,90 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-CC: Masahiro Yamada <masahiroy@kernel.org>
+TO: NeilBrown <neilb@suse.de>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Jeff Layton <jlayton@kernel.org>
+CC: Jan Kara <jack@suse.cz>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7aaa8047eafd0bd628065b15757d9b48c5f9c07d
-commit: 6c6c1fc09de35f409f6971cb9e881103afe5dbe0 modpost: require a MODULE_DESCRIPTION()
-date:   1 year ago
-:::::: branch date: 86 minutes ago
-:::::: commit date: 1 year ago
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260330/202603300830.fbqcSGEA-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603300830.fbqcSGEA-lkp@intel.com/reproduce)
+commit: 88d5baf69082e5b410296435008329676b687549 Change inode_operations.mkdir to return struct dentry *
+date:   1 year, 1 month ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arc-randconfig-r071-20260330 (https://download.01.org/0day-ci/archive/20260330/202603301142.FjsO2qF0-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603300830.fbqcSGEA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603301142.FjsO2qF0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/nilfs2/namei.c:261 nilfs_mkdir() warn: passing zero to 'ERR_PTR'
 
->> scripts/mod/modpost.c:57:13: warning: variable 'extra_warn' set but not used [-Wunused-but-set-global]
-      57 | static bool extra_warn;
-         |             ^
-   1 warning generated.
---
-   scripts/dtc/dtc-lexer.lex.c:630:12: warning: variable 'dts_version' set but not used [-Wunused-but-set-global]
-     630 | static int dts_version = 1;
-         |            ^
-   1 warning generated.
-   scripts/sorttable.c:399:12: warning: variable 'long_size' set but not used [-Wunused-but-set-global]
-     399 | static int long_size;
-         |            ^
-   1 warning generated.
->> scripts/mod/modpost.c:57:13: warning: variable 'extra_warn' set but not used [-Wunused-but-set-global]
-      57 | static bool extra_warn;
-         |             ^
-   1 warning generated.
-   In file included from arch/loongarch/kernel/asm-offsets.c:12:
-   In file included from include/linux/kvm_host.h:45:
-   In file included from arch/loongarch/include/asm/kvm_host.h:20:
-   In file included from arch/loongarch/include/asm/kvm_mmu.h:11:
-   arch/loongarch/include/asm/tlb.h:142:24: warning: default initialization of an object of type 'struct vm_area_struct' with const member leaves the object uninitialized [-Wdefault-const-init-field-unsafe]
-     142 |         struct vm_area_struct vma;
-         |                               ^
-   include/linux/mm_types.h:707:20: note: member 'vm_flags' declared 'const' here
-     707 |                 const vm_flags_t vm_flags;
-         |                                  ^
-   1 warning generated.
+vim +/ERR_PTR +261 fs/nilfs2/namei.c
 
-
-vim +/extra_warn +57 scripts/mod/modpost.c
-
-0fd3fbadd9a85e3 Masahiro Yamada 2020-12-01  56  
-20ff36856fe0087 Masahiro Yamada 2023-06-06 @57  static bool extra_warn;
-20ff36856fe0087 Masahiro Yamada 2023-06-06  58  
-
-:::::: The code at line 57 was first introduced by commit
-:::::: 20ff36856fe00879f82de71fe6f1482ca1b72334 modpost: propagate W=1 build option to modpost
-
-:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
-:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
+d25006523d0b9e Ryusuke Konishi   2009-04-06  220  
+88d5baf69082e5 NeilBrown         2025-02-27  221  static struct dentry *nilfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+549c7297717c32 Christian Brauner 2021-01-21  222  				  struct dentry *dentry, umode_t mode)
+d25006523d0b9e Ryusuke Konishi   2009-04-06  223  {
+d25006523d0b9e Ryusuke Konishi   2009-04-06  224  	struct inode *inode;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  225  	struct nilfs_transaction_info ti;
+47420c799830d4 Ryusuke Konishi   2009-04-06  226  	int err;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  227  
+d25006523d0b9e Ryusuke Konishi   2009-04-06  228  	err = nilfs_transaction_begin(dir->i_sb, &ti, 1);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  229  	if (err)
+88d5baf69082e5 NeilBrown         2025-02-27  230  		return ERR_PTR(err);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  231  
+565de406e7bfa9 Jiro SEKIBA       2009-11-27  232  	inc_nlink(dir);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  233  
+d25006523d0b9e Ryusuke Konishi   2009-04-06  234  	inode = nilfs_new_inode(dir, S_IFDIR | mode);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  235  	err = PTR_ERR(inode);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  236  	if (IS_ERR(inode))
+d25006523d0b9e Ryusuke Konishi   2009-04-06  237  		goto out_dir;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  238  
+d25006523d0b9e Ryusuke Konishi   2009-04-06  239  	inode->i_op = &nilfs_dir_inode_operations;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  240  	inode->i_fop = &nilfs_dir_operations;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  241  	inode->i_mapping->a_ops = &nilfs_aops;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  242  
+565de406e7bfa9 Jiro SEKIBA       2009-11-27  243  	inc_nlink(inode);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  244  
+d25006523d0b9e Ryusuke Konishi   2009-04-06  245  	err = nilfs_make_empty(inode, dir);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  246  	if (err)
+d25006523d0b9e Ryusuke Konishi   2009-04-06  247  		goto out_fail;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  248  
+d25006523d0b9e Ryusuke Konishi   2009-04-06  249  	err = nilfs_add_link(dentry, inode);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  250  	if (err)
+d25006523d0b9e Ryusuke Konishi   2009-04-06  251  		goto out_fail;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  252  
+abdb318b79d387 Jiro SEKIBA       2009-11-27  253  	nilfs_mark_inode_dirty(inode);
+1e2e547a93a00e Al Viro           2018-05-04  254  	d_instantiate_new(dentry, inode);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  255  out:
+47420c799830d4 Ryusuke Konishi   2009-04-06  256  	if (!err)
+47420c799830d4 Ryusuke Konishi   2009-04-06  257  		err = nilfs_transaction_commit(dir->i_sb);
+47420c799830d4 Ryusuke Konishi   2009-04-06  258  	else
+47420c799830d4 Ryusuke Konishi   2009-04-06  259  		nilfs_transaction_abort(dir->i_sb);
+47420c799830d4 Ryusuke Konishi   2009-04-06  260  
+88d5baf69082e5 NeilBrown         2025-02-27 @261  	return ERR_PTR(err);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  262  
+d25006523d0b9e Ryusuke Konishi   2009-04-06  263  out_fail:
+565de406e7bfa9 Jiro SEKIBA       2009-11-27  264  	drop_nlink(inode);
+565de406e7bfa9 Jiro SEKIBA       2009-11-27  265  	drop_nlink(inode);
+abdb318b79d387 Jiro SEKIBA       2009-11-27  266  	nilfs_mark_inode_dirty(inode);
+705304a863cc41 Ryusuke Konishi   2014-12-10  267  	unlock_new_inode(inode);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  268  	iput(inode);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  269  out_dir:
+565de406e7bfa9 Jiro SEKIBA       2009-11-27  270  	drop_nlink(dir);
+abdb318b79d387 Jiro SEKIBA       2009-11-27  271  	nilfs_mark_inode_dirty(dir);
+d25006523d0b9e Ryusuke Konishi   2009-04-06  272  	goto out;
+d25006523d0b9e Ryusuke Konishi   2009-04-06  273  }
+d25006523d0b9e Ryusuke Konishi   2009-04-06  274  
 
 -- 
 0-DAY CI Kernel Test Service
