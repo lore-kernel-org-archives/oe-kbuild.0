@@ -1,169 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5493E3E1205
-	for <oe-kbuild@lists.linux.dev>; Mon, 30 Mar 2026 19:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4919C3D3CE4
+	for <oe-kbuild@lists.linux.dev>; Mon, 30 Mar 2026 19:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774897780; cv=none; b=NskS17+F3JhQ0cCtLxLdVng+K8H4fLktdcbK58tZrybOHs9qPABkx5RGOBk/nEFWso567mRe0cv5wk1QOfZyFF8FmMr9ZQi2AaQlNjmAmnNbL1cTv54Yrznj4qtKw9FQtFrQE54tisjB32EF29e1soGFKOI3mny+Xrx4tXXcT0A=
+	t=1774900780; cv=none; b=MC9ls3+4hnCJMF3NXYKSqfJoAZS1Osb8EtZYiOKow5ULW45aSR4MaiKSf651TbUcPNmxFld+8vX6XbVo/LAESSJQM4pzZPM7wPraX+VT0ObxuEM7uu40S+j/J69ZlHarj3yuBEVnNurqOndoUbsWngyjfja+p95VD5iLXQ53iWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774897780; c=relaxed/simple;
-	bh=JLrC2Tugy7cHRk/Q6ucqEbNVB/DxAYfIE3l1zaX6lM8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bEK3X75/8/XUOEm5LpE6FFFxAIOtfhPPMa5dH4salfcRvfK3QuwrQarMMOarJjZDAj9LIdT5VRX7njnc56VCrGkullU0gUcX4WEojyc0YyxQEgqiw5yH8kz/+sYdihP1bPxuQTUzVUWljO2JuKIXq4GveBaHhQuuMPdzTVB71/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZmbLvXXf; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774900780; c=relaxed/simple;
+	bh=XFGaHwS4s5v4Vx6mQh8Y7xMPGHJYOkC6q76KoTKBTRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=peNRLrOUUHDEKuKE4Zh4tE79DbWau6uSQC8PISdzzsbW/XHSgW2xrWAEUbSXMOLSB6YPZFfX94/bFeWoQN6ODLkJmADleDS3xckj4FDqDLBz6Wv+SJfwds8yo1fA71bImUDbwTLN7hv33S8GwdDy3thEcSa6y4WHcBHliCR2hNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q08ADbXh; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZmbLvXXf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774897777; x=1806433777;
-  h=date:from:to:cc:subject:message-id;
-  bh=JLrC2Tugy7cHRk/Q6ucqEbNVB/DxAYfIE3l1zaX6lM8=;
-  b=ZmbLvXXfiUNFrBswslkff2Km80Tpmjq+ElI7f35A/ukOUx+/1WSvmll9
-   QuGFeDB8OfEPcC2CoWWuUVFzZpix0A/UQ0EG/0NX12+p/S/tE94ht/5TC
-   0hDfWcuHyLusH+Wi8Wknqf8KqRH98/JBbUe7X18yUiHGNN7ifnxjFv8xa
-   Zu2/RrFPhU5yXry9zs/1qgtpdpQz/EzNOiZT6WYRkFDf95Vvo94WrdvZN
-   73S0VfjW+iDPh74a67g1uZr0krMvUcACtypo+tzz1RMHZS+MwYLE6wOgu
-   ig8z3WrNVg4vixEFARtbLQMEdOZsAIrC4TIxEgn0ee4d6FLWVoYjrVPkD
-   g==;
-X-CSE-ConnectionGUID: g7kWnHLQRjqM9nMIF1c/BA==
-X-CSE-MsgGUID: 9ZYQEWQWSZKVM1SsWhU2Uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="76010343"
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="76010343"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 12:09:36 -0700
-X-CSE-ConnectionGUID: 8WRhJdaTSayEzxTscbpxaA==
-X-CSE-MsgGUID: mCd+buoQTKOgiS32gxJhhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="230602986"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Mar 2026 12:09:35 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7HzQ-000000001X9-1L3o;
-	Mon, 30 Mar 2026 19:09:32 +0000
-Date: Tue, 31 Mar 2026 03:09:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/power/supply/pf1550-charger.c:594:8-33: WARNING:
- Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
- it is nested IRQ)
-Message-ID: <202603310329.V0dDFga3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q08ADbXh"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4873ce69ba9so14341985e9.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 30 Mar 2026 12:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774900777; x=1775505577; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RwONXlyUjCzfWRVAHRiZMu4AltNc74gkgeIr/kREkOo=;
+        b=q08ADbXhw+NV9GPLlhhiylKuNdhr9WxHUL383KarkAp8fIf0GY1lm4YIJ1SEgf57op
+         45HEcCs3hlvV16hARMu7scCwk5LsOtBRr2K1pLxtW9V7XbiwprvbZyahD3+hXRwjd3ya
+         hxlwaaVDTjJmBLNBCKOXhUDcBheGJ9F9UbBDu4W6/JtpZh6A0xi6hkHWg5iUoOfAm79m
+         zygzCZUR/NYwNDTteMClZgGDs66EVEDkqKSGkHNRmXGbEQfHsOpPzQcN2ZXR6G9R+lOK
+         Oz6S0fEVvyyjU1KskAL1XhT1woljbI9ELcPzdFzNyzROv3c34u6n6j4+Da2eu9nbl8W7
+         0iAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774900777; x=1775505577;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RwONXlyUjCzfWRVAHRiZMu4AltNc74gkgeIr/kREkOo=;
+        b=ijY2oWhgzgq9g6Y3BBoWEMkKgaaiRir/ebeKKjEAH2HeCR6W0pEF5FCMnr314pA4hf
+         Ir63sgKnVbrOo8nIE1BakmrLC9NXZreWU7jZpWiMjL4nXyab3flqjc1AvDUE3Dnzr/HS
+         juGbByYOxQyXSy6zT/YQpJGNDjwlRoRdQbrnQjxjo1PiaxUXBScvq7U7t87cLS0+9vqE
+         8zQzmba2Gr5IEl6bE2p08MolcgFkIlOt39kZmdTpbvIBPDAJX2NUWM1+4FAKCon+AOp0
+         3bMQfjAhO+yhoH2RxOoqZkaTfvYlBy9qGJQLuNmvT358HgBCVKQgd4Dc0VtL6d7gVCUW
+         k9eA==
+X-Gm-Message-State: AOJu0Ywv+FNG5jTmgnmN1TEO1Sy5O+Q3SZkw6rWG9Wwryo0My7nwGBlh
+	nN+Ii65TOZZaOnWdCGrIB1k+G9xHbOZLzBSeG9EOy9yENbQ+AItyJwsj+nU0/A==
+X-Gm-Gg: ATEYQzxeFXL0pKFxZgGw7Ac4BPN6twCbkQuy+pFpeCbQNm4w8svvpfKhYvKDKHkbUHW
+	mrgwjT0j2HJ1dTzLBkT9CmYcBXDZIge9dkhaHJW2qEgFQ2Z0Xp3lyV5ZqnzEHSzK/FMM2Xyh/jL
+	c8Tbv91iye3cm0lzGalriNu3voa2lM+U8/PRcYnxowHO4mgqh+WeWjKqfX58FPmJsm+wxjqkwhk
+	RSN5f/FuSMK2CLbxvt1tXR0MJ+IeBFgZKVujpoplJ3OMUe3nDGDw36L2KzAo/radEmraUu3fO6R
+	PopRABfISPdamz47LkiwuSis2KaB9Hcm6eEJBIbRchrCTLBRSVUPMxLagV+I9FTGR6vTwA9yehc
+	/n1Tdl8HWsdCD3tOHBM70Kbe2UOhSDlj2hZZyoRlaF03LoCkFmdcC7wxxQCOD1bhk++qXiEWj5s
+	pjd057iahH2W/+2zaeHDc=
+X-Received: by 2002:a05:600c:6287:b0:486:fc3b:3e61 with SMTP id 5b1f17b1804b1-48727ef67edmr242855235e9.18.1774900777071;
+        Mon, 30 Mar 2026 12:59:37 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887ad8d58fsm196745e9.24.2026.03.30.12.59.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 12:59:36 -0700 (PDT)
+Date: Mon, 30 Mar 2026 22:59:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [smfrench-smb3:pr/146 1/1] fs/smb/client/link.c:509 cifs_hardlink()
+ error: we previously assumed 'old_file' could be null (see line 464)
+Message-ID: <202603302356.u8QdlRIM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260330195932.yH6-UpOf3VlugwPadIwlCM9UnKc7y3PcuNfUxcv8L54@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-CC: Lee Jones <lee@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7aaa8047eafd0bd628065b15757d9b48c5f9c07d
-commit: 4b6b6433a97d5863b5340fc87f866d784fdf0783 power: supply: pf1550: add battery charger support
-date:   5 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 5 months ago
-config: powerpc64-randconfig-r052-20260330 (https://download.01.org/0day-ci/archive/20260331/202603310329.V0dDFga3-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+tree:   https://github.com/smfrench/smb3-kernel.git pr/146
+head:   d290e116f12405d8269c6041cbf68bc924b4cba6
+commit: d290e116f12405d8269c6041cbf68bc924b4cba6 [1/1] smb: client: add support for O_TMPFILE (WIP)
+config: x86_64-randconfig-161-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302356.u8QdlRIM-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202603310329.V0dDFga3-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603302356.u8QdlRIM-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/power/supply/pf1550-charger.c:594:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+smatch warnings:
+fs/smb/client/link.c:509 cifs_hardlink() error: we previously assumed 'old_file' could be null (see line 464)
 
-vim +594 drivers/power/supply/pf1550-charger.c
+vim +/old_file +509 fs/smb/client/link.c
 
-4b6b6433a97d58 Samuel Kayode 2025-10-01  548  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  549  static int pf1550_charger_probe(struct platform_device *pdev)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  550  {
-4b6b6433a97d58 Samuel Kayode 2025-10-01  551  	const struct pf1550_ddata *pf1550 = dev_get_drvdata(pdev->dev.parent);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  552  	struct power_supply_config psy_cfg = {};
-4b6b6433a97d58 Samuel Kayode 2025-10-01  553  	struct pf1550_charger *chg;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  554  	int i, irq, ret;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  555  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  556  	chg = devm_kzalloc(&pdev->dev, sizeof(*chg), GFP_KERNEL);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  557  	if (!chg)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  558  		return -ENOMEM;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  559  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  560  	chg->dev = &pdev->dev;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  561  	chg->pf1550 = pf1550;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  562  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  563  	if (!chg->pf1550->regmap)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  564  		return dev_err_probe(&pdev->dev, -ENODEV,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  565  				     "failed to get regmap\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  566  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  567  	platform_set_drvdata(pdev, chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  568  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  569  	ret = devm_delayed_work_autocancel(chg->dev, &chg->vbus_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  570  					   pf1550_chg_vbus_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  571  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  572  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  573  				     "failed to add vbus sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  574  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  575  	ret = devm_delayed_work_autocancel(chg->dev, &chg->chg_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  576  					   pf1550_chg_chg_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  577  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  578  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  579  				     "failed to add charger sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  580  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  581  	ret = devm_delayed_work_autocancel(chg->dev, &chg->bat_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  582  					   pf1550_chg_bat_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  583  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  584  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  585  				     "failed to add battery sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  586  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  587  	for (i = 0; i < PF1550_CHARGER_IRQ_NR; i++) {
-4b6b6433a97d58 Samuel Kayode 2025-10-01  588  		irq = platform_get_irq(pdev, i);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  589  		if (irq < 0)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  590  			return irq;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  591  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  592  		chg->virqs[i] = irq;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  593  
-4b6b6433a97d58 Samuel Kayode 2025-10-01 @594  		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  595  						pf1550_charger_irq_handler,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  596  						IRQF_NO_SUSPEND,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  597  						"pf1550-charger", chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  598  		if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  599  			return dev_err_probe(&pdev->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  600  					     "failed irq request\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  601  	}
-4b6b6433a97d58 Samuel Kayode 2025-10-01  602  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  603  	psy_cfg.drv_data = chg;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  604  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  605  	chg->charger = devm_power_supply_register(&pdev->dev,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  606  						  &pf1550_charger_desc,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  607  						  &psy_cfg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  608  	if (IS_ERR(chg->charger))
-4b6b6433a97d58 Samuel Kayode 2025-10-01  609  		return dev_err_probe(&pdev->dev, PTR_ERR(chg->charger),
-4b6b6433a97d58 Samuel Kayode 2025-10-01  610  				     "failed: power supply register\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  611  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  612  	chg->battery = devm_power_supply_register(&pdev->dev,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  613  						  &pf1550_battery_desc,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  614  						  &psy_cfg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  615  	if (IS_ERR(chg->battery))
-4b6b6433a97d58 Samuel Kayode 2025-10-01  616  		return dev_err_probe(&pdev->dev, PTR_ERR(chg->battery),
-4b6b6433a97d58 Samuel Kayode 2025-10-01  617  				     "failed: power supply register\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  618  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  619  	pf1550_dt_parse_dev_info(chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  620  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  621  	return pf1550_reg_init(chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  622  }
-4b6b6433a97d58 Samuel Kayode 2025-10-01  623  
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  440  int
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  441  cifs_hardlink(struct dentry *old_file, struct inode *inode,
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  442  	      struct dentry *direntry)
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  443  {
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  444  	int rc = -EACCES;
+6d5786a34d98bf fs/cifs/link.c       Pavel Shilovsky      2012-06-20  445  	unsigned int xid;
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  446  	const char *from_name, *to_name;
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  447  	void *page1 = NULL, *page2 = NULL;
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  448  	struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  449  	struct tcon_link *tlink;
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  450  	struct cifs_tcon *tcon;
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  451  	struct TCP_Server_Info *server;
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  452  	struct cifsInodeInfo *cifsInode;
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  453  
+087f757b012985 fs/cifs/link.c       Steve French         2021-04-29  454  	if (unlikely(cifs_forced_shutdown(cifs_sb)))
+f80ac7eda1cf52 fs/smb/client/link.c David Howells        2025-10-24  455  		return smb_EIO(smb_eio_trace_forced_shutdown);
+087f757b012985 fs/cifs/link.c       Steve French         2021-04-29  456  
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  457  	tlink = cifs_sb_tlink(cifs_sb);
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  458  	if (IS_ERR(tlink))
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  459  		return PTR_ERR(tlink);
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  460  	tcon = tlink_tcon(tlink);
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  461  
+6d5786a34d98bf fs/cifs/link.c       Pavel Shilovsky      2012-06-20  462  	xid = get_xid();
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  463  
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27 @464  	if (old_file && d_really_is_positive(old_file) &&
+                                                                                    ^^^^^^^^
+If old_file is NULL
+
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  465  	    test_bit(CIFS_INO_TMPFILE, &CIFS_I(d_inode(old_file))->flags)) {
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  466  		from_name = NULL;
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  467  	} else {
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  468  		page1 = alloc_dentry_path();
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  469  		from_name = build_path_from_dentry(old_file, page1);
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  470  		if (IS_ERR(from_name)) {
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  471  			rc = PTR_ERR(from_name);
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  472  			goto cifs_hl_exit;
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  473  		}
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  474  	}
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  475  
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  476  	page2 = alloc_dentry_path();
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  477  	to_name = build_path_from_dentry(direntry, page2);
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  478  	if (IS_ERR(to_name)) {
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  479  		rc = PTR_ERR(to_name);
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  480  		goto cifs_hl_exit;
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  481  	}
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  482  
+fb157ed226d225 fs/cifs/link.c       Steve French         2022-08-01  483  #ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  484  	if (tcon->unix_ext)
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  485  		rc = CIFSUnixCreateHardLink(xid, tcon, from_name, to_name,
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  486  					    cifs_sb->local_nls,
+2baa2682531ff0 fs/cifs/link.c       Steve French         2014-09-27  487  					    cifs_remap(cifs_sb));
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  488  	else {
+fb157ed226d225 fs/cifs/link.c       Steve French         2022-08-01  489  #else
+fb157ed226d225 fs/cifs/link.c       Steve French         2022-08-01  490  	{
+fb157ed226d225 fs/cifs/link.c       Steve French         2022-08-01  491  #endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  492  		server = tcon->ses->server;
+abf9767c823bf5 fs/cifs/link.c       Christian Engelmayer 2014-01-11  493  		if (!server->ops->create_hardlink) {
+abf9767c823bf5 fs/cifs/link.c       Christian Engelmayer 2014-01-11  494  			rc = -ENOSYS;
+abf9767c823bf5 fs/cifs/link.c       Christian Engelmayer 2014-01-11  495  			goto cifs_hl_exit;
+abf9767c823bf5 fs/cifs/link.c       Christian Engelmayer 2014-01-11  496  		}
+5408990aa662bc fs/smb/client/link.c Paulo Alcantara      2023-11-25  497  		rc = server->ops->create_hardlink(xid, tcon, old_file,
+5408990aa662bc fs/smb/client/link.c Paulo Alcantara      2023-11-25  498  						  from_name, to_name, cifs_sb);
+083d3a2cff514c fs/cifs/link.c       Steve French         2006-03-03  499  		if ((rc == -EIO) || (rc == -EINVAL))
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  500  			rc = -EOPNOTSUPP;
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  501  	}
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  502  
+31ec35d6c81175 fs/cifs/link.c       Steve French         2006-11-16  503  	d_drop(direntry);	/* force new lookup from server of target */
+31ec35d6c81175 fs/cifs/link.c       Steve French         2006-11-16  504  
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  505  	/*
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  506  	 * if source file is cached (oplocked) revalidate will not go to server
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  507  	 * until the file is closed or oplock broken so update nlinks locally
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  508  	 */
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17 @509  	if (d_really_is_positive(old_file)) {
+                                                                                                         ^^^^^^^^
+Then we are toasted here.  Unchecked dereference.
+
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17  510  		cifsInode = CIFS_I(d_inode(old_file));
+31ec35d6c81175 fs/cifs/link.c       Steve French         2006-11-16  511  		if (rc == 0) {
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  512  			clear_bit(CIFS_INO_TMPFILE, &cifsInode->flags);
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17  513  			spin_lock(&d_inode(old_file)->i_lock);
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17  514  			inc_nlink(d_inode(old_file));
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17  515  			spin_unlock(&d_inode(old_file)->i_lock);
+ff273cb879fbc6 fs/cifs/link.c       Steve French         2014-10-17  516  
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  517  			/*
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  518  			 * parent dir timestamps will update from srv within a
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  519  			 * second, would it really be worth it to set the parent
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  520  			 * dir cifs inode time to zero to force revalidate
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  521  			 * (faster) for it too?
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  522  			 */
+31ec35d6c81175 fs/cifs/link.c       Steve French         2006-11-16  523  		}
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  524  		/*
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  525  		 * if not oplocked will force revalidate to get info on source
+ff273cb879fbc6 fs/cifs/link.c       Steve French         2014-10-17  526  		 * file from srv.  Note Samba server prior to 4.2 has bug -
+ff273cb879fbc6 fs/cifs/link.c       Steve French         2014-10-17  527  		 * not updating src file ctime on hardlinks but Windows servers
+ff273cb879fbc6 fs/cifs/link.c       Steve French         2014-10-17  528  		 * handle it properly
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
