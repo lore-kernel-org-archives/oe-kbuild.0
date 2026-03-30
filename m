@@ -1,147 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3990C3939CC
-	for <oe-kbuild@lists.linux.dev>; Mon, 30 Mar 2026 10:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843163BE14D;
+	Mon, 30 Mar 2026 10:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774866057; cv=none; b=PEGfMGKanOTIIoMdrEN8JGKyrXITAqMjoPY9a4sbQf8QfSeiDRJb3ZnFde38XfjqJZFLsDVGoX5GsBDgYudOPDxJRxHkAcJasNQj8VoXh+BiK8f5OjL9qRsSbQZeVPGGRirJCusHUEHdl/eWJryZAg1y6mQ2utTShoyagzcmUvE=
+	t=1774867100; cv=none; b=H2pk+C4cm5B67Lts561F7ho8ydVikfDe3f490GjyMtxDdrsJPiAQmmZpDaNqc2UgZ6Xy9k53+68uF5f8VVJfYzQ/LSjAxQP/dZT6vCKL+xiXjL+kj5GNhF9gQkeGmxiJ354l0btID+NlIY5GGkFWZO5Ms5d7sJxerxFmRT00kpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774866057; c=relaxed/simple;
-	bh=8wKAwzwx6iGhSiilQARoY6MNkJIs9OcwIW8dZYY7W58=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TSna+sHPVIUtM/rFVE3aZLx5mAXXVeQ1Iq754nex48pLjWpY3D4DqVLBk6iIQejSzhHHNrmoyyHfF0sAEy4+SH1rkFhJ+hxcM99Y8fFb/ImTvUU59XBmL8z/wxIn/a5hAXwBB6XQn+wWi/CbDCCwNnsySCaMqzxR+XZ1W6RLZn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZqMP4hty; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774867100; c=relaxed/simple;
+	bh=3QmQRuICEKYBrt5Bb8Pn20XSlBKTKzSdRuZlTuuyw0U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jmeL8841qOIns/b2SELBj7ChUHJrvUU9wleW4zLGkedvRzEMgdJeqO039DW3dshfMau00j+YSJkAA0mrc6ZxZ0F6uvfH786aB13BMz8KvitkkaYdkdxvr+BgyhW+qXZpDtJAGPIoGpb2YCDpXP714DCcpBvFmxweMpjMsTJ4tes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dTSzvTzk; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqMP4hty"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dTSzvTzk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774866056; x=1806402056;
-  h=date:from:to:cc:subject:message-id;
-  bh=8wKAwzwx6iGhSiilQARoY6MNkJIs9OcwIW8dZYY7W58=;
-  b=ZqMP4hty/zSEB7YwFMgv9WucnvkbTNVyRguttCCgIYnabBm4iJ32Fji+
-   Zt1VzgzWrKCTFryJ3CRnElvzaOyv37hw3AoH7qvDHCnEmTCfhR1KyZhae
-   Hn9+G/tI0jRkItiWQZvz8rmj5wj+sSTs7/O4k4ym+VFnAJ9hoilk1im+S
-   piQff9uRKl7NH679f4QgyR3znOoGNw/SIU1FN7NgKd36NfT3RmvCJJ3zV
-   +wDV9VPUVwf4/ZlNs0TE8ldDgZPVeMcyVNzInOHCxqHxnrvKk2wM72pc4
-   kRE4qAp8DHt10eKZEgL+e+Fp2elD3uwtalc0dQxbaH0BuppCXzMlw/Eje
+  t=1774867098; x=1806403098;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3QmQRuICEKYBrt5Bb8Pn20XSlBKTKzSdRuZlTuuyw0U=;
+  b=dTSzvTzkMoJF+9cKsMCJdenj0lOcnDV0uLxwFD4x8X6ZEnLoyoZPDSH0
+   Keezy1IHoamddfr/v89uapHrOuCByEUwqLZ2ZUx1nEsO+q5nptTRpcl05
+   5+EbfKGdnBiaT2Y6LC8xkgVCGQqRKZpGoUo6BGHKvjXiNXzurnd9hX+yX
+   J9dMqMgYDboxNPBIFdXXy3Svh1UMx09LyG4ttTCW+74bdp2Z0kljTPQ1/
+   mm2XoxBJvTmh5TjKw37wIbhD3QL2Run/Nf+h6WhDLqb2tHRmBZW5Yb5jO
+   YiAMOrTMQ+zC4zRCn1HGPK9LmRmrnxsAdkwoN68tCul/fowO6jD23z0k+
    w==;
-X-CSE-ConnectionGUID: DwWBa4WeTlOM43XxcnHBmg==
-X-CSE-MsgGUID: h71n22QMTcS3nu77a6CVgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="63408939"
+X-CSE-ConnectionGUID: vs/C78WwTaus6huDdDI+QA==
+X-CSE-MsgGUID: XwUNkCUGSD+LayD5bLoRrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="79458706"
 X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="63408939"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 03:20:54 -0700
-X-CSE-ConnectionGUID: 3eCNRVQRTK+7DNvHm0YBEw==
-X-CSE-MsgGUID: ibheaIjtSuGV6Ys2YcnXqw==
+   d="scan'208";a="79458706"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 03:38:17 -0700
+X-CSE-ConnectionGUID: OLi0n7mOSeC9WGeYFxCHXg==
+X-CSE-MsgGUID: 6zWwlRTITxmMPWVyNz7TOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="249062512"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Mar 2026 03:20:52 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w79jm-000000000xZ-1YCd;
-	Mon, 30 Mar 2026 10:20:50 +0000
-Date: Mon, 30 Mar 2026 18:20:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: 
- arch/s390/boot/../../../drivers/s390/char/sclp_early_core.c:107
- sclp_early_print_lm() error: buffer overflow 'ptr' 10 <= 10
-Message-ID: <202603301843.imKwqhnk-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+   d="scan'208";a="221620760"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.83])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 03:38:15 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EC8AE11F83B;
+	Mon, 30 Mar 2026 13:38:20 +0300 (EEST)
+Date: Mon, 30 Mar 2026 13:38:20 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Kate Hsuan <hpa@redhat.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>
+Subject: Re: [linuxtv-media-pending:next 165/183]
+ drivers/media/i2c/t4ka3.c:577 t4ka3_enable_stream() warn:
+ pm_runtime_get_sync() also returns 1 on success
+Message-ID: <acpSnDp7qaIk9gDI@kekkonen.localdomain>
+References: <acpCusUjXndiISEI@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acpCusUjXndiISEI@stanley.mountain>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Sumanth Korikkar <sumanthk@linux.ibm.com>
-CC: Vasily Gorbik <gor@linux.ibm.com>
-CC: Jens Remus <jremus@linux.ibm.com>
+Hi Dan,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7aaa8047eafd0bd628065b15757d9b48c5f9c07d
-commit: 991a20173a1fbafd9fc0df0c7e17bb62d44a4deb s390: Fix linker error when -no-pie option is unavailable
-date:   12 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 months ago
-config: s390-randconfig-r073-20260330 (https://download.01.org/0day-ci/archive/20260330/202603301843.imKwqhnk-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9004-gb810ac53
+Thanks for looking into this.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603301843.imKwqhnk-lkp@intel.com/
+On Mon, Mar 30, 2026 at 12:30:34PM +0300, Dan Carpenter wrote:
+> tree:   https://git.linuxtv.org/media-ci/media-pending.git next
+> head:   4fbeef21f5387234111b5d52924e77757626faa5
+> commit: fd55319692151de2b89c21356d1445bce364769b [165/183] media: Add t4ka3 camera sensor driver
+> config: um-randconfig-r072-20260327 (https://download.01.org/0day-ci/archive/20260328/202603280011.CCbaQy6n-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> smatch: v0.5.0-9004-gb810ac53
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202603280011.CCbaQy6n-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/media/i2c/t4ka3.c:577 t4ka3_enable_stream() warn: pm_runtime_get_sync() also returns 1 on success
+> 
+> vim +577 drivers/media/i2c/t4ka3.c
+> 
+> fd55319692151d Kate Hsuan 2026-03-25  558  static int t4ka3_enable_stream(struct v4l2_subdev *sd,
+> fd55319692151d Kate Hsuan 2026-03-25  559  			       struct v4l2_subdev_state *state,
+> fd55319692151d Kate Hsuan 2026-03-25  560  			       u32 pad, u64 streams_mask)
+> fd55319692151d Kate Hsuan 2026-03-25  561  {
+> fd55319692151d Kate Hsuan 2026-03-25  562  	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
+> fd55319692151d Kate Hsuan 2026-03-25  563  	int ret;
+> fd55319692151d Kate Hsuan 2026-03-25  564  
+> fd55319692151d Kate Hsuan 2026-03-25  565  	ret = pm_runtime_get_sync(sensor->sd.dev);
+> fd55319692151d Kate Hsuan 2026-03-25  566  	if (ret < 0) {
+> 
+> pm_runtime_get_sync can return either zero or one on success.
+> (See the comments next to that function).  Probably use
+> pm_runtime_resume_and_get() instead.
 
-smatch warnings:
-arch/s390/boot/../../../drivers/s390/char/sclp_early_core.c:107 sclp_early_print_lm() error: buffer overflow 'ptr' 10 <= 10
+Sounds good.
 
-vim +/ptr +107 arch/s390/boot/../../../drivers/s390/char/sclp_early_core.c
+> 
+> fd55319692151d Kate Hsuan 2026-03-25  567  		dev_err(sensor->dev, "power-up err.\n");
+> fd55319692151d Kate Hsuan 2026-03-25  568  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  569  	}
+> fd55319692151d Kate Hsuan 2026-03-25  570  
+> fd55319692151d Kate Hsuan 2026-03-25  571  	cci_multi_reg_write(sensor->regmap, t4ka3_init_config,
+> fd55319692151d Kate Hsuan 2026-03-25  572  			    ARRAY_SIZE(t4ka3_init_config), &ret);
+> 
+> If we pass 1 to cci_multi_reg_write() it is treated
+> as an error and it returns immediately.
 
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   85  
-3f975df69dba78 arch/s390/kernel/sclp.c             Sascha Silbe       2015-11-24   86  /* Output multi-line text using SCLP Message interface. */
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   87  static void sclp_early_print_lm(const char *str, unsigned int len)
-22362a0e23182d arch/s390/kernel/sclp.c             Martin Schwidefsky 2015-07-08   88  {
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   89  	unsigned char *ptr, *end, ch;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   90  	unsigned int count, offset;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   91  	struct write_sccb *sccb;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   92  	struct msg_buf *msg;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   93  	struct mdb *mdb;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   94  	struct mto *mto;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   95  	struct go *go;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   96  
-087c4d7423989b drivers/s390/char/sclp_early_core.c Gerald Schaefer    2019-04-08   97  	sccb = (struct write_sccb *) sclp_early_sccb;
-087c4d7423989b drivers/s390/char/sclp_early_core.c Gerald Schaefer    2019-04-08   98  	end = (unsigned char *) sccb + EARLY_SCCB_SIZE - 1;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24   99  	memset(sccb, 0, sizeof(*sccb));
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  100  	ptr = (unsigned char *) &sccb->msg.mdb.mto;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  101  	offset = 0;
-22362a0e23182d arch/s390/kernel/sclp.c             Martin Schwidefsky 2015-07-08  102  	do {
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  103  		for (count = sizeof(*mto); offset < len; count++) {
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  104  			ch = str[offset++];
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  105  			if ((ch == 0x0a) || (ptr + count > end))
-f0319748599183 arch/s390/kernel/sclp.c             Heiko Carstens     2017-01-11  106  				break;
-22362a0e23182d arch/s390/kernel/sclp.c             Martin Schwidefsky 2015-07-08 @107  			ptr[count] = _ascebc[ch];
-22362a0e23182d arch/s390/kernel/sclp.c             Martin Schwidefsky 2015-07-08  108  		}
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  109  		mto = (struct mto *) ptr;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  110  		memset(mto, 0, sizeof(*mto));
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  111  		mto->length = count;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  112  		mto->type = 4;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  113  		mto->line_type_flags = LNTPFLGS_ENDTEXT;
-22362a0e23182d arch/s390/kernel/sclp.c             Martin Schwidefsky 2015-07-08  114  		ptr += count;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  115  	} while ((offset < len) && (ptr + sizeof(*mto) <= end));
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  116  	len = ptr - (unsigned char *) sccb;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  117  	sccb->header.length = len - offsetof(struct write_sccb, header);
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  118  	msg = &sccb->msg;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  119  	msg->header.type = EVTYP_MSG;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  120  	msg->header.length = len - offsetof(struct write_sccb, msg.header);
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  121  	mdb = &msg->mdb;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  122  	mdb->header.type = 1;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  123  	mdb->header.tag = 0xD4C4C240;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  124  	mdb->header.revision_code = 1;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  125  	mdb->header.length = len - offsetof(struct write_sccb, msg.mdb.header);
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  126  	go = &mdb->go;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  127  	go->length = sizeof(*go);
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  128  	go->type = 1;
-d5ab7a34f9bbad drivers/s390/char/sclp_early_core.c Heiko Carstens     2017-01-24  129  	sclp_early_cmd(SCLP_CMDW_WRITE_EVENT_DATA, sccb);
-22362a0e23182d arch/s390/kernel/sclp.c             Martin Schwidefsky 2015-07-08  130  }
-22362a0e23182d arch/s390/kernel/sclp.c             Martin Schwidefsky 2015-07-08  131  
+I'd make cci_multi_reg_write(), or rather all V4L2 CCI API to set positive
+error values to zero. The documentation already says the functions return
+"negative error codes or zero" but they don't quite work that way.
 
-:::::: The code at line 107 was first introduced by commit
-:::::: 22362a0e23182d230527a5add690b4027860d7d3 s390/sclp: convert early sclp console code to C
+Just doing
 
-:::::: TO: Martin Schwidefsky <schwidefsky@de.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+	if (err)
+		*err = min(*err, 0);
+
+or merging that to the existing if () there would do the trick.
+
+The documentation could be improved, too: @err documentation just says the
+function errors out if @err is set (vs. it being a negative error code). I
+think just checking for a negative value is sufficient.
+
+I think the reason why it's like this is that there never was much thinking
+how return values obtained elsewhere would interact with V4L2 CCI, which
+by itself always returns zero or a negative error code, given originally 0
+is passed as *err.
+
+> 
+> fd55319692151d Kate Hsuan 2026-03-25  573  	/* enable group hold */
+> fd55319692151d Kate Hsuan 2026-03-25  574  	cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 1, &ret);
+> fd55319692151d Kate Hsuan 2026-03-25  575  	cci_multi_reg_write(sensor->regmap, t4ka3_pre_mode_set_regs,
+> fd55319692151d Kate Hsuan 2026-03-25  576  			    ARRAY_SIZE(t4ka3_pre_mode_set_regs), &ret);
+> fd55319692151d Kate Hsuan 2026-03-25 @577  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  578  		goto error_powerdown;
+> 
+> And we error out here with ret == 1.
+> 
+> fd55319692151d Kate Hsuan 2026-03-25  579  
+> fd55319692151d Kate Hsuan 2026-03-25  580  	ret = t4ka3_set_mode(sensor, state);
+> fd55319692151d Kate Hsuan 2026-03-25  581  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  582  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  583  
+> fd55319692151d Kate Hsuan 2026-03-25  584  	ret = cci_multi_reg_write(sensor->regmap, t4ka3_post_mode_set_regs,
+> fd55319692151d Kate Hsuan 2026-03-25  585  				  ARRAY_SIZE(t4ka3_post_mode_set_regs), NULL);
+> fd55319692151d Kate Hsuan 2026-03-25  586  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  587  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  588  
+> fd55319692151d Kate Hsuan 2026-03-25  589  	/* Restore value of all ctrls */
+> fd55319692151d Kate Hsuan 2026-03-25  590  	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
+> fd55319692151d Kate Hsuan 2026-03-25  591  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  592  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  593  
+> fd55319692151d Kate Hsuan 2026-03-25  594  	/* disable group hold */
+> fd55319692151d Kate Hsuan 2026-03-25  595  	cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 0, &ret);
+> fd55319692151d Kate Hsuan 2026-03-25  596  	cci_write(sensor->regmap, T4KA3_REG_STREAM, 1, &ret);
+> fd55319692151d Kate Hsuan 2026-03-25  597  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  598  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  599  
+> fd55319692151d Kate Hsuan 2026-03-25  600  	sensor->streaming = 1;
+> fd55319692151d Kate Hsuan 2026-03-25  601  
+> fd55319692151d Kate Hsuan 2026-03-25  602  	return ret;
+> fd55319692151d Kate Hsuan 2026-03-25  603  
+> fd55319692151d Kate Hsuan 2026-03-25  604  error_powerdown:
+> fd55319692151d Kate Hsuan 2026-03-25  605  	pm_runtime_put(sensor->sd.dev);
+> fd55319692151d Kate Hsuan 2026-03-25  606  
+> fd55319692151d Kate Hsuan 2026-03-25  607  	return ret;
+> fd55319692151d Kate Hsuan 2026-03-25  608  }
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kind regards,
+
+Sakari Ailus
