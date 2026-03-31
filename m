@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EEB3EC2E1
-	for <oe-kbuild@lists.linux.dev>; Tue, 31 Mar 2026 21:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C594657CD
+	for <oe-kbuild@lists.linux.dev>; Tue, 31 Mar 2026 21:57:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774993016; cv=none; b=rraYy8IaDWgX1kdzf2hFRy1MK1oCjSqD80lR7Qn7s0+05k3cXGd1XFy6sOF6qfzh9ec0kGXTM0qO2Y3KIxhbIAnwtW2koo0Nk4aOt1oo7BinrvKoBcIS5+hx/ibVTQsxDLGZgSrp3UswR2W+G05WtyZ9lAEZyRfJNUnl+Y12lNs=
+	t=1774994270; cv=none; b=F1SbQP/LuYGhoB8K305cRMu9FRRytoltQWAGAONmIWK5gwOG4PRKhXPXUNnspUZzN0ygVTtlOraaEGLavI1r+buxSBXkg8+nUhgssLOWpSYGxD0SAy1qH0LUwkGs57eb87i4fpcI4Ep/iIwheDKJIxJkqtb+paD+AhWSTKm3VSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774993016; c=relaxed/simple;
-	bh=0u90iBGZY6D3Mc+75ylk6zOMgHe9+kJ1NrawOvp1RXM=;
+	s=arc-20240116; t=1774994270; c=relaxed/simple;
+	bh=qMCaCPqhliFvUUUmgsWksNp5pOiKFRZKcFRf+ddNuC8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lTIiySkhzj6zCzQxZGnz4M4kDRk1FZkuRzk1Zn2FJYQCtCUv1i14G00xFTxYa3Wgk1mwrfmXgq1cg/jPRH13TFQXABElA26k58sQgXRbA8DzSfIa3C67cJzDoc/7XHw58O+xkNokZGTBYjqxUBcqEy779Zw7OZ1yqpey/QlVA4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b50VknLw; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=hYjG3mE5OBA3LkkQo6Yiq/ZDA4mRCUd9GmPbNUvvjNnx3fPKmqYG5zVC6/e3XBwrmmB/COijSwMdP3HV1fwlfBeONlu7LMo0c/Afy3O+FjuyMGW9uUknMI0Cs1cbwvBGt0I7OPWWuSFAshU1Y0JkUkYMnIpaGorTnck1nWg7Dm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYmWNx2/; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b50VknLw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYmWNx2/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774993013; x=1806529013;
+  t=1774994269; x=1806530269;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0u90iBGZY6D3Mc+75ylk6zOMgHe9+kJ1NrawOvp1RXM=;
-  b=b50VknLwJxMNBWEd/QrqNWINJZHkC+N1sZV5ehcJeh2s9InKVmIZBC6Q
-   M3tD8A4TsbcQQCuML+Ju5ugU8sgUJsWPVSymoHEyhUw13mhBPCg+5dh3u
-   kwgPy/2Q6FRYqVf623uAFLCvVQp11t6/wz+gIsN04zEwo+mg/mw6DpoO/
-   4b80P3kjVMtb/ABOBRxJg0wCDT8xvuP5cfENrwKAvq3YM3TXQ7sE2gVoN
-   7s4hiNyFRjHtK+CSdkMSRujg/DsS1TU9q0tSZ6OWilU/EoDLHhte2cfoT
-   HdFsnhgFFwvWfOdJnnuT7oMcjKJYJZ9zFrEKbPQGCe98k2wOiyhFWF7O2
-   A==;
-X-CSE-ConnectionGUID: pw5+wkPBSoKOMGTTKzBAWg==
-X-CSE-MsgGUID: es7M7EfjRWiyn1mrw8fr+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75057831"
+  bh=qMCaCPqhliFvUUUmgsWksNp5pOiKFRZKcFRf+ddNuC8=;
+  b=aYmWNx2/qBkMJW74QPVgfewrcXsqs/lBKICD0ifpK7N3p7GULxHa0P3/
+   tcKXeBnF+acMnyooZ0vftDJuuGTSWkn0XeKG0Buwotfu8P89BipxIReX0
+   ogdEgJDFWw+OwKMlDI9TheZYm4X7dZmFnwf2iVCe3NJVj7A/FWUgBcEUr
+   3/AMzYAi8UG6w8AdaIdf7vhNsqZxEK9btbmtImWsxEUxf63m62n9nB5Uc
+   lmYMqXsPrGQFglDMFrJ2ZyIMiJXJsNo5ejz7LygDGxZgWHOKAYOYkx5/m
+   Pg4cXKjG9G5j+V7CVhWj0lVrK6A25lZnwhEdpnTV7h/OMUmg2DYkXGFe1
+   w==;
+X-CSE-ConnectionGUID: wVUuyKm5RGeAHckP7wTIDw==
+X-CSE-MsgGUID: Eq5mZnE8RlS7ydnxUXcg4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75059276"
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="75057831"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 14:36:53 -0700
-X-CSE-ConnectionGUID: qTYwQ50kQdux5C7vs9PS7g==
-X-CSE-MsgGUID: Gk3gg+iCQrqyHdX7lZEdCg==
+   d="scan'208";a="75059276"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 14:57:48 -0700
+X-CSE-ConnectionGUID: fRyz+jMcTcqbDVCI3Bd7CQ==
+X-CSE-MsgGUID: LQy9NEA3Sg6l2f5tvcNiRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="226354017"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 31 Mar 2026 14:36:51 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="226478116"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 31 Mar 2026 14:57:47 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7glV-000000008XZ-2Lax;
-	Tue, 31 Mar 2026 21:36:49 +0000
-Date: Tue, 31 Mar 2026 23:35:59 +0200
+	id 1w7h5k-000000004Kn-34Th;
+	Tue, 31 Mar 2026 21:57:44 +0000
+Date: Wed, 1 Apr 2026 05:56:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: rtc: moxa,moxart-rtc: convert to json-schema
-Message-ID: <202603312318.dkRDIuom-lkp@intel.com>
+Subject: Re: [PATCH 4/5] lib/crc: arm64: Simplify intrinsics implementation
+Message-ID: <202604010522.5iUE599X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,78 +62,120 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: lib/crc/arm64/crc64-neon-inner.c:29:9: sparse: sparse: Trying to use reserved word 'return' as identifier"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260329184615.454887-1-robyserbanpascu06@gmail.com>
-References: <20260329184615.454887-1-robyserbanpascu06@gmail.com>
-TO: "Serban-Pascu Robert" <robyserbanpascu06@gmail.com>
-TO: alexandre.belloni@bootlin.com
-CC: robh@kernel.org
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-rtc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: daniel.baluta@nxp.com
-CC: "Serban-Pascu Robert" <robyserbanpascu06@gmail.com>
+In-Reply-To: <20260330144630.33026-11-ardb@kernel.org>
+References: <20260330144630.33026-11-ardb@kernel.org>
+TO: Ard Biesheuvel <ardb@kernel.org>
+TO: linux-crypto@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: Ard Biesheuvel <ardb@kernel.org>
+CC: Demian Shulhan <demyansh@gmail.com>
+CC: Eric Biggers <ebiggers@kernel.org>
 
-Hi Serban-Pascu,
+Hi Ard,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on robh/for-next linus/master v7.0-rc6 next-20260330]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 63432fd625372a0e79fb00a4009af204f4edc013]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Serban-Pascu-Robert/dt-bindings-rtc-moxa-moxart-rtc-convert-to-json-schema/20260330-111814
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20260329184615.454887-1-robyserbanpascu06%40gmail.com
-patch subject: [PATCH] dt-bindings: rtc: moxa,moxart-rtc: convert to json-schema
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-2052-20260330 (https://download.01.org/0day-ci/archive/20260331/202603312318.dkRDIuom-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-dtschema: 2025.13.dev9+g4cd3cdfac
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603312318.dkRDIuom-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/lib-crc-arm64-Drop-unnecessary-chunking-logic-from-crc64/20260331-150617
+base:   63432fd625372a0e79fb00a4009af204f4edc013
+patch link:    https://lore.kernel.org/r/20260330144630.33026-11-ardb%40kernel.org
+patch subject: [PATCH 4/5] lib/crc: arm64: Simplify intrinsics implementation
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: arm64-randconfig-r134-20260401 (https://download.01.org/0day-ci/archive/20260401/202604010522.5iUE599X-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010522.5iUE599X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202603312318.dkRDIuom-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604010522.5iUE599X-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: interrupt-controller@98800000 (moxa,moxart-ic): 'interrupt-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/faraday,ftintc010.yaml
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: gpio@98700000 (moxa,moxart-gpio): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/faraday,ftgpio010.yaml
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: gpio@98700000 (moxa,moxart-gpio): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/faraday,ftgpio010.yaml
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: gpio@98700000 (moxa,moxart-gpio): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/faraday,ftgpio010.yaml
->> arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: rtc (moxa,moxart-rtc): 'gpio-rtc-data', 'gpio-rtc-reset', 'gpio-rtc-sclk' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/rtc/moxa,moxart-rtc.yaml
->> arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: rtc (moxa,moxart-rtc): 'rtc-sclk-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/rtc/moxa,moxart-rtc.yaml
->> arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: rtc (moxa,moxart-rtc): 'rtc-data-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/rtc/moxa,moxart-rtc.yaml
->> arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: rtc (moxa,moxart-rtc): 'rtc-reset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/rtc/moxa,moxart-rtc.yaml
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: /soc/dma@90500000: failed to match any schema with compatible: ['moxa,moxart-dma']
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: /soc/mmc@98e00000: failed to match any schema with compatible: ['moxa,moxart-mmc']
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: /soc/mdio@90900090: failed to match any schema with compatible: ['moxa,moxart-mdio']
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: /soc/mdio@90900090/ethernet-phy@1: failed to match any schema with compatible: ['moxa,moxart-rtl8201cp', 'ethernet-phy-ieee802.3-c22']
-   arch/arm/boot/dts/moxa/moxart-uc7112lx.dtb: ethernet-phy@1 (moxa,moxart-rtl8201cp): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['moxa,moxart-rtl8201cp', 'ethernet-phy-ieee802.3-c22'] is too long
-   	'ethernet-phy-ieee802.3-c22' was expected
-   	'ethernet-phy-ieee802.3-c45' was expected
-   	'moxa,moxart-rtl8201cp' does not match '^ethernet-phy-id[a-f0-9]{4}\\.[a-f0-9]{4}$'
+sparse warnings: (new ones prefixed by >>)
+   lib/crc/arm64/crc64-neon-inner.c: note: in included file (through arch/arm64/include/asm/neon-intrinsics.h):
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/crc/arm64/crc64-neon-inner.c:18:26: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:18:26: sparse: sparse: got pmull64
+   lib/crc/arm64/crc64-neon-inner.c:22:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon-inner.c:22:1: sparse: sparse: got }
+   lib/crc/arm64/crc64-neon-inner.c:27:20: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:27:20: sparse: sparse: got m
+>> lib/crc/arm64/crc64-neon-inner.c:29:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/crc/arm64/crc64-neon-inner.c:29:16: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:29:16: sparse: sparse: got vreinterpretq_u64_p128
+   lib/crc/arm64/crc64-neon-inner.c:30:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon-inner.c:30:1: sparse: sparse: got }
+   lib/crc/arm64/crc64-neon-inner.c:36:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon-inner.c:36:1: sparse: sparse: got }
+   lib/crc/arm64/crc64-neon-inner.c:41:20: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:41:20: sparse: sparse: got v0
+   lib/crc/arm64/crc64-neon-inner.c:42:20: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:42:20: sparse: sparse: got zero
+   lib/crc/arm64/crc64-neon-inner.c:44:14: sparse: sparse: Expected ) in function declarator
+   lib/crc/arm64/crc64-neon-inner.c:44:14: sparse: sparse: got ;
+>> lib/crc/arm64/crc64-neon-inner.c:44:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/crc/arm64/crc64-neon-inner.c:44:16: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon-inner.c:44:16: sparse: sparse: got )
+   lib/crc/arm64/crc64-neon-inner.c:47:19: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:47:19: sparse: sparse: got +=
+   lib/crc/arm64/crc64-neon-inner.c:48:21: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:48:21: sparse: sparse: got -=
+   lib/crc/arm64/crc64-neon-inner.c:49:25: sparse: sparse: Expected ) in function declarator
+   lib/crc/arm64/crc64-neon-inner.c:49:25: sparse: sparse: got <
+>> lib/crc/arm64/crc64-neon-inner.c:49:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   lib/crc/arm64/crc64-neon-inner.c:53:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon-inner.c:53:9: sparse: sparse: got }
+   lib/crc/arm64/crc64-neon-inner.c:59:20: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:59:20: sparse: sparse: got bconsts
+   lib/crc/arm64/crc64-neon-inner.c:60:20: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:60:20: sparse: sparse: got final
+   lib/crc/arm64/crc64-neon-inner.c:62:12: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:62:12: sparse: sparse: got ^=
+   lib/crc/arm64/crc64-neon-inner.c:64:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/crc/arm64/crc64-neon-inner.c:64:16: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon-inner.c:64:16: sparse: sparse: got vgetq_lane_u64
+   lib/crc/arm64/crc64-neon-inner.c:65:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon-inner.c:65:1: sparse: sparse: got }
+   lib/crc/arm64/crc64-neon-inner.c:52:22: sparse: sparse: undefined identifier 'pmull64'
+   lib/crc/arm64/crc64-neon-inner.c:52:49: sparse: sparse: undefined identifier 'pmull64_high'
+
+vim +/return +29 lib/crc/arm64/crc64-neon-inner.c
+
+63432fd625372a Demian Shulhan 2026-03-29  23  
+38163ec975bb4f Ard Biesheuvel 2026-03-30  24  static inline uint64x2_t pmull64_high(uint64x2_t a, uint64x2_t b)
+38163ec975bb4f Ard Biesheuvel 2026-03-30  25  {
+38163ec975bb4f Ard Biesheuvel 2026-03-30  26  	poly64x2_t l = vreinterpretq_p64_u64(a);
+38163ec975bb4f Ard Biesheuvel 2026-03-30  27  	poly64x2_t m = vreinterpretq_p64_u64(b);
+63432fd625372a Demian Shulhan 2026-03-29  28  
+38163ec975bb4f Ard Biesheuvel 2026-03-30 @29  	return vreinterpretq_u64_p128(vmull_high_p64(l, m));
+38163ec975bb4f Ard Biesheuvel 2026-03-30  30  }
+63432fd625372a Demian Shulhan 2026-03-29  31  
+38163ec975bb4f Ard Biesheuvel 2026-03-30  32  static inline uint64x2_t pmull64_hi_lo(uint64x2_t a, uint64x2_t b)
+38163ec975bb4f Ard Biesheuvel 2026-03-30  33  {
+38163ec975bb4f Ard Biesheuvel 2026-03-30  34  	return vreinterpretq_u64_p128(vmull_p64(vgetq_lane_u64(a, 1),
+38163ec975bb4f Ard Biesheuvel 2026-03-30  35  						vgetq_lane_u64(b, 0)));
+38163ec975bb4f Ard Biesheuvel 2026-03-30  36  }
+63432fd625372a Demian Shulhan 2026-03-29  37  
+38163ec975bb4f Ard Biesheuvel 2026-03-30  38  u64 crc64_nvme_arm64_c(u64 crc, const u8 *p, size_t len)
+38163ec975bb4f Ard Biesheuvel 2026-03-30  39  {
+38163ec975bb4f Ard Biesheuvel 2026-03-30  40  	uint64x2_t fold_consts = vld1q_u64(fold_consts_val);
+38163ec975bb4f Ard Biesheuvel 2026-03-30  41  	uint64x2_t v0 = { crc, 0 };
+38163ec975bb4f Ard Biesheuvel 2026-03-30  42  	uint64x2_t zero = { };
+63432fd625372a Demian Shulhan 2026-03-29  43  
+38163ec975bb4f Ard Biesheuvel 2026-03-30 @44  	for (;;) {
+38163ec975bb4f Ard Biesheuvel 2026-03-30  45  		v0 ^= vreinterpretq_u64_u8(vld1q_u8(p));
+63432fd625372a Demian Shulhan 2026-03-29  46  
+63432fd625372a Demian Shulhan 2026-03-29  47  		p += 16;
+63432fd625372a Demian Shulhan 2026-03-29  48  		len -= 16;
+38163ec975bb4f Ard Biesheuvel 2026-03-30 @49  		if (len < 16)
 
 -- 
 0-DAY CI Kernel Test Service
