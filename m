@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA511925BC
-	for <oe-kbuild@lists.linux.dev>; Tue, 31 Mar 2026 02:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3387C8CE
+	for <oe-kbuild@lists.linux.dev>; Tue, 31 Mar 2026 03:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774925337; cv=none; b=oBAtF689bNmfPZ+pXmnllVBsXIyom2adIWJvm3ctdubwuXExioo3Z0eZkl+SaTX0wsLsx1n27p0dBgfuDXOsJGXbIABPj+CqVmbovUtvyGT2hIB8UjKWJnAzzJSi/vT3bGMjaeZKuOtUhiiBhsBpdmKp5Oi3Ta261J9VGm/0sgc=
+	t=1774926599; cv=none; b=bTP0a+ZjSxCEZtfaynxGxgUe6w80u9AyIKWtCckLigpF3Ci6BNc5LiPESqHFx75sqVfMI5r6nRSp2DdVjSsRYasNq/c1v0540cqfP336SEO2IvnZMq7tvPIh8Cbm/sI8gMKNiEarOszurqf7SG8oqeSF8CNhCASvyBRTgAvh1BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774925337; c=relaxed/simple;
-	bh=mHWoW9Nv9OUeQnOYetm1QJYuQ4a0CLPY2zoM8eRWDzU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aWh0XGRUr6UyeoxGmhBi7rqD8zYYgsLulHnP/B5s/ZRrLhZT5lbEt2/zX/j6Wmo8mdOMXW7stexzATDYoXmOeKsuE0YdXUC5NUHslUaIeq/qnL6sndxer7BLb0JSL/e/qggS2LjIPpjyEVqlWLNuPfgwTl2jGrRIQGWBocNeJTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pf+TlSA4; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1774926599; c=relaxed/simple;
+	bh=KpT126jvtGm/fHiGC5eM1s/Lq0DfaSRfTPdwYebv1jM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=svD9pGbgK2S043QqO1htgM8teFp/RKYm31UDoC4SUhOU9RnonsxwfLC4UKEwXc0W61TQaZAKMrfRC0dqr/8vqyqLkEf36raE6VpZgYfudg6FMnCRrOPehZ1yPeb6K2rx0C+6Hg8m4ZFcfXzetNLTXYtFo9H3gys3HBZBdzWetWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJy5I4rL; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pf+TlSA4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJy5I4rL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774925336; x=1806461336;
+  t=1774926597; x=1806462597;
   h=date:from:to:cc:subject:message-id;
-  bh=mHWoW9Nv9OUeQnOYetm1QJYuQ4a0CLPY2zoM8eRWDzU=;
-  b=Pf+TlSA4Co3MlaKPlyFERn4Qj4Snm/CFTTCfavD7OkDStL0VpBY1Ungx
-   HjRGvaXFR/B0KAWJ4mE/mRCmtCzR4jQCg8/tm34lo1+epLtUvwgGZ9OIw
-   FC8JThSXIwJt8juWx6gfS2tbc8xjGX+mSHYQUlN756u7z1puNa462LcSF
-   W3sPJRsuG+5IJke6sHEutrh4PFjZ3DGsQL2XApQSUvv35GnLAPpk8Cgos
-   xuJqRSNBR4IXYWuSE4LOmEWHyqCkThFJsvAqMdEXCKeYsd1Ij3PeBvS9x
-   LwdDhbmyYMPcCVE29SGVS5w6lkFBqRF/SSZrHkKzWWpnrkqwLDqgI3zse
+  bh=KpT126jvtGm/fHiGC5eM1s/Lq0DfaSRfTPdwYebv1jM=;
+  b=LJy5I4rLOhxEXc5AsIPDwsVfttXlq8CmDYCJLXan274FE4Rq8XlPRb9v
+   SjZGdMmT6NyP6bcJCzXhA91k/3MgdyZ0+LrrYqGjMGUtnRQEUE9TbTuUa
+   frINhWYfApJp2imAJLKWJncQqVnw9zQyudqXA2nOInlWGTm52DFxP9Dhv
+   qzt3P3QrdfBB1a9lgjOxHJ0exWkqcFaMz0P09eZAY9y/asBjXpi78RFHa
+   ztK3P3+/PjzXSeVH8xTPMK7NY5qMvsQ5XdELkYtjGnhDFR2JvFUvzwN80
+   ZvIm79K74tv9Rqx6X2vJS3jAlT+WFYJ6DwOOB6UHVQsZOg9YOLCm+7vWT
    Q==;
-X-CSE-ConnectionGUID: qpy1sPdVTnyCsAQgBgY6Qw==
-X-CSE-MsgGUID: NX7tI8FyRDyZFOgr7/JvRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75101473"
+X-CSE-ConnectionGUID: I7OBjJTyTzK5e4HkGyEAvQ==
+X-CSE-MsgGUID: s7raeyvySWWEJa7dehp4dA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75947252"
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="75101473"
+   d="scan'208";a="75947252"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 19:48:55 -0700
-X-CSE-ConnectionGUID: JdL29+0wT4aJeFsX+9Rjng==
-X-CSE-MsgGUID: Jtdstx8TQzWkaItwYCMf7A==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 20:09:57 -0700
+X-CSE-ConnectionGUID: Zw4SctuoS0Cju4d+3nc1VA==
+X-CSE-MsgGUID: 96h7l3AORQOG4U1VS/shdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="225242254"
+   d="scan'208";a="225246268"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Mar 2026 19:48:54 -0700
+  by orviesa006.jf.intel.com with ESMTP; 30 Mar 2026 20:09:55 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7P9v-0000000023p-15OZ;
-	Tue, 31 Mar 2026 02:48:51 +0000
-Date: Tue, 31 Mar 2026 10:47:56 +0800
+	id 1w7PUG-0000000025a-2wOC;
+	Tue, 31 Mar 2026 03:09:52 +0000
+Date: Tue, 31 Mar 2026 11:09:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5932/10352]
- arch/arm64/kvm/vgic/vgic-v5.c:231 vgic_v5_sync_ppi_priorities() warn:
- subtract is higher precedence than shift
-Message-ID: <202603311033.HLhkGi9K-lkp@intel.com>
+Subject: lib/tests/slub_kunit.c:59 test_next_pointer() error:
+ dereferencing freed memory 'p' (line 55)
+Message-ID: <202603311158.xucMhmlE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,77 +61,121 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sascha Bischoff <Sascha.Bischoff@arm.com>
-CC: Marc Zyngier <maz@kernel.org>
-CC: Joey Gouly <joey.gouly@arm.com>
-CC: Jonathan Cameron <jonathan.cameron@huawei.com>
+CC: linux-kernel@vger.kernel.org
+TO: Kees Cook <kees@kernel.org>
+CC: David Gow <davidgow@google.com>
+CC: Rae Moar <rmoar@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   cf7c3c02fdd0dfccf4d6611714273dcb538af2cb
-commit: 933e5288fa9714085e384a3d6ad6dcce8089a6b9 [5932/10352] KVM: arm64: gic-v5: Check for pending PPIs
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d0c3bcd5b8976159d835a897254048e078f447e6
+commit: db6fe4d61ece24193eb4d94a82d967501d53358c lib: Move KUnit tests into tests/ subdirectory
+date:   1 year, 2 months ago
 :::::: branch date: 6 hours ago
-:::::: commit date: 11 days ago
-config: arm64-randconfig-r072-20260330 (https://download.01.org/0day-ci/archive/20260331/202603311033.HLhkGi9K-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
+:::::: commit date: 1 year, 2 months ago
+config: microblaze-randconfig-r071-20260331 (https://download.01.org/0day-ci/archive/20260331/202603311158.xucMhmlE-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603311033.HLhkGi9K-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603311158.xucMhmlE-lkp@intel.com/
 
-smatch warnings:
-arch/arm64/kvm/vgic/vgic-v5.c:231 vgic_v5_sync_ppi_priorities() warn: subtract is higher precedence than shift
-arch/arm64/kvm/vgic/vgic-v5.c:231 vgic_v5_sync_ppi_priorities() warn: subtract is higher precedence than shift
-arch/arm64/kvm/vgic/vgic-v5.c:231 vgic_v5_sync_ppi_priorities() warn: subtract is higher precedence than shift
-arch/arm64/kvm/vgic/vgic-v5.c:231 vgic_v5_sync_ppi_priorities() warn: subtract is higher precedence than shift
+New smatch warnings:
+lib/tests/slub_kunit.c:59 test_next_pointer() error: dereferencing freed memory 'p' (line 55)
+lib/tests/slub_kunit.c:99 test_first_word() error: dereferencing freed memory 'p' (line 98)
+lib/tests/slub_kunit.c:114 test_clobber_50th_byte() error: dereferencing freed memory 'p' (line 113)
 
-vim +231 arch/arm64/kvm/vgic/vgic-v5.c
+Old smatch warnings:
+lib/tests/slub_kunit.c:131 test_clobber_redzone_free() error: dereferencing freed memory 'p' (line 130)
 
-4d591252bacb2d Sascha Bischoff 2026-03-19  199  
-933e5288fa9714 Sascha Bischoff 2026-03-19  200  /*
-933e5288fa9714 Sascha Bischoff 2026-03-19  201   * Sync back the PPI priorities to the vgic_irq shadow state for any interrupts
-933e5288fa9714 Sascha Bischoff 2026-03-19  202   * exposed to the guest (skipping all others).
-933e5288fa9714 Sascha Bischoff 2026-03-19  203   */
-933e5288fa9714 Sascha Bischoff 2026-03-19  204  static void vgic_v5_sync_ppi_priorities(struct kvm_vcpu *vcpu)
-933e5288fa9714 Sascha Bischoff 2026-03-19  205  {
-933e5288fa9714 Sascha Bischoff 2026-03-19  206  	struct vgic_v5_cpu_if *cpu_if = &vcpu->arch.vgic_cpu.vgic_v5;
-933e5288fa9714 Sascha Bischoff 2026-03-19  207  	u64 priorityr;
-933e5288fa9714 Sascha Bischoff 2026-03-19  208  	int i;
-933e5288fa9714 Sascha Bischoff 2026-03-19  209  
-933e5288fa9714 Sascha Bischoff 2026-03-19  210  	/*
-933e5288fa9714 Sascha Bischoff 2026-03-19  211  	 * We have up to 16 PPI Priority regs, but only have a few interrupts
-933e5288fa9714 Sascha Bischoff 2026-03-19  212  	 * that the guest is allowed to use. Limit our sync of PPI priorities to
-933e5288fa9714 Sascha Bischoff 2026-03-19  213  	 * those actually exposed to the guest by first iterating over the mask
-933e5288fa9714 Sascha Bischoff 2026-03-19  214  	 * of exposed PPIs.
-933e5288fa9714 Sascha Bischoff 2026-03-19  215  	 */
-933e5288fa9714 Sascha Bischoff 2026-03-19  216  	for_each_set_bit(i, vcpu->kvm->arch.vgic.gicv5_vm.vgic_ppi_mask, VGIC_V5_NR_PRIVATE_IRQS) {
-933e5288fa9714 Sascha Bischoff 2026-03-19  217  		u32 intid = vgic_v5_make_ppi(i);
-933e5288fa9714 Sascha Bischoff 2026-03-19  218  		struct vgic_irq *irq;
-933e5288fa9714 Sascha Bischoff 2026-03-19  219  		int pri_idx, pri_reg, pri_bit;
-933e5288fa9714 Sascha Bischoff 2026-03-19  220  		u8 priority;
-933e5288fa9714 Sascha Bischoff 2026-03-19  221  
-933e5288fa9714 Sascha Bischoff 2026-03-19  222  		/*
-933e5288fa9714 Sascha Bischoff 2026-03-19  223  		 * Determine which priority register and the field within it to
-933e5288fa9714 Sascha Bischoff 2026-03-19  224  		 * extract.
-933e5288fa9714 Sascha Bischoff 2026-03-19  225  		 */
-933e5288fa9714 Sascha Bischoff 2026-03-19  226  		pri_reg = i / 8;
-933e5288fa9714 Sascha Bischoff 2026-03-19  227  		pri_idx = i % 8;
-933e5288fa9714 Sascha Bischoff 2026-03-19  228  		pri_bit = pri_idx * 8;
-933e5288fa9714 Sascha Bischoff 2026-03-19  229  
-933e5288fa9714 Sascha Bischoff 2026-03-19  230  		priorityr = cpu_if->vgic_ppi_priorityr[pri_reg];
-933e5288fa9714 Sascha Bischoff 2026-03-19 @231  		priority = field_get(GENMASK(pri_bit + 4, pri_bit), priorityr);
-933e5288fa9714 Sascha Bischoff 2026-03-19  232  
-933e5288fa9714 Sascha Bischoff 2026-03-19  233  		irq = vgic_get_vcpu_irq(vcpu, intid);
-933e5288fa9714 Sascha Bischoff 2026-03-19  234  
-933e5288fa9714 Sascha Bischoff 2026-03-19  235  		scoped_guard(raw_spinlock_irqsave, &irq->irq_lock)
-933e5288fa9714 Sascha Bischoff 2026-03-19  236  			irq->priority = priority;
-933e5288fa9714 Sascha Bischoff 2026-03-19  237  
-933e5288fa9714 Sascha Bischoff 2026-03-19  238  		vgic_put_irq(vcpu->kvm, irq);
-933e5288fa9714 Sascha Bischoff 2026-03-19  239  	}
-933e5288fa9714 Sascha Bischoff 2026-03-19  240  }
-933e5288fa9714 Sascha Bischoff 2026-03-19  241  
+vim +/p +59 lib/tests/slub_kunit.c
+
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   45  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   46  #ifndef CONFIG_KASAN
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   47  static void test_next_pointer(struct kunit *test)
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   48  {
+4d9dd4b0ce88072 lib/slub_kunit.c Feng Tang     2022-11-30   49  	struct kmem_cache *s = test_kmem_cache_create("TestSlub_next_ptr_free",
+4d9dd4b0ce88072 lib/slub_kunit.c Feng Tang     2022-11-30   50  							64, SLAB_POISON);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   51  	u8 *p = kmem_cache_alloc(s, GFP_KERNEL);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   52  	unsigned long tmp;
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   53  	unsigned long *ptr_addr;
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   54  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  @55  	kmem_cache_free(s, p);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   56  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   57  	ptr_addr = (unsigned long *)(p + s->offset);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   58  	tmp = *ptr_addr;
+b1080c667b3b2c8 lib/slub_kunit.c Guenter Roeck 2024-04-02  @59  	p[s->offset] = ~p[s->offset];
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   60  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   61  	/*
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   62  	 * Expecting three errors.
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   63  	 * One for the corrupted freechain and the other one for the wrong
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   64  	 * count of objects in use. The third error is fixing broken cache.
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   65  	 */
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   66  	validate_slab_cache(s);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   67  	KUNIT_EXPECT_EQ(test, 3, slab_errors);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   68  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   69  	/*
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   70  	 * Try to repair corrupted freepointer.
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   71  	 * Still expecting two errors. The first for the wrong count
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   72  	 * of objects in use.
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   73  	 * The second error is for fixing broken cache.
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   74  	 */
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   75  	*ptr_addr = tmp;
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   76  	slab_errors = 0;
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   77  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   78  	validate_slab_cache(s);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   79  	KUNIT_EXPECT_EQ(test, 2, slab_errors);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   80  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   81  	/*
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   82  	 * Previous validation repaired the count of objects in use.
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   83  	 * Now expecting no error.
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   84  	 */
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   85  	slab_errors = 0;
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   86  	validate_slab_cache(s);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   87  	KUNIT_EXPECT_EQ(test, 0, slab_errors);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   88  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   89  	kmem_cache_destroy(s);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   90  }
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   91  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   92  static void test_first_word(struct kunit *test)
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   93  {
+4d9dd4b0ce88072 lib/slub_kunit.c Feng Tang     2022-11-30   94  	struct kmem_cache *s = test_kmem_cache_create("TestSlub_1th_word_free",
+4d9dd4b0ce88072 lib/slub_kunit.c Feng Tang     2022-11-30   95  							64, SLAB_POISON);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   96  	u8 *p = kmem_cache_alloc(s, GFP_KERNEL);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28   97  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  @98  	kmem_cache_free(s, p);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  @99  	*p = 0x78;
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  100  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  101  	validate_slab_cache(s);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  102  	KUNIT_EXPECT_EQ(test, 2, slab_errors);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  103  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  104  	kmem_cache_destroy(s);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  105  }
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  106  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  107  static void test_clobber_50th_byte(struct kunit *test)
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  108  {
+4d9dd4b0ce88072 lib/slub_kunit.c Feng Tang     2022-11-30  109  	struct kmem_cache *s = test_kmem_cache_create("TestSlub_50th_word_free",
+4d9dd4b0ce88072 lib/slub_kunit.c Feng Tang     2022-11-30  110  							64, SLAB_POISON);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  111  	u8 *p = kmem_cache_alloc(s, GFP_KERNEL);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  112  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28 @113  	kmem_cache_free(s, p);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28 @114  	p[50] = 0x9a;
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  115  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  116  	validate_slab_cache(s);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  117  	KUNIT_EXPECT_EQ(test, 2, slab_errors);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  118  
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  119  	kmem_cache_destroy(s);
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  120  }
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  121  #endif
+1f9f78b1b376f82 lib/slub_kunit.c Oliver Glitta 2021-06-28  122  
+
+:::::: The code at line 59 was first introduced by commit
+:::::: b1080c667b3b2c8c38a7fa83ca5567124887abae mm/slub, kunit: Use inverted data to corrupt kmem cache
+
+:::::: TO: Guenter Roeck <linux@roeck-us.net>
+:::::: CC: Vlastimil Babka <vbabka@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
