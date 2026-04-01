@@ -1,124 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F46F3F99E3
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Apr 2026 10:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFDE35F171
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Apr 2026 16:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775041084; cv=none; b=MDFNjENdz1ROJKMKMdMOfwzen42ROmuTgJVMojnYOrvaU3RvnZN5RbWuhW9YYwCqx3cRke7jM0ZN3vWkKfzHkHqBDutRl9bHXflkf92K+42xhbodp63USfBlpPg1L3tiCReFmJRyTqFfFP+8AU7jqVlWa0Ngt4Xe0YtHSFjmDaI=
+	t=1775062327; cv=none; b=DY5NPsmAymNhHq7r55h11UWuXV0Kooe8LhV/s1Yy85ZYLLlEJ6W1W40jV/MIzE7t1+SZ9hdD9B8gN9FWpU/I367oAuBJBI3kz0RGWUOYprvGXh/w6xFCU0iZ4V1recnozo1Y0wCAUXVudVrzyoXq1avdzc1Emu6TuJUO6ogom8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775041084; c=relaxed/simple;
-	bh=3RTQno6FtgvtenhM73PlOFq8qiqtT4vskI08lMCwLFg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sTnf3f75/Dm8z6ghIxZnSFWzV1PGUXoAmOOmdd37EVw3O6yWUGX+nazF5r+HQGKpzTIXc00xbYKQpcSB1iUUZTe2JhqvXuFoNtoJSTBi8dLl9fqpMhoIBAjpRl9hrakGV4EnogF3c1+DF6EahIKSFQiuSVAENi6R/8KHwmO59kY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=byxGx8SX; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1775062327; c=relaxed/simple;
+	bh=QB8TTVUHD0jrRhcj/NZzvLq4bO8yNmSau6lVZlOFLvA=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mX0KCmhIP+r74nvzr3e2NIFZnV7IiE1O00kFur4RmTxlizniDWeQcRKejRYGOc40EKwhJj3sKC4Jcm4lAfqSUt8DMlAa2Wh0cshWKvmpy4CkNgytPtb/GwpfZzWO8zr4Hp5v304vWgbEPoIF2aOU2IyX2FZ2KlzS1wE93FgUgYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CMoS4K8C; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="byxGx8SX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CMoS4K8C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775041082; x=1806577082;
-  h=date:from:to:cc:subject:message-id;
-  bh=3RTQno6FtgvtenhM73PlOFq8qiqtT4vskI08lMCwLFg=;
-  b=byxGx8SXVcry78226j5DmVYObspbZJvOoatUWvc3/9+ATtOXKfaCa93A
-   vOcQBOdqXHGP/UJXVCk9NNaGg8hw3WSkkn+LGKX75rgVTcZhI9mg+vlfT
-   VBlcfp8TNNOEFG7ZMJ80iwLT/cIU2VrsCo85NQwO6pZazA6nalGh0ONNU
-   JOj9OxCt6ARkwW2dw2xCe/GwqInMbplQNfkXlztL2pXgOhgdIJ2kj/j44
-   JswWmQDwA+I+9RM9qnJA7LxK10Td3o5Y/pALL8yCslIgsPmWX0NfE7pYP
-   4wIvE8Q+q8pg6QIDYZs+7kjQsyhIkNCM2TYXPt8zrsOEPt/nkrOJx+PQ+
-   Q==;
-X-CSE-ConnectionGUID: L2W7BPPgRjyqLeOBhj/W0A==
-X-CSE-MsgGUID: nMqFdh1iQWePr5aGoX6y8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="79681204"
+  t=1775062327; x=1806598327;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=QB8TTVUHD0jrRhcj/NZzvLq4bO8yNmSau6lVZlOFLvA=;
+  b=CMoS4K8CwEI0ad5+g5/awtxBMd95Dyc0KoIY46B3HgJ/6vJBSuA7dKJ+
+   QzNSftQf02m06jHAKAx5EDB05n/hvu0hZSDYQ6W0QdJPA1yN/dO+y7O8N
+   An2CA/oNLoDO6gpSF+03yuQKbZOI9tEow18+vUoMHdc4VMvXnr0GbIWKc
+   supkWZHKsyyCDGZuAIQcBHdz/QEBzFW+CJFZYGCjRILnUGE8ntLNoM7K7
+   YMyTFN1f38rmymfRAvLcxyZqSiJel0bAKR+y5RwE2xfeNJt4B0FpMCR9k
+   nMRUtbTYaOP4CNxkDqN1duWXbN4ImZO1PubhYsWYPYHXLZ1LoiTVVaMqw
+   w==;
+X-CSE-ConnectionGUID: wIQ0QXJpQNG44P86as9eSg==
+X-CSE-MsgGUID: iAnFYvrSQNibe0+t86hvOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75825388"
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="79681204"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 03:58:02 -0700
-X-CSE-ConnectionGUID: 73XWm63KSc67D3wBP4529g==
-X-CSE-MsgGUID: zpHveRowRMeTDzporNhuRA==
+   d="scan'208";a="75825388"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 09:52:07 -0700
+X-CSE-ConnectionGUID: 9BJzsFK6RtK+5HbLY/HBWw==
+X-CSE-MsgGUID: C5atGYg9T0y3vDWh08+kEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="226508882"
+   d="scan'208";a="223429587"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 01 Apr 2026 03:58:00 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 01 Apr 2026 09:52:05 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7tGn-000000008gf-3Q9j;
-	Wed, 01 Apr 2026 10:57:57 +0000
-Date: Wed, 01 Apr 2026 12:57:41 +0200
+	id 1w7ynT-000000008lN-1kQX
+	for oe-kbuild@lists.linux.dev;
+	Wed, 01 Apr 2026 16:52:03 +0000
+Date: Wed, 1 Apr 2026 18:51:33 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [conor:riscv-dt-for-next 8/8]
- arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000
- (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any
- of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202604011214.LVm2WDcg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH] mac80211: stop hardware before clearing driver state on
+ reconfig failure
+Message-ID: <202604011809.Cn20eaf5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Conor Dooley <conor.dooley@microchip.com>
-CC: Linus Walleij <linusw@kernel.org>
+In-Reply-To: <GVYP280MB151883A5BB2910EE6439DE2F9453A@GVYP280MB1518.SWEP280.PROD.OUTLOOK.COM>
+References: <GVYP280MB151883A5BB2910EE6439DE2F9453A@GVYP280MB1518.SWEP280.PROD.OUTLOOK.COM>
+TO: Masi Osmani <mas-i@hotmail.de>
+TO: Johannes Berg <johannes@sipsolutions.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git riscv-dt-for-next
-head:   b0258f69f1e0ed98e8506706da9ef538389b27ea
-commit: b0258f69f1e0ed98e8506706da9ef538389b27ea [8/8] riscv: dts: microchip: update mpfs gpio interrupts to better match the SoC
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: riscv-randconfig-2051-20260401 (https://download.01.org/0day-ci/archive/20260401/202604011214.LVm2WDcg-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.3.0
-dtschema: 2025.13.dev9+g4cd3cdfac
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604011214.LVm2WDcg-lkp@intel.com/reproduce)
+Hi Masi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604011214.LVm2WDcg-lkp@intel.com/
+kernel test robot noticed the following build warnings:
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
---
->> arch/riscv/boot/dts/microchip/mpfs-disco-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/mpfs-disco-kit.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
---
->> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
---
->> arch/riscv/boot/dts/microchip/mpfs-icicle-kit-prod.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/mpfs-icicle-kit-prod.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
---
->> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
-   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: can@2010c000 (microchip,mpfs-can): 'resets' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/can/microchip,mpfs-can.yaml
---
->> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
---
->> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
---
->> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
+[auto build test WARNING on wireless-next/main]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masi-Osmani/mac80211-stop-hardware-before-clearing-driver-state-on-reconfig-failure/20260401-123427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/GVYP280MB151883A5BB2910EE6439DE2F9453A%40GVYP280MB1518.SWEP280.PROD.OUTLOOK.COM
+patch subject: [PATCH] mac80211: stop hardware before clearing driver state on reconfig failure
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20260401/202604011809.Cn20eaf5-lkp@intel.com/reproduce)
+
+# many are suggestions rather than must-fix
+
+WARNING:BAD_SIGN_OFF: Unexpected content after email: 'Masi Osmani <mas-i@hotmail.de>  [AR9170 USB, Linux 6.18]', should be: 'Masi Osmani <mas-i@hotmail.de> (AR9170 USB, Linux 6.18)'
+#16: 
+Tested-by: Masi Osmani <mas-i@hotmail.de>  [AR9170 USB, Linux 6.18]
 
 -- 
 0-DAY CI Kernel Test Service
