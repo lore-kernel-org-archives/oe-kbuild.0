@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DE332937A
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Apr 2026 05:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F46F3F99E3
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Apr 2026 10:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775023017; cv=none; b=rDZxgYSw0rRwC1eAbTGO4MTIJWpSEnCt245QHIw6h6xOYD41XI+8l0eqV0//zpUdiCc9+BvHq4we1cksUDhTwdFOKZ/4+UTXK3eq5uoWyiAkRUiZqy6Gu01w5DDlclgfcz64lPWfxhA1baUn+51V46tg/XfiHy9qs6Atpahb2CU=
+	t=1775041084; cv=none; b=MDFNjENdz1ROJKMKMdMOfwzen42ROmuTgJVMojnYOrvaU3RvnZN5RbWuhW9YYwCqx3cRke7jM0ZN3vWkKfzHkHqBDutRl9bHXflkf92K+42xhbodp63USfBlpPg1L3tiCReFmJRyTqFfFP+8AU7jqVlWa0Ngt4Xe0YtHSFjmDaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775023017; c=relaxed/simple;
-	bh=RRWYEEvDUjxurZRqPpDmf2+b2ZMen40JY2aHaVPm3eE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FyV4PQayb6HTi1lmD+4NT77uS48ts77Zl8+9nE4cSXcmWgUEdIenU39x5ZG37rbrYTQ4oIsdlaNgaWPkLtpTjeAmM5aIgL9JiAdqpj0BKuZStkrJIvj7iTQlmdbeSeneK+/9jwaro5XuLAjIXc3xdQ8U+UOxmG9B/FZN0iJGBMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DLsONNPX; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1775041084; c=relaxed/simple;
+	bh=3RTQno6FtgvtenhM73PlOFq8qiqtT4vskI08lMCwLFg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sTnf3f75/Dm8z6ghIxZnSFWzV1PGUXoAmOOmdd37EVw3O6yWUGX+nazF5r+HQGKpzTIXc00xbYKQpcSB1iUUZTe2JhqvXuFoNtoJSTBi8dLl9fqpMhoIBAjpRl9hrakGV4EnogF3c1+DF6EahIKSFQiuSVAENi6R/8KHwmO59kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=byxGx8SX; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DLsONNPX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="byxGx8SX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775023016; x=1806559016;
+  t=1775041082; x=1806577082;
   h=date:from:to:cc:subject:message-id;
-  bh=RRWYEEvDUjxurZRqPpDmf2+b2ZMen40JY2aHaVPm3eE=;
-  b=DLsONNPXJONKR+radGq6ex6S1G1Skz0a0FLk8pkrIH6D9niu0a/ZWQlu
-   EbQ3TQXoEfFqnWPkfQomTSCg+nOiwBZIDjIb+gTs/7vjDfyOIT+Qc+JuN
-   87wkwW2sTROnH2/lryl2bfPL4mPW2x8avvt/+5LmGaammP3/kKepF/1Cu
-   43m2afD9n8gHmsMSDoxQXHz8Yfv6+7ludqQr8IrZC/NoxckTG0ufSzglT
-   Fk0V/+TkLULC4HsJFMMZXWI6lvbqWFBgnadAf9Y9ihIPqy2e6xkr/4Kis
-   EjpT1k20WMEb88YoK0aKjhegx1v7ye6CljevnbCk69Zt66oAOsIa5aTyT
-   A==;
-X-CSE-ConnectionGUID: otYOt6oJSaOqEfuIPp3NmQ==
-X-CSE-MsgGUID: h/7+eelxRWiy82x0+rbWrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="98661032"
+  bh=3RTQno6FtgvtenhM73PlOFq8qiqtT4vskI08lMCwLFg=;
+  b=byxGx8SXVcry78226j5DmVYObspbZJvOoatUWvc3/9+ATtOXKfaCa93A
+   vOcQBOdqXHGP/UJXVCk9NNaGg8hw3WSkkn+LGKX75rgVTcZhI9mg+vlfT
+   VBlcfp8TNNOEFG7ZMJ80iwLT/cIU2VrsCo85NQwO6pZazA6nalGh0ONNU
+   JOj9OxCt6ARkwW2dw2xCe/GwqInMbplQNfkXlztL2pXgOhgdIJ2kj/j44
+   JswWmQDwA+I+9RM9qnJA7LxK10Td3o5Y/pALL8yCslIgsPmWX0NfE7pYP
+   4wIvE8Q+q8pg6QIDYZs+7kjQsyhIkNCM2TYXPt8zrsOEPt/nkrOJx+PQ+
+   Q==;
+X-CSE-ConnectionGUID: L2W7BPPgRjyqLeOBhj/W0A==
+X-CSE-MsgGUID: nMqFdh1iQWePr5aGoX6y8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="79681204"
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="98661032"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 22:56:53 -0700
-X-CSE-ConnectionGUID: 8DSS3OdyTfuQOZPA13tNjA==
-X-CSE-MsgGUID: mu7v/WwWSomb/fzAIvI+7g==
+   d="scan'208";a="79681204"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 03:58:02 -0700
+X-CSE-ConnectionGUID: 73XWm63KSc67D3wBP4529g==
+X-CSE-MsgGUID: zpHveRowRMeTDzporNhuRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="226559378"
-Received: from lkp-server01.sh.intel.com (HELO beaa6a812b8c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 31 Mar 2026 22:56:52 -0700
-Received: from kbuild by beaa6a812b8c with local (Exim 4.98.2)
+   d="scan'208";a="226508882"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 01 Apr 2026 03:58:00 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7oZN-0000000003z-2PjH;
-	Wed, 01 Apr 2026 05:56:49 +0000
-Date: Wed, 01 Apr 2026 13:56:10 +0800
+	id 1w7tGn-000000008gf-3Q9j;
+	Wed, 01 Apr 2026 10:57:57 +0000
+Date: Wed, 01 Apr 2026 12:57:41 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:mirror-poly-aosp-pixel-malibu 4/4]
- fs/btrfs/subpage.c:332 btrfs_folio_end_lock_bitmap() warn: variable
- dereferenced before check 'fs_info' (see line 326)
-Message-ID: <202604011348.FuiAdGBG-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [conor:riscv-dt-for-next 8/8]
+ arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000
+ (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any
+ of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202604011214.LVm2WDcg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,70 +61,64 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Conor Dooley <conor.dooley@microchip.com>
+CC: Linus Walleij <linusw@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-malibu
-head:   9cbd7eeda1fe517f9ce3451fb3d7b4663df71429
-commit: 0138f46fea3f5a250a5f49c33bd6174dec138369 [4/4] btrfs: rename btrfs_folio_(set|start|end)_writer_lock()
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git riscv-dt-for-next
+head:   b0258f69f1e0ed98e8506706da9ef538389b27ea
+commit: b0258f69f1e0ed98e8506706da9ef538389b27ea [8/8] riscv: dts: microchip: update mpfs gpio interrupts to better match the SoC
 :::::: branch date: 20 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: x86_64-randconfig-161-20260331 (https://download.01.org/0day-ci/archive/20260401/202604011348.FuiAdGBG-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
+:::::: commit date: 20 hours ago
+config: riscv-randconfig-2051-20260401 (https://download.01.org/0day-ci/archive/20260401/202604011214.LVm2WDcg-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.3.0
+dtschema: 2025.13.dev9+g4cd3cdfac
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604011214.LVm2WDcg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604011348.FuiAdGBG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604011214.LVm2WDcg-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/subpage.c:332 btrfs_folio_end_lock_bitmap() warn: variable dereferenced before check 'fs_info' (see line 326)
-
-vim +/fs_info +332 fs/btrfs/subpage.c
-
-1e1de38792e0ae2 Qu Wenruo 2021-05-31  321  
-0138f46fea3f5a2 Qu Wenruo 2024-10-09  322  void btrfs_folio_end_lock_bitmap(const struct btrfs_fs_info *fs_info,
-bd610c0937aaf03 Qu Wenruo 2024-09-02  323  				 struct folio *folio, unsigned long bitmap)
-bd610c0937aaf03 Qu Wenruo 2024-09-02  324  {
-bd610c0937aaf03 Qu Wenruo 2024-09-02  325  	struct btrfs_subpage *subpage = folio_get_private(folio);
-bd610c0937aaf03 Qu Wenruo 2024-09-02 @326  	const int start_bit = fs_info->sectors_per_page * btrfs_bitmap_nr_locked;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  327  	unsigned long flags;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  328  	bool last = false;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  329  	int cleared = 0;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  330  	int bit;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  331  
-bd610c0937aaf03 Qu Wenruo 2024-09-02 @332  	if (unlikely(!fs_info) || !btrfs_is_subpage(fs_info, folio->mapping)) {
-bd610c0937aaf03 Qu Wenruo 2024-09-02  333  		folio_unlock(folio);
-bd610c0937aaf03 Qu Wenruo 2024-09-02  334  		return;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  335  	}
-bd610c0937aaf03 Qu Wenruo 2024-09-02  336  
-0138f46fea3f5a2 Qu Wenruo 2024-10-09  337  	if (atomic_read(&subpage->nr_locked) == 0) {
-0138f46fea3f5a2 Qu Wenruo 2024-10-09  338  		/* No subpage lock, locked by plain lock_page(). */
-bd610c0937aaf03 Qu Wenruo 2024-09-02  339  		folio_unlock(folio);
-bd610c0937aaf03 Qu Wenruo 2024-09-02  340  		return;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  341  	}
-bd610c0937aaf03 Qu Wenruo 2024-09-02  342  
-bd610c0937aaf03 Qu Wenruo 2024-09-02  343  	spin_lock_irqsave(&subpage->lock, flags);
-bd610c0937aaf03 Qu Wenruo 2024-09-02  344  	for_each_set_bit(bit, &bitmap, fs_info->sectors_per_page) {
-bd610c0937aaf03 Qu Wenruo 2024-09-02  345  		if (test_and_clear_bit(bit + start_bit, subpage->bitmaps))
-bd610c0937aaf03 Qu Wenruo 2024-09-02  346  			cleared++;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  347  	}
-0138f46fea3f5a2 Qu Wenruo 2024-10-09  348  	ASSERT(atomic_read(&subpage->nr_locked) >= cleared);
-0138f46fea3f5a2 Qu Wenruo 2024-10-09  349  	last = atomic_sub_and_test(cleared, &subpage->nr_locked);
-bd610c0937aaf03 Qu Wenruo 2024-09-02  350  	spin_unlock_irqrestore(&subpage->lock, flags);
-bd610c0937aaf03 Qu Wenruo 2024-09-02  351  	if (last)
-bd610c0937aaf03 Qu Wenruo 2024-09-02  352  		folio_unlock(folio);
-bd610c0937aaf03 Qu Wenruo 2024-09-02  353  }
-bd610c0937aaf03 Qu Wenruo 2024-09-02  354  
-
-:::::: The code at line 332 was first introduced by commit
-:::::: bd610c0937aaf03b2835638ada1fab8b0524c61a btrfs: only unlock the to-be-submitted ranges inside a folio
-
-:::::: TO: Qu Wenruo <wqu@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
+>> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
+--
+>> arch/riscv/boot/dts/microchip/mpfs-disco-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
+>> arch/riscv/boot/dts/microchip/mpfs-disco-kit.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
+--
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
+--
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit-prod.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit-prod.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
+--
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: can@2010c000 (microchip,mpfs-can): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/can/microchip,mpfs-can.yaml
+--
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
+--
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
+--
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'interrupt-controller@54' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: /soc/syscon@20002000/interrupt-controller@54: failed to match any schema with compatible: ['microchip,mpfs-irqmux']
 
 -- 
 0-DAY CI Kernel Test Service
