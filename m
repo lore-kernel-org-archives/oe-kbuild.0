@@ -1,132 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BDE389E08
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Apr 2026 10:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC69627A907
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Apr 2026 14:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775211398; cv=none; b=dk62cTLRHxUmZRY4dV7GdAEcrc33ONA/OWJMxTE2Ummgw5jevYD9a39j6aU+XUHJ+s3Iepk2EaY4eG2FpN68YdhXZMaabop9C2OqA+W1YDZkoJMSf5VBy/PTcUsMqaD+zbjw4+SoTsS18hrY8f2tf1ZPBwUbeP8X4oh4Sjdbv/M=
+	t=1775225319; cv=none; b=eA8bt9PjBEfAGPlp4xGpFtEyqnaZWBGK/g6qL5KwFsOc/nl3oxJ96GHdWyY4JtuiI/NeBgPvLPDUSM3nD0jGRzyOGzmAZtMnaqK+vaQAZnyndpEN2dicYZNGvNkvJTrykUxWXStAnWRaFNfsuQ+/kWo9bIdxPCCoEseaCvEmPEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775211398; c=relaxed/simple;
-	bh=oiu273bZJeXop2wjHEce94tsiqm7azz+FXyWxS8UpQI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AVKaYzeAH34JmX/LQToc+5WOpCl9Zqr9Zy3zqrQkielPyK7kIuTohkCY+9jtPelqOXxgH8BA9XK1Yy1ozc6ohvH1NR4Dw1u/fjqazVKdscuVIQJJJ6inp96lDYfeCREBLbJ8OPUJJ22wLuezOPQ853D9r6RwTL1GTEwIe/kszfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YV2Koh4q; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1775225319; c=relaxed/simple;
+	bh=JP66KYVgS0FlrACQZLPTL+F84ZvyIVxsxDbEMQ5cbTM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VGSwApxOifIyKFJ4Ej+bAweqNZu2dAnBXC6avc73J2vEupS3NoiVtAoCJOs5WF3bj4h3XQqswZnQ2/8gJo+Lmq26VvQkpsJx8+dq4vfFg1CfgJ+T8pYevnS9QgXW0cWq2ODfNQ1bfjSPyt0LcnUxRJdklutncFTlJ9LQc4P42os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vj8DQbPi; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YV2Koh4q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vj8DQbPi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775211394; x=1806747394;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oiu273bZJeXop2wjHEce94tsiqm7azz+FXyWxS8UpQI=;
-  b=YV2Koh4q3UKSRyHh0xHf88ftfsxxrBb88RtWj3Poo9yRIlZDR2kO4MuX
-   EMvWKXUe1rNuPGxSFcHJFm3xM7oEWhWQUX4DcyKcPystLnbu3OOgcPHHj
-   zXD8ypXuxMWaAXc6r6W93v/+ApsDbZ1uxNOXT8uZOhqYVJw77T8Zf+FTg
-   ZvSlVlJpj5hYEd9cD81RdtQDnNeax2b8VPxoXMcsSRwrtKmxU0da0apRF
-   x4SpaNX9VPbRSr488M5NfQiJyObHO9CBg66tOK9SoibjbdYdeh8itfCVM
-   31/74osJf3t2hQi02jDxNQzMUFybj6CgH7lSnxYwA6vg0rL8fssTZLRJV
-   A==;
-X-CSE-ConnectionGUID: 11xJo7HkQRmGR1XvTNp+WQ==
-X-CSE-MsgGUID: hjs/TDgwRzu9Fs9NcjxKoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76338215"
+  t=1775225318; x=1806761318;
+  h=date:from:to:cc:subject:message-id;
+  bh=JP66KYVgS0FlrACQZLPTL+F84ZvyIVxsxDbEMQ5cbTM=;
+  b=Vj8DQbPiM8/AXx6r66S0dTukbnTc5yHUEXqrcORr8lb8xo4xPN262srj
+   BFequX2rL8Yr0PXOIJurFOBPZEOba8Isc/g8tOtOTjIlDUAegH0x+b9h7
+   0R3bNb5E8Oxm3VaKKJVrsSwG5zO3xA68YrbpN2irvYV3Qkvdq18j9cVtk
+   PezTeLUKN+gAGzTg5xWUQ5MpAq5UH2uX2fARVReo4yERtIIgaeoi60Hx6
+   Y3n7HHNeAIS5Go7qGpoTZ1u0kgJ7TBwR+FI6cEwa6y+qYtV6lykusoROD
+   bzxFV4t9wKM+b7TSKEUSPiryzkajGGVxcd4y90QbSFEXLg5sLLmM7/VmY
+   w==;
+X-CSE-ConnectionGUID: OOtAB6MbTFuYQx57LR1yvw==
+X-CSE-MsgGUID: jfMJQEqkS0O94AV7vsuSHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76181594"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="76338215"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 03:16:33 -0700
-X-CSE-ConnectionGUID: +0PcYZtJSb6QM9PuvabDxg==
-X-CSE-MsgGUID: Hcad/TZnQeO8DLYHbC7P8w==
+   d="scan'208";a="76181594"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 07:08:37 -0700
+X-CSE-ConnectionGUID: SPgdf/ozQgGJ0b8yiKvJDg==
+X-CSE-MsgGUID: jvT6B560TQq7fVRYShNzRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="222867825"
+   d="scan'208";a="257732861"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Apr 2026 03:16:33 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 Apr 2026 07:08:36 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8bZm-000000009Gz-2i7c;
-	Fri, 03 Apr 2026 10:16:30 +0000
-Date: Fri, 3 Apr 2026 12:15:41 +0200
+	id 1w8fCL-000000009Ju-3lQT;
+	Fri, 03 Apr 2026 14:08:33 +0000
+Date: Fri, 03 Apr 2026 16:08:30 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: sound: Convert pcm3060 to DT schema
-Message-ID: <202604031208.j86jIMBW-lkp@intel.com>
+Subject: arch/arm64/boot/dts/mediatek/mt8370-grinn-genio-510-sbc.dtb:
+ pinctrl@10005000 (mediatek,mt8188-pinctrl): 'pcie-default' does not match any
+ of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+Message-ID: <202604031625.4XVkcj5M-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260326153041.496811-1-padmashreess2006@gmail.com>
-References: <20260326153041.496811-1-padmashreess2006@gmail.com>
-TO: Padmashree S S <padmashreess2006@gmail.com>
-TO: k.marinushkin@gmail.com
-TO: lgirdwood@gmail.com
-TO: broonie@kernel.org
-CC: robh@kernel.org
-CC: conor+dt@kernel.org
-CC: krzk+dt@kernel.org
-CC: linux-sound@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: Padmashree S S <padmashreess2006@gmail.com>
+TO: Bartosz Bilas <b.bilas@grinn-global.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Hi Padmashree,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v7.0-rc6 next-20260402]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Padmashree-S-S/dt-bindings-sound-Convert-pcm3060-to-DT-schema/20260329-162206
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260326153041.496811-1-padmashreess2006%40gmail.com
-patch subject: [PATCH] dt-bindings: sound: Convert pcm3060 to DT schema
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arc-randconfig-2052-20260403 (https://download.01.org/0day-ci/archive/20260403/202604031208.j86jIMBW-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d8a9a4b11a137909e306e50346148fc5c3b63f9d
+commit: bbfb1118fe0e913cfdf49b5c2989cadc39b06781 arm64: dts: mediatek: mt8370-grinn-genio-510-sbc: Add Grinn GenioSBC-510
+date:   6 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 6 months ago
+config: arm64-randconfig-2052-20260401 (https://download.01.org/0day-ci/archive/20260403/202604031625.4XVkcj5M-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
 dtschema: 2025.13.dev13+g7ce498b67
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031208.j86jIMBW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031625.4XVkcj5M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: bbfb1118fe0e ("arm64: dts: mediatek: mt8370-grinn-genio-510-sbc: Add Grinn GenioSBC-510")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604031208.j86jIMBW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604031625.4XVkcj5M-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/sound/pcm3060.yaml:45:7: [error] no new line character at the end of file (new-line-at-end-of-file)
-   Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:52:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
-   Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1: [warning] too many blank lines (2 > 1) (empty-lines)
-
-vim +45 Documentation/devicetree/bindings/sound/pcm3060.yaml
-
-39cbb0e557c64c Padmashree S S 2026-03-26  33  
-39cbb0e557c64c Padmashree S S 2026-03-26  34  examples:
-39cbb0e557c64c Padmashree S S 2026-03-26  35    - |
-39cbb0e557c64c Padmashree S S 2026-03-26  36      i2c {
-39cbb0e557c64c Padmashree S S 2026-03-26  37        #address-cells = <1>;
-39cbb0e557c64c Padmashree S S 2026-03-26  38        #size-cells = <0>;
-39cbb0e557c64c Padmashree S S 2026-03-26  39  
-39cbb0e557c64c Padmashree S S 2026-03-26  40        pcm3060: audio-codec@46 {
-39cbb0e557c64c Padmashree S S 2026-03-26  41          compatible = "ti,pcm3060";
-39cbb0e557c64c Padmashree S S 2026-03-26  42          reg = <0x46>;
-39cbb0e557c64c Padmashree S S 2026-03-26  43          ti,out-single-ended;
-39cbb0e557c64c Padmashree S S 2026-03-26  44        };
-39cbb0e557c64c Padmashree S S 2026-03-26 @45      };
+>> arch/arm64/boot/dts/mediatek/mt8370-grinn-genio-510-sbc.dtb: pinctrl@10005000 (mediatek,mt8188-pinctrl): 'pcie-default' does not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8188-pinctrl.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-grinn-genio-510-sbc.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-grinn-genio-510-sbc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-grinn-genio-510-sbc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-grinn-genio-510-sbc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-grinn-genio-510-sbc.dtb: usb@112a1000 (mediatek,mt8188-mtu3): usb@0:hub@1:compatible: ['microchip,usb2513bi'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtu3.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-grinn-genio-510-sbc.dtb: usb@0 (mediatek,mt8188-xhci): hub@1:compatible: ['microchip,usb2513bi'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml
 
 -- 
 0-DAY CI Kernel Test Service
