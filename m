@@ -1,88 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F671365A13
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Apr 2026 06:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A52D2D94BA
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Apr 2026 07:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775196759; cv=none; b=SRjHg4rB+0y5thlTeeyqhSudSqydF9QlwwKQLW4agE8TpqN+tYb/6+a82QXCjLSzlC6UAjRqDQnmIZNaO7mcA3OejuevV7cX6Dc8sQYqIycIjkbp5/Ns6UclBY4PskS54dUVXRR9VZ/MZSs4r+Nfa6JX7dkhSb7t5VudhxbYCNI=
+	t=1775202815; cv=none; b=cFHjXlYUARo3bTvl7pfHp/xtg5OkGKX/DIl9zcryMRnPZi8FoCV/4JkFISUa7htKZOxborI5CcbPSrN57rM0hsfyGkZO+TNd6oAuXxJ3tNSiTMn2TL8P9X+9hMHl9vRu4QvmRT1KjCh+sxhDLx9MHsfviDcDlpIk5Ks8uTEQdho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775196759; c=relaxed/simple;
-	bh=ZRl9ovlyAFWDNX0gzLp3LI1c4K0Gexn89uf1PiLfaek=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=bhlWPI9EtSLhFcfbqg2RyRRiF0YMyzOWnoVVI8eTdhB+dacdD3FeiLAEdZAt655MCWdRvbmiog1Aw1Q8KJawYzVgUIbg1dSdE3FqglHuQ4GaqF32yGdHWNYImU6a6YdwnSdQyK7YRR2ihp6nULgRX9bSd2E+87WW/HCzs3j5oew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XV8j0xLd; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1775202815; c=relaxed/simple;
+	bh=DgfgE3NPBtiZj8uke7lVK0JYbY2zS5uI3DSihDCRJFY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IndrbZV05eNFwWuJxz2mOVB8M5h+zEOKa+AIMErOG+nI33PiKLrE2DxUUuqCrVejnKN1vDsHJbdraDJahWdWgYJLLhnw14r7v73BdCFV9TPyFwuGHkQqAEASbqhIrQJyBLhlSSGHKql/GFlY1rJlbIThp17l7i6gdVIL4Zqsq1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FVP9tFEU; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XV8j0xLd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FVP9tFEU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775196752; x=1806732752;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=ZRl9ovlyAFWDNX0gzLp3LI1c4K0Gexn89uf1PiLfaek=;
-  b=XV8j0xLdgTmxGG3S3h5SP3+3KueXyq1edSWDTDa7FjhDNvBYt4pnLEM0
-   RVCyOSFgMAm/opz0KcE6yQQNRl/UTRJCOcklYMOnMnydapu3aC9ycqTcC
-   aEjFTSLSSz0CKI7+4KMc2+MS5/60QVSIedbW1LLqT2OkQsz+XgZNG5U2j
-   9pilJSswzcqlC21ELpw6+xnsqXukSgFNNeK7lKDnIWwVml0bU2q5NEHsA
-   SrNiHmw4wOu68JKpDzQJArAn+PPA8d3bc51fpTuu6e0gO6GpLK41heJzH
-   0omSRIGBYgHnhQN2MHL+5rxixBlkMK3cP5vHp7NovJlSWb1L3bYH036fk
-   w==;
-X-CSE-ConnectionGUID: q20JWkkDQpui3zOSc8HJOQ==
-X-CSE-MsgGUID: bFDts/FKRh+9kuni8WyRSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76326614"
+  t=1775202813; x=1806738813;
+  h=date:from:to:cc:subject:message-id;
+  bh=DgfgE3NPBtiZj8uke7lVK0JYbY2zS5uI3DSihDCRJFY=;
+  b=FVP9tFEUaft+sIruSeqD+kWiReLda1Cvgy/EHPPNfdRAUbi38LQNjXqr
+   ePPVMcOjySz5uiendWacVJJZS+gqALKYu4rcZlOUKswY5bhNMDh60olKf
+   oVGLWYVWERGyxEBQb2+NDdDjSP7q+yvqPYT9Bd6HwR+ifUuZl0In9wYkX
+   O+pO9Uupo1V2S0nz3i2J7/say6JajS0QPgTy/R8YnkzP2b4b7HbYyc5yP
+   Ek9boMjffE+z+LdDB+Zh3zNUdRuYiKBspYquWL9C70CxSvCuOg0hYrC7w
+   Abp3qru3f974/nIVB4WXoYsaX4hREwC7zToFPs2vNyCA734KZjkw2YrbV
+   Q==;
+X-CSE-ConnectionGUID: FpXWPsnqQ62d/pl6SsoXOQ==
+X-CSE-MsgGUID: ZYuWPMA1QP6FXeCWpEOqEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="80154908"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="76326614"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 23:12:30 -0700
-X-CSE-ConnectionGUID: QYomWzmZR1KrOtJuQxda0g==
-X-CSE-MsgGUID: OywzKr7VTTmf50Hhp8x9DA==
+   d="scan'208";a="80154908"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 00:53:33 -0700
+X-CSE-ConnectionGUID: ND1CPkhlStyy+pGLLGzVbw==
+X-CSE-MsgGUID: He4Lg0OMSAuLJhTOiceuCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="228809300"
+   d="scan'208";a="231242644"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Apr 2026 23:12:30 -0700
+  by orviesa003.jf.intel.com with ESMTP; 03 Apr 2026 00:53:31 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8Xlc-000000009En-0p2I
-	for oe-kbuild@lists.linux.dev;
-	Fri, 03 Apr 2026 06:12:28 +0000
-Date: Fri, 03 Apr 2026 08:12:06 +0200
+	id 1w8ZLM-000000009FN-3DBa;
+	Fri, 03 Apr 2026 07:53:28 +0000
+Date: Fri, 03 Apr 2026 09:53:22 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: 
- =?us-ascii?Q?[linux-review:Christoph-Hellwig/xfs-add-a-separate-tracepo?=
- =?us-ascii?Q?int-for-stealing-an-open-zone-for-GC/20260403-012713?= 9/9]
- checkpatch: WARNING:REPEATED_WORD: Possible repeated word: 'open'
-Message-ID: <202604030835.OwDSWLM5-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/mediatek/mt8390-grinn-genio-700-sbc.dtb:
+ pinctrl@10005000 (mediatek,mt8188-pinctrl): 'pcie-default' does not match any
+ of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+Message-ID: <202604030926.V0RoxpNp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel@vger.kernel.org
+TO: Mateusz Koza <mateusz.koza@grinn-global.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/xfs-add-a-separate-tracepoint-for-stealing-an-open-zone-for-GC/20260403-012713
-head:   935df09a5592b519085b4c52a28deadffef0e0a9
-commit: 935df09a5592b519085b4c52a28deadffef0e0a9 [9/9] xfs: untangle the open zones reporting in mountinfo
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260403/202604030835.OwDSWLM5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d8a9a4b11a137909e306e50346148fc5c3b63f9d
+commit: f4d1eace54f7b12369935a698af29bca7cf3db49 arm64: dts: mediatek: mt8390-genio-700-evk: Add Grinn GenioSBC-700
+date:   6 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 6 months ago
+config: arm64-randconfig-2052-20260401 (https://download.01.org/0day-ci/archive/20260403/202604030926.V0RoxpNp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema: 2025.13.dev13+g7ce498b67
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604030926.V0RoxpNp-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: f4d1eace54f7 ("arm64: dts: mediatek: mt8390-genio-700-evk: Add Grinn GenioSBC-700")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202604030926.V0RoxpNp-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'open'
-#8: 
-the number of open open GC zones.  While that has to be either 0 or 1
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt8390-grinn-genio-700-sbc.dtb: pinctrl@10005000 (mediatek,mt8188-pinctrl): 'pcie-default' does not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8188-pinctrl.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-grinn-genio-700-sbc.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-grinn-genio-700-sbc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-grinn-genio-700-sbc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-grinn-genio-700-sbc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-grinn-genio-700-sbc.dtb: usb@112a1000 (mediatek,mt8188-mtu3): usb@0:hub@1:compatible: ['microchip,usb2513bi'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtu3.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-grinn-genio-700-sbc.dtb: usb@0 (mediatek,mt8188-xhci): hub@1:compatible: ['microchip,usb2513bi'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml
 
 -- 
 0-DAY CI Kernel Test Service
