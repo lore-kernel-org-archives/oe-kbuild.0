@@ -1,93 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C463D19D081
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Apr 2026 05:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD93935C1B0
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Apr 2026 06:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775280654; cv=none; b=EfO/12MVCPif61pWei/QFNSzMAN1nmUjt+ZqYIK6R8zZcf5F3t9wZVm0H5Etfd92N0SwYODEIG/Q1768HGKHN/Gt+j3ms7GSY6T1Hqqc9eZ3y/UcgvaFX07wawIrtsvCwfI/z9g3qJJ9qS1Ux2A/J4jadQh/6WAS/PlFULH2nlk=
+	t=1775283055; cv=none; b=FPC4p44WdKlKsRUgX4VgViKl+Dr2mOaUO06bNl9yWhRxe7qiGGV5t+a15QWVLrQrYXP/hfdlwGDJBif8h/8wqGbA2iAiMWiS/xmhFU7Trn/z2lTezHV/hkpcOCmhhaJf/EEfmD+g6ngM36jrf0r+axLRoQlnZ5Vo/1ZdYm+Krz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775280654; c=relaxed/simple;
-	bh=97Ma+I7MwsdsmjSZjhLOAkrLDnCCDRS2/dzlTXQ47uQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bpH9TzNPhXtBEgLxsArZjUDBjf5DqqcZxIZQjlgd3uuyUvIte7Ujh6wHi71uc+6qUt8aKO0IexBIGN16B3AUFnWjc1N9m19Cyg6hadtw8VZI/oN5XCS7sZXgwf3GATY8qJZdtGzjFq1n9b+Tu8weeDrJJ1QOu2p+G+s4lAcfsPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d1fE2J1a; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1775283055; c=relaxed/simple;
+	bh=bTWcAZmnjOZpOOU9+1Ckkn1jhDMdfUZA7vPameTkYLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=PVNjp512w5Cizde+hluO6dRg6uDNzffdbugj/Wg7qZod7j+YpyfMHJM6wEmZ5ppEOOhII5PrCgroysLZr7PJoNQLz9oIu/I83IXC4JWpGVNSdLcXpoCLWoZWYlXN/TIuizUVSOtzJn+AGXEQG4Hf8JsMybcxOp9kp0SbEAmsWMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BhD5H4Vh; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d1fE2J1a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BhD5H4Vh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775280651; x=1806816651;
-  h=date:from:to:cc:subject:message-id;
-  bh=97Ma+I7MwsdsmjSZjhLOAkrLDnCCDRS2/dzlTXQ47uQ=;
-  b=d1fE2J1au9eJLQXRUUtybXQGpExcOIqT9Lds5vvmbamzcDNL8fhN8YYt
-   Phn0qvTOJxMa3Y+ZxEjvZd9Kdpyk3F6/mWKRUQ//J/7Q4Asi2B740A0kQ
-   Y3eVIpHxX8PR65wwMdIkgHP8W7G6zZ/mcDkNmafq6h0tzMyvMeL/G32wJ
-   FNj0z7LwD6+Wf+h45cMs5CkTQlqnuHykadJa8lWlhS+49C+S4bxt8uCow
-   +bpU9p6XWYDgguhKAdFZLUqU3r5YGl5ngHoc/PoqiG9f7I5DVmLaMSs3S
-   bA4rGPfcbBKL2sLOyLZX7eYY5xP0K2DIbqrg39kdt5hCwjBdHYa4cBTnJ
-   A==;
-X-CSE-ConnectionGUID: seadlH5kQ7CnY+1VuCuBEg==
-X-CSE-MsgGUID: wGKB8NjZTcqe000JvLJ/gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76348816"
+  t=1775283053; x=1806819053;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bTWcAZmnjOZpOOU9+1Ckkn1jhDMdfUZA7vPameTkYLU=;
+  b=BhD5H4VhV2QI3rxoyA6CQIZ8uIFyAaEbaVcI2NdeGOYnPJKbT9TXjvP0
+   6HHmwA6cEQZwPgr5IuovjL9lQATz39H46zDXL5ilUps4tmLVMt2aQLiVj
+   2Lkuy9PvuJWjZD7Spsgm5fG6wdEuuQ26O7SGvNu1hV5oWufQLelCQwfXx
+   J2kEC79phkVELG/dyuvb2tawPQlKwbT9/xjQ4xMxPDc0btSrpM38M+wHz
+   dAFPKiRAXt9HJOKfhdgLLMUaWL8+2V6RjZcnWzX+T4F3DqmmCgYAty3VP
+   dJE3iv4mg8Wmt4Nx9hwXakaVAxqUCQPfQZjHcJYoVP+QH2jVKXoD6lWA7
+   g==;
+X-CSE-ConnectionGUID: G68Jt9hRQLa8mV6GTBZc+g==
+X-CSE-MsgGUID: 3GY6c2VMR/e/sHabNM4sSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76524634"
 X-IronPort-AV: E=Sophos;i="6.23,159,1770624000"; 
-   d="scan'208";a="76348816"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 22:30:51 -0700
-X-CSE-ConnectionGUID: zpJkJMhbSoyUTlhz+Apf1g==
-X-CSE-MsgGUID: ZyzV6FEdR1OmaRFc8w9hxg==
+   d="scan'208";a="76524634"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 23:10:52 -0700
+X-CSE-ConnectionGUID: L1LqNkQfRPy6oCbZnKjcPw==
+X-CSE-MsgGUID: tZRMgKCXQ2uDmF2ThO1LhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,159,1770624000"; 
-   d="scan'208";a="257888487"
+   d="scan'208";a="250653066"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 03 Apr 2026 22:30:51 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Apr 2026 23:10:51 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8taq-000000009XV-1nUN;
-	Sat, 04 Apr 2026 05:30:48 +0000
-Date: Sat, 04 Apr 2026 07:30:01 +0200
+	id 1w8uDZ-000000009Y1-0GiM;
+	Sat, 04 Apr 2026 06:10:49 +0000
+Date: Sat, 04 Apr 2026 08:10:46 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [rgushchin:dylan/sframe-v3-with-v3 3/8]
- aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
- `arch/arm64/kernel/entry.o' being placed in section `.eh_frame'
-Message-ID: <202604040753.7PjWmAWG-lkp@intel.com>
+Subject: [linux-next:master 9150/12133]
+ /usr/s390x-linux-gnu/include/asm/sigcontext.h:73:9: error: unknown type name
+ '__vector128'
+Message-ID: <202604040819.Q90Gla3S-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
+::::::=20
 :::::: Manual check reason: "low confidence bisect report"
-:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Roman Gushchin <roman.gushchin@linux.dev>
+TO: "Thomas Wei=C3=9Fschuh" <linux@weissschuh.net>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/rgushchin/linux.git dylan/sframe-v3-with-v3
-head:   d9360fb2f6860d7f37e29ddfd9a44fff555fd54c
-commit: 897b6e722feabc4b8d53f0cc30277113c4397d1a [3/8] arm64: entry: add unwind info for various kernel entries
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260404/202604040753.7PjWmAWG-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260404/202604040753.7PjWmAWG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   2febe6e6ee6e34c7754eff3c4d81aa7b0dcb7979
+commit: 9b93f7e3277490f0356309c9b241eeeaa27ba859 [9150/12133] tools/getdela=
+ys: use the static UAPI headers from tools/include/uapi
+:::::: branch date: 15 hours ago
+:::::: commit date: 7 days ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260=
+404/202604040819.Q90Gla3S-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260404/202604040819.Q90Gla3S-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604040753.7PjWmAWG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604040819.Q90Gla3S-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from `arch/arm64/kernel/entry.o' being placed in section `.eh_frame'
->> aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from `arch/arm64/kernel/entry.o' being placed in section `.eh_frame'
->> aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from `arch/arm64/kernel/entry.o' being placed in section `.eh_frame'
+   In file included from /usr/s390x-linux-gnu/include/bits/sigcontext.h:30,
+                    from /usr/s390x-linux-gnu/include/signal.h:301,
+                    from /usr/s390x-linux-gnu/include/sys/wait.h:36,
+                    from getdelays.c:25:
+>> /usr/s390x-linux-gnu/include/asm/sigcontext.h:73:9: error: unknown type =
+name '__vector128'
+      73 |         __vector128 vxrs_high[__NUM_VXRS_HIGH];
+         |         ^~~~~~~~~~~
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
