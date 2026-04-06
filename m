@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7003093B8
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Apr 2026 21:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB8A331211
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Apr 2026 22:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775510129; cv=none; b=QWBMgZPJaFPdWwW7PGWjp8wvMe8cLuVO7j0+HfFwiO9+kk7rbT+xu65jbnIcW9Elpo1IZwHXeXJQxlTMeTgLhN4ICk/OHod8Oh3tDQi9o0VLuMK7MSeut46A/klrVl021iUlvupxTOa5LtKK19hXrw3pou4VnGe/s9QWv+v7Z+k=
+	t=1775513191; cv=none; b=YHtnQaUOBvXtj1gnqZOct7gUceNdeWAdfUW67coEWUXyF2Z7qvch4ZcxD5dvfAnlSuy4niQ1MC6PmsGVzeSFAjNTQSB//Xrz7a132OoJu43x9r+8KkKUn6pTdGD5+9lkC5ctLexUUwPE5kMLg1o1LWlolFURcc7TF7dBh6L8Y4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775510129; c=relaxed/simple;
-	bh=JA1dVqcz+a5l/UZR+tJUtZd6hKDW1tZICD89ntLnN7s=;
-	h=Date:From:To:Subject:Message-ID; b=R0oL3/N7sTNQu6Ei7ec1+GhJtYME+QNcRJF1VrsZUe+zlmqIAYRD2oNzF9isu8sEA+uoWNqOSV7CsQOdHnWRxj9Rn/MEyLzXihyU5UemSdXMxhPuwTUOqk5WIBEtjDYoMY2SMP4aKyfFqtIl1ABnm4vtOOnDV+ZgQBU/GVx5g9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d2FdUTUO; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1775513191; c=relaxed/simple;
+	bh=Jmu+/PRDep7+VWAe2khSVVJo5/9z+Htg4MFPgp+SioI=;
+	h=Date:From:To:Subject:Message-ID; b=Snc6nAB5KYfPF0sQDgxq7/EBv1TyVT9rTp82TCMAxuKco+3elfsZtNCcH8PBq6du26ModBC9TCY2wvLU+d3WlRhXpvnocZr1TTxEZ1evJgdoahv0tFuq+vk+oUsbz8M7MvGsW9RvEp8AEYQYuyNM8lMZsMignegvQ7QmQheg4u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UyqThPZR; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d2FdUTUO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UyqThPZR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775510129; x=1807046129;
+  t=1775513190; x=1807049190;
   h=date:from:to:subject:message-id;
-  bh=JA1dVqcz+a5l/UZR+tJUtZd6hKDW1tZICD89ntLnN7s=;
-  b=d2FdUTUO39HTKrXqb++uu0K5iiwcomMVLFNuE7jFQbi19fhAmOCz+KiF
-   b/CPJBINFo0qTyB4MTFpm/a+djlVcKWjLSDIPITyPj5NNjgTutzNaWDXm
-   Gi+mljaOZtiXOD9llMlCdx936jqPGV5n4Qu+fuEuZ+8DOkt/xCMxT0gjI
-   CZ9yr7lIcu4GCEnFQZl1GfI1dAOkUk4/TE2ARUFwBP4AOJbof55L4D56j
-   AsALtCAFlpqnoVN7drl81Ot5rhE2zQgO8eBz4j84cKNM3RyYdnbP+3oVC
-   l3VLqFhz5ov4iTWh1tqQ5fvOzFMnkjX7xBBV2GhnRMXglhIiMoovv8fMe
-   Q==;
-X-CSE-ConnectionGUID: JCdKr9e/RxqUXBb7mErt4w==
-X-CSE-MsgGUID: oZmCLFlCTOOy4HHAGPkUGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76344645"
+  bh=Jmu+/PRDep7+VWAe2khSVVJo5/9z+Htg4MFPgp+SioI=;
+  b=UyqThPZRb3xnyaID74EedS3O9duf798Nek4Z4V7FNyjFWvo3cZtIJIED
+   f6UwaKXnzWNDXJ6D7fkpb05iMuzVPjv+0eBHY9HkYkHdni4CA3b6mA6NK
+   eVSwv+qV+oV+hPfk5WEDo6q7cvu2mPsHWmQmeOs93S7LuJaAs4a4k6Oas
+   BJrOZY0EKwm0Ko2H3/X8ZWvb99nYvnCMLuap+3AIcNSAxqn+V0JX1pN5H
+   e4fNR/DqfkG12U1CAAknJaoTeuGWgfJyHiMDYBfWpbrOQi+SJ/kWCHCdA
+   3hg+yJyigudJjpMyNjk50yMaWXCU4MWC1pzfsGvriDDjWHaqAoXq4L8Op
+   A==;
+X-CSE-ConnectionGUID: zYHyt9UKSgiI0VapPespdw==
+X-CSE-MsgGUID: l+XbaetiQ0Sn551YCANg9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="80060150"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="76344645"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 14:15:28 -0700
-X-CSE-ConnectionGUID: /4V+UhnVRJOPs7S9D2BAKQ==
-X-CSE-MsgGUID: P+H4NGVsSySdS+k8ZKsIgA==
+   d="scan'208";a="80060150"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 15:06:30 -0700
+X-CSE-ConnectionGUID: L7AXeW9RRZGOhbRC8mzxuA==
+X-CSE-MsgGUID: CpfDIF8bT1uEqPvad23BrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="229643583"
+   d="scan'208";a="226978579"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Apr 2026 14:15:27 -0700
+  by orviesa006.jf.intel.com with ESMTP; 06 Apr 2026 15:06:28 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9rI5-00000000A8H-17JL
+	id 1w9s5S-00000000AAA-3Tdu
 	for oe-kbuild@lists.linux.dev;
-	Mon, 06 Apr 2026 21:15:25 +0000
-Date: Mon, 06 Apr 2026 23:14:42 +0200
+	Mon, 06 Apr 2026 22:06:26 +0000
+Date: Tue, 07 Apr 2026 00:05:26 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [cornelisnetworks:for-upstream_20260406-1608 16/31]
- checkpatch: WARNING:REPEATED_WORD: Possible repeated word: 'device'
-Message-ID: <202604062303.C04cbiAu-lkp@intel.com>
+Subject: [zab-rpdfs:rpdfs-initial 1/51] checkpatch:
+ ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+Message-ID: <202604070003.JU8KiozS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,20 +65,22 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+TO: Zach Brown <zab@zabbo.net>
 
-tree:   https://github.com/cornelisnetworks/linux.git for-upstream_20260406-1608
-head:   dfb8e15cec205050ae10423f54df9edc8a4e192f
-commit: bedc154be9f44e98cd45e91d621b09487a3057dc [16/31] RDMA/hfi2: Add initialization and firmware support
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260406/202604062303.C04cbiAu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zab/linux-rpdfs.git rpdfs-initial
+head:   9a0627207ad856d2a5eb09f3458afb1e34ac10a3
+commit: e8e76da7ed715ef67ccc4436f4981a5b39983d9f [1/51] rpdfs: initial commit
+:::::: branch date: 55 minutes ago
+:::::: commit date: 5 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20260407/202604070003.JU8KiozS-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'device'
-#558: FILE: drivers/infiniband/hw/hfi2/affinity.c:521:
-+		 * evenly among devices, then the first device device to be
+ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+#5989: FILE: fs/rpdfs/net.c:470:
++	switch (nerrno) {
++		case -EIO: return RPDFS_MSG_ERR_EIO;
++		case -ENOMEM: default: return RPDFS_MSG_ERR_EIO;
 
 -- 
 0-DAY CI Kernel Test Service
