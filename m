@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3681129B77C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335921CBEB9
 	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 03:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775533763; cv=none; b=S/eqjbwMy96Hle0NgA3uBF8hf+WY63avXlHa7/XmILRWCjwR4Po4Hq1neKWHHIJV0Miuh4ygnBQSAAT+aNvyuN0aeqTidnCngOo0viG9bXtMg9dgwZeFeBKOKcz9BFe5hyCDPE+1o2aJKecJbKSzoLgGIjOlr2Kk/eSfdqUq04c=
+	t=1775533763; cv=none; b=TY4lbp1tpFVTLz7FAUK6dzKRYlsnjb8rik9KZf5RSp90VpnXNffGjUTevQbTggAhnjlO1qvtkEGLhJrakqCahisghchondVC+HJGwlZamsuuxXEF658wLtU5WNdpdZRjV+S62QQDhxSUeAE8Q/VMbT55b8LAGs7nKR5sV7F4n1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775533763; c=relaxed/simple;
-	bh=rPRE2qqzufHcQleIe3MRYp3EGaPLHMqeQsC6YKADuFc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VKNhIWCQHU/EsSWZli4VcJNV62w8YCerjxrURCGRWoNsD743FpCZZpk4b9LR9PUmOdNPodI0A+FdupxbkVQhB/frIeYc6KzBPRgSCJuKf+ZrJX1urvImxWRofZK2ae8RSTCAs0St0OjtLoFIDlG0L6AUY3pFLVMTsPbnz4npQ1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BElzpJS9; arc=none smtp.client-ip=192.198.163.9
+	bh=VgUpraOW7NvjceehROcTQTo1I3bcbr+FuGw7DvTzJk4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sAShl55Wc0rJOjeEWe+UpBz5wh1UXMHK5wF7/KSHZolQe2m9gPSHba2FoEqVV6/ekGzNXOgwEjB3Gm2AWbpuOXU9b3Xgx2v/NzKYjXXUzgwxlux0sZMn61YFzcELn/uDz+76V1CeVbgi56/3WjU05mrpxCqYJOfxZzemgeP0Y6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ETCP1OWd; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BElzpJS9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ETCP1OWd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775533762; x=1807069762;
   h=date:from:to:cc:subject:message-id;
-  bh=rPRE2qqzufHcQleIe3MRYp3EGaPLHMqeQsC6YKADuFc=;
-  b=BElzpJS9z7Ti6f40KPhlDBnKib8hV2InnjjL8YyEQ1pVFkzFZ2/9MezI
-   7hE3X8qrW7SOLYPBMUYWYt1fqiIsH6gTB4Htf61u1Zhion0/UStr1vm5+
-   RtB6jlcjq/yr9be7oIuNEgU3B6+YxxvmoM/xEW0FC5ul5vc03DpsFVy9X
-   e6fIf+P1UPYE9D5Bj+rGynjWZNUXE3j8riggVNsBRspcPyfm3e/gpMKnD
-   gkMmlSppKBXN44vlXwm7L43ksy2mZfQeF9mjk3RMEKjYv9MbdvMAhGHCC
-   GDIJYJUZtcRszvxcvv5GtXrPKfgliKOrjUFjCvvmOdEpRxBwG5GXRYITD
-   g==;
-X-CSE-ConnectionGUID: oB8jz83KQ7m2A60iwW57gA==
-X-CSE-MsgGUID: zzZ2sD6ASPKIwibb8iQ1Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="87191970"
+  bh=VgUpraOW7NvjceehROcTQTo1I3bcbr+FuGw7DvTzJk4=;
+  b=ETCP1OWd5JTEnl1lPyvlwSZuSPuHC2dAgbEz72CHOYv7qRwTAQ8k+HVR
+   M2vsEctLTJ/qnxzvXDjGw4Tf+ZdE9fh9aHc4pOI/SFnkmRP7KRTDM20XQ
+   RXFo6UxBt5XP2lIJLnHFymOZ7olSxdg3+89pCA0bntPEs1QP8FO4sFYSU
+   /5DHJ+oEMPkrAdlru2uResxT5Qjv4zyT5w3/z13UIiGTmfzU3ebQ2EXwu
+   HOyxifsCsDVi4hL6YS/ljwb056c78alRyKmLo1nxZ7yb9ARwtETbdDrWN
+   yGGjyrtE/PFupzyBug5oX09a+X7YXZBpjbXO3XYHWvodLfCpICY4U85FZ
+   w==;
+X-CSE-ConnectionGUID: SbuYHHKZRnOXPOfW/8vEVQ==
+X-CSE-MsgGUID: T7trGw94SWmgefy3JQv7tQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76385857"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="87191970"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:49:21 -0700
-X-CSE-ConnectionGUID: JTSdTbPTRL6dsSE1VIL1hw==
-X-CSE-MsgGUID: rrW2ZIJ5TbKSzbbbMlzB7Q==
+   d="scan'208";a="76385857"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:49:21 -0700
+X-CSE-ConnectionGUID: N6JuQD5SSpeo3mHPL7RbYA==
+X-CSE-MsgGUID: TQHr7ti0QaSgHoGr+krxPA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
+   d="scan'208";a="251191876"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Apr 2026 20:49:21 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 Apr 2026 20:49:20 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xRG-0000000001W-1NoB;
+	id 1w9xRG-0000000001H-0dSa;
 	Tue, 07 Apr 2026 03:49:18 +0000
-Date: Tue, 07 Apr 2026 11:49:03 +0800
+Date: Tue, 07 Apr 2026 11:48:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/tty/serial/sh-sci.c:2850 sci_request_port() warn:
- 'port->mapbase' from __request_region() not released on lines: 2847.
-Message-ID: <202604032356.SzEjYkBC-lkp@intel.com>
+Subject: [char-misc:char-misc-linus 12/23]
+ drivers/gpib/common/gpib_os.c:1318 close_dev_ioctl() warn: possible spectre
+ second half.  'desc'
+Message-ID: <202604031743.Pk6AgFj7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,64 +62,72 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+TO: Adam Crosser <adam.crosser@praetorian.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Dave Penkler <dpenkler@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d8a9a4b11a137909e306e50346148fc5c3b63f9d
-commit: 2667bd6673eb49c9c299c1202bab5a3fc04586de serial: 8250_port: simplify serial8250_request_std_resource()
-date:   1 year ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 1 year ago
-config: alpha-randconfig-r071-20260403 (https://download.01.org/0day-ci/archive/20260403/202604032356.SzEjYkBC-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-linus
+head:   d78ceee1e6205ffcd84ff581ccb40a008d39136f
+commit: d1857f8296dceb75d00ab857fc3c61bc00c7f5c6 [12/23] gpib: fix use-after-free in IO ioctl handlers
+:::::: branch date: 19 hours ago
+:::::: commit date: 21 hours ago
+config: microblaze-randconfig-r073-20260403 (https://download.01.org/0day-ci/archive/20260403/202604031743.Pk6AgFj7-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.5.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2667bd6673eb ("serial: 8250_port: simplify serial8250_request_std_resource()")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604032356.SzEjYkBC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604031743.Pk6AgFj7-lkp@intel.com/
 
 New smatch warnings:
-drivers/tty/serial/sh-sci.c:2850 sci_request_port() warn: 'port->mapbase' from __request_region() not released on lines: 2847.
+drivers/gpib/common/gpib_os.c:1318 close_dev_ioctl() warn: possible spectre second half.  'desc'
 
 Old smatch warnings:
-internal error: arch/alpha/include/asm/io_trivial.h:12 SQL error #2: near "and": syntax error
-internal error: arch/alpha/include/asm/io_trivial.h:12 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+drivers/gpib/common/gpib_os.c:1317 close_dev_ioctl() warn: potential spectre issue 'file_priv->descriptors' [r] (local cap)
 
-vim +2850 drivers/tty/serial/sh-sci.c
+vim +/desc +1318 drivers/gpib/common/gpib_os.c
 
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20  2830  
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20  2831  static int sci_request_port(struct uart_port *port)
-^1da177e4c3f41 drivers/serial/sh-sci.c     Linus Torvalds 2005-04-16  2832  {
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20  2833  	struct resource *res;
-e4d6f911a7cea1 drivers/tty/serial/sh-sci.c Yoshinori Sato 2015-05-16  2834  	struct sci_port *sport = to_sci_port(port);
-f6e9495d68b911 drivers/serial/sh-sci.c     Paul Mundt     2011-01-21  2835  	int ret;
-^1da177e4c3f41 drivers/serial/sh-sci.c     Linus Torvalds 2005-04-16  2836  
-e4d6f911a7cea1 drivers/tty/serial/sh-sci.c Yoshinori Sato 2015-05-16  2837  	res = request_mem_region(port->mapbase, sport->reg_size,
-e4d6f911a7cea1 drivers/tty/serial/sh-sci.c Yoshinori Sato 2015-05-16  2838  				 dev_name(port->dev));
-e4d6f911a7cea1 drivers/tty/serial/sh-sci.c Yoshinori Sato 2015-05-16  2839  	if (unlikely(res == NULL)) {
-e4d6f911a7cea1 drivers/tty/serial/sh-sci.c Yoshinori Sato 2015-05-16  2840  		dev_err(port->dev, "request_mem_region failed.");
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20  2841  		return -EBUSY;
-e4d6f911a7cea1 drivers/tty/serial/sh-sci.c Yoshinori Sato 2015-05-16  2842  	}
-^1da177e4c3f41 drivers/serial/sh-sci.c     Linus Torvalds 2005-04-16  2843  
-f6e9495d68b911 drivers/serial/sh-sci.c     Paul Mundt     2011-01-21  2844  	ret = sci_remap_port(port);
-f6e9495d68b911 drivers/serial/sh-sci.c     Paul Mundt     2011-01-21  2845  	if (unlikely(ret != 0)) {
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20  2846  		release_resource(res);
-f6e9495d68b911 drivers/serial/sh-sci.c     Paul Mundt     2011-01-21  2847  		return ret;
-7ff731aeba1cda drivers/serial/sh-sci.c     Paul Mundt     2008-10-01  2848  	}
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20  2849  
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20 @2850  	return 0;
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20  2851  }
-e2651647080930 drivers/serial/sh-sci.c     Paul Mundt     2011-01-20  2852  
-
-:::::: The code at line 2850 was first introduced by commit
-:::::: e2651647080930a1846196c3b79f4de662100388 serial: sh-sci: Handle port memory region reservations.
-
-:::::: TO: Paul Mundt <lethal@linux-sh.org>
-:::::: CC: Paul Mundt <lethal@linux-sh.org>
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1299  
+840459da1574db drivers/staging/gpib/common/gpib_os.c Michael Rubin 2025-03-19  1300  static int close_dev_ioctl(struct file *filep, struct gpib_board *board, unsigned long arg)
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1301  {
+2e9a95ddffc60c drivers/staging/gpib/common/gpib_os.c Michael Rubin 2025-04-09  1302  	struct gpib_close_dev_ioctl cmd;
+c93577b9d4533a drivers/staging/gpib/common/gpib_os.c Michael Rubin 2025-04-08  1303  	struct gpib_file_private *file_priv = filep->private_data;
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1304  	struct gpib_descriptor *desc;
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1305  	unsigned int pad;
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1306  	int sad;
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1307  	int retval;
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1308  
+8e7ff4e7a2358f drivers/staging/gpib/common/gpib_os.c Dave Penkler  2025-01-14  1309  	retval = copy_from_user(&cmd, (void __user *)arg, sizeof(cmd));
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1310  	if (retval)
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1311  		return -EFAULT;
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1312  
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1313  	if (cmd.handle >= GPIB_MAX_NUM_DESCRIPTORS)
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1314  		return -EINVAL;
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1315  
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1316  	mutex_lock(&file_priv->descriptors_mutex);
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1317  	desc = file_priv->descriptors[cmd.handle];
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17 @1318  	if (!desc) {
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1319  		mutex_unlock(&file_priv->descriptors_mutex);
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1320  		return -EINVAL;
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1321  	}
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1322  	if (atomic_read(&desc->descriptor_busy)) {
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1323  		mutex_unlock(&file_priv->descriptors_mutex);
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1324  		return -EBUSY;
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1325  	}
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1326  	/* Remove from table while holding lock to prevent new IO from starting */
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1327  	file_priv->descriptors[cmd.handle] = NULL;
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1328  	pad = desc->pad;
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1329  	sad = desc->sad;
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1330  	mutex_unlock(&file_priv->descriptors_mutex);
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1331  
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1332  	retval = decrement_open_device_count(board, &board->device_list, pad, sad);
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1333  
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1334  	kfree(desc);
+d1857f8296dceb drivers/gpib/common/gpib_os.c         Adam Crosser  2026-03-17  1335  	return retval;
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1336  }
+9dde4559e93955 drivers/staging/gpib/common/gpib_os.c Dave Penkler  2024-09-18  1337  
 
 -- 
 0-DAY CI Kernel Test Service
