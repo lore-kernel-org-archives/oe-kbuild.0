@@ -1,142 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5686376BD6
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 03:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0E3375F9C
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 03:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775534335; cv=none; b=KrgHYd0u2m9KBevwKpaOsnmtlirKVcwnsTteNCNsBgxSexuSZDGfk3fyPRQxjjMo7TE7SL0S7GArzZPfqsBvmRGxzF4LTz0d7eiaJ10Dh7Pr8W5MzoeVJjnZvzXAuq+II3zqprvzS3VddXbstyleJYNNSypIpqfI7kwhXCDdKKU=
+	t=1775534378; cv=none; b=SJDOGE0a83LPyirb5wf/f+w5qMIWyy4CbQSRURQMgOcysYCQPi8YckSOeUBXLVPA3vwd+BQe+FY9IXlVNt3OBDaXoun9NZ+pzdlXGOZijDjuQdbVodowBs4oNlSIcXf/dCRMZEJes8S/f2xq+zO/vgE2K2ynn/xeuQKTC7CSEGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775534335; c=relaxed/simple;
-	bh=zr+VFMSwvSSQCLwHBMhJ97hslGQiyhRte7/9b/f3P1E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oCAIWJAGQiW/0D+d4K6ULSnDXgdldx+9yymjW9eXjkwABU3Vgqv3YhB2UnW+wPgKCF72nKuFA4mpym7pB/vetyxYPELg3+VDXZBBasPRmrmaNfzQHZYwNZRfo5ZWAC1UEWwjjRePuDipKJzpSpVKC+3w58IpTll6j7T0x/GN9tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5ALbQdT; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1775534378; c=relaxed/simple;
+	bh=ikiyXDE588mYej/0xaDzXX0rX9Q9SGgGwWE56lFYHZs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lMEiDkghLpW2giTmM9AVeg95QqZAEjryETW/auWSKKwze9azgVSMyYvbuY8JDa8xm3CUuR96/c/QYOD27wyYJcSgZxnmZUL6x+oTb0OR7+o41/xD1WwY++2KOo1TOE1eTV+NAbZBRizboBPixsffCS//3Np7aSPY1tjFtKbf6a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HO86Ar+Q; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5ALbQdT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HO86Ar+Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775534334; x=1807070334;
-  h=date:from:to:cc:subject:message-id;
-  bh=zr+VFMSwvSSQCLwHBMhJ97hslGQiyhRte7/9b/f3P1E=;
-  b=G5ALbQdT1BDa+gDZC0AUiQEfb/kiv16pgDfP3E2Ud3/vrdeXzDPWl1e3
-   JHo8ezWRmjtxJ+MKZ9WirE4tPN3EB++kob+QIzZJGciAiCx7zC+z9sssm
-   c3PQhQGAXihRE4IOhD3wXkXWVRiwV2hL/lnLKRXuHHCbMb+Th8weqtBn/
-   agzQuIC3ggEsX5GvWo+fzXw+W4ggOk/eYaMCf2AnMoFoMgWPyJ8cCbTwX
-   Qy0/quWcHahZNUDLhNk3G36NfqIfuvismZ7ALIXgvByLmW05CLmmUyQJH
-   N4PE24PkJSGS5x9NVZmd7E32hc6Fqfi6hl4kyZ2SeRjEgBob9vxq47/ND
+  t=1775534376; x=1807070376;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ikiyXDE588mYej/0xaDzXX0rX9Q9SGgGwWE56lFYHZs=;
+  b=HO86Ar+QyqARIDyata8Jn3av+0QPYJ4MA6N+NCeW8Z6MOlHRDApuBcEZ
+   +9Xy3zmzPHet2cTRDA1Gnp/hrMEVdqcsl/Bxd1hMJWlglbD+PeJ8ZBJUa
+   ljrZrxXC9xDz2vGicNKmJrW45R9BZyNoYQSGdh1NRuJ1XjzBNy2pkzC3H
+   X90Hh2mXKQyxPwRvmoy9J4GEVf6Z9VJwttPz6+9zoWVtQfbC7XU1DPx18
+   fVTqyQrsaFbh5tvJ92aD6IG4/d9mwu0zXBrajjA9yQ+Iqm0Zxh/Shs1Sj
+   nyioTxJoZeT7wKDcBSzCePObHAQJhCBZYuo7F03eRmWy0yQnOizAxh6ss
    w==;
-X-CSE-ConnectionGUID: SS36uL6TRoCPEdNgni5nnA==
-X-CSE-MsgGUID: mHyJeduhQ5quXCWna296wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76369558"
+X-CSE-ConnectionGUID: 3ayomVEHRZquVQ3AbTd24w==
+X-CSE-MsgGUID: S5E3YjIDRWGeXbgYLRrLmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76204317"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="76369558"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:58:37 -0700
-X-CSE-ConnectionGUID: Q+fNI0V/SLeStscOcsqSYA==
-X-CSE-MsgGUID: SHfZjoNyQU+ODLztliriUA==
+   d="scan'208";a="76204317"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:59:36 -0700
+X-CSE-ConnectionGUID: mx7c9yDUTzqOAvyW/dZoDg==
+X-CSE-MsgGUID: 3Tk6zFMLTi+FwI7ohgIedQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="232091296"
+   d="scan'208";a="251193020"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Apr 2026 20:58:35 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 Apr 2026 20:59:35 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xaD-00000000067-0Vgv;
-	Tue, 07 Apr 2026 03:58:33 +0000
-Date: Tue, 07 Apr 2026 11:57:59 +0800
+	id 1w9xbB-0000000006b-0x7h;
+	Tue, 07 Apr 2026 03:59:33 +0000
+Date: Tue, 7 Apr 2026 11:59:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [bcachefs:bcachefs-testing 11/42]
- fs/bcachefs/vfs/ioctl.c:914:66-67: WARNING opportunity for min()
-Message-ID: <202604050900.7W0I00dm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH] btrfs: make more ASSERTs verbose, part 3
+Message-ID: <202604051438.4BSUbQVi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "likely FALSE maybe-used-uninitialized warning on old compiler"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Kent Overstreet <kent.overstreet@linux.dev>
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+In-Reply-To: <20260331223659.2098718-1-dsterba@suse.com>
+References: <20260331223659.2098718-1-dsterba@suse.com>
+TO: David Sterba <dsterba@suse.com>
+TO: linux-btrfs@vger.kernel.org
+CC: David Sterba <dsterba@suse.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   a33008fc8f2cf78de0ed73dc9b1dc6a46d278287
-commit: 39fe245ff806f1dcf1d02b034d35df86b8944ec2 [11/42] bcachefs: wire up error reporting in pread_raw ioctl
-:::::: branch date: 2 hours ago
-:::::: commit date: 11 days ago
-config: um-randconfig-r051-20260405 (https://download.01.org/0day-ci/archive/20260405/202604050900.7W0I00dm-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on next-20260403]
+[cannot apply to linus/master v7.0-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Sterba/btrfs-make-more-ASSERTs-verbose-part-3/20260402-233149
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260331223659.2098718-1-dsterba%40suse.com
+patch subject: [PATCH] btrfs: make more ASSERTs verbose, part 3
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-001-20260405 (https://download.01.org/0day-ci/archive/20260405/202604051438.4BSUbQVi-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051438.4BSUbQVi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202604050900.7W0I00dm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604051438.4BSUbQVi-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/vfs/ioctl.c:914:66-67: WARNING opportunity for min()
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-vim +914 fs/bcachefs/vfs/ioctl.c
+All warnings (new ones prefixed by >>):
 
-d4bd02beae9ffc Kent Overstreet 2026-02-10  868  
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  869  static long bch2_ioc_pread_raw(struct file *file,
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  870  			       struct bch_inode_info *inode,
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  871  			       struct bch_ioctl_pread_raw __user *uarg)
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  872  {
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  873  	struct bch_ioctl_pread_raw arg;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  874  
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  875  	if (copy_from_user(&arg, uarg, sizeof(arg)))
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  876  		return -EFAULT;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  877  	if (arg.flags & ~BCH_PREAD_RAW_no_poison_check)
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  878  		return -EINVAL;
-39fe245ff806f1 Kent Overstreet 2026-03-24  879  	if (arg.err.pad)
-39fe245ff806f1 Kent Overstreet 2026-03-24  880  		return -EINVAL;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  881  	if (!arg.len)
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  882  		return 0;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  883  	if (!(file->f_flags & O_DIRECT))
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  884  		return -EINVAL;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  885  	if (!inode_owner_or_capable(file_mnt_idmap(file), &inode->v))
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  886  		return -EPERM;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  887  
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  888  	loff_t pos = arg.offset;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  889  	int ret = rw_verify_area(READ, file, &pos, arg.len);
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  890  	if (ret)
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  891  		return ret;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  892  
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  893  	struct iov_iter iter;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  894  	import_ubuf(ITER_DEST, (void __user *)(unsigned long)arg.buf, arg.len, &iter);
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  895  
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  896  	struct kiocb kiocb;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  897  	init_sync_kiocb(&kiocb, file);
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  898  	kiocb.ki_pos = arg.offset;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  899  
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  900  	enum bch_read_flags read_flags = 0;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  901  	if (arg.flags & BCH_PREAD_RAW_no_poison_check)
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  902  		read_flags |= BCH_READ_no_poison_check;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  903  
-39fe245ff806f1 Kent Overstreet 2026-03-24  904  	struct bch_read_err_report err_report;
-39fe245ff806f1 Kent Overstreet 2026-03-24  905  	mutex_init(&err_report.lock);
-39fe245ff806f1 Kent Overstreet 2026-03-24  906  	err_report.errors = 0;
-39fe245ff806f1 Kent Overstreet 2026-03-24  907  	err_report.msg = (struct printbuf) PRINTBUF;
-39fe245ff806f1 Kent Overstreet 2026-03-24  908  
-39fe245ff806f1 Kent Overstreet 2026-03-24  909  	ret = bch2_direct_IO_read(&kiocb, &iter, read_flags, &err_report);
-39fe245ff806f1 Kent Overstreet 2026-03-24  910  
-39fe245ff806f1 Kent Overstreet 2026-03-24  911  	if (copy_to_user(&uarg->errors, &err_report.errors, sizeof(err_report.errors)))
-39fe245ff806f1 Kent Overstreet 2026-03-24  912  		ret = -EFAULT;
-39fe245ff806f1 Kent Overstreet 2026-03-24  913  
-39fe245ff806f1 Kent Overstreet 2026-03-24 @914  	int err = bch2_copy_ioctl_err_msg(&arg.err, &err_report.msg, ret < 0 ? ret : 0);
-39fe245ff806f1 Kent Overstreet 2026-03-24  915  	if (err && !ret)
-39fe245ff806f1 Kent Overstreet 2026-03-24  916  		ret = err;
-39fe245ff806f1 Kent Overstreet 2026-03-24  917  
-39fe245ff806f1 Kent Overstreet 2026-03-24  918  	printbuf_exit(&err_report.msg);
-39fe245ff806f1 Kent Overstreet 2026-03-24  919  	return ret;
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  920  }
-c8c6d24bbb1c2f Kent Overstreet 2026-03-24  921  
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/instrumented.h:10,
+                    from include/linux/atomic/atomic-instrumented.h:17,
+                    from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/arm/include/asm/bitops.h:245,
+                    from include/linux/bitops.h:67,
+                    from include/linux/kernel.h:23,
+                    from fs/btrfs/ioctl.c:6:
+   fs/btrfs/ioctl.c: In function 'btrfs_ioctl_subvol_sync':
+>> include/linux/printk.h:511:44: warning: 'root_flags' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                            ^~~~~~~
+   fs/btrfs/ioctl.c:4984:13: note: 'root_flags' was declared here
+    4984 |         u64 root_flags;
+         |             ^~~~~~~~~~
+
+
+vim +/root_flags +511 include/linux/printk.h
+
+337015573718b1 Chris Down      2021-06-15  459  
+337015573718b1 Chris Down      2021-06-15  460  /*
+337015573718b1 Chris Down      2021-06-15  461   * Some subsystems have their own custom printk that applies a va_format to a
+337015573718b1 Chris Down      2021-06-15  462   * generic format, for example, to include a device number or other metadata
+337015573718b1 Chris Down      2021-06-15  463   * alongside the format supplied by the caller.
+337015573718b1 Chris Down      2021-06-15  464   *
+337015573718b1 Chris Down      2021-06-15  465   * In order to store these in the way they would be emitted by the printk
+337015573718b1 Chris Down      2021-06-15  466   * infrastructure, the subsystem provides us with the start, fixed string, and
+337015573718b1 Chris Down      2021-06-15  467   * any subsequent text in the format string.
+337015573718b1 Chris Down      2021-06-15  468   *
+337015573718b1 Chris Down      2021-06-15  469   * We take a variable argument list as pr_fmt/dev_fmt/etc are sometimes passed
+337015573718b1 Chris Down      2021-06-15  470   * as multiple arguments (eg: `"%s: ", "blah"`), and we must only take the
+337015573718b1 Chris Down      2021-06-15  471   * first one.
+337015573718b1 Chris Down      2021-06-15  472   *
+337015573718b1 Chris Down      2021-06-15  473   * subsys_fmt_prefix must be known at compile time, or compilation will fail
+337015573718b1 Chris Down      2021-06-15  474   * (since this is a mistake). If fmt or level is not known at compile time, no
+337015573718b1 Chris Down      2021-06-15  475   * index entry will be made (since this can legitimately happen).
+337015573718b1 Chris Down      2021-06-15  476   */
+337015573718b1 Chris Down      2021-06-15  477  #define printk_index_subsys_emit(subsys_fmt_prefix, level, fmt, ...) \
+337015573718b1 Chris Down      2021-06-15  478  	__printk_index_emit(fmt, level, subsys_fmt_prefix)
+337015573718b1 Chris Down      2021-06-15  479  
+337015573718b1 Chris Down      2021-06-15  480  #define printk_index_wrap(_p_func, _fmt, ...)				\
+337015573718b1 Chris Down      2021-06-15  481  	({								\
+337015573718b1 Chris Down      2021-06-15  482  		__printk_index_emit(_fmt, NULL, NULL);			\
+337015573718b1 Chris Down      2021-06-15  483  		_p_func(_fmt, ##__VA_ARGS__);				\
+337015573718b1 Chris Down      2021-06-15  484  	})
+337015573718b1 Chris Down      2021-06-15  485  
+337015573718b1 Chris Down      2021-06-15  486  
+7d9e2661f26858 Jonathan Corbet 2021-07-25  487  /**
+7d9e2661f26858 Jonathan Corbet 2021-07-25  488   * printk - print a kernel message
+7d9e2661f26858 Jonathan Corbet 2021-07-25  489   * @fmt: format string
+7d9e2661f26858 Jonathan Corbet 2021-07-25  490   *
+7d9e2661f26858 Jonathan Corbet 2021-07-25  491   * This is printk(). It can be called from any context. We want it to work.
+7d9e2661f26858 Jonathan Corbet 2021-07-25  492   *
+7d9e2661f26858 Jonathan Corbet 2021-07-25  493   * If printk indexing is enabled, _printk() is called from printk_index_wrap.
+7d9e2661f26858 Jonathan Corbet 2021-07-25  494   * Otherwise, printk is simply #defined to _printk.
+7d9e2661f26858 Jonathan Corbet 2021-07-25  495   *
+7d9e2661f26858 Jonathan Corbet 2021-07-25  496   * We try to grab the console_lock. If we succeed, it's easy - we log the
+7d9e2661f26858 Jonathan Corbet 2021-07-25  497   * output and call the console drivers.  If we fail to get the semaphore, we
+7d9e2661f26858 Jonathan Corbet 2021-07-25  498   * place the output into the log buffer and return. The current holder of
+7d9e2661f26858 Jonathan Corbet 2021-07-25  499   * the console_sem will notice the new output in console_unlock(); and will
+7d9e2661f26858 Jonathan Corbet 2021-07-25  500   * send it to the consoles before releasing the lock.
+7d9e2661f26858 Jonathan Corbet 2021-07-25  501   *
+7d9e2661f26858 Jonathan Corbet 2021-07-25  502   * One effect of this deferred printing is that code which calls printk() and
+7d9e2661f26858 Jonathan Corbet 2021-07-25  503   * then changes console_loglevel may break. This is because console_loglevel
+7d9e2661f26858 Jonathan Corbet 2021-07-25  504   * is inspected when the actual printing occurs.
+7d9e2661f26858 Jonathan Corbet 2021-07-25  505   *
+7d9e2661f26858 Jonathan Corbet 2021-07-25  506   * See also:
+7d9e2661f26858 Jonathan Corbet 2021-07-25  507   * printf(3)
+7d9e2661f26858 Jonathan Corbet 2021-07-25  508   *
+7d9e2661f26858 Jonathan Corbet 2021-07-25  509   * See the vsnprintf() documentation for format string extensions over C99.
+7d9e2661f26858 Jonathan Corbet 2021-07-25  510   */
+337015573718b1 Chris Down      2021-06-15 @511  #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+337015573718b1 Chris Down      2021-06-15  512  #define printk_deferred(fmt, ...)					\
+337015573718b1 Chris Down      2021-06-15  513  	printk_index_wrap(_printk_deferred, fmt, ##__VA_ARGS__)
+337015573718b1 Chris Down      2021-06-15  514  
 
 -- 
 0-DAY CI Kernel Test Service
