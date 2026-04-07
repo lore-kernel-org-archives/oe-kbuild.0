@@ -1,270 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281C92D594F
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 04:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233F63921D6
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 07:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775535946; cv=none; b=CnG1VuK1AnCl79gSnBzboeaA3WtO7aba54YyskR8sQeQfocrwVg4/5fpbxJcs3K5r3dOssDOqPUDB4xtXt8/SQ8dHbquovJ4pacCglFgw3qGZ7gWSmdnaKIy0vhUMZm6easwtabXuW/HtYfVPhXOxlJ0Jd1R6nAnGd9i67724NQ=
+	t=1775545329; cv=none; b=UKRHdahqAvsZcLuNHO8poyoU39NjLFyIPQfffnChopwppAkJF0dujFwqXJjwFGPyClLC/Lj3iDmda+FsiE09U9WIrqd89UmgDreZguAW2517GAAkH7+BivnFWo4BMOOVjcobjKfqR2/Rk851q2w+jB8BB6RaPFGOwZUBKdMRIXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775535946; c=relaxed/simple;
-	bh=2QNJ6i4kuIoB0GipZAcAKDVtYgxqLzdsSh1id91fJjg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=OxLFQUScSTENWH5s5voUT/8ZokKyL1kEgKz2pvx/RYKwNjJKz8yksEeKUHloRff/0OH2jc36pk3gcpJbHgu1SAODW52SRXlMpZH4rsrS3LhWhH/v50oar7MtmYtyb5QX+3R70b5PToUUKQIJf8/AnyNAMKPZO6dVymm4J9Nyhk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzmvE4mE; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1775545329; c=relaxed/simple;
+	bh=E6RWIBjxFCk4em8ItUd28TNUqNR7K82m8xS09fyAWdY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=noa3mjb+RsP/h6kaT8U18db2lfoSqe9ay7gUM46u2xBmE8Hv3cNLNx9C3lYz5hEzXh4+zvyqd0RforVYQs8XSd71pZWpadneF4YgdX9F1FWltgTQyITV7TKfECudJeK7gO1YgZrfswnJPelna7icI2JAOJkcmoquQTD6YqSoF64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=icDBgoTc; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzmvE4mE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icDBgoTc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775535944; x=1807071944;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2QNJ6i4kuIoB0GipZAcAKDVtYgxqLzdsSh1id91fJjg=;
-  b=ZzmvE4mE4p/HdfKQyNGgD5+kEGZOJ6Lj97R71pMDtHHYkGU9zm0iSUpk
-   Y12hMKU6+UfjzJAxdhfGH+ZzfAXE58F9CKh7jeMR0KK+cjTO2N07zE8IL
-   4FtdG5g7ZoOcXDXtF/7kVP/1eyRD7VLdb/jnu4VeWtV3JYN2gpNQu8aS2
-   6veyrvh43GPBdJclzjoLcfeFdPGfIMnU07Wusm0wtby26L5/aq1tgkzjF
-   T5DY7tEEPyeQbN9IVY2f0pDhj54n8sa+KZIXILpk1ZyoiEoDAqEe68zur
-   WdiO1s9hq4Tw+NbZTNt2BAvGwKVfYwcoPN2AV3pIMjL5cNDpTwBBFxEP1
+  t=1775545325; x=1807081325;
+  h=date:from:to:cc:subject:message-id;
+  bh=E6RWIBjxFCk4em8ItUd28TNUqNR7K82m8xS09fyAWdY=;
+  b=icDBgoTcFjiT0QIRi61FK63K1V7BvBqEu9iFu3KKraDhym0t5LrER9dT
+   QvOPIDAV0FsRByt+l7DtptLED5ygEpp41j90cIamkw9nm/yAbwo1VsrFq
+   d3TTKqjYJkXmMi6QLMXACuDtEU9i9G+DDPF3QPslgQcR79BA3rufvktcH
+   ZZ+1fbSJV9jzb38cqDZPTxHSQI0rLyrERtED2YQRt6S0unmiqYN1KJ/+f
+   epgqt+cqFgAe2EaDHIFf+Ra/E8tnIPD4RpSHzGilRO9OZxAuDGnk8MRjT
+   310huvMdvQowvh2YMTpstx35m+1sxz52cD8F1Wtl27Y28jcF6eq78IOi0
    g==;
-X-CSE-ConnectionGUID: uKCQ9D2cRBi39BrLBuBJlA==
-X-CSE-MsgGUID: mSR7MHJcTUuOxwdSmDQs7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="87877481"
-X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="87877481"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 21:25:44 -0700
-X-CSE-ConnectionGUID: dBv7ehvGSDCs6XAfObM45g==
-X-CSE-MsgGUID: PQD7hIC+TMCohYofNDR0ng==
+X-CSE-ConnectionGUID: mXEo89TgRmuYGTsNa1c0KQ==
+X-CSE-MsgGUID: 714wppaWQ0KCbqwjljucLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76466141"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="76466141"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 00:01:56 -0700
+X-CSE-ConnectionGUID: grXxb/cEQVqdfS2tz/qqfw==
+X-CSE-MsgGUID: PLX+kb4jRgeGNLHG8WZ9pA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="251196718"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="221517542"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Apr 2026 21:25:42 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 07 Apr 2026 00:01:55 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9y0S-000000000Ar-09ox;
-	Tue, 07 Apr 2026 04:25:40 +0000
-Date: Tue, 07 Apr 2026 12:25:13 +0800
+	id 1wA0Rc-000000000I3-3ekI;
+	Tue, 07 Apr 2026 07:01:52 +0000
+Date: Tue, 07 Apr 2026 15:01:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [agd5f:drm-next-7.1 55/56]
- drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:423 amdgpu_coredump() error:
- we previously assumed 'job' could be null (see line 414)
-Message-ID: <202604071441.vAPwv1su-lkp@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c:723
+ iwl_pcie_txq_alloc() warn: check sign expansion for 'slots_num'
+Message-ID: <202604071442.gyeKUHPF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+CC: linux-kernel@vger.kernel.org
+TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next-7.1
-head:   7b15fc2d1f1a00fb99f0146e404ff2600999ec74
-commit: 32ab301b89b30d71a2e68d86f564eca66f7c52c5 [55/56] drm/amdgpu: store =
-ib info for devcoredump
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20260405 (https://download.01.org/0day-ci/arc=
-hive/20260407/202604071441.vAPwv1su-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Miri,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bfe62a454542cfad3379f6ef5680b125f41e20f4
+commit: c8a00a6e89ffee419a9190d2af9c75a7afe196d2 wifi: iwlwifi: pcie: move generation specific files to a folder
+date:   10 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20260407 (https://download.01.org/0day-ci/archive/20260407/202604071442.gyeKUHPF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch: v0.5.0-9004-gb810ac53
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: c8a00a6e89ff ("wifi: iwlwifi: pcie: move generation specific files to a folder")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604071441.vAPwv1su-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604071442.gyeKUHPF-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:423 amdgpu_coredump() erro=
-r: we previously assumed 'job' could be null (see line 414)
-drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:425 amdgpu_coredump() warn=
-: variable dereferenced before check 'job' (see line 423)
+drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c:723 iwl_pcie_txq_alloc() warn: check sign expansion for 'slots_num'
+drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c:3527 iwl_trans_pcie_dump_monitor() error: we previously assumed 'trans->dbg.dest_tlv' could be null (see line 3512)
 
-vim +/job +423 drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+vim +/slots_num +723 drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c
 
-9022f01b9709331 Sunil Khatri               2024-03-21  398 =20
-6122f5c72e38a88 Trigger Huang              2024-08-19  399  void amdgpu_cor=
-edump(struct amdgpu_device *adev, bool skip_vram_check,
-6122f5c72e38a88 Trigger Huang              2024-08-19  400  		     bool vra=
-m_lost, struct amdgpu_job *job)
-9022f01b9709331 Sunil Khatri               2024-03-21  401  {
-9022f01b9709331 Sunil Khatri               2024-03-21  402  	struct drm_dev=
-ice *dev =3D adev_to_drm(adev);
-6122f5c72e38a88 Trigger Huang              2024-08-19  403  	struct amdgpu_=
-coredump_info *coredump;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  404  	size_t size =
-=3D sizeof(*coredump);
-9022f01b9709331 Sunil Khatri               2024-03-21  405  	struct drm_sch=
-ed_job *s_job;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  406  	u64 total_ring=
-_size, ring_count;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  407  	struct amdgpu_=
-ring *ring;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  408  	int i, off, id=
-x;
-9022f01b9709331 Sunil Khatri               2024-03-21  409 =20
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  410  	/* No need to =
-generate a new coredump if there's one in progress already. */
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  411  	if (work_pendi=
-ng(&adev->coredump_work))
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  412  		return;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  413 =20
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04 @414  	if (job && job=
-->pasid)
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  415  		size +=3D siz=
-eof(struct amdgpu_coredump_ib_info) * job->num_ibs;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  416 =20
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  417  	coredump =3D k=
-zalloc(size, GFP_NOWAIT);
-e29172987309526 Mario Limonciello (AMD     2025-12-14  418) 	if (!coredump)
-9022f01b9709331 Sunil Khatri               2024-03-21  419  		return;
-9022f01b9709331 Sunil Khatri               2024-03-21  420 =20
-6122f5c72e38a88 Trigger Huang              2024-08-19  421  	coredump->skip=
-_vram_check =3D skip_vram_check;
-9022f01b9709331 Sunil Khatri               2024-03-21  422  	coredump->rese=
-t_vram_lost =3D vram_lost;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04 @423  	coredump->pasi=
-d =3D job->pasid;
-9022f01b9709331 Sunil Khatri               2024-03-21  424 =20
-8d1a13816e59254 Christian K=C3=B6nig            2024-12-12 @425  	if (job &=
-& job->pasid) {
-9022f01b9709331 Sunil Khatri               2024-03-21  426  		struct amdgpu=
-_task_info *ti;
-9022f01b9709331 Sunil Khatri               2024-03-21  427 =20
-8d1a13816e59254 Christian K=C3=B6nig            2024-12-12  428  		ti =3D a=
-mdgpu_vm_get_task_info_pasid(adev, job->pasid);
-9022f01b9709331 Sunil Khatri               2024-03-21  429  		if (ti) {
-9022f01b9709331 Sunil Khatri               2024-03-21  430  			coredump->re=
-set_task_info =3D *ti;
-9022f01b9709331 Sunil Khatri               2024-03-21  431  			amdgpu_vm_pu=
-t_task_info(ti);
-9022f01b9709331 Sunil Khatri               2024-03-21  432  		}
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  433  		coredump->num=
-_ibs =3D job->num_ibs;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  434  		for (i =3D 0;=
- i < job->num_ibs; ++i) {
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  435  			coredump->ib=
-s[i].gpu_addr =3D job->ibs[i].gpu_addr;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  436  			coredump->ib=
-s[i].ib_size_dw =3D job->ibs[i].length_dw;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  437  		}
-9022f01b9709331 Sunil Khatri               2024-03-21  438  	}
-9022f01b9709331 Sunil Khatri               2024-03-21  439 =20
-9022f01b9709331 Sunil Khatri               2024-03-21  440  	if (job) {
-9022f01b9709331 Sunil Khatri               2024-03-21  441  		s_job =3D &jo=
-b->base;
-9022f01b9709331 Sunil Khatri               2024-03-21  442  		coredump->rin=
-g =3D to_amdgpu_ring(s_job->sched);
-9022f01b9709331 Sunil Khatri               2024-03-21  443  	}
-9022f01b9709331 Sunil Khatri               2024-03-21  444 =20
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  445  	/* Dump ring c=
-ontent if memory allocation succeeds. */
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  446  	ring_count =3D =
-0;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  447  	total_ring_siz=
-e =3D 0;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  448  	for (i =3D 0; =
-i < adev->num_rings; i++) {
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  449  		ring =3D adev=
-->rings[i];
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  450 =20
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  451  		/* Only dump =
-rings with unsignalled fences. */
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  452  		if (atomic_re=
-ad(&ring->fence_drv.last_seq) =3D=3D ring->fence_drv.sync_seq &&
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  453  		    coredump-=
->ring !=3D ring)
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  454  			continue;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  455 =20
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  456  		total_ring_si=
-ze +=3D ring->ring_size;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  457  		ring_count++;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  458  	}
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  459  	coredump->ring=
-s_dw =3D kzalloc(total_ring_size, GFP_NOWAIT);
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  460  	coredump->ring=
-s =3D kcalloc(ring_count, sizeof(struct amdgpu_coredump_ring), GFP_NOWAIT);
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  461  	if (coredump->=
-rings && coredump->rings_dw) {
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  462  		for (i =3D 0,=
- off =3D 0, idx =3D 0; i < adev->num_rings; i++) {
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  463  			ring =3D ade=
-v->rings[i];
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  464 =20
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  465  			if (atomic_r=
-ead(&ring->fence_drv.last_seq) =3D=3D ring->fence_drv.sync_seq &&
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  466  			    coredump=
-->ring !=3D ring)
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  467  				continue;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  468 =20
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  469  			coredump->ri=
-ngs[idx].ring_index =3D ring->idx;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  470  			coredump->ri=
-ngs[idx].rptr =3D amdgpu_ring_get_rptr(ring);
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  471  			coredump->ri=
-ngs[idx].wptr =3D amdgpu_ring_get_wptr(ring);
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  472  			coredump->ri=
-ngs[idx].offset =3D off;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  473 =20
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  474  			memcpy(&core=
-dump->rings_dw[off], ring->ring, ring->ring_size);
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  475  			off +=3D rin=
-g->ring_size;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  476  			idx++;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  477  		}
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  478  		coredump->num=
-_rings =3D idx;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  479  	} else {
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  480  		kvfree(coredu=
-mp->rings_dw);
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  481  		kvfree(coredu=
-mp->rings);
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  482  		coredump->rin=
-gs_dw =3D NULL;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  483  		coredump->rin=
-gs =3D NULL;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  484  	}
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  485 =20
-9022f01b9709331 Sunil Khatri               2024-03-21  486  	coredump->adev=
- =3D adev;
-9022f01b9709331 Sunil Khatri               2024-03-21  487 =20
-9022f01b9709331 Sunil Khatri               2024-03-21  488  	ktime_get_ts64=
-(&coredump->reset_time);
-9022f01b9709331 Sunil Khatri               2024-03-21  489 =20
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  490  	/* Update the =
-current coredump pointer (no lock needed, this function can only be called
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  491  	 * from a sing=
-le thread)
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  492  	 */
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  493  	adev->coredump=
- =3D coredump;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  494  	/* Kick off co=
-redump formatting to a worker thread. */
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  495  	queue_work(sys=
-tem_unbound_wq, &adev->coredump_work);
-28d05f0836dfc44 Andr=C3=A9 Almeida              2025-02-20  496 =20
-28d05f0836dfc44 Andr=C3=A9 Almeida              2025-02-20  497  	drm_info(=
-dev, "AMDGPU device coredump file has been created\n");
-28d05f0836dfc44 Andr=C3=A9 Almeida              2025-02-20  498  	drm_info(=
-dev, "Check your /sys/class/drm/card%d/device/devcoredump/data\n",
-28d05f0836dfc44 Andr=C3=A9 Almeida              2025-02-20  499  		 dev->pr=
-imary->index);
-9022f01b9709331 Sunil Khatri               2024-03-21  500  }
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  501 =20
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  718  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  719  int iwl_pcie_txq_alloc(struct iwl_trans *trans, struct iwl_txq *txq,
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  720  		       int slots_num, bool cmd_queue)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  721  {
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  722  	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
+c96a36491003d7 drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2025-05-08 @723  	size_t num_entries = trans->mac_cfg->gen2 ?
+264e744fec0171 drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2025-05-08  724  		slots_num : trans->mac_cfg->base->max_tfd_queue_size;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  725  	size_t tfd_sz;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  726  	size_t tb0_buf_sz;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  727  	int i;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  728  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  729  	if (WARN_ONCE(slots_num <= 0, "Invalid slots num:%d\n", slots_num))
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  730  		return -EINVAL;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  731  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  732  	if (WARN_ON(txq->entries || txq->tfds))
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  733  		return -EINVAL;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  734  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  735  	tfd_sz = trans_pcie->txqs.tfd.size * num_entries;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  736  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  737  	timer_setup(&txq->stuck_timer, iwl_txq_stuck_timer, 0);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  738  	txq->trans = trans;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  739  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  740  	txq->n_window = slots_num;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  741  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  742  	txq->entries = kcalloc(slots_num,
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  743  			       sizeof(struct iwl_pcie_txq_entry),
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  744  			       GFP_KERNEL);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  745  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  746  	if (!txq->entries)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  747  		goto error;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  748  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  749  	if (cmd_queue)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  750  		for (i = 0; i < slots_num; i++) {
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  751  			txq->entries[i].cmd =
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  752  				kmalloc(sizeof(struct iwl_device_cmd),
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  753  					GFP_KERNEL);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  754  			if (!txq->entries[i].cmd)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  755  				goto error;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  756  		}
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  757  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  758  	/* Circular buffer of transmit frame descriptors (TFDs),
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  759  	 * shared with device
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  760  	 */
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  761  	txq->tfds = dma_alloc_coherent(trans->dev, tfd_sz,
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  762  				       &txq->dma_addr, GFP_KERNEL);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  763  	if (!txq->tfds)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  764  		goto error;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  765  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  766  	BUILD_BUG_ON(sizeof(*txq->first_tb_bufs) != IWL_FIRST_TB_SIZE_ALIGN);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  767  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  768  	tb0_buf_sz = sizeof(*txq->first_tb_bufs) * slots_num;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  769  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  770  	txq->first_tb_bufs = dma_alloc_coherent(trans->dev, tb0_buf_sz,
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  771  						&txq->first_tb_dma,
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  772  						GFP_KERNEL);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  773  	if (!txq->first_tb_bufs)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  774  		goto err_free_tfds;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  775  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  776  	for (i = 0; i < num_entries; i++) {
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  777  		void *tfd = iwl_txq_get_tfd(trans, txq, i);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  778  
+c96a36491003d7 drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2025-05-08  779  		if (trans->mac_cfg->gen2)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  780  			iwl_txq_set_tfd_invalid_gen2(trans, tfd);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  781  		else
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  782  			iwl_txq_set_tfd_invalid_gen1(trans, tfd);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  783  	}
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  784  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  785  	return 0;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  786  err_free_tfds:
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  787  	dma_free_coherent(trans->dev, tfd_sz, txq->tfds, txq->dma_addr);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  788  	txq->tfds = NULL;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  789  error:
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  790  	if (txq->entries && cmd_queue)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  791  		for (i = 0; i < slots_num; i++)
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  792  			kfree(txq->entries[i].cmd);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  793  	kfree(txq->entries);
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  794  	txq->entries = NULL;
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  795  
+49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  796  	return -ENOMEM;
+f02831be962c7b drivers/net/wireless/iwlwifi/pcie/tx.c       Emmanuel Grumbach 2012-11-14  797  }
+f02831be962c7b drivers/net/wireless/iwlwifi/pcie/tx.c       Emmanuel Grumbach 2012-11-14  798  
 
---=20
+:::::: The code at line 723 was first introduced by commit
+:::::: c96a36491003d7a6fb6dd3c5bcf84cca15387109 wifi: iwlwifi: rename cfg_trans_params to mac_cfg
+
+:::::: TO: Johannes Berg <johannes.berg@intel.com>
+:::::: CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
