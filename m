@@ -1,160 +1,104 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1291330324
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 09:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EE13A872B
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 10:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775553484; cv=none; b=nTRxVAeP1TqRaPwy4fNTqu/Z5Q8yLv688cwp8Jqe3rmDq6OU3ufHXekM1J1p+7rXvyV51kp/amQPo2iTTmiS8QGF+lsmou95kF3yyVXvE3VftgmTbIzEViHXrmqsUXPH4xEjpN93f8JdFSIdgwxNR+XZgu6kz/0NOKOtqx7peV0=
+	t=1775557884; cv=none; b=QxJ1Sa8alsJH9uAZVrBlzXVSV40AIKBoQ7vIKxpSyovYyjAHdXhGfKzbrYLtHCnWqk5yU2UKsa1IZfYaJwIhX3+8gc4itfwyNQhwr/jhN7bF+QW2U6azAQIImE7nFTOEBpKyZdK4iPZjYitGEKZwarAxKABhU3rCaeaRdv2ir4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775553484; c=relaxed/simple;
-	bh=ua6NBcpMsmGxkxsRFCt9qqLfoN5fo54vzR5LLZbWBnQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SZEmt9u5rhmMVCgqDXUu1VnEIC9/hRjDNQ8cl2zNxUR40NupIs7VDUlT24xsEl67u/AHax8Oh3HmOyUEh2B3LxGvujfT9j11qwhSqJV3oAkQPu9V64BHBaaWt5bPPZ/yNPNpLRrfjNn08qBHKM8nT/wFqGAq576gnVgPibZb+PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fW4xU8EC; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775557884; c=relaxed/simple;
+	bh=fse4/mw7XTsgfuHVVQjRFWJVGp1/Euz4A7xNtKxpkIw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N5QMhjGtVkgevuHlF6odfSJEL18V8UiJXtSDglSuYuVsaJoTaL229zJqaIxIKu9ZV3yQHnPYUjqNnCuJ7WHkKCRGAwJxA3jvUrUcPSOEAmCm8THGSyv4dXXn5ADSpDS5CicI73lVFoYlkQuJTn6jYIjrBswVO+q06enjW5iEGl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MVOsyp5y; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fW4xU8EC"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43ccda008cdso2906380f8f.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 07 Apr 2026 02:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775553480; x=1776158280; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7QAXViyT/yNLbimjFZQ0oxVgoLoR8JjMuycPU0pt+qI=;
-        b=fW4xU8ECQ9g/O3fDee+2BQBxvhAxayljz6FdLL3E0zESJkV9CuNGcnQ81e3Z18aN8o
-         8DmgWxZxIvA1174k2T3xsoMnXpfT5HXPCkUg9ywFJvGclZRCGBQsxQQ6Hcoka482SNKX
-         ir3AnJvu7bP+C+2xhSgmtjddlV7z6VRikzPGc+6RbVysfYEB2VI7HtsMhmYA2uqfHTWs
-         Y/0Xx8S45kzCqRFkYvSqNLtBhitUkv8IuXqazFTuCchPdeatNaB88ss7QH2MVSDvBMCw
-         cPBZlDHGZThDPrUFHl2wgnNfDXfSx2QD7cEK36hroPT7So+6OmCcDmqR7SEJb/ubIoFG
-         9dTg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MVOsyp5y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1775557882;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4lD99YtIEAbiLQ1CDFnTyDVFUE3DC9IG6TDfPBqmULE=;
+	b=MVOsyp5yugBaZFxy6UqnVhfKE+tbYrWQHLmrmSosEXcH9aReUk++hhAU0wLQaz0rzr+W//
+	WnLwR3T/jSsHJJwxutrbofGPc8dGSM0PD1LkyS9oUYESaqKVdJQ4P2fx0HQCuUc+TEsVGP
+	TeMrBxoqYFuu98SV+/wlyhaMTpmh2pA=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-399-lnPLSKD1NJaVKwhCdQ1qig-1; Tue, 07 Apr 2026 06:31:20 -0400
+X-MC-Unique: lnPLSKD1NJaVKwhCdQ1qig-1
+X-Mimecast-MFC-AGG-ID: lnPLSKD1NJaVKwhCdQ1qig_1775557880
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-794b240c0d3so137994257b3.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 07 Apr 2026 03:31:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775553480; x=1776158280;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1775557880; x=1776162680;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=7QAXViyT/yNLbimjFZQ0oxVgoLoR8JjMuycPU0pt+qI=;
-        b=S69fn3JRT4desyATc0O/fbeKV01q+aQ1k2XiMfzYb9jrVbqXJrbleH2it0uENOFh/1
-         O14PiWBOWEMKGgLjWi/NmWrJtz+G5PRrMmd11NULAo5qLRzjH8/YbNmT2+OTNfzWvaoz
-         5DdoX1JcHh7HhI8beKA1ics1kHx1zhhhCL4UwDUMyJdqSMBxDaRaKQKToTVvgYGWv9J9
-         YdMcygPm1lPB+UTROG6QQ31a5g9tqf+7Y3Gd+BIj+Vn3XYRYG5RDs/v9q4ASEyJhYu7O
-         eWuJshebBMBYKAR4JiBZ2axT3BUqtn7+Nv8PDex8neksg/ElU4z4mAjlnmnk3JkpYd28
-         LZ+g==
-X-Gm-Message-State: AOJu0YyJvU9aVK95G+AgJuwopV9WtwewUAZwHhn4TofwCKd9bVWj7/HC
-	NCYaBOkW7g9MDSOGYgSeQ12tc5ii0IE6VRWbaADMcR0tUq8jC/VnCktYVpQigQ==
-X-Gm-Gg: AeBDiesyfsdtUmeR3lGGcL5gIGuIonA7Ip5lwyAvZ2WbJdNKuTV2DSpicLPKc5+LZ5l
-	5OoPWOLRANmBQDoRgbpZUY7+jTOjaEBHIcEEsSDjBdtCLTIumjYuPDzWDPseZo7R9BXPv9fFiuu
-	z8UkrMMggPYc6ZjVEgx5yRSZN2nLOhbyzYaARbqNypJytJhWAmCdsF7aHPRsg0r20lEbY4igHp4
-	U4uLUSaucz7wEH9f2aJcakVcujhZFmtqq/Ma62K6ZAyKGC/3WpH+Uz614QQlUheHnJqNa0wyjB8
-	kz8jHguzO47/PFv7YuXT8f1oM0RR2JCfaJuiXGwsSvDgz1f5VKJpOoL4XjNC3cEyDxCAf/vA262
-	7DfGg9AsXMFuGkp5qwyZSq/FsLiNvPmJpWJLHea0EV7rwmvrmSIHXcSX9RumA74B6iXNbceuyOp
-	6Hyi+1k0X5p9enLprFElM=
-X-Received: by 2002:a5d:5847:0:b0:43d:25a6:624 with SMTP id ffacd0b85a97d-43d28fb74abmr24068950f8f.11.1775553479509;
-        Tue, 07 Apr 2026 02:17:59 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a6f08sm51421864f8f.6.2026.04.07.02.17.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 02:17:58 -0700 (PDT)
-Date: Tue, 7 Apr 2026 12:17:55 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: [agd5f:drm-next-7.1 55/56]
- drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:423 amdgpu_coredump()
- error: we previously assumed 'job' could be null (see line 414)
-Message-ID: <202604071441.vAPwv1su-lkp@intel.com>
+        bh=4lD99YtIEAbiLQ1CDFnTyDVFUE3DC9IG6TDfPBqmULE=;
+        b=SR1vYp1hZPqrsDpEWKW7PW9rF329L/6Z+caE8qeoKsT/ol1w4VkTfhNUDTxh64CvkT
+         kzvF1EDQJ4BXyighb5VifJBVLj1rbMfDBq+UnjhiufHXPXQiKaZYdPDZYE5LSF+Ez7v5
+         pTconV21LvTDyjbNw++W5T48BlzBL2ZUEj8WDVPJE+k8MQSfjCgKXqPjbdtxTqcHFdZy
+         JKbvFQ8+X9PqI0v+g3S67z/tCFSOhOaFMqbBKsZgn/cnKfrapNY1GjFj458cw6YHUzsd
+         a0wFRArHoeVrvd9BX8HzzwHTNko02G5P7MSQIACnZO3aRCtUmCiaqhX3jg57WZj65Fq7
+         q9HA==
+X-Gm-Message-State: AOJu0YxoATFB0zvb97PIB3bu7ZF1kMm3jtxfQVPEm6E5pCz43fMCYNVS
+	4mwx54yHhTLgwmge+XTgNjt7SeXQ3c3z6M2lglKVNX5Y2sCormlYhxruongGCnpbmqp3v2sok3j
+	pUHaqMtC6vwS+lblVwr/8plaUWS2zYqwjUlkoVRPjhuqdquHn6kSU4Y3hhTJK0cPCprFNIL5XAM
+	EerirxgHmCoyaSikHyhYrhLTX+pSd9yddcRMws
+X-Gm-Gg: AeBDiet1FB4QdiROtyhPwMfGuL8YFHW+6Biaw2xRZ1mHauDuF2lNgCC3yJpLgR1bcT7
+	v6Pt4kTrKiDB9P9f0nuh1G3nyQJ01P1wL4siD0ZooG1X9Xgbyu9CeBjQ7F8OFuIPXDzdp0guI8C
+	jqzeW7T5bXp3VC7ghCZRhCLnBIZ0sz8TpbND3DYpoAmLgtHXOI+ky1N1IILXpGhm4WUnk+F729S
+	lq7bViI0W85npf2vUHIIDcgltD52lHTzZ2iTUo6o1m7MJ++YdUaa95jCEudVERaMA==
+X-Received: by 2002:a05:690c:6e85:b0:79f:2e53:85f8 with SMTP id 00721157ae682-7a3bb91637cmr145977527b3.3.1775557880334;
+        Tue, 07 Apr 2026 03:31:20 -0700 (PDT)
+X-Received: by 2002:a05:690c:6e85:b0:79f:2e53:85f8 with SMTP id
+ 00721157ae682-7a3bb91637cmr145977377b3.3.1775557879897; Tue, 07 Apr 2026
+ 03:31:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Message-ID: <20260407091755.bZLLHEGPug2efXAZAALBaxEmBVMd7-7tYjhuCkHk4Xw@z>
+References: <202604071139.HNJiCaAi-lkp@intel.com>
+In-Reply-To: <202604071139.HNJiCaAi-lkp@intel.com>
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Tue, 7 Apr 2026 12:31:08 +0200
+X-Gm-Features: AQROBzAHSmuavjKTfJb18h0s-6xEF8CD_wSRMBk7UvJQqkGtY5MxkpNgeKukvoI
+Message-ID: <CAHc6FU4OnGCUYjcdPB-d84wn074TTgPbt35e63s+WvnbDXcanQ@mail.gmail.com>
+Subject: Re: [gfs2:for-next 13/17] fs/gfs2/log.c:1183 __gfs2_log_flush()
+ error: we previously assumed 'sdp->sd_jdesc' could be null (see line 1136)
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	gfs2@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 6XeH918itMnxpAPhSavkK12l_Kz5GTVVsIxyVLxOl6o_1775557880
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next-7.1
-head:   7b15fc2d1f1a00fb99f0146e404ff2600999ec74
-commit: 32ab301b89b30d71a2e68d86f564eca66f7c52c5 [55/56] drm/amdgpu: store ib info for devcoredump
-config: x86_64-randconfig-161-20260405 (https://download.01.org/0day-ci/archive/20260407/202604071441.vAPwv1su-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9004-gb810ac53
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604071441.vAPwv1su-lkp@intel.com/
+On Tue, Apr 7, 2026 at 11:16=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
+rote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.g=
+it for-next
+> head:   80d71795c17ec98352d1059af856ac084a06109a
+> commit: 47af62bd5b63da799ea51f53ff93b5f1a3d19046 [13/17] gfs2: add some m=
+issing log locking
+> config: csky-randconfig-r071-20260406 (https://download.01.org/0day-ci/ar=
+chive/20260407/202604071139.HNJiCaAi-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 15.2.0
+> smatch: v0.5.0-9004-gb810ac53
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:423 amdgpu_coredump() error: we previously assumed 'job' could be null (see line 414)
-drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:425 amdgpu_coredump() warn: variable dereferenced before check 'job' (see line 423)
+this isn't related to commit "gfs2: add some missing log locking";
+it's a pre-existing bug. I've pushed a fix to for-next.
 
-vim +/job +423 drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-
-6122f5c72e38a88 Trigger Huang              2024-08-19  399  void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
-6122f5c72e38a88 Trigger Huang              2024-08-19  400  		     bool vram_lost, struct amdgpu_job *job)
-9022f01b9709331 Sunil Khatri               2024-03-21  401  {
-9022f01b9709331 Sunil Khatri               2024-03-21  402  	struct drm_device *dev = adev_to_drm(adev);
-6122f5c72e38a88 Trigger Huang              2024-08-19  403  	struct amdgpu_coredump_info *coredump;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  404  	size_t size = sizeof(*coredump);
-9022f01b9709331 Sunil Khatri               2024-03-21  405  	struct drm_sched_job *s_job;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  406  	u64 total_ring_size, ring_count;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  407  	struct amdgpu_ring *ring;
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  408  	int i, off, idx;
-9022f01b9709331 Sunil Khatri               2024-03-21  409  
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  410  	/* No need to generate a new coredump if there's one in progress already. */
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  411  	if (work_pending(&adev->coredump_work))
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  412  		return;
-4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  413  
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04 @414  	if (job && job->pasid)
-                                                                    ^^^
-Can job be NULL?
-
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  415  		size += sizeof(struct amdgpu_coredump_ib_info) * job->num_ibs;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  416  
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  417  	coredump = kzalloc(size, GFP_NOWAIT);
-e29172987309526 Mario Limonciello (AMD     2025-12-14  418) 	if (!coredump)
-9022f01b9709331 Sunil Khatri               2024-03-21  419  		return;
-9022f01b9709331 Sunil Khatri               2024-03-21  420  
-6122f5c72e38a88 Trigger Huang              2024-08-19  421  	coredump->skip_vram_check = skip_vram_check;
-9022f01b9709331 Sunil Khatri               2024-03-21  422  	coredump->reset_vram_lost = vram_lost;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04 @423  	coredump->pasid = job->pasid;
-                                                                                  ^^^^^^^^^^
-Unchecked dereference
-
-9022f01b9709331 Sunil Khatri               2024-03-21  424  
-8d1a13816e59254 Christian König            2024-12-12 @425  	if (job && job->pasid) {
-                                                                    ^^^
-The next line assumes it can be NULL again.
-
-9022f01b9709331 Sunil Khatri               2024-03-21  426  		struct amdgpu_task_info *ti;
-9022f01b9709331 Sunil Khatri               2024-03-21  427  
-8d1a13816e59254 Christian König            2024-12-12  428  		ti = amdgpu_vm_get_task_info_pasid(adev, job->pasid);
-9022f01b9709331 Sunil Khatri               2024-03-21  429  		if (ti) {
-9022f01b9709331 Sunil Khatri               2024-03-21  430  			coredump->reset_task_info = *ti;
-9022f01b9709331 Sunil Khatri               2024-03-21  431  			amdgpu_vm_put_task_info(ti);
-9022f01b9709331 Sunil Khatri               2024-03-21  432  		}
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  433  		coredump->num_ibs = job->num_ibs;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  434  		for (i = 0; i < job->num_ibs; ++i) {
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  435  			coredump->ibs[i].gpu_addr = job->ibs[i].gpu_addr;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  436  			coredump->ibs[i].ib_size_dw = job->ibs[i].length_dw;
-32ab301b89b30d7 Pierre-Eric Pelloux-Prayer 2026-02-04  437  		}
-9022f01b9709331 Sunil Khatri               2024-03-21  438  	}
-9022f01b9709331 Sunil Khatri               2024-03-21  439  
-9022f01b9709331 Sunil Khatri               2024-03-21  440  	if (job) {
-9022f01b9709331 Sunil Khatri               2024-03-21  441  		s_job = &job->base;
-9022f01b9709331 Sunil Khatri               2024-03-21  442  		coredump->ring = to_amdgpu_ring(s_job->sched);
-9022f01b9709331 Sunil Khatri               2024-03-21  443  	}
-9022f01b9709331 Sunil Khatri               2024-03-21  444  
-eea85914d15bfe3 Pierre-Eric Pelloux-Prayer 2026-02-04  445  	/* Dump ring content if memory allocation succeeds. */
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Andreas
 
