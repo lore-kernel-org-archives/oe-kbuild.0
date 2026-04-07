@@ -1,70 +1,68 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377AF39B49A
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 09:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8BE397E9F
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 09:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775552418; cv=none; b=JauWXXsQ2IjKqFdGmXaml/a2USFQx5/EZCCEFVjuoAfCyY38cW/Ffn8Pcdpgr7nyOgWmOTg8/wQtEdWx5DK/zVgewfwtUjUkOQleJZQhsOdOerWPhqhYUkBd+fPCLvf9WT4LZF00MSai6i7/igG4/gszjpL8mL9MlC/i/IurV74=
+	t=1775553377; cv=none; b=goJtfTu7Z95kVIZ8t9KMnSlspWy38LC4Lnb6y8fnhdLLnX9Er1K0thlR6qAEz6A0kFLEEwj0pTyXrC8WLJFteZvfFkvk1hLKfctioBUVLfuDYbIReZd5YWFNgXmMw68KHIIinyb89juBQ1h585lMk8reve7Y4KLyEqTIlXzivsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775552418; c=relaxed/simple;
-	bh=ko9l9mdhtQlxEv+xItV4uafeiASchLSWCKG+op6SHoM=;
+	s=arc-20240116; t=1775553377; c=relaxed/simple;
+	bh=o3i6JFub4e3qyNYBk0Kkg7NEpFv0UFtok8atguGjMDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EgWBCvYK4Ex0Rs8qmjTy2/h/AxLfKM3KwUfpadbDFQk1ydtwDEYxFcaV42dJNtcBaLnyySpUp/uWKXyHnuSYz2r8cxGUBQ3O7xxchclt/xSWMSaT2+gzcOwicYEC3KYgprpsFe2sQLAZ1pn0O6b+5uQt9YZa6N0uxVBZ3YJApnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjBbVXWU; arc=none smtp.client-ip=209.85.221.52
+	 Content-Disposition; b=BPl+m7x/vp0vDEpbjBu/Y4dqaplTS5u2GLbAxK/urJE+LYq3i/ucc6xkpH7SqnYPTME5kzIQjrWzrf0p67G7UGoXwvagKnWEbS7I5lXOTFqkUeC/rWDDVorPqb7LiYlIaYQ/w08elCjIFsI8Y6FTHld7LtUOXaCqy4p32oTp3Ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C1cEXtRy; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjBbVXWU"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43cfa33a983so2824248f8f.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 07 Apr 2026 02:00:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C1cEXtRy"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488b8efed61so11133435e9.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 07 Apr 2026 02:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775552415; x=1776157215; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775553374; x=1776158174; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LL0ec9tpaclw1G1MDrARCNTVU2VUg2IUpXqiX/KPKL4=;
-        b=BjBbVXWU/ieEff67DC2zxkZHxvFNr3CBs92ym5kAdAsQna3ATTb5okVGl//qso5S5V
-         kpyB5jtANKm6JWgVxJ2DbePAQe1A8qSncY4eCwHveJMTWp9wuL26QOGTTTtFEPmH38rQ
-         xj+b5xMf8UYaFIL1ozcX/1OEr5IhVCvndWlmH4IkF1E/J52U6m1xxlw0qCcsENCSaFyC
-         pPYa/pjxpP0KuVpQMO3Gvjwstxw6CfJMAMZAoTRb78ZlANexqm5tQLL20+AhwzPdM9oT
-         uAabV7ICCzTL+onUDREfm23gewzphZNtHR/UG0nt4SRk1HWMSH/qfT4RgRk1Z4BsTwWE
-         v4bw==
+        bh=rRZwJ4olEKPGoXuLhtiI8SpquRIE0O1w/SAx2efsTRY=;
+        b=C1cEXtRyT51rEqGpdLXclC8t7AI7EOyQ++58PnTDJYFHzm/5PLiRKOki1Xnp+TWbhw
+         DZ5N8lQ/nPoQW8XztlfnVzK6M6WZHGg91XBAcr2+t9Ewu+zyc0HXVk1oNp2GroIA/G5V
+         8TP9Td3bTYVgVFpg2OAl16Mfeu6W7nKb2y+6NWogpd4F2oWisMwKTUGepHv9r29a7Ybl
+         duKiDjXNoD0jAIwLtlsjYB9y6hMtrf+QflWURltah6Oqiv6zWeqwQMVGfTJY7HhGV2SE
+         jE1KviKQtj4UcWiHRA5RHjdihfd0OObqK7vCF5DDIyO/i7ePiXoPeSC5bcVTp9+cBt1O
+         UOdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775552415; x=1776157215;
+        d=1e100.net; s=20251104; t=1775553374; x=1776158174;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LL0ec9tpaclw1G1MDrARCNTVU2VUg2IUpXqiX/KPKL4=;
-        b=QLPR0T+5+02gQGa8akOPRJYCMWhQcR5futp8W7qVHi2dw1Z3bfUqwcLGV6YMlP8rPX
-         3R6Th52M5ewuDl889dHhd8nTC9IAp4s6q4mBSQCrMJPTTCgtth1slmDMWqeHzBeQpSD2
-         IoBI30ORWgdumUFaxRp8L8boy3eNwPuJ7VdwGZ5jzgQCpViGtJO9YvVzSrfyKIKek8mP
-         M4m9SvVtH8ogsa7ksz5hoquSSwzcopEsn9Sdey2iF7zQI2l3rEwaumH0wMcjdsmo+ncD
-         Nfq4NoOSnpasQIRICNxCF2sV/RC61lPFdoICRMG4KWE+uDtAyxPrriOoOTD/v4/389Bl
-         xL6g==
-X-Gm-Message-State: AOJu0YxeNQaIoyHZjqV1gkPNP+50wfZiGt4kEEOMT0snEk157DgadwWW
-	ZOsJL7ENP/jC1+gpA8QlZ8sKuLPV7YmBKcjY0KxvBiyskNP+FM0HHmaYJ/Lzeg==
-X-Gm-Gg: AeBDieta2w7ijwZpLkRDNeDYjAuAIXBnSUTdtWYUQKWlNVhTODvf/JeGCEwLM2U8G0R
-	MhvssGvaAxrrdnRG7yV68pp8TVXXY44kW678ikD/EKTk21QyKdMavbDadYIhp/N/K7fx+lz3tql
-	6mYvrw8JbTmoQDt0CvyW47rahgHsqR4rvoGIwW2Yxc2n36cpImYy4hYPCqh2weFsa/AAtnSMDC0
-	2fDtFUbWnYw9kmBSZd8o6atD08XE294vuU2hZnvo8ywNfyOfgTylzRB0X6cLb2nt7F+YmgP7BfI
-	HMOtutnHTDQdlIj9l5pcc2FyRHztTueykB5LrWhVc172qu2kK72e3AaXXtFro0IGcyLv+XjLGyI
-	NoZpwOgIeflNHUUt0DCc9HEphE1b32fUycz5DvSFGOiP7doEBerekbhyM9XrubQXqnVDzI90l1W
-	rPM3+yvb4VwcQyeG9AMPGA01FlVbbWpw==
-X-Received: by 2002:a05:6000:2489:b0:439:caf7:a5e5 with SMTP id ffacd0b85a97d-43d292e14d7mr21617959f8f.31.1775552414415;
-        Tue, 07 Apr 2026 02:00:14 -0700 (PDT)
+        bh=rRZwJ4olEKPGoXuLhtiI8SpquRIE0O1w/SAx2efsTRY=;
+        b=Dp9Qtwwr27+2ZFB6EwvyOnRfhmICJxlIZKYl2Y4mJffioEPxfdFSWLXqHAvi3UPxzQ
+         oTgBowquEjkv00q4ROxVRDymmmk3elSpp7cMXPwEpllfMbtPckOQ7RYWNGiLO+set6Xv
+         YCfP4wpJ8NJE84j6qlNDzLz9goda+r+FtOPPP7GI33xmKPeja3hy7CpyFL6GNzVN03+h
+         EO+GG0dG82/BM+D5g7UvEI2ILmW9RsmWT2cK54FS4UgtzI1RbkLHwk57RfiUB4FChSOP
+         ImMRFEFQjGEYKwbh0YTXvpOOblNXqJNS/tx4phGeGmzePqsGbPJhuksZj0MphPN4EUYB
+         Igtg==
+X-Gm-Message-State: AOJu0YwfA2LO2bhBHAkMuOASvPHLj38NaY3k/jh9y1FhPpaogDPYnv1z
+	Q+/Oi+TS0UTdDx/bewL9kibHVm6XX/tWQK7ooLFb9+n4ZHmr/YhZ9KeNrhsUDw==
+X-Gm-Gg: AeBDieujXhR7zfEsaZx4KYsJ3DQrcqfsWzo+tz+HlbBYUgoypMpPcAnKvFcMzhvChOn
+	2JXJBkMTL8a1n/P21ZAnhYTmSQkVuY+ES87k0sYqOrLeALZiloPhIqvTVCGvkpqI4ZRpYZE0/fU
+	yLdLpemfZ3gcLJGPtVH0/tqaKU6FpIe2Xu7WrmIn0WGcekOLSj0eyx8LE2wRDLytb52/+zYB+5n
+	IIeR/s9V+d98DbXwW2HIOQ2ZpjRqbekNUTzlZok0ksk2yG6jNbj8ILOruIbmy0p3ZD3k9S4UbWq
+	SKZcT6vfHY553rceFSu/ELfR9jtK1dpKf72jeFy7V9XpjW5VqduweIMSvvg9g1OxNg9xIJJGsJ9
+	ja982QyK0RjGs0gggWNN3Klcofhxu0DlI/+2BfuKSbEfrXrHpAmrYI2xie3Q+d8eKPj/WA0K34M
+	LuBtvRRBQ8wRdZ0zhRBlnpUFyhMbe8hg==
+X-Received: by 2002:a05:600c:a30a:b0:46e:59bd:f7e2 with SMTP id 5b1f17b1804b1-4889949bd2dmr155372815e9.11.1775553373248;
+        Tue, 07 Apr 2026 02:16:13 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a7223sm44354473f8f.5.2026.04.07.02.00.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488a4b2e111sm275137475e9.1.2026.04.07.02.16.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 02:00:13 -0700 (PDT)
-Date: Tue, 7 Apr 2026 12:00:10 +0300
+        Tue, 07 Apr 2026 02:16:12 -0700 (PDT)
+Date: Tue, 7 Apr 2026 12:16:09 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Rosen Penev <rosenp@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: [linux-next:master 9740/12133] drivers/soc/qcom/wcnss_ctrl.c:269
- wcnss_download_nv() warn: 'fw' from request_firmware() not released on
- lines: 225.
-Message-ID: <202604060902.awXdPsBh-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Andreas Gruenbacher <agruenba@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev
+Subject: [gfs2:for-next 13/17] fs/gfs2/log.c:1183 __gfs2_log_flush() error:
+ we previously assumed 'sdp->sd_jdesc' could be null (see line 1136)
+Message-ID: <202604071139.HNJiCaAi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,102 +71,171 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260407090010.bzGxBjKoDap9uYUYZ5OvFwR-gbS7-ReDZqPgh2z7IRQ@z>
+Message-ID: <20260407091609.5uXj_LP8JfEBpUIgYEwu2aGXOKkgaSFsfZitTqZBvmg@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2febe6e6ee6e34c7754eff3c4d81aa7b0dcb7979
-commit: 908061f0ad30aa08ce211c6a8f95d29102e570bd [9740/12133] soc: qcom: wcnss: simplify allocation of req
-config: sparc64-randconfig-r072-20260406 (https://download.01.org/0day-ci/archive/20260406/202604060902.awXdPsBh-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git for-next
+head:   80d71795c17ec98352d1059af856ac084a06109a
+commit: 47af62bd5b63da799ea51f53ff93b5f1a3d19046 [13/17] gfs2: add some missing log locking
+config: csky-randconfig-r071-20260406 (https://download.01.org/0day-ci/archive/20260407/202604071139.HNJiCaAi-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604060902.awXdPsBh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604071139.HNJiCaAi-lkp@intel.com/
 
-smatch warnings:
-drivers/soc/qcom/wcnss_ctrl.c:269 wcnss_download_nv() warn: 'fw' from request_firmware() not released on lines: 225.
+New smatch warnings:
+fs/gfs2/log.c:1183 __gfs2_log_flush() error: we previously assumed 'sdp->sd_jdesc' could be null (see line 1136)
 
-vim +/fw +269 drivers/soc/qcom/wcnss_ctrl.c
+vim +1183 fs/gfs2/log.c
 
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  200  static int wcnss_download_nv(struct wcnss_ctrl *wcnss, bool *expect_cbc)
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  201  {
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  202  	const struct firmware *fw;
-ac3f2784200d49 Bjorn Andersson     2021-03-11  203  	struct device *dev = wcnss->dev;
-908061f0ad30aa Rosen Penev         2026-03-26  204  	struct wcnss_download_nv_req *req;
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  205  	const char *nvbin = NVBIN_FILE;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  206  	const void *data;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  207  	ssize_t left;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  208  	int ret;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  209  
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  210  	ret = of_property_read_string(dev->of_node, "firmware-name", &nvbin);
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  211  	if (ret < 0 && ret != -EINVAL)
-b066a2c430f3f8 Krzysztof Kozlowski 2024-07-03  212  		return ret;
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  213  
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  214  	ret = request_firmware(&fw, nvbin, dev);
-                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+47af62bd5b63da Andreas Gruenbacher 2026-03-31  1065  static void __gfs2_log_flush(struct gfs2_sbd *sdp, struct gfs2_glock *gl,
+47af62bd5b63da Andreas Gruenbacher 2026-03-31  1066  			     u32 flags)
+b3b94faa5fe596 David Teigland      2006-01-16  1067  {
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1068  	struct gfs2_trans *tr = NULL;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1069  	unsigned int reserved_blocks = 0, used_blocks = 0;
+5432af15f8772d Andreas Gruenbacher 2022-08-18  1070  	bool frozen = test_bit(SDF_FROZEN, &sdp->sd_flags);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1071  	unsigned int first_log_head;
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1072  	unsigned int reserved_revokes = 0;
+b3b94faa5fe596 David Teigland      2006-01-16  1073  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1074  	trace_gfs2_log_flush(sdp, 1, flags);
+b3b94faa5fe596 David Teigland      2006-01-16  1075  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1076  repeat:
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1077  	/*
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1078  	 * Do this check while holding the log_flush_lock to prevent new
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1079  	 * buffers from being added to the ail via gfs2_pin()
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1080  	 */
+1b7d498dcab489 Andreas Gruenbacher 2025-08-06  1081  	if (gfs2_withdrawn(sdp) ||
+4d927b03a68846 Andreas Gruenbacher 2023-12-20  1082  	    !test_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags))
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1083  		goto out;
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1084  
+2bcd610d2fdea6 Steven Whitehouse   2007-11-08  1085  	/* Log might have been flushed while we waited for the flush lock */
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1086  	if (gl && !test_bit(GLF_LFLUSH, &gl->gl_flags))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1087  		goto out;
+f55ab26a8f92a2 Steven Whitehouse   2006-02-21  1088  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1089  	first_log_head = sdp->sd_log_head;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1090  	sdp->sd_log_flush_head = first_log_head;
+400ac52e805bb6 Benjamin Marzinski  2015-12-09  1091  
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1092  	tr = sdp->sd_log_tr;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1093  	if (tr || sdp->sd_log_num_revoke) {
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1094  		if (reserved_blocks)
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1095  			gfs2_log_release(sdp, reserved_blocks);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1096  		reserved_blocks = sdp->sd_log_blks_reserved;
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1097  		reserved_revokes = sdp->sd_log_num_revoke;
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1098  		if (tr) {
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1099  			sdp->sd_log_tr = NULL;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1100  			tr->tr_first = first_log_head;
+5432af15f8772d Andreas Gruenbacher 2022-08-18  1101  			if (unlikely(frozen)) {
+8daf6c2b3d8cee Andreas Gruenbacher 2025-08-05  1102  				if (gfs2_assert_withdraw(sdp,
+ca399c96e96e3f Bob Peterson        2020-01-08  1103  				       !tr->tr_num_buf_new && !tr->tr_num_databuf_new))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1104  					goto out_withdraw;
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1105  			}
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1106  		}
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1107  	} else if (!reserved_blocks) {
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1108  		unsigned int taboo_blocks = GFS2_LOG_FLUSH_MIN_BLOCKS;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1109  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1110  		reserved_blocks = GFS2_LOG_FLUSH_MIN_BLOCKS;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1111  		if (current == sdp->sd_logd_process)
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1112  			taboo_blocks = 0;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1113  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1114  		if (!__gfs2_log_try_reserve(sdp, reserved_blocks, taboo_blocks)) {
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1115  			up_write(&sdp->sd_log_flush_lock);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1116  			__gfs2_log_reserve(sdp, reserved_blocks, taboo_blocks);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1117  			down_write(&sdp->sd_log_flush_lock);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1118  			goto repeat;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1119  		}
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1120  		BUG_ON(sdp->sd_log_num_revoke);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1121  	}
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1122  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1123  	if (flags & GFS2_LOG_HEAD_FLUSH_SHUTDOWN)
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1124  		clear_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags);
+f55ab26a8f92a2 Steven Whitehouse   2006-02-21  1125  
+5432af15f8772d Andreas Gruenbacher 2022-08-18  1126  	if (unlikely(frozen))
+8daf6c2b3d8cee Andreas Gruenbacher 2025-08-05  1127  		if (gfs2_assert_withdraw(sdp, !reserved_revokes))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1128  			goto out_withdraw;
+b3b94faa5fe596 David Teigland      2006-01-16  1129  
+d7b616e252b125 Steven Whitehouse   2007-09-02  1130  	gfs2_ordered_write(sdp);
+1b7d498dcab489 Andreas Gruenbacher 2025-08-06  1131  	if (gfs2_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1132  		goto out_withdraw;
+d69a3c6561362a Steven Whitehouse   2014-02-21  1133  	lops_before_commit(sdp, tr);
+1b7d498dcab489 Andreas Gruenbacher 2025-08-06  1134  	if (gfs2_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1135  		goto out_withdraw;
+35264909e9d197 Andreas Gruenbacher 2024-03-11 @1136  	if (sdp->sd_jdesc)
+                                                            ^^^^^^^^^^^^^
+Here the code assumes that sdp->sd_jdesc can be NULL.
 
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  215  	if (ret < 0) {
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  216  		dev_err(dev, "Failed to load nv file %s: %d\n", nvbin, ret);
-b066a2c430f3f8 Krzysztof Kozlowski 2024-07-03  217  		return ret;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  218  	}
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  219  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  220  	data = fw->data;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  221  	left = fw->size;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  222  
-908061f0ad30aa Rosen Penev         2026-03-26  223  	req = kzalloc_flex(*req, fragment, NV_FRAGMENT_SIZE);
-908061f0ad30aa Rosen Penev         2026-03-26  224  	if (!req)
-908061f0ad30aa Rosen Penev         2026-03-26  225  		return -ENOMEM;
+4a94f052e09827 Andreas Gruenbacher 2025-12-11  1137  		gfs2_log_submit_write(&sdp->sd_jdesc->jd_log_bio);
+1b7d498dcab489 Andreas Gruenbacher 2025-08-06  1138  	if (gfs2_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1139  		goto out_withdraw;
+d7b616e252b125 Steven Whitehouse   2007-09-02  1140  
+34cc1781c2ae92 Steven Whitehouse   2012-03-09  1141  	if (sdp->sd_log_head != sdp->sd_log_flush_head) {
+c1696fb85d3319 Bob Peterson        2018-01-17  1142  		log_write_header(sdp, flags);
+5cb738b5fbd2f3 Andreas Gruenbacher 2020-12-19  1143  	} else if (sdp->sd_log_tail != sdp->sd_log_flush_tail && !sdp->sd_log_idle) {
+c1696fb85d3319 Bob Peterson        2018-01-17  1144  		log_write_header(sdp, flags);
+2332c4435bb733 Robert Peterson     2007-06-18  1145  	}
+1b7d498dcab489 Andreas Gruenbacher 2025-08-06  1146  	if (gfs2_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1147  		goto out_withdraw;
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1148  	lops_after_commit(sdp, tr);
+b09e593d799560 Steven Whitehouse   2006-04-07  1149  
+5a15907f99e5d9 Andreas Gruenbacher 2026-03-20  1150  	spin_lock(&sdp->sd_log_lock);
+faa31ce85f626d Steven Whitehouse   2006-09-13  1151  	sdp->sd_log_blks_reserved = 0;
+b3b94faa5fe596 David Teigland      2006-01-16  1152  
+d6a079e82efd5f Dave Chinner        2011-03-11  1153  	spin_lock(&sdp->sd_ail_lock);
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1154  	if (tr && !list_empty(&tr->tr_ail1_list)) {
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1155  		list_add(&tr->tr_list, &sdp->sd_ail1_list);
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1156  		tr = NULL;
+b3b94faa5fe596 David Teigland      2006-01-16  1157  	}
+d6a079e82efd5f Dave Chinner        2011-03-11  1158  	spin_unlock(&sdp->sd_ail_lock);
+5a15907f99e5d9 Andreas Gruenbacher 2026-03-20  1159  	spin_unlock(&sdp->sd_log_lock);
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1160  
+c1696fb85d3319 Bob Peterson        2018-01-17  1161  	if (!(flags & GFS2_LOG_HEAD_FLUSH_NORMAL)) {
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1162  		if (!sdp->sd_log_idle) {
+d5dc3d9677394d Bob Peterson        2020-05-22  1163  			empty_ail1_list(sdp);
+1b7d498dcab489 Andreas Gruenbacher 2025-08-06  1164  			if (gfs2_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1165  				goto out_withdraw;
+c1696fb85d3319 Bob Peterson        2018-01-17  1166  			log_write_header(sdp, flags);
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1167  		}
+c1696fb85d3319 Bob Peterson        2018-01-17  1168  		if (flags & (GFS2_LOG_HEAD_FLUSH_SHUTDOWN |
+c1696fb85d3319 Bob Peterson        2018-01-17  1169  			     GFS2_LOG_HEAD_FLUSH_FREEZE))
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1170  			gfs2_log_shutdown(sdp);
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1171  	}
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1172  
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1173  out_end:
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1174  	used_blocks = log_distance(sdp, sdp->sd_log_flush_head, first_log_head);
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1175  	reserved_revokes += atomic_read(&sdp->sd_log_revokes_available);
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1176  	atomic_set(&sdp->sd_log_revokes_available, sdp->sd_ldptrs);
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1177  	gfs2_assert_withdraw(sdp, reserved_revokes % sdp->sd_inptrs == sdp->sd_ldptrs);
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1178  	if (reserved_revokes > sdp->sd_ldptrs)
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1179  		reserved_blocks += (reserved_revokes - sdp->sd_ldptrs) / sdp->sd_inptrs;
+30fe70a85a909a Bob Peterson        2019-11-13  1180  out:
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1181  	if (used_blocks != reserved_blocks) {
+8daf6c2b3d8cee Andreas Gruenbacher 2025-08-05  1182  		gfs2_assert_withdraw(sdp, used_blocks < reserved_blocks);
+fe3e397668775e Andreas Gruenbacher 2020-12-10 @1183  		gfs2_log_release(sdp, reserved_blocks - used_blocks);
 
-Need to release_firmware() before returning.
+But later, this dereferences sdp->sd_jdesc without checking.
 
-908061f0ad30aa Rosen Penev         2026-03-26  226  
-908061f0ad30aa Rosen Penev         2026-03-26  227  	req->frag_size = NV_FRAGMENT_SIZE;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  228  	req->hdr.type = WCNSS_DOWNLOAD_NV_REQ;
-908061f0ad30aa Rosen Penev         2026-03-26  229  	req->hdr.len = struct_size(req, fragment, NV_FRAGMENT_SIZE);
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  230  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  231  	req->last = 0;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  232  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  233  	req->seq = 0;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  234  	do {
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  235  		if (left <= NV_FRAGMENT_SIZE) {
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  236  			req->last = 1;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  237  			req->frag_size = left;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  238  			req->hdr.len = sizeof(*req) + left;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  239  		}
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  240  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  241  		memcpy(req->fragment, data, req->frag_size);
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  242  
-5052de8deff561 Bjorn Andersson     2017-03-27  243  		ret = rpmsg_send(wcnss->channel, req, req->hdr.len);
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  244  		if (ret < 0) {
-ac3f2784200d49 Bjorn Andersson     2021-03-11  245  			dev_err(dev, "failed to send smd packet\n");
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  246  			goto release_fw;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  247  		}
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  248  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  249  		/* Increment for next fragment */
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  250  		req->seq++;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  251  
-90c29ed7627b6b Bjorn Andersson     2018-02-27  252  		data += NV_FRAGMENT_SIZE;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  253  		left -= NV_FRAGMENT_SIZE;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  254  	} while (left > 0);
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  255  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  256  	ret = wait_for_completion_timeout(&wcnss->ack, WCNSS_REQUEST_TIMEOUT);
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  257  	if (!ret) {
-ac3f2784200d49 Bjorn Andersson     2021-03-11  258  		dev_err(dev, "timeout waiting for nv upload ack\n");
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  259  		ret = -ETIMEDOUT;
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  260  	} else {
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  261  		*expect_cbc = wcnss->ack_status == WCNSS_ACK_COLD_BOOTING;
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  262  		ret = 0;
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  263  	}
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  264  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  265  release_fw:
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  266  	release_firmware(fw);
-908061f0ad30aa Rosen Penev         2026-03-26  267  	kfree(req);
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  268  
-6be2b3d0848d1e Bjorn Andersson     2016-06-06 @269  	return ret;
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  270  }
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1184  	}
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1185  	gfs2_trans_free(sdp, tr);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1186  	trace_gfs2_log_flush(sdp, 0, flags);
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1187  	return;
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1188  
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1189  out_withdraw:
+9e34adb1cc582b Andreas Gruenbacher 2026-03-19  1190  	gfs2_trans_drain(tr);
+58e08e8d83ab03 Bob Peterson        2020-06-09  1191  	/**
+58e08e8d83ab03 Bob Peterson        2020-06-09  1192  	 * If the tr_list is empty, we're withdrawing during a log
+58e08e8d83ab03 Bob Peterson        2020-06-09  1193  	 * flush that targets a transaction, but the transaction was
+58e08e8d83ab03 Bob Peterson        2020-06-09  1194  	 * never queued onto any of the ail lists. Here we add it to
+58e08e8d83ab03 Bob Peterson        2020-06-09  1195  	 * ail1 just so that ail_drain() will find and free it.
+58e08e8d83ab03 Bob Peterson        2020-06-09  1196  	 */
+58e08e8d83ab03 Bob Peterson        2020-06-09  1197  	spin_lock(&sdp->sd_ail_lock);
+58e08e8d83ab03 Bob Peterson        2020-06-09  1198  	if (tr && list_empty(&tr->tr_list))
+58e08e8d83ab03 Bob Peterson        2020-06-09  1199  		list_add(&tr->tr_list, &sdp->sd_ail1_list);
+58e08e8d83ab03 Bob Peterson        2020-06-09  1200  	spin_unlock(&sdp->sd_ail_lock);
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1201  	tr = NULL;
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1202  	goto out_end;
+b3b94faa5fe596 David Teigland      2006-01-16  1203  }
 
 -- 
 0-DAY CI Kernel Test Service
