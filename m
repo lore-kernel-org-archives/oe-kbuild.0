@@ -1,57 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F51B3750C4
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 03:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90BA375F9C
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Apr 2026 03:57:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775534069; cv=none; b=n06t1k0nouUP002XGnumOB+GBPYZQSovkSVSrzqqwai3i4PpxpfcHxt4qmOxegAFEJltZf5HTx2n8wD27hiYhDD0gYDxrdCNRKSPm6UDFttGFirzMgs0LKfcdK/cGdug6zU60LLOJhreNy12tkBI/QgSHJsAib7zTgG3lia7M+g=
+	t=1775534259; cv=none; b=WBO23ZoJP9nZoDPkbpk7dYJ/8TQmQm1hVJaMTX6Eqd7WbuRzDgkgnfIrlquQ2kjZija7EW+c3483MdjfOVOyZ3voXqjm7kjWDD3zDZ4FVMmJmicBWc/ezFysYaWvAMENVnfiWl+LvJ51QfazIWS1DdyUO3NiK6b0TReO7lUNsb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775534069; c=relaxed/simple;
-	bh=nk/xhZSYEVgZsVB9V5l2gZ1XRQkdq7snkfpTsXLGvS0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WyyaDZphY8sl2+eDifkA3lBuYJwFFJ7x0hyIEdDGZcaNJyV6aTvkuZfSUoiGASAM2yTfp2qNzZrT06ClSlrf6PSHtrO7SCdmD3fN1Nq5pNmVgUiTRFH5MNvS8uHSu9q/WYvSzdFQq//aFHGE52KRt9YCC0Et3gwlejL3UGa6sq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UeOHQSbH; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1775534259; c=relaxed/simple;
+	bh=kcj6JV9qDk6e6LEU0l8fDK8nuCKC6wkA66ga2qT655Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=t7xYWGp+T5yu6E/OpA3iPwQKOscZg7pcqLExive7OagOnxMMTeq/tZOJw3+V5ScKK2l2roTbd1op2c1U15/ZLyZAzJQatfOEzy/gM/R4X1IQGiNxSFjXeoTXSdZDM7PZ+MWfJuAoekCYnGcILdKUWA6xL4C6hmEEVzRDedB8Rsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBYN17bb; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UeOHQSbH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBYN17bb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775534069; x=1807070069;
+  t=1775534258; x=1807070258;
   h=date:from:to:cc:subject:message-id;
-  bh=nk/xhZSYEVgZsVB9V5l2gZ1XRQkdq7snkfpTsXLGvS0=;
-  b=UeOHQSbHbzut4jH3PMDsD/2jZOygRbGALTADVFUxN5TdtcfjoQdjd7AE
-   s7nAdahczlzVKfjjW4w+TDW82gG6anecexK0rndMXE/ArMdo3/pGGbJ8K
-   Z5xxg6Nd7xuwerdv8DC7HoAdmVWzdP+V7RDZtufkLOAtjvZGU51QFKM98
-   TyrhCxsHLF20rXlLIDtS0J8u8zUmQi+Jf7QeFf6jC+p+SxOybgoU+ULv4
-   xGSJDhcHoEvo0VZ8fhkQegSCA0lH+/tyssAcrfgApSV/mvbxMEnwErRaO
-   mLv3Wuxsj8lwLHi3TxeSoab0e21sjG7VhefeeDuiu1ZMvjunrJqEIqXcz
-   g==;
-X-CSE-ConnectionGUID: +5cbJvX9Rrqu0idPv9U4uQ==
-X-CSE-MsgGUID: V0ID8EinRkinQI1mOi7n1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="80080779"
+  bh=kcj6JV9qDk6e6LEU0l8fDK8nuCKC6wkA66ga2qT655Y=;
+  b=dBYN17bbcbJPmSplOGUgGxQvH6ZOtrzhx282scHx4bP8h7wArg9PLHDQ
+   AASWKTqdfeWrJeSVYmXh0X3vYSvfx2dB9Wz3AZXMmh3r1XOFwSZuO6xtg
+   nUuwydkXI3uF0c6U0Wc4QlU6DYNtwHBO4p2QZVFEGmDc6siuzPMtwW4FZ
+   YztTCPrhEaLXz9cVDIUqW0jMG5mzTjJSRKNGiiWdfsniUW2/tOBrJ5lrm
+   BB/AuROF8GPCZ9P3AcMrQdfJyNpyyl13fTHXUc09t5A+X/Txw2+dpm6vw
+   QbzWyK/93JUS69bMjpeGtGZ0swpLNi5kjJJpqoQUas2VvTY7A1lhMOP8a
+   w==;
+X-CSE-ConnectionGUID: zJxkNi2hTRO7Dj0VXxdRAw==
+X-CSE-MsgGUID: dMelXeHsQIeBl57gHkBZZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="80081093"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="80080779"
+   d="scan'208";a="80081093"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:54:27 -0700
-X-CSE-ConnectionGUID: Fa2IBZ72TDm5AjNw1SaALw==
-X-CSE-MsgGUID: qVCEh+38TIeZByBe4+8zQg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:57:37 -0700
+X-CSE-ConnectionGUID: gFZ7d6GEQ9WEWa6Ir0dUqQ==
+X-CSE-MsgGUID: nwphKw7zQTya1wHgbb0BHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="227994792"
+   d="scan'208";a="227995292"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 06 Apr 2026 20:54:25 -0700
+  by orviesa008.jf.intel.com with ESMTP; 06 Apr 2026 20:57:36 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xWA-00000000048-1Ch1;
-	Tue, 07 Apr 2026 03:54:22 +0000
-Date: Tue, 07 Apr 2026 11:54:14 +0800
+	id 1w9xZE-0000000005X-3u5C;
+	Tue, 07 Apr 2026 03:57:32 +0000
+Date: Tue, 07 Apr 2026 11:57:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tip:sched/core 5/12] kernel/sched/core.c:6702
- find_proxy_task() warn: inconsistent returns '&mutex->wait_lock'.
-Message-ID: <202604041328.DzWicAKn-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [pci:controller/dwc-tegra194 22/22]
+ drivers/pci/controller/dwc/pcie-tegra194.c:1150:29: error: call to
+ '__compiletime_assert_520' declared with 'error' attribute: min((
+ __builtin_constant_p(us) ? ((us) < 2 ? 0 : 63 - __builtin_clzll(us)) :
+ (sizeof(us) <= 4) ? __ilog2_u32(us) : __ilog2_u64(u...
+Message-ID: <202604050715.MA13IkPi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,182 +62,181 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: John Stultz <jstultz@google.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: K Prateek Nayak <kprateek.nayak@amd.com>
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-head:   059258b0d424510202b6f2796279dbdbf0c6a83d
-commit: 56f4b24267a643b0b9ab73f09feaaabfee5a37ae [5/12] sched: Fix modifying donor->blocked on without proper locking
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: loongarch-randconfig-r071-20260404 (https://download.01.org/0day-ci/archive/20260404/202604041328.DzWicAKn-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-smatch: v0.5.0-9004-gb810ac53
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-pci@vger.kernel.org
+TO: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+CC: Manivannan Sadhasivam <mani@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc-tegra194
+head:   814f4e4b6cceda9e816fbeaf2a6a0f9b50b3f23a
+commit: 814f4e4b6cceda9e816fbeaf2a6a0f9b50b3f23a [22/22] PCI: tegra194: Use aspm-l1-entry-delay-ns DT property for L1 entrance latency
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: powerpc-randconfig-002-20260405 (https://download.01.org/0day-ci/archive/20260405/202604050715.MA13IkPi-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604050715.MA13IkPi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604041328.DzWicAKn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604050715.MA13IkPi-lkp@intel.com/
 
-New smatch warnings:
-kernel/sched/core.c:6702 find_proxy_task() warn: inconsistent returns '&mutex->wait_lock'.
-kernel/sched/core.c:6702 find_proxy_task() warn: inconsistent returns '&p->blocked_lock'.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/loongarch/include/asm/atomic.h:51 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+>> drivers/pci/controller/dwc/pcie-tegra194.c:1150:29: error: call to '__compiletime_assert_520' declared with 'error' attribute: min(( __builtin_constant_p(us) ? ((us) < 2 ? 0 : 63 - __builtin_clzll(us)) : (sizeof(us) <= 4) ? __ilog2_u32(us) : __ilog2_u64(us) ) + 1, 7U) signedness error
+    1150 |                 pcie->aspm_l1_enter_lat = min(ilog2(us) + 1, 7U);
+         |                                           ^
+   include/linux/minmax.h:105:19: note: expanded from macro 'min'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^
+   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^
+   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:694:2: note: expanded from macro '_compiletime_assert'
+     694 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:687:4: note: expanded from macro '__compiletime_assert'
+     687 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:39:1: note: expanded from here
+      39 | __compiletime_assert_520
+         | ^
+   1 error generated.
 
-vim +6702 kernel/sched/core.c
 
-be41bde4c3a86de John Stultz    2025-07-12  6575  
-be41bde4c3a86de John Stultz    2025-07-12  6576  /*
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6577   * Find runnable lock owner to proxy for mutex blocked donor
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6578   *
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6579   * Follow the blocked-on relation:
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6580   *   task->blocked_on -> mutex->owner -> task...
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6581   *
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6582   * Lock order:
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6583   *
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6584   *   p->pi_lock
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6585   *     rq->lock
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6586   *       mutex->wait_lock
-fa4a1ff8ab235a3 John Stultz    2026-03-24  6587   *         p->blocked_lock
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6588   *
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6589   * Returns the task that is going to be used as execution context (the one
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6590   * that is actually going to be run on cpu_of(rq)).
-be41bde4c3a86de John Stultz    2025-07-12  6591   */
-be41bde4c3a86de John Stultz    2025-07-12  6592  static struct task_struct *
-be41bde4c3a86de John Stultz    2025-07-12  6593  find_proxy_task(struct rq *rq, struct task_struct *donor, struct rq_flags *rf)
-be41bde4c3a86de John Stultz    2025-07-12  6594  {
-56f4b24267a643b John Stultz    2026-03-24  6595  	enum { FOUND, DEACTIVATE_DONOR } action = FOUND;
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6596  	struct task_struct *owner = NULL;
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6597  	int this_cpu = cpu_of(rq);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6598  	struct task_struct *p;
-be41bde4c3a86de John Stultz    2025-07-12  6599  	struct mutex *mutex;
-be41bde4c3a86de John Stultz    2025-07-12  6600  
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6601  	/* Follow blocked_on chain. */
-37341ec573da7c1 John Stultz    2026-03-24  6602  	for (p = donor; (mutex = p->blocked_on); p = owner) {
-be41bde4c3a86de John Stultz    2025-07-12  6603  		/*
-be41bde4c3a86de John Stultz    2025-07-12  6604  		 * By taking mutex->wait_lock we hold off concurrent mutex_unlock()
-be41bde4c3a86de John Stultz    2025-07-12  6605  		 * and ensure @owner sticks around.
-be41bde4c3a86de John Stultz    2025-07-12  6606  		 */
-be41bde4c3a86de John Stultz    2025-07-12  6607  		guard(raw_spinlock)(&mutex->wait_lock);
-fa4a1ff8ab235a3 John Stultz    2026-03-24  6608  		guard(raw_spinlock)(&p->blocked_lock);
-be41bde4c3a86de John Stultz    2025-07-12  6609  
-fa4a1ff8ab235a3 John Stultz    2026-03-24  6610  		/* Check again that p is blocked with blocked_lock held */
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6611  		if (mutex != __get_task_blocked_on(p)) {
-be41bde4c3a86de John Stultz    2025-07-12  6612  			/*
-be41bde4c3a86de John Stultz    2025-07-12  6613  			 * Something changed in the blocked_on chain and
-be41bde4c3a86de John Stultz    2025-07-12  6614  			 * we don't know if only at this level. So, let's
-be41bde4c3a86de John Stultz    2025-07-12  6615  			 * just bail out completely and let __schedule()
-be41bde4c3a86de John Stultz    2025-07-12  6616  			 * figure things out (pick_again loop).
-be41bde4c3a86de John Stultz    2025-07-12  6617  			 */
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6618  			return NULL;
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6619  		}
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6620  
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6621  		owner = __mutex_owner(mutex);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6622  		if (!owner) {
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6623  			__clear_task_blocked_on(p, mutex);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6624  			return p;
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6625  		}
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6626  
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6627  		if (!READ_ONCE(owner->on_rq) || owner->se.sched_delayed) {
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6628  			/* XXX Don't handle blocked owners/delayed dequeue yet */
-56f4b24267a643b John Stultz    2026-03-24  6629  			action = DEACTIVATE_DONOR;
-56f4b24267a643b John Stultz    2026-03-24  6630  			break;
-be41bde4c3a86de John Stultz    2025-07-12  6631  		}
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6632  
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6633  		if (task_cpu(owner) != this_cpu) {
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6634  			/* XXX Don't handle migrations yet */
-56f4b24267a643b John Stultz    2026-03-24  6635  			action = DEACTIVATE_DONOR;
-56f4b24267a643b John Stultz    2026-03-24  6636  			break;
-be41bde4c3a86de John Stultz    2025-07-12  6637  		}
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6638  
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6639  		if (task_on_rq_migrating(owner)) {
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6640  			/*
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6641  			 * One of the chain of mutex owners is currently migrating to this
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6642  			 * CPU, but has not yet been enqueued because we are holding the
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6643  			 * rq lock. As a simple solution, just schedule rq->idle to give
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6644  			 * the migration a chance to complete. Much like the migrate_task
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6645  			 * case we should end up back in find_proxy_task(), this time
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6646  			 * hopefully with all relevant tasks already enqueued.
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6647  			 */
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6648  			return proxy_resched_idle(rq);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6649  		}
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6650  
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6651  		/*
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6652  		 * Its possible to race where after we check owner->on_rq
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6653  		 * but before we check (owner_cpu != this_cpu) that the
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6654  		 * task on another cpu was migrated back to this cpu. In
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6655  		 * that case it could slip by our  checks. So double check
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6656  		 * we are still on this cpu and not migrating. If we get
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6657  		 * inconsistent results, try again.
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6658  		 */
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6659  		if (!task_on_rq_queued(owner) || task_cpu(owner) != this_cpu)
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6660  			return NULL;
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6661  
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6662  		if (owner == p) {
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6663  			/*
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6664  			 * It's possible we interleave with mutex_unlock like:
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6665  			 *
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6666  			 *				lock(&rq->lock);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6667  			 *				  find_proxy_task()
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6668  			 * mutex_unlock()
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6669  			 *   lock(&wait_lock);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6670  			 *   donor(owner) = current->blocked_donor;
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6671  			 *   unlock(&wait_lock);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6672  			 *
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6673  			 *   wake_up_q();
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6674  			 *     ...
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6675  			 *       ttwu_runnable()
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6676  			 *         __task_rq_lock()
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6677  			 *				  lock(&wait_lock);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6678  			 *				  owner == p
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6679  			 *
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6680  			 * Which leaves us to finish the ttwu_runnable() and make it go.
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6681  			 *
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6682  			 * So schedule rq->idle so that ttwu_runnable() can get the rq
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6683  			 * lock and mark owner as running.
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6684  			 */
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6685  			return proxy_resched_idle(rq);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6686  		}
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6687  		/*
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6688  		 * OK, now we're absolutely sure @owner is on this
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6689  		 * rq, therefore holding @rq->lock is sufficient to
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6690  		 * guarantee its existence, as per ttwu_remote().
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6691  		 */
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6692  	}
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6693  
-56f4b24267a643b John Stultz    2026-03-24  6694  	/* Handle actions we need to do outside of the guard() scope */
-56f4b24267a643b John Stultz    2026-03-24  6695  	switch (action) {
-56f4b24267a643b John Stultz    2026-03-24  6696  	case DEACTIVATE_DONOR:
-56f4b24267a643b John Stultz    2026-03-24  6697  		return proxy_deactivate(rq, donor);
-56f4b24267a643b John Stultz    2026-03-24  6698  	case FOUND:
-56f4b24267a643b John Stultz    2026-03-24  6699  		/* fallthrough */;
-56f4b24267a643b John Stultz    2026-03-24  6700  	}
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6701  	WARN_ON_ONCE(owner && !owner->on_rq);
-7de9d4f946383f4 Peter Zijlstra 2025-07-12 @6702  	return owner;
-7de9d4f946383f4 Peter Zijlstra 2025-07-12  6703  }
-be41bde4c3a86de John Stultz    2025-07-12  6704  #else /* SCHED_PROXY_EXEC */
-be41bde4c3a86de John Stultz    2025-07-12  6705  static struct task_struct *
-be41bde4c3a86de John Stultz    2025-07-12  6706  find_proxy_task(struct rq *rq, struct task_struct *donor, struct rq_flags *rf)
-be41bde4c3a86de John Stultz    2025-07-12  6707  {
-be41bde4c3a86de John Stultz    2025-07-12  6708  	WARN_ONCE(1, "This should never be called in the !SCHED_PROXY_EXEC case\n");
-be41bde4c3a86de John Stultz    2025-07-12  6709  	return donor;
-be41bde4c3a86de John Stultz    2025-07-12  6710  }
-be41bde4c3a86de John Stultz    2025-07-12  6711  #endif /* SCHED_PROXY_EXEC */
-be41bde4c3a86de John Stultz    2025-07-12  6712  
+vim +1150 drivers/pci/controller/dwc/pcie-tegra194.c
 
-:::::: The code at line 6702 was first introduced by commit
-:::::: 7de9d4f946383f48ec393b6e9ad0c20e49e174e7 sched: Start blocked_on chain processing in find_proxy_task()
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+56e15a238d92788 Vidya Sagar          2019-08-13  1112  
+f1ab409d5787528 Vidya Sagar          2022-07-21  1113  static int tegra_pcie_dw_parse_dt(struct tegra_pcie_dw *pcie)
+56e15a238d92788 Vidya Sagar          2019-08-13  1114  {
+d5353c00cfd93b1 Vidya Sagar          2020-11-26  1115  	struct platform_device *pdev = to_platform_device(pcie->dev);
+56e15a238d92788 Vidya Sagar          2019-08-13  1116  	struct device_node *np = pcie->dev->of_node;
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1117  	u32 val;
+56e15a238d92788 Vidya Sagar          2019-08-13  1118  	int ret;
+56e15a238d92788 Vidya Sagar          2019-08-13  1119  
+d5353c00cfd93b1 Vidya Sagar          2020-11-26  1120  	pcie->dbi_res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dbi");
+d5353c00cfd93b1 Vidya Sagar          2020-11-26  1121  	if (!pcie->dbi_res) {
+d5353c00cfd93b1 Vidya Sagar          2020-11-26  1122  		dev_err(pcie->dev, "Failed to find \"dbi\" region\n");
+d5353c00cfd93b1 Vidya Sagar          2020-11-26  1123  		return -ENODEV;
+d5353c00cfd93b1 Vidya Sagar          2020-11-26  1124  	}
+d5353c00cfd93b1 Vidya Sagar          2020-11-26  1125  
+56e15a238d92788 Vidya Sagar          2019-08-13  1126  	ret = of_property_read_u32(np, "nvidia,aspm-cmrt-us", &pcie->aspm_cmrt);
+56e15a238d92788 Vidya Sagar          2019-08-13  1127  	if (ret < 0) {
+56e15a238d92788 Vidya Sagar          2019-08-13  1128  		dev_info(pcie->dev, "Failed to read ASPM T_cmrt: %d\n", ret);
+56e15a238d92788 Vidya Sagar          2019-08-13  1129  		return ret;
+56e15a238d92788 Vidya Sagar          2019-08-13  1130  	}
+56e15a238d92788 Vidya Sagar          2019-08-13  1131  
+56e15a238d92788 Vidya Sagar          2019-08-13  1132  	ret = of_property_read_u32(np, "nvidia,aspm-pwr-on-t-us",
+56e15a238d92788 Vidya Sagar          2019-08-13  1133  				   &pcie->aspm_pwr_on_t);
+56e15a238d92788 Vidya Sagar          2019-08-13  1134  	if (ret < 0)
+56e15a238d92788 Vidya Sagar          2019-08-13  1135  		dev_info(pcie->dev, "Failed to read ASPM Power On time: %d\n",
+56e15a238d92788 Vidya Sagar          2019-08-13  1136  			 ret);
+56e15a238d92788 Vidya Sagar          2019-08-13  1137  
+56e15a238d92788 Vidya Sagar          2019-08-13  1138  	ret = of_property_read_u32(np, "nvidia,aspm-l0s-entrance-latency-us",
+56e15a238d92788 Vidya Sagar          2019-08-13  1139  				   &pcie->aspm_l0s_enter_lat);
+56e15a238d92788 Vidya Sagar          2019-08-13  1140  	if (ret < 0)
+56e15a238d92788 Vidya Sagar          2019-08-13  1141  		dev_info(pcie->dev,
+56e15a238d92788 Vidya Sagar          2019-08-13  1142  			 "Failed to read ASPM L0s Entrance latency: %d\n", ret);
+56e15a238d92788 Vidya Sagar          2019-08-13  1143  
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1144  	/* Default to max latency of 7. */
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1145  	pcie->aspm_l1_enter_lat = 7;
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1146  	ret = of_property_read_u32(np, "aspm-l1-entry-delay-ns", &val);
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1147  	if (!ret) {
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1148  		u32 us = max(val / 1000, 1U);
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1149  
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25 @1150  		pcie->aspm_l1_enter_lat = min(ilog2(us) + 1, 7U);
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1151  	}
+814f4e4b6cceda9 Manikanta Maddireddy 2026-03-25  1152  
+56e15a238d92788 Vidya Sagar          2019-08-13  1153  	ret = of_property_read_u32(np, "num-lanes", &pcie->num_lanes);
+56e15a238d92788 Vidya Sagar          2019-08-13  1154  	if (ret < 0) {
+56e15a238d92788 Vidya Sagar          2019-08-13  1155  		dev_err(pcie->dev, "Failed to read num-lanes: %d\n", ret);
+56e15a238d92788 Vidya Sagar          2019-08-13  1156  		return ret;
+56e15a238d92788 Vidya Sagar          2019-08-13  1157  	}
+56e15a238d92788 Vidya Sagar          2019-08-13  1158  
+56e15a238d92788 Vidya Sagar          2019-08-13  1159  	ret = of_property_read_u32_index(np, "nvidia,bpmp", 1, &pcie->cid);
+56e15a238d92788 Vidya Sagar          2019-08-13  1160  	if (ret) {
+56e15a238d92788 Vidya Sagar          2019-08-13  1161  		dev_err(pcie->dev, "Failed to read Controller-ID: %d\n", ret);
+56e15a238d92788 Vidya Sagar          2019-08-13  1162  		return ret;
+56e15a238d92788 Vidya Sagar          2019-08-13  1163  	}
+56e15a238d92788 Vidya Sagar          2019-08-13  1164  
+56e15a238d92788 Vidya Sagar          2019-08-13  1165  	ret = of_property_count_strings(np, "phy-names");
+56e15a238d92788 Vidya Sagar          2019-08-13  1166  	if (ret < 0) {
+56e15a238d92788 Vidya Sagar          2019-08-13  1167  		dev_err(pcie->dev, "Failed to find PHY entries: %d\n",
+56e15a238d92788 Vidya Sagar          2019-08-13  1168  			ret);
+56e15a238d92788 Vidya Sagar          2019-08-13  1169  		return ret;
+56e15a238d92788 Vidya Sagar          2019-08-13  1170  	}
+56e15a238d92788 Vidya Sagar          2019-08-13  1171  	pcie->phy_count = ret;
+56e15a238d92788 Vidya Sagar          2019-08-13  1172  
+56e15a238d92788 Vidya Sagar          2019-08-13  1173  	if (of_property_read_bool(np, "nvidia,update-fc-fixup"))
+56e15a238d92788 Vidya Sagar          2019-08-13  1174  		pcie->update_fc_fixup = true;
+56e15a238d92788 Vidya Sagar          2019-08-13  1175  
+a54e190737181c1 Vidya Sagar          2022-07-21  1176  	/* RP using an external REFCLK is supported only in Tegra234 */
+a54e190737181c1 Vidya Sagar          2022-07-21  1177  	if (pcie->of_data->version == TEGRA194_DWC_IP_VER) {
+a54e190737181c1 Vidya Sagar          2022-07-21  1178  		if (pcie->of_data->mode == DW_PCIE_EP_TYPE)
+a54e190737181c1 Vidya Sagar          2022-07-21  1179  			pcie->enable_ext_refclk = true;
+a54e190737181c1 Vidya Sagar          2022-07-21  1180  	} else {
+a54e190737181c1 Vidya Sagar          2022-07-21  1181  		pcie->enable_ext_refclk =
+a54e190737181c1 Vidya Sagar          2022-07-21  1182  			of_property_read_bool(pcie->dev->of_node,
+a54e190737181c1 Vidya Sagar          2022-07-21  1183  					      "nvidia,enable-ext-refclk");
+a54e190737181c1 Vidya Sagar          2022-07-21  1184  	}
+a54e190737181c1 Vidya Sagar          2022-07-21  1185  
+56e15a238d92788 Vidya Sagar          2019-08-13  1186  	pcie->supports_clkreq =
+56e15a238d92788 Vidya Sagar          2019-08-13  1187  		of_property_read_bool(pcie->dev->of_node, "supports-clkreq");
+56e15a238d92788 Vidya Sagar          2019-08-13  1188  
+56e15a238d92788 Vidya Sagar          2019-08-13  1189  	pcie->enable_cdm_check =
+56e15a238d92788 Vidya Sagar          2019-08-13  1190  		of_property_read_bool(np, "snps,enable-cdm-check");
+56e15a238d92788 Vidya Sagar          2019-08-13  1191  
+a54e190737181c1 Vidya Sagar          2022-07-21  1192  	if (pcie->of_data->version == TEGRA234_DWC_IP_VER)
+a54e190737181c1 Vidya Sagar          2022-07-21  1193  		pcie->enable_srns =
+a54e190737181c1 Vidya Sagar          2022-07-21  1194  			of_property_read_bool(np, "nvidia,enable-srns");
+a54e190737181c1 Vidya Sagar          2022-07-21  1195  
+a54e190737181c1 Vidya Sagar          2022-07-21  1196  	if (pcie->of_data->mode == DW_PCIE_RC_TYPE)
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1197  		return 0;
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1198  
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1199  	/* Endpoint mode specific DT entries */
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1200  	pcie->pex_rst_gpiod = devm_gpiod_get(pcie->dev, "reset", GPIOD_IN);
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1201  	if (IS_ERR(pcie->pex_rst_gpiod)) {
+54455238be89f9d Thierry Reding       2020-03-19  1202  		int err = PTR_ERR(pcie->pex_rst_gpiod);
+54455238be89f9d Thierry Reding       2020-03-19  1203  		const char *level = KERN_ERR;
+54455238be89f9d Thierry Reding       2020-03-19  1204  
+54455238be89f9d Thierry Reding       2020-03-19  1205  		if (err == -EPROBE_DEFER)
+54455238be89f9d Thierry Reding       2020-03-19  1206  			level = KERN_DEBUG;
+54455238be89f9d Thierry Reding       2020-03-19  1207  
+54455238be89f9d Thierry Reding       2020-03-19  1208  		dev_printk(level, pcie->dev,
+54455238be89f9d Thierry Reding       2020-03-19  1209  			   dev_fmt("Failed to get PERST GPIO: %d\n"),
+54455238be89f9d Thierry Reding       2020-03-19  1210  			   err);
+54455238be89f9d Thierry Reding       2020-03-19  1211  		return err;
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1212  	}
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1213  
+4ee540f02d5de5c Vidya Sagar          2026-03-25  1214  	pcie->pex_refclk_sel_gpiod = devm_gpiod_get_optional(pcie->dev,
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1215  							     "nvidia,refclk-select",
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1216  							     GPIOD_OUT_HIGH);
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1217  	if (IS_ERR(pcie->pex_refclk_sel_gpiod)) {
+54455238be89f9d Thierry Reding       2020-03-19  1218  		int err = PTR_ERR(pcie->pex_refclk_sel_gpiod);
+54455238be89f9d Thierry Reding       2020-03-19  1219  		const char *level = KERN_ERR;
+54455238be89f9d Thierry Reding       2020-03-19  1220  
+54455238be89f9d Thierry Reding       2020-03-19  1221  		if (err == -EPROBE_DEFER)
+54455238be89f9d Thierry Reding       2020-03-19  1222  			level = KERN_DEBUG;
+54455238be89f9d Thierry Reding       2020-03-19  1223  
+54455238be89f9d Thierry Reding       2020-03-19  1224  		dev_printk(level, pcie->dev,
+54455238be89f9d Thierry Reding       2020-03-19  1225  			   dev_fmt("Failed to get REFCLK select GPIOs: %d\n"),
+54455238be89f9d Thierry Reding       2020-03-19  1226  			   err);
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1227  		pcie->pex_refclk_sel_gpiod = NULL;
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1228  	}
+c57247f940e8ea1 Vidya Sagar          2020-03-03  1229  
+56e15a238d92788 Vidya Sagar          2019-08-13  1230  	return 0;
+56e15a238d92788 Vidya Sagar          2019-08-13  1231  }
+56e15a238d92788 Vidya Sagar          2019-08-13  1232  
 
 -- 
 0-DAY CI Kernel Test Service
