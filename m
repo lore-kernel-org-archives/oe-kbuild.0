@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756DE1482E8
-	for <oe-kbuild@lists.linux.dev>; Wed,  8 Apr 2026 04:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FBF282F2C
+	for <oe-kbuild@lists.linux.dev>; Wed,  8 Apr 2026 06:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775623546; cv=none; b=dAstlqZ6rmQTOH+KctejYB5Vf91jWJkuLYjbQX3AUld9gMFMv9IzXm9XFWcTFxLbmwTXIV6dl7LxGrPd8/4gTh+ED9dnboCeECXF9S+CM9mBTtixyuyYjog2rjGdKKbmyrs5C5no5zyMqMO11kntFbBalIm1C4o9aDCtkFgebv4=
+	t=1775629078; cv=none; b=mE8wOzVAHeYQiwCaahTVPMoyxgCd3PAdAe8sOJ91UFZKBbPqjoFw5mMO8kyKcfaly1OxjcAWixzYccEbA8k32vG2my9eJlr3R15GlMsxM3h59vbQZVf4/EfmHGT/9rlVJF4Kf62mdT6bWDLD0VQ7oxRHvOtQSCd59HHMAylI7Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775623546; c=relaxed/simple;
-	bh=+mLvWr22H7d5Ngz8KK1gN2nOANsmherDN1HkfAzWRsk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tYanKUgPzt18SMgk4RTVrKiQObkSPzIPjwzdJGASJLkG4oAB6Xz59Tqis8CWzZT9qidjlSS8Tdpt18WZFI+5R+keb3qwrGLXFwtMbTF90VkUjMqVmQLe92UlT25FUvTWe3zMZKxSggBMTJPMFWpbL9XDtI4e+jrXjHeYiQHne9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BoljFFGi; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1775629078; c=relaxed/simple;
+	bh=9COnIlZzF74nVkBcrWZfIZmSCWJL+MdB8qEXzJSNJfU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pv/0s10uNctULuAeoPTTDyKOakV9nxKSdzmVNpBGyMmAM4WNmuuG7OEcPfWk2KN5BvJdfDmVSEMbJZk38pUeB9up2BHqJLU5L7XhEwyTgrifzhRjFahJaROTiy/yAv8rz2LQ74PAv6U7seBG83mTf+smc0boiAQe/hH3ecXU+TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtG0FtLs; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BoljFFGi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtG0FtLs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775623545; x=1807159545;
+  t=1775629076; x=1807165076;
   h=date:from:to:cc:subject:message-id;
-  bh=+mLvWr22H7d5Ngz8KK1gN2nOANsmherDN1HkfAzWRsk=;
-  b=BoljFFGiRLhmJIlPTM2g2+reNABQhMFaMzEHy9ENJYcutbHV2HFrjqUM
-   tEFgMAoIrheAawHIGwFTDW9xsc9dsO8D/6p+Imi1oST31bqf0eIKMQjNP
-   iotRFdmmgzI1l1PyC/hYKLrkuPcooHKEHf3B7vPSgSakorzx4ZheFMrmP
-   j94nUxKcYLK4dKTXrpasNB2H/6174vFPColIZQX5wfmh2gwgROHNxwjU9
-   QKKTIdvq0cBGyxcZDw6QM+P5T7Dg79SR+JZ+1F1o45OYqmUy5odguOpdv
-   oW19pV0zuJ0NBTTQumSlrZz/96zYNd//tYQ61nnkVe7NpEneZH4htn5+X
-   g==;
-X-CSE-ConnectionGUID: iORa7ptKTcm1KeM30oBe6w==
-X-CSE-MsgGUID: V4cr0Hn0SI2gtb/7ZGeW0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="80457451"
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="80457451"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 21:45:44 -0700
-X-CSE-ConnectionGUID: pswBdxivQPGLEEYA/g70iw==
-X-CSE-MsgGUID: nviFredEQOGGGm+ggRkLFA==
+  bh=9COnIlZzF74nVkBcrWZfIZmSCWJL+MdB8qEXzJSNJfU=;
+  b=VtG0FtLsycrVNRgnC6Bl9Gkoh14uk+WWWeeKuShNHhCRN3azyLjzJCIt
+   NOzEJ0aLH3voJiJO3mltuvMveCtlMtGTj2R+bu0tLovkQ64NYPrDFeQh2
+   IzVMwucf0+q2kXi3mJ1SpoFrYbLR8OPdvgeiq1sLGp6/H4OCeAtuiXBE6
+   5hAC1kTnUjJ/mXPfWcZqqawV4SU4HYkiDDlHXwzHNi0QyjvFx/tal2G4s
+   EPiDQXt330ESGKQaoX0KNY1MY9druTlLKfGvQus2XzJXaHwY9BRcLgIzj
+   Ok0uBiq41txNO8VgZlwxSWEU1ZxKx+2AKEzs1Pso7jjsGHx96hYsh5Lx8
+   w==;
+X-CSE-ConnectionGUID: z3SrLnTsRNiBZ2cR7FK89g==
+X-CSE-MsgGUID: Jds9wHnORRuYgL/XjmklRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="87679318"
+X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
+   d="scan'208";a="87679318"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 23:17:56 -0700
+X-CSE-ConnectionGUID: PzqW5WcOSAmq6r2UU+QSYg==
+X-CSE-MsgGUID: tIOi16R2REaI8/vO+rCRDg==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Apr 2026 21:45:43 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
+   d="scan'208";a="233338037"
+Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 07 Apr 2026 23:17:55 -0700
+Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wAKnN-00000000AP7-0RzV;
-	Wed, 08 Apr 2026 04:45:41 +0000
-Date: Wed, 08 Apr 2026 06:45:19 +0200
+	id 1wAMEa-000000001Vb-2uuq;
+	Wed, 08 Apr 2026 06:17:52 +0000
+Date: Wed, 08 Apr 2026 14:17:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [dwmw2:vgic-iidr-group-fixes 3/3]
- include/kvm_util.h:1139:16: warning: passing argument 1 of 'memcpy' discards
- 'volatile' qualifier from pointer target type
-Message-ID: <202604080614.wKKMYdgW-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: lib/tests/overflow_kunit.c:637:13-14: WARNING: array_size is
+ used later (line 644) to compute the same size
+Message-ID: <202604081400.w5GcL6mj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -58,72 +59,76 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Woodhouse <dwmw@amazon.co.uk>
+CC: linux-kernel@vger.kernel.org
+TO: Kees Cook <kees@kernel.org>
+CC: David Gow <davidgow@google.com>
+CC: Rae Moar <rmoar@google.com>
 
-tree:   git://git.infradead.org/users/dwmw2/linux vgic-iidr-group-fixes
-head:   89879757040970ab272f17b4ec2fb7d6a7986372
-commit: c1ec22a93f919c6d3bee511832ca8422f9e61471 [3/3] KVM: arm64: selftests: Add vgic IIDR revision test
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 hours ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260408/202604080614.wKKMYdgW-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604080614.wKKMYdgW-lkp@intel.com/reproduce)
+Hi Kees,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3036cd0d3328220a1858b1ab390be8b562774e8a
+commit: db6fe4d61ece24193eb4d94a82d967501d53358c lib: Move KUnit tests into tests/ subdirectory
+date:   1 year, 2 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 1 year, 2 months ago
+config: x86_64-randconfig-102-20260408 (https://download.01.org/0day-ci/archive/20260408/202604081400.w5GcL6mj-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: db6fe4d61ece ("lib: Move KUnit tests into tests/ subdirectory")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604080614.wKKMYdgW-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202604081400.w5GcL6mj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> lib/tests/overflow_kunit.c:637:13-14: WARNING: array_size is used later (line 644) to compute the same size
+--
+>> lib/tests/overflow_kunit.c:295:14-19: Unneeded variable: "index". Return "0" on line 297
 
-   In file included from arm64/vgic_group_iidr.c:13:
-   arm64/vgic_group_iidr.c: In function 'run_test':
->> include/kvm_util.h:1139:16: warning: passing argument 1 of 'memcpy' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1139 |         memcpy(_p, &(g), sizeof(g));                            \
-         |                ^~
-   arm64/vgic_group_iidr.c:87:9: note: in expansion of macro 'sync_global_to_guest'
-      87 |         sync_global_to_guest(vm, shared_rev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   In file included from include/test_util.h:17,
-                    from arm64/vgic_group_iidr.c:12:
-   /usr/aarch64-linux-gnu/include/string.h:43:39: note: expected 'void * restrict' but argument is of type 'volatile uint64_t *' {aka 'volatile long unsigned int *'}
-      43 | extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-         |                      ~~~~~~~~~~~~~~~~~^~~~~~
-   include/kvm_util.h:1139:20: warning: passing argument 2 of 'memcpy' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1139 |         memcpy(_p, &(g), sizeof(g));                            \
-         |                    ^~~~
-   arm64/vgic_group_iidr.c:87:9: note: in expansion of macro 'sync_global_to_guest'
-      87 |         sync_global_to_guest(vm, shared_rev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   /usr/aarch64-linux-gnu/include/string.h:43:70: note: expected 'const void * restrict' but argument is of type 'volatile uint64_t *' {aka 'volatile long unsigned int *'}
-      43 | extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
->> include/kvm_util.h:1139:16: warning: passing argument 1 of 'memcpy' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1139 |         memcpy(_p, &(g), sizeof(g));                            \
-         |                ^~
-   arm64/vgic_group_iidr.c:89:9: note: in expansion of macro 'sync_global_to_guest'
-      89 |         sync_global_to_guest(vm, shared_rev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   /usr/aarch64-linux-gnu/include/string.h:43:39: note: expected 'void * restrict' but argument is of type 'volatile uint64_t *' {aka 'volatile long unsigned int *'}
-      43 | extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-         |                      ~~~~~~~~~~~~~~~~~^~~~~~
-   include/kvm_util.h:1139:20: warning: passing argument 2 of 'memcpy' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1139 |         memcpy(_p, &(g), sizeof(g));                            \
-         |                    ^~~~
-   arm64/vgic_group_iidr.c:89:9: note: in expansion of macro 'sync_global_to_guest'
-      89 |         sync_global_to_guest(vm, shared_rev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   /usr/aarch64-linux-gnu/include/string.h:43:70: note: expected 'const void * restrict' but argument is of type 'volatile uint64_t *' {aka 'volatile long unsigned int *'}
-      43 | extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+vim +637 lib/tests/overflow_kunit.c
+
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  621  
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  622  #define DEFINE_TEST_ALLOC(func, free_func, want_arg, want_gfp, want_node)\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  623  static void test_ ## func (struct kunit *test, void *arg)		\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  624  {									\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  625  	volatile size_t a = TEST_SIZE;					\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  626  	volatile size_t b = (SIZE_MAX / TEST_SIZE) + 1;			\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  627  	void *ptr;							\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  628  									\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  629  	/* Tiny allocation test. */					\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  630  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg, 1);\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  631  	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  632  			    #func " failed regular allocation?!\n");	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  633  	free ## want_arg (free_func, arg, ptr);				\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  634  									\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  635  	/* Wrapped allocation test. */					\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  636  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10 @637  							  a * b);	\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  638  	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  639  			    #func " unexpectedly failed bad wrapping?!\n"); \
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  640  	free ## want_arg (free_func, arg, ptr);				\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  641  									\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  642  	/* Saturated allocation test. */				\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  643  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10 @644  						   array_size(a, b));	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  645  	if (ptr) {							\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  646  		KUNIT_FAIL(test, #func " missed saturation!\n");	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  647  		free ## want_arg (free_func, arg, ptr);			\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  648  	}								\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  649  }
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  650  
+
+:::::: The code at line 637 was first introduced by commit
+:::::: ca90800a91ba723d78ded634d037c1d2df8b54d6 test_overflow: Add memory allocation overflow tests
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
