@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D08B3DA7F2
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Apr 2026 15:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B9F3DC4D9
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Apr 2026 16:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775835175; cv=none; b=qQX50AmyS0RBXhZAnkYGzhuXbF6FM9SDbnGXw3cI9qE2fkxG2XPJySuUjCIsunFr5fXU+o6y0rwpO1alnII8ldr+DwcMhUcSM9D4Pd1SYlcpA43fNRe6I1bJXyN9wwFsCbvud9HSCNGTaVhxBUdBLWYfz9FVDYH5ZlawGDk0GT8=
+	t=1775838615; cv=none; b=bfYNHnNlfbemwm0CbqMco2a5LIjQ9vPpgrs17bBV3aot4MxDqPIxkuGHgoM1aW8Qi2zqY6TSBlabsdV0P0IE4+BsdcFjqg9LHg0dFh79Gy00v4nw/4+3D9NI6MAADSfWwqohjzwAC59jGLns3orUOqjgP5vF5g2wimx7tzxOFyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775835175; c=relaxed/simple;
-	bh=bK5CL2d72azmiJROD4x7tHQGhZow5ycwzGWSoy6TmTU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fAsHQb7Rxur964eVoL6CRj5a9ufEjxq/Lw6PpBs6b7WMvoZFmnd0zoTq9dwZVyZejLFh1WpNj42KyH7bQSuHCvRUq62reB0kyOBaurcaic5yGFKgzT/gX+RIcfb6f3Fp1qwLqYVnJLDjqX6zoDI4SFt16HKbNpsvSM7gh6lZWiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JKnCPURA; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1775838615; c=relaxed/simple;
+	bh=89sqB6LD0WOr4uazVS7umH2mbtzpPvQxAbxpefDc9m4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YywTR2wMtI8NTL5yeJF3RdIjq/v2qNu5m6Pmn68Ez63UE56QdVrrCDV5G+dBwAmhcLwYnLDj0tUq0cxibIelXFQpMCfO7j3jBbCn3IxgpMED4iwTXkIQXFtfTRqVfie6i5mZygWTOEVbaXf1eZQ8TZHxFbBqUmQgp4Jdos/BR5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gbRtnYy0; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKnCPURA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gbRtnYy0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775835173; x=1807371173;
+  t=1775838612; x=1807374612;
   h=date:from:to:cc:subject:message-id;
-  bh=bK5CL2d72azmiJROD4x7tHQGhZow5ycwzGWSoy6TmTU=;
-  b=JKnCPURAZIKPUwycqlKHnbXd5D8pBvcj8sASyk6cnKRzdKsgftrz8Dix
-   pIiGdGIOQrilqGTx8nmdRQAmXYsuhGSj5EAtC+ut5LV+qU1RQEt6jrW7Z
-   FiFk1NBXZGNqaLzA9LQ3fIEnojNvpImt+F1wOEWUclEeLaV/UgT/0E+Sy
-   5Rpf+lTIbAwZ8uVCGH74ztBsXD2W4eJ7L27AGPPG5jV0dN1EYwcTl84AW
-   48RVK+agrB84K1e4sI8lr25gwnAOmGYVyBFATzeTELYHcELXof/24vpT5
-   6n4i3VZemMc1+tWpgKyGfeT3FkPkcU2au6FEj73pqgcpjqbVp0LbBT1si
-   g==;
-X-CSE-ConnectionGUID: 78e5lPpfRqW3c4unYi0QkA==
-X-CSE-MsgGUID: f7yVe1xFRG2joa6w7VmnqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76975192"
+  bh=89sqB6LD0WOr4uazVS7umH2mbtzpPvQxAbxpefDc9m4=;
+  b=gbRtnYy0GxXkngAg3cEx/GGZndknwvj/RKEAGIO1Wq7fNTbdVOPWz+fa
+   OZ9gwfn+kejr8HLSaTe5ErkE9O2MraAkDkMwY8dfXGograWk5PDoL4+x3
+   I8ZSP88KDL+yQF3e1x+FCSbwNHCozblOkv08IhBFEVYaJuiDofxRzXajw
+   xZ8WbTae/PQ/8WyknYe3jKbLiDbGm6cdQszUfTFbdIWK8sNfzWAUvg0ns
+   mhIWx6GwI+BfsKZnjO2ynLqvQGLH+lpoPOGmzqoEJPt+eBoQF5O+URj8x
+   2+rHIGfPZM0wOjl9PmRuwVX9vuDAZULE8wMnASpFLL7Nl0e/YZKTh4YLo
+   Q==;
+X-CSE-ConnectionGUID: DcM5snT4Tv+QeM37CLy9ow==
+X-CSE-MsgGUID: 09QXVEUoQiKtpfm/vzOeXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="80749614"
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="76975192"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 08:32:53 -0700
-X-CSE-ConnectionGUID: olY7uL/ZREKgoy5cbVvj9A==
-X-CSE-MsgGUID: bxxW8zmpRSWN87rCSBF9bg==
+   d="scan'208";a="80749614"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 09:30:12 -0700
+X-CSE-ConnectionGUID: DDx+j/9xTUSahSCGHbYx8A==
+X-CSE-MsgGUID: 8TYN3NegTJOv27kT8gI9Ow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="230834186"
-Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Apr 2026 08:32:51 -0700
-Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
+   d="scan'208";a="234053475"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 10 Apr 2026 09:30:11 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBDqj-000000003tF-1est;
-	Fri, 10 Apr 2026 15:32:49 +0000
-Date: Fri, 10 Apr 2026 23:32:45 +0800
+	id 1wBEkD-00000000AvR-0hEr;
+	Fri, 10 Apr 2026 16:30:09 +0000
+Date: Fri, 10 Apr 2026 18:29:11 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/zstd/compress/zstd_double_fast.c:664
- ZSTD_compressBlock_doubleFast_extDict_generic() warn: maybe use && instead of
- &
-Message-ID: <202604102325.sijddfen-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [tglx-devel:cleanups 15/38] drivers/ptp/ptp_vmclock.c:78:18:
+ error: '__int128' is not supported on this target
+Message-ID: <202604101824.Dnmbk8as-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,200 +59,100 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Nick Terrell <terrelln@meta.com>
+TO: Thomas Gleixner <tglx@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9a9c8ce300cd3859cc87b408ef552cd697cc2ab7
-commit: 65d1f5507ed2c78c64fce40e44e5574a9419eb09 zstd: Import upstream v1.5.7
-date:   1 year, 1 month ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: x86_64-randconfig-161-20260410 (https://download.01.org/0day-ci/archive/20260410/202604102325.sijddfen-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Thomas,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git cleanups
+head:   c8e6e3529d3137cb0aba79b565eb04ab8f346829
+commit: f0a1b67a6272b9131b4803169e10e5893e40892a [15/38] ptp: ptp_vmclock: Replace get_cycles() usage
+:::::: branch date: 55 minutes ago
+:::::: commit date: 5 hours ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260410/202604101824.Dnmbk8as-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101824.Dnmbk8as-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 65d1f5507ed2 ("zstd: Import upstream v1.5.7")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604102325.sijddfen-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604101824.Dnmbk8as-lkp@intel.com/
 
-New smatch warnings:
-lib/zstd/compress/zstd_double_fast.c:664 ZSTD_compressBlock_doubleFast_extDict_generic() warn: maybe use && instead of &
-lib/zstd/compress/zstd_lazy.c:1991 ZSTD_compressBlock_lazy_extDict_generic() warn: maybe use && instead of &
+All error/warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-lib/zstd/compress/zstd_double_fast.c:732 ZSTD_compressBlock_doubleFast_extDict_generic() warn: maybe use && instead of &
-lib/zstd/compress/zstd_lazy.c:1629 ZSTD_compressBlock_lazy_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1990 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2021 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2031 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2032 ZSTD_compressBlock_lazy_extDict_generic() warn: maybe use && instead of &
-lib/zstd/compress/zstd_lazy.c:2063 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2064 ZSTD_compressBlock_lazy_extDict_generic() warn: maybe use && instead of &
-lib/zstd/compress/zstd_lazy.c:2117 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2118 ZSTD_compressBlock_lazy_extDict_generic() warn: maybe use && instead of &
+   drivers/ptp/ptp_vmclock.c: In function 'mul_u64_u64_shr_add_u64':
+>> drivers/ptp/ptp_vmclock.c:78:18: error: '__int128' is not supported on this target
+      78 |         unsigned __int128 res = (unsigned __int128)delta * period;
+         |                  ^~~~~~~~
+   drivers/ptp/ptp_vmclock.c:78:43: error: '__int128' is not supported on this target
+      78 |         unsigned __int128 res = (unsigned __int128)delta * period;
+         |                                           ^~~~~~~~
+>> drivers/ptp/ptp_vmclock.c:82:23: warning: right shift count >= width of type [-Wshift-count-overflow]
+      82 |         *res_hi = res >> 64;
+         |                       ^~
+   In file included from ./include/linux/device.h:15,
+                    from ./include/linux/acpi.h:15,
+                    from drivers/ptp/ptp_vmclock.c:11:
+   drivers/ptp/ptp_vmclock.c: In function 'vmclock_probe':
+>> drivers/ptp/ptp_vmclock.c:686:31: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     686 |                 dev_info(dev, "Region too small (0x%llx)\n",
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   ./include/linux/dev_printk.h:160:58: note: in expansion of macro 'dev_fmt'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   drivers/ptp/ptp_vmclock.c:686:17: note: in expansion of macro 'dev_info'
+     686 |                 dev_info(dev, "Region too small (0x%llx)\n",
+         |                 ^~~~~~~~
+   drivers/ptp/ptp_vmclock.c:686:55: note: format string is defined here
+     686 |                 dev_info(dev, "Region too small (0x%llx)\n",
+         |                                                    ~~~^
+         |                                                       |
+         |                                                       long long unsigned int
+         |                                                    %x
 
-vim +664 lib/zstd/compress/zstd_double_fast.c
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  607  
-e0c1b49f5b674c Nick Terrell 2020-09-11  608  
-65d1f5507ed2c7 Nick Terrell 2025-03-08  609  static
-65d1f5507ed2c7 Nick Terrell 2025-03-08  610  ZSTD_ALLOW_POINTER_OVERFLOW_ATTR
-65d1f5507ed2c7 Nick Terrell 2025-03-08  611  size_t ZSTD_compressBlock_doubleFast_extDict_generic(
-65d1f5507ed2c7 Nick Terrell 2025-03-08  612          ZSTD_MatchState_t* ms, SeqStore_t* seqStore, U32 rep[ZSTD_REP_NUM],
-e0c1b49f5b674c Nick Terrell 2020-09-11  613          void const* src, size_t srcSize,
-e0c1b49f5b674c Nick Terrell 2020-09-11  614          U32 const mls /* template */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  615  {
-e0c1b49f5b674c Nick Terrell 2020-09-11  616      ZSTD_compressionParameters const* cParams = &ms->cParams;
-e0c1b49f5b674c Nick Terrell 2020-09-11  617      U32* const hashLong = ms->hashTable;
-e0c1b49f5b674c Nick Terrell 2020-09-11  618      U32  const hBitsL = cParams->hashLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  619      U32* const hashSmall = ms->chainTable;
-e0c1b49f5b674c Nick Terrell 2020-09-11  620      U32  const hBitsS = cParams->chainLog;
-e0c1b49f5b674c Nick Terrell 2020-09-11  621      const BYTE* const istart = (const BYTE*)src;
-e0c1b49f5b674c Nick Terrell 2020-09-11  622      const BYTE* ip = istart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  623      const BYTE* anchor = istart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  624      const BYTE* const iend = istart + srcSize;
-e0c1b49f5b674c Nick Terrell 2020-09-11  625      const BYTE* const ilimit = iend - 8;
-e0c1b49f5b674c Nick Terrell 2020-09-11  626      const BYTE* const base = ms->window.base;
-e0c1b49f5b674c Nick Terrell 2020-09-11  627      const U32   endIndex = (U32)((size_t)(istart - base) + srcSize);
-e0c1b49f5b674c Nick Terrell 2020-09-11  628      const U32   lowLimit = ZSTD_getLowestMatchIndex(ms, endIndex, cParams->windowLog);
-e0c1b49f5b674c Nick Terrell 2020-09-11  629      const U32   dictStartIndex = lowLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  630      const U32   dictLimit = ms->window.dictLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  631      const U32   prefixStartIndex = (dictLimit > lowLimit) ? dictLimit : lowLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  632      const BYTE* const prefixStart = base + prefixStartIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  633      const BYTE* const dictBase = ms->window.dictBase;
-e0c1b49f5b674c Nick Terrell 2020-09-11  634      const BYTE* const dictStart = dictBase + dictStartIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  635      const BYTE* const dictEnd = dictBase + prefixStartIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  636      U32 offset_1=rep[0], offset_2=rep[1];
-e0c1b49f5b674c Nick Terrell 2020-09-11  637  
-e0c1b49f5b674c Nick Terrell 2020-09-11  638      DEBUGLOG(5, "ZSTD_compressBlock_doubleFast_extDict_generic (srcSize=%zu)", srcSize);
-e0c1b49f5b674c Nick Terrell 2020-09-11  639  
-e0c1b49f5b674c Nick Terrell 2020-09-11  640      /* if extDict is invalidated due to maxDistance, switch to "regular" variant */
-e0c1b49f5b674c Nick Terrell 2020-09-11  641      if (prefixStartIndex == dictStartIndex)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  642          return ZSTD_compressBlock_doubleFast(ms, seqStore, rep, src, srcSize);
-e0c1b49f5b674c Nick Terrell 2020-09-11  643  
-e0c1b49f5b674c Nick Terrell 2020-09-11  644      /* Search Loop */
-e0c1b49f5b674c Nick Terrell 2020-09-11  645      while (ip < ilimit) {  /* < instead of <=, because (ip+1) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  646          const size_t hSmall = ZSTD_hashPtr(ip, hBitsS, mls);
-e0c1b49f5b674c Nick Terrell 2020-09-11  647          const U32 matchIndex = hashSmall[hSmall];
-e0c1b49f5b674c Nick Terrell 2020-09-11  648          const BYTE* const matchBase = matchIndex < prefixStartIndex ? dictBase : base;
-e0c1b49f5b674c Nick Terrell 2020-09-11  649          const BYTE* match = matchBase + matchIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  650  
-e0c1b49f5b674c Nick Terrell 2020-09-11  651          const size_t hLong = ZSTD_hashPtr(ip, hBitsL, 8);
-e0c1b49f5b674c Nick Terrell 2020-09-11  652          const U32 matchLongIndex = hashLong[hLong];
-e0c1b49f5b674c Nick Terrell 2020-09-11  653          const BYTE* const matchLongBase = matchLongIndex < prefixStartIndex ? dictBase : base;
-e0c1b49f5b674c Nick Terrell 2020-09-11  654          const BYTE* matchLong = matchLongBase + matchLongIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  655  
-e0c1b49f5b674c Nick Terrell 2020-09-11  656          const U32 curr = (U32)(ip-base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  657          const U32 repIndex = curr + 1 - offset_1;   /* offset_1 expected <= curr +1 */
-e0c1b49f5b674c Nick Terrell 2020-09-11  658          const BYTE* const repBase = repIndex < prefixStartIndex ? dictBase : base;
-e0c1b49f5b674c Nick Terrell 2020-09-11  659          const BYTE* const repMatch = repBase + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  660          size_t mLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  661          hashSmall[hSmall] = hashLong[hLong] = curr;   /* update hash table */
-e0c1b49f5b674c Nick Terrell 2020-09-11  662  
-65d1f5507ed2c7 Nick Terrell 2025-03-08  663          if (((ZSTD_index_overlap_check(prefixStartIndex, repIndex))
-2aa14b1ab2c41a Nick Terrell 2022-10-17 @664              & (offset_1 <= curr+1 - dictStartIndex)) /* note: we are searching at curr+1 */
-e0c1b49f5b674c Nick Terrell 2020-09-11  665            && (MEM_read32(repMatch) == MEM_read32(ip+1)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  666              const BYTE* repMatchEnd = repIndex < prefixStartIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  667              mLength = ZSTD_count_2segments(ip+1+4, repMatch+4, iend, repMatchEnd, prefixStart) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  668              ip++;
-65d1f5507ed2c7 Nick Terrell 2025-03-08  669              ZSTD_storeSeq(seqStore, (size_t)(ip-anchor), anchor, iend, REPCODE1_TO_OFFBASE, mLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  670          } else {
-e0c1b49f5b674c Nick Terrell 2020-09-11  671              if ((matchLongIndex > dictStartIndex) && (MEM_read64(matchLong) == MEM_read64(ip))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  672                  const BYTE* const matchEnd = matchLongIndex < prefixStartIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  673                  const BYTE* const lowMatchPtr = matchLongIndex < prefixStartIndex ? dictStart : prefixStart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  674                  U32 offset;
-e0c1b49f5b674c Nick Terrell 2020-09-11  675                  mLength = ZSTD_count_2segments(ip+8, matchLong+8, iend, matchEnd, prefixStart) + 8;
-e0c1b49f5b674c Nick Terrell 2020-09-11  676                  offset = curr - matchLongIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  677                  while (((ip>anchor) & (matchLong>lowMatchPtr)) && (ip[-1] == matchLong[-1])) { ip--; matchLong--; mLength++; }   /* catch up */
-e0c1b49f5b674c Nick Terrell 2020-09-11  678                  offset_2 = offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  679                  offset_1 = offset;
-65d1f5507ed2c7 Nick Terrell 2025-03-08  680                  ZSTD_storeSeq(seqStore, (size_t)(ip-anchor), anchor, iend, OFFSET_TO_OFFBASE(offset), mLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  681  
-e0c1b49f5b674c Nick Terrell 2020-09-11  682              } else if ((matchIndex > dictStartIndex) && (MEM_read32(match) == MEM_read32(ip))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  683                  size_t const h3 = ZSTD_hashPtr(ip+1, hBitsL, 8);
-e0c1b49f5b674c Nick Terrell 2020-09-11  684                  U32 const matchIndex3 = hashLong[h3];
-e0c1b49f5b674c Nick Terrell 2020-09-11  685                  const BYTE* const match3Base = matchIndex3 < prefixStartIndex ? dictBase : base;
-e0c1b49f5b674c Nick Terrell 2020-09-11  686                  const BYTE* match3 = match3Base + matchIndex3;
-e0c1b49f5b674c Nick Terrell 2020-09-11  687                  U32 offset;
-e0c1b49f5b674c Nick Terrell 2020-09-11  688                  hashLong[h3] = curr + 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  689                  if ( (matchIndex3 > dictStartIndex) && (MEM_read64(match3) == MEM_read64(ip+1)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  690                      const BYTE* const matchEnd = matchIndex3 < prefixStartIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  691                      const BYTE* const lowMatchPtr = matchIndex3 < prefixStartIndex ? dictStart : prefixStart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  692                      mLength = ZSTD_count_2segments(ip+9, match3+8, iend, matchEnd, prefixStart) + 8;
-e0c1b49f5b674c Nick Terrell 2020-09-11  693                      ip++;
-e0c1b49f5b674c Nick Terrell 2020-09-11  694                      offset = curr+1 - matchIndex3;
-e0c1b49f5b674c Nick Terrell 2020-09-11  695                      while (((ip>anchor) & (match3>lowMatchPtr)) && (ip[-1] == match3[-1])) { ip--; match3--; mLength++; } /* catch up */
-e0c1b49f5b674c Nick Terrell 2020-09-11  696                  } else {
-e0c1b49f5b674c Nick Terrell 2020-09-11  697                      const BYTE* const matchEnd = matchIndex < prefixStartIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  698                      const BYTE* const lowMatchPtr = matchIndex < prefixStartIndex ? dictStart : prefixStart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  699                      mLength = ZSTD_count_2segments(ip+4, match+4, iend, matchEnd, prefixStart) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  700                      offset = curr - matchIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  701                      while (((ip>anchor) & (match>lowMatchPtr)) && (ip[-1] == match[-1])) { ip--; match--; mLength++; }   /* catch up */
-e0c1b49f5b674c Nick Terrell 2020-09-11  702                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  703                  offset_2 = offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  704                  offset_1 = offset;
-65d1f5507ed2c7 Nick Terrell 2025-03-08  705                  ZSTD_storeSeq(seqStore, (size_t)(ip-anchor), anchor, iend, OFFSET_TO_OFFBASE(offset), mLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  706  
-e0c1b49f5b674c Nick Terrell 2020-09-11  707              } else {
-e0c1b49f5b674c Nick Terrell 2020-09-11  708                  ip += ((ip-anchor) >> kSearchStrength) + 1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  709                  continue;
-e0c1b49f5b674c Nick Terrell 2020-09-11  710          }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  711  
-e0c1b49f5b674c Nick Terrell 2020-09-11  712          /* move to next sequence start */
-e0c1b49f5b674c Nick Terrell 2020-09-11  713          ip += mLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  714          anchor = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  715  
-e0c1b49f5b674c Nick Terrell 2020-09-11  716          if (ip <= ilimit) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  717              /* Complementary insertion */
-e0c1b49f5b674c Nick Terrell 2020-09-11  718              /* done after iLimit test, as candidates could be > iend-8 */
-e0c1b49f5b674c Nick Terrell 2020-09-11  719              {   U32 const indexToInsert = curr+2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  720                  hashLong[ZSTD_hashPtr(base+indexToInsert, hBitsL, 8)] = indexToInsert;
-e0c1b49f5b674c Nick Terrell 2020-09-11  721                  hashLong[ZSTD_hashPtr(ip-2, hBitsL, 8)] = (U32)(ip-2-base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  722                  hashSmall[ZSTD_hashPtr(base+indexToInsert, hBitsS, mls)] = indexToInsert;
-e0c1b49f5b674c Nick Terrell 2020-09-11  723                  hashSmall[ZSTD_hashPtr(ip-1, hBitsS, mls)] = (U32)(ip-1-base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  724              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  725  
-e0c1b49f5b674c Nick Terrell 2020-09-11  726              /* check immediate repcode */
-e0c1b49f5b674c Nick Terrell 2020-09-11  727              while (ip <= ilimit) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  728                  U32 const current2 = (U32)(ip-base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  729                  U32 const repIndex2 = current2 - offset_2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  730                  const BYTE* repMatch2 = repIndex2 < prefixStartIndex ? dictBase + repIndex2 : base + repIndex2;
-65d1f5507ed2c7 Nick Terrell 2025-03-08  731                  if ( ((ZSTD_index_overlap_check(prefixStartIndex, repIndex2))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  732                      & (offset_2 <= current2 - dictStartIndex))
-e0c1b49f5b674c Nick Terrell 2020-09-11  733                    && (MEM_read32(repMatch2) == MEM_read32(ip)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  734                      const BYTE* const repEnd2 = repIndex2 < prefixStartIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  735                      size_t const repLength2 = ZSTD_count_2segments(ip+4, repMatch2+4, iend, repEnd2, prefixStart) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  736                      U32 const tmpOffset = offset_2; offset_2 = offset_1; offset_1 = tmpOffset;   /* swap offset_2 <=> offset_1 */
-65d1f5507ed2c7 Nick Terrell 2025-03-08  737                      ZSTD_storeSeq(seqStore, 0, anchor, iend, REPCODE1_TO_OFFBASE, repLength2);
-e0c1b49f5b674c Nick Terrell 2020-09-11  738                      hashSmall[ZSTD_hashPtr(ip, hBitsS, mls)] = current2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  739                      hashLong[ZSTD_hashPtr(ip, hBitsL, 8)] = current2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  740                      ip += repLength2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  741                      anchor = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  742                      continue;
-e0c1b49f5b674c Nick Terrell 2020-09-11  743                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  744                  break;
-e0c1b49f5b674c Nick Terrell 2020-09-11  745      }   }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  746  
-e0c1b49f5b674c Nick Terrell 2020-09-11  747      /* save reps for next block */
-e0c1b49f5b674c Nick Terrell 2020-09-11  748      rep[0] = offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  749      rep[1] = offset_2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  750  
-e0c1b49f5b674c Nick Terrell 2020-09-11  751      /* Return the last literals size */
-e0c1b49f5b674c Nick Terrell 2020-09-11  752      return (size_t)(iend - anchor);
-e0c1b49f5b674c Nick Terrell 2020-09-11  753  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  754  
+vim +/__int128 +78 drivers/ptp/ptp_vmclock.c
 
-:::::: The code at line 664 was first introduced by commit
-:::::: 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f zstd: import usptream v1.5.2
+20503272422693 David Woodhouse 2024-10-06  62  
+20503272422693 David Woodhouse 2024-10-06  63  #define VMCLOCK_FIELD_PRESENT(_c, _f)			  \
+20503272422693 David Woodhouse 2024-10-06  64  	(le32_to_cpu((_c)->size) >= (offsetof(struct vmclock_abi, _f) +	\
+20503272422693 David Woodhouse 2024-10-06  65  				     sizeof((_c)->_f)))
+20503272422693 David Woodhouse 2024-10-06  66  
+20503272422693 David Woodhouse 2024-10-06  67  /*
+20503272422693 David Woodhouse 2024-10-06  68   * Multiply a 64-bit count by a 64-bit tick 'period' in units of seconds >> 64
+20503272422693 David Woodhouse 2024-10-06  69   * and add the fractional second part of the reference time.
+20503272422693 David Woodhouse 2024-10-06  70   *
+20503272422693 David Woodhouse 2024-10-06  71   * The result is a 128-bit value, the top 64 bits of which are seconds, and
+20503272422693 David Woodhouse 2024-10-06  72   * the low 64 bits are (seconds >> 64).
+20503272422693 David Woodhouse 2024-10-06  73   */
+20503272422693 David Woodhouse 2024-10-06  74  static uint64_t mul_u64_u64_shr_add_u64(uint64_t *res_hi, uint64_t delta,
+20503272422693 David Woodhouse 2024-10-06  75  					uint64_t period, uint8_t shift,
+20503272422693 David Woodhouse 2024-10-06  76  					uint64_t frac_sec)
+20503272422693 David Woodhouse 2024-10-06  77  {
+20503272422693 David Woodhouse 2024-10-06 @78  	unsigned __int128 res = (unsigned __int128)delta * period;
+20503272422693 David Woodhouse 2024-10-06  79  
+20503272422693 David Woodhouse 2024-10-06  80  	res >>= shift;
+20503272422693 David Woodhouse 2024-10-06  81  	res += frac_sec;
+20503272422693 David Woodhouse 2024-10-06 @82  	*res_hi = res >> 64;
+20503272422693 David Woodhouse 2024-10-06  83  	return (uint64_t)res;
+20503272422693 David Woodhouse 2024-10-06  84  }
+20503272422693 David Woodhouse 2024-10-06  85  
 
-:::::: TO: Nick Terrell <terrelln@fb.com>
-:::::: CC: Nick Terrell <terrelln@fb.com>
+:::::: The code at line 78 was first introduced by commit
+:::::: 20503272422693d793b84f88bf23fe4e955d3a33 ptp: Add support for the AMZNC10C 'vmclock' device
+
+:::::: TO: David Woodhouse <dwmw@amazon.co.uk>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
