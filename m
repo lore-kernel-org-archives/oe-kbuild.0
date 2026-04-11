@@ -1,250 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D287127FB37
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Apr 2026 07:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926A01B4F1F
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Apr 2026 07:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775892915; cv=none; b=eee+K475E6mMy5eN2wrjLLVejoDkokD9jKVKStKnuOAp2IQUwV5r+fUp3vOPHVADd2jpO/CtZEprU97xVof8Zu7kbOiIg1nC9vj90OrW3V0UDO64fSm+ubTmUUfOYeQv/TowTQkva0+9bKvqg9ug2sv6Ujxe2fqPSOtZMN3CVQg=
+	t=1775894266; cv=none; b=ZGcMqgNCV0SAeK+r2kZnMXkOOzZ3CQBL8PNXgBdtWMXhhD6gzpGSPU9bvZmhZawOxaIaHO/8TyTRbAjctgCmTb7QJbv7nmNcT/whYZAyuU7lt5JJN3uO27JHT9LvOuGsryQ7A5jS4b03DuGugaE0dTY+0i/OTGYwkbFI0wSve7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775892915; c=relaxed/simple;
-	bh=MufaPUQBBvIOHO33KAfaKG4qp99gx2cVha9nWEMA1kQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZiykDd68Lg1H9qoz76j1beLkp2cLuJf+2cEf8bB3a1hhg87zPAIoDmlQoLvmJWbM82aW93DJeuFhH681t0ke4BowKx1tzYNWK8TlS9RGRyub+ljcWodEC0zoc0QGAhMnlseMq1pSwEY6o+Vz+WXmbcHlwZy9HamhLxPArOeP+v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRwBDsTd; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775894266; c=relaxed/simple;
+	bh=PZ7Ue/+reTmCsL+pA/+vn+apUzyEOCWn0Wx7kqyMg0s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dHuzsSq957Pd9TPCdb3Q2Z4lgHZVYojszntjJbdwfr4FSq5dpPTOllCFz4VYzig9SEmI+uT/AhUGz3l1oWCGpeC/UawcXutr3UndqCU8f4AaO62T2avuwyUJpDI3axkEC4K4mHNVVtY0mwD7FGKrQhBkZF8GIZclvc8LIndrnzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dLl22ifQ; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRwBDsTd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775892914; x=1807428914;
-  h=date:from:to:cc:subject:message-id;
-  bh=MufaPUQBBvIOHO33KAfaKG4qp99gx2cVha9nWEMA1kQ=;
-  b=KRwBDsTdXBJt4+bsiHmHZgRhvP0NpEbOigFjoJPfZNHIEwME1tyvfmAd
-   5Ja60UGpxfyO8jDTLEFhRpNp/GEJquo2xbxceIwVZXc0n9anBcwkvfJ2j
-   DQxhnxss8dDDi4mBdwTcUMrvsBRfowOyLKovbgVlNtE+rn5JUOAmmBume
-   2kRVlf5VDbmu4owcIZyDCZIrGD1N3DaR1AiL6ZTB8J+JHLxc3H+1DEtwf
-   vIHcD/sLczWIjynH+rkoCUPLbh0FkcMEqv1NMcBfRI0xTEWb6Uh+KDltf
-   huP9jwWStuai/2FEDqP+CRuLs1q2AhlTOe8NOL2/AZxiCKHG/yx2TxjLx
-   w==;
-X-CSE-ConnectionGUID: 8H8IemjYS6GZT9aK9LbA8w==
-X-CSE-MsgGUID: TjyULUl1Qtaj0Y3z8fN/tQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="80767947"
-X-IronPort-AV: E=Sophos;i="6.23,173,1770624000"; 
-   d="scan'208";a="80767947"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 00:35:13 -0700
-X-CSE-ConnectionGUID: NoxFqku/QKWCK1X33uQGYg==
-X-CSE-MsgGUID: u45gmvSJSx6svAs0feCjmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,173,1770624000"; 
-   d="scan'208";a="226137584"
-Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Apr 2026 00:35:12 -0700
-Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wBSs1-000000000xF-3Z8g;
-	Sat, 11 Apr 2026 07:35:09 +0000
-Date: Sat, 11 Apr 2026 15:35:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/codecs/rt1320-sdw.c:1575 rt1320_rae_load() warn:
- 'rae_fw' from request_firmware() not released on lines: 1575.
-Message-ID: <202604111548.EL450PMb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLl22ifQ"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48896199cbaso29729295e9.1
+        for <oe-kbuild@lists.linux.dev>; Sat, 11 Apr 2026 00:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775894264; x=1776499064; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FYoxqR7Nig0LUyLiP0DsYCnjDciU52ZMAS8LUKuD7GU=;
+        b=dLl22ifQqELr8p2eFpXcdzke1xWtLCrDhKLoA95dI6P4MReT/eI6O35QP57YBtwpnw
+         qycNJB5O6sp024hSjB8KrI4F9IQ4OjrIgQM3O/Zk9D3l+025cen3xZoSJ8w+rsp2nTZ4
+         61T4M1xQWZL6sWbowku5EXD8ULKKs36jRfQrR/O6A1LKVM0K4tWFR4BUAzCr5hUdqfYe
+         on/hBwItl6rVeP+ue+NGDWp6PeR4yTNEZjIyiGyR2eSgE96JsAWnnLxm63p6ws7xYh0e
+         MkKluSvzJRjWKVIr6rrm56ajpVj6jlHMDHoHa7a+dLQrWuHCIF5Ekxvm0pvEFvgzGLQ9
+         vlQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775894264; x=1776499064;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FYoxqR7Nig0LUyLiP0DsYCnjDciU52ZMAS8LUKuD7GU=;
+        b=e0TRVQrnoowZ0OhKQDlR4SMf4LhJerEJhJ5HN3/z62nkF1oXRuLeICoV2J7xKGVXj8
+         GabwxX6RNdTgdpPPwQSjtTVa22IKzWXHDOcs15RooRzo8CdHQ0n/aTq3BYw1/t3WsFIJ
+         N+sN0Tpdta/pIEQtnedcQSI63vIoDbI5r0CCVKxObwxJJYcH/J4kTihSZvdADPmqTVTk
+         vHt2vWFUV+0Jel5Gupu6ShpHrCP9ADK9j+SG5kB2gx+nT2dGBQNr8EcedYPEmj1FSsxi
+         HFHNprO9lSxVKdbHrkCebdlyciEibxbLrV15h+dFk7q18Z5eZ7wz+WpAkcCJQoZ7JyH/
+         24EA==
+X-Gm-Message-State: AOJu0Yx+XNQvUi3U0DQfAHkWFBjBI++6xbdnCpqUgzgLRvtXzU48MOqs
+	ZAmYMIFuDi+/0oZwSZKO/yfbfSed9YK7RlNXP4KGXMF0gsZtaciWNHSvz5p+uG6u
+X-Gm-Gg: AeBDieuK13Tu8nuJLW/nxYlPTLE9/4UhwAtHq/fUBT11TNlPip/NAO+YD2m55LgvbQ1
+	I+ye9iNpJmULUJzGCmuECWKjPjLQ4s3OuvylnD6ESb4Xg1b6PQiyHwnxWmx0TZF1LBR2caMQnQ/
+	fSBFteiA1BWC5yG0nBXNDHrtVFiccDS3WSbxV4DqkjQh7xm0Lo7RsKNqIUTABMrwiTZ87B7N/QH
+	A8TjCfhG1EbJbe+BBsL4BsUtRRkl0m1/z4TszyI2pMS0qzvu3n1qlDRXKt7w7O1YANjLBNO+/J5
+	w29Crhn9/8xeCuNTPMqMKicuC4dRmQn8VZvSgzDO/9ypCWcS7eyQlWnN7AdCkhalxPavT/LvcTk
+	QOLOS+vOs6lci76ClqS0NkVwD6BIieuQHuQZyYGKPslFMb9PdFfuEHDtchY9O1nRIsqqHU807YU
+	q2YiqqQH3WhjHS5J4R6hg=
+X-Received: by 2002:a05:600c:4451:b0:485:1878:7b8c with SMTP id 5b1f17b1804b1-488d684c6bdmr67379265e9.18.1775894263430;
+        Sat, 11 Apr 2026 00:57:43 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5d70891sm42837795e9.2.2026.04.11.00.57.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Apr 2026 00:57:42 -0700 (PDT)
+Date: Sat, 11 Apr 2026 10:57:39 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Tiwei Bie <tiwei.btw@antgroup.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Subject: arch/um/drivers/vector_kern.c:471 destroy_queue() warn: variable
+ dereferenced before check 'qi' (see line 468)
+Message-ID: <202604110937.MLUL70Lx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260411075739.MxfqqcZSH7ZQaU46YL3tCSJpAaDGSVGxkuqqpFQQbAw@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Shuming Fan <shumingf@realtek.com>
-CC: Mark Brown <broonie@kernel.org>
+[ Obviously, the commit just did COMPILE_TEST or something.  Anyway... -dan ]
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e774d5f1bc27a85f858bce7688509e866f8e8a4e
-commit: 22937af75abb3260c2d563739181f4b61ddac2c1 ASoC: rt1320: support RAE parameters loading
-date:   4 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-r073-20260411 (https://download.01.org/0day-ci/archive/20260411/202604111548.EL450PMb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+head:   7c6c4ed80b874f721bc7c2c937e098c56e37d2f0
+commit: b555cb66583e99158cfef8e91c025252cefae55b um: vector: Eliminate the dependency on uml_net
+config: um-randconfig-r072-20260411 (https://download.01.org/0day-ci/archive/20260411/202604110937.MLUL70Lx-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 22937af75abb ("ASoC: rt1320: support RAE parameters loading")
+| Fixes: b555cb66583e ("um: vector: Eliminate the dependency on uml_net")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604111548.EL450PMb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604110937.MLUL70Lx-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/codecs/rt1320-sdw.c:1575 rt1320_rae_load() warn: 'rae_fw' from request_firmware() not released on lines: 1575.
+smatch warnings:
+arch/um/drivers/vector_kern.c:471 destroy_queue() warn: variable dereferenced before check 'qi' (see line 468)
 
-Old smatch warnings:
-sound/soc/codecs/rt1320-sdw.c:1491 rt1320_rae_load() warn: should this be 'retry == -1'
-sound/soc/codecs/rt1320-sdw.c:1591 rt1320_dspfw_load_code() warn: inconsistent indenting
+vim +/qi +471 arch/um/drivers/vector_kern.c
 
-vim +/rae_fw +1575 sound/soc/codecs/rt1320-sdw.c
+49da7e64f33e80 Anton Ivanov 2017-11-20  464  static void destroy_queue(struct vector_queue *qi)
+49da7e64f33e80 Anton Ivanov 2017-11-20  465  {
+49da7e64f33e80 Anton Ivanov 2017-11-20  466  	int i;
+49da7e64f33e80 Anton Ivanov 2017-11-20  467  	struct iovec *iov;
+49da7e64f33e80 Anton Ivanov 2017-11-20 @468  	struct vector_private *vp = netdev_priv(qi->dev);
+                                                                                        ^^^^^^^
+Dereference
 
-da1682d5e8b53a Shuming Fan 2025-12-16  1425  
-22937af75abb32 Shuming Fan 2025-12-16  1426  static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
-22937af75abb32 Shuming Fan 2025-12-16  1427  {
-22937af75abb32 Shuming Fan 2025-12-16  1428  	struct device *dev = &rt1320->sdw_slave->dev;
-22937af75abb32 Shuming Fan 2025-12-16  1429  	static const char func_tag[] = "FUNC";
-22937af75abb32 Shuming Fan 2025-12-16  1430  	static const char xu_tag[] = "XU";
-22937af75abb32 Shuming Fan 2025-12-16  1431  	const struct firmware *rae_fw = NULL;
-22937af75abb32 Shuming Fan 2025-12-16  1432  	unsigned int fw_offset;
-22937af75abb32 Shuming Fan 2025-12-16  1433  	unsigned char *fw_data;
-22937af75abb32 Shuming Fan 2025-12-16  1434  	unsigned char *param_data;
-22937af75abb32 Shuming Fan 2025-12-16  1435  	unsigned int addr, size;
-22937af75abb32 Shuming Fan 2025-12-16  1436  	unsigned int func, value;
-22937af75abb32 Shuming Fan 2025-12-16  1437  	const char *dmi_vendor, *dmi_product, *dmi_sku;
-22937af75abb32 Shuming Fan 2025-12-16  1438  	char vendor[128], product[128], sku[128];
-22937af75abb32 Shuming Fan 2025-12-16  1439  	char *ptr_vendor, *ptr_product, *ptr_sku;
-22937af75abb32 Shuming Fan 2025-12-16  1440  	char rae_filename[128];
-22937af75abb32 Shuming Fan 2025-12-16  1441  	char tag[5];
-22937af75abb32 Shuming Fan 2025-12-16  1442  	int ret = 0;
-22937af75abb32 Shuming Fan 2025-12-16  1443  	int retry = 200;
-22937af75abb32 Shuming Fan 2025-12-16  1444  
-22937af75abb32 Shuming Fan 2025-12-16  1445  	dmi_vendor = dmi_get_system_info(DMI_SYS_VENDOR);
-22937af75abb32 Shuming Fan 2025-12-16  1446  	dmi_product = dmi_get_system_info(DMI_PRODUCT_NAME);
-22937af75abb32 Shuming Fan 2025-12-16  1447  	dmi_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
-22937af75abb32 Shuming Fan 2025-12-16  1448  
-22937af75abb32 Shuming Fan 2025-12-16  1449  	if (dmi_vendor && dmi_product && dmi_sku) {
-22937af75abb32 Shuming Fan 2025-12-16  1450  		strscpy(vendor, dmi_vendor);
-22937af75abb32 Shuming Fan 2025-12-16  1451  		strscpy(product, dmi_product);
-22937af75abb32 Shuming Fan 2025-12-16  1452  		strscpy(sku, dmi_sku);
-22937af75abb32 Shuming Fan 2025-12-16  1453  		ptr_vendor = &vendor[0];
-22937af75abb32 Shuming Fan 2025-12-16  1454  		ptr_product = &product[0];
-22937af75abb32 Shuming Fan 2025-12-16  1455  		ptr_sku = &sku[0];
-22937af75abb32 Shuming Fan 2025-12-16  1456  		ptr_vendor = strsep(&ptr_vendor, " ");
-22937af75abb32 Shuming Fan 2025-12-16  1457  		ptr_product = strsep(&ptr_product, " ");
-22937af75abb32 Shuming Fan 2025-12-16  1458  		ptr_sku = strsep(&ptr_sku, " ");
-22937af75abb32 Shuming Fan 2025-12-16  1459  
-22937af75abb32 Shuming Fan 2025-12-16  1460  		dev_dbg(dev, "%s: DMI vendor=%s, product=%s, sku=%s\n", __func__,
-22937af75abb32 Shuming Fan 2025-12-16  1461  			vendor, product, sku);
-22937af75abb32 Shuming Fan 2025-12-16  1462  
-22937af75abb32 Shuming Fan 2025-12-16  1463  		snprintf(rae_filename, sizeof(rae_filename),
-22937af75abb32 Shuming Fan 2025-12-16  1464  			 "realtek/rt1320/rt1320_RAE_%s_%s_%s.dat", vendor, product, sku);
-22937af75abb32 Shuming Fan 2025-12-16  1465  		dev_dbg(dev, "%s: try to load RAE file %s\n", __func__, rae_filename);
-22937af75abb32 Shuming Fan 2025-12-16  1466  	} else {
-22937af75abb32 Shuming Fan 2025-12-16  1467  		dev_warn(dev, "%s: Can't find proper RAE file name\n", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1468  		return -EINVAL;
-22937af75abb32 Shuming Fan 2025-12-16  1469  	}
-22937af75abb32 Shuming Fan 2025-12-16  1470  
-22937af75abb32 Shuming Fan 2025-12-16  1471  	regmap_write(rt1320->regmap,
-22937af75abb32 Shuming Fan 2025-12-16  1472  			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
-22937af75abb32 Shuming Fan 2025-12-16  1473  				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x00);
-22937af75abb32 Shuming Fan 2025-12-16  1474  	rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x00);
-22937af75abb32 Shuming Fan 2025-12-16  1475  
-22937af75abb32 Shuming Fan 2025-12-16  1476  	request_firmware(&rae_fw, rae_filename, dev);
-22937af75abb32 Shuming Fan 2025-12-16  1477  	if (rae_fw) {
-22937af75abb32 Shuming Fan 2025-12-16  1478  
-22937af75abb32 Shuming Fan 2025-12-16  1479  		/* RAE CRC clear */
-22937af75abb32 Shuming Fan 2025-12-16  1480  		regmap_write(rt1320->regmap, 0xe80b, 0x0f);
-22937af75abb32 Shuming Fan 2025-12-16  1481  
-22937af75abb32 Shuming Fan 2025-12-16  1482  		/* RAE stop & CRC disable */
-22937af75abb32 Shuming Fan 2025-12-16  1483  		regmap_update_bits(rt1320->regmap, 0xe803, 0xbc, 0x00);
-22937af75abb32 Shuming Fan 2025-12-16  1484  
-22937af75abb32 Shuming Fan 2025-12-16  1485  		while (retry--) {
-22937af75abb32 Shuming Fan 2025-12-16  1486  			regmap_read(rt1320->regmap, 0xe83f, &value);
-22937af75abb32 Shuming Fan 2025-12-16  1487  			if (value & 0x40)
-22937af75abb32 Shuming Fan 2025-12-16  1488  				break;
-22937af75abb32 Shuming Fan 2025-12-16  1489  			usleep_range(1000, 1100);
-22937af75abb32 Shuming Fan 2025-12-16  1490  		}
-22937af75abb32 Shuming Fan 2025-12-16  1491  		if (!retry && !(value & 0x40)) {
-22937af75abb32 Shuming Fan 2025-12-16  1492  			dev_err(dev, "%s: RAE is not ready to load\n", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1493  			return -ETIMEDOUT;
-22937af75abb32 Shuming Fan 2025-12-16  1494  		}
-22937af75abb32 Shuming Fan 2025-12-16  1495  
-22937af75abb32 Shuming Fan 2025-12-16  1496  		dev_dbg(dev, "%s, rae_fw size=0x%lx\n", __func__, rae_fw->size);
-22937af75abb32 Shuming Fan 2025-12-16  1497  		regcache_cache_bypass(rt1320->regmap, true);
-22937af75abb32 Shuming Fan 2025-12-16  1498  		for (fw_offset = 0; fw_offset < rae_fw->size;) {
-22937af75abb32 Shuming Fan 2025-12-16  1499  
-22937af75abb32 Shuming Fan 2025-12-16  1500  			dev_dbg(dev, "%s, fw_offset=0x%x\n", __func__, fw_offset);
-22937af75abb32 Shuming Fan 2025-12-16  1501  
-22937af75abb32 Shuming Fan 2025-12-16  1502  			fw_data = (unsigned char *)&rae_fw->data[fw_offset];
-22937af75abb32 Shuming Fan 2025-12-16  1503  
-22937af75abb32 Shuming Fan 2025-12-16  1504  			memcpy(tag, fw_data, 4);
-22937af75abb32 Shuming Fan 2025-12-16  1505  			tag[4] = '\0';
-22937af75abb32 Shuming Fan 2025-12-16  1506  			dev_dbg(dev, "%s, tag=%s\n", __func__, tag);
-22937af75abb32 Shuming Fan 2025-12-16  1507  			if (strcmp(tag, xu_tag) == 0) {
-22937af75abb32 Shuming Fan 2025-12-16  1508  				dev_dbg(dev, "%s: This is a XU tag", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1509  				memcpy(&addr, (fw_data + 4), 4);
-22937af75abb32 Shuming Fan 2025-12-16  1510  				memcpy(&size, (fw_data + 8), 4);
-22937af75abb32 Shuming Fan 2025-12-16  1511  				param_data = (unsigned char *)(fw_data + 12);
-22937af75abb32 Shuming Fan 2025-12-16  1512  
-22937af75abb32 Shuming Fan 2025-12-16  1513  				dev_dbg(dev, "%s: addr=0x%x, size=0x%x\n", __func__, addr, size);
-22937af75abb32 Shuming Fan 2025-12-16  1514  
-22937af75abb32 Shuming Fan 2025-12-16  1515  				/*
-22937af75abb32 Shuming Fan 2025-12-16  1516  				 * UI register ranges from 0x1000d000 to 0x1000d7ff
-22937af75abb32 Shuming Fan 2025-12-16  1517  				 * UI registers should be accessed by tuning tool.
-22937af75abb32 Shuming Fan 2025-12-16  1518  				 * So, there registers should be cached.
-22937af75abb32 Shuming Fan 2025-12-16  1519  				 */
-22937af75abb32 Shuming Fan 2025-12-16  1520  				if (addr <= 0x1000d7ff && addr >= 0x1000d000)
-22937af75abb32 Shuming Fan 2025-12-16  1521  					regcache_cache_bypass(rt1320->regmap, false);
-22937af75abb32 Shuming Fan 2025-12-16  1522  
-22937af75abb32 Shuming Fan 2025-12-16  1523  				rt1320_data_rw(rt1320, addr, param_data, size, RT1320_PARAM_WRITE);
-22937af75abb32 Shuming Fan 2025-12-16  1524  
-22937af75abb32 Shuming Fan 2025-12-16  1525  				regcache_cache_bypass(rt1320->regmap, true);
-22937af75abb32 Shuming Fan 2025-12-16  1526  
-22937af75abb32 Shuming Fan 2025-12-16  1527  				fw_offset += (size + 12);
-22937af75abb32 Shuming Fan 2025-12-16  1528  			} else if (strcmp(tag, func_tag) == 0) {
-22937af75abb32 Shuming Fan 2025-12-16  1529  				dev_err(dev, "%s: This is a FUNC tag", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1530  
-22937af75abb32 Shuming Fan 2025-12-16  1531  				memcpy(&func, (fw_data + 4), 4);
-22937af75abb32 Shuming Fan 2025-12-16  1532  				memcpy(&value, (fw_data + 8), 4);
-22937af75abb32 Shuming Fan 2025-12-16  1533  
-22937af75abb32 Shuming Fan 2025-12-16  1534  				dev_dbg(dev, "%s: func=0x%x, value=0x%x\n", __func__, func, value);
-22937af75abb32 Shuming Fan 2025-12-16  1535  				if (func == 1)  //DelayMs
-22937af75abb32 Shuming Fan 2025-12-16  1536  					msleep(value);
-22937af75abb32 Shuming Fan 2025-12-16  1537  
-22937af75abb32 Shuming Fan 2025-12-16  1538  				fw_offset += 12;
-22937af75abb32 Shuming Fan 2025-12-16  1539  			} else {
-22937af75abb32 Shuming Fan 2025-12-16  1540  				dev_err(dev, "%s: This is NOT a XU file (wrong tag)", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1541  				break;
-22937af75abb32 Shuming Fan 2025-12-16  1542  			}
-22937af75abb32 Shuming Fan 2025-12-16  1543  		}
-22937af75abb32 Shuming Fan 2025-12-16  1544  
-22937af75abb32 Shuming Fan 2025-12-16  1545  		regcache_cache_bypass(rt1320->regmap, false);
-22937af75abb32 Shuming Fan 2025-12-16  1546  		release_firmware(rae_fw);
-22937af75abb32 Shuming Fan 2025-12-16  1547  
-22937af75abb32 Shuming Fan 2025-12-16  1548  	} else {
-22937af75abb32 Shuming Fan 2025-12-16  1549  		dev_err(dev, "%s: Failed to load %s firmware\n", __func__, rae_filename);
-22937af75abb32 Shuming Fan 2025-12-16  1550  		ret = -EINVAL;
-22937af75abb32 Shuming Fan 2025-12-16  1551  		goto _exit_;
-22937af75abb32 Shuming Fan 2025-12-16  1552  	}
-22937af75abb32 Shuming Fan 2025-12-16  1553  
-22937af75abb32 Shuming Fan 2025-12-16  1554  	/* RAE CRC enable */
-22937af75abb32 Shuming Fan 2025-12-16  1555  	regmap_update_bits(rt1320->regmap, 0xe803, 0x0c, 0x0c);
-22937af75abb32 Shuming Fan 2025-12-16  1556  
-22937af75abb32 Shuming Fan 2025-12-16  1557  	/* RAE update */
-22937af75abb32 Shuming Fan 2025-12-16  1558  	regmap_update_bits(rt1320->regmap, 0xe80b, 0x80, 0x00);
-22937af75abb32 Shuming Fan 2025-12-16  1559  	regmap_update_bits(rt1320->regmap, 0xe80b, 0x80, 0x80);
-22937af75abb32 Shuming Fan 2025-12-16  1560  
-22937af75abb32 Shuming Fan 2025-12-16  1561  	/* RAE run */
-22937af75abb32 Shuming Fan 2025-12-16  1562  	regmap_update_bits(rt1320->regmap, 0xe803, 0x80, 0x80);
-22937af75abb32 Shuming Fan 2025-12-16  1563  
-22937af75abb32 Shuming Fan 2025-12-16  1564  	regmap_read(rt1320->regmap, 0xe80b, &value);
-22937af75abb32 Shuming Fan 2025-12-16  1565  	dev_dbg(dev, "%s: CAE run => 0xe80b reg = 0x%x\n", __func__, value);
-22937af75abb32 Shuming Fan 2025-12-16  1566  
-22937af75abb32 Shuming Fan 2025-12-16  1567  	rt1320->rae_update_done = true;
-22937af75abb32 Shuming Fan 2025-12-16  1568  
-22937af75abb32 Shuming Fan 2025-12-16  1569  _exit_:
-22937af75abb32 Shuming Fan 2025-12-16  1570  	regmap_write(rt1320->regmap,
-22937af75abb32 Shuming Fan 2025-12-16  1571  			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
-22937af75abb32 Shuming Fan 2025-12-16  1572  				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03);
-22937af75abb32 Shuming Fan 2025-12-16  1573  	rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x03);
-22937af75abb32 Shuming Fan 2025-12-16  1574  
-22937af75abb32 Shuming Fan 2025-12-16 @1575  	return ret;
-22937af75abb32 Shuming Fan 2025-12-16  1576  }
-22937af75abb32 Shuming Fan 2025-12-16  1577  
+49da7e64f33e80 Anton Ivanov 2017-11-20  469  	struct mmsghdr *mmsg_vector;
+49da7e64f33e80 Anton Ivanov 2017-11-20  470  
+49da7e64f33e80 Anton Ivanov 2017-11-20 @471  	if (qi == NULL)
+                                                    ^^^^^^^^^^
+Checked too late.
+
+49da7e64f33e80 Anton Ivanov 2017-11-20  472  		return;
+49da7e64f33e80 Anton Ivanov 2017-11-20  473  	/* deallocate any skbuffs - we rely on any unused to be
+49da7e64f33e80 Anton Ivanov 2017-11-20  474  	 * set to NULL.
+49da7e64f33e80 Anton Ivanov 2017-11-20  475  	 */
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
