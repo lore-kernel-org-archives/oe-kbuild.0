@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB31B1D5151
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Apr 2026 01:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A661C5D59
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Apr 2026 01:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775870874; cv=none; b=uCSvGkGJ+zMV1f9JI1z/EtU1LT9+kA3FE3IPxK4I6L8GtvbYe604cIJ9nBkxAOUIGlDljiN7q1ySLhOh+ie04VAeqqTlYw+WmqF2JHvBYS2M+UFW0TMkK124/THZBGXj7UqWlcl4EQR5ztGD84tLR/CZ4a6NyMauVzC9xYUJ5PE=
+	t=1775872375; cv=none; b=Ty04khr4f0ipvEcjKbxiiD/phJUY2LZIPD6+8jroPRK/fkd8Y7bh/zdr6n/Z6i8aZFEHYBNCmRr9S8BtrcuESkIgIJeGBl2p8F0ZIOzhzEJv+ygj7Ny8ByTKhpHCogbaNQm2PEIvmFyhLodgAXLXmb3Y7AvAVHTVWrkJf/+Kl6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775870874; c=relaxed/simple;
-	bh=fBmVi1GGVxx+HPCt0yA/wyZd3tJZ+7PtFzJJ4X1LzGE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MGk0OVlnsaYME/9JdCe1nZ+xSWAyMV05I12ufO2iLkgoT6diuY+O39y1BWe83nU8D1AI0Xb51R0RdNGFVlaG0IA/6QOfjegkq2kCVr0AoQl0p7XxnD+lJ4j6ksbv3ySwqzk8bVLsEQBUIfJGfrJIL6umvk5mTnXMBMXzuFomKSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnD+b4SK; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1775872375; c=relaxed/simple;
+	bh=F0GOSQ/Li821f+zeQpjSdCLtYJ/cuAp092nEpyn/Og0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ol2cT6VnZ20OkXaxix5y0QHl5pT7EKFiphT+AAyeMqGDXqmc9UZ+FvWAag+Vzh5O1IZRErIHOclsOXLMr6RWMBTBIdEq66nHQAUS45pus3vHFqXRkDosCsJttrX0vC8K/GkzArcypnAWKcdO0iEkig7oVSKTQJ/fBn+gFEv3gd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEVCIP/q; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnD+b4SK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEVCIP/q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775870873; x=1807406873;
+  t=1775872374; x=1807408374;
   h=date:from:to:cc:subject:message-id;
-  bh=fBmVi1GGVxx+HPCt0yA/wyZd3tJZ+7PtFzJJ4X1LzGE=;
-  b=VnD+b4SKZtpIdiux+2PsQR6oPwAbBivuS2WnwkTa2xuWKj2/p0Frt2rh
-   jZPGyOcjFhT0bbstzlOj6iEGTPUGVgyEtQgyWS9hAB/EtCYg7qoHR2+Jn
-   CTV3bPLLUv94FuOnVzcuvnv3c4FH+V9wGC9IJhEILAiZeaURGY1bpMNbq
-   vz7HTwa6cZz7FJ1guTn3gNhlPBqPECiZSLzQvgSuPvBeAWQnBUCiWh9/N
-   WYBsyDQhynt3qgufTvpkkipt0woi3aLrjCgTMnF7tM34iVThOAd6CTVGE
-   ZRsCDJ+ROwU281yS84A8+KZpNnQIz1arMMXsbRlS4fNbcaPvnPlGx3M42
-   w==;
-X-CSE-ConnectionGUID: sxkM5hZzSDebT4fjEq/RjA==
-X-CSE-MsgGUID: XKylV9vVQHOeTLLTNByOsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76913023"
+  bh=F0GOSQ/Li821f+zeQpjSdCLtYJ/cuAp092nEpyn/Og0=;
+  b=hEVCIP/qUN5C/easGDBnFc4xxFRWD39HBDENmMkrT4xG76Gd1WEY1PpA
+   dneQ1nNYIhqvOoFIYoff3VkLZP2J6BYlka0ainA98BGEWaq3f6ZDIijQQ
+   TSdv2DwIBOw/yz9qezlkltmW0ymg9ur+ei09z99sOFJ79/8ECqvS/KFmP
+   oq+ZyHUYWKhe1Fh4KRd5tdPndZdxFe5au/N6CBwtJ8V9hiA9avnmSyLAa
+   gySHMIrOe/PQc9EQHcBiDx7BGC+Qgccqtyj9DGCzQ0XoCIPnBkF48Nmx5
+   cqIN1cuE6mHKEH6Nnpkv4je+cuvzRUKsz6rGZzCQU6XrBIQ+PGpTTJQwD
+   Q==;
+X-CSE-ConnectionGUID: p5/1dU6fR1iyo0bZND2JZA==
+X-CSE-MsgGUID: 0c8UDqYMQGymdloToyiG0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76773155"
 X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
-   d="scan'208";a="76913023"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 18:27:52 -0700
-X-CSE-ConnectionGUID: rJLMx2gTTwWmPsAAk7vR8Q==
-X-CSE-MsgGUID: Iv/HDhjBTKesChZM5H5dng==
+   d="scan'208";a="76773155"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 18:52:53 -0700
+X-CSE-ConnectionGUID: iwgspGpgRUGyurQsyK+dCA==
+X-CSE-MsgGUID: CMtkg1U/S0+jHvOUS6UgUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
-   d="scan'208";a="229514548"
+   d="scan'208";a="234242751"
 Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Apr 2026 18:27:50 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 Apr 2026 18:52:53 -0700
 Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBN8V-000000000Zr-3RKS;
-	Sat, 11 Apr 2026 01:27:47 +0000
-Date: Sat, 11 Apr 2026 09:27:40 +0800
+	id 1wBNWj-000000000bJ-3MHV;
+	Sat, 11 Apr 2026 01:52:49 +0000
+Date: Sat, 11 Apr 2026 09:52:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/um/drivers/vector_kern.c:471 destroy_queue() warn:
- variable dereferenced before check 'qi' (see line 468)
-Message-ID: <202604110937.MLUL70Lx-lkp@intel.com>
+Subject: drivers/gpio/gpiolib.c:4732 gpiod_find_and_request() warn:
+ 'desc' can also be NULL
+Message-ID: <202604110938.6uIVnQtT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,79 +62,131 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Tiwei Bie <tiwei.btw@antgroup.com>
-CC: Johannes Berg <johannes.berg@intel.com>
+TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7c6c4ed80b874f721bc7c2c937e098c56e37d2f0
-commit: b555cb66583e99158cfef8e91c025252cefae55b um: vector: Eliminate the dependency on uml_net
-date:   11 months ago
+commit: 1e4f6db614a310cc34d07ffbf031c76ea9581bcf gpiolib: support shared GPIOs in core subsystem code
+date:   5 months ago
 :::::: branch date: 10 hours ago
-:::::: commit date: 11 months ago
-config: um-randconfig-r072-20260411 (https://download.01.org/0day-ci/archive/20260411/202604110937.MLUL70Lx-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-161-20260410 (https://download.01.org/0day-ci/archive/20260411/202604110938.6uIVnQtT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: b555cb66583e ("um: vector: Eliminate the dependency on uml_net")
+| Fixes: 1e4f6db614a3 ("gpiolib: support shared GPIOs in core subsystem code")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604110937.MLUL70Lx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604110938.6uIVnQtT-lkp@intel.com/
 
 smatch warnings:
-arch/um/drivers/vector_kern.c:471 destroy_queue() warn: variable dereferenced before check 'qi' (see line 468)
+drivers/gpio/gpiolib.c:4732 gpiod_find_and_request() warn: 'desc' can also be NULL
 
-vim +/qi +471 arch/um/drivers/vector_kern.c
+vim +/desc +4732 drivers/gpio/gpiolib.c
 
-49da7e64f33e80 Anton Ivanov 2017-11-20  459  
-49da7e64f33e80 Anton Ivanov 2017-11-20  460  /* Queue destructor. Deliberately stateless so we can use
-49da7e64f33e80 Anton Ivanov 2017-11-20  461   * it in queue cleanup if initialization fails.
-49da7e64f33e80 Anton Ivanov 2017-11-20  462   */
-49da7e64f33e80 Anton Ivanov 2017-11-20  463  
-49da7e64f33e80 Anton Ivanov 2017-11-20  464  static void destroy_queue(struct vector_queue *qi)
-49da7e64f33e80 Anton Ivanov 2017-11-20  465  {
-49da7e64f33e80 Anton Ivanov 2017-11-20  466  	int i;
-49da7e64f33e80 Anton Ivanov 2017-11-20  467  	struct iovec *iov;
-49da7e64f33e80 Anton Ivanov 2017-11-20 @468  	struct vector_private *vp = netdev_priv(qi->dev);
-49da7e64f33e80 Anton Ivanov 2017-11-20  469  	struct mmsghdr *mmsg_vector;
-49da7e64f33e80 Anton Ivanov 2017-11-20  470  
-49da7e64f33e80 Anton Ivanov 2017-11-20 @471  	if (qi == NULL)
-49da7e64f33e80 Anton Ivanov 2017-11-20  472  		return;
-49da7e64f33e80 Anton Ivanov 2017-11-20  473  	/* deallocate any skbuffs - we rely on any unused to be
-49da7e64f33e80 Anton Ivanov 2017-11-20  474  	 * set to NULL.
-49da7e64f33e80 Anton Ivanov 2017-11-20  475  	 */
-49da7e64f33e80 Anton Ivanov 2017-11-20  476  	if (qi->skbuff_vector != NULL) {
-49da7e64f33e80 Anton Ivanov 2017-11-20  477  		for (i = 0; i < qi->max_depth; i++) {
-49da7e64f33e80 Anton Ivanov 2017-11-20  478  			if (*(qi->skbuff_vector + i) != NULL)
-49da7e64f33e80 Anton Ivanov 2017-11-20  479  				dev_kfree_skb_any(*(qi->skbuff_vector + i));
-49da7e64f33e80 Anton Ivanov 2017-11-20  480  		}
-49da7e64f33e80 Anton Ivanov 2017-11-20  481  		kfree(qi->skbuff_vector);
-49da7e64f33e80 Anton Ivanov 2017-11-20  482  	}
-49da7e64f33e80 Anton Ivanov 2017-11-20  483  	/* deallocate matching IOV structures including header buffs */
-49da7e64f33e80 Anton Ivanov 2017-11-20  484  	if (qi->mmsg_vector != NULL) {
-49da7e64f33e80 Anton Ivanov 2017-11-20  485  		mmsg_vector = qi->mmsg_vector;
-49da7e64f33e80 Anton Ivanov 2017-11-20  486  		for (i = 0; i < qi->max_depth; i++) {
-49da7e64f33e80 Anton Ivanov 2017-11-20  487  			iov = mmsg_vector->msg_hdr.msg_iov;
-49da7e64f33e80 Anton Ivanov 2017-11-20  488  			if (iov != NULL) {
-49da7e64f33e80 Anton Ivanov 2017-11-20  489  				if ((vp->header_size > 0) &&
-49da7e64f33e80 Anton Ivanov 2017-11-20  490  					(iov->iov_base != NULL))
-49da7e64f33e80 Anton Ivanov 2017-11-20  491  					kfree(iov->iov_base);
-49da7e64f33e80 Anton Ivanov 2017-11-20  492  				kfree(iov);
-49da7e64f33e80 Anton Ivanov 2017-11-20  493  			}
-49da7e64f33e80 Anton Ivanov 2017-11-20  494  			mmsg_vector++;
-49da7e64f33e80 Anton Ivanov 2017-11-20  495  		}
-49da7e64f33e80 Anton Ivanov 2017-11-20  496  		kfree(qi->mmsg_vector);
-49da7e64f33e80 Anton Ivanov 2017-11-20  497  	}
-49da7e64f33e80 Anton Ivanov 2017-11-20  498  	kfree(qi);
-49da7e64f33e80 Anton Ivanov 2017-11-20  499  }
-49da7e64f33e80 Anton Ivanov 2017-11-20  500  
+c6ccc4dde17676 Hans de Goede       2025-09-20  4643  
+0d776cfd5e5b55 Stephen Boyd        2024-02-22  4644  struct gpio_desc *gpiod_find_and_request(struct device *consumer,
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4645  					 struct fwnode_handle *fwnode,
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4646  					 const char *con_id,
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4647  					 unsigned int idx,
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4648  					 enum gpiod_flags flags,
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4649  					 const char *label,
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4650  					 bool platform_lookup_allowed)
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4651  {
+ba2dc1cb549171 Hans de Goede       2022-12-29  4652  	unsigned long lookupflags = GPIO_LOOKUP_FLAGS_DEFAULT;
+5c887b65bbd1a3 Andy Shevchenko     2024-03-25  4653  	const char *name = function_name_or_default(con_id);
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4654  	/*
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4655  	 * scoped_guard() is implemented as a for loop, meaning static
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4656  	 * analyzers will complain about these two not being initialized.
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4657  	 */
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4658  	struct gpio_desc *desc = NULL;
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4659  	int ret = 0;
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4660  
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4661  	scoped_guard(srcu, &gpio_devices_srcu) {
+c6ccc4dde17676 Hans de Goede       2025-09-20  4662  		desc = gpiod_fwnode_lookup(fwnode, consumer, con_id, idx,
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4663  					   &flags, &lookupflags);
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4664  		if (!IS_ERR_OR_NULL(desc) &&
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4665  		    test_bit(GPIOD_FLAG_SHARED, &desc->flags)) {
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4666  			/*
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4667  			 * We're dealing with a GPIO shared by multiple
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4668  			 * consumers. This is the moment to add the machine
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4669  			 * lookup table for the proxy device as previously
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4670  			 * we only knew the consumer's fwnode.
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4671  			 */
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4672  			ret = gpio_shared_add_proxy_lookup(consumer, lookupflags);
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4673  			if (ret)
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4674  				return ERR_PTR(ret);
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4675  
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4676  			/* Trigger platform lookup for shared GPIO proxy. */
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4677  			desc = ERR_PTR(-ENOENT);
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4678  			/* Trigger it even for fwnode-only gpiod_get(). */
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4679  			platform_lookup_allowed = true;
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4680  		}
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4681  
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4682  		if (gpiod_not_found(desc) && platform_lookup_allowed) {
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4683  			/*
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4684  			 * Either we are not using DT or ACPI, or their lookup
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4685  			 * did not return a result or this is a shared GPIO. In
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4686  			 * that case, use platform lookup as a fallback.
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4687  			 */
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4688  			dev_dbg(consumer,
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4689  				"using lookup tables for GPIO lookup\n");
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4690  			desc = gpiod_find(consumer, con_id, idx, &lookupflags);
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4691  		}
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4692  
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4693  		if (IS_ERR(desc)) {
+5c887b65bbd1a3 Andy Shevchenko     2024-03-25  4694  			dev_dbg(consumer, "No GPIO consumer %s found\n", name);
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4695  			return desc;
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4696  		}
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4697  
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4698  		/*
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4699  		 * If a connection label was passed use that, else attempt to use
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4700  		 * the device name as label
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4701  		 */
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4702  		ret = gpiod_request(desc, label);
+e348544f7994d2 Bartosz Golaszewski 2024-01-19  4703  	}
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4704  	if (ret) {
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4705  		if (!(ret == -EBUSY && flags & GPIOD_FLAGS_BIT_NONEXCLUSIVE))
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4706  			return ERR_PTR(ret);
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4707  
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4708  		/*
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4709  		 * This happens when there are several consumers for the same
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4710  		 * GPIO line: we just return here without further
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4711  		 * initialization. It's a hack introduced long ago to support
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4712  		 * fixed regulators. We now have a better solution with
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4713  		 * automated scanning where affected platforms just need to
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4714  		 * select the provided Kconfig option.
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4715  		 *
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4716  		 * FIXME: Remove the GPIOD_FLAGS_BIT_NONEXCLUSIVE flag after
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4717  		 * making sure all platforms use the new mechanism.
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4718  		 */
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4719  		dev_info(consumer,
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4720  			 "nonexclusive access to GPIO for %s, consider updating your code to using gpio-shared-proxy\n",
+1e4f6db614a310 Bartosz Golaszewski 2025-11-12  4721  			 name);
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4722  		return desc;
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4723  	}
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4724  
+8eb1f71e7acca4 Dmitry Torokhov     2022-11-11  4725  	ret = gpiod_configure_flags(desc, con_id, lookupflags, flags);
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4726  	if (ret < 0) {
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4727  		gpiod_put(desc);
+39c9049770f8b5 Peng Fan            2024-03-25  4728  		dev_err(consumer, "setup of GPIO %s failed: %d\n", name, ret);
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4729  		return ERR_PTR(ret);
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4730  	}
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4731  
+ee194b12bf9a2f Bartosz Golaszewski 2024-10-04 @4732  	gpiod_line_state_notify(desc, GPIO_V2_LINE_CHANGED_REQUESTED);
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4733  
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4734  	return desc;
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4735  }
+0eadd36d912374 Dmitry Torokhov     2022-09-03  4736  
 
-:::::: The code at line 471 was first introduced by commit
-:::::: 49da7e64f33e80edffb1a9eeb230fa4c3f42dffb High Performance UML Vector Network Driver
+:::::: The code at line 4732 was first introduced by commit
+:::::: ee194b12bf9a2f2ed57b9c5bc7a5f221f7f4a06f gpiolib: use v2 defines for line state change events
 
-:::::: TO: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-:::::: CC: Richard Weinberger <richard@nod.at>
+:::::: TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+:::::: CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
