@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2782A393DE2
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 Apr 2026 20:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463C934EEE1
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Apr 2026 21:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776112779; cv=none; b=ZRGAhbuNW7Opg7vUvZrNPLQLeW5aMv0xBpEkmDmXE3tUqR0Hbrx8TI1tTi+ZR+iDG6rFhqXRBfilOKmYuDJ0heqg2j1wPwLI36rHKa/L58mS5sna/cDK1hPvN+bzEe4iqSkWShWkXjO7VNOt1fGXsdWEXRA9gdFvIWAiwl7A6vI=
+	t=1776117040; cv=none; b=EMk6eg/OU9HgVbx4U+0B3HRFsKsv4NBNTKuHQlFcUyVlDcLREDFeqxFP9SeTljuGyYmyfMGZyF5GQJ9I9QPk4QvQcHof6LRmX7MIoczADE2WL8bB5BgwJDYh7hqnm4A821lJHLJlojwCGStrspSj7u8OAPAxcHfq58ipbS0uaa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776112779; c=relaxed/simple;
-	bh=wci98D7wY7PjV9yI5Z7Iws8rP77lVUxTkIR6ZAsTnfI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ssO55/ky8ebsNmNyIvcl8HXvoiwntlSz6EU7xh3+RZRRFSMVkjrLoEMQ8jyv7XsKpSTS3FFSUbCQtyB6zNy+q2ikbr3QYTLkpJGzTesi+I1IUHIVIHEXwu5aEv1xXGinrB+Weu186t5u9g3mf/j4e2haRaStdwn4RpYzuIBAq3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/TEOC52; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1776117040; c=relaxed/simple;
+	bh=Ay+zqeci9z5ezmWcIjuwl3h2ALvYdb2Q2TJblFCfn4o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=coA7es7HHT+7RoIOd8bil9Zc5Ps9ObTgC7fmaVKa0NaFgB+YH179MW0XqjGPPKSwjbDHVeXoS8Thbvuo2fAT5CLfbMpLmUXdwb0EFwqgVCZbIjuVEsGaXRzaUNVe9d6BlYz/udlmH3SjRhUj9Y8Yz3vsuzj0H8x8e2DCov2LYUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llYqTq2s; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/TEOC52"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llYqTq2s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776112776; x=1807648776;
+  t=1776117040; x=1807653040;
   h=date:from:to:cc:subject:message-id;
-  bh=wci98D7wY7PjV9yI5Z7Iws8rP77lVUxTkIR6ZAsTnfI=;
-  b=m/TEOC52hcmwU2WOiEl6lGzg0f10WbR8ChwsIQbIuG8+EsI2wWT+gBCv
-   aWTfIvzuQ2+v0bwXxD2XVhvBRDAEbOGjB6LPFEg5av+d1P5q2G3n9//XP
-   f8vhCn7Q6WGqdJGHDqzfuPgUasqvVCr2FhkRsFZXUvtE1TwTSAohQteQb
-   GDUnhWzFFklcocJ4fyetoPZ9Il1qiO0HtR0yOGe5ciGluVmIVRg013eta
-   t0fJ+uWZPh2H9yGvBwRtv5n6GAipitB/IIPS1OTZQgvU8h7IX4lw+j1RJ
-   0EDmKPf75GvniNIYGXgOv0LSS66Hrk0AAecgxm3vt+euyyzjo4iAOETSZ
-   Q==;
-X-CSE-ConnectionGUID: vz2V4u7zQ7eGTwjiTpiAow==
-X-CSE-MsgGUID: CLq6AdgRRxyBe4t3ytDJmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="102515237"
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="102515237"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 13:39:35 -0700
-X-CSE-ConnectionGUID: QOo8c1tYTGO/4S6yBegz1g==
-X-CSE-MsgGUID: 2I382rrhQ7yc1M+Li9J2mw==
+  bh=Ay+zqeci9z5ezmWcIjuwl3h2ALvYdb2Q2TJblFCfn4o=;
+  b=llYqTq2sogeGj9CmBw4VVQbC4k1TbYRe7IREDk+5+YfY+LSrrhvyAIdN
+   1EYQHqLgYiuMT6GcwOZBbVUYYxHZeL+nRQiH5CD0mPfnWQjBUnjURU8tX
+   1T0uNMkQRotP1U1mZX2qC2GEN9GIjVUFWkOvn0tx5foShMlyMuz3ZLgf8
+   5lg+KYkVsARzBidSzpGROn9CprYasuDa3Y8H8yl671H/SusfTBdps2kVc
+   rIyYG9RQ+jhtmFaMVt9GiFlVJXY+YV7fbcfz584WZiJTA73Zw8iE/sJrd
+   p4elS9ZpsoDCJ9ZDQXxetYXRUumtj0CDtEeb4EF6VA6hgvcOINOND62mP
+   A==;
+X-CSE-ConnectionGUID: 7IMSaIJ1Tl2EONTHrc3jrQ==
+X-CSE-MsgGUID: gizQCTVpSfi3IJ8dzXgLeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="80653180"
+X-IronPort-AV: E=Sophos;i="6.23,178,1770624000"; 
+   d="scan'208";a="80653180"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 14:50:39 -0700
+X-CSE-ConnectionGUID: 6h32JqIBSLqP6P61bsalJA==
+X-CSE-MsgGUID: kACW6WeNRka3DkcUL5+o/g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="234814950"
 Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Apr 2026 13:39:35 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 13 Apr 2026 14:50:38 -0700
 Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCO4D-000000000pl-0naz;
-	Mon, 13 Apr 2026 20:39:33 +0000
-Date: Tue, 14 Apr 2026 04:38:36 +0800
+	id 1wCPAx-000000000tA-1eVU;
+	Mon, 13 Apr 2026 21:50:35 +0000
+Date: Tue, 14 Apr 2026 05:49:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Warning: arch/mips/pci/pci-octeon.c:39 This comment starts
- with '/**', but isn't a kernel-doc comment. Refer to
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202604140435.MxzdODB8-lkp@intel.com>
+Subject: arch/riscv/mm/init.c:354:39: sparse: sparse: unsigned value
+ that used to be signed checked against zero?
+Message-ID: <202604140524.UJWCt18n-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,182 +58,81 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "low confidence static check warning: arch/riscv/mm/init.c:354:39: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Randy Dunlap <rdunlap@infradead.org>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: linux-doc@vger.kernel.org
-
-Hi Randy,
-
-FYI, the error/warning still remains.
+TO: Samuel Holland <samuel.holland@sifive.com>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0f00132132937ca01a99feaf8985109a9087c9ff
-commit: 5f88f44d8427a97347afda3a6114aed0df472a0b docs: kdoc: various fixes for grammar, spelling, punctuation
-date:   5 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 5 months ago
-config: mips-cavium_octeon_defconfig (https://download.01.org/0day-ci/archive/20260414/202604140435.MxzdODB8-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604140435.MxzdODB8-lkp@intel.com/reproduce)
+commit: ea2bde36a46d5724c1b44d80cc9fafbd73c2ecf9 riscv: Support CONFIG_RELOCATABLE on riscv32
+date:   1 year, 1 month ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: riscv-randconfig-r113-20260411 (https://download.01.org/0day-ci/archive/20260414/202604140524.UJWCt18n-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604140524.UJWCt18n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 5f88f44d8427 ("docs: kdoc: various fixes for grammar, spelling, punctuation")
+| Fixes: ea2bde36a46d ("riscv: Support CONFIG_RELOCATABLE on riscv32")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604140435.MxzdODB8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604140524.UJWCt18n-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> arch/riscv/mm/init.c:354:39: sparse: sparse: unsigned value that used to be signed checked against zero?
+   arch/riscv/mm/init.c:343:43: sparse: signed value source
 
->> Warning: arch/mips/pci/pci-octeon.c:39 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * This is the bit decoding used for the Octeon PCI controller addresses
-   Warning: arch/mips/pci/pci-octeon.c:63 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Map a PCI device to the appropriate interrupt line
-   Warning: arch/mips/pci/pci-octeon.c:170 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return the mapping of PCI device number to IRQ line. Each
---
->> Warning: arch/mips/pci/pcie-octeon.c:97 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return the Core virtual base address for PCIe IO access. IOs are
-   Warning: arch/mips/pci/pcie-octeon.c:118 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Size of the IO address region returned at address
-   Warning: arch/mips/pci/pcie-octeon.c:131 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return the Core virtual base address for PCIe MEM access. Memory is
-   Warning: arch/mips/pci/pcie-octeon.c:150 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Size of the Mem address region returned at address
-   Warning: arch/mips/pci/pcie-octeon.c:163 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Read a PCIe config space register indirectly. This is used for
-   Warning: arch/mips/pci/pcie-octeon.c:191 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Write a PCIe config space register indirectly. This is used for
-   Warning: arch/mips/pci/pcie-octeon.c:217 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Build a PCIe config space request address for a device
-   Warning: arch/mips/pci/pcie-octeon.c:260 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Read 8bits from a Device's config space
-   Warning: arch/mips/pci/pcie-octeon.c:282 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Read 16bits from a Device's config space
-   Warning: arch/mips/pci/pcie-octeon.c:304 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Read 32bits from a Device's config space
-   Warning: arch/mips/pci/pcie-octeon.c:326 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Write 8bits to a Device's config space
-   Warning: arch/mips/pci/pcie-octeon.c:345 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Write 16bits to a Device's config space
-   Warning: arch/mips/pci/pcie-octeon.c:364 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Write 32bits to a Device's config space
-   Warning: arch/mips/pci/pcie-octeon.c:383 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize the RC config space CSRs
-   Warning: arch/mips/pci/pcie-octeon.c:581 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize a host mode PCIe gen 1 link. This function takes a PCIe
-   Warning: arch/mips/pci/pcie-octeon.c:689 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize a PCIe gen 1 port for use in host(RC) mode. It doesn't
-   Warning: arch/mips/pci/pcie-octeon.c:1086 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-     * Initialize a host mode PCIe gen 2 link. This function takes a PCIe
-   Warning: arch/mips/pci/pcie-octeon.c:1145 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize a PCIe gen 2 port for use in host(RC) mode. It doesn't enumerate
-   Warning: arch/mips/pci/pcie-octeon.c:1441 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize a PCIe port for use in host(RC) mode. It doesn't enumerate the bus.
-   Warning: arch/mips/pci/pcie-octeon.c:1460 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Map a PCI device to the appropriate interrupt line
---
-   Warning: drivers/usb/host/octeon-hcd.c:159 struct member 'reserved' not described in 'cvmx_usb_port_status'
->> Warning: drivers/usb/host/octeon-hcd.c:235 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Logical transactions may take numerous low level
-   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'xfersize' not described in 'cvmx_usb_transaction'
-   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'pktcnt' not described in 'cvmx_usb_transaction'
-   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'retries' not described in 'cvmx_usb_transaction'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'lock' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'init_flags' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'index' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'idle_hardware_channels' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'usbcx_hprt' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'pipe_for_channel' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'indent' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'port_status' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'idle_pipes' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'active_pipes' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'frame_number' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'active_split' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'periodic' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'nonperiodic' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:514 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Read a USB 32bit CSR. It performs the necessary address swizzle
-   Warning: drivers/usb/host/octeon-hcd.c:529 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Write a USB 32bit CSR. It performs the necessary address
-   Warning: drivers/usb/host/octeon-hcd.c:545 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return non zero if this pipe connects to a non HIGH speed
-   Warning: drivers/usb/host/octeon-hcd.c:561 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Trivial utility function to return the correct PID for a pipe
-   Warning: drivers/usb/host/octeon-hcd.c:649 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Shutdown a USB port after a call to cvmx_usb_initialize().
-   Warning: drivers/usb/host/octeon-hcd.c:681 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize a USB port for use. This must be called before any
-   Warning: drivers/usb/host/octeon-hcd.c:952 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Reset a USB port. After this call succeeds, the USB port is
-   Warning: drivers/usb/host/octeon-hcd.c:985 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Disable a USB port. After this call the USB port will not
-   Warning: drivers/usb/host/octeon-hcd.c:1003 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Get the current state of the USB port. Use this call to
-   Warning: drivers/usb/host/octeon-hcd.c:1033 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Open a virtual pipe between the host and a USB device. A pipe
-   Warning: drivers/usb/host/octeon-hcd.c:1146 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Poll the RX FIFOs and remove data as needed. This function is only used
-   Warning: drivers/usb/host/octeon-hcd.c:1192 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Fill the TX hardware fifo with data out of the software
-   Warning: drivers/usb/host/octeon-hcd.c:1252 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Check the hardware FIFOs and fill them as needed
-   Warning: drivers/usb/host/octeon-hcd.c:1288 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Fill the TX FIFO with an outgoing packet
-   Warning: drivers/usb/host/octeon-hcd.c:1340 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Perform channel specific setup for Control transactions. All
-   Warning: drivers/usb/host/octeon-hcd.c:1489 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Start a channel to perform the pipe's head transaction
-   Warning: drivers/usb/host/octeon-hcd.c:1833 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Find a pipe that is ready to be scheduled to hardware.
-   Warning: drivers/usb/host/octeon-hcd.c:1891 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Called whenever a pipe might need to be scheduled to the
-   Warning: drivers/usb/host/octeon-hcd.c:2045 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Signal the completion of a transaction and free it. The
-   Warning: drivers/usb/host/octeon-hcd.c:2102 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Submit a usb transaction to a pipe. Called for all types
-   Warning: drivers/usb/host/octeon-hcd.c:2176 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Call to submit a USB Bulk transfer to a pipe.
-   Warning: drivers/usb/host/octeon-hcd.c:2200 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Call to submit a USB Interrupt transfer to a pipe.
-   Warning: drivers/usb/host/octeon-hcd.c:2225 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Call to submit a USB Control transfer to a pipe.
-   Warning: drivers/usb/host/octeon-hcd.c:2256 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Call to submit a USB Isochronous transfer to a pipe.
-   Warning: drivers/usb/host/octeon-hcd.c:2283 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Cancel one outstanding request in a pipe. Canceling a request
-   Warning: drivers/usb/host/octeon-hcd.c:2332 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Cancel all outstanding requests in a pipe. Logically all this
-   Warning: drivers/usb/host/octeon-hcd.c:2356 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Close a pipe created with cvmx_usb_open_pipe().
-   Warning: drivers/usb/host/octeon-hcd.c:2378 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Get the current USB protocol level frame number. The frame
-   Warning: drivers/usb/host/octeon-hcd.c:2587 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Poll a channel for status
-   Warning: drivers/usb/host/octeon-hcd.c:159 struct member 'reserved' not described in 'cvmx_usb_port_status'
-   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'xfersize' not described in 'cvmx_usb_transaction'
-   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'pktcnt' not described in 'cvmx_usb_transaction'
-   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'retries' not described in 'cvmx_usb_transaction'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'lock' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'init_flags' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'index' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'idle_hardware_channels' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'usbcx_hprt' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'pipe_for_channel' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'indent' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'port_status' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'idle_pipes' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'active_pipes' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'frame_number' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'active_split' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'periodic' not described in 'octeon_hcd'
-   Warning: drivers/usb/host/octeon-hcd.c:380 struct member 'nonperiodic' not described in 'octeon_hcd'
+vim +354 arch/riscv/mm/init.c
+
+51b766c79a3d74 Samuel Holland 2024-10-26  326  
+51b766c79a3d74 Samuel Holland 2024-10-26  327  static void __init relocate_kernel(void)
+51b766c79a3d74 Samuel Holland 2024-10-26  328  {
+ea2bde36a46d57 Samuel Holland 2024-10-26  329  	Elf_Rela *rela = (Elf_Rela *)&__rela_dyn_start;
+51b766c79a3d74 Samuel Holland 2024-10-26  330  	/*
+51b766c79a3d74 Samuel Holland 2024-10-26  331  	 * This holds the offset between the linked virtual address and the
+51b766c79a3d74 Samuel Holland 2024-10-26  332  	 * relocated virtual address.
+51b766c79a3d74 Samuel Holland 2024-10-26  333  	 */
+51b766c79a3d74 Samuel Holland 2024-10-26  334  	uintptr_t reloc_offset = kernel_map.virt_addr - KERNEL_LINK_ADDR;
+51b766c79a3d74 Samuel Holland 2024-10-26  335  	/*
+51b766c79a3d74 Samuel Holland 2024-10-26  336  	 * This holds the offset between kernel linked virtual address and
+51b766c79a3d74 Samuel Holland 2024-10-26  337  	 * physical address.
+51b766c79a3d74 Samuel Holland 2024-10-26  338  	 */
+51b766c79a3d74 Samuel Holland 2024-10-26  339  	uintptr_t va_kernel_link_pa_offset = KERNEL_LINK_ADDR - kernel_map.phys_addr;
+51b766c79a3d74 Samuel Holland 2024-10-26  340  
+ea2bde36a46d57 Samuel Holland 2024-10-26  341  	for ( ; rela < (Elf_Rela *)&__rela_dyn_end; rela++) {
+ea2bde36a46d57 Samuel Holland 2024-10-26  342  		Elf_Addr addr = (rela->r_offset - va_kernel_link_pa_offset);
+ea2bde36a46d57 Samuel Holland 2024-10-26  343  		Elf_Addr relocated_addr = rela->r_addend;
+51b766c79a3d74 Samuel Holland 2024-10-26  344  
+51b766c79a3d74 Samuel Holland 2024-10-26  345  		if (rela->r_info != R_RISCV_RELATIVE)
+51b766c79a3d74 Samuel Holland 2024-10-26  346  			continue;
+51b766c79a3d74 Samuel Holland 2024-10-26  347  
+51b766c79a3d74 Samuel Holland 2024-10-26  348  		/*
+51b766c79a3d74 Samuel Holland 2024-10-26  349  		 * Make sure to not relocate vdso symbols like rt_sigreturn
+51b766c79a3d74 Samuel Holland 2024-10-26  350  		 * which are linked from the address 0 in vmlinux since
+51b766c79a3d74 Samuel Holland 2024-10-26  351  		 * vdso symbol addresses are actually used as an offset from
+51b766c79a3d74 Samuel Holland 2024-10-26  352  		 * mm->context.vdso in VDSO_OFFSET macro.
+51b766c79a3d74 Samuel Holland 2024-10-26  353  		 */
+51b766c79a3d74 Samuel Holland 2024-10-26 @354  		if (relocated_addr >= KERNEL_LINK_ADDR)
+51b766c79a3d74 Samuel Holland 2024-10-26  355  			relocated_addr += reloc_offset;
+51b766c79a3d74 Samuel Holland 2024-10-26  356  
+ea2bde36a46d57 Samuel Holland 2024-10-26  357  		*(Elf_Addr *)addr = relocated_addr;
+51b766c79a3d74 Samuel Holland 2024-10-26  358  	}
+51b766c79a3d74 Samuel Holland 2024-10-26  359  }
+51b766c79a3d74 Samuel Holland 2024-10-26  360  #endif /* CONFIG_RELOCATABLE */
+51b766c79a3d74 Samuel Holland 2024-10-26  361  
+
+:::::: The code at line 354 was first introduced by commit
+:::::: 51b766c79a3d741fb97419c3da1c58fce5e66f0e riscv: Support CONFIG_RELOCATABLE on NOMMU
+
+:::::: TO: Samuel Holland <samuel.holland@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
