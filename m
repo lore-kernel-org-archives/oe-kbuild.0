@@ -1,238 +1,205 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A87F2940D
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Apr 2026 19:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F46F31717C
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Apr 2026 19:54:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776196450; cv=none; b=EzsYprVGAuguxYAMvhm+dGAseCu5QF597UeFJQlR0s9EJ2wNgT+QQyvUhHfXA8YUBPPoPJh0aRJz9+SuZYLMTt8DsacyMc4FdPx8k1zdEm5nMU2oNzpmoxDKrgyjgmREi20YYI0tgY4PMR2xY/HVm5X25JvtFBEgZQqsuuKsTaA=
+	t=1776196451; cv=none; b=h9OD3W8Zv2+A9CyIajyKskCF9VBsHL5HcdmYvUnabV4yMnyx1SwZM3l8wcmbWikM2TuHwXWtN4Hps05iyaROZYJu8eC3g4E/fiVZXRLv7YPwPzfW/ihfKfzN+wR9O847iId+M6r5e37rtWzJIhX2aZf55veg7wxtTSGeblnFS/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776196450; c=relaxed/simple;
-	bh=kCcxfy0IlkZEngZhTofIrCDsQLTHHNglXHkvSpa/omE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YUp9cvXNtObraQgumApcZ+L6xGqh6Wp0VAT+mGnJPh+WDFf8MRHDd1S576ahjgdBV7FGWgVfxSrm3/xwRc3VptnR4gvgs9DMXZ+ZyCf68vf/oRr0RPToz3hr+maP2hn9QDyiRAxgHpTvLdyQ65ericIXFb6qLl5/rW4hFhnnm50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMupZEyb; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1776196451; c=relaxed/simple;
+	bh=jpg7WSQaAaIZ+T6cuya4jREhqNUNNTuEigIu4S0Efl8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UooPiTYcEpsNi0oNLHUdS0PPKturKa4xiK1ei18Avorhd0BZ/fuQKy0J5MTZv/72ZCLQA0jzwWqxHzxsDDsEfa5iM3sLGWsyLg5berfCq3BGwkSAlNEVnnEZ5YeDx1AM711mJxrYwnUWUo96vYKuSSOR+KxQgJ5xGPlR1r2pTWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PcZFjFay; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMupZEyb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PcZFjFay"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776196448; x=1807732448;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=kCcxfy0IlkZEngZhTofIrCDsQLTHHNglXHkvSpa/omE=;
-  b=WMupZEybJ3R2iH3HtSSpFaOsQ7NMVfAiIi7OC7E/bJFtc8dgMn89IkTb
-   6SvZnmDSRkXhEhkQQTeasWg8zEDOuRwyzm0ynka6sf6IrsGWvn2uDM5u8
-   izkLurBYQBOiIzny5d4CHOGIgRy/v+mLS6018ZnRrkFkFOf1T21aIe4bw
-   90E+QB8YHmiDGSxOS+iAI3uGAkRykOp3RpuDq+dv4ridGA9zfOqCHgHSd
-   1TNzMQ17HWjxIs26catzUa+GutOqOwcIJnhchZNLxPsk3NK9UB7c5jSsR
-   LnRS2Asa6ihnKc6FztqXmdOiFpJIKSN+T+hDD/YO7brIjB1nLhHTkKOiJ
-   w==;
-X-CSE-ConnectionGUID: dxamSI4IRK2Vz0FK5CY/hA==
-X-CSE-MsgGUID: fh39B8ueRVKQvocWFoIXaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77276522"
+  t=1776196450; x=1807732450;
+  h=date:from:to:cc:subject:message-id;
+  bh=jpg7WSQaAaIZ+T6cuya4jREhqNUNNTuEigIu4S0Efl8=;
+  b=PcZFjFayndADJYgTCUEhqLoSqT3GJX0Njlkg10CWCPO4/KOVEbCtKyaz
+   AtyPySkdGz/OQr7oIKTi1iM925mHM+rUAC4Pc+WPQxBBNSCL9tlhQUqgh
+   Xe/PyAtEldqHfVQzsW9POUHQAMojX2cQfr/2l9S2QQ4XHj1mzR3ci+K9r
+   cvtBMVUqw8PKPQrorp9arGtft4dkwjlfxEoCH4v1nmBSddk1egqm6pP4l
+   zLrOpDOp7I0VBBXAqeiow9VrFeLZ+0UzlTyf4wSJT0MXdEcGPdB9o2dr0
+   I6j37nInFXB0cPv/ra+AZMjFrnzKMwr2atJh3WB+Gpmg8Cb2JSCfY4vNO
+   Q==;
+X-CSE-ConnectionGUID: W3UEvcEtTzu2wpwsf5KDWQ==
+X-CSE-MsgGUID: k6BBAmM3RBqvg7c8swYRBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77276524"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77276522"
+   d="scan'208";a="77276524"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 12:54:07 -0700
-X-CSE-ConnectionGUID: xsFHutlXR2iDIAXu/XVo+w==
-X-CSE-MsgGUID: CKsU40SIRjSHF7B/Qzw/YA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 12:54:08 -0700
+X-CSE-ConnectionGUID: QYoFWFDMSs+fTiZDOk5B4A==
+X-CSE-MsgGUID: wVSC9rEzTZ+oNQ4c6NQDKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="260617413"
+   d="scan'208";a="260617415"
 Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 14 Apr 2026 12:54:06 -0700
 Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCjpj-000000001ob-1tlu;
+	id 1wCjpj-000000001od-1yAu;
 	Tue, 14 Apr 2026 19:54:03 +0000
-Date: Wed, 15 Apr 2026 03:53:20 +0800
+Date: Wed, 15 Apr 2026 03:53:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] mm/migrate_device: fix double unlock and remove dead code
-Message-ID: <202604150314.JzBIroDK-lkp@intel.com>
+Subject: [linux-next:master 12400/13443]
+ drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c:174 heartbeat() error: we
+ previously assumed 'rq' could be null (see line 152)
+Message-ID: <202604150324.9rnylxTF-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260413130927.13263-1-nueralspacetech@gmail.com>
-References: <20260413130927.13263-1-nueralspacetech@gmail.com>
-TO: Sunny Patel <nueralspacetech@gmail.com>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: David Hildenbrand <david@kernel.org>
-CC: Zi Yan <ziy@nvidia.com>
-CC: Matthew Brost <matthew.brost@intel.com>
-CC: Joshua Hahn <joshua.hahnjy@gmail.com>
-CC: Rakie Kim <rakie.kim@sk.com>
-CC: Byungchul Park <byungchul@sk.com>
-CC: Gregory Price <gourry@gourry.net>
-CC: Ying Huang <ying.huang@linux.alibaba.com>
-CC: Alistair Popple <apopple@nvidia.com>
-CC: linux-kernel@vger.kernel.org
-CC: Sunny Patel <nueralspacetech@gmail.com>
+TO: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+CC: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+CC: Krzysztof Karas <krzysztof.karas@intel.com>
+CC: Andi Shyti <andi.shyti@linux.intel.com>
 
-Hi Sunny,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sunny-Patel/mm-migrate_device-fix-double-unlock-and-remove-dead-code/20260414-011221
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260413130927.13263-1-nueralspacetech%40gmail.com
-patch subject: [PATCH] mm/migrate_device: fix double unlock and remove dead code
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: x86_64-randconfig-161-20260414 (https://download.01.org/0day-ci/archive/20260415/202604150314.JzBIroDK-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1c7cc4904160c6fc6377564140062d68a3dc93a0
+commit: 4c71fd099513bfa8acab529b626e1f0097b76061 [12400/13443] drm/i915/gt: fix refcount underflow in intel_engine_park_heartbeat
+:::::: branch date: 28 hours ago
+:::::: commit date: 6 days ago
+config: i386-randconfig-141-20260414 (https://download.01.org/0day-ci/archive/20260415/202604150324.9rnylxTF-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
 smatch: v0.5.0-9007-gcf3ea02b
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604150314.JzBIroDK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604150324.9rnylxTF-lkp@intel.com/
 
 smatch warnings:
-mm/migrate_device.c:243 migrate_vma_collect_huge_pmd() warn: inconsistent returns 'ptl'.
+drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c:174 heartbeat() error: we previously assumed 'rq' could be null (see line 152)
 
-vim +/ptl +243 mm/migrate_device.c
+vim +/rq +174 drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
 
-022a12deda53c98 Balbir Singh            2025-10-01  123  
-a30b48bf1b244f1 Balbir Singh            2025-10-01  124  /** migrate_vma_collect_huge_pmd - collect THP pages without splitting the
-a30b48bf1b244f1 Balbir Singh            2025-10-01  125   * folio for device private pages.
-a30b48bf1b244f1 Balbir Singh            2025-10-01  126   * @pmdp: pointer to pmd entry
-a30b48bf1b244f1 Balbir Singh            2025-10-01  127   * @start: start address of the range for migration
-a30b48bf1b244f1 Balbir Singh            2025-10-01  128   * @end: end address of the range for migration
-a30b48bf1b244f1 Balbir Singh            2025-10-01  129   * @walk: mm_walk callback structure
-a30b48bf1b244f1 Balbir Singh            2025-10-01  130   * @fault_folio: folio associated with the fault if any
-a30b48bf1b244f1 Balbir Singh            2025-10-01  131   *
-a30b48bf1b244f1 Balbir Singh            2025-10-01  132   * Collect the huge pmd entry at @pmdp for migration and set the
-a30b48bf1b244f1 Balbir Singh            2025-10-01  133   * MIGRATE_PFN_COMPOUND flag in the migrate src entry to indicate that
-a30b48bf1b244f1 Balbir Singh            2025-10-01  134   * migration will occur at HPAGE_PMD granularity
-a30b48bf1b244f1 Balbir Singh            2025-10-01  135   */
-a30b48bf1b244f1 Balbir Singh            2025-10-01  136  static int migrate_vma_collect_huge_pmd(pmd_t *pmdp, unsigned long start,
-a30b48bf1b244f1 Balbir Singh            2025-10-01  137  					unsigned long end, struct mm_walk *walk,
-a30b48bf1b244f1 Balbir Singh            2025-10-01  138  					struct folio *fault_folio)
-76cbbead253ddca Christoph Hellwig       2022-02-16  139  {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  140  	struct mm_struct *mm = walk->mm;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  141  	struct folio *folio;
-76cbbead253ddca Christoph Hellwig       2022-02-16  142  	struct migrate_vma *migrate = walk->private;
-76cbbead253ddca Christoph Hellwig       2022-02-16  143  	spinlock_t *ptl;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  144  	int ret;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  145  	unsigned long write = 0;
-76cbbead253ddca Christoph Hellwig       2022-02-16  146  
-a30b48bf1b244f1 Balbir Singh            2025-10-01  147  	ptl = pmd_lock(mm, pmdp);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  148  	if (pmd_none(*pmdp)) {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  149  		spin_unlock(ptl);
-76cbbead253ddca Christoph Hellwig       2022-02-16  150  		return migrate_vma_collect_hole(start, end, -1, walk);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  151  	}
-76cbbead253ddca Christoph Hellwig       2022-02-16  152  
-76cbbead253ddca Christoph Hellwig       2022-02-16  153  	if (pmd_trans_huge(*pmdp)) {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  154  		if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM)) {
-76cbbead253ddca Christoph Hellwig       2022-02-16  155  			spin_unlock(ptl);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  156  			return migrate_vma_collect_skip(start, end, walk);
-76cbbead253ddca Christoph Hellwig       2022-02-16  157  		}
-76cbbead253ddca Christoph Hellwig       2022-02-16  158  
-b002a7b0a58acea Matthew Wilcox (Oracle  2024-03-26  159) 		folio = pmd_folio(*pmdp);
-b002a7b0a58acea Matthew Wilcox (Oracle  2024-03-26  160) 		if (is_huge_zero_folio(folio)) {
-76cbbead253ddca Christoph Hellwig       2022-02-16  161  			spin_unlock(ptl);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  162  			return migrate_vma_collect_hole(start, end, -1, walk);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  163  		}
-a30b48bf1b244f1 Balbir Singh            2025-10-01  164  		if (pmd_write(*pmdp))
-a30b48bf1b244f1 Balbir Singh            2025-10-01  165  			write = MIGRATE_PFN_WRITE;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  166  	} else if (!pmd_present(*pmdp)) {
-0ac881efe164685 Lorenzo Stoakes         2025-11-10  167  		const softleaf_t entry = softleaf_from_pmd(*pmdp);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  168  
-0ac881efe164685 Lorenzo Stoakes         2025-11-10  169  		folio = softleaf_to_folio(entry);
-0ac881efe164685 Lorenzo Stoakes         2025-11-10  170  
-0ac881efe164685 Lorenzo Stoakes         2025-11-10  171  		if (!softleaf_is_device_private(entry) ||
-a30b48bf1b244f1 Balbir Singh            2025-10-01  172  			!(migrate->flags & MIGRATE_VMA_SELECT_DEVICE_PRIVATE) ||
-a30b48bf1b244f1 Balbir Singh            2025-10-01  173  			(folio->pgmap->owner != migrate->pgmap_owner)) {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  174  			spin_unlock(ptl);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  175  			return migrate_vma_collect_skip(start, end, walk);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  176  		}
-a30b48bf1b244f1 Balbir Singh            2025-10-01  177  
-0ac881efe164685 Lorenzo Stoakes         2025-11-10  178  		if (softleaf_is_migration(entry)) {
-b570f37a2ce480b Thomas Hellström        2026-02-10  179  			softleaf_entry_wait_on_locked(entry, ptl);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  180  			return -EAGAIN;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  181  		}
-a30b48bf1b244f1 Balbir Singh            2025-10-01  182  
-0ac881efe164685 Lorenzo Stoakes         2025-11-10  183  		if (softleaf_is_device_private_write(entry))
-a30b48bf1b244f1 Balbir Singh            2025-10-01  184  			write = MIGRATE_PFN_WRITE;
-76cbbead253ddca Christoph Hellwig       2022-02-16  185  	} else {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  186  		spin_unlock(ptl);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  187  		return -EAGAIN;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  188  	}
-76cbbead253ddca Christoph Hellwig       2022-02-16  189  
-b002a7b0a58acea Matthew Wilcox (Oracle  2024-03-26  190) 	folio_get(folio);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  191  	if (folio != fault_folio && unlikely(!folio_trylock(folio))) {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  192  		spin_unlock(ptl);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  193  		folio_put(folio);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  194  		return migrate_vma_collect_skip(start, end, walk);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  195  	}
-a30b48bf1b244f1 Balbir Singh            2025-10-01  196  
-a30b48bf1b244f1 Balbir Singh            2025-10-01  197  	if (thp_migration_supported() &&
-a30b48bf1b244f1 Balbir Singh            2025-10-01  198  		(migrate->flags & MIGRATE_VMA_SELECT_COMPOUND) &&
-a30b48bf1b244f1 Balbir Singh            2025-10-01  199  		(IS_ALIGNED(start, HPAGE_PMD_SIZE) &&
-a30b48bf1b244f1 Balbir Singh            2025-10-01  200  		 IS_ALIGNED(end, HPAGE_PMD_SIZE))) {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  201  
-a30b48bf1b244f1 Balbir Singh            2025-10-01  202  		struct page_vma_mapped_walk pvmw = {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  203  			.ptl = ptl,
-a30b48bf1b244f1 Balbir Singh            2025-10-01  204  			.address = start,
-a30b48bf1b244f1 Balbir Singh            2025-10-01  205  			.pmd = pmdp,
-a30b48bf1b244f1 Balbir Singh            2025-10-01  206  			.vma = walk->vma,
-a30b48bf1b244f1 Balbir Singh            2025-10-01  207  		};
-a30b48bf1b244f1 Balbir Singh            2025-10-01  208  
-a30b48bf1b244f1 Balbir Singh            2025-10-01  209  		unsigned long pfn = page_to_pfn(folio_page(folio, 0));
-a30b48bf1b244f1 Balbir Singh            2025-10-01  210  
-a30b48bf1b244f1 Balbir Singh            2025-10-01  211  		migrate->src[migrate->npages] = migrate_pfn(pfn) | write
-a30b48bf1b244f1 Balbir Singh            2025-10-01  212  						| MIGRATE_PFN_MIGRATE
-a30b48bf1b244f1 Balbir Singh            2025-10-01  213  						| MIGRATE_PFN_COMPOUND;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  214  		migrate->dst[migrate->npages++] = 0;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  215  		migrate->cpages++;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  216  		ret = set_pmd_migration_entry(&pvmw, folio_page(folio, 0));
-a30b48bf1b244f1 Balbir Singh            2025-10-01  217  		if (ret) {
-a30b48bf1b244f1 Balbir Singh            2025-10-01  218  			migrate->npages--;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  219  			migrate->cpages--;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  220  			migrate->src[migrate->npages] = 0;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  221  			migrate->dst[migrate->npages] = 0;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  222  			goto fallback;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  223  		}
-a30b48bf1b244f1 Balbir Singh            2025-10-01  224  		migrate_vma_collect_skip(start + PAGE_SIZE, end, walk);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  225  		spin_unlock(ptl);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  226  		return 0;
-a30b48bf1b244f1 Balbir Singh            2025-10-01  227  	}
-a30b48bf1b244f1 Balbir Singh            2025-10-01  228  
-a30b48bf1b244f1 Balbir Singh            2025-10-01  229  fallback:
-76cbbead253ddca Christoph Hellwig       2022-02-16  230  	spin_unlock(ptl);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  231  	if (!folio_test_large(folio))
-a30b48bf1b244f1 Balbir Singh            2025-10-01  232  		goto done;
-b002a7b0a58acea Matthew Wilcox (Oracle  2024-03-26  233) 	ret = split_folio(folio);
-1afaeb8293c9add Matthew Brost           2025-03-05  234  	if (fault_folio != folio)
-b002a7b0a58acea Matthew Wilcox (Oracle  2024-03-26  235) 		folio_unlock(folio);
-b002a7b0a58acea Matthew Wilcox (Oracle  2024-03-26  236) 	folio_put(folio);
-76cbbead253ddca Christoph Hellwig       2022-02-16  237  	if (ret)
-a30b48bf1b244f1 Balbir Singh            2025-10-01  238  		return migrate_vma_collect_skip(start, end, walk);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  239  	if (pmd_none(pmdp_get_lockless(pmdp)))
-a30b48bf1b244f1 Balbir Singh            2025-10-01  240  		return migrate_vma_collect_hole(start, end, -1, walk);
-a30b48bf1b244f1 Balbir Singh            2025-10-01  241  
-a30b48bf1b244f1 Balbir Singh            2025-10-01  242  done:
-a30b48bf1b244f1 Balbir Singh            2025-10-01 @243  	return -ENOENT;
-76cbbead253ddca Christoph Hellwig       2022-02-16  244  }
-a30b48bf1b244f1 Balbir Singh            2025-10-01  245  
+058179e72e0956a Chris Wilson        2019-10-23  138  
+058179e72e0956a Chris Wilson        2019-10-23  139  static void heartbeat(struct work_struct *wrk)
+058179e72e0956a Chris Wilson        2019-10-23  140  {
+eb5c10cbbc2fc6c Chris Wilson        2021-01-20  141  	struct i915_sched_attr attr = { .priority = I915_PRIORITY_MIN };
+058179e72e0956a Chris Wilson        2019-10-23  142  	struct intel_engine_cs *engine =
+058179e72e0956a Chris Wilson        2019-10-23  143  		container_of(wrk, typeof(*engine), heartbeat.work.work);
+058179e72e0956a Chris Wilson        2019-10-23  144  	struct intel_context *ce = engine->kernel_context;
+058179e72e0956a Chris Wilson        2019-10-23  145  	struct i915_request *rq;
+aab4707fdd754d4 Chris Wilson        2020-07-02  146  	unsigned long serial;
+058179e72e0956a Chris Wilson        2019-10-23  147  
+5948938700446ac Chris Wilson        2020-06-15  148  	/* Just in case everything has gone horribly wrong, give it a kick */
+5948938700446ac Chris Wilson        2020-06-15  149  	intel_engine_flush_submission(engine);
+5948938700446ac Chris Wilson        2020-06-15  150  
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  151  	rq = xchg(&engine->heartbeat.systole, NULL);
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01 @152  	if (rq) {
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  153  		if (i915_request_completed(rq))
+058179e72e0956a Chris Wilson        2019-10-23  154  			i915_request_put(rq);
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  155  		else
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  156  			engine->heartbeat.systole = rq;
+058179e72e0956a Chris Wilson        2019-10-23  157  	}
+058179e72e0956a Chris Wilson        2019-10-23  158  
+3466a3def2c01e0 Chris Wilson        2019-11-06  159  	if (!intel_engine_pm_get_if_awake(engine))
+3466a3def2c01e0 Chris Wilson        2019-11-06  160  		return;
+3466a3def2c01e0 Chris Wilson        2019-11-06  161  
+058179e72e0956a Chris Wilson        2019-10-23  162  	if (intel_gt_is_wedged(engine->gt))
+058179e72e0956a Chris Wilson        2019-10-23  163  		goto out;
+058179e72e0956a Chris Wilson        2019-10-23  164  
+c41ee2873eb37ff Matthew Brost       2021-07-26  165  	if (i915_sched_engine_disabled(engine->sched_engine)) {
+c41ee2873eb37ff Matthew Brost       2021-07-26  166  		reset_engine(engine, engine->heartbeat.systole);
+c41ee2873eb37ff Matthew Brost       2021-07-26  167  		goto out;
+c41ee2873eb37ff Matthew Brost       2021-07-26  168  	}
+c41ee2873eb37ff Matthew Brost       2021-07-26  169  
+058179e72e0956a Chris Wilson        2019-10-23  170  	if (engine->heartbeat.systole) {
+2827ce6e543086d Chris Wilson        2021-02-04  171  		long delay = READ_ONCE(engine->props.heartbeat_interval_ms);
+2827ce6e543086d Chris Wilson        2021-02-04  172  
+2827ce6e543086d Chris Wilson        2021-02-04  173  		/* Safeguard against too-fast worker invocations */
+2827ce6e543086d Chris Wilson        2021-02-04 @174  		if (!time_after(jiffies,
+2827ce6e543086d Chris Wilson        2021-02-04  175  				rq->emitted_jiffies + msecs_to_jiffies(delay)))
+2827ce6e543086d Chris Wilson        2021-02-04  176  			goto out;
+2827ce6e543086d Chris Wilson        2021-02-04  177  
+ba03a63d76ac813 Chris Wilson        2020-05-28  178  		if (!i915_sw_fence_signaled(&rq->submit)) {
+ba03a63d76ac813 Chris Wilson        2020-05-28  179  			/*
+ba03a63d76ac813 Chris Wilson        2020-05-28  180  			 * Not yet submitted, system is stalled.
+ba03a63d76ac813 Chris Wilson        2020-05-28  181  			 *
+ba03a63d76ac813 Chris Wilson        2020-05-28  182  			 * This more often happens for ring submission,
+ba03a63d76ac813 Chris Wilson        2020-05-28  183  			 * where all contexts are funnelled into a common
+ba03a63d76ac813 Chris Wilson        2020-05-28  184  			 * ringbuffer. If one context is blocked on an
+ba03a63d76ac813 Chris Wilson        2020-05-28  185  			 * external fence, not only is it not submitted,
+ba03a63d76ac813 Chris Wilson        2020-05-28  186  			 * but all other contexts, including the kernel
+ba03a63d76ac813 Chris Wilson        2020-05-28  187  			 * context are stuck waiting for the signal.
+ba03a63d76ac813 Chris Wilson        2020-05-28  188  			 */
+3f623e06cd56573 Matthew Brost       2021-06-17  189  		} else if (engine->sched_engine->schedule &&
+058179e72e0956a Chris Wilson        2019-10-23  190  			   rq->sched.attr.priority < I915_PRIORITY_BARRIER) {
+058179e72e0956a Chris Wilson        2019-10-23  191  			/*
+058179e72e0956a Chris Wilson        2019-10-23  192  			 * Gradually raise the priority of the heartbeat to
+058179e72e0956a Chris Wilson        2019-10-23  193  			 * give high priority work [which presumably desires
+058179e72e0956a Chris Wilson        2019-10-23  194  			 * low latency and no jitter] the chance to naturally
+058179e72e0956a Chris Wilson        2019-10-23  195  			 * complete before being preempted.
+058179e72e0956a Chris Wilson        2019-10-23  196  			 */
+ffc02c67bf8d490 Nirmoy Das          2023-10-23  197  			attr.priority = I915_PRIORITY_NORMAL;
+058179e72e0956a Chris Wilson        2019-10-23  198  			if (rq->sched.attr.priority >= attr.priority)
+eb5c10cbbc2fc6c Chris Wilson        2021-01-20  199  				attr.priority = I915_PRIORITY_HEARTBEAT;
+058179e72e0956a Chris Wilson        2019-10-23  200  			if (rq->sched.attr.priority >= attr.priority)
+058179e72e0956a Chris Wilson        2019-10-23  201  				attr.priority = I915_PRIORITY_BARRIER;
+058179e72e0956a Chris Wilson        2019-10-23  202  
+058179e72e0956a Chris Wilson        2019-10-23  203  			local_bh_disable();
+3f623e06cd56573 Matthew Brost       2021-06-17  204  			engine->sched_engine->schedule(rq, &attr);
+058179e72e0956a Chris Wilson        2019-10-23  205  			local_bh_enable();
+058179e72e0956a Chris Wilson        2019-10-23  206  		} else {
+c41ee2873eb37ff Matthew Brost       2021-07-26  207  			reset_engine(engine, rq);
+058179e72e0956a Chris Wilson        2019-10-23  208  		}
+2827ce6e543086d Chris Wilson        2021-02-04  209  
+2827ce6e543086d Chris Wilson        2021-02-04  210  		rq->emitted_jiffies = jiffies;
+058179e72e0956a Chris Wilson        2019-10-23  211  		goto out;
+058179e72e0956a Chris Wilson        2019-10-23  212  	}
+058179e72e0956a Chris Wilson        2019-10-23  213  
+aab4707fdd754d4 Chris Wilson        2020-07-02  214  	serial = READ_ONCE(engine->serial);
+aab4707fdd754d4 Chris Wilson        2020-07-02  215  	if (engine->wakeref_serial == serial)
+058179e72e0956a Chris Wilson        2019-10-23  216  		goto out;
+058179e72e0956a Chris Wilson        2019-10-23  217  
+aab4707fdd754d4 Chris Wilson        2020-07-02  218  	if (!mutex_trylock(&ce->timeline->mutex)) {
+aab4707fdd754d4 Chris Wilson        2020-07-02  219  		/* Unable to lock the kernel timeline, is the engine stuck? */
+aab4707fdd754d4 Chris Wilson        2020-07-02  220  		if (xchg(&engine->heartbeat.blocked, serial) == serial)
+aab4707fdd754d4 Chris Wilson        2020-07-02  221  			intel_gt_handle_error(engine->gt, engine->mask,
+aab4707fdd754d4 Chris Wilson        2020-07-02  222  					      I915_ERROR_CAPTURE,
+aab4707fdd754d4 Chris Wilson        2020-07-02  223  					      "no heartbeat on %s",
+aab4707fdd754d4 Chris Wilson        2020-07-02  224  					      engine->name);
+aab4707fdd754d4 Chris Wilson        2020-07-02  225  		goto out;
+aab4707fdd754d4 Chris Wilson        2020-07-02  226  	}
+058179e72e0956a Chris Wilson        2019-10-23  227  
+fe7bcfaeb2b775f Chris Wilson        2020-12-24  228  	rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
+058179e72e0956a Chris Wilson        2019-10-23  229  	if (IS_ERR(rq))
+058179e72e0956a Chris Wilson        2019-10-23  230  		goto unlock;
+058179e72e0956a Chris Wilson        2019-10-23  231  
+fe7bcfaeb2b775f Chris Wilson        2020-12-24  232  	heartbeat_commit(rq, &attr);
+058179e72e0956a Chris Wilson        2019-10-23  233  
+058179e72e0956a Chris Wilson        2019-10-23  234  unlock:
+058179e72e0956a Chris Wilson        2019-10-23  235  	mutex_unlock(&ce->timeline->mutex);
+058179e72e0956a Chris Wilson        2019-10-23  236  out:
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  237  	if (!engine->i915->params.enable_hangcheck || !next_heartbeat(engine)) {
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  238  		rq = xchg(&engine->heartbeat.systole, NULL);
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  239  		if (rq)
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  240  			i915_request_put(rq);
+4c71fd099513bfa Sebastian Brzezinka 2026-04-01  241  	}
+058179e72e0956a Chris Wilson        2019-10-23  242  	intel_engine_pm_put(engine);
+058179e72e0956a Chris Wilson        2019-10-23  243  }
+058179e72e0956a Chris Wilson        2019-10-23  244  
+
+:::::: The code at line 174 was first introduced by commit
+:::::: 2827ce6e543086deb24a46ddedc5a8a072275670 drm/i915/gt: Double check heartbeat timeout before resetting
+
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 -- 
 0-DAY CI Kernel Test Service
