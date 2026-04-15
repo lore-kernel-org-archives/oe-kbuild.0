@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD2C33065C
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Apr 2026 05:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FEA3A1A35
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Apr 2026 07:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776230138; cv=none; b=OrJK2wnRb213SC8RydtQtM4pw/Ba9oVWnijJ35vEdzS0FcritI2Y1rlJxJWwhuB8VR+JOcwllwBC4ep+fPvEYizoFy30OapSklrTOZxk2PbXwF0myvJstnxveIO+cv56kXIm/nzitSqIgZCCKb3PlFVkNJbdupukPi4JIKwgPgc=
+	t=1776237558; cv=none; b=scvWsgarlQ6WnfgkB8zeVs0dtf0HJdhkgQzwVhbvNm5hfnuc2qPMW9GHbGVcmCDiuuzujvAUudTVlcfag8e1a7wldo60SDSvJlxzgDlNvCiDHk9WWKNqrf2k8Td88sWAOtv+TtcmNR0cciyuXOzWPbNbmJu4qWe3FL68ukt8Rvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776230138; c=relaxed/simple;
-	bh=xF1GgPrgpaTLXYgjEYBrFOUZ1qkSFsutSHhqyyt8S0o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=W7LuB97grgXOD5Ufe9ASXgVQ1QFsS+h1Q0pai7JsQiMV1hpC9C3OwkXy3FJ7KUu4q2nauT8snbOQGal7Eg7UKL5H3hVQ0YKYAsz90vuFzpweIRURoDSOmF0z0SFZwZebpDSWSdwcTOeN5CC4Kl4SeOYfx9NtMCq22PZ00bxc1EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PTnPnFtI; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1776237558; c=relaxed/simple;
+	bh=aaluQywGS/9EMs3qfO4clp+W+6C/D8VDoo2XYxoZz0w=;
+	h=Date:From:To:Subject:Message-ID; b=uPjdgCg6oaxbBf4XwUR3P8iKKlc3JoGVqlzp4cfhqaog7ndhQu/Vw456c4cda+kwQjQvPDQJfgLaX9TyvWBt2DG3RBgLXwhQ79+mqVMwT4w5Csh6etvroP7A5eiEIs1Nl+X2jrmefv+tPk1cS7ZmwNPPRvxR0DIPYpBO0jokFOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYJGkfRg; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PTnPnFtI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYJGkfRg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776230136; x=1807766136;
-  h=date:from:to:cc:subject:message-id;
-  bh=xF1GgPrgpaTLXYgjEYBrFOUZ1qkSFsutSHhqyyt8S0o=;
-  b=PTnPnFtIKDXwWx4bxBpoW+XL0OSWn8WzO+u1/9CxuA7DiXhr5D49L7FL
-   NL+5AJYNgfh6oJ2Z0PW74siIczZkKGqKBh8zYLQPiGFWv0gmCP8LS/QQs
-   Iem5I2DD1s+3t17HzYgECAPIqgD1oQRmVMsxZ3/UtWyI6Gr/5Pi5SJOVC
-   3CnCV4ZoQTgfNrmN4myaS/4EWJobc8CzpokbclEhUyvBr8jdlx5bfo4iB
-   dE8gfqtZNPdUyfM5D0CEzSTnkP2rgm3gCvG2TP+X2H/Xwws6cpLssc+YM
-   6Mo7EaRgoNnk0eLor7YALhJs5oBEx6tOLDI71z2nETK1rPGV+oAR8veck
+  t=1776237557; x=1807773557;
+  h=date:from:to:subject:message-id;
+  bh=aaluQywGS/9EMs3qfO4clp+W+6C/D8VDoo2XYxoZz0w=;
+  b=MYJGkfRgSZr1NUi4T/muqrnbZY5lT1mljmsAEeBE4dwA2JkGedTOrheP
+   aZR5Aa068q3Bdv5u1wHmihLemqbGaVeMZLykXiQl4jLnRwxUbXT2wq8ri
+   yu7namAOY3D+U2UJIvN0Qcyx3aC6g7oRxFA1PhIdDi8Tw0Oiag4TdY5h8
+   Wrk3J8LWfntEEPFL1mYMK2VpzJoMTXcSntE1t6O4zknU1jCRYaDQHqKD/
+   3psav2rX3u51wVDX1/MLIa4WBnaZ9CaXrHvZWqPEIRB0IRJJyaO4fpWqQ
+   2vPaFYUjfKFZncXSWn0PjmhUzXyEEIswcNDP1Q2jji7EsDDzt4PL2TeMM
    Q==;
-X-CSE-ConnectionGUID: 0/CzXk+2T6SIY3i42jvQig==
-X-CSE-MsgGUID: g+sj4bH8QYqjUfUugo9jJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77379150"
+X-CSE-ConnectionGUID: WDtuLIUrQOq5GRrFdEhe9A==
+X-CSE-MsgGUID: s0ttMABsSVOfgpY+Y89BKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="102662966"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77379150"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 22:15:36 -0700
-X-CSE-ConnectionGUID: pygnDp3YQFe7+Ypv1wnxWg==
-X-CSE-MsgGUID: LSJU/k4DRGKoLTzw9ObjRg==
+   d="scan'208";a="102662966"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 00:19:16 -0700
+X-CSE-ConnectionGUID: lKaPUpv6SeOzN95kj20GXQ==
+X-CSE-MsgGUID: YVlKfGXURHmogc22Hvrq+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="235250765"
-Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Apr 2026 22:15:34 -0700
-Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
+   d="scan'208";a="232081338"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2026 00:19:15 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCsb5-000000000AF-2tYd;
-	Wed, 15 Apr 2026 05:15:31 +0000
-Date: Wed, 15 Apr 2026 13:14:55 +0800
+	id 1wCuWn-000000000gZ-2Puv
+	for oe-kbuild@lists.linux.dev;
+	Wed, 15 Apr 2026 07:19:13 +0000
+Date: Wed, 15 Apr 2026 09:18:15 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/loongarch/kernel/syscall.c:40 __do_sys_mmap2() warn:
- bitwise AND condition is false here
-Message-ID: <202604151305.GlKvqJlf-lkp@intel.com>
+Subject: [paulmckrcu:dev 19/25] checkpatch: WARNING:ONE_SEMICOLON:
+ Statements terminations use 1 semicolon
+Message-ID: <202604150954.hdGKkn1S-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,46 +59,26 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Huacai Chen <chenhuacai@loongson.cn>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: Jiaxun Yang <jiaxun.yang@flygoat.com>
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5c0f43e8535d619ff32400e2e916075109fc7a56
-commit: 14338e631afd6d4b2c2f8fb7deba786d86c40fad LoongArch: Adjust system call for 32BIT/64BIT
-date:   4 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 4 months ago
-config: loongarch-randconfig-r071-20260415 (https://download.01.org/0day-ci/archive/20260415/202604151305.GlKvqJlf-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-smatch: v0.5.0-9007-gcf3ea02b
+tree:   https://github.com/paulmckrcu/linux dev
+head:   51289896149317e0b6a4abf5d300a569c3353dca
+commit: 23505117f85e635c56cbcd409eeb029e2bf3c783 [19/25] torture: Add a hazptrtorture.c torture test
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20260415/202604150954.hdGKkn1S-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 14338e631afd ("LoongArch: Adjust system call for 32BIT/64BIT")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604151305.GlKvqJlf-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-smatch warnings:
-arch/loongarch/kernel/syscall.c:40 __do_sys_mmap2() warn: bitwise AND condition is false here
-arch/loongarch/kernel/syscall.c:40 __do_sys_mmap2() warn: bitwise AND condition is false here
-
-vim +40 arch/loongarch/kernel/syscall.c
-
-be769645a2aef57 Huacai Chen 2022-05-31  36  
-14338e631afd6d4 Huacai Chen 2025-12-08  37  SYSCALL_DEFINE6(mmap2, unsigned long, addr, unsigned long, len, unsigned long,
-14338e631afd6d4 Huacai Chen 2025-12-08  38  		 prot, unsigned long, flags, unsigned long, fd, unsigned long, offset)
-14338e631afd6d4 Huacai Chen 2025-12-08  39  {
-14338e631afd6d4 Huacai Chen 2025-12-08 @40  	if (offset & (~PAGE_MASK >> 12))
-14338e631afd6d4 Huacai Chen 2025-12-08  41  		return -EINVAL;
-14338e631afd6d4 Huacai Chen 2025-12-08  42  
-14338e631afd6d4 Huacai Chen 2025-12-08  43  	return ksys_mmap_pgoff(addr, len, prot, flags, fd, offset >> (PAGE_SHIFT - 12));
-14338e631afd6d4 Huacai Chen 2025-12-08  44  }
-14338e631afd6d4 Huacai Chen 2025-12-08  45  
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#477: FILE: kernel/rcu/hazptrtorture.c:393:
++	const char *cp = hazptr_torture_writer_state_getname();;
 
 -- 
 0-DAY CI Kernel Test Service
