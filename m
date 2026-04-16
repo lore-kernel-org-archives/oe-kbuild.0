@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332E83EAC6B
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Apr 2026 19:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136B638AC8A
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Apr 2026 21:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776369090; cv=none; b=oX6UsfIXEHAqIlKPerdTkEQmQvLajqjQRwxwby3pmPI+yA1GDxxtk/tEnrMjE16jxTm3sdx0R8rD6HyJ6BOer+GQMalUdNICxn82YvBdPjSEDxwEWkv2UXzGhij4Raf1u12pftATwAQl654Jrldaa/v6pcSrRFZFs7mDoQdpG+8=
+	t=1776374784; cv=none; b=cibgDBJSaAoFm+fN5saYRUFhkOpHnskI8n7hYHZJeRhrcV1jBbwb+6SX4UN2lxtWaX4EFr4wnF+A4+5vyzDmYsh3xUC40zlZClksNkONDRlu1jqh2g0Q6CF7hbrfaF5OshyIZn8Ry2TNis+et3BHOS3FKwIi5or/iDUDmStRcVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776369090; c=relaxed/simple;
-	bh=fRjVQzHEnqJhcv2nyMgVRst7Rq6wA2kbLEMGZFilnVQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i5iIyWzWCsfT/aNswSjVh2p2qDrrDvlH0NWQvagj+ZaF9HbuMsphiVb2XDXzfgVKjyiaZAL6MugHa74vNctGIoJpxMNTWuDEnKuapbOsMKUbGmLLe3UDYpE50J7Cadwcu5GsSa/I2w+rj6FvShyuoyQkQnIJBP2EYEyWeCk7+cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DObe1ubE; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1776374784; c=relaxed/simple;
+	bh=SRCpJ/PWlRGvywatpYK6ugZcQ3hj5VGo5xC4hLS0/Kg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Y0AHoQ9FzRw+bh62nXOnCJzXtmHYcD5UYWp18XU8E4fDf3V1pTpnWp2fyTB0cci3HUELRQZ3HSKYLxWgX5iSRAd1jmc91j0bg6hgMoZVb30sYOqQtKxCCcRw33v8tO8HINos/g+8+kidCtVXY4ode0uwUtjCvW1wxzn/b+yq5iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNzIkYsE; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DObe1ubE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNzIkYsE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776369082; x=1807905082;
+  t=1776374783; x=1807910783;
   h=date:from:to:cc:subject:message-id;
-  bh=fRjVQzHEnqJhcv2nyMgVRst7Rq6wA2kbLEMGZFilnVQ=;
-  b=DObe1ubE6TjqVtbGCELSAiGeHETtC2Uk0mdCM+8rrNBW678CeFBmZN59
-   r+JMWC+OZdc2mCEzd/9Io2XRNI7bYly3fQdjMxF58KTpI375apOFT92iV
-   rIUDOWBOXUnIt0Vkss6IgRCl33b5r2Gr1z7vGunwqHSHdw2ft1kJLoFUW
-   x/ddJUYv1p/KPRqJKnnekAWpYenW0wnxpMurxn57H52I8PZziwnoviFFi
-   LhoZjTEc1B1Z5XB8vvSsvcbckadE9KcHz9iAFN5goDNNX7C5TqcHNi2hx
-   MrIS1IZ6Y2PM38n4QHyh5MRQSX8IBM8lMLHIzfAHkUQ5s+VL9dTSaGnrF
-   A==;
-X-CSE-ConnectionGUID: l60BGh9DTTaXawekf1L4hg==
-X-CSE-MsgGUID: A/8aCcr3TYuN+u5/RurI6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="100028919"
+  bh=SRCpJ/PWlRGvywatpYK6ugZcQ3hj5VGo5xC4hLS0/Kg=;
+  b=QNzIkYsEG0SOaZzh94hrfUPF7lr62Mo41gdMFjHtjhF8DOJqi926H0an
+   d0SPNfb6RzxtVelanxD16lpXXvcbo+V0iamDdLp4LTajnXIkbJSk/2TiO
+   AV9p7hYUf9QW7t7MCYgJBslSkwKMMVmSc1Eu2/yYNS6DuFpTd7XUpad0w
+   cp8MBw6QtRJZgL/MLKtfvMIDTkjNQOWmQdj6VPgMFrGegGGnYAT9nykKO
+   lBzZmpIYqTC/9wV36SxhPTgILibzKtGzeHtTaxY2snFT4Hc8Pdo9dWG+N
+   3mhKfXGwyOPVkwoUqe5GP8kZaodB8QSbL0jRqsRsR304OICZQXhMobYqb
+   Q==;
+X-CSE-ConnectionGUID: FHaLTM4uSVy0qxmLYcCnfg==
+X-CSE-MsgGUID: fQOkMK8sSp+DUxG6erwi7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77400903"
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="100028919"
+   d="scan'208";a="77400903"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 12:51:18 -0700
-X-CSE-ConnectionGUID: 02qttbmYQpGuM8LC2NF0cw==
-X-CSE-MsgGUID: SxE2f9koQx++QnzmEL+mRA==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 14:26:22 -0700
+X-CSE-ConnectionGUID: lLle7ePhSE+0KYpwMTDDtQ==
+X-CSE-MsgGUID: GNjC+dL8SHy9P0wKqgBIfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="227688589"
+   d="scan'208";a="227712578"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Apr 2026 12:51:16 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 16 Apr 2026 14:26:21 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDSk6-000000001ta-0qMd;
-	Thu, 16 Apr 2026 19:51:14 +0000
-Date: Fri, 17 Apr 2026 03:50:54 +0800
+	id 1wDUE6-000000001yM-3yNI;
+	Thu, 16 Apr 2026 21:26:18 +0000
+Date: Fri, 17 Apr 2026 05:26:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/migrate.c:543 migration_entry_wait_huge() warn:
- inconsistent returns 'ptl'.
-Message-ID: <202604170344.KEXYFXqz-lkp@intel.com>
+Subject: fs/f2fs/file.c:4376 redirty_blocks() error: 'folio'
+ dereferencing possible ERR_PTR()
+Message-ID: <202604170513.MD2LqpI3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,76 +62,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-
-Hi Lorenzo,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Jaegeuk Kim <jaegeuk@kernel.org>
+CC: Chao Yu <chao@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1d51b370a0f8f642f4fc84c795fbedac0fcdbbd2
-commit: 03bfbc3ad6e496fb576ca9ace08211943232fdf9 mm: remove is_hugetlb_entry_[migration, hwpoisoned]()
-date:   5 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-r072-20260416 (https://download.01.org/0day-ci/archive/20260417/202604170344.KEXYFXqz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+commit: 5951fee46befbf6176c86482432f4f76e522f16c f2fs: Use a folio in redirty_blocks()
+date:   12 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 12 months ago
+config: powerpc-randconfig-r073-20260416 (https://download.01.org/0day-ci/archive/20260417/202604170513.MD2LqpI3-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.3.0
 smatch: v0.5.0-9007-gcf3ea02b
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 03bfbc3ad6e4 ("mm: remove is_hugetlb_entry_[migration, hwpoisoned]()")
+| Fixes: 5951fee46bef ("f2fs: Use a folio in redirty_blocks()")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604170344.KEXYFXqz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604170513.MD2LqpI3-lkp@intel.com/
 
-smatch warnings:
-mm/migrate.c:543 migration_entry_wait_huge() warn: inconsistent returns 'ptl'.
+New smatch warnings:
+fs/f2fs/file.c:4376 redirty_blocks() error: 'folio' dereferencing possible ERR_PTR()
 
-vim +/ptl +543 mm/migrate.c
+Old smatch warnings:
+fs/f2fs/file.c:3229 f2fs_ioc_flush_device() warn: potential spectre issue 'sbi->devs' [w] (local cap)
 
-30dad30922ccc7 Naoya Horiguchi  2013-06-12  507  
-ad1ac596e8a8c4 Miaohe Lin       2022-05-30  508  #ifdef CONFIG_HUGETLB_PAGE
-fcd48540d18887 Peter Xu         2022-12-16  509  /*
-fcd48540d18887 Peter Xu         2022-12-16  510   * The vma read lock must be held upon entry. Holding that lock prevents either
-fcd48540d18887 Peter Xu         2022-12-16  511   * the pte or the ptl from being freed.
-fcd48540d18887 Peter Xu         2022-12-16  512   *
-fcd48540d18887 Peter Xu         2022-12-16  513   * This function will release the vma lock before returning.
-fcd48540d18887 Peter Xu         2022-12-16  514   */
-e6c0c03245b14d Christophe Leroy 2024-07-02  515  void migration_entry_wait_huge(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep)
-ad1ac596e8a8c4 Miaohe Lin       2022-05-30  516  {
-0cb8fd4d14165a Hugh Dickins     2023-06-08  517  	spinlock_t *ptl = huge_pte_lockptr(hstate_vma(vma), vma->vm_mm, ptep);
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  518  	softleaf_t entry;
-ad1ac596e8a8c4 Miaohe Lin       2022-05-30  519  	pte_t pte;
-ad1ac596e8a8c4 Miaohe Lin       2022-05-30  520  
-fcd48540d18887 Peter Xu         2022-12-16  521  	hugetlb_vma_assert_locked(vma);
-ad1ac596e8a8c4 Miaohe Lin       2022-05-30  522  	spin_lock(ptl);
-e6c0c03245b14d Christophe Leroy 2024-07-02  523  	pte = huge_ptep_get(vma->vm_mm, addr, ptep);
-ad1ac596e8a8c4 Miaohe Lin       2022-05-30  524  
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  525  	if (huge_pte_none(pte))
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  526  		goto fail;
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  527  
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  528  	entry = softleaf_from_pte(pte);
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  529  	if (softleaf_is_migration(entry)) {
-fcd48540d18887 Peter Xu         2022-12-16  530  		/*
-fcd48540d18887 Peter Xu         2022-12-16  531  		 * If migration entry existed, safe to release vma lock
-fcd48540d18887 Peter Xu         2022-12-16  532  		 * here because the pgtable page won't be freed without the
-fcd48540d18887 Peter Xu         2022-12-16  533  		 * pgtable lock released.  See comment right above pgtable
-fcd48540d18887 Peter Xu         2022-12-16  534  		 * lock release in migration_entry_wait_on_locked().
-fcd48540d18887 Peter Xu         2022-12-16  535  		 */
-fcd48540d18887 Peter Xu         2022-12-16  536  		hugetlb_vma_unlock_read(vma);
-0cb8fd4d14165a Hugh Dickins     2023-06-08  537  		migration_entry_wait_on_locked(pte_to_swp_entry(pte), ptl);
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  538  		return;
-fcd48540d18887 Peter Xu         2022-12-16  539  	}
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  540  
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  541  fail:
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  542  	spin_unlock(ptl);
-03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10 @543  	hugetlb_vma_unlock_read(vma);
-30dad30922ccc7 Naoya Horiguchi  2013-06-12  544  }
-ad1ac596e8a8c4 Miaohe Lin       2022-05-30  545  #endif
-30dad30922ccc7 Naoya Horiguchi  2013-06-12  546  
+vim +/folio +4376 fs/f2fs/file.c
+
+e1e8debec6564d0 Daeho Jeong             2020-10-30  4345  
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4346  static int redirty_blocks(struct inode *inode, pgoff_t page_idx, int len)
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4347  {
+fcd9ae4f7f3b5fb Matthew Wilcox (Oracle  2021-04-07  4348) 	DEFINE_READAHEAD(ractl, NULL, NULL, inode->i_mapping, page_idx);
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4349  	struct address_space *mapping = inode->i_mapping;
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4350) 	struct folio *folio;
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4351  	pgoff_t redirty_idx = page_idx;
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4352) 	int page_len = 0, ret = 0;
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4353  
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4354  	page_cache_ra_unbounded(&ractl, len, 0);
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4355  
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4356) 	do {
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4357) 		folio = read_cache_folio(mapping, page_idx, NULL, NULL);
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4358) 		if (IS_ERR(folio)) {
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4359) 			ret = PTR_ERR(folio);
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4360  			break;
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4361  		}
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4362) 		page_len += folio_nr_pages(folio) - (page_idx - folio->index);
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4363) 		page_idx = folio_next_index(folio);
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4364) 	} while (page_len < len);
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4365  
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4366) 	do {
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4367) 		folio = filemap_lock_folio(mapping, redirty_idx);
+a4a0e16dbf77582 Jack Qiu                2022-05-31  4368  
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4369) 		/* It will never fail, when folio has pinned above */
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4370) 		f2fs_bug_on(F2FS_I_SB(inode), IS_ERR(folio));
+a4a0e16dbf77582 Jack Qiu                2022-05-31  4371  
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4372) 		f2fs_folio_wait_writeback(folio, DATA, true, true);
+a4d7f2b3238fd5f Chao Yu                 2024-08-12  4373  
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4374) 		folio_mark_dirty(folio);
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4375) 		set_page_private_gcing(&folio->page);
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31 @4376) 		redirty_idx = folio_next_index(folio);
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4377) 		folio_unlock(folio);
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4378) 		folio_put_refs(folio, 2);
+5951fee46befbf6 Matthew Wilcox (Oracle  2025-03-31  4379) 	} while (redirty_idx < page_idx);
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4380  
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4381  	return ret;
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4382  }
+5fdb322ff2c2b4a Daeho Jeong             2020-12-03  4383  
 
 -- 
 0-DAY CI Kernel Test Service
