@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0CE330B3B
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Apr 2026 18:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332E83EAC6B
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Apr 2026 19:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776362956; cv=none; b=KeB0Rb4DCYulLlFhcgRIQnVlSw8Zx/7Z9yiyBRSevm/hmUUYOe0WVjQQ6/QMvi8Alix2T9WdpNQMMfmJwqim4r1HEaOGxL/ysLr74cPl3zrFX+vkE5WFpHjbsB/SLtVK3tgxldzS31IX3dpyD82Awol+uUxUog6xCAokMgRAjEs=
+	t=1776369090; cv=none; b=oX6UsfIXEHAqIlKPerdTkEQmQvLajqjQRwxwby3pmPI+yA1GDxxtk/tEnrMjE16jxTm3sdx0R8rD6HyJ6BOer+GQMalUdNICxn82YvBdPjSEDxwEWkv2UXzGhij4Raf1u12pftATwAQl654Jrldaa/v6pcSrRFZFs7mDoQdpG+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776362956; c=relaxed/simple;
-	bh=VD/twIYYVvaciGhuTOQf7+0fA/PMD6D2XvihRm1FR4I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DNiEqGn7os4wq1PWZ9kJpdCp7W+cJipXEpUw8lTDeXi4YXDziX4ffiwba1E3+TPMGkNuO1q+FXPHPVGOFBTzqZ1miSZ+BSzZJfiT8IFmb4FR6pc4/SExO+NsiYsmGdDsqe+IS3GmjeXuMPJrIiIi5TEslcY6zhjyoZ/zsL1H4I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dROQrfUG; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1776369090; c=relaxed/simple;
+	bh=fRjVQzHEnqJhcv2nyMgVRst7Rq6wA2kbLEMGZFilnVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i5iIyWzWCsfT/aNswSjVh2p2qDrrDvlH0NWQvagj+ZaF9HbuMsphiVb2XDXzfgVKjyiaZAL6MugHa74vNctGIoJpxMNTWuDEnKuapbOsMKUbGmLLe3UDYpE50J7Cadwcu5GsSa/I2w+rj6FvShyuoyQkQnIJBP2EYEyWeCk7+cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DObe1ubE; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dROQrfUG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DObe1ubE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776362953; x=1807898953;
+  t=1776369082; x=1807905082;
   h=date:from:to:cc:subject:message-id;
-  bh=VD/twIYYVvaciGhuTOQf7+0fA/PMD6D2XvihRm1FR4I=;
-  b=dROQrfUGRAXJ/xDTwaejTZIsLBuOKV/ylISjQB9nTDI4F4Ug0o+mRd5N
-   5XFSO0Q96lw95rAE0YJ18wJoAOcwBRCrbgQG7BuyDjTP3FgOPbqUb8oCG
-   Pii8rAxG6zOwdSI0bVsuDGy5AXdis0glz8/TeE36Ju3mHXnxO++xnWNSC
-   MwABWuX8ncdB9HPWygMgLUzN9WK+hQV2SueSLT1SWHlD0FyPW6hDFQnPy
-   OYCKx/9VMD8y2G0crow6t8GSZJQ9w0Ed4pZ0qfRfJ4YWwFJzqlFk2VhXZ
-   3+MQ4aHl8tTBJjN5RgBlIsnrtdCZV17GSKmXuCXNd6i1CjcDJ3yzSG+mc
-   g==;
-X-CSE-ConnectionGUID: ddy3NAZnSXWdfOhK33pAFA==
-X-CSE-MsgGUID: a8xrJ/lfTpm7LvUSSWYDAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77073414"
+  bh=fRjVQzHEnqJhcv2nyMgVRst7Rq6wA2kbLEMGZFilnVQ=;
+  b=DObe1ubE6TjqVtbGCELSAiGeHETtC2Uk0mdCM+8rrNBW678CeFBmZN59
+   r+JMWC+OZdc2mCEzd/9Io2XRNI7bYly3fQdjMxF58KTpI375apOFT92iV
+   rIUDOWBOXUnIt0Vkss6IgRCl33b5r2Gr1z7vGunwqHSHdw2ft1kJLoFUW
+   x/ddJUYv1p/KPRqJKnnekAWpYenW0wnxpMurxn57H52I8PZziwnoviFFi
+   LhoZjTEc1B1Z5XB8vvSsvcbckadE9KcHz9iAFN5goDNNX7C5TqcHNi2hx
+   MrIS1IZ6Y2PM38n4QHyh5MRQSX8IBM8lMLHIzfAHkUQ5s+VL9dTSaGnrF
+   A==;
+X-CSE-ConnectionGUID: l60BGh9DTTaXawekf1L4hg==
+X-CSE-MsgGUID: A/8aCcr3TYuN+u5/RurI6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="100028919"
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="77073414"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 11:09:11 -0700
-X-CSE-ConnectionGUID: 1y21mCjKRJCSzQPN5lzTtQ==
-X-CSE-MsgGUID: 0nmOl+rETa+Gqs+uwGpXXg==
+   d="scan'208";a="100028919"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 12:51:18 -0700
+X-CSE-ConnectionGUID: 02qttbmYQpGuM8LC2NF0cw==
+X-CSE-MsgGUID: SxE2f9koQx++QnzmEL+mRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="231057735"
+   d="scan'208";a="227688589"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 16 Apr 2026 11:09:10 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 16 Apr 2026 12:51:16 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDR9H-000000001pw-0MJX;
-	Thu, 16 Apr 2026 18:09:07 +0000
-Date: Fri, 17 Apr 2026 02:08:18 +0800
+	id 1wDSk6-000000001ta-0qMd;
+	Thu, 16 Apr 2026 19:51:14 +0000
+Date: Fri, 17 Apr 2026 03:50:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7996/mac.c:1059
- mt7996_tx_prepare_skb() error: we previously assumed 'sta' could be null (see
- line 1044)
-Message-ID: <202604170133.h3fmmy0N-lkp@intel.com>
+Subject: mm/migrate.c:543 migration_entry_wait_huge() warn:
+ inconsistent returns 'ptl'.
+Message-ID: <202604170344.KEXYFXqz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -63,214 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Shayne Chen <shayne.chen@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
+TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+
+Hi Lorenzo,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1d51b370a0f8f642f4fc84c795fbedac0fcdbbd2
-commit: 85cd5534a3f2ec93e7d88713a77df5b4255520df wifi: mt76: mt7996: use correct link_id when filling TXD and TXP
+commit: 03bfbc3ad6e496fb576ca9ace08211943232fdf9 mm: remove is_hugetlb_entry_[migration, hwpoisoned]()
 date:   5 months ago
-:::::: branch date: 15 hours ago
+:::::: branch date: 17 hours ago
 :::::: commit date: 5 months ago
-config: arc-randconfig-r073-20260416 (https://download.01.org/0day-ci/archive/20260417/202604170133.h3fmmy0N-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
+config: x86_64-randconfig-r072-20260416 (https://download.01.org/0day-ci/archive/20260417/202604170344.KEXYFXqz-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9007-gcf3ea02b
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 85cd5534a3f2 ("wifi: mt76: mt7996: use correct link_id when filling TXD and TXP")
+| Fixes: 03bfbc3ad6e4 ("mm: remove is_hugetlb_entry_[migration, hwpoisoned]()")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604170133.h3fmmy0N-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604170344.KEXYFXqz-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/mac.c:1059 mt7996_tx_prepare_skb() error: we previously assumed 'sta' could be null (see line 1044)
-drivers/net/wireless/mediatek/mt76/mt7996/mac.c:1099 mt7996_tx_prepare_skb() error: we previously assumed 'vif' could be null (see line 1043)
+smatch warnings:
+mm/migrate.c:543 migration_entry_wait_huge() warn: inconsistent returns 'ptl'.
 
-Old smatch warnings:
-internal error: arch/arc/include/asm/bitops.h:139 SQL error #2: near "and": syntax error
-internal error: arch/arc/include/asm/bitops.h:139 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+vim +/ptl +543 mm/migrate.c
 
-vim +/sta +1059 drivers/net/wireless/mediatek/mt76/mt7996/mac.c
-
-b7ddeb9cc43949 Shayne Chen      2025-04-09  1032  
-98686cd21624c7 Shayne Chen      2022-11-22  1033  int mt7996_tx_prepare_skb(struct mt76_dev *mdev, void *txwi_ptr,
-98686cd21624c7 Shayne Chen      2022-11-22  1034  			  enum mt76_txq_id qid, struct mt76_wcid *wcid,
-98686cd21624c7 Shayne Chen      2022-11-22  1035  			  struct ieee80211_sta *sta,
-98686cd21624c7 Shayne Chen      2022-11-22  1036  			  struct mt76_tx_info *tx_info)
-98686cd21624c7 Shayne Chen      2022-11-22  1037  {
-85cd5534a3f2ec Shayne Chen      2025-11-06  1038  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)tx_info->skb->data;
-98686cd21624c7 Shayne Chen      2022-11-22  1039  	struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev, mt76);
-98686cd21624c7 Shayne Chen      2022-11-22  1040  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(tx_info->skb);
-98686cd21624c7 Shayne Chen      2022-11-22  1041  	struct ieee80211_key_conf *key = info->control.hw_key;
-98686cd21624c7 Shayne Chen      2022-11-22  1042  	struct ieee80211_vif *vif = info->control.vif;
-85cd5534a3f2ec Shayne Chen      2025-11-06 @1043  	struct mt7996_vif *mvif = vif ? (struct mt7996_vif *)vif->drv_priv : NULL;
-85cd5534a3f2ec Shayne Chen      2025-11-06 @1044  	struct mt7996_sta *msta = sta ? (struct mt7996_sta *)sta->drv_priv : NULL;
-85cd5534a3f2ec Shayne Chen      2025-11-06  1045  	struct mt76_vif_link *mlink = NULL;
-98686cd21624c7 Shayne Chen      2022-11-22  1046  	struct mt76_txwi_cache *t;
-98686cd21624c7 Shayne Chen      2022-11-22  1047  	int id, i, pid, nbuf = tx_info->nbuf - 1;
-98686cd21624c7 Shayne Chen      2022-11-22  1048  	bool is_8023 = info->flags & IEEE80211_TX_CTL_HW_80211_ENCAP;
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1049  	__le32 *ptr = (__le32 *)txwi_ptr;
-98686cd21624c7 Shayne Chen      2022-11-22  1050  	u8 *txwi = (u8 *)txwi_ptr;
-85cd5534a3f2ec Shayne Chen      2025-11-06  1051  	u8 link_id;
-98686cd21624c7 Shayne Chen      2022-11-22  1052  
-98686cd21624c7 Shayne Chen      2022-11-22  1053  	if (unlikely(tx_info->skb->len <= ETH_HLEN))
-98686cd21624c7 Shayne Chen      2022-11-22  1054  		return -EINVAL;
-98686cd21624c7 Shayne Chen      2022-11-22  1055  
-98686cd21624c7 Shayne Chen      2022-11-22  1056  	if (!wcid)
-98686cd21624c7 Shayne Chen      2022-11-22  1057  		wcid = &dev->mt76.global_wcid;
-98686cd21624c7 Shayne Chen      2022-11-22  1058  
-85cd5534a3f2ec Shayne Chen      2025-11-06 @1059  	if ((is_8023 || ieee80211_is_data_qos(hdr->frame_control)) && sta->mlo &&
-85cd5534a3f2ec Shayne Chen      2025-11-06  1060  	    likely(tx_info->skb->protocol != cpu_to_be16(ETH_P_PAE))) {
-85cd5534a3f2ec Shayne Chen      2025-11-06  1061  		u8 tid = tx_info->skb->priority & IEEE80211_QOS_CTL_TID_MASK;
-85cd5534a3f2ec Shayne Chen      2025-11-06  1062  
-85cd5534a3f2ec Shayne Chen      2025-11-06  1063  		link_id = (tid % 2) ? msta->seclink_id : msta->deflink_id;
-85cd5534a3f2ec Shayne Chen      2025-11-06  1064  	} else {
-85cd5534a3f2ec Shayne Chen      2025-11-06  1065  		link_id = u32_get_bits(info->control.flags,
-85cd5534a3f2ec Shayne Chen      2025-11-06  1066  				       IEEE80211_TX_CTRL_MLO_LINK);
-85cd5534a3f2ec Shayne Chen      2025-11-06  1067  	}
-85cd5534a3f2ec Shayne Chen      2025-11-06  1068  
-85cd5534a3f2ec Shayne Chen      2025-11-06  1069  	if (link_id != wcid->link_id && link_id != IEEE80211_LINK_UNSPECIFIED) {
-85cd5534a3f2ec Shayne Chen      2025-11-06  1070  		if (msta) {
-85cd5534a3f2ec Shayne Chen      2025-11-06  1071  			struct mt7996_sta_link *msta_link =
-85cd5534a3f2ec Shayne Chen      2025-11-06  1072  				rcu_dereference(msta->link[link_id]);
-85cd5534a3f2ec Shayne Chen      2025-11-06  1073  
-85cd5534a3f2ec Shayne Chen      2025-11-06  1074  			if (msta_link)
-85cd5534a3f2ec Shayne Chen      2025-11-06  1075  				wcid = &msta_link->wcid;
-85cd5534a3f2ec Shayne Chen      2025-11-06  1076  		} else if (mvif) {
-85cd5534a3f2ec Shayne Chen      2025-11-06  1077  			mlink = rcu_dereference(mvif->mt76.link[link_id]);
-85cd5534a3f2ec Shayne Chen      2025-11-06  1078  			if (mlink && mlink->wcid)
-85cd5534a3f2ec Shayne Chen      2025-11-06  1079  				wcid = mlink->wcid;
-85cd5534a3f2ec Shayne Chen      2025-11-06  1080  		}
-85cd5534a3f2ec Shayne Chen      2025-11-06  1081  	}
-85cd5534a3f2ec Shayne Chen      2025-11-06  1082  
-98686cd21624c7 Shayne Chen      2022-11-22  1083  	t = (struct mt76_txwi_cache *)(txwi + mdev->drv->txwi_size);
-98686cd21624c7 Shayne Chen      2022-11-22  1084  	t->skb = tx_info->skb;
-98686cd21624c7 Shayne Chen      2022-11-22  1085  
-98686cd21624c7 Shayne Chen      2022-11-22  1086  	id = mt76_token_consume(mdev, &t);
-98686cd21624c7 Shayne Chen      2022-11-22  1087  	if (id < 0)
-98686cd21624c7 Shayne Chen      2022-11-22  1088  		return id;
-98686cd21624c7 Shayne Chen      2022-11-22  1089  
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1090  	/* Since the rules of HW MLD address translation are not fully
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1091  	 * compatible with 802.11 EAPOL frame, we do the translation by
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1092  	 * software
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1093  	 */
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1094  	if (tx_info->skb->protocol == cpu_to_be16(ETH_P_PAE) && sta->mlo) {
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1095  		struct ieee80211_hdr *hdr = (void *)tx_info->skb->data;
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1096  		struct ieee80211_bss_conf *link_conf;
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1097  		struct ieee80211_link_sta *link_sta;
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1098  
-7ef0c7ad735b0c Shayne Chen      2025-09-04 @1099  		link_conf = rcu_dereference(vif->link_conf[wcid->link_id]);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1100  		if (!link_conf)
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1101  			return -EINVAL;
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1102  
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1103  		link_sta = rcu_dereference(sta->link[wcid->link_id]);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1104  		if (!link_sta)
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1105  			return -EINVAL;
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1106  
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1107  		dma_sync_single_for_cpu(mdev->dma_dev, tx_info->buf[1].addr,
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1108  					tx_info->buf[1].len, DMA_TO_DEVICE);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1109  
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1110  		memcpy(hdr->addr1, link_sta->addr, ETH_ALEN);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1111  		memcpy(hdr->addr2, link_conf->addr, ETH_ALEN);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1112  		if (ieee80211_has_a4(hdr->frame_control)) {
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1113  			memcpy(hdr->addr3, sta->addr, ETH_ALEN);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1114  			memcpy(hdr->addr4, vif->addr, ETH_ALEN);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1115  		} else if (ieee80211_has_tods(hdr->frame_control)) {
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1116  			memcpy(hdr->addr3, sta->addr, ETH_ALEN);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1117  		} else if (ieee80211_has_fromds(hdr->frame_control)) {
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1118  			memcpy(hdr->addr3, vif->addr, ETH_ALEN);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1119  		}
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1120  
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1121  		dma_sync_single_for_device(mdev->dma_dev, tx_info->buf[1].addr,
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1122  					   tx_info->buf[1].len, DMA_TO_DEVICE);
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1123  	}
-7ef0c7ad735b0c Shayne Chen      2025-09-04  1124  
-98686cd21624c7 Shayne Chen      2022-11-22  1125  	pid = mt76_tx_status_skb_add(mdev, wcid, tx_info->skb);
-3dbfb8abe3fd3f Shayne Chen      2025-03-28  1126  	memset(txwi_ptr, 0, MT_TXD_SIZE);
-3dbfb8abe3fd3f Shayne Chen      2025-03-28  1127  	/* Transmit non qos data by 802.11 header and need to fill txd by host*/
-3dbfb8abe3fd3f Shayne Chen      2025-03-28  1128  	if (!is_8023 || pid >= MT_PACKET_ID_FIRST)
-d0b6f86fdbefa6 Shayne Chen      2023-03-03  1129  		mt7996_mac_write_txwi(dev, txwi_ptr, tx_info->skb, wcid, key,
-d0b6f86fdbefa6 Shayne Chen      2023-03-03  1130  				      pid, qid, 0);
-98686cd21624c7 Shayne Chen      2022-11-22  1131  
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1132  	/* MT7996 and MT7992 require driver to provide the MAC TXP for AddBA
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1133  	 * req
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1134  	 */
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1135  	if (le32_to_cpu(ptr[7]) & MT_TXD7_MAC_TXD) {
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1136  		u32 val;
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1137  
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1138  		ptr = (__le32 *)(txwi + MT_TXD_SIZE);
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1139  		memset((void *)ptr, 0, sizeof(struct mt76_connac_fw_txp));
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1140  
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1141  		val = FIELD_PREP(MT_TXP0_TOKEN_ID0, id) |
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1142  		      MT_TXP0_TOKEN_ID0_VALID_MASK;
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1143  		ptr[0] = cpu_to_le32(val);
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1144  
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1145  		val = FIELD_PREP(MT_TXP1_TID_ADDBA,
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1146  				 tx_info->skb->priority &
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1147  				 IEEE80211_QOS_CTL_TID_MASK);
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1148  		ptr[1] = cpu_to_le32(val);
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1149  		ptr[2] = cpu_to_le32(tx_info->buf[1].addr & 0xFFFFFFFF);
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1150  
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1151  		val = FIELD_PREP(MT_TXP_BUF_LEN, tx_info->buf[1].len) |
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1152  		      MT_TXP3_ML0_MASK;
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1153  #ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1154  		val |= FIELD_PREP(MT_TXP3_DMA_ADDR_H,
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1155  				  tx_info->buf[1].addr >> 32);
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1156  #endif
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1157  		ptr[3] = cpu_to_le32(val);
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1158  	} else {
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1159  		struct mt76_connac_txp_common *txp;
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1160  
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  1161  		txp = (struct mt76_connac_txp_common *)(txwi + MT_TXD_SIZE);
-98686cd21624c7 Shayne Chen      2022-11-22  1162  		for (i = 0; i < nbuf; i++) {
-4920a3a1285f5f Sujuan Chen      2023-11-17  1163  			u16 len;
-4920a3a1285f5f Sujuan Chen      2023-11-17  1164  
-4920a3a1285f5f Sujuan Chen      2023-11-17  1165  			len = FIELD_PREP(MT_TXP_BUF_LEN, tx_info->buf[i + 1].len);
-4920a3a1285f5f Sujuan Chen      2023-11-17  1166  #ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
-4920a3a1285f5f Sujuan Chen      2023-11-17  1167  			len |= FIELD_PREP(MT_TXP_DMA_ADDR_H,
-4920a3a1285f5f Sujuan Chen      2023-11-17  1168  					  tx_info->buf[i + 1].addr >> 32);
-4920a3a1285f5f Sujuan Chen      2023-11-17  1169  #endif
-4920a3a1285f5f Sujuan Chen      2023-11-17  1170  
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  1171  			txp->fw.buf[i] = cpu_to_le32(tx_info->buf[i + 1].addr);
-4920a3a1285f5f Sujuan Chen      2023-11-17  1172  			txp->fw.len[i] = cpu_to_le16(len);
-98686cd21624c7 Shayne Chen      2022-11-22  1173  		}
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  1174  		txp->fw.nbuf = nbuf;
-98686cd21624c7 Shayne Chen      2022-11-22  1175  
-3dbfb8abe3fd3f Shayne Chen      2025-03-28  1176  		txp->fw.flags = cpu_to_le16(MT_CT_INFO_FROM_HOST);
-3dbfb8abe3fd3f Shayne Chen      2025-03-28  1177  
-3dbfb8abe3fd3f Shayne Chen      2025-03-28  1178  		if (!is_8023 || pid >= MT_PACKET_ID_FIRST)
-3dbfb8abe3fd3f Shayne Chen      2025-03-28  1179  			txp->fw.flags |= cpu_to_le16(MT_CT_INFO_APPLY_TXD);
-98686cd21624c7 Shayne Chen      2022-11-22  1180  
-98686cd21624c7 Shayne Chen      2022-11-22  1181  		if (!key)
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  1182  			txp->fw.flags |= cpu_to_le16(MT_CT_INFO_NONE_CIPHER_FRAME);
-98686cd21624c7 Shayne Chen      2022-11-22  1183  
-b7ddeb9cc43949 Shayne Chen      2025-04-09  1184  		if (!is_8023 && mt7996_tx_use_mgmt(dev, tx_info->skb))
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  1185  			txp->fw.flags |= cpu_to_le16(MT_CT_INFO_MGMT_FRAME);
-98686cd21624c7 Shayne Chen      2022-11-22  1186  
-85cd5534a3f2ec Shayne Chen      2025-11-06  1187  		if (mvif) {
-13b4c81083cc4b Felix Fietkau    2025-03-11  1188  			if (wcid->offchannel)
-13b4c81083cc4b Felix Fietkau    2025-03-11  1189  				mlink = rcu_dereference(mvif->mt76.offchannel_link);
-13b4c81083cc4b Felix Fietkau    2025-03-11  1190  			if (!mlink)
-59ea7af6f9ce21 Lorenzo Bianconi 2025-07-04  1191  				mlink = rcu_dereference(mvif->mt76.link[wcid->link_id]);
-98686cd21624c7 Shayne Chen      2022-11-22  1192  
-59ea7af6f9ce21 Lorenzo Bianconi 2025-07-04  1193  			txp->fw.bss_idx = mlink ? mlink->idx : mvif->deflink.mt76.idx;
-98686cd21624c7 Shayne Chen      2022-11-22  1194  		}
-98686cd21624c7 Shayne Chen      2022-11-22  1195  
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  1196  		txp->fw.token = cpu_to_le16(id);
-bde2e77f76266f Peter Chiu       2023-08-17  1197  		txp->fw.rept_wds_wcid = cpu_to_le16(sta ? wcid->idx : 0xfff);
-cb6ebbdffef2a8 Howard Hsu       2025-09-09  1198  	}
-bde2e77f76266f Peter Chiu       2023-08-17  1199  
-832f42699791e7 Felix Fietkau    2023-09-11  1200  	tx_info->skb = NULL;
-98686cd21624c7 Shayne Chen      2022-11-22  1201  
-98686cd21624c7 Shayne Chen      2022-11-22  1202  	/* pass partial skb header to fw */
-98686cd21624c7 Shayne Chen      2022-11-22  1203  	tx_info->buf[1].len = MT_CT_PARSE_LEN;
-98686cd21624c7 Shayne Chen      2022-11-22  1204  	tx_info->buf[1].skip_unmap = true;
-98686cd21624c7 Shayne Chen      2022-11-22  1205  	tx_info->nbuf = MT_CT_DMA_BUF_NUM;
-98686cd21624c7 Shayne Chen      2022-11-22  1206  
-98686cd21624c7 Shayne Chen      2022-11-22  1207  	return 0;
-98686cd21624c7 Shayne Chen      2022-11-22  1208  }
-98686cd21624c7 Shayne Chen      2022-11-22  1209  
+30dad30922ccc7 Naoya Horiguchi  2013-06-12  507  
+ad1ac596e8a8c4 Miaohe Lin       2022-05-30  508  #ifdef CONFIG_HUGETLB_PAGE
+fcd48540d18887 Peter Xu         2022-12-16  509  /*
+fcd48540d18887 Peter Xu         2022-12-16  510   * The vma read lock must be held upon entry. Holding that lock prevents either
+fcd48540d18887 Peter Xu         2022-12-16  511   * the pte or the ptl from being freed.
+fcd48540d18887 Peter Xu         2022-12-16  512   *
+fcd48540d18887 Peter Xu         2022-12-16  513   * This function will release the vma lock before returning.
+fcd48540d18887 Peter Xu         2022-12-16  514   */
+e6c0c03245b14d Christophe Leroy 2024-07-02  515  void migration_entry_wait_huge(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep)
+ad1ac596e8a8c4 Miaohe Lin       2022-05-30  516  {
+0cb8fd4d14165a Hugh Dickins     2023-06-08  517  	spinlock_t *ptl = huge_pte_lockptr(hstate_vma(vma), vma->vm_mm, ptep);
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  518  	softleaf_t entry;
+ad1ac596e8a8c4 Miaohe Lin       2022-05-30  519  	pte_t pte;
+ad1ac596e8a8c4 Miaohe Lin       2022-05-30  520  
+fcd48540d18887 Peter Xu         2022-12-16  521  	hugetlb_vma_assert_locked(vma);
+ad1ac596e8a8c4 Miaohe Lin       2022-05-30  522  	spin_lock(ptl);
+e6c0c03245b14d Christophe Leroy 2024-07-02  523  	pte = huge_ptep_get(vma->vm_mm, addr, ptep);
+ad1ac596e8a8c4 Miaohe Lin       2022-05-30  524  
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  525  	if (huge_pte_none(pte))
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  526  		goto fail;
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  527  
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  528  	entry = softleaf_from_pte(pte);
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  529  	if (softleaf_is_migration(entry)) {
+fcd48540d18887 Peter Xu         2022-12-16  530  		/*
+fcd48540d18887 Peter Xu         2022-12-16  531  		 * If migration entry existed, safe to release vma lock
+fcd48540d18887 Peter Xu         2022-12-16  532  		 * here because the pgtable page won't be freed without the
+fcd48540d18887 Peter Xu         2022-12-16  533  		 * pgtable lock released.  See comment right above pgtable
+fcd48540d18887 Peter Xu         2022-12-16  534  		 * lock release in migration_entry_wait_on_locked().
+fcd48540d18887 Peter Xu         2022-12-16  535  		 */
+fcd48540d18887 Peter Xu         2022-12-16  536  		hugetlb_vma_unlock_read(vma);
+0cb8fd4d14165a Hugh Dickins     2023-06-08  537  		migration_entry_wait_on_locked(pte_to_swp_entry(pte), ptl);
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  538  		return;
+fcd48540d18887 Peter Xu         2022-12-16  539  	}
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  540  
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  541  fail:
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10  542  	spin_unlock(ptl);
+03bfbc3ad6e496 Lorenzo Stoakes  2025-11-10 @543  	hugetlb_vma_unlock_read(vma);
+30dad30922ccc7 Naoya Horiguchi  2013-06-12  544  }
+ad1ac596e8a8c4 Miaohe Lin       2022-05-30  545  #endif
+30dad30922ccc7 Naoya Horiguchi  2013-06-12  546  
 
 -- 
 0-DAY CI Kernel Test Service
