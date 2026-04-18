@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B751474CC
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Apr 2026 23:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172D125D1E9
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Apr 2026 00:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776469396; cv=none; b=CBzth9b17WlTDxyjVVhhCOQVV1ygs+fHnKst/tBxZ3gC+43dqp9KJ3i+pGiCjvChzDFxhbJK5+MFWgMmid/ZKUIJguWJ+uQKW8dgLgmV04CzgXUm+gG0qJSvNs76dPXfAZVysAPbjgJvm4Obu503n2uBsoeEmRir8fU5frj3Xyw=
+	t=1776473658; cv=none; b=RCgYsAnBGM3+fnBuuZU389Ua5QBMD5RHtvG/PUMP0cHhIRXhH1zmCDr94yt0o9wcCrr09g1AgVO1vNNoWTMJhRK97T2xAsox9x7Z1UZbbHnB5/7P64JkBSVzjgfSXoWRP76CcfHKff6vosAbQrqocesZuZNR5f3VgPPiEALcv4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776469396; c=relaxed/simple;
-	bh=I7PcAgbkvkkWoswj6W0sTyodzcb7f7qST97REB/NDaw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nuXEoMI9F06EJyGRXx7tkJnMBj50muoIandDHllCTBVXKs9cMhntCKo7w185pXZAFrVKcJvV1sYuTI4MCPaj0A+gGnJnHE6yWNu16n5IZU/brgkGm1uKQlucTKlEDGKOt6dlIQv5etl8hz7SLcEtY4OJhCXEplUy/JpGyZ1hXx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cHjJbxvE; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1776473658; c=relaxed/simple;
+	bh=nkQaK9P6kiGj0t7yqv5eIQq/WmQkBiBtKsoRk9tvjD8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=c+FuOOzPAHnqwet/vt6seJSHXfr3fXqciFOzRDgg7rbOOa1UH9h55fPHXbFFnTk52T5Fbnqt10NwMZmir9BbvPG0+kMG7isYtHMxZHqjyDzQvhT2OD40V8fAxMYHM85Pc66OUB0ePgVk93OLaTIrKyXbiWJHQSGwWPqs2unbSQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODX8CqfS; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cHjJbxvE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODX8CqfS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776469394; x=1808005394;
+  t=1776473658; x=1808009658;
   h=date:from:to:cc:subject:message-id;
-  bh=I7PcAgbkvkkWoswj6W0sTyodzcb7f7qST97REB/NDaw=;
-  b=cHjJbxvE/osU7cOatedFfT+jK3X/lACCYPE42k6gCARAmczWMRFK2+te
-   YeQRm2gT/tSfjbF413twwt7NBXByROXoLsdTOh89roo6HZZ1RBxzICDeg
-   /gwV/wm3zKjO0l1FNJpCv8ZmIaDy6qpbQgSU+rkdQETmjRpdAH2bGEqnj
-   /E+OPsxdCDMp6xgImdE32rjpIejyo0NOOL0S6VW/eFpLjrhoNWAW29Y9X
-   sIX6DtVfwtVoBC0iyS8YvAjhUjJZKMBYL3rzEga0MaPLjizavhR8pzRJ8
-   /CpVSM7p55AA5mE0TqAHM2NiRBXbmqHVDxQw2D5h/spllabTUIqyYHw4t
+  bh=nkQaK9P6kiGj0t7yqv5eIQq/WmQkBiBtKsoRk9tvjD8=;
+  b=ODX8CqfSogS4Y/G+Tk0wJPRNaqTr5NFljxVT2ltmoafVvj+y6lEG/INc
+   fAXJ8YE0XTi/JKFAM4Ux5WFRtTPUbWVoh5TQ5zFdz9GuVqKluaqAcOa+L
+   ssoCcnfK43sOevMukSkP+ITRkD30h2nOTBlblhMZBMT2LFare9fCD5pMs
+   ZUwXtQPZxWSza3DoENWmqDY7vZEnwzwHVAC/80ijxz7YIf/9XEkVNAeMn
+   HuI8a95IhduihfD4wSLwAlTws7i6fEU6Pptt/EE+w2Ci04QhsWIUUqIe3
+   BW71gLaVj8m7plUmGu/ip2RDGRnDZ0nNQuLmpKZ+Ku+irl6gJx7PJr1DV
    Q==;
-X-CSE-ConnectionGUID: GWXGXpEpRxycIf16GeE+Og==
-X-CSE-MsgGUID: rzRymtWkRYWNoQUxyCgsqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="81366311"
+X-CSE-ConnectionGUID: fgjZB7TPSgqQfQqNNz14wA==
+X-CSE-MsgGUID: BXayi2vbQEKIwYaAa/1CRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="100138495"
 X-IronPort-AV: E=Sophos;i="6.23,185,1770624000"; 
-   d="scan'208";a="81366311"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 16:43:13 -0700
-X-CSE-ConnectionGUID: SMHFJoDMRIWxfCzKmwH2nw==
-X-CSE-MsgGUID: +9cF498jTD23ZxK9LdzD7A==
+   d="scan'208";a="100138495"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 17:54:16 -0700
+X-CSE-ConnectionGUID: zn2asUrpRfKmyE4Q3mBZhQ==
+X-CSE-MsgGUID: z/V1uwrDRaufH7fGvOBAHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,185,1770624000"; 
-   d="scan'208";a="231037859"
+   d="scan'208";a="230176239"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 17 Apr 2026 16:43:12 -0700
+  by orviesa006.jf.intel.com with ESMTP; 17 Apr 2026 17:54:14 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDsq5-000000001S9-3UZw;
-	Fri, 17 Apr 2026 23:43:09 +0000
-Date: Sat, 18 Apr 2026 01:42:14 +0200
+	id 1wDtwp-000000001UL-2pbj;
+	Sat, 18 Apr 2026 00:54:11 +0000
+Date: Sat, 18 Apr 2026 02:53:36 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/virtio/virtio.c:697:12: warning:
- 'virtio_device_reinit_noirq' defined but not used
-Message-ID: <202604180130.MK1znjvl-lkp@intel.com>
+Subject: [davidhildenbrand:b4/zerotags 2/2]
+ arch/arm64/mm/fault.c:982:undefined reference to `mte_clear_page_tags'
+Message-ID: <202604180258.fMPl8ndR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,72 +65,42 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sungho Bae <baver.bae@lge.com>
-CC: 0day robot <lkp@intel.com>
+TO: "David Hildenbrand (Arm)" <david@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Sungho-Bae/virtio-separate-PM-restore-and-reset_done-paths/20260417-225203
-head:   62b66be518d5420bcec6a71ec8a05c590ed9f2df
-commit: 2b934f5dd30f970f9b8edb861c16cc043e696c42 virtio: add noirq system sleep PM infrastructure
-date:   9 hours ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260418/202604180130.MK1znjvl-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260418/202604180130.MK1znjvl-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux b4/zerotags
+head:   6c38f199ad55f69364c20618114673c93274ce83
+commit: 6c38f199ad55f69364c20618114673c93274ce83 [2/2] mm/page_alloc: fix clearing of HW tags without __GFP_SKIP_KASAN and with init_on_free
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260418/202604180258.fMPl8ndR-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260418/202604180258.fMPl8ndR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604180130.MK1znjvl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604180258.fMPl8ndR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/virtio/virtio.c:697:12: warning: 'virtio_device_reinit_noirq' defined but not used [-Wunused-function]
-     697 | static int virtio_device_reinit_noirq(struct virtio_device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio.c:196:13: warning: 'virtio_config_core_enable_noirq' defined but not used [-Wunused-function]
-     196 | static void virtio_config_core_enable_noirq(struct virtio_device *dev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-gnu-ld: arch/arm64/mm/fault.o: in function `tag_clear_highpages':
+>> arch/arm64/mm/fault.c:982:(.text+0xa10): undefined reference to `mte_clear_page_tags'
 
 
-vim +/virtio_device_reinit_noirq +697 drivers/virtio/virtio.c
+vim +982 arch/arm64/mm/fault.c
 
-a0ec4fb63f5ce1 Israel Rukshin 2024-11-27  695  
-2b934f5dd30f97 Sungho Bae     2026-04-17  696  /* noirq-safe variant of virtio_device_reinit() */
-2b934f5dd30f97 Sungho Bae     2026-04-17 @697  static int virtio_device_reinit_noirq(struct virtio_device *dev)
-2b934f5dd30f97 Sungho Bae     2026-04-17  698  {
-2b934f5dd30f97 Sungho Bae     2026-04-17  699  	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
-2b934f5dd30f97 Sungho Bae     2026-04-17  700  	int ret;
-2b934f5dd30f97 Sungho Bae     2026-04-17  701  
-2b934f5dd30f97 Sungho Bae     2026-04-17  702  	/*
-2b934f5dd30f97 Sungho Bae     2026-04-17  703  	 * We always start by resetting the device, in case a previous
-2b934f5dd30f97 Sungho Bae     2026-04-17  704  	 * driver messed it up.
-2b934f5dd30f97 Sungho Bae     2026-04-17  705  	 */
-2b934f5dd30f97 Sungho Bae     2026-04-17  706  	virtio_reset_device_noirq(dev);
-2b934f5dd30f97 Sungho Bae     2026-04-17  707  
-2b934f5dd30f97 Sungho Bae     2026-04-17  708  	/* Acknowledge that we've seen the device. */
-2b934f5dd30f97 Sungho Bae     2026-04-17  709  	virtio_add_status_noirq(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE);
-2b934f5dd30f97 Sungho Bae     2026-04-17  710  
-2b934f5dd30f97 Sungho Bae     2026-04-17  711  	/*
-2b934f5dd30f97 Sungho Bae     2026-04-17  712  	 * Maybe driver failed before freeze.
-2b934f5dd30f97 Sungho Bae     2026-04-17  713  	 * Restore the failed status, for debugging.
-2b934f5dd30f97 Sungho Bae     2026-04-17  714  	 */
-2b934f5dd30f97 Sungho Bae     2026-04-17  715  	if (dev->failed)
-2b934f5dd30f97 Sungho Bae     2026-04-17  716  		virtio_add_status_noirq(dev, VIRTIO_CONFIG_S_FAILED);
-2b934f5dd30f97 Sungho Bae     2026-04-17  717  
-2b934f5dd30f97 Sungho Bae     2026-04-17  718  	if (!drv)
-2b934f5dd30f97 Sungho Bae     2026-04-17  719  		return 0;
-2b934f5dd30f97 Sungho Bae     2026-04-17  720  
-2b934f5dd30f97 Sungho Bae     2026-04-17  721  	/* We have a driver! */
-2b934f5dd30f97 Sungho Bae     2026-04-17  722  	virtio_add_status_noirq(dev, VIRTIO_CONFIG_S_DRIVER);
-2b934f5dd30f97 Sungho Bae     2026-04-17  723  
-2b934f5dd30f97 Sungho Bae     2026-04-17  724  	ret = dev->config->finalize_features(dev);
-2b934f5dd30f97 Sungho Bae     2026-04-17  725  	if (ret)
-2b934f5dd30f97 Sungho Bae     2026-04-17  726  		return ret;
-2b934f5dd30f97 Sungho Bae     2026-04-17  727  
-2b934f5dd30f97 Sungho Bae     2026-04-17  728  	return virtio_features_ok_noirq(dev);
-2b934f5dd30f97 Sungho Bae     2026-04-17  729  }
-2b934f5dd30f97 Sungho Bae     2026-04-17  730  
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  973  
+6c38f199ad55f6 David Hildenbrand (Arm  2026-04-16  974) void tag_clear_highpages(struct page *page, int numpages, bool clear_pages)
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  975  {
+5bebe8de192649 Linus Torvalds          2025-11-18  976  	/* Newly allocated pages, shouldn't have been tagged yet */
+5bebe8de192649 Linus Torvalds          2025-11-18  977  	for (int i = 0; i < numpages; i++, page++) {
+d77e59a8fccde7 Catalin Marinas         2022-11-03  978  		WARN_ON_ONCE(!try_page_mte_tagging(page));
+6c38f199ad55f6 David Hildenbrand (Arm  2026-04-16  979) 		if (clear_pages)
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  980  			mte_zero_clear_page_tags(page_address(page));
+6c38f199ad55f6 David Hildenbrand (Arm  2026-04-16  981) 		else
+6c38f199ad55f6 David Hildenbrand (Arm  2026-04-16 @982) 			mte_clear_page_tags(page_address(page));
 
 -- 
 0-DAY CI Kernel Test Service
