@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7FE17DE36
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Apr 2026 03:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9370838A725
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Apr 2026 08:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776656673; cv=none; b=V4dvp4iby3e79BzNXoTntPUwTRIHQ3A9FW+jyX2qzV5UOdc8+4Sbd38x2Yb9Equ/xWd1IDDz89gZUi1d5v3HiBZy+taQTKzfuVmleMV73gNEwwrCaz+Auh381ZKf2z1+bzjV6fGtb4ZiTxqpwY/bTha+j9Zt7HjkKCi9wMszwls=
+	t=1776674823; cv=none; b=K/jpmh52Na+bDI7MR+5Hlwlt2K9MsJSO6Wv/au+/lKkT/LAs030LNjNvOAnrYhUAXLyDjVPptbnOmJjgPKUT096xd/kTwBfxHFIfK41bF4N21iamzC3nYAIrhodvbbhMlWXtZkaDbR8B9mao2GCamLnYMohw7iuk2sy7xuajvaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776656673; c=relaxed/simple;
-	bh=XW6a2wlC7etdeBl0TlDmy7KOlu6qjl9UuJDrWunL6og=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Wz0zPN0cX76CWJEL/ozzWqHxGvksoLAkYyLfwHMJV7PbcCbGy+5+Gj1FVVfdtuW9Y7eV2Gt/qIVlB+3TImpDTtkQawrAFRFgvy3ZLxGIv5aDdqwsSIAZX7XoH3+Ab7E3LPnJfXfpQNFscWdyJMUKqA36+YDifcRw8VCT+7lONyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQonUq7R; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1776674823; c=relaxed/simple;
+	bh=fqr4yP63cn9xLJfr747fhoVG/CUkjTPZohm4pEJ1DHU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NWx2cgmAE7UvnVOg1EmboR+cpIg6wpipswH1bW2NLTLeL1jLxtuoYjQj0QK3qteijuKoLwVljQ6dWOduvaw35I25K/WphqNwf4wPy/NKT+edk/A+9jhhSrQ0TXWIYoIgGO6SOhkmirSKZ5uOOAvW9W5c4Z5/K/IwoVv/XegMqEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWlBIRG5; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQonUq7R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWlBIRG5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776656671; x=1808192671;
+  t=1776674822; x=1808210822;
   h=date:from:to:cc:subject:message-id;
-  bh=XW6a2wlC7etdeBl0TlDmy7KOlu6qjl9UuJDrWunL6og=;
-  b=VQonUq7R64t4WoMthlsEqqCN8pM0SMNU450sYuQ8JEyphBmjdJQXttux
-   zWw5Fy726VAoVODRe2xH3pnP8qbG2ObYEm0ijpRGdFmRcJff4S1ko5dhh
-   rwEMRv5XOVM0GPPTSNo5h8agdc3BGv2gSP8CCL5svGzHO0cC+ic56rGcl
-   RbIln2qIOhxLEZUrWJXTSy72lAZ1NvAO77Hg2ZzsBreJLz+BJ/uQkL357
-   alFdxO/Q2DDK+bx31Ca+72WqP4iz1G1jaB0BmVbHOwMPB3R04tu3yvIQd
-   G73v+T9kf1q78o+yHzkTmuCp01dP+uuFuhIntZcGEO/p/FwPXnDMc0DlY
-   Q==;
-X-CSE-ConnectionGUID: iVE9aB3kT8eNcDd0riEa7g==
-X-CSE-MsgGUID: N+8Ozaf7SduSeJXz63rNlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="81437159"
+  bh=fqr4yP63cn9xLJfr747fhoVG/CUkjTPZohm4pEJ1DHU=;
+  b=kWlBIRG5G8Dez9fvUreqhoBF/5XKl4XHSgXiD9dD7Ml63ObnbkmUK7tk
+   0pkOrlKMoO6Wh2Z4Bz9hnCOe6C1ZC+NRs7jPwdhd0gY9WZLJ5iNgOPSSz
+   sSWidT87VFjhFRSoY2XZW/vYSMtev2QYnCINi+FlEPGdlL/xfwc71qOhT
+   BI7spTVmaPhmmVPpdX2rCQRuF+tptFivE7DPbWjjN4HeluOYlxw+2z8Zo
+   59Jyuo9Ssb8/O6ucyRjyd+zRhrQAvaifV2aH7jmY+Q7HeF9GYG7y4Jdb1
+   vB9sbkgvhFXlzXzhPbdcAdOxWT40CF0P6DYmUSb2TMLqw1yzRnP8Z1pes
+   w==;
+X-CSE-ConnectionGUID: h3NTcQ6iQom2k/NdttpSSg==
+X-CSE-MsgGUID: dMoUCyXnSKSJmA7TYJNsLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="94986813"
 X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
-   d="scan'208";a="81437159"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2026 20:44:30 -0700
-X-CSE-ConnectionGUID: 3hvsM0Y0S/qL5czLd23aUg==
-X-CSE-MsgGUID: Xm+Zqzd6Rw20EPrOY2T47g==
+   d="scan'208";a="94986813"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 01:47:01 -0700
+X-CSE-ConnectionGUID: GArsw5JsS366+PUE4FNN7A==
+X-CSE-MsgGUID: 4Y4lvKQDRp20RYF0VykYnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
-   d="scan'208";a="269634777"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Apr 2026 20:44:29 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
+   d="scan'208";a="255140492"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 20 Apr 2026 01:47:00 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wEfYg-0000000028a-0cfq;
-	Mon, 20 Apr 2026 03:44:26 +0000
-Date: Mon, 20 Apr 2026 11:44:24 +0800
+	id 1wEkHS-000000002Er-3WcC;
+	Mon, 20 Apr 2026 08:46:58 +0000
+Date: Mon, 20 Apr 2026 10:46:51 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [koverstreet-bcachefs:master 74/93]
- fs/bcachefs/journal/journal.c:633:2-8: preceding lock on line 630
-Message-ID: <202604201145.W0Mx9JKI-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [thermal:thermal/cooling-device-with-id-v2 6/14]
+ ./include/linux/thermal.h:329: multiple definition of
+ `devm_thermal_cooling_device_register';
+ drivers/power/supply/power_supply_core.o:./include/linux/thermal.h:329: first
+ defined here
+Message-ID: <202604201001.wOviDvCE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,56 +62,44 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
 
-tree:   https://github.com/koverstreet/bcachefs master
-head:   9921311178817ed16cae0482ce5bfdd27135981a
-commit: 2886cbbed99692c196ebb056fe270842e5f784a5 [74/93] bcachefs: journal: add journal_ringbuf, journal_res_data()
-:::::: branch date: 5 hours ago
-:::::: commit date: 2 days ago
-config: sh-randconfig-r063-20260420 (https://download.01.org/0day-ci/archive/20260420/202604201145.W0Mx9JKI-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git thermal/cooling-device-with-id-v2
+head:   a1f086d250b04a9b833e71a6fa865e3600c5dac0
+commit: 729cfe840489da5dcaf0bf3b57361263c2cbf125 [6/14] thermal/core: Register cooling device non-OF drivers
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260420/202604201001.wOviDvCE-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260420/202604201001.wOviDvCE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202604201145.W0Mx9JKI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604201001.wOviDvCE-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/journal/journal.c:633:2-8: preceding lock on line 630
+All errors (new ones prefixed by >>):
 
-vim +633 fs/bcachefs/journal/journal.c
+   s390x-linux-gnu-ld: drivers/hwmon/hwmon.o: in function `devm_thermal_cooling_device_register':
+>> ./include/linux/thermal.h:329: multiple definition of `devm_thermal_cooling_device_register'; drivers/power/supply/power_supply_core.o:./include/linux/thermal.h:329: first defined here
 
-1c6fdbd8f2465d fs/bcachefs/journal.c         Kent Overstreet 2017-03-16  619  
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  620  static void journal_buf_prealloc(struct journal *j)
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  621  {
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  622  	if (j->free_buf &&
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  623  	    j->free_buf_size >= j->buf_size_want)
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  624  		return;
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  625  
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  626  	unsigned buf_size = j->buf_size_want;
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  627  
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  628  	spin_unlock(&j->lock);
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  629  	void *buf = kvmalloc(buf_size, GFP_NOFS);
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05 @630  	spin_lock(&j->lock);
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  631  
-2886cbbed99692 fs/bcachefs/journal/journal.c Kent Overstreet 2026-04-17  632  	if (!buf)
-2886cbbed99692 fs/bcachefs/journal/journal.c Kent Overstreet 2026-04-17 @633  		return;
-2886cbbed99692 fs/bcachefs/journal/journal.c Kent Overstreet 2026-04-17  634  
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  635  	swap(buf,	j->free_buf);
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  636  	swap(buf_size,	j->free_buf_size);
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  637  
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  638  	if (unlikely(buf)) {
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  639  		spin_unlock(&j->lock);
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  640  		/* kvfree can sleep */
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  641  		kvfree(buf);
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  642  		spin_lock(&j->lock);
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  643  	}
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  644  }
-35282ce9e82f6e fs/bcachefs/journal.c         Kent Overstreet 2025-02-05  645  
+
+vim +329 ./include/linux/thermal.h
+
+729cfe840489da Daniel Lezcano 2026-04-08  325  
+729cfe840489da Daniel Lezcano 2026-04-08  326  struct thermal_cooling_device *
+729cfe840489da Daniel Lezcano 2026-04-08  327  devm_thermal_cooling_device_register(struct device *dev, const char *type,
+729cfe840489da Daniel Lezcano 2026-04-08  328  				     void *devdata, const struct thermal_cooling_device_ops *ops)
+729cfe840489da Daniel Lezcano 2026-04-08 @329  {
+729cfe840489da Daniel Lezcano 2026-04-08  330  	return ERR_PTR(-ENODEV);
+729cfe840489da Daniel Lezcano 2026-04-08  331  }
+729cfe840489da Daniel Lezcano 2026-04-08  332  
 
 -- 
 0-DAY CI Kernel Test Service
