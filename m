@@ -1,304 +1,265 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74676379ED5
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Apr 2026 17:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7BC2DC32E
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Apr 2026 11:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776705249; cv=none; b=UZ3yT+gZ2G6GI9hfiZhzHffRVTPr0TE1UhJZoMq9yeOZU3f5aebkKcqE2PHmdtWxQ5TIL2IkBWvieQdg/b2cwM1HeCdWFfZ2PAbKWM0/4AZpW9Z9kCyVJ23BeaKxRz2i88M7Hl6Xc74E68vgfyTDBogWFoA9iwrRq/4nB9BjWzo=
+	t=1776769730; cv=none; b=fG1EGVsnqDnYRCNE/BROJWPekgU7Fv/p3LUpdua/zQqlCIKk469bH+zcG3T51+sRcG4n4BzTZukFc5XlqkPZw+3NSMkRcwpK9Y8HH4YhVTSPRUkJ2LSDrwNnfnDRTU5P4/0VG+IRebvCZ2G8Y7dA3fAArf7JhH5/w+h6le4mb38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776705249; c=relaxed/simple;
-	bh=0qh+3RzvQGnsJaFo4Qd6EyhaHBdZGTCRuEjIZTmnBrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FRGkV5wJJaYMoFbwi3KfSPo6V2qnZcNOTDEM3kWhzb5ULy37krD37dJhJTWKfOBzT/4kGXEkJrYaxUuLR1cTwxvOwnjrHVI+/KzYLmTWDYT/IlTptRbTLRuEqbieG9q5ve42NjI6T1eBScGYGW9emnvb4xmxbL55bv54kS+ibWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VM6iTxey; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1776769730; c=relaxed/simple;
+	bh=6oueWX+hVlec8wwT7KwynYaJZFpj4B+Xh1OXTCX/dFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Wlb5eIj4E6sChQj5/qWubhs2InbMOC3FBY2leenMM/O09/Iit/qf2fi21feK2uxGxj4iRHq0jozCjppKyv+Za4WH2HV7qJceu5FqM9sGfM8vmm15N/ej+cW2VaXgsWc+ijnlaz94cwI9b3PVTT2lUetw/eKHSkGJtFpyi/je0a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IttNTPKV; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VM6iTxey"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IttNTPKV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776705247; x=1808241247;
-  h=date:from:to:cc:subject:message-id;
-  bh=0qh+3RzvQGnsJaFo4Qd6EyhaHBdZGTCRuEjIZTmnBrQ=;
-  b=VM6iTxeyXXuXOTFuSoTcV3aImS5JzxRPuyjyFfYh1I2WkwuuvpoX201L
-   HgzTXDPuWu2ZTdYKc3yCMp2EQmXWjEkkf8XMIKXfyRbYI0tjR6Uqy+ebK
-   COWV5H9CxbzzFO0okr7Rz/uaSP/f8RguaDmjM0Eaw4kJRO6GhsquS13jk
-   NyCwAcijZ01NhEL5NubNcnjQ4BixH0WwicIlWrGJL6mgzKoMBnhwJzjAr
-   eIJVz/g0+ipATiTMKgt1ofLGIDjziKCeVhfoHkHLIeLF4RZnVv/9k6w4Q
-   1dRgGMhLq/+1O8C+84PPZWgu1AH6f3WPzY/4hsoOG8czOv87SiyWm54GL
-   A==;
-X-CSE-ConnectionGUID: lZtRDllnRG+nVjtbEFG92w==
-X-CSE-MsgGUID: C09KEWAORfKQZ41QHc9/pQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77332486"
-X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="77332486"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 10:14:07 -0700
-X-CSE-ConnectionGUID: ryviB+lzQLuw0siECwlhoQ==
-X-CSE-MsgGUID: skisLBmfToqLW5DxuLMpqg==
+  t=1776769727; x=1808305727;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6oueWX+hVlec8wwT7KwynYaJZFpj4B+Xh1OXTCX/dFI=;
+  b=IttNTPKV7XgQrujN+4Tp+yOCE2eiakvg2MGclYBuBECklBNhWF6P6XD6
+   V9/WaatNzlciJaZHeSfNTtA4PXtE/8gzmAWIvdRoMopyl0MUhK5ZmE8n3
+   0AjXdRUAH/UekdgHhM7eT2lKz/zM40VfuI32q5hfSUKqsMK/tgXRdiMID
+   MPy2wcvh4E1luyU/sh6DUqdfaRXieMDby1DDrOfoitzj6bfTc25vx+Tup
+   Euql1YzU53W2STaT7vl6qBYeWJ6Bhd1KIyWeKXmm7eXyryBNX1GqVXcRb
+   JvDgwEdA/rUPfKdr7abGwdwGBJ+MMWjsNi9BLygF9FBxruiXQr8/s1pi7
+   w==;
+X-CSE-ConnectionGUID: +XI0vqHMRPmFYodpde7T7g==
+X-CSE-MsgGUID: lQhH9H5ARwuJ3Fh33N73tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77677195"
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="77677195"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 04:08:47 -0700
+X-CSE-ConnectionGUID: ODnUowB+Rj60ISvgSYl7hQ==
+X-CSE-MsgGUID: 3B5FxmlnT2eiVkvmkt9TkA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="231655565"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 20 Apr 2026 10:14:06 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="227371142"
+Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 21 Apr 2026 04:08:46 -0700
+Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wEsCB-000000002In-1B3a;
-	Mon, 20 Apr 2026 17:14:03 +0000
-Date: Mon, 20 Apr 2026 19:13:16 +0200
+	id 1wF8yB-000000003Qc-3vcg;
+	Tue, 21 Apr 2026 11:08:43 +0000
+Date: Tue, 21 Apr 2026 19:08:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android14-kiwi-6.1 59/59]
- tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word
- size. Check asm/bitsperlong.h
-Message-ID: <202604201938.VTmYGHJx-lkp@intel.com>
+Subject: [linux-next:master 2392/13385] /bin/bash: line 1: 2676199
+ Segmentation fault      clang -Wp,-MMD,net/mac80211/.tdls.o.d -nostdinc
+ -Iarch/mips/include -I./arch/mips/include/generated -Iinclude -I./include
+ -Iarch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclude/uapi
+ -I./i...
+Message-ID: <202604211935.El53nP4s-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+::::::=20
+:::::: Manual check reason: "clang compiler bug"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Luca Ceresoli <luca.ceresoli@bootlin.com>
+CC: Maxime Ripard <mripard@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   a00cb39a367f410fb4a49bd4ad04a72e3d3764fd
-commit: c8def8cde13bfb58e4ac663dfa27713cba54c60e [59/59] tools bitmap: Add missing asm-generic/bitsperlong.h include
-:::::: branch date: 80 minutes ago
-:::::: commit date: 5 months ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260420/202604201938.VTmYGHJx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260420/202604201938.VTmYGHJx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   97e797263a5e963da3d1e66e743fd518567dfe37
+commit: 293a8fd7721a90987d9bf149feab60e756dac269 [2392/13385] drm/bridge: a=
+dd of_drm_find_and_get_bridge()
+:::::: branch date: 22 hours ago
+:::::: commit date: 4 months ago
+config: mips-randconfig-r053-20260420 (https://download.01.org/0day-ci/arch=
+ive/20260421/202604211935.El53nP4s-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5ba=
+c06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260421/202604211935.El53nP4s-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604201938.VTmYGHJx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604211935.El53nP4s-lkp@intel.com/
 
+Note: functions only called from assembly code should be annotated with the=
+ asmlinkage attribute
 All errors (new ones prefixed by >>):
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/const.h' differs from latest version at 'include/uapi/linux/const.h'
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/in.h' differs from latest version at 'include/uapi/linux/in.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-features.h' differs from latest version at 'arch/x86/include/asm/disabled-features.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/required-features.h' differs from latest version at 'arch/x86/include/asm/required-features.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/cpufeatures.h' differs from latest version at 'arch/x86/include/asm/cpufeatures.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/msr-index.h' differs from latest version at 'arch/x86/include/asm/msr-index.h'
-   Warning: Kernel ABI header at 'tools/arch/arm64/include/uapi/asm/perf_regs.h' differs from latest version at 'arch/arm64/include/uapi/asm/perf_regs.h'
-   Warning: Kernel ABI header at 'tools/arch/x86/include/uapi/asm/svm.h' differs from latest version at 'arch/x86/include/uapi/asm/svm.h'
-   Warning: Kernel ABI header at 'tools/include/uapi/asm-generic/unistd.h' differs from latest version at 'include/uapi/asm-generic/unistd.h'
-   Warning: Kernel ABI header at 'tools/arch/arm64/include/asm/cputype.h' differs from latest version at 'arch/arm64/include/asm/cputype.h'
-   Warning: Kernel ABI header at 'tools/perf/arch/powerpc/entry/syscalls/syscall.tbl' differs from latest version at 'arch/powerpc/kernel/syscalls/syscall.tbl'
-   Warning: Kernel ABI header at 'tools/perf/arch/s390/entry/syscalls/syscall.tbl' differs from latest version at 'arch/s390/kernel/syscalls/syscall.tbl'
-   Warning: Kernel ABI header at 'tools/perf/trace/beauty/include/linux/socket.h' differs from latest version at 'include/linux/socket.h'
-   Makefile.config:549: No elfutils/debuginfod.h found, no debuginfo server support, please install libdebuginfod-dev/elfutils-debuginfod-client-devel or equivalent
-   Makefile.config:683: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
-   tools/perf/pmu-events/jevents.py:60: SyntaxWarning: invalid escape sequence '\ '
-     all \ are for escaping, it then adjusts as it will have over counted
-   scripts/bpf_doc.py:62: SyntaxWarning: invalid escape sequence '\w'
-     arg_re = re.compile('((\w+ )*?(\w+|...))( (\**)(\w+))?$')
-   scripts/bpf_doc.py:64: SyntaxWarning: invalid escape sequence '\*'
-     proto_re = re.compile('(.+) (\**)(\w+)\(((([^,]+)(, )?){1,5})\)$')
-   scripts/bpf_doc.py:116: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?(BPF\w+)$')
-   scripts/bpf_doc.py:120: SyntaxWarning: invalid escape sequence '\*'
-     end_re = re.compile(' \* ?NOTES$')
-   scripts/bpf_doc.py:135: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?((.+) \**\w+\((((const )?(struct )?(\w+|\.\.\.)( \**\w+)?)(, )?){1,5}\))$')
-   scripts/bpf_doc.py:143: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?(?:\t| {5,8})Description$')
-   scripts/bpf_doc.py:156: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?(?:\t| {5,8})(?:\t| {8})(.*)')
-   scripts/bpf_doc.py:169: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?(?:\t| {5,8})Return$')
-   scripts/bpf_doc.py:182: SyntaxWarning: invalid escape sequence '\*'
-     p = re.compile(' \* ?(?:\t| {5,8})(?:\t| {8})(.*)')
-   scripts/bpf_doc.py:221: SyntaxWarning: invalid escape sequence '\s'
-     bpf_p = re.compile('\s*(BPF\w+)+')
-   scripts/bpf_doc.py:226: SyntaxWarning: invalid escape sequence '\s'
-     assign_p = re.compile('\s*(BPF\w+)\s*=\s*(BPF\w+)')
-   scripts/bpf_doc.py:241: SyntaxWarning: invalid escape sequence '\w'
-     self.enum_syscalls = re.findall('(BPF\w+)+', bpf_cmd_str)
-   scripts/bpf_doc.py:264: SyntaxWarning: invalid escape sequence '\s'
-     p = re.compile('\s*FN\((\w+)\)|\\\\')
-   scripts/bpf_doc.py:277: SyntaxWarning: invalid escape sequence '\('
-     self.define_unique_helpers = re.findall('FN\(\w+\)', fn_defines_str)
-   scripts/bpf_doc.py:410: SyntaxWarning: invalid escape sequence '\*'
-     '/{}/,/\*\//:include/uapi/linux/bpf.h'.format(delimiter)]
-   scripts/bpf_doc.py:501: SyntaxWarning: invalid escape sequence '\ '
-     license string passed (via **attr**) to the **bpf**\ () system call, and this
-   scripts/bpf_doc.py:583: SyntaxWarning: invalid escape sequence '\ '
-     one_arg += ' {}**\ '.format(a['star'].replace('*', '\\*'))
-     PERF_VERSION = 6.1.158.gc8def8cde13b
-   In file included from tools/include/linux/bitmap.h:6,
-                    from util/pmu.h:5,
-                    from builtin-list.c:14:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   make[3]: *** [tools/build/Makefile.build:97: builtin-list.o] Error 1
-   make[3]: *** Waiting for unfinished jobs....
-   In file included from tools/include/linux/bitmap.h:6,
-                    from tools/perf/util/pmu.h:5,
-                    from arch/x86/util/mem-events.c:2:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   In file included from tools/include/linux/bitmap.h:6,
-                    from tools/perf/util/pmu.h:5,
-                    from arch/x86/util/evlist.c:3:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   In file included from tools/include/linux/bitmap.h:6,
-                    from tools/perf/util/pmu.h:5,
-                    from arch/x86/util/topdown.c:4:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   builtin-top.c: In function 'prompt_integer':
-   builtin-top.c:358:21: error: allocation of insufficient size '0' for type 'char' with size '1' [-Werror=alloc-size]
-     358 |         char *buf = malloc(0), *p;
-         |                     ^~~~~~
-   builtin-top.c: In function 'perf_top__prompt_symbol':
-   builtin-top.c:393:21: error: allocation of insufficient size '0' for type 'char' with size '1' [-Werror=alloc-size]
-     393 |         char *buf = malloc(0), *p;
-         |                     ^~~~~~
-   In file included from tools/include/linux/bitmap.h:6,
-                    from ../lib/bitmap.c:6:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   builtin-record.c: In function 'cmd_record':
-   builtin-record.c:4072:62: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-    4072 |                 rec->switch_output.filenames = calloc(sizeof(char *),
-         |                                                              ^~~~
-   builtin-record.c:4072:62: note: earlier argument should specify number of elements, later size of each element
-   tests/bpf.c: In function 'epoll_pwait_loop':
-   tests/bpf.c:36:17: error: argument 2 null where non-null expected [-Werror=nonnull]
-      36 |                 epoll_pwait(-(i + 1), NULL, 0, 0, NULL);
-         |                 ^~~~~~~~~~~
-   In file included from tests/bpf.c:5:
-   /usr/include/x86_64-linux-gnu/sys/epoll.h:148:12: note: in a call to function 'epoll_pwait' declared 'nonnull'
-     148 | extern int epoll_pwait (int __epfd, struct epoll_event *__events,
-         |            ^~~~~~~~~~~
-   make[6]: *** [tools/build/Makefile.build:96: arch/x86/util/mem-events.o] Error 1
-   make[6]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:96: arch/x86/util/topdown.o] Error 1
-   cc1: all warnings being treated as errors
-   make[4]: *** [tools/build/Makefile.build:96: tests/bpf.o] Error 1
-   make[4]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:96: arch/x86/util/evlist.o] Error 1
-   In file included from tools/include/linux/bitmap.h:6,
-                    from util/pmu.h:5,
-                    from util/topdown.c:3:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   In file included from tools/include/linux/bitmap.h:6,
-                    from util/svghelper.c:16:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   make[4]: *** [util/Build:313: util/bitmap.o] Error 1
-   make[4]: *** Waiting for unfinished jobs....
-   cc1: all warnings being treated as errors
-   make[3]: *** [tools/build/Makefile.build:96: builtin-top.o] Error 1
-   In file included from tools/include/linux/bitmap.h:6,
-                    from util/scripting-engines/trace-event-perl.c:28:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   util/metricgroup.c: In function 'setup_metric_events':
-   util/metricgroup.c:269:39: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     269 |         metric_events = calloc(sizeof(void *), ids_size + 1);
-         |                                       ^~~~
-   util/metricgroup.c:269:39: note: earlier argument should specify number of elements, later size of each element
-   In file included from tools/include/linux/bitmap.h:6,
-                    from tools/perf/../lib/bitmap.c:6:
->> tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   make[4]: *** [tools/build/Makefile.build:96: util/svghelper.o] Error 1
-   make[3]: *** [tools/build/Makefile.build:143: tests] Error 2
-   util/hist.c: In function 'hist_entry__init':
-   util/hist.c:492:49: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     492 |                 he->res_samples = calloc(sizeof(struct res_sample),
-         |                                                 ^~~~~~
-   util/hist.c:492:49: note: earlier argument should specify number of elements, later size of each element
-   util/stat-shadow.c: In function 'perf_stat__collect_metric_expr':
-   util/stat-shadow.c:390:55: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     390 |                         metric_events = calloc(sizeof(struct evsel *),
-         |                                                       ^~~~~~
-   util/stat-shadow.c:390:55: note: earlier argument should specify number of elements, later size of each element
-   util/bpf-loader.c: In function 'config_bpf_program':
-   util/bpf-loader.c:574:29: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-     574 |         priv = calloc(sizeof(*priv), 1);
-         |                             ^
-   util/bpf-loader.c:574:29: note: earlier argument should specify number of elements, later size of each element
-   make[4]: *** [tools/build/Makefile.build:96: util/topdown.o] Error 1
->> error: command '/usr/bin/gcc-14' failed with exit code 1
-   util/synthetic-events.c: In function 'perf_event__synthesize_threads':
-   util/synthetic-events.c:1040:44: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-    1040 |         synthesize_threads = calloc(sizeof(pthread_t), thread_nr);
-         |                                            ^~~~~~~~~
-   util/synthetic-events.c:1040:44: note: earlier argument should specify number of elements, later size of each element
-   util/synthetic-events.c:1044:29: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
-    1044 |         args = calloc(sizeof(*args), thread_nr);
-         |                             ^
-   util/synthetic-events.c:1044:29: note: earlier argument should specify number of elements, later size of each element
->> cp: cannot stat 'python_ext_build/lib/perf*.so': No such file or directory
-   make[2]: *** [Makefile.perf:647: python/perf.so] Error 1
-   make[2]: *** Waiting for unfinished jobs....
-   make[5]: *** [tools/build/Makefile.build:143: util] Error 2
-   make[4]: *** [tools/build/Makefile.build:143: x86] Error 2
-   make[3]: *** [tools/build/Makefile.build:143: arch] Error 2
-   cc1: all warnings being treated as errors
-   make[4]: *** [tools/build/Makefile.build:96: util/metricgroup.o] Error 1
-   make[5]: *** [tools/build/Makefile.build:97: util/scripting-engines/trace-event-perl.o] Error 1
-   make[5]: *** Waiting for unfinished jobs....
-   cc1: all warnings being treated as errors
-   make[4]: *** [tools/build/Makefile.build:96: util/stat-shadow.o] Error 1
-   cc1: all warnings being treated as errors
-   make[3]: *** [tools/build/Makefile.build:96: builtin-record.o] Error 1
-   cc1: all warnings being treated as errors
-   make[4]: *** [tools/build/Makefile.build:96: util/bpf-loader.o] Error 1
-   cc1: all warnings being treated as errors
-   cc1: all warnings being treated as errors
-   make[4]: *** [tools/build/Makefile.build:96: util/hist.o] Error 1
-   make[4]: *** [tools/build/Makefile.build:96: util/synthetic-events.o] Error 1
-   make[4]: *** [tools/build/Makefile.build:143: scripting-engines] Error 2
-   make[3]: *** [tools/build/Makefile.build:143: util] Error 2
-   make[2]: *** [Makefile.perf:669: perf-in.o] Error 2
-   make[1]: *** [Makefile.perf:240: sub-make] Error 2
---
-   In file included from ../../include/linux/bitmap.h:6,
-                    from bitmap.c:3:
->> ../../include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
+   PLEASE submit a bug report to https://github.com/llvm/llvm-project/issue=
+s/ and include the crash backtrace, preprocessed source, and associated run=
+ script.
+   Stack dump:
+   0.	Program arguments: clang -Wp,-MMD,net/mac80211/.tdls.o.d -nostdinc -I=
+arch/mips/include -I./arch/mips/include/generated -Iinclude -I./include -Ia=
+rch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclude/uapi -=
+I./include/generated/uapi -include include/linux/compiler-version.h -includ=
+e include/linux/kconfig.h -include include/linux/compiler_types.h -D__KERNE=
+L__ --target=3Dmipsel-linux-gnu -fintegrated-as -Werror=3Dunknown-warning-o=
+ption -Werror=3Dignored-optimization-argument -Werror=3Doption-ignored -Wer=
+ror=3Dunused-command-line-argument -DVMLINUX_LOAD_ADDRESS=3D0xffffffff84000=
+000 -DLINKER_LOAD_ADDRESS=3D0x84000000 -DDATAOFFSET=3D0 -fmacro-prefix-map=
+=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgnu11 -fshort-wchar -funsigned-c=
+har -fno-common -fno-PIE -fno-strict-aliasing -mno-check-zero-division -mab=
+i=3D32 -G 0 -mno-abicalls -fno-pic -pipe -msoft-float -Wa,-msoft-float -ffr=
+eestanding -EL -fno-stack-check -march=3Dmips64 -Wa,--trap -DTOOLCHAIN_SUPP=
+ORTS_VIRT -Iarch/mips/include/asm/mach-sibyte -DSIBYTE_HDR_FEATURES=3DSIBYT=
+E_HDR_FMASK_1250_112x_ALL -Iarch/mips/include/asm/mach-generic -fno-asynchr=
+onous-unwind-tables -fno-delete-null-pointer-checks -O2 -fno-stack-protecto=
+r -fomit-frame-pointer -ftrivial-auto-var-init=3Dzero -fstrict-flex-arrays=
+=3D3 -fms-extensions -fno-strict-overflow -fno-stack-check -fno-builtin-wcs=
+len -Wall -Wextra -Wundef -Werror=3Dimplicit-function-declaration -Werror=
+=3Dimplicit-int -Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-form=
+at-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member=
+ -Wmissing-declarations -Wmissing-prototypes -Wno-gnu -Wno-microsoft-anon-t=
+ag -Wno-format-overflow-non-kprintf -Wno-format-truncation-non-kprintf -Wno=
+-default-const-init-unsafe -Wno-pointer-sign -Wcast-function-type -Wno-unte=
+rminated-string-initialization -Wimplicit-fallthrough -Werror=3Ddate-time -=
+Werror=3Dincompatible-pointer-types -Wenum-conversion -Wunused -Wmissing-fo=
+rmat-attribute -Wmissing-include-dirs -Wunused-const-variable -Wno-missing-=
+field-initializers -Wno-type-limits -Wno-shift-negative-value -Wno-enum-enu=
+m-conversion -Wno-sign-compare -Wno-unused-parameter -fno-crash-diagnostics=
+ -Wno-error=3Dreturn-type -Wreturn-type -funsigned-char -Wundef -falign-fun=
+ctions=3D64 -DDEBUG -fsanitize=3Dunreachable -fsanitize=3Dbool -Inet/mac802=
+11 -Inet/mac80211 -ffunction-sections -fdata-sections -DKBUILD_MODFILE=3D\"=
+net/mac80211/mac80211\" -DKBUILD_BASENAME=3D\"tdls\" -DKBUILD_MODNAME=3D\"m=
+ac80211\" -D__KBUILD_MODNAME=3Dmac80211 -c -o net/mac80211/tdls.o net/mac80=
+211/tdls.c
+   1.	<eof> parser at end of file
+   2.	Code generation
+   3.	Running pass 'Function Pass Manager' on module 'net/mac80211/tdls.c'.
+   4.	Running pass 'Branch Probability Basic Block Placement' on function '=
+@ieee80211_tdls_mgmt'
+    #0 0x0000562227d64c1b llvm::sys::PrintStackTrace(llvm::raw_ostream&, in=
+t) (clang-23+0x413cc1b)
+    #1 0x0000562227d627e4 llvm::sys::CleanupOnSignal(unsigned long) (clang-=
+23+0x413a7e4)
+    #2 0x0000562227c956a0 CrashRecoverySignalHandler(int) CrashRecoveryCont=
+ext.cpp:0:0
+    #3 0x00007f62a254adf0 (/lib/x86_64-linux-gnu/libc.so.6+0x3fdf0)
+    #4 0x000056222731c52f llvm::TailDuplicator::shouldTailDuplicate(bool, l=
+lvm::MachineBasicBlock&) (.part.0) TailDuplicator.cpp:0:0
+    #5 0x00005622270375a9 (anonymous namespace)::MachineBlockPlacement::bui=
+ldCFGChains() MachineBlockPlacement.cpp:0:0
+    #6 0x000056222703c6ad (anonymous namespace)::MachineBlockPlacement::run=
+(llvm::MachineFunction&) MachineBlockPlacement.cpp:0:0
+    #7 0x000056222703d8b1 (anonymous namespace)::MachineBlockPlacementLegac=
+y::runOnMachineFunction(llvm::MachineFunction&) (.part.0) MachineBlockPlace=
+ment.cpp:0:0
+    #8 0x000056222708b438 llvm::MachineFunctionPass::runOnFunction(llvm::Fu=
+nction&) (clang-23+0x3463438)
+    #9 0x0000562227652869 llvm::FPPassManager::runOnFunction(llvm::Function=
+&) (clang-23+0x3a2a869)
+   #10 0x0000562227652a0c llvm::FPPassManager::runOnModule(llvm::Module&) (=
+clang-23+0x3a2aa0c)
+   #11 0x0000562227651c78 llvm::legacy::PassManagerImpl::run(llvm::Module&)=
+ (clang-23+0x3a29c78)
+   #12 0x0000562228160071 clang::emitBackendOutput(clang::CompilerInstance&=
+, clang::CodeGenOptions&, llvm::StringRef, llvm::Module*, clang::BackendAct=
+ion, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem>, std::unique_ptr<llvm:=
+:raw_pwrite_stream, std::default_delete<llvm::raw_pwrite_stream>>, clang::B=
+ackendConsumer*) (clang-23+0x4538071)
+   #13 0x00005622287a56c7 clang::BackendConsumer::HandleTranslationUnit(cla=
+ng::ASTContext&) (clang-23+0x4b7d6c7)
+   #14 0x000056222a1b0adc clang::ParseAST(clang::Sema&, bool, bool) (clang-=
+23+0x6588adc)
+   #15 0x0000562228aff17a clang::FrontendAction::Execute() (clang-23+0x4ed7=
+17a)
+   #16 0x0000562228a783d6 clang::CompilerInstance::ExecuteAction(clang::Fro=
+ntendAction&) (clang-23+0x4e503d6)
+   #17 0x0000562228be8207 clang::ExecuteCompilerInvocation(clang::CompilerI=
+nstance*) (clang-23+0x4fc0207)
+   #18 0x0000562224b80a55 cc1_main(llvm::ArrayRef<char const*>, char const*=
+, void*) (clang-23+0xf58a55)
+   #19 0x0000562224b78763 ExecuteCC1Tool(llvm::SmallVectorImpl<char const*>=
+&, llvm::ToolContext const&, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem=
+>) driver.cpp:0:0
+   #20 0x0000562224b787a3 int llvm::function_ref<int (llvm::SmallVectorImpl=
+<char const*>&)>::callback_fn<clang_main(int, char**, llvm::ToolContext con=
+st&)::'lambda'(llvm::SmallVectorImpl<char const*>&)>(long, llvm::SmallVecto=
+rImpl<char const*>&) driver.cpp:0:0
+   #21 0x0000562228816de9 void llvm::function_ref<void ()>::callback_fn<cla=
+ng::driver::CC1Command::Execute(llvm::ArrayRef<std::optional<llvm::StringRe=
+f>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocato=
+r<char>>*, bool*) const::'lambda'()>(long) Job.cpp:0:0
+   #22 0x0000562227c95a03 llvm::CrashRecoveryContext::RunSafely(llvm::funct=
+ion_ref<void ()>) (clang-23+0x406da03)
+   #23 0x0000562228817514 clang::driver::CC1Command::Execute(llvm::ArrayRef=
+<std::optional<llvm::StringRef>>, std::__cxx11::basic_string<char, std::cha=
+r_traits<char>, std::allocator<char>>*, bool*) const (.part.0) Job.cpp:0:0
+   #24 0x00005622287d6668 clang::driver::Compilation::ExecuteCommand(clang:=
+:driver::Command const&, clang::driver::Command const*&, bool) const (clang=
+-23+0x4bae668)
+   #25 0x00005622287d75c2 clang::driver::Compilation::ExecuteJobs(clang::dr=
+iver::JobList const&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
+ommand const*>>&, bool) const (clang-23+0x4baf5c2)
+   #26 0x00005622287e87bc clang::driver::Driver::ExecuteCompilation(clang::=
+driver::Compilation&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
+ommand const*>>&) (clang-23+0x4bc07bc)
+   #27 0x0000562224b7d40f clang_main(int, char**, llvm::ToolContext const&)=
+ (clang-23+0xf5540f)
+   #28 0x0000562224a13bb9 main (clang-23+0xdebbb9)
+   #29 0x00007f62a2534ca8 (/lib/x86_64-linux-gnu/libc.so.6+0x29ca8)
+   #30 0x00007f62a2534d65 __libc_start_main (/lib/x86_64-linux-gnu/libc.so.=
+6+0x29d65)
+   #31 0x0000562224b781a1 _start (clang-23+0xf501a1)
+   clang: error: clang frontend command failed due to signal (use -v to see=
+ invocation)
+>> /bin/bash: line 1: 2676199 Segmentation fault      clang -Wp,-MMD,net/ma=
+c80211/.tdls.o.d -nostdinc -Iarch/mips/include -I./arch/mips/include/genera=
+ted -Iinclude -I./include -Iarch/mips/include/uapi -I./arch/mips/include/ge=
+nerated/uapi -Iinclude/uapi -I./include/generated/uapi -include include/lin=
+ux/compiler-version.h -include include/linux/kconfig.h -include include/lin=
+ux/compiler_types.h -D__KERNEL__ --target=3Dmipsel-linux-gnu -fintegrated-a=
+s -Werror=3Dunknown-warning-option -Werror=3Dignored-optimization-argument =
+-Werror=3Doption-ignored -Werror=3Dunused-command-line-argument -DVMLINUX_L=
+OAD_ADDRESS=3D0xffffffff84000000 -DLINKER_LOAD_ADDRESS=3D0x84000000 -DDATAO=
+FFSET=3D0 -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgnu1=
+1 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -=
+mno-check-zero-division -mabi=3D32 -G 0 -mno-abicalls -fno-pic -pipe -msoft=
+-float -Wa,-msoft-float -ffreestanding -EL -fno-stack-check -march=3Dmips64=
+ -Wa,--trap -DTOOLCHAIN_SUPPORTS_VIRT -Iarch/mips/include/asm/mach-sibyte -=
+DSIBYTE_HDR_FEATURES=3DSIBYTE_HDR_FMASK_1250_112x_ALL -Iarch/mips/include/a=
+sm/mach-generic -fno-asynchronous-unwind-tables -fno-delete-null-pointer-ch=
+ecks -O2 -fno-stack-protector -fomit-frame-pointer -ftrivial-auto-var-init=
+=3Dzero -fstrict-flex-arrays=3D3 -fms-extensions -fno-strict-overflow -fno-=
+stack-check -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=3Dimplicit-fu=
+nction-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-type -Werror=3Ds=
+trict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wn=
+o-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wno=
+-gnu -Wno-microsoft-anon-tag -Wno-format-overflow-non-kprintf -Wno-format-t=
+runcation-non-kprintf -Wno-default-const-init-unsafe -Wno-pointer-sign -Wca=
+st-function-type -Wno-unterminated-string-initialization -Wimplicit-fallthr=
+ough -Werror=3Ddate-time -Werror=3Dincompatible-pointer-types -Wenum-conver=
+sion -Wunused -Wmissing-format-attribute -Wmissing-include-dirs -Wunused-co=
+nst-variable -Wno-missing-field-initializers -Wno-type-limits -Wno-shift-ne=
+gative-value -Wno-enum-enum-conversion -Wno-sign-compare -Wno-unused-parame=
+ter -fno-crash-diagnostics -Wno-error=3Dreturn-type -Wreturn-type -funsigne=
+d-char -Wundef -falign-functions=3D64 -DDEBUG -fsanitize=3Dunreachable -fsa=
+nitize=3Dbool -Inet/mac80211 -Inet/mac80211 -ffunction-sections -fdata-sect=
+ions -DKBUILD_MODFILE=3D'"net/mac80211/mac80211"' -DKBUILD_BASENAME=3D'"tdl=
+s"' -DKBUILD_MODNAME=3D'"mac80211"' -D__KBUILD_MODNAME=3Dmac80211 -c -o net=
+/mac80211/tdls.o net/mac80211/tdls.c
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=3Dn] && CAN [=3Dy]
+   Selected by [y]:
+   - CAN [=3Dy] && NET [=3Dy]
 
-vim +14 tools/include/asm-generic/bitsperlong.h
-
-bb9707077b4ee5 Arnaldo Carvalho de Melo 2016-07-12  12  
-2a00f026a15d16 Arnaldo Carvalho de Melo 2016-07-13  13  #if BITS_PER_LONG != __BITS_PER_LONG
-bb9707077b4ee5 Arnaldo Carvalho de Melo 2016-07-12 @14  #error Inconsistent word size. Check asm/bitsperlong.h
-bb9707077b4ee5 Arnaldo Carvalho de Melo 2016-07-12  15  #endif
-bb9707077b4ee5 Arnaldo Carvalho de Melo 2016-07-12  16  
-
-:::::: The code at line 14 was first introduced by commit
-:::::: bb9707077b4ee5f77bc9939b057ff8a0d410296f tools: Copy the bitsperlong.h files from the kernel
-
-:::::: TO: Arnaldo Carvalho de Melo <acme@redhat.com>
-:::::: CC: Arnaldo Carvalho de Melo <acme@redhat.com>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
