@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40345309F1B
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Apr 2026 18:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36B636A023
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Apr 2026 19:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776884046; cv=none; b=Ap7QT04AzwLlZDdYQkFuM5mqEv1GXqOSeYAUbh3dBg2qJfRUZ5GSlsUkW4hSX+6tch4JVEn/hI4Xu6P2Oqqo2DNB49JM8OlXyjLJK63oKb5trLIy7Qmj+Tg/6LaamZZcoOhtuf8yMEM7vpQN76TpfllfmLfTxG8D/tE1sMO1Pas=
+	t=1776885501; cv=none; b=JPakQCimbjTPLeG5hw8bA5+DsyWtIoau1AHCfCHKe38gYXmBa8yE2S/fAnVCdGu4JevSdYmtyrldD1IFCpCaR78FeJVEBfBsn/i5/RAKEJVMunkk46xq0QCVLFBaQKz8fYkr0bOFiYrqiAhaoXBg0rgOunBK0XTs3QyMpYR87sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776884046; c=relaxed/simple;
-	bh=8QqPshwYoSsp91Eu90C5hUC3zTXLL1aGMfCdXS4PNw0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=a4iN4UE+GIeR/BMEHtYQHJF8QArnapgBMGBOD0gxOrVWWiT6pz5V6RDISZw99Ob00Sshfyc+7KLvbSyB83JDj9MCkIPoum/gXZo7gO31cyHgZL/S5cW0LOTT5Cjm+roHjV5Y2MRw4yvsQ8tP+nBGTcEYl8rdrFvnC20CZ3E90X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/V5AsE+; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1776885501; c=relaxed/simple;
+	bh=6KiXugzwSgG0dSD+TxUy587JiwDJgP94/VXoLONZFks=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PPih1SD1JZkiJNtj8wwlJyoeEoZSHZVHuVxBJN6vEEKXzvKEtyNrzN0PHqK7xjuQFad95oPKS7ad+VRkOHm96qu90scbZhKUS1n3YVee6i4aEBR/eYh+bv/1yJ7uzyzqApjN1RL0oic5q949cvzUNf03MbvUZ5MJd0Sd51edI9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k8BG9cNq; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/V5AsE+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8BG9cNq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776884044; x=1808420044;
+  t=1776885497; x=1808421497;
   h=date:from:to:cc:subject:message-id;
-  bh=8QqPshwYoSsp91Eu90C5hUC3zTXLL1aGMfCdXS4PNw0=;
-  b=R/V5AsE+9ISVpU2QBRHRfkjfrgg0+wXYIX7uZoXCgOe3UmdpDVk79TMz
-   WeZ5G5OGOUrH80/S0R9QHvtepid0EOpPg/4zy8CTJLpdSPe3nfER7WSzv
-   2NhroFKQoSPLyh5X9zI4dOoKTThhCiIipVElHwDZxFzxgcfWVGCqPs3Xt
-   4zya//w6cowdhmtQgdgNCMHH8dAOCaH7fMl74JCvfJZN7PilA937wVehW
-   PTZSpJxh8KWKDGcKtlobqt69Dm2RaiTmSJjx1wkiINxnKlaiDbGpTMmqK
-   bDrPBE5xFHKFUgP2f+msDivq1AV0bAKxm7gKHwxgJ+ywH6HNaBkvzjcL0
-   Q==;
-X-CSE-ConnectionGUID: cvIhAjUqT1GDB5OyeyD94A==
-X-CSE-MsgGUID: 0oOS2zdmSw+RGNhKFhe0aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="78033402"
+  bh=6KiXugzwSgG0dSD+TxUy587JiwDJgP94/VXoLONZFks=;
+  b=k8BG9cNqZTQA6Lp+v0HpyeBRvidEaWqqxDKDkHTb41rsYYfn1cP3zDqi
+   rFa+obQbWzJMyvtACGSzyMFf7QmPVuvenJHE3HzdfRz2LVNKbHFeih3Oo
+   1Hv5oVxsezGKh1YF/rL4Mn8p5yJn6e9eEBthwhmnAq++H211+glca4BYD
+   lmu83Fq3E3YCYEKDKBYg6nR3Cp8153qfPQWg2udXZujPV9OvyLLKrR3S2
+   yivHZQSj9ddtfpek5JH0C2yp0D/pwbOvMWuvW9iJwHgPIogxX7nI5fi/W
+   CrAoy5NfGt/gJBIwTMBScyf+wUBVvR97w12ZQq67JJ/4U51ZfuNRa45zU
+   w==;
+X-CSE-ConnectionGUID: LSjf6EBOTYWkw41ukzwARw==
+X-CSE-MsgGUID: fpIO9JijRpak4smSxWaw+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77552060"
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="78033402"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 11:54:03 -0700
-X-CSE-ConnectionGUID: n3L0AT5IQEKEHc6Ti8FJmg==
-X-CSE-MsgGUID: PT4LPZ4ARBW4lZKjKv9ixw==
+   d="scan'208";a="77552060"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 12:18:10 -0700
+X-CSE-ConnectionGUID: mVjL5HvgR/GiV7fNbl2p3g==
+X-CSE-MsgGUID: vTtxTg5YShK6FQOWRzcY/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="232337901"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 22 Apr 2026 11:50:38 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="231401536"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 22 Apr 2026 12:18:08 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFcei-000000002qL-01Gc;
-	Wed, 22 Apr 2026 18:50:36 +0000
-Date: Wed, 22 Apr 2026 20:50:11 +0200
+	id 1wFd5J-000000000vl-46wE;
+	Wed, 22 Apr 2026 19:18:06 +0000
+Date: Thu, 23 Apr 2026 03:17:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [anolis-intel-cloud:devel-6.6 218/218]
- arch/x86/kernel/cpu/proc.c:113:9: warning: 'total' is used uninitialized
-Message-ID: <202604222023.Uh6Fp3KJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android14-kiwi-6.1 77/77]
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11152:3-39:
+ opportunity for str_enable_disable(handle -> kinfo . tc_info .
+ dcb_ets_active)
+Message-ID: <202604230329.XhyAWhO5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,108 +61,62 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: aubrey.li@linux.intel.com
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Brian,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   db8b81c14b7031c5b1420d57fbeb18056546ddcf
-commit: 9456d39ed92feb4b6ba6489540556de73001d601 [218/218] cpumask: Switch from inline to __always_inline
-:::::: branch date: 7 hours ago
-:::::: commit date: 4 weeks ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260422/202604222023.Uh6Fp3KJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222023.Uh6Fp3KJ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   e139836dbdcd7fda9d67c896dea11d89d0c5c491
+commit: 9bd9afd55c523670fac649b393288d0430419c26 [77/77] net: hns3: fix invalid mutex between tc qdisc and dcb ets command issue
+:::::: branch date: 15 hours ago
+:::::: commit date: 2 years, 7 months ago
+config: arm-randconfig-r063-20260422 (https://download.01.org/0day-ci/archive/20260423/202604230329.XhyAWhO5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604222023.Uh6Fp3KJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202604230329.XhyAWhO5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:7986:3-5: opportunity for str_enable_disable(en)
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11152:3-39: opportunity for str_enable_disable(handle -> kinfo . tc_info . dcb_ets_active)
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11154:3-38: opportunity for str_enable_disable(handle -> kinfo . tc_info . mqprio_active)
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11800:7-13: opportunity for str_on_off(enable)
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11808:7-13: opportunity for str_on_off(enable)
 
-   arch/x86/kernel/cpu/proc.c: In function 'show_cpuinfo':
->> arch/x86/kernel/cpu/proc.c:113:9: warning: 'total' is used uninitialized [-Wuninitialized]
-     113 |         show_cpuinfo_core(m, c, cpu, index, rich_container, total);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/proc.c:74:34: note: 'total' was declared here
-      74 |         unsigned int cpu, index, total;
-         |                                  ^~~~~
+vim +11152 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
 
-
-vim +/total +113 arch/x86/kernel/cpu/proc.c
-
-a967ceac01cd38 arch/x86/kernel/cpu/proc.c  Hiroshi Shimamoto   2008-02-20   70  
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   71  static int show_cpuinfo(struct seq_file *m, void *v)
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   72  {
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   73  	struct cpuinfo_x86 *c = v;
-df60310ad7866c arch/x86/kernel/cpu/proc.c  Xunlei Pang         2021-06-04   74  	unsigned int cpu, index, total;
-a967ceac01cd38 arch/x86/kernel/cpu/proc.c  Hiroshi Shimamoto   2008-02-20   75  	int i;
-df60310ad7866c arch/x86/kernel/cpu/proc.c  Xunlei Pang         2021-06-04   76  	bool rich_container = false;
-df60310ad7866c arch/x86/kernel/cpu/proc.c  Xunlei Pang         2021-06-04   77  
-df60310ad7866c arch/x86/kernel/cpu/proc.c  Xunlei Pang         2021-06-04   78  	index = cpu = c->cpu_index;
-df60310ad7866c arch/x86/kernel/cpu/proc.c  Xunlei Pang         2021-06-04   79  	if (check_rich_container(cpu, &index, &rich_container, &total))
-df60310ad7866c arch/x86/kernel/cpu/proc.c  Xunlei Pang         2021-06-04   80  		return 0;
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   81  
-a967ceac01cd38 arch/x86/kernel/cpu/proc.c  Hiroshi Shimamoto   2008-02-20   82  	seq_printf(m, "processor\t: %u\n"
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   83  		   "vendor_id\t: %s\n"
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   84  		   "cpu family\t: %d\n"
-a967ceac01cd38 arch/x86/kernel/cpu/proc.c  Hiroshi Shimamoto   2008-02-20   85  		   "model\t\t: %u\n"
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   86  		   "model name\t: %s\n",
-df60310ad7866c arch/x86/kernel/cpu/proc.c  Xunlei Pang         2021-06-04   87  		   index,
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   88  		   c->x86_vendor_id[0] ? c->x86_vendor_id : "unknown",
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   89  		   c->x86,
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   90  		   c->x86_model,
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   91  		   c->x86_model_id[0] ? c->x86_model_id : "unknown");
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   92  
-b399151cb48db3 arch/x86/kernel/cpu/proc.c  Jia Zhang           2018-01-01   93  	if (c->x86_stepping || c->cpuid_level >= 0)
-b399151cb48db3 arch/x86/kernel/cpu/proc.c  Jia Zhang           2018-01-01   94  		seq_printf(m, "stepping\t: %d\n", c->x86_stepping);
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   95  	else
-3736708f034ae1 arch/x86/kernel/cpu/proc.c  Rasmus Villemoes    2014-11-28   96  		seq_puts(m, "stepping\t: unknown\n");
-506ed6b53e00ba arch/x86/kernel/cpu/proc.c  Andi Kleen          2011-10-12   97  	if (c->microcode)
-881e23e5676480 arch/x86/kernel/cpu/proc.c  Borislav Petkov     2011-10-17   98  		seq_printf(m, "microcode\t: 0x%x\n", c->microcode);
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16   99  
-890da9cf098364 arch/x86/kernel/cpu/proc.c  Linus Torvalds      2017-11-02  100  	if (cpu_has(c, X86_FEATURE_TSC)) {
-ad02d934de788a arch/x86/kernel/cpu/proc.c  Beata Michalska     2025-01-31  101  		int freq = arch_freq_get_on_cpu(cpu);
-890da9cf098364 arch/x86/kernel/cpu/proc.c  Linus Torvalds      2017-11-02  102  
-ad02d934de788a arch/x86/kernel/cpu/proc.c  Beata Michalska     2025-01-31  103  		if (freq < 0)
-ad02d934de788a arch/x86/kernel/cpu/proc.c  Beata Michalska     2025-01-31  104  			seq_puts(m, "cpu MHz\t\t: Unknown\n");
-ad02d934de788a arch/x86/kernel/cpu/proc.c  Beata Michalska     2025-01-31  105  		else
-fb4c77c21aba03 arch/x86/kernel/cpu/proc.c  Thomas Gleixner     2022-04-25  106  			seq_printf(m, "cpu MHz\t\t: %u.%03u\n", freq / 1000, (freq % 1000));
-890da9cf098364 arch/x86/kernel/cpu/proc.c  Linus Torvalds      2017-11-02  107  	}
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16  108  
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16  109  	/* Cache size */
-24dbc6000f4b9b arch/x86/kernel/cpu/proc.c  Gustavo A. R. Silva 2018-02-13  110  	if (c->x86_cache_size)
-24dbc6000f4b9b arch/x86/kernel/cpu/proc.c  Gustavo A. R. Silva 2018-02-13  111  		seq_printf(m, "cache size\t: %u KB\n", c->x86_cache_size);
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16  112  
-df60310ad7866c arch/x86/kernel/cpu/proc.c  Xunlei Pang         2021-06-04 @113  	show_cpuinfo_core(m, c, cpu, index, rich_container, total);
-a967ceac01cd38 arch/x86/kernel/cpu/proc.c  Hiroshi Shimamoto   2008-02-20  114  	show_cpuinfo_misc(m, c);
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16  115  
-3736708f034ae1 arch/x86/kernel/cpu/proc.c  Rasmus Villemoes    2014-11-28  116  	seq_puts(m, "flags\t\t:");
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16  117  	for (i = 0; i < 32*NCAPINTS; i++)
-48894cdb70531c arch/x86/kernel/cpu/proc.c  hanliyang           2023-07-31  118  		if (cpu_has(c, i) && x86_cap_flags[i] != NULL) {
-48894cdb70531c arch/x86/kernel/cpu/proc.c  hanliyang           2023-07-31  119  			if (c->x86_vendor == X86_VENDOR_HYGON)
-48894cdb70531c arch/x86/kernel/cpu/proc.c  hanliyang           2023-07-31  120  				seq_printf(m, " %s", i == X86_FEATURE_SEV ? "csv" :
-48894cdb70531c arch/x86/kernel/cpu/proc.c  hanliyang           2023-07-31  121  					   (i == X86_FEATURE_SEV_ES ? "csv2" :
-48894cdb70531c arch/x86/kernel/cpu/proc.c  hanliyang           2023-07-31  122  					    x86_cap_flags[i]));
-48894cdb70531c arch/x86/kernel/cpu/proc.c  hanliyang           2023-07-31  123  			else
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16  124  				seq_printf(m, " %s", x86_cap_flags[i]);
-48894cdb70531c arch/x86/kernel/cpu/proc.c  hanliyang           2023-07-31  125  		}
-^1da177e4c3f41 arch/i386/kernel/cpu/proc.c Linus Torvalds      2005-04-16  126  
-
-:::::: The code at line 113 was first introduced by commit
-:::::: df60310ad7866cd9ba7f6ef2e44d95f84810750c anolis: x86: cpuinfo: Add cpuinfo support for rich container
-
-:::::: TO: Xunlei Pang <xlpang@linux.alibaba.com>
-:::::: CC: winterddd <tianruidong@linux.alibaba.com>
+46a3df9f9718541 Salil        2017-08-02  11132  
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11133  static void hclge_info_show(struct hclge_dev *hdev)
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11134  {
+9bd9afd55c52367 Jijie Shao   2023-09-06  11135  	struct hnae3_handle *handle = &hdev->vport->nic;
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11136  	struct device *dev = &hdev->pdev->dev;
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11137  
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11138  	dev_info(dev, "PF info begin:\n");
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11139  
+adcf738b804b3cf Guojia Liao  2019-10-31  11140  	dev_info(dev, "Task queue pairs numbers: %u\n", hdev->num_tqps);
+adcf738b804b3cf Guojia Liao  2019-10-31  11141  	dev_info(dev, "Desc num per TX queue: %u\n", hdev->num_tx_desc);
+adcf738b804b3cf Guojia Liao  2019-10-31  11142  	dev_info(dev, "Desc num per RX queue: %u\n", hdev->num_rx_desc);
+adcf738b804b3cf Guojia Liao  2019-10-31  11143  	dev_info(dev, "Numbers of vports: %u\n", hdev->num_alloc_vport);
+adcf738b804b3cf Guojia Liao  2019-10-31  11144  	dev_info(dev, "Numbers of VF for this PF: %u\n", hdev->num_req_vfs);
+adcf738b804b3cf Guojia Liao  2019-10-31  11145  	dev_info(dev, "HW tc map: 0x%x\n", hdev->hw_tc_map);
+adcf738b804b3cf Guojia Liao  2019-10-31  11146  	dev_info(dev, "Total buffer size for TX/RX: %u\n", hdev->pkt_buf_size);
+adcf738b804b3cf Guojia Liao  2019-10-31  11147  	dev_info(dev, "TX buffer size for each TC: %u\n", hdev->tx_buf_size);
+adcf738b804b3cf Guojia Liao  2019-10-31  11148  	dev_info(dev, "DV buffer size for each TC: %u\n", hdev->dv_buf_size);
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11149  	dev_info(dev, "This is %s PF\n",
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11150  		 hdev->flag & HCLGE_FLAG_MAIN ? "main" : "not main");
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11151  	dev_info(dev, "DCB %s\n",
+9bd9afd55c52367 Jijie Shao   2023-09-06 @11152  		 handle->kinfo.tc_info.dcb_ets_active ? "enable" : "disable");
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11153  	dev_info(dev, "MQPRIO %s\n",
+9bd9afd55c52367 Jijie Shao   2023-09-06 @11154  		 handle->kinfo.tc_info.mqprio_active ? "enable" : "disable");
+1a00197b7d2fe57 Huazhong Tan 2021-06-16  11155  	dev_info(dev, "Default tx spare buffer size: %u\n",
+1a00197b7d2fe57 Huazhong Tan 2021-06-16  11156  		 hdev->tx_spare_buf_size);
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11157  
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11158  	dev_info(dev, "PF info end.\n");
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11159  }
+bb87be87b1658f7 Yonglong Liu 2019-04-19  11160  
 
 -- 
 0-DAY CI Kernel Test Service
