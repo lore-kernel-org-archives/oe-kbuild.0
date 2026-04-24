@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124373BADBD
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Apr 2026 12:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32243750CB
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Apr 2026 15:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777032485; cv=none; b=COOH+zX2/XWQQxMN8u6Tz00Jm5DvFAcZ+ecgoBV0AvgjCu7mkSncbDujLh0/k4rNbOxgYZfA2sKR3uJKbZo64SQAqE6JfML1RqwMl6qVmikKJv4uCe0eo7bIwyINwbAHTBRbywx3Ju4Ua9o1j7N2qcMyQiwHcG8KfYagCa4Nvyc=
+	t=1777045927; cv=none; b=NZfTAskupbW0iCfTgwEqRGCZO4H/IbAcjwBrCYI9HYSGxUw9T7jEvT7lHwnddecB6U4QeBZnWLfe1VqUk+40kqCw/rdIHIKbGwe9VdEalKnRV+PZ1mNFj+61yBULue8zzDxEQnvt9RMe6+2aZqXX0AxIf0B+RvFiFW0e7WeS6ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777032485; c=relaxed/simple;
-	bh=fwr/XQCtUPlUA2dwlR7VgGyb7NNll2zTOzrOqvULb/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Rw3ijof/38sQkg8cyylZ9f1vdfewNgFs2nfEuAViOlLlIaUi2Zs9a0/v7uTnIyDf6O+b0N1409UBLvVTsZDKXR5LmXd3zkUzZ+OcCkn+QU2aXjI6D7P0ZENxgYa552KQartAwHi007TGYJhWcO8TZDXSZjgDQl6f6zixgY+39CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fEZvtFQ1; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1777045927; c=relaxed/simple;
+	bh=8bXlD7Mq3uC8skqO7Ugg89SdUYC6/EwSGyg3LtCjWuI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bhBa457cLNlUEt16hNdvM94Ana2ntp93vbVbrsAG8U/5GgdKl6hDzPd6iI2Y5ouIYe9NJ2S+p1r+e/bO+OXYh+g53EwDX28M4B/G5K8Fh/s25clpbI0p3SWbhGi4kxzhUzWTXiLofQp4Haq5d243/92IBeEnDpFRuzkceePLMbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jr7Br1EX; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fEZvtFQ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jr7Br1EX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777032481; x=1808568481;
+  t=1777045925; x=1808581925;
   h=date:from:to:cc:subject:message-id;
-  bh=fwr/XQCtUPlUA2dwlR7VgGyb7NNll2zTOzrOqvULb/Q=;
-  b=fEZvtFQ1eGYPk0lmfXUx307Pr/KYAwKBOZ7VCHTfBF6bUNB6N+CZH6M1
-   O6v0DhSozSleck0zNA9SclpYKKCgKYtXheYT3K9wNkpdYTvygxO2w7BbS
-   O82JiCIYJDPIFcrnG2uhVnK84x1xSC+6v8z6xgtKn3X6jSASLV4YQbKR+
-   7mMY0afCc79rz0SlY4H6F07lc8+9x4NyZXvMlb0P0PUp2u5k0IPJ85Sfr
-   gh0sW6lWi7icCgq7WvMW/ZkMaqVDDdIDxlRflvg1vVmxZ9CwXtwiY95wk
-   gHGfwaW4orKOcJr1ZoqYB4BRzz+NZGKTx7IMREDzxFozyrfRfI0s/m5fU
-   w==;
-X-CSE-ConnectionGUID: 7kcd5hf0SAynxrn0buyMjQ==
-X-CSE-MsgGUID: /wVc1DVUQK695uOVcXk8hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="77714408"
+  bh=8bXlD7Mq3uC8skqO7Ugg89SdUYC6/EwSGyg3LtCjWuI=;
+  b=Jr7Br1EX968bZw+rRYBgVnW0vORZWDEQCOcoA9/dUiSx5CDN9taHvpA0
+   /igknGqzoJeb/6DyjmyK8lIaEoHO2ZQmk6tl11bfVdkLbmDcpefnisKlZ
+   8HkHmbTGosOqKaHcBHqbF2PX1OEPYJKC11u5aae6zf7eRWI33XeDokKPb
+   UIVVFFrNY4f9TLR5cDVwsvb67uc48Im6OpSDw16eBOUOKyzXDEAP8QfRY
+   Dc9A0QncgsCBQ76Y12H0Lp/nVZKI8npEPrp5sOXrSvAkB02jiiyhWwSg1
+   9FFMM+9rKS4LFvB5RVDUFbnRBJdDEXhkx+NXovegwxMKhY8RllVvUwiXW
+   Q==;
+X-CSE-ConnectionGUID: rU6DLv8eTs6PgRVph0lqVg==
+X-CSE-MsgGUID: iiz71tJIQYSJSdnfdy4rpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="89411273"
 X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="77714408"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 05:08:01 -0700
-X-CSE-ConnectionGUID: V+tRW9VITECvZk19ql8JGA==
-X-CSE-MsgGUID: Oq2MUfY4TFSgKgRejvU7Pw==
+   d="scan'208";a="89411273"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 08:52:04 -0700
+X-CSE-ConnectionGUID: 3tf4Hb+uQV6JElKmn3z3sQ==
+X-CSE-MsgGUID: aNk1dC/BRZuL1KnAYltzHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="237934480"
+   d="scan'208";a="232836706"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Apr 2026 05:08:01 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 Apr 2026 08:52:03 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wGFKB-000000003FV-29Hp;
-	Fri, 24 Apr 2026 12:07:59 +0000
-Date: Fri, 24 Apr 2026 14:07:32 +0200
+	id 1wGIoy-000000003Gn-3j57;
+	Fri, 24 Apr 2026 15:52:00 +0000
+Date: Fri, 24 Apr 2026 17:51:01 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: ./include/linux/dax.h:128:57: warning: 'struct dev_dax'
- declared inside parameter list will not be visible outside of this definition
- or declaration
-Message-ID: <202604241425.Olr5CRyG-lkp@intel.com>
+Subject: [bluetooth-next:master 17/72]
+ arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: btmrvl@2
+ (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match
+ '^bluetooth(@.*)?$'
+Message-ID: <202604241716.gHsutyXO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,106 +62,94 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dave Jiang <dave.jiang@intel.com>
-CC: 0day robot <lkp@intel.com>
+CC: linux-bluetooth@vger.kernel.org
+TO: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
+CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Dave-Jiang/dax-rate-limit-dev_dax_huge_fault-output/20260424-144914
-head:   f8b7f4f5432fa1c0c2c4ef2cb58a045a0d731b17
-commit: 47020bf7b7d299052892066672b32b2fe6598a9e dax: Add dax_get_dev_dax() helper function
-date:   5 hours ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260424/202604241425.Olr5CRyG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604241425.Olr5CRyG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   0105c3e2a97e33c37d582a32d4307df6fb3c4cc3
+commit: 73d2d709cc172da53402c9b2ead39bebc774ea16 [17/72] dt-bindings: net: Convert Marvell 8897/8997 bindings to DT schema
+:::::: branch date: 21 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-2051-20260423 (https://download.01.org/0day-ci/archive/20260424/202604241716.gHsutyXO-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2026.5.dev2+g3579443c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604241716.gHsutyXO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604241425.Olr5CRyG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604241716.gHsutyXO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from mm/filemap.c:15:
->> ./include/linux/dax.h:128:57: warning: 'struct dev_dax' declared inside parameter list will not be visible outside of this definition or declaration
-     128 | static inline struct dax_device *dax_get_dev_dax(struct dev_dax *dev_dax)
-         |                                                         ^~~~~~~
-
-
-vim +128 ./include/linux/dax.h
-
-47020bf7b7d299 Dave Jiang        2026-04-23   67  
-32de1484648a83 Pankaj Gupta      2019-07-05   68  /*
-32de1484648a83 Pankaj Gupta      2019-07-05   69   * Check if given mapping is supported by the file / underlying device.
-32de1484648a83 Pankaj Gupta      2019-07-05   70   */
-0335f6afd3488d Lorenzo Stoakes   2025-06-16   71  static inline bool daxdev_mapping_supported(vm_flags_t vm_flags,
-0335f6afd3488d Lorenzo Stoakes   2025-06-16   72  					    const struct inode *inode,
-32de1484648a83 Pankaj Gupta      2019-07-05   73  					    struct dax_device *dax_dev)
-32de1484648a83 Pankaj Gupta      2019-07-05   74  {
-0335f6afd3488d Lorenzo Stoakes   2025-06-16   75  	if (!(vm_flags & VM_SYNC))
-32de1484648a83 Pankaj Gupta      2019-07-05   76  		return true;
-0335f6afd3488d Lorenzo Stoakes   2025-06-16   77  	if (!IS_DAX(inode))
-32de1484648a83 Pankaj Gupta      2019-07-05   78  		return false;
-32de1484648a83 Pankaj Gupta      2019-07-05   79  	return dax_synchronous(dax_dev);
-32de1484648a83 Pankaj Gupta      2019-07-05   80  }
-f5705aa8cfed14 Dan Williams      2017-05-13   81  #else
-8012b866085523 Shiyang Ruan      2022-06-03   82  static inline void *dax_holder(struct dax_device *dax_dev)
-8012b866085523 Shiyang Ruan      2022-06-03   83  {
-8012b866085523 Shiyang Ruan      2022-06-03   84  	return NULL;
-8012b866085523 Shiyang Ruan      2022-06-03   85  }
-fb08a1908cb119 Christoph Hellwig 2021-11-29   86  static inline struct dax_device *alloc_dax(void *private,
-30c6828a17a572 Christoph Hellwig 2021-12-15   87  		const struct dax_operations *ops)
-976431b02c2ef9 Dan Williams      2018-03-29   88  {
-6d439c18d9b190 Mathieu Desnoyers 2024-02-15   89  	return ERR_PTR(-EOPNOTSUPP);
-976431b02c2ef9 Dan Williams      2018-03-29   90  }
-f5705aa8cfed14 Dan Williams      2017-05-13   91  static inline void put_dax(struct dax_device *dax_dev)
-f5705aa8cfed14 Dan Williams      2017-05-13   92  {
-f5705aa8cfed14 Dan Williams      2017-05-13   93  }
-976431b02c2ef9 Dan Williams      2018-03-29   94  static inline void kill_dax(struct dax_device *dax_dev)
-976431b02c2ef9 Dan Williams      2018-03-29   95  {
-976431b02c2ef9 Dan Williams      2018-03-29   96  }
-976431b02c2ef9 Dan Williams      2018-03-29   97  static inline void dax_write_cache(struct dax_device *dax_dev, bool wc)
-976431b02c2ef9 Dan Williams      2018-03-29   98  {
-976431b02c2ef9 Dan Williams      2018-03-29   99  }
-976431b02c2ef9 Dan Williams      2018-03-29  100  static inline bool dax_write_cache_enabled(struct dax_device *dax_dev)
-976431b02c2ef9 Dan Williams      2018-03-29  101  {
-976431b02c2ef9 Dan Williams      2018-03-29  102  	return false;
-976431b02c2ef9 Dan Williams      2018-03-29  103  }
-fefc1d97fa4b5e Pankaj Gupta      2019-07-05  104  static inline bool dax_synchronous(struct dax_device *dax_dev)
-fefc1d97fa4b5e Pankaj Gupta      2019-07-05  105  {
-fefc1d97fa4b5e Pankaj Gupta      2019-07-05  106  	return true;
-fefc1d97fa4b5e Pankaj Gupta      2019-07-05  107  }
-2807c54b3809ca Mathieu Desnoyers 2024-02-15  108  static inline void set_dax_nocache(struct dax_device *dax_dev)
-2807c54b3809ca Mathieu Desnoyers 2024-02-15  109  {
-2807c54b3809ca Mathieu Desnoyers 2024-02-15  110  }
-2807c54b3809ca Mathieu Desnoyers 2024-02-15  111  static inline void set_dax_nomc(struct dax_device *dax_dev)
-2807c54b3809ca Mathieu Desnoyers 2024-02-15  112  {
-2807c54b3809ca Mathieu Desnoyers 2024-02-15  113  }
-fefc1d97fa4b5e Pankaj Gupta      2019-07-05  114  static inline void set_dax_synchronous(struct dax_device *dax_dev)
-fefc1d97fa4b5e Pankaj Gupta      2019-07-05  115  {
-fefc1d97fa4b5e Pankaj Gupta      2019-07-05  116  }
-0335f6afd3488d Lorenzo Stoakes   2025-06-16  117  static inline bool daxdev_mapping_supported(vm_flags_t vm_flags,
-0335f6afd3488d Lorenzo Stoakes   2025-06-16  118  					    const struct inode *inode,
-32de1484648a83 Pankaj Gupta      2019-07-05  119  					    struct dax_device *dax_dev)
-32de1484648a83 Pankaj Gupta      2019-07-05  120  {
-0335f6afd3488d Lorenzo Stoakes   2025-06-16  121  	return !(vm_flags & VM_SYNC);
-32de1484648a83 Pankaj Gupta      2019-07-05  122  }
-047218ec904da1 Jane Chu          2022-04-22  123  static inline size_t dax_recovery_write(struct dax_device *dax_dev,
-047218ec904da1 Jane Chu          2022-04-22  124  		pgoff_t pgoff, void *addr, size_t bytes, struct iov_iter *i)
-047218ec904da1 Jane Chu          2022-04-22  125  {
-047218ec904da1 Jane Chu          2022-04-22  126  	return 0;
-047218ec904da1 Jane Chu          2022-04-22  127  }
-47020bf7b7d299 Dave Jiang        2026-04-23 @128  static inline struct dax_device *dax_get_dev_dax(struct dev_dax *dev_dax)
-47020bf7b7d299 Dave Jiang        2026-04-23  129  {
-47020bf7b7d299 Dave Jiang        2026-04-23  130  	return NULL;
-47020bf7b7d299 Dave Jiang        2026-04-23  131  }
-f5705aa8cfed14 Dan Williams      2017-05-13  132  #endif
-f5705aa8cfed14 Dan Williams      2017-05-13  133  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: / (google,veyron-fievel-rev8): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+>> arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match '^bluetooth(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/marvell,sd8897-bt.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: tsadc@ff280000 (rockchip,rk3288-tsadc): False schema does not allow [[58]]
+   	from schema $id: http://devicetree.org/schemas/thermal/rockchip-thermal.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: ethernet@ff290000 (rockchip,rk3288-gmac): Unevaluated properties are not allowed ('mdio0', 'wakeup-source' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: power-controller (rockchip,rk3288-power-controller): 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: power-controller (rockchip,rk3288-power-controller): 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+--
+   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/rockchip/rk3288.dtsi:1230.20-1232.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: / (google,veyron-jaq-rev5): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+>> arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match '^bluetooth(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/marvell,sd8897-bt.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: tsadc@ff280000 (rockchip,rk3288-tsadc): False schema does not allow [[69]]
+   	from schema $id: http://devicetree.org/schemas/thermal/rockchip-thermal.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: power-controller (rockchip,rk3288-power-controller): 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: power-controller (rockchip,rk3288-power-controller): 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: /sound: failed to match any schema with compatible: ['rockchip,rockchip-audio-max98090']
+--
+   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/rockchip/rk3288.dtsi:1230.20-1232.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: / (google,veyron-mighty-rev5): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+>> arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match '^bluetooth(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/marvell,sd8897-bt.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: tsadc@ff280000 (rockchip,rk3288-tsadc): False schema does not allow [[70]]
+   	from schema $id: http://devicetree.org/schemas/thermal/rockchip-thermal.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: power-controller (rockchip,rk3288-power-controller): 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: power-controller (rockchip,rk3288-power-controller): 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: /sound: failed to match any schema with compatible: ['rockchip,rockchip-audio-max98090']
+--
+   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/rockchip/rk3288.dtsi:1230.20-1232.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: / (google,veyron-tiger-rev8): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+>> arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match '^bluetooth(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/marvell,sd8897-bt.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: tsadc@ff280000 (rockchip,rk3288-tsadc): False schema does not allow [[62]]
+   	from schema $id: http://devicetree.org/schemas/thermal/rockchip-thermal.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: ethernet@ff290000 (rockchip,rk3288-gmac): Unevaluated properties are not allowed ('mdio0', 'wakeup-source' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: power-controller (rockchip,rk3288-power-controller): 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
+   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: power-controller (rockchip,rk3288-power-controller): 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
