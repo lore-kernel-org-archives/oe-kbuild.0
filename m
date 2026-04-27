@@ -1,111 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F653191BD
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Apr 2026 12:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425D22C027B
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 Apr 2026 19:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777292327; cv=none; b=sDb6g6chwTy3Bq6h4agdTuemsMqnstoJ/IJe5ScCb+V1M34evK4aSnMpNWYPEwZgsjwkFRzwckLYD307hMMjUmZw1bZp/Jh/C8LylQ8g3Kgy+kO7rFOH034fWZw57RDdUKvQ9qLFJaCpOO2f9tLefusgXq8ViTQm8R4CcXVBVt0=
+	t=1777318456; cv=none; b=MkFn44J58N+Sd+boyWCYqMNXRoWx8Zw35HhT4msy1KykuyFTYlviVijJzJUl8ECXGw+EWXWV86wpTGTRIW85wA9zyXGfbQXxgrzhlxNcZOd+F6L3R8ixZtTVjbXHo4i7zvZwP2l9V+/Z86ScHFI+MHGYSYJnVtEgOR32bvDb66A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777292327; c=relaxed/simple;
-	bh=knxeyKW/2vC4sYT0Wctkh1QqElstKgc22BFv7Hjc/3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=tJlfxHAc/zqx8KFdWsy8TqRJoET8VDB+3lO+92qi9njUWTZnnKwxnKenHE+gDMS1Id1yaNnYVIJqAXkYjKT4YKn7VIgkmeKGGDigPpwSd2E5UHFuC/Hz6fpQAcW1kwKc6TFfhKKRJKjUMMroAhFi/1KDh+TD1zCcybAYGy1BtEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S1mlwPTO; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1777318456; c=relaxed/simple;
+	bh=GBihDU1gsxatF8HuSf0iD3O8qAw72yK8wzah64BPI9U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gwijvCUb72p8P6Ka/82qWnY6CUpnh16P7Hy94UzrI+6Qdi7I1CwJnMhJBoIuuRp6Eu6iry0OO8sse5ew6hmM8Jf03il5Y2smg10CsaX7wUiopirNnglofyja6q7r7NyY2kkRxPJrVh1TJPv3f+Qn+IEl/6IM9v83qwjc+b2c2g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0gLQUOv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1mlwPTO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0gLQUOv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777292326; x=1808828326;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=knxeyKW/2vC4sYT0Wctkh1QqElstKgc22BFv7Hjc/3Y=;
-  b=S1mlwPTOtrAR2PswbNFwvyAL03RsRg5+haOcvN8wRchH7vOpRPs2KrL4
-   nNgtkPygboHZ3ZBivm3hd4t9QAtp+Xk5nRi5Dn4AZ8h+qODgXTF8PwCXS
-   LM39s4s/1b5ol4C6IJKJV1lwPhpz7wfc95oO1vaeCAy6AyydECZS7nhTA
-   GcFyx81uIRSzr5yb4INbRqJK217ptgvQ+BD2Haj9rG9J/EI6on97ZxYP9
-   W2q2ujSfty//QkVtaItxzcXYYrVmjxczCs1sQY+Bh2gRH3lyezNuCSOKd
-   pHc1ILbpZ2X88B8ycifT+M1AW8kPxoUvPPKIm0mTgtaWSKj5qEOY2imun
+  t=1777318455; x=1808854455;
+  h=date:from:to:cc:subject:message-id;
+  bh=GBihDU1gsxatF8HuSf0iD3O8qAw72yK8wzah64BPI9U=;
+  b=B0gLQUOv8lF+LuX7iBVykJ0zU1IwrM2r/YIYM7Q+NeOp+YcmQlFKIVFW
+   CaXSguZOlCQz7S2qOHKg1gBoxhSB2Rx/RIVLXX03H2Y+LzQkH9IBEwTYT
+   g/1jqGpHI8fvKczwED6L9wtUCdO2qpYZd/PT71PywwV6HrQY6C8HgDYBY
+   zXAGGpJrL17jmi75ZpiLnln9C1513fCcF8WhoiO0cK9gvkrNA45gSREU1
+   m6bak295KohTiAsgLUd8v9SHgnv/qpo2fNf8zA76ppKNXK9/Zwe911Y6P
+   /87gIutvgdHFekimxu4oYgVp3NjdZlLvfkOvlbFD04ZG1MjJA6pmhWjdP
    A==;
-X-CSE-ConnectionGUID: OJjB3hxnRfuBGSBZ5BIh8g==
-X-CSE-MsgGUID: yOo5pcXqSOGE/qk5O8u8DA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="80753072"
+X-CSE-ConnectionGUID: rp64bBmZR7ajSzlGo1FV2Q==
+X-CSE-MsgGUID: Kde55Qr0TxqX/OX0ZoJhjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="88915837"
 X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
-   d="scan'208";a="80753072"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 05:18:45 -0700
-X-CSE-ConnectionGUID: j9BMR4EOT1KG+ObKrBVXug==
-X-CSE-MsgGUID: ZSy+jp5dQ42p6+y314G6DA==
+   d="scan'208";a="88915837"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 12:34:15 -0700
+X-CSE-ConnectionGUID: n2pQlZqnRm6wqWwwAFnhEQ==
+X-CSE-MsgGUID: 5l7+OikmQrK65ZdjZ/YDfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
-   d="scan'208";a="233895074"
+   d="scan'208";a="230559409"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Apr 2026 05:18:45 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 27 Apr 2026 12:34:13 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wHKvB-000000008ll-3niN;
-	Mon, 27 Apr 2026 12:18:41 +0000
-Date: Mon, 27 Apr 2026 20:17:53 +0800
+	id 1wHRid-0000000099B-1PIF;
+	Mon, 27 Apr 2026 19:34:11 +0000
+Date: Tue, 28 Apr 2026 03:34:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Warning: drivers/gpu/drm/panthor/panthor_mmu.c:131 struct
- member 'dummy' not described in 'panthor_vm_pool'
-Message-ID: <202604272050.vFPN1z2M-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 461/799]
+ fs/bcachefs/util/rcu_pending.c:183:8-10: ERROR: reference preceded by free on
+ line 183
+Message-ID: <202604280323.eYffno1X-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "bisect to a FBC not belonging to original linu=
-x-review patches: branch: linux-review/Adri-n-Larumbe/drm-panthor-Expose-GP=
-U-page-sizes-to-UM/20260425-073353, commit: 781d4656f0314db1e6ed208b6780489=
-ee6d2dc17"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Adri=C3=A1n Larumbe" <adrian.larumbe@collabora.com>
-CC: 0day robot <lkp@intel.com>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-p=
-anthor-Expose-GPU-page-sizes-to-UM/20260425-073353
-head:   4065528c9dd43039389c11d6e02397d67528bc39
-commit: 781d4656f0314db1e6ed208b6780489ee6d2dc17 drm/panthor: Support spars=
-e mappings
-date:   3 days ago
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260427/2=
-02604272050.vFPN1z2M-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260427/202604272050.vFPN1z2M-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: a5c2f21bff6a883e2a0fc96e4f0127350186665e [461/799] bcachefs: move utility code to subdir
+:::::: branch date: 6 months ago
+:::::: commit date: 6 months ago
+config: m68k-randconfig-r054-20260428 (https://download.01.org/0day-ci/archive/20260428/202604280323.eYffno1X-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.3.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604272050.vFPN1z2M-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202604280323.eYffno1X-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/util/rcu_pending.c:183:8-10: ERROR: reference preceded by free on line 183
+--
+>> fs/bcachefs/util/rcu_pending.c:507:1-7: preceding lock on line 435
+>> fs/bcachefs/util/rcu_pending.c:507:1-7: preceding lock on line 435
+   fs/bcachefs/util/rcu_pending.c:507:1-7: preceding lock on line 525
 
->> Warning: drivers/gpu/drm/panthor/panthor_mmu.c:131 struct member 'dummy'=
- not described in 'panthor_vm_pool'
->> Warning: drivers/gpu/drm/panthor/panthor_mmu.c:419 struct member 'dummy'=
- not described in 'panthor_vm'
->> Warning: drivers/gpu/drm/panthor/panthor_mmu.c:131 struct member 'dummy'=
- not described in 'panthor_vm_pool'
->> Warning: drivers/gpu/drm/panthor/panthor_mmu.c:419 struct member 'dummy'=
- not described in 'panthor_vm'
+vim +183 fs/bcachefs/util/rcu_pending.c
 
---=20
+8e973a4f3c7482 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  178  
+d2ed0f206a9d8b fs/bcachefs/rcu_pending.c Kent Overstreet 2024-08-23  179  #ifndef __KERNEL__
+d2ed0f206a9d8b fs/bcachefs/rcu_pending.c Kent Overstreet 2024-08-23  180  static inline void kfree_bulk(size_t nr, void ** p)
+d2ed0f206a9d8b fs/bcachefs/rcu_pending.c Kent Overstreet 2024-08-23  181  {
+d2ed0f206a9d8b fs/bcachefs/rcu_pending.c Kent Overstreet 2024-08-23  182  	while (nr--)
+d2ed0f206a9d8b fs/bcachefs/rcu_pending.c Kent Overstreet 2024-08-23 @183  		kfree(*p);
+d2ed0f206a9d8b fs/bcachefs/rcu_pending.c Kent Overstreet 2024-08-23  184  }
+d2ed0f206a9d8b fs/bcachefs/rcu_pending.c Kent Overstreet 2024-08-23  185  #endif
+d2ed0f206a9d8b fs/bcachefs/rcu_pending.c Kent Overstreet 2024-08-23  186  
+
+:::::: The code at line 183 was first introduced by commit
+:::::: d2ed0f206a9d8b3add18879f39dd128ff55e4d77 bcachefs: rcu_pending now works in userspace
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
