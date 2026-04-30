@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A58E301471
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Apr 2026 03:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFE0344DAE
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Apr 2026 03:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777518457; cv=none; b=PhF1pfCwg+RT9/ylMhe0wJ1eiYXq45fwV41d0olFw2FskqffUMUSBXgrwYJN6BTM52Qu3HVM6baNvtlOo27TZeurNaJy+bQUDC4eGEHm3CMuj4CiYDipb6z8WpxHNacB/gyGsbA0w9kdy1JNTwlqQqBfRMfhoIw9mC+avVGOijc=
+	t=1777521454; cv=none; b=H7Tril7DyFmOgpyri5/+RhmxkpGRw34jdwazf4wWCIqzuRl8Eu7ytn4T8owbyDbZ99GO8j021qYrTeuG+u84dJU6ZBb/0RInGHJgjpOzrsPVPKsf2cqRxbXCfqdqVNmDtkD+H6mJWDMK3MQc13B8ll7LpHIXHNJ6rvB94fWUZeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777518457; c=relaxed/simple;
-	bh=k80+wuZsDgRLksm5bbw+UBLuq1qUwBAWNG7wOFqod3M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aALaw2s5BnFAfghyguXEvMNJ7N2pCvO/arGWJ/bsTYVw3R1uZkiDe/uPiB9EJ2X99qlbgGhgETBIwfVkxpzN0OPy9/AwM+Flh/o0Op3e6S7kcwCTLhnxfKDetRtMJ4RaeTa6RHTjjcTcQD8xGlGhLN2jkaC1/9DLLzCA7y5fgJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzlFNFAz; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1777521454; c=relaxed/simple;
+	bh=Kr2BoOdyP45aK3HQfCIar3T2Ox0M3KCy2NUP5cOiyNc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QdxZ84TLMxZDBGBZ+F403Vt3XagoX+oMGVb+NA2IsRJCtcOsaTPp+CDMBS5vZnHsLidYikeSE4TX1tf4CLCA/lwlBwXxrUYVxkPp1Sof8NFygIZUP8r31o+lFcwIrpwCRvNTHKKPP6OFCz3PIrd6Z42/T/BObhyZ0pLEKJXFqsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpemGGR7; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzlFNFAz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpemGGR7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777518455; x=1809054455;
+  t=1777521453; x=1809057453;
   h=date:from:to:cc:subject:message-id;
-  bh=k80+wuZsDgRLksm5bbw+UBLuq1qUwBAWNG7wOFqod3M=;
-  b=ZzlFNFAzA9xdC//Rm2TBK46IwNCIXPl6uo5t7RO7YRIEXBrGFO8aaiad
-   vXYru7/+icEUqKdaa5cGYb0dq029KVocgfiVVDD0F+wYJc7KdadRSDZXF
-   GvJFJiLpAst+j9CBRfIj7UL/bbNgiPVDUbxmFvV1eRQ+AU+oHPx8KtWF4
-   67qMeeML59GD5/6ED+fQfskBjx92iUaU1sB7CMWltlijmkYyfgsWajBZh
-   SHoTzEfmLaAG/QL0EpmjsBBnsxyw0q9IQvsmwPvg5qeiJ4p9dJTlD8WYV
-   tteUCMBd0tLILscJmcAMBDi5wLUSnGPyq2bjGTVCXC+z4m5JfxSw5Knam
-   Q==;
-X-CSE-ConnectionGUID: bAYG9jbYSGmXijMm6nRUkQ==
-X-CSE-MsgGUID: rvXO0jtMRByolOYzmpwLKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89833313"
+  bh=Kr2BoOdyP45aK3HQfCIar3T2Ox0M3KCy2NUP5cOiyNc=;
+  b=BpemGGR7/sio84oYCjM5QKjsE/FpZ/C3EgRk8aY9vj8++N0eEhkZ/E+8
+   X/ptNMmZh8HwI/gSr2pC3FqWLoD5iupg8hC46Gshw2GgWvxITcCL0Q43x
+   fJ4Dkd9+eACB1K6nM3Pvm6IpRm+2ivxuFPZiX3e9MkrpHTZL6Fa8UNXN+
+   Z8nRWVkXFjwwAmSd+0oEP4JQSEGIWSyPv5Vb1Xw7s5Vycfi7pG7omhas5
+   +0wNo8gCJMTI0nwKOUWpQdm06j5muXH94ZQt1dgTdX/C6h/Ey5Rl/1oj4
+   ISl22cQe/PJfjuNsxIrxo1dblehkujQs8IwyA7Ty8wG50Rd02gLtJK3LM
+   g==;
+X-CSE-ConnectionGUID: g2GnxAY7QRC2iz645CUxLg==
+X-CSE-MsgGUID: CICHYx2gSyO6G8H4CYXtsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89922094"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="89833313"
+   d="scan'208";a="89922094"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:07:34 -0700
-X-CSE-ConnectionGUID: LhhcgNzzQxCr/Q04N1ifVA==
-X-CSE-MsgGUID: z/RO1zY5RN6CWJKBSIPrFA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:57:33 -0700
+X-CSE-ConnectionGUID: FZeqzCX5R9emEkgskzKDkw==
+X-CSE-MsgGUID: 4vz+9DTBThSJUIIOkqXgMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="231814607"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Apr 2026 20:07:34 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+   d="scan'208";a="231822175"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 29 Apr 2026 20:57:31 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIHkR-00000000Bry-3ABL;
-	Thu, 30 Apr 2026 03:07:31 +0000
-Date: Thu, 30 Apr 2026 11:06:47 +0800
+	id 1wIIWn-000000004jV-1Jnc;
+	Thu, 30 Apr 2026 03:57:29 +0000
+Date: Thu, 30 Apr 2026 05:56:34 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 883/1114] ftrace.c:undefined reference to
- `__atomic_fetch_add_8'
-Message-ID: <202604301110.k8l5TIie-lkp@intel.com>
+Subject: ../../../mm/vma.c:249:9: error: implicit declaration of
+ function 'inc_mapping_vma'
+Message-ID: <202604300542.5TzdHOgw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,40 +60,40 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Konstantin Khorenko <khorenko@virtuozzo.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Peter Oberparleiter <oberpar@linux.ibm.com>
+TO: Huang Shijie <huangsj@hygon.cn>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0787c45ea08a13b5482e701fabc741877cf681f6
-commit: 3063d5f62cb2b0dc1a94b59f783c6812953eaa5a [883/1114] gcov: use atomic counter updates to fix concurrent access crashes
-:::::: branch date: 16 hours ago
-:::::: commit date: 3 days ago
-config: i386-buildonly-randconfig-004-20260430 (https://download.01.org/0day-ci/archive/20260430/202604301110.k8l5TIie-lkp@intel.com/config)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Huang-Shijie/mm-use-mapping_mapped-to-simplify-the-code/20260417-080421
+head:   92aa74f3c18e2e251db847f50b3de456d0982226
+commit: 92aa74f3c18e2e251db847f50b3de456d0982226 mm: split the file's i_mmap tree for NUMA
+date:   13 days ago
+:::::: branch date: 13 days ago
+:::::: commit date: 13 days ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260430/202604300542.5TzdHOgw-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301110.k8l5TIie-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300542.5TzdHOgw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604301110.k8l5TIie-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604300542.5TzdHOgw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: kernel/trace/ftrace.o: in function `symbols_cmp':
->> ftrace.c:(.text+0x18): undefined reference to `__atomic_fetch_add_8'
->> ld: ftrace.c:(.text+0x36): undefined reference to `__atomic_fetch_add_8'
-   ld: kernel/trace/ftrace.o: in function `ftrace_pid_release':
-   ftrace.c:(.text+0x68): undefined reference to `__atomic_fetch_add_8'
-   ld: ftrace.c:(.text+0x86): undefined reference to `__atomic_fetch_add_8'
-   ld: ftrace.c:(.text+0xa4): undefined reference to `__atomic_fetch_add_8'
-   ld: kernel/trace/ftrace.o:ftrace.c:(.text+0xd5): more undefined references to `__atomic_fetch_add_8' follow
+   In file included from main.c:10:
+   ../../../mm/vma.c: In function '__vma_link_file':
+>> ../../../mm/vma.c:249:9: error: implicit declaration of function 'inc_mapping_vma' [-Wimplicit-function-declaration]
+     249 |         inc_mapping_vma(mapping);
+         |         ^~~~~~~~~~~~~~~
+   ../../../mm/vma.c: In function '__remove_shared_vm_struct':
+>> ../../../mm/vma.c:264:9: error: implicit declaration of function 'dec_mapping_vma' [-Wimplicit-function-declaration]
+     264 |         dec_mapping_vma(mapping);
+         |         ^~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
