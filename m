@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F06C2836F
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 May 2026 00:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40AA189F43
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 May 2026 00:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777595557; cv=none; b=I30iFX0bjFhFZPK5yIGlsDWp7R3XHpV8ROPFSg4PhI6givlLf3RO6IbK2m+r9+Y77rRvcF3Ii+GNkZG2c0nXhTYwP6//456kL9s86EDIY0YlFj+RY0BXgQ72G993Z5DMpdRzMOxXpJTWa6IEnYV545F8aB+aPLGezm9E45RHuTI=
+	t=1777596961; cv=none; b=pyY7hW7AS2iEv1W5bEy+TcH6y1+wyEVjB7FY1RA8ppbu1yEqbYu67xIS3l6wXp/tgbWeFf0os0qRupBvzi2jjzJhj1MT5i2VmPB39q/9p/nKhKpyGGUnZ2kZCfptSLDPWU4CxwgfajtuHXLIihvTCX29y98SCsiHvQM4V3tMm9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777595557; c=relaxed/simple;
-	bh=uO6Z9TOCoSMCITUsgEhQp8bYx/2VCoW1f0qMhrONTl0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lBzQp8IvmxEj8Pq6z6JveJVP7Z78PquWRDNANWgVyvyk8grbZNsUubR8tFj5wFDYlMiLhWQiTUastEzl0Em3TN1MY5Z8HpvNvB9vxTjJ9RZPRGCi6yFbjLSNzcT84vIUry5xQaXJB+WexzGc2uCwyTavJH1U8C1qoiZPNxIFcNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JciB7XVb; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1777596961; c=relaxed/simple;
+	bh=ZOL4K3crm1r2s7h/UCT6QlO3TCM4ZMe4YE4HIh0FzbY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UeuuCFBCaJWFqimkN60ujufiT3symo5+6F2UPd13Qt43oGq9L/YOCNfD8cWzw59u2I83tA4DSwca5BgQb9DdU3Cd9hKmZUc+9UDqgROxrRzqk3oXS0XnXT4qDv92Pi7XGnuxTbk/PtkLLgbx7OusXO+5ojxg1xXZrU38DbH4sMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YGbOMikQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JciB7XVb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YGbOMikQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777595555; x=1809131555;
+  t=1777596959; x=1809132959;
   h=date:from:to:cc:subject:message-id;
-  bh=uO6Z9TOCoSMCITUsgEhQp8bYx/2VCoW1f0qMhrONTl0=;
-  b=JciB7XVbylvgLpgOEeP91HZbRHbYWMhAEJbTAic+kvXH3SitEM7fo+iu
-   EzLIpN/eBgeSpmFzYn35Jx1BixqWYAQc+A/DawqAMtbkfgzC3I6oQzbrt
-   oibptx5trHfUNwPBOhcWC/M9hjwqA0KG9yGPNsDJVmxW+20UpBUNtJ5zA
-   9RKzsV0LzdQJ/BxSilbTwc83A00QJIL7zO8xQo2OxlJfaB4UvoJ3ln37c
-   TRBdRybMwmFfzsH/wO1FJ8oboBQFy0Jq3IWYWz9HVUx2OcwPq8S6lVlNz
-   Je+N5aDtyx/jbO/fWhV7lQfOJPJxlq8JWrWbMDCdRMHf3EkG3b0Wy1FAj
-   w==;
-X-CSE-ConnectionGUID: Ct5hd9XMTombnumGPjf3Ow==
-X-CSE-MsgGUID: yP6EtCXhRpiRCws+73cSPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="89257939"
+  bh=ZOL4K3crm1r2s7h/UCT6QlO3TCM4ZMe4YE4HIh0FzbY=;
+  b=YGbOMikQxqkEeqCg6QYjQJRLVFkLWigrFPmWM3HjwvV2RhrsrN30+pJm
+   pHUZb9XxN6yjyq3i8F4L4qt2+iyY1HeJ+hrxJgRDkBjpYq2e7D5dslaw3
+   9CLXbqB13jZ7QpjzPyYuwo0/HGYre5W0MApfuwuM5jMKw0ccphGOmf4Z/
+   ZtRQ4SlLGeRTqeohe02joxeK6Gtis6Eyu8iklN9MXvjWmSNNJe7bxqOSq
+   hHsJjU8o7LASGIHGzVljNFnZNoC2QagbiNs8iES1SdiJyObkHWBEoCNJH
+   QEvfMLt1ugBvd5Fp15P2oCsQVVURUZsboDybsht4ZcDTVtamSH+SIyjk/
+   Q==;
+X-CSE-ConnectionGUID: KnS7W/GBTl2eKIsLg6Rvrg==
+X-CSE-MsgGUID: M/CSm+KVTxmTWzxTHQuzzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="77733036"
 X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
-   d="scan'208";a="89257939"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 17:32:35 -0700
-X-CSE-ConnectionGUID: ttDHJIZrTpaIi1pr4F98NA==
-X-CSE-MsgGUID: 6smFQIk5QwqGjEswA4KuSQ==
-X-Ironport-Invalid-End-Of-Message: True
+   d="scan'208";a="77733036"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 17:55:58 -0700
+X-CSE-ConnectionGUID: 0uNH6cXJQ0CWj41UVX4Z3w==
+X-CSE-MsgGUID: Yy1pkfRrSuiXYftpH/EFNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
-   d="scan'208";a="234991916"
+   d="scan'208";a="234633764"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 Apr 2026 17:32:33 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 Apr 2026 17:55:57 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIbny-00000000DA8-4AZM;
-	Fri, 01 May 2026 00:32:31 +0000
-Date: Fri, 01 May 2026 08:32:09 +0800
+	id 1wIcAZ-00000000DBq-1KOV;
+	Fri, 01 May 2026 00:55:51 +0000
+Date: Fri, 01 May 2026 08:55:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: 
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4833
- convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99
- <= 127
-Message-ID: <202605010835.af3xzIY7-lkp@intel.com>
+Subject: [melver:alloc-token 3/4] net/ceph/osdmap.c:297
+ decode_array_32_alloc() warn: potential user controlled sizeof overflow 'len
+ * 4' '1-u32max * 4'
+Message-ID: <202605010849.3YiZsHq9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -64,96 +62,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Mario Limonciello <mario.limonciello@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Alex Hung <alex.hung@amd.com>
+TO: elver@google.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   08d0d3466664000ba0670e0ef0d447f23459e0d4
-commit: de63b05593573cb0106875452c706ebaf6faa8f7 drm/amd/display: Optimize custom brightness curve interpolation
-date:   8 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 8 months ago
-config: alpha-randconfig-r072-20260427 (https://download.01.org/0day-ci/archive/20260501/202605010835.af3xzIY7-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git alloc-token
+head:   3a674f33fa09193cbf94df7fa514768d77a09974
+commit: c7703023e2a2b049bacbe66cfb5c7d2b0957cc3a [3/4] slab: support for compiler-assisted type-based slab cache partitioning
+:::::: branch date: 3 days ago
+:::::: commit date: 7 days ago
+config: sparc-randconfig-r072-20260430 (https://download.01.org/0day-ci/archive/20260501/202605010849.3YiZsHq9-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: de63b0559357 ("drm/amd/display: Optimize custom brightness curve interpolation")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605010835.af3xzIY7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605010849.3YiZsHq9-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4833 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 127
+net/ceph/osdmap.c:297 decode_array_32_alloc() warn: potential user controlled sizeof overflow 'len * 4' '1-u32max * 4'
 
 Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4837 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 127
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4852 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 127
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4853 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 128
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4854 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 127
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4855 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 128
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:12539 parse_edid_displayid_vrr() warn: variable dereferenced before check 'edid_ext' (see line 12535)
+net/ceph/osdmap.c:204 decode_crush_names() warn: potential spectre issue 'cn->cn_name' [w]
+net/ceph/osdmap.c:386 decode_choose_args() warn: potential spectre issue 'arg_map->args' [r] (local cap)
+net/ceph/osdmap.c:530 crush_decode() warn: potential user controlled sizeof overflow 'b->size * 4' '0-u32max * 4'
+net/ceph/osdmap.c:1877 decode_new_up_state_weight() warn: potential spectre issue 'map->osd_weight' [w] (local cap)
+net/ceph/osdmap.c:1884 decode_new_up_state_weight() warn: potential spectre issue 'map->osd_state' [w] (local cap)
+net/ceph/osdmap.c:1947 decode_new_up_state_weight() warn: potential spectre issue 'map->osd_addr' [w] (local cap)
 
-vim +4833 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+vim +297 net/ceph/osdmap.c
 
-8dbd72cb790058 Mario Limonciello 2025-05-29  4814  
-03b979e1025fba Mario Limonciello 2025-03-24  4815  static void convert_custom_brightness(const struct amdgpu_dm_backlight_caps *caps,
-8dbd72cb790058 Mario Limonciello 2025-05-29  4816  				      unsigned int min, unsigned int max,
-8dbd72cb790058 Mario Limonciello 2025-05-29  4817  				      uint32_t *user_brightness)
-69d9f4278d0f9d Alexander Monakov 2020-08-04  4818  {
-8dbd72cb790058 Mario Limonciello 2025-05-29  4819  	u32 brightness = scale_input_to_fw(min, max, *user_brightness);
-de63b05593573c Mario Limonciello 2025-08-19  4820  	u8 lower_signal, upper_signal, upper_lum, lower_lum, lum;
-de63b05593573c Mario Limonciello 2025-08-19  4821  	int left, right;
-578df37b1b6a5b Mario Limonciello 2025-02-28  4822  
-36d63ce5dbc0dc Mario Limonciello 2025-02-28  4823  	if (amdgpu_dc_debug_mask & DC_DISABLE_CUSTOM_BRIGHTNESS_CURVE)
-03b979e1025fba Mario Limonciello 2025-03-24  4824  		return;
-36d63ce5dbc0dc Mario Limonciello 2025-02-28  4825  
-03b979e1025fba Mario Limonciello 2025-03-24  4826  	if (!caps->data_points)
-03b979e1025fba Mario Limonciello 2025-03-24  4827  		return;
-03b979e1025fba Mario Limonciello 2025-03-24  4828  
-de63b05593573c Mario Limonciello 2025-08-19  4829  	left = 0;
-de63b05593573c Mario Limonciello 2025-08-19  4830  	right = caps->data_points - 1;
-de63b05593573c Mario Limonciello 2025-08-19  4831  	while (left <= right) {
-de63b05593573c Mario Limonciello 2025-08-19  4832  		int mid = left + (right - left) / 2;
-de63b05593573c Mario Limonciello 2025-08-19 @4833  		u8 signal = caps->luminance_data[mid].input_signal;
-578df37b1b6a5b Mario Limonciello 2025-02-28  4834  
-de63b05593573c Mario Limonciello 2025-08-19  4835  		/* Exact match found */
-de63b05593573c Mario Limonciello 2025-08-19  4836  		if (signal == brightness) {
-de63b05593573c Mario Limonciello 2025-08-19  4837  			lum = caps->luminance_data[mid].luminance;
-de63b05593573c Mario Limonciello 2025-08-19  4838  			goto scale;
-578df37b1b6a5b Mario Limonciello 2025-02-28  4839  		}
-de63b05593573c Mario Limonciello 2025-08-19  4840  
-de63b05593573c Mario Limonciello 2025-08-19  4841  		if (signal < brightness)
-de63b05593573c Mario Limonciello 2025-08-19  4842  			left = mid + 1;
-de63b05593573c Mario Limonciello 2025-08-19  4843  		else
-de63b05593573c Mario Limonciello 2025-08-19  4844  			right = mid - 1;
-de63b05593573c Mario Limonciello 2025-08-19  4845  	}
-de63b05593573c Mario Limonciello 2025-08-19  4846  
-de63b05593573c Mario Limonciello 2025-08-19  4847  	/* verify bound */
-de63b05593573c Mario Limonciello 2025-08-19  4848  	if (left >= caps->data_points)
-de63b05593573c Mario Limonciello 2025-08-19  4849  		left = caps->data_points - 1;
-de63b05593573c Mario Limonciello 2025-08-19  4850  
-de63b05593573c Mario Limonciello 2025-08-19  4851  	/* At this point, left > right */
-de63b05593573c Mario Limonciello 2025-08-19  4852  	lower_signal = caps->luminance_data[right].input_signal;
-de63b05593573c Mario Limonciello 2025-08-19  4853  	upper_signal = caps->luminance_data[left].input_signal;
-de63b05593573c Mario Limonciello 2025-08-19  4854  	lower_lum = caps->luminance_data[right].luminance;
-de63b05593573c Mario Limonciello 2025-08-19  4855  	upper_lum = caps->luminance_data[left].luminance;
-de63b05593573c Mario Limonciello 2025-08-19  4856  
-de63b05593573c Mario Limonciello 2025-08-19  4857  	/* interpolate */
-de63b05593573c Mario Limonciello 2025-08-19  4858  	if (right == left || !lower_lum)
-de63b05593573c Mario Limonciello 2025-08-19  4859  		lum = upper_lum;
-de63b05593573c Mario Limonciello 2025-08-19  4860  	else
-de63b05593573c Mario Limonciello 2025-08-19  4861  		lum = lower_lum + DIV_ROUND_CLOSEST((upper_lum - lower_lum) *
-de63b05593573c Mario Limonciello 2025-08-19  4862  						    (brightness - lower_signal),
-de63b05593573c Mario Limonciello 2025-08-19  4863  						    upper_signal - lower_signal);
-de63b05593573c Mario Limonciello 2025-08-19  4864  scale:
-8dbd72cb790058 Mario Limonciello 2025-05-29  4865  	*user_brightness = scale_fw_to_input(min, max,
-8dbd72cb790058 Mario Limonciello 2025-05-29  4866  					     DIV_ROUND_CLOSEST(lum * brightness, 101));
-578df37b1b6a5b Mario Limonciello 2025-02-28  4867  }
-578df37b1b6a5b Mario Limonciello 2025-02-28  4868  
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  280  
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  281  static u32 *decode_array_32_alloc(void **p, void *end, u32 *plen)
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  282  {
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  283  	u32 *a = NULL;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  284  	u32 len;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  285  	int ret;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  286  
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  287  	ceph_decode_32_safe(p, end, len, e_inval);
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  288  	if (len) {
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  289  		u32 i;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  290  
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  291  		a = kmalloc_array(len, sizeof(u32), GFP_NOIO);
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  292  		if (!a) {
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  293  			ret = -ENOMEM;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  294  			goto fail;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  295  		}
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  296  
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22 @297  		ceph_decode_need(p, end, len * sizeof(u32), e_inval);
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  298  		for (i = 0; i < len; i++)
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  299  			a[i] = ceph_decode_32(p);
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  300  	}
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  301  
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  302  	*plen = len;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  303  	return a;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  304  
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  305  e_inval:
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  306  	ret = -EINVAL;
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  307  fail:
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  308  	kfree(a);
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  309  	return ERR_PTR(ret);
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  310  }
+5cf9c4a9959b627 Ilya Dryomov 2017-06-22  311  
+
+:::::: The code at line 297 was first introduced by commit
+:::::: 5cf9c4a9959b6273675310d14a834ef14fbca37c libceph, crush: per-pool crush_choose_arg_map for crush_do_rule()
+
+:::::: TO: Ilya Dryomov <idryomov@gmail.com>
+:::::: CC: Ilya Dryomov <idryomov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
