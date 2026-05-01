@@ -1,74 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD3F22F74A
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 May 2026 14:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC253CF027
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 May 2026 15:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777644031; cv=none; b=ZFcauyRJKLz2tzY5bJCyMJ7B/rFFn/sM+8o2r6RYWWqPwCqmotO07MrntOzG3n36hgipSUXs+st6kUcnVjFSDC+P2Dc3dIqzeCECU0g7Mm5blVUXzd8B+DPlyxprSsR78Tt0/r1LtzhescH7VnT9D2+nBIKnKR5px+23r2NUAbE=
+	t=1777647691; cv=none; b=g+PZTm6B1bHX9GauztYn9d9f4q+pdH5ouuDQvG70X8hrnxbtw4L0KwEkWokuwwlto5v1XQdRsUs9PHhFEgnRa6cYQqnzEGdift4ZQHEAdnu5quDPWKuuKAwjLbunmW1s6GskiluryYRVBf1dxhOxh0KUVEO8bd2Nl34fcE3xO0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777644031; c=relaxed/simple;
-	bh=ffVeCDUYXgsIeYK7iFBL4EvAX8/SjsYkV9FJPRwC2v4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GFmy6gEBriYmREX7k2jtMN8QCE6MXSh3+eQF8ZovP4WcoVTviG2Y8B4oJjNPhgIQ1euCtigBnxO7DpSWtPi8frpHwRH87cQ7LsWQJlz0UvaG0SKm0QHeSceolZxri0gMAnMgTxMi2/pzB2dXBFjMSaoVeYfX7Rrt3Dk95Ue/G6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6nNNI1a; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777647691; c=relaxed/simple;
+	bh=u3lKcwws5A+IQdggjYDE0lu5+w9dAqoHrVKi4z9WPxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sJe8y+K1UkFR9+qI1S3Omrfe22VF3RiyhoZKLyGUn22v7m8rJqeSVkn9XueBYw0lcmFbsAipubY2BSJdjAFHHx1P35+s8Wxf2r1zQOSgZaYOCJpg+3GTCfD62Uu5vaKFHrKKN4sJXfZXfImW3Tduxn7GAvL3jHUqB03qeuoM+e0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQskQKLu; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6nNNI1a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777644029; x=1809180029;
-  h=date:from:to:cc:subject:message-id;
-  bh=ffVeCDUYXgsIeYK7iFBL4EvAX8/SjsYkV9FJPRwC2v4=;
-  b=J6nNNI1aSFU+c6Md1pOFupDF/vpFVpbPlw1qWszWVLByOL0Rq/XTtJCN
-   ng8AAzfOvjxIG4CN1MNbSetCp1qXTLQ330aLrItLS5kxJVSANAmD/23ui
-   LUvzsgfVilivyj8vV5xT+Tbbvy4uP5SpUdpwKHDMkPsyQqBtt3SnhVkeN
-   0W8qaSnwlEnewBJWm6YCrWTENOrXWJUOHCiw5Z/0ZQuJGim8czeoyskZI
-   r6/N1pVkSdztrKRXv9rmjTKyE4OaXemSu1Jznh3M/34B48WJXnEfwVQ2k
-   oeOYpN4rfz+FC/kZYcjx3uSw78+6msI7pMFjU9tPz2NqixUriBMiVeodo
-   w==;
-X-CSE-ConnectionGUID: H3l5U5raRNqbrwV1VrWxJA==
-X-CSE-MsgGUID: BsfNdbV3TWKfhsn6+rNmkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="89699542"
-X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="89699542"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 07:00:29 -0700
-X-CSE-ConnectionGUID: kC8dzwdYT0mjBrJyB1X/1g==
-X-CSE-MsgGUID: hL/elZKyTiqiMT3V8dNA1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="230276159"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 01 May 2026 07:00:27 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wIoPo-000000000an-2iF1;
-	Fri, 01 May 2026 14:00:24 +0000
-Date: Fri, 01 May 2026 21:59:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQskQKLu"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891c0620bcso15141095e9.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 01 May 2026 08:01:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777647688; x=1778252488; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dR16UQEKsXq+JumlQUVyeXfr2XmAzyG4xUZFkuLAXAY=;
+        b=bQskQKLu83Z4lfcLju1gP2WJgSOrFnA3lDOGsf4BuV8m9Adk0G/j7/BOBUB+FbJ/dA
+         3v8zWLsF550gRZEk94AU/g7rsr1ffJlRayTrrn6U2LRgQ46mks5kl3XUMw4ge4Byy67G
+         ffvNQlPmcOHrUTKxtbTW4vvmJVTePtQUOXs92LQ31AZoVJUrKj1aeevv94M9fE9Sx+I6
+         vZlPQiGapUxiETFUGmSnnRhR35Iwego9INBwdMQFll9O+4Q+QlqeXfVAidB+DfGYnUnU
+         y7hENSXMICV2IowiUEo0PsVSuMtLrybFM/76nhvRj6bokA5kinY6+ofuzSKxao1DzQM0
+         Kk4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777647688; x=1778252488;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dR16UQEKsXq+JumlQUVyeXfr2XmAzyG4xUZFkuLAXAY=;
+        b=rHZ9Y489rcb2lrdjE0ojCplXDGw6jp43N6fr8IbTg3yXoR0sNGt2IlAHmvn+ZPR7lb
+         LP+HD1ZyImDPpCFxvnglG/qtB5ncphKspOUOXnlVcV7w5Gyuy3NCZ8F55Olu4mqeivW5
+         309j1ki2xYkTQ7gbMSIa0jOpmRJuG1QgbmzwUbNP301gdkRECp2xz+FlcQcJj9S2bWrD
+         +PJUy2dY+N5oaqWClMdR5X63HzOY1yME3wSlFIFIQn8Lfx/K/u3Bo5ujsIfkLqHodYoC
+         c+xL/Fbopqjcy+kLGE2eODs582EBUTe6xM/2vI8iSYixHmGw84eEH7BfaN/W/KqZ2xAk
+         lVKQ==
+X-Gm-Message-State: AOJu0Yz14h5BVtqGpj7UkyujF+G7iiVjzmlSs4YYkopaNurH+j6J58PQ
+	K5qsB1fJIdwsk3Emd09ey4xTXRXgMu3mZtSOn7HqxOJwn9v7gDMKPjYiASclng==
+X-Gm-Gg: AeBDiesE0A8B+m+nSv/DAdDFcdJx2fcvK0Yr1+o+RDZp1knw3/lNt4lCfUOwDri3tAu
+	3f8W6VwkwgpD7r2uXxw2lm4MbvZdr9NJLx23PD8cJ3N3mABbUKTB7PODAAcrJrERAI44Y2Ymx76
+	Jmrl+0YWBWPEBDkRvU/riphwkeB4j+niZvSsEl5Thy8NuvHRtgKkWlZZpyz+/LeIaEuXBS1FbUy
+	CiUWT6HlEtqZUFySVME+/X/mS5ZXwcb/pyRh1OKtfT/uwFXpiLvMx4GKzZ+AMzHRheibmWzdciW
+	UH2qTNqiTK6jjk2alJW9IAoejBmHCrixE+irov6KKmaCbt26yPki1wzSlAZh3S7t65URuBodsAp
+	ClgjEJvoB6bJkQLt2LnT7h7zxIqq3BSKzLbZue2+V2usQAZKvUbMZTolAeSEsz8VvEHngEUeQDr
+	sJN6V/vdFQ81SiZfSViK1nihzbfXQe2w==
+X-Received: by 2002:a05:600c:4f47:b0:488:b239:77ec with SMTP id 5b1f17b1804b1-48a8451d08amr119856825e9.17.1777647683978;
+        Fri, 01 May 2026 08:01:23 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8fe928f6sm14730465e9.6.2026.05.01.08.01.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 08:01:22 -0700 (PDT)
+Date: Fri, 1 May 2026 18:01:18 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android14-kiwi-6.1 90/90]
  drivers/ufs/core/ufshcd.c:2294 ufshcd_hba_capabilities() warn: missing error
  code? 'err'
 Message-ID: <202605012135.qpiuGqaa-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260501150118.EodWURp2tkZ39YlWdk7rah5GCLtcYnNIgN2ktNglLCs@z>
 
 tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
 head:   90993a7a9684f014a3d9f2b1b0deb516badc3ecc
 commit: 996bbaea824f317c30977c4967f84b10feb3cf40 [90/90] FROMGIT: scsi: ufs: core: Introduce multi-circular queue capability
-:::::: branch date: 11 hours ago
-:::::: commit date: 3 years, 2 months ago
 config: arm64-randconfig-r073-20260426 (https://download.01.org/0day-ci/archive/20260501/202605012135.qpiuGqaa-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 11.5.0
 smatch: v0.5.0-9065-ge9cc34fd
@@ -82,19 +90,8 @@ the same patch/commit), kindly add following tags
 New smatch warnings:
 drivers/ufs/core/ufshcd.c:2294 ufshcd_hba_capabilities() warn: missing error code? 'err'
 
-Old smatch warnings:
-drivers/ufs/core/ufshcd.c:5356 ufshcd_uic_cmd_compl() error: we previously assumed 'hba->active_uic_cmd' could be null (see line 5344)
-drivers/ufs/core/ufshcd.c:8783 ufshcd_setup_clocks() warn: 'clki->clk' from clk_prepare_enable() not released on lines: 8763.
-
 vim +/err +2294 drivers/ufs/core/ufshcd.c
 
-68078d5cc1a59b drivers/scsi/ufs/ufshcd.c Dolev Raviv        2013-07-30  2266  
-7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2267  /**
-7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2268   * ufshcd_hba_capabilities - Read controller capabilities
-7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2269   * @hba: per adapter instance
-27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2270   *
-27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2271   * Return: 0 on success, negative on error.
-7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2272   */
 27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2273  static inline int ufshcd_hba_capabilities(struct ufs_hba *hba)
 7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2274  {
 27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2275  	int err;
@@ -117,6 +114,9 @@ b873a27538dff5 drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  2277  	h
 996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2292  	hba->mcq_sup = FIELD_GET(MASK_MCQ_SUPPORT, hba->capabilities);
 996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2293  	if (!hba->mcq_sup)
 996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13 @2294  		return err;
+
+return -EINVAL?
+
 996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2295  
 2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2296  	hba->mcq_capabilities = ufshcd_readl(hba, REG_MCQCAP);
 2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2297  	hba->ext_iid_sup = FIELD_GET(MASK_EXT_IID_SUPPORT,
@@ -124,8 +124,8 @@ b873a27538dff5 drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  2277  	h
 2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2299  
 27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2300  	return err;
 7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2301  }
-7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2302  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
