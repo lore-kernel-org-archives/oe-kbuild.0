@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185913D1CA4
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Apr 2026 23:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F06C2836F
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 May 2026 00:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777591851; cv=none; b=fEzWCi8pOjEADyNq+b9FkUeLRx+w7IMscQiG7X97ghOT64aPdEUNZ7bcbIsEy0qSL5ujmjyiGoCIH4j1oJDOnNQ19huj2U5ZAh5NkHah9gc2n6cQ/3acqAWmsPDN2vTrK7tly5qmVYDDKiINOAn9JbZlp5ekCvZidtnZsoGnAVo=
+	t=1777595557; cv=none; b=I30iFX0bjFhFZPK5yIGlsDWp7R3XHpV8ROPFSg4PhI6givlLf3RO6IbK2m+r9+Y77rRvcF3Ii+GNkZG2c0nXhTYwP6//456kL9s86EDIY0YlFj+RY0BXgQ72G993Z5DMpdRzMOxXpJTWa6IEnYV545F8aB+aPLGezm9E45RHuTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777591851; c=relaxed/simple;
-	bh=2lheLlULQHGtzTAVVhZqoNPgqDlKt+SCjCb3AUIorlg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZavL6sNP/pnNtpeo1BIFcJG4zokyvDpux+fv4MyQ+tihf0DH+O2+SrsFpRkIdnHuS56gXTyqdE42QbgV5+awz0AktWr5W951e8c/fD5NkcWBDLxv6t/meyLChvngOSQBQgeJ6BdBM5Xb/JmUiPYyClt9VyDpguUw58zpOMgQXfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzqlqtrT; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1777595557; c=relaxed/simple;
+	bh=uO6Z9TOCoSMCITUsgEhQp8bYx/2VCoW1f0qMhrONTl0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lBzQp8IvmxEj8Pq6z6JveJVP7Z78PquWRDNANWgVyvyk8grbZNsUubR8tFj5wFDYlMiLhWQiTUastEzl0Em3TN1MY5Z8HpvNvB9vxTjJ9RZPRGCi6yFbjLSNzcT84vIUry5xQaXJB+WexzGc2uCwyTavJH1U8C1qoiZPNxIFcNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JciB7XVb; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzqlqtrT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JciB7XVb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777591846; x=1809127846;
+  t=1777595555; x=1809131555;
   h=date:from:to:cc:subject:message-id;
-  bh=2lheLlULQHGtzTAVVhZqoNPgqDlKt+SCjCb3AUIorlg=;
-  b=ZzqlqtrTyM5WOdppIsjekTR/+0rVigvwQt4qMZnG950hOQe1GHyDmTsC
-   h0jW5j8VL6HBjykUzlycZoB9QFXM49XcDzON5Ty3j+uds5goL6Hr1b/1n
-   f3PAGD6xSPmqPYp9VywqkdHZ4FPKXt0k3Wpkd/B8IKfq5D4OWnSB4+QSz
-   MtkaAb+Tu0RpJrHgxTqOH5ufMAWtNuJpD/ZXAJ0r5mVSQlLfuHlSeZu4j
-   dMMIPVE8RXb9ywkaUbyuLzrICVQ28QkXmYf0nvSWlGYxwsEbLE0ShgHyK
-   cXotI/51AvVVcFhH307NDgBsRI57fgcJ1coViAbpfohm5Pfc5w3uA4Vhr
-   g==;
-X-CSE-ConnectionGUID: EvHf+16mRm2e+nOAZqwcnA==
-X-CSE-MsgGUID: E7oIB1kiTru5nlTGJ9nEtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="77727010"
+  bh=uO6Z9TOCoSMCITUsgEhQp8bYx/2VCoW1f0qMhrONTl0=;
+  b=JciB7XVbylvgLpgOEeP91HZbRHbYWMhAEJbTAic+kvXH3SitEM7fo+iu
+   EzLIpN/eBgeSpmFzYn35Jx1BixqWYAQc+A/DawqAMtbkfgzC3I6oQzbrt
+   oibptx5trHfUNwPBOhcWC/M9hjwqA0KG9yGPNsDJVmxW+20UpBUNtJ5zA
+   9RKzsV0LzdQJ/BxSilbTwc83A00QJIL7zO8xQo2OxlJfaB4UvoJ3ln37c
+   TRBdRybMwmFfzsH/wO1FJ8oboBQFy0Jq3IWYWz9HVUx2OcwPq8S6lVlNz
+   Je+N5aDtyx/jbO/fWhV7lQfOJPJxlq8JWrWbMDCdRMHf3EkG3b0Wy1FAj
+   w==;
+X-CSE-ConnectionGUID: Ct5hd9XMTombnumGPjf3Ow==
+X-CSE-MsgGUID: yP6EtCXhRpiRCws+73cSPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="89257939"
 X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
-   d="scan'208";a="77727010"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 16:30:43 -0700
-X-CSE-ConnectionGUID: doNAGXFUQUqOuVYIMf3a2w==
-X-CSE-MsgGUID: xeCYKD3QS56/p33PrN4zaw==
+   d="scan'208";a="89257939"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 17:32:35 -0700
+X-CSE-ConnectionGUID: ttDHJIZrTpaIi1pr4F98NA==
+X-CSE-MsgGUID: 6smFQIk5QwqGjEswA4KuSQ==
+X-Ironport-Invalid-End-Of-Message: True
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
-   d="scan'208";a="234782501"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 30 Apr 2026 16:30:42 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="234991916"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 30 Apr 2026 17:32:33 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIaq7-000000004vD-3HdI;
-	Thu, 30 Apr 2026 23:30:39 +0000
-Date: Fri, 01 May 2026 01:30:32 +0200
+	id 1wIbny-00000000DA8-4AZM;
+	Fri, 01 May 2026 00:32:31 +0000
+Date: Fri, 01 May 2026 08:32:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000
- (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-Message-ID: <202605010155.nlxHQJbV-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: 
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4833
+ convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99
+ <= 127
+Message-ID: <202605010835.af3xzIY7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,130 +62,99 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-CC: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Mario Limonciello <mario.limonciello@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Alex Hung <alex.hung@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   08d0d3466664000ba0670e0ef0d447f23459e0d4
-commit: 70a299ed2e03e7ef26e5be7889bab1a47960ed25 dt-bindings: display: rockchip: Convert cdn-dp-rockchip.txt to yaml
-date:   11 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 11 months ago
-config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260501/202605010155.nlxHQJbV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260501/202605010155.nlxHQJbV-lkp@intel.com/reproduce)
+commit: de63b05593573cb0106875452c706ebaf6faa8f7 drm/amd/display: Optimize custom brightness curve interpolation
+date:   8 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 8 months ago
+config: alpha-randconfig-r072-20260427 (https://download.01.org/0day-ci/archive/20260501/202605010835.af3xzIY7-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 70a299ed2e03 ("dt-bindings: display: rockchip: Convert cdn-dp-rockchip.txt to yaml")
+| Fixes: de63b0559357 ("drm/amd/display: Optimize custom brightness curve interpolation")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605010155.nlxHQJbV-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605010835.af3xzIY7-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe900000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe900000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: pcie@0,0: wifi@0,0:reg: [[0, 0, 0, 0, 0], [50331664, 0, 0, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: wifi@0,0 (qcom,ath10k): reg: [[0, 0, 0, 0, 0], [50331664, 0, 0, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe3a0000 (generic-ohci): bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe3a0000 (generic-ohci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: panel@0 (innolux,p097pfg): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/innolux,p097pfg.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe3a0000 (generic-ohci): bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe3a0000 (generic-ohci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: panel@0 (innolux,p097pfg): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/innolux,p097pfg.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe3a0000 (generic-ohci): bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe3a0000 (generic-ohci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: panel@0 (kingdisplay,kd097d04): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-dsi.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4833 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 127
 
---
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4837 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 127
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4852 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 127
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4853 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 128
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4854 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 127
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4855 convert_custom_brightness() error: buffer overflow 'caps->luminance_data' 99 <= 128
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:12539 parse_edid_displayid_vrr() warn: variable dereferenced before check 'edid_ext' (see line 12535)
+
+vim +4833 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+
+8dbd72cb790058 Mario Limonciello 2025-05-29  4814  
+03b979e1025fba Mario Limonciello 2025-03-24  4815  static void convert_custom_brightness(const struct amdgpu_dm_backlight_caps *caps,
+8dbd72cb790058 Mario Limonciello 2025-05-29  4816  				      unsigned int min, unsigned int max,
+8dbd72cb790058 Mario Limonciello 2025-05-29  4817  				      uint32_t *user_brightness)
+69d9f4278d0f9d Alexander Monakov 2020-08-04  4818  {
+8dbd72cb790058 Mario Limonciello 2025-05-29  4819  	u32 brightness = scale_input_to_fw(min, max, *user_brightness);
+de63b05593573c Mario Limonciello 2025-08-19  4820  	u8 lower_signal, upper_signal, upper_lum, lower_lum, lum;
+de63b05593573c Mario Limonciello 2025-08-19  4821  	int left, right;
+578df37b1b6a5b Mario Limonciello 2025-02-28  4822  
+36d63ce5dbc0dc Mario Limonciello 2025-02-28  4823  	if (amdgpu_dc_debug_mask & DC_DISABLE_CUSTOM_BRIGHTNESS_CURVE)
+03b979e1025fba Mario Limonciello 2025-03-24  4824  		return;
+36d63ce5dbc0dc Mario Limonciello 2025-02-28  4825  
+03b979e1025fba Mario Limonciello 2025-03-24  4826  	if (!caps->data_points)
+03b979e1025fba Mario Limonciello 2025-03-24  4827  		return;
+03b979e1025fba Mario Limonciello 2025-03-24  4828  
+de63b05593573c Mario Limonciello 2025-08-19  4829  	left = 0;
+de63b05593573c Mario Limonciello 2025-08-19  4830  	right = caps->data_points - 1;
+de63b05593573c Mario Limonciello 2025-08-19  4831  	while (left <= right) {
+de63b05593573c Mario Limonciello 2025-08-19  4832  		int mid = left + (right - left) / 2;
+de63b05593573c Mario Limonciello 2025-08-19 @4833  		u8 signal = caps->luminance_data[mid].input_signal;
+578df37b1b6a5b Mario Limonciello 2025-02-28  4834  
+de63b05593573c Mario Limonciello 2025-08-19  4835  		/* Exact match found */
+de63b05593573c Mario Limonciello 2025-08-19  4836  		if (signal == brightness) {
+de63b05593573c Mario Limonciello 2025-08-19  4837  			lum = caps->luminance_data[mid].luminance;
+de63b05593573c Mario Limonciello 2025-08-19  4838  			goto scale;
+578df37b1b6a5b Mario Limonciello 2025-02-28  4839  		}
+de63b05593573c Mario Limonciello 2025-08-19  4840  
+de63b05593573c Mario Limonciello 2025-08-19  4841  		if (signal < brightness)
+de63b05593573c Mario Limonciello 2025-08-19  4842  			left = mid + 1;
+de63b05593573c Mario Limonciello 2025-08-19  4843  		else
+de63b05593573c Mario Limonciello 2025-08-19  4844  			right = mid - 1;
+de63b05593573c Mario Limonciello 2025-08-19  4845  	}
+de63b05593573c Mario Limonciello 2025-08-19  4846  
+de63b05593573c Mario Limonciello 2025-08-19  4847  	/* verify bound */
+de63b05593573c Mario Limonciello 2025-08-19  4848  	if (left >= caps->data_points)
+de63b05593573c Mario Limonciello 2025-08-19  4849  		left = caps->data_points - 1;
+de63b05593573c Mario Limonciello 2025-08-19  4850  
+de63b05593573c Mario Limonciello 2025-08-19  4851  	/* At this point, left > right */
+de63b05593573c Mario Limonciello 2025-08-19  4852  	lower_signal = caps->luminance_data[right].input_signal;
+de63b05593573c Mario Limonciello 2025-08-19  4853  	upper_signal = caps->luminance_data[left].input_signal;
+de63b05593573c Mario Limonciello 2025-08-19  4854  	lower_lum = caps->luminance_data[right].luminance;
+de63b05593573c Mario Limonciello 2025-08-19  4855  	upper_lum = caps->luminance_data[left].luminance;
+de63b05593573c Mario Limonciello 2025-08-19  4856  
+de63b05593573c Mario Limonciello 2025-08-19  4857  	/* interpolate */
+de63b05593573c Mario Limonciello 2025-08-19  4858  	if (right == left || !lower_lum)
+de63b05593573c Mario Limonciello 2025-08-19  4859  		lum = upper_lum;
+de63b05593573c Mario Limonciello 2025-08-19  4860  	else
+de63b05593573c Mario Limonciello 2025-08-19  4861  		lum = lower_lum + DIV_ROUND_CLOSEST((upper_lum - lower_lum) *
+de63b05593573c Mario Limonciello 2025-08-19  4862  						    (brightness - lower_signal),
+de63b05593573c Mario Limonciello 2025-08-19  4863  						    upper_signal - lower_signal);
+de63b05593573c Mario Limonciello 2025-08-19  4864  scale:
+8dbd72cb790058 Mario Limonciello 2025-05-29  4865  	*user_brightness = scale_fw_to_input(min, max,
+8dbd72cb790058 Mario Limonciello 2025-05-29  4866  					     DIV_ROUND_CLOSEST(lum * brightness, 101));
+578df37b1b6a5b Mario Limonciello 2025-02-28  4867  }
+578df37b1b6a5b Mario Limonciello 2025-02-28  4868  
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
