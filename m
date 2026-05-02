@@ -1,235 +1,261 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB87A37F8C1
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 May 2026 23:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D220740DFD8
+	for <oe-kbuild@lists.linux.dev>; Sat,  2 May 2026 00:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777679109; cv=none; b=kgSPOVwM3M4E+E82wgwIqfaqJAW7a+1rmyyvPQagJHloBJuMmkkoZ5BlQjP+RiwJhZ/BuZuIxFKT0L6svE7jlc+1swfaYq+bd9X/w+yZ7uSjMjy2Z8+LeCFZhgTmqAUI8VBJY0R4v0cRc6+XrDJlMO/HlRv4ZhOYZtpkPEQHlPY=
+	t=1777681688; cv=none; b=CziZ95pCvaoAdjA3DaccwumNhhcvD6AFYHIInMVcMj/sK059U8/Osbd1Cn2SSlNnOvRc7uRbk2ZkU/oKooGjHUfWhwY1dqWl4dkGF1CvEMH9s6J0pyVuq3dUlfTbZWl/QayrOSr0Aqg+PAxHY97PMufBfeF3DB7l3Qr8NPTJmZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777679109; c=relaxed/simple;
-	bh=Vl4Em1aYJeB+QUlZvSfp8w2IgM1ki8oS3d54ePTCWmw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DlSDtiWc6GZ+WgxLwTGRBqK8fMZnC4QWYGYwfjbngNnTGuznSmyP1KWAlq3uymcA3vFOFNfV6t44uhhenxM++bPP14JxJ/acGX/F49ZTYEwX5UMD9rtvZjhyPCvoIEmvyUd49NcYBmvJDvDSaiBOhMB2krm6/zsQFGs6iaeAcDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KAn6zoc8; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1777681688; c=relaxed/simple;
+	bh=yFexxkLgODfqV0TqfqR2+B/55JMVatXwzDZN6pgpG2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Lu37qSXAsigpb2ShhmHYQrHqrzqKGSBkRhZGHBaQhJ3AKybv8jSdWZy3tMVSk02THuZ51Qo+YAeBb78EdPIjy98v0QmmW9K6hx6diWF1yjC4ztx3c0KVe3DFIlLHPRnoJ6PN6JyEjPHRIY7zXoSLPHKFocW6rzSurBXJvfr8VLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6Zyu5ey; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KAn6zoc8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6Zyu5ey"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777679106; x=1809215106;
-  h=date:from:to:cc:subject:message-id;
-  bh=Vl4Em1aYJeB+QUlZvSfp8w2IgM1ki8oS3d54ePTCWmw=;
-  b=KAn6zoc8ALWs9dfbi36DDOrNJCpyVCFlmK6wWPe6vbU/Ysza25kuWgPD
-   40iOYSRqujNJyhZEBaAA2Y5vrBdpIneprT7x18K4dmsWl6s2DafF58sGM
-   a3S7Oiy6K0GcP3v0FFi/njvPUitPae+uAjqrWA99+0WkH4H8hw5xYKSu8
-   0XgHLu0h6+6t9mTfTJuroSch+qqT2qmIMYt45lsac5KULG888QrmIEG5i
-   OcOs7ZQG8u8MNevGL0ZgniLrwGUZhjeuJp1U1wwOIgrOcKqQVOQPz2uV1
-   rxKGt+G9iOEmmxpl1Qlj3TtwFIlz/ibVvNiYMosI1jCDDsSFKrigZkzHU
+  t=1777681687; x=1809217687;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yFexxkLgODfqV0TqfqR2+B/55JMVatXwzDZN6pgpG2c=;
+  b=U6Zyu5ey2UVfVgMTf9QTf8dOlNJLQ9CeE0tCi69x5bzUDnoKkAZya7Mn
+   /PX6NfGWG7TbUSXzRjHyHCtU6mIk8JS0PmzE1ZTmu3MS+z3eJzZtfhzbB
+   SOTzebGT/2kscQu8DblkBR3twCjHg2XJ5MTyHmX4AB+8iTPyF9H61graS
+   4O1aS/2hZQZuHf5eOQMliEt4KEqNVVs+ks8Mj2jvnX5SPqzAsURs9LiUo
+   1FPgYdb54rhoRhaYPVRvgNXg+IeXxztoIP5I4YsMlmGbzQrKwXiboCnzA
+   6rqmZWE5BdKewLv8cHyFSwKmSmYXUfDwCTHfjsWfKftAY1YMPNHRgu7io
    A==;
-X-CSE-ConnectionGUID: AoHy51YWSjigbUAGyzV4eA==
-X-CSE-MsgGUID: xuLfabe9TTOixehQ/UlWNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="82509747"
+X-CSE-ConnectionGUID: sSVlUTOxRfem6eCqkFVcow==
+X-CSE-MsgGUID: 2IdMSQ4xSvm2WIVRtCGi1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="81213062"
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="82509747"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 16:45:05 -0700
-X-CSE-ConnectionGUID: P9ptpPm+R4yF3O5jgL/CyQ==
-X-CSE-MsgGUID: Zp9Gpf1HQTizQUimzCHA4w==
+   d="scan'208";a="81213062"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 17:28:06 -0700
+X-CSE-ConnectionGUID: 0iTAxkX1TwySWNSm8Q3Flg==
+X-CSE-MsgGUID: SjCv5gxqQW2tlKthhVpgWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="236769891"
+   d="scan'208";a="239973031"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 01 May 2026 16:45:03 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 May 2026 17:28:05 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIxXY-000000000xX-3hM0;
-	Fri, 01 May 2026 23:45:00 +0000
-Date: Sat, 02 May 2026 07:44:16 +0800
+	id 1wIyDD-0000000010Z-0Kfi;
+	Sat, 02 May 2026 00:28:03 +0000
+Date: Sat, 02 May 2026 08:27:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: we
- never enter this loop
-Message-ID: <202605020752.jIIJtYx7-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [sailus-media-tree:atomisp 34/50] /bin/bash: line 1: 16921
+ Segmentation fault      clang -Wp,-MMD,net/openvswitch/.flow.o.d -nostdinc
+ -Iarch/mips/include -I./arch/mips/include/generated -Iinclude -I./include
+ -Iarch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclude/uapi
+ -I./...
+Message-ID: <202605020811.va02Dw6f-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "clang compiler bug"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Eric Biggers <ebiggers@google.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: linux-media@vger.kernel.org
+TO: "Oskar Ray-Frayssinet" <rayfraytech@gmail.com>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ef5f46b630235b75beec43174348c3d01d6fc49a
-commit: ac90aad0e9bf7c37e706fdc08ce763a553890bdf crypto: testmgr - reinstate kconfig control over full self-tests
-date:   11 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 11 months ago
-config: s390-randconfig-r071-20260502 (https://download.01.org/0day-ci/archive/20260502/202605020752.jIIJtYx7-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
+tree:   git://linuxtv.org/sailus/media_tree.git atomisp
+head:   874315b327d93d2d8208faeedfe2d1bf8b55f46c
+commit: 3597a9fa54c64aaea73e4a846e80e78bf93f6ddb [34/50] staging: atomisp: =
+use __func__ in debug message in atomisp_cmd.c
+:::::: branch date: 8 days ago
+:::::: commit date: 2 weeks ago
+config: mips-randconfig-r072-20260424 (https://download.01.org/0day-ci/arch=
+ive/20260502/202605020811.va02Dw6f-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5ba=
+c06718f502014fade905512f1d26d578a18f3)
 smatch: v0.5.0-9065-ge9cc34fd
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260502/202605020811.va02Dw6f-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: ac90aad0e9bf ("crypto: testmgr - reinstate kconfig control over full self-tests")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605020752.jIIJtYx7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605020811.va02Dw6f-lkp@intel.com/
 
-New smatch warnings:
-crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: we never enter this loop
-crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: we never enter this loop
-crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: we never enter this loop
-crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+Note: functions only called from assembly code should be annotated with the=
+ asmlinkage attribute
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: we never enter this loop
-crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+   PLEASE submit a bug report to https://github.com/llvm/llvm-project/issue=
+s/ and include the crash backtrace, preprocessed source, and associated run=
+ script.
+   Stack dump:
+   0.	Program arguments: clang -Wp,-MMD,net/openvswitch/.flow.o.d -nostdinc=
+ -Iarch/mips/include -I./arch/mips/include/generated -Iinclude -I./include =
+-Iarch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclude/uap=
+i -I./include/generated/uapi -include include/linux/compiler-version.h -inc=
+lude include/linux/kconfig.h -include include/linux/compiler_types.h -D__KE=
+RNEL__ --target=3Dmipsel-linux-gnu -fintegrated-as -Werror=3Dunknown-warnin=
+g-option -Werror=3Dignored-optimization-argument -Werror=3Doption-ignored -=
+Werror=3Dunused-command-line-argument -DVMLINUX_LOAD_ADDRESS=3D0xffffffff80=
+100000 -DLINKER_LOAD_ADDRESS=3D0x80100000 -DDATAOFFSET=3D0 -fmacro-prefix-m=
+ap=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgnu11 -fshort-wchar -funsigned=
+-char -fno-common -fno-PIE -fno-strict-aliasing -mno-check-zero-division -m=
+abi=3D32 -G 0 -mno-abicalls -fno-pic -pipe -msoft-float -Wa,-msoft-float -f=
+freestanding -EB -fno-omit-frame-pointer -fno-stack-check -march=3Dmips64 -=
+Wa,--trap -DTOOLCHAIN_SUPPORTS_VIRT -Iarch/mips/include/asm/mach-sibyte -DS=
+IBYTE_HDR_FEATURES=3DSIBYTE_HDR_FMASK_1250_112x_ALL -Iarch/mips/include/asm=
+/mach-generic -fno-asynchronous-unwind-tables -fno-delete-null-pointer-chec=
+ks -O2 -fno-stack-protector -fomit-frame-pointer -fexperimental-late-parse-=
+attributes -fstrict-flex-arrays=3D3 -fms-extensions -fno-strict-overflow -f=
+no-stack-check -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=3Dimplicit=
+-function-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-type -Werror=
+=3Dstrict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address=
+ -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes =
+-Wno-gnu -Wno-microsoft-anon-tag -Wno-format-overflow-non-kprintf -Wno-form=
+at-truncation-non-kprintf -Wno-default-const-init-unsafe -Wno-type-limits -=
+Wno-pointer-sign -Wcast-function-type -Wno-unterminated-string-initializati=
+on -Wimplicit-fallthrough -Werror=3Ddate-time -Werror=3Dincompatible-pointe=
+r-types -Wenum-conversion -Wunused -Wmissing-format-attribute -Wmissing-inc=
+lude-dirs -Wunused-const-variable -Wno-missing-field-initializers -Wno-shif=
+t-negative-value -Wno-enum-enum-conversion -Wno-sign-compare -Wno-unused-pa=
+rameter -DRANDSTRUCT -frandomize-layout-seed-file=3D./scripts/basic/randstr=
+uct.seed -fno-crash-diagnostics -Wno-error=3Dreturn-type -Wreturn-type -fun=
+signed-char -Wundef -falign-functions=3D64 -Inet/openvswitch -Inet/openvswi=
+tch -DMODULE -mlong-calls -DKBUILD_BASENAME=3D\"flow\" -DKBUILD_MODNAME=3D\=
+"openvswitch\" -D__KBUILD_MODNAME=3Dopenvswitch -c -o net/openvswitch/flow.=
+o net/openvswitch/flow.c
+   1.	<eof> parser at end of file
+   2.	Code generation
+   3.	Running pass 'Function Pass Manager' on module 'net/openvswitch/flow.=
+c'.
+   4.	Running pass 'Branch Probability Basic Block Placement' on function '=
+@ovs_flow_stats_get'
+    #0 0x0000556b4e345c1b llvm::sys::PrintStackTrace(llvm::raw_ostream&, in=
+t) (clang-23+0x413cc1b)
+    #1 0x0000556b4e3437e4 llvm::sys::CleanupOnSignal(unsigned long) (clang-=
+23+0x413a7e4)
+    #2 0x0000556b4e2766a0 CrashRecoverySignalHandler(int) CrashRecoveryCont=
+ext.cpp:0:0
+    #3 0x00007f2ca7e99df0 (/lib/x86_64-linux-gnu/libc.so.6+0x3fdf0)
+    #4 0x0000556b4d8fd52f llvm::TailDuplicator::shouldTailDuplicate(bool, l=
+lvm::MachineBasicBlock&) (.part.0) TailDuplicator.cpp:0:0
+    #5 0x0000556b4d618db4 (anonymous namespace)::MachineBlockPlacement::bui=
+ldCFGChains() MachineBlockPlacement.cpp:0:0
+    #6 0x0000556b4d61d6ad (anonymous namespace)::MachineBlockPlacement::run=
+(llvm::MachineFunction&) MachineBlockPlacement.cpp:0:0
+    #7 0x0000556b4d61e8b1 (anonymous namespace)::MachineBlockPlacementLegac=
+y::runOnMachineFunction(llvm::MachineFunction&) (.part.0) MachineBlockPlace=
+ment.cpp:0:0
+    #8 0x0000556b4d66c438 llvm::MachineFunctionPass::runOnFunction(llvm::Fu=
+nction&) (clang-23+0x3463438)
+    #9 0x0000556b4dc33869 llvm::FPPassManager::runOnFunction(llvm::Function=
+&) (clang-23+0x3a2a869)
+   #10 0x0000556b4dc33a0c llvm::FPPassManager::runOnModule(llvm::Module&) (=
+clang-23+0x3a2aa0c)
+   #11 0x0000556b4dc32c78 llvm::legacy::PassManagerImpl::run(llvm::Module&)=
+ (clang-23+0x3a29c78)
+   #12 0x0000556b4e741071 clang::emitBackendOutput(clang::CompilerInstance&=
+, clang::CodeGenOptions&, llvm::StringRef, llvm::Module*, clang::BackendAct=
+ion, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem>, std::unique_ptr<llvm:=
+:raw_pwrite_stream, std::default_delete<llvm::raw_pwrite_stream>>, clang::B=
+ackendConsumer*) (clang-23+0x4538071)
+   #13 0x0000556b4ed866c7 clang::BackendConsumer::HandleTranslationUnit(cla=
+ng::ASTContext&) (clang-23+0x4b7d6c7)
+   #14 0x0000556b50791adc clang::ParseAST(clang::Sema&, bool, bool) (clang-=
+23+0x6588adc)
+   #15 0x0000556b4f0e017a clang::FrontendAction::Execute() (clang-23+0x4ed7=
+17a)
+   #16 0x0000556b4f0593d6 clang::CompilerInstance::ExecuteAction(clang::Fro=
+ntendAction&) (clang-23+0x4e503d6)
+   #17 0x0000556b4f1c9207 clang::ExecuteCompilerInvocation(clang::CompilerI=
+nstance*) (clang-23+0x4fc0207)
+   #18 0x0000556b4b161a55 cc1_main(llvm::ArrayRef<char const*>, char const*=
+, void*) (clang-23+0xf58a55)
+   #19 0x0000556b4b159763 ExecuteCC1Tool(llvm::SmallVectorImpl<char const*>=
+&, llvm::ToolContext const&, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem=
+>) driver.cpp:0:0
+   #20 0x0000556b4b1597a3 int llvm::function_ref<int (llvm::SmallVectorImpl=
+<char const*>&)>::callback_fn<clang_main(int, char**, llvm::ToolContext con=
+st&)::'lambda'(llvm::SmallVectorImpl<char const*>&)>(long, llvm::SmallVecto=
+rImpl<char const*>&) driver.cpp:0:0
+   #21 0x0000556b4edf7de9 void llvm::function_ref<void ()>::callback_fn<cla=
+ng::driver::CC1Command::Execute(llvm::ArrayRef<std::optional<llvm::StringRe=
+f>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocato=
+r<char>>*, bool*) const::'lambda'()>(long) Job.cpp:0:0
+   #22 0x0000556b4e276a03 llvm::CrashRecoveryContext::RunSafely(llvm::funct=
+ion_ref<void ()>) (clang-23+0x406da03)
+   #23 0x0000556b4edf8514 clang::driver::CC1Command::Execute(llvm::ArrayRef=
+<std::optional<llvm::StringRef>>, std::__cxx11::basic_string<char, std::cha=
+r_traits<char>, std::allocator<char>>*, bool*) const (.part.0) Job.cpp:0:0
+   #24 0x0000556b4edb7668 clang::driver::Compilation::ExecuteCommand(clang:=
+:driver::Command const&, clang::driver::Command const*&, bool) const (clang=
+-23+0x4bae668)
+   #25 0x0000556b4edb85c2 clang::driver::Compilation::ExecuteJobs(clang::dr=
+iver::JobList const&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
+ommand const*>>&, bool) const (clang-23+0x4baf5c2)
+   #26 0x0000556b4edc97bc clang::driver::Driver::ExecuteCompilation(clang::=
+driver::Compilation&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
+ommand const*>>&) (clang-23+0x4bc07bc)
+   #27 0x0000556b4b15e40f clang_main(int, char**, llvm::ToolContext const&)=
+ (clang-23+0xf5540f)
+   #28 0x0000556b4aff4bb9 main (clang-23+0xdebbb9)
+   #29 0x00007f2ca7e83ca8 (/lib/x86_64-linux-gnu/libc.so.6+0x29ca8)
+   #30 0x00007f2ca7e83d65 __libc_start_main (/lib/x86_64-linux-gnu/libc.so.=
+6+0x29d65)
+   #31 0x0000556b4b1591a1 _start (clang-23+0xf501a1)
+   clang: error: clang frontend command failed due to signal (use -v to see=
+ invocation)
+>> /bin/bash: line 1: 16921 Segmentation fault      clang -Wp,-MMD,net/open=
+vswitch/.flow.o.d -nostdinc -Iarch/mips/include -I./arch/mips/include/gener=
+ated -Iinclude -I./include -Iarch/mips/include/uapi -I./arch/mips/include/g=
+enerated/uapi -Iinclude/uapi -I./include/generated/uapi -include include/li=
+nux/compiler-version.h -include include/linux/kconfig.h -include include/li=
+nux/compiler_types.h -D__KERNEL__ --target=3Dmipsel-linux-gnu -fintegrated-=
+as -Werror=3Dunknown-warning-option -Werror=3Dignored-optimization-argument=
+ -Werror=3Doption-ignored -Werror=3Dunused-command-line-argument -DVMLINUX_=
+LOAD_ADDRESS=3D0xffffffff80100000 -DLINKER_LOAD_ADDRESS=3D0x80100000 -DDATA=
+OFFSET=3D0 -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgnu=
+11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing =
+-mno-check-zero-division -mabi=3D32 -G 0 -mno-abicalls -fno-pic -pipe -msof=
+t-float -Wa,-msoft-float -ffreestanding -EB -fno-omit-frame-pointer -fno-st=
+ack-check -march=3Dmips64 -Wa,--trap -DTOOLCHAIN_SUPPORTS_VIRT -Iarch/mips/=
+include/asm/mach-sibyte -DSIBYTE_HDR_FEATURES=3DSIBYTE_HDR_FMASK_1250_112x_=
+ALL -Iarch/mips/include/asm/mach-generic -fno-asynchronous-unwind-tables -f=
+no-delete-null-pointer-checks -O2 -fno-stack-protector -fomit-frame-pointer=
+ -fexperimental-late-parse-attributes -fstrict-flex-arrays=3D3 -fms-extensi=
+ons -fno-strict-overflow -fno-stack-check -fno-builtin-wcslen -Wall -Wextra=
+ -Wundef -Werror=3Dimplicit-function-declaration -Werror=3Dimplicit-int -We=
+rror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-security -Wno-tr=
+igraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarat=
+ions -Wmissing-prototypes -Wno-gnu -Wno-microsoft-anon-tag -Wno-format-over=
+flow-non-kprintf -Wno-format-truncation-non-kprintf -Wno-default-const-init=
+-unsafe -Wno-type-limits -Wno-pointer-sign -Wcast-function-type -Wno-unterm=
+inated-string-initialization -Wimplicit-fallthrough -Werror=3Ddate-time -We=
+rror=3Dincompatible-pointer-types -Wenum-conversion -Wunused -Wmissing-form=
+at-attribute -Wmissing-include-dirs -Wunused-const-variable -Wno-missing-fi=
+eld-initializers -Wno-shift-negative-value -Wno-enum-enum-conversion -Wno-s=
+ign-compare -Wno-unused-parameter -DRANDSTRUCT -frandomize-layout-seed-file=
+=3D./scripts/basic/randstruct.seed -fno-crash-diagnostics -Wno-error=3Dretu=
+rn-type -Wreturn-type -funsigned-char -Wundef -falign-functions=3D64 -Inet/=
+openvswitch -Inet/openvswitch -DMODULE -mlong-calls -DKBUILD_BASENAME=3D'"f=
+low"' -DKBUILD_MODNAME=3D'"openvswitch"' -D__KBUILD_MODNAME=3Dopenvswitch -=
+c -o net/openvswitch/flow.o net/openvswitch/flow.c
 
-vim +1847 crypto/testmgr.c
-
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1748  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1749  /*
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1750   * Test the hash algorithm represented by @req against the corresponding generic
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1751   * implementation, if one is available.
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1752   */
-79cafe9a8b16f7 Eric Biggers  2020-10-26  1753  static int test_hash_vs_generic_impl(const char *generic_driver,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1754  				     unsigned int maxkeysize,
-9764d5b0cd0ea4 Herbert Xu    2025-03-30  1755  				     struct ahash_request *req,
-d8ea98aa3cd464 Eric Biggers  2019-05-28  1756  				     struct shash_desc *desc,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1757  				     struct test_sglist *tsgl,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1758  				     u8 *hashstate)
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1759  {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1760  	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1761  	const unsigned int digestsize = crypto_ahash_digestsize(tfm);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1762  	const unsigned int blocksize = crypto_ahash_blocksize(tfm);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1763  	const unsigned int maxdatasize = (2 * PAGE_SIZE) - TESTMGR_POISON_LEN;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1764  	const char *algname = crypto_hash_alg_common(tfm)->base.cra_name;
-79cafe9a8b16f7 Eric Biggers  2020-10-26  1765  	const char *driver = crypto_ahash_driver_name(tfm);
-f900fde2888360 Eric Biggers  2023-02-27  1766  	struct rnd_state rng;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1767  	char _generic_driver[CRYPTO_MAX_ALG_NAME];
-c2a813545ed481 Herbert Xu    2025-05-15  1768  	struct ahash_request *generic_req = NULL;
-c2a813545ed481 Herbert Xu    2025-05-15  1769  	struct crypto_ahash *generic_tfm = NULL;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1770  	unsigned int i;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1771  	struct hash_testvec vec = { 0 };
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1772  	char vec_name[64];
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1773  	struct testvec_config *cfg;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1774  	char cfgname[TESTVEC_CONFIG_NAMELEN];
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1775  	int err;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1776  
-42e45119efba92 Eric Biggers  2025-05-05  1777  	if (noslowtests)
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1778  		return 0;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1779  
-f900fde2888360 Eric Biggers  2023-02-27  1780  	init_rnd_state(&rng);
-f900fde2888360 Eric Biggers  2023-02-27  1781  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1782  	if (!generic_driver) { /* Use default naming convention? */
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1783  		err = build_generic_driver_name(algname, _generic_driver);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1784  		if (err)
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1785  			return err;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1786  		generic_driver = _generic_driver;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1787  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1788  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1789  	if (strcmp(generic_driver, driver) == 0) /* Already the generic impl? */
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1790  		return 0;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1791  
-c2a813545ed481 Herbert Xu    2025-05-15  1792  	generic_tfm = crypto_alloc_ahash(generic_driver, 0, 0);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1793  	if (IS_ERR(generic_tfm)) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1794  		err = PTR_ERR(generic_tfm);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1795  		if (err == -ENOENT) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1796  			pr_warn("alg: hash: skipping comparison tests for %s because %s is unavailable\n",
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1797  				driver, generic_driver);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1798  			return 0;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1799  		}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1800  		pr_err("alg: hash: error allocating %s (generic impl of %s): %d\n",
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1801  		       generic_driver, algname, err);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1802  		return err;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1803  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1804  
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1805  	cfg = kzalloc(sizeof(*cfg), GFP_KERNEL);
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1806  	if (!cfg) {
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1807  		err = -ENOMEM;
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1808  		goto out;
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1809  	}
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1810  
-c2a813545ed481 Herbert Xu    2025-05-15  1811  	generic_req = ahash_request_alloc(generic_tfm, GFP_KERNEL);
-c2a813545ed481 Herbert Xu    2025-05-15  1812  	if (!generic_req) {
-149c4e6ef7788d Arnd Bergmann 2019-06-18  1813  		err = -ENOMEM;
-149c4e6ef7788d Arnd Bergmann 2019-06-18  1814  		goto out;
-149c4e6ef7788d Arnd Bergmann 2019-06-18  1815  	}
-149c4e6ef7788d Arnd Bergmann 2019-06-18  1816  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1817  	/* Check the algorithm properties for consistency. */
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1818  
-c2a813545ed481 Herbert Xu    2025-05-15  1819  	if (digestsize != crypto_ahash_digestsize(generic_tfm)) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1820  		pr_err("alg: hash: digestsize for %s (%u) doesn't match generic impl (%u)\n",
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1821  		       driver, digestsize,
-c2a813545ed481 Herbert Xu    2025-05-15  1822  		       crypto_ahash_digestsize(generic_tfm));
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1823  		err = -EINVAL;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1824  		goto out;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1825  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1826  
-c2a813545ed481 Herbert Xu    2025-05-15  1827  	if (blocksize != crypto_ahash_blocksize(generic_tfm)) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1828  		pr_err("alg: hash: blocksize for %s (%u) doesn't match generic impl (%u)\n",
-c2a813545ed481 Herbert Xu    2025-05-15  1829  		       driver, blocksize, crypto_ahash_blocksize(generic_tfm));
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1830  		err = -EINVAL;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1831  		goto out;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1832  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1833  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1834  	/*
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1835  	 * Now generate test vectors using the generic implementation, and test
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1836  	 * the other implementation against them.
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1837  	 */
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1838  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1839  	vec.key = kmalloc(maxkeysize, GFP_KERNEL);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1840  	vec.plaintext = kmalloc(maxdatasize, GFP_KERNEL);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1841  	vec.digest = kmalloc(digestsize, GFP_KERNEL);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1842  	if (!vec.key || !vec.plaintext || !vec.digest) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1843  		err = -ENOMEM;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1844  		goto out;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1845  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1846  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11 @1847  	for (i = 0; i < fuzz_iterations * 8; i++) {
-c2a813545ed481 Herbert Xu    2025-05-15  1848  		generate_random_hash_testvec(&rng, generic_req, &vec,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1849  					     maxkeysize, maxdatasize,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1850  					     vec_name, sizeof(vec_name));
-f900fde2888360 Eric Biggers  2023-02-27  1851  		generate_random_testvec_config(&rng, cfg, cfgname,
-f900fde2888360 Eric Biggers  2023-02-27  1852  					       sizeof(cfgname));
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1853  
-79cafe9a8b16f7 Eric Biggers  2020-10-26  1854  		err = test_hash_vec_cfg(&vec, vec_name, cfg,
-9764d5b0cd0ea4 Herbert Xu    2025-03-30  1855  					req, desc, tsgl, hashstate);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1856  		if (err)
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1857  			goto out;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1858  		cond_resched();
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1859  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1860  	err = 0;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1861  out:
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1862  	kfree(cfg);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1863  	kfree(vec.key);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1864  	kfree(vec.plaintext);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1865  	kfree(vec.digest);
-c2a813545ed481 Herbert Xu    2025-05-15  1866  	ahash_request_free(generic_req);
-c2a813545ed481 Herbert Xu    2025-05-15  1867  	crypto_free_ahash(generic_tfm);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1868  	return err;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1869  }
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1870  
-
-:::::: The code at line 1847 was first introduced by commit
-:::::: 9a8a6b3f0950c0df220b684b686c26a902cfcf1a crypto: testmgr - fuzz hashes against their generic implementation
-
-:::::: TO: Eric Biggers <ebiggers@google.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
