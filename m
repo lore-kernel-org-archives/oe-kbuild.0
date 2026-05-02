@@ -1,145 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B9A2BE043
-	for <oe-kbuild@lists.linux.dev>; Sat,  2 May 2026 03:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA7123E25B
+	for <oe-kbuild@lists.linux.dev>; Sat,  2 May 2026 04:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777693222; cv=none; b=W0xpGe6UhgwsOpIo8cG/UKxaddoCeVCXxmy/LYlCM57HTMGhSDi0IvRbiX7k6MKKsKZ5zNzwLPmKfROe5NrsjyHlOxc4ctZqr9yN0ekolMhLeQpWX4xU9Bi9ddOykEmlSp9mNSFjFmwCkCw+BK3ecZJE4cEHp+ZJbMuKFd61VJ0=
+	t=1777696383; cv=none; b=lnZsQDyZs64FbZMXRRXuRPLZSHk+8TPepcnqCj+VH7cSYVcmp4aJsR6MeXkO6ErgK4UciRruFhP1mgrHk2yNxwhP71JWDt7Blx/zRQnAnhSRcYVNaCm8Seb0FeuCRkvATEVGNFr3UcisFyK5uk3BArFor72L5rWLvcL3krAhW9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777693222; c=relaxed/simple;
-	bh=XyB31AyEproQ4NRNcU4IUmxZwDJJUv1leVa4UkTmMM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dExJBPeTzTWN55L9KB1G/M6lr1pLEPcNg/sqMX1scT12d263Dp8lAA5sWjFDkh5K7E55KC+BSVcMeA1+a7JXrva5aOVNX9lXZvqpZxyh2aNq5AONilcEa1frMAgaLsPUqYuOO2na1vggZRoGk/JD1SnGjRD56scV+r0bduA1qAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S3IklIR9; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1777696383; c=relaxed/simple;
+	bh=UXKLVzQ/yjFVDX4mb+UF5wZ2DgwKbnWc5eeIYL/DRfY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tYvUtHtSOlD/8eAacmJrOg2QQk/GdkZx/LU6z81dQ9nw8Eoo3D6hhz5IcvZYnmtuDR2tkdJtHtvs32kWrOfFHzBrMHv8zWmLmTHkKnbUblWI3hGJ+S01CsDpUMP5qYtsMCyh1KS7FXxW6n4/ps+VSKp4caGdw5/S2ZmicE7hQB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7097qOJ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S3IklIR9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7097qOJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777693221; x=1809229221;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XyB31AyEproQ4NRNcU4IUmxZwDJJUv1leVa4UkTmMM8=;
-  b=S3IklIR9ws0UZqMfTSoVvH27pr6IUlnB2W7AiSFlPex1iJmNuLL/YCLC
-   tDUKif1k/ehwSRnaEYD5pihNIHoHeb6kF2D32EODGgRQCGhUQ57/Tg/Kh
-   67FDLQIqwuIymlioaWKAF6OssTA20TqafnHYgZqqI+G6YrlLdqXZRuqr+
-   IkFWlOeeyUxP1xwACjKc/NFtDwRTFClpXbR9uPOWXnUMiyRwLYk922aRK
-   dD5i3HuG75QUpOVbApCuKBXyGqSZZMHI/2xD9PALkJyfdZHWLjIwHZlTV
-   gkPwH8k2LuplrmN1DbFr+6jaU37Q1q5GKg83BsmFLMP6eqE1OrdWPKRQm
-   A==;
-X-CSE-ConnectionGUID: hOs3b6/RSzeEdM3kZ9GI5w==
-X-CSE-MsgGUID: RiovCyFgQmWrNds7Vq4OEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="101316057"
+  t=1777696380; x=1809232380;
+  h=date:from:to:cc:subject:message-id;
+  bh=UXKLVzQ/yjFVDX4mb+UF5wZ2DgwKbnWc5eeIYL/DRfY=;
+  b=M7097qOJu0qOiK2gV1/U10TT7DO7A5FVxgSYFGFp2C9GPbjkBTuGbP4P
+   5U6thhs+hUBiyjKjhBsL+FNFgdTGOFztDDRz3uCUeOhXlcqEVfGFnVclh
+   8aAPRd0Cqd0/3u/zhti2UXdGq6OqNHfwGmZMEANKc0Z92AZ5EDMWQHtZd
+   ywHbNmbCCrxo3HpcqvVcobcKTkr433gkqA3u4SpYU0Leh9PrXm+UawrkU
+   zIwaSpY4d3lKKxu0vSpzYHagoeO1/pMqkkgkIcJ694HsZNWcfyDyxsOsd
+   5nNRb/M7a8AWMjf13645I+A1zcY08QULrBoWe7HAZK5y/QbE2UOp9ZcW1
+   Q==;
+X-CSE-ConnectionGUID: 8FsnQT1cSjmbM9n4XHuuPA==
+X-CSE-MsgGUID: Hn1WPZ6fRn6SzfJ8z2SHIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="66181874"
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="101316057"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 20:40:20 -0700
-X-CSE-ConnectionGUID: PzmAbwixRX622vChBmT/5A==
-X-CSE-MsgGUID: Nyx1a2NnTau2wxyvGXdx7Q==
+   d="scan'208";a="66181874"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 21:32:59 -0700
+X-CSE-ConnectionGUID: hhRQu2WmTzWIJUDRFS1eOQ==
+X-CSE-MsgGUID: 3T8CHhtOSo+UqOElPf8sZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="230664814"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 May 2026 20:40:19 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+   d="scan'208";a="240008210"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 01 May 2026 21:32:58 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJ1DE-0000000017m-21hi;
-	Sat, 02 May 2026 03:40:16 +0000
-Date: Sat, 02 May 2026 11:39:54 +0800
+	id 1wJ22C-000000005C7-0ihL;
+	Sat, 02 May 2026 04:32:56 +0000
+Date: Sat, 02 May 2026 06:32:36 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/i2c/other/ak4xxx-adda.c:75 ak4529_reset() error:
- buffer overflow 'ak->images' 64 <= 255
-Message-ID: <202605021128.egaOqbxA-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm/boot/dts/marvell/armada-370-mirabox.dtb:
+ timer@20300 (marvell,armada-370-timer): 'clock-frequency' does not match any
+ of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202605020630.s6BSkgeM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "C=C3=A1ssio Gabriel" <cassiogabrielcontato@gmail.com>
-CC: Takashi Iwai <tiwai@suse.de>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f1a5e78a55ebf2b05777fd5eb738038ddae609d6
-commit: 66f6f543283e91b8899b0dd109d8f15a529e8464 ALSA: i2c: ak4xxx-adda: im=
-plement AK4529 reset handling
-date:   3 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/2026=
-0502/202605021128.egaOqbxA-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9065-ge9cc34fd
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ef5f46b630235b75beec43174348c3d01d6fc49a
+commit: 4334d83904fc8b1a4bd5c0829164511456feb600 dt-bindings: timer: Convert marvell,armada-370-timer to DT schema
+date:   12 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-2055-20260429 (https://download.01.org/0day-ci/archive/20260502/202605020630.s6BSkgeM-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020630.s6BSkgeM-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 66f6f543283e ("ALSA: i2c: ak4xxx-adda: implement AK4529 reset hand=
-ling")
+| Fixes: 4334d83904fc ("dt-bindings: timer: Convert marvell,armada-370-timer to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605021128.egaOqbxA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605020630.s6BSkgeM-lkp@intel.com/
 
-New smatch warnings:
-sound/i2c/other/ak4xxx-adda.c:75 ak4529_reset() error: buffer overflow 'ak-=
->images' 64 <=3D 255
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,mvebu-devbus']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/devbus-cs3: failed to match any schema with compatible: ['marvell,mvebu-devbus']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: internal-regs (simple-bus): gpio_leds: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/pin-ctrl@18000: failed to match any schema with compatible: ['marvell,mv88f6710-pinctrl']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/corediv-clock@18740: failed to match any schema with compatible: ['marvell,armada-370-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/coherency-fabric@20200: failed to match any schema with compatible: ['marvell,coherency-fabric']
+>> arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: timer@20300 (marvell,armada-370-timer): 'clock-frequency' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/marvell,armada-370-timer.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-370-wdt']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-370-pmsu']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/ethernet@70000: failed to match any schema with compatible: ['marvell,armada-370-neta']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/ethernet@74000: failed to match any schema with compatible: ['marvell,armada-370-neta']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/sata@a0000: failed to match any schema with compatible: ['marvell,armada-370-sata']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: mvsdio@d4000 (marvell,orion-sdio): $nodename:0: 'mvsdio@d4000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,orion-sdio.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: mvsdio@d4000 (marvell,orion-sdio): Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cap-sdio-irq' were unexpected)
 
-Old smatch warnings:
-sound/i2c/other/ak4xxx-adda.c:93 ak435X_reset() error: buffer overflow 'ak-=
->images' 64 <=3D 255
-
-vim +75 sound/i2c/other/ak4xxx-adda.c
-
-cb9d24e43490136 Takashi Iwai   2006-06-27  55 =20
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  56  /* reset procedure for =
-AK4529 */
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  57  static void ak4529_rese=
-t(struct snd_akm4xxx *ak, int state)
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  58  {
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  59  	static const unsigned =
-char regs[] =3D {
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  60  		0x0a, 0x00, 0x01, 0x0=
-2, 0x03, 0x04, 0x05,
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  61  		0x06, 0x07, 0x0b, 0x0=
-c, 0x08,
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  62  	};
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  63  	unsigned int i;
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  64  	unsigned char reg;
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  65 =20
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  66  	if (state) {
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  67  		snd_akm4xxx_write(ak,=
- 0, 0x09,
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  68  				  snd_akm4xxx_get(a=
-k, 0, 0x09) & ~0x01);
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  69  		return;
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  70  	}
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  71 =20
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  72  	for (i =3D 0; i < ARRA=
-Y_SIZE(regs); i++) {
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  73  		reg =3D regs[i];
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  74  		snd_akm4xxx_write(ak,=
- 0, reg,
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07 @75  				  snd_akm4xxx_get(a=
-k, 0, reg));
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  76  	}
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  77  	snd_akm4xxx_write(ak, =
-0, 0x09,
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  78  			  snd_akm4xxx_get(ak=
-, 0, 0x09) | 0x01);
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  79  }
-66f6f543283e91b C=C3=A1ssio Gabriel 2026-04-07  80 =20
-
---=20
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
