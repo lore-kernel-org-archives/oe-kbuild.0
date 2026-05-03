@@ -1,92 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE690317162
-	for <oe-kbuild@lists.linux.dev>; Sun,  3 May 2026 02:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457BD23D7F0
+	for <oe-kbuild@lists.linux.dev>; Sun,  3 May 2026 03:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777775596; cv=none; b=numqyuwGCl3tpmjYv9jeZMekRyWdhMZoOl5rUI0zmgTXXHdO8dUtHgOccDIgMZCVEZwt7XIqfsPhLp7WZliAfyCFrkrR+kPcyNRJAxmKIkPupmOs2sWMd2rp0S86OYfSCzwqRzl0mLrvggRNlcgLPIQo3lRp9SVc14mRo+VYs6A=
+	t=1777778041; cv=none; b=hQldwToU814MrpsXpXTUPv1nzi3hSV7j+0loVbl/L+bEn7EWVApfRD7OwHz/Tk52q3mTH2rxaBaaMHeOfpiZ3aTfgzgzs8J9Vo4uWbUZKykAtciWzRI2NA/HLNocWsOZzUw7OIHl+sZkrEPgsEMP4BzOBJfRrZDu9mPRX+WZRyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777775596; c=relaxed/simple;
-	bh=/XeXhAEhr9pagVjMXMrAtVPYDt8pXjf3CzuCqgWnwhA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LJSsvvRj8WPQKTdICLWx9zjsO85zITE8FtS2ZZeHGbVX150lEVNWQiuJbMUYpdXVJDCNpKjovIe7rGvLUau1Z0SuCuq7gL6fGNVe9ibJzMN1fMk1lEkuNhhCq25c0bEooqYe3QGAxKmetpoV6aCFYn9sRBlLJDD10ljwKc+M6I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ioSxIBa4; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1777778041; c=relaxed/simple;
+	bh=WclNz4tE7p5cKkNof9OtgOoWv89uPCttmytN5hHhaXk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gCIGZpOs8bbS2LfBfgWzppPIr/2CE9VTUZMUMlYvBlR4xKmZ21zTlTUpas9BBXHnN7UvEb3pQRNghokBwMNAEHdzA9DBhb0dkZkzhsQVDa+zk+cLyQV+TiTTKVgytQqg+o0hNnEcREDlzRqIpKI5SARxqO4YfLfsxkIadURrIgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zfehvqc5; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ioSxIBa4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zfehvqc5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777775594; x=1809311594;
-  h=date:from:to:cc:subject:message-id;
-  bh=/XeXhAEhr9pagVjMXMrAtVPYDt8pXjf3CzuCqgWnwhA=;
-  b=ioSxIBa4L/YD7x5aYRALbxkF8ExIBi/Rx0KybIaTBxZzGWqt/fJrh4Qe
-   FL+YBZtJ3l1sJhp1u/RFM7Y3Hs7InwGLAQA0635sWf46x5UrxWtDOytPL
-   hZi6H5yDQgRS75MkzRELKYavcsPejeIwNKohzB+/yhv8ptV5toXTXDa7Z
-   OIdrWxX1YBPxXb8LMTypfHF8Jznk8/pZMVjWdWHIBwVEo2HJwwvyh/wZD
-   eO/OKEJHSn9ceIvOczVX6w1EErU8T1OsoZHRIwahJMI1DzONsR0DmNWhU
-   i32pK6XBUo1kU+IjsvwiFSuj01cFN66aynhMCJpFf60cSXaxBqk8AMKla
-   A==;
-X-CSE-ConnectionGUID: 8Yxq3W1tQOOX9MHbEsSUOg==
-X-CSE-MsgGUID: oxcQmGpaQ1u89qdrEJQIMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="78709825"
+  t=1777778038; x=1809314038;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WclNz4tE7p5cKkNof9OtgOoWv89uPCttmytN5hHhaXk=;
+  b=Zfehvqc5QwHY68m7qiNbEVkS+3Nq9A69iDifuE4+bpqNDMwa7HNCcjmr
+   Y/aM4IEZplvOCyLkwIy0/TbiuKMR4n0khXVy+mvH4WSFmHGlUlqallvNI
+   c437VpOG9V+0QCT+EkC9ggMt5ifyGidcq5bXBIrsBJNoYW/cqGV95IVY5
+   Bys+aI6FrF+V7Pt4zUleU0R4Og4fxP0gcpPTd0y9Heb9t1nisHEWyljO+
+   IrhXVBKERm99ra8U4bcsw1QKU17DeeisEx98z66JGx12m2EntOTEAmmyM
+   qMWCg9OPa5AOb3P+OC9bTDNonmN29DYJivQSQDgoEosMVnujhCQgooyam
+   g==;
+X-CSE-ConnectionGUID: 7P/U4LUqTWq73c7ncIZN3Q==
+X-CSE-MsgGUID: 7M61z9y+Qnemt+C4iCI7sQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="77846933"
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="78709825"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 19:33:13 -0700
-X-CSE-ConnectionGUID: nOoTUSN1TF6cLP5tz0gXoQ==
-X-CSE-MsgGUID: uZ6nf8nPT02s00vQoxQMlg==
+   d="scan'208";a="77846933"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 20:13:58 -0700
+X-CSE-ConnectionGUID: hZlcpGdLSD6l2nO4nPTl7Q==
+X-CSE-MsgGUID: SnOe3nRRRtaTj0AOj3nGUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="258554784"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 02 May 2026 19:33:12 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="234335376"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 02 May 2026 20:13:57 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJMdq-000000005R7-0vm3;
-	Sun, 03 May 2026 02:33:10 +0000
-Date: Sun, 03 May 2026 04:32:44 +0200
+	id 1wJNHF-0000000024z-48DU;
+	Sun, 03 May 2026 03:13:53 +0000
+Date: Sun, 3 May 2026 11:12:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: /bin/bash: line 1: tools/bpf/bpftool/bpftool: No such file
- or directory
-Message-ID: <202605030403.FrjvXYyE-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v2] scripts/kernel-doc: Detect mismatched inline member
+ documentation tags
+Message-ID: <202605031151.7NM3FJQM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-CC: 0day robot <lkp@intel.com>
+In-Reply-To: <20260501160800.4043276-1-shuicheng.lin@intel.com>
+References: <20260501160800.4043276-1-shuicheng.lin@intel.com>
+TO: Shuicheng Lin <shuicheng.lin@intel.com>
+TO: linux-doc@vger.kernel.org
+CC: Shuicheng Lin <shuicheng.lin@intel.com>
+CC: Jani Nikula <jani.nikula@linux.intel.com>
+CC: linux-kernel@vger.kernel.org
+CC: intel-xe@lists.freedesktop.org
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Blaise-Boscaccy/crypto-pkcs7-add-flag-for-validated-trust-on-a-signed-info-block/20260502-054022
-head:   dd83740fb7ac14161725928d746e1715974802da
-commit: a89290bb17ae209a158be7be88616bce4b03e431 selftests/hornet: Add a selftest for the Hornet LSM
-date:   29 hours ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260503/202605030403.FrjvXYyE-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605030403.FrjvXYyE-lkp@intel.com/reproduce)
+Hi Shuicheng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v7.1-rc1 next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuicheng-Lin/scripts-kernel-doc-Detect-mismatched-inline-member-documentation-tags/20260502-081921
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20260501160800.4043276-1-shuicheng.lin%40intel.com
+patch subject: [PATCH v2] scripts/kernel-doc: Detect mismatched inline member documentation tags
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: hexagon-randconfig-002-20260503 (https://download.01.org/0day-ci/archive/20260503/202605031151.7NM3FJQM-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031151.7NM3FJQM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605030403.FrjvXYyE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605031151.7NM3FJQM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> /bin/bash: line 1: tools/bpf/bpftool/bpftool: No such file or directory
-
+   Warning: fs/backing-file.c:35 function parameter 'user_file' not described in 'backing_file_open'
+>> Warning: fs/backing-file.c:35 Excess function parameter 'user_path' description in 'backing_file_open'
+   Warning: fs/backing-file.c:35 function parameter 'user_file' not described in 'backing_file_open'
+>> Warning: fs/backing-file.c:35 Excess function parameter 'user_path' description in 'backing_file_open'
 --
+>> Warning: drivers/gpu/buddy.c:1474 Excess function parameter 'p' description in 'gpu_buddy_print'
+>> Warning: drivers/gpu/buddy.c:1474 Excess function parameter 'p' description in 'gpu_buddy_print'
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
