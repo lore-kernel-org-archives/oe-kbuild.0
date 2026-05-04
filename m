@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8017F9463
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 May 2026 01:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806F0CA6B
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 May 2026 01:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777858291; cv=none; b=nwYba/NVKBY6wLvTI4K2NFoW23JPW17BOlE7DWVwp8QIHzdU7NLPw8Dh2pSfwApv1qn1+1FOPDGViRH8XBGzmWKWMjHPmP3bGJ+iZDOpZrmx3e05L5pWYNZRew2mVlyVBU8edLauMqbLd0Q9TQbA+RNr0OTU2iPPeqNCxRWVmqg=
+	t=1777858890; cv=none; b=qDCGcWublHDnUuobkyhJxWLRjcK0gw/LBwXWafvyD2Mqx/g8WNtpxjMqXbHsp/6Uk8wBG+VrAkELeSnih6vejgMk6Nmxz8CIKtzPRF6iC64UbOMKalpKZJ9Dv4ymFFqO+I/82X3ro9f1V2/NjKu3nDf96EUwBjwhZZmbkS4/I+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777858291; c=relaxed/simple;
-	bh=2HZHjGUhR4Hmy1Lj56zLXMzJ5nkAjcRuGFapZbSJs7c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=g79JaywcJxrBhEZCq0LQD6Ih2joEC9tFyVQLeNBuQ/kot30Mjfzg8snaoVUhAAA/WUcYPto6crmFhNHx6ahBurLrIwgFt2wN/6tAKlXfa+e0B6o2gNXsEp7fyiWopJ+4IJTm1UI2FZRuxaQ0jgxJQJOQxtbcgFgQo7U66kQ12JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cn5zm2ar; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1777858890; c=relaxed/simple;
+	bh=1EkD51dWP6iYnKEbpSaFi4hz+amarn7hFMGh/OHu3iE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QiSW2lJdzek7pc9rdjGas3BVgRdU7qd5MIpYsEOwOMfbFfDBPgb6N1tX4FhMOGVqu7UXxZrr32gulnX9atyZ6KsBKD5wkpSmWlh7ax6DAwZwBuDEJTSkvU6n7TLv3K3LT1lyY4GR/zeZrasn2BvN3xjdW7qjktV22FOyRtAWl/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y14By0+5; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cn5zm2ar"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y14By0+5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777858288; x=1809394288;
+  t=1777858889; x=1809394889;
   h=date:from:to:cc:subject:message-id;
-  bh=2HZHjGUhR4Hmy1Lj56zLXMzJ5nkAjcRuGFapZbSJs7c=;
-  b=Cn5zm2arMGWsnKW3tHYa2WkeSe/HUkirnLjdPVxNlaliS+xTvIfMT7Y/
-   HjhBQe//EdiCKTki7BZ4sViEqZDOPxJsx9Vpl+5VCqIo828p84slm7QnX
-   y2cRPCVwqD3jMk1b/67ZkBaw2wFhpJXVRNyCgv4Zq5Zns54D+mfxWUPMl
-   cckMV8sFJ2iLNNlbqs510hgs3G9Ld8C4/cXPriWIU8lH27Tp5z8RF+mkf
-   Tld7Rt4mLZRSa8G44nihRn1mwirCVLPRi0yQMnrNHJ9vEWUx9/gPGgDla
-   E+KnjMQ7ynOew/hitffVZ3+6XqQHnk3Q87e8tp53ZLLVrAS1BOeiSFcz3
-   Q==;
-X-CSE-ConnectionGUID: pcd2YNx7T8GRYL322oQqRQ==
-X-CSE-MsgGUID: Js1kYU8FTjKo5J/MpgA1vA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="66248371"
+  bh=1EkD51dWP6iYnKEbpSaFi4hz+amarn7hFMGh/OHu3iE=;
+  b=Y14By0+5fahwiP3XRTjXBwgadrqCvei5+UW9yl3ZpYikrwJJ37t1MtvH
+   Fn1x0VJ78mRNuxQc0xdZ31qDs6YNryV6Ah37Cr+zjUeoRQzq6WlWv7OFU
+   uICl7xXnPvLozpVMPSRGZ3gx023OJlS7hV+MiCF05YAcJWHqH037uSPod
+   NePKfJA4DLUKOP/IJnbJ1jF5Um0cNC5WiLompsaaTCxZl4JWA5gFnphR+
+   Ku/EV4zfMG2XmTDSQHuK/81PAxWYLnJ4UkbXAlp6vcNf5moZD3KXr1DKH
+   LzVpU0/H0371dFkRkheObXvEr/Ojqp0BOaGvLPHQOF3W7wqkex2o4qPlD
+   g==;
+X-CSE-ConnectionGUID: N0NUKHmqRyKx9999niX84g==
+X-CSE-MsgGUID: xXiUGLzMRauAUNIPYL2xkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="78743779"
 X-IronPort-AV: E=Sophos;i="6.23,214,1770624000"; 
-   d="scan'208";a="66248371"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 18:31:28 -0700
-X-CSE-ConnectionGUID: 22sESRu6QtO1wfmcx2gZTg==
-X-CSE-MsgGUID: DTi6SAtSR7OyWlGi4euNaQ==
+   d="scan'208";a="78743779"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 18:41:28 -0700
+X-CSE-ConnectionGUID: OaPUwcmxT5qi1fnb+Ptw6Q==
+X-CSE-MsgGUID: 70xn2dtzSkSxOqQ9Ux34XQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,214,1770624000"; 
-   d="scan'208";a="239702889"
+   d="scan'208";a="265733561"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 03 May 2026 18:31:27 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 May 2026 18:41:27 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJi9c-000000005g5-2h0w;
-	Mon, 04 May 2026 01:31:24 +0000
-Date: Mon, 04 May 2026 03:30:39 +0200
+	id 1wJiJI-000000005g9-2xQg;
+	Mon, 04 May 2026 01:41:24 +0000
+Date: Mon, 04 May 2026 03:41:09 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb:
- dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-Message-ID: <202605040358.QBfKZJPo-lkp@intel.com>
+Subject: arch/arm/boot/dts/marvell/armada-370-mirabox.dtb:
+ timer@20300 (marvell,armada-370-timer): 'clock-frequency' does not match any
+ of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202605040322.ez1qrBIy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,257 +61,55 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sebastian Reichel <sebastian.reichel@collabora.com>
-CC: 0day robot <lkp@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Sebastian-Reichel/drm-bridge-synopsys-dw-dp-Support-unregistering-the-AUX-channel/20260503-071157
-head:   457d316fbeadd8609202b7d0c148f6db0513f81b
-commit: 3085b17df3699d4739beb8c9d360431e3198a886 dt-bindings: display: rockchip: dw-dp: fix sound DAI cells
-date:   26 hours ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: arm64-randconfig-2052-20260503 (https://download.01.org/0day-ci/archive/20260504/202605040358.QBfKZJPo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f377d0025eb00c0590466f5be9f50decf9b9180e
+commit: 4334d83904fc8b1a4bd5c0829164511456feb600 dt-bindings: timer: Convert marvell,armada-370-timer to DT schema
+date:   12 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-2055-20260429 (https://download.01.org/0day-ci/archive/20260504/202605040322.ez1qrBIy-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
 dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605040358.QBfKZJPo-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605040322.ez1qrBIy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 4334d83904fc ("dt-bindings: timer: Convert marvell,armada-370-timer to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605040358.QBfKZJPo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605040322.ez1qrBIy-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-evb2-v10.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-evb2-v10.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1136.7-1143.4: Warning (avoid_unnecessary_addr_size): /usb@fc000000/port: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1151.7-1158.4: Warning (avoid_unnecessary_addr_size): /usb@fc400000/port: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-roc-rt.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-roc-rt.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5t.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5t.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-cm5-base.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-radxa-cm5-io.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: pcie-ep@fe150000 (rockchip,rk3588-pcie-ep): Unevaluated properties are not allowed ('vpcie3v3-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/rockchip-dw-pcie-ep.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-wifi.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-wifi.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-ethernet-switch.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-ethernet-switch.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: dp@fde50000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: dp@fde60000 (rockchip,rk3588-dp): #sound-dai-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-dp.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,mvebu-devbus']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/devbus-cs3: failed to match any schema with compatible: ['marvell,mvebu-devbus']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: internal-regs (simple-bus): gpio_leds: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/pin-ctrl@18000: failed to match any schema with compatible: ['marvell,mv88f6710-pinctrl']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/corediv-clock@18740: failed to match any schema with compatible: ['marvell,armada-370-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/coherency-fabric@20200: failed to match any schema with compatible: ['marvell,coherency-fabric']
+>> arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: timer@20300 (marvell,armada-370-timer): 'clock-frequency' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/marvell,armada-370-timer.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-370-wdt']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-370-pmsu']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/ethernet@70000: failed to match any schema with compatible: ['marvell,armada-370-neta']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/ethernet@74000: failed to match any schema with compatible: ['marvell,armada-370-neta']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/sata@a0000: failed to match any schema with compatible: ['marvell,armada-370-sata']
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: mvsdio@d4000 (marvell,orion-sdio): $nodename:0: 'mvsdio@d4000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,orion-sdio.yaml
+   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: mvsdio@d4000 (marvell,orion-sdio): Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cap-sdio-irq' were unexpected)
 
 --
 0-DAY CI Kernel Test Service
