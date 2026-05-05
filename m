@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3EE1D9A66
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 May 2026 01:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F3017BA6
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 May 2026 02:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777943032; cv=none; b=GkD7rrxdT3/0cg8qADjpP01oQREL10E8LEJPv0oTRioWZrBZoIU6PdpcLtxnoPXT62HOyM9ht9SXMP9/wBM4oZC/DrdP9/XF3Vx3h5aXULaoWv6s332VoGA11nDcDeUeDgBTJzBUtb8CSSLsSvu6vVaGUjTvYPQLx2PO0hvx77k=
+	t=1777948168; cv=none; b=YDanaUiIXJltEfPdbEDjqqOJf4RMa5v2wzTfEvWUo01DkmWTBvVu5GxuYP6giwMuBrokx9USPv9BHWV51TT3Cc7pBlJ9V9WVf2UphP0NlUOYgJy+RYdgqw89MOA/nFWVmXAT5Dga+VLWO7QDEycAr7SKkn/3To+iEKHhvnvpg4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777943032; c=relaxed/simple;
-	bh=d2iASfmgTkDZkLyQVvEXrl79ZQnijY+73zBhYG8RBqo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=I/EJ4YoMHNz34WwBhyZrBkWNmfDsW3PFBCXHMU4R9BPt8x6ofKKJ0HXN8Se9DvB+eGb0DoSqJWqgIAM5j0dpPlRFZNrmwzI/UGSqQ0LcC6mU2jjYqzSE0wHwns3nbF7Xa+4Bd1s8z3lOLMG2s7R5R+yq15cKLTPXdnhWxJaUiSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kuiJWcEX; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1777948168; c=relaxed/simple;
+	bh=pIoU0L40mcbpykACGu5un2TZzMdZOZ4YAzCDmwVGy2U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gAc/OPSjY2C8pvFCJXChynyQiz/la+UkfYz/j0AhJURhpkqLIF80XhAAWg/CAavPmnoAG4aKusrCb+h8xhPsoHk42HaIozKDyiD2USSfxvn4M1wfXHsJUFsDHvyUvzLJRgjgmOeozLNpgJ+bCH2aau7zJ8n1N51kC8K8NM8nW54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fLxPSv8C; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuiJWcEX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fLxPSv8C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777943031; x=1809479031;
+  t=1777948166; x=1809484166;
   h=date:from:to:cc:subject:message-id;
-  bh=d2iASfmgTkDZkLyQVvEXrl79ZQnijY+73zBhYG8RBqo=;
-  b=kuiJWcEXKoWduTsimYawTrlWQtcYfz6pc3L6INFR2rbjlyAlZKxrGHZl
-   D+QkP30+PaENZAeFSCFAr2g/GDZU+mEWDbCyKbVVnbssTcN6Az+rKQ11c
-   cdZNaeWWgvnoDR66fLpiMW0wJxxVfChfgIBAc1LAGER1kt4m2f1xGL/WE
-   U0utxT8CmZYEqwD7+T/cI7oKeypVY3foFMhOaXooJmbe/piEKLNRNvHx8
-   xQEVLi2Ge8e6AVIZ4iBZRMiRwiDrN9glZggGPPoRYQqjqUqVghtZgZiX7
-   573A38OKWz/T3aynkNyj0MZe5/ZlRVz4yJR02LDPBNrsYk2fSGVIrzRwK
-   g==;
-X-CSE-ConnectionGUID: y5LoOZSlQWqHWWci5pwjaA==
-X-CSE-MsgGUID: EoCWfbZGR1+7/VPvcODRrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="90181021"
+  bh=pIoU0L40mcbpykACGu5un2TZzMdZOZ4YAzCDmwVGy2U=;
+  b=fLxPSv8C0c9kcs2VnTos+m7glEUhMY1Fss/YaqO/n1w2Lzb56ATJiNOO
+   8Os+YIQTqm/0sXs6XZMANiXEhHBpVolOT8N0A4qNuC2XtEjRvsZ9Uw9R3
+   XabbAyxERbeYKRINQ9hoAa44yrBD2bmNj8HzT6pxpQ8I5Z1SJzbQDOivN
+   svF1EOjeckLQGZe3DnLvI7TufLNWbZL3NLPfRofTc9HA3dRNUq7ajNqeN
+   5w9u/JoYmgyKSB4yBGmxXCoVJI6LkWt/WzExwhIU7+ypYk10KENXDF7KG
+   Z8PvrEGfScgLMekG4/ZQr1x4QTlN3KKPinX28fmB+9NC6jxrSZTty1HgF
+   Q==;
+X-CSE-ConnectionGUID: xx15q4MMT/qT8whXh0R2Vg==
+X-CSE-MsgGUID: AU7XG6V9SbylP9ZecXQyEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="89400913"
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="90181021"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 18:03:50 -0700
-X-CSE-ConnectionGUID: Sas7/0zGRuGCcQsfch6/Ng==
-X-CSE-MsgGUID: AF01rMu6Q5KxpJRkTcmsWQ==
+   d="scan'208";a="89400913"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 19:29:25 -0700
+X-CSE-ConnectionGUID: KY1DPQCOQ/CHa+cXfjIuog==
+X-CSE-MsgGUID: JtgjbPOjRES+Cj4Yx/2nHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="231295290"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 04 May 2026 18:03:49 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="232547041"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 04 May 2026 19:29:24 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wK4CR-0000000063F-0xOD;
-	Tue, 05 May 2026 01:03:47 +0000
-Date: Tue, 05 May 2026 03:02:50 +0200
+	id 1wK5X8-000000004AZ-1b3A;
+	Tue, 05 May 2026 02:29:16 +0000
+Date: Tue, 05 May 2026 10:28:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml:126:
- example 1: canonical form differs:
-Message-ID: <202605050205.gxHuLGy0-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/nouveau/nouveau_abi16.c:63:2-8: preceding
+ lock on line 61
+Message-ID: <202605051002.OlOdbU8N-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,79 +59,52 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml:126: example 1: canonical form differs:"
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Daniel Golle <daniel@makrotopia.org>
-CC: 0day robot <lkp@intel.com>
-CC: linux-doc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: Tiwei Bie <tiwei.btw@antgroup.com>
+CC: Johannes Berg <johannes.berg@intel.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/dt-bindings-misc-fsl-qoriq-mc-drop-trailing-whitespace/20260430-163453
-head:   c553182e0670fe0fd68c50cf7dd3acf767475883
-commit: 570758ea908d5c36820da86ff3265cea8b9f56f6 dt-bindings: wire example style check into dt_binding_check
-date:   2 weeks ago
-:::::: branch date: 5 days ago
-:::::: commit date: 2 weeks ago
-config: mips-randconfig-2051-20260430 (https://download.01.org/0day-ci/archive/20260505/202605050205.gxHuLGy0-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 15.1.0
-dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050205.gxHuLGy0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6d35786de28116ecf78797a62b84e6bf3c45aa5a
+commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
+date:   1 year ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 1 year ago
+config: um-randconfig-r054-20260505 (https://download.01.org/0day-ci/archive/20260505/202605051002.OlOdbU8N-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: a0e2cb6a9063 ("um: Add VFIO-based virtual PCI driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605050205.gxHuLGy0-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202605051002.OlOdbU8N-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   };
-   Documentation/devicetree/bindings/pinctrl/qcom,sc8180x-tlmm.yaml:105: example 0: canonical form differs:
-   --- Documentation/devicetree/bindings/pinctrl/qcom,sc8180x-tlmm.yaml (original)
-   +++ Documentation/devicetree/bindings/pinctrl/qcom,sc8180x-tlmm.yaml (canonical)
-   @@ -1,4 +1,5 @@
-   #include <dt-bindings/interrupt-controller/arm-gic.h>
-   +
-   pinctrl@3100000 {
-   compatible = "qcom,sc8180x-tlmm";
-   reg = <0x03100000 0x300000>,
->> Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml:126: example 1: canonical form differs:
-   --- Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml (original)
-   +++ Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml (canonical)
-   @@ -4,7 +4,7 @@
-   reg = <0x4a096000 0x80>,  /* phy_rx */
-   <0x4a096400 0x64>,  /* phy_tx */
-   <0x4a096800 0x40>;  /* pll_ctrl */
-   -    reg-names = "phy_rx", "phy_tx", "pll_ctrl";
-   +          reg-names = "phy_rx", "phy_tx", "pll_ctrl";
-   clocks = <&sys_clkin1>, <&sata_ref_clk>;
-   clock-names = "sysclk", "refclk";
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/nouveau/nouveau_abi16.c:63:2-8: preceding lock on line 61
 
-vim +126 Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml
+vim +63 drivers/gpu/drm/nouveau/nouveau_abi16.c
 
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  107  
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  108  examples:
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  109    - |
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  110      /* TI PIPE3 USB3 PHY */
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  111      usb3-phy@4a084400 {
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  112          compatible = "ti,phy-usb3";
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  113          reg = <0x4a084400 0x80>,
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  114                <0x4a084800 0x64>,
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  115                <0x4a084c00 0x40>;
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  116          reg-names = "phy_rx", "phy_tx", "pll_ctrl";
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  117          #phy-cells = <0>;
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  118          clocks = <&usb_phy_cm_clk32k>,
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  119                   <&sys_clkin>,
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  120                   <&usb_otg_ss_refclk960m>;
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  121          clock-names = "wkupclk", "sysclk", "refclk";
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  122          ctrl-module = <&omap_control_usb>;
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  123      };
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  124  
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23  125    - |
-62c9ff8fc20d23 Charan Pedumuru 2026-01-23 @126      /* TI PIPE3 SATA PHY */
+ebb945a94bba2c Ben Skeggs 2012-07-20  56  
+786a57ef2cebb2 Ben Skeggs 2015-11-03  57  struct nouveau_abi16 *
+786a57ef2cebb2 Ben Skeggs 2015-11-03  58  nouveau_abi16_get(struct drm_file *file_priv)
+786a57ef2cebb2 Ben Skeggs 2015-11-03  59  {
+786a57ef2cebb2 Ben Skeggs 2015-11-03  60  	struct nouveau_cli *cli = nouveau_cli(file_priv);
+786a57ef2cebb2 Ben Skeggs 2015-11-03 @61  	mutex_lock(&cli->mutex);
+786a57ef2cebb2 Ben Skeggs 2015-11-03  62  	if (nouveau_abi16(file_priv))
+786a57ef2cebb2 Ben Skeggs 2015-11-03 @63  		return cli->abi16;
+786a57ef2cebb2 Ben Skeggs 2015-11-03  64  	mutex_unlock(&cli->mutex);
+786a57ef2cebb2 Ben Skeggs 2015-11-03  65  	return NULL;
+786a57ef2cebb2 Ben Skeggs 2015-11-03  66  }
+786a57ef2cebb2 Ben Skeggs 2015-11-03  67  
 
---
+:::::: The code at line 63 was first introduced by commit
+:::::: 786a57ef2cebb2d09d7f152b0ed4f1da1d368073 drm/nouveau/abi16: introduce locked variant of nouveau_abi16_get()
+
+:::::: TO: Ben Skeggs <bskeggs@redhat.com>
+:::::: CC: Ben Skeggs <bskeggs@redhat.com>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
