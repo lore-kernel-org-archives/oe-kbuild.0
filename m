@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5474531716F
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 May 2026 09:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DAE3D1CC0
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 May 2026 10:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777975130; cv=none; b=UxCbmGbSJf17F/M/J/Rg/M6ev7zcl1FZRPklyzMBihdaRayo6rUTJk4/O3KgxnCSbHOLw4PoMmOJqgJYKXRr74wmnvWpzpGbYSHJZlk1tIQDNn827YFJqOmlcSzpjMkI7hmKTaRKkCW2bE04JkBUNX4lRfRuxwxxYQuld0fnqlU=
+	t=1777977710; cv=none; b=pL5GOHx+2lLy6IRS0SP9UlXHxMXwnmh6JGUp128YkbDY8J0GEixGMUtUYT7CYDz/CaeIRizQTtd20nuyAuZxkcAAR6RYdm/wNqBApVdLvGqUFUivuERGsA8dicrsl57Yxw5msRHJpl3VTsBwYTHTJYrCyZJPxN9hA84330w+rns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777975130; c=relaxed/simple;
-	bh=b5Tzki95H0YNigF91xCvykCOyiz3UkqF8B3viuZyrbU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=n17UoE083pj/tV4N2uwvtHofeDAME770cW6flFXR5o5Qhflxv0fMBsFQkVfTWCloE3LIURDQ5p+1b7SHSMU6LOmfFd26aLMdwny5ClqP37uUWIUMKBOODiXDQ8y7+7OOXftiUCUAHzVDhAwA92Mn/QKMFdk4FqA4DyRoEDY1Z6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mu7sxvE5; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1777977710; c=relaxed/simple;
+	bh=SKXEDxzjmf6p/NkLy6/S+Q6Vy4rkz5Ae4D4XaCRhzw8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=l+xo+gXSb9f03aDA/5RhnUJYzpX1xkJngCXkcUOd3U1yFu/pT3UmtokRTmRNvV8hybzROOoNvWS8GFawWABY/I+R+/ATKRVnj4QNpXg1RLwBfrJTQf6bheXVYOQhivurInjVVEIZm2HARileWpymYdr+0ZYz9N742C4kYHFKfr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKhVGNqP; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mu7sxvE5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKhVGNqP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777975128; x=1809511128;
+  t=1777977708; x=1809513708;
   h=date:from:to:cc:subject:message-id;
-  bh=b5Tzki95H0YNigF91xCvykCOyiz3UkqF8B3viuZyrbU=;
-  b=mu7sxvE5E92T89LJe2CfsvXJhLKbjugeHFZuzeeDZMivAb/2jZeDCBl9
-   1NBmVrvEzaUEBwuNwvPFeW9enVoYrDIvD0VHJluyJEGg191joCtK17Ss7
-   HSqHAzF45xjCjrouRt1nwb+o1M5ABhcGmOgRyToh6stpjh8zIYS9Mu9no
-   FeshZNLPt7vO7hcx3PJbfxkYNFiBqlwyIuoFGN2yvvoU9QGkcdyeIbOKf
-   GcY9qGZ7fALdJBxi61zQoURQ7Gg2OyVEPXFqwuNnaDVEIyqYBC5Pfbd/o
-   tMoDFuQ+p7gDbd5wrnX/VDJVdYw3cQLjjG4m3I9jNe6RtWAhZYKoxzVpN
+  bh=SKXEDxzjmf6p/NkLy6/S+Q6Vy4rkz5Ae4D4XaCRhzw8=;
+  b=GKhVGNqP6btVKpq4IwV7mePI29PHEU3+J0nG0mvYh5VITxwKrsQT2Tdi
+   /saVAdCDUlTw/eGEgAQgF4XdVUiMpJAVf1n/iT9gj2Dx6xJvThDTjGkzf
+   195W55jph6KvVV64kzI7VutOTaJdVvKTqS0z37zxnhpIbUXI2nBSjATek
+   gH9jQZ/30GMtyxqqe3QwFVDOjMhVp18YfxkYIflMCTsTVWc9oBWYY717g
+   oVyyYogqHnyIfUyilOhqdrwDQE8B6vs9YcGANiMyv3qemOPyn3deaV9Ip
+   egQ2seTjBH4JDEnqwf6wM7Hn4iahUNQPhyGrlf8i7nv81e38r1s/PnM2d
    Q==;
-X-CSE-ConnectionGUID: WMmO+AUqQ6mOlHJ3eDZZmA==
-X-CSE-MsgGUID: uTVJOhS3Qv+jMnOukPeIPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="96268742"
+X-CSE-ConnectionGUID: UNuYMJMETeeg7VmW9CF5sQ==
+X-CSE-MsgGUID: cxmQbXmQTg+w614kIpqO0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78943134"
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="96268742"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 02:58:47 -0700
-X-CSE-ConnectionGUID: 365HMBxIQrWabdaIwizQ3Q==
-X-CSE-MsgGUID: btTrfwzLTk+y2M8x/a78EA==
+   d="scan'208";a="78943134"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 03:41:48 -0700
+X-CSE-ConnectionGUID: 3iPmxnNvRxezSX2WF5tzEQ==
+X-CSE-MsgGUID: LLlpgUW9SgmnvB30h0shQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="273918768"
+   d="scan'208";a="237549638"
 Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 May 2026 02:58:45 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 May 2026 03:41:47 -0700
 Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKCY6-0000000003Z-2NhC;
-	Tue, 05 May 2026 09:58:42 +0000
-Date: Tue, 05 May 2026 17:58:07 +0800
+	id 1wKDDk-0000000005D-1skp;
+	Tue, 05 May 2026 10:41:44 +0000
+Date: Tue, 05 May 2026 18:41:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/events/core.c:5774:6-11: ERROR: iterator variable
- bound on line 5733 cannot be NULL
-Message-ID: <202605051704.oOewGBkd-lkp@intel.com>
+Subject: drivers/staging/most/video/video.c:176:22-23: WARNING
+ opportunity for min()
+Message-ID: <202605051807.kGilkgXt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,135 +62,91 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ravi Bangoria <ravi.bangoria@amd.com>
+TO: Tiwei Bie <tiwei.btw@antgroup.com>
+CC: Johannes Berg <johannes.berg@intel.com>
+
+Hi Tiwei,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   a293ec25d59dd96309058c70df5a4dd0f889a1e4
-commit: 3e8671e00e57b3d006ed8ae5ef055807506e44b2 perf: Simplify perf_event_release_kernel()
-date:   1 year, 1 month ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: arm64-randconfig-r062-20260505 (https://download.01.org/0day-ci/archive/20260505/202605051704.oOewGBkd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
+date:   1 year ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 1 year ago
+config: um-randconfig-r061-20260505 (https://download.01.org/0day-ci/archive/20260505/202605051807.kGilkgXt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3e8671e00e57 ("perf: Simplify perf_event_release_kernel()")
+| Fixes: a0e2cb6a9063 ("um: Add VFIO-based virtual PCI driver")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202605051704.oOewGBkd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605051807.kGilkgXt-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> kernel/events/core.c:5774:6-11: ERROR: iterator variable bound on line 5733 cannot be NULL
+>> drivers/staging/most/video/video.c:176:22-23: WARNING opportunity for min()
 
-vim +5774 kernel/events/core.c
+vim +176 drivers/staging/most/video/video.c
 
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5689  
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5690  /*
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5691   * Kill an event dead; while event:refcount will preserve the event
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5692   * object, it will not preserve its functionality. Once the last 'user'
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5693   * gives up the object, we'll destroy the thing.
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5694   */
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5695  int perf_event_release_kernel(struct perf_event *event)
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5696  {
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5697  	struct perf_event_context *ctx = event->ctx;
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5698  	struct perf_event *child, *tmp;
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5699  
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5700  	/*
-bd27568117664b8 kernel/events/core.c Peter Zijlstra      2022-10-08  5701  	 * If we got here through err_alloc: free_event(event); we will not
-bd27568117664b8 kernel/events/core.c Peter Zijlstra      2022-10-08  5702  	 * have attached to a context yet.
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5703  	 */
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5704  	if (!ctx) {
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5705  		WARN_ON_ONCE(event->attach_state &
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5706  				(PERF_ATTACH_CONTEXT|PERF_ATTACH_GROUP));
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5707  		goto no_ctx;
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5708  	}
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5709  
-f86977620ee4635 kernel/events/core.c Jiri Olsa           2014-08-01  5710  	if (!is_kernel_event(event))
-f86977620ee4635 kernel/events/core.c Jiri Olsa           2014-08-01  5711  		perf_remove_from_owner(event);
-8882135bcd332f2 kernel/perf_event.c  Peter Zijlstra      2010-11-09  5712  
-5fa7c8ec57f70a7 kernel/events/core.c Peter Zijlstra      2016-01-26  5713  	ctx = perf_event_ctx_lock(event);
-a83fe28e2e45392 kernel/events/core.c Peter Zijlstra      2015-01-29  5714  	WARN_ON_ONCE(ctx->parent_ctx);
-683ede43dd412c6 kernel/events/core.c Peter Zijlstra      2014-05-05  5715  
-683ede43dd412c6 kernel/events/core.c Peter Zijlstra      2014-05-05  5716  	/*
-d8a8cfc76919b6c kernel/events/core.c Peter Zijlstra      2017-03-16  5717  	 * Mark this event as STATE_DEAD, there is no external reference to it
-a69b0ca4ac3bf54 kernel/events/core.c Peter Zijlstra      2016-02-24  5718  	 * anymore.
-683ede43dd412c6 kernel/events/core.c Peter Zijlstra      2014-05-05  5719  	 *
-a69b0ca4ac3bf54 kernel/events/core.c Peter Zijlstra      2016-02-24  5720  	 * Anybody acquiring event->child_mutex after the below loop _must_
-a69b0ca4ac3bf54 kernel/events/core.c Peter Zijlstra      2016-02-24  5721  	 * also see this, most importantly inherit_event() which will avoid
-a69b0ca4ac3bf54 kernel/events/core.c Peter Zijlstra      2016-02-24  5722  	 * placing more children on the list.
-683ede43dd412c6 kernel/events/core.c Peter Zijlstra      2014-05-05  5723  	 *
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5724  	 * Thus this guarantees that we will in fact observe and kill _ALL_
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5725  	 * child events.
-683ede43dd412c6 kernel/events/core.c Peter Zijlstra      2014-05-05  5726  	 */
-517e6a301f34613 kernel/events/core.c Peter Zijlstra      2022-11-24  5727  	perf_remove_from_context(event, DETACH_GROUP|DETACH_DEAD);
-a69b0ca4ac3bf54 kernel/events/core.c Peter Zijlstra      2016-02-24  5728  
-a69b0ca4ac3bf54 kernel/events/core.c Peter Zijlstra      2016-02-24  5729  	perf_event_ctx_unlock(event, ctx);
-683ede43dd412c6 kernel/events/core.c Peter Zijlstra      2014-05-05  5730  
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5731  again:
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5732  	mutex_lock(&event->child_mutex);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15 @5733  	list_for_each_entry(child, &event->child_list, child_list) {
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5734  		/*
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5735  		 * Cannot change, child events are not migrated, see the
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5736  		 * comment with perf_event_ctx_lock_nested().
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5737  		 */
-506458efaf153c1 kernel/events/core.c Will Deacon         2017-10-24  5738  		ctx = READ_ONCE(child->ctx);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5739  		/*
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5740  		 * Since child_mutex nests inside ctx::mutex, we must jump
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5741  		 * through hoops. We start by grabbing a reference on the ctx.
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5742  		 *
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5743  		 * Since the event cannot get freed while we hold the
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5744  		 * child_mutex, the context must also exist and have a !0
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5745  		 * reference count.
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5746  		 */
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5747  		get_ctx(ctx);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5748  
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5749  		/*
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5750  		 * Now that we have a ctx ref, we can drop child_mutex, and
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5751  		 * acquire ctx::mutex without fear of it going away. Then we
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5752  		 * can re-acquire child_mutex.
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5753  		 */
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5754  		mutex_unlock(&event->child_mutex);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5755  		mutex_lock(&ctx->mutex);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5756  		mutex_lock(&event->child_mutex);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5757  
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5758  		/*
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5759  		 * Now that we hold ctx::mutex and child_mutex, revalidate our
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5760  		 * state, if child is still the first entry, it didn't get freed
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5761  		 * and we can continue doing so.
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5762  		 */
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5763  		tmp = list_first_entry_or_null(&event->child_list,
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5764  					       struct perf_event, child_list);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5765  		if (tmp == child) {
-0a00a43b8c200df kernel/events/core.c Peter Zijlstra      2025-01-17  5766  			perf_remove_from_context(child, DETACH_GROUP | DETACH_CHILD);
-3e8671e00e57b3d kernel/events/core.c Peter Zijlstra      2025-01-17  5767  		} else {
-3e8671e00e57b3d kernel/events/core.c Peter Zijlstra      2025-01-17  5768  			child = NULL;
-a6fa941d94b411b kernel/events/core.c Al Viro             2012-08-20  5769  		}
-a6fa941d94b411b kernel/events/core.c Al Viro             2012-08-20  5770  
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5771  		mutex_unlock(&event->child_mutex);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5772  		mutex_unlock(&ctx->mutex);
-3e8671e00e57b3d kernel/events/core.c Peter Zijlstra      2025-01-17  5773  
-3e8671e00e57b3d kernel/events/core.c Peter Zijlstra      2025-01-17 @5774  		if (child) {
-3e8671e00e57b3d kernel/events/core.c Peter Zijlstra      2025-01-17  5775  			/* Last reference unless ->pending_task work is pending */
-3e8671e00e57b3d kernel/events/core.c Peter Zijlstra      2025-01-17  5776  			put_event(child);
-3e8671e00e57b3d kernel/events/core.c Peter Zijlstra      2025-01-17  5777  		}
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5778  		put_ctx(ctx);
-74751ef5c1912eb kernel/events/core.c Haifeng Xu          2024-05-13  5779  
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5780  		goto again;
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5781  	}
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5782  	mutex_unlock(&event->child_mutex);
-c6e5b73242d2d91 kernel/events/core.c Peter Zijlstra      2016-01-15  5783  
-a4f4bb6d0c69d0b kernel/events/core.c Peter Zijlstra      2016-02-24  5784  no_ctx:
-56799bc03565873 kernel/events/core.c Frederic Weisbecker 2025-03-04  5785  	/*
-56799bc03565873 kernel/events/core.c Frederic Weisbecker 2025-03-04  5786  	 * Last reference unless ->pending_task work is pending on this event
-56799bc03565873 kernel/events/core.c Frederic Weisbecker 2025-03-04  5787  	 * or any of its children.
-56799bc03565873 kernel/events/core.c Frederic Weisbecker 2025-03-04  5788  	 */
-56799bc03565873 kernel/events/core.c Frederic Weisbecker 2025-03-04  5789  	put_event(event);
-683ede43dd412c6 kernel/events/core.c Peter Zijlstra      2014-05-05  5790  	return 0;
-a6fa941d94b411b kernel/events/core.c Al Viro             2012-08-20  5791  }
-683ede43dd412c6 kernel/events/core.c Peter Zijlstra      2014-05-05  5792  EXPORT_SYMBOL_GPL(perf_event_release_kernel);
-a6fa941d94b411b kernel/events/core.c Al Viro             2012-08-20  5793  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  150  
+1b10a0316e2d5e2 drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  151  static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  152  			      size_t count, loff_t *pos)
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  153  {
+1b10a0316e2d5e2 drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  154  	struct comp_fh *fh = filp->private_data;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  155  	struct most_video_dev *mdev = fh->mdev;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  156  	int ret = 0;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  157  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  158  	if (*pos)
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  159  		return -ESPIPE;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  160  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  161  	if (!mdev)
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  162  		return -ENODEV;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  163  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  164  	/* wait for the first buffer */
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  165  	if (!(filp->f_flags & O_NONBLOCK)) {
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  166  		if (wait_event_interruptible(mdev->wait_data, data_ready(mdev)))
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  167  			return -ERESTARTSYS;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  168  	}
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  169  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  170  	if (!data_ready(mdev))
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  171  		return -EAGAIN;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  172  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  173  	while (count > 0 && data_ready(mdev)) {
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  174  		struct mbo *const mbo = get_top_mbo(mdev);
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  175  		int const rem = mbo->processed_length - fh->offs;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24 @176  		int const cnt = rem < count ? rem : count;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  177  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  178  		if (copy_to_user(buf, mbo->virt_address + fh->offs, cnt)) {
+8f6f9ed15d679ad drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  179  			v4l2_err(&mdev->v4l2_dev, "read: copy_to_user failed\n");
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  180  			if (!ret)
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  181  				ret = -EFAULT;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  182  			return ret;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  183  		}
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  184  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  185  		fh->offs += cnt;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  186  		count -= cnt;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  187  		buf += cnt;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  188  		ret += cnt;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  189  
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  190  		if (cnt >= rem) {
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  191  			fh->offs = 0;
+e494df039df0fc7 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  192  			spin_lock_irq(&mdev->list_lock);
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  193  			list_del(&mbo->list);
+e494df039df0fc7 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  194  			spin_unlock_irq(&mdev->list_lock);
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  195  			most_put_mbo(mbo);
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  196  		}
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  197  	}
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  198  	return ret;
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  199  }
+3d31c0cb6c127b1 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  200  
+
+:::::: The code at line 176 was first introduced by commit
+:::::: 3d31c0cb6c127b1d943b610065a05decf821998c Staging: most: add MOST driver's aim-v4l2 module
+
+:::::: TO: Christian Gromm <christian.gromm@microchip.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
