@@ -1,133 +1,101 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6C52D5941
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 May 2026 13:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E196939903C
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 May 2026 16:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777987860; cv=none; b=eREJgA6xXoU0wpQMUJGJXYNcyRoDdwZAca6EASwfErh+g0hlWmGVfkeDYJVLMSkWZZ7D4VMyP7cKrq1khi5Eoi/8kQsbOlUN9CO0+VDwDGMaA2X+24FI0K+7/boFfHS85L+p43jQBX4igUol4AJsVQ+ApSql3HmAJkotzU5NPV0=
+	t=1777997770; cv=none; b=lCX1ZjBu6OOjgKHHXX+gO5IDA0iW/s2AxGvXqAKYDS0KYJ/94KX48wsw/rCEJMk9F9Jxed960MZcTyl6clzJh1GafW3xabXhUEV6QLZJZaodeS4ZpCkM6xzUwPn89V69XT24lbXMYCoXarm498PS3S0GezdwfXCGTMGQWp7/p/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777987860; c=relaxed/simple;
-	bh=ff0bQu0OzmBOvCruwXQGsD7UOTSGmca6Fy1TK72u9Sw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qmZ7opXZhjZMhBLqDv3KpuL87Z3wrGKSsAKBrllpHXpMLdOrl8EStKhNKoXkS0E46Qehi+C/fPmDdj6ey6Y6Ps0zPqNomtsEqxr9s90km2faZXOsGJtew9ybohRxic7fRRlD/gYCuXBQygpjocpQKNYak8VS2KPpaokd2a119h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=go54FPLB; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777997770; c=relaxed/simple;
+	bh=jX+qs5O5fvlMrPAr/nqbQlnzB0jA5eJuujvDlkiuPMk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CoYA1Ag8+2xQnB55V8PTuNvkNZ9dETygwrmwTDbguIidrbayQ9pwT8+0Z09w6Q/0A+wKf15aueMUYhvKF9EvK60D4Avet+q4ULkuqWZ+idPx5jF7a0MB1KwgzJENpLRsRj0+oSDXkY+6nLwjjeQOgm4fY/UI1Za7QOx7jgAc1eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2EphLi5; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="go54FPLB"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8f231f3b130so376773685a.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 05 May 2026 06:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777987857; x=1778592657; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=35CH6Yi9uh5mtNuWSXZJ4xVnriQjRm7LpXCym9MsM78=;
-        b=go54FPLBPBM7ZlCPXVoaE5mR9bCmhfLEQdlOWfQLGCMaY4fRfdwW3FORDAB0jNo47Y
-         oN5yh3UcLw7InLon/P1WIdvIQHe/ntsKbhg+Z3lMvYJMmu1B6bQANS779OzOs1whmZTl
-         nZY7rGDciOUdo1OCoDmqAqh+CaI6gJKj/gvHPnKIlUFiCnfiVYsfGj9qa+lhKjl3USbl
-         Biqqn6JyRAx+pcdg4nh9jTKjXrJS2QWg4qr3FsD+9nj5w/nR4velOwWUFcA9/t2JOagA
-         xKtX4Tqar4e9ShBWkkWExdnixbYLz5WaLRHr+bDNmqFElsHjKG7FSNeqSbmr/K+A5l1D
-         kTBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777987857; x=1778592657;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=35CH6Yi9uh5mtNuWSXZJ4xVnriQjRm7LpXCym9MsM78=;
-        b=AatUyvwE6/vSxSjSPTLGsBTXgssylx3jJe+MAPOUkB4fjyir7ixHLe3Z5Xi9iBhXu6
-         bTRHKxxdEFF8KBfjZAl0ZqYUyEbUhNlKbQWfPiZpo/khhD0yj/ZnUjuPi7XOQOTlqIkT
-         GUNA1nXwYcJ/s/8Y4SXSPIC5ui+LSItdoeSw83tRkFoeFV2HlltcecJmUksdau63p4rW
-         Qy8D9iDDsUQTzP6xVsVcH4OZOLFDXhQ6sCFpqDkcrt2Qn8Gv2tYAbVf+eZ5vvHTahAyX
-         hXe9ANme91ALXtAigwSw/FmLRA7vDwFOQoj0H8yaBIVxD/G5MpFYgJZaij+veD8abbwU
-         F06g==
-X-Gm-Message-State: AOJu0YydxweP4vRk2r6mhMCpmPlftF+eV/yvpgJQ3l3wG7rGJZ20Rxtn
-	G9PvZic1v3xycRGQWBe7xbF5j2zAtJRNhUQdwOu/KWcDRvkiOtQej/sZ/feRL5ZV
-X-Gm-Gg: AeBDieuZnpnGZOSjI+THy9Jwl67elv/joBRDKON8gota4QwcZoBcOCXy7YvwficvBS5
-	OCOteliRb7zvPYohz4L3TEMwY5Ju3pyMaGPeZKrPwYC8urDYBNFDcVbJ0eBgHLBLVOiOlVlL6sV
-	hs0bvvXvpUAM3vQ3kE+kZzK2iNz+KAR0EL4L1QLzargyaHggDwGNwxZ0eKx0Gfeb3FCLAvskGF+
-	VKrzpbf0e9j5f2+jowhFpPNKRmHVhU4kQQvJ5+RkL1uOi/k15/7UEB+gkomh2gfvVPCxb9VLCrz
-	/e+3IxFwI1gdIPsUOBDduwp4AJU4N1lgdbB54BJNLtiR236EV0bsR5WW8Bpzhz+umxuJcbwW1aO
-	XThit+zf9Qmso7OVLyE5CZdg1yqfaUXHkZp0sxIOtWKYh9GQ6kxNNbJmFIQYG92e8v7RVa3t4Y7
-	YalupDfIYVqOwxkZTfDQC+ELied1M3Gg==
-X-Received: by 2002:a05:620a:7005:b0:8ee:7878:af3e with SMTP id af79cd13be357-8fd18635115mr2321716785a.45.1777987847228;
-        Tue, 05 May 2026 06:30:47 -0700 (PDT)
-Received: from localhost ([185.141.119.121])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8fc2938e7f8sm1344298785a.7.2026.05.05.06.30.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 06:30:44 -0700 (PDT)
-Date: Tue, 5 May 2026 16:30:39 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 2139/2816] fs/ntfs/attrib.c:2631 ntfs_attr_add()
- warn: variable dereferenced before check 'ni' (see line 2628)
-Message-ID: <202605051951.OStHgx7p-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2EphLi5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777997765; x=1809533765;
+  h=date:from:to:cc:subject:message-id;
+  bh=jX+qs5O5fvlMrPAr/nqbQlnzB0jA5eJuujvDlkiuPMk=;
+  b=J2EphLi55QQlc6HyT/ptrV60b9Op9Y1ZB1zHBTfAdAs+r0QmTMsO3l4U
+   V0JNjwqlyjKRSKh2Pbjx8nKoFzqKBNGf2fb9Os1lUf0FQ8mGtqaNh2Sx/
+   lSy639byGNgCXSBP+HGhU9KMg1V3TawdlwZgop16UuX+kxdM4aRsgrphU
+   wTZ1W0Xre1J7zzuiK3k3uKg02cPC0Ozynezt8GNg1QSGioXd44AHzWwF5
+   5SY+ATdSJhFFLUeDBb5lpdOMpKetiTlgK9pOndakftAeonAz/VuwLGSZV
+   kNQyKW7utyJkdxfnFGmpzBAz509gjSfbNs7ShY//ChLz0ZKS7z+HF9Za9
+   w==;
+X-CSE-ConnectionGUID: r9/BASMXT2CDhtOxpLjjkw==
+X-CSE-MsgGUID: 7aMBvta0QL+W8yLbrPMy+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78897360"
+X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
+   d="scan'208";a="78897360"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 09:16:01 -0700
+X-CSE-ConnectionGUID: BHE1WMMcSe6v6w9pHcn75w==
+X-CSE-MsgGUID: Zlbq9O1VRyShfCFDfEdmsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
+   d="scan'208";a="229372253"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 05 May 2026 09:16:01 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wKIRD-000000006Gh-07Es;
+	Tue, 05 May 2026 16:15:59 +0000
+Date: Tue, 05 May 2026 18:15:24 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA.dtb:
+ display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
+Message-ID: <202605051829.7huuD92G-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260505133039.Kfdup-m2disWqNA3KLvA8mHdfwO3r5p7Hh9AqCMoMdg@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9d0d467c3572e93c5faa2e5906a8bbcd70b24efd
-commit: ae00c45e40f1eb19428865ee3a3f487a454bdc20 [2139/2816] ntfs: fix variable dereferenced before check ni in ntfs_attr_open()
-config: alpha-randconfig-r071-20260505 (https://download.01.org/0day-ci/archive/20260505/202605051951.OStHgx7p-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9065-ge9cc34fd
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Michal Simek <monstr@monstr.eu>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a293ec25d59dd96309058c70df5a4dd0f889a1e4
+commit: 4f96c5db61f238e8a957df2b81d6343a5e38ca59 arm64: zynqmp: Add support for kd240 board
+date:   8 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260505/202605051829.7huuD92G-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605051829.7huuD92G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 4f96c5db61f2 ("arm64: zynqmp: Add support for kd240 board")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605051951.OStHgx7p-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605051829.7huuD92G-lkp@intel.com/
 
-New smatch warnings:
-fs/ntfs/attrib.c:2631 ntfs_attr_add() warn: variable dereferenced before check 'ni' (see line 2628)
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml
+>> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phy-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml
+>> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phy-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml
 
-Old smatch warnings:
-fs/ntfs/attrib.c:2930 ntfs_attr_open() warn: variable dereferenced before check 'ni' (see line 2927)
-
-vim +/ni +2631 fs/ntfs/attrib.c
-
-495e90fa334828 Namjae Jeon   2026-02-13  2616  int ntfs_attr_add(struct ntfs_inode *ni, __le32 type,
-495e90fa334828 Namjae Jeon   2026-02-13  2617  		__le16 *name, u8 name_len, u8 *val, s64 size)
-1e9ea7e04472d4 Namjae Jeon   2025-12-30  2618  {
-495e90fa334828 Namjae Jeon   2026-02-13  2619  	struct super_block *sb;
-495e90fa334828 Namjae Jeon   2026-02-13  2620  	u32 attr_rec_size;
-495e90fa334828 Namjae Jeon   2026-02-13  2621  	int err, i, offset;
-495e90fa334828 Namjae Jeon   2026-02-13  2622  	bool is_resident;
-495e90fa334828 Namjae Jeon   2026-02-13  2623  	bool can_be_non_resident = false;
-495e90fa334828 Namjae Jeon   2026-02-13  2624  	struct ntfs_inode *attr_ni;
-495e90fa334828 Namjae Jeon   2026-02-13  2625  	struct inode *attr_vi;
-495e90fa334828 Namjae Jeon   2026-02-13  2626  	struct mft_record *ni_mrec;
-495e90fa334828 Namjae Jeon   2026-02-13  2627  
-ae00c45e40f1eb Namjae Jeon   2026-05-01 @2628  	ntfs_debug("Entering for inode 0x%llx, attr %x, size %lld.\n",
-ae00c45e40f1eb Namjae Jeon   2026-05-01  2629  			ni->mft_no, type, size);
-                                                                ^^^^^^^^^^
-Dereference
-
-ae00c45e40f1eb Namjae Jeon   2026-05-01  2630  
-495e90fa334828 Namjae Jeon   2026-02-13 @2631  	if (!ni || size < 0 || type == AT_ATTRIBUTE_LIST)
-                                                     ^^
-Checked too late.
-
-495e90fa334828 Namjae Jeon   2026-02-13  2632  		return -EINVAL;
-495e90fa334828 Namjae Jeon   2026-02-13  2633  
-495e90fa334828 Namjae Jeon   2026-02-13  2634  	if (ni->nr_extents == -1)
-495e90fa334828 Namjae Jeon   2026-02-13  2635  		ni = ni->ext.base_ntfs_ino;
-495e90fa334828 Namjae Jeon   2026-02-13  2636  
-495e90fa334828 Namjae Jeon   2026-02-13  2637  	/* Check the attribute type and the size. */
-495e90fa334828 Namjae Jeon   2026-02-13  2638  	err = ntfs_attr_size_bounds_check(ni->vol, type, size);
-495e90fa334828 Namjae Jeon   2026-02-13  2639  	if (err) {
-495e90fa334828 Namjae Jeon   2026-02-13  2640  		if (err == -ENOENT)
-495e90fa334828 Namjae Jeon   2026-02-13  2641  			err = -EIO;
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
