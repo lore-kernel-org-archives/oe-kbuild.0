@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BD82264A9
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 May 2026 23:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3EE1D9A66
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 May 2026 01:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777938771; cv=none; b=FGgLu0/dm7CdoiUBy4T4PWEHu8KCsw2aWjMuRu8ZqBzJRCHGK2IJY7IVukOCsA3nld9F4IJtExqTv5ZVsJWbX6p6PF/YMRllhDOop5wsbYC4h6g7m7NlM8tGOIUwB2Ac358Q21C+XcCQaJGIhfSXcfIkkwhJrrw8cFTUq+5Av2w=
+	t=1777943032; cv=none; b=GkD7rrxdT3/0cg8qADjpP01oQREL10E8LEJPv0oTRioWZrBZoIU6PdpcLtxnoPXT62HOyM9ht9SXMP9/wBM4oZC/DrdP9/XF3Vx3h5aXULaoWv6s332VoGA11nDcDeUeDgBTJzBUtb8CSSLsSvu6vVaGUjTvYPQLx2PO0hvx77k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777938771; c=relaxed/simple;
-	bh=FTqC5+rzjES1kgmkCyhSxPSzHo7LYoLATY8TmG8/xl0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MeCryzlSlNofQj8BXh8JHVw0IxUxWjoVCeVcXT8CEpDs+f+uRihfaHNps80BUlaICYZRihEZL2EpkwuRevhTXOo9A9Bs0M+mkUyD8qlIAb9VunVjsj8puhqAEhjnOGSwOGQHiYJoF0GjBId/DZV+wSrM5GE/oJh9STC5ircv81E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GvBX7O5p; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1777943032; c=relaxed/simple;
+	bh=d2iASfmgTkDZkLyQVvEXrl79ZQnijY+73zBhYG8RBqo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=I/EJ4YoMHNz34WwBhyZrBkWNmfDsW3PFBCXHMU4R9BPt8x6ofKKJ0HXN8Se9DvB+eGb0DoSqJWqgIAM5j0dpPlRFZNrmwzI/UGSqQ0LcC6mU2jjYqzSE0wHwns3nbF7Xa+4Bd1s8z3lOLMG2s7R5R+yq15cKLTPXdnhWxJaUiSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kuiJWcEX; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GvBX7O5p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuiJWcEX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777938770; x=1809474770;
+  t=1777943031; x=1809479031;
   h=date:from:to:cc:subject:message-id;
-  bh=FTqC5+rzjES1kgmkCyhSxPSzHo7LYoLATY8TmG8/xl0=;
-  b=GvBX7O5pnpnTTESfaTfqe8h2nhdsmUjFLLSgc2+eLBc8qWGud8nihjOP
-   eFz8Am47PSA5GWuDCjb0b/gbBHaJX3cwTOwQtsF+fSjSE4WYOM0bqZGRn
-   FxRfuzpGN9NOzcKd9UsSpmk5bx9sUNPZ3SJLVsiwBYUWpVFZcXvSTsDV6
-   wIrob5RwjkVuXuFEhzkt6TMbF+0CmCaiSDK9mZUAa2aqfMpO8qJam8cXz
-   2UvKtO6gtZV4Y7RvM+PX8PhNOfbzJ/1fwp1qtr1gibusNGMi7zlg/fif9
-   1urSwuoDBbT7/iBRIuZF9W1vh2TAgKoNPgWAWrB27IU5ZGwgiqlYnRqPF
+  bh=d2iASfmgTkDZkLyQVvEXrl79ZQnijY+73zBhYG8RBqo=;
+  b=kuiJWcEXKoWduTsimYawTrlWQtcYfz6pc3L6INFR2rbjlyAlZKxrGHZl
+   D+QkP30+PaENZAeFSCFAr2g/GDZU+mEWDbCyKbVVnbssTcN6Az+rKQ11c
+   cdZNaeWWgvnoDR66fLpiMW0wJxxVfChfgIBAc1LAGER1kt4m2f1xGL/WE
+   U0utxT8CmZYEqwD7+T/cI7oKeypVY3foFMhOaXooJmbe/piEKLNRNvHx8
+   xQEVLi2Ge8e6AVIZ4iBZRMiRwiDrN9glZggGPPoRYQqjqUqVghtZgZiX7
+   573A38OKWz/T3aynkNyj0MZe5/ZlRVz4yJR02LDPBNrsYk2fSGVIrzRwK
    g==;
-X-CSE-ConnectionGUID: IKSIvCUBQv6297+lsVoDJQ==
-X-CSE-MsgGUID: JQrekgiOSaa0kwxJfyUH7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78853768"
+X-CSE-ConnectionGUID: y5LoOZSlQWqHWWci5pwjaA==
+X-CSE-MsgGUID: EoCWfbZGR1+7/VPvcODRrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="90181021"
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="78853768"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 16:52:49 -0700
-X-CSE-ConnectionGUID: yitlIx+yQRSWzICNBQkqkQ==
-X-CSE-MsgGUID: ewr+frMtS3mHHsMqHALrZQ==
+   d="scan'208";a="90181021"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 18:03:50 -0700
+X-CSE-ConnectionGUID: Sas7/0zGRuGCcQsfch6/Ng==
+X-CSE-MsgGUID: AF01rMu6Q5KxpJRkTcmsWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="235706458"
+   d="scan'208";a="231295290"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 04 May 2026 16:52:48 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 04 May 2026 18:03:49 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wK35h-0000000061J-2j38;
-	Mon, 04 May 2026 23:52:45 +0000
-Date: Tue, 05 May 2026 01:51:49 +0200
+	id 1wK4CR-0000000063F-0xOD;
+	Tue, 05 May 2026 01:03:47 +0000
+Date: Tue, 05 May 2026 03:02:50 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: spi@700680
- (marvell,armada-380-spi): Unevaluated properties are not allowed
- ('spi-max-frequency' was unexpected)
-Message-ID: <202605050157.KsBCdLTO-lkp@intel.com>
+Subject: Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml:126:
+ example 1: canonical form differs:
+Message-ID: <202605050205.gxHuLGy0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,67 +60,77 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "low confidence static check first_new_problem: Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml:126: example 1: canonical form differs:"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Mark Brown <broonie@kernel.org>
+TO: Daniel Golle <daniel@makrotopia.org>
+CC: 0day robot <lkp@intel.com>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c7e4e4d5f7dc2daa439303d1b5bf6bdfaa249f49
-commit: 7105fdd54a14bee49371b39374a61b3c967d74cb spi: dt-bindings: Convert marvell,orion-spi to DT schema
-date:   10 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 10 months ago
-config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260505/202605050157.KsBCdLTO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/dt-bindings-misc-fsl-qoriq-mc-drop-trailing-whitespace/20260430-163453
+head:   c553182e0670fe0fd68c50cf7dd3acf767475883
+commit: 570758ea908d5c36820da86ff3265cea8b9f56f6 dt-bindings: wire example style check into dt_binding_check
+date:   2 weeks ago
+:::::: branch date: 5 days ago
+:::::: commit date: 2 weeks ago
+config: mips-randconfig-2051-20260430 (https://download.01.org/0day-ci/archive/20260505/202605050205.gxHuLGy0-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 15.1.0
 dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050157.KsBCdLTO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050205.gxHuLGy0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7105fdd54a14 ("spi: dt-bindings: Convert marvell,orion-spi to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605050157.KsBCdLTO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605050205.gxHuLGy0-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: /cp0-bus/bus@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: /cp0-bus/bus@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'vbus-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
->> arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: spi@700680 (marvell,armada-380-spi): Unevaluated properties are not allowed ('spi-max-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/marvell,orion-spi.yaml
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: /cp0-bus/bus@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: /cp0-bus/bus@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
->> arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: spi@700680 (marvell,armada-380-spi): Unevaluated properties are not allowed ('spi-max-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/marvell,orion-spi.yaml
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: gpio@41 (nxp,pca9536): 'gpio-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: gpio@41 (nxp,pca9536): '#gpio-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: rtc@68 (st,m41t83): Unevaluated properties are not allowed ('reset-gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/rtc/st,m41t80.yaml
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: /cp1-bus/bus@f4000000/phy@120000: failed to match any schema with compatible: ['marvell,comphy-cp110']
-   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+   };
+   Documentation/devicetree/bindings/pinctrl/qcom,sc8180x-tlmm.yaml:105: example 0: canonical form differs:
+   --- Documentation/devicetree/bindings/pinctrl/qcom,sc8180x-tlmm.yaml (original)
+   +++ Documentation/devicetree/bindings/pinctrl/qcom,sc8180x-tlmm.yaml (canonical)
+   @@ -1,4 +1,5 @@
+   #include <dt-bindings/interrupt-controller/arm-gic.h>
+   +
+   pinctrl@3100000 {
+   compatible = "qcom,sc8180x-tlmm";
+   reg = <0x03100000 0x300000>,
+>> Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml:126: example 1: canonical form differs:
+   --- Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml (original)
+   +++ Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml (canonical)
+   @@ -4,7 +4,7 @@
+   reg = <0x4a096000 0x80>,  /* phy_rx */
+   <0x4a096400 0x64>,  /* phy_tx */
+   <0x4a096800 0x40>;  /* pll_ctrl */
+   -    reg-names = "phy_rx", "phy_tx", "pll_ctrl";
+   +          reg-names = "phy_rx", "phy_tx", "pll_ctrl";
+   clocks = <&sys_clkin1>, <&sata_ref_clk>;
+   clock-names = "sysclk", "refclk";
+
+vim +126 Documentation/devicetree/bindings/phy/ti,phy-usb3.yaml
+
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  107  
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  108  examples:
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  109    - |
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  110      /* TI PIPE3 USB3 PHY */
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  111      usb3-phy@4a084400 {
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  112          compatible = "ti,phy-usb3";
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  113          reg = <0x4a084400 0x80>,
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  114                <0x4a084800 0x64>,
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  115                <0x4a084c00 0x40>;
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  116          reg-names = "phy_rx", "phy_tx", "pll_ctrl";
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  117          #phy-cells = <0>;
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  118          clocks = <&usb_phy_cm_clk32k>,
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  119                   <&sys_clkin>,
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  120                   <&usb_otg_ss_refclk960m>;
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  121          clock-names = "wkupclk", "sysclk", "refclk";
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  122          ctrl-module = <&omap_control_usb>;
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  123      };
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  124  
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23  125    - |
+62c9ff8fc20d23 Charan Pedumuru 2026-01-23 @126      /* TI PIPE3 SATA PHY */
 
 --
 0-DAY CI Kernel Test Service
