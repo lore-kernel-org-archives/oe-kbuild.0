@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E491F6FBF
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 May 2026 16:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F342E1EA84
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 May 2026 19:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778086041; cv=none; b=M+Zwqu7au2pZPDBmQZam+JmjO7y1suDYc94UayTpRs/s/7ECDUxpOeBpDTsA8FT5vBrfyAnF8orXCuZCujt2HkujUFmNaNp1rwoLQMfGBGdIH2RL1USj7aWAv82MJANyomLLuNczX3M2ofDUGTOpxntjzORHbvoC0rNHFz/iOtk=
+	t=1778094386; cv=none; b=GFIlgAYvDYMlQgZTJAt1qGFpwD/h5AR2tzeMgLOvJMv9Z8dmICbg+5UELLFxArXl9D9K1lWF9sjCIG3kN7BVgBvw2rjhtt1dR81gN2QsO99/7fRapJWZ5hsGkpnZ94E/p4T+Hb5dqNX4ddsNHv3OY+glCyGUewJSJo7zacbbOfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778086041; c=relaxed/simple;
-	bh=ZZtDd2sM5UGp5aoWi77dUjx63qL89UXo1YgXutcsJ+U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oghT4HP/3IISA46jow65wygX0m8PWzBpInEX/0BO5tUeeA4Lqs/DClGHjqUNznsEUeK0T/3216rS2ODoe0kB/cEYDjtcIB0HswPV1bID5DJb4asuah7FTD/JrKCvtFnYgijmUKPsiG2zGrJCAVKv+HTA5i+0GV/D7TVyew9K7WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=micVeZWm; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1778094386; c=relaxed/simple;
+	bh=THSP315iGSHFiEwULxF9rDZV6voRz2hFVtBgjzUZ60E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Iu6JnURpUvNSvbEzfI/8ZoYQh58IFCjwyxreDeXG+goHKBYvS2639NEPBRs/0R5rTMQcwVyEB8X8GsrHfVh5s/MCFrWuYXMLclvErDSJxZsS/HAn/kHY1ZZ2BMWxI+ENN1/iffinioevgq5Nt/SvteTgFXecXr3/Hw7jY2HnxnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eTS3DRMp; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="micVeZWm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eTS3DRMp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778086040; x=1809622040;
+  t=1778094384; x=1809630384;
   h=date:from:to:cc:subject:message-id;
-  bh=ZZtDd2sM5UGp5aoWi77dUjx63qL89UXo1YgXutcsJ+U=;
-  b=micVeZWmOy8YIQvU1dOPV4WVDUaZzOL3CsLCIPGf5V6gcBolef9zVkdq
-   KygnODMWnD8xbMISyiCL97BYlKBKroIZWze1I2OgkrDAQJvBOtOVy0T4h
-   yy9/+JWLAVZiwwgT4YLVtS1tv7mD7YY7i8VL+IcFH4Ig6gJMAhmw+CVQg
-   pQtyeXM7l7MAVIMZPapur+ENCVjfi50Yq2Ky+xxAPyUCG47ipN5cumbUc
-   CJ0lSdDUJdqjCa2op8TavjVG0krAD9PLwCz5ZZmBAkogi/EkTBztcQk5y
-   b53Xucewl1F0Y5QPjmAA+i2NjbiPdmqf6zQ/gsUSN3a4uxOVPWjk/QjLX
-   w==;
-X-CSE-ConnectionGUID: sYkPmhdASZ6Mdspolt0lXA==
-X-CSE-MsgGUID: OhGw04XCSPKOhGIXc9BC8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="79071586"
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="79071586"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 09:47:19 -0700
-X-CSE-ConnectionGUID: rw96BlzqSxSfQKN76zebKg==
-X-CSE-MsgGUID: /f034vnFR+qFfDOhjzua8A==
+  bh=THSP315iGSHFiEwULxF9rDZV6voRz2hFVtBgjzUZ60E=;
+  b=eTS3DRMpU0PQTm5DdHpMgDMdkoqql66nNwYvKMJs1no1HGnc3+vI5lvG
+   hc2AMeMOJEgt8zXLOx07cnF9hLfLPBIvQXqOrznIiBBiebvr/dFLRKVOF
+   1oWqGxPJwdE/zXeoFzM9N+WywZwIDmbVKRzRIVWgRIphxqQw2woZu2VKh
+   46rVOcmt5LEAmBiw5sPU79rqcoyPEsxBbrJaWEyRwWLL8W7QoA0JoXGgA
+   2FZf0VrKAUCMgX3BX5z6WpXzFwBLlAfzyL9lOOXl5VXfSzAym2RTrbdA6
+   Il3NIUgofnOkDu0im5+TQ7OyT+1uJvveFZb6m22vlHqFdPJrh7yJkmuBd
+   g==;
+X-CSE-ConnectionGUID: Ywl1RwYOSSCUBjUeFdp/mw==
+X-CSE-MsgGUID: M3I2k4bQTbKs6yjHVrTnAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="78929360"
+X-IronPort-AV: E=Sophos;i="6.23,220,1770624000"; 
+   d="scan'208";a="78929360"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 12:06:23 -0700
+X-CSE-ConnectionGUID: At5irYi3Rki1Qx8R5Z3PHw==
+X-CSE-MsgGUID: /HVaXH6bQ5ya9BNTRQteFw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="259891866"
-Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 May 2026 09:47:18 -0700
-Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,220,1770624000"; 
+   d="scan'208";a="231854828"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 06 May 2026 12:06:21 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKfP1-0000000014f-354i;
-	Wed, 06 May 2026 16:47:15 +0000
-Date: Thu, 07 May 2026 00:46:42 +0800
+	id 1wKhZa-000000006bl-3ufv;
+	Wed, 06 May 2026 19:06:18 +0000
+Date: Wed, 06 May 2026 21:05:29 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android14-6.1 2/2]
- fs/squashfs/decompressor_multi_percpu.c:84:9: sparse: sparse: no generic
- selection for 'struct local_lock_t *'
-Message-ID: <202605070046.L2QE4e4A-lkp@intel.com>
+Subject: arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb:
+ pinctrl@10211000 (mediatek,mt7622-pinctrl): 'asm-sel-hog' does not match any
+ of the regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
+Message-ID: <202605062002.km6tMHLh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,66 +61,48 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: fs/squashfs/decompressor_multi_percpu.c:84:9: sparse: sparse: no generic selection for 'struct local_lock_t *'"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   bc1567eb8cdef6c0456563b30f1ce83dbaf3dacb
-commit: 9183a054c2a4d512a704667591d974f1a88fe8b7 [2/2] UPSTREAM: locking/local_lock: fix _Generic() matching of local_trylock_t
-:::::: branch date: 5 days ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-r131-20260506 (https://download.01.org/0day-ci/archive/20260507/202605070046.L2QE4e4A-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605070046.L2QE4e4A-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   adc1e5c6203cf13fe05a1ead08edcb3d3a3baae8
+commit: 6e3b067d3c5e00dea2e38c609fcd247baa74dec4 arm64: dts: mediatek: mt7622: Align GPIO hog name with bindings
+date:   1 year, 1 month ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260506/202605062002.km6tMHLh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605062002.km6tMHLh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 6e3b067d3c5e ("arm64: dts: mediatek: mt7622: Align GPIO hog name with bindings")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605070046.L2QE4e4A-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605062002.km6tMHLh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/squashfs/decompressor_multi_percpu.c:84:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct local_lock_t * @@
-   fs/squashfs/decompressor_multi_percpu.c:84:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   fs/squashfs/decompressor_multi_percpu.c:84:9: sparse:     got struct local_lock_t *
->> fs/squashfs/decompressor_multi_percpu.c:84:9: sparse: sparse: no generic selection for 'struct local_lock_t *'
-   fs/squashfs/decompressor_multi_percpu.c:90:9: sparse: sparse: no generic selection for 'struct local_lock_t *'
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pwrap@10001000 (mediatek,mt7622-pwrap): 'regulators' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pwrap@10001000/regulators: failed to match any schema with compatible: ['mediatek,mt6380-regulator']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt7622-scpsys', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000 (mediatek,mt7622-pinctrl): 'asm-sel-hog' does not match any of the regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000 (mediatek,mt7622-pinctrl): reg: [[0, 270602240, 0, 4096], [0, 268455936, 0, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000 (mediatek,mt7622-pinctrl): reg-names:0: 'eint' was expected
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000 (mediatek,mt7622-pinctrl): reg-names: ['base', 'eint'] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: cci@10390000 (arm,cci-400): slave-if@5000:compatible: ['arm,cci-400-ctrl-if', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,cci-400.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000 (mediatek,mt7622-audsys): audio-controller:clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
 
-vim +84 fs/squashfs/decompressor_multi_percpu.c
-
-d208383d640727b Phillip Lougher  2013-11-18  77  
-93e72b3c612adca Philippe Liard   2020-06-01  78  int squashfs_decompress(struct squashfs_sb_info *msblk, struct bio *bio,
-93e72b3c612adca Philippe Liard   2020-06-01  79  	int offset, int length, struct squashfs_page_actor *output)
-d208383d640727b Phillip Lougher  2013-11-18  80  {
-fd56200a16c72c7 Julia Cartwright 2020-05-27  81  	struct squashfs_stream *stream;
-fd56200a16c72c7 Julia Cartwright 2020-05-27  82  	int res;
-fd56200a16c72c7 Julia Cartwright 2020-05-27  83  
-fd56200a16c72c7 Julia Cartwright 2020-05-27 @84  	local_lock(&msblk->stream->lock);
-fd56200a16c72c7 Julia Cartwright 2020-05-27  85  	stream = this_cpu_ptr(msblk->stream);
-fd56200a16c72c7 Julia Cartwright 2020-05-27  86  
-93e72b3c612adca Philippe Liard   2020-06-01  87  	res = msblk->decompressor->decompress(msblk, stream->stream, bio,
-846b730e99518a1 Phillip Lougher  2013-11-18  88  					      offset, length, output);
-fd56200a16c72c7 Julia Cartwright 2020-05-27  89  
-fd56200a16c72c7 Julia Cartwright 2020-05-27  90  	local_unlock(&msblk->stream->lock);
-d208383d640727b Phillip Lougher  2013-11-18  91  
-d208383d640727b Phillip Lougher  2013-11-18  92  	if (res < 0)
-d208383d640727b Phillip Lougher  2013-11-18  93  		ERROR("%s decompression failed, data probably corrupt\n",
-d208383d640727b Phillip Lougher  2013-11-18  94  			msblk->decompressor->name);
-d208383d640727b Phillip Lougher  2013-11-18  95  
-d208383d640727b Phillip Lougher  2013-11-18  96  	return res;
-d208383d640727b Phillip Lougher  2013-11-18  97  }
-d208383d640727b Phillip Lougher  2013-11-18  98  
-
-:::::: The code at line 84 was first introduced by commit
-:::::: fd56200a16c72c7c3ec3e54e06160dfaa5b8dee8 squashfs: Make use of local lock in multi_cpu decompressor
-
-:::::: TO: Julia Cartwright <julia@ni.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
