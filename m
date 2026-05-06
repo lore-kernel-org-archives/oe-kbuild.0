@@ -1,58 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113FF20CCDC
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 May 2026 06:07:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8232FE579
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 May 2026 06:07:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778047634; cv=none; b=g05YD3hzRJALkqw/U79VMXWPQeiNyuMlbPERvJg/gtYjIOWYi3lcyUcwzxfHddUEKY27c/wcRfZU6nMFvh7dgpvhM5dyRdgXYJRtEqujRsYJ38YGVACqOto73WyQBgVxRJL090QHj/TGrrR0q+p5k4NihtFh2jZmZzU5ajIDxYU=
+	t=1778047636; cv=none; b=LbyAAxIai1n7dwflWTEyijEHsKnT5GoG0WWUQSOwTP1DSfRzcvCWG3f8w8iWVYAO6MvibD3u2TlkItnBlaq6+di9cW7OgiXdCykTtzY76LQPb6QHytfGs1kTdJGxrC22/cKBPUSydAmVglkLzYEa271vtp9FEdibMkqsB8d2BLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778047634; c=relaxed/simple;
-	bh=EQVyI8bYfnQcvFk8Y6EL17EWv2itb1P/eqXdVuVZv7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gJUxrpXkuzT1n5eXDbG/Jx5Er8BCPeShT0NJoiHL9Jk0anNB2n9rstseDjuBKVSsYO2sBzOKyhjzAUO3PlYml1IjClKMBDtqfmOEamBpdEmatNRGPKSLzZdWlf01lQ33pdMhYCiSmwuuTc8Cn8F1k66Y4u4NF23CX5aHju/9t+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JIGB9X79; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1778047636; c=relaxed/simple;
+	bh=Baxq2CQsMzPPVJPiv8QuTa21QhdrcwrcsXvQt6c+cyo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sZU8+t8eGsZ3VFRcTlLREetiBMlewGx6bVszSIWi2O8kJmVzoidv5xaAvcxUfgTLWr2JcR3QmUzLMtmtThW2jizdzNTnpsESyP8lLaZqpHa86V3kP4QVym8HZI2wymObVWaS3ldwQBmp8DcxgfRyGjLK36vqsf/f5cttXlng2rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PjHC77nb; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIGB9X79"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PjHC77nb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778047634; x=1809583634;
+  t=1778047635; x=1809583635;
   h=date:from:to:cc:subject:message-id;
-  bh=EQVyI8bYfnQcvFk8Y6EL17EWv2itb1P/eqXdVuVZv7Y=;
-  b=JIGB9X79rxmiX+aLN/48FLWlVtspEqQLl5jJUuRYfPjuONqYMULLtUm5
-   WXMKm5tZpM7FSeJOBwsaEM9jRktR0IuSzFMcXQZnTA81jLLqXrSXWPyyX
-   Hd1NaGOptIl6t904yaSHW/m5rcESPPeZAGljQMCpCszD76jVX3flfTz/o
-   /TDF60yZ3KXDuc5Uutec05hWPUnEfUDQ8XmMZ2Mipvbvf/nAQTnG249gC
-   EhsHDRqRfaSnAcOTfkWckT/+aMGmYqP5xWAkLxDJ2SAuZ+mcXQHm0XTMy
-   Pu94swS9ke73OVp878QWc+y/78fcSfkdeJCbUAmTtoFfE5YPowbXQf8Rw
-   w==;
-X-CSE-ConnectionGUID: 2N6A162TTriUC48pCekPKQ==
-X-CSE-MsgGUID: 0zbKFt2KTTSVvV0EvaALAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="101609292"
+  bh=Baxq2CQsMzPPVJPiv8QuTa21QhdrcwrcsXvQt6c+cyo=;
+  b=PjHC77nbTAM+BX8Y6vU4JVj3bjCuCpn7mZ0nmYKnpJfryi8C+O2jnXzS
+   t8nmnS8nuyyqJtjUYzwSEHTcPfWm89IFZVLJmPrvsqMVlv91YozvsIkkD
+   Q64NlEgu+VwRHt/IIIRe7MSQZADHV0aRQ8FygYr8emBcV2o7vNjEIosJ2
+   /9RaBKjnsEH7fSt4ykQATUpsoFsrMxC3m1Mrz2T8QvW6uc5AtYBdaXC1V
+   sfrT+c9tAOfqCGBgGUdP9rMAf5hFZ778msc7MClPoO3OFG04b6At9ACmz
+   6/xNdECyR5SlevJvGkAJJz5Kax3QTha5OJs6C2ekv4fMIENSjRruXSDvv
+   A==;
+X-CSE-ConnectionGUID: ghT32MAfQ2ut/l4HtorxtA==
+X-CSE-MsgGUID: mbMyxoqgTKWWtGRFCPSYBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="101609297"
 X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="101609292"
+   d="scan'208";a="101609297"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 23:07:13 -0700
-X-CSE-ConnectionGUID: Tnyh6kUJSA26ZBM5WivUZQ==
-X-CSE-MsgGUID: LwCAw+fQQ6ea9slU2DtTmQ==
+X-CSE-ConnectionGUID: VnFeQkzaSYuaPJAYXXplkg==
+X-CSE-MsgGUID: ThsnhEgORluuOBu5czWL4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="241012224"
+   d="scan'208";a="241012226"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
   by orviesa005.jf.intel.com with ESMTP; 05 May 2026 23:07:11 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKVPZ-000000006Rt-2C9n;
+	id 1wKVPZ-000000006Rv-2Q7A;
 	Wed, 06 May 2026 06:07:09 +0000
-Date: Wed, 06 May 2026 08:06:22 +0200
+Date: Wed, 06 May 2026 08:06:20 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000
- (apm,xgene-enet): Unevaluated properties are not allowed
- ('local-mac-address', 'phy-connection-type', 'phy-handle' were unexpected)
-Message-ID: <202605060816.va0s0UVU-lkp@intel.com>
+Subject: arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb:
+ usb@12500000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+Message-ID: <202605060701.buw7wcrU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,49 +60,106 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Jacob Keller <jacob.e.keller@intel.com>
+TO: Alexandre MINETTE <contact@alex-min.fr>
+CC: 0day robot <lkp@intel.com>
+CC: Dmitry Baryshkov <lumag@kernel.org>
+CC: Linus Walleij <linusw@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   74fe02ce122a6103f207d29fafc8b3a53de6abaf
-commit: 0b467f5a7f19853d8b7a920468d795e682442b80 dt-bindings: net: Convert apm,xgene-enet to DT schema
-date:   8 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 8 months ago
-config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260506/202605060816.va0s0UVU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/Alexandre-MINETTE-via-B4-Relay/dt-bindings-arm-qcom-Add-Samsung-Galaxy-S4/20260503-092020
+head:   5eea8ec897bc79e313f44f6f0d08c7f613989dbd
+commit: 130405e7d7f70a6895bebbf783030b687e1fc138 ARM: dts: qcom: apq8064: Fix USB controller clocks
+date:   3 days ago
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-2052-20260503 (https://download.01.org/0day-ci/archive/20260506/202605060701.buw7wcrU-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
 dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605060816.va0s0UVU-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605060701.buw7wcrU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0b467f5a7f19 ("dt-bindings: net: Convert apm,xgene-enet to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605060816.va0s0UVU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605060701.buw7wcrU-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/pmu@78810000/pmucmc@7e8d0000: failed to match any schema with compatible: ['apm,xgene-pmu-mc']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/mailbox@10540000: failed to match any schema with compatible: ['apm,xgene-slimpro-mbox']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/i2cslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-i2c']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/hwmonslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-hwmon']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: mmc@1c000000 (arasan,sdhci-4.9a): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/rtc@10510000: failed to match any schema with compatible: ['apm,xgene-rtc']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/mdio@17020000: failed to match any schema with compatible: ['apm,xgene-mdio-rgmii']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): phy-handle:0: [36, 37] is too long
-   	from schema $id: http://devicetree.org/schemas/net/apm,xgene-enet.yaml
->> arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): Unevaluated properties are not allowed ('local-mac-address', 'phy-connection-type', 'phy-handle' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/apm,xgene-enet.yaml
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): phy-handle:0: [36, 37] is too long
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/dma@1f270000: failed to match any schema with compatible: ['apm,xgene-storm-dma']
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1136.21-1184.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@4700000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1202.21-1256.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: usb@12500000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+>> arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: usb@12500000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 126], [24, 128]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: usb@12520000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: usb@12520000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 295], [24, 297]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: usb@12530000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: usb@12530000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 298], [24, 300]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+--
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1136.21-1184.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@4700000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1202.21-1256.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: usb@12500000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+>> arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: usb@12500000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 126], [24, 128]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: usb@12520000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: usb@12520000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 295], [24, 297]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: usb@12530000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: usb@12530000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 298], [24, 300]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+--
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1136.21-1184.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@4700000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1202.21-1256.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: usb@12500000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+>> arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: usb@12500000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 126], [24, 128]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: usb@12520000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: usb@12520000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 295], [24, 297]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: usb@12530000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: usb@12530000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 298], [24, 300]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+--
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1202.21-1256.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: usb@12500000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+>> arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: usb@12500000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 126], [24, 128]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: usb@12520000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: usb@12520000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 295], [24, 297]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: usb@12530000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: usb@12530000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 298], [24, 300]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+--
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1136.21-1184.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@4700000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1202.21-1256.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: usb@12500000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+>> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: usb@12500000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 126], [24, 128]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: usb@12520000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: usb@12520000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 295], [24, 297]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: usb@12530000 (qcom,ci-hdrc): clock-names: ['core', 'iface', 'fs'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+   arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: usb@12530000 (qcom,ci-hdrc): clocks: [[17, 10], [24, 298], [24, 300]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
 
 --
 0-DAY CI Kernel Test Service
