@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF572F8E83
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 May 2026 20:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04A8344DB4
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 May 2026 21:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778186562; cv=none; b=tyhGDU9kmnJQ8pP+0hF/J+lmyofg3XfUbvta885Ve5TmsrbwtnCLEvSQi8MaXN/Ub1CVJxN7ax6na8eP+eeoGCQuJyZDd3uQ8t1dOWzV+Uny8oYgXMWRIHlQ24wgnaprWC5vQm+3KQsVWqO6TPb0dcFFpwq62Tl5veZLue8ChhU=
+	t=1778189385; cv=none; b=OwulBpD09njhva7sxw4fkTE700rp9D+h6ba760+N+3LsZH207hSeQZ1Yk4B+UU5FH9Sn+uogkaP3386xTq+G2zzymzTMmhaPP0giKo4P2kWeVYbnzOH9Mpentqdweu1X/1zkS9227KGmBW3f2i38a1M8McHaQwVT+W/glDGTUkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778186562; c=relaxed/simple;
-	bh=nIXGSVDlktVHOLpbb+XC2Bq/He6WIc1hiJzyvMxU//M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uCYNQhIi/+5QpoEcXBC6GpDjijbrrUuKYXRr8KgH1xnZeOpFtczom0qYzos1GaDxkfa9FiIML8ODjhv7ozC/rmWAQf3/Pbr4+xvkrUqtXa2vjwIeCeSLr5xhepNIVmYpWbUVhDaB4NQcjTEmlpjOTWDfDxcUoYzFkJUdsTRrDmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ajR73nNs; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1778189385; c=relaxed/simple;
+	bh=oa2EfsZo0/OAyFK0kWXUkrjqIFvRQWTpQWzN5hZhiR0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GJMYujAOLs/7z/0pYnCxmjMNDGbdqeyYnbvhXiQQKiqXmSlLDGMLWyrjYxwXUTDo9x8/c3KLYPppU7ZSaea05agJkn3wPQNn8+mBNoHrcEhQxUlZqqll6ZgPAIMeohT3jVCTlVs+VHY3n3H/D5Fs6s/jYal1Mf8GLh46xP9ibk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TNoVnzpl; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ajR73nNs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNoVnzpl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778186560; x=1809722560;
+  t=1778189384; x=1809725384;
   h=date:from:to:cc:subject:message-id;
-  bh=nIXGSVDlktVHOLpbb+XC2Bq/He6WIc1hiJzyvMxU//M=;
-  b=ajR73nNs5E9VoiRmUY4we7i0ClGSdcH18IOt9/ZmMk1MvBFvxrHxHbzp
-   PkRLtQ1qos/zXyAxX+Uo2TpdiT1zUvSDl9sG5f6DbERuX+4SNOcmhIif+
-   EW2d4ZTKhyYEANDnSMzIteD3j735LxNdUfuSvixj5JXYjaT2bhY7w8uka
-   zKh85k4+5n9LWG+okEYs6ngNL1DTemYB03zUq0IGJeUKGfFTA01qHf3v3
-   XawGf7+4I7a+4vcTTEa3DZ57OrAVJLncgKOJjvct8ERRs0DLrs2OlP4Bw
-   sdoXDP4w/qn6aQfEjOLAsTAp3HCf+qQtx8FyBE4aQ1BCQKhbtNR5O0fOc
-   g==;
-X-CSE-ConnectionGUID: 6wC2KBPqT5emnoi29unVgQ==
-X-CSE-MsgGUID: QkRQU2TpTxGWWzo7lY++Zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="83021974"
+  bh=oa2EfsZo0/OAyFK0kWXUkrjqIFvRQWTpQWzN5hZhiR0=;
+  b=TNoVnzpl4eg2bjBuW356LDKHDWYycC+u1utyPSe9F7OzYSpy1nklzpK0
+   eVEeheefpxGNEADXxzefu5e/591eGIRQGPHJbvIuzFkmrNuAbhhOg7WSa
+   LdLwcSZ3bxM6K2aM2yO7xEz0ehD+3VrToCxYBzl35JjREhDAe/bS3Itz4
+   OEZfz+U/43uZoQIOdm5bMrP7fqETZbBHVz3RUTomk7WHmnyt5ocuexk8k
+   0HrDbTdyqPgdqkRlhXmqE35NSneZ96CPg0h1mr0DkGZgal36PngwXQ7jD
+   JO7UKanb+9AiESwzSd782eIs5rnmIQnb5iC16zzgKVsr+V1/C4W5QZXTi
+   w==;
+X-CSE-ConnectionGUID: 1oFdsnr4SUWXKhrTRe5A2w==
+X-CSE-MsgGUID: 8E7rLVohT0GPkgcU0s8elg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="89851179"
 X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="83021974"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 13:42:40 -0700
-X-CSE-ConnectionGUID: uX88Sp26Q2CS2TUWe5A4YQ==
-X-CSE-MsgGUID: 5YVZe7o+TDWlWMTPE2ANBw==
+   d="scan'208";a="89851179"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 14:29:43 -0700
+X-CSE-ConnectionGUID: 8RXsQVmESlivn+xeawfpTQ==
+X-CSE-MsgGUID: JY7W0W9QR2OxNBvhjNRKCA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="240905615"
-Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 May 2026 13:42:39 -0700
-Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 07 May 2026 14:29:42 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wL5YK-000000000RF-0gIt;
-	Thu, 07 May 2026 20:42:36 +0000
-Date: Fri, 08 May 2026 04:41:36 +0800
+	id 1wL6Hr-000000006wn-49kl;
+	Thu, 07 May 2026 21:29:39 +0000
+Date: Thu, 07 May 2026 23:28:57 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Warning: arch/mips/cavium-octeon/octeon-crypto.c:15 This
- comment starts with '/**', but isn't a kernel-doc comment. Refer to
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202605080439.XvWoiMdF-lkp@intel.com>
+Subject: arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb:
+ wifi@0 (pci17cb,1103): 'vddwlmx-supply' is a required property
+Message-ID: <202605072306.VIKANNwL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,150 +58,56 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Randy Dunlap <rdunlap@infradead.org>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: linux-doc@vger.kernel.org
-
-Hi Randy,
-
-FYI, the error/warning still remains.
+TO: Nikita Travkin <nikita@trvn.ru>
+CC: Bjorn Andersson <andersson@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8ab992f815d6736b5c7a6f5fd7bfe7bc106bb3dc
-commit: 5f88f44d8427a97347afda3a6114aed0df472a0b docs: kdoc: various fixes for grammar, spelling, punctuation
-date:   5 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 months ago
-config: mips-randconfig-r131-20260507 (https://download.01.org/0day-ci/archive/20260508/202605080439.XvWoiMdF-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 12.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605080439.XvWoiMdF-lkp@intel.com/reproduce)
+head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
+commit: 263780f3189730f2efa511181c3970384e54afde arm64: dts: qcom: sc8280xp: Add EL2 overlay for WoA devices
+date:   1 year ago
+:::::: branch date: 11 months ago
+:::::: commit date: 1 year ago
+config: arm64-randconfig-2055-20260506 (https://download.01.org/0day-ci/archive/20260507/202605072306.VIKANNwL-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605072306.VIKANNwL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 5f88f44d8427 ("docs: kdoc: various fixes for grammar, spelling, punctuation")
+| Fixes: 263780f31897 ("arm64: dts: qcom: sc8280xp: Add EL2 overlay for WoA devices")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605080439.XvWoiMdF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605072306.VIKANNwL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: bluetooth (qcom,wcn6855-bt): 'vddbtcmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfacmn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddaon-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa0p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
 
->> Warning: arch/mips/cavium-octeon/octeon-crypto.c:15 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Enable access to Octeon's COP2 crypto hardware for kernel use. Wrap any
 --
->> Warning: arch/mips/cavium-octeon/executive/octeon-model.c:34 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Read a byte of fuse data
---
->> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:44 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Perform initialization required only once for an SGMII port.
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:128 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize the SERTES link for the first time or after a loss
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:191 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Configure an SGMII link to the specified speed after the SERTES
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:297 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Bring up the SGMII interface to be ready for packet I/O but
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:333 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Probe a SGMII interface and determine the number of ports
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:357 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Bringup and enable a SGMII interface. After this call packet
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-sgmii.c:387 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return the link state of an IPD/PKO port as returned by
---
->> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-npi.c:40 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Probe a NPI interface and determine the number of ports
---
->> Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:52 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return the number of interfaces the chip has. Each interface
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:79 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return the number of ports on an interface. Depending on the
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:94 Cannot find identifier on line:
-    * @INTERNAL
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:95 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return interface mode for CN68xx.
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:146 Cannot find identifier on line:
-    * @INTERNAL
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:147 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return interface mode for an Octeon II
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:246 Cannot find identifier on line:
-    * @INTERNAL
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:247 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return interface mode for CN7XXX.
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:282 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Get the operating mode of an interface. Depending on the Octeon
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:364 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Configure the IPD/PIP tagging and QoS options for a specific
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:413 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * This function sets the interface_port_count[interface] correctly,
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:487 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * This function probes an interface to determine the actual
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:555 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Setup the IPD/PIP for the ports on an interface. Packet
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:577 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Setup global setting for IPD/PIP not related to a specific
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:599 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Setup the PKO for the ports on an interface. The number of
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:643 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Setup global setting for PKO not related to a specific
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:678 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Setup global backpressure setting.
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:712 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Enable packet input/output from the hardware. This function is
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:774 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Function to adjust internal IPD pointer alignments
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:968 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Called after all internal packet IO paths are setup. This
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:1004 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize the PIP, IPD, and PKO hardware to support
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper.c:1064 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return the link state of an IPD/PKO port as returned by
---
->> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-spi.c:62 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Probe a SPI interface and determine the number of ports
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-spi.c:95 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Bringup and enable a SPI interface. After this call packet I/O
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-spi.c:133 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Return the link state of an IPD/PKO port as returned by
---
->> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-loop.c:39 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Probe a LOOP interface and determine the number of ports
---
->> Warning: arch/mips/cavium-octeon/executive/cvmx-interrupt-rsl.c:44 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Enable ASX error interrupts that exist on CN3XXX, CN50XX, and
---
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-errata.c:28 Cannot find identifier on line:
-    *
->> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-errata.c:29 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Fixes and workaround for Octeon chip errata. This file
---
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:29 Cannot find identifier on line:
-    *
->> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:30 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Helper utilities for qlm_jtag.
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:39 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Initialize the internal QLM JTAG logic to allow programming
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:73 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Write up to 32bits into the QLM jtag chain. Bits are shifted
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-jtag.c:103 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Shift long sequences of zeros into the QLM JTAG chain. It is
---
->> Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:48 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Convert a interface mode into a human readable string
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:83 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Setup Random Early Drop on a specific input queue
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:120 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Setup Random Early Drop to automatically begin dropping packets.
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:170 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Setup the common GMX settings that determine the number of
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:279 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Returns the IPD/PKO port number for a port on the given
-   Warning: arch/mips/cavium-octeon/executive/cvmx-helper-util.c:308 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Returns the interface number for an IPD/PKO port number.
-
--- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
