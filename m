@@ -1,74 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D280A31715F
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 May 2026 11:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8D82C0F81
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 May 2026 11:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778153993; cv=none; b=B7FGVpU1kIbWJD2ahcgpc0E6TW/9tZzY2V/W/JjuWWC4Mqirca1iGrJBsbVtOaHC6hQxsvytSjlVPHMMKTLDdeUahRc7gQObzu0Zju+4acsqjr0zPVDRPU0NK0cXSamWgRTNMdqbbnRSo0HFyS7DW/tKbS59wPWkXYUACsYtexE=
+	t=1778154441; cv=none; b=p37kjcxJ+x64tnyZrxhUdeUM0JdwL7d6RTd/Qatw8+xOv8LR3fmckGGSx0rcjnKHV+zrrEc1o+cMeqzqzZtMGyxS2tmGD8Kfdkr1VaFCXk/iSwh06eUoiAxXBh3GDa17e2uZsc3k8eViS5NfF8J1+YB0icNA28ZvjmOIFM6vkbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778153993; c=relaxed/simple;
-	bh=6g9M/mHWbpvaEf3JqRc+GLz0Lvi0SNdhKopceRsVqKg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZHYOMZPvzLtqI6402CyHt6I+AubgNKsnIeht80hG2dDz+ygE1zfNx+r+yilPk1qnDZgZSjaDSBMS57WLp/F3GXF9sdrZnweQQ0mA8yt041aHiPMYrRcf0hP0dz/DNZvUXNIdDXRNMof95UssmJS/35t941RWwb4BKxJ76oxC2Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ikq+liZw; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778154441; c=relaxed/simple;
+	bh=bmNa1OnthFHGLkhkG7Hb0jGYEMzr832Gt1KEiWpPWKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xp8D+ktefgALAKTLKwcmTtie/XQyMmSyQZZ9dMO3WryWI2bLWajGcGs2dtVn1k2+kVL/ChjsNlH9ygqy/myVV0IOC+7c5xaZiixnX/MgAPkY2143a00X8BrIM1pLvAhEOjYpCF3DHwA8sP1U5EfuvsyjIqagcFFXVZoXtlu49ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DiMfuRHG; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ikq+liZw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778153992; x=1809689992;
-  h=date:from:to:cc:subject:message-id;
-  bh=6g9M/mHWbpvaEf3JqRc+GLz0Lvi0SNdhKopceRsVqKg=;
-  b=Ikq+liZwp7N9nJzfN+a0Uj3csp7hcJlOR4KbMRr7/9bgsBW5HekruAkE
-   lsncWEdh+mNw/skD0F3/G38wlRFB+LO1+quriP2iOF0PrYePhgYLrtFz3
-   00vFy2mRGH3gkJ25rKMqzk5xPyeGMX6121oqOiXnQNerNzzjqswO7vXYk
-   rwbdvblz3XDHKbKbb5RU8RysZVIm2g2yHoLUGaXz57Sbf/45sz3vps2CV
-   ppGl/ekFRi16rUFbauZq0efT2nx5Taia0jiQskTnKtxsv92Sy9IXn7tI5
-   1QO1GbKGDO2KJohB/avnPyRLX+pmQRueOveb+7zvKKUSe1YjpMbIt7XQ3
-   A==;
-X-CSE-ConnectionGUID: DlFP6EPtToi5MNUJZj/vHA==
-X-CSE-MsgGUID: Qs0xN+N/S2qIWNK3VxT7aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="81671341"
-X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
-   d="scan'208";a="81671341"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 04:39:51 -0700
-X-CSE-ConnectionGUID: 5MVAnVcWScmTdl2B6Swfdw==
-X-CSE-MsgGUID: Q/sxAD+MQzqtbZy9DDp6Tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
-   d="scan'208";a="230051662"
-Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 May 2026 04:39:50 -0700
-Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wKx51-0000000003Z-3kLQ;
-	Thu, 07 May 2026 11:39:47 +0000
-Date: Thu, 07 May 2026 19:39:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ljs:project/cow-context 14/18] mm/vma.c:3281
- expand_downwards() warn: variable dereferenced before check 'vma->anon_vma'
- (see line 3263)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DiMfuRHG"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-47c35be02fdso241219b6e.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 07 May 2026 04:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778154439; x=1778759239; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VWHyIO4uKdY73u/JXG8ePrGVr7HGAKSrplz6EI2JHZs=;
+        b=DiMfuRHGnn/J6UwTe97Lh8X3SsBk0oC90RDEnEGuZXyMCW6vzlb25wEsG9TUVZ7+mB
+         h8167ZED5amnob6YSqPXX5Hf3yM85jYsjGVX4fK++Z3j56bk0CouOf78vzHcHZzcVVne
+         dhkrewKc9F1okYXly6lG1Qk0xMWtnHDWAxiGyEhm2cizuuCAnVUW2ZOfjBNJn8EKy0eP
+         zvP3G+vkYj3qHGkJe4ycp9JUHXUfnzw+drg4KKQ+bEOmK8bn3btfWPfnP1W6CxPW2V4z
+         w79EQL3xk0or3zvR+tZLwToieRj2bvO90CpsaMtHrsccpYw74GulH+L5EzyWOWky/bPb
+         n2kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778154439; x=1778759239;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VWHyIO4uKdY73u/JXG8ePrGVr7HGAKSrplz6EI2JHZs=;
+        b=Pwb8vv/huUnmb6j3F8pKj9WrcLVnrrlrXs4vDClisyFVQz3HrC2gpyKWoHI6AmQkuK
+         G9vg48n3y0VX6tj+UCf19lXu8sxuL5dRFSmJPZKmR2lR/K3U/x8W9xEBxQMMu2cs5h1E
+         zaVKpUY3XMLtnbttjwbvE9ZR5jIaK9exBoUVagi2Xsur+/0RmISNKJgHfaE+of3Dz9qo
+         7zyrNwV8o68e1ksZdf2BskFTFqbO2DWsm2yUBHHOyf4z3Me7/eV37lAweHNc9Vyps5Tz
+         CkSLbTg0POha0XVe2q30KeDFP0IvQCalNJnDc6Dg2dKKhuydox9xpqanRdzchxgv9HXx
+         cvEg==
+X-Gm-Message-State: AOJu0YxjO+YH/d/0tUTIXgs0EqejfxfroDhNduUMsHN4Yk2FUuqgrmy1
+	sZMT5mJ5aq8df8vp5oxKFzXqXbhctkxoGj8fSj+pTcfQa0eFGTYVNsgEeC/7u+KJ
+X-Gm-Gg: AeBDievx7tfWrKu6hko+izL79C2G8Mo9gknRLMvt6RiBQi6fU1pngRIRXC6b+GOfobm
+	isqqCSjmi4sV6zry7WS95C0WLKKdlss+Hgr7OAFOu8Y4rKEY24wk9eR60XIMd/DGEsYcBkMAE7E
+	Ua5/EBaFovCmuj00SQOkKWd8uaW4FQ1u26Ti/fU0MgeCUc0DQs42sNFkxtGsfeszzjg9TG9n4vh
+	V41Rkp7gjqGsQsrkH/aDxgS3vQPRXpACsh9rPhGkuLR3muOKUjvbF1VdxQRIsCc1Mbhtoy3ZWiT
+	tP2If0uqlluWEvkY0d624hX51kwu1hS7IvvyO6ve0q8x+jJRf8lbTEF0zuqaowEdwaqW2+RbLDx
+	EH0fMT0m9u4C1QErsgGgi1OQC+MPMGvXq1eoSAvMXqs+PBkRzv+0zPITdz7WXUsEZWF40ZN8ren
+	jFPl7tqpx2g0xXN+ajFnybiL4ATes3Jg==
+X-Received: by 2002:a05:6808:1822:b0:467:255a:7453 with SMTP id 5614622812f47-480422281d8mr4384019b6e.14.1778154438684;
+        Thu, 07 May 2026 04:47:18 -0700 (PDT)
+Received: from localhost ([206.212.255.140])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-47c76936271sm12325156b6e.9.2026.05.07.04.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 04:47:17 -0700 (PDT)
+Date: Thu, 7 May 2026 14:47:10 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Lorenzo Stoakes <ljs@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [ljs:project/cow-context 14/18] mm/vma.c:3281 expand_downwards()
+ warn: variable dereferenced before check 'vma->anon_vma' (see line 3263)
 Message-ID: <202605071933.lpIPQ3YN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Lorenzo Stoakes <ljs@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260507114710.7i-vhZT7gFKfgys6b8Gg_JZtUCXU0flrtog0fqiY3p0@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ljs/linux.git project/cow-context
 head:   e02aa02fef8128743869032cb20d26f752cd9154
 commit: e6f934583c43ab0189504a82904d071b1a22b1a1 [14/18] HACK: track remap changes on merges, splits
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
 config: arc-randconfig-r072-20260507 (https://download.01.org/0day-ci/archive/20260507/202605071933.lpIPQ3YN-lkp@intel.com/config)
 compiler: arc-linux-gcc (GCC) 14.3.0
 smatch: v0.5.0-9065-ge9cc34fd
@@ -84,11 +91,6 @@ mm/vma.c:3281 expand_downwards() warn: variable dereferenced before check 'vma->
 
 vim +3281 mm/vma.c
 
-a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3216  
-a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3217  /*
-a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3218   * vma is the first one with address < vma->vm_start.  Have to extend vma.
-a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3219   * mmap_lock held for writing.
-a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3220   */
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3221  int expand_downwards(struct vm_area_struct *vma, unsigned long address)
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3222  {
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3223  	struct mm_struct *mm = vma->vm_mm;
@@ -132,6 +134,9 @@ a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3260  	/* Lock the VMA befo
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3261  	vma_start_write(vma);
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3262  	/* We update the anon VMA tree. */
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03 @3263  	anon_vma_lock_write(vma->anon_vma);
+                                                                                    ^^^^^^^^^^^^^
+Dereference
+
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3264  
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3265  	/* Somebody else might have raced and expanded it already */
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3266  	if (address < vma->vm_start) {
@@ -150,6 +155,9 @@ a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3278  				vm_stat_account(m
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3279  				anon_vma_interval_tree_pre_update_vma(vma);
 e6f934583c43ab0 Lorenzo Stoakes          2026-05-01  3280  
 e6f934583c43ab0 Lorenzo Stoakes          2026-05-01 @3281  				if (vma->anon_vma)
+                                                                                            ^^^^^^^^^^^^^
+Checked in between too unchecked dereference.
+
 e6f934583c43ab0 Lorenzo Stoakes          2026-05-01  3282  					cow_context_vma_adjust(vma, address, vma->vm_end);
 e6f934583c43ab0 Lorenzo Stoakes          2026-05-01  3283  
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3284  				vma->vm_start = address;
@@ -167,8 +175,8 @@ a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3295  	vma_iter_free(&vmi);
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3296  	validate_mm(mm);
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3297  	return error;
 a9d1f3f2d7fecbc Lorenzo Stoakes          2024-12-03  3298  }
-bef5418d1f3dee4 Lorenzo Stoakes          2024-12-03  3299  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
