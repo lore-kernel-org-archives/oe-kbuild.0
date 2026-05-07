@@ -1,121 +1,110 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E07F3EAC73
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 May 2026 10:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA44D3EDAD0
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 May 2026 10:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778150120; cv=none; b=R1NxVzXiDWXd0p3xnNEKVUsR62Wa2oyWB/xK+39aBxNqoqIcdA1B7zTdJxRzEsjJdabmaHx/q06WmYVOh8aRw1h/Odm3f9uUYFjzDTvbLKxSy/Zgz0t/NOU85nKVOSsdUr+5+oNrxQR+HMv8PADdmfK/D4W4L3S2fGVeNr7FuEI=
+	t=1778151588; cv=none; b=nYd8lCQUIsnnjiy6jXzgrl8wc8ovjO29mqcmmP3aZjtZLrU0TyLwz0ozwzTKlw3n2XG162JQvqYqQrkZRLlN+41ShcaReHASIItTjAaEhffbUVSHmMpdWgwdAVR7PzP0dlyP0UxFT6XfYo6jEFERX5kJtdWD5gRdOQ2R1IvyRqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778150120; c=relaxed/simple;
-	bh=NvWjKGEH5AexCh1wgfM/i3jDoFq2EoAZy1t+xwdmTeM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kBODXCSVnvQudIA994vUnCN66MO9WMCAyxZtNeQ6m2kRbBK24MWlTw9XEIbdSZAuKpYMM9EfT3SDLxNTrWati4yFric5Zj+xHQGjSO0mCiRvZINX6st7EqXkqMBO9IwYFfWxcVEF1mlx9usMOPIUgeNpIhmEyzoIdmfe3upA7S8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxhKIX+e; arc=none smtp.client-ip=209.85.167.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778151588; c=relaxed/simple;
+	bh=ONT0Ws+mmzDhLKjL4OJmPNT7Wz4nScb1pNiaKTxgIdY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MielzAb6z/bSsG44XBg0ZA1u4Bcafvr1EPh3z6/4XWtWVaaaHRp1eMlYytvreioWJo3PgMGh/bfqxuAxzIA44FIzSGQyLVh8IUdOQkCs7u8ueXl8E5a+JMVrEfW7dSV80wA6qJkdo81AE7mPIRlBhr8/4kiJAZapVaRAuEbuVy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fq4hXn+j; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxhKIX+e"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-463a0e14abfso353530b6e.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 07 May 2026 03:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778150117; x=1778754917; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=N8K3OIHFb9yqqZ050RJZMLwdoBWgFfUeLBVGnuqXPek=;
-        b=WxhKIX+eN8pd159Pe9NdCLRz+Y06CFy7dHTlxyzrh+jGwke6PkJeEBjtr/73RrE/B1
-         yAUcDZ+l+kfq+ZXlUj7/p23R9Arbk/eBSFf9fLIaKQHaO2n+O7VFtob9NnX736Ts2rd9
-         LpnnX8sQiFQ4Hq9A1pkoodClLaBNA+3g10Ce8/msFjOJAhx1ho4+17ua16GWfzjofw8q
-         /KD2RK4wTM9MSEzvKpO8ssQYM7qNtiF+bDU7+ezLO/cqXubLFof2PyclcstKQPzw5CEH
-         Li4QUyC6NTTDVv7ZPKY39sBWINwmSK2u6lfN6WmzaFuDUumeUWfOYYem+Y617GVcreEE
-         KSdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778150117; x=1778754917;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N8K3OIHFb9yqqZ050RJZMLwdoBWgFfUeLBVGnuqXPek=;
-        b=hpF22FrLLGGD+LuLg4xHwMYbyrfc+tJHU4xV959YGDfHWDG3D2FpPcc/XQkKYqDcyD
-         oFWqHiRX9Oa0J41HaFlEjerKEe8uZkq/zSeuGnb5cSbl8ajwyf0dZT0MO/7siZuNvKW3
-         qCDAcCI5C0DKTtJm19US3wHuzvvfzXGvZIAWddcfLDeMXwElSqanMDrIPKpJvj5yng6x
-         Empial48j3GUXNl0eNfdXo8chHvW+oWsdWGC4clzYub8MIe7HC9rzoRBKDPr8AuiMeJk
-         KM4uVvRZBgGiCPkDmeE3vSynemofpW76YduHpHfhxPDLJxvfx9P4M24cA2YehxYqSfnl
-         28yA==
-X-Gm-Message-State: AOJu0YwhBCnSEcJp32pbJnNevcU5jSoBbHqyr8pfaIn1m2i44gNb083A
-	Ra0Y+pTYjHVmRg3/pP5czge/3k+Rmgz5xur5unSXUEQqkuicxW8hAoTV4lqNZAZ6
-X-Gm-Gg: AeBDievvERrOdfpenh9zK7K/3r2fe/SDVXhogKqHDnEs373PRthE2wxY5UsOj0t/Mjg
-	DNaVOfAR9QQBxWIS9YXHI4hvlmwS5v0kaz+3Cvl6veatLzrRstCgAXZqU9Gog2iLm9VcmvM6x50
-	IvX+uOvPt0v19FARtNfnLCUjNypBaQe9gOP3fb9skDHVV0I4xDPyCmeLLATz/cR+Mfdymus3zDJ
-	R4ytg+4cqaihYS1vqyxXOTuUaAeNfd/VeIoc+QdWrN61lTEhf9MP+K0ysxrAOR+Ei4Hb5oveLoS
-	ajZHwzW2PbQqLL4yLt98kQ86uYqjOT29FNWdAIXgnsMBBkdYYlEWKm6YExeQPamX/vGglghff5j
-	iafuktAO8sctEAJOj19tmBcX01qzI8FgDGxZRyuPJDzqbwHpo3YCCaSwwGZKh+ECYzngtFYmlps
-	eYNQpNEmZMHzr/PKENF7mifvua1UOVSg==
-X-Received: by 2002:a05:6808:1481:b0:479:646c:f701 with SMTP id 5614622812f47-4804253d27fmr4138047b6e.41.1778150116861;
-        Thu, 07 May 2026 03:35:16 -0700 (PDT)
-Received: from localhost ([206.212.255.140])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-47c763b33c1sm12358484b6e.1.2026.05.07.03.35.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 03:35:15 -0700 (PDT)
-Date: Thu, 7 May 2026 13:35:08 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Lorenzo Stoakes <ljs@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [ljs:project/cow-context 4/18] mm/cow_context.c:102 __dynarray_dup()
- warn: variable dereferenced before check 'arr' (see line 91)
-Message-ID: <202605071712.tNPizmiC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fq4hXn+j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778151582; x=1809687582;
+  h=date:from:to:cc:subject:message-id;
+  bh=ONT0Ws+mmzDhLKjL4OJmPNT7Wz4nScb1pNiaKTxgIdY=;
+  b=Fq4hXn+jpyJvAlENIWtwrwiSDibIQ4zGkekYVKsoj7PC7yxbVd9rEcQz
+   3UABIQW5i/xRp/D5SWmAc4cKregl90ulf+cS+Izm5oB+Y9SZTkXxyBLdO
+   9OCt9sSUpibu45FEa40Q3eMLCapvjwYdesWyPGDBEJCmboC1IlHNLeXyA
+   nEbaPefe2mRwEAXvfg/zd1/L6z44NK4jTbrlUXP4+ZlgGvApsSoLNBPwi
+   Rt+fg7KcpcVt5548X7kHZpYaDI6z0cuxXu/F8riUKVzMEKR3YKYu74XPd
+   G1gggXD8FCA5DHFNosWmyb0mcnDVldtY0EsCmhfIEtiDfnuLuriB1Yw+R
+   Q==;
+X-CSE-ConnectionGUID: Yx4X2E/YRbm4qGR+62EPNA==
+X-CSE-MsgGUID: VJncuJEVTbmtM9Spf5r85A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="82719726"
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="82719726"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 03:59:38 -0700
+X-CSE-ConnectionGUID: phSGl3H9Sc6a64Cthba2Ww==
+X-CSE-MsgGUID: oEUSp5MESSC4q0aYB42EdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="233352198"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 07 May 2026 03:59:37 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wKwS6-000000006r5-2OXw;
+	Thu, 07 May 2026 10:59:34 +0000
+Date: Thu, 07 May 2026 12:59:09 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: cpu@0
+ (arm,cortex-a57): 'operating-points' is a dependency of 'clock-latency'
+Message-ID: <202605071242.5TglK1NE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260507103508.VdZpBzN_rdKvObcSRLDkgzRP0S10hifHJMj_Mz4EYtU@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ljs/linux.git project/cow-context
-head:   e02aa02fef8128743869032cb20d26f752cd9154
-commit: 86c4a37b876ec7ed8a5b42d5c3f7b3c4b0bd5c03 [4/18] mm: add simple dynamic array implementation
-config: arc-randconfig-r072-20260507 (https://download.01.org/0day-ci/archive/20260507/202605071712.tNPizmiC-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
-smatch: v0.5.0-9065-ge9cc34fd
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Sudeep Holla <sudeep.holla@arm.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
+commit: 80728bfa8c79b81eeea305f555fe5582d1907286 dt-bindings: arm/cpus: Add missing properties
+date:   1 year ago
+:::::: branch date: 11 months ago
+:::::: commit date: 1 year ago
+config: arm64-randconfig-2055-20260506 (https://download.01.org/0day-ci/archive/20260507/202605071242.5TglK1NE-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605071242.5TglK1NE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 80728bfa8c79 ("dt-bindings: arm/cpus: Add missing properties")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605071712.tNPizmiC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605071242.5TglK1NE-lkp@intel.com/
 
-smatch warnings:
-mm/cow_context.c:102 __dynarray_dup() warn: variable dereferenced before check 'arr' (see line 91)
+dtcheck warnings: (new ones prefixed by >>)
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /usb-phy@7d000000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: usb-phy@7d004000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /usb-phy@7d004000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
+>> arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: cpu@0 (arm,cortex-a57): 'operating-points' is a dependency of 'clock-latency'
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
+>> arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: cpu@0 (arm,cortex-a57): Unevaluated properties are not allowed ('clock-latency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: thermal-zones: mem-thermal:cooling-maps: 'dram-active', 'dram-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml
 
-vim +/arr +102 mm/cow_context.c
-
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   89  static struct dynarray *__dynarray_dup(struct dynarray *arr, int cap, gfp_t gfp)
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   90  {
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  @91  	const int nr = __dynarray_nr(arr);
-                                                                                     ^^^
-Dereference
-
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   92  	struct dynarray *ret;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   93  
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   94  	ret = kmalloc_flex(*arr, contents, cap, gfp);
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   95  	if (!ret)
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   96  		return NULL;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   97  
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   98  	/* Just allocated, safe to assign. */
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   99  	ret->nr = nr;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  100  	ret->cap = cap;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  101  
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01 @102  	if (arr)
-                                                            ^^^
-Checked too late.
-
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  103  		memcpy(ret->contents, arr->contents, sizeof(void *) * nr);
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  104  	return ret;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  105  }
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
