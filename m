@@ -1,137 +1,642 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8468C47F2DE
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 May 2026 19:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195F62D837C
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 May 2026 19:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778181882; cv=none; b=uDWdMed2Btk9MFgJ60N7uq7DdfCnU3XW+lHAXzXSNpva+n4xN2Z/L7DAXH5VkCaKUrmTTEK9QenWHwsTroWSKX3Z9qYu02Yf03Z0BrqL1dAMPs329Y67+jETq8ULLR1q74sLg3yNX6fnECd//aa6q/qkaYJuFNdLazhOwkoS1lo=
+	t=1778183265; cv=none; b=F5GmoseKN/FJBXFqyU72yzJ4Gytz8JNnMZgdAcTf6JOJhD15KuWcToh1sZ3O9uEAJuYaiFT121S+SGrO/N2Q0s2lhu6uwHlLZHIZj46Kv1OWO5hyTY/2bZCfcz90B9oAEGkk5Zu+6BJ6ClDi6ljo18TA+X/NyyUSBa9NffUMU1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778181882; c=relaxed/simple;
-	bh=e0nldu/bc3gB7FvjlxOVxZoCSNl9zS0c2ddowtwh9dA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=O88DPuHGKaKF0SuPoV3eWb2g+ANF76tCYmb46yg2BO+u7Irh/VEA4CvnRgb6cGgr8Nw8FWVXr0q4wzzVfqQX8dLyTMwgbJQBuQC/yXYoOGkORzO/TyzyCkrslbp7WVE73+tY9pSBT4RcMmB8FSNXoHd91+t13IbUrmmNKheFNSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y2ikpEZ7; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1778183265; c=relaxed/simple;
+	bh=eEzt/CpRVMbagZNnGYwDG1Z0LH1shPdukfuJPwBfv+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=G/pXSX4R3vwnCmhKnV0wT542mqHNRzQpPyrrMRgd/Zl2BljcmRYPB6l0ezwXwc6o9vAEh+WE8RdKd56e0NSrzqsNYppY/8tA2IOJiAGLl6MXnlH81rZYOILh7UYXPWMKfT/zDhB8VSxw/De1u0u3DZHxqzuVZXzVbjsdu7DPZdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EZ6RVTfe; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2ikpEZ7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EZ6RVTfe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778181878; x=1809717878;
-  h=date:from:to:cc:subject:message-id;
-  bh=e0nldu/bc3gB7FvjlxOVxZoCSNl9zS0c2ddowtwh9dA=;
-  b=Y2ikpEZ7P93L3bwH69ydJMLvyLPCp/inakPympwPZim+F7AMgln2oRXY
-   zts9hSaGe/VOkrQ4pCOa7VmzA4VaqScyggeVQKsESUQbClcDfah6nj2yY
-   6dgO+xOgH086shX4qIZbjyT5X3uWBO9t0cVItChLbHKN9XY9V7ugaNl2/
-   P3JeqOImWn+haYAd3uBUOIJjZqv3lTZPb97rGGEx+u7riew80D/yf1oyn
-   /hxEKwfbZzo2KGWHPSZbetJIkAjjOphtdRO4qYsOyEzoSpWNFeXFjsOfh
-   LJFMPCuPOJxLTRxx1pWQBsndkLgLiNh1NX2sBW5VF05PtPO9A9IpqmomY
-   g==;
-X-CSE-ConnectionGUID: It0FdvF/TASU80pFL9C+1Q==
-X-CSE-MsgGUID: X+xlD5G1QMaoxvwYb2zuyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="89735392"
+  t=1778183263; x=1809719263;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eEzt/CpRVMbagZNnGYwDG1Z0LH1shPdukfuJPwBfv+g=;
+  b=EZ6RVTfeExfxMDMWJ92UHiqEBzd2hQ/U3dR33MmLmimc/rIVKcb2pNYc
+   91WAbLe3Rx0KLvIDJkVe3BYIcbnDep+Sb3z5FIfN6sAJM4JI5IwyNXWhZ
+   PJ83A+phNkTomIAAdfs2g+tLyZnvD1X+98N+4JYuOQFLRhtE+alOLmX25
+   EZ1i7f/zB/0lYTND3VKoESPgtXRJjyc36Nu1CWGLbimXVHrYhzbP0XQ/F
+   ix6bkuMPzEFAzxojhJ9Nlzm0G/lSQ4P+qnA1ATp2UTjnL8Z1i6l1EaPS4
+   ZGBKbvrT6gmug164JZo97Id/VjBxFwi3jvSCJQpS/BZEUDX24RPeVP1vv
+   A==;
+X-CSE-ConnectionGUID: +2kJfqp6SmCcugBQ6o2mZA==
+X-CSE-MsgGUID: iY0Tbl0OQdeb5KnOw0PZsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="78997008"
 X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="89735392"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 12:24:38 -0700
-X-CSE-ConnectionGUID: JNQqhDPRRMq/c44VfUfSGA==
-X-CSE-MsgGUID: 34gs27LFSVGip1NCwcYyHg==
+   d="scan'208";a="78997008"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 12:47:42 -0700
+X-CSE-ConnectionGUID: 8eXrKhpeQoGtuAGsX+/cDw==
+X-CSE-MsgGUID: 9H6oc+DoQlKoC28gdGK5Fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="241547171"
-Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 May 2026 12:24:37 -0700
-Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
+   d="scan'208";a="260266514"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 07 May 2026 12:47:41 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wL4Ko-000000000Oj-0dgt;
-	Thu, 07 May 2026 19:24:34 +0000
-Date: Fri, 08 May 2026 03:23:37 +0800
+	id 1wL4h9-000000006vx-16uq;
+	Thu, 07 May 2026 19:47:39 +0000
+Date: Thu, 07 May 2026 21:46:53 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: samples/rpmsg/rpmsg_client_sample.c:66:4: warning: format
- specifies type 'long' but the argument has type 'ssize_t' (aka 'int')
-Message-ID: <202605080314.3ReAbbdv-lkp@intel.com>
+Subject: arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: scp@10720000
+ (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+Message-ID: <202605072146.vQlvfOF3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Tanmay-Shah/rpmsg-virtio_rpmsg_bus-allow-different-size-of-tx-and-rx-bufs/20260507-142615, commit: 3e451c450d540c8d733336d136eed8f559eb9038"
-:::::: 
+::::::=20
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+::::::=20
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Tanmay Shah <tanmay.shah@amd.com>
-CC: 0day robot <lkp@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: "N=C3=ADcolas F. R. A. Prado" <nfraprado@collabora.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Tinghan Shen <tinghan.shen@mediatek.com>
+CC: Jason Chen <jason-ch.chen@mediatek.corp-partner.google.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Tanmay-Shah/rpmsg-virtio_rpmsg_bus-allow-different-size-of-tx-and-rx-bufs/20260507-142615
-head:   2496f9ad32bd2e27c5c7006f3c2c5e7f170db4d5
-commit: 3e451c450d540c8d733336d136eed8f559eb9038 samples: rpmsg: add mtu size info
-date:   10 hours ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 hours ago
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260508/202605080314.3ReAbbdv-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605080314.3ReAbbdv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   8ab992f815d6736b5c7a6f5fd7bfe7bc106bb3dc
+commit: b1e157c61db5e6f8d9c35e8ebc714ab6ce02ee41 arm64: dts: mediatek: mt81=
+88: Describe SCP as a cluster with two cores
+date:   1 year ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 1 year ago
+config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/arc=
+hive/20260507/202605072146.vQlvfOF3-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260507/202605072146.vQlvfOF3-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: b1e157c61db5 ("arm64: dts: mediatek: mt8188: Describe SCP as a clu=
+ster with two cores")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605080314.3ReAbbdv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605072146.vQlvfOF3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359): '#s=
+ound-dai-cells', 'mt6359rtc' do not match any of the regexes: '^pinctrl-[0-=
+9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359): reg=
+ulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000 (mediatek,=
+mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000 (mediatek,=
+mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: scp@10720000 (mediatek,mt81=
+88-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: scp@10720000 (mediatek,mt81=
+88-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: scp@10720000 (mediatek,mt81=
+88-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (me=
+diatek,mt8188-mdp3-rdma): clocks: [[36, 24], [34, 185], [34, 190], [36, 4],=
+ [36, 41], [36, 42], [36, 7], [38, 41], [38, 42], [36, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (me=
+diatek,mt8188-mdp3-rdma): mboxes: [[92, 13, 1], [92, 14, 1], [92, 16, 1], [=
+92, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (me=
+diatek,mt8188-mdp3-rdma): clocks: [[36, 24], [34, 185], [34, 190], [36, 4],=
+ [36, 41], [36, 42], [36, 7], [38, 41], [38, 42], [36, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (me=
+diatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must =
+be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
+graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
+d node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: pmic (mediatek=
+,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: =
+'^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: pmic (mediatek=
+,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@103200=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@103300=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 1=
+90], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[121, 13, 1], [121, 14, 1],=
+ [121, 16, 1], [121, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 1=
+90], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional fail=
+ed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
+graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
+d node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: pmic (mediatek=
+,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: =
+'^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: pmic (mediatek=
+,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@103200=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@103300=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 1=
+90], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[120, 13, 1], [120, 14, 1],=
+ [120, 16, 1], [120, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 1=
+90], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional fail=
+ed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
+graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
+d node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: pmic (mediatek=
+,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: =
+'^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: pmic (mediatek=
+,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@103200=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@103300=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 1=
+90], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[120, 13, 1], [120, 14, 1],=
+ [120, 16, 1], [120, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 1=
+90], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional fail=
+ed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: pmic (mediatek=
+,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: =
+'^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: pmic (mediatek=
+,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@103200=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@103300=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 1=
+90], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[121, 13, 1], [121, 14, 1],=
+ [121, 16, 1], [121, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 1=
+90], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional fail=
+ed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
+graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
+d node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pmic (mediatek=
+,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: =
+'^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pmic (mediatek=
+,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@103200=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@103300=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: amplifier@4f (=
+ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 1=
+90], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[119, 13, 1], [119, 14, 1],=
+ [119, 16, 1], [119, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 1=
+90], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional fail=
+ed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
+graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
+d node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pmic (mediatek=
+,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: =
+'^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pmic (mediatek=
+,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@103200=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@103300=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: amplifier@4f (=
+ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 1=
+90], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[118, 13, 1], [118, 14, 1],=
+ [118, 16, 1], [118, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 1=
+90], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional fail=
+ed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
+graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
+d node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pmic (mediatek=
+,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: =
+'^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pmic (mediatek=
+,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@103200=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@103300=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: amplifier@4f (=
+ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 1=
+90], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[118, 13, 1], [118, 14, 1],=
+ [118, 16, 1], [118, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 1=
+90], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional fail=
+ed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
+graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
+d node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pmic (mediatek=
+,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: =
+'^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pmic (mediatek=
+,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@103200=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@103300=
+00 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (=
+mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: amplifier@4f (=
+ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 1=
+90], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[119, 13, 1], [119, 14, 1],=
+ [119, 16, 1], [119, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 1=
+90], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller=
+@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional fail=
+ed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic (mediatek,mt=
+6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: '^p=
+inctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic (mediatek,mt=
+6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10320000 =
+(mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10330000 =
+(mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: scp@10720000 (med=
+iatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: scp@10720000 (med=
+iatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: scp@10720000 (med=
+iatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14=
+001000 (mediatek,mt8188-mdp3-rdma): clocks: [[40, 24], [37, 185], [37, 190]=
+, [40, 4], [40, 41], [40, 42], [40, 7], [42, 41], [42, 42], [40, 8]] is too=
+ long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14=
+001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[128, 13, 1], [128, 14, 1], [1=
+28, 16, 1], [128, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14=
+001000 (mediatek,mt8188-mdp3-rdma): clocks: [[40, 24], [37, 185], [37, 190]=
+, [40, 4], [40, 41], [40, 42], [40, 7], [42, 41], [42, 42], [40, 8]] is too=
+ long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14=
+001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed,=
+ one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pmic (mediatek,mt=
+6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: '^p=
+inctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pmic (mediatek,mt=
+6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000 =
+(mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000 =
+(mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: scp@10720000 (med=
+iatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: scp@10720000 (med=
+iatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: scp@10720000 (med=
+iatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14=
+001000 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 24], [39, 185], [39, 190]=
+, [42, 4], [42, 41], [42, 42], [42, 7], [44, 41], [44, 42], [42, 8]] is too=
+ long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14=
+001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[130, 13, 1], [130, 14, 1], [1=
+30, 16, 1], [130, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14=
+001000 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 24], [39, 185], [39, 190]=
+, [42, 4], [42, 41], [42, 42], [42, 7], [44, 41], [44, 42], [42, 8]] is too=
+ long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma=
+.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14=
+001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed,=
+ one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
 
->> samples/rpmsg/rpmsg_client_sample.c:66:4: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
-      65 |         dev_info(&rpdev->dev, "rpmsg mtu size = %ld\n",
-         |                                                 ~~~
-         |                                                 %zd
-      66 |                  rpmsg_get_mtu(rpdev->ept));
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +66 samples/rpmsg/rpmsg_client_sample.c
-
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  50  
-92e1de51bf2cb8d Bjorn Andersson 2016-09-01  51  static int rpmsg_sample_probe(struct rpmsg_device *rpdev)
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  52  {
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  53  	int ret;
-a138c883193a66c Anna, Suman     2016-08-12  54  	struct instance_data *idata;
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  55  
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  56  	dev_info(&rpdev->dev, "new channel: 0x%x -> 0x%x!\n",
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  57  					rpdev->src, rpdev->dst);
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  58  
-a138c883193a66c Anna, Suman     2016-08-12  59  	idata = devm_kzalloc(&rpdev->dev, sizeof(*idata), GFP_KERNEL);
-a138c883193a66c Anna, Suman     2016-08-12  60  	if (!idata)
-a138c883193a66c Anna, Suman     2016-08-12  61  		return -ENOMEM;
-a138c883193a66c Anna, Suman     2016-08-12  62  
-a138c883193a66c Anna, Suman     2016-08-12  63  	dev_set_drvdata(&rpdev->dev, idata);
-a138c883193a66c Anna, Suman     2016-08-12  64  
-3e451c450d540c8 Tanmay Shah     2026-04-29  65  	dev_info(&rpdev->dev, "rpmsg mtu size = %ld\n",
-3e451c450d540c8 Tanmay Shah     2026-04-29 @66  		 rpmsg_get_mtu(rpdev->ept));
-3e451c450d540c8 Tanmay Shah     2026-04-29  67  
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  68  	/* send a message to our remote processor */
-2a48d7322dc88f1 Bjorn Andersson 2016-09-01  69  	ret = rpmsg_send(rpdev->ept, MSG, strlen(MSG));
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  70  	if (ret) {
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  71  		dev_err(&rpdev->dev, "rpmsg_send failed: %d\n", ret);
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  72  		return ret;
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  73  	}
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  74  
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  75  	return 0;
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  76  }
-779b96d20ca97cf Ohad Ben-Cohen  2011-10-20  77  
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
