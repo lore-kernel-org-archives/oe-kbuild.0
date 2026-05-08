@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B61B12CDBE
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 May 2026 13:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D763370D54
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 May 2026 13:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778245318; cv=none; b=PiByF09kOqRGnNlAVHJPJYMWS38Q3TZCBiXms8v3AVWV697nCIex1vJe/metk7+EF9Xl8tw1J57VZ/gl3uSGxWMs4U7GA53+OCdCSKbY/Guv0Iddpto0hmiXslx0jjMEs6Xwhw+7wCwQMcw+y2ncApghPnXQgy1oPTU17YokAhs=
+	t=1778245319; cv=none; b=pqKB3T8bLi0nOedkcaLTFwt/d6eV/VlbnI8X4uHnsVQF37Sz7jkGFfMnVkwzE3Q73KzxUqJkJ+i4u0uZq5B9ajExy85toWZR9chqmS6h0LFgGM/zVxN7aG2TbL7Dl+6MO3lpdJuvDMIWS0z5YC7Cr4LJ+ef5H7vYYU0Ee3+My/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778245318; c=relaxed/simple;
-	bh=e3Vf//8PRqoRLWD9OZcAt6oUmNrjBTL4t/FXLYIKNoo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U1rR3ClrccpH594mCy89W5sXefxtVbLvR69X9zbxOE5JV0lL+04dX1ElKrXkkC31nqRIaIwNGxD5hI7S0LqynKz5oSzX19eC2QcPxSYOffoGQqHN8Z9q4HCmgnvXdPqSDxGi9naX5MCbWnIBt9TMr9jITBS/7BWa3zYt0ZV5H4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZGroAA0g; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1778245319; c=relaxed/simple;
+	bh=NrxvEzSjRszCKEoDQrTBRbGCC8d8uApiY8fabjA+zNo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E9yZGke/06U9NCWODOYtYliFnPh/5UY0An5tcuvuNLBk+uZ4MY2s5MgZ7576gD3SKUgAmxZ+bpzMP8FxKYO240eK+Y9Dz3gHr6Pjir8r2B8VhC6CcTsvE2Hyo7EoDScNK6zqnFC4Ru0tEh5EdDyQx4r2SyOFbZ0Zl92LdSEC3as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jo6NOq5+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZGroAA0g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jo6NOq5+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778245317; x=1809781317;
+  t=1778245319; x=1809781319;
   h=date:from:to:cc:subject:message-id;
-  bh=e3Vf//8PRqoRLWD9OZcAt6oUmNrjBTL4t/FXLYIKNoo=;
-  b=ZGroAA0gVG95VNHtvsPw3lQwdlXlrFg971YrzCBmK1+1RV59Ml3hoJE5
-   wE027QRtGgDnIxAeFSVqSdLjapBFv+a7Q+Utalngq49BTBXPYrsv7YPKj
-   P/3tT3+Qjs2mgSLBiMtgou66T2FN6iJEoLFcc1AKAOtcpHosIxemTVpPb
-   sJtI9P+771/BSblRnW8jIl32dSeWlJXl4GBxAvkH2gL/sbwfu44hJ+5jH
-   vz17ZNUIUcjvj2Y4RTsyu3cL2x4ctkTE6WxMUCrFWPbQt/5MLaudPUuO6
-   K6eABtUCH3p8t8pmx7hhkC3n2DbNriMDEliYqn2lxRJSLcoQF4Q5yRXMP
-   A==;
-X-CSE-ConnectionGUID: BxBZmmttT2yomaG787oQkQ==
-X-CSE-MsgGUID: WtXHmc+FS+qGsE3C6sTXAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="101884431"
+  bh=NrxvEzSjRszCKEoDQrTBRbGCC8d8uApiY8fabjA+zNo=;
+  b=Jo6NOq5+nlFETeodN10uC5W0qV9cUTqyICFwLTIr+hv9KcfXTA7pgSKd
+   8LpXTPZI0ITTB8tPjIi3ePO3OQ81UWYkaDg1m7+fYgV5WqUXZI0aFQkkw
+   ps+DCcvLXvFL4lfR9JFit05Z2Uqaz3XwKotAG7mO8n9UITklGlx71p5ff
+   GRX1aghGgFwUk5S5444N0iFo03EhlZMHtAkxBx6K3633KqN/xkGkcAGvp
+   a+qnHcMGIS8RJS/UNFVerm88t7GLHwP8EYiaojSfkWH01Ei/x5UxmF5Rs
+   3XMiytQnZZeQec2XPvBx3I/viPpkQxfYzuvO0d3u+w/2aY814sKBVWAOp
+   g==;
+X-CSE-ConnectionGUID: 6Xu2P6C1SpO15lBIhp4FoQ==
+X-CSE-MsgGUID: mLty6w2iQwCfvH5NtHrtiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="101884432"
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="101884431"
+   d="scan'208";a="101884432"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 06:01:57 -0700
-X-CSE-ConnectionGUID: EHFNF049QBe5C+SNZUkEAg==
-X-CSE-MsgGUID: +3N7LhBqS8aMiZdctTIN2Q==
+X-CSE-ConnectionGUID: UEorkleKTA2B3PCcTzYQTQ==
+X-CSE-MsgGUID: xOVSeoX6S1W+B6Ax1ToG4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="237005081"
+   d="scan'208";a="237005083"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
   by orviesa007.jf.intel.com with ESMTP; 08 May 2026 06:01:55 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLKq1-000000007Ab-03n9;
+	id 1wLKq1-000000007Ad-0IQ5;
 	Fri, 08 May 2026 13:01:53 +0000
-Date: Fri, 08 May 2026 15:01:51 +0200
+Date: Fri, 08 May 2026 15:01:50 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [broonie-ci:fileLjDUpB 6/17]
- arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: spi@700680
- (marvell,armada-380-spi): Unevaluated properties are not allowed
- ('spi-max-frequency' was unexpected)
-Message-ID: <202605081559.YcGyeMH9-lkp@intel.com>
+Subject: arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: serial@602b0000
+ (arm,sbsa-uart): Unevaluated properties are not allowed ('reg-io-width' was
+ unexpected)
+Message-ID: <202605081453.KFG1fnIE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,42 +61,55 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
 TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Mark Brown <broonie@kernel.org>
+CC: Thierry Reding <treding@nvidia.com>
+CC: Andre Przywara <andre.przywara@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileLjDUpB
-head:   951a6d8d41289b86a564ee5563ededa702b62b1b
-commit: 7105fdd54a14bee49371b39374a61b3c967d74cb [6/17] spi: dt-bindings: Convert marvell,orion-spi to DT schema
-:::::: branch date: 10 months ago
-:::::: commit date: 10 months ago
-config: arm64-randconfig-2055-20260506 (https://download.01.org/0day-ci/archive/20260508/202605081559.YcGyeMH9-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   917719c412c48687d4a176965d1fa35320ec457c
+commit: 7282b8add2988b93f35a155d927d08e14558c7b8 dt-bindings: serial: Convert arm,sbsa-uart to DT schema
+date:   12 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 months ago
+config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260508/202605081453.KFG1fnIE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605081559.YcGyeMH9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605081453.KFG1fnIE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 7282b8add298 ("dt-bindings: serial: Convert arm,sbsa-uart to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605081559.YcGyeMH9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605081453.KFG1fnIE-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-1: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-2: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-3: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@60080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@a0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@8,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@400,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@408,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@c0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: serial@602b0000 (arm,sbsa-uart): Unevaluated properties are not allowed ('reg-io-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/arm,sbsa-uart.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7030000 (generic-ohci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7020000 (generic-ehci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: dsa_cpld@78000010 (syscon): compatible: ['syscon'] is too short
    	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: /cp0-bus/bus@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: /cp0-bus/bus@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: sds_ctrl@c2200000 (syscon): compatible: ['syscon'] is too short
    	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'vbus-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
->> arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: spi@700680 (marvell,armada-380-spi): Unevaluated properties are not allowed ('spi-max-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/marvell,orion-spi.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /soc/mdio@603c0000: failed to match any schema with compatible: ['hisilicon,hns-mdio']
 
 --
 0-DAY CI Kernel Test Service
