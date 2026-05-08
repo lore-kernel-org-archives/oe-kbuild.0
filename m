@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2497B2F8EB6
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 May 2026 00:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8979262809
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 May 2026 00:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778200556; cv=none; b=SvZQT/hw9yPF8/nDm+UE+OmIxkn23n2P16qd91fOpIjH4EvtN7EXoNl62JqgNo5nV/Wl0s8VilzrXEkrB9d1nA41JS2Kzdecowvy3TdFDxEp1TZrVUu0Ewg6fvog1/j5xzmVBPXYQsVIyYseQmubGe2vEgLOivM6c3hrUG4Dty0=
+	t=1778201221; cv=none; b=kUDCI6kCWYCDexJcH586uBAgUp7WXQyPkw1MPSA83tnDADnmiMflF9K6DFnm+cwQ11QXX6ZPPpjgEMk7JVEiS3wUGzvVkfCra/6/9nPxjMLYCzENPpFjqPXhVTOTNgQnns03/nTxHzW+PBwL81QTDavrksW/UV5RfOoDpDS354k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778200556; c=relaxed/simple;
-	bh=TkXp9Olmbj1bFWxCtuE57K6cALGMc0y5bmP5kqhh7Kk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GoznrNJgbJ7x7fzMKgUYqt8YEyBT6oan4Lu0Rbfg6QOTQtsHMWl7ry+qetsATNDZEwjH0zBp2D9XmP6tFQDNNbzKDR9Ctf9mT1MdVLUq927kDdM0xJC0rlWW5+DWsZnCTcbmhU/Ek3jYktpO7mmnhWtTTxi3QTZZyDfdZRr3z7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdpMLqk7; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1778201221; c=relaxed/simple;
+	bh=G8XWAJ0Z49XbjZitDW3xTpzu2aLbmAMMV8iV0NokyU4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bbW9a3HMbL4xrm/SnptheRpP7uzPKQrC9AZDLfJan+BCsnBf/yu71AKa+qTojCfxtWNdpxtNOJM0MAJJYBRijIQQdYXPbexMoBEKTg5M0uOSJTADf57gUh4d3DAcuf54eerkX8wpbhSNl7zbv9WUrMz0qd108Iz0+mxKFe+GIdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gyo4tnXe; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdpMLqk7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gyo4tnXe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778200555; x=1809736555;
+  t=1778201219; x=1809737219;
   h=date:from:to:cc:subject:message-id;
-  bh=TkXp9Olmbj1bFWxCtuE57K6cALGMc0y5bmP5kqhh7Kk=;
-  b=cdpMLqk7e+RCozkz8Cy5ZZUabyrC52rFIj7cbDM41wQlGGQgos+kK/Ll
-   6ZMMeL1fdGGQld+HQizhe3MSRANSFk6S680kz8dt2E5c27peW6T51laiI
-   JmlOaxHAmRgk3uyiRSYwBm1mvT+Qp5sfeqbnzpHqkuwAT9c2cx9KMSchU
-   Qm3HCY0Dy/lZ1fml65IKCbGnS6NPeTzAJY+gX5FFcW4IZSc3zPYeXikAN
-   M9y6JDhkqVvsV0tufhtFw9s7/XVp3gXrrSjEhX4a667wn+Vswy0hBbgLe
-   sOhwC//1QA2WLQIieECI7FXZtLAApk1YNWiJwjGnsjmwQSqIUr6B4aQD3
-   w==;
-X-CSE-ConnectionGUID: MygpdxZMQ4KTIDseDP6ilQ==
-X-CSE-MsgGUID: fbSvvNODSYW6F8iLczstuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="79352547"
+  bh=G8XWAJ0Z49XbjZitDW3xTpzu2aLbmAMMV8iV0NokyU4=;
+  b=Gyo4tnXeUFIUQ8735wuFQf5/npFA/WGWtlMN/yYBsjxrgdBmXQXO8rOT
+   rB6++faO9dYDxINjsuaP4NMG3OIHs5Dp54GUQOoOVWYbwqymuN72Th2U9
+   2NyUGngMzzwI05xrdj2Hw7NfDn8ORJqI+Hrzw/MLSM7PPB0aDICSYnRKi
+   1P93kkfQ5ZaEboIz7QHzmOZTuC4ShgCD4i/bZ0qw6mel9ggu4BpHGg7Xr
+   VsPsHC0DfgCaYtLrM4pwY5JvSabb63mVKSIghY4kY6b3VULc/JNSRXUvv
+   tq/zWc5AEpYQwxktTLgKKznWOGDg4AOMfwhqm+Jz+NTdM+j3yKCu+LHgV
+   g==;
+X-CSE-ConnectionGUID: pbwRrLB7T8G16ZZhQwes/g==
+X-CSE-MsgGUID: /1rXoLBzTDqgKsOfKR0C+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="78312100"
 X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="79352547"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 17:35:55 -0700
-X-CSE-ConnectionGUID: LYcTTuUeRcWGbxKHeMaaxg==
-X-CSE-MsgGUID: fAQF06mjTpS/Q66/1rScCQ==
+   d="scan'208";a="78312100"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 17:46:59 -0700
+X-CSE-ConnectionGUID: uSU2JSasQI+PJwljDaF1Fg==
+X-CSE-MsgGUID: cYE6pxl0R+iLbFjjwRAOMw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="241597312"
 Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 May 2026 17:35:53 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 May 2026 17:46:58 -0700
 Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wL9C3-000000000eN-0bN6;
-	Fri, 08 May 2026 00:35:51 +0000
-Date: Fri, 08 May 2026 08:35:25 +0800
+	id 1wL9Mm-000000000f1-0e5V;
+	Fri, 08 May 2026 00:46:56 +0000
+Date: Fri, 08 May 2026 08:46:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7921/pci.c:323
- mt7921_pci_probe() warn: missing unwind goto?
-Message-ID: <202605080828.1bWBCNfb-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: sound/soc/fsl/fsl_easrc.c:57:22: sparse: sparse: unsigned
+ value that used to be signed checked against zero?
+Message-ID: <202605080825.0pQD2iZY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,204 +57,73 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: sound/soc/fsl/fsl_easrc.c:57:22: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Madhur Kumar <madhurkumar004@gmail.com>
-CC: Felix Fietkau <nbd@nbd.name>
+TO: Shengjiu Wang <shengjiu.wang@nxp.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8ab992f815d6736b5c7a6f5fd7bfe7bc106bb3dc
-commit: ee5bb35d2b83fadc6920aa2478326fb50ea653a9 wifi: mt76: mt7921: Replace deprecated PCI function
-date:   7 weeks ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 7 weeks ago
-config: mips-randconfig-r071-20260506 (https://download.01.org/0day-ci/archive/20260508/202605080828.1bWBCNfb-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-smatch: v0.5.0-9065-ge9cc34fd
+commit: 00541b86fb578d4949cfdd6aff1f82d43fcf07af ASoC: fsl_easrc: Check the variable range in fsl_easrc_iec958_put_bits()
+date:   5 weeks ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 weeks ago
+config: i386-randconfig-r132-20260507 (https://download.01.org/0day-ci/archive/20260508/202605080825.0pQD2iZY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605080825.0pQD2iZY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ee5bb35d2b83 ("wifi: mt76: mt7921: Replace deprecated PCI function")
+| Fixes: 00541b86fb57 ("ASoC: fsl_easrc: Check the variable range in fsl_easrc_iec958_put_bits()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605080828.1bWBCNfb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605080825.0pQD2iZY-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7921/pci.c:323 mt7921_pci_probe() warn: missing unwind goto?
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/fsl/fsl_easrc.c:57:22: sparse: sparse: unsigned value that used to be signed checked against zero?
+   sound/soc/fsl/fsl_easrc.c:54:31: sparse: signed value source
 
-vim +323 drivers/net/wireless/mediatek/mt76/mt7921/pci.c
+vim +57 sound/soc/fsl/fsl_easrc.c
 
-2e7f7a2c871cd3 Lorenzo Bianconi   2023-06-28  232  
-5c14a5f944b913 Sean Wang          2021-01-28  233  static int mt7921_pci_probe(struct pci_dev *pdev,
-5c14a5f944b913 Sean Wang          2021-01-28  234  			    const struct pci_device_id *id)
-5c14a5f944b913 Sean Wang          2021-01-28  235  {
-5c14a5f944b913 Sean Wang          2021-01-28  236  	static const struct mt76_driver_ops drv_ops = {
-5c14a5f944b913 Sean Wang          2021-01-28  237  		/* txwi_size = txd size + txp size */
-4cb4da17fe2f3c Lorenzo Bianconi   2022-06-19  238  		.txwi_size = MT_TXD_SIZE + sizeof(struct mt76_connac_hw_txp),
-5b0fb852237622 Ben Greear         2022-10-01  239  		.drv_flags = MT_DRV_TXWI_NO_FREE | MT_DRV_HW_MGMT_TXQ |
-5b0fb852237622 Ben Greear         2022-10-01  240  			     MT_DRV_AMSDU_OFFLOAD,
-5c14a5f944b913 Sean Wang          2021-01-28  241  		.survey_flags = SURVEY_INFO_TIME_TX |
-5c14a5f944b913 Sean Wang          2021-01-28  242  				SURVEY_INFO_TIME_RX |
-5c14a5f944b913 Sean Wang          2021-01-28  243  				SURVEY_INFO_TIME_BSS_RX,
-d089692bc7938a Lorenzo Bianconi   2021-04-20  244  		.token_size = MT7921_TOKEN_SIZE,
-576b4484f3a8f4 Sean Wang          2021-10-19  245  		.tx_prepare_skb = mt7921e_tx_prepare_skb,
-0a178a6084d6b6 Lorenzo Bianconi   2022-06-19  246  		.tx_complete_skb = mt76_connac_tx_complete_skb,
-0af1ad955919a7 Lorenzo Bianconi   2022-07-21  247  		.rx_check = mt7921_rx_check,
-0af1ad955919a7 Lorenzo Bianconi   2022-07-21  248  		.rx_skb = mt7921_queue_rx_skb,
-ff6551740000ea Lorenzo Bianconi   2023-06-28  249  		.rx_poll_complete = mt792x_rx_poll_complete,
-5c14a5f944b913 Sean Wang          2021-01-28  250  		.sta_add = mt7921_mac_sta_add,
-17b0f68a72ae1a Felix Fietkau      2024-08-27  251  		.sta_event = mt7921_mac_sta_event,
-5c14a5f944b913 Sean Wang          2021-01-28  252  		.sta_remove = mt7921_mac_sta_remove,
-311f121c240967 Lorenzo Bianconi   2023-06-28  253  		.update_survey = mt792x_update_channel,
-f4fdd7716290a2 Felix Fietkau      2024-08-28  254  		.set_channel = mt7921_set_channel,
-5c14a5f944b913 Sean Wang          2021-01-28  255  	};
-838cc667973358 Lorenzo Bianconi   2023-06-28  256  	static const struct mt792x_hif_ops mt7921_pcie_ops = {
-033ae79b383020 Sean Wang          2021-10-19  257  		.init_reset = mt7921e_init_reset,
-576b4484f3a8f4 Sean Wang          2021-10-19  258  		.reset = mt7921e_mac_reset,
-dfc7743de1ebb5 Sean Wang          2021-10-19  259  		.mcu_init = mt7921e_mcu_init,
-1c0254967d94bf Lorenzo Bianconi   2023-06-28  260  		.drv_own = mt792xe_mcu_drv_pmctrl,
-1c0254967d94bf Lorenzo Bianconi   2023-06-28  261  		.fw_own = mt792xe_mcu_fw_pmctrl,
-576b4484f3a8f4 Sean Wang          2021-10-19  262  	};
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  263  	static const struct mt792x_irq_map irq_map = {
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  264  		.host_irq_enable = MT_WFDMA0_HOST_INT_ENA,
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  265  		.tx = {
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  266  			.all_complete_mask = MT_INT_TX_DONE_ALL,
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  267  			.mcu_complete_mask = MT_INT_TX_DONE_MCU,
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  268  		},
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  269  		.rx = {
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  270  			.data_complete_mask = MT_INT_RX_DONE_DATA,
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  271  			.wm_complete_mask = MT_INT_RX_DONE_WM,
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  272  			.wm2_complete_mask = MT_INT_RX_DONE_WM2,
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  273  		},
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  274  	};
-034ae28b56f13d Sean Wang          2022-11-15  275  	struct ieee80211_ops *ops;
-602cc0c9618a81 Sean Wang          2022-01-07  276  	struct mt76_bus_ops *bus_ops;
-975e122ddb7cd6 Lorenzo Bianconi   2023-06-28  277  	struct mt792x_dev *dev;
-5c14a5f944b913 Sean Wang          2021-01-28  278  	struct mt76_dev *mdev;
-ee5bb35d2b83fa Madhur Kumar       2025-12-08  279  	void __iomem *regs;
-4a40fcbfe3ab48 Deren Wu           2024-03-06  280  	u16 cmd, chipid;
-034ae28b56f13d Sean Wang          2022-11-15  281  	u8 features;
-5c14a5f944b913 Sean Wang          2021-01-28  282  	int ret;
-5c14a5f944b913 Sean Wang          2021-01-28  283  
-5c14a5f944b913 Sean Wang          2021-01-28  284  	ret = pcim_enable_device(pdev);
-5c14a5f944b913 Sean Wang          2021-01-28  285  	if (ret)
-5c14a5f944b913 Sean Wang          2021-01-28  286  		return ret;
-5c14a5f944b913 Sean Wang          2021-01-28  287  
-09d4d6da1b65d0 Mario Limonciello  2023-03-29  288  	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-09d4d6da1b65d0 Mario Limonciello  2023-03-29  289  	if (!(cmd & PCI_COMMAND_MEMORY)) {
-09d4d6da1b65d0 Mario Limonciello  2023-03-29  290  		cmd |= PCI_COMMAND_MEMORY;
-09d4d6da1b65d0 Mario Limonciello  2023-03-29  291  		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-09d4d6da1b65d0 Mario Limonciello  2023-03-29  292  	}
-5c14a5f944b913 Sean Wang          2021-01-28  293  	pci_set_master(pdev);
-5c14a5f944b913 Sean Wang          2021-01-28  294  
-eaafabd2850d78 Lorenzo Bianconi   2021-01-28  295  	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-5c14a5f944b913 Sean Wang          2021-01-28  296  	if (ret < 0)
-5c14a5f944b913 Sean Wang          2021-01-28  297  		return ret;
-5c14a5f944b913 Sean Wang          2021-01-28  298  
-a2e759612e5ff3 Christophe JAILLET 2021-08-22  299  	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
-5c14a5f944b913 Sean Wang          2021-01-28  300  	if (ret)
-5c14a5f944b913 Sean Wang          2021-01-28  301  		goto err_free_pci_vec;
-5c14a5f944b913 Sean Wang          2021-01-28  302  
-bf3747ae2e25dd Sean Wang          2021-06-20  303  	if (mt7921_disable_aspm)
-5c14a5f944b913 Sean Wang          2021-01-28  304  		mt76_pci_disable_aspm(pdev);
-5c14a5f944b913 Sean Wang          2021-01-28  305  
-e8a264ccd2de0d Lorenzo Bianconi   2023-06-28  306  	ops = mt792x_get_mac80211_ops(&pdev->dev, &mt7921_ops,
-e8a264ccd2de0d Lorenzo Bianconi   2023-06-28  307  				      (void *)id->driver_data, &features);
-034ae28b56f13d Sean Wang          2022-11-15  308  	if (!ops) {
-034ae28b56f13d Sean Wang          2022-11-15  309  		ret = -ENOMEM;
-034ae28b56f13d Sean Wang          2022-11-15  310  		goto err_free_pci_vec;
-034ae28b56f13d Sean Wang          2022-11-15  311  	}
-034ae28b56f13d Sean Wang          2022-11-15  312  
-034ae28b56f13d Sean Wang          2022-11-15  313  	mdev = mt76_alloc_device(&pdev->dev, sizeof(*dev), ops, &drv_ops);
-5c14a5f944b913 Sean Wang          2021-01-28  314  	if (!mdev) {
-5c14a5f944b913 Sean Wang          2021-01-28  315  		ret = -ENOMEM;
-5c14a5f944b913 Sean Wang          2021-01-28  316  		goto err_free_pci_vec;
-5c14a5f944b913 Sean Wang          2021-01-28  317  	}
-5c14a5f944b913 Sean Wang          2021-01-28  318  
-b5a62d612b7baf Deren Wu           2022-09-06  319  	pci_set_drvdata(pdev, mdev);
-b5a62d612b7baf Deren Wu           2022-09-06  320  
-ee5bb35d2b83fa Madhur Kumar       2025-12-08  321  	regs =  pcim_iomap_region(pdev, 0, pci_name(pdev));
-ee5bb35d2b83fa Madhur Kumar       2025-12-08  322  	if (IS_ERR(regs))
-ee5bb35d2b83fa Madhur Kumar       2025-12-08 @323  		return PTR_ERR(regs);
-ee5bb35d2b83fa Madhur Kumar       2025-12-08  324  
-975e122ddb7cd6 Lorenzo Bianconi   2023-06-28  325  	dev = container_of(mdev, struct mt792x_dev, mt76);
-034ae28b56f13d Sean Wang          2022-11-15  326  	dev->fw_features = features;
-576b4484f3a8f4 Sean Wang          2021-10-19  327  	dev->hif_ops = &mt7921_pcie_ops;
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  328  	dev->irq_map = &irq_map;
-ee5bb35d2b83fa Madhur Kumar       2025-12-08  329  	mt76_mmio_init(&dev->mt76, regs);
-ff6551740000ea Lorenzo Bianconi   2023-06-28  330  	tasklet_init(&mdev->irq_tasklet, mt792x_irq_tasklet, (unsigned long)dev);
-602cc0c9618a81 Sean Wang          2022-01-07  331  
-602cc0c9618a81 Sean Wang          2022-01-07  332  	dev->phy.dev = dev;
-602cc0c9618a81 Sean Wang          2022-01-07  333  	dev->phy.mt76 = &dev->mt76.phy;
-602cc0c9618a81 Sean Wang          2022-01-07  334  	dev->mt76.phy.priv = &dev->phy;
-602cc0c9618a81 Sean Wang          2022-01-07  335  	dev->bus_ops = dev->mt76.bus;
-602cc0c9618a81 Sean Wang          2022-01-07  336  	bus_ops = devm_kmemdup(dev->mt76.dev, dev->bus_ops, sizeof(*bus_ops),
-602cc0c9618a81 Sean Wang          2022-01-07  337  			       GFP_KERNEL);
-4e90db5e21eb3b Christophe JAILLET 2022-04-03  338  	if (!bus_ops) {
-4e90db5e21eb3b Christophe JAILLET 2022-04-03  339  		ret = -ENOMEM;
-4e90db5e21eb3b Christophe JAILLET 2022-04-03  340  		goto err_free_dev;
-4e90db5e21eb3b Christophe JAILLET 2022-04-03  341  	}
-602cc0c9618a81 Sean Wang          2022-01-07  342  
-602cc0c9618a81 Sean Wang          2022-01-07  343  	bus_ops->rr = mt7921_rr;
-602cc0c9618a81 Sean Wang          2022-01-07  344  	bus_ops->wr = mt7921_wr;
-602cc0c9618a81 Sean Wang          2022-01-07  345  	bus_ops->rmw = mt7921_rmw;
-602cc0c9618a81 Sean Wang          2022-01-07  346  	dev->mt76.bus = bus_ops;
-602cc0c9618a81 Sean Wang          2022-01-07  347  
-d53ab629cff57e Michael Lo         2024-05-23  348  	if (!mt7921_disable_aspm && mt76_pci_aspm_supported(pdev))
-d53ab629cff57e Michael Lo         2024-05-23  349  		dev->aspm_supported = true;
-d53ab629cff57e Michael Lo         2024-05-23  350  
-1c0254967d94bf Lorenzo Bianconi   2023-06-28  351  	ret = mt792xe_mcu_fw_pmctrl(dev);
-525c469e5de9bf Quan Zhou          2023-07-05  352  	if (ret)
-525c469e5de9bf Quan Zhou          2023-07-05  353  		goto err_free_dev;
-525c469e5de9bf Quan Zhou          2023-07-05  354  
-1c0254967d94bf Lorenzo Bianconi   2023-06-28  355  	ret = __mt792xe_mcu_drv_pmctrl(dev);
-602cc0c9618a81 Sean Wang          2022-01-07  356  	if (ret)
-4e90db5e21eb3b Christophe JAILLET 2022-04-03  357  		goto err_free_dev;
-602cc0c9618a81 Sean Wang          2022-01-07  358  
-4a40fcbfe3ab48 Deren Wu           2024-03-06  359  	chipid = mt7921_l1_rr(dev, MT_HW_CHIPID);
-4a40fcbfe3ab48 Deren Wu           2024-03-06  360  	if (chipid == 0x7961 && (mt7921_l1_rr(dev, MT_HW_BOUND) & BIT(7)))
-4a40fcbfe3ab48 Deren Wu           2024-03-06  361  		chipid = 0x7920;
-4a40fcbfe3ab48 Deren Wu           2024-03-06  362  	mdev->rev = (chipid << 16) |
-5c14a5f944b913 Sean Wang          2021-01-28  363  		    (mt7921_l1_rr(dev, MT_HW_REV) & 0xff);
-81a88b1e75bdb6 Tzung-Bi Shih      2021-12-10  364  	dev_info(mdev->dev, "ASIC revision: %04x\n", mdev->rev);
-5c14a5f944b913 Sean Wang          2021-01-28  365  
-ff6551740000ea Lorenzo Bianconi   2023-06-28  366  	ret = mt792x_wfsys_reset(dev);
-525c469e5de9bf Quan Zhou          2023-07-05  367  	if (ret)
-525c469e5de9bf Quan Zhou          2023-07-05  368  		goto err_free_dev;
-525c469e5de9bf Quan Zhou          2023-07-05  369  
-c9072f112fcf7b Lorenzo Bianconi   2023-06-28  370  	mt76_wr(dev, irq_map.host_irq_enable, 0);
-5c14a5f944b913 Sean Wang          2021-01-28  371  
-23c1d2dc9ed5be Sean Wang          2021-02-26  372  	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
-5c14a5f944b913 Sean Wang          2021-01-28  373  
-ff6551740000ea Lorenzo Bianconi   2023-06-28  374  	ret = devm_request_irq(mdev->dev, pdev->irq, mt792x_irq_handler,
-5c14a5f944b913 Sean Wang          2021-01-28  375  			       IRQF_SHARED, KBUILD_MODNAME, dev);
-5c14a5f944b913 Sean Wang          2021-01-28  376  	if (ret)
-5c14a5f944b913 Sean Wang          2021-01-28  377  		goto err_free_dev;
-5c14a5f944b913 Sean Wang          2021-01-28  378  
-033ae79b383020 Sean Wang          2021-10-19  379  	ret = mt7921_dma_init(dev);
-033ae79b383020 Sean Wang          2021-10-19  380  	if (ret)
-033ae79b383020 Sean Wang          2021-10-19  381  		goto err_free_irq;
-033ae79b383020 Sean Wang          2021-10-19  382  
-5c14a5f944b913 Sean Wang          2021-01-28  383  	ret = mt7921_register_device(dev);
-5c14a5f944b913 Sean Wang          2021-01-28  384  	if (ret)
-e230f0c44f011f Sean Wang          2021-04-06  385  		goto err_free_irq;
-5c14a5f944b913 Sean Wang          2021-01-28  386  
-8cd725742eafa9 Michael Lo         2024-02-07  387  	if (of_property_read_bool(dev->mt76.dev->of_node, "wakeup-source"))
-8cd725742eafa9 Michael Lo         2024-02-07  388  		device_init_wakeup(dev->mt76.dev, true);
-8cd725742eafa9 Michael Lo         2024-02-07  389  
-5c14a5f944b913 Sean Wang          2021-01-28  390  	return 0;
-5c14a5f944b913 Sean Wang          2021-01-28  391  
-e230f0c44f011f Sean Wang          2021-04-06  392  err_free_irq:
-e230f0c44f011f Sean Wang          2021-04-06  393  	devm_free_irq(&pdev->dev, pdev->irq, dev);
-5c14a5f944b913 Sean Wang          2021-01-28  394  err_free_dev:
-5c14a5f944b913 Sean Wang          2021-01-28  395  	mt76_free_device(&dev->mt76);
-5c14a5f944b913 Sean Wang          2021-01-28  396  err_free_pci_vec:
-5c14a5f944b913 Sean Wang          2021-01-28  397  	pci_free_irq_vectors(pdev);
-5c14a5f944b913 Sean Wang          2021-01-28  398  
-5c14a5f944b913 Sean Wang          2021-01-28  399  	return ret;
-5c14a5f944b913 Sean Wang          2021-01-28  400  }
-5c14a5f944b913 Sean Wang          2021-01-28  401  
+955ac624058f911 Shengjiu Wang 2020-04-16  33  
+955ac624058f911 Shengjiu Wang 2020-04-16  34  #define FSL_EASRC_FORMATS       (SNDRV_PCM_FMTBIT_S16_LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  35  				 SNDRV_PCM_FMTBIT_U16_LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  36  				 SNDRV_PCM_FMTBIT_S24_LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  37  				 SNDRV_PCM_FMTBIT_S24_3LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  38  				 SNDRV_PCM_FMTBIT_U24_LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  39  				 SNDRV_PCM_FMTBIT_U24_3LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  40  				 SNDRV_PCM_FMTBIT_S32_LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  41  				 SNDRV_PCM_FMTBIT_U32_LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  42  				 SNDRV_PCM_FMTBIT_S20_3LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  43  				 SNDRV_PCM_FMTBIT_U20_3LE | \
+955ac624058f911 Shengjiu Wang 2020-04-16  44  				 SNDRV_PCM_FMTBIT_FLOAT_LE)
+955ac624058f911 Shengjiu Wang 2020-04-16  45  
+955ac624058f911 Shengjiu Wang 2020-04-16  46  static int fsl_easrc_iec958_put_bits(struct snd_kcontrol *kcontrol,
+955ac624058f911 Shengjiu Wang 2020-04-16  47  				     struct snd_ctl_elem_value *ucontrol)
+955ac624058f911 Shengjiu Wang 2020-04-16  48  {
+955ac624058f911 Shengjiu Wang 2020-04-16  49  	struct snd_soc_component *comp = snd_kcontrol_chip(kcontrol);
+955ac624058f911 Shengjiu Wang 2020-04-16  50  	struct fsl_asrc *easrc = snd_soc_component_get_drvdata(comp);
+955ac624058f911 Shengjiu Wang 2020-04-16  51  	struct fsl_easrc_priv *easrc_priv = easrc->private;
+955ac624058f911 Shengjiu Wang 2020-04-16  52  	struct soc_mreg_control *mc =
+955ac624058f911 Shengjiu Wang 2020-04-16  53  		(struct soc_mreg_control *)kcontrol->private_value;
+955ac624058f911 Shengjiu Wang 2020-04-16  54  	unsigned int regval = ucontrol->value.integer.value[0];
+54a86cf48eaa6d1 Mark Brown    2026-02-05  55  	int ret;
+54a86cf48eaa6d1 Mark Brown    2026-02-05  56  
+00541b86fb578d4 Shengjiu Wang 2026-04-01 @57  	if (regval < EASRC_WIDTH_16_BIT || regval > EASRC_WIDTH_24_BIT)
+00541b86fb578d4 Shengjiu Wang 2026-04-01  58  		return -EINVAL;
+00541b86fb578d4 Shengjiu Wang 2026-04-01  59  
+54a86cf48eaa6d1 Mark Brown    2026-02-05  60  	ret = (easrc_priv->bps_iec958[mc->regbase] != regval);
+955ac624058f911 Shengjiu Wang 2020-04-16  61  
+955ac624058f911 Shengjiu Wang 2020-04-16  62  	easrc_priv->bps_iec958[mc->regbase] = regval;
+955ac624058f911 Shengjiu Wang 2020-04-16  63  
+54a86cf48eaa6d1 Mark Brown    2026-02-05  64  	return ret;
+955ac624058f911 Shengjiu Wang 2020-04-16  65  }
+955ac624058f911 Shengjiu Wang 2020-04-16  66  
 
 -- 
 0-DAY CI Kernel Test Service
