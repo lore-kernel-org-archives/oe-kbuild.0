@@ -1,57 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF4C26ED46
-	for <oe-kbuild@lists.linux.dev>; Sat,  9 May 2026 17:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472D93BD659
+	for <oe-kbuild@lists.linux.dev>; Sat,  9 May 2026 18:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778348875; cv=none; b=Btfk2VdWoPOe3KI8qDQeaY7mD7DjRVUuDReKCd4EopJY/aypVWN8qzQPDFSWrcqJIkQfas5OG7pa6nOaI39RjMkqdDfblCF2CVElULE4ellsqNRCv+uaf1+Xzu0RNlrT+mmIBq0hTYmSWHvxXZB73EEy+b2SRUZ83JzCiUp7Kuo=
+	t=1778349815; cv=none; b=HnCMANVKgYXOfdYKqjvh8b6LmFzChZUhNWG0T7LQPCwi7peUivxwIinIbAmMaEf5tiMaQBj7QFpyvCvoIr0MvjNVQ/NnCiP/bH+Vq2XmECz+jKKdJI+/9P8I9tGT3928X60viESuzvcCo/O24xVlmTtRgxuPVpAgLvwSFSEyzc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778348875; c=relaxed/simple;
-	bh=laTJ7JZic/BAnNB3OYFFrZDCLLJ2zHNSIw4hMDCPNag=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WFb7mPk5bh4gwxFOsTN3QWNgzXDpdK7kd4bIbStzEs2Gzly7R/i+Z3kp3E6c4YsyypJqhIaOq3PN58cycLpC4+AsCad4Jdufg0ihv1ieSi4DQcQI2Lp3XlqcQV8Ty70RL29rNNw4gW8oj/0HlCEH2PXQUB9MWPx1nLJhMAQnsI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jh+L0uOC; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1778349815; c=relaxed/simple;
+	bh=oh91wcUTzDW1q1TjwcCDW4qIM2jXqHwPz+8M0LyKpLw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IlZZEnL06OkOxjc5EJppncu444zW1d4RpARIDgdMdBZGF7Pp/Is4Xsi3JYshb4NDo5ExVEh8JR6gFDa0Unu0/L4mKUlAt1tgFjfmCnE45QOJAJtOjWqgBvducMRZOiaH3uMaiI2qkP58Ocv9GtDvncohKG2fW9JTRLIMYjp+I+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Azde2j2k; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jh+L0uOC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Azde2j2k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778348873; x=1809884873;
+  t=1778349812; x=1809885812;
   h=date:from:to:cc:subject:message-id;
-  bh=laTJ7JZic/BAnNB3OYFFrZDCLLJ2zHNSIw4hMDCPNag=;
-  b=Jh+L0uOC/JHmdSBLfd+JUgTq0doAmlYgQlQd7kGwfZXe7tlgaEJ+eBUw
-   qCiH7M/7rlnGqGuhUJmTQhWBjoP/MsORSL4KIaTEhNWIEDmMkX/9mUtWT
-   Sz1TavOrjQwSKku9HH4OM6NgnvsMhuV0vzFN4091zV7Wf0GReiJDSibPp
-   z98PiRpdR6C65303Y/+iANE9xUMSpgx02H1UiITAE7LZudGHarfMJeOpF
-   Rc3bmO6JSjrio2/WlmEw+jxEgyq65y+BGI9zvy7EriyhdtFPSF+Yy9Twl
-   fztPqBIhORBEia7WYY8pwc0DM6bPTLJZTBzUH0PEei78Nzcyovb7Sn2ED
-   Q==;
-X-CSE-ConnectionGUID: JQXXfd66QqyLXvTBSYfB2A==
-X-CSE-MsgGUID: OFBCKsTnRkCgMaGTpfGPpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79337535"
+  bh=oh91wcUTzDW1q1TjwcCDW4qIM2jXqHwPz+8M0LyKpLw=;
+  b=Azde2j2kN9X2vaSOgPLhrLViMLzsdwtoOM14H+s1pSRAptGWRgeCTBXm
+   2CBB0Hc/hHMX7XSFY+Y5X9R6ZCMtnL4KxUlg1siZ34XmwdmHGSwCDSisg
+   XjfHts/d6pgh0gzWQPlsE0JIHourFfAQ4ZK50PuWUlzRBs6sh6ZRsbkw0
+   QXKQgHEw+5tbV/gHWo1W8wVWw6AKPB+PQeSJiYCT3MHl0PwwLTl0yX9pp
+   U9VB80gd/nPW0JLUQJ0BG4pxhn7xKhGTBsjLIdjdfhxijZ4vWVKTOQk+F
+   d1RkPr0HFeqY0UTXtYNfjIlyVc8crHVRQJJsOVm+q6tdOP0syCLCAmjfr
+   g==;
+X-CSE-ConnectionGUID: N1ir1wpmRtW9XqmYhVDY5w==
+X-CSE-MsgGUID: n5fvwzJjTL+XY8T44Kd4PQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79338192"
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="79337535"
+   d="scan'208";a="79338192"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 10:47:53 -0700
-X-CSE-ConnectionGUID: OpNjp2pVRFmEA4BEm2AF5g==
-X-CSE-MsgGUID: ulgX9TAOSc+XhgM+6wJQvQ==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 11:03:32 -0700
+X-CSE-ConnectionGUID: SWePpCAYQWG2NTucJLFC/w==
+X-CSE-MsgGUID: CRim6Tk+T3+wJkiwp/lFhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="232714726"
-Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 May 2026 10:47:52 -0700
-Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+   d="scan'208";a="232716551"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 09 May 2026 11:03:30 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLlmH-000000001GD-32Ii;
-	Sat, 09 May 2026 17:47:49 +0000
-Date: Sun, 10 May 2026 01:47:42 +0800
+	id 1wLm1Q-000000007Wv-2Xip;
+	Sat, 09 May 2026 18:03:28 +0000
+Date: Sat, 09 May 2026 20:02:53 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [kas:uffd/v2 7/14] include/linux/mm.h:4618
- gup_can_follow_protnone() warn: bitwise AND condition is false here
-Message-ID: <202605100132.U77SlLEg-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb:
+ jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0',
+ 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes:
+ '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+Message-ID: <202605091944.ofxltZ92-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,64 +61,148 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Matthias Brugger <matthias.bgg@gmail.com>
+CC: Fei Shao <fshao@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git uffd/v2
-head:   0b6f87fd4809245f9eebee73f34e2fb14230330c
-commit: c88e78ffb2cc5ca81f5a6319b7e3c4ffd8baefe1 [7/14] mm: handle VM_UFFD_RWP in khugepaged, rmap, and GUP
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: m68k-randconfig-r073-20260509 (https://download.01.org/0day-ci/archive/20260510/202605100132.U77SlLEg-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.5.0
-smatch: v0.5.0-9065-ge9cc34fd
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ec89572766744e844df24c27d31c97b4c00f4e07
+commit: a9eac43d039f86518595a8a731064309f1088fc6 arm64: dts: mediatek: mt8195: Fix ranges for jpeg enc/decoder nodes
+date:   8 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260509/202605091944.ofxltZ92-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260509/202605091944.ofxltZ92-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: a9eac43d039f ("arm64: dts: mediatek: mt8195: Fix ranges for jpeg enc/decoder nodes")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605100132.U77SlLEg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605091944.ofxltZ92-lkp@intel.com/
 
-smatch warnings:
-include/linux/mm.h:4618 gup_can_follow_protnone() warn: bitwise AND condition is false here
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realtek,rt5682s): 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realtek,rt5682s): 'LDO1-IN-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realtek,rt5682s): Unevaluated properties are not allowed ('VBAT-supply' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: codec@1a (realtek,rt5682i): 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: codec@1a (realtek,rt5682i): 'LDO1-IN-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: codec@1a (realtek,rt5682i): 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: codec@1a (realtek,rt5682i): 'LDO1-IN-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a (realtek,rt5682s): 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a (realtek,rt5682s): 'LDO1-IN-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a (realtek,rt5682s): Unevaluated properties are not allowed ('VBAT-supply' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: rt1019p (realtek,rt1019p): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts:1176.7-1184.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: regulator (mediatek,mt6360-regulator): 'BUCK1', 'BUCK2', 'LDO1', 'LDO2', 'LDO3', 'LDO5', 'LDO6', 'LDO7' do not match any of the regexes: '^buck[12]$', '^ldo[123567]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6360-regulator.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3359.22-3371.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1c008000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
 
-vim +4618 include/linux/mm.h
-
-9a291a7c9428155 James Morse            2017-06-02  4605  
-474098edac262ae David Hildenbrand      2022-08-25  4606  /*
-474098edac262ae David Hildenbrand      2022-08-25  4607   * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22  4608)  * a (NUMA hinting or userfaultfd RWP) fault is required.
-474098edac262ae David Hildenbrand      2022-08-25  4609   */
-da0045587d59d4f Max Kellermann         2025-09-01  4610  static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
-d74943a2f3cdade David Hildenbrand      2023-08-03  4611  					   unsigned int flags)
-474098edac262ae David Hildenbrand      2022-08-25  4612  {
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22  4613) 	/*
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22  4614) 	 * VM_UFFD_RWP uses protnone as an access-tracking marker, not for
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22  4615) 	 * NUMA hinting. GUP must always take a fault so the access is
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22  4616) 	 * delivered to userfaultfd, regardless of FOLL_HONOR_NUMA_FAULT.
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22  4617) 	 */
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22 @4618) 	if (vma->vm_flags & VM_UFFD_RWP)
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22  4619) 		return false;
-c88e78ffb2cc5ca Kiryl Shutsemau (Meta  2026-04-22  4620) 
-474098edac262ae David Hildenbrand      2022-08-25  4621  	/*
-d74943a2f3cdade David Hildenbrand      2023-08-03  4622  	 * If callers don't want to honor NUMA hinting faults, no need to
-d74943a2f3cdade David Hildenbrand      2023-08-03  4623  	 * determine if we would actually have to trigger a NUMA hinting fault.
-474098edac262ae David Hildenbrand      2022-08-25  4624  	 */
-d74943a2f3cdade David Hildenbrand      2023-08-03  4625  	if (!(flags & FOLL_HONOR_NUMA_FAULT))
-d74943a2f3cdade David Hildenbrand      2023-08-03  4626  		return true;
-d74943a2f3cdade David Hildenbrand      2023-08-03  4627  
-d74943a2f3cdade David Hildenbrand      2023-08-03  4628  	/*
-d74943a2f3cdade David Hildenbrand      2023-08-03  4629  	 * NUMA hinting faults don't apply in inaccessible (PROT_NONE) VMAs.
-d74943a2f3cdade David Hildenbrand      2023-08-03  4630  	 *
-d74943a2f3cdade David Hildenbrand      2023-08-03  4631  	 * Requiring a fault here even for inaccessible VMAs would mean that
-d74943a2f3cdade David Hildenbrand      2023-08-03  4632  	 * FOLL_FORCE cannot make any progress, because handle_mm_fault()
-d74943a2f3cdade David Hildenbrand      2023-08-03  4633  	 * refuses to process NUMA hinting faults in inaccessible VMAs.
-d74943a2f3cdade David Hildenbrand      2023-08-03  4634  	 */
-d74943a2f3cdade David Hildenbrand      2023-08-03  4635  	return !vma_is_accessible(vma);
-474098edac262ae David Hildenbrand      2022-08-25  4636  }
-474098edac262ae David Hildenbrand      2022-08-25  4637  
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
