@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ABF3BBA1A
-	for <oe-kbuild@lists.linux.dev>; Sat,  9 May 2026 22:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2E92E401
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 May 2026 01:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778367218; cv=none; b=csbIrpb+hxQhqJgTjQRnAdVlYZFE7Aj0pRYAKbfiDMbcpFEKV3nQ/rTU6ZHBw/CBh+qjUH4bmo7ok/aCkfCZ6AIkzfWRF/L3uhfoWeQ2DxcRMogJTgo63THAlrFBIB4zMnTOGNkRJrJX4FjlJYmRkogZweV3wq0DNKo0uzPRnX4=
+	t=1778376638; cv=none; b=Nxx+dcKV16DywI/8hH54V5TVa4DLfa5ZgZyZEjP2NurG7HiJN9t7twIC7Xok7JGqDrIQKpIXIPW+w1Gt/rDhnaMiBZXeyjiY49wVlyLp58vfv3c9Kli65lzNl/K6EBeHNWrd19hV05pdqwIYD1M4IK9nJgA00kyaJ3VIxCwIlVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778367218; c=relaxed/simple;
-	bh=CENlOElo/8yD9yU/SBM4D/Rp2OabW63gCPVDaaVv2/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JQjbw/Be9IBDbuQeJDmNi/PpPgPUVP0nGX09pR4xyXO2CLJOQDdissCy/xxh4btLI7z+L/nORwzSJMbGUyYo6SwBPjs7Duv4VAE6OERkZZHfAvz7SWZYkqWYR1oWAQuq51Dn2LS2hGEpqmHhM9flzYP70HHow2bTBF8XMy31ojA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmUWpkk3; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1778376638; c=relaxed/simple;
+	bh=/2eASN0B3XCFI0hX3iUR7iXq3psZrdlt/VpBFoTE42c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mLxBuEXzS+fioCmd0gvcEr+/PcZIF+HTyDM/1+XE7EocKneAQvrYY9jAY83tL89+6w4qHZiLk1QQ13MSCyZ9iBFBQPT+4pycJCja3Jv9ZFsXMfntTzkjutP3j/CzpDXiAVD8SjxZ6MbuKb0XXnKB21giEhDRcmP8fHKL4dSagx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YqL2kLed; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmUWpkk3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YqL2kLed"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778367216; x=1809903216;
+  t=1778376637; x=1809912637;
   h=date:from:to:cc:subject:message-id;
-  bh=CENlOElo/8yD9yU/SBM4D/Rp2OabW63gCPVDaaVv2/Q=;
-  b=SmUWpkk3sCeHYgBavlgt2EUAu0bV192j/zuMYISELHNdJvOGN700XPzg
-   mCCIEtOeZpVGNoGSQbyuuze0k+ngDzwMPHtfQd5ooMmMqwhlFnvWGntzm
-   amiyj8AHPCEwGw5kXY8x/cJnH2gCfv9dlWVh3KGxXnnaE/hRjaLAJtesD
-   zQcy8cfvMx0v8u5nhUIZqnlhkolgCqirYUVhcEsFdZ/ez1sZnrR/zHY73
-   qK6cZU0tq+T5L7yzm4ohDCNWuSPpRp38xVqK9IbG7qrGpeAB6VYd+4Hrn
-   V5YSbCpsYRB/Pcv/Ms2orzOpU4iI95hg+n+UMwl83ADRJEF5UWc7vziEw
-   A==;
-X-CSE-ConnectionGUID: vblX5B6IRBmnERuB0XyRuw==
-X-CSE-MsgGUID: 84+m6BHkSBqOlvpyzpz7CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79246786"
+  bh=/2eASN0B3XCFI0hX3iUR7iXq3psZrdlt/VpBFoTE42c=;
+  b=YqL2kLedxAh8U4kVNNkT//ZuU9y345XjqmIlyB5N6E3pRHbI0ZoL8eeO
+   94+FDuQGVsGkRbSihaxdlSez4PO0zEuqGda/1w7ebFDxcXgv8b6KHwPYI
+   xMNnMdx4w+t9bPk5rUSRbKALkyfVIW5YJY26EmtyHv9iAX43oYiWSjYuH
+   DqcI4r+pz8atcqmglhk7me/oVnFtxHPmOBxApgMHmgtq/pv202Tyc0sHn
+   NGPHV38Ht5V2uGx7miNjtX9TRjG0NTTTeAJDZOwXBi3d0XYbhLDelCFwA
+   B31Vja3OeqkLESZ6B/6K3G0h7ns9fdlnvTHnzVZCbArUmIA3S/G8zlic9
+   Q==;
+X-CSE-ConnectionGUID: wLMmtmPyS5CMPqr88BgNlA==
+X-CSE-MsgGUID: rRVFQstnQByS+Is/67w39g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="82925335"
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="79246786"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 15:53:35 -0700
-X-CSE-ConnectionGUID: Rqj0IBf+Qw2Hnako9lDoRg==
-X-CSE-MsgGUID: 6VfR74WyTDKhXcsqQRqRMg==
+   d="scan'208";a="82925335"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 18:30:36 -0700
+X-CSE-ConnectionGUID: du6vX/PaSHiUf1LMmQMpDg==
+X-CSE-MsgGUID: /BRKhj0/RVedHEgwcGlxiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="234434977"
-Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 May 2026 15:53:34 -0700
-Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+   d="scan'208";a="236278544"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 09 May 2026 18:30:36 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLqY7-000000001Uj-2YC4;
-	Sat, 09 May 2026 22:53:31 +0000
-Date: Sun, 10 May 2026 06:53:23 +0800
+	id 1wLt05-000000007c1-11jS;
+	Sun, 10 May 2026 01:30:33 +0000
+Date: Sun, 10 May 2026 03:30:32 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [frank-w-bpi-r2-4.14:7.1-rc 124/162]
- drivers/net/ethernet/mediatek/mtk_eth_soc.c:5559:18: sparse: sparse: unsigned
- value that used to be signed checked against zero?
-Message-ID: <202605100604.Xsfc5vDV-lkp@intel.com>
+Subject: arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb:
+ audio-codec@1a (realtek,rt5651): 'hp-det-gpios', 'spk-con-gpio' do not match
+ any of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202605100309.QA6hKHet-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,149 +61,55 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/net/ethernet/mediatek/mtk_eth_soc.c:5559:18: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
-head:   12aaea139e45ed0d826a63a866c1ce03d352fea6
-commit: e8eac97b7338a6135e70129c65c63657d627ef71 [124/162] net: ethernet: mtk_eth_soc: support ethernet passive mux
-:::::: branch date: 15 hours ago
-:::::: commit date: 8 days ago
-config: sparc-randconfig-r123-20260509 (https://download.01.org/0day-ci/archive/20260510/202605100604.Xsfc5vDV-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605100604.Xsfc5vDV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1bfaee9d3351b9b32a99766bbfb1f5baed60ddef
+commit: 35bffbe49dfd3395c65d76f14d773a1225f3489f ASoC: dt-bindings: Convert realtek,rt5651 to DT schema
+date:   4 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260510/202605100309.QA6hKHet-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605100309.QA6hKHet-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 35bffbe49dfd ("ASoC: dt-bindings: Convert realtek,rt5651 to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605100604.Xsfc5vDV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605100309.QA6hKHet-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1973:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __sum16 [usertype] check @@     got restricted __be16 [usertype] @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1973:45: sparse:     expected restricted __sum16 [usertype] check
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1973:45: sparse:     got restricted __be16 [usertype]
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3211:22: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] ip @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3211:22: sparse:     expected unsigned int [usertype] val
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3211:22: sparse:     got restricted __be32 [usertype] ip
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3317:18: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3317:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] ip4dst @@     got restricted __be32 [usertype] @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3317:16: sparse:     expected unsigned int [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3317:16: sparse:     got restricted __be32 [usertype]
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3322:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned int [usertype] ip4dst @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3322:38: sparse:     expected restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3322:38: sparse:     got unsigned int [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3343:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] ip4dst @@     got restricted __be32 @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3343:16: sparse:     expected unsigned int [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3343:16: sparse:     got restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3366:72: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] ip4dst @@     got restricted __be32 @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3366:72: sparse:     expected unsigned int [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3366:72: sparse:     got restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3384:72: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] ip4dst @@     got restricted __be32 @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3384:72: sparse:     expected unsigned int [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3384:72: sparse:     got restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3408:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ip4dst @@     got unsigned int [usertype] @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3408:38: sparse:     expected restricted __be32 [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3408:38: sparse:     got unsigned int [usertype]
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3412:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ip4src @@     got unsigned int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3412:38: sparse:     expected restricted __be32 [usertype] ip4src
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3412:38: sparse:     got unsigned int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3414:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] psrc @@     got int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3414:36: sparse:     expected restricted __be16 [usertype] psrc
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3414:36: sparse:     got int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3416:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] pdst @@     got int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3416:36: sparse:     expected restricted __be16 [usertype] pdst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3416:36: sparse:     got int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: note: in included file (through include/linux/if_ether.h, include/linux/ethtool.h, include/linux/phy.h, include/linux/of_mdio.h):
-   include/linux/skbuff.h:2903:28: sparse: sparse: unsigned value that used to be signed checked against zero?
-   include/linux/skbuff.h:2903:28: sparse: signed value source
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5559:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/sparc/include/uapi/asm/byteorder.h, arch/sparc/include/asm/bitops_32.h, ...):
-   include/uapi/linux/byteorder/big_endian.h:83:32: sparse: signed value source
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts:581.31-583.7: Warning (unit_address_vs_reg): /i2c@ff3d0000/typec-portc@22/ports/port@0/endpoint@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts:906.7-913.4: Warning (graph_child_address): /usb@fe800000/usb@fe800000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts:575.9-585.5: Warning (graph_child_address): /i2c@ff3d0000/typec-portc@22/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: audio-codec@1a (realtek,rt5651): 'hp-det-gpios', 'spk-con-gpio' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5651.yaml
+   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: typec-portc@22 (fcs,fusb302): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
+   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
+   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
+   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: usb2phy@e450 (rockchip,rk3399-usb2phy): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml
+--
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: rt5651@1a (realtek,rt5651): 'hp-det-gpios', 'spk-con-gpio' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5651.yaml
 
-vim +5559 drivers/net/ethernet/mediatek/mtk_eth_soc.c
-
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5544  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5545  static int mtk_add_mux(struct mtk_eth *eth, struct device_node *np)
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5546  {
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5547  	const __be32 *_id = of_get_property(np, "reg", NULL);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5548  	struct device_node *child;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5549  	struct mtk_mux *mux;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5550  	unsigned int id;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5551  	int err;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5552  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5553  	if (!_id) {
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5554  		dev_err(eth->dev, "missing attach mac id\n");
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5555  		return -EINVAL;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5556  	}
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5557  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5558  	id = be32_to_cpup(_id);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28 @5559  	if (id < 0 || id >= MTK_MAX_DEVS) {
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5560  		dev_err(eth->dev, "%d is not a valid attach mac id\n", id);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5561  		return -EINVAL;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5562  	}
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5563  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5564  	mux = kmalloc(sizeof(struct mtk_mux), GFP_KERNEL);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5565  	if (unlikely(!mux)) {
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5566  		dev_err(eth->dev, "failed to create mux structure\n");
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5567  		return -ENOMEM;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5568  	}
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5569  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5570  	eth->mux[id] = mux;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5571  	mux->mac = eth->mac[id];
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5572  	mux->channel = 0;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5573  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5574  	mux->mod_def0_gpio = fwnode_gpiod_get_index(of_fwnode_handle(np),
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5575  				"mod-def0", 0, GPIOD_IN |
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5576  				GPIOD_FLAGS_BIT_NONEXCLUSIVE, "?");
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5577  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5578  	if (IS_ERR(mux->mod_def0_gpio)) {
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5579  		dev_err(eth->dev, "failed to requset gpio for mod-def0\n");
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5580  		err = PTR_ERR(mux->mod_def0_gpio);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5581  		goto err_free_mux;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5582  	}
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5583  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5584  	mux->chan_sel_gpio = fwnode_gpiod_get_index(of_fwnode_handle(np),
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5585  				"chan-sel", 0, GPIOD_OUT_LOW, "?");
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5586  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5587  	if (IS_ERR(mux->chan_sel_gpio)) {
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5588  		dev_err(eth->dev, "failed to requset gpio for chan-sel\n");
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5589  		err = PTR_ERR(mux->chan_sel_gpio);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5590  		goto err_put_mod_def0;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5591  	}
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5592  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5593  	of_property_read_u32(np, "sfp-present-channel",
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5594  		&mux->sfp_present_channel);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5595  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5596  	for_each_child_of_node(np, child) {
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5597  		err = mtk_add_mux_channel(mux, child);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5598  		if (err) {
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5599  			dev_err(eth->dev, "failed to add mtk_mux\n");
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5600  			of_node_put(child);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5601  			goto err_put_chan_sel;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5602  		}
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5603  	}
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5604  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5605  	INIT_DELAYED_WORK(&mux->poll, mux_poll);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5606  	mod_delayed_work(system_wq, &mux->poll, msecs_to_jiffies(3000));
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5607  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5608  	return 0;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5609  
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5610  err_put_chan_sel:
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5611  	gpiod_put(mux->chan_sel_gpio);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5612  err_put_mod_def0:
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5613  	gpiod_put(mux->mod_def0_gpio);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5614  err_free_mux:
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5615  	kfree(mux);
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5616  	eth->mux[id] = NULL;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5617  	return err;
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5618  }
-e8eac97b7338a6 Bo-Cun Chen 2024-11-28  5619  
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
