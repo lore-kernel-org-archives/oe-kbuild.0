@@ -1,238 +1,216 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD40418FC97
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 May 2026 04:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97ADF2C08DC
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 May 2026 05:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778474906; cv=none; b=D2IkJWVyVL8j2Zs3r7YSi/FlSBUk+JjwydYkTbdmQ2ZxvAji4nZL58w3cjjEhWUZW00s/e7pzbqK3mKpJuWgOCUOIVJa5u/2jYNF0qyyHY/KNCV/9nvPybq55bFGFAEXdInx01UIvnt9YHW4YnpgQ2n14JIMVBW7gdLStmZ/H7I=
+	t=1778478877; cv=none; b=mo+uQI5DH2HCjUuqQh8/VXDJaPaimg7HP46j4DBw6rj4nag14LdAJ+BI3sEjHtSK4Bk9/t7s2zAoW9glq8dSZOMpYAfL2/bqEbKZu7m+l/vl4DXPbN088gSf8LArXPMn+ZUK0ODnQWSoCXwebjZgGUYKOfb0Y2Emd3/wC//7fto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778474906; c=relaxed/simple;
-	bh=dFJsbRx192t5bf0RdxTM5k83IesAlWnJNoG4UHXCSgA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WwPEjGDluJ6Smp8jCFpQdMf0OssLBC+ez0sDHkvhbp3XPxww0k/zXcc/GU5frvwGj6ifbgQrhwfM1I+/fukJDUOJqeuVdlCsKa9xaIlbJmX6V7Cm5ROHFF5d+HEt4nt/DxyLntx0fCWR42KpVqA+FogOKLlqQe7rhBcBYSfMMnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QyyU82vc; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778478877; c=relaxed/simple;
+	bh=dZr1deMMIn+1WQCXvi2p01CKYzV6AvCFo8uSG0R5oZs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XJ7+ptIcIg8yrc+VGNDmLw20W6rlntjUtr6CdcCQOujsopdDxsbgS4yAdeDyGXpBDv1mR0XKopWDuMfMDiZ/RFUsOxABi4ffw3RrSEruz8mh2/RT19JIH2lwr/jyEcnxAok/7aF1m+VhhNhhXrHi94mJTOAz+Pb/0Pt84Z8rKY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2qEN2S5; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QyyU82vc"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-56a8e0ea02aso3628090e0c.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 10 May 2026 21:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778474903; x=1779079703; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dd7o5VMBbNwxiJlDjEkzdfjbbgIYWV8kmrnexYNNlUE=;
-        b=QyyU82vcs3JgomSgvtfVt3uxy5ulXu1EUBGW0fMTxvvbYt8dt0Ba0nlLLtpzn4n0AI
-         Q9/nBhed7+wW6kpy+dXV+MdA0Bpq3RGBifOavUowkVpetVVfWiV3yKmSMNbxbo7rM040
-         25Q+sN9z+WsLVCZWM0w1yLrGMlMm4eqs/vsZ4AP9LCYKXovhdIcrP6O1eeX2wf6c/9ss
-         BYwZ+KucOA8hDKVXfOG8i/TIvstku8jyYuGeLADpPSUDDHquh5+fnSewb6D17Xkxw/2j
-         aK/OC3UxPvjUrfDN/0TYZI+/I8aL8W+G1RF0dO54FgfjISDU+w1avXG5iL39+8DE/U/O
-         XsWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778474903; x=1779079703;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dd7o5VMBbNwxiJlDjEkzdfjbbgIYWV8kmrnexYNNlUE=;
-        b=O8UhR3fbPsscrnBYMYBBVI95GN1IHXUBY9ozuRaPN/Fii0AHzpJiufgqvcFeZmbglP
-         NfERm9a78kU4m673Y2BaN6QARONcKDjNVg4mRoaAt74IUa32wJmkiS/A7faGEQPYqE0x
-         qg0OsMJK1pkWNtzZDxhU0/cEn9gf1a6PO1ix8nUqwvQrJoB6hejRJvhJMmPZRJ32hpnJ
-         XGAcK6HKaHxywxlQOPNwqdDYugMynXGr4sxEEmsbDmjSViInVBiys0py+Z77znn275nc
-         rxSPhWFFLeP7guxZWbILa7adkk9PpFV6e+yxV+7O3KV11G4ocAliCQhlJ5WupvdseGjm
-         pOiQ==
-X-Gm-Message-State: AOJu0Yxx9ySeuuClCim5wEq89jT0zIPl8ijo6tAMfwy/INuV2EPqpCSx
-	QNapXsvNKgU+kul1SkBxVbqhUI/RbHOhu86rfHcyYQT8jGWvbwYRwBOKvPjhhiaJ
-X-Gm-Gg: Acq92OFwTWkWO1tcDhll4VZwbS/Wg5mNvRjxQDp0DW4kKCNZj3mVhQjEUzbIfkKKINW
-	h96NxjKn0GmfpqdbmdGRAhWJU0m/NUmzFi54tXSYEq3dTyB8mKQgp6TRMQ4XobAFzzrPRT/Fvqq
-	hSw6lW5NHkG38uAGcUdy/WxNFGnJyQoqRpeAocoxvCHvRXNgyAcusRDqaupQNbWjlZI30+8YK2r
-	eU1F5zsB/q8Ji1TUHap+nGj/wUGenb0mpraznBuf0EGCyQHf62+SaaO8h56PK4UpZmlBaJ3grWZ
-	fw5Qjr/tpWdIOFaAJR3mAc69rr8JwTQJmOWxzR0wdh94qz1QG2zorI5dAx0F/cxwbB+C2vMDMrX
-	sM0jYGmh7H03Fjrl4LLXAGJg4V9G/qjs+cqACEQsLtq6nHWNlDQ+2fIG0tTqVe/P/lWJuahKXu8
-	NrJUeJpAMZUR2hHkjtlg==
-X-Received: by 2002:a05:6122:8294:b0:56e:e9cf:7134 with SMTP id 71dfb90a1353d-575593ac428mr11483089e0c.3.1778474902714;
-        Sun, 10 May 2026 21:48:22 -0700 (PDT)
-Received: from localhost ([185.141.119.51])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-57586996768sm5299001e0c.7.2026.05.10.21.48.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 21:48:21 -0700 (PDT)
-Date: Mon, 11 May 2026 07:48:15 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/020-dart 4/20] drivers/iommu/apple-dart.c:1236
- apple_dart_probe() warn: missing error code 'ret'
-Message-ID: <202605102224.vlvlpsIR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2qEN2S5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778478874; x=1810014874;
+  h=date:from:to:cc:subject:message-id;
+  bh=dZr1deMMIn+1WQCXvi2p01CKYzV6AvCFo8uSG0R5oZs=;
+  b=I2qEN2S521ZB9HpiIAnUhyPJvtZDy5TSlb1LQ+zUG1jwY6GMbgpefZH5
+   LboebezRTDAy4IdBfJR6lOxKvc5NTHLP9s+czj9VYuhxN8F3+oFfuv23Z
+   A8h2kE/3YutIs2XjgL+cSLfDQsychbW8m3vEuq339PpABjfUys1Ht8hmz
+   2YQXZ511y4GRmlvAUVDDuZ27CO3uGrCKHzMOMnJTpJcvrOLNBYwDzXsII
+   4DkmdyvJviTgc0tJVRJW7w8fdMVKcGde5fADYl8rj7Tf59XFSPEq4p+xV
+   QdHUHa0AA+jQThctRzqaBAxS48/+cRo99/JIzZZ5mTo+vomk6/Exvz2YJ
+   A==;
+X-CSE-ConnectionGUID: NY4eX1C/R7WtW0xG4CH+lA==
+X-CSE-MsgGUID: ALtKZGaLQo677vD3v6yBgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="104817910"
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="104817910"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 22:54:34 -0700
+X-CSE-ConnectionGUID: xMYyfxHLTciICehl5vdBAw==
+X-CSE-MsgGUID: NMkS7zp0T5iBEWyZpvEbDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="275493291"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 10 May 2026 22:54:32 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wMJb4-000000000DN-0157;
+	Mon, 11 May 2026 05:54:30 +0000
+Date: Mon, 11 May 2026 13:53:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 12063/13385] net/ipv4/icmp.c:597
+ icmp_route_lookup() warn: passing zero to 'ERR_PTR'
+Message-ID: <202605111349.dQpYN8JD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260511044815.lHiuB9JXuh3EZiLhnADMZW8ZE6O8zcdpljGaG6kjf0k@z>
 
-tree:   https://github.com/AsahiLinux/linux bits/020-dart
-head:   1fe2c37040cfeced8a9d0161c2d7093cf8c9c1d0
-commit: 66bff25252bfad1ee4298c3c998404e8f92f19e8 [4/20] iommu: apple-dart: Support specifying the DMA aperture in the DT
-config: um-randconfig-r072-20260509 (https://download.01.org/0day-ci/archive/20260510/202605102224.vlvlpsIR-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Jiayuan Chen <jiayuan.chen@shopee.com>
+CC: Paolo Abeni <pabeni@redhat.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e98d21c170b01ddef366f023bbfcf6b31509fa83
+commit: 81b84de32bb27ae1ae2eb9acf0420e9d0d14bf00 [12063/13385] xfrm: fix ip_rt_bug race in icmp_route_lookup reverse path
+:::::: branch date: 3 days ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260511/202605111349.dQpYN8JD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605102224.vlvlpsIR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605111349.dQpYN8JD-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/apple-dart.c:1236 apple_dart_probe() warn: missing error code 'ret'
+net/ipv4/icmp.c:597 icmp_route_lookup() warn: passing zero to 'ERR_PTR'
 
-vim +/ret +1236 drivers/iommu/apple-dart.c
+vim +/ERR_PTR +597 net/ipv4/icmp.c
 
-46d1fb072e76b1 Sven Peter      2021-08-03  1152  static int apple_dart_probe(struct platform_device *pdev)
-46d1fb072e76b1 Sven Peter      2021-08-03  1153  {
-46d1fb072e76b1 Sven Peter      2021-08-03  1154  	int ret;
-d8bcc870d99d7e Hector Martin   2023-01-13  1155  	u32 dart_params[4];
-46d1fb072e76b1 Sven Peter      2021-08-03  1156  	struct resource *res;
-46d1fb072e76b1 Sven Peter      2021-08-03  1157  	struct apple_dart *dart;
-46d1fb072e76b1 Sven Peter      2021-08-03  1158  	struct device *dev = &pdev->dev;
-66bff25252bfad Hector Martin   2023-04-11  1159  	u64 dma_range[2];
-46d1fb072e76b1 Sven Peter      2021-08-03  1160  
-46d1fb072e76b1 Sven Peter      2021-08-03  1161  	dart = devm_kzalloc(dev, sizeof(*dart), GFP_KERNEL);
-46d1fb072e76b1 Sven Peter      2021-08-03  1162  	if (!dart)
-46d1fb072e76b1 Sven Peter      2021-08-03  1163  		return -ENOMEM;
-46d1fb072e76b1 Sven Peter      2021-08-03  1164  
-46d1fb072e76b1 Sven Peter      2021-08-03  1165  	dart->dev = dev;
-a380b8dcf22ccb Sven Peter      2022-09-16  1166  	dart->hw = of_device_get_match_data(dev);
-46d1fb072e76b1 Sven Peter      2021-08-03  1167  	spin_lock_init(&dart->lock);
-46d1fb072e76b1 Sven Peter      2021-08-03  1168  
-a15932f4377062 Yang Yingliang  2022-04-25  1169  	dart->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-a15932f4377062 Yang Yingliang  2022-04-25  1170  	if (IS_ERR(dart->regs))
-a15932f4377062 Yang Yingliang  2022-04-25  1171  		return PTR_ERR(dart->regs);
-a15932f4377062 Yang Yingliang  2022-04-25  1172  
-46d1fb072e76b1 Sven Peter      2021-08-03  1173  	if (resource_size(res) < 0x4000) {
-46d1fb072e76b1 Sven Peter      2021-08-03  1174  		dev_err(dev, "MMIO region too small (%pr)\n", res);
-46d1fb072e76b1 Sven Peter      2021-08-03  1175  		return -EINVAL;
-46d1fb072e76b1 Sven Peter      2021-08-03  1176  	}
-46d1fb072e76b1 Sven Peter      2021-08-03  1177  
-46d1fb072e76b1 Sven Peter      2021-08-03  1178  	dart->irq = platform_get_irq(pdev, 0);
-46d1fb072e76b1 Sven Peter      2021-08-03  1179  	if (dart->irq < 0)
-46d1fb072e76b1 Sven Peter      2021-08-03  1180  		return -ENODEV;
-46d1fb072e76b1 Sven Peter      2021-08-03  1181  
-46d1fb072e76b1 Sven Peter      2021-08-03  1182  	ret = devm_clk_bulk_get_all(dev, &dart->clks);
-46d1fb072e76b1 Sven Peter      2021-08-03  1183  	if (ret < 0)
-46d1fb072e76b1 Sven Peter      2021-08-03  1184  		return ret;
-46d1fb072e76b1 Sven Peter      2021-08-03  1185  	dart->num_clks = ret;
-46d1fb072e76b1 Sven Peter      2021-08-03  1186  
-46d1fb072e76b1 Sven Peter      2021-08-03  1187  	ret = clk_bulk_prepare_enable(dart->num_clks, dart->clks);
-46d1fb072e76b1 Sven Peter      2021-08-03  1188  	if (ret)
-46d1fb072e76b1 Sven Peter      2021-08-03  1189  		return ret;
-46d1fb072e76b1 Sven Peter      2021-08-03  1190  
-00751168c3b96e Hector Martin   2022-12-12  1191  	pm_runtime_get_noresume(dev);
-00751168c3b96e Hector Martin   2022-12-12  1192  	pm_runtime_set_active(dev);
-00751168c3b96e Hector Martin   2022-12-12  1193  	pm_runtime_irq_safe(dev);
-00751168c3b96e Hector Martin   2022-12-12  1194  
-00751168c3b96e Hector Martin   2022-12-12  1195  	ret = devm_pm_runtime_enable(dev);
-00751168c3b96e Hector Martin   2022-12-12  1196  	if (ret)
-00751168c3b96e Hector Martin   2022-12-12  1197  		goto err_clk_disable;
-00751168c3b96e Hector Martin   2022-12-12  1198  
-46d1fb072e76b1 Sven Peter      2021-08-03  1199  	dart_params[0] = readl(dart->regs + DART_PARAMS1);
-46d1fb072e76b1 Sven Peter      2021-08-03  1200  	dart_params[1] = readl(dart->regs + DART_PARAMS2);
-a772a02c18342b Hector Martin   2023-01-13  1201  	dart->pgsize = 1 << FIELD_GET(DART_PARAMS1_PAGE_SHIFT, dart_params[0]);
-a772a02c18342b Hector Martin   2023-01-13  1202  	dart->supports_bypass = dart_params[1] & DART_PARAMS2_BYPASS_SUPPORT;
-510d4072df7fcf Hector Martin   2023-01-13  1203  
-d8bcc870d99d7e Hector Martin   2023-01-13  1204  	switch (dart->hw->type) {
-d8bcc870d99d7e Hector Martin   2023-01-13  1205  	case DART_T8020:
-d8bcc870d99d7e Hector Martin   2023-01-13  1206  	case DART_T6000:
-d8bcc870d99d7e Hector Martin   2023-01-13  1207  		dart->ias = 32;
-d8bcc870d99d7e Hector Martin   2023-01-13  1208  		dart->oas = dart->hw->oas;
-510d4072df7fcf Hector Martin   2023-01-13  1209  		dart->num_streams = dart->hw->max_sid_count;
-d8bcc870d99d7e Hector Martin   2023-01-13  1210  		break;
-d8bcc870d99d7e Hector Martin   2023-01-13  1211  
-d8bcc870d99d7e Hector Martin   2023-01-13  1212  	case DART_T8110:
-d8bcc870d99d7e Hector Martin   2023-01-13  1213  		dart_params[2] = readl(dart->regs + DART_T8110_PARAMS3);
-d8bcc870d99d7e Hector Martin   2023-01-13  1214  		dart_params[3] = readl(dart->regs + DART_T8110_PARAMS4);
-d8bcc870d99d7e Hector Martin   2023-01-13  1215  		dart->ias = FIELD_GET(DART_T8110_PARAMS3_VA_WIDTH, dart_params[2]);
-d8bcc870d99d7e Hector Martin   2023-01-13  1216  		dart->oas = FIELD_GET(DART_T8110_PARAMS3_PA_WIDTH, dart_params[2]);
-d8bcc870d99d7e Hector Martin   2023-01-13  1217  		dart->num_streams = FIELD_GET(DART_T8110_PARAMS4_NUM_SIDS, dart_params[3]);
-5229bd5f9e3dbc Hector Martin   2025-08-21  1218  		dart->four_level = dart->ias > 36;
-d8bcc870d99d7e Hector Martin   2023-01-13  1219  		break;
-d8bcc870d99d7e Hector Martin   2023-01-13  1220  	}
-510d4072df7fcf Hector Martin   2023-01-13  1221  
-66bff25252bfad Hector Martin   2023-04-11  1222  	dart->dma_min = 0;
-66bff25252bfad Hector Martin   2023-04-11  1223  	dart->dma_max = DMA_BIT_MASK(dart->ias);
-66bff25252bfad Hector Martin   2023-04-11  1224  
-66bff25252bfad Hector Martin   2023-04-11  1225  	ret = of_property_read_u64_array(dev->of_node, "apple,dma-range", dma_range, 2);
-66bff25252bfad Hector Martin   2023-04-11  1226  	if (ret == -EINVAL) {
-66bff25252bfad Hector Martin   2023-04-11  1227  		ret = 0;
-66bff25252bfad Hector Martin   2023-04-11  1228  	} else if (ret) {
-66bff25252bfad Hector Martin   2023-04-11  1229  		goto err_clk_disable;
-66bff25252bfad Hector Martin   2023-04-11  1230  	} else {
-66bff25252bfad Hector Martin   2023-04-11  1231  		dart->dma_min = dma_range[0];
-66bff25252bfad Hector Martin   2023-04-11  1232  		dart->dma_max = dma_range[0] + dma_range[1] - 1;
-66bff25252bfad Hector Martin   2023-04-11  1233  		if ((dart->dma_min ^ dart->dma_max) & ~DMA_BIT_MASK(dart->ias)) {
-66bff25252bfad Hector Martin   2023-04-11  1234  			dev_err(&pdev->dev, "Invalid DMA range for ias=%d\n",
-66bff25252bfad Hector Martin   2023-04-11  1235  				dart->ias);
-66bff25252bfad Hector Martin   2023-04-11 @1236  			goto err_clk_disable;
+e1e84eb58eb494b Mathieu Desnoyers  2020-10-12  480  
+913c83a610bb7dd Guillaume Nault    2024-10-01  481  static struct rtable *icmp_route_lookup(struct net *net, struct flowi4 *fl4,
+77968b78242ee25 David S. Miller    2011-05-08  482  					struct sk_buff *skb_in,
+913c83a610bb7dd Guillaume Nault    2024-10-01  483  					const struct iphdr *iph, __be32 saddr,
+913c83a610bb7dd Guillaume Nault    2024-10-01  484  					dscp_t dscp, u32 mark, int type,
+913c83a610bb7dd Guillaume Nault    2024-10-01  485  					int code, struct icmp_bxm *param)
+f6d460cf0ed16d3 David S. Miller    2011-03-01  486  {
+e1e84eb58eb494b Mathieu Desnoyers  2020-10-12  487  	struct net_device *route_lookup_dev;
+05d6d492097c55f Eric Dumazet       2024-04-29  488  	struct dst_entry *dst, *dst2;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  489  	struct rtable *rt, *rt2;
+415b3334a21aa67 David S. Miller    2011-07-22  490  	struct flowi4 fl4_dec;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  491  	int err;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  492  
+77968b78242ee25 David S. Miller    2011-05-08  493  	memset(fl4, 0, sizeof(*fl4));
+77968b78242ee25 David S. Miller    2011-05-08  494  	fl4->daddr = (param->replyopts.opt.opt.srr ?
+77968b78242ee25 David S. Miller    2011-05-08  495  		      param->replyopts.opt.opt.faddr : iph->saddr);
+77968b78242ee25 David S. Miller    2011-05-08  496  	fl4->saddr = saddr;
+e110861f86094cd Lorenzo Colitti    2014-05-13  497  	fl4->flowi4_mark = mark;
+e2d118a1cb5e60d Lorenzo Colitti    2016-11-04  498  	fl4->flowi4_uid = sock_net_uid(net, NULL);
+1bec9d0c0046fe4 Guillaume Nault    2025-08-25  499  	fl4->flowi4_dscp = dscp;
+77968b78242ee25 David S. Miller    2011-05-08  500  	fl4->flowi4_proto = IPPROTO_ICMP;
+77968b78242ee25 David S. Miller    2011-05-08  501  	fl4->fl4_icmp_type = type;
+77968b78242ee25 David S. Miller    2011-05-08  502  	fl4->fl4_icmp_code = code;
+e1e84eb58eb494b Mathieu Desnoyers  2020-10-12  503  	route_lookup_dev = icmp_get_route_lookup_dev(skb_in);
+e1e84eb58eb494b Mathieu Desnoyers  2020-10-12  504  	fl4->flowi4_oif = l3mdev_master_ifindex(route_lookup_dev);
+613d09b30f8b589 David Ahern        2015-08-13  505  
+3df98d79215ace1 Paul Moore         2020-09-27  506  	security_skb_classify_flow(skb_in, flowi4_to_flowi_common(fl4));
+3abd1ade6765e8e David Ahern        2017-05-25  507  	rt = ip_route_output_key_hash(net, fl4, skb_in);
+b23dd4fe42b455a David S. Miller    2011-03-02  508  	if (IS_ERR(rt))
+b23dd4fe42b455a David S. Miller    2011-03-02  509  		return rt;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  510  
+f6d460cf0ed16d3 David S. Miller    2011-03-01  511  	/* No need to clone since we're just using its address. */
+f6d460cf0ed16d3 David S. Miller    2011-03-01  512  	rt2 = rt;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  513  
+05d6d492097c55f Eric Dumazet       2024-04-29  514  	dst = xfrm_lookup(net, &rt->dst,
+77968b78242ee25 David S. Miller    2011-05-08  515  			  flowi4_to_flowi(fl4), NULL, 0);
+05d6d492097c55f Eric Dumazet       2024-04-29  516  	rt = dst_rtable(dst);
+05d6d492097c55f Eric Dumazet       2024-04-29  517  	if (!IS_ERR(dst)) {
+f6d460cf0ed16d3 David S. Miller    2011-03-01  518  		if (rt != rt2)
+f6d460cf0ed16d3 David S. Miller    2011-03-01  519  			return rt;
+c44daa7e3c73229 Dong Chenchen      2024-11-27  520  		if (inet_addr_type_dev_table(net, route_lookup_dev,
+c44daa7e3c73229 Dong Chenchen      2024-11-27  521  					     fl4->daddr) == RTN_LOCAL)
+c44daa7e3c73229 Dong Chenchen      2024-11-27  522  			return rt;
+05d6d492097c55f Eric Dumazet       2024-04-29  523  	} else if (PTR_ERR(dst) == -EPERM) {
+f6d460cf0ed16d3 David S. Miller    2011-03-01  524  		rt = NULL;
+05d6d492097c55f Eric Dumazet       2024-04-29  525  	} else {
+452edd598f60522 David S. Miller    2011-03-02  526  		return rt;
+05d6d492097c55f Eric Dumazet       2024-04-29  527  	}
+2b1dc6285c3f6e6 Florian Westphal   2023-10-04  528  	err = xfrm_decode_session_reverse(net, skb_in, flowi4_to_flowi(&fl4_dec), AF_INET);
+f6d460cf0ed16d3 David S. Miller    2011-03-01  529  	if (err)
+f6d460cf0ed16d3 David S. Miller    2011-03-01  530  		goto relookup_failed;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  531  
+e1e84eb58eb494b Mathieu Desnoyers  2020-10-12  532  	if (inet_addr_type_dev_table(net, route_lookup_dev,
+30bbaa19500559d David Ahern        2015-08-13  533  				     fl4_dec.saddr) == RTN_LOCAL) {
+415b3334a21aa67 David S. Miller    2011-07-22  534  		rt2 = __ip_route_output_key(net, &fl4_dec);
+b23dd4fe42b455a David S. Miller    2011-03-02  535  		if (IS_ERR(rt2))
+b23dd4fe42b455a David S. Miller    2011-03-02  536  			err = PTR_ERR(rt2);
+f6d460cf0ed16d3 David S. Miller    2011-03-01  537  	} else {
+9d6ec938019c6b1 David S. Miller    2011-03-12  538  		struct flowi4 fl4_2 = {};
+f6d460cf0ed16d3 David S. Miller    2011-03-01  539  		unsigned long orefdst;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  540  
+415b3334a21aa67 David S. Miller    2011-07-22  541  		fl4_2.daddr = fl4_dec.saddr;
+9d6ec938019c6b1 David S. Miller    2011-03-12  542  		rt2 = ip_route_output_key(net, &fl4_2);
+b23dd4fe42b455a David S. Miller    2011-03-02  543  		if (IS_ERR(rt2)) {
+b23dd4fe42b455a David S. Miller    2011-03-02  544  			err = PTR_ERR(rt2);
+f6d460cf0ed16d3 David S. Miller    2011-03-01  545  			goto relookup_failed;
+b23dd4fe42b455a David S. Miller    2011-03-02  546  		}
+f6d460cf0ed16d3 David S. Miller    2011-03-01  547  		/* Ugh! */
+e97e6a1830ddb58 Stanislav Fomichev 2025-08-18  548  		orefdst = skb_dstref_steal(skb_in);
+415b3334a21aa67 David S. Miller    2011-07-22  549  		err = ip_route_input(skb_in, fl4_dec.daddr, fl4_dec.saddr,
+50038bf38e6577a Menglong Dong      2024-11-07  550  				     dscp, rt2->dst.dev) ? -EINVAL : 0;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  551  
+f6d460cf0ed16d3 David S. Miller    2011-03-01  552  		dst_release(&rt2->dst);
+f6d460cf0ed16d3 David S. Miller    2011-03-01  553  		rt2 = skb_rtable(skb_in);
+e97e6a1830ddb58 Stanislav Fomichev 2025-08-18  554  		/* steal dst entry from skb_in, don't drop refcnt */
+e97e6a1830ddb58 Stanislav Fomichev 2025-08-18  555  		skb_dstref_steal(skb_in);
+e97e6a1830ddb58 Stanislav Fomichev 2025-08-18  556  		skb_dstref_restore(skb_in, orefdst);
+81b84de32bb27ae Jiayuan Chen       2026-02-06  557  
+81b84de32bb27ae Jiayuan Chen       2026-02-06  558  		/*
+81b84de32bb27ae Jiayuan Chen       2026-02-06  559  		 * At this point, fl4_dec.daddr should NOT be local (we
+81b84de32bb27ae Jiayuan Chen       2026-02-06  560  		 * checked fl4_dec.saddr above). However, a race condition
+81b84de32bb27ae Jiayuan Chen       2026-02-06  561  		 * may occur if the address is added to the interface
+81b84de32bb27ae Jiayuan Chen       2026-02-06  562  		 * concurrently. In that case, ip_route_input() returns a
+81b84de32bb27ae Jiayuan Chen       2026-02-06  563  		 * LOCAL route with dst.output=ip_rt_bug, which must not
+81b84de32bb27ae Jiayuan Chen       2026-02-06  564  		 * be used for output.
+81b84de32bb27ae Jiayuan Chen       2026-02-06  565  		 */
+81b84de32bb27ae Jiayuan Chen       2026-02-06  566  		if (!err && rt2 && rt2->rt_type == RTN_LOCAL) {
+81b84de32bb27ae Jiayuan Chen       2026-02-06  567  			net_warn_ratelimited("detected local route for %pI4 during ICMP sending, src %pI4\n",
+81b84de32bb27ae Jiayuan Chen       2026-02-06  568  					     &fl4_dec.daddr, &fl4_dec.saddr);
+81b84de32bb27ae Jiayuan Chen       2026-02-06  569  			dst_release(&rt2->dst);
+81b84de32bb27ae Jiayuan Chen       2026-02-06  570  			err = -EINVAL;
+81b84de32bb27ae Jiayuan Chen       2026-02-06  571  		}
+f6d460cf0ed16d3 David S. Miller    2011-03-01  572  	}
+f6d460cf0ed16d3 David S. Miller    2011-03-01  573  
+f6d460cf0ed16d3 David S. Miller    2011-03-01  574  	if (err)
+f6d460cf0ed16d3 David S. Miller    2011-03-01  575  		goto relookup_failed;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  576  
+05d6d492097c55f Eric Dumazet       2024-04-29  577  	dst2 = xfrm_lookup(net, &rt2->dst, flowi4_to_flowi(&fl4_dec), NULL,
+9d6ec938019c6b1 David S. Miller    2011-03-12  578  			   XFRM_LOOKUP_ICMP);
+05d6d492097c55f Eric Dumazet       2024-04-29  579  	rt2 = dst_rtable(dst2);
+05d6d492097c55f Eric Dumazet       2024-04-29  580  	if (!IS_ERR(dst2)) {
+f6d460cf0ed16d3 David S. Miller    2011-03-01  581  		dst_release(&rt->dst);
+415b3334a21aa67 David S. Miller    2011-07-22  582  		memcpy(fl4, &fl4_dec, sizeof(*fl4));
+f6d460cf0ed16d3 David S. Miller    2011-03-01  583  		rt = rt2;
+05d6d492097c55f Eric Dumazet       2024-04-29  584  	} else if (PTR_ERR(dst2) == -EPERM) {
+452edd598f60522 David S. Miller    2011-03-02  585  		if (rt)
+452edd598f60522 David S. Miller    2011-03-02  586  			dst_release(&rt->dst);
+452edd598f60522 David S. Miller    2011-03-02  587  		return rt2;
+452edd598f60522 David S. Miller    2011-03-02  588  	} else {
+05d6d492097c55f Eric Dumazet       2024-04-29  589  		err = PTR_ERR(dst2);
+452edd598f60522 David S. Miller    2011-03-02  590  		goto relookup_failed;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  591  	}
+f6d460cf0ed16d3 David S. Miller    2011-03-01  592  	return rt;
+f6d460cf0ed16d3 David S. Miller    2011-03-01  593  
+f6d460cf0ed16d3 David S. Miller    2011-03-01  594  relookup_failed:
+f6d460cf0ed16d3 David S. Miller    2011-03-01  595  	if (rt)
+f6d460cf0ed16d3 David S. Miller    2011-03-01  596  		return rt;
+f6d460cf0ed16d3 David S. Miller    2011-03-01 @597  	return ERR_PTR(err);
+f6d460cf0ed16d3 David S. Miller    2011-03-01  598  }
+^1da177e4c3f415 Linus Torvalds     2005-04-16  599  
 
-ret = -EINVAL;
+:::::: The code at line 597 was first introduced by commit
+:::::: f6d460cf0ed16d35aec48f823685e7a0e0283d84 ipv4: Make icmp route lookup code a bit clearer.
 
-66bff25252bfad Hector Martin   2023-04-11  1237  		}
-66bff25252bfad Hector Martin   2023-04-11  1238  		dev_info(&pdev->dev, "Limiting DMA range to %pad..%pad\n",
-66bff25252bfad Hector Martin   2023-04-11  1239  			 &dart->dma_min, &dart->dma_max);
-66bff25252bfad Hector Martin   2023-04-11  1240  	}
-66bff25252bfad Hector Martin   2023-04-11  1241  
-510d4072df7fcf Hector Martin   2023-01-13  1242  	if (dart->num_streams > DART_MAX_STREAMS) {
-510d4072df7fcf Hector Martin   2023-01-13  1243  		dev_err(&pdev->dev, "Too many streams (%d > %d)\n",
-510d4072df7fcf Hector Martin   2023-01-13  1244  			dart->num_streams, DART_MAX_STREAMS);
-510d4072df7fcf Hector Martin   2023-01-13  1245  		ret = -EINVAL;
-510d4072df7fcf Hector Martin   2023-01-13  1246  		goto err_clk_disable;
-510d4072df7fcf Hector Martin   2023-01-13  1247  	}
-510d4072df7fcf Hector Martin   2023-01-13  1248  
-510d4072df7fcf Hector Martin   2023-01-13  1249  	ret = apple_dart_hw_reset(dart);
-510d4072df7fcf Hector Martin   2023-01-13  1250  	if (ret)
-510d4072df7fcf Hector Martin   2023-01-13  1251  		goto err_clk_disable;
-510d4072df7fcf Hector Martin   2023-01-13  1252  
-206b3243aaa8bc Asahi Lina      2023-09-29  1253  	ret = request_irq(dart->irq, apple_dart_irq, IRQF_SHARED,
-46d1fb072e76b1 Sven Peter      2021-08-03  1254  			  "apple-dart fault handler", dart);
-46d1fb072e76b1 Sven Peter      2021-08-03  1255  	if (ret)
-46d1fb072e76b1 Sven Peter      2021-08-03  1256  		goto err_clk_disable;
-46d1fb072e76b1 Sven Peter      2021-08-03  1257  
-46d1fb072e76b1 Sven Peter      2021-08-03  1258  	platform_set_drvdata(pdev, dart);
-46d1fb072e76b1 Sven Peter      2021-08-03  1259  
-46d1fb072e76b1 Sven Peter      2021-08-03  1260  	ret = iommu_device_sysfs_add(&dart->iommu, dev, NULL, "apple-dart.%s",
-46d1fb072e76b1 Sven Peter      2021-08-03  1261  				     dev_name(&pdev->dev));
-46d1fb072e76b1 Sven Peter      2021-08-03  1262  	if (ret)
-006abbe36acdac Robin Murphy    2022-08-15  1263  		goto err_free_irq;
-46d1fb072e76b1 Sven Peter      2021-08-03  1264  
-46d1fb072e76b1 Sven Peter      2021-08-03  1265  	ret = iommu_device_register(&dart->iommu, &apple_dart_iommu_ops, dev);
-46d1fb072e76b1 Sven Peter      2021-08-03  1266  	if (ret)
-46d1fb072e76b1 Sven Peter      2021-08-03  1267  		goto err_sysfs_remove;
-46d1fb072e76b1 Sven Peter      2021-08-03  1268  
-00751168c3b96e Hector Martin   2022-12-12  1269  	pm_runtime_put(dev);
-00751168c3b96e Hector Martin   2022-12-12  1270  
-46d1fb072e76b1 Sven Peter      2021-08-03  1271  	dev_info(
-46d1fb072e76b1 Sven Peter      2021-08-03  1272  		&pdev->dev,
-5229bd5f9e3dbc Hector Martin   2025-08-21  1273  		"DART [pagesize %x, %d streams, bypass support: %d, bypass forced: %d, AS %d -> %d] initialized\n",
-bbc70e0aec287e Jason Gunthorpe 2023-09-27  1274  		dart->pgsize, dart->num_streams, dart->supports_bypass,
-5229bd5f9e3dbc Hector Martin   2025-08-21  1275  		dart->pgsize > PAGE_SIZE, dart->ias, dart->oas);
-46d1fb072e76b1 Sven Peter      2021-08-03  1276  	return 0;
-46d1fb072e76b1 Sven Peter      2021-08-03  1277  
-46d1fb072e76b1 Sven Peter      2021-08-03  1278  err_sysfs_remove:
-46d1fb072e76b1 Sven Peter      2021-08-03  1279  	iommu_device_sysfs_remove(&dart->iommu);
-46d1fb072e76b1 Sven Peter      2021-08-03  1280  err_free_irq:
-46d1fb072e76b1 Sven Peter      2021-08-03  1281  	free_irq(dart->irq, dart);
-46d1fb072e76b1 Sven Peter      2021-08-03  1282  err_clk_disable:
-00751168c3b96e Hector Martin   2022-12-12  1283  	pm_runtime_put(dev);
-46d1fb072e76b1 Sven Peter      2021-08-03  1284  	clk_bulk_disable_unprepare(dart->num_clks, dart->clks);
-46d1fb072e76b1 Sven Peter      2021-08-03  1285  
-46d1fb072e76b1 Sven Peter      2021-08-03  1286  	return ret;
-46d1fb072e76b1 Sven Peter      2021-08-03  1287  }
+:::::: TO: David S. Miller <davem@davemloft.net>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
