@@ -1,187 +1,301 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE8219EED3
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 May 2026 00:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36B942A9D
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 May 2026 02:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778459038; cv=none; b=VZaKBFEPHltGsXJsm65kXDfWZxrVwqi3Auzz6hmQnZCXsj1G0mAj5pG3jNMFtZzbst4lb2xdtuBjssHmzreovyc17BOjwVweECepp6OknJmm+E1xM6tLPleh41seeUvGXpwbTtrkltZgIQFall9O7b7Vx/xPuJgT3D3fcYB7A2I=
+	t=1778466262; cv=none; b=ez21HYXAcN6ac1vBv/3D3KYxeIv1dBcqueVG7Kn0rRJMAiefAvm4irPt23J7GM0fuvuH1P/IxsMsoyWzmPz4RZP07nQBsBMriTu9cQVRrPU0cLjdBC8EIHv9LG3905GVLVEpTZ2gRqHflywAgPpMb/sQ73WrCZ2jJQ/JyFYr48I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778459038; c=relaxed/simple;
-	bh=KDl0Sk+AiKXoOiv26XzSFRn7g7By2xTcSiAuT9JOAmc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HdL7xgp44y6o5TeSiEp8vyJX83TMaDScENgEO0tYQSPut8fLIvH9HGPMzwZkSW+wxtSF7nv1WzaEdwIYWxmfg+P1IcNgza09TNb5aft2dRaxupdo6u0EUZMliWM+efDR9mY3ZNYD/giEGbpdlGZVLH30Zk3WiEbKkQ5mLOcLPs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gqkkn1mY; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1778466262; c=relaxed/simple;
+	bh=oGUrJKcUYv/0Ko79TCrOA+D1MXyaRpWhZkG1IQrDhSE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XquBER2dXQ9GUbkq5L2q1yroaLo1DKupjTOBKSNbRnFvYRWH8s/zJXQ3sp6Khm8kEe0u01iaw7jBBn8JN+Qru8LDcslnezUYnPr0lzKuAG6cBR/55k+y35AlygP8m7tGrlJSd70YS32OlnIFQLtqjQPqJjtVpyzfqy2UZisUl70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpJXQtmN; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gqkkn1mY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpJXQtmN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778459037; x=1809995037;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KDl0Sk+AiKXoOiv26XzSFRn7g7By2xTcSiAuT9JOAmc=;
-  b=Gqkkn1mYecPgvktqZNjfeOrgcZV7bCwDEGFfj1VLHtXOyOfocq0i5aNS
-   O3b2NDLUGZkm2g8QEK1JJR/IY62TeS2aPBnS5E9Vv/7Lxt+L89prNt2lf
-   HEfZgIwsDYMlm4XmuCKlwNqPo8HdSYnMLcItD2jYnwmhmHeSHO/xGqCSm
-   6VcP2OlRo11f+YdF8BYjOeGdEeTQHiS1lDM8RXM8WWr7AxXq2vubPTE7T
-   INpNWOtd8hv9eDC+DCcGbnfWc0HVPQNnjeO0pQ4iR9fqlejhNrvs37hpK
-   y6N8nSzWwlOWPQTHpMVFtfW9OCXrH94tVNRdn5T2ndg6Cn2VfvRyx10SX
-   g==;
-X-CSE-ConnectionGUID: ueFLvsCtQ7GIFZ2WLY410g==
-X-CSE-MsgGUID: pXIxEHPrQiqMfDS1I+rJOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79367338"
+  t=1778466260; x=1810002260;
+  h=date:from:to:cc:subject:message-id;
+  bh=oGUrJKcUYv/0Ko79TCrOA+D1MXyaRpWhZkG1IQrDhSE=;
+  b=HpJXQtmNfvZR1zX0ho5en5eM6pkf+Olhso1kGyrYah+vFzH+AB+Dxn+A
+   TtVpR8tizZBY+gGAKnvZHZqWZbAKjnMFoibyB+H9kHIeYVVMuC1p0iwKR
+   ZAMAJcwjSo3FoY92mMZFNolkuQgnkXKr4ERJ0lQ4Ek+HRZa5vFhwIi/J6
+   5Ol/z9Yh9mJE3PN4Ak4J6S+sIeSfseOwFLdPhJsUpe8NEkXlBSp/QoSng
+   xe7p4aTQRb0qn+yLmQUaN1jdYrhPIt/vjYNu7IwQNSWKRLn+A1vHf9k6n
+   cQOE57n1UapHF2gftFmsMNWJHJEz+UKhSTxOjtNc8xa5PHozjlByljrq0
+   Q==;
+X-CSE-ConnectionGUID: QXIhFKv5TBS58C9m4pI78Q==
+X-CSE-MsgGUID: gPyrDxQwRPul0Ej5b3un0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="90816378"
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="79367338"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 17:23:53 -0700
-X-CSE-ConnectionGUID: U131tT37QqmYFxypzJpVFg==
-X-CSE-MsgGUID: Q5Aiun97TCWdT6A3Lif6VQ==
+   d="scan'208";a="90816378"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 19:24:19 -0700
+X-CSE-ConnectionGUID: Wg2mhVNoTGaPawheJTJ++Q==
+X-CSE-MsgGUID: PPaeSuQhRT+eNugHxlb9dA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="237399411"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 10 May 2026 17:23:53 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="242297381"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 10 May 2026 19:24:18 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMER3-000000007qz-3tdi;
-	Mon, 11 May 2026 00:23:49 +0000
-Date: Mon, 11 May 2026 02:23:12 +0200
+	id 1wMGJb-0000000003F-13QN;
+	Mon, 11 May 2026 02:24:15 +0000
+Date: Mon, 11 May 2026 10:24:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] tools: include: add proper strscpy() declaration
-Message-ID: <202605110223.Yionans2-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 3102/4394]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c:177
+ cm3_helper_translate_curve_to_hw_format() error: buffer overflow 'seg_distr'
+ 34 <= 4294967058
+Message-ID: <202605111042.jOOL1THy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260504212301.63750-1-lucasp.linux@gmail.com>
-References: <20260504212301.63750-1-lucasp.linux@gmail.com>
-TO: Lucas Poupeau <lucasp.linux@gmail.com>
-TO: jpoimboe@kernel.org
-TO: pmladek@suse.com
-CC: m32285159@gmail.com
-CC: linux-kernel@vger.kernel.org
-CC: Lucas Poupeau <lucasp.linux@gmail.com>
+TO: Gaghik Khachatrian <gaghik.khachatrian@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Dillon Varone <dillon.varone@amd.com>
+CC: James Lin <pinglei.lin@amd.com>
 
-Hi Lucas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.16-rc1 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Poupeau/tools-include-add-proper-strscpy-declaration/20260511-022707
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260504212301.63750-1-lucasp.linux%40gmail.com
-patch subject: [PATCH] tools: include: add proper strscpy() declaration
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260511/202605110223.Yionans2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605110223.Yionans2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e98d21c170b01ddef366f023bbfcf6b31509fa83
+commit: 64b4c4cdfddd31d3a0ec468afccb7ff7cd926682 [3102/4394] drm/amd/display: Fix type mismatches using guards and explicit casts
+:::::: branch date: 3 days ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-161-20260509 (https://download.01.org/0day-ci/archive/20260511/202605111042.jOOL1THy-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605110223.Yionans2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605111042.jOOL1THy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c:177 cm3_helper_translate_curve_to_hw_format() error: buffer overflow 'seg_distr' 34 <= 4294967058
+drivers/gpu/drm/amd/amdgpu/../display/dc/soc_and_ip_translator/dcn42/dcn42_soc_and_ip_translator.c:61 dcn42_convert_dc_clock_table_to_soc_bb_clock_table() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/soc_and_ip_translator/dcn42/dcn42_soc_and_ip_translator.c:61 dcn42_convert_dc_clock_table_to_soc_bb_clock_table() warn: if statement not indented
 
-   In file included from ./linux/scatterlist.h:5,
-                    from scatterlist.c:9:
->> ../../include/linux/string.h:32:8: error: unknown type name 'ssize_t'; did you mean 'size_t'?
-      32 | extern ssize_t strscpy(char *dest, const char *src, size_t count);
-         |        ^~~~~~~
-         |        size_t
-   In file included from ./linux/scatterlist.h:7:
-   ../../include/linux/bug.h:9:9: warning: "BUILD_BUG_ON_ZERO" redefined
-       9 | #define BUILD_BUG_ON_ZERO(e) (sizeof(struct { int:-!!(e); }))
-         |         ^~~~~~~~~~~~~~~~~
-   In file included from ../../include/linux/bits.h:30,
-                    from ../../include/linux/gfp_types.h:5,
-                    from ../../include/linux/gfp.h:6,
-                    from ../../include/linux/slab.h:6,
-                    from scatterlist.c:8:
-   ../../include/linux/build_bug.h:16:9: note: this is the location of the previous definition
-      16 | #define BUILD_BUG_ON_ZERO(e, ...) \
-         |         ^~~~~~~~~~~~~~~~~
-   In file included from ./linux/scatterlist.h:8:
-   ./linux/mm.h:13:9: warning: "unlikely" redefined
-      13 | #define unlikely
-         |         ^~~~~~~~
-   In file included from ../../include/linux/build_bug.h:5:
-   ../../include/linux/compiler.h:154:10: note: this is the location of the previous definition
-     154 | # define unlikely(x)            __builtin_expect(!!(x), 0)
-         |          ^~~~~~~~
-   ./linux/mm.h:33:9: warning: "__ALIGN_KERNEL" redefined
-      33 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
-         |         ^~~~~~~~~~~~~~
-   In file included from ../../include/vdso/const.h:5,
-                    from ../../include/vdso/bits.h:5,
-                    from ../../include/linux/bits.h:5:
-   ../../include/uapi/linux/const.h:48:9: note: this is the location of the previous definition
-      48 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
-         |         ^~~~~~~~~~~~~~
-   ./linux/mm.h:62:9: warning: "__PASTE" redefined
-      62 | #define __PASTE(a,b) ___PASTE(a,b)
-         |         ^~~~~~~
-   ../../include/linux/compiler.h:243:9: note: this is the location of the previous definition
-     243 | #define __PASTE(a, b) ___PASTE(a, b)
-         |         ^~~~~~~
-   ./linux/mm.h:112:21: error: conflicting types for 'kmalloc'; have 'void *(unsigned int,  unsigned int)'
-     112 | static inline void *kmalloc(unsigned int size, unsigned int flags)
-         |                     ^~~~~~~
-   ../../include/linux/slab.h:33:7: note: previous declaration of 'kmalloc' with type 'void *(size_t,  gfp_t)' {aka 'void *(long unsigned int,  gfp_t)'}
-      33 | void *kmalloc(size_t size, gfp_t gfp);
-         |       ^~~~~~~
-   ./linux/mm.h:118:1: error: conflicting types for 'kmalloc_array'; have 'void *(unsigned int,  unsigned int,  unsigned int)'
-     118 | kmalloc_array(unsigned int n, unsigned int size, unsigned int flags)
-         | ^~~~~~~~~~~~~
-   ../../include/linux/slab.h:35:7: note: previous declaration of 'kmalloc_array' with type 'void *(size_t,  size_t,  gfp_t)' {aka 'void *(long unsigned int,  long unsigned int,  gfp_t)'}
-      35 | void *kmalloc_array(size_t n, size_t size, gfp_t gfp);
-         |       ^~~~~~~~~~~~~
-   ./linux/scatterlist.h: In function 'sg_set_page':
-   ./linux/scatterlist.h:161:9: error: implicit declaration of function 'VM_WARN_ON_ONCE'; did you mean 'WARN_ON_ONCE'? [-Wimplicit-function-declaration]
-     161 |         VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PAGE_SIZE) / PAGE_SIZE));
-         |         ^~~~~~~~~~~~~~~
-         |         WARN_ON_ONCE
-   ./linux/scatterlist.h:161:26: error: implicit declaration of function 'page_range_contiguous' [-Wimplicit-function-declaration]
-     161 |         VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PAGE_SIZE) / PAGE_SIZE));
-         |                          ^~~~~~~~~~~~~~~~~~~~~
-   ./linux/scatterlist.h: At top level:
-   ./linux/scatterlist.h:181:64: warning: 'struct folio' declared inside parameter list will not be visible outside of this definition or declaration
-     181 | static inline void sg_set_folio(struct scatterlist *sg, struct folio *folio,
-         |                                                                ^~~~~
-   ./linux/scatterlist.h: In function 'sg_set_folio':
-   ./linux/scatterlist.h:186:34: error: invalid use of undefined type 'struct folio'
-     186 |         sg_assign_page(sg, &folio->page);
-         |                                  ^~
-   ./linux/scatterlist.h: In function 'sg_page_iter_page':
-   ./linux/scatterlist.h:606:35: error: invalid use of undefined type 'struct page'
-     606 |         return sg_page(piter->sg) + piter->sg_pgoffset;
-         |                                   ^
-   scatterlist.c: At top level:
-   scatterlist.c:12:10: fatal error: linux/bvec.h: No such file or directory
-      12 | #include <linux/bvec.h>
-         |          ^~~~~~~~~~~~~~
-   compilation terminated.
+vim +/seg_distr +177 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c
 
---
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  107  
+d25b32aa829a3e Melissa Wen          2025-12-08  108  #define DC_LOGGER \
+d25b32aa829a3e Melissa Wen          2025-12-08  109  		ctx->logger
+d25b32aa829a3e Melissa Wen          2025-12-08  110  
+d25b32aa829a3e Melissa Wen          2025-12-08  111  bool cm3_helper_translate_curve_to_hw_format(struct dc_context *ctx,
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  112  					     const struct dc_transfer_func *output_tf,
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  113  					     struct pwl_params *lut_params, bool fixpoint)
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  114  {
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  115  	struct curve_points3 *corner_points;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  116  	struct pwl_result_data *rgb_resulted;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  117  	struct pwl_result_data *rgb;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  118  	struct pwl_result_data *rgb_plus_1;
+34fa493a565cc6 Calvin Hou           2021-03-02  119  	struct pwl_result_data *rgb_minus_1;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  120  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  121  	int32_t region_start, region_end;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  122  	int32_t i;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  123  	uint32_t j, k, seg_distr[MAX_REGIONS_NUMBER], increment, start_index, hw_points;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  124  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  125  	if (output_tf == NULL || lut_params == NULL || output_tf->type == TF_TYPE_BYPASS)
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  126  		return false;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  127  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  128  	corner_points = lut_params->corner_points;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  129  	rgb_resulted = lut_params->rgb_resulted;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  130  	hw_points = 0;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  131  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  132  	memset(lut_params, 0, sizeof(struct pwl_params));
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  133  	memset(seg_distr, 0, sizeof(seg_distr));
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  134  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  135  	if (output_tf->tf == TRANSFER_FUNCTION_PQ || output_tf->tf == TRANSFER_FUNCTION_GAMMA22 ||
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  136  		output_tf->tf == TRANSFER_FUNCTION_HLG) {
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  137  		/* 32 segments
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  138  		 * segments are from 2^-25 to 2^7
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  139  		 */
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  140  		for (i = 0; i < NUMBER_REGIONS ; i++)
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  141  			seg_distr[i] = 3;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  142  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  143  		region_start = -MAX_LOW_POINT;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  144  		region_end   = NUMBER_REGIONS - MAX_LOW_POINT;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  145  	} else {
+eda7f2e9bb3b6b Peterson             2024-09-23  146  		/* 13 segments
+eda7f2e9bb3b6b Peterson             2024-09-23  147  		 * segment is from 2^-12 to 2^0
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  148  		 * There are less than 256 points, for optimization
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  149  		 */
+eda7f2e9bb3b6b Peterson             2024-09-23  150  		const uint8_t SEG_COUNT = 12;
+eda7f2e9bb3b6b Peterson             2024-09-23  151  
+eda7f2e9bb3b6b Peterson             2024-09-23  152  		for (i = 0; i < SEG_COUNT; i++)
+eda7f2e9bb3b6b Peterson             2024-09-23  153  			seg_distr[i] = 4;
+eda7f2e9bb3b6b Peterson             2024-09-23  154  
+eda7f2e9bb3b6b Peterson             2024-09-23  155  		seg_distr[SEG_COUNT] = 1;
+eda7f2e9bb3b6b Peterson             2024-09-23  156  
+eda7f2e9bb3b6b Peterson             2024-09-23  157  		region_start = -SEG_COUNT;
+34fa493a565cc6 Calvin Hou           2021-03-02  158  		region_end = 1;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  159  	}
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  160  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  161  	for (i = region_end - region_start; i < MAX_REGIONS_NUMBER ; i++)
+26ebcac0566b78 Gaghik Khachatrian   2026-03-12  162  		seg_distr[i] = (uint32_t)-1;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  163  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  164  	for (k = 0; k < MAX_REGIONS_NUMBER; k++) {
+26ebcac0566b78 Gaghik Khachatrian   2026-03-12  165  		if (seg_distr[k] != (uint32_t)-1)
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  166  			hw_points += (1 << seg_distr[k]);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  167  	}
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  168  
+8f959d37c1f2ef Melissa Wen          2026-01-22  169  	// DCN3+ have 257 pts in lieu of no separate slope registers
+8f959d37c1f2ef Melissa Wen          2026-01-22  170  	// Prior HW had 256 base+slope pairs
+8f959d37c1f2ef Melissa Wen          2026-01-22  171  	// Shaper LUT (i.e. fixpoint == true) is still 256 bases and 256 deltas
+8f959d37c1f2ef Melissa Wen          2026-01-22  172  	hw_points = fixpoint ? (hw_points - 1) : hw_points;
+8f959d37c1f2ef Melissa Wen          2026-01-22  173  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  174  	j = 0;
+64b4c4cdfddd31 Gaghik Khachatrian   2026-04-21  175  	uint32_t region_span = (uint32_t)(region_end - region_start);
+64b4c4cdfddd31 Gaghik Khachatrian   2026-04-21  176  	for (k = 0; k < region_span; k++) {
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21 @177  		increment = NUMBER_SW_SEGMENTS / (1 << seg_distr[k]);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  178  		start_index = (region_start + k + MAX_LOW_POINT) *
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  179  				NUMBER_SW_SEGMENTS;
+64b4c4cdfddd31 Gaghik Khachatrian   2026-04-21  180  		int32_t index_end = (int32_t)(start_index + NUMBER_SW_SEGMENTS);
+64b4c4cdfddd31 Gaghik Khachatrian   2026-04-21  181  		for (i = start_index; i < index_end;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  182  				i += increment) {
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  183  			if (j == hw_points)
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  184  				break;
+d81873f9e715b7 Srinivasan Shanmugam 2024-07-20  185  			if (i >= TRANSFER_FUNC_POINTS)
+d81873f9e715b7 Srinivasan Shanmugam 2024-07-20  186  				return false;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  187  			rgb_resulted[j].red = output_tf->tf_pts.red[i];
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  188  			rgb_resulted[j].green = output_tf->tf_pts.green[i];
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  189  			rgb_resulted[j].blue = output_tf->tf_pts.blue[i];
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  190  			j++;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  191  		}
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  192  	}
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  193  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  194  	/* last point */
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  195  	start_index = (region_end + MAX_LOW_POINT) * NUMBER_SW_SEGMENTS;
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  196  	rgb_resulted[hw_points].red = output_tf->tf_pts.red[start_index];
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  197  	rgb_resulted[hw_points].green = output_tf->tf_pts.green[start_index];
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  198  	rgb_resulted[hw_points].blue = output_tf->tf_pts.blue[start_index];
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  199  
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  200  	rgb_resulted[hw_points+1].red = rgb_resulted[hw_points].red;
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  201  	rgb_resulted[hw_points+1].green = rgb_resulted[hw_points].green;
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  202  	rgb_resulted[hw_points+1].blue = rgb_resulted[hw_points].blue;
+34fa493a565cc6 Calvin Hou           2021-03-02  203  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  204  	// All 3 color channels have same x
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  205  	corner_points[0].red.x = dc_fixpt_pow(dc_fixpt_from_int(2),
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  206  					     dc_fixpt_from_int(region_start));
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  207  	corner_points[0].green.x = corner_points[0].red.x;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  208  	corner_points[0].blue.x = corner_points[0].red.x;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  209  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  210  	corner_points[1].red.x = dc_fixpt_pow(dc_fixpt_from_int(2),
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  211  					     dc_fixpt_from_int(region_end));
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  212  	corner_points[1].green.x = corner_points[1].red.x;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  213  	corner_points[1].blue.x = corner_points[1].red.x;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  214  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  215  	corner_points[0].red.y = rgb_resulted[0].red;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  216  	corner_points[0].green.y = rgb_resulted[0].green;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  217  	corner_points[0].blue.y = rgb_resulted[0].blue;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  218  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  219  	corner_points[0].red.slope = dc_fixpt_div(corner_points[0].red.y,
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  220  			corner_points[0].red.x);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  221  	corner_points[0].green.slope = dc_fixpt_div(corner_points[0].green.y,
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  222  			corner_points[0].green.x);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  223  	corner_points[0].blue.slope = dc_fixpt_div(corner_points[0].blue.y,
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  224  			corner_points[0].blue.x);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  225  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  226  	/* see comment above, m_arrPoints[1].y should be the Y value for the
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  227  	 * region end (m_numOfHwPoints), not last HW point(m_numOfHwPoints - 1)
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  228  	 */
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  229  	corner_points[1].red.y = rgb_resulted[hw_points].red;
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  230  	corner_points[1].green.y = rgb_resulted[hw_points].green;
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  231  	corner_points[1].blue.y = rgb_resulted[hw_points].blue;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  232  	corner_points[1].red.slope = dc_fixpt_zero;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  233  	corner_points[1].green.slope = dc_fixpt_zero;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  234  	corner_points[1].blue.slope = dc_fixpt_zero;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  235  
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  236  	lut_params->hw_points_num = hw_points + 1;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  237  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  238  	k = 0;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  239  	for (i = 1; i < MAX_REGIONS_NUMBER; i++) {
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  240  		if (seg_distr[k] != -1) {
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  241  			lut_params->arr_curve_points[k].segments_num =
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  242  					seg_distr[k];
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  243  			lut_params->arr_curve_points[i].offset =
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  244  					lut_params->arr_curve_points[k].offset + (1 << seg_distr[k]);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  245  		}
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  246  		k++;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  247  	}
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  248  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  249  	if (seg_distr[k] != -1)
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  250  		lut_params->arr_curve_points[k].segments_num = seg_distr[k];
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  251  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  252  	rgb = rgb_resulted;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  253  	rgb_plus_1 = rgb_resulted + 1;
+34fa493a565cc6 Calvin Hou           2021-03-02  254  	rgb_minus_1 = rgb;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  255  
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  256  	if (fixpoint == true) {
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  257  		i = 1;
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  258  		while (i != hw_points + 2) {
+d25b32aa829a3e Melissa Wen          2025-12-08  259  			uint32_t red_clamp;
+d25b32aa829a3e Melissa Wen          2025-12-08  260  			uint32_t green_clamp;
+d25b32aa829a3e Melissa Wen          2025-12-08  261  			uint32_t blue_clamp;
+d25b32aa829a3e Melissa Wen          2025-12-08  262  
+64b4c4cdfddd31 Gaghik Khachatrian   2026-04-21  263  			if ((uint32_t)i >= hw_points) {
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  264  				if (dc_fixpt_lt(rgb_plus_1->red, rgb->red))
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  265  					rgb_plus_1->red = dc_fixpt_add(rgb->red,
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  266  							rgb_minus_1->delta_red);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  267  				if (dc_fixpt_lt(rgb_plus_1->green, rgb->green))
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  268  					rgb_plus_1->green = dc_fixpt_add(rgb->green,
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  269  							rgb_minus_1->delta_green);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  270  				if (dc_fixpt_lt(rgb_plus_1->blue, rgb->blue))
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  271  					rgb_plus_1->blue = dc_fixpt_add(rgb->blue,
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  272  							rgb_minus_1->delta_blue);
+34fa493a565cc6 Calvin Hou           2021-03-02  273  			}
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  274  
+d25b32aa829a3e Melissa Wen          2025-12-08  275  			rgb->delta_red   = dc_fixpt_sub(rgb_plus_1->red,   rgb->red);
+d25b32aa829a3e Melissa Wen          2025-12-08  276  			rgb->delta_green = dc_fixpt_sub(rgb_plus_1->green, rgb->green);
+d25b32aa829a3e Melissa Wen          2025-12-08  277  			rgb->delta_blue  = dc_fixpt_sub(rgb_plus_1->blue,  rgb->blue);
+d25b32aa829a3e Melissa Wen          2025-12-08  278  
+d25b32aa829a3e Melissa Wen          2025-12-08  279  			red_clamp = dc_fixpt_clamp_u0d14(rgb->delta_red);
+d25b32aa829a3e Melissa Wen          2025-12-08  280  			green_clamp = dc_fixpt_clamp_u0d14(rgb->delta_green);
+d25b32aa829a3e Melissa Wen          2025-12-08  281  			blue_clamp = dc_fixpt_clamp_u0d14(rgb->delta_blue);
+d25b32aa829a3e Melissa Wen          2025-12-08  282  
+d25b32aa829a3e Melissa Wen          2025-12-08  283  			if (red_clamp >> 10 || green_clamp >> 10 || blue_clamp >> 10)
+d25b32aa829a3e Melissa Wen          2025-12-08  284  				DC_LOG_ERROR("Losing delta precision while programming shaper LUT.");
+d25b32aa829a3e Melissa Wen          2025-12-08  285  
+d25b32aa829a3e Melissa Wen          2025-12-08  286  			rgb->delta_red_reg   = red_clamp & 0x3ff;
+d25b32aa829a3e Melissa Wen          2025-12-08  287  			rgb->delta_green_reg = green_clamp & 0x3ff;
+d25b32aa829a3e Melissa Wen          2025-12-08  288  			rgb->delta_blue_reg  = blue_clamp & 0x3ff;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  289  			rgb->red_reg         = dc_fixpt_clamp_u0d14(rgb->red);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  290  			rgb->green_reg       = dc_fixpt_clamp_u0d14(rgb->green);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  291  			rgb->blue_reg        = dc_fixpt_clamp_u0d14(rgb->blue);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  292  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  293  			++rgb_plus_1;
+34fa493a565cc6 Calvin Hou           2021-03-02  294  			rgb_minus_1 = rgb;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  295  			++rgb;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  296  			++i;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  297  		}
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  298  	}
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  299  	cm3_helper_convert_to_custom_float(rgb_resulted,
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  300  						lut_params->corner_points,
+4d5fd3d08ea992 Krunoslav Kovac      2023-08-08  301  						hw_points+1, fixpoint);
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  302  
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  303  	return true;
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  304  }
+03f54d7d3448dc Bhawanpreet Lakha    2020-05-21  305  
+
+:::::: The code at line 177 was first introduced by commit
+:::::: 03f54d7d3448dc1668568d1adb69b43c1d1dc79f drm/amd/display: Add DCN3 DPP
+
+:::::: TO: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
