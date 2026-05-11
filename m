@@ -1,116 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BB5358384
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 May 2026 16:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1404374E71
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 May 2026 16:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778518304; cv=none; b=jpfupfE4u0TSCEhm2eb4vf/LsrDyuNFkGP0vg2cncSFBPQbh2Q68bFTk4wQvk/QYV3odE0lV4d2fc4QU1iiuqKzjnqjAYxOqOqzDbYXO+0pqXRY/gbXLXzksXS4SY6JmIZNGBDdXJ68PgjlIBHnvXO8xr04cq8KZgMR1XdX9EOw=
+	t=1778518634; cv=none; b=cWAiiT8dnJ74kRKsI9pxWnyOyuFieAITJfbSQwrtJeEKMBL1k1Q1UukYkspnoQp6q01RBD77SbS/5OThEsyfT1pZ+lyxt3QOQo4l4eqHcVbq9aDH4NGaxshiBJowNgVCJF8T8uFeU2td6zTTaSiDm0aszskRNT9MvyYItXYKMUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778518304; c=relaxed/simple;
-	bh=864+aJtezJIYHOSsDNcJsFFIb9rtt4P+ljTd7EprKOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WVdF6RSR9nhEngUTDhhpCOJfloCbRZ4usfkKOxUApodDnfKmUczQFCyTZwWTsk7c5NjUFORLbKynWOBO377aQX17iH67AyFOBb4757bKq9ii+5Bo08Qgk3DVIHXsFhaDemLPRkS0Zma5+zPKLt5Yc7GSiuS/sbNqslFX1b/0L6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igHnHnKT; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1778518634; c=relaxed/simple;
+	bh=ByQ5oGLgfxgHuYPXxoofCN5//MKHPLmkTJjLh+H4BQI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PLjJnxH60epiLwXNsTa6Ad3piTYeZmT0Cr9Rn2Z2GDB+HfajlBEGHz5ZlahAQxlPpHuA3D3fEUmdY6TAWciZNC5Ew8kd0FUnXTkSmvwWSW7ZUnDtdIM6b6fHSfOdQ91LOrlW54nzJqwli5F1bHU5uvce/CQPF99CApsKvS3OrnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZ3fDETj; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igHnHnKT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZ3fDETj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778518303; x=1810054303;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=864+aJtezJIYHOSsDNcJsFFIb9rtt4P+ljTd7EprKOk=;
-  b=igHnHnKT4L9SlPzkG31b5/7EdH+H+Hv1MqGcBa8zJ1cazrs1Uc9eFyIv
-   zrco8EgWm3eVvSVo/uYwCNyCh3v35WtjxxV0oTmKePNHc39Or1nm8wgOX
-   D6Sp+AeBM4MIw6ol1rClKx4jMpXN7QSjrhWujM2+1NI1T96ZexJ/23W7v
-   1Io4rcQyhfBRdcpCyR/tkkwNp+WZV8MWkxmJPJUBPm2nbp8j1TaoL0ge8
-   UdLDEMpPTAVFToydTFvCDg4mxesqiFUGZdkB7fxQqV4EBlLpr9ldBVvp7
-   aSbv4XpL/kDqpFR6Vphlm4m214QNyiai939p4f8hOGf1qw3klGWYj4+8D
+  t=1778518632; x=1810054632;
+  h=date:from:to:cc:subject:message-id;
+  bh=ByQ5oGLgfxgHuYPXxoofCN5//MKHPLmkTJjLh+H4BQI=;
+  b=QZ3fDETjgK1rIGla3ZqUqXIXBMLELKagnEk0sYL+gCQufn78QFiVWWjU
+   oNqIEp9/YFuy2wNM9J/DiatSVNRPuOWFAeH5wcKSZeY9k098tVbedVAp9
+   ioLvYSeFZkCy23R+lVx049YZC975ZFA+HbnrWN3tkrOg3PNlBcyGhKKMn
+   BTxLP8gbdw/qFM0zeai8gDTXyfkHnrSZbvwn6qHFyQ3f1zU8XAh6a4Cxd
+   7/ONGu8PsUcdkLo1H+nC+xa0pBLHfVixr/I2VpkynL7itetB+gSWV8pvz
+   fknmFoIdaEhp/LdDyaYBVfHyv38MyAcNGVOw3FmV3g45OuUBGQWTBfJGf
    g==;
-X-CSE-ConnectionGUID: d+VS2al0QKmdkRU4VkLNcQ==
-X-CSE-MsgGUID: PayD5ihOQ+euqp1b+8aypg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79437729"
+X-CSE-ConnectionGUID: hzda7Ba6R+G4dUau7I0aDw==
+X-CSE-MsgGUID: SQxgL1IFSsqcLkNoRJe7dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83260774"
 X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="79437729"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 09:51:42 -0700
-X-CSE-ConnectionGUID: scblLMNGQuW+Rvy93JY76Q==
-X-CSE-MsgGUID: hUK7yA/7RHePZcEw9ywMbg==
+   d="scan'208";a="83260774"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 09:57:12 -0700
+X-CSE-ConnectionGUID: 1LpvG9nFQOa6haarRbdLWA==
+X-CSE-MsgGUID: 11oREpMDTJeD2SuszkeXog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="261246807"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 May 2026 09:51:40 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+   d="scan'208";a="236667060"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 11 May 2026 09:57:11 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMTr0-000000000sL-1GfV;
-	Mon, 11 May 2026 16:51:38 +0000
-Date: Tue, 12 May 2026 00:51:14 +0800
+	id 1wMTwK-000000007yr-2bln;
+	Mon, 11 May 2026 16:57:08 +0000
+Date: Mon, 11 May 2026 18:56:25 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v4] scripts/kernel-doc: Detect mismatched inline member
- documentation tags
-Message-ID: <202605120013.RQcsQbtO-lkp@intel.com>
+Subject: kernel/bpf/helpers.c:2833:35: error: implicit declaration of
+ function 'cgroup_psi'; did you mean 'cgroup_put'?
+Message-ID: <202605111839.DdMq2rZn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260507023232.4108680-1-shuicheng.lin@intel.com>
-References: <20260507023232.4108680-1-shuicheng.lin@intel.com>
-TO: Shuicheng Lin <shuicheng.lin@intel.com>
-TO: linux-doc@vger.kernel.org
-CC: Shuicheng Lin <shuicheng.lin@intel.com>
-CC: Randy Dunlap <rdunlap@infradead.org>
-CC: Jani Nikula <jani.nikula@linux.intel.com>
-CC: linux-kernel@vger.kernel.org
-CC: intel-xe@lists.freedesktop.org
+TO: Vernon Yang <yanglincheng@kylinos.cn>
+CC: 0day robot <lkp@intel.com>
 
-Hi Shuicheng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shuicheng-Lin/scripts-kernel-doc-Detect-mismatched-inline-member-documentation-tags/20260511-164914
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20260507023232.4108680-1-shuicheng.lin%40intel.com
-patch subject: [PATCH v4] scripts/kernel-doc: Detect mismatched inline member documentation tags
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260512/202605120013.RQcsQbtO-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605120013.RQcsQbtO-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Vernon-Yang/psi-add-psi_group_flush_stats-function/20260511-160117
+head:   935bf63d5c33c8fc0d26f2092de20e4720f4b2ae
+commit: 46f204179b5fd01c11fa4999b7a94beccfe84ea4 bpf: add bpf_cgroup_{flush_stats,stall} function
+date:   9 hours ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260511/202605111839.DdMq2rZn-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605111839.DdMq2rZn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605120013.RQcsQbtO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605111839.DdMq2rZn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: arch/hexagon/kernel/kgdb.c:143 function parameter 'linux_regs' not described in 'kgdb_arch_handle_exception'
->> Warning: arch/hexagon/kernel/kgdb.c:143 Excess function parameter 'regs' description in 'kgdb_arch_handle_exception'
-   Warning: arch/hexagon/kernel/kgdb.c:143 function parameter 'linux_regs' not described in 'kgdb_arch_handle_exception'
->> Warning: arch/hexagon/kernel/kgdb.c:143 Excess function parameter 'regs' description in 'kgdb_arch_handle_exception'
+   kernel/bpf/helpers.c:2831:49: warning: 'enum psi_states' declared inside parameter list will not be visible outside of this definition or declaration
+    2831 |                                            enum psi_states states)
+         |                                                 ^~~~~~~~~~
+   kernel/bpf/helpers.c:2831:60: error: parameter 2 ('states') has incomplete type
+    2831 |                                            enum psi_states states)
+         |                                            ~~~~~~~~~~~~~~~~^~~~~~
+   kernel/bpf/helpers.c:2830:27: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+    2830 | __bpf_kfunc unsigned long bpf_cgroup_stall(struct cgroup *cgrp,
+         |                           ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c: In function 'bpf_cgroup_stall':
+>> kernel/bpf/helpers.c:2833:35: error: implicit declaration of function 'cgroup_psi'; did you mean 'cgroup_put'? [-Wimplicit-function-declaration]
+    2833 |         struct psi_group *group = cgroup_psi(cgrp);
+         |                                   ^~~~~~~~~~
+         |                                   cgroup_put
+>> kernel/bpf/helpers.c:2833:35: error: initialization of 'struct psi_group *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   kernel/bpf/helpers.c:2835:29: error: 'struct psi_group' has no member named 'total'
+    2835 |         return div_u64(group->total[PSI_AVGS][states], NSEC_PER_MSEC);
+         |                             ^~
+   kernel/bpf/helpers.c:2835:37: error: 'PSI_AVGS' undeclared (first use in this function)
+    2835 |         return div_u64(group->total[PSI_AVGS][states], NSEC_PER_MSEC);
+         |                                     ^~~~~~~~
+   kernel/bpf/helpers.c:2835:37: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/bpf/helpers.c: In function 'bpf_cgroup_flush_stats':
+   kernel/bpf/helpers.c:2844:35: error: initialization of 'struct psi_group *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2844 |         struct psi_group *group = cgroup_psi(cgrp);
+         |                                   ^~~~~~~~~~
+   kernel/bpf/helpers.c:2846:9: error: implicit declaration of function 'psi_group_flush_stats'; did you mean 'bpf_cgroup_flush_stats'? [-Wimplicit-function-declaration]
+    2846 |         psi_group_flush_stats(group);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         bpf_cgroup_flush_stats
+   kernel/bpf/helpers.c: In function 'bpf_cgroup_stall':
+   kernel/bpf/helpers.c:2836:1: warning: control reaches end of non-void function [-Wreturn-type]
+    2836 | }
+         | ^
+   cc1: some warnings being treated as errors
 
--- 
+
+vim +2833 kernel/bpf/helpers.c
+
+b5ad4cdc46c7d6 Feng Zhou   2023-05-06  2822  
+46f204179b5fd0 Vernon Yang 2026-05-04  2823  /**
+46f204179b5fd0 Vernon Yang 2026-05-04  2824   * bpf_cgroup_stall - acquire the total stall time of cgroup
+46f204179b5fd0 Vernon Yang 2026-05-04  2825   * @cgrp: cgroup struct
+46f204179b5fd0 Vernon Yang 2026-05-04  2826   * @states: psi states
+46f204179b5fd0 Vernon Yang 2026-05-04  2827   *
+46f204179b5fd0 Vernon Yang 2026-05-04  2828   * Return the total stall time.
+46f204179b5fd0 Vernon Yang 2026-05-04  2829   */
+46f204179b5fd0 Vernon Yang 2026-05-04 @2830  __bpf_kfunc unsigned long bpf_cgroup_stall(struct cgroup *cgrp,
+46f204179b5fd0 Vernon Yang 2026-05-04 @2831  					   enum psi_states states)
+46f204179b5fd0 Vernon Yang 2026-05-04  2832  {
+46f204179b5fd0 Vernon Yang 2026-05-04 @2833  	struct psi_group *group = cgroup_psi(cgrp);
+46f204179b5fd0 Vernon Yang 2026-05-04  2834  
+46f204179b5fd0 Vernon Yang 2026-05-04  2835  	return div_u64(group->total[PSI_AVGS][states], NSEC_PER_MSEC);
+46f204179b5fd0 Vernon Yang 2026-05-04  2836  }
+46f204179b5fd0 Vernon Yang 2026-05-04  2837  
+
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
