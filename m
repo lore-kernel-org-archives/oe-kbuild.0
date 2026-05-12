@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BFE3839A4
-	for <oe-kbuild@lists.linux.dev>; Tue, 12 May 2026 10:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6117385516
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 May 2026 10:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778582976; cv=none; b=WDZg/r/bmO83tP/AGIUh/zmxJAGnRwBgX7cw9dJy767LmMyM76udXMq+RpYvs6jjnp20NoTK5wSea3D3nvkljjVd66wzxYVugNSq3CWs9SyWAqlclhrvT3odhOmvQDlP777VExeuIHSMmxXYv7/LhHhoA6d6Uf1gzvwBhy8BB/Y=
+	t=1778582978; cv=none; b=DaDvNcbaVFw03chdDI1ky00te3UNcdhAjmSEXMTivOMbL9JOT31Y9reZqsx/2NDdCtNArrU47HJAg/v6ZOj3K34fcqmHZycmGLg3jTEC4RfrNfTDrxYhBzi+mg31vpXwU2j48ck/bQ6BqpbiPHjII8K42XgwsVBc50VJD+5+WHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778582976; c=relaxed/simple;
-	bh=V7C47G65GGYqTI7AX5K2dtHq70duzeXCJWekjVWd/bs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pXg8Qw1acP/OUtfIpfdC5bUaaa9Zb42bcu3v0upmMpfEU2f/abEf8kVURUkUiOSaUxZwDGZdlOxbhZ7Nukrd4kUpWU4RzccZlVU6lfJeANK0KsSV73fZWN/CiJpAccBGbhdnX2FEysU6zglXQ0gQXYHlKsvbiHwxhNvdtTGAhHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lleZU+f3; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1778582978; c=relaxed/simple;
+	bh=Fyvg9rlcsBQeQfbWcxxWQ/U+zHjunBm8HmotJ9+QrdA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TourYGpbUYx1huGf5UJOblnnzDwYYrTDl+PtGZ1WedWuZ3UrJxItNYSrrIl8qz2J4fbZYIFU34aahCqvrfSpomKGqclecf/qeYCAB3rsnALjw9n/mLONZp3BxOj7mtpofsBcdPu18UVvgp3kF5718l3lPbhZIPEXOEQLiKBRtT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PkN1Ymhk; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lleZU+f3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PkN1Ymhk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778582975; x=1810118975;
+  t=1778582977; x=1810118977;
   h=date:from:to:cc:subject:message-id;
-  bh=V7C47G65GGYqTI7AX5K2dtHq70duzeXCJWekjVWd/bs=;
-  b=lleZU+f3CxVO6TefRoS3RG1jj2PTDTvCiD06IwyV6YUPTWxHOcP3rtyM
-   oLNYM1S/qJLtRR9uQd/nhhcD0kx+xm5RGEJyFUbLNShY3Ft6WQgFMYB0t
-   QYSRqjoCng6KdIB1s2xKUQJi0cQIa54/Y11siGCNlTegNDt4dgoM/KxUK
-   OmLMhcjrAkud3tvqBaLgZCKSwEZ/jkfhq99HOR3visNxHMLwkQXgFnue4
-   sA/9mUKSQVEtFxcMR68Xwh9YwYmZvMGM4ssXP5NimuPC/Eipn+bwQw79z
-   OsStYR7alIN2hwsz5fYqOY9P7vjgv3soO68TGK8bX/Q5NQ6UnIv+/E8Hr
-   g==;
-X-CSE-ConnectionGUID: NxCBcyFtSuiEhyvIPYCTtw==
-X-CSE-MsgGUID: gcZIe3ZAQASKFk+iUl3jdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83360538"
+  bh=Fyvg9rlcsBQeQfbWcxxWQ/U+zHjunBm8HmotJ9+QrdA=;
+  b=PkN1Ymhk33LozsO1Mx+YWf+bBHRY/PukXcRRNa1ySnAkYHfC76B6nYLw
+   0IJ4UKVifFbr+12itVn/LKhUIZ0SXIS483XtPJ6FuZqHNcQSKCzOl7oKx
+   Y+fWVtFw04Y/n4jZa1ck5unnVIFOq0Fk0Ix7hhL/Vne7/5OvU7HiuBOcD
+   oi26H0ojP06PCYD2l/zYpxkQLgDKJJZxCh8fBoEx7D4eJFGT6xJ0Oa5a4
+   q+ljLl0bfP/FYRGEOqOov215CVv56uGOb2wE2tA9vKsLeqLDLG42nk/6U
+   j943+plTCKuhWTgYfg1M3730U6YUpDS0ZExaAi2cjjDa4zPS89q1Ek7bC
+   Q==;
+X-CSE-ConnectionGUID: fHMEoXUwQI6BEBVIExrCYQ==
+X-CSE-MsgGUID: FpkBh/4ZTvOAX4DW57hFng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83360540"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="83360538"
+   d="scan'208";a="83360540"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 03:49:35 -0700
-X-CSE-ConnectionGUID: QwQdK+3AR5CVHgYIYsq1HQ==
-X-CSE-MsgGUID: FSM6Wk2BST6JeI3S0LgOHw==
+X-CSE-ConnectionGUID: 9tv15xrsQvalYkqXt8P8jA==
+X-CSE-MsgGUID: LQ0zB6XRSxW7fq4M0BKpig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="242702652"
+   d="scan'208";a="242702651"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 12 May 2026 03:49:33 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMkg6-0000000020O-2ecn;
+	id 1wMkg6-0000000020M-2Znf;
 	Tue, 12 May 2026 10:49:30 +0000
-Date: Tue, 12 May 2026 18:48:34 +0800
+Date: Tue, 12 May 2026 18:48:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/s390/kvm/kvm-s390.c:5659
- kvm_arch_prepare_memory_region() error: we previously assumed 'new' could be
- null (see line 5645)
-Message-ID: <202605121849.vHgrQKWJ-lkp@intel.com>
+Subject: [linux-next:master 8182/13385] net/rds/tcp_listen.c:136
+ rds_tcp_accept_one() error: we previously assumed 'new_sock' could be null
+ (see line 131)
+Message-ID: <202605121815.5u1tbtZK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,84 +62,75 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Claudio Imbrenda <imbrenda@linux.ibm.com>
-CC: Steffen Eiden <seiden@linux.ibm.com>
+TO: Gerd Rausch <gerd.rausch@oracle.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Jack Vogel <jack.vogel@oracle.com>
+CC: Allison Henderson <allison.henderson@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   50897c955902c93ae71c38698abb910525ebdc89
-commit: 9b8e8aad5896d66005d29920cb1643076a20b172 KVM: s390: ucontrol: Fix memslot handling
-date:   5 weeks ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 5 weeks ago
-config: s390-randconfig-r073-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121849.vHgrQKWJ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e98d21c170b01ddef366f023bbfcf6b31509fa83
+commit: db69e9b838c39f4fb17d0547aeb71d55a7f28061 [8182/13385] net/rds: rds_tcp_accept_one ought to not discard messages
+:::::: branch date: 4 days ago
+:::::: commit date: 4 months ago
+config: sparc-randconfig-r073-20260508 (https://download.01.org/0day-ci/archive/20260512/202605121815.5u1tbtZK-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.4.0
 smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9b8e8aad5896 ("KVM: s390: ucontrol: Fix memslot handling")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605121849.vHgrQKWJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605121815.5u1tbtZK-lkp@intel.com/
 
 smatch warnings:
-arch/s390/kvm/kvm-s390.c:5659 kvm_arch_prepare_memory_region() error: we previously assumed 'new' could be null (see line 5645)
+net/rds/tcp_listen.c:136 rds_tcp_accept_one() error: we previously assumed 'new_sock' could be null (see line 131)
 
-vim +/new +5659 arch/s390/kvm/kvm-s390.c
+vim +/new_sock +136 net/rds/tcp_listen.c
 
-d663b8a28598607 Paolo Bonzini        2022-11-03  5638  
-b0c632db637d68a Heiko Carstens       2008-03-25  5639  /* Section: memory related */
-f7784b8ec9b6a04 Marcelo Tosatti      2009-12-23  5640  int kvm_arch_prepare_memory_region(struct kvm *kvm,
-537a17b31493009 Sean Christopherson  2021-12-06  5641  				   const struct kvm_memory_slot *old,
-537a17b31493009 Sean Christopherson  2021-12-06  5642  				   struct kvm_memory_slot *new,
-7b6195a91d60909 Takuya Yoshikawa     2013-02-27  5643  				   enum kvm_mr_change change)
-b0c632db637d68a Heiko Carstens       2008-03-25  5644  {
-9b8e8aad5896d66 Claudio Imbrenda     2026-04-02 @5645  	if (kvm_is_ucontrol(kvm) && new && new->id < KVM_USER_MEM_SLOTS)
-7816e58967d0e6c Christoph Schlameuss 2024-06-24  5646  		return -EINVAL;
-7816e58967d0e6c Christoph Schlameuss 2024-06-24  5647  
-ec5c86976674d2f Sean Christopherson  2021-12-06  5648  	/* When we are protected, we should not change the memory slots */
-ec5c86976674d2f Sean Christopherson  2021-12-06  5649  	if (kvm_s390_pv_get_handle(kvm))
-ec5c86976674d2f Sean Christopherson  2021-12-06  5650  		return -EINVAL;
-ec5c86976674d2f Sean Christopherson  2021-12-06  5651  
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5652  	if (change != KVM_MR_DELETE && change != KVM_MR_FLAGS_ONLY) {
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5653  		/*
-06a20c3ab6042ea Claudio Imbrenda     2026-04-02  5654  		 * A few sanity checks. The memory in userland is ok to be
-06a20c3ab6042ea Claudio Imbrenda     2026-04-02  5655  		 * fragmented into various different vmas. It is okay to mmap()
-06a20c3ab6042ea Claudio Imbrenda     2026-04-02  5656  		 * and munmap() stuff in this slot after doing this call at any
-06a20c3ab6042ea Claudio Imbrenda     2026-04-02  5657  		 * time.
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5658  		 */
-06a20c3ab6042ea Claudio Imbrenda     2026-04-02 @5659  		if (new->userspace_addr & ~PAGE_MASK)
-b0c632db637d68a Heiko Carstens       2008-03-25  5660  			return -EINVAL;
-06a20c3ab6042ea Claudio Imbrenda     2026-04-02  5661  		if ((new->base_gfn + new->npages) * PAGE_SIZE > kvm->arch.mem_limit)
-a3a92c31bf0b57a Dominik Dingel       2014-12-01  5662  			return -EINVAL;
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5663  	}
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5664  
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5665  	if (!kvm->arch.migration_mode)
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5666  		return 0;
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5667  
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5668  	/*
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5669  	 * Turn off migration mode when:
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5670  	 * - userspace creates a new memslot with dirty logging off,
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5671  	 * - userspace modifies an existing memslot (MOVE or FLAGS_ONLY) and
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5672  	 *   dirty logging is turned off.
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5673  	 * Migration mode expects dirty page logging being enabled to store
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5674  	 * its dirty bitmap.
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5675  	 */
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5676  	if (change != KVM_MR_DELETE &&
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5677  	    !(new->flags & KVM_MEM_LOG_DIRTY_PAGES))
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5678  		WARN(kvm_s390_vm_stop_migration(kvm),
-f2d3155e2a6bac4 Nico Boehr           2023-01-27  5679  		     "Failed to stop migration mode");
-a3a92c31bf0b57a Dominik Dingel       2014-12-01  5680  
-f7784b8ec9b6a04 Marcelo Tosatti      2009-12-23  5681  	return 0;
-f7784b8ec9b6a04 Marcelo Tosatti      2009-12-23  5682  }
-f7784b8ec9b6a04 Marcelo Tosatti      2009-12-23  5683  
+db69e9b838c39f Gerd Rausch       2026-01-21  107  
+db69e9b838c39f Gerd Rausch       2026-01-21  108  int rds_tcp_accept_one(struct rds_tcp_net *rtn)
+70041088e3b976 Andy Grover       2009-08-21  109  {
+db69e9b838c39f Gerd Rausch       2026-01-21  110  	struct socket *listen_sock = rtn->rds_tcp_listen_sock;
+70041088e3b976 Andy Grover       2009-08-21  111  	struct socket *new_sock = NULL;
+70041088e3b976 Andy Grover       2009-08-21  112  	struct rds_connection *conn;
+70041088e3b976 Andy Grover       2009-08-21  113  	int ret;
+70041088e3b976 Andy Grover       2009-08-21  114  	struct inet_sock *inet;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  115  	struct rds_tcp_connection *rs_tcp = NULL;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  116  	int conn_state;
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  117  	struct rds_conn_path *cp;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  118  	struct in6_addr *my_addr, *peer_addr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  119  #if !IS_ENABLED(CONFIG_IPV6)
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  120  	struct in6_addr saddr, daddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  121  #endif
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  122  	int dev_if = 0;
+70041088e3b976 Andy Grover       2009-08-21  123  
+db69e9b838c39f Gerd Rausch       2026-01-21  124  	if (!listen_sock) /* module unload or netns delete in progress */
+37e14f4fe2991f Sowmini Varadhan  2016-05-18  125  		return -ENETUNREACH;
+37e14f4fe2991f Sowmini Varadhan  2016-05-18  126  
+db69e9b838c39f Gerd Rausch       2026-01-21  127  	mutex_lock(&rtn->rds_tcp_accept_lock);
+db69e9b838c39f Gerd Rausch       2026-01-21  128  	new_sock = rtn->rds_tcp_accepted_sock;
+db69e9b838c39f Gerd Rausch       2026-01-21  129  	rtn->rds_tcp_accepted_sock = NULL;
+db69e9b838c39f Gerd Rausch       2026-01-21  130  
+db69e9b838c39f Gerd Rausch       2026-01-21 @131  	if (!new_sock) {
+db69e9b838c39f Gerd Rausch       2026-01-21  132  		ret = kernel_accept(listen_sock, &new_sock, O_NONBLOCK);
+70041088e3b976 Andy Grover       2009-08-21  133  		if (ret)
+db69e9b838c39f Gerd Rausch       2026-01-21  134  			goto out;
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  135  
+480aeb9639d6a0 Christoph Hellwig 2020-05-28 @136  		rds_tcp_keepalive(new_sock);
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  137  		if (!rds_tcp_tune(new_sock)) {
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  138  			ret = -EINVAL;
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  139  			goto out;
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  140  		}
+db69e9b838c39f Gerd Rausch       2026-01-21  141  	}
+70041088e3b976 Andy Grover       2009-08-21  142  
+70041088e3b976 Andy Grover       2009-08-21  143  	inet = inet_sk(new_sock->sk);
+70041088e3b976 Andy Grover       2009-08-21  144  
 
-:::::: The code at line 5659 was first introduced by commit
-:::::: 06a20c3ab6042ea7f9927fbeb50aa4e79894c136 KVM: s390: Allow 4k granularity for memslots
+:::::: The code at line 136 was first introduced by commit
+:::::: 480aeb9639d6a077c611b303a22f9b1e5937d081 tcp: add tcp_sock_set_keepcnt
 
-:::::: TO: Claudio Imbrenda <imbrenda@linux.ibm.com>
-:::::: CC: Claudio Imbrenda <imbrenda@linux.ibm.com>
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
