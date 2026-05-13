@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA70F2030A
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 20:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FE23C2B95
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 22:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778705631; cv=none; b=bHvDj5jamRfzHrK+7XbbF0NUd1PrxcZOI9SyHcMdly8r4akPL6cp0tjuKxtkG/vmCZVLQtABSZsyhqAoNrPY4QnWSvrS065XRYS+QJcbHBtzMq12Tto3jKETkUzTQ+KRZil9rY5GppgEAsR+PqAN+cXeErrCVGm5F4kw6yR2PTg=
+	t=1778709759; cv=none; b=Qq3aKmCw7MEOa04rpu2iyZCtp9liClCAiWR2U61t2wNASbAGQDmk3pkSwbpB8A1EJBSk3OILKAkjY/1FA7fisRDQ1hOUNAqiNafsmrNk3MXvtnuXqEGJ3VasT5XNPM5WqBGCLpRX91BSrueFIQfgD8waYRxFZQvNSeN8Xsa4spw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778705631; c=relaxed/simple;
-	bh=/xc6ehyQpsnCvSnDiQFHNaAZNxoXdisEQospO85ilwg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Kl+CEFdahQ4xtDRwTzdAOnAnl9LbKZ8AlcJwULurJuRJEYlKwtRY88KKgBLA8OP9iKracAdeUYPWRaVndJtampxMGBsXY54EbMCJrNrbLQguQzhuAx11VWMrvSUjF0kgz4RNpRMq28QtTJ2AdpaP8gSRP5jM7Tv3a/AXGWCSol4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4lwEckN; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1778709759; c=relaxed/simple;
+	bh=NnDPBncxYTgx+iIbMrl/nXMj7fpKHfgy1Bd4vcP/2Ss=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aaAKNGlI3V/fH5ZG+AX6J77dy4N+lfY13KeACr/2nMoyg02RwyWkzS1EyH1jxzPidk4+Tmmp/EV4YnJc6UtZo6x38GRwEP9YCa5qU0GoXbfVvjIdFU7pDJuUooy8p1TIDu5PGcYXESgbJWDjjxQmq4CybTTihLY8fDzi1YRAErw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U7KJNq5C; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4lwEckN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U7KJNq5C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778705629; x=1810241629;
+  t=1778709758; x=1810245758;
   h=date:from:to:cc:subject:message-id;
-  bh=/xc6ehyQpsnCvSnDiQFHNaAZNxoXdisEQospO85ilwg=;
-  b=g4lwEckNkTCCNaciNXCGjMCu4tq4+sZbexaC1t0aUK30ZXKeIosxflvp
-   1bk3Hk52mR1sI5CySKf7xk7Va4D4ovIkMR/5pifaE4dv91Oj9gPecRuEw
-   J5iYk9kg2p0brB50hDSiDdDvpQaJrr9PaX2LeiGdvPuB89XsAm8qmBVVm
-   1K8x3lWQ3i9fx89JG5qQaUr/kkgQtdT/pSzFA6PxXchcibwe6nicLJAIt
-   6vsd+Dd+/3mjwruQXfZ1Y2SLp8kmzLTx4rGP3AJj6qwBAU2qtOWLp3r1D
-   VicLI5a1MDstsBOZyxu/nx0r9rFg0zq6GnBz19M0G60aRujUpyJoWkoAA
-   w==;
-X-CSE-ConnectionGUID: 3aN1kJz6RkeiamidNj/NKg==
-X-CSE-MsgGUID: d7HZIVegT3Cyh8gJqjCrCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79359111"
+  bh=NnDPBncxYTgx+iIbMrl/nXMj7fpKHfgy1Bd4vcP/2Ss=;
+  b=U7KJNq5CrrzZNxtkPoRH0tQ2U9si/dR73GnC2NZeagvWeTN0vWG59mF1
+   EUZrVH5ssUIkn/lt0VfBe8l5ePw/gdjrf/dSqTZQ8wy7TLlTV2x7gH4bm
+   QURsC0fTDybj0HvR5vgcKabLxDe2iKTSK4q5S4Lhk7BFF3/q55uxuZ0Bf
+   3rgVNTDJK45eUS58o0FhyDyQIVwKOiB8i0O7f6RO/VfU3/8rPmjUXYpCy
+   GAkukNrIw0jIZ98fd5uIRMlzbv88HUV0mATL2CLeqkHqhz7wUnL5GwolN
+   437mabLO7Aege60nS6OuiVKD5+MgQSpi3Fq0f9uaKRa0KSnCHmwnRUZhf
+   g==;
+X-CSE-ConnectionGUID: og38ga/XT7+mHiaV2al/Mg==
+X-CSE-MsgGUID: bykGWQRdQcq9Aq60vUy+Qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="89954452"
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="79359111"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 13:53:49 -0700
-X-CSE-ConnectionGUID: m2BjaJdXTtSSCSehXWzuWg==
-X-CSE-MsgGUID: Qbb5W+loSS6awy8UtJFZeA==
+   d="scan'208";a="89954452"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 15:02:38 -0700
+X-CSE-ConnectionGUID: GcxKCKozTUmt5mRNCe7R1Q==
+X-CSE-MsgGUID: zXm6zlZ7SY+d1Qij/FJdPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="237213657"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 13 May 2026 13:53:48 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="242542811"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 13 May 2026 15:02:36 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNGaP-000000008dl-0YUi;
-	Wed, 13 May 2026 20:53:45 +0000
-Date: Wed, 13 May 2026 22:53:11 +0200
+	id 1wNHez-000000005CL-3sLc;
+	Wed, 13 May 2026 22:02:33 +0000
+Date: Thu, 14 May 2026 06:01:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [mediatek:v7.1-next/dts64 3/32]
- arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic
- (mediatek,mt6365): '#sound-dai-cells' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202605132223.RE6IRBC2-lkp@intel.com>
+Subject: drivers/thermal/rockchip_thermal.c:1509:25: sparse: sparse:
+ unsigned value that used to be signed checked against zero?
+Message-ID: <202605140524.y3KmLKef-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,137 +60,83 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: drivers/thermal/rockchip_thermal.c:1509:25: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Louis-Alexis Eyraud" <louisalexis.eyraud@collabora.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: linux-kernel@vger.kernel.org
+TO: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v7.1-next/dts64
-head:   7264d37c63139f2ce8c073ead1ed4409fbba12d6
-commit: 4a4b565268bc0f87a69474341102a684774b4e83 [3/32] arm64: dts: mediatek: mt8395-genio-common: use MT6365 PMIC definitions
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-2055-20260512 (https://download.01.org/0day-ci/archive/20260513/202605132223.RE6IRBC2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605132223.RE6IRBC2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e1914add2799225a87502051415fc5c32aeb02ae
+commit: ae332ec0009d762982540635411caefeafa92a5b thermal/drivers/rockchip: Support reading trim values from OTP
+date:   10 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 10 months ago
+config: sparc-randconfig-r134-20260513 (https://download.01.org/0day-ci/archive/20260514/202605140524.y3KmLKef-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140524.y3KmLKef-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ae332ec0009d ("thermal/drivers/rockchip: Support reading trim values from OTP")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605132223.RE6IRBC2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605140524.y3KmLKef-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): adc:compatible:0: 'mediatek,mt6365-auxadc' is not one of ['mediatek,mt6357-auxadc', 'mediatek,mt6358-auxadc', 'mediatek,mt6359-auxadc', 'mediatek,mt6363-auxadc', 'mediatek,mt6373-auxadc']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): adc:compatible: ['mediatek,mt6365-auxadc', 'mediatek,mt6359-auxadc'] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): audio-codec:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6365-codec', 'mediatek,mt6359-codec'] is too long
-   	'mediatek,mt6365-codec' is not one of ['mediatek,mt6358-sound', 'mediatek,mt6359-codec', 'mediatek,mt6397-codec']
-   	'mediatek,mt6365-codec' is not one of ['mediatek,mt6366-sound']
-   	'mediatek,mt6358-sound' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6365', 'mediatek,mt6359'] is too long
-   	'mediatek,mt6365' is not one of ['mediatek,mt6323', 'mediatek,mt6331', 'mediatek,mt6328', 'mediatek,mt6358', 'mediatek,mt6359', 'mediatek,mt6397']
-   	'mediatek,mt6365' is not one of ['mediatek,mt6366']
-   	'mediatek,mt6358' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): keys:compatible:0: 'mediatek,mt6365-keys' is not one of ['mediatek,mt6323-keys', 'mediatek,mt6328-keys', 'mediatek,mt6331-keys', 'mediatek,mt6357-keys', 'mediatek,mt6358-keys', 'mediatek,mt6359-keys', 'mediatek,mt6397-keys']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): keys:compatible: ['mediatek,mt6365-keys', 'mediatek,mt6359-keys'] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): regulators:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6365-regulator', 'mediatek,mt6359-regulator'] is too long
-   	'mediatek,mt6365-regulator' is not one of ['mediatek,mt6323-regulator', 'mediatek,mt6328-regulator', 'mediatek,mt6331-regulator', 'mediatek,mt6358-regulator', 'mediatek,mt6359-regulator', 'mediatek,mt6397-regulator']
-   	'mediatek,mt6365-regulator' is not one of ['mediatek,mt6366-regulator']
-   	'mediatek,mt6358-regulator' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6365): rtc:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6365-rtc', 'mediatek,mt6358-rtc'] is too long
-   	'mediatek,mt6365-rtc' is not one of ['mediatek,mt6323-rtc', 'mediatek,mt6331-rtc', 'mediatek,mt6358-rtc', 'mediatek,mt6397-rtc']
-   	'mediatek,mt6365-rtc' is not one of ['mediatek,mt6366-rtc']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6365', 'mediatek,mt6359']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: adc (mediatek,mt6365-auxadc): compatible:0: 'mediatek,mt6365-auxadc' is not one of ['mediatek,mt6357-auxadc', 'mediatek,mt6358-auxadc', 'mediatek,mt6359-auxadc', 'mediatek,mt6363-auxadc', 'mediatek,mt6373-auxadc']
-   	from schema $id: http://devicetree.org/schemas/iio/adc/mediatek,mt6359-auxadc.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: adc (mediatek,mt6365-auxadc): compatible: ['mediatek,mt6365-auxadc', 'mediatek,mt6359-auxadc'] is too long
-   	from schema $id: http://devicetree.org/schemas/iio/adc/mediatek,mt6359-auxadc.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic/adc: failed to match any schema with compatible: ['mediatek,mt6365-auxadc', 'mediatek,mt6359-auxadc']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic/audio-codec: failed to match any schema with compatible: ['mediatek,mt6365-codec', 'mediatek,mt6359-codec']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic/regulators: failed to match any schema with compatible: ['mediatek,mt6365-regulator', 'mediatek,mt6359-regulator']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6365-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: keys (mediatek,mt6365-keys): compatible:0: 'mediatek,mt6365-keys' is not one of ['mediatek,mt6323-keys', 'mediatek,mt6328-keys', 'mediatek,mt6331-keys', 'mediatek,mt6357-keys', 'mediatek,mt6358-keys', 'mediatek,mt6359-keys', 'mediatek,mt6397-keys']
-   	from schema $id: http://devicetree.org/schemas/input/mediatek,pmic-keys.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: keys (mediatek,mt6365-keys): compatible: ['mediatek,mt6365-keys', 'mediatek,mt6359-keys'] is too long
-   	from schema $id: http://devicetree.org/schemas/input/mediatek,pmic-keys.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic/keys: failed to match any schema with compatible: ['mediatek,mt6365-keys', 'mediatek,mt6359-keys']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
---
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): adc:compatible:0: 'mediatek,mt6365-auxadc' is not one of ['mediatek,mt6357-auxadc', 'mediatek,mt6358-auxadc', 'mediatek,mt6359-auxadc', 'mediatek,mt6363-auxadc', 'mediatek,mt6373-auxadc']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): adc:compatible: ['mediatek,mt6365-auxadc', 'mediatek,mt6359-auxadc'] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): audio-codec:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6365-codec', 'mediatek,mt6359-codec'] is too long
-   	'mediatek,mt6365-codec' is not one of ['mediatek,mt6358-sound', 'mediatek,mt6359-codec', 'mediatek,mt6397-codec']
-   	'mediatek,mt6365-codec' is not one of ['mediatek,mt6366-sound']
-   	'mediatek,mt6358-sound' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6365', 'mediatek,mt6359'] is too long
-   	'mediatek,mt6365' is not one of ['mediatek,mt6323', 'mediatek,mt6331', 'mediatek,mt6328', 'mediatek,mt6358', 'mediatek,mt6359', 'mediatek,mt6397']
-   	'mediatek,mt6365' is not one of ['mediatek,mt6366']
-   	'mediatek,mt6358' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): keys:compatible:0: 'mediatek,mt6365-keys' is not one of ['mediatek,mt6323-keys', 'mediatek,mt6328-keys', 'mediatek,mt6331-keys', 'mediatek,mt6357-keys', 'mediatek,mt6358-keys', 'mediatek,mt6359-keys', 'mediatek,mt6397-keys']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): keys:compatible: ['mediatek,mt6365-keys', 'mediatek,mt6359-keys'] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): regulators:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6365-regulator', 'mediatek,mt6359-regulator'] is too long
-   	'mediatek,mt6365-regulator' is not one of ['mediatek,mt6323-regulator', 'mediatek,mt6328-regulator', 'mediatek,mt6331-regulator', 'mediatek,mt6358-regulator', 'mediatek,mt6359-regulator', 'mediatek,mt6397-regulator']
-   	'mediatek,mt6365-regulator' is not one of ['mediatek,mt6366-regulator']
-   	'mediatek,mt6358-regulator' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6365): rtc:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6365-rtc', 'mediatek,mt6358-rtc'] is too long
-   	'mediatek,mt6365-rtc' is not one of ['mediatek,mt6323-rtc', 'mediatek,mt6331-rtc', 'mediatek,mt6358-rtc', 'mediatek,mt6397-rtc']
-   	'mediatek,mt6365-rtc' is not one of ['mediatek,mt6366-rtc']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6365', 'mediatek,mt6359']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: adc (mediatek,mt6365-auxadc): compatible:0: 'mediatek,mt6365-auxadc' is not one of ['mediatek,mt6357-auxadc', 'mediatek,mt6358-auxadc', 'mediatek,mt6359-auxadc', 'mediatek,mt6363-auxadc', 'mediatek,mt6373-auxadc']
-   	from schema $id: http://devicetree.org/schemas/iio/adc/mediatek,mt6359-auxadc.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: adc (mediatek,mt6365-auxadc): compatible: ['mediatek,mt6365-auxadc', 'mediatek,mt6359-auxadc'] is too long
-   	from schema $id: http://devicetree.org/schemas/iio/adc/mediatek,mt6359-auxadc.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: /soc/pwrap@10024000/pmic/adc: failed to match any schema with compatible: ['mediatek,mt6365-auxadc', 'mediatek,mt6359-auxadc']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: /soc/pwrap@10024000/pmic/audio-codec: failed to match any schema with compatible: ['mediatek,mt6365-codec', 'mediatek,mt6359-codec']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: /soc/pwrap@10024000/pmic/regulators: failed to match any schema with compatible: ['mediatek,mt6365-regulator', 'mediatek,mt6359-regulator']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: /soc/pwrap@10024000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6365-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: keys (mediatek,mt6365-keys): compatible:0: 'mediatek,mt6365-keys' is not one of ['mediatek,mt6323-keys', 'mediatek,mt6328-keys', 'mediatek,mt6331-keys', 'mediatek,mt6357-keys', 'mediatek,mt6358-keys', 'mediatek,mt6359-keys', 'mediatek,mt6397-keys']
-   	from schema $id: http://devicetree.org/schemas/input/mediatek,pmic-keys.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: keys (mediatek,mt6365-keys): compatible: ['mediatek,mt6365-keys', 'mediatek,mt6359-keys'] is too long
-   	from schema $id: http://devicetree.org/schemas/input/mediatek,pmic-keys.yaml
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: /soc/pwrap@10024000/pmic/keys: failed to match any schema with compatible: ['mediatek,mt6365-keys', 'mediatek,mt6359-keys']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
+sparse warnings: (new ones prefixed by >>)
+>> drivers/thermal/rockchip_thermal.c:1509:25: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/thermal/rockchip_thermal.c:1514:16: sparse: signed value source
+
+vim +1509 drivers/thermal/rockchip_thermal.c
+
+cbac8f639437732 Caesar Wang        2014-11-24  1472  
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1473  /**
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1474   * rockchip_get_efuse_value - read an OTP cell from a device node
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1475   * @np: pointer to the device node with the nvmem-cells property
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1476   * @cell_name: name of cell that should be read
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1477   * @value: pointer to where the read value will be placed
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1478   *
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1479   * Return: Negative errno on failure, during which *value will not be touched,
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1480   * or 0 on success.
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1481   */
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1482  static int rockchip_get_efuse_value(struct device_node *np, const char *cell_name,
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1483  				    int *value)
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1484  {
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1485  	struct nvmem_cell *cell;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1486  	int ret = 0;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1487  	size_t len;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1488  	u8 *buf;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1489  	int i;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1490  
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1491  	cell = of_nvmem_cell_get(np, cell_name);
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1492  	if (IS_ERR(cell))
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1493  		return PTR_ERR(cell);
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1494  
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1495  	buf = nvmem_cell_read(cell, &len);
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1496  
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1497  	nvmem_cell_put(cell);
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1498  
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1499  	if (IS_ERR(buf))
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1500  		return PTR_ERR(buf);
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1501  
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1502  	if (len > sizeof(*value)) {
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1503  		ret = -ERANGE;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1504  		goto exit;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1505  	}
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1506  
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1507  	/* Copy with implicit endian conversion */
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1508  	*value = 0;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10 @1509  	for (i = 0; i < len; i++)
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1510  		*value |= (int) buf[i] << (8 * i);
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1511  
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1512  exit:
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1513  	kfree(buf);
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1514  	return ret;
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1515  }
+ae332ec0009d762 Nicolas Frattaroli 2025-06-10  1516  
 
 --
 0-DAY CI Kernel Test Service
