@@ -1,83 +1,75 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46FA25B0BA
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 11:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40C633C192
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 12:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778673079; cv=none; b=vDLRTp43mmqs4DdMPKIoVfYiy2FVUNeLyKBKvKIVLYmIh4e/BqK1sFNrOZWlPkYDjZEp5PGEpdemoHicZBLhyBBncaPbyntTtmTlarP9nwREF3Tbi3QjpJIu0+cD2MIfEa/0ekFDM2Wkiwtn4GJZ6UKxGDvmwAgIHvDK0ulXVA4=
+	t=1778673626; cv=none; b=YXlMBMJ7lDxugxDGqThnRKHxqOVG8QNfOBeMa/Wf/6rHqrhHSIBy/SMscbBamFSyH8j2Dj0hoF+3HxLNee1B04UISyBAqacjhXihNCTfxU1n5szlm/OVpvOsOAprmruEYy/bmzPpIZy6xV9vC4lvGrrxd6VTkAVqRJ+Pwy/r3FY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778673079; c=relaxed/simple;
-	bh=gLj256UuQEFx0YuMQ40nv8jxQjP+ERIhFntrksasQQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kQsa2nhlAHXWdcO7Dkzmqm58TJetIlVPNQLBKBMjn2sOxi2pIUpi+3NqUwKoA10pWKEJFHF+7T/mXzqmqNHdJqvbQ7BQC+TMqmrEPFJJR/neOMa6lDBUhC9hfwLAYdMg2fzD8M35GAtByfVxcD2g908nnkpnjvreqoJ1DHThJ0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ox3yfk93; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778673626; c=relaxed/simple;
+	bh=i7vWSe4+QOKAMQVw9LYaPKs6IUmYFDfiboMF1wuqZGk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O/aGuBaLN8QqBeoF7H9KcC3l5Ckl94g3jNyfNDLRf4pl40x9DDC5GZLkEUZ2OBOWeu/tLIfFg10m0T1XZ4bNCkjZtOujkfoMaWXdN9E95THXwzPcRjDPwcF1Lz3tHGqTmyK8HcGmCcD/TcJMx4DE4EqThAfKy5kBOtwyzJDgTw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R41Nne3e; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ox3yfk93"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488b150559bso52208025e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 04:51:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778673076; x=1779277876; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RWFQNDbf2rrK8r4ZmbR2jCjzyDHtlDs+g6TmKHPy/fw=;
-        b=ox3yfk93Ck9qzTm/qTbwUFwAROTnqiVY2ylwxVfe6EhpW/HieS0NLooxKdpLhVOSfD
-         22p7A+6ahBw/czYuxsgH6VVjo176pK8N8a/HHE82uNulFcSGQfVT5p7v7zlXdA451+3k
-         qE79lNYG3vuORwCbHx7IXZDPIq5Os1Hx5FiLsgJvHZgfu1WUZX35uJ7MsBN9QWrBETL4
-         osNLBu3RDJJovjTo7ws8keCd9ho8O+byq+FH0wdbvLgG9zQAvJt7Dp8iuC1rH++01Hx2
-         0WakvIiEMUI2udmlhYDzlYP5G8IlRuZCQbzkrEO+QkLSEPvAViGV8cgM2gk1P+KEOi7T
-         f5Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778673076; x=1779277876;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RWFQNDbf2rrK8r4ZmbR2jCjzyDHtlDs+g6TmKHPy/fw=;
-        b=d/BGqR95AfFZZ5xAsoeKu1Eq0L8kwzxT3iQLhDqq+eIQyi7xpVGzpH7rc1LsqSUTEf
-         U7sdD7tiRdiBXJbTcZR02z3g2KzyeVl32VRyd/B0TVLNE1ZdQK9WOo2TbcjYX3lXS+rs
-         e23S6fqaNQ9O0forfwgMBAbWukG9q+JX2Tcfes2Uq619bt9EFQw5J7LjQU5tlOrDNWoj
-         a91Pru6SKkpVoy3AdE79lExZInkiLJ85OjIiVYZK52max/bavKYa44e/CB5RReQS3isZ
-         lKVVKGIVFSJNU7xgICWU9k3QKwZ7/YB6pQraTAmCYLCcgi//n9Vlhl+BEiLR2Ltl3dWa
-         lUeA==
-X-Gm-Message-State: AOJu0Yy/Y7lZ3OnLO7EA9cFaujX++NmqI/GsXxeX3Fblx3M4AtrM5EMo
-	6hJjAgX5Pw94TJlkP3tm7B6diszQEHimjc+EyezrUhErgZYnn8rP3Wzx2FvJoA==
-X-Gm-Gg: Acq92OGiEG/RqK9rvqiMvwgUgpsizRFVelOusH15ITS8F66ed1j/+un5cl3cnb3tyJ0
-	MW7sZeGc0JxSLcrwaCwujBYXL5OCj4fFoF1B/SvHYs+DeT7nhoSKe8B2VgE8jYl1sHx8vUlh7aX
-	Ship636mnFPu9FF3wuvMaQWFzN/dzuOPlvcDCnCBuzkReucSAsQqe+N6zcEXSUjxT0XVINhpPfA
-	r/Gf3UPi3vf6x0qE5J5Pd6bYO3Vr39/3Me+QyDe4vgZVFp3X/VtBPyAtYO11AWuh2y6fVOw+8cp
-	7kdWtcQNTP4hZYmXOQXiStmtK4HJl7mgxZqs23aOGhM12GnLhgZb8PD+vKBCo/q25nLpdmEwdiP
-	Fr6XnWnrLcc3c4JrwuUUucaqmC9W61huAooVkT8rIpGmZmDIgYkaMUpaf0+9iuIH6ortGYRhxCn
-	TeBfMQBFmvDNfRdGt2rQMEZ3Idz6j2AA==
-X-Received: by 2002:a05:600c:8b75:b0:488:7ff6:1f75 with SMTP id 5b1f17b1804b1-48fc9a3b8e2mr42923045e9.21.1778673075356;
-        Wed, 13 May 2026 04:51:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8f3e7829sm63658835e9.4.2026.05.13.04.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 04:51:14 -0700 (PDT)
-Date: Wed, 13 May 2026 14:51:11 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Helge Deller <deller@gmx.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [deller-parisc:parisc-7.0-1 4/10] arch/parisc/kernel/drivers.c:928
- qemu_header() error: strcpy() 'boot_cpu_data.pdc.sys_model_name' too large
- for 'name_mpe' (81 vs 80)
-Message-ID: <202605131913.dfb23qZE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R41Nne3e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778673625; x=1810209625;
+  h=date:from:to:cc:subject:message-id;
+  bh=i7vWSe4+QOKAMQVw9LYaPKs6IUmYFDfiboMF1wuqZGk=;
+  b=R41Nne3exvsw8zskcXlEum2X7BAqlnAQGn1q9QvyPYRRQAYWIps0dPyw
+   51gkCPtm5DX187Zhl4VGg46Jh85eWT5v+d4Z2bDTY0EPayBz5mWlwHJo3
+   5rJeXLPRaP5WYu1ypfrKeobVVIPlddotUf2AVGlxLFr2hAorrFF+LVJFX
+   XD+WHist2tPAK4un3S+/smlEkF/fQ52vrlWNRbU1NICUEYtNR+uK660J7
+   AKcrasOOhHh/y5orU1jyxK1JtXbt5llbCyPZnLPItRIkWRjlajKj7KF84
+   vbAbVyUzX9sV0yhE9ZBZI+ro88UM3DtmIRWoPFpMAroEpYDJoUKxf+84B
+   g==;
+X-CSE-ConnectionGUID: iMjQpRjGQTauQbyD1zSdhw==
+X-CSE-MsgGUID: ppPNfyd0TMGhRF74Sqd/YA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79629474"
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="79629474"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 05:00:24 -0700
+X-CSE-ConnectionGUID: 9siN87BaRAisNg079JqQ7A==
+X-CSE-MsgGUID: weHZZbVNRjaLJl62Rz/I+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="237966180"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 13 May 2026 05:00:23 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wN8GC-0000000042X-229v;
+	Wed, 13 May 2026 12:00:20 +0000
+Date: Wed, 13 May 2026 20:00:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 248/332]
+ fs/bcachefs/alloc/foreground.c:1632 bch2_print_allocator_stuck() error: we
+ previously assumed 'req' could be null (see line 1597)
+Message-ID: <202605131958.dPgrXDjB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260513115111.L6t7AsxvLwSNzKrVSm7lP_O2OmB60TyBExiS3HPVlQY@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git parisc-7.0-1
-head:   1651d69443c3a5fc12f1dee1229d526e7af9020a
-commit: 97cb9150ff2dd8bc87726a04045f1b3eda6f52b3 [4/10] parisc: Export model name for MPE/ix
-config: parisc-randconfig-r072-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131913.dfb23qZE-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Kent Overstreet <kent.overstreet@linux.dev>
+
+tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
+head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
+commit: 37b736119d44347abe102ee07dfd777a4e612cfa [248/332] bcachefs: bch2_print_allocator_stuck() includes info from alloc_request
+:::::: branch date: 3 months ago
+:::::: commit date: 4 months ago
+config: parisc-randconfig-r072-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131958.dPgrXDjB-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 13.4.0
 smatch: v0.5.0-9185-gbcc58b9c
 
@@ -85,35 +77,87 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605131913.dfb23qZE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605131958.dPgrXDjB-lkp@intel.com/
 
-smatch warnings:
-arch/parisc/kernel/drivers.c:928 qemu_header() error: strcpy() 'boot_cpu_data.pdc.sys_model_name' too large for 'name_mpe' (81 vs 80)
+New smatch warnings:
+fs/bcachefs/alloc/foreground.c:1632 bch2_print_allocator_stuck() error: we previously assumed 'req' could be null (see line 1597)
 
-vim +928 arch/parisc/kernel/drivers.c
+Old smatch warnings:
+fs/bcachefs/alloc/foreground.c:479 bucket_alloc_to_text() warn: passing zero to 'PTR_ERR'
+arch/parisc/include/asm/hash.h:44 __hash_32() warn: inconsistent indenting
 
-a77ab0e7ce232a6 Helge Deller   2018-03-25  915  static __init void qemu_header(void)
-a77ab0e7ce232a6 Helge Deller   2018-03-25  916  {
-a77ab0e7ce232a6 Helge Deller   2018-03-25  917  	int num;
-a77ab0e7ce232a6 Helge Deller   2018-03-25  918  	unsigned long *p;
-97cb9150ff2dd8b Helge Deller   2026-01-28  919  	char name_mpe[80];
-a77ab0e7ce232a6 Helge Deller   2018-03-25  920  
-a77ab0e7ce232a6 Helge Deller   2018-03-25  921  	pr_info("--- cut here ---\n");
-a77ab0e7ce232a6 Helge Deller   2018-03-25  922  	pr_info("/* AUTO-GENERATED HEADER FILE FOR SEABIOS FIRMWARE */\n");
-a77ab0e7ce232a6 Helge Deller   2018-03-25  923  	pr_cont("/* generated with Linux kernel */\n");
-a77ab0e7ce232a6 Helge Deller   2018-03-25  924  	pr_cont("/* search for PARISC_QEMU_MACHINE_HEADER in Linux */\n\n");
-a77ab0e7ce232a6 Helge Deller   2018-03-25  925  
-97cb9150ff2dd8b Helge Deller   2026-01-28  926  	pr_info("#define PARISC_MODEL     \"%s\"\n",
-a77ab0e7ce232a6 Helge Deller   2018-03-25  927  			boot_cpu_data.pdc.sys_model_name);
-97cb9150ff2dd8b Helge Deller   2026-01-28 @928  	strcpy(name_mpe, boot_cpu_data.pdc.sys_model_name);
+vim +/req +1632 fs/bcachefs/alloc/foreground.c
 
-The boot_cpu_data.pdc.sys_model_name[] buffer is 81 characters and
-name_mpe[]  is 80 characters.
-
-97cb9150ff2dd8b Helge Deller   2026-01-28  929  	pdc_model_sysmodel(OS_ID_MPEXL, name_mpe);
-97cb9150ff2dd8b Helge Deller   2026-01-28  930  	pr_info("#define PARISC_MODEL_MPE \"%s\"\n\n", name_mpe);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1588  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1589  static noinline void bch2_print_allocator_stuck(struct bch_fs *c, struct alloc_request *req, int err)
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1590  {
+e4c8f5345f2559 fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-14  1591  	CLASS(printbuf, buf)();
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1592  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1593  	prt_printf(&buf, "Allocator stuck? Waited for %u seconds, err %s\n",
+cf2e5573074114 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-05  1594  		   c->opts.allocator_stuck_timeout,
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1595  		   bch2_err_str(err));
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1596  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25 @1597  	if (req) {
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1598  		printbuf_tabstop_push(&buf, 16);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1599  		prt_str(&buf, "Allocation:\n");
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1600  		guard(printbuf_indent)(&buf);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1601  		prt_printf(&buf, "nr_replicas:\t%u\n", req->nr_replicas);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1602  		prt_str(&buf, "target:\t");
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1603  		bch2_target_to_text(&buf, c, req->target);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1604  		prt_newline(&buf);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1605  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1606  		prt_printf(&buf, "watermark:\t%s\n", bch2_watermarks[req->watermark]);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1607  		prt_printf(&buf, "data_type:\t%s\n", __bch2_data_types[req->data_type]);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1608  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1609  		prt_str(&buf, "flags:\t");
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1610  		prt_bitflags(&buf, bch2_write_flags, req->flags);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1611  		prt_newline(&buf);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1612  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1613  		if (req->devs_have && req->devs_have->nr) {
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1614  			prt_printf(&buf, "devs_have:\t");
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1615  			bch2_devs_list_to_text(&buf, c, req->devs_have);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1616  			prt_newline(&buf);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1617  		}
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1618  	}
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1619  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1620  	if (err == -BCH_ERR_bucket_alloc_blocked) {
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1621  		prt_printf(&buf, "Allocator debug:\n");
+1f6a66d990e636 fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-09-02  1622  		scoped_guard(printbuf_indent, &buf)
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1623  			bch2_fs_alloc_debug_to_text(&buf, c);
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1624  		prt_newline(&buf);
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1625  
+9fa4a8a3bdb14c fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-04-18  1626  		bch2_printbuf_make_room(&buf, 4096);
+9fa4a8a3bdb14c fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-04-18  1627  
+e4c8f5345f2559 fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-14  1628  		scoped_guard(rcu) {
+e4c8f5345f2559 fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-07-14  1629  			guard(printbuf_atomic)(&buf);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1630  			prt_printf(&buf, "Devices elligible for allocation\n");
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1631  			for_each_member_device_rcu(c, ca, NULL)
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25 @1632  				if (dev_may_alloc(c, ca, req))
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1633  					dev_alloc_debug_header(&buf, ca);
+6bbcfab4a7c266 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-15  1634  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1635  			prt_printf(&buf, "Devices inelligible for allocation\n");
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1636  			for_each_member_device_rcu(c, ca, NULL)
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1637  				if (!dev_may_alloc(c, ca, req))
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1638  					dev_alloc_debug_header(&buf, ca);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1639  		}
+9fa4a8a3bdb14c fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-04-18  1640  
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1641  		prt_printf(&buf, "Copygc debug:\n");
+1f6a66d990e636 fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-09-02  1642  		scoped_guard(printbuf_indent, &buf)
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1643  			bch2_copygc_wait_to_text(&buf, c);
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1644  		prt_newline(&buf);
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1645  	}
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1646  
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1647  	if (err == -BCH_ERR_open_bucket_alloc_blocked)
+37b736119d4434 fs/bcachefs/alloc/foreground.c Kent Overstreet 2026-01-25  1648  		bch2_fs_open_buckets_to_text(&buf, c);
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1649  
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1650  	prt_printf(&buf, "Journal debug:\n");
+1f6a66d990e636 fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-09-02  1651  	scoped_guard(printbuf_indent, &buf)
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1652  		bch2_journal_debug_to_text(&buf, &c->journal);
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1653  
+ebf561b2083d79 fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-04-15  1654  	bch2_print_str(c, KERN_ERR, buf.buf);
+e98786ea855cb2 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-03  1655  }
+cecf72798b25fc fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-08-07  1656  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
