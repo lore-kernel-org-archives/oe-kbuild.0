@@ -1,134 +1,216 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6D03D75AF
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 09:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5013C276F;
+	Wed, 13 May 2026 09:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778665214; cv=none; b=fRYAqWVS6pK5xRDgQecyHlt5AMty7AATXJncZEP4dVJVtJbfY862OAF34JP2UNxZf12I5DJkwnq22fWdVwjTAXk8SmBqMD35/+hl26ynOo630aCHZ4CShXVpJzB11bSVCSQnxFR2kPn0RigJKKQfLiccCgFaZv7VfYDF87lGT4g=
+	t=1778665727; cv=none; b=Tn3hG/uizDcf6Em3cj/v506Ua2v55QJWUkBVHe0SyeX+LllIVJ2/21SYDre31QRCip4ERHf4wRDWRn6GvtsuSv8Npc7BfeK5pLPx/vtp1xuQwn7htovwahGaAPtkrt945VqGWlqLMAJGXFFkHZlYD4pVukCLpaxEFjrlAKWgrYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778665214; c=relaxed/simple;
-	bh=G12UOasabGibteSOwVGpHmGeH7aWwMMgtwrBAFJKc18=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZtOy2deLZa7J3OIhfFLIloLoPHaNZy5tX3Qan11pUROoQqUXBu7dmvJ3Tpz6p2ekRgMR81hU4LrYjTzLHUG81+pm5uqyoPf+pvEbHXBxxKSJaYHwaY1PKdEmDb/NSlFXiwXlWXbYBkWx1t+s3nmxrJwpbm3XsYKJPFG5LASI6Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LDyJB/cH; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778665727; c=relaxed/simple;
+	bh=h6zEhnKiZO4AK+ovjspwZRIiCSxS4eHud3WQyKCI6W8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CD+qF88d+JJKBgvtMFjihSwjj85n9aQrXsRfGgulO5Q/aatAuWHVhTzpsinHReArlYHTDZ/4AlRyjwYGMF5MH5YDDYkX6rUmZvFdNE9EYNhdyuESR+TdMwO1yIf6fpWVZUUw7avsnSy0ZYp7o+n9LINACMkc+wEvT9lsq3++Xm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K9uDzFDn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LDyJB/cH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778665212; x=1810201212;
-  h=date:from:to:cc:subject:message-id;
-  bh=G12UOasabGibteSOwVGpHmGeH7aWwMMgtwrBAFJKc18=;
-  b=LDyJB/cHL9LT12Uyxx16Y93V191QJroM4doJpaeDIU7ENfA55pSjm7jB
-   /WVDdaS55g7sEPZrV8rqv5IHA+CDqzeVOC39Z0UOzXVqAv8q078XsRrjM
-   8au5CyHDcI3zt5objeguzyAK74p0VUC58XjSbm3Jx1yhJvAOgDpAF5Yio
-   yicRsYP3ljm7okzbGFeUUvRE3uqMJAB9cp43mDadQY78mXeuAgAC6lx6A
-   u6CIusqSs536CKmynshgfBbDr0W7M5KuPRiKvuuwAjkpechVW2WLxu1oG
-   qkdTIFuQeUq/Zu1ktjYSG+zvSumXfSJR2xfK9Hl8RorE4gaT1O+UOLgPz
-   w==;
-X-CSE-ConnectionGUID: u/KvwpzSRgCgep81+NQkCg==
-X-CSE-MsgGUID: LMt73u8tT+mkFSQMabZHnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="97155792"
-X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="97155792"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 02:40:11 -0700
-X-CSE-ConnectionGUID: siQj3Y67TpGIsyOR0ss23Q==
-X-CSE-MsgGUID: KQzmxYfRT4O83CkpTP7tNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="242991163"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 May 2026 02:40:10 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wN64V-000000003ql-2HKc;
-	Wed, 13 May 2026 09:40:07 +0000
-Date: Wed, 13 May 2026 17:39:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 197/332]
- fs/bcachefs/alloc/foreground.c:477 bucket_alloc_to_text() warn: passing zero
- to 'PTR_ERR'
-Message-ID: <202605131707.fmUu5PXw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K9uDzFDn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78311C2BCB7;
+	Wed, 13 May 2026 09:48:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778665726;
+	bh=h6zEhnKiZO4AK+ovjspwZRIiCSxS4eHud3WQyKCI6W8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=K9uDzFDnS8v7C3pUMpD25t7ZG39xpqjimsyorx2WnmycPadk6J0LVbgh8lDsgvVMp
+	 kjb44z3g63nNp4bCbYL7h2w+e/UJgdl9rwruuY7k9mm6e2Nl7x8v6dpwLco2wlfrrd
+	 tAvhYinQM8EqmzwZ6YtWSslkCsc3socvGsNi+VY7kwaG9KwSlyJiH3YK6rL3SohcaR
+	 wnYEz7z6BYNMz3IJDPcVORUpGk7mENj1i8lo/z/02DnHFKAqwbWOjctkjCvxDFqnN/
+	 q55ECKNCAgjOhfa/YdRbLfq+NtTSYp5JtIE2nmBECQb0iUvMfepHZj5nZyhosWJ9Z3
+	 ns4S2rOXmHVXA==
+Date: Wed, 13 May 2026 10:48:39 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Salah Triki <salah.triki@gmail.com>,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org
+Subject: Re: [jic23-iio:fixes-togreg 31/32]
+ drivers/iio/potentiostat/lmp91000.c:353 lmp91000_probe() warn: missing
+ unwind goto?
+Message-ID: <20260513104839.72b5a06c@jic23-huawei>
+In-Reply-To: <202605130437.SgMZ43gQ-lkp@intel.com>
+References: <202605130437.SgMZ43gQ-lkp@intel.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+On Wed, 13 May 2026 10:02:40 +0300
+Dan Carpenter <error27@gmail.com> wrote:
 
-tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
-head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
-commit: 25066f580a60bef92762651f16808c669d417e97 [197/332] bcachefs: Rework allocator control flow
-:::::: branch date: 3 months ago
-:::::: commit date: 4 months ago
-config: parisc-randconfig-r072-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131707.fmUu5PXw-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.4.0
-smatch: v0.5.0-9185-gbcc58b9c
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git fix=
+es-togreg
+> head:   2ec11ebb4d0dea4aa9604f8336cd1e1c390d5dcb
+> commit: 82764dcb3643c70649f14fe8e92e667955574a8c [31/32] iio: potentiosta=
+t: lmp91000: fix probe order and cleanup paths
+> config: i386-randconfig-141-20260512 (https://download.01.org/0day-ci/arc=
+hive/20260513/202605130437.SgMZ43gQ-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> smatch: v0.5.0-9065-ge9cc34fd
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202605130437.SgMZ43gQ-lkp@intel.com/
+>=20
+> smatch warnings:
+> drivers/iio/potentiostat/lmp91000.c:353 lmp91000_probe() warn: missing un=
+wind goto?
+Dropped for now.  Salah can you take another look at this please.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605131707.fmUu5PXw-lkp@intel.com/
+Thanks,
 
-New smatch warnings:
-fs/bcachefs/alloc/foreground.c:477 bucket_alloc_to_text() warn: passing zero to 'PTR_ERR'
+Jonathan
 
-Old smatch warnings:
-arch/parisc/include/asm/hash.h:44 __hash_32() warn: inconsistent indenting
+>=20
+> vim +353 drivers/iio/potentiostat/lmp91000.c
+>=20
+> 7d8b3e100abeeff Uwe Kleine-K=C3=B6nig 2022-11-18  295  static int lmp9100=
+0_probe(struct i2c_client *client)
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  296  {
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  297  	struct device *dev =3D=
+ &client->dev;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  298  	struct lmp91000_data *=
+data;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  299  	struct iio_dev *indio_=
+dev;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  300  	int ret;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  301 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  302  	indio_dev =3D devm_iio=
+_device_alloc(dev, sizeof(*data));
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  303  	if (!indio_dev)
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  304  		return -ENOMEM;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  305 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  306  	indio_dev->info =3D &l=
+mp91000_info;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  307  	indio_dev->channels =
+=3D lmp91000_channels;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  308  	indio_dev->num_channel=
+s =3D ARRAY_SIZE(lmp91000_channels);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  309  	indio_dev->name =3D LM=
+P91000_DRV_NAME;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  310  	indio_dev->modes =3D I=
+NDIO_DIRECT_MODE;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  311  	i2c_set_clientdata(cli=
+ent, indio_dev);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  312 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  313  	data =3D iio_priv(indi=
+o_dev);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  314  	data->dev =3D dev;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  315  	data->regmap =3D devm_=
+regmap_init_i2c(client, &lmp91000_regmap_config);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  316  	if (IS_ERR(data->regma=
+p)) {
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  317  		dev_err(dev, "regmap =
+initialization failed.\n");
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  318  		return PTR_ERR(data->=
+regmap);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  319  	}
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  320 =20
+> 4d031666560da23 Gwendal Grignou  2021-03-09  321  	data->trig =3D devm_ii=
+o_trigger_alloc(dev, "%s-mux%d",
+> 15ea2878bfb2550 Jonathan Cameron 2021-04-26  322  					    indio_dev->nam=
+e,
+> 15ea2878bfb2550 Jonathan Cameron 2021-04-26  323  					    iio_device_id(=
+indio_dev));
+> 368e8718875f17a Dixit Parmar     2025-08-22  324  	if (!data->trig)
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  325  		return -ENOMEM;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  326 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  327  	init_completion(&data-=
+>completion);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  328 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  329  	ret =3D lmp91000_read_=
+config(data);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  330  	if (ret)
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  331  		return ret;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  332 =20
+> 82764dcb3643c70 Salah Triki      2026-05-07  333  	data->cb_buffer =3D ii=
+o_channel_get_all_cb(dev, &lmp91000_buffer_cb, indio_dev);
+> 82764dcb3643c70 Salah Triki      2026-05-07  334  	if (IS_ERR(data->cb_bu=
+ffer)) {
+> 82764dcb3643c70 Salah Triki      2026-05-07  335  		if (PTR_ERR(data->cb_=
+buffer) =3D=3D -ENODEV)
+> 82764dcb3643c70 Salah Triki      2026-05-07  336  			ret =3D -EPROBE_DEFE=
+R;
+> 82764dcb3643c70 Salah Triki      2026-05-07  337  		else
+> 82764dcb3643c70 Salah Triki      2026-05-07  338  			ret =3D PTR_ERR(data=
+->cb_buffer);
+> 82764dcb3643c70 Salah Triki      2026-05-07  339 =20
+> 82764dcb3643c70 Salah Triki      2026-05-07  340  		goto error_unreg_buff=
+er;
+> 82764dcb3643c70 Salah Triki      2026-05-07  341  	}
+> 82764dcb3643c70 Salah Triki      2026-05-07  342 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  343  	ret =3D iio_trigger_se=
+t_immutable(iio_channel_cb_get_iio_dev(data->cb_buffer),
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  344  					data->trig);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  345  	if (ret) {
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  346  		dev_err(dev, "cannot =
+set immutable trigger.\n");
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  347  		return ret;
+>=20
+> Need to goto cleanup before returning
+>=20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  348  	}
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  349 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  350  	ret =3D iio_trigger_re=
+gister(data->trig);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  351  	if (ret) {
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  352  		dev_err(dev, "cannot =
+register iio trigger.\n");
+> 67e17300dc1d760 Matt Ranostay    2016-09-24 @353  		return ret;
+>=20
+> Same.
+>=20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  354  	}
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  355 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  356  	ret =3D iio_triggered_=
+buffer_setup(indio_dev, NULL,
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  357  					 &lmp91000_buffer_=
+handler,
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  358  					 &lmp91000_buffer_=
+setup_ops);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  359  	if (ret)
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  360  		goto error_unreg_trig=
+ger;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  361 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  362  	data->adc_chan =3D iio=
+_channel_cb_get_channels(data->cb_buffer);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  363 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  364  	ret =3D iio_device_reg=
+ister(indio_dev);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  365  	if (ret)
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  366  		goto error_unreg_cb_b=
+uffer;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  367 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  368  	return 0;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  369 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  370  error_unreg_cb_buffer:
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  371  	iio_channel_release_al=
+l_cb(data->cb_buffer);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  372 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  373  error_unreg_trigger:
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  374  	iio_trigger_unregister=
+(data->trig);
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  375 =20
+> 82764dcb3643c70 Salah Triki      2026-05-07  376  error_unreg_buffer:
+> 82764dcb3643c70 Salah Triki      2026-05-07  377  	iio_triggered_buffer_c=
+leanup(indio_dev);
+> 82764dcb3643c70 Salah Triki      2026-05-07  378 =20
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  379  	return ret;
+> 67e17300dc1d760 Matt Ranostay    2016-09-24  380  }
+>=20
 
-vim +/PTR_ERR +477 fs/bcachefs/alloc/foreground.c
-
-f25d8215f49941 fs/bcachefs/alloc_foreground.c Kent Overstreet 2022-01-09  445  
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  446  static noinline void bucket_alloc_to_text(struct printbuf *out,
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  447  					  struct bch_fs *c,
-4d00e88d21d636 fs/bcachefs/alloc_foreground.c Kent Overstreet 2025-03-31  448  					  struct alloc_request *req,
-40574946b8a517 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-04  449  					  struct open_bucket *ob)
-40574946b8a517 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-04  450  {
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  451  	printbuf_tabstop_push(out, 32);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  452  
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  453  	if (req->ca) {
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  454  		prt_printf(out, "dev\t%s (%u)\n",	req->ca->name, req->ca->dev_idx);
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  455  		prt_printf(out, "avail\t%llu\n",	__dev_buckets_free(req->ca, req->usage, req->watermark));
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  456  	}
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  457  
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  458  	prt_printf(out, "watermark\t%s\n",	bch2_watermarks[req->watermark]);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  459  	prt_printf(out, "data type\t%s\n",	__bch2_data_types[req->data_type]);
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  460  	prt_printf(out, "will_retry_target_devices\t%u\n",	req->will_retry_target_devices);
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  461  	prt_printf(out, "will_retry_all_devices\t%u\n",	req->will_retry_all_devices);
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  462  	prt_printf(out, "blocking\t%u\n", !(req->flags & BCH_WRITE_alloc_nowait));
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  463  	prt_printf(out, "free\t%llu\n",	req->usage.buckets[BCH_DATA_free]);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  464  	prt_printf(out, "copygc_wait\t%llu/%lli\n",
-40574946b8a517 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-04  465  		   bch2_copygc_wait_amount(c),
-cb70f3a81f829a fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-29  466  		   c->copygc.wait - atomic64_read(&c->io_clock[WRITE].now));
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  467  	prt_printf(out, "seen\t%llu\n",	req->counters.buckets_seen);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  468  	prt_printf(out, "open\t%llu\n",	req->counters.skipped_open);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  469  	prt_printf(out, "need journal commit\t%llu\n", req->counters.skipped_need_journal_commit);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  470  	prt_printf(out, "nocow\t%llu\n",	req->counters.skipped_nocow);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  471  	prt_printf(out, "nouse\t%llu\n",	req->counters.skipped_nouse);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  472  	prt_printf(out, "mi_btree_bitmap\t%llu\n", req->counters.skipped_mi_btree_bitmap);
-40574946b8a517 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-04  473  
-25066f580a60be fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-05-27  474  	if (!IS_ERR_OR_NULL(ob))
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  475  		prt_printf(out, "allocated\t%llu\n", ob->bucket);
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25  476  	else
-abb687e3851cbb fs/bcachefs/alloc/foreground.c Kent Overstreet 2025-11-25 @477  		prt_printf(out, "err\t%s\n", bch2_err_str(PTR_ERR(ob)));
-40574946b8a517 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-04  478  }
-40574946b8a517 fs/bcachefs/alloc_foreground.c Kent Overstreet 2024-05-04  479  
-
-:::::: The code at line 477 was first introduced by commit
-:::::: abb687e3851cbbaa59d19cf6794dec08d30c4d9a bcachefs: tracepoint/counter rework
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
