@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECE63B0AD0
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 19:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AC0371CEA
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 20:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778700863; cv=none; b=WiCO0sBzdxMlnMjgQJCLGMkr7aPUM7IksOknRqZPwF5O+husFAsZZiYOKkDSMghR75Va1ZWd8nh7FRsD07nwm/7pMPpHW3FQJMgxS4gqkAHnAwOunjPCGfGCLVJtvs91QWrQBVxVFIlRaVVRzu6v00LNOBYxZ4+L/pw2xwxjubs=
+	t=1778704652; cv=none; b=NLoUPUAQeskeGczU0kEusheOckvJkvQc0j2AxesluRH+IQxcVl+YRhqyk3Ak0SzChfKBm7Wcfsp8yMMIjkpoK4wbPtAnTdfeKJ3tKau6i/suDPhR8kN5vRMhCerLJHhL+Wna++KhoLvUMeXSMQM5qQQwdzxPDSmf7Sv7HvXWBUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778700863; c=relaxed/simple;
-	bh=3u6cnX6RcxznhGOcHxLBGOfMhp5USSfSSAPFEEm2ZNs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PSLMRMzGXTI0xqycMk+IO0r3BbssL1Z8/2GLgtV4hf9+3NhGtoc+cNXiTKD+yZPiEff04+AA+KpoUSW4YPkuhQPVkd6SAJn5wENpqJhCjUKzgVnT/cBmSdj/vm3X20xAeqGkQPm1exmtaQ+O9wtx5/o3Bs7cCZ1QOQvGDbf7iJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ECRzKjss; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1778704652; c=relaxed/simple;
+	bh=nOHhwdxEm5GvHZ07pdCjlB+PYgpdanf65VawXLkFUVg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jM1ozSqc0qc41AV7M44EL+24ecFwuzuCL6xzSr0XJTIoktjeoIU1c8HcYx+/baTdB9/zs3TWUalw6UP3A5BmNM5wAqRgtaa6ri4wQcT3DW80Skvdf7+DbSkp4V5z639YM7erguzbTUqePz1c2w2Mh2LOlWkCKSmBiqYZc14oRSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eHOC9AER; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ECRzKjss"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eHOC9AER"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778700862; x=1810236862;
+  t=1778704650; x=1810240650;
   h=date:from:to:cc:subject:message-id;
-  bh=3u6cnX6RcxznhGOcHxLBGOfMhp5USSfSSAPFEEm2ZNs=;
-  b=ECRzKjssl6KZH+lfc1fLlpHbzTelUBTix3yvXcBuGGI5kmGXSITHm+aJ
-   BKCHQ33D6IhjjrLTH9Zif3U4RjV2F4gyzo9+ZpcwQaz6Ezb7hDh1b51Cx
-   vd3VtU6dqvtO196ligANsSiEfij5nhFm+z4taguJ/9pRNLowWPpW6Y3T+
-   1Ns7zdDHOLw9fRAe+mxqxCAPOxTrEL0QReczMm/bTie5FrnW+ugH3CzSZ
-   PsDjeT30+VfoKzWIVYRgOAV5Y7vdx2VTLOb56/zaY5LA3n6MLFaDGGuCh
-   P4H7W/paEyCIsn8h70AzX+6rsCcQAfO1lR+YNwRz52CRJMqUO18ht74ke
-   w==;
-X-CSE-ConnectionGUID: Z7Njr7uZSsG0+kitcMxgeg==
-X-CSE-MsgGUID: qNMGqhvIRa+oe5TfBlqqJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="82205406"
+  bh=nOHhwdxEm5GvHZ07pdCjlB+PYgpdanf65VawXLkFUVg=;
+  b=eHOC9AERGwe4zsB7cOMzGnOYnAngrr/d/Ww1YpyrTF1Z4sbnI1JwZPgC
+   xgutMbaF1Q9NWBHesLrYjmM7H0veN17GM9fbaNKJDmHKvzZr69dTleLws
+   /nZADpTPTFfsFZTFLdVb/FkGJDrJrQHq0aPtOiPDLu0YBsIyAFH6nh3il
+   f0byHYi40KeBy8s2gBuAkrpHLpmDgqmU1PYcs/c6fYo2I9S/5OT+b+AdS
+   b6yvm2K7EmaAw/2lXxxp2/5ho+a67UwiTg4Q1XcDGMaz0FQcGedAnZ1OB
+   EVyNLyTgnrdW2Iv/I52PxwwnvSCdMQwRja/6obcfEcWiiWGsvYu93PVhd
+   Q==;
+X-CSE-ConnectionGUID: uI5LyFZLTMS3h5+8ISHQgQ==
+X-CSE-MsgGUID: crXKl2k/R5azGvb7rvVG6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="97070194"
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="82205406"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 12:34:21 -0700
-X-CSE-ConnectionGUID: j+EQBjj2SwyOUiO/Uu/t4g==
-X-CSE-MsgGUID: Nj4dWI54QdaAkM4bmkNT+g==
+   d="scan'208";a="97070194"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 13:37:29 -0700
+X-CSE-ConnectionGUID: 8nSmbn7QSVSwg0PlJne5Zw==
+X-CSE-MsgGUID: uF7I03T2SkO4pfgfeApqFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="238415589"
+   d="scan'208";a="233915682"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 May 2026 12:34:18 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 May 2026 13:37:27 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNFLV-000000004xZ-2cAx;
-	Wed, 13 May 2026 19:34:17 +0000
-Date: Thu, 14 May 2026 03:33:27 +0800
+	id 1wNGKa-0000000052Z-3h1x;
+	Wed, 13 May 2026 20:37:24 +0000
+Date: Thu, 14 May 2026 04:36:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/x86/boot/video-vesa.c:265 vesa_store_edid() warn:
- '&boot_params.edid_info' 2249568576 can't fit into 65535 'ireg.di'
-Message-ID: <202605140321.2diayJ7e-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 459/799]
+ fs/bcachefs/alloc/buckets.c:578 bch2_trans_account_disk_usage_change() error:
+ we previously assumed 'trans->disk_res' could be null (see line 550)
+Message-ID: <202605140445.bYKDUEz6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,82 +62,84 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Helge Deller <deller@gmx.de>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1f63dd8ca0dc05a8272bb8155f643c691d29bb11
-commit: 7e35fc7ab433683f95cd1e7e397772db995bebf8 video: Make CONFIG_FIRMWARE_EDID generally available
-date:   11 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-141-20260513 (https://download.01.org/0day-ci/archive/20260514/202605140321.2diayJ7e-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: 3fdc7b4035515f784e1d442bcca383f5c0267e53 [459/799] bcachefs: move alloc files to subdir
+:::::: branch date: 6 months ago
+:::::: commit date: 7 months ago
+config: i386-randconfig-141-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140445.bYKDUEz6-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7e35fc7ab433 ("video: Make CONFIG_FIRMWARE_EDID generally available")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605140321.2diayJ7e-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605140445.bYKDUEz6-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/boot/video-vesa.c:265 vesa_store_edid() warn: '&boot_params.edid_info' 2249568576 can't fit into 65535 'ireg.di'
+smatch warnings:
+fs/bcachefs/alloc/buckets.c:578 bch2_trans_account_disk_usage_change() error: we previously assumed 'trans->disk_res' could be null (see line 550)
+fs/bcachefs/alloc/accounting.c:962 bch2_accounting_read() error: 'jk' dereferencing possible ERR_PTR()
+fs/bcachefs/alloc/accounting.c:962 bch2_accounting_read() error: 'jk' dereferencing possible ERR_PTR()
+fs/bcachefs/alloc/backpointers.c:363 __bch2_backpointer_get_key() warn: passing zero to 'ERR_CAST'
 
-Old smatch warnings:
-arch/x86/boot/video-vesa.c:43 vesa_probe() warn: '&vginfo' 1087143936 can't fit into 65535 'ireg.di'
-arch/x86/boot/video-vesa.c:67 vesa_probe() warn: '&vminfo' 3069423616 can't fit into 65535 'ireg.di'
-arch/x86/boot/video-vesa.c:115 vesa_set_mode() warn: '&vminfo' 3069423616 can't fit into 65535 'ireg.di'
+vim +578 fs/bcachefs/alloc/buckets.c
 
-vim +265 arch/x86/boot/video-vesa.c
+39283c712e6df92 fs/bcachefs/buckets.c Kent Overstreet 2020-10-19  546  
+5b14ce35af90185 fs/bcachefs/buckets.c Kent Overstreet 2023-11-11  547  void bch2_trans_account_disk_usage_change(struct btree_trans *trans)
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  548  {
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  549  	struct bch_fs *c = trans->c;
+5b14ce35af90185 fs/bcachefs/buckets.c Kent Overstreet 2023-11-11 @550  	u64 disk_res_sectors = trans->disk_res ? trans->disk_res->sectors : 0;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  551  	static int warned_disk_usage = 0;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  552  	bool warn = false;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  553  
+156600751419b2d fs/bcachefs/buckets.c Kent Overstreet 2025-07-14  554  	guard(percpu_read)(&c->mark_lock);
+5b14ce35af90185 fs/bcachefs/buckets.c Kent Overstreet 2023-11-11  555  	struct bch_fs_usage_base *src = &trans->fs_usage_delta;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  556  
+5b14ce35af90185 fs/bcachefs/buckets.c Kent Overstreet 2023-11-11  557  	s64 added = src->btree + src->data + src->reserved;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  558  
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  559  	/*
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  560  	 * Not allowed to reduce sectors_available except by getting a
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  561  	 * reservation:
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  562  	 */
+5b14ce35af90185 fs/bcachefs/buckets.c Kent Overstreet 2023-11-11  563  	s64 should_not_have_added = added - (s64) disk_res_sectors;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  564  	if (unlikely(should_not_have_added > 0)) {
+68573b936d3fced fs/bcachefs/buckets.c Uros Bizjak     2024-05-23  565  		u64 old, new;
+290448ed2e0ac11 fs/bcachefs/buckets.c Kent Overstreet 2021-06-10  566  
+68573b936d3fced fs/bcachefs/buckets.c Uros Bizjak     2024-05-23  567  		old = atomic64_read(&c->sectors_available);
+290448ed2e0ac11 fs/bcachefs/buckets.c Kent Overstreet 2021-06-10  568  		do {
+290448ed2e0ac11 fs/bcachefs/buckets.c Kent Overstreet 2021-06-10  569  			new = max_t(s64, 0, old - should_not_have_added);
+68573b936d3fced fs/bcachefs/buckets.c Uros Bizjak     2024-05-23  570  		} while (!atomic64_try_cmpxchg(&c->sectors_available,
+68573b936d3fced fs/bcachefs/buckets.c Uros Bizjak     2024-05-23  571  					       &old, new));
+290448ed2e0ac11 fs/bcachefs/buckets.c Kent Overstreet 2021-06-10  572  
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  573  		added -= should_not_have_added;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  574  		warn = true;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  575  	}
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  576  
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  577  	if (added > 0) {
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03 @578  		trans->disk_res->sectors -= added;
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  579  		this_cpu_sub(*c->online_reserved, added);
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  580  	}
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  581  
+156600751419b2d fs/bcachefs/buckets.c Kent Overstreet 2025-07-14  582  	scoped_guard(preempt) {
+fb23d57a6dfc4e5 fs/bcachefs/buckets.c Kent Overstreet 2024-02-11  583  		struct bch_fs_usage_base *dst = this_cpu_ptr(c->usage);
+fb23d57a6dfc4e5 fs/bcachefs/buckets.c Kent Overstreet 2024-02-11  584  		acc_u64s((u64 *) dst, (u64 *) src, sizeof(*src) / sizeof(u64));
+156600751419b2d fs/bcachefs/buckets.c Kent Overstreet 2025-07-14  585  	}
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  586  
+35d5aff263629ca fs/bcachefs/buckets.c Kent Overstreet 2021-04-03  587  	if (unlikely(warn) && !xchg(&warned_disk_usage, 1))
+ad5d3d820a97500 fs/bcachefs/buckets.c Kent Overstreet 2023-01-25  588  		bch2_trans_inconsistent(trans,
+df94cb2e57b2cc5 fs/bcachefs/buckets.c Kent Overstreet 2023-10-27  589  					"disk usage increased %lli more than %llu sectors reserved)",
+ad5d3d820a97500 fs/bcachefs/buckets.c Kent Overstreet 2023-01-25  590  					should_not_have_added, disk_res_sectors);
+5b14ce35af90185 fs/bcachefs/buckets.c Kent Overstreet 2023-11-11  591  }
+5b14ce35af90185 fs/bcachefs/buckets.c Kent Overstreet 2023-11-11  592  
 
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  231  
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  232  /*
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  233   * Save EDID information for the kernel; this is invoked, separately,
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  234   * after mode-setting.
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  235   */
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  236  void vesa_store_edid(void)
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  237  {
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  238  #ifdef CONFIG_FIRMWARE_EDID
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  239  	struct biosregs ireg, oreg;
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  240  
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  241  	/* Apparently used as a nonsense token... */
-0e96f31ea4249b1 arch/x86/boot/video-vesa.c  Jordan Borgner 2018-10-28  242  	memset(&boot_params.edid_info, 0x13, sizeof(boot_params.edid_info));
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  243  
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  244  	if (vginfo.version < 0x0200)
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  245  		return;		/* EDID requires VBE 2.0+ */
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  246  
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  247  	initregs(&ireg);
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  248  	ireg.ax = 0x4f15;		/* VBE DDC */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  249  	/* ireg.bx = 0x0000; */		/* Report DDC capabilities */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  250  	/* ireg.cx = 0;	*/		/* Controller 0 */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  251  	ireg.es = 0;			/* ES:DI must be 0 by spec */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  252  	intcall(0x10, &ireg, &oreg);
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  253  
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  254  	if (oreg.ax != 0x004f)
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  255  		return;		/* No EDID */
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  256  
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  257  	/* BH = time in seconds to transfer EDD information */
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  258  	/* BL = DDC level supported */
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  259  
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  260  	ireg.ax = 0x4f15;		/* VBE DDC */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  261  	ireg.bx = 0x0001;		/* Read EDID */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  262  	/* ireg.cx = 0; */		/* Controller 0 */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  263  	/* ireg.dx = 0;	*/		/* EDID block number */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  264  	ireg.es = ds();
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01 @265  	ireg.di =(size_t)&boot_params.edid_info; /* (ES:)Pointer to block */
-cf06de7b9cdd3ef arch/x86/boot/video-vesa.c  H. Peter Anvin 2009-04-01  266  	intcall(0x10, &ireg, &oreg);
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  267  #endif /* CONFIG_FIRMWARE_EDID */
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  268  }
-5e8ddcbe8692ca9 arch/i386/boot/video-vesa.c H. Peter Anvin 2007-07-11  269  
+:::::: The code at line 578 was first introduced by commit
+:::::: 35d5aff263629caf98305d12c02d8b64d6981625 bcachefs: Kill bch2_fs_usage_scratch_get()
 
-:::::: The code at line 265 was first introduced by commit
-:::::: cf06de7b9cdd3efee7a59dced1977b3c21d43732 x86, setup: "glove box" BIOS interrupts in the video code
-
-:::::: TO: H. Peter Anvin <hpa@linux.intel.com>
-:::::: CC: H. Peter Anvin <hpa@zytor.com>
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 --
 0-DAY CI Kernel Test Service
