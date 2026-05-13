@@ -1,216 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5013C276F;
-	Wed, 13 May 2026 09:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B963FBEA8
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 May 2026 11:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778665727; cv=none; b=Tn3hG/uizDcf6Em3cj/v506Ua2v55QJWUkBVHe0SyeX+LllIVJ2/21SYDre31QRCip4ERHf4wRDWRn6GvtsuSv8Npc7BfeK5pLPx/vtp1xuQwn7htovwahGaAPtkrt945VqGWlqLMAJGXFFkHZlYD4pVukCLpaxEFjrlAKWgrYI=
+	t=1778670505; cv=none; b=dTlJUU1Cqn9TbzNXuVn5n6vtmabE5iNqUOUi8rB6dpRSPFmlL5+5g7RVcd3L1Z2Iwnss412udl1o58TWQIszKrOgxg+qwqFnRFfxBcph45GQxuo+YqBDuaioOWzGjzzKkw3MOdbFq2ycrawicOfjtZRV4d3uaGsa2252fS4b2pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778665727; c=relaxed/simple;
-	bh=h6zEhnKiZO4AK+ovjspwZRIiCSxS4eHud3WQyKCI6W8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CD+qF88d+JJKBgvtMFjihSwjj85n9aQrXsRfGgulO5Q/aatAuWHVhTzpsinHReArlYHTDZ/4AlRyjwYGMF5MH5YDDYkX6rUmZvFdNE9EYNhdyuESR+TdMwO1yIf6fpWVZUUw7avsnSy0ZYp7o+n9LINACMkc+wEvT9lsq3++Xm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K9uDzFDn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778670505; c=relaxed/simple;
+	bh=RKynpSy28PWCfyFrLdn0/wz4rApbiHohkX0hRHI3VLs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LpHWAgP299CAp81bXL2GVoMteWtnBhGeVuk2RgvcZdTzdM+oc2w336iOPXip5xm0QPoWqcNbYExlAw1v4hFlWbl+yorie9/xWADsnYCpEUk/QI5ixFrW9ldNjtTiViWWiX2wxCRAS8ASvcOqKtprglxtfcR1hAD5CS2SUOtLKKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EiL2wszY; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K9uDzFDn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78311C2BCB7;
-	Wed, 13 May 2026 09:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778665726;
-	bh=h6zEhnKiZO4AK+ovjspwZRIiCSxS4eHud3WQyKCI6W8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=K9uDzFDnS8v7C3pUMpD25t7ZG39xpqjimsyorx2WnmycPadk6J0LVbgh8lDsgvVMp
-	 kjb44z3g63nNp4bCbYL7h2w+e/UJgdl9rwruuY7k9mm6e2Nl7x8v6dpwLco2wlfrrd
-	 tAvhYinQM8EqmzwZ6YtWSslkCsc3socvGsNi+VY7kwaG9KwSlyJiH3YK6rL3SohcaR
-	 wnYEz7z6BYNMz3IJDPcVORUpGk7mENj1i8lo/z/02DnHFKAqwbWOjctkjCvxDFqnN/
-	 q55ECKNCAgjOhfa/YdRbLfq+NtTSYp5JtIE2nmBECQb0iUvMfepHZj5nZyhosWJ9Z3
-	 ns4S2rOXmHVXA==
-Date: Wed, 13 May 2026 10:48:39 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Salah Triki <salah.triki@gmail.com>,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org
-Subject: Re: [jic23-iio:fixes-togreg 31/32]
- drivers/iio/potentiostat/lmp91000.c:353 lmp91000_probe() warn: missing
- unwind goto?
-Message-ID: <20260513104839.72b5a06c@jic23-huawei>
-In-Reply-To: <202605130437.SgMZ43gQ-lkp@intel.com>
-References: <202605130437.SgMZ43gQ-lkp@intel.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EiL2wszY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778670501; x=1810206501;
+  h=date:from:to:cc:subject:message-id;
+  bh=RKynpSy28PWCfyFrLdn0/wz4rApbiHohkX0hRHI3VLs=;
+  b=EiL2wszYF10E+gim/T8CE54Y9cLrA1bcxXMKOjzbqoNbqif6cuKXongi
+   MSnABSW/jv9Oix0idZCrOy7yKp3QmyP68FjFi1T/evpM0dEt0upcTcaN0
+   +4jq2TAFV13+EJd18Wdlrne2ycnUbX7RkXrjQyfqHt+YFShiS+JlNr9++
+   i+2yIDcSxa3gQFE0wwukkyZzQMMqKXNX14av/m/LagY4ojAXKNmbK7g4G
+   Z53mH3ajjqN+DOLYQgXAGqFQGbvE7lVnEYdTkrAooxwJgBZkx753vpqxL
+   MIkxQwxNqJa/354117EROgMgV+As+jOnOLoZgd83DiSKuay9OOKvjEpSH
+   Q==;
+X-CSE-ConnectionGUID: 4t9hNuCWRK6uCa9CO+Kk9A==
+X-CSE-MsgGUID: /IlKXzAyQHG66u8CpZQDZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79577482"
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="79577482"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 04:08:20 -0700
+X-CSE-ConnectionGUID: YBSXbnRjRUyoLmLIV0p9Xg==
+X-CSE-MsgGUID: eqC6wbv2SpSG43dE5Gg/tA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="238301775"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 13 May 2026 04:08:19 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wN7Ro-000000003yN-0huu;
+	Wed, 13 May 2026 11:08:16 +0000
+Date: Wed, 13 May 2026 19:07:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [deller-parisc:parisc-7.0-1 4/10]
+ arch/parisc/kernel/drivers.c:928 qemu_header() error: strcpy()
+ 'boot_cpu_data.pdc.sys_model_name' too large for 'name_mpe' (81 vs 80)
+Message-ID: <202605131913.dfb23qZE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, 13 May 2026 10:02:40 +0300
-Dan Carpenter <error27@gmail.com> wrote:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Helge Deller <deller@gmx.de>
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git fix=
-es-togreg
-> head:   2ec11ebb4d0dea4aa9604f8336cd1e1c390d5dcb
-> commit: 82764dcb3643c70649f14fe8e92e667955574a8c [31/32] iio: potentiosta=
-t: lmp91000: fix probe order and cleanup paths
-> config: i386-randconfig-141-20260512 (https://download.01.org/0day-ci/arc=
-hive/20260513/202605130437.SgMZ43gQ-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> smatch: v0.5.0-9065-ge9cc34fd
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202605130437.SgMZ43gQ-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/iio/potentiostat/lmp91000.c:353 lmp91000_probe() warn: missing un=
-wind goto?
-Dropped for now.  Salah can you take another look at this please.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git parisc-7.0-1
+head:   1651d69443c3a5fc12f1dee1229d526e7af9020a
+commit: 97cb9150ff2dd8bc87726a04045f1b3eda6f52b3 [4/10] parisc: Export model name for MPE/ix
+:::::: branch date: 3 months ago
+:::::: commit date: 3 months ago
+config: parisc-randconfig-r072-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131913.dfb23qZE-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-Thanks,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605131913.dfb23qZE-lkp@intel.com/
 
-Jonathan
+smatch warnings:
+arch/parisc/kernel/drivers.c:928 qemu_header() error: strcpy() 'boot_cpu_data.pdc.sys_model_name' too large for 'name_mpe' (81 vs 80)
 
->=20
-> vim +353 drivers/iio/potentiostat/lmp91000.c
->=20
-> 7d8b3e100abeeff Uwe Kleine-K=C3=B6nig 2022-11-18  295  static int lmp9100=
-0_probe(struct i2c_client *client)
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  296  {
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  297  	struct device *dev =3D=
- &client->dev;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  298  	struct lmp91000_data *=
-data;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  299  	struct iio_dev *indio_=
-dev;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  300  	int ret;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  301 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  302  	indio_dev =3D devm_iio=
-_device_alloc(dev, sizeof(*data));
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  303  	if (!indio_dev)
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  304  		return -ENOMEM;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  305 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  306  	indio_dev->info =3D &l=
-mp91000_info;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  307  	indio_dev->channels =
-=3D lmp91000_channels;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  308  	indio_dev->num_channel=
-s =3D ARRAY_SIZE(lmp91000_channels);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  309  	indio_dev->name =3D LM=
-P91000_DRV_NAME;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  310  	indio_dev->modes =3D I=
-NDIO_DIRECT_MODE;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  311  	i2c_set_clientdata(cli=
-ent, indio_dev);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  312 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  313  	data =3D iio_priv(indi=
-o_dev);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  314  	data->dev =3D dev;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  315  	data->regmap =3D devm_=
-regmap_init_i2c(client, &lmp91000_regmap_config);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  316  	if (IS_ERR(data->regma=
-p)) {
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  317  		dev_err(dev, "regmap =
-initialization failed.\n");
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  318  		return PTR_ERR(data->=
-regmap);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  319  	}
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  320 =20
-> 4d031666560da23 Gwendal Grignou  2021-03-09  321  	data->trig =3D devm_ii=
-o_trigger_alloc(dev, "%s-mux%d",
-> 15ea2878bfb2550 Jonathan Cameron 2021-04-26  322  					    indio_dev->nam=
-e,
-> 15ea2878bfb2550 Jonathan Cameron 2021-04-26  323  					    iio_device_id(=
-indio_dev));
-> 368e8718875f17a Dixit Parmar     2025-08-22  324  	if (!data->trig)
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  325  		return -ENOMEM;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  326 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  327  	init_completion(&data-=
->completion);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  328 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  329  	ret =3D lmp91000_read_=
-config(data);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  330  	if (ret)
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  331  		return ret;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  332 =20
-> 82764dcb3643c70 Salah Triki      2026-05-07  333  	data->cb_buffer =3D ii=
-o_channel_get_all_cb(dev, &lmp91000_buffer_cb, indio_dev);
-> 82764dcb3643c70 Salah Triki      2026-05-07  334  	if (IS_ERR(data->cb_bu=
-ffer)) {
-> 82764dcb3643c70 Salah Triki      2026-05-07  335  		if (PTR_ERR(data->cb_=
-buffer) =3D=3D -ENODEV)
-> 82764dcb3643c70 Salah Triki      2026-05-07  336  			ret =3D -EPROBE_DEFE=
-R;
-> 82764dcb3643c70 Salah Triki      2026-05-07  337  		else
-> 82764dcb3643c70 Salah Triki      2026-05-07  338  			ret =3D PTR_ERR(data=
-->cb_buffer);
-> 82764dcb3643c70 Salah Triki      2026-05-07  339 =20
-> 82764dcb3643c70 Salah Triki      2026-05-07  340  		goto error_unreg_buff=
-er;
-> 82764dcb3643c70 Salah Triki      2026-05-07  341  	}
-> 82764dcb3643c70 Salah Triki      2026-05-07  342 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  343  	ret =3D iio_trigger_se=
-t_immutable(iio_channel_cb_get_iio_dev(data->cb_buffer),
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  344  					data->trig);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  345  	if (ret) {
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  346  		dev_err(dev, "cannot =
-set immutable trigger.\n");
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  347  		return ret;
->=20
-> Need to goto cleanup before returning
->=20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  348  	}
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  349 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  350  	ret =3D iio_trigger_re=
-gister(data->trig);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  351  	if (ret) {
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  352  		dev_err(dev, "cannot =
-register iio trigger.\n");
-> 67e17300dc1d760 Matt Ranostay    2016-09-24 @353  		return ret;
->=20
-> Same.
->=20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  354  	}
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  355 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  356  	ret =3D iio_triggered_=
-buffer_setup(indio_dev, NULL,
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  357  					 &lmp91000_buffer_=
-handler,
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  358  					 &lmp91000_buffer_=
-setup_ops);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  359  	if (ret)
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  360  		goto error_unreg_trig=
-ger;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  361 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  362  	data->adc_chan =3D iio=
-_channel_cb_get_channels(data->cb_buffer);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  363 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  364  	ret =3D iio_device_reg=
-ister(indio_dev);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  365  	if (ret)
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  366  		goto error_unreg_cb_b=
-uffer;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  367 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  368  	return 0;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  369 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  370  error_unreg_cb_buffer:
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  371  	iio_channel_release_al=
-l_cb(data->cb_buffer);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  372 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  373  error_unreg_trigger:
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  374  	iio_trigger_unregister=
-(data->trig);
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  375 =20
-> 82764dcb3643c70 Salah Triki      2026-05-07  376  error_unreg_buffer:
-> 82764dcb3643c70 Salah Triki      2026-05-07  377  	iio_triggered_buffer_c=
-leanup(indio_dev);
-> 82764dcb3643c70 Salah Triki      2026-05-07  378 =20
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  379  	return ret;
-> 67e17300dc1d760 Matt Ranostay    2016-09-24  380  }
->=20
+vim +928 arch/parisc/kernel/drivers.c
 
+^1da177e4c3f415 Linus Torvalds 2005-04-16  914  
+a77ab0e7ce232a6 Helge Deller   2018-03-25  915  static __init void qemu_header(void)
+a77ab0e7ce232a6 Helge Deller   2018-03-25  916  {
+a77ab0e7ce232a6 Helge Deller   2018-03-25  917  	int num;
+a77ab0e7ce232a6 Helge Deller   2018-03-25  918  	unsigned long *p;
+97cb9150ff2dd8b Helge Deller   2026-01-28  919  	char name_mpe[80];
+a77ab0e7ce232a6 Helge Deller   2018-03-25  920  
+a77ab0e7ce232a6 Helge Deller   2018-03-25  921  	pr_info("--- cut here ---\n");
+a77ab0e7ce232a6 Helge Deller   2018-03-25  922  	pr_info("/* AUTO-GENERATED HEADER FILE FOR SEABIOS FIRMWARE */\n");
+a77ab0e7ce232a6 Helge Deller   2018-03-25  923  	pr_cont("/* generated with Linux kernel */\n");
+a77ab0e7ce232a6 Helge Deller   2018-03-25  924  	pr_cont("/* search for PARISC_QEMU_MACHINE_HEADER in Linux */\n\n");
+a77ab0e7ce232a6 Helge Deller   2018-03-25  925  
+97cb9150ff2dd8b Helge Deller   2026-01-28  926  	pr_info("#define PARISC_MODEL     \"%s\"\n",
+a77ab0e7ce232a6 Helge Deller   2018-03-25  927  			boot_cpu_data.pdc.sys_model_name);
+97cb9150ff2dd8b Helge Deller   2026-01-28 @928  	strcpy(name_mpe, boot_cpu_data.pdc.sys_model_name);
+97cb9150ff2dd8b Helge Deller   2026-01-28  929  	pdc_model_sysmodel(OS_ID_MPEXL, name_mpe);
+97cb9150ff2dd8b Helge Deller   2026-01-28  930  	pr_info("#define PARISC_MODEL_MPE \"%s\"\n\n", name_mpe);
+a77ab0e7ce232a6 Helge Deller   2018-03-25  931  
+b137b9d60b8add5 Helge Deller   2023-08-31  932  	#define p ((unsigned long *)&boot_cpu_data.pdc.model)
+a77ab0e7ce232a6 Helge Deller   2018-03-25  933  	pr_info("#define PARISC_PDC_MODEL 0x%lx, 0x%lx, 0x%lx, "
+b63b4f1a79e6ad3 Helge Deller   2023-10-23  934  		"0x%lx, 0x%lx, 0x%lx, 0x%lx, 0x%lx, 0x%lx, 0x%lx\n\n",
+b63b4f1a79e6ad3 Helge Deller   2023-10-23  935  		p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]);
+a77ab0e7ce232a6 Helge Deller   2018-03-25  936  	#undef p
+a77ab0e7ce232a6 Helge Deller   2018-03-25  937  
+a77ab0e7ce232a6 Helge Deller   2018-03-25  938  	pr_info("#define PARISC_PDC_VERSION 0x%04lx\n\n",
+a77ab0e7ce232a6 Helge Deller   2018-03-25  939  			boot_cpu_data.pdc.versions);
+a77ab0e7ce232a6 Helge Deller   2018-03-25  940  
+a77ab0e7ce232a6 Helge Deller   2018-03-25  941  	pr_info("#define PARISC_PDC_CPUID 0x%04lx\n\n",
+a77ab0e7ce232a6 Helge Deller   2018-03-25  942  			boot_cpu_data.pdc.cpuid);
+a77ab0e7ce232a6 Helge Deller   2018-03-25  943  
+a77ab0e7ce232a6 Helge Deller   2018-03-25  944  	pr_info("#define PARISC_PDC_CAPABILITIES 0x%04lx\n\n",
+a77ab0e7ce232a6 Helge Deller   2018-03-25  945  			boot_cpu_data.pdc.capabilities);
+a77ab0e7ce232a6 Helge Deller   2018-03-25  946  
+a77ab0e7ce232a6 Helge Deller   2018-03-25  947  	pr_info("#define PARISC_PDC_ENTRY_ORG 0x%04lx\n\n",
+a77ab0e7ce232a6 Helge Deller   2018-03-25  948  #ifdef CONFIG_64BIT
+a77ab0e7ce232a6 Helge Deller   2018-03-25  949  		(unsigned long)(PAGE0->mem_pdc_hi) << 32 |
+a77ab0e7ce232a6 Helge Deller   2018-03-25  950  #endif
+a77ab0e7ce232a6 Helge Deller   2018-03-25  951  		(unsigned long)PAGE0->mem_pdc);
+a77ab0e7ce232a6 Helge Deller   2018-03-25  952  
+a77ab0e7ce232a6 Helge Deller   2018-03-25  953  	pr_info("#define PARISC_PDC_CACHE_INFO");
+a77ab0e7ce232a6 Helge Deller   2018-03-25  954  	p = (unsigned long *) &cache_info;
+a77ab0e7ce232a6 Helge Deller   2018-03-25  955  	for (num = 0; num < sizeof(cache_info); num += sizeof(unsigned long)) {
+a77ab0e7ce232a6 Helge Deller   2018-03-25  956  		if (((num % 5) == 0)) {
+a77ab0e7ce232a6 Helge Deller   2018-03-25  957  			pr_cont(" \\\n");
+a77ab0e7ce232a6 Helge Deller   2018-03-25  958  			pr_info("\t");
+a77ab0e7ce232a6 Helge Deller   2018-03-25  959  		}
+a77ab0e7ce232a6 Helge Deller   2018-03-25  960  		pr_cont("%s0x%04lx",
+a77ab0e7ce232a6 Helge Deller   2018-03-25  961  			num?", ":"", *p++);
+a77ab0e7ce232a6 Helge Deller   2018-03-25  962  	}
+a77ab0e7ce232a6 Helge Deller   2018-03-25  963  	pr_cont("\n\n");
+a77ab0e7ce232a6 Helge Deller   2018-03-25  964  }
+a77ab0e7ce232a6 Helge Deller   2018-03-25  965  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
