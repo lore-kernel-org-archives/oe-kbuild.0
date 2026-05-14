@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3066336897
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 19:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2033F4119
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 19:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778786848; cv=none; b=hgJB8B4/xFcHpymYddNPf141T2GorPiMVNspq8u5pVB2CIai25tKsw3cm9bwLIBVmlB9dxblSg1YqsfxPc8z+TEJfaBPGX381kEQ/pJxbmqU1WLpq24MPJ7NnvB+VLwipII7MzzpiBRqNWm1Yp333msC8DmuNAiJygXq6erp81c=
+	t=1778787447; cv=none; b=cQk76e9jjFKV4N/P6PH1Ijps1NGcIZMWuWwC+Wr1g3ZIKqyhIo3YgyYCiqKCItTt/e11h6TyJGFrnRub2JP6GZU99mAgz2KiTkcoCMZBySc9rBMKT7706l/estqQCzFvWvhvWsPNVuH0hKpEMuwRIR9qSbKyTo8JRi1wPIdwUyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778786848; c=relaxed/simple;
-	bh=DRetyFf8OsGUlRTI3A3O4nLa+Tl4Pu8aBjz1emyDBPc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M1RFWjdHzGyQ4zM98bJJF3uY6C5HwBNNcyNbrqeX6GOwfIAnQe8CcqSs0zYvjej96oN4RiRQGjbb6N6v3u75+KOlWq2mUv3cW/UgFYD+1JbChAOzptxS1JjxBP9mah/hR2TVEFbvcCHdvEDm+mEm3UHH8dDYU7dCYDsE82HLVUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZI+34CQ/; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1778787447; c=relaxed/simple;
+	bh=LaAM8mcoR9V8sMpLG/g8KBgKNCS80gM394JFoIXn1Kg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hnNsp49qei/JLYCfrolE5w1T9vH6mzpst1BSaUe1G9SzCER3AdyCLHGLPoGhFXWpFqwQwmqGt6uMYhe72u172yCti4QWwsjayajJfc2TS+iklPOPJz+gKrIZyD8IO08v07kANaEFUzle7+GoBEDT1az6ldlDc1w+9SSknI2F9kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b67a5OHM; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZI+34CQ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b67a5OHM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778786847; x=1810322847;
+  t=1778787446; x=1810323446;
   h=date:from:to:cc:subject:message-id;
-  bh=DRetyFf8OsGUlRTI3A3O4nLa+Tl4Pu8aBjz1emyDBPc=;
-  b=ZI+34CQ/gRU9y2CWQylAiYJwkYfsCXYB7ZfjvZDNuw2MCPI+M1pifN7B
-   cq+oeLJZhoqYQRRu+qsX/gerd3WFgB3pkvvrKzVNNyNK7V33iZaSo9/FH
-   By+z40BcNMewxPrAymHMgPJdIdR6kAfE6RH1WL0Ow+TC26AnEgOfZblwp
-   +zvHQQkc5o85Y1bmAwIWabHd6vV5295WIv7VnuYA6G7ZLwRdRoRxvtwJt
-   zJxJ0qe/9JVg77NE/18DDd4CQAHvJkUqTpfO4ZWt8GO06COWDxjf3dqUR
-   YhJy2U+axKz18zKkJtycd4FBku1S7hO15cKA4q07WPUDzDReyIFKkeWMP
-   A==;
-X-CSE-ConnectionGUID: c2RAiInmS4eod8fUg1LS3g==
-X-CSE-MsgGUID: iYVBwfF+Qq+EpeAG7kFKIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="91124358"
+  bh=LaAM8mcoR9V8sMpLG/g8KBgKNCS80gM394JFoIXn1Kg=;
+  b=b67a5OHMLhVs6oDy46ozYkFiXKbCWu8cK9tLFjr/s1BAXJOMD6OXfis1
+   Fkh49at1J6u0cBhzoycFf1xRlewJrhRLplh06ZfuRDTUcevAzfT45MmEM
+   8f3Y1kwXtNvCwDiBG+tg3WRXXtgFMe94caSa1Cf//E3FUusKyCKFm2Mfv
+   LyHhaYf3b2Zdpu1NxcplPiZw3Ltba7r43OtbWYA0hsfvPW6ui8PquJm6C
+   RPYjRXp7ye0//Iyx1PUzEAJ+H/6VTfH/OCwTRUUUoL5k3Qe09fpvaO9uF
+   n/kKZzHCEQpbY1BrYE1xI7ke2gcGJpZVScyVTcYvQeQomdf+gpyuPedSR
+   Q==;
+X-CSE-ConnectionGUID: otMNXPvwTNC9PDxUpFI34w==
+X-CSE-MsgGUID: qSqhPcA8R+KovS/yp+bTww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="105198230"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="91124358"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 12:27:24 -0700
-X-CSE-ConnectionGUID: +HO6AAWYTFyehqA9IZwcQw==
-X-CSE-MsgGUID: 3IrkxRa8QCCu98rr3igZmw==
+   d="scan'208";a="105198230"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 12:37:25 -0700
+X-CSE-ConnectionGUID: j7BJIbqAQYeI5hHHiD2Dhg==
+X-CSE-MsgGUID: JqIrocRET2G0oBQX8UQcuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="238352919"
+   d="scan'208";a="232081524"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 May 2026 12:27:23 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 14 May 2026 12:37:23 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNbiK-000000006zx-2Clj;
-	Thu, 14 May 2026 19:27:20 +0000
-Date: Fri, 15 May 2026 03:26:50 +0800
+	id 1wNbs1-00000000719-2K85;
+	Thu, 14 May 2026 19:37:21 +0000
+Date: Fri, 15 May 2026 03:37:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 216/332]
- fs/bcachefs/data/ec/trigger.c:378 bch2_trigger_stripe() error: we previously
- assumed 'new_s' could be null (see line 356)
-Message-ID: <202605150347.BGMlkbv9-lkp@intel.com>
+Subject: [brauner-vfs:vfs.fixes 30/31] fs/afs/symlink.c:130
+ afs_do_read_symlink() error: we previously assumed 'vnode->directory' could
+ be null (see line 96)
+Message-ID: <202605150307.KNKEp1AH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,141 +62,98 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: David Howells <dhowells@redhat.com>
+CC: Christian Brauner <brauner@kernel.org>
 
-tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
-head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
-commit: bde39b90107558a6e5c84934716bf171ced1cef5 [216/332] bcachefs: Split up data/ec.c
-:::::: branch date: 3 months ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-141-20260514 (https://download.01.org/0day-ci/archive/20260515/202605150347.BGMlkbv9-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.fixes
+head:   45205929a3a3310e4978f4097d8ed4fca36b2c32
+commit: c0410adf3da6db46f3513411fcf95e63c2f1d1ad [30/31] afs: Fix the locking used by afs_get_link()
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-r073-20260514 (https://download.01.org/0day-ci/archive/20260515/202605150307.KNKEp1AH-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605150347.BGMlkbv9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605150307.KNKEp1AH-lkp@intel.com/
 
 smatch warnings:
-fs/bcachefs/data/ec/trigger.c:378 bch2_trigger_stripe() error: we previously assumed 'new_s' could be null (see line 356)
+fs/afs/symlink.c:130 afs_do_read_symlink() error: we previously assumed 'vnode->directory' could be null (see line 96)
 
-vim +/new_s +378 fs/bcachefs/data/ec/trigger.c
+vim +130 fs/afs/symlink.c
 
-bde39b90107558a Kent Overstreet 2026-01-17  314  
-bde39b90107558a Kent Overstreet 2026-01-17  315  int bch2_trigger_stripe(struct btree_trans *trans,
-bde39b90107558a Kent Overstreet 2026-01-17  316  			enum btree_id btree, unsigned level,
-bde39b90107558a Kent Overstreet 2026-01-17  317  			struct bkey_s_c old, struct bkey_s _new,
-bde39b90107558a Kent Overstreet 2026-01-17  318  			enum btree_iter_update_trigger_flags flags)
-bde39b90107558a Kent Overstreet 2026-01-17  319  {
-bde39b90107558a Kent Overstreet 2026-01-17  320  	struct bkey_s_c new = _new.s_c;
-bde39b90107558a Kent Overstreet 2026-01-17  321  	struct bch_fs *c = trans->c;
-bde39b90107558a Kent Overstreet 2026-01-17  322  	u64 idx = new.k->p.offset;
-bde39b90107558a Kent Overstreet 2026-01-17  323  	const struct bch_stripe *old_s = old.k->type == KEY_TYPE_stripe
-bde39b90107558a Kent Overstreet 2026-01-17  324  		? bkey_s_c_to_stripe(old).v : NULL;
-bde39b90107558a Kent Overstreet 2026-01-17  325  	const struct bch_stripe *new_s = new.k->type == KEY_TYPE_stripe
-bde39b90107558a Kent Overstreet 2026-01-17  326  		? bkey_s_c_to_stripe(new).v : NULL;
-bde39b90107558a Kent Overstreet 2026-01-17  327  
-bde39b90107558a Kent Overstreet 2026-01-17  328  	if (unlikely(flags & BTREE_TRIGGER_check_repair))
-bde39b90107558a Kent Overstreet 2026-01-17  329  		return bch2_check_fix_ptrs(trans, btree, level, _new.s_c, flags);
-bde39b90107558a Kent Overstreet 2026-01-17  330  
-bde39b90107558a Kent Overstreet 2026-01-17  331  	BUG_ON(new_s && old_s &&
-bde39b90107558a Kent Overstreet 2026-01-17  332  	       (new_s->nr_blocks	!= old_s->nr_blocks ||
-bde39b90107558a Kent Overstreet 2026-01-17  333  		new_s->nr_redundant	!= old_s->nr_redundant));
-bde39b90107558a Kent Overstreet 2026-01-17  334  
-bde39b90107558a Kent Overstreet 2026-01-17  335  	if (flags & BTREE_TRIGGER_transactional) {
-bde39b90107558a Kent Overstreet 2026-01-17  336  		u64 old_lru_pos = stripe_lru_pos(old_s);
-bde39b90107558a Kent Overstreet 2026-01-17  337  		u64 new_lru_pos = stripe_lru_pos(new_s);
-bde39b90107558a Kent Overstreet 2026-01-17  338  
-bde39b90107558a Kent Overstreet 2026-01-17  339  		if (new_lru_pos == STRIPE_LRU_POS_EMPTY	&&
-bde39b90107558a Kent Overstreet 2026-01-17  340  		    !bch2_stripe_is_open(c, idx)) {
-bde39b90107558a Kent Overstreet 2026-01-17  341  			_new.k->type = KEY_TYPE_deleted;
-bde39b90107558a Kent Overstreet 2026-01-17  342  			set_bkey_val_u64s(_new.k, 0);
-bde39b90107558a Kent Overstreet 2026-01-17  343  			new_s = NULL;
-bde39b90107558a Kent Overstreet 2026-01-17  344  			new_lru_pos = 0;
-bde39b90107558a Kent Overstreet 2026-01-17  345  		}
-bde39b90107558a Kent Overstreet 2026-01-17  346  
-bde39b90107558a Kent Overstreet 2026-01-17  347  		try(bch2_lru_change(trans,
-bde39b90107558a Kent Overstreet 2026-01-17  348  				    BCH_LRU_STRIPE_FRAGMENTATION, idx,
-bde39b90107558a Kent Overstreet 2026-01-17  349  				    old_lru_pos, new_lru_pos));
-bde39b90107558a Kent Overstreet 2026-01-17  350  	}
-bde39b90107558a Kent Overstreet 2026-01-17  351  
-bde39b90107558a Kent Overstreet 2026-01-17  352  	if (flags & (BTREE_TRIGGER_transactional|BTREE_TRIGGER_gc)) {
-bde39b90107558a Kent Overstreet 2026-01-17  353  		/*
-bde39b90107558a Kent Overstreet 2026-01-17  354  		 * If the pointers aren't changing, we don't need to do anything:
-bde39b90107558a Kent Overstreet 2026-01-17  355  		 */
-bde39b90107558a Kent Overstreet 2026-01-17 @356  		if (new_s && old_s &&
-bde39b90107558a Kent Overstreet 2026-01-17  357  		    new_s->nr_blocks	== old_s->nr_blocks &&
-bde39b90107558a Kent Overstreet 2026-01-17  358  		    new_s->nr_redundant	== old_s->nr_redundant &&
-bde39b90107558a Kent Overstreet 2026-01-17  359  		    !memcmp(old_s->ptrs, new_s->ptrs,
-bde39b90107558a Kent Overstreet 2026-01-17  360  			    new_s->nr_blocks * sizeof(struct bch_extent_ptr)))
-bde39b90107558a Kent Overstreet 2026-01-17  361  			return 0;
-bde39b90107558a Kent Overstreet 2026-01-17  362  
-bde39b90107558a Kent Overstreet 2026-01-17  363  		struct gc_stripe *gc = NULL;
-bde39b90107558a Kent Overstreet 2026-01-17  364  		if (flags & BTREE_TRIGGER_gc) {
-bde39b90107558a Kent Overstreet 2026-01-17  365  			gc = genradix_ptr_alloc(&c->ec.gc_stripes, idx, GFP_KERNEL);
-bde39b90107558a Kent Overstreet 2026-01-17  366  			if (!gc) {
-bde39b90107558a Kent Overstreet 2026-01-17  367  				bch_err(c, "error allocating memory for gc_stripes, idx %llu", idx);
-bde39b90107558a Kent Overstreet 2026-01-17  368  				return bch_err_throw(c, ENOMEM_mark_stripe);
-bde39b90107558a Kent Overstreet 2026-01-17  369  			}
-bde39b90107558a Kent Overstreet 2026-01-17  370  
-bde39b90107558a Kent Overstreet 2026-01-17  371  			/*
-bde39b90107558a Kent Overstreet 2026-01-17  372  			 * This will be wrong when we bring back runtime gc: we should
-bde39b90107558a Kent Overstreet 2026-01-17  373  			 * be unmarking the old key and then marking the new key
-bde39b90107558a Kent Overstreet 2026-01-17  374  			 *
-bde39b90107558a Kent Overstreet 2026-01-17  375  			 * Also: when we bring back runtime gc, locking
-bde39b90107558a Kent Overstreet 2026-01-17  376  			 */
-bde39b90107558a Kent Overstreet 2026-01-17  377  			gc->alive	= true;
-bde39b90107558a Kent Overstreet 2026-01-17 @378  			gc->sectors	= le16_to_cpu(new_s->sectors);
-bde39b90107558a Kent Overstreet 2026-01-17  379  			gc->nr_blocks	= new_s->nr_blocks;
-bde39b90107558a Kent Overstreet 2026-01-17  380  			gc->nr_redundant	= new_s->nr_redundant;
-bde39b90107558a Kent Overstreet 2026-01-17  381  
-bde39b90107558a Kent Overstreet 2026-01-17  382  			for (unsigned i = 0; i < new_s->nr_blocks; i++)
-bde39b90107558a Kent Overstreet 2026-01-17  383  				gc->ptrs[i] = new_s->ptrs[i];
-bde39b90107558a Kent Overstreet 2026-01-17  384  
-bde39b90107558a Kent Overstreet 2026-01-17  385  			/*
-bde39b90107558a Kent Overstreet 2026-01-17  386  			 * gc recalculates this field from stripe ptr
-bde39b90107558a Kent Overstreet 2026-01-17  387  			 * references:
-bde39b90107558a Kent Overstreet 2026-01-17  388  			 */
-bde39b90107558a Kent Overstreet 2026-01-17  389  			memset(gc->block_sectors, 0, sizeof(gc->block_sectors));
-bde39b90107558a Kent Overstreet 2026-01-17  390  		}
-bde39b90107558a Kent Overstreet 2026-01-17  391  
-bde39b90107558a Kent Overstreet 2026-01-17  392  		if (new_s) {
-bde39b90107558a Kent Overstreet 2026-01-17  393  			s64 sectors = (u64) le16_to_cpu(new_s->sectors) * new_s->nr_redundant;
-bde39b90107558a Kent Overstreet 2026-01-17  394  
-bde39b90107558a Kent Overstreet 2026-01-17  395  			struct disk_accounting_pos acc;
-bde39b90107558a Kent Overstreet 2026-01-17  396  			memset(&acc, 0, sizeof(acc));
-bde39b90107558a Kent Overstreet 2026-01-17  397  			acc.type = BCH_DISK_ACCOUNTING_replicas;
-bde39b90107558a Kent Overstreet 2026-01-17  398  			bch2_bkey_to_replicas(c, &acc.replicas, new);
-bde39b90107558a Kent Overstreet 2026-01-17  399  			try(bch2_disk_accounting_mod(trans, &acc, &sectors, 1, gc));
-bde39b90107558a Kent Overstreet 2026-01-17  400  
-bde39b90107558a Kent Overstreet 2026-01-17  401  			if (gc)
-bde39b90107558a Kent Overstreet 2026-01-17  402  				unsafe_memcpy(&gc->r.e, &acc.replicas,
-bde39b90107558a Kent Overstreet 2026-01-17  403  					      replicas_entry_bytes(&acc.replicas), "VLA");
-bde39b90107558a Kent Overstreet 2026-01-17  404  		}
-bde39b90107558a Kent Overstreet 2026-01-17  405  
-bde39b90107558a Kent Overstreet 2026-01-17  406  		if (old_s) {
-bde39b90107558a Kent Overstreet 2026-01-17  407  			s64 sectors = -((s64) le16_to_cpu(old_s->sectors)) * old_s->nr_redundant;
-bde39b90107558a Kent Overstreet 2026-01-17  408  
-bde39b90107558a Kent Overstreet 2026-01-17  409  			struct disk_accounting_pos acc;
-bde39b90107558a Kent Overstreet 2026-01-17  410  			memset(&acc, 0, sizeof(acc));
-bde39b90107558a Kent Overstreet 2026-01-17  411  			acc.type = BCH_DISK_ACCOUNTING_replicas;
-bde39b90107558a Kent Overstreet 2026-01-17  412  			bch2_bkey_to_replicas(c, &acc.replicas, old);
-bde39b90107558a Kent Overstreet 2026-01-17  413  			try(bch2_disk_accounting_mod(trans, &acc, &sectors, 1, gc));
-bde39b90107558a Kent Overstreet 2026-01-17  414  		}
-bde39b90107558a Kent Overstreet 2026-01-17  415  
-bde39b90107558a Kent Overstreet 2026-01-17  416  		try(mark_stripe_buckets(trans, old, new, flags));
-bde39b90107558a Kent Overstreet 2026-01-17  417  	}
-bde39b90107558a Kent Overstreet 2026-01-17  418  
-bde39b90107558a Kent Overstreet 2026-01-17  419  	if ((flags & (BTREE_TRIGGER_atomic|BTREE_TRIGGER_gc)) == BTREE_TRIGGER_atomic) {
-bde39b90107558a Kent Overstreet 2026-01-17  420  		if (new_s && stripe_lru_pos(new_s) == 1)
-bde39b90107558a Kent Overstreet 2026-01-17  421  			bch2_do_stripe_deletes(c);
-bde39b90107558a Kent Overstreet 2026-01-17  422  	}
-bde39b90107558a Kent Overstreet 2026-01-17  423  
-bde39b90107558a Kent Overstreet 2026-01-17  424  	return 0;
-bde39b90107558a Kent Overstreet 2026-01-17  425  }
-bde39b90107558a Kent Overstreet 2026-01-17  426  
+c0410adf3da6db4 David Howells 2026-05-12   79  
+c0410adf3da6db4 David Howells 2026-05-12   80  /*
+c0410adf3da6db4 David Howells 2026-05-12   81   * Read a symlink in a single download.
+c0410adf3da6db4 David Howells 2026-05-12   82   */
+c0410adf3da6db4 David Howells 2026-05-12   83  static ssize_t afs_do_read_symlink(struct afs_vnode *vnode)
+c0410adf3da6db4 David Howells 2026-05-12   84  {
+c0410adf3da6db4 David Howells 2026-05-12   85  	struct afs_symlink *symlink;
+c0410adf3da6db4 David Howells 2026-05-12   86  	struct iov_iter iter;
+c0410adf3da6db4 David Howells 2026-05-12   87  	ssize_t ret;
+c0410adf3da6db4 David Howells 2026-05-12   88  	loff_t i_size;
+c0410adf3da6db4 David Howells 2026-05-12   89  
+c0410adf3da6db4 David Howells 2026-05-12   90  	i_size = i_size_read(&vnode->netfs.inode);
+c0410adf3da6db4 David Howells 2026-05-12   91  	if (i_size > PAGE_SIZE - 1) {
+c0410adf3da6db4 David Howells 2026-05-12   92  		trace_afs_file_error(vnode, -EFBIG, afs_file_error_dir_big);
+c0410adf3da6db4 David Howells 2026-05-12   93  		return -EFBIG;
+c0410adf3da6db4 David Howells 2026-05-12   94  	}
+c0410adf3da6db4 David Howells 2026-05-12   95  
+c0410adf3da6db4 David Howells 2026-05-12  @96  	if (!vnode->directory) {
+c0410adf3da6db4 David Howells 2026-05-12   97  		size_t cur_size = 0;
+c0410adf3da6db4 David Howells 2026-05-12   98  
+c0410adf3da6db4 David Howells 2026-05-12   99  		ret = netfs_alloc_folioq_buffer(NULL,
+c0410adf3da6db4 David Howells 2026-05-12  100  						&vnode->directory, &cur_size, PAGE_SIZE,
+c0410adf3da6db4 David Howells 2026-05-12  101  						mapping_gfp_mask(vnode->netfs.inode.i_mapping));
+c0410adf3da6db4 David Howells 2026-05-12  102  		vnode->directory_size = PAGE_SIZE - 1;
+c0410adf3da6db4 David Howells 2026-05-12  103  		if (ret < 0)
+c0410adf3da6db4 David Howells 2026-05-12  104  			return ret;
+c0410adf3da6db4 David Howells 2026-05-12  105  	}
+c0410adf3da6db4 David Howells 2026-05-12  106  
+c0410adf3da6db4 David Howells 2026-05-12  107  	iov_iter_folio_queue(&iter, ITER_DEST, vnode->directory, 0, 0, PAGE_SIZE);
+c0410adf3da6db4 David Howells 2026-05-12  108  
+c0410adf3da6db4 David Howells 2026-05-12  109  	/* AFS requires us to perform the read of a symlink as a single unit to
+c0410adf3da6db4 David Howells 2026-05-12  110  	 * avoid issues with the content being changed between reads.
+c0410adf3da6db4 David Howells 2026-05-12  111  	 */
+c0410adf3da6db4 David Howells 2026-05-12  112  	ret = netfs_read_single(&vnode->netfs.inode, NULL, &iter);
+c0410adf3da6db4 David Howells 2026-05-12  113  	if (ret >= 0) {
+c0410adf3da6db4 David Howells 2026-05-12  114  		i_size = ret;
+c0410adf3da6db4 David Howells 2026-05-12  115  		if (i_size > PAGE_SIZE - 1) {
+c0410adf3da6db4 David Howells 2026-05-12  116  			trace_afs_file_error(vnode, -EFBIG, afs_file_error_dir_big);
+c0410adf3da6db4 David Howells 2026-05-12  117  			return -EFBIG;
+c0410adf3da6db4 David Howells 2026-05-12  118  		}
+c0410adf3da6db4 David Howells 2026-05-12  119  		vnode->directory_size = i_size;
+c0410adf3da6db4 David Howells 2026-05-12  120  
+c0410adf3da6db4 David Howells 2026-05-12  121  		/* Copy the symlink. */
+c0410adf3da6db4 David Howells 2026-05-12  122  		symlink = kmalloc_flex(struct afs_symlink, content, i_size + 1,
+c0410adf3da6db4 David Howells 2026-05-12  123  				       GFP_KERNEL);
+c0410adf3da6db4 David Howells 2026-05-12  124  		if (!symlink)
+c0410adf3da6db4 David Howells 2026-05-12  125  			return -ENOMEM;
+c0410adf3da6db4 David Howells 2026-05-12  126  
+c0410adf3da6db4 David Howells 2026-05-12  127  		refcount_set(&symlink->ref, 1);
+c0410adf3da6db4 David Howells 2026-05-12  128  		symlink->content[i_size] = 0;
+c0410adf3da6db4 David Howells 2026-05-12  129  
+c0410adf3da6db4 David Howells 2026-05-12 @130  		const char *s = kmap_local_folio(folioq_folio(vnode->directory, 0), 0);
+c0410adf3da6db4 David Howells 2026-05-12  131  
+c0410adf3da6db4 David Howells 2026-05-12  132  		memcpy(symlink->content, s, i_size);
+c0410adf3da6db4 David Howells 2026-05-12  133  		kunmap_local(s);
+c0410adf3da6db4 David Howells 2026-05-12  134  
+c0410adf3da6db4 David Howells 2026-05-12  135  		afs_replace_symlink(vnode, symlink);
+c0410adf3da6db4 David Howells 2026-05-12  136  	}
+c0410adf3da6db4 David Howells 2026-05-12  137  
+c0410adf3da6db4 David Howells 2026-05-12  138  	if (!fscache_cookie_enabled(netfs_i_cookie(&vnode->netfs))) {
+c0410adf3da6db4 David Howells 2026-05-12  139  		netfs_free_folioq_buffer(vnode->directory);
+c0410adf3da6db4 David Howells 2026-05-12  140  		vnode->directory = NULL;
+c0410adf3da6db4 David Howells 2026-05-12  141  		vnode->directory_size = 0;
+c0410adf3da6db4 David Howells 2026-05-12  142  	}
+c0410adf3da6db4 David Howells 2026-05-12  143  
+c0410adf3da6db4 David Howells 2026-05-12  144  	return ret;
+c0410adf3da6db4 David Howells 2026-05-12  145  }
+c0410adf3da6db4 David Howells 2026-05-12  146  
 
 --
 0-DAY CI Kernel Test Service
