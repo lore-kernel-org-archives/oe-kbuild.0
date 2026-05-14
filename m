@@ -1,154 +1,173 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED68C3DB633
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 08:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E180438C2B0
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 10:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778748454; cv=none; b=TQvLGzMXU8AR43Q3g6ltsmkHEuwlTDo1wXDwhvOmtJ9nIaiY2Din6RKBIV30F7JNa16+MJXZ8njBJnLR1LTyT/AcQnblf/pPFfDnw9jTg63QQZZmE8L00XliZAtRtJ7NUa8dkSgufLulQc6YwnFmSXjZnuGruNwXkOePO2QxRag=
+	t=1778753280; cv=none; b=cBISOq3AxOMwq8yCHNWgMPMa0xDMJmrUE10isf+MT4WqmoIxnYNRqgnhxKCwluHbUdqIA/JKBZab0j+tkHO7zV9T5mx2BFQdYXRfV9jBI5y1UFj3aUhX/SgKaVZUNMSD+3j4Dr4woIaVxMt3lfxNUoZoNb66njmpUEQlF4n3Zqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778748454; c=relaxed/simple;
-	bh=/M4O9MdEk7wkh/g9A5rB6DDLkw3Hh00ADHbqT+hBwrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fz1/KIqiBiwpwMz+DX4hkgUm757WeyVo4n2YgeOTPezibn8dtLPhkh5NxwKL6QN5cCPM+9HqFpvTbjF6aL4qZxSLArO9st2qvC8hDatn+YV3cmt1RC04H/68mbffqr/laXmTKJ9fazm+Uf5hConQ7xi86VXtE/rQ+P7uI9rPzCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LSX5+jMf; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778753280; c=relaxed/simple;
+	bh=sufLP68TvwiUJlNpnxZ0BQHDaaVVw4RHXovb9pl0KEg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YejackWybQdtC9N4YRR15lrSn6xPv1N+b9SpmJKPBgaqezfN8OTLFwqAMzQQRZhrG2uD1WOuGp9cdqtTMAUr6tFgpeASrOExKdvnd59lKekEDIY9RaPy6469SpMoLz8ik5NIVEAWy1E6+MencJ4vm5uU6KnOPKB78bz5/hbn4/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9lV1A08; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LSX5+jMf"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-44b052142e1so4331642f8f.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 01:47:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778748449; x=1779353249; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FruKmvkekS8OQpchFD41wcI4xO6AhYjyTf5iNxETto0=;
-        b=LSX5+jMf+t39KdBB4ErqpSwQSvQjNo8j+771kJ6QggS0MAwCvYCBFiZVLuMFeaeQXS
-         06IUtCCIzDTbs5kUl72UwLYo3FGaOg3eiYFztrPGpUwnicMdi0YWZpzF2eFD7+vVNDQ/
-         IuBivhfAX9RksqAkDahXI7ZBMVaOUNqY9S5Ai+WC6ChGTogzbUzI6sRQ5BUzqy6rW0/N
-         oHUQV0aB2SvzJk0QmcL88EZ5+9ZCN4Jjdd7wjpFRUsC2X/AQFZYXla3gwDTU6zp/DtRR
-         Uve61jtmRfSuJElIjJuex9qasbubhg/2n8hN44IcuMkbx8hhJXSQ+jsRyYmD4ZBb7rER
-         0j4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778748449; x=1779353249;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FruKmvkekS8OQpchFD41wcI4xO6AhYjyTf5iNxETto0=;
-        b=Ng9GiQ5zvYPotlhdgCYHVx4W9Q0vS1UTkMTcB6B3wqu/sEkUyWSfCvBfY8x337NPq6
-         tGXbG6eIvyusKT/wyN5cFf9RshVbVoTtCpFnIENLFTk2FQ1oIPFi5TVNOEPA+g8p5B5t
-         zcXjAnJlcqz6s9MDrcvUvkoQyQmbsc3JqyzacHIbn6msytKnn9v6GI2G7Ikor2DvwsvS
-         XJ8+6DtbW3HW6Ao48aJg5UHe0j9LMusPxAn7/ExBZo/5Ywqlh6P2sN8nR1nzGClJZDvU
-         WLtHEWqF2+Vi95iP8eyAnC06i6YbesHw3o8U7nr47ajPk6gnncLgkyjFM6Ei53vDB0lv
-         V1dA==
-X-Gm-Message-State: AOJu0YwFe22/RjFjh3/+y6lU7VamkLoh/bZ4UTB8dofWKKSntOBA3BI9
-	qkmtd8A4b3xqTrF5hAjVtnU29Qr2g2ifPoFYc/4qsh/FJoinkaiv4gHzgx09aw==
-X-Gm-Gg: Acq92OFyvqVAw4M6UgojUPTZ/KPdAbgvnzYy6Oo0DrGpgijJLzv7Lx4Xt3hmVc084Ju
-	nJchylplLFtPn0+V+IHGoitFUttviULRFyp4WUZTuYCLZVYLIQYPiTf+ECnBJozdCElKiuVS6D5
-	VO7BScSz3OLKXGIKIxAZiDckB1Qis19GObYm2vmt4ksb2kz0PFzQ7hzwv7ntHKeTMpC5IvmHymt
-	OZ9C1Hc4U/OwbsIEwOZNMKr2c4GhveJO9r8FK/VRyq2Bm3/qY0xkeQBrFXBMsCt54TWQ8MQ4cBJ
-	KaKCg8rJx/bDc4wYL8bgcFt6jSUMSTuabK2qSfzR3CH0esHfUJu+qYRMHdhli+xoAMOw4LjX2CX
-	ZgQTAHYbaMqPXuKR2Dchr7EspA3lMz4Gp1IPWGl+sRy76SsLqJxH2y+8MFZMqfbymv7oOIpQQyg
-	pv3cHrcXc7fgUPhqjrknE=
-X-Received: by 2002:a05:6000:24c3:b0:45b:d891:4ef1 with SMTP id ffacd0b85a97d-45c597030d7mr10665791f8f.34.1778748449454;
-        Thu, 14 May 2026 01:47:29 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9e768072sm5181999f8f.5.2026.05.14.01.47.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 01:47:28 -0700 (PDT)
-Date: Thu, 14 May 2026 11:47:25 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Joshua Hay <joshua.a.hay@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Tatyana Nikolova <tatyana.e.nikolova@intel.com>
-Subject: drivers/net/ethernet/intel/idpf/idpf_idc.c:93
- idpf_plug_core_aux_dev() error: dereferencing freed memory 'adev' (line 75)
-Message-ID: <202605141659.ITAp29HS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9lV1A08"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778753279; x=1810289279;
+  h=date:from:to:cc:subject:message-id;
+  bh=sufLP68TvwiUJlNpnxZ0BQHDaaVVw4RHXovb9pl0KEg=;
+  b=f9lV1A08cKTTBDSOB1l9Wyffr+Y3NsF3nRQ/RKszUibz7aRZm9OizPTu
+   x1gYkvyUnj/uNVv7pNHs2/4XijnDqXyCns12/02xi8D70hfGkplSyjjV+
+   Z8UaU2vFM7/T9ccJ/G+/BS6VI2y9JHwbLX63Yldb62/vp65T7lN6h2qlG
+   y6zZ08pjUqiYZ14MdC8Bb7xp+jC+vlU7JprHm7F3cEtWeD4T8KDZ5nBB3
+   fMkag2VrRVnmQcVtQw/aqnRcliAmwli1cbmDHkX2bIcOSZibHIyGkibcf
+   ULdYOYAS+j++U4DY7b51Wt9cg71+z/wOHCtDQRAdJRRBfRDqJfcoa1oRy
+   Q==;
+X-CSE-ConnectionGUID: 3v2LPptwSne/nL8zD0p+/A==
+X-CSE-MsgGUID: kTAfLu7hQICFS16wW2K9fA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="91154710"
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="91154710"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 03:07:58 -0700
+X-CSE-ConnectionGUID: SrXqs/0XSaaMLNbQuUXSeQ==
+X-CSE-MsgGUID: A/dSS3SbTz2N4yMTxFyQkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="237364199"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 14 May 2026 03:07:56 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNSyw-000000008nZ-0Qmi;
+	Thu, 14 May 2026 10:07:54 +0000
+Date: Thu, 14 May 2026 12:07:30 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [mediatek:v7.1-next/dts64 30/32]
+ arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: pmic
+ (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply',
+ 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply',
+ 'vsys-smps-supply', 'vsys-vcore-suppl...
+Message-ID: <202605141144.LHNK5Y3c-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260514084725.-Wc0WL8jyPXKCdK-LN3BOYTCyRB7ih0wg8E3jvyuJlA@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e1914add2799225a87502051415fc5c32aeb02ae
-commit: f4312e6bfa2a98e94dacc75f96f916b76bdf4259 idpf: implement core RDMA auxiliary dev create, init, and destroy
-config: i386-randconfig-141-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141659.ITAp29HS-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9185-gbcc58b9c
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Chen-Yu Tsai" <wenst@chromium.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Fei Shao <fshao@chromium.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v7.1-next/dts64
+head:   7264d37c63139f2ce8c073ead1ed4409fbba12d6
+commit: 0948625a2d85c660891e2e1dca5fcf04e31e2563 [30/32] arm64: dts: mediatek: mt8188-geralt: Add MT6359 PMIC supplies
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-2055-20260512 (https://download.01.org/0day-ci/archive/20260514/202605141144.LHNK5Y3c-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141144.LHNK5Y3c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f4312e6bfa2a ("idpf: implement core RDMA auxiliary dev create, init, and destroy")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605141659.ITAp29HS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605141144.LHNK5Y3c-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/intel/idpf/idpf_idc.c:93 idpf_plug_core_aux_dev() error: dereferencing freed memory 'adev' (line 75)
-
-vim +/adev +93 drivers/net/ethernet/intel/idpf/idpf_idc.c
-
-f4312e6bfa2a98 Joshua Hay 2025-07-08   54  static int idpf_plug_core_aux_dev(struct iidc_rdma_core_dev_info *cdev_info)
-f4312e6bfa2a98 Joshua Hay 2025-07-08   55  {
-f4312e6bfa2a98 Joshua Hay 2025-07-08   56  	struct iidc_rdma_core_auxiliary_dev *iadev;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   57  	char name[IDPF_IDC_MAX_ADEV_NAME_LEN];
-f4312e6bfa2a98 Joshua Hay 2025-07-08   58  	struct auxiliary_device *adev;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   59  	int ret;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   60  
-f4312e6bfa2a98 Joshua Hay 2025-07-08   61  	iadev = kzalloc(sizeof(*iadev), GFP_KERNEL);
-f4312e6bfa2a98 Joshua Hay 2025-07-08   62  	if (!iadev)
-f4312e6bfa2a98 Joshua Hay 2025-07-08   63  		return -ENOMEM;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   64  
-f4312e6bfa2a98 Joshua Hay 2025-07-08   65  	adev = &iadev->adev;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   66  	cdev_info->adev = adev;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   67  	iadev->cdev_info = cdev_info;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   68  
-f4312e6bfa2a98 Joshua Hay 2025-07-08   69  	ret = ida_alloc(&idpf_idc_ida, GFP_KERNEL);
-f4312e6bfa2a98 Joshua Hay 2025-07-08   70  	if (ret < 0) {
-f4312e6bfa2a98 Joshua Hay 2025-07-08   71  		pr_err("failed to allocate unique device ID for Auxiliary driver\n");
-f4312e6bfa2a98 Joshua Hay 2025-07-08   72  		goto err_ida_alloc;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   73  	}
-f4312e6bfa2a98 Joshua Hay 2025-07-08   74  	adev->id = ret;
-f4312e6bfa2a98 Joshua Hay 2025-07-08  @75  	adev->dev.release = idpf_core_adev_release;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   76  	adev->dev.parent = &cdev_info->pdev->dev;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   77  	sprintf(name, "%04x.rdma.core", cdev_info->pdev->vendor);
-f4312e6bfa2a98 Joshua Hay 2025-07-08   78  	adev->name = name;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   79  
-f4312e6bfa2a98 Joshua Hay 2025-07-08   80  	ret = auxiliary_device_init(adev);
-f4312e6bfa2a98 Joshua Hay 2025-07-08   81  	if (ret)
-f4312e6bfa2a98 Joshua Hay 2025-07-08   82  		goto err_aux_dev_init;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   83  
-f4312e6bfa2a98 Joshua Hay 2025-07-08   84  	ret = auxiliary_device_add(adev);
-f4312e6bfa2a98 Joshua Hay 2025-07-08   85  	if (ret)
-f4312e6bfa2a98 Joshua Hay 2025-07-08   86  		goto err_aux_dev_add;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   87  
-f4312e6bfa2a98 Joshua Hay 2025-07-08   88  	return 0;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   89  
-f4312e6bfa2a98 Joshua Hay 2025-07-08   90  err_aux_dev_add:
-f4312e6bfa2a98 Joshua Hay 2025-07-08   91  	auxiliary_device_uninit(adev);
-f4312e6bfa2a98 Joshua Hay 2025-07-08   92  err_aux_dev_init:
-f4312e6bfa2a98 Joshua Hay 2025-07-08  @93  	ida_free(&idpf_idc_ida, adev->id);
-                                                                        ^^^^^^^^^
-I could have sworn I saw patches to fix this use after free months ago
-but it's still a bug in net-next.  idpf_core_adev_release() frees iadev
-and adev is a to inside iadev.
-
-f4312e6bfa2a98 Joshua Hay 2025-07-08   94  err_ida_alloc:
-f4312e6bfa2a98 Joshua Hay 2025-07-08   95  	cdev_info->adev = NULL;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   96  	kfree(iadev);
-f4312e6bfa2a98 Joshua Hay 2025-07-08   97  
-f4312e6bfa2a98 Joshua Hay 2025-07-08   98  	return ret;
-f4312e6bfa2a98 Joshua Hay 2025-07-08   99  }
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: amplifier@4f (ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: amplifier@4f (ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: amplifier@4f (ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: amplifier@4f (ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
