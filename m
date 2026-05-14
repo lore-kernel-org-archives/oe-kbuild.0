@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502E2304976
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 01:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E50C2D876B
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 03:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778723467; cv=none; b=b/n7dfvDwL+O/xz3MN/30d20H9PhaO8j6pb21P7W8FQCHzXIDv2r14xpEse+QfqZb50FKLBP6fPNnfAfFFxjbbppZlrRMDAc4zCRcymzwHCcNkewf81Pk5zpoC1Cl30Rg4N6LEjQjCrOSKCXTXRSOkfR6jMQKNy2kDBgaZPdMlk=
+	t=1778728230; cv=none; b=rGzIdAqRPD83Zsih/a0K0Iy1Uku9DGZj2M8gC72lpXDmXXFKYbYPpWor4oXDHifrPMskkT3xQ7aU6E0MFI2BbLjIJlMgEa5S7XLPNFrJFdfGNydqQldhzQ35ExxpZSTKjCrBZTH6TkoPKZJuQu+bfSx7Kc7YEefpfM5G1ZxEehU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778723467; c=relaxed/simple;
-	bh=JhvCqbVjMV8Ik0FbqzAKhGMOCLZ+wAQavD51MH00n0M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SC7aOFa6EWfxHOu8s6qx21dlG38TlDLGVohaLW9z5RM0Tk4ak+R7GZhDhCSZ/H/ektY8iyL0s0V6T4+PuimpkAJoIChsAc3vSUvfgnR0qAmhI3LUgPcuDJ43kr8hwLbfzSOnULuIDWI/b8XNn8Zuv2xRWbSG9zjIVpoiWomwExw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHODLbmo; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1778728230; c=relaxed/simple;
+	bh=s8Weg0dBPXlU23le28EbScb9bBSn+4izS0BMf4l702o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Awm33Zk0vGYBTQTd0lCuoUYmzLLK8gyptLZGAs3aXIfS3q6cakZ7C9ezAOblAFAKQTSfUhHrn5h7Rz85WVEMcmVVvvZd8cEKlsEjcn96zmwdEquyLVVJBmW+MO/qy9nRHSQijpv9PEtA+uKXDrxVdTFcW15607imD9qswzzlEIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HnHw2fmt; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHODLbmo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HnHw2fmt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778723466; x=1810259466;
+  t=1778728227; x=1810264227;
   h=date:from:to:cc:subject:message-id;
-  bh=JhvCqbVjMV8Ik0FbqzAKhGMOCLZ+wAQavD51MH00n0M=;
-  b=PHODLbmoD+U8ZF+UOs3OiHCa/WbWqW9wBG7Y+Z0RTC2wgGXo52FB9KrP
-   6suXYm/d/TxgU2qzMmK3qjn+zJ0Jp66amkXHDaq437hkOgMH3GwiQSmki
-   IZB75icqxRN/TFgWtHHmn+EMJXU3fLvo10CY0JIgmIwzSXTZi+WCMxnPM
-   3SOWS2WozfLSMa4uetKH3HTnimw83G6nNpzSk5WhQcgLWjHb40H4k3gqX
-   mAfFJs+pXqJWjeKfNhNtovh+BV6SMXlbGLUYf5mzPovpbcktrDUqo+KkH
-   KIzmtS5dK4P5eP6C35Bs2hxuuaYibbOI4PXLLtaLUt+bHNGgmnw5l7IYI
-   Q==;
-X-CSE-ConnectionGUID: ueAOGtXBRoGHv2wXiTCBNA==
-X-CSE-MsgGUID: ubIouBE0RxyPVvtirrzWCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79614526"
+  bh=s8Weg0dBPXlU23le28EbScb9bBSn+4izS0BMf4l702o=;
+  b=HnHw2fmtO3gH+bKZ4i490dzISi3OeMNPPtyCrmF28bvV5TeT8NiKJ1Wk
+   bn0NmKX9ofPix2frEd2Shg/HaMJnfpXtQq7d8HXZnrLBwT7BuIP3JGyZv
+   vAltcyTr8vHz6oCWONxItNg/ZLg1AW0cJgsl1/vNsjMRKPTXJMtWx6p6m
+   xWT4yxfD8z+PZdETWHbau15D+bGnbZEP0HzlWbpng6sY31mCJa/t0NYeB
+   E1NKDTP9NWSaPflXFb4YlawxRvixpU7tI6/HdBIMMyNucokNh7vImkhrc
+   lKjfe4BISXDdexZI30gEYFzFV+hGsrWY4mf+SH0JDWGKdvdfdxQnSmaNq
+   w==;
+X-CSE-ConnectionGUID: kuuDrBrER/2djCl+6Hwrsw==
+X-CSE-MsgGUID: dHTCQ9ZKSVKCqM2gEkkGRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79647049"
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="79614526"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 18:51:06 -0700
-X-CSE-ConnectionGUID: msvxeEJyTKu65Mwo4R5IHA==
-X-CSE-MsgGUID: TeKV+c7uQZy3r0LUCy+PLQ==
+   d="scan'208";a="79647049"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 20:10:27 -0700
+X-CSE-ConnectionGUID: tHdfi7WyTZGyDLhA5rVkhw==
+X-CSE-MsgGUID: OJb8c5ckShSw0Bb2mc2xNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="238365350"
+   d="scan'208";a="235199578"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 May 2026 18:51:04 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 May 2026 20:10:25 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNLE5-000000005ZZ-32Eg;
-	Thu, 14 May 2026 01:51:01 +0000
-Date: Thu, 14 May 2026 09:50:36 +0800
+	id 1wNMSs-000000005jH-3m9u;
+	Thu, 14 May 2026 03:10:22 +0000
+Date: Thu, 14 May 2026 11:09:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 465/799]
- fs/bcachefs/data/write.c:953 bch2_write_prep_encoded_data() warn: missing
- unwind goto?
-Message-ID: <202605140925.BEsZBO0D-lkp@intel.com>
+Subject: [kdave-btrfs-devel:ext/dv/fscrypt 11/43]
+ fs/btrfs/fscrypt.c:94 btrfs_fscrypt_set_context() warn: missing error code
+ 'ret'
+Message-ID: <202605141051.5L8RE7r0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,14 +62,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Omar Sandoval <osandov@osandov.com>
+CC: David Sterba <dsterba@suse.com>
+CC: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+CC: Josef Bacik <josef@toxicpanda.com>
+CC: Daniel Vacek <neelx@suse.com>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: 78e53242d57830619d4964261dda9934f4d18c47 [465/799] bcachefs: move data code to subdir
-:::::: branch date: 6 months ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-141-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140925.BEsZBO0D-lkp@intel.com/config)
+tree:   https://github.com/kdave/btrfs-devel.git ext/dv/fscrypt
+head:   4c05f02641d57f578a685f7e8d27b9cb18d17cc7
+commit: 4656a0f641c3d3c287316323b2bbdd023c8de0b2 [11/43] btrfs: add inode encryption contexts
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: x86_64-randconfig-161-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141051.5L8RE7r0-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch: v0.5.0-9185-gbcc58b9c
 
@@ -77,123 +81,80 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605140925.BEsZBO0D-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605141051.5L8RE7r0-lkp@intel.com/
 
-New smatch warnings:
-fs/bcachefs/data/write.c:953 bch2_write_prep_encoded_data() warn: missing unwind goto?
-fs/bcachefs/data/extents.c:1227 bch2_extent_ptr_set_cached() warn: variable dereferenced before check 'ptr' (see line 1201)
+smatch warnings:
+fs/btrfs/fscrypt.c:94 btrfs_fscrypt_set_context() warn: missing error code 'ret'
 
-Old smatch warnings:
-fs/bcachefs/data/write.c:770 bch2_write_endio() error: we previously assumed 'ca' could be null (see line 752)
+vim +/ret +94 fs/btrfs/fscrypt.c
 
-vim +953 fs/bcachefs/data/write.c
-
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  889  
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  890  static noinline int bch2_write_prep_encoded_data(struct bch_write_op *op, struct write_point *wp)
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  891  {
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  892  	struct bch_fs *c = op->c;
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  893  	struct bio *bio = &op->wbio.bio;
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  894  	struct bch_csum csum;
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  895  	int ret = 0;
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  896  
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  897  	BUG_ON(bio_sectors(bio) != op->crc.compressed_size);
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  898  
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  899  	/* Can we just write the entire extent as is? */
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  900  	if (op->crc.uncompressed_size == op->crc.live_size &&
-2d3908129147075 fs/bcachefs/io_write.c Kent Overstreet 2023-10-22  901  	    op->crc.uncompressed_size <= c->opts.encoded_extent_max >> 9 &&
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  902  	    op->crc.compressed_size <= wp->sectors_free &&
-986e9842fb6825f fs/bcachefs/io.c       Kent Overstreet 2023-07-12  903  	    (op->crc.compression_type == bch2_compression_opt_to_type(op->compression_opt) ||
-ab05de4ce4a1b80 fs/bcachefs/io.c       Kent Overstreet 2018-02-23  904  	     op->incompressible)) {
-ab05de4ce4a1b80 fs/bcachefs/io.c       Kent Overstreet 2018-02-23  905  		if (!crc_is_compressed(op->crc) &&
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  906  		    op->csum_type != op->crc.csum_type) {
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  907  			ret = bch2_write_rechecksum(c, op, op->csum_type);
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  908  			if (ret)
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  909  				return ret;
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  910  		}
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  911  
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  912  		return 1;
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  913  	}
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  914  
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  915  	/*
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  916  	 * If the data is compressed and we couldn't write the entire extent as
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  917  	 * is, we have to decompress it:
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  918  	 */
-ab05de4ce4a1b80 fs/bcachefs/io.c       Kent Overstreet 2018-02-23  919  	if (crc_is_compressed(op->crc)) {
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  920  		/* Last point we can still verify checksum: */
-5af61dbd96275e1 fs/bcachefs/io_write.c Kent Overstreet 2025-03-25  921  		struct nonce nonce = extent_nonce(op->version, op->crc);
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  922  		csum = bch2_checksum_bio(c, op->crc.csum_type, nonce, bio);
-970a5096acc223e fs/bcachefs/io.c       Kent Overstreet 2023-07-16  923  		if (bch2_crc_cmp(op->crc.csum, csum) && !c->opts.no_data_io)
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  924  			goto csum_err;
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  925  
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  926  		if (bch2_csum_type_is_encryption(op->crc.csum_type)) {
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  927  			ret = bch2_encrypt_bio(c, op->crc.csum_type, nonce, bio);
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  928  			if (ret)
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  929  				return ret;
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  930  
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  931  			op->crc.csum_type = 0;
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  932  			op->crc.csum = (struct bch_csum) { 0, 0 };
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  933  		}
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  934  
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  935  		ret = bch2_bio_uncompress_inplace(op, bio);
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  936  		if (ret)
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  937  			return ret;
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  938  	}
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  939  
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  940  	/*
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  941  	 * No longer have compressed data after this point - data might be
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  942  	 * encrypted:
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  943  	 */
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  944  
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  945  	/*
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  946  	 * If the data is checksummed and we're only writing a subset,
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  947  	 * rechecksum and adjust bio to point to currently live data:
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  948  	 */
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  949  	if (op->crc.live_size != op->crc.uncompressed_size ||
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  950  	    op->crc.csum_type != op->csum_type) {
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  951  		ret = bch2_write_rechecksum(c, op, op->csum_type);
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  952  		if (ret)
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20 @953  			return ret;
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  954  	}
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  955  
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  956  	/*
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  957  	 * If we want to compress the data, it has to be decrypted:
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  958  	 */
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  959  	if (bch2_csum_type_is_encryption(op->crc.csum_type) &&
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  960  	    (op->compression_opt || op->crc.csum_type != op->csum_type)) {
-5af61dbd96275e1 fs/bcachefs/io_write.c Kent Overstreet 2025-03-25  961  		struct nonce nonce = extent_nonce(op->version, op->crc);
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  962  		csum = bch2_checksum_bio(c, op->crc.csum_type, nonce, bio);
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  963  		if (bch2_crc_cmp(op->crc.csum, csum) && !c->opts.no_data_io)
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  964  			goto csum_err;
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  965  
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  966  		ret = bch2_encrypt_bio(c, op->crc.csum_type, nonce, bio);
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  967  		if (ret)
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  968  			return ret;
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  969  
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  970  		op->crc.csum_type = 0;
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  971  		op->crc.csum = (struct bch_csum) { 0, 0 };
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  972  	}
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  973  
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  974  	return 0;
-127d90d2823ef45 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  975  csum_err:
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  976  	bch2_write_op_error(op, op->pos.offset,
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  977  		"error verifying existing checksum while moving existing data (memory corruption?)\n"
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  978  		"  expected %0llx:%0llx got %0llx:%0llx type %s",
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  979  		op->crc.csum.hi,
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  980  		op->crc.csum.lo,
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  981  		csum.hi,
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  982  		csum.lo,
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  983  		op->crc.csum_type < BCH_CSUM_NR
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  984  		? __bch2_csum_types[op->crc.csum_type]
-a76db26a9698285 fs/bcachefs/io_write.c Kent Overstreet 2025-03-24  985  		: "(unknown)");
-09b9c72bd4b77a9 fs/bcachefs/io_write.c Kent Overstreet 2025-05-28  986  	return bch_err_throw(c, data_write_csum);
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  987  }
-1c6fdbd8f2465dd fs/bcachefs/io.c       Kent Overstreet 2017-03-16  988  
-
-:::::: The code at line 953 was first introduced by commit
-:::::: 127d90d2823ef45dd37246aaf7bb0392e6231c38 bcachefs: bch2_write_prep_encoded_data() now returns errcode
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+4656a0f641c3d3c Omar Sandoval 2026-05-13   48  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   49  static int btrfs_fscrypt_set_context(struct inode *inode, const void *ctx,
+4656a0f641c3d3c Omar Sandoval 2026-05-13   50  				     size_t len, void *fs_data)
+4656a0f641c3d3c Omar Sandoval 2026-05-13   51  {
+4656a0f641c3d3c Omar Sandoval 2026-05-13   52  	struct btrfs_trans_handle *trans = fs_data;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   53  	struct btrfs_key key = {
+4656a0f641c3d3c Omar Sandoval 2026-05-13   54  		.objectid = btrfs_ino(BTRFS_I(inode)),
+4656a0f641c3d3c Omar Sandoval 2026-05-13   55  		.type = BTRFS_FSCRYPT_INODE_CTX_KEY,
+4656a0f641c3d3c Omar Sandoval 2026-05-13   56  		.offset = 0,
+4656a0f641c3d3c Omar Sandoval 2026-05-13   57  	};
+4656a0f641c3d3c Omar Sandoval 2026-05-13   58  	struct btrfs_path *path = NULL;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   59  	struct extent_buffer *leaf;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   60  	unsigned long ptr;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   61  	int ret;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   62  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   63  	if (!trans)
+4656a0f641c3d3c Omar Sandoval 2026-05-13   64  		trans = btrfs_start_transaction(BTRFS_I(inode)->root, 2);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   65  	if (IS_ERR(trans))
+4656a0f641c3d3c Omar Sandoval 2026-05-13   66  		return PTR_ERR(trans);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   67  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   68  	path = btrfs_alloc_path();
+4656a0f641c3d3c Omar Sandoval 2026-05-13   69  	if (!path) {
+4656a0f641c3d3c Omar Sandoval 2026-05-13   70  		ret = -ENOMEM;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   71  		goto out_err;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   72  	}
+4656a0f641c3d3c Omar Sandoval 2026-05-13   73  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   74  	ret = btrfs_search_slot(trans, BTRFS_I(inode)->root, &key, path, 0, 1);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   75  	if (ret < 0)
+4656a0f641c3d3c Omar Sandoval 2026-05-13   76  		goto out_err;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   77  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   78  	if (ret > 0) {
+4656a0f641c3d3c Omar Sandoval 2026-05-13   79  		btrfs_release_path(path);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   80  		ret = btrfs_insert_empty_item(trans, BTRFS_I(inode)->root, path, &key, len);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   81  		if (ret)
+4656a0f641c3d3c Omar Sandoval 2026-05-13   82  			goto out_err;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   83  	}
+4656a0f641c3d3c Omar Sandoval 2026-05-13   84  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   85  	leaf = path->nodes[0];
+4656a0f641c3d3c Omar Sandoval 2026-05-13   86  	ptr = btrfs_item_ptr_offset(leaf, path->slots[0]);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   87  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   88  	len = min_t(size_t, len, btrfs_item_size(leaf, path->slots[0]));
+4656a0f641c3d3c Omar Sandoval 2026-05-13   89  	write_extent_buffer(leaf, ctx, ptr, len);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   90  	btrfs_mark_buffer_dirty(trans, leaf);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   91  	btrfs_release_path(path);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   92  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   93  	if (fs_data)
+4656a0f641c3d3c Omar Sandoval 2026-05-13  @94  		goto out_err;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   95  
+4656a0f641c3d3c Omar Sandoval 2026-05-13   96  	BTRFS_I(inode)->flags |= BTRFS_INODE_ENCRYPT;
+4656a0f641c3d3c Omar Sandoval 2026-05-13   97  	btrfs_sync_inode_flags_to_i_flags(BTRFS_I(inode));
+4656a0f641c3d3c Omar Sandoval 2026-05-13   98  	inode_inc_iversion(inode);
+4656a0f641c3d3c Omar Sandoval 2026-05-13   99  	inode_set_ctime_current(inode);
+4656a0f641c3d3c Omar Sandoval 2026-05-13  100  	ret = btrfs_update_inode(trans, BTRFS_I(inode));
+4656a0f641c3d3c Omar Sandoval 2026-05-13  101  	if (ret)
+4656a0f641c3d3c Omar Sandoval 2026-05-13  102  		goto out_abort;
+4656a0f641c3d3c Omar Sandoval 2026-05-13  103  	btrfs_free_path(path);
+4656a0f641c3d3c Omar Sandoval 2026-05-13  104  	btrfs_end_transaction(trans);
+4656a0f641c3d3c Omar Sandoval 2026-05-13  105  	return 0;
+4656a0f641c3d3c Omar Sandoval 2026-05-13  106  out_abort:
+4656a0f641c3d3c Omar Sandoval 2026-05-13  107  	btrfs_abort_transaction(trans, ret);
+4656a0f641c3d3c Omar Sandoval 2026-05-13  108  out_err:
+4656a0f641c3d3c Omar Sandoval 2026-05-13  109  	if (!fs_data)
+4656a0f641c3d3c Omar Sandoval 2026-05-13  110  		btrfs_end_transaction(trans);
+4656a0f641c3d3c Omar Sandoval 2026-05-13  111  	btrfs_free_path(path);
+4656a0f641c3d3c Omar Sandoval 2026-05-13  112  	return ret;
+4656a0f641c3d3c Omar Sandoval 2026-05-13  113  }
+4656a0f641c3d3c Omar Sandoval 2026-05-13  114  
 
 --
 0-DAY CI Kernel Test Service
