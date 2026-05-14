@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E50C2D876B
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 03:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38163A6B78
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 04:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778728230; cv=none; b=rGzIdAqRPD83Zsih/a0K0Iy1Uku9DGZj2M8gC72lpXDmXXFKYbYPpWor4oXDHifrPMskkT3xQ7aU6E0MFI2BbLjIJlMgEa5S7XLPNFrJFdfGNydqQldhzQ35ExxpZSTKjCrBZTH6TkoPKZJuQu+bfSx7Kc7YEefpfM5G1ZxEehU=
+	t=1778731857; cv=none; b=lIzN9biB/vmFK7C5Th2KT3aKXvE98FA5jtU0rhq65K6k2VR5YeKw67r1wmMNH73wiXL1eiW4UhD8pjFIDngULugklIzwFZTw8BjkRyYZH6JxEMOslltkB+s6KQgnCby0DvpudPqyH98GABHWRSlzI+TESDOgOYPejs1RM3a3Wdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778728230; c=relaxed/simple;
-	bh=s8Weg0dBPXlU23le28EbScb9bBSn+4izS0BMf4l702o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Awm33Zk0vGYBTQTd0lCuoUYmzLLK8gyptLZGAs3aXIfS3q6cakZ7C9ezAOblAFAKQTSfUhHrn5h7Rz85WVEMcmVVvvZd8cEKlsEjcn96zmwdEquyLVVJBmW+MO/qy9nRHSQijpv9PEtA+uKXDrxVdTFcW15607imD9qswzzlEIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HnHw2fmt; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1778731857; c=relaxed/simple;
+	bh=GgV5jH+m8HhJFaEnNuM12aZOK70CwlCas27F2sG1qvU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Usn/zfc2nes3EetLQ8OBBkSRZbzf0Ybtw1bwjd40VKoy/MHjBVkWs+cNLlMlpZ9rQpJthPg2Kh3bU8U7i0CXwkXa+dRK+5RUXD22Xlicxi2vHVqa1dR6RT4NXHK5+RrBUykAyIz8UZReW4aq6+r2dhOyItQnW3rPdJDOgjCt+cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HkIJHIca; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HnHw2fmt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HkIJHIca"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778728227; x=1810264227;
+  t=1778731855; x=1810267855;
   h=date:from:to:cc:subject:message-id;
-  bh=s8Weg0dBPXlU23le28EbScb9bBSn+4izS0BMf4l702o=;
-  b=HnHw2fmtO3gH+bKZ4i490dzISi3OeMNPPtyCrmF28bvV5TeT8NiKJ1Wk
-   bn0NmKX9ofPix2frEd2Shg/HaMJnfpXtQq7d8HXZnrLBwT7BuIP3JGyZv
-   vAltcyTr8vHz6oCWONxItNg/ZLg1AW0cJgsl1/vNsjMRKPTXJMtWx6p6m
-   xWT4yxfD8z+PZdETWHbau15D+bGnbZEP0HzlWbpng6sY31mCJa/t0NYeB
-   E1NKDTP9NWSaPflXFb4YlawxRvixpU7tI6/HdBIMMyNucokNh7vImkhrc
-   lKjfe4BISXDdexZI30gEYFzFV+hGsrWY4mf+SH0JDWGKdvdfdxQnSmaNq
-   w==;
-X-CSE-ConnectionGUID: kuuDrBrER/2djCl+6Hwrsw==
-X-CSE-MsgGUID: dHTCQ9ZKSVKCqM2gEkkGRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79647049"
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="79647049"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 20:10:27 -0700
-X-CSE-ConnectionGUID: tHdfi7WyTZGyDLhA5rVkhw==
-X-CSE-MsgGUID: OJb8c5ckShSw0Bb2mc2xNA==
+  bh=GgV5jH+m8HhJFaEnNuM12aZOK70CwlCas27F2sG1qvU=;
+  b=HkIJHIcaXwXX4ZlMsKnaX/neNpTUHB+z/4C9WUt01vcIVlpHAnUyLvyO
+   2D+MAdrnbTdmPgW9mgrUnuxaymwyCSGFcToQrpHklvcCITDcOhlVKj6B6
+   I3g29ritX5smPOQkA88FevGAOSlod8QvCi2IgOxM5sHeYcv/VqhHRYt0Y
+   vogK14V9ifSfRiCohmfUVS45asCYt+kHB6pqLqgEWDUvsTYjdwCzwO9vX
+   TRWfQ3bSsy+1Y16Xd5505ZrC82LlcGRJU+mX5btO5fLoMODwE79de8pHL
+   AW6AbJA3zSNM8hNWUzWu9uZP2Lkkr2XGHuxYL8d8PSnF3G+4gBSjo4CEC
+   A==;
+X-CSE-ConnectionGUID: R+YCRw2IS9WmU1PACC4yHA==
+X-CSE-MsgGUID: gN3b0gjHTyWUevslaj+TBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79700567"
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="79700567"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 21:10:54 -0700
+X-CSE-ConnectionGUID: jT9nxrLiREiXcRUGBTiXmA==
+X-CSE-MsgGUID: I10jp/jtT+2LoR3BJjUwGw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="235199578"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 May 2026 20:10:25 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="238388898"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 13 May 2026 21:10:54 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNMSs-000000005jH-3m9u;
-	Thu, 14 May 2026 03:10:22 +0000
-Date: Thu, 14 May 2026 11:09:41 +0800
+	id 1wNNPP-000000008kX-1t3j;
+	Thu, 14 May 2026 04:10:51 +0000
+Date: Thu, 14 May 2026 06:10:45 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [kdave-btrfs-devel:ext/dv/fscrypt 11/43]
- fs/btrfs/fscrypt.c:94 btrfs_fscrypt_set_context() warn: missing error code
- 'ret'
-Message-ID: <202605141051.5L8RE7r0-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [mediatek:v7.1-next/dts64 19/32]
+ arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic
+ (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply',
+ 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply',
+ 'vsys-smps-supply', 'vsys-vcore-supp...
+Message-ID: <202605140604.ZyYkSunC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,101 +62,54 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Omar Sandoval <osandov@osandov.com>
-CC: David Sterba <dsterba@suse.com>
-CC: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-CC: Josef Bacik <josef@toxicpanda.com>
-CC: Daniel Vacek <neelx@suse.com>
+TO: "Chen-Yu Tsai" <wenst@chromium.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-tree:   https://github.com/kdave/btrfs-devel.git ext/dv/fscrypt
-head:   4c05f02641d57f578a685f7e8d27b9cb18d17cc7
-commit: 4656a0f641c3d3c287316323b2bbdd023c8de0b2 [11/43] btrfs: add inode encryption contexts
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: x86_64-randconfig-161-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141051.5L8RE7r0-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v7.1-next/dts64
+head:   7264d37c63139f2ce8c073ead1ed4409fbba12d6
+commit: 9945dd30790e68ccfa0de9560aa120585ebb8260 [19/32] arm64: dts: mediatek: mt8192-asurada: Add MT6315 PMIC supplies
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-2055-20260512 (https://download.01.org/0day-ci/archive/20260514/202605140604.ZyYkSunC-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140604.ZyYkSunC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605141051.5L8RE7r0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605140604.ZyYkSunC-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/fscrypt.c:94 btrfs_fscrypt_set_context() warn: missing error code 'ret'
-
-vim +/ret +94 fs/btrfs/fscrypt.c
-
-4656a0f641c3d3c Omar Sandoval 2026-05-13   48  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   49  static int btrfs_fscrypt_set_context(struct inode *inode, const void *ctx,
-4656a0f641c3d3c Omar Sandoval 2026-05-13   50  				     size_t len, void *fs_data)
-4656a0f641c3d3c Omar Sandoval 2026-05-13   51  {
-4656a0f641c3d3c Omar Sandoval 2026-05-13   52  	struct btrfs_trans_handle *trans = fs_data;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   53  	struct btrfs_key key = {
-4656a0f641c3d3c Omar Sandoval 2026-05-13   54  		.objectid = btrfs_ino(BTRFS_I(inode)),
-4656a0f641c3d3c Omar Sandoval 2026-05-13   55  		.type = BTRFS_FSCRYPT_INODE_CTX_KEY,
-4656a0f641c3d3c Omar Sandoval 2026-05-13   56  		.offset = 0,
-4656a0f641c3d3c Omar Sandoval 2026-05-13   57  	};
-4656a0f641c3d3c Omar Sandoval 2026-05-13   58  	struct btrfs_path *path = NULL;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   59  	struct extent_buffer *leaf;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   60  	unsigned long ptr;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   61  	int ret;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   62  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   63  	if (!trans)
-4656a0f641c3d3c Omar Sandoval 2026-05-13   64  		trans = btrfs_start_transaction(BTRFS_I(inode)->root, 2);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   65  	if (IS_ERR(trans))
-4656a0f641c3d3c Omar Sandoval 2026-05-13   66  		return PTR_ERR(trans);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   67  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   68  	path = btrfs_alloc_path();
-4656a0f641c3d3c Omar Sandoval 2026-05-13   69  	if (!path) {
-4656a0f641c3d3c Omar Sandoval 2026-05-13   70  		ret = -ENOMEM;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   71  		goto out_err;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   72  	}
-4656a0f641c3d3c Omar Sandoval 2026-05-13   73  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   74  	ret = btrfs_search_slot(trans, BTRFS_I(inode)->root, &key, path, 0, 1);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   75  	if (ret < 0)
-4656a0f641c3d3c Omar Sandoval 2026-05-13   76  		goto out_err;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   77  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   78  	if (ret > 0) {
-4656a0f641c3d3c Omar Sandoval 2026-05-13   79  		btrfs_release_path(path);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   80  		ret = btrfs_insert_empty_item(trans, BTRFS_I(inode)->root, path, &key, len);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   81  		if (ret)
-4656a0f641c3d3c Omar Sandoval 2026-05-13   82  			goto out_err;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   83  	}
-4656a0f641c3d3c Omar Sandoval 2026-05-13   84  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   85  	leaf = path->nodes[0];
-4656a0f641c3d3c Omar Sandoval 2026-05-13   86  	ptr = btrfs_item_ptr_offset(leaf, path->slots[0]);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   87  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   88  	len = min_t(size_t, len, btrfs_item_size(leaf, path->slots[0]));
-4656a0f641c3d3c Omar Sandoval 2026-05-13   89  	write_extent_buffer(leaf, ctx, ptr, len);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   90  	btrfs_mark_buffer_dirty(trans, leaf);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   91  	btrfs_release_path(path);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   92  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   93  	if (fs_data)
-4656a0f641c3d3c Omar Sandoval 2026-05-13  @94  		goto out_err;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   95  
-4656a0f641c3d3c Omar Sandoval 2026-05-13   96  	BTRFS_I(inode)->flags |= BTRFS_INODE_ENCRYPT;
-4656a0f641c3d3c Omar Sandoval 2026-05-13   97  	btrfs_sync_inode_flags_to_i_flags(BTRFS_I(inode));
-4656a0f641c3d3c Omar Sandoval 2026-05-13   98  	inode_inc_iversion(inode);
-4656a0f641c3d3c Omar Sandoval 2026-05-13   99  	inode_set_ctime_current(inode);
-4656a0f641c3d3c Omar Sandoval 2026-05-13  100  	ret = btrfs_update_inode(trans, BTRFS_I(inode));
-4656a0f641c3d3c Omar Sandoval 2026-05-13  101  	if (ret)
-4656a0f641c3d3c Omar Sandoval 2026-05-13  102  		goto out_abort;
-4656a0f641c3d3c Omar Sandoval 2026-05-13  103  	btrfs_free_path(path);
-4656a0f641c3d3c Omar Sandoval 2026-05-13  104  	btrfs_end_transaction(trans);
-4656a0f641c3d3c Omar Sandoval 2026-05-13  105  	return 0;
-4656a0f641c3d3c Omar Sandoval 2026-05-13  106  out_abort:
-4656a0f641c3d3c Omar Sandoval 2026-05-13  107  	btrfs_abort_transaction(trans, ret);
-4656a0f641c3d3c Omar Sandoval 2026-05-13  108  out_err:
-4656a0f641c3d3c Omar Sandoval 2026-05-13  109  	if (!fs_data)
-4656a0f641c3d3c Omar Sandoval 2026-05-13  110  		btrfs_end_transaction(trans);
-4656a0f641c3d3c Omar Sandoval 2026-05-13  111  	btrfs_free_path(path);
-4656a0f641c3d3c Omar Sandoval 2026-05-13  112  	return ret;
-4656a0f641c3d3c Omar Sandoval 2026-05-13  113  }
-4656a0f641c3d3c Omar Sandoval 2026-05-13  114  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pcie@11230000 (mediatek,mt8192-pcie): Unevaluated properties are not allowed ('memory-region' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pcie@0,0: wifi@0,0:reg:0:4: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pcie@0,0: wifi@0,0:reg: [[65536, 0, 0, 0, 1048576], [65536, 0, 1048576, 0, 1048576]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: flash@0 (winbond,w25q64jwm): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
+   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at(25|26)df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
+--
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pcie@11230000 (mediatek,mt8192-pcie): Unevaluated properties are not allowed ('memory-region' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pcie@0,0: wifi@0,0:reg:0:4: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pcie@0,0: wifi@0,0:reg: [[65536, 0, 0, 0, 1048576], [65536, 0, 1048576, 0, 1048576]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: flash@0 (winbond,w25q64jwm): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
+   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at(25|26)df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
 
 --
 0-DAY CI Kernel Test Service
