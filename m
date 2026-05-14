@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7E236604C
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 04:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC23739EB4B
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 06:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778732379; cv=none; b=FW4xSBIsBWBSD39sx5SXZSl7YQoz1zDh1haYda3VAMGIBVsKu5wVSmRv5weQaZqfasdHoeHtN0mEozyX66xggXtMCBDAMPab2bZfjApQsdbE6pii329GfHKtBd2DhMUmK7LuNmrLk3Shhx6kghLSAktu9b7uCDGREONHYfkoDlY=
+	t=1778739470; cv=none; b=CDyg3f+flNxB1O6FXw8uPgSZtK69wOIu7FEMinuz1ZcLZj7PZt669PNmfdng+8S/6CP/igTzVBmgkCr1/qm64IWF7QaX7GFYjpb6T8Iz1Y+lfk3wRLI9PoeYbii89nS2yTNf76NIXfIsbvHDFHIj0yGB58+TWijb2HxcWZU5sMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778732379; c=relaxed/simple;
-	bh=c7Wa4vHKtPxJdsQd0g3f4lG1aqnvOHGuE1+fzE4GFyI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=d6RpviUBZPfEwLeD69AaYw+pm4kgORYLoLcqWkSi/YTOt13KRzlwdYuieNc9NvnFAl/umbx6XQ74rguoZpji7/Dudimnsr2wG1rehVUlnZFnzWaxQXDxcjuacRNyHzMBiaAJDos+9LIh55l/QC4pT4tXIjNDoZB1WmWKS2GKjTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezV0abJ8; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1778739470; c=relaxed/simple;
+	bh=p0xDn0GQpPERefuizvKxCPKItO9V8oXnda3HKGua5kY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O39ok9yjk24rwTZEPN/hQdwM66khlxJEJob+iIRXCeJwxnn3g6X2bVFLL864ciYbaULZEE4DkTXWHxhutlJFwGdpSjwFpraHFawoLzEtaITGpuf+7njleXiIyBicETjt32lDupD+tNei3o0GnXAkKspfzvIpT42RerdBnRbPC9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3Gt5nYl; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezV0abJ8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3Gt5nYl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778732378; x=1810268378;
+  t=1778739467; x=1810275467;
   h=date:from:to:cc:subject:message-id;
-  bh=c7Wa4vHKtPxJdsQd0g3f4lG1aqnvOHGuE1+fzE4GFyI=;
-  b=ezV0abJ8L7OHV5ob1n5HI0Ivq/hHN+V9z1BqeS7Vn0hW67QsvnavzQUG
-   ZTdUJlMwXAqxqaSIqpnqSvS1j9lQJG8eIn7ANpCoKz3eb65htXJ2D7ZG/
-   pM/XDwZYYJE5zscnGMQJyHpD+D30xnNyNAC0vJzl3sWB4r2XHk/yOv75Z
-   2PEcb08SqeCSGJ1CWk/eBRJ/q1cAo2ChpbqHUGRz7UbXI221hu26QeH2t
-   tHSedbgkEeRt/VL8tatuF8dM6xHfz0hxWBvu8vXYO6VTUzK8ZKfEyANmk
-   6Qx60POg60mA0IYonqitz7uMBFxdI7umVZfzNtgDuTMT+HngR0gYgHg4j
+  bh=p0xDn0GQpPERefuizvKxCPKItO9V8oXnda3HKGua5kY=;
+  b=I3Gt5nYlFh/y9pcdyBqD7yI4I1EE553KpWXrqDvhWGk9qBvSf2wpn17i
+   njAiGF3NlJUwetZlCVg9Mta7NEYTrSgL/ixuw82MAgjhCpPgPGorsxms8
+   8TsxHCPtbEQqgUmDpl6KNp1R4ToXMiHgwdLXROpveZJHjRxmeggsJ0ZIx
+   zXs4SoG7Jl+vkMMH+vbWhTcl8I1DqXR2fS5/rbHdv5YCNeYhU0n4owmfu
+   sxz9qkubp0Ox2sC2NDjNfdAclRJzrpe6m1OT99dxZ9vmcCsfLL7DMTnaB
+   UuBJfq/jdkGJ+D3BwyAb3tCQ7p2mjX2m0d0TPue7ohAWHiF0M9LOcqCQa
    Q==;
-X-CSE-ConnectionGUID: cDPqRcbjQh2JcZaCeOEYsQ==
-X-CSE-MsgGUID: mLmh1Db3RNiw4ZgFMIkFrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="90362828"
+X-CSE-ConnectionGUID: wcv0AFpsTmOcxiCqHDCWQw==
+X-CSE-MsgGUID: tl2pI4rxT/2xBw7ce+WpKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="78700216"
 X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="90362828"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 21:19:37 -0700
-X-CSE-ConnectionGUID: 7XWmh3ZVQ7KFRhVvYsBUkg==
-X-CSE-MsgGUID: bQxS9YGcRzyAFhrprDKVIQ==
+   d="scan'208";a="78700216"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 23:17:45 -0700
+X-CSE-ConnectionGUID: wyFtAtQZQ4ScDAK05BqNvw==
+X-CSE-MsgGUID: 6Hg4doweQSeGRMxwPH4wug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="261787594"
+   d="scan'208";a="242627697"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 May 2026 21:19:36 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 May 2026 23:17:44 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNNXp-000000005oR-1eAb;
-	Thu, 14 May 2026 04:19:33 +0000
-Date: Thu, 14 May 2026 12:18:39 +0800
+	id 1wNPO9-000000005wV-0WMa;
+	Thu, 14 May 2026 06:17:41 +0000
+Date: Thu, 14 May 2026 14:17:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 467/799]
- fs/bcachefs/vfs/buffered.c:688 __bch2_writepage() error: we previously
- assumed 'w->io' could be null (see line 682)
-Message-ID: <202605141234.n7gxOk2O-lkp@intel.com>
+Subject: [kdave-btrfs-devel:ext/dv/fscrypt 29/43]
+ fs/btrfs/extent_io.c:853 submit_extent_folio() error: we previously assumed
+ 'bio_ctrl->bbio' could be null (see line 836)
+Message-ID: <202605141457.KSmPMgx0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,14 +62,16 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Josef Bacik <josef@toxicpanda.com>
+CC: David Sterba <dsterba@suse.com>
+CC: Daniel Vacek <neelx@suse.com>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: 221177ea260493d2314aa23273a9bc7fe93529c5 [467/799] bcachefs: move vfs-specific code to vfs/
-:::::: branch date: 6 months ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-141-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141234.n7gxOk2O-lkp@intel.com/config)
+tree:   https://github.com/kdave/btrfs-devel.git ext/dv/fscrypt
+head:   4c05f02641d57f578a685f7e8d27b9cb18d17cc7
+commit: d0087580116ff1206b1ff871aa8c89ae22b45fb7 [29/43] btrfs: set the bio fscrypt context when applicable
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: x86_64-randconfig-161-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141457.KSmPMgx0-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch: v0.5.0-9185-gbcc58b9c
 
@@ -77,155 +79,120 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605141234.n7gxOk2O-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605141457.KSmPMgx0-lkp@intel.com/
 
 smatch warnings:
-fs/bcachefs/vfs/buffered.c:688 __bch2_writepage() error: we previously assumed 'w->io' could be null (see line 682)
+fs/btrfs/extent_io.c:853 submit_extent_folio() error: we previously assumed 'bio_ctrl->bbio' could be null (see line 836)
 
-vim +688 fs/bcachefs/vfs/buffered.c
+vim +853 fs/btrfs/extent_io.c
 
-f95b0056f744f11 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2025-09-06  569  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  570  static int __bch2_writepage(struct folio *folio,
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  571  			    struct writeback_control *wbc,
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  572  			    void *data)
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  573  {
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  574  	struct bch_inode_info *inode = to_bch_ei(folio->mapping->host);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  575  	struct bch_fs *c = inode->v.i_sb->s_fs_info;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  576  	struct bch_writepage_state *w = data;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  577  	struct bch_folio *s;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  578  	unsigned i, offset, f_sectors, nr_replicas_this_write = U32_MAX;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  579  	loff_t i_size = i_size_read(&inode->v);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  580  	int ret;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  581  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  582  	EBUG_ON(!folio_test_uptodate(folio));
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  583  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  584  	/* Is the folio fully inside i_size? */
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  585  	if (folio_end_pos(folio) <= i_size)
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  586  		goto do_io;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  587  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  588  	/* Is the folio fully outside i_size? (truncate in progress) */
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  589  	if (folio_pos(folio) >= i_size) {
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  590  		folio_unlock(folio);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  591  		return 0;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  592  	}
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  593  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  594  	/*
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  595  	 * The folio straddles i_size.  It must be zeroed out on each and every
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  596  	 * writepage invocation because it may be mmapped.  "A file is mapped
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  597  	 * in multiples of the folio size.  For a file that is not a multiple of
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  598  	 * the  folio size, the remaining memory is zeroed when mapped, and
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  599  	 * writes to that region are not written out to the file."
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  600  	 */
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  601  	folio_zero_segment(folio,
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  602  			   i_size - folio_pos(folio),
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  603  			   folio_size(folio));
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  604  do_io:
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  605  	f_sectors = folio_sectors(folio);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  606  	s = bch2_folio(folio);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  607  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  608  	if (f_sectors > w->tmp_sectors) {
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  609  		kfree(w->tmp);
-47cdc7b14417a40 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2024-08-17  610  		w->tmp = kcalloc(f_sectors, sizeof(struct bch_folio_sector), GFP_NOFS|__GFP_NOFAIL);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  611  		w->tmp_sectors = f_sectors;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  612  	}
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  613  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  614  	/*
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  615  	 * Things get really hairy with errors during writeback:
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  616  	 */
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  617  	ret = bch2_get_folio_disk_reservation(c, inode, folio, false);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  618  	BUG_ON(ret);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  619  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  620  	/* Before unlocking the page, get copy of reservations: */
-8d421eab46649e3 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2025-07-14  621  	scoped_guard(spinlock, &s->lock) {
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  622  		memcpy(w->tmp, s->s, sizeof(struct bch_folio_sector) * f_sectors);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  623  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  624  		for (i = 0; i < f_sectors; i++) {
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  625  			if (s->s[i].state < SECTOR_dirty)
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  626  				continue;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  627  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  628  			nr_replicas_this_write =
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  629  				min_t(unsigned, nr_replicas_this_write,
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  630  				      s->s[i].nr_replicas +
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  631  				      s->s[i].replicas_reserved);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  632  		}
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  633  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  634  		for (i = 0; i < f_sectors; i++) {
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  635  			if (s->s[i].state < SECTOR_dirty)
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  636  				continue;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  637  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  638  			s->s[i].nr_replicas = w->opts.compression
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  639  				? 0 : nr_replicas_this_write;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  640  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  641  			s->s[i].replicas_reserved = 0;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  642  			bch2_folio_sector_set(folio, s, i, SECTOR_allocated);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  643  		}
-8d421eab46649e3 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2025-07-14  644  	}
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  645  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  646  	BUG_ON(atomic_read(&s->write_count));
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  647  	atomic_set(&s->write_count, 1);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  648  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  649  	BUG_ON(folio_test_writeback(folio));
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  650  	folio_start_writeback(folio);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  651  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  652  	folio_unlock(folio);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  653  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  654  	offset = 0;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  655  	while (1) {
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  656  		unsigned sectors = 0, dirty_sectors = 0, reserved_sectors = 0;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  657  		u64 sector;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  658  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  659  		while (offset < f_sectors &&
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  660  		       w->tmp[offset].state < SECTOR_dirty)
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  661  			offset++;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  662  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  663  		if (offset == f_sectors)
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  664  			break;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  665  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  666  		while (offset + sectors < f_sectors &&
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  667  		       w->tmp[offset + sectors].state >= SECTOR_dirty) {
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  668  			reserved_sectors += w->tmp[offset + sectors].replicas_reserved;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  669  			dirty_sectors += w->tmp[offset + sectors].state == SECTOR_dirty;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  670  			sectors++;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  671  		}
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  672  		BUG_ON(!sectors);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  673  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  674  		sector = folio_sector(folio) + offset;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  675  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  676  		if (w->io &&
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  677  		    (w->io->op.res.nr_replicas != nr_replicas_this_write ||
-2a4e7497604b20b fs/bcachefs/fs-io-buffered.c Brian Foster    2023-11-03  678  		     bch_io_full(w->io, sectors << 9) ||
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  679  		     bio_end_sector(&w->io->op.wbio.bio) != sector))
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  680  			bch2_writepage_do_io(w);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  681  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03 @682  		if (!w->io)
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  683  			bch2_writepage_io_alloc(c, wbc, w, inode, sector,
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  684  						nr_replicas_this_write);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  685  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  686  		atomic_inc(&s->write_count);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  687  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03 @688  		BUG_ON(inode != w->io->inode);
-8ff282097a7d6cb fs/bcachefs/fs-io-buffered.c Youling Tang    2025-06-05  689  		bio_add_folio_nofail(&w->io->op.wbio.bio, folio,
-8ff282097a7d6cb fs/bcachefs/fs-io-buffered.c Youling Tang    2025-06-05  690  				     sectors << 9, offset << 9);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  691  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  692  		w->io->op.res.sectors += reserved_sectors;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  693  		w->io->op.i_sectors_delta -= dirty_sectors;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  694  		w->io->op.new_i_size = i_size;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  695  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  696  		offset += sectors;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  697  	}
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  698  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  699  	if (atomic_dec_and_test(&s->write_count))
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  700  		folio_end_writeback(folio);
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  701  
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  702  	return 0;
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  703  }
-dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  704  
-
-:::::: The code at line 688 was first introduced by commit
-:::::: dbbfca9f41e86903501dded3fd494e1a56f3c310 bcachefs: Split up fs-io.[ch]
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+e0eefe07f89516f Qu Wenruo         2021-07-26  802  
+4b81ba48c66b1f9 David Sterba      2017-06-06  803  /*
+0c64c33c603f692 Qu Wenruo         2021-01-06  804   * @disk_bytenr: logical bytenr where the write will be
+209ecde55c4a642 Qu Wenruo         2022-09-13  805   * @page:	page to add to the bio
+0c64c33c603f692 Qu Wenruo         2021-01-06  806   * @size:	portion of page that we want to write to
+b8b3d625ce67e4d David Sterba      2017-06-12  807   * @pg_offset:	offset of the new bio or to check whether we are adding
+b8b3d625ce67e4d David Sterba      2017-06-12  808   *              a contiguous page to the previous one
+f07b855c56b1fd7 Boris Burkov      2024-10-21  809   * @read_em_generation: generation of the extent_map we are submitting
+f07b855c56b1fd7 Boris Burkov      2024-10-21  810   *			(only used for read)
+814b6f915884776 Qu Wenruo         2022-09-13  811   *
+9dfde1b47b9d7e0 Christoph Hellwig 2023-03-07  812   * The will either add the page into the existing @bio_ctrl->bbio, or allocate a
+9dfde1b47b9d7e0 Christoph Hellwig 2023-03-07  813   * new one in @bio_ctrl->bbio.
+17dc82dc1e77a6f David Sterba      2025-08-22  814   * The mirror number for this IO should already be initialized in
+814b6f915884776 Qu Wenruo         2022-09-13  815   * @bio_ctrl->mirror_num.
+4b81ba48c66b1f9 David Sterba      2017-06-06  816   */
+b35397d1d325f43 Josef Bacik       2024-07-23  817  static void submit_extent_folio(struct btrfs_bio_ctrl *bio_ctrl,
+b35397d1d325f43 Josef Bacik       2024-07-23  818  			       u64 disk_bytenr, struct folio *folio,
+f07b855c56b1fd7 Boris Burkov      2024-10-21  819  			       size_t size, unsigned long pg_offset,
+f07b855c56b1fd7 Boris Burkov      2024-10-21  820  			       u64 read_em_generation)
+d1310b2e0cd98eb Chris Mason       2008-01-24  821  {
+b35397d1d325f43 Josef Bacik       2024-07-23  822  	struct btrfs_inode *inode = folio_to_inode(folio);
+f6b2d8b134b2413 Christoph Hellwig 2025-04-09  823  	loff_t file_offset = folio_pos(folio) + pg_offset;
+5467abba1cbd9e1 Qu Wenruo         2022-09-13  824  
+ebaa602d52cf6a7 Qu Wenruo         2025-02-20  825  	ASSERT(pg_offset + size <= folio_size(folio));
+5467abba1cbd9e1 Qu Wenruo         2022-09-13  826  	ASSERT(bio_ctrl->end_io_func);
+5467abba1cbd9e1 Qu Wenruo         2022-09-13  827  
+9dfde1b47b9d7e0 Christoph Hellwig 2023-03-07  828  	if (bio_ctrl->bbio &&
+f6b2d8b134b2413 Christoph Hellwig 2025-04-09  829  	    !btrfs_bio_is_contig(bio_ctrl, disk_bytenr, file_offset))
+78a2ef1b7b332ca Christoph Hellwig 2023-02-27  830  		submit_one_bio(bio_ctrl);
+78a2ef1b7b332ca Christoph Hellwig 2023-02-27  831  
+24e6c8082208d3e Christoph Hellwig 2023-02-27  832  	do {
+24e6c8082208d3e Christoph Hellwig 2023-02-27  833  		u32 len = size;
+429aebc0a9a0636 David Sterba      2019-11-18  834  
+e0eefe07f89516f Qu Wenruo         2021-07-26  835  		/* Allocate new bio if needed */
+f6b2d8b134b2413 Christoph Hellwig 2025-04-09 @836  		if (!bio_ctrl->bbio)
+f6b2d8b134b2413 Christoph Hellwig 2025-04-09  837  			alloc_new_bio(inode, bio_ctrl, disk_bytenr, file_offset);
+24e6c8082208d3e Christoph Hellwig 2023-02-27  838  
+24e6c8082208d3e Christoph Hellwig 2023-02-27  839  		/* Cap to the current ordered extent boundary if there is one. */
+24e6c8082208d3e Christoph Hellwig 2023-02-27  840  		if (len > bio_ctrl->len_to_oe_boundary) {
+24e6c8082208d3e Christoph Hellwig 2023-02-27  841  			ASSERT(bio_ctrl->compress_type == BTRFS_COMPRESS_NONE);
+8610ba7eab8f8dc David Sterba      2022-06-15  842  			ASSERT(is_data_inode(inode));
+24e6c8082208d3e Christoph Hellwig 2023-02-27  843  			len = bio_ctrl->len_to_oe_boundary;
+d1310b2e0cd98eb Chris Mason       2008-01-24  844  		}
+24e6c8082208d3e Christoph Hellwig 2023-02-27  845  
+d0087580116ff12 Josef Bacik       2026-05-13  846  		/*
+d0087580116ff12 Josef Bacik       2026-05-13  847  		 * Encryption has to allocate bounce buffers to encrypt the bio,
+d0087580116ff12 Josef Bacik       2026-05-13  848  		 * and we need to make sure that it doesn't split the bio so we
+d0087580116ff12 Josef Bacik       2026-05-13  849  		 * retain all of our special info in the btrfs_bio, so submit
+d0087580116ff12 Josef Bacik       2026-05-13  850  		 * any bio that gets up to BIO_MAX_VECS worth of segments.
+d0087580116ff12 Josef Bacik       2026-05-13  851  		 */
+d0087580116ff12 Josef Bacik       2026-05-13  852  		if (IS_ENCRYPTED(&inode->vfs_inode) &&
+d0087580116ff12 Josef Bacik       2026-05-13 @853  		    bio_data_dir(&bio_ctrl->bbio->bio) == WRITE &&
+d0087580116ff12 Josef Bacik       2026-05-13  854  		    bio_segments(&bio_ctrl->bbio->bio) == BIO_MAX_VECS) {
+d0087580116ff12 Josef Bacik       2026-05-13  855  			submit_one_bio(bio_ctrl);
+d0087580116ff12 Josef Bacik       2026-05-13  856  			continue;
+d0087580116ff12 Josef Bacik       2026-05-13  857  		}
+d0087580116ff12 Josef Bacik       2026-05-13  858  
+b35397d1d325f43 Josef Bacik       2024-07-23  859  		if (!bio_add_folio(&bio_ctrl->bbio->bio, folio, len, pg_offset)) {
+24e6c8082208d3e Christoph Hellwig 2023-02-27  860  			/* bio full: move on to a new one */
+24e6c8082208d3e Christoph Hellwig 2023-02-27  861  			submit_one_bio(bio_ctrl);
+24e6c8082208d3e Christoph Hellwig 2023-02-27  862  			continue;
+e0eefe07f89516f Qu Wenruo         2021-07-26  863  		}
+f07b855c56b1fd7 Boris Burkov      2024-10-21  864  		/*
+f07b855c56b1fd7 Boris Burkov      2024-10-21  865  		 * Now that the folio is definitely added to the bio, include its
+f07b855c56b1fd7 Boris Burkov      2024-10-21  866  		 * generation in the max generation calculation.
+f07b855c56b1fd7 Boris Burkov      2024-10-21  867  		 */
+f07b855c56b1fd7 Boris Burkov      2024-10-21  868  		bio_ctrl->generation = max(bio_ctrl->generation, read_em_generation);
+f6b2d8b134b2413 Christoph Hellwig 2025-04-09  869  		bio_ctrl->next_file_offset += len;
+24e6c8082208d3e Christoph Hellwig 2023-02-27  870  
+24e6c8082208d3e Christoph Hellwig 2023-02-27  871  		if (bio_ctrl->wbc)
+f6b2d8b134b2413 Christoph Hellwig 2025-04-09  872  			wbc_account_cgroup_owner(bio_ctrl->wbc, folio, len);
+24e6c8082208d3e Christoph Hellwig 2023-02-27  873  
+24e6c8082208d3e Christoph Hellwig 2023-02-27  874  		size -= len;
+24e6c8082208d3e Christoph Hellwig 2023-02-27  875  		pg_offset += len;
+24e6c8082208d3e Christoph Hellwig 2023-02-27  876  		disk_bytenr += len;
+f6b2d8b134b2413 Christoph Hellwig 2025-04-09  877  		file_offset += len;
+09c3717c3a60e3e Chris Mason       2023-08-01  878  
+09c3717c3a60e3e Chris Mason       2023-08-01  879  		/*
+b35397d1d325f43 Josef Bacik       2024-07-23  880  		 * len_to_oe_boundary defaults to U32_MAX, which isn't folio or
+09c3717c3a60e3e Chris Mason       2023-08-01  881  		 * sector aligned.  alloc_new_bio() then sets it to the end of
+09c3717c3a60e3e Chris Mason       2023-08-01  882  		 * our ordered extent for writes into zoned devices.
+09c3717c3a60e3e Chris Mason       2023-08-01  883  		 *
+09c3717c3a60e3e Chris Mason       2023-08-01  884  		 * When len_to_oe_boundary is tracking an ordered extent, we
+09c3717c3a60e3e Chris Mason       2023-08-01  885  		 * trust the ordered extent code to align things properly, and
+09c3717c3a60e3e Chris Mason       2023-08-01  886  		 * the check above to cap our write to the ordered extent
+09c3717c3a60e3e Chris Mason       2023-08-01  887  		 * boundary is correct.
+09c3717c3a60e3e Chris Mason       2023-08-01  888  		 *
+09c3717c3a60e3e Chris Mason       2023-08-01  889  		 * When len_to_oe_boundary is U32_MAX, the cap above would
+b35397d1d325f43 Josef Bacik       2024-07-23  890  		 * result in a 4095 byte IO for the last folio right before
+b35397d1d325f43 Josef Bacik       2024-07-23  891  		 * we hit the bio limit of UINT_MAX.  bio_add_folio() has all
+09c3717c3a60e3e Chris Mason       2023-08-01  892  		 * the checks required to make sure we don't overflow the bio,
+09c3717c3a60e3e Chris Mason       2023-08-01  893  		 * and we should just ignore len_to_oe_boundary completely
+09c3717c3a60e3e Chris Mason       2023-08-01  894  		 * unless we're using it to track an ordered extent.
+09c3717c3a60e3e Chris Mason       2023-08-01  895  		 *
+09c3717c3a60e3e Chris Mason       2023-08-01  896  		 * It's pretty hard to make a bio sized U32_MAX, but it can
+09c3717c3a60e3e Chris Mason       2023-08-01  897  		 * happen when the page cache is able to feed us contiguous
+b35397d1d325f43 Josef Bacik       2024-07-23  898  		 * folios for large extents.
+09c3717c3a60e3e Chris Mason       2023-08-01  899  		 */
+09c3717c3a60e3e Chris Mason       2023-08-01  900  		if (bio_ctrl->len_to_oe_boundary != U32_MAX)
+24e6c8082208d3e Christoph Hellwig 2023-02-27  901  			bio_ctrl->len_to_oe_boundary -= len;
+24e6c8082208d3e Christoph Hellwig 2023-02-27  902  
+24e6c8082208d3e Christoph Hellwig 2023-02-27  903  		/* Ordered extent boundary: move on to a new bio. */
+24e6c8082208d3e Christoph Hellwig 2023-02-27  904  		if (bio_ctrl->len_to_oe_boundary == 0)
+24e6c8082208d3e Christoph Hellwig 2023-02-27  905  			submit_one_bio(bio_ctrl);
+24e6c8082208d3e Christoph Hellwig 2023-02-27  906  	} while (size);
+e0eefe07f89516f Qu Wenruo         2021-07-26  907  }
+d1310b2e0cd98eb Chris Mason       2008-01-24  908  
 
 --
 0-DAY CI Kernel Test Service
