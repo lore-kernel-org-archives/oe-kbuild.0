@@ -1,159 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2033F4119
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 19:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8773C140E
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 20:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778787447; cv=none; b=cQk76e9jjFKV4N/P6PH1Ijps1NGcIZMWuWwC+Wr1g3ZIKqyhIo3YgyYCiqKCItTt/e11h6TyJGFrnRub2JP6GZU99mAgz2KiTkcoCMZBySc9rBMKT7706l/estqQCzFvWvhvWsPNVuH0hKpEMuwRIR9qSbKyTo8JRi1wPIdwUyc=
+	t=1778791204; cv=none; b=DPEnfMSfXK+2LPyq+OhrGR4I8R5nhPeOtJx3jfabJ3dPYbh0/fhz861j8QG1mur7Ff94SfaEWpkt3kYsdgkBta5GJArEmVTyJQ5oVUhbnXCoDAkrWyLbNKU8KXApZLmHGxT8OQ58cYBG3e54BA0kPLjFS24cqktbtBfr6QkmRFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778787447; c=relaxed/simple;
-	bh=LaAM8mcoR9V8sMpLG/g8KBgKNCS80gM394JFoIXn1Kg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hnNsp49qei/JLYCfrolE5w1T9vH6mzpst1BSaUe1G9SzCER3AdyCLHGLPoGhFXWpFqwQwmqGt6uMYhe72u172yCti4QWwsjayajJfc2TS+iklPOPJz+gKrIZyD8IO08v07kANaEFUzle7+GoBEDT1az6ldlDc1w+9SSknI2F9kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b67a5OHM; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1778791204; c=relaxed/simple;
+	bh=fjYwjGTYDeAv1UN6C7fpBXL1S3E8tSU2QcNdkRTckHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=IjfxRGT6ySyXHUvLhj74BGvqtaN6L5VRGdBkFk61F89ZiGTJ4Z4oiIpE5lJ8dKbW+7d5Xnuh/1+volMfTpl5Rk4s6hKXwSo5DOuWiup6Eh11DguEzCL/vuGYcBJF4C/lnFQ9HRhBCHvAVTTdxhYCfU6AbqzwWqaIdjzzgsNqn+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M8zBBg9U; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b67a5OHM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M8zBBg9U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778787446; x=1810323446;
-  h=date:from:to:cc:subject:message-id;
-  bh=LaAM8mcoR9V8sMpLG/g8KBgKNCS80gM394JFoIXn1Kg=;
-  b=b67a5OHMLhVs6oDy46ozYkFiXKbCWu8cK9tLFjr/s1BAXJOMD6OXfis1
-   Fkh49at1J6u0cBhzoycFf1xRlewJrhRLplh06ZfuRDTUcevAzfT45MmEM
-   8f3Y1kwXtNvCwDiBG+tg3WRXXtgFMe94caSa1Cf//E3FUusKyCKFm2Mfv
-   LyHhaYf3b2Zdpu1NxcplPiZw3Ltba7r43OtbWYA0hsfvPW6ui8PquJm6C
-   RPYjRXp7ye0//Iyx1PUzEAJ+H/6VTfH/OCwTRUUUoL5k3Qe09fpvaO9uF
-   n/kKZzHCEQpbY1BrYE1xI7ke2gcGJpZVScyVTcYvQeQomdf+gpyuPedSR
-   Q==;
-X-CSE-ConnectionGUID: otMNXPvwTNC9PDxUpFI34w==
-X-CSE-MsgGUID: qSqhPcA8R+KovS/yp+bTww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="105198230"
+  t=1778791203; x=1810327203;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fjYwjGTYDeAv1UN6C7fpBXL1S3E8tSU2QcNdkRTckHw=;
+  b=M8zBBg9UMAlk1aVg0SnYxC2u6+O4p/Wy5NeGH/ULH67KfWrw2GEB3P3y
+   UVHUkyZKlaLvyci6n8nfYnyEExWB8RLbq9Q99siYpnoCAeVdCaJhuHxlt
+   /v4IykmOSqW6uwEbcbg7M2MTaa95zFFrSrUJyk61Atvz+l0Qdmf9mp3g3
+   qN7EI5PkMAiL7pujpjDmkMPsm8SQ0EUlItqKuk+78K8Xk2rqxTr0pQRZd
+   t2De4k9fRjTf2/RK5IfZD49iC1Xz11NEssKoMITmaR38WiaxjP2l08yok
+   CZ7kE9vyoNxXVU9G5xVkTUFZw1MdKHFkS8LvHD1jMYZ5SBP1yBvgCWyyB
+   A==;
+X-CSE-ConnectionGUID: cut0AwTgQr+0/Yyp1kMd/Q==
+X-CSE-MsgGUID: GHHeknZ0SpKW01RAbkRq+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="79915597"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="105198230"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 12:37:25 -0700
-X-CSE-ConnectionGUID: j7BJIbqAQYeI5hHHiD2Dhg==
-X-CSE-MsgGUID: JqIrocRET2G0oBQX8UQcuw==
+   d="scan'208";a="79915597"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 13:40:02 -0700
+X-CSE-ConnectionGUID: 9abhayOYQMqNEPswSTzPNQ==
+X-CSE-MsgGUID: k3Xpzvh4Qu6omkytXepazA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="232081524"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 May 2026 12:37:23 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+   d="scan'208";a="262010466"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 14 May 2026 13:40:01 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNbs1-00000000719-2K85;
-	Thu, 14 May 2026 19:37:21 +0000
-Date: Fri, 15 May 2026 03:37:18 +0800
+	id 1wNcqd-000000008rp-13GU;
+	Thu, 14 May 2026 20:39:59 +0000
+Date: Thu, 14 May 2026 22:39:25 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-vfs:vfs.fixes 30/31] fs/afs/symlink.c:130
- afs_do_read_symlink() error: we previously assumed 'vnode->directory' could
- be null (see line 96)
-Message-ID: <202605150307.KNKEp1AH-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: mmc@1
+ (prt,prtt1c-wfm200): $nodename:0: 'mmc@1' does not match '^wifi(@.*)?$'
+Message-ID: <202605142244.tMMZtXVz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: David Howells <dhowells@redhat.com>
-CC: Christian Brauner <brauner@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Janne Grunau <j@jannau.net>
+CC: Johannes Berg <johannes.berg@intel.com>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
+CC: "J=C3=A9r=C3=B4me Pouiller" <jerome.pouiller@silabs.com>
+CC: David Heidelberg <david@ixit.cz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.fixes
-head:   45205929a3a3310e4978f4097d8ed4fca36b2c32
-commit: c0410adf3da6db46f3513411fcf95e63c2f1d1ad [30/31] afs: Fix the locking used by afs_get_link()
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-r073-20260514 (https://download.01.org/0day-ci/archive/20260515/202605150307.KNKEp1AH-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
+commit: c301db25dd69d656b13f3ad2844e6349ac932c7e dt-bindings: wireless: sil=
+abs,wfx: Use wireless-controller.yaml
+date:   1 year, 1 month ago
+:::::: branch date: 11 months ago
+:::::: commit date: 1 year, 1 month ago
+config: arm-randconfig-2051-20260429 (https://download.01.org/0day-ci/archi=
+ve/20260514/202605142244.tMMZtXVz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260514/202605142244.tMMZtXVz-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: c301db25dd69 ("dt-bindings: wireless: silabs,wfx: Use wireless-con=
+troller.yaml")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605150307.KNKEp1AH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605142244.tMMZtXVz-lkp@intel.com/
 
-smatch warnings:
-fs/afs/symlink.c:130 afs_do_read_symlink() error: we previously assumed 'vnode->directory' could be null (see line 96)
-
-vim +130 fs/afs/symlink.c
-
-c0410adf3da6db4 David Howells 2026-05-12   79  
-c0410adf3da6db4 David Howells 2026-05-12   80  /*
-c0410adf3da6db4 David Howells 2026-05-12   81   * Read a symlink in a single download.
-c0410adf3da6db4 David Howells 2026-05-12   82   */
-c0410adf3da6db4 David Howells 2026-05-12   83  static ssize_t afs_do_read_symlink(struct afs_vnode *vnode)
-c0410adf3da6db4 David Howells 2026-05-12   84  {
-c0410adf3da6db4 David Howells 2026-05-12   85  	struct afs_symlink *symlink;
-c0410adf3da6db4 David Howells 2026-05-12   86  	struct iov_iter iter;
-c0410adf3da6db4 David Howells 2026-05-12   87  	ssize_t ret;
-c0410adf3da6db4 David Howells 2026-05-12   88  	loff_t i_size;
-c0410adf3da6db4 David Howells 2026-05-12   89  
-c0410adf3da6db4 David Howells 2026-05-12   90  	i_size = i_size_read(&vnode->netfs.inode);
-c0410adf3da6db4 David Howells 2026-05-12   91  	if (i_size > PAGE_SIZE - 1) {
-c0410adf3da6db4 David Howells 2026-05-12   92  		trace_afs_file_error(vnode, -EFBIG, afs_file_error_dir_big);
-c0410adf3da6db4 David Howells 2026-05-12   93  		return -EFBIG;
-c0410adf3da6db4 David Howells 2026-05-12   94  	}
-c0410adf3da6db4 David Howells 2026-05-12   95  
-c0410adf3da6db4 David Howells 2026-05-12  @96  	if (!vnode->directory) {
-c0410adf3da6db4 David Howells 2026-05-12   97  		size_t cur_size = 0;
-c0410adf3da6db4 David Howells 2026-05-12   98  
-c0410adf3da6db4 David Howells 2026-05-12   99  		ret = netfs_alloc_folioq_buffer(NULL,
-c0410adf3da6db4 David Howells 2026-05-12  100  						&vnode->directory, &cur_size, PAGE_SIZE,
-c0410adf3da6db4 David Howells 2026-05-12  101  						mapping_gfp_mask(vnode->netfs.inode.i_mapping));
-c0410adf3da6db4 David Howells 2026-05-12  102  		vnode->directory_size = PAGE_SIZE - 1;
-c0410adf3da6db4 David Howells 2026-05-12  103  		if (ret < 0)
-c0410adf3da6db4 David Howells 2026-05-12  104  			return ret;
-c0410adf3da6db4 David Howells 2026-05-12  105  	}
-c0410adf3da6db4 David Howells 2026-05-12  106  
-c0410adf3da6db4 David Howells 2026-05-12  107  	iov_iter_folio_queue(&iter, ITER_DEST, vnode->directory, 0, 0, PAGE_SIZE);
-c0410adf3da6db4 David Howells 2026-05-12  108  
-c0410adf3da6db4 David Howells 2026-05-12  109  	/* AFS requires us to perform the read of a symlink as a single unit to
-c0410adf3da6db4 David Howells 2026-05-12  110  	 * avoid issues with the content being changed between reads.
-c0410adf3da6db4 David Howells 2026-05-12  111  	 */
-c0410adf3da6db4 David Howells 2026-05-12  112  	ret = netfs_read_single(&vnode->netfs.inode, NULL, &iter);
-c0410adf3da6db4 David Howells 2026-05-12  113  	if (ret >= 0) {
-c0410adf3da6db4 David Howells 2026-05-12  114  		i_size = ret;
-c0410adf3da6db4 David Howells 2026-05-12  115  		if (i_size > PAGE_SIZE - 1) {
-c0410adf3da6db4 David Howells 2026-05-12  116  			trace_afs_file_error(vnode, -EFBIG, afs_file_error_dir_big);
-c0410adf3da6db4 David Howells 2026-05-12  117  			return -EFBIG;
-c0410adf3da6db4 David Howells 2026-05-12  118  		}
-c0410adf3da6db4 David Howells 2026-05-12  119  		vnode->directory_size = i_size;
-c0410adf3da6db4 David Howells 2026-05-12  120  
-c0410adf3da6db4 David Howells 2026-05-12  121  		/* Copy the symlink. */
-c0410adf3da6db4 David Howells 2026-05-12  122  		symlink = kmalloc_flex(struct afs_symlink, content, i_size + 1,
-c0410adf3da6db4 David Howells 2026-05-12  123  				       GFP_KERNEL);
-c0410adf3da6db4 David Howells 2026-05-12  124  		if (!symlink)
-c0410adf3da6db4 David Howells 2026-05-12  125  			return -ENOMEM;
-c0410adf3da6db4 David Howells 2026-05-12  126  
-c0410adf3da6db4 David Howells 2026-05-12  127  		refcount_set(&symlink->ref, 1);
-c0410adf3da6db4 David Howells 2026-05-12  128  		symlink->content[i_size] = 0;
-c0410adf3da6db4 David Howells 2026-05-12  129  
-c0410adf3da6db4 David Howells 2026-05-12 @130  		const char *s = kmap_local_folio(folioq_folio(vnode->directory, 0), 0);
-c0410adf3da6db4 David Howells 2026-05-12  131  
-c0410adf3da6db4 David Howells 2026-05-12  132  		memcpy(symlink->content, s, i_size);
-c0410adf3da6db4 David Howells 2026-05-12  133  		kunmap_local(s);
-c0410adf3da6db4 David Howells 2026-05-12  134  
-c0410adf3da6db4 David Howells 2026-05-12  135  		afs_replace_symlink(vnode, symlink);
-c0410adf3da6db4 David Howells 2026-05-12  136  	}
-c0410adf3da6db4 David Howells 2026-05-12  137  
-c0410adf3da6db4 David Howells 2026-05-12  138  	if (!fscache_cookie_enabled(netfs_i_cookie(&vnode->netfs))) {
-c0410adf3da6db4 David Howells 2026-05-12  139  		netfs_free_folioq_buffer(vnode->directory);
-c0410adf3da6db4 David Howells 2026-05-12  140  		vnode->directory = NULL;
-c0410adf3da6db4 David Howells 2026-05-12  141  		vnode->directory_size = 0;
-c0410adf3da6db4 David Howells 2026-05-12  142  	}
-c0410adf3da6db4 David Howells 2026-05-12  143  
-c0410adf3da6db4 David Howells 2026-05-12  144  	return ret;
-c0410adf3da6db4 David Howells 2026-05-12  145  }
-c0410adf3da6db4 David Howells 2026-05-12  146  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: switch@0 (nxp,sja1105q): Un=
+evaluated properties are not allowed ('clocks', 'reset-gpios' were unexpect=
+ed)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/nxp,sja1105.yaml
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: mmc@1 (prt,prtt1c-wfm200): =
+$nodename:0: 'mmc@1' does not match '^wifi(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/silabs,wfx.=
+yaml
 
 --
 0-DAY CI Kernel Test Service
