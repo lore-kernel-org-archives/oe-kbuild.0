@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38163A6B78
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 04:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7E236604C
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 May 2026 04:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778731857; cv=none; b=lIzN9biB/vmFK7C5Th2KT3aKXvE98FA5jtU0rhq65K6k2VR5YeKw67r1wmMNH73wiXL1eiW4UhD8pjFIDngULugklIzwFZTw8BjkRyYZH6JxEMOslltkB+s6KQgnCby0DvpudPqyH98GABHWRSlzI+TESDOgOYPejs1RM3a3Wdw=
+	t=1778732379; cv=none; b=FW4xSBIsBWBSD39sx5SXZSl7YQoz1zDh1haYda3VAMGIBVsKu5wVSmRv5weQaZqfasdHoeHtN0mEozyX66xggXtMCBDAMPab2bZfjApQsdbE6pii329GfHKtBd2DhMUmK7LuNmrLk3Shhx6kghLSAktu9b7uCDGREONHYfkoDlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778731857; c=relaxed/simple;
-	bh=GgV5jH+m8HhJFaEnNuM12aZOK70CwlCas27F2sG1qvU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Usn/zfc2nes3EetLQ8OBBkSRZbzf0Ybtw1bwjd40VKoy/MHjBVkWs+cNLlMlpZ9rQpJthPg2Kh3bU8U7i0CXwkXa+dRK+5RUXD22Xlicxi2vHVqa1dR6RT4NXHK5+RrBUykAyIz8UZReW4aq6+r2dhOyItQnW3rPdJDOgjCt+cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HkIJHIca; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1778732379; c=relaxed/simple;
+	bh=c7Wa4vHKtPxJdsQd0g3f4lG1aqnvOHGuE1+fzE4GFyI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=d6RpviUBZPfEwLeD69AaYw+pm4kgORYLoLcqWkSi/YTOt13KRzlwdYuieNc9NvnFAl/umbx6XQ74rguoZpji7/Dudimnsr2wG1rehVUlnZFnzWaxQXDxcjuacRNyHzMBiaAJDos+9LIh55l/QC4pT4tXIjNDoZB1WmWKS2GKjTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezV0abJ8; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HkIJHIca"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezV0abJ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778731855; x=1810267855;
+  t=1778732378; x=1810268378;
   h=date:from:to:cc:subject:message-id;
-  bh=GgV5jH+m8HhJFaEnNuM12aZOK70CwlCas27F2sG1qvU=;
-  b=HkIJHIcaXwXX4ZlMsKnaX/neNpTUHB+z/4C9WUt01vcIVlpHAnUyLvyO
-   2D+MAdrnbTdmPgW9mgrUnuxaymwyCSGFcToQrpHklvcCITDcOhlVKj6B6
-   I3g29ritX5smPOQkA88FevGAOSlod8QvCi2IgOxM5sHeYcv/VqhHRYt0Y
-   vogK14V9ifSfRiCohmfUVS45asCYt+kHB6pqLqgEWDUvsTYjdwCzwO9vX
-   TRWfQ3bSsy+1Y16Xd5505ZrC82LlcGRJU+mX5btO5fLoMODwE79de8pHL
-   AW6AbJA3zSNM8hNWUzWu9uZP2Lkkr2XGHuxYL8d8PSnF3G+4gBSjo4CEC
-   A==;
-X-CSE-ConnectionGUID: R+YCRw2IS9WmU1PACC4yHA==
-X-CSE-MsgGUID: gN3b0gjHTyWUevslaj+TBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79700567"
+  bh=c7Wa4vHKtPxJdsQd0g3f4lG1aqnvOHGuE1+fzE4GFyI=;
+  b=ezV0abJ8L7OHV5ob1n5HI0Ivq/hHN+V9z1BqeS7Vn0hW67QsvnavzQUG
+   ZTdUJlMwXAqxqaSIqpnqSvS1j9lQJG8eIn7ANpCoKz3eb65htXJ2D7ZG/
+   pM/XDwZYYJE5zscnGMQJyHpD+D30xnNyNAC0vJzl3sWB4r2XHk/yOv75Z
+   2PEcb08SqeCSGJ1CWk/eBRJ/q1cAo2ChpbqHUGRz7UbXI221hu26QeH2t
+   tHSedbgkEeRt/VL8tatuF8dM6xHfz0hxWBvu8vXYO6VTUzK8ZKfEyANmk
+   6Qx60POg60mA0IYonqitz7uMBFxdI7umVZfzNtgDuTMT+HngR0gYgHg4j
+   Q==;
+X-CSE-ConnectionGUID: cDPqRcbjQh2JcZaCeOEYsQ==
+X-CSE-MsgGUID: mLmh1Db3RNiw4ZgFMIkFrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="90362828"
 X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="79700567"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 21:10:54 -0700
-X-CSE-ConnectionGUID: jT9nxrLiREiXcRUGBTiXmA==
-X-CSE-MsgGUID: I10jp/jtT+2LoR3BJjUwGw==
+   d="scan'208";a="90362828"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 21:19:37 -0700
+X-CSE-ConnectionGUID: 7XWmh3ZVQ7KFRhVvYsBUkg==
+X-CSE-MsgGUID: bQxS9YGcRzyAFhrprDKVIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="238388898"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 13 May 2026 21:10:54 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="261787594"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 13 May 2026 21:19:36 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNNPP-000000008kX-1t3j;
-	Thu, 14 May 2026 04:10:51 +0000
-Date: Thu, 14 May 2026 06:10:45 +0200
+	id 1wNNXp-000000005oR-1eAb;
+	Thu, 14 May 2026 04:19:33 +0000
+Date: Thu, 14 May 2026 12:18:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [mediatek:v7.1-next/dts64 19/32]
- arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic
- (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply',
- 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply',
- 'vsys-smps-supply', 'vsys-vcore-supp...
-Message-ID: <202605140604.ZyYkSunC-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 467/799]
+ fs/bcachefs/vfs/buffered.c:688 __bch2_writepage() error: we previously
+ assumed 'w->io' could be null (see line 682)
+Message-ID: <202605141234.n7gxOk2O-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,54 +60,172 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Chen-Yu Tsai" <wenst@chromium.org>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v7.1-next/dts64
-head:   7264d37c63139f2ce8c073ead1ed4409fbba12d6
-commit: 9945dd30790e68ccfa0de9560aa120585ebb8260 [19/32] arm64: dts: mediatek: mt8192-asurada: Add MT6315 PMIC supplies
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-2055-20260512 (https://download.01.org/0day-ci/archive/20260514/202605140604.ZyYkSunC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140604.ZyYkSunC-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: 221177ea260493d2314aa23273a9bc7fe93529c5 [467/799] bcachefs: move vfs-specific code to vfs/
+:::::: branch date: 6 months ago
+:::::: commit date: 7 months ago
+config: i386-randconfig-141-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141234.n7gxOk2O-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605140604.ZyYkSunC-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605141234.n7gxOk2O-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pcie@11230000 (mediatek,mt8192-pcie): Unevaluated properties are not allowed ('memory-region' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pcie@0,0: wifi@0,0:reg:0:4: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pcie@0,0: wifi@0,0:reg: [[65536, 0, 0, 0, 1048576], [65536, 0, 1048576, 0, 1048576]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: flash@0 (winbond,w25q64jwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at(25|26)df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
---
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'vs1-ldo1-supply', 'vs1-ldo2-supply', 'vs2-ldo1-supply', 'vs2-ldo2-supply', 'vsys-ldo1-supply', 'vsys-ldo2-supply', 'vsys-smps-supply', 'vsys-vcore-supply', 'vsys-vgpu11-supply', 'vsys-vgpu12-supply', 'vsys-vmodem-supply', 'vsys-vpa-supply', 'vsys-vproc1-supply', 'vsys-vproc2-supply', 'vsys-vpu-supply', 'vsys-vs1-supply', 'vsys-vs2-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pcie@11230000 (mediatek,mt8192-pcie): Unevaluated properties are not allowed ('memory-region' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pcie@0,0: wifi@0,0:reg:0:4: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pcie@0,0: wifi@0,0:reg: [[65536, 0, 0, 0, 1048576], [65536, 0, 1048576, 0, 1048576]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: flash@0 (winbond,w25q64jwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at(25|26)df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
+smatch warnings:
+fs/bcachefs/vfs/buffered.c:688 __bch2_writepage() error: we previously assumed 'w->io' could be null (see line 682)
+
+vim +688 fs/bcachefs/vfs/buffered.c
+
+f95b0056f744f11 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2025-09-06  569  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  570  static int __bch2_writepage(struct folio *folio,
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  571  			    struct writeback_control *wbc,
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  572  			    void *data)
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  573  {
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  574  	struct bch_inode_info *inode = to_bch_ei(folio->mapping->host);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  575  	struct bch_fs *c = inode->v.i_sb->s_fs_info;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  576  	struct bch_writepage_state *w = data;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  577  	struct bch_folio *s;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  578  	unsigned i, offset, f_sectors, nr_replicas_this_write = U32_MAX;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  579  	loff_t i_size = i_size_read(&inode->v);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  580  	int ret;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  581  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  582  	EBUG_ON(!folio_test_uptodate(folio));
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  583  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  584  	/* Is the folio fully inside i_size? */
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  585  	if (folio_end_pos(folio) <= i_size)
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  586  		goto do_io;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  587  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  588  	/* Is the folio fully outside i_size? (truncate in progress) */
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  589  	if (folio_pos(folio) >= i_size) {
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  590  		folio_unlock(folio);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  591  		return 0;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  592  	}
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  593  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  594  	/*
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  595  	 * The folio straddles i_size.  It must be zeroed out on each and every
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  596  	 * writepage invocation because it may be mmapped.  "A file is mapped
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  597  	 * in multiples of the folio size.  For a file that is not a multiple of
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  598  	 * the  folio size, the remaining memory is zeroed when mapped, and
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  599  	 * writes to that region are not written out to the file."
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  600  	 */
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  601  	folio_zero_segment(folio,
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  602  			   i_size - folio_pos(folio),
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  603  			   folio_size(folio));
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  604  do_io:
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  605  	f_sectors = folio_sectors(folio);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  606  	s = bch2_folio(folio);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  607  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  608  	if (f_sectors > w->tmp_sectors) {
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  609  		kfree(w->tmp);
+47cdc7b14417a40 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2024-08-17  610  		w->tmp = kcalloc(f_sectors, sizeof(struct bch_folio_sector), GFP_NOFS|__GFP_NOFAIL);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  611  		w->tmp_sectors = f_sectors;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  612  	}
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  613  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  614  	/*
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  615  	 * Things get really hairy with errors during writeback:
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  616  	 */
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  617  	ret = bch2_get_folio_disk_reservation(c, inode, folio, false);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  618  	BUG_ON(ret);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  619  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  620  	/* Before unlocking the page, get copy of reservations: */
+8d421eab46649e3 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2025-07-14  621  	scoped_guard(spinlock, &s->lock) {
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  622  		memcpy(w->tmp, s->s, sizeof(struct bch_folio_sector) * f_sectors);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  623  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  624  		for (i = 0; i < f_sectors; i++) {
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  625  			if (s->s[i].state < SECTOR_dirty)
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  626  				continue;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  627  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  628  			nr_replicas_this_write =
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  629  				min_t(unsigned, nr_replicas_this_write,
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  630  				      s->s[i].nr_replicas +
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  631  				      s->s[i].replicas_reserved);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  632  		}
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  633  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  634  		for (i = 0; i < f_sectors; i++) {
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  635  			if (s->s[i].state < SECTOR_dirty)
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  636  				continue;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  637  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  638  			s->s[i].nr_replicas = w->opts.compression
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  639  				? 0 : nr_replicas_this_write;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  640  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  641  			s->s[i].replicas_reserved = 0;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  642  			bch2_folio_sector_set(folio, s, i, SECTOR_allocated);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  643  		}
+8d421eab46649e3 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2025-07-14  644  	}
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  645  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  646  	BUG_ON(atomic_read(&s->write_count));
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  647  	atomic_set(&s->write_count, 1);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  648  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  649  	BUG_ON(folio_test_writeback(folio));
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  650  	folio_start_writeback(folio);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  651  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  652  	folio_unlock(folio);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  653  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  654  	offset = 0;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  655  	while (1) {
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  656  		unsigned sectors = 0, dirty_sectors = 0, reserved_sectors = 0;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  657  		u64 sector;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  658  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  659  		while (offset < f_sectors &&
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  660  		       w->tmp[offset].state < SECTOR_dirty)
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  661  			offset++;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  662  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  663  		if (offset == f_sectors)
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  664  			break;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  665  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  666  		while (offset + sectors < f_sectors &&
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  667  		       w->tmp[offset + sectors].state >= SECTOR_dirty) {
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  668  			reserved_sectors += w->tmp[offset + sectors].replicas_reserved;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  669  			dirty_sectors += w->tmp[offset + sectors].state == SECTOR_dirty;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  670  			sectors++;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  671  		}
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  672  		BUG_ON(!sectors);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  673  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  674  		sector = folio_sector(folio) + offset;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  675  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  676  		if (w->io &&
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  677  		    (w->io->op.res.nr_replicas != nr_replicas_this_write ||
+2a4e7497604b20b fs/bcachefs/fs-io-buffered.c Brian Foster    2023-11-03  678  		     bch_io_full(w->io, sectors << 9) ||
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  679  		     bio_end_sector(&w->io->op.wbio.bio) != sector))
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  680  			bch2_writepage_do_io(w);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  681  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03 @682  		if (!w->io)
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  683  			bch2_writepage_io_alloc(c, wbc, w, inode, sector,
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  684  						nr_replicas_this_write);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  685  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  686  		atomic_inc(&s->write_count);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  687  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03 @688  		BUG_ON(inode != w->io->inode);
+8ff282097a7d6cb fs/bcachefs/fs-io-buffered.c Youling Tang    2025-06-05  689  		bio_add_folio_nofail(&w->io->op.wbio.bio, folio,
+8ff282097a7d6cb fs/bcachefs/fs-io-buffered.c Youling Tang    2025-06-05  690  				     sectors << 9, offset << 9);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  691  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  692  		w->io->op.res.sectors += reserved_sectors;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  693  		w->io->op.i_sectors_delta -= dirty_sectors;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  694  		w->io->op.new_i_size = i_size;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  695  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  696  		offset += sectors;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  697  	}
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  698  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  699  	if (atomic_dec_and_test(&s->write_count))
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  700  		folio_end_writeback(folio);
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  701  
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  702  	return 0;
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  703  }
+dbbfca9f41e8690 fs/bcachefs/fs-io-buffered.c Kent Overstreet 2023-08-03  704  
+
+:::::: The code at line 688 was first introduced by commit
+:::::: dbbfca9f41e86903501dded3fd494e1a56f3c310 bcachefs: Split up fs-io.[ch]
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 --
 0-DAY CI Kernel Test Service
