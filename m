@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF06D30C637
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 May 2026 02:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A0E3C4B64
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 May 2026 02:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778810828; cv=none; b=cITnxWqGBl/M8wJMDDquTwFC73sKXfxfe5rVHOrGHHxxf3bsebalDiFFWpLG+C4TsDN1natuZvAEKlgvvFCjl6WggegCDtzHRpVRCkik5SWF8p5zRnszaG1lII+0gbO0E//ZQrkMqilBwKBcsZlMtACWH1rMuXtV2k2qnt1x9cU=
+	t=1778813585; cv=none; b=gGcdowVbMaBlxIXtnYbxFUE/Ugx1OC/R+Ou0kkUIKqIumqe1pDe+b9j5u7x5lhIQrQSkKRHolJFDrAO6RjjhI0v1joOzP/EYgco6sHLi4u4V97txXXCcGArSec07ahoh/B6/gCtBF1D03Cxagl0YJnRP64JehCp7ppqDCMR5/nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778810828; c=relaxed/simple;
-	bh=Qpwyb/mkNRBmi7fxqV2KCuqvQLx7b67jrQpwB9CS3KQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rKiB9jx7f7L4YQgikBqILlmqJ7Y3vNGe4DuFSi/It1bwNW+YYg5hLf1or6M1iX6jcxVdn5DtdqOiC06n7hDo6es+Kn7xDrsqBIXdtQQ4+u/C67McVmvyrgIFNwy80zVS60QAuMzkMrsNSgYmFNaasJLpbMXlBmWJn1lNjFMsCcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E5buDX87; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1778813585; c=relaxed/simple;
+	bh=hOGAXRt9fWkORDTj4KCogMptICJKfIjxTeoRyIESGyY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q4er5ozQ/uxlzGpkjz4KisSfcC475BPYTIhBS3n1G6tdT74+DFmBFwSCh+sliqA8O1j6QgjXu8QBGyvZ3tXKJJKEKaZx7Y8EsbbS1ZivdAnc7OMHTo52LLMZa/lY76FogSz07Dv7b7JVsFUZFF1dM44HOQ2e5aK3lY9/bEfwJ2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=imVF7m/9; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E5buDX87"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imVF7m/9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778810827; x=1810346827;
+  t=1778813580; x=1810349580;
   h=date:from:to:cc:subject:message-id;
-  bh=Qpwyb/mkNRBmi7fxqV2KCuqvQLx7b67jrQpwB9CS3KQ=;
-  b=E5buDX87q44KSzcho4FAATZv1FvsISXb0uwcl6ObfScC6EiXaGBGykED
-   t4s57SV1SezwYHFgEGPa9IVdYJDSbsZTrgjUxADW+bhA8UYdP3LwaaPdM
-   QrzfUtsyM8qxR7DaNUmsAZ/NOgmGtsjb3Q0B683ZaGVjTMygftPZEnd0t
-   u8C6xjmdwnn+2T4L87/ULiV1+9heXxhtjtiH1cqhh9bRSMWq8miTs6We/
-   8MNIu+pdEotXI6Bx9+JAT7KcmgZlHIIzxpvY/a6shXu0nGtFIRJEOBzwU
-   CnvYe+GWfuvQjGOTNNvWrf+aikHkCXff8rimn3QEPVwCsF6cqOKiwHdDI
-   g==;
-X-CSE-ConnectionGUID: D2MNKqwVR0qqeTg22LSBJg==
-X-CSE-MsgGUID: 3553r4vtTsC9QbWEeS4mZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="79804663"
+  bh=hOGAXRt9fWkORDTj4KCogMptICJKfIjxTeoRyIESGyY=;
+  b=imVF7m/9Ultj6Id4q6P97XlNPmLWNQxq3ZNq9DnCoY3bx66TrFkPjpmw
+   LVT+SZkIiP+WGYMrTSlCw3Dwun72Jy2cTUf5GbjoPbxIyc9KuIQJyuUK5
+   CScy0N30uZs5Cn1soahQZkSplYKPqsys+FYkXwLYmnqbg6752DGhlwix2
+   TdwRVvJroTgPrtZbxdpbooP3xF0euEXGlG4CClPVa834ATHAeepxx0drn
+   A8saaAL1B3D6Is9qZ8XYapVRj3QyRFpIwcKs8gusF+MtLVfyPXqbVo54K
+   /z+KZeHpEbazSQs3S1wWM+h+Q5SEeq0qFMvOULFezEtDwEpxBLxd3ZH5Z
+   A==;
+X-CSE-ConnectionGUID: idmDa/OATPictkFhBOJKnw==
+X-CSE-MsgGUID: vtKXgslyTja19qRTsnDNww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="105224352"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="79804663"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 19:07:07 -0700
-X-CSE-ConnectionGUID: ECfKbHs8SIuHzAZcIRibjA==
-X-CSE-MsgGUID: rFLu5b3eRPOHZeo/7vLZ2w==
+   d="scan'208";a="105224352"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 19:52:58 -0700
+X-CSE-ConnectionGUID: X2a19sDFR6mfTQyJhFzdXQ==
+X-CSE-MsgGUID: SfyNcSc2RtyoAZGwLclcrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="242555057"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 14 May 2026 19:07:05 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="238670897"
+Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 14 May 2026 19:52:57 -0700
+Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNhx9-000000008vN-0BsK;
-	Fri, 15 May 2026 02:07:03 +0000
-Date: Fri, 15 May 2026 04:06:21 +0200
+	id 1wNifW-000000000f8-2Qoj;
+	Fri, 15 May 2026 02:52:54 +0000
+Date: Fri, 15 May 2026 10:41:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: tests/builtin-test.c:988:13: error: invalid storage class
- for function 'print_tests_summary'
-Message-ID: <202605150331.LJ7JoCiL-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c:808
+ usb_gpib_read() warn: was && intended here instead of ||?
+Message-ID: <202605151019.PM0IpiLG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,194 +59,197 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ian Rogers <irogers@google.com>
-CC: 0day robot <lkp@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Dave Penkler <dpenkler@gmail.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/perf-jevents-py-Make-generated-C-code-more-kernel-style/20260515-050303
-head:   1486b474d48345ed0cca3daad8c9966bc7c84764
-commit: a393f28de6e4d0abf028c1dbe06c72292c4c9156 perf test: Add summary reporting
-date:   5 hours ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260515/202605150331.LJ7JoCiL-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150331.LJ7JoCiL-lkp@intel.com/reproduce)
+Hi Dave,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   66182ca873a4e87b3496eca79d57f86b76d7f52d
+commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
+date:   6 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260515/202605151019.PM0IpiLG-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e6ab504633e4 ("staging: gpib: Destage gpib")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605150331.LJ7JoCiL-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605151019.PM0IpiLG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c:808 usb_gpib_read() warn: was && intended here instead of ||?
 
-   Makefile.config:577: No elfutils/debuginfod.h found, no debuginfo server support, please install libdebuginfod-dev/elfutils-debuginfod-client-devel or equivalent
-   Makefile.config:964: No libllvm 13+ found, slower source file resolution, please install llvm-devel/llvm-dev
-   Makefile.config:1160: Rust is not found. Test workloads with rust are disabled.
-     PERF_VERSION = 7.1.rc2.ga393f28de6e4
-   tests/builtin-test.c: In function 'finish_tests_parallel':
-   tests/builtin-test.c:748:13: error: invalid storage class for function 'drain_child_process_err'
-     748 | static void drain_child_process_err(struct child_test *child)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   tests/builtin-test.c:759:12: error: invalid storage class for function 'finish_tests_parallel'
-     759 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   tests/builtin-test.c:759:12: error: declaration of 'finish_tests_parallel' shadows a global declaration [-Werror=shadow]
-   tests/builtin-test.c:742:12: note: shadowed declaration is here
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   tests/builtin-test.c: In function 'finish_tests_parallel':
-   tests/builtin-test.c:759:54: error: declaration of 'child_tests' shadows a parameter [-Werror=shadow]
-     759 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   tests/builtin-test.c:742:54: note: shadowed declaration is here
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   tests/builtin-test.c:759:74: error: declaration of 'num_tests' shadows a parameter [-Werror=shadow]
-     759 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                   ~~~~~~~^~~~~~~~~
-   tests/builtin-test.c:742:74: note: shadowed declaration is here
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                   ~~~~~~~^~~~~~~~~
-   tests/builtin-test.c:759:89: error: declaration of 'width' shadows a parameter [-Werror=shadow]
-     759 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                                     ~~~~^~~~~
-   tests/builtin-test.c:742:89: note: shadowed declaration is here
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                                     ~~~~^~~~~
-   tests/builtin-test.c:761:16: error: declaration of 'next_to_print' shadows a previous local [-Werror=shadow]
-     761 |         size_t next_to_print = 0;
-         |                ^~~~~~~~~~~~~
-   tests/builtin-test.c:744:16: note: shadowed declaration is here
-     744 |         size_t next_to_print = 0;
-         |                ^~~~~~~~~~~~~
-   tests/builtin-test.c:762:24: error: declaration of 'pfds' shadows a previous local [-Werror=shadow]
-     762 |         struct pollfd *pfds;
-         |                        ^~~~
-   tests/builtin-test.c:745:24: note: shadowed declaration is here
-     745 |         struct pollfd *pfds;
-         |                        ^~~~
-   tests/builtin-test.c:763:17: error: declaration of 'pfd_indices' shadows a previous local [-Werror=shadow]
-     763 |         size_t *pfd_indices;
-         |                 ^~~~~~~~~~~
-   tests/builtin-test.c:746:17: note: shadowed declaration is here
-     746 |         size_t *pfd_indices;
-         |                 ^~~~~~~~~~~
-   tests/builtin-test.c:764:16: error: declaration of 'num_pfds' shadows a previous local [-Werror=shadow]
-     764 |         size_t num_pfds = 0;
-         |                ^~~~~~~~
-   tests/builtin-test.c:747:16: note: shadowed declaration is here
-     747 |         size_t num_pfds = 0;
-         |                ^~~~~~~~
-   tests/builtin-test.c: In function 'finish_tests_parallel':
-   tests/builtin-test.c:925:12: error: invalid storage class for function 'start_test'
-     925 | static int start_test(struct test_suite *test, int curr_suite, int curr_test_case,
-         |            ^~~~~~~~~~
-   tests/builtin-test.c: In function 'start_test':
-   tests/builtin-test.c:926:48: error: declaration of 'width' shadows a parameter [-Werror=shadow]
-     926 |                 struct child_test **child, int width, int pass)
-         |                                            ~~~~^~~~~
-   tests/builtin-test.c:742:89: note: shadowed declaration is here
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                                     ~~~~^~~~~
-   tests/builtin-test.c: In function 'finish_tests_parallel':
-   tests/builtin-test.c:979:15: error: 'num_tests' redeclared as different kind of symbol
-     979 | static size_t num_tests;
-         |               ^~~~~~~~~
-   tests/builtin-test.c:742:74: note: previous definition of 'num_tests' with type 'size_t' {aka 'long unsigned int'}
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                   ~~~~~~~^~~~~~~~~
-   tests/builtin-test.c:980:28: error: 'child_tests' redeclared as different kind of symbol
-     980 | static struct child_test **child_tests;
-         |                            ^~~~~~~~~~~
-   tests/builtin-test.c:742:54: note: previous definition of 'child_tests' with type 'struct child_test **'
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   tests/builtin-test.c:983:13: error: invalid storage class for function 'cmd_test_sig_handler'
-     983 | static void cmd_test_sig_handler(int sig)
-         |             ^~~~~~~~~~~~~~~~~~~~
->> tests/builtin-test.c:988:13: error: invalid storage class for function 'print_tests_summary'
-     988 | static void print_tests_summary(void)
-         |             ^~~~~~~~~~~~~~~~~~~
-   tests/builtin-test.c:1004:12: error: invalid storage class for function '__cmd_test'
-    1004 | static int __cmd_test(struct test_suite **suites, int argc, const char *argv[],
-         |            ^~~~~~~~~~
-   tests/builtin-test.c: In function '__cmd_test':
-   tests/builtin-test.c:1007:20: error: declaration of 'width' shadows a parameter [-Werror=shadow]
-    1007 |         static int width = 0;
-         |                    ^~~~~
-   tests/builtin-test.c:742:89: note: shadowed declaration is here
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                                     ~~~~^~~~~
-   tests/builtin-test.c: In function 'finish_tests_parallel':
-   tests/builtin-test.c:1123:12: error: invalid storage class for function 'perf_test__list'
-    1123 | static int perf_test__list(FILE *fp, struct test_suite **suites, int argc, const char **argv)
-         |            ^~~~~~~~~~~~~~~
-   tests/builtin-test.c:1146:12: error: invalid storage class for function 'workloads__fprintf_list'
-    1146 | static int workloads__fprintf_list(FILE *fp)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
-   tests/builtin-test.c:1157:12: error: invalid storage class for function 'run_workload'
-    1157 | static int run_workload(const char *work, int argc, const char **argv)
-         |            ^~~~~~~~~~~~
-   tests/builtin-test.c:1170:12: error: invalid storage class for function 'perf_test__config'
-    1170 | static int perf_test__config(const char *var, const char *value,
-         |            ^~~~~~~~~~~~~~~~~
-   tests/builtin-test.c:1179:28: error: invalid storage class for function 'build_suites'
-    1179 | static struct test_suite **build_suites(void)
-         |                            ^~~~~~~~~~~~
-   tests/builtin-test.c:1232:5: error: declaration of 'cmd_test' shadows a global declaration [-Werror=shadow]
-    1232 | int cmd_test(int argc, const char **argv)
-         |     ^~~~~~~~
-   In file included from tests/builtin-test.c:22:
-   tools/perf/builtin.h:45:5: note: shadowed declaration is here
-      45 | int cmd_test(int argc, const char **argv);
-         |     ^~~~~~~~
-   tests/builtin-test.c:1315:1: error: expected declaration or statement at end of input
-    1315 | }
-         | ^
-   tests/builtin-test.c:747:16: error: unused variable 'num_pfds' [-Werror=unused-variable]
-     747 |         size_t num_pfds = 0;
-         |                ^~~~~~~~
-   tests/builtin-test.c:746:17: error: unused variable 'pfd_indices' [-Werror=unused-variable]
-     746 |         size_t *pfd_indices;
-         |                 ^~~~~~~~~~~
-   tests/builtin-test.c:745:24: error: unused variable 'pfds' [-Werror=unused-variable]
-     745 |         struct pollfd *pfds;
-         |                        ^~~~
-   tests/builtin-test.c:744:16: error: unused variable 'next_to_print' [-Werror=unused-variable]
-     744 |         size_t next_to_print = 0;
-         |                ^~~~~~~~~~~~~
-   tests/builtin-test.c:1315:1: error: no return statement in function returning non-void [-Werror=return-type]
-    1315 | }
-         | ^
-   tests/builtin-test.c:742:54: error: unused parameter 'child_tests' [-Werror=unused-parameter]
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   tests/builtin-test.c:742:74: error: unused parameter 'num_tests' [-Werror=unused-parameter]
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                   ~~~~~~~^~~~~~~~~
-   tests/builtin-test.c:742:89: error: unused parameter 'width' [-Werror=unused-parameter]
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |                                                                                     ~~~~^~~~~
-   tests/builtin-test.c: At top level:
-   tests/builtin-test.c:1232:5: error: 'cmd_test' defined but not used [-Werror=unused-function]
-    1232 | int cmd_test(int argc, const char **argv)
-         |     ^~~~~~~~
-   tests/builtin-test.c:742:12: error: 'finish_tests_parallel' defined but not used [-Werror=unused-function]
-     742 | static int finish_tests_parallel(struct child_test **child_tests, size_t num_tests, int width)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   make[4]: *** [tools/build/Makefile.build:96: tests/builtin-test.o] Error 1
-   make[4]: *** Waiting for unfinished jobs....
-   make[3]: *** [tools/build/Makefile.build:158: tests] Error 2
-   make[2]: *** [Makefile.perf:785: perf-test-in.o] Error 2
-   make[2]: *** Waiting for unfinished jobs....
-   make[1]: *** [Makefile.perf:289: sub-make] Error 2
+vim +808 drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
+
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  744  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  745  	struct char_buf b = {NULL, 0};
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  746  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  747  	int retval;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  748  	char c, nc;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  749  	int ic;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  750  	struct timespec64 before, after;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  751  	int read_count = MAX_READ_EXCESS;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  752  	struct usb_gpib_priv *pd = (struct usb_gpib_priv *)board->private_data;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  753  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  754  	DIA_LOG(1, "enter %p -> %zu\n", board, length);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  755  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  756  	*bytes_read = 0;      /* by default, things go wrong */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  757  	*end = 0;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  758  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  759  	set_timeout(board);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  760  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  761  	/* single byte read has a special handling */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  762  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  763  	if (length == 1) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  764  		char inbuf[2] = {0, 0};
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  765  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  766  		/* read a single character */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  767  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  768  		ktime_get_real_ts64 (&before);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  769  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  770  		retval = write_loop(GPIB_DEV, USB_GPIB_READ_1, strlen(USB_GPIB_READ_1));
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  771  		if (retval < 0)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  772  			return retval;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  773  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  774  		retval = skel_do_read(GPIB_DEV, inbuf, 1);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  775  		retval += skel_do_read(GPIB_DEV, inbuf + 1, 1);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  776  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  777  		ktime_get_real_ts64 (&after);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  778  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  779  		DIA_LOG(1, "single read: %x %x %x in %d\n", retval,
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  780  			inbuf[0], inbuf[1],
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  781  			usec_diff(&after, &before));
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  782  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  783  		/* good char / last char? */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  784  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  785  		if (retval == 2 && inbuf[1] == ACK) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  786  			buffer[0] = inbuf[0];
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  787  			*bytes_read = 1;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  788  			return 0;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  789  		}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  790  		if (retval < 2)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  791  			return -EIO;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  792  		else
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  793  			return -ETIME;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  794  	}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  795  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  796  	/* allocate buffer for multibyte read */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  797  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  798  	b.inbuf = kmalloc(INBUF_SIZE, GFP_KERNEL);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  799  	if (!b.inbuf)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  800  		return -ENOMEM;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  801  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  802  	/* send read command and check <DLE><STX> sequence */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  803  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  804  	retval = write_loop(GPIB_DEV, USB_GPIB_READ, strlen(USB_GPIB_READ));
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  805  	if (retval < 0)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  806  		goto read_return;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  807  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18 @808  	if (one_char(board, &b) != DLE || one_char(board, &b) != STX) {
+060fb82d690ecb drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2025-02-14  809  		dev_err(board->gpib_dev, "wrong <DLE><STX> sequence\n");
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  810  		retval = -EIO;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  811  		goto read_return;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  812  	}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  813  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  814  	/* get data flow */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  815  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  816  	while (1) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  817  		ic = one_char(board, &b);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  818  		if (ic == -EIO) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  819  			retval = -EIO;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  820  			goto read_return;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  821  		}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  822  		c = ic;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  823  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  824  		if (c == DLE)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  825  			nc = one_char(board, &b);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  826  		if (c != DLE || nc == DLE) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  827  			/* data byte - store into buffer */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  828  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  829  			if (*bytes_read == length)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  830  				break; /* data overflow */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  831  			if (c == DLE)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  832  				c = nc;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  833  			buffer[(*bytes_read)++] = c;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  834  			if (c == pd->eos) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  835  				*end = 1;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  836  				break;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  837  			}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  838  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  839  		} else {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  840  			/* we are in the closing <DLE><ETX> sequence */
+1d8c2d4b89b40f drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-12-04  841  			c = nc;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  842  			if (c == ETX) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  843  				c = one_char(board, &b);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  844  				if (c == ACK) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  845  					*end = 1;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  846  					retval = 0;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  847  					goto read_return;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  848  				} else {
+060fb82d690ecb drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2025-02-14  849  					dev_err(board->gpib_dev, "wrong end of message %x", c);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  850  					retval = -ETIME;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  851  					goto read_return;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  852  				}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  853  			} else {
+060fb82d690ecb drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2025-02-14  854  				dev_err(board->gpib_dev, "lone <DLE> in stream");
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  855  				retval = -EIO;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  856  				goto read_return;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  857  			}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  858  		}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  859  	}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  860  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  861  	/* we had a data overflow - flush excess data */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  862  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  863  	while (read_count--) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  864  		if (one_char(board, &b) != DLE)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  865  			continue;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  866  		c = one_char(board, &b);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  867  		if (c == DLE)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  868  			continue;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  869  		if (c == ETX) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  870  			c = one_char(board, &b);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  871  			if (c == ACK) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  872  				if (MAX_READ_EXCESS - read_count > 1)
+060fb82d690ecb drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2025-02-14  873  					dev_dbg(board->gpib_dev, "small buffer - maybe some data lost");
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  874  				retval = 0;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  875  				goto read_return;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  876  			}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  877  			break;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  878  		}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  879  	}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  880  
+060fb82d690ecb drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2025-02-14  881  	dev_err(board->gpib_dev, "no input end - board in odd state\n");
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  882  	retval = -EIO;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  883  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  884  read_return:
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  885  	kfree(b.inbuf);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  886  
+060fb82d690ecb drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2025-02-14  887  	DIA_LOG(1, "done with byte/status: %d %x %d\n",	(int)*bytes_read, retval, *end);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  888  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  889  	if (retval == 0 || retval == -ETIME) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  890  		if (send_command(board, USB_GPIB_UNTALK, sizeof(USB_GPIB_UNTALK)) == 0x06)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  891  			return retval;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  892  		return	-EIO;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  893  	}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  894  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  895  	return retval;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  896  }
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  897  
+
+:::::: The code at line 808 was first introduced by commit
+:::::: fce79512a96afacbe297ba3c5c2f7ed34944540d staging: gpib: Add LPVO DIY USB GPIB driver
+
+:::::: TO: Dave Penkler <dpenkler@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
