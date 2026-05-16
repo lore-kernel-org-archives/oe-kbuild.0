@@ -1,116 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811057E0E8
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 May 2026 01:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6191A683B
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 May 2026 02:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778894783; cv=none; b=usFpsY47yRmU9I/MMbuD1SGBxxHj41IiH0VombpzyJoxaYlvOrAiwX3oekJTTnXgslVPpNPX0bGtwUpjmmID/HnhtI3z7GlsrnQspSN7jG0sfGloV/nz1sGrK+sz7M0Bh2UcjwjwhkI2nm60IT9zb1eXvoaDSEg8cWmeDDQec7I=
+	t=1778897243; cv=none; b=kI+bN+sIjX2pajMV1+IAOhyzNRM/WLU6UZEsvKsd1tmj7y0u2yzRPRgYZ4jK6iI1qGGWY6+1eK5x/lePkZnAVg132cCeOH+W3GcZXw2lFsgy9jwmnIUpukKEXodXdhj2YcOuwfWvkaNguRk8Ri5EFlFhM7u0SEbYGkrUBObFLFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778894783; c=relaxed/simple;
-	bh=MWAIEcuKrTBbb6BYzlLelCYQqen2k+CQzxrZPjhEEHY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jrnw/dfSC53o29MsUrfNKi9ZVpz8tq5LA7CfBBLU9gUhqj14WPVEsPoS6UN++1AOvFlwDy18FU+iCaIRoB4be6ybYr07uqn2cZDYkfYBxYONDrkK+ezlL6cio5UEgz1a7VIMUdl7vq394ldfcq0MGY+ykDh22JmqPZxgvPjK2Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E43B9SRH; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1778897243; c=relaxed/simple;
+	bh=+TzHpLP3sD4y8bu6AYbP79383lWz7twEynkx1ha49g0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Yg+4pdWw9cIxCJrLLxNdzstLY5QQpIsCY+Kim2F6eBoEPC7KwGBZCH3dcQ5McxYGd5U+T0BoD4q7wC7mDSIH1j5iJhTiX6jcPK1iWWJAzTn7gbbMXTs6Tpdx68KFD3Okd3ISpxSpsH6cML3q7DMozPl5aPIcFxuK2L6Rhy+tWgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+U49a90; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E43B9SRH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+U49a90"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778894781; x=1810430781;
-  h=date:from:to:cc:subject:message-id;
-  bh=MWAIEcuKrTBbb6BYzlLelCYQqen2k+CQzxrZPjhEEHY=;
-  b=E43B9SRHYrv7Y4BEz52svWN3/zl6BNUFjcE6RCEX+nIenPadKcI6MLzs
-   tqrycKp4bvaQO5hJKvpOa8q+GoIed/5aiaHtzk+pbnTJHeuGZMF904dha
-   zmCNmj7WpgVN76oWqbC4mwbUQeRcOO3meCTX8r5hpIdMHpKUwworWuRek
-   Wyb2Z2dFy/RNvdpJgqkXbdEzGoJhAiCv4b630smWSDOAGqCF5/tgzi2A8
-   x8jCQ/t/S+1zkGotuYpg8o6G+PsdE6Y5oulKZLZdTlg2UK+ptT3WCA3UT
-   3IE4NrBYCrEqnRi9BLdSR99EBXFeIbv2Yhxoed9Q+eNatnW8BdlgShOMu
-   A==;
-X-CSE-ConnectionGUID: b2uVcR3qSGCumwK6PDnz5A==
-X-CSE-MsgGUID: vvdJvOAYTqyvUPZALIjd/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="90162494"
+  t=1778897241; x=1810433241;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+TzHpLP3sD4y8bu6AYbP79383lWz7twEynkx1ha49g0=;
+  b=Q+U49a90MnnqgPnMbBJdHqxNfcN/MbfVOzdSwKu0hzr/w1MgXPtDQAK7
+   QpCC8/OymJxJEvFShifVGgHkrqHHer2oqxBiYuSm4O61MJ0+HbBBAdEAY
+   8ZdwWGtLDpYpB4S2Eo9TNZFg+hkRmXu9PbYn9y5uhzKDyxa16/4+sXq0W
+   slBJmgUc3a/0QPgG+NrYVA5s4vt0EBd3lS/D6esRMqHNWzqGaFpPx+c9m
+   b5hRM9FInSqIU81qwXFX5He8sjNkqQh9QCM6WNyXomDLqDXWYTczf2P2V
+   p/P/ECJ5PpQEs1VL1IRf4ggaKihOgvCK36dZDTd/AJpoVddKc0IVHPjAZ
+   w==;
+X-CSE-ConnectionGUID: ZAU8AkzUQmaw9DmqD4Z+TQ==
+X-CSE-MsgGUID: +brmeWgyTr6hWbNflwHZTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="67381299"
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="90162494"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 18:26:21 -0700
-X-CSE-ConnectionGUID: MxEE4A6WT+ivsIdMKvjnIA==
-X-CSE-MsgGUID: TJc1jSXMQIKWjSFhY19qGQ==
+   d="scan'208";a="67381299"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 19:07:21 -0700
+X-CSE-ConnectionGUID: Qy3KTJHTTf+eqtaySl2/2w==
+X-CSE-MsgGUID: SmIV4QAxTK23VMrof6x1gA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="237870904"
+   d="scan'208";a="234411697"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 15 May 2026 18:26:20 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 15 May 2026 19:07:20 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wO3nF-000000009A9-3klo;
-	Sat, 16 May 2026 01:26:17 +0000
-Date: Sat, 16 May 2026 03:25:50 +0200
+	id 1wO4Qw-000000009AX-10bb;
+	Sat, 16 May 2026 02:07:18 +0000
+Date: Sat, 16 May 2026 04:06:59 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: ./include/linux/audit.h:27:25: warning: conversion from
- 'long long unsigned int' to 'long unsigned int' changes value from
- '18446744073709551615' to '4294967295'
-Message-ID: <202605160303.Q9usUHNH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH 3/3] arm64: dts: allwinner: a523: add gpadc node
+Message-ID: <202605160438.P6xvpbyD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ricardo Robaina <rrobaina@redhat.com>
-CC: 0day robot <lkp@intel.com>
+In-Reply-To: <20260510-sunxi-a523-gpadc-v1-3-4f6b0f4000fb@mmpsystems.pl>
+References: <20260510-sunxi-a523-gpadc-v1-3-4f6b0f4000fb@mmpsystems.pl>
+TO: Michal Piekos <michal.piekos@mmpsystems.pl>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: David Lechner <dlechner@baylibre.com>
+TO: "Nuno Sá" <nuno.sa@analog.com>
+TO: Andy Shevchenko <andy@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: "Chen-Yu Tsai" <wens@kernel.org>
+TO: Jernej Skrabec <jernej.skrabec@gmail.com>
+TO: Samuel Holland <samuel@sholland.org>
+TO: Maksim Kiselev <bigunclemax@gmail.com>
+CC: linux-iio@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-sunxi@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: Michal Piekos <michal.piekos@mmpsystems.pl>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Ricardo-Robaina/audit-fix-removal-of-dangling-executable-rules/20260515-153829
-head:   a7dc8993eb7ae5c34bd28dcd06833e7a60ce1ba7
-commit: a7dc8993eb7ae5c34bd28dcd06833e7a60ce1ba7 audit: fix recursive locking deadlock in audit_dupe_exe()
-date:   18 hours ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260516/202605160303.Q9usUHNH-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160303.Q9usUHNH-lkp@intel.com/reproduce)
+Hi Michal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8ab992f815d6736b5c7a6f5fd7bfe7bc106bb3dc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Piekos/dt-bindings-iio-adc-Add-GPADC-for-Allwinner-A523/20260515-200558
+base:   8ab992f815d6736b5c7a6f5fd7bfe7bc106bb3dc
+patch link:    https://lore.kernel.org/r/20260510-sunxi-a523-gpadc-v1-3-4f6b0f4000fb%40mmpsystems.pl
+patch subject: [PATCH 3/3] arm64: dts: allwinner: a523: add gpadc node
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: arc-randconfig-2052-20260515 (https://download.01.org/0day-ci/archive/20260516/202605160438.P6xvpbyD-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160438.P6xvpbyD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605160303.Q9usUHNH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605160438.P6xvpbyD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from kernel/audit_watch.c:11:
-   kernel/audit_watch.c: In function 'audit_watch_handle_event':
->> ./include/linux/audit.h:27:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
-      27 | #define AUDIT_INO_UNSET ((u64)-1)
-         |                         ^~~~~~~~~
-   kernel/audit_watch.c:491:68: note: in expansion of macro 'AUDIT_INO_UNSET'
-     491 |                 audit_update_watch(parent, dname, AUDIT_DEV_UNSET, AUDIT_INO_UNSET, 1,
-         |                                                                    ^~~~~~~~~~~~~~~
-
-
-vim +27 ./include/linux/audit.h
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  17  
-360160f75592bd Ricardo Robaina    2026-03-09  18  #define AUDIT_STATUS_ALL (AUDIT_STATUS_ENABLED | \
-360160f75592bd Ricardo Robaina    2026-03-09  19  			  AUDIT_STATUS_FAILURE | \
-360160f75592bd Ricardo Robaina    2026-03-09  20  			  AUDIT_STATUS_PID | \
-360160f75592bd Ricardo Robaina    2026-03-09  21  			  AUDIT_STATUS_RATE_LIMIT | \
-360160f75592bd Ricardo Robaina    2026-03-09  22  			  AUDIT_STATUS_BACKLOG_LIMIT | \
-360160f75592bd Ricardo Robaina    2026-03-09  23  			  AUDIT_STATUS_BACKLOG_WAIT_TIME | \
-360160f75592bd Ricardo Robaina    2026-03-09  24  			  AUDIT_STATUS_LOST | \
-360160f75592bd Ricardo Robaina    2026-03-09  25  			  AUDIT_STATUS_BACKLOG_WAIT_TIME_ACTUAL)
-360160f75592bd Ricardo Robaina    2026-03-09  26  
-125dfa218134df Jeff Layton        2026-03-04 @27  #define AUDIT_INO_UNSET ((u64)-1)
-84cb777e67814f Richard Guy Briggs 2015-08-05  28  #define AUDIT_DEV_UNSET ((dev_t)-1)
-84cb777e67814f Richard Guy Briggs 2015-08-05  29  
+dtcheck warnings: (new ones prefixed by >>)
+   Documentation/devicetree/bindings/remoteproc/qcom,sc7180-mss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+   Documentation/devicetree/bindings/remoteproc/qcom,sc7280-mss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml: allOf:0:then:properties:clocks: {'minItems': 2, 'maxItems': 2, 'items': [{'description': 'Bus clock'}, {'description': 'Module clock'}]} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml: allOf:0:then:properties:clocks: 'oneOf' conditional failed, one must be fixed:
+   	False schema does not allow 2
+   	[{'description': 'Bus clock'}, {'description': 'Module clock'}] is too long
+   	[{'description': 'Bus clock'}, {'description': 'Module clock'}] is too short
+   	1 was expected
+   	hint: "minItems" is only needed if less than the "items" list length
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml: allOf:0:then:properties:clock-names: {'minItems': 2, 'maxItems': 2, 'items': [{'const': 'bus'}, {'const': 'mod'}]} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml: allOf:0:then:properties:clock-names: 'oneOf' conditional failed, one must be fixed:
+   	False schema does not allow 2
+   	[{'const': 'bus'}, {'const': 'mod'}] is too long
+   	[{'const': 'bus'}, {'const': 'mod'}] is too short
+   	1 was expected
+   	hint: "minItems" is only needed if less than the "items" list length
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+   Documentation/devicetree/bindings/remoteproc/qcom,sdm845-adsp-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
 
 --
 0-DAY CI Kernel Test Service
