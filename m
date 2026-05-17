@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C01A155757
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 May 2026 02:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD0831355D
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 May 2026 03:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778984773; cv=none; b=IFQ+1NwlznKN2LXTLttdbvTlepSk6r2vzDCkhHQnq8HyNtzRu10IAAc8OH5gTfhdDC/j47HoOQMpNVMslFNpRoq7nnQ7uhjNxSrFr1U58SBY0NCKQocbgMfaUSENIJlEWpX8xNZSDfYYwDShBCqgOPM+m6jqLQQO3gIvVBzKqfQ=
+	t=1778988557; cv=none; b=BwEju6V3h8/whcAsR2Sa2cPPgKun/X7haHP4R2SI+qcBEmCWGq4IMfzCSGDX8TcPTAC86MOy2vRqmk9MWOU/XEjF9OcfEZXpeESxuP6ywptHD8kk6p3F+11cyW4ICfgJ6+lPuR2vpvtNOb4mSjLV1BC7CZT26dLEw2fuk86p7g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778984773; c=relaxed/simple;
-	bh=fto1VQHEIoBZbtOKC2eVs4uDs38+zDCAGsUqtQgCUyo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cBMqrf0V+tsin9XBguVhHN/m7KU5YwC8B0yAFSIwu9yBi+phupLzMTGYM7RNWc0EmkVO+J+C/ffph/VfFc5K62/OiCrs0jBnshiZG0ucuFQyycdcV1l+bDOFyK5uhhMTFBfCr2ZQlaqpUx9Q8VUdjBsqmUIO7QNnW6rVEasIv2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l04UJwMv; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1778988557; c=relaxed/simple;
+	bh=UpeRO9E1bPdgA5AKoDSF+HxK63pQ9zhF9+nzeyX0QIc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AgKkGp02cEAVcvg4dok45MznMfc6GF6wTshaRusHCXsSeZbLk88soLoyjVPyAXQwbf3OMTW94lxrvGfCrW/WYlOzjb0FyfvFSedop4XHnysdbs7aie5efHxvH0UseHm0KAP3uhqsC32jUjYLgjmic11cQKjhDhqUe31i22/k52I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maeJYT09; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l04UJwMv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maeJYT09"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778984771; x=1810520771;
+  t=1778988554; x=1810524554;
   h=date:from:to:cc:subject:message-id;
-  bh=fto1VQHEIoBZbtOKC2eVs4uDs38+zDCAGsUqtQgCUyo=;
-  b=l04UJwMvhWgGPr1qPsOB0QHNWtKc9elYNilqIPJzLQaI4V4Qk4Ze2iTL
-   +oDUMOt4OY/eDwXxRnd12pkhBBWCt1OctXpPkTSLJcSH2F3W7T7NQBkc4
-   eCezXfgDijVCc0jF7A62eqfdPzslA0ZbQdQgrfZ9tgVPZ5S032WDtuKeF
-   HEF/ZbN/ka6eYh7O2C0kABpGrBYLiEtVGu+dFQMWmz+/3Bepv/oB9ATot
-   oeIWPEJj0pORxbVJ5yKdKaFwVdzNUvzFj1g1UIrHVYb82lPBYg+jOg6nV
-   OpmAraHKAXN7o/f04u4azR2AnGz00Sb3NTKNFv120BTNv3BQ/4mzYo0/O
-   g==;
-X-CSE-ConnectionGUID: gNKvfbAmRKiH/kOUXgTmLg==
-X-CSE-MsgGUID: BJgIWSVjT3aOYdy2DNLxFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="97455261"
+  bh=UpeRO9E1bPdgA5AKoDSF+HxK63pQ9zhF9+nzeyX0QIc=;
+  b=maeJYT09Ty1ZxOpM7KHBIqDcKJS4m49Ec7jekzsel077pEYgcmYts7KA
+   YHmsQ2NtX2c0ChKA6i0HcJ6keX7Goj1UVf4rDm11V6LHHOzMR8BeUakfz
+   +86DFInhQ+7v+d/4epfldaEw5CVsltKYWbqS/DF9GWSWwTtrcwrHUy9lJ
+   /LKYJUqX4NKE/5iMJBaF5DmUghulAIlBKxaYVEJNDhCkGc0HyVGu3KNA8
+   p4nARm+x8c/Qh0jOx65JA/Ade9Ps6/4DE/qMKeHKP+N2vDdM9JC5SeaOX
+   s4PbuZdnsJaTLhNSOhqusW8r92D6CwhpZF5RbnZbn5fjDsPG5Kb7Zha3X
+   A==;
+X-CSE-ConnectionGUID: OlYsOahZQ9OMS0AutM0jgQ==
+X-CSE-MsgGUID: MbZGt2S6S1uCo8Rj9U5mtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="90583155"
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="97455261"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 19:26:10 -0700
-X-CSE-ConnectionGUID: yznGjG89T72a/tKt6d/beg==
-X-CSE-MsgGUID: ZCgDoJ1iSWqdjcflQJuv9A==
+   d="scan'208";a="90583155"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 20:29:14 -0700
+X-CSE-ConnectionGUID: 5oAwKJ2oRKCIpdJWWry9aQ==
+X-CSE-MsgGUID: +hb/Ue/RSpKMXZs7PgxkiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="244044130"
+   d="scan'208";a="243075117"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 May 2026 19:26:09 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 May 2026 20:29:13 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wORCg-000000001Hu-3gTL;
-	Sun, 17 May 2026 02:26:06 +0000
-Date: Sun, 17 May 2026 10:25:42 +0800
+	id 1wOSBh-000000001KW-4A9n;
+	Sun, 17 May 2026 03:29:09 +0000
+Date: Sun, 17 May 2026 11:28:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [iwlwifi-next:next 13/93]
- drivers/net/wireless/intel/iwlwifi/mld/tx.c:571 iwl_mld_fill_tx_cmd() warn:
- variable dereferenced before check 'mld_sta' (see line 565)
-Message-ID: <202605171045.6jPun4QF-lkp@intel.com>
+Subject: [paulmckrcu:dev.2026.05.08a 39/43] kernel/rcu/tree_exp.h:822
+ rcu_print_task_exp_stall() error: we previously assumed 'rnp->exp_tasks'
+ could be null (see line 818)
+Message-ID: <202605171129.6vsB2TG2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,89 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-CC: Johannes Berg <johannes.berg@intel.com>
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git next
-head:   ce2b645bb3099ef4d96759335271e25875202ce9
-commit: d751c944055aedf33a6cab9b1cadaab65d7bc8dd [13/93] wifi: iwlwifi: mld: use host rate for NAN management frames
-:::::: branch date: 7 hours ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-141-20260517 (https://download.01.org/0day-ci/archive/20260517/202605171045.6jPun4QF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://github.com/paulmckrcu/linux dev.2026.05.08a
+head:   86ed69edce527e32495da86900fe50b9ca3266d9
+commit: b32c53e658b25c6ed973a78b40bddc95e1948eac [39/43] rcu: Make rcu_print_task_exp_stall() dump ->dqs_blkd_tasks
+:::::: branch date: 6 hours ago
+:::::: commit date: 10 hours ago
+config: parisc-randconfig-r071-20260517 (https://download.01.org/0day-ci/archive/20260517/202605171129.6vsB2TG2-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605171045.6jPun4QF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605171129.6vsB2TG2-lkp@intel.com/
 
 smatch warnings:
-drivers/net/wireless/intel/iwlwifi/mld/tx.c:571 iwl_mld_fill_tx_cmd() warn: variable dereferenced before check 'mld_sta' (see line 565)
+kernel/rcu/tree_exp.h:822 rcu_print_task_exp_stall() error: we previously assumed 'rnp->exp_tasks' could be null (see line 818)
 
-vim +/mld_sta +571 drivers/net/wireless/intel/iwlwifi/mld/tx.c
+vim +822 kernel/rcu/tree_exp.h
 
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  537  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  538  static void
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  539  iwl_mld_fill_tx_cmd(struct iwl_mld *mld, struct sk_buff *skb,
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  540  		    struct iwl_device_tx_cmd *dev_tx_cmd,
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  541  		    struct ieee80211_sta *sta)
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  542  {
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  543  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  544  	struct ieee80211_hdr *hdr = (void *)skb->data;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  545  	struct iwl_mld_sta *mld_sta = sta ? iwl_mld_sta_from_mac80211(sta) :
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  546  					    NULL;
-1c97c73cdab0afc Miri Korenblit 2025-05-11  547  	struct iwl_tx_cmd *tx_cmd;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  548  	bool amsdu = ieee80211_is_data_qos(hdr->frame_control) &&
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  549  		     (*ieee80211_get_qos_ctl(hdr) &
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  550  		      IEEE80211_QOS_CTL_A_MSDU_PRESENT);
-dabc88cb3b78c0d Johannes Berg  2025-05-05  551  	__le32 rate_n_flags = 0;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  552  	u16 flags = 0;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  553  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  554  	dev_tx_cmd->hdr.cmd = TX_CMD;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  555  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  556  	if (!info->control.hw_key)
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  557  		flags |= IWL_TX_FLAGS_ENCRYPT_DIS;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  558  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  559  	/* For data and mgmt packets rate info comes from the fw.
-d751c944055aedf Miri Korenblit 2026-05-10  560  	 * Only set rate/antenna for:
-d751c944055aedf Miri Korenblit 2026-05-10  561  	 * - injected frames with fixed rate,
-d751c944055aedf Miri Korenblit 2026-05-10  562  	 * - when no sta is given.
-d751c944055aedf Miri Korenblit 2026-05-10  563  	 * - frames that are sent to an NMI sta, which is only used for management.
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  564  	 */
-d751c944055aedf Miri Korenblit 2026-05-10 @565  	if (unlikely(!sta || mld_sta->vif->type == NL80211_IFTYPE_NAN ||
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  566  		     info->control.flags & IEEE80211_TX_CTRL_RATE_INJECT)) {
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  567  		flags |= IWL_TX_FLAGS_CMD_RATE;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  568  		rate_n_flags = iwl_mld_get_tx_rate_n_flags(mld, info, sta,
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  569  							   hdr->frame_control);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  570  	} else if (!ieee80211_is_data(hdr->frame_control) ||
-d1e879ec600f9b3 Miri Korenblit 2025-02-16 @571  		   (mld_sta &&
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  572  		    mld_sta->sta_state < IEEE80211_STA_AUTHORIZED)) {
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  573  		/* These are important frames */
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  574  		flags |= IWL_TX_FLAGS_HIGH_PRI;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  575  	}
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  576  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  577  	tx_cmd = (void *)dev_tx_cmd->payload;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  578  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  579  	iwl_mld_fill_tx_cmd_hdr(tx_cmd, skb, amsdu);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  580  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  581  	tx_cmd->offload_assist = iwl_mld_get_offload_assist(skb, amsdu);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  582  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  583  	/* Total # bytes to be transmitted */
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  584  	tx_cmd->len = cpu_to_le16((u16)skb->len);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  585  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  586  	tx_cmd->flags = cpu_to_le16(flags);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  587  
-dabc88cb3b78c0d Johannes Berg  2025-05-05  588  	tx_cmd->rate_n_flags = rate_n_flags;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  589  }
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  590  
+40e0a6cfd53e37 Paul E. McKenney 2016-04-15  805  
+d87cda5094585b Paul E. McKenney 2019-01-11  806  /*
+d87cda5094585b Paul E. McKenney 2019-01-11  807   * Scan the current list of tasks blocked within RCU read-side critical
+d87cda5094585b Paul E. McKenney 2019-01-11  808   * sections, printing out the tid of each that is blocking the current
+d87cda5094585b Paul E. McKenney 2019-01-11  809   * expedited grace period.
+d87cda5094585b Paul E. McKenney 2019-01-11  810   */
+d87cda5094585b Paul E. McKenney 2019-01-11  811  static int rcu_print_task_exp_stall(struct rcu_node *rnp)
+d87cda5094585b Paul E. McKenney 2019-01-11  812  {
+314eeb43e5f228 Paul E. McKenney 2020-01-03  813  	unsigned long flags;
+d87cda5094585b Paul E. McKenney 2019-01-11  814  	int ndetected = 0;
+314eeb43e5f228 Paul E. McKenney 2020-01-03  815  	struct task_struct *t;
+d87cda5094585b Paul E. McKenney 2019-01-11  816  
+314eeb43e5f228 Paul E. McKenney 2020-01-03  817  	raw_spin_lock_irqsave_rcu_node(rnp, flags);
+b32c53e658b25c Paul E. McKenney 2026-05-16 @818  	if (!rnp->exp_tasks && list_empty(&rnp->dqs_blkd_tasks)) {
+3c1566bca3f834 Zqiang           2022-12-24  819  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+3c1566bca3f834 Zqiang           2022-12-24  820  		return 0;
+3c1566bca3f834 Zqiang           2022-12-24  821  	}
+d87cda5094585b Paul E. McKenney 2019-01-11 @822  	t = list_entry(rnp->exp_tasks->prev,
+d87cda5094585b Paul E. McKenney 2019-01-11  823  		       struct task_struct, rcu_node_entry);
+d87cda5094585b Paul E. McKenney 2019-01-11  824  	list_for_each_entry_continue(t, &rnp->blkd_tasks, rcu_node_entry) {
+d87cda5094585b Paul E. McKenney 2019-01-11  825  		pr_cont(" P%d", t->pid);
+d87cda5094585b Paul E. McKenney 2019-01-11  826  		ndetected++;
+d87cda5094585b Paul E. McKenney 2019-01-11  827  	}
+b32c53e658b25c Paul E. McKenney 2026-05-16  828  	list_for_each_entry(t, &rnp->dqs_blkd_tasks, rcu_node_entry) {
+b32c53e658b25c Paul E. McKenney 2026-05-16  829  		pr_cont(" Q%d", t->pid);
+b32c53e658b25c Paul E. McKenney 2026-05-16  830  		ndetected++;
+b32c53e658b25c Paul E. McKenney 2026-05-16  831  	}
+314eeb43e5f228 Paul E. McKenney 2020-01-03  832  	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+d87cda5094585b Paul E. McKenney 2019-01-11  833  	return ndetected;
+d87cda5094585b Paul E. McKenney 2019-01-11  834  }
+d87cda5094585b Paul E. McKenney 2019-01-11  835  
 
-:::::: The code at line 571 was first introduced by commit
-:::::: d1e879ec600f9b3bdd253167533959facfefb17b wifi: iwlwifi: add iwlmld sub-driver
+:::::: The code at line 822 was first introduced by commit
+:::::: d87cda5094585b7a0f62075de68266cb9c1b35ca rcu: Move rcu_print_task_exp_stall() to tree_exp.h
 
-:::::: TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-:::::: CC: Johannes Berg <johannes.berg@intel.com>
+:::::: TO: Paul E. McKenney <paulmck@linux.ibm.com>
+:::::: CC: Paul E. McKenney <paulmck@linux.ibm.com>
 
 --
 0-DAY CI Kernel Test Service
