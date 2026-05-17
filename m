@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389A2AD24
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 May 2026 00:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C01A155757
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 May 2026 02:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778976068; cv=none; b=a2rIYCfHQHhiD7FOomoHea22dOQXTBZ2H6aDOhqICiIGjoZrAcMZTXv6vn2YQy211GEIJCf/zZzDZtOeyp2hqiYpHgNaP+pSRXFga/fD1ruvcTV3pxy0rMJ37xI76UPXr+99kHPT9eUmGJEV9zS4xe7LKVvBWxrGMWjigzS7dWY=
+	t=1778984773; cv=none; b=IFQ+1NwlznKN2LXTLttdbvTlepSk6r2vzDCkhHQnq8HyNtzRu10IAAc8OH5gTfhdDC/j47HoOQMpNVMslFNpRoq7nnQ7uhjNxSrFr1U58SBY0NCKQocbgMfaUSENIJlEWpX8xNZSDfYYwDShBCqgOPM+m6jqLQQO3gIvVBzKqfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778976068; c=relaxed/simple;
-	bh=92jiutAXGbrnNF2BLAYqNF1EWs6IusLTl8jqA3Etz6E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=psMUxaIs4Eor/xfmT9KezyLbzVwimXq4FsvZU5KhOUy2X12Dy/QgrU1+gJyEtfdv0Ynu6faQEp5Kz5xgj4VGKFi8MX/wM6Mb0HOsYeBikDeoR1cbAHxla2qpeqx6EPBwU8j1iHr3SpTYIUjI15u8LaUuPHsVUTvs93F7EbYEbxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k0KuOHr/; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1778984773; c=relaxed/simple;
+	bh=fto1VQHEIoBZbtOKC2eVs4uDs38+zDCAGsUqtQgCUyo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cBMqrf0V+tsin9XBguVhHN/m7KU5YwC8B0yAFSIwu9yBi+phupLzMTGYM7RNWc0EmkVO+J+C/ffph/VfFc5K62/OiCrs0jBnshiZG0ucuFQyycdcV1l+bDOFyK5uhhMTFBfCr2ZQlaqpUx9Q8VUdjBsqmUIO7QNnW6rVEasIv2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l04UJwMv; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k0KuOHr/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l04UJwMv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778976067; x=1810512067;
+  t=1778984771; x=1810520771;
   h=date:from:to:cc:subject:message-id;
-  bh=92jiutAXGbrnNF2BLAYqNF1EWs6IusLTl8jqA3Etz6E=;
-  b=k0KuOHr/4lGM/a/1SSBoZCEeu1/jfDsmwFt5MnVupB0bo55BIg4131lT
-   bNPADjJBQCJm0hQXLJd/ngPg2ldZCugeFBoOd+CczA5BMJWIuVYu2joLk
-   eLp6V//m8xXFRbhDI0A/CgyixX6qIiWhMHPM94rS9SZWwG0+gxCz0b66z
-   bOSb0SieC+B1dvQUytXc6RZTR6+yTVwtalqGCA1dF2UQyYMatCxBDfujx
-   OVnkEaHICoPgYikcBHqvjMcEs8WHqy2bSpoUneWdt/JInIzz3NM9//YNZ
-   cfkeQc7lCK3V/KOjujQg2N1EeBG5QJt6gUCf3FjKMAehs3YWVbGCaKrFD
-   A==;
-X-CSE-ConnectionGUID: yLQDjNAITQaUCQG34eB04w==
-X-CSE-MsgGUID: 4MtUeOOOQ7OhoBjS1g8cTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="79859938"
+  bh=fto1VQHEIoBZbtOKC2eVs4uDs38+zDCAGsUqtQgCUyo=;
+  b=l04UJwMvhWgGPr1qPsOB0QHNWtKc9elYNilqIPJzLQaI4V4Qk4Ze2iTL
+   +oDUMOt4OY/eDwXxRnd12pkhBBWCt1OctXpPkTSLJcSH2F3W7T7NQBkc4
+   eCezXfgDijVCc0jF7A62eqfdPzslA0ZbQdQgrfZ9tgVPZ5S032WDtuKeF
+   HEF/ZbN/ka6eYh7O2C0kABpGrBYLiEtVGu+dFQMWmz+/3Bepv/oB9ATot
+   oeIWPEJj0pORxbVJ5yKdKaFwVdzNUvzFj1g1UIrHVYb82lPBYg+jOg6nV
+   OpmAraHKAXN7o/f04u4azR2AnGz00Sb3NTKNFv120BTNv3BQ/4mzYo0/O
+   g==;
+X-CSE-ConnectionGUID: gNKvfbAmRKiH/kOUXgTmLg==
+X-CSE-MsgGUID: BJgIWSVjT3aOYdy2DNLxFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="97455261"
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="79859938"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 17:01:06 -0700
-X-CSE-ConnectionGUID: uuOpgjeYTOaJE5ss3CFGTQ==
-X-CSE-MsgGUID: L5vcq4BgT/SIeoD72bVN4w==
+   d="scan'208";a="97455261"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 19:26:10 -0700
+X-CSE-ConnectionGUID: yznGjG89T72a/tKt6d/beg==
+X-CSE-MsgGUID: ZCgDoJ1iSWqdjcflQJuv9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="238934081"
+   d="scan'208";a="244044130"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 May 2026 17:01:05 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 16 May 2026 19:26:09 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOOwI-000000001DG-2S85;
-	Sun, 17 May 2026 00:01:02 +0000
-Date: Sun, 17 May 2026 08:00:07 +0800
+	id 1wORCg-000000001Hu-3gTL;
+	Sun, 17 May 2026 02:26:06 +0000
+Date: Sun, 17 May 2026 10:25:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [martin-lau-bpf-next:cgrp.struct_ops.v8 9/12]
- kernel/bpf/cgroup.c:513 prog_list_replace_item() error: we previously assumed
- 'pl->link' could be null (see line 510)
-Message-ID: <202605170734.0Q0GXEJ9-lkp@intel.com>
+Subject: [iwlwifi-next:next 13/93]
+ drivers/net/wireless/intel/iwlwifi/mld/tx.c:571 iwl_mld_fill_tx_cmd() warn:
+ variable dereferenced before check 'mld_sta' (see line 565)
+Message-ID: <202605171045.6jPun4QF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,44 +62,89 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Martin KaFai Lau <martin.lau@linux.dev>
-TO: Martin KaFai Lau <martin.lau@kernel.org>
+TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+CC: Johannes Berg <johannes.berg@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/martin.lau/bpf-next.git cgrp.struct_ops.v8
-head:   1ae5eccb04d5d8c62c310b206b5e5dc4ff1d9c71
-commit: 32e27daf9a1563276f88eb17d076f61f8cc8b502 [9/12] bpf: Add infrastructure to support attaching struct_ops to cgroups
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: nios2-randconfig-r073-20260517 (https://download.01.org/0day-ci/archive/20260517/202605170734.0Q0GXEJ9-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git next
+head:   ce2b645bb3099ef4d96759335271e25875202ce9
+commit: d751c944055aedf33a6cab9b1cadaab65d7bc8dd [13/93] wifi: iwlwifi: mld: use host rate for NAN management frames
+:::::: branch date: 7 hours ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-141-20260517 (https://download.01.org/0day-ci/archive/20260517/202605171045.6jPun4QF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605170734.0Q0GXEJ9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605171045.6jPun4QF-lkp@intel.com/
 
 smatch warnings:
-kernel/bpf/cgroup.c:513 prog_list_replace_item() error: we previously assumed 'pl->link' could be null (see line 510)
+drivers/net/wireless/intel/iwlwifi/mld/tx.c:571 iwl_mld_fill_tx_cmd() warn: variable dereferenced before check 'mld_sta' (see line 565)
 
-vim +513 kernel/bpf/cgroup.c
+vim +/mld_sta +571 drivers/net/wireless/intel/iwlwifi/mld/tx.c
 
-95b27b9bf36972 Martin KaFai Lau 2026-05-13  507  
-95b27b9bf36972 Martin KaFai Lau 2026-05-13  508  static void prog_list_replace_item(struct bpf_prog_list *pl, struct bpf_prog_array_item *item)
-95b27b9bf36972 Martin KaFai Lau 2026-05-13  509  {
-32e27daf9a1563 Martin KaFai Lau 2026-05-12 @510  	if (pl->link && pl->link->map)
-32e27daf9a1563 Martin KaFai Lau 2026-05-12  511  		WRITE_ONCE(item->kdata, bpf_struct_ops_map_kdata(pl->link->map));
-32e27daf9a1563 Martin KaFai Lau 2026-05-12  512  	else
-95b27b9bf36972 Martin KaFai Lau 2026-05-13 @513  		WRITE_ONCE(item->prog, pl->link->link.prog);
-95b27b9bf36972 Martin KaFai Lau 2026-05-13  514  }
-95b27b9bf36972 Martin KaFai Lau 2026-05-13  515  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  537  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  538  static void
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  539  iwl_mld_fill_tx_cmd(struct iwl_mld *mld, struct sk_buff *skb,
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  540  		    struct iwl_device_tx_cmd *dev_tx_cmd,
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  541  		    struct ieee80211_sta *sta)
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  542  {
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  543  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  544  	struct ieee80211_hdr *hdr = (void *)skb->data;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  545  	struct iwl_mld_sta *mld_sta = sta ? iwl_mld_sta_from_mac80211(sta) :
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  546  					    NULL;
+1c97c73cdab0afc Miri Korenblit 2025-05-11  547  	struct iwl_tx_cmd *tx_cmd;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  548  	bool amsdu = ieee80211_is_data_qos(hdr->frame_control) &&
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  549  		     (*ieee80211_get_qos_ctl(hdr) &
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  550  		      IEEE80211_QOS_CTL_A_MSDU_PRESENT);
+dabc88cb3b78c0d Johannes Berg  2025-05-05  551  	__le32 rate_n_flags = 0;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  552  	u16 flags = 0;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  553  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  554  	dev_tx_cmd->hdr.cmd = TX_CMD;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  555  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  556  	if (!info->control.hw_key)
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  557  		flags |= IWL_TX_FLAGS_ENCRYPT_DIS;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  558  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  559  	/* For data and mgmt packets rate info comes from the fw.
+d751c944055aedf Miri Korenblit 2026-05-10  560  	 * Only set rate/antenna for:
+d751c944055aedf Miri Korenblit 2026-05-10  561  	 * - injected frames with fixed rate,
+d751c944055aedf Miri Korenblit 2026-05-10  562  	 * - when no sta is given.
+d751c944055aedf Miri Korenblit 2026-05-10  563  	 * - frames that are sent to an NMI sta, which is only used for management.
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  564  	 */
+d751c944055aedf Miri Korenblit 2026-05-10 @565  	if (unlikely(!sta || mld_sta->vif->type == NL80211_IFTYPE_NAN ||
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  566  		     info->control.flags & IEEE80211_TX_CTRL_RATE_INJECT)) {
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  567  		flags |= IWL_TX_FLAGS_CMD_RATE;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  568  		rate_n_flags = iwl_mld_get_tx_rate_n_flags(mld, info, sta,
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  569  							   hdr->frame_control);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  570  	} else if (!ieee80211_is_data(hdr->frame_control) ||
+d1e879ec600f9b3 Miri Korenblit 2025-02-16 @571  		   (mld_sta &&
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  572  		    mld_sta->sta_state < IEEE80211_STA_AUTHORIZED)) {
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  573  		/* These are important frames */
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  574  		flags |= IWL_TX_FLAGS_HIGH_PRI;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  575  	}
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  576  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  577  	tx_cmd = (void *)dev_tx_cmd->payload;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  578  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  579  	iwl_mld_fill_tx_cmd_hdr(tx_cmd, skb, amsdu);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  580  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  581  	tx_cmd->offload_assist = iwl_mld_get_offload_assist(skb, amsdu);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  582  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  583  	/* Total # bytes to be transmitted */
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  584  	tx_cmd->len = cpu_to_le16((u16)skb->len);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  585  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  586  	tx_cmd->flags = cpu_to_le16(flags);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  587  
+dabc88cb3b78c0d Johannes Berg  2025-05-05  588  	tx_cmd->rate_n_flags = rate_n_flags;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  589  }
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  590  
 
-:::::: The code at line 513 was first introduced by commit
-:::::: 95b27b9bf369725868da48816a0dda25fb69805f bpf: Add prog_list_init_item(), prog_list_replace_item(), and prog_list_id()
+:::::: The code at line 571 was first introduced by commit
+:::::: d1e879ec600f9b3bdd253167533959facfefb17b wifi: iwlwifi: add iwlmld sub-driver
 
-:::::: TO: Martin KaFai Lau <martin.lau@kernel.org>
-:::::: CC: Martin KaFai Lau <martin.lau@kernel.org>
+:::::: TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 --
 0-DAY CI Kernel Test Service
