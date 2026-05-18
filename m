@@ -1,137 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3898F48C8C2;
-	Mon, 18 May 2026 16:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C713396560
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 May 2026 21:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779122775; cv=none; b=tZp4rLy6Fbpx7Ph3JTQ8b0LNSh9pPqNu/+a5dWylSSCKfXu16PwaW7sD+lbXz5GhjPSgjGekcgstVZf1DcnSCSkHtescIXDKq1qdRybc8UT+zdSYuo0bUq4GE5tcEoCaesD1ZLCeuTiIieJr677LehHsgV8g/RdtIWy3eCiRqGw=
+	t=1779138007; cv=none; b=op2zr5ZCTCtiFspbk3Pcb/Dg+tideJ801AoDvxw2xIKz87tfPS9KjAuXQUY6M6DAgiuVZNf1G+pWEyKre9x+F7RSmTYSWS4Y+by8NCO1xFJdoATY69Z15K8vhlMaH4JKwIuc0DzePHBbwbpkdnm8EnoKP7eBdHplU7GL9K19N4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779122775; c=relaxed/simple;
-	bh=l6idrx7DUeavcAkMTJPzWvtGW/svCPA+1zPFmHSnhT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WV+jEH8GV0jd2RHT+SCc3YZ/CZhrw1ZCbFLwKb9lkSRVDRbGw34qx9W3b561sq8CyYTLnS9ipBoZL904bxHBGKNR+4gbXocBWIakdGL59oDzZfCJa+QUgz6RU0UXbeY4JRym/VeITmPPpei0MjLATqsYvlIuz3AsYpc0Rq0yh4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rkO+uL5Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779138007; c=relaxed/simple;
+	bh=AvYeNyOpcJ7IhO8zd7XhlxuQpapYSz2L68fa3lfBKfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eHbW4xL8jm0dz9EVFXL+NTtLw/iqeGP+/Yt6NyKngvW5uJMfT4pXdHyRJLPhVGbaTRlcD6FFmDmQZ+y2JqKLJ8iS62+jM5KB9PJMBXDkjZXD0WPMiOerpiAWctPnBUyAR2wO3t/Qt32Lcs2BQ4iaXYe28w5gHFe/xZd8o1dLVio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbK28lyj; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rkO+uL5Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C32C3C2BCC6;
-	Mon, 18 May 2026 16:46:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779122774;
-	bh=l6idrx7DUeavcAkMTJPzWvtGW/svCPA+1zPFmHSnhT4=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=rkO+uL5Q2lcaArQm9JHWfZ8aht7giXyZ6l3egFfllaN78wvqaj90oXGOBOc6+3s3T
-	 qGdgtB6H4QJTYb2w/mmFoVHuxjYXd+4Q/cFd7U45BCgB7u+JzX0ystnevteAAt7RCf
-	 hQb4OmOO7E24/+ZBZT1BRBJkxe+y2k4HcwuMGq3KZet0SQKfT2vUiqvmuyYiNLo8df
-	 moGVRd3mYPJU2TzsRQE4Jli/oDbiqnlS76fRAGxVNVnOYRPfXM0q5MhqjXiNkq1PqD
-	 ogSXyKkS6oSblS1Ij5UVPLEUVYr1d7brSMb4C5s8oeSDLV1ACl1dGOQV3FEhJ9oVne
-	 naFnHJCYrUh+A==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 62F4CCE0890; Mon, 18 May 2026 09:46:14 -0700 (PDT)
-Date: Mon, 18 May 2026 09:46:14 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev.2026.05.08a 39/43] kernel/rcu/tree_exp.h:822
- rcu_print_task_exp_stall() error: we previously assumed 'rnp->exp_tasks'
- could be null (see line 818)
-Message-ID: <30c88bad-2bb6-49b2-933f-01df7d6c8638@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202605171129.6vsB2TG2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbK28lyj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779138005; x=1810674005;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=AvYeNyOpcJ7IhO8zd7XhlxuQpapYSz2L68fa3lfBKfU=;
+  b=nbK28lyj1zRMPlRMzvG8q6r98AaCPF+UsaSQyx/qIyFrJAA81UkN0T02
+   NTKG8TTTWz0x2bmMh2NSO/KPpdrEgmj8QvkSmjoukJqX9+rRJTu4x2lfM
+   goyzrX2xz0e5KRDqQJdMzx8PVtfr9wX61m0Fxj8syy8ZN5oXif51qKn3G
+   eGKaJkUpe1E5H0pKr5hx0EjXp5dZffyvNVuoXz0RrARONNZQ/t5/Lu1uI
+   PRscYjsXtTaDA0upFvuZHQN1GY4jBFhc3C0bwTSfE8PijcsTDroF0ohSO
+   vYWcwTKRVIfciuouOS89RBJJYKp96VnG8YPJGcxxeZmy683nNYo9VJXyR
+   w==;
+X-CSE-ConnectionGUID: F3uEAxReTFWtLPln/Ef69Q==
+X-CSE-MsgGUID: eWtTN9o/RtaV5RV0d+4mrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="91396969"
+X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
+   d="scan'208";a="91396969"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 14:00:04 -0700
+X-CSE-ConnectionGUID: 88dxP/XPQDOHu+Iozg0tjA==
+X-CSE-MsgGUID: /GaTvFVBQyiT0VpeWe087A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
+   d="scan'208";a="233168797"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 18 May 2026 14:00:03 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wP54D-000000009vt-0Zcs;
+	Mon, 18 May 2026 21:00:01 +0000
+Date: Mon, 18 May 2026 22:59:05 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v1 2/2] iio: adc: Add StarFive SAR-ADC driver
+Message-ID: <202605182259.SbTgaR7d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <202605171129.6vsB2TG2-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 18, 2026 at 08:04:57AM +0300, Dan Carpenter wrote:
-> tree:   https://github.com/paulmckrcu/linux dev.2026.05.08a
-> head:   86ed69edce527e32495da86900fe50b9ca3266d9
-> commit: b32c53e658b25c6ed973a78b40bddc95e1948eac [39/43] rcu: Make rcu_print_task_exp_stall() dump ->dqs_blkd_tasks
-> config: parisc-randconfig-r071-20260517 (https://download.01.org/0day-ci/archive/20260517/202605171129.6vsB2TG2-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 13.4.0
-> smatch: v0.5.0-9185-gbcc58b9c
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202605171129.6vsB2TG2-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/rcu/tree_exp.h:822 rcu_print_task_exp_stall() error: we previously assumed 'rnp->exp_tasks' could be null (see line 818)
-> 
-> vim +822 kernel/rcu/tree_exp.h
-> 
-> d87cda5094585b Paul E. McKenney 2019-01-11  811  static int rcu_print_task_exp_stall(struct rcu_node *rnp)
-> d87cda5094585b Paul E. McKenney 2019-01-11  812  {
-> 314eeb43e5f228 Paul E. McKenney 2020-01-03  813  	unsigned long flags;
-> d87cda5094585b Paul E. McKenney 2019-01-11  814  	int ndetected = 0;
-> 314eeb43e5f228 Paul E. McKenney 2020-01-03  815  	struct task_struct *t;
-> d87cda5094585b Paul E. McKenney 2019-01-11  816  
-> 314eeb43e5f228 Paul E. McKenney 2020-01-03  817  	raw_spin_lock_irqsave_rcu_node(rnp, flags);
-> b32c53e658b25c Paul E. McKenney 2026-05-16 @818  	if (!rnp->exp_tasks && list_empty(&rnp->dqs_blkd_tasks)) {
->                                                             ^^^^^^^^^^^^^^^
-> If rnp->exp_tasks is NULL
-> 
-> 3c1566bca3f834 Zqiang           2022-12-24  819  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
-> 3c1566bca3f834 Zqiang           2022-12-24  820  		return 0;
-> 3c1566bca3f834 Zqiang           2022-12-24  821  	}
-> d87cda5094585b Paul E. McKenney 2019-01-11 @822  	t = list_entry(rnp->exp_tasks->prev,
->                                                                        ^^^^^^^^^^^^^^^^^^^^
-> then this will crash.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Good catch!!!
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260518081852.116909-3-xingyu.wu@starfivetech.com>
+References: <20260518081852.116909-3-xingyu.wu@starfivetech.com>
+TO: Xingyu Wu <xingyu.wu@starfivetech.com>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: David Lechner <dlechner@baylibre.com>
+TO: "Nuno Sá" <nuno.sa@analog.com>
+TO: Andy Shevchenko <andy@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: Xingyu Wu <xingyu.wu@starfivetech.com>
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-iio@vger.kernel.org
 
-Please see below for an alleged fix.  Also, it appears to me that
-these commits have similar problems with similar fixes:
+Hi Xingyu,
 
-e7cc1cc2ca28 ("rcu: Make rcu_print_detail_task_stall_rnp() dump ->dqs_blkd_tasks")
-e9c5b5b6bbff ("rcu: Make rcu_print_task_stall() dump ->dqs_blkd_tasks")
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v7.1-rc4 next-20260518]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> d87cda5094585b Paul E. McKenney 2019-01-11  823  		       struct task_struct, rcu_node_entry);
-> d87cda5094585b Paul E. McKenney 2019-01-11  824  	list_for_each_entry_continue(t, &rnp->blkd_tasks, rcu_node_entry) {
-> d87cda5094585b Paul E. McKenney 2019-01-11  825  		pr_cont(" P%d", t->pid);
-> d87cda5094585b Paul E. McKenney 2019-01-11  826  		ndetected++;
-> d87cda5094585b Paul E. McKenney 2019-01-11  827  	}
-> b32c53e658b25c Paul E. McKenney 2026-05-16  828  	list_for_each_entry(t, &rnp->dqs_blkd_tasks, rcu_node_entry) {
-> b32c53e658b25c Paul E. McKenney 2026-05-16  829  		pr_cont(" Q%d", t->pid);
-> b32c53e658b25c Paul E. McKenney 2026-05-16  830  		ndetected++;
-> b32c53e658b25c Paul E. McKenney 2026-05-16  831  	}
-> 314eeb43e5f228 Paul E. McKenney 2020-01-03  832  	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
-> d87cda5094585b Paul E. McKenney 2019-01-11  833  	return ndetected;
-> d87cda5094585b Paul E. McKenney 2019-01-11  834  }
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Xingyu-Wu/bindings-iio-adc-Add-StarFive-JHB100-SARADC/20260518-162705
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20260518081852.116909-3-xingyu.wu%40starfivetech.com
+patch subject: [PATCH v1 2/2] iio: adc: Add StarFive SAR-ADC driver
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: arc-randconfig-2051-20260518 (https://download.01.org/0day-ci/archive/20260518/202605182259.SbTgaR7d-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 12.5.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605182259.SbTgaR7d-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202605182259.SbTgaR7d-lkp@intel.com/
 
-diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
-index e635dc12f72465..18ed1478498883 100644
---- a/kernel/rcu/tree_exp.h
-+++ b/kernel/rcu/tree_exp.h
-@@ -819,11 +819,13 @@ static int rcu_print_task_exp_stall(struct rcu_node *rnp)
- 		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
- 		return 0;
- 	}
--	t = list_entry(rnp->exp_tasks->prev,
--		       struct task_struct, rcu_node_entry);
--	list_for_each_entry_continue(t, &rnp->blkd_tasks, rcu_node_entry) {
--		pr_cont(" P%d", t->pid);
--		ndetected++;
-+	if (rnp->exp_tasks) {
-+		t = list_entry(rnp->exp_tasks->prev,
-+			       struct task_struct, rcu_node_entry);
-+		list_for_each_entry_continue(t, &rnp->blkd_tasks, rcu_node_entry) {
-+			pr_cont(" P%d", t->pid);
-+			ndetected++;
-+		}
- 	}
- 	list_for_each_entry(t, &rnp->dqs_blkd_tasks, rcu_node_entry) {
- 		pr_cont(" Q%d", t->pid);
+dtcheck warnings: (new ones prefixed by >>)
+   Documentation/devicetree/bindings/remoteproc/qcom,sc7180-mss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+   Documentation/devicetree/bindings/remoteproc/qcom,sc7280-mss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/iio/adc/starfive,jhb100-saradc.yaml: properties:reg: 'anyOf' conditional failed, one must be fixed:
+   	'maxItem' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+   	'type' was expected
+   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
+>> Documentation/devicetree/bindings/iio/adc/starfive,jhb100-saradc.yaml: properties:reg: 'anyOf' conditional failed, one must be fixed:
+   	'maxItems' is a required property
+   		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+   	'maxItem' is not one of ['maxItems', 'description', 'deprecated']
+   		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+   	Additional properties are not allowed ('maxItem' was unexpected)
+   		hint: Arrays must be described with a combination of minItems/maxItems/items
+   	'maxItem' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+   	hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
+   	from schema $id: http://devicetree.org/meta-schemas/cell.yaml
+   Documentation/devicetree/bindings/remoteproc/qcom,sdm845-adsp-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
