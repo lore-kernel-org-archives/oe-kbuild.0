@@ -1,179 +1,132 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB9437BE6D
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 May 2026 05:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21EA3CB2E5
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 May 2026 06:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779081291; cv=none; b=bF8zj889/gJMsnIQKd9HQCqFTTlK8Cb0bAwdWm8lVzG0RNguSAVPb6dqoLcgcrHqTfReAn1nYqpk7nfnc7+WHCdUSZJ5l+psPirDLrVKdLZ5LLgV7p1qmX8J5beGbnB/E3RmJH/RfQGslqHH+kTuQOVlRJIicR9MFf+YKph/0bg=
+	t=1779085387; cv=none; b=FMDc+irjS8+O0OrPsoILt3ZSyWSJnjmVtn6FlKlLxa1ZBumfOlb37/0+bWQqJdSWj35y5h/a/RRafQ/E457uo4q/WsY/pKI3zcmHbsPXrNjoP/IJNonMjpGhB6hXyu9RpRmjQHFWO0oP92jMWOdt4owQOBwgcpWqJLpUk+eIx1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779081291; c=relaxed/simple;
-	bh=q+Ye1t5MieuYxH22YzdFlQI/46Lvk1vTTDVqN5sfU6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BJC0DZJCtadgsIchdRg++L8iG5XBX4aj35nHCwezo4O4HKPe/Zbe3zKB9jlg6qqIMMlluMV0wwW2SGXMMOz95ZlSFUV92E339PM7ZCS5Kf+g/AuFF9vV9UDRYKjHTJvQIw7Ew0tRUTzJw/cWTmTKROfOhaXcSkaOF+SqV9GsBVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TRu591CI; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779085387; c=relaxed/simple;
+	bh=ld3Mir59V8pSjhyIrQhcXCF3dvg6KoefO61tJKuY4z8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jkdpQMxGXUC1Go2jfEWI8WEf0yk5kL2wi/hnowMrpYEKQaCc8xWEfJzSQkVJG+XMQc8KUUBAcBbSMsQETV9sjbchU/7iCycJ043oxSLO8T8S5U2SzHHuhaa5G5U+9T9m59DfRIr2FpV8GQRjDhiGAA8yWP1tWqVNzFoYmqd9qE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BYvB1dsy; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TRu591CI"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-448528f4e69so962344f8f.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 17 May 2026 22:14:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779081288; x=1779686088; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H++yyYpAtfeJ9r0MHoxydujiVZmkWKLBHrn4zymlxUQ=;
-        b=TRu591CIiJtgt7aDusuhHHDiLrpLOCTtn9xO/6d97u+irQ04iT0GG//4N28mT9lnxu
-         GKfm9X9hfB9nXnu0QigXr3kBDDTDB2vfs9RC9uW/oas9UMI+NXmnwfyuFfBy9ymDxeJG
-         ni6pAe84Q/MZlLoQcwbpSJPJLAETcYJtBsQMuFWrpemxfvCnUChgHT6jVagDoZS5lhVg
-         nyoShysc9POYJt5edQ8KGalhtjKT+g99Qs/lyMgmGO8Uz56E0dEp5s4/SLjaLSCKnB3r
-         ea9D0cVJVEaufmVKE3Zdw/Wp90DyT6KZBREMesGqEyMnWqgryMsPNTVghViTDZTSEOF5
-         qblg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779081288; x=1779686088;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H++yyYpAtfeJ9r0MHoxydujiVZmkWKLBHrn4zymlxUQ=;
-        b=c92aTKvTVqI8XBKolNrAyedo6DM0k0Bj5CkD/gXmiIodGV87KEDDUuLQuXNXrrZZyy
-         Xhu645JJeO43Dy0yjM0hegReSTwDkscangKZKjABc0KaDTvWUrSGOaQB4cucWggkzi8G
-         V9O5hblqe2UduYahGdRpJ1hHCm/DEwGDq9zCVdsK947JvpsEFt2znF97r7FAN4F7Lf1A
-         +U8DDjuqJiUvJ+8936LHYQ2oP+Xah5eeUsmUNZwUSbEfUzry4Kf0arH9tcJ/IgU3cxnh
-         Cve3bogOZ5e8641j1PLebyTU6Js9qFKBZOpF/9/M+udtPnPw230xHWnxHb64zNX0pcA7
-         Oj+g==
-X-Gm-Message-State: AOJu0Yx7PJk3BmCtscttzB6faAy6URoonyaHUp/sk2hTXLgexAn5a2mJ
-	LP7jqOKSZAYyHBbRaF5DznCcM1Ong1JbBLINBIruFh+AIsu73crgM9ndzSR+bA==
-X-Gm-Gg: Acq92OFMp1SrfsvE9en8YHIzCj6ktWl28gAUFoh+TLmV+hQEh1ORLj8HrHGj/FV+8N6
-	FPLBzZ3BbQue4nJOwHZ7WCG7hUyqc1pop7y8sDsgrpbctCio2hMBSNj78U/59BBTo0ekYCrpfoW
-	vwgqMOtxywMZFMn/td59nyip3vW1Fv5YDTwg28y0bHR5otp/599NeDM//UH9FuJHjnlQTg8JM04
-	rfH8jOL656aOjcojHL45bKCqoWnfn+fI7cZS68wRtce8jU0BHp0FJkfg+YGaVSQ0VyljqjAZBwp
-	/7/dzlyY/Gom56PeNy5ZZJX5I+UCi7pFpQA+MiMnirtj2u69ubBg5PfuAfpnk87JGUML1OcnwCS
-	1VNIUN3847ej21hxrcwlWMJL+ENO+Eb2T4//B5nZ2eh3RhHNjjCBbbyWOAixodoY4h3s5b4t+mw
-	WHXGHB9Ub59X4AsAf6ttM=
-X-Received: by 2002:a05:6000:25c6:b0:454:a12c:6cdb with SMTP id ffacd0b85a97d-45e5c57d4bcmr20956905f8f.2.1779081288513;
-        Sun, 17 May 2026 22:14:48 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9e767cb9sm33188911f8f.2.2026.05.17.22.14.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 22:14:47 -0700 (PDT)
-Date: Mon, 18 May 2026 08:14:45 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: "Korenblit, Miriam Rachel" <miriam.rachel.korenblit@intel.com>
-Cc: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>,
-	lkp <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"Berg, Johannes" <johannes.berg@intel.com>
-Subject: Re: [iwlwifi-next:next 13/93]
- drivers/net/wireless/intel/iwlwifi/mld/tx.c:571 iwl_mld_fill_tx_cmd() warn:
- variable dereferenced before check 'mld_sta' (see line 565)
-Message-ID: <agqgRaXY5OSEDzSh@stanley.mountain>
-References: <202605171045.6jPun4QF-lkp@intel.com>
- <DS0PR11MB788062B175A1E6833DA8EC31A3032@DS0PR11MB7880.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BYvB1dsy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779085383; x=1810621383;
+  h=date:from:to:cc:subject:message-id;
+  bh=ld3Mir59V8pSjhyIrQhcXCF3dvg6KoefO61tJKuY4z8=;
+  b=BYvB1dsyGGv4HQLnvrhjBewVYF9zZzLfJW7n4r8SKDODH4sCIk3ahet4
+   9vpjSl0tqaWfaTaXjVtPDycHIS24AK5m8B1z4V/Hp9REDT9bQFAa1STdh
+   E2GPncQBl90iQuNmhhVT9JdEsbZCNj9lBNVEMbI7murk5xVfZ7oVHACmx
+   UBe6L67IfCb8IwXW236ecYfoMznYxzObmQB29hA5oPLTH86T1zkeQjtZ2
+   uRKYX2ftoylVil4ggDuQCsRJDy/4eqa9MR23589UGRJQhfydNslsxSfjP
+   aHrKHbgpLTqh9IZaP1LijHVElLMydhj0MY3qYFfKU/6nBwUi4QgTPDVWl
+   g==;
+X-CSE-ConnectionGUID: 6OFwkZxwQ3iuRPBLdUVKbg==
+X-CSE-MsgGUID: GBPJz6lwSWqc0VNphZ+S+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="83784479"
+X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
+   d="scan'208";a="83784479"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 23:23:01 -0700
+X-CSE-ConnectionGUID: x0bWuREGQPKCfo0Tyl5pvw==
+X-CSE-MsgGUID: CGIi0mPVSzaYk3Hl6RhGTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
+   d="scan'208";a="243618239"
+Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 17 May 2026 23:23:00 -0700
+Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wOrNR-000000002QA-30qD;
+	Mon, 18 May 2026 06:22:57 +0000
+Date: Mon, 18 May 2026 14:22:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: arch/x86/events/intel/uncore.c:895:52: warning: '%s'
+ directive writing between 1 and 2147483645 bytes into a region of size 25
+Message-ID: <202605181437.anqc5ask-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DS0PR11MB788062B175A1E6833DA8EC31A3032@DS0PR11MB7880.namprd11.prod.outlook.com>
 
-On Mon, May 18, 2026 at 05:11:00AM +0000, Korenblit, Miriam Rachel wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Dan Carpenter <error27@gmail.com>
-> > Sent: Monday, May 18, 2026 8:03 AM
-> > To: oe-kbuild@lists.linux.dev; Korenblit, Miriam Rachel
-> > <miriam.rachel.korenblit@intel.com>
-> > Cc: lkp <lkp@intel.com>; oe-kbuild-all@lists.linux.dev; Berg, Johannes
-> > <johannes.berg@intel.com>
-> > Subject: [iwlwifi-next:next 13/93] drivers/net/wireless/intel/iwlwifi/mld/tx.c:571
-> > iwl_mld_fill_tx_cmd() warn: variable dereferenced before check 'mld_sta' (see
-> > line 565)
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git
-> > next
-> > head:   ce2b645bb3099ef4d96759335271e25875202ce9
-> > commit: d751c944055aedf33a6cab9b1cadaab65d7bc8dd [13/93] wifi: iwlwifi:
-> > mld: use host rate for NAN management frames
-> > config: i386-randconfig-141-20260517 (https://download.01.org/0day-
-> > ci/archive/20260517/202605171045.6jPun4QF-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project
-> > 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > smatch: v0.5.0-9185-gbcc58b9c
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of the
-> > same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Closes: https://lore.kernel.org/r/202605171045.6jPun4QF-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/net/wireless/intel/iwlwifi/mld/tx.c:571 iwl_mld_fill_tx_cmd() warn:
-> > variable dereferenced before check 'mld_sta' (see line 565)
-> > 
-> > vim +/mld_sta +571 drivers/net/wireless/intel/iwlwifi/mld/tx.c
-> > 
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  538  static void
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  539  iwl_mld_fill_tx_cmd(struct
-> > iwl_mld *mld, struct sk_buff *skb,
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  540  		    struct
-> > iwl_device_tx_cmd *dev_tx_cmd,
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  541  		    struct
-> > ieee80211_sta *sta)
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  542  {
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  543  	struct
-> > ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  544  	struct ieee80211_hdr
-> > *hdr = (void *)skb->data;
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  545  	struct iwl_mld_sta
-> > *mld_sta = sta ? iwl_mld_sta_from_mac80211(sta) :
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  546
-> > 		    NULL;
-> > 1c97c73cdab0afc Miri Korenblit 2025-05-11  547  	struct iwl_tx_cmd
-> > *tx_cmd;
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  548  	bool amsdu =
-> > ieee80211_is_data_qos(hdr->frame_control) &&
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  549
-> > (*ieee80211_get_qos_ctl(hdr) &
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  550
-> > IEEE80211_QOS_CTL_A_MSDU_PRESENT);
-> > dabc88cb3b78c0d Johannes Berg  2025-05-05  551  	__le32 rate_n_flags =
-> > 0;
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  552  	u16 flags = 0;
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  553
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  554  	dev_tx_cmd->hdr.cmd
-> > = TX_CMD;
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  555
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  556  	if (!info-
-> > >control.hw_key)
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  557  		flags |=
-> > IWL_TX_FLAGS_ENCRYPT_DIS;
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  558
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  559  	/* For data and mgmt
-> > packets rate info comes from the fw.
-> > d751c944055aedf Miri Korenblit 2026-05-10  560  	 * Only set
-> > rate/antenna for:
-> > d751c944055aedf Miri Korenblit 2026-05-10  561  	 * - injected frames
-> > with fixed rate,
-> > d751c944055aedf Miri Korenblit 2026-05-10  562  	 * - when no sta is
-> > given.
-> > d751c944055aedf Miri Korenblit 2026-05-10  563  	 * - frames that are
-> > sent to an NMI sta, which is only used for management.
-> > d1e879ec600f9b3 Miri Korenblit 2025-02-16  564  	 */
-> > d751c944055aedf Miri Korenblit 2026-05-10 @565  	if (unlikely(!sta ||
-> > mld_sta->vif->type == NL80211_IFTYPE_NAN ||
-> >                                                                              ^^^^^^^^^^^^^^^^^^ Dereference
-> 
-> 
-> This is not a real issue because (sta != NULL) -> (mld_sta != NULL)
-> 
+:::::: 
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Nathan-Chancellor/kbuild-Bump-minimum-version-of-LLVM-for-building-the-kernel-to-17-0-1/20260518-071448, commit: efe6a2a0073c5db6aaa2d79dd68bde98dc335112"
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
-You could delete the other NULL check then.  The checker just wants
-it to be consistent.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Nathan Chancellor <nathan@kernel.org>
+CC: 0day robot <lkp@intel.com>
 
-regards,
-dan carpenter
+tree:   https://github.com/intel-lab-lkp/linux/commits/Nathan-Chancellor/kbuild-Bump-minimum-version-of-LLVM-for-building-the-kernel-to-17-0-1/20260518-071448
+head:   5b11b4afdc532a7c1d022b5f572c17428b613f0f
+commit: efe6a2a0073c5db6aaa2d79dd68bde98dc335112 x86/build: Drop unnecessary '-ffreestanding' addition to KBUILD_CFLAGS
+date:   7 hours ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260518/202605181437.anqc5ask-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605181437.anqc5ask-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202605181437.anqc5ask-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   arch/x86/events/intel/uncore.c: In function 'uncore_get_pmu_name':
+>> arch/x86/events/intel/uncore.c:895:52: warning: '%s' directive writing between 1 and 2147483645 bytes into a region of size 25 [-Wformat-overflow=]
+     895 |                         sprintf(pmu->name, "uncore_%s", type->name);
+         |                                                    ^~
+   arch/x86/events/intel/uncore.c:895:25: note: 'sprintf' output between 9 and 2147483653 bytes into a destination of size 32
+     895 |                         sprintf(pmu->name, "uncore_%s", type->name);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +895 arch/x86/events/intel/uncore.c
+
+8053f2d752e293 Kan Liang 2021-06-30  879  
+d6c754130435ab Kan Liang 2021-03-17  880  static void uncore_get_pmu_name(struct intel_uncore_pmu *pmu)
+d6c754130435ab Kan Liang 2021-03-17  881  {
+d6c754130435ab Kan Liang 2021-03-17  882  	struct intel_uncore_type *type = pmu->type;
+d6c754130435ab Kan Liang 2021-03-17  883  
+d6c754130435ab Kan Liang 2021-03-17  884  	/*
+d6c754130435ab Kan Liang 2021-03-17  885  	 * No uncore block name in discovery table.
+d6c754130435ab Kan Liang 2021-03-17  886  	 * Use uncore_type_&typeid_&boxid as name.
+d6c754130435ab Kan Liang 2021-03-17  887  	 */
+d6c754130435ab Kan Liang 2021-03-17  888  	if (!type->name) {
+8053f2d752e293 Kan Liang 2021-06-30  889  		uncore_get_alias_name(pmu->name, pmu);
+d6c754130435ab Kan Liang 2021-03-17  890  		return;
+d6c754130435ab Kan Liang 2021-03-17  891  	}
+d6c754130435ab Kan Liang 2021-03-17  892  
+d6c754130435ab Kan Liang 2021-03-17  893  	if (type->num_boxes == 1) {
+d6c754130435ab Kan Liang 2021-03-17  894  		if (strlen(type->name) > 0)
+d6c754130435ab Kan Liang 2021-03-17 @895  			sprintf(pmu->name, "uncore_%s", type->name);
+d6c754130435ab Kan Liang 2021-03-17  896  		else
+d6c754130435ab Kan Liang 2021-03-17  897  			sprintf(pmu->name, "uncore");
+c54c53d9921ade Kan Liang 2021-06-30  898  	} else {
+c54c53d9921ade Kan Liang 2021-06-30  899  		/*
+c54c53d9921ade Kan Liang 2021-06-30  900  		 * Use the box ID from the discovery table if applicable.
+c54c53d9921ade Kan Liang 2021-06-30  901  		 */
+c54c53d9921ade Kan Liang 2021-06-30  902  		sprintf(pmu->name, "uncore_%s_%d", type->name,
+3af548f2361077 Kan Liang 2023-01-12  903  			uncore_get_box_id(type, pmu));
+c54c53d9921ade Kan Liang 2021-06-30  904  	}
+d6c754130435ab Kan Liang 2021-03-17  905  }
+d6c754130435ab Kan Liang 2021-03-17  906  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
