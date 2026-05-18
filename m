@@ -1,65 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B722FF155
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 May 2026 08:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BF33F99FB
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 May 2026 14:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779092459; cv=none; b=janCJR+K2oULIgYGWufZ1xSdBdtXlfHzbLv+YJKkoYIQL4Dslp/GNemfmGEDhCNW+S0bdrGMAg3h9SXyhJRFH5BJfjcB5LPUgrbRuIfRH2fPYCs9ICCSCJlzKPVt1qH+CuURU16pnLb02+D0n/v/AcTQci8+dZwPnLEDm6WyLZY=
+	t=1779115502; cv=none; b=Ki04Z27zw6b7IDAwMmh8cCfdGGB112UWj3SmZ/6lgo5LlzAZkrVXT98MC53xW/2XMPFa9ByvHihtQq58h1ci5rJDjrZJX6uY2jdUrMiJZgMo9/kF5RshEb4d8KDlWQ5P4E2GwFGSQsIuy+holjjIkzU3W9S35NIyqPHm1E0OytY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779092459; c=relaxed/simple;
-	bh=TrG/JKahzz8qGdvUwYVPQYjkJvlxtwbRRwX1rk8Mjg8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=R1zrPixd5U/5dGT6PofkSeslenJoa5zTYAfXUw70o3yY7JGuOOn5RlBer4TvkWD6GRlKixYx3H+uE6m48iVQMHBVKEdFs78E8/iR7f5gqHM7BvwI6lc4YLJ5A+jROlkbbxlnXsC1s3mLSx0fhD7QmAhN11DGce9/egqlkdMmJhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RO5ri8qz; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1779115502; c=relaxed/simple;
+	bh=S5nvHgXJ53HsXqDXjwZ+XwEhgHs3y8tJLJQpLFK4s48=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZQ7D/9mWdc5YaJ2+bLNUlnj7Lt21QHZD1HXWi9mrQfUuPv9tr8CKFpAldvAl0tm8gUcpibbNgy6KghYSf+k96MnEhOo66BIlBjHVsIP3yd3LBceIwbN1KDwhsrorgiHrRzekzdNS4T2IVDnjUZDz7kFuojdnXhKraiQEnnBuXfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YJRs2hTR; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RO5ri8qz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YJRs2hTR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779092456; x=1810628456;
-  h=date:from:to:cc:subject:message-id;
-  bh=TrG/JKahzz8qGdvUwYVPQYjkJvlxtwbRRwX1rk8Mjg8=;
-  b=RO5ri8qzsrVTxJMZ3qQGwooXG/qjea6g7jELVxNcMlJ6fU/fCNjI7cGY
-   JEwS3HWyQKpgKg+2jrz7YuaMNYNVwvxZdD/NQ1BgPIupDivREnpp1KFsT
-   uy7H8MRgE0Wf9VOHN9VFf/39cj86I2ddAybdeZ8dXaEZlfCT3K8GQPQzm
-   c7M5CvrqyjShkHYsSksSD1VHngQ6JIhAd9UydliacUQPMTM4CvWbDagoY
-   i9Ll2Wnk46EISdIgOfkgDD3SuZPDIM+GSuq1X0RSx9kWIxXM3Zp8j6SzI
-   ruxrWHRVqC0nu5mXFqvfMQt+1mGN8U+v6GUyUI5xnma4CTOLFBBMLGPXE
-   w==;
-X-CSE-ConnectionGUID: ogLRf0kBRequscpYUu3OMA==
-X-CSE-MsgGUID: HNP8yZmQTbK0yznR0q7rrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="80061028"
-X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
-   d="scan'208";a="80061028"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 01:20:55 -0700
-X-CSE-ConnectionGUID: 3Pd3+FDETWKkqUDxMru5Vg==
-X-CSE-MsgGUID: TyeJjWdTRDm9Gw6M0MmJ6g==
+  t=1779115500; x=1810651500;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S5nvHgXJ53HsXqDXjwZ+XwEhgHs3y8tJLJQpLFK4s48=;
+  b=YJRs2hTRMHWoMDBl6QdJtaSE0ftfHtcJaxXYxDiNBEa7yZEwP8xMf6kI
+   +4U5MjrncZVeg9D4VuNHPdl/ze/6PnR2huLQcKgVft+6AcwlUHYjHqHhA
+   AXGjRmZUd67BV19HbvR5iYlEZ++i1aR5jGB+diip4RNO39u/fafQTtx5Y
+   CdMW/yg1g/jtg+FZZfZy8JPMBGyRzOgwbe7fS4L2LyaULcDsl3QdL2a4V
+   wMu8OiZ7EeYMqTBihAAnq8b24PSey3/yWWTFkBrKg00OjqjINrqSeaJxU
+   40RreIgKDgzl6CgzKdT352OBYgETtpBN+6JCmh179h+9VZ4+XdguOJrQ7
+   A==;
+X-CSE-ConnectionGUID: cmQE13fzTDqb2I3daq4HHA==
+X-CSE-MsgGUID: v61NwinxRLyTwNnWuQPveQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="79949873"
+X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
+   d="scan'208";a="79949873"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 07:45:00 -0700
+X-CSE-ConnectionGUID: H46IrHOEShSEtuA9J0V3JA==
+X-CSE-MsgGUID: p5AbJHEhQ5m90SLkh4qSLw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
-   d="scan'208";a="234901574"
+X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
+   d="scan'208";a="241258018"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 18 May 2026 01:20:54 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 18 May 2026 07:44:58 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOtDY-000000009lp-1b9Q;
-	Mon, 18 May 2026 08:20:52 +0000
-Date: Mon, 18 May 2026 10:20:30 +0200
+	id 1wOzDE-000000009qL-15Hm;
+	Mon, 18 May 2026 14:44:56 +0000
+Date: Mon, 18 May 2026 16:44:10 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 13/114]
- arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000
- (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not
- match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202605181011.6EDVvo6A-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
+ amplifier
+Message-ID: <202605181614.vVgzEdaG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -67,151 +68,83 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
-CC: Janne Grunau <j@jannau.net>
+In-Reply-To: <20260518024704.118613-3-YLCHANG2@nuvoton.com>
+References: <20260518024704.118613-3-YLCHANG2@nuvoton.com>
+TO: Neo Chang <YLCHANG2@nuvoton.com>
+TO: broonie@kernel.org
+CC: lgirdwood@gmail.com
+CC: perex@perex.cz
+CC: tiwai@suse.com
+CC: robh@kernel.org
+CC: krzk+dt@kernel.org
+CC: linux-sound@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: alsa-devel@alsa-project.org
+CC: neo.chang70@gmail.com
+CC: kchsu0@nuvoton.com
+CC: sjlin0@nuvoton.com
+CC: Neo Chang <YLCHANG2@nuvoton.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   2d563843e07af55de0249a409021af705f586961
-commit: 35f54dcd0f7374d7d69af856e58172400944d7ab [13/114] arm64: dts: apple: t8103: Mark MCA power states as externally-clocked
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-2055-20260516 (https://download.01.org/0day-ci/archive/20260518/202605181011.6EDVvo6A-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
+Hi Neo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.16-rc1 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neo-Chang/ASoC-dt-bindings-nuvoton-nau8360-Add-NAU83G60/20260518-104921
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260518024704.118613-3-YLCHANG2%40nuvoton.com
+patch subject: [PATCH v2 2/2] ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: arc-randconfig-2051-20260518 (https://download.01.org/0day-ci/archive/20260518/202605181614.vVgzEdaG-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 12.5.0
 dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605181011.6EDVvo6A-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605181614.vVgzEdaG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605181011.6EDVvo6A-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605181614.vVgzEdaG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> make[3]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/sound/nuvoton,nau8360.example.dts] Error 1
+   make[3]: *** Deleting file 'Documentation/devicetree/bindings/sound/nuvoton,nau8360.example.dts'
+   make[3]: Target 'dt_binding_check' not remade because of errors.
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2b8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml: ignoring, error parsing file
 --
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@23510c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2b8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   Documentation/devicetree/bindings/pci/toshiba,tc9563.yaml: properties:i2c-parent:items:1: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+   Documentation/devicetree/bindings/remoteproc/qcom,wcnss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+>> Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml:25:53: mapping values are not allowed here
+   Documentation/devicetree/bindings/remoteproc/qcom,msm8996-mss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+   Documentation/devicetree/bindings/remoteproc/qcom,sc7180-mss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
+   	'items' is a required property
+   	'minItems' is a required property
+   	'maxItems' is a required property
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
 --
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@23510c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2b8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml:25:53: [error] syntax error: mapping values are not allowed here (syntax)
 --
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2b8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
---
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2b8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml:25:53: mapping values are not allowed here
 
 --
 0-DAY CI Kernel Test Service
