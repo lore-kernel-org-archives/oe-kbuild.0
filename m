@@ -1,180 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283E64DC540
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 May 2026 12:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485CB3403EE
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 May 2026 13:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779194721; cv=none; b=BI/Vz1D2PD6rNjgDl5P+WU3XOs6rxjpMxlHwRaG5Hzm8Mrwf4CoTGMtvV0lP7Xxzo1oSf7rMtYyUeSmt0tQxYiNLSn6ErxW6+Saz/4uMagFYu8XevwAy6tttYJOCJpnFMG/ZiCxR5iqOwraYGVCgxITUPsXHwCxB+RNQB+UyFsg=
+	t=1779199040; cv=none; b=uOSwi75vrpTs95I9NZt58wThEQC7XQL4PRtyeyJpyH4gW1SJeTN4FA7fM1hAO0dxR74Q6GQIqe31yLmG7aKnCpe0JahI1Gv7P/A+XeMxqN2pMe20JO75j5GePzbIKqd32i7xNIEhMj11pfhtemf+Hu/jp/D2VbwivTHQ2JPBh4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779194721; c=relaxed/simple;
-	bh=+M7/wBjeRcK1rrzG5TgFJ/EBpW6cY0y1phHOgLnc/78=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sOG6qaascKwklbIyjdLd1rfFhf4DBjUa60flDYZeNlgRp7M/vOK5lUB1hYCMNDARKKgR3gO5kc4El/U/xHuUZqWNCGT58sBOAo7veyj1mCUh8X6SVRHxriODtyM53H0PgBaV3IVmg+3NywJhlD2aLoFtWO74fGsizDZyaazsheU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WxdVX5Fj; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1779199040; c=relaxed/simple;
+	bh=8EvB7idMH8pXBC8t1/f34thhqQ8GZSL+GAabKnRP/MQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iwi2PEEdm8fNVglfQ/mJ8L8bQFARdVVasBYME02R0s/QHE7EMpNvVd+j37i80TZRmXfQV540Z96uDc8kh+kWjraYu1k9i71DG/9B+1PUhanRelekbKD4hR5cZUzDD6Lnh+/aNld9CDNNqZCwGk1Uv4NL9+SNlci0vU4A8nVPFzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNS5kB+J; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxdVX5Fj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNS5kB+J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779194718; x=1810730718;
-  h=date:from:to:cc:subject:message-id;
-  bh=+M7/wBjeRcK1rrzG5TgFJ/EBpW6cY0y1phHOgLnc/78=;
-  b=WxdVX5FjMnZVCq8t3GVq5raPhXFNBU8x28QGsy6cWJ2LulymGHU2MGMQ
-   hQEHnvoC5C4mM4IFNtvMtsN4IueMz4msWNnsVE5/7ShMarKm4z6dTiTJh
-   HJNpytUuy7gzae+ByO6z+URoazeWNi37QAaacQ/PGOFymQbTgKAhLpjav
-   zi95wUHElEQrfx7U+lwnORDG4V7pxtoTPvgMsMxJ4mdB+/azRqQzHiqJU
-   6RveEbLMG2/zkQholbpSIVU++N5Hpt2smaAhf6UGTUYXSaUSXIv6bOGRC
-   zr0txYb90JoAOWJyKToiBfCz/b+/I8G3a6aeUEDbYk0zCcCqQAmyycDAZ
+  t=1779199039; x=1810735039;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8EvB7idMH8pXBC8t1/f34thhqQ8GZSL+GAabKnRP/MQ=;
+  b=UNS5kB+JoqOu2iVgCtm6PAQTXpqxGQhwBK6/3ACOO9BctdT09DFaM3UJ
+   rdpb1x8DtNnYueUGp+nVWsyT4VNB40xwLWWY/slF0OjSJ7k8rkTEQp2Hg
+   GX0NPVAkpDdzOULYLN3y7Fzgb8Ph2dry3ZFKLl45wX0eNCCkcQ7+ayPLt
+   qAabAEEPj1Gt5ieLmpcnJl5JrU7B32uPv768a9Q6/MmYKWDl4xdSSdFob
+   Ppf2iPWu6msKOp1iF4gShBfzSQCwD2sP/moUbjFF5+E/+uLxiWCFrRrO6
+   Op8MiHEtMN0Ta84cERmi88uNReODhPPB73BNop1wFOE8E7iMS30vMEgN5
    w==;
-X-CSE-ConnectionGUID: kaKlIDOvQGGsBK+HItehoA==
-X-CSE-MsgGUID: FMVa9iQOTgOZ8gpG9E+Mvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="91464959"
+X-CSE-ConnectionGUID: e1EqWdcUS0KSA40Cr4/nOg==
+X-CSE-MsgGUID: MyxMv8nGTTax0dULQM/z8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="90772630"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="91464959"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 05:45:18 -0700
-X-CSE-ConnectionGUID: DzXfBQw4TpuiTN1XLmWfgg==
-X-CSE-MsgGUID: +R4LMaaWSQiAnnOceyng4g==
+   d="scan'208";a="90772630"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 06:57:18 -0700
+X-CSE-ConnectionGUID: Vx8fBK7USHSHuVSD0RhUbQ==
+X-CSE-MsgGUID: R3Rlm8TeQvud8EqpaoGHWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="235321797"
+   d="scan'208";a="243776059"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 19 May 2026 05:45:17 -0700
+  by orviesa003.jf.intel.com with ESMTP; 19 May 2026 06:57:17 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPJow-00000000ACb-1tqa;
-	Tue, 19 May 2026 12:45:14 +0000
-Date: Tue, 19 May 2026 14:45:07 +0200
+	id 1wPKwd-00000000ADN-0OMX;
+	Tue, 19 May 2026 13:57:15 +0000
+Date: Tue, 19 May 2026 15:56:41 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: include/x86/processor.h:403:44: error: expected ')' before
- ':' token
-Message-ID: <202605191406.4p8wpUwC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH 1/1] arm64: dts: Add usbphynop and usbotg pinctrl for
+ S32G platforms
+Message-ID: <202605191524.QYYlQnoP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yosry Ahmed <yosryahmed@google.com>
-CC: 0day robot <lkp@intel.com>
+In-Reply-To: <20260518061522.2884441-2-khristineandreea.barbulescu@oss.nxp.com>
+References: <20260518061522.2884441-2-khristineandreea.barbulescu@oss.nxp.com>
+TO: Khristine Andreea Barbulescu <khristineandreea.barbulescu@oss.nxp.com>
+TO: Chester Lin <chester62515@gmail.com>
+TO: Matthias Brugger <mbrugger@suse.com>
+TO: Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>
+TO: Frank Li <Frank.Li@nxp.com>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Fabio Estevam <festevam@gmail.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+CC: linux-arm-kernel@lists.infradead.org
+CC: imx@lists.linux.dev
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: NXP S32 Linux <s32@nxp.com>
+CC: Christophe Lizzi <clizzi@redhat.com>
+CC: Alberto Ruiz <aruizrui@redhat.com>
+CC: Enric Balletbo <eballetb@redhat.com>
 
-Hi Yosry,
+Hi Khristine,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/KVM-selftests-Fix-offsets-in-GPR-switching-for-nSVM/20260519-043429
-head:   43584f6a088769edb3f26958a4a4edf0f31addad
-commit: 345479cf6d802be542072394909a372d4a8f75a2 KVM: selftests: Move GPR load/save definitions outside of nSVM code
-date:   16 hours ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260519/202605191406.4p8wpUwC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605191406.4p8wpUwC-lkp@intel.com/reproduce)
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v7.1-rc4 next-20260519]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Khristine-Andreea-Barbulescu/arm64-dts-Add-usbphynop-and-usbotg-pinctrl-for-S32G-platforms/20260518-141711
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260518061522.2884441-2-khristineandreea.barbulescu%40oss.nxp.com
+patch subject: [PATCH 1/1] arm64: dts: Add usbphynop and usbotg pinctrl for S32G platforms
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: arm64-randconfig-2055-20260518 (https://download.01.org/0day-ci/archive/20260519/202605191524.QYYlQnoP-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605191524.QYYlQnoP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605191406.4p8wpUwC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605191524.QYYlQnoP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from lib/kvm_util.c:10:
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:405:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     405 | DEFINE_ASM_GPR64_OFFSET(rbx);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:406:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     406 | DEFINE_ASM_GPR64_OFFSET(rcx);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:407:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     407 | DEFINE_ASM_GPR64_OFFSET(rdx);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:408:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     408 | DEFINE_ASM_GPR64_OFFSET(rbp);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:409:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     409 | DEFINE_ASM_GPR64_OFFSET(rsi);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:410:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     410 | DEFINE_ASM_GPR64_OFFSET(rdi);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:411:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     411 | DEFINE_ASM_GPR64_OFFSET(r8);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:412:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     412 | DEFINE_ASM_GPR64_OFFSET(r9);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:413:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     413 | DEFINE_ASM_GPR64_OFFSET(r10);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:414:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     414 | DEFINE_ASM_GPR64_OFFSET(r11);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:415:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     415 | DEFINE_ASM_GPR64_OFFSET(r12);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:416:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     416 | DEFINE_ASM_GPR64_OFFSET(r13);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:417:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     417 | DEFINE_ASM_GPR64_OFFSET(r14);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/x86/processor.h:403:44: error: expected ')' before ':' token
-     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
-         |            ~                               ^
-   include/x86/processor.h:418:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
-     418 | DEFINE_ASM_GPR64_OFFSET(r15);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/s32g274a-evb.dtb: pinctrl@4009c240 (nxp,s32g2-siul2-pinctrl): 'usbotg_pins' does not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/nxp,s32g2-siul2-pinctrl.yaml
+>> arch/arm64/boot/dts/freescale/s32g274a-evb.dtb: usb@44064000 (nxp,s32g2-usb): Unevaluated properties are not allowed ('fsl,usbmisc', 'fsl,usbphy' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+--
+>> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: pinctrl@4009c240 (nxp,s32g2-siul2-pinctrl): 'usbotg_pins' does not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/nxp,s32g2-siul2-pinctrl.yaml
+>> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: usb@44064000 (nxp,s32g2-usb): Unevaluated properties are not allowed ('fsl,usbmisc', 'fsl,usbphy' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
+--
+   arch/arm64/boot/dts/freescale/s32g3.dtsi:863.27-869.5: Warning (simple_bus_reg): /soc@0/watchdog@40500000: simple-bus unit address format error, expected "269fb20"
+>> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: pinctrl@4009c240 (nxp,s32g2-siul2-pinctrl): 'usbotg_pins' does not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/nxp,s32g2-siul2-pinctrl.yaml
+>> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: usb@44064000 (nxp,s32g3-usb): Unevaluated properties are not allowed ('fsl,usbmisc', 'fsl,usbphy' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/ci-hdrc-usb2.yaml
 
 --
 0-DAY CI Kernel Test Service
