@@ -1,410 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4F339446D
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 May 2026 11:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283E64DC540
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 May 2026 12:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779189799; cv=none; b=ZiFs1Zd3I2kR/EDMJVQcO/ijumXUADx+TmvzgEZcZ4EjP0BqavMmZZrROT1Dt7IDH2n//xP3ux6CtTiMty2ZevABrQMi2J3lWJkIvI6W2d8/av8qMyP19yVvewlKMy+TU83GD13Z6d2zBt4Tsh5hm7Ea0lknGYRHJ+prbCqKbAM=
+	t=1779194721; cv=none; b=BI/Vz1D2PD6rNjgDl5P+WU3XOs6rxjpMxlHwRaG5Hzm8Mrwf4CoTGMtvV0lP7Xxzo1oSf7rMtYyUeSmt0tQxYiNLSn6ErxW6+Saz/4uMagFYu8XevwAy6tttYJOCJpnFMG/ZiCxR5iqOwraYGVCgxITUPsXHwCxB+RNQB+UyFsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779189799; c=relaxed/simple;
-	bh=IkC04+xKXeyXSPMABBe7AicLO98indGxV/gSiF+qgvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=fvU1z63RvHiRvDrZtizGuXG608uHXODrjxWakUkDy8WjC0iwFRT/+z8Om8cnwgAvj/cNsnShoe8YbU71HRm5nHLknLQi8tUO7cAZDtMxHCab1ZjbAGds5ecTZiBsJBYkLY11Zav7/xx8X0EDjF5vokFAzJYRHW2Ole5e1ndDZS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDx3tkg2; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1779194721; c=relaxed/simple;
+	bh=+M7/wBjeRcK1rrzG5TgFJ/EBpW6cY0y1phHOgLnc/78=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sOG6qaascKwklbIyjdLd1rfFhf4DBjUa60flDYZeNlgRp7M/vOK5lUB1hYCMNDARKKgR3gO5kc4El/U/xHuUZqWNCGT58sBOAo7veyj1mCUh8X6SVRHxriODtyM53H0PgBaV3IVmg+3NywJhlD2aLoFtWO74fGsizDZyaazsheU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WxdVX5Fj; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDx3tkg2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxdVX5Fj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779189797; x=1810725797;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=IkC04+xKXeyXSPMABBe7AicLO98indGxV/gSiF+qgvI=;
-  b=FDx3tkg21xGn4Vmm/olJUuA9n4Oo85BLLQkEgpT8FRFcJEPFSoUqnvzW
-   JxdmAAViie+x/pT3fR/IE7C2RW7NW9D/zFm7tWoxBdI9+a1OQthhtq4f9
-   /Dw/X5P21+B9Z38Xv4pWKUt+RGIV4xqC7EqARIWH4YhDhbvuSHrGaaHo4
-   DxTQfWs0cT6ItQzaCk3yXurWFtmnX6KQ7yRCHP9D2IXr+dNXJg8a0zfvo
-   T3/lHYrrHsQ6fb9VtO+uNJKXEdVhhjR1lTuSwlM0M5SeSzZQx3fEJO+BA
-   3SIe77ezkilkuAhzEQZ3w1HU4QYlVA58rGNlbD01XEkdVZFJWcCKuxPFr
-   A==;
-X-CSE-ConnectionGUID: VzDqS1AkTciddk+vRfgmjw==
-X-CSE-MsgGUID: r4snML4cQyCv8DJu+ZdFSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="79965426"
+  t=1779194718; x=1810730718;
+  h=date:from:to:cc:subject:message-id;
+  bh=+M7/wBjeRcK1rrzG5TgFJ/EBpW6cY0y1phHOgLnc/78=;
+  b=WxdVX5FjMnZVCq8t3GVq5raPhXFNBU8x28QGsy6cWJ2LulymGHU2MGMQ
+   hQEHnvoC5C4mM4IFNtvMtsN4IueMz4msWNnsVE5/7ShMarKm4z6dTiTJh
+   HJNpytUuy7gzae+ByO6z+URoazeWNi37QAaacQ/PGOFymQbTgKAhLpjav
+   zi95wUHElEQrfx7U+lwnORDG4V7pxtoTPvgMsMxJ4mdB+/azRqQzHiqJU
+   6RveEbLMG2/zkQholbpSIVU++N5Hpt2smaAhf6UGTUYXSaUSXIv6bOGRC
+   zr0txYb90JoAOWJyKToiBfCz/b+/I8G3a6aeUEDbYk0zCcCqQAmyycDAZ
+   w==;
+X-CSE-ConnectionGUID: kaKlIDOvQGGsBK+HItehoA==
+X-CSE-MsgGUID: FMVa9iQOTgOZ8gpG9E+Mvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="91464959"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="79965426"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 04:23:16 -0700
-X-CSE-ConnectionGUID: PXM+NOlRRZCvfwaQvoog3g==
-X-CSE-MsgGUID: xyrBKCuMTwa0rsy2W1JPjw==
+   d="scan'208";a="91464959"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 05:45:18 -0700
+X-CSE-ConnectionGUID: DzXfBQw4TpuiTN1XLmWfgg==
+X-CSE-MsgGUID: +R4LMaaWSQiAnnOceyng4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="263524443"
+   d="scan'208";a="235321797"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 19 May 2026 04:23:14 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 May 2026 05:45:17 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPIXY-00000000AAr-48rY;
-	Tue, 19 May 2026 11:23:12 +0000
-Date: Tue, 19 May 2026 13:23:03 +0200
+	id 1wPJow-00000000ACb-1tqa;
+	Tue, 19 May 2026 12:45:14 +0000
+Date: Tue, 19 May 2026 14:45:07 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 17/114]
- arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38 (ti,sn012776): compatible:
- ['ti,sn012776', 'ti,tas2764'] is too long
-Message-ID: <202605191359.DkHH9RRi-lkp@intel.com>
+Subject: include/x86/processor.h:403:44: error: expected ')' before
+ ':' token
+Message-ID: <202605191406.4p8wpUwC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povi=C5=A1er" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
-CC: James Calligeros <jcalligeros99@gmail.com>
+TO: Yosry Ahmed <yosryahmed@google.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   2d563843e07af55de0249a409021af705f586961
-commit: c5da7538f1560f7303e193e2341376ca75190ba0 [17/114] arm64: dts: apple=
-: t8112: Put in audio nodes
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-2055-20260516 (https://download.01.org/0day-ci/arc=
-hive/20260519/202605191359.DkHH9RRi-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260519/202605191359.DkHH9RRi-lkp@intel.com/reproduce)
+Hi Yosry,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/KVM-selftests-Fix-offsets-in-GPR-switching-for-nSVM/20260519-043429
+head:   43584f6a088769edb3f26958a4a4edf0f31addad
+commit: 345479cf6d802be542072394909a372d4a8f75a2 KVM: selftests: Move GPR load/save definitions outside of nSVM code
+date:   16 hours ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260519/202605191406.4p8wpUwC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605191406.4p8wpUwC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605191359.DkHH9RRi-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605191406.4p8wpUwC-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8112-j413.dts:172.14-182.5: Warning (unit_add=
-ress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges=
- property
-   arch/arm64/boot/dts/apple/t8112-j413.dts:184.14-193.5: Warning (unit_add=
-ress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges=
- property
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38 (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38 (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' =
-were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39 (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39 (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' =
-were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@4b (cirrus,cs42l84): 'so=
-und-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2e0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to =
-match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-help=
-er-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000 (apple,t8112-d=
-art): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4=
--dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@24e808000: failed t=
-o match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to=
- match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockc=
-hannel']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to=
- match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockc=
-hannel']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000/input@8000=
-: failed to match any schema with compatible: ['apple,dockchannel-hid']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any sc=
-hema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any sc=
-hema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8112-j415.dts:194.14-208.5: Warning (unit_add=
-ress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges=
- property
-   arch/arm64/boot/dts/apple/t8112-j415.dts:210.14-219.5: Warning (unit_add=
-ress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges=
- property
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@38 (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@38 (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' =
-were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@39 (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@39 (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3a (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3a (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3b (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3b (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' =
-were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3c (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3c (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@4b (cirrus,cs42l84): 'so=
-und-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2e0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to =
-match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-help=
-er-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@24e808000 (apple,t8112-d=
-art): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4=
--dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@24e808000: failed t=
-o match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000: failed to=
- match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockc=
-hannel']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000: failed to=
- match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockc=
-hannel']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000/input@8000=
-: failed to match any schema with compatible: ['apple,dockchannel-hid']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: /sound: failed to match any sc=
-hema with compatible: ['apple,j415-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: /sound: failed to match any sc=
-hema with compatible: ['apple,j415-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8112-j473.dts:137.14-146.5: Warning (unit_add=
-ress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges=
- property
-   arch/arm64/boot/dts/apple/t8112-j473.dts:148.14-157.5: Warning (unit_add=
-ress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges=
- property
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38 (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@4b (cirrus,cs42l84): 'ci=
-rrus,ts-inv', 'sound-name-prefix' do not match any of the regexes: '^pinctr=
-l-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2e0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to =
-match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-help=
-er-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000 (apple,t8112-d=
-art): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4=
--dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@24e808000: failed t=
-o match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to=
- match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockc=
-hannel']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to=
- match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockc=
-hannel']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000/input@8000=
-: failed to match any schema with compatible: ['apple,dockchannel-hid']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /sound: failed to match any sc=
-hema with compatible: ['apple,j473-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /sound: failed to match any sc=
-hema with compatible: ['apple,j473-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8112-j493.dts:227.14-237.5: Warning (unit_add=
-ress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges=
- property
-   arch/arm64/boot/dts/apple/t8112-j493.dts:239.14-248.5: Warning (unit_add=
-ress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges=
- property
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38 (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38 (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39 (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39 (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' =
-were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c (ti,sn012776): compat=
-ible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c (ti,sn012776): Uneval=
-uated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' =
-were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@4b (cirrus,cs42l84): 'so=
-und-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (ap=
-ple,t8112-pmgr): power-controller@2e0: 'apple,externally-clocked' does not =
-match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to =
-match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-help=
-er-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000 (apple,t8112-d=
-art): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4=
--dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	'apple,t6020-dart' was expected
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@24e808000: failed t=
-o match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to=
- match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockc=
-hannel']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to=
- match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockc=
-hannel']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000/input@8000=
-: failed to match any schema with compatible: ['apple,dockchannel-hid']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /sound: failed to match any sc=
-hema with compatible: ['apple,j493-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /sound: failed to match any sc=
-hema with compatible: ['apple,j493-macaudio', 'apple,macaudio']
+All errors (new ones prefixed by >>):
+
+   In file included from lib/kvm_util.c:10:
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:405:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     405 | DEFINE_ASM_GPR64_OFFSET(rbx);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:406:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     406 | DEFINE_ASM_GPR64_OFFSET(rcx);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:407:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     407 | DEFINE_ASM_GPR64_OFFSET(rdx);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:408:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     408 | DEFINE_ASM_GPR64_OFFSET(rbp);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:409:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     409 | DEFINE_ASM_GPR64_OFFSET(rsi);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:410:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     410 | DEFINE_ASM_GPR64_OFFSET(rdi);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:411:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     411 | DEFINE_ASM_GPR64_OFFSET(r8);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:412:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     412 | DEFINE_ASM_GPR64_OFFSET(r9);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:413:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     413 | DEFINE_ASM_GPR64_OFFSET(r10);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:414:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     414 | DEFINE_ASM_GPR64_OFFSET(r11);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:415:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     415 | DEFINE_ASM_GPR64_OFFSET(r12);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:416:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     416 | DEFINE_ASM_GPR64_OFFSET(r13);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:417:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     417 | DEFINE_ASM_GPR64_OFFSET(r14);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> include/x86/processor.h:403:44: error: expected ')' before ':' token
+     403 |         asm(".equ GPR64_OFF_" #reg ", %c0" : : "i"(offsetof(struct gpr64_regs, reg)))
+         |            ~                               ^
+   include/x86/processor.h:418:1: note: in expansion of macro 'DEFINE_ASM_GPR64_OFFSET'
+     418 | DEFINE_ASM_GPR64_OFFSET(r15);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
 
 --
 0-DAY CI Kernel Test Service
