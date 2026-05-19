@@ -1,617 +1,516 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3273213E9C
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 May 2026 05:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B42370ADB
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 May 2026 10:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779168495; cv=none; b=JQB0FdeC/0i2JgfwOQ0iEyG0KSSxZ5iaO7II7UDHqHkykHh5a9ABbZ9EN+dv+3Rls1IexjhYBiW5DGDtoxvlBg6oErzj97zJxHxEWTc9K+b+b1RtKugQId5DVNeXAgSjoLH2CWpGjlM46qy6RVCyygZWM5gLa+ZDrvJXNdf1EUg=
+	t=1779187206; cv=none; b=S46z7U8rltJWrvNmz/SmjUxRlbQwDY/KKnmfoddG1uFJlqk+I61uuIhzvgBEf7Gy7jYPNzmyX63w4ueuzwWp+/NZPOCQR4QExGoerd0AmPR2QTNHI7wO6DHPPDZw3jIUEIT3N3YNADwVTBXbkAe1p/u4IhRgcBV9ws5Cz2ZeqkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779168495; c=relaxed/simple;
-	bh=CUoEVCuoIsiW3D6kpZnQAcamqdJWqJkpV4kGg+kZYw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HCtHPWdqnutLr86CmVVV36P9wvI43etzA6KMTA94izrDpc1/lUglGnwp9n/miE7ZQEkfawGV7VX7ntj+yAsScW6hj7oplEH2HyYL2qUN60IEOiAIRzYSnQ95ODa6hXs97u2nzDHHcHKZcQOVnyhqarLxBC5RpDIAEKm/nTbGPz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxcOrCrP; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1779187206; c=relaxed/simple;
+	bh=N1L7S0zT4hM55Yg5tE/yXxJZz4BQsGmZXWCsrEKs4yU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q/X3//9/iIqNQWho1w1oZMVX5WK84P55BpDK8zwnWAjvuxbhByi+df9JqVfHUMdJwBme0YEFVM24gCWaHFG7ge0p6h5GzZIug5UErkkUC4yPLtLpFhWVxU99YtV7PpI3H6dHZcvTkM1xBFSb49mPcmDZlfq10QbpYbudxFfC9lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NvMwwk6T; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxcOrCrP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NvMwwk6T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779168493; x=1810704493;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CUoEVCuoIsiW3D6kpZnQAcamqdJWqJkpV4kGg+kZYw0=;
-  b=kxcOrCrPYMsuVVzE3wbA8Hqi/MGfeCJa5glgV58bypiQ5DRgqujElH0H
-   p5YovJ2pj9s03o5A/hr8EHyo/grnLZp1lhq3UAzdfN5vMNYLt1ACc361l
-   dGWF3EGywL84q/DLf8T3yBrCYZnZZYH4U9dOAJlAucfQWsm7DP4nJzOxN
-   zNSzhb8BH8hERTQ45ecET2hXwt7rr7HkrPpJv2Zv6khX/ID/xsKJVzetT
-   A6MMJE18v3SjCWk82bGH0ERFmRfjJy5zRUDHidYyrF8c8BoVHUglQDtBL
-   hhoRUHaX/sKU0DsiEs7k5L2z6hGx2L1AGsrDaVLFwmzAzGyvdI1au8+1N
-   g==;
-X-CSE-ConnectionGUID: XFyZ8bLYSLGSIKCOiNCPaA==
-X-CSE-MsgGUID: zQS3hxpUTzKHhTUxl61O3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="79753501"
+  t=1779187204; x=1810723204;
+  h=date:from:to:cc:subject:message-id;
+  bh=N1L7S0zT4hM55Yg5tE/yXxJZz4BQsGmZXWCsrEKs4yU=;
+  b=NvMwwk6TicvD05AhWq8Nm1Ww0JwgUoL20rxBUaTa+c0hbqWO8d+u+Mw+
+   fUC8M56j06PJJQvCb9XH0V5ni3B7eN63zrgJ3gG0uMB5BcicaEYGlcI1L
+   AtCB40ylCGn5fnVsayd1ZZ45Z/wHWBT66hO6hrfIG40ozWHHzm5GiAxSv
+   OtRb7jMAEAuhlGIbS0aD6ZlI3CqG0vVmvgteY6khQnY2KnszEwpCUh/KB
+   3VpeZx4ddRXh9vGgMtoGsAwmYjcU7hB2za4M8bt/M11WU87sk7IH1rj+D
+   3WU2rTgr+/gx+d5SY3dAJOJ5vmQoihjxZxSwUyqgU9JF+0CZAH32b/VKB
+   Q==;
+X-CSE-ConnectionGUID: xBNstpW+QdW/6UyAQ1h+Nw==
+X-CSE-MsgGUID: N774uy9NQ0mBFLJPMJN5xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="82625092"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="79753501"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 22:28:12 -0700
-X-CSE-ConnectionGUID: uJ3mnOWuS7q7ou3RAQPTOA==
-X-CSE-MsgGUID: cND/dJqHQMymhojm9+YrEA==
+   d="scan'208";a="82625092"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 03:40:04 -0700
+X-CSE-ConnectionGUID: RZo2j3JtS+uamehY6yvPog==
+X-CSE-MsgGUID: mBLx753DSFKDOwAFVaQ/XQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="235421865"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 18 May 2026 22:28:11 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="241565008"
+Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 19 May 2026 03:40:02 -0700
+Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPCzx-00000000A5h-0E4y;
-	Tue, 19 May 2026 05:28:09 +0000
-Date: Tue, 19 May 2026 07:27:26 +0200
+	id 1wPHrE-000000000tf-3BK3;
+	Tue, 19 May 2026 10:39:38 +0000
+Date: Tue, 19 May 2026 18:38:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 16/114]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776):
- compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-Message-ID: <202605190742.jr4apXjE-lkp@intel.com>
+Subject: [bvanassche:thread-safety 71/79] include/linux/fs.h:2310:55:
+ error: use of undeclared identifier 'sb'
+Message-ID: <202605191850.CMy8S3Ra-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povi=C5=A1er" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
-CC: James Calligeros <jcalligeros99@gmail.com>
+TO: Bart Van Assche <bvanassche@acm.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   2d563843e07af55de0249a409021af705f586961
-commit: 65be0b47cf3b0675cc18937ff54215c666545df7 [16/114] arm64: dts: apple=
-: t600x-jxxx: Put in audio nodes
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-2055-20260516 (https://download.01.org/0day-ci/arc=
-hive/20260519/202605190742.jr4apXjE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260519/202605190742.jr4apXjE-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   916c5e42c31adc90cfa8e12478da3a52e12f7811
+commit: a1732ee5f5a09679c7999659823cc53bda866b20 [71/79] block: Enable lock context analysis for all block drivers
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260519/202605191850.CMy8S3Ra-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605191850.CMy8S3Ra-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605190742.jr4apXjE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605191850.CMy8S3Ra-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:496.14-510.5: Warning (un=
-it_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or =
-ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:512.14-521.5: Warning (un=
-it_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or =
-ranges property
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask'=
- were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39 (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask'=
- were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000/hid-transp=
-ort@0: failed to match any schema with compatible: ['apple,spi-hid-transpor=
-t']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-controller@288 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-controller@290 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-controller@298 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-controller@2a0 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/block/floppy.c:164:
+   In file included from include/linux/async.h:14:
+   In file included from include/linux/device.h:34:
+   In file included from arch/sparc/include/asm/device.h:8:
+   In file included from arch/sparc/include/asm/openprom.h:15:
+   In file included from include/linux/of.h:252:
+   In file included from arch/sparc/include/asm/prom.h:18:
+   In file included from include/linux/proc_fs.h:10:
+>> include/linux/fs.h:2310:55: error: use of undeclared identifier 'sb'
+    2310 |         void (*kill_sb) (struct super_block *sb) __releases(&sb->s_umount);
+         |                                                              ^~
+   In file included from drivers/block/floppy.c:166:
+   include/linux/compat.h:454:22: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/floppy.c:166:
+   include/linux/compat.h:454:10: warning: array index 7 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:454:42: warning: array index 6 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:454:53: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                                                            ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/floppy.c:166:
+   include/linux/compat.h:456:22: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/floppy.c:166:
+   include/linux/compat.h:456:10: warning: array index 5 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:456:42: warning: array index 4 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:456:53: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                                                            ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/floppy.c:166:
+   include/linux/compat.h:458:22: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/floppy.c:166:
+   include/linux/compat.h:458:10: warning: array index 3 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:458:42: warning: array index 2 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:458:53: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                                                            ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/floppy.c:181:
+   In file included from include/linux/mc146818rtc.h:15:
+   In file included from include/linux/rtc.h:40:
+   include/linux/poll.h:134:27: warning: division by zero is undefined [-Wdivision-by-zero]
+     134 |                 M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+         |                                         ^~~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:134:39: warning: division by zero is undefined [-Wdivision-by-zero]
+     134 |                 M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+         |                                                     ^~~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:135:12: warning: division by zero is undefined [-Wdivision-by-zero]
+     135 |                 M(HUP) | M(RDHUP) | M(MSG);
+         |                          ^~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:135:23: warning: division by zero is undefined [-Wdivision-by-zero]
+     135 |                 M(HUP) | M(RDHUP) | M(MSG);
+         |                                     ^~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   In file included from drivers/block/floppy.c:250:
+   In file included from include/linux/blk-mq.h:5:
+>> include/linux/blkdev.h:1753:15: error: use of undeclared identifier 'bdev'
+    1753 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1759:15: error: use of undeclared identifier 'bdev'
+    1759 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1765:15: error: use of undeclared identifier 'bdev'
+    1765 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1771:15: error: use of undeclared identifier 'bdev'
+    1771 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   drivers/block/floppy.c:230:23: warning: variable 'virtual_dma_port' set but not used [-Wunused-but-set-global]
+     230 | static unsigned short virtual_dma_port = 0x3f0;
+         |                       ^
+   17 warnings and 5 errors generated.
 --
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:496.14-510.5: Warning (un=
-it_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or =
-ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:512.14-521.5: Warning (un=
-it_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or =
-ranges property
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38 (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask'=
- were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39 (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask'=
- were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000/hid-transp=
-ort@0: failed to match any schema with compatible: ['apple,spi-hid-transpor=
-t']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-controller@288 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-controller@290 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-controller@298 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-controller@2a0 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
+   In file included from drivers/block/brd.c:17:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:5:
+>> include/linux/fs.h:2310:55: error: use of undeclared identifier 'sb'
+    2310 |         void (*kill_sb) (struct super_block *sb) __releases(&sb->s_umount);
+         |                                                              ^~
+   In file included from drivers/block/brd.c:17:
+>> include/linux/blkdev.h:1753:15: error: use of undeclared identifier 'bdev'
+    1753 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1759:15: error: use of undeclared identifier 'bdev'
+    1759 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1765:15: error: use of undeclared identifier 'bdev'
+    1765 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1771:15: error: use of undeclared identifier 'bdev'
+    1771 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   5 errors generated.
 --
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:496.14-510.5: Warning (un=
-it_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or =
-ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:512.14-521.5: Warning (un=
-it_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or =
-ranges property
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38 (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask'=
- were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39 (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask'=
- were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000/hid-transp=
-ort@0: failed to match any schema with compatible: ['apple,spi-hid-transpor=
-t']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-controller@288 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-controller@290 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-controller@298 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-controller@2a0 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j316-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j316-macaudio', 'apple,macaudio']
+   In file included from drivers/block/loop.c:8:
+>> include/linux/fs.h:2310:55: error: use of undeclared identifier 'sb'
+    2310 |         void (*kill_sb) (struct super_block *sb) __releases(&sb->s_umount);
+         |                                                              ^~
+   In file included from drivers/block/loop.c:15:
+   In file included from include/linux/blkpg.h:9:
+   include/linux/compat.h:454:22: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/loop.c:15:
+   In file included from include/linux/blkpg.h:9:
+   include/linux/compat.h:454:10: warning: array index 7 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:454:42: warning: array index 6 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:454:53: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                                                            ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/loop.c:15:
+   In file included from include/linux/blkpg.h:9:
+   include/linux/compat.h:456:22: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/loop.c:15:
+   In file included from include/linux/blkpg.h:9:
+   include/linux/compat.h:456:10: warning: array index 5 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:456:42: warning: array index 4 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:456:53: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                                                            ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/loop.c:15:
+   In file included from include/linux/blkpg.h:9:
+   include/linux/compat.h:458:22: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/loop.c:15:
+   In file included from include/linux/blkpg.h:9:
+   include/linux/compat.h:458:10: warning: array index 3 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:458:42: warning: array index 2 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:458:53: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                                                            ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/loop.c:36:
+   In file included from include/linux/blk-mq.h:5:
+>> include/linux/blkdev.h:1753:15: error: use of undeclared identifier 'bdev'
+    1753 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1759:15: error: use of undeclared identifier 'bdev'
+    1759 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1765:15: error: use of undeclared identifier 'bdev'
+    1765 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1771:15: error: use of undeclared identifier 'bdev'
+    1771 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   12 warnings and 5 errors generated.
 --
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:496.14-510.5: Warning (un=
-it_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or =
-ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:512.14-521.5: Warning (un=
-it_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or =
-ranges property
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38 (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask'=
- were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39 (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask'=
- were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3c (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3c (ti,sn012776): Uneva=
-luated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000/hid-transp=
-ort@0: failed to match any schema with compatible: ['apple,spi-hid-transpor=
-t']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-controller@288 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-controller@290 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-controller@298 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-controller@2a0 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j316-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j316-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:388.14-397.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or range=
-s property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:399.14-408.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or range=
-s property
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-controller@288 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-controller@290 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-controller@298 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-controller@2a0 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j375-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j375-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:388.14-397.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or range=
-s property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:399.14-408.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or range=
-s property
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@288 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
---
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (a=
-pple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not=
- match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@288 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@290 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@298 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@2a0 (apple,t=
-6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstat=
-e.yaml
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j375-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /sound: failed to match any s=
-chema with compatible: ['apple,j375-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:388.14-397.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or range=
-s property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:399.14-408.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or range=
-s property
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
---
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:388.14-397.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or range=
-s property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:399.14-408.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or range=
-s property
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
---
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:388.14-397.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or range=
-s property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:399.14-408.5: Warning (unit_ad=
-dress_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or range=
-s property
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: codec@38 (ti,sn012776): compa=
-tible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: codec@4b (cirrus,cs42l84): 's=
-ound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
+   In file included from drivers/block/nbd.c:18:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:5:
+>> include/linux/fs.h:2310:55: error: use of undeclared identifier 'sb'
+    2310 |         void (*kill_sb) (struct super_block *sb) __releases(&sb->s_umount);
+         |                                                              ^~
+   In file included from drivers/block/nbd.c:18:
+>> include/linux/blkdev.h:1753:15: error: use of undeclared identifier 'bdev'
+    1753 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1759:15: error: use of undeclared identifier 'bdev'
+    1759 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1765:15: error: use of undeclared identifier 'bdev'
+    1765 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   include/linux/blkdev.h:1771:15: error: use of undeclared identifier 'bdev'
+    1771 |                 __releases(&bdev->bd_holder_lock);
+         |                             ^~~~
+   In file included from drivers/block/nbd.c:35:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:44:
+   In file included from include/uapi/linux/neighbour.h:6:
+   In file included from include/linux/netlink.h:9:
+   In file included from include/net/scm.h:13:
+   In file included from include/net/compat.h:8:
+   include/linux/compat.h:454:22: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/nbd.c:35:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:44:
+   In file included from include/uapi/linux/neighbour.h:6:
+   In file included from include/linux/netlink.h:9:
+   In file included from include/net/scm.h:13:
+   In file included from include/net/compat.h:8:
+   include/linux/compat.h:454:10: warning: array index 7 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:454:42: warning: array index 6 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:454:53: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                                                            ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/nbd.c:35:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:44:
+   In file included from include/uapi/linux/neighbour.h:6:
+   In file included from include/linux/netlink.h:9:
+   In file included from include/net/scm.h:13:
+   In file included from include/net/compat.h:8:
+   include/linux/compat.h:456:22: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/nbd.c:35:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:44:
+   In file included from include/uapi/linux/neighbour.h:6:
+   In file included from include/linux/netlink.h:9:
+   In file included from include/net/scm.h:13:
+   In file included from include/net/compat.h:8:
+   include/linux/compat.h:456:10: warning: array index 5 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:456:42: warning: array index 4 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:456:53: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                                                            ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+   In file included from drivers/block/nbd.c:35:
+   In file included from include/net/sock.h:46:
+   In file included from include/linux/netdevice.h:44:
+   In file included from include/uapi/linux/neighbour.h:6:
+   In file included from include/linux/netlink.h:9:
+   In file included from include/net/scm.h:13:
+   In file included from include/net/compat.h:8:
+   include/linux/compat.h:458:22: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                             ^        ~
+   arch/sparc/include/uapi/asm/signal.h:113:8: note: array 'sig' declared here
+     113 |        unsigned long sig[_NSIG_WORDS];
+         |        ^
+..
+
+
+vim +/sb +2310 include/linux/fs.h
+
+^1da177e4c3f415 Linus Torvalds    2005-04-16  2294  
+^1da177e4c3f415 Linus Torvalds    2005-04-16  2295  struct file_system_type {
+^1da177e4c3f415 Linus Torvalds    2005-04-16  2296  	const char *name;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  2297  	int fs_flags;
+bbc1096ad8e9875 David Howells     2012-10-15  2298  #define FS_REQUIRES_DEV		1 
+bbc1096ad8e9875 David Howells     2012-10-15  2299  #define FS_BINARY_MOUNTDATA	2
+bbc1096ad8e9875 David Howells     2012-10-15  2300  #define FS_HAS_SUBTYPE		4
+0c55cfc4166d9a0 Eric W. Biederman 2012-07-26  2301  #define FS_USERNS_MOUNT		8	/* Can be mounted by userns root */
+0b3b094ac9a7bb1 Jan Kara          2019-05-15  2302  #define FS_DISALLOW_NOTIFY_PERM	16	/* Disable fanotify permission events */
+a6435940b62f81a Christian Brauner 2021-01-21  2303  #define FS_ALLOW_IDMAP         32      /* FS has been updated to handle vfs idmappings. */
+4e40eff0b5737c0 Jeff Layton       2024-10-02  2304  #define FS_MGTIME		64	/* FS uses multigrain timestamps */
+a64e5a596067bdd Luis Chamberlain  2025-03-06  2305  #define FS_LBS			128	/* FS supports LBS */
+a3f8f8662771285 Christian Brauner 2025-11-05  2306  #define FS_POWER_FREEZE		256	/* Always freeze on suspend/hibernate */
+bbc1096ad8e9875 David Howells     2012-10-15  2307  #define FS_RENAME_DOES_D_MOVE	32768	/* FS will handle d_move() during rename() internally. */
+f3a09c92018a91a Al Viro           2018-12-23  2308  	int (*init_fs_context)(struct fs_context *);
+d7167b149943e38 Al Viro           2019-09-07  2309  	const struct fs_parameter_spec *parameters;
+d75af071e79c4b9 Bart Van Assche   2026-01-21 @2310  	void (*kill_sb) (struct super_block *sb) __releases(&sb->s_umount);
+^1da177e4c3f415 Linus Torvalds    2005-04-16  2311  	struct module *owner;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  2312  	struct file_system_type * next;
+a5166169f9b920c Al Viro           2011-12-12  2313  	struct hlist_head fs_supers;
+d475fd428ce77aa Peter Zijlstra    2007-10-15  2314  
+cf51624999e56c8 Ingo Molnar       2006-07-03  2315  	struct lock_class_key s_lock_key;
+897c6ff9568bcb1 Arjan van de Ven  2006-07-03  2316  	struct lock_class_key s_umount_key;
+51ee049e771c14a Roland Dreier     2010-04-27  2317  	struct lock_class_key s_vfs_rename_key;
+5accdf82ba25cac Jan Kara          2012-06-12  2318  	struct lock_class_key s_writers_key[SB_FREEZE_LEVELS];
+d475fd428ce77aa Peter Zijlstra    2007-10-15  2319  
+d475fd428ce77aa Peter Zijlstra    2007-10-15  2320  	struct lock_class_key i_lock_key;
+d475fd428ce77aa Peter Zijlstra    2007-10-15  2321  	struct lock_class_key i_mutex_key;
+730633f0b7f9517 Jan Kara          2021-01-28  2322  	struct lock_class_key invalidate_lock_key;
+14358e6ddaed274 Peter Zijlstra    2007-10-14  2323  	struct lock_class_key i_mutex_dir_key;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  2324  };
+^1da177e4c3f415 Linus Torvalds    2005-04-16  2325  
+
+:::::: The code at line 2310 was first introduced by commit
+:::::: d75af071e79c4b9022d0bb41302128329b7ccd81 treewide: Add lock context annotations in all include files
+
+:::::: TO: Bart Van Assche <bvanassche@acm.org>
+:::::: CC: Bart Van Assche <bvanassche@acm.org>
 
 --
 0-DAY CI Kernel Test Service
