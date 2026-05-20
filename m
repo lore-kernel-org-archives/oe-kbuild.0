@@ -1,118 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3673DA7D3
-	for <oe-kbuild@lists.linux.dev>; Wed, 20 May 2026 12:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E28B3E9F9D
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 May 2026 14:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779279159; cv=none; b=M/gdSWtRMa8bSJy7UQt9OvnpBzkPsLFAWGHHtCT8n7wYGJLvk+s1WkY/sz1Tr8sP71IxO3rgVy3/bokzSRpDNb2Ih7Tb6eobf23nwcK3fh3ROoSO+VHWSTFbRywVAi3rNEn+wmsmmBYOv82llWMeognn2k9ICYAzVqcIOYTZO8E=
+	t=1779286742; cv=none; b=pOllsqn2SpIE3HwP4MBpWYrhXXPKfE7d+qgK53WLgwiL6CjRMNWcaUrQv+YPSVpv10P5dXO/yFFacF+1+v+JhOGv1O2RvTeeKcBoya2cxhn8lyTbJu8QKtbiZ0q9ifIOVQ/YgNhueHECcKj02aCIEuxVah8vK1jA1UzvBRslzhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779279159; c=relaxed/simple;
-	bh=PRhm3+npT/HxHpHygzVDkobi15UfHmBg2V1m/2wK5kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UzH69tMt6hyATuswdX0IN6/RZm6cFr74+QT/55i/9hqeZC1Zp/hJtqLwTfZE+ucRdLLjZvk0wjkiViRfTWrNOK/UQrpAlxKtHd2SQCNUtyF+N4JLiJC9NOznYqd/U6h9SoQtIUDif+R6zOvzRhA68atJSp7YJENPeUXaxKOQ630=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6dahond; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1779286742; c=relaxed/simple;
+	bh=ogt9T9ML2QJwyTuTNtNOwnhFxbFoClM+BPZIjLYWYwE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ytxfv7mQQlD16CZ5xPlEkfXfaYnCNMlUfrrZAW7017PSrTyNTa1VJAmQq5Yzo5U03GknCvY3t5FiUmMxBqe/fuwDQDMRJ3bhcFC7Hiyr+pQK6pRL2sS05qckgm5Heuf8xq+ASRpLpouOaQ2RZBq+90TXxZ7vqA1wXUR1k1MIa9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEL9Px6A; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6dahond"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEL9Px6A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779279157; x=1810815157;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PRhm3+npT/HxHpHygzVDkobi15UfHmBg2V1m/2wK5kc=;
-  b=A6dahondDSFOiSEKO5rzB6dEUgTo4TeRt1YCohUVex1oNn7VN41YQFyO
-   CQuhw2COnKGEHto0ibrZhsUKx3f4jWG1DteMKOXUtzrTLR3PYpvk0t+UB
-   lxLOt6SBcSLqXbAyexKskuUg+xiYcSMo+Og4iFNDqoGSLJdv8e7T0JND4
-   zPohmTw0qo5gvSIffSql0Ji0iTJHbSWiUisCDN8LVX+zhLZiQv3vS64Ji
-   ictoNtKj58Ank9EaJpT7g44nQW2wiMgTto8wQX9iNjvgJ8toOQ8b09c3D
-   +MgnwfBtyj1cjxKOANr/0n6XTc9WDwQ3mEPCzKaXk8BkOwryjjuIp7MEJ
-   w==;
-X-CSE-ConnectionGUID: MEYuKop2RAu3u9BcxqU32w==
-X-CSE-MsgGUID: stclhfM/SOKZJBQ2RSEqwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="83790760"
+  t=1779286734; x=1810822734;
+  h=date:from:to:cc:subject:message-id;
+  bh=ogt9T9ML2QJwyTuTNtNOwnhFxbFoClM+BPZIjLYWYwE=;
+  b=bEL9Px6Ab+/+Z2l1lRG19OLkKNVX6cvlJMqBGYos05gi4Tp4k1WDQxTO
+   Zwi0Q6m1GQnRMrOIEJHdk7HGBI8O04Lg/PZFd1Tl/QPPN8V9jvDUbAh1A
+   5kviTb9nyfN6nhMRZXpn+Nqu7tAegKlvZgr5m24vDG9NnW+kkVsYCsZX7
+   faG79GeLMsjXFgvae9aBBI2TQRj1OFzKscceLtDLJoM5+rF/k8tCC+d2v
+   7N5w3K6lp5nAV+SQZMh6EIHOIG9oeE+T0xBNofXhutXCALAiU+r9H2Y+J
+   vPFQ3j+xWFQN2eiY9qIF9zP0dhalnwT3Zz1AjXf8mPBMxx+2Zm3RonQiq
+   A==;
+X-CSE-ConnectionGUID: A67yi7veTtKYI7JNaWYn2w==
+X-CSE-MsgGUID: p92nqMRMQFOtK+sdM9tZ8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="84069562"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="83790760"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 05:12:37 -0700
-X-CSE-ConnectionGUID: hhDULcwjTdeFCxLvGL6M2Q==
-X-CSE-MsgGUID: drcRPYlWQHW1fbloEeyzGw==
+   d="scan'208";a="84069562"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:18:51 -0700
+X-CSE-ConnectionGUID: 55+zHK4mTFCQ0fAyQoKHJw==
+X-CSE-MsgGUID: tmMy1TO3RBq+sCgbSDnlyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="245157554"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 20 May 2026 05:12:36 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="240056354"
+Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 20 May 2026 07:18:50 -0700
+Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPfms-00000000AY9-0jc6;
-	Wed, 20 May 2026 12:12:34 +0000
-Date: Wed, 20 May 2026 14:11:46 +0200
+	id 1wPhkm-000000003M5-2JdZ;
+	Wed, 20 May 2026 14:18:36 +0000
+Date: Wed, 20 May 2026 22:16:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] drivers: remoteproc: qcom_q6v5_pas: Add support for
- IPQ9650 CDSP
-Message-ID: <202605201437.lAQ9iu2L-lkp@intel.com>
+Subject: [dhowells-fs:netfs-crypt 25/34]
+ fs/netfs/write_retry.c:34:27: sparse: sparse: unsigned value that used to be
+ signed checked against zero?
+Message-ID: <202605202258.nETY5SZZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: fs/netfs/write_retry.c:34:27: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260520-ipq9650-remoteproc-v1-2-542feb6efb2a@oss.qualcomm.com>
-References: <20260520-ipq9650-remoteproc-v1-2-542feb6efb2a@oss.qualcomm.com>
-TO: Vignesh Viswanathan <vignesh.viswanathan@oss.qualcomm.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Mathieu Poirier <mathieu.poirier@linaro.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: sumit.garg@kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: linux-remoteproc@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Vignesh Viswanathan <vignesh.viswanathan@oss.qualcomm.com>
+TO: David Howells <dhowells@redhat.com>
 
-Hi Vignesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6a50ba100ace43f43c87384367eb2d2605fcc16c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vignesh-Viswanathan/dt-bindings-remoteproc-Document-IPQ9650-Compute-DSP/20260520-032913
-base:   6a50ba100ace43f43c87384367eb2d2605fcc16c
-patch link:    https://lore.kernel.org/r/20260520-ipq9650-remoteproc-v1-2-542feb6efb2a%40oss.qualcomm.com
-patch subject: [PATCH 2/2] drivers: remoteproc: qcom_q6v5_pas: Add support for IPQ9650 CDSP
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: microblaze-randconfig-2051-20260520 (https://download.01.org/0day-ci/archive/20260520/202605201437.lAQ9iu2L-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.3.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201437.lAQ9iu2L-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
+head:   13cee75c8b683f7c4382573f8c27adfbd49ffc47
+commit: 0bc90a453f6e9deeddbf0a9f923637e0fc614ee7 [25/34] netfs: Allow the fs to ask for the bvecq to be copied when prepping
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: sparc-randconfig-r122-20260520 (https://download.01.org/0day-ci/archive/20260520/202605202258.nETY5SZZ-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605202258.nETY5SZZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605201437.lAQ9iu2L-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605202258.nETY5SZZ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/remoteproc/qcom,ipq9650-pas.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+sparse warnings: (new ones prefixed by >>)
+>> fs/netfs/write_retry.c:34:27: sparse: sparse: unsigned value that used to be signed checked against zero?
+   fs/netfs/write_retry.c:32:36: sparse: signed value source
+
+vim +34 fs/netfs/write_retry.c
+
+751e213f9f8a24e David Howells 2024-12-16  13  
+751e213f9f8a24e David Howells 2024-12-16  14  /*
+a036d07724fd9ec David Howells 2026-04-09  15   * Prepare the write buffer for a retry.  We can't necessarily reuse the write
+a036d07724fd9ec David Howells 2026-04-09  16   * buffer from the previous run of a subrequest because the filesystem is
+a036d07724fd9ec David Howells 2026-04-09  17   * permitted to modify it (add headers/trailers, encrypt it).  Further, the
+a036d07724fd9ec David Howells 2026-04-09  18   * subrequest may now be a different size (e.g. cifs has to negotiate for
+a036d07724fd9ec David Howells 2026-04-09  19   * maximum transfer size).  Also, we can't look at *stream as that may still
+a036d07724fd9ec David Howells 2026-04-09  20   * refer to the source material being broken up into original subrequests.
+a036d07724fd9ec David Howells 2026-04-09  21   */
+a036d07724fd9ec David Howells 2026-04-09  22  int netfs_prepare_write_retry_buffer(struct netfs_io_subrequest *subreq,
+0bc90a453f6e9de David Howells 2026-05-15  23  				     unsigned int max_segs, bool copy)
+a036d07724fd9ec David Howells 2026-04-09  24  {
+a036d07724fd9ec David Howells 2026-04-09  25  	struct netfs_io_request *wreq = subreq->rreq;
+a036d07724fd9ec David Howells 2026-04-09  26  	struct netfs_io_stream *stream = &wreq->io_streams[subreq->stream_nr];
+a036d07724fd9ec David Howells 2026-04-09  27  	size_t len;
+a036d07724fd9ec David Howells 2026-04-09  28  
+a036d07724fd9ec David Howells 2026-04-09  29  	bvecq_pos_set(&subreq->dispatch_pos, &wreq->retry_cursor);
+0bc90a453f6e9de David Howells 2026-05-15  30  
+0bc90a453f6e9de David Howells 2026-05-15  31  	if (copy) {
+0bc90a453f6e9de David Howells 2026-05-15  32  		len = bvecq_extract(&wreq->retry_cursor, subreq->len, max_segs,
+0bc90a453f6e9de David Howells 2026-05-15  33  				    &subreq->content.bvecq);
+0bc90a453f6e9de David Howells 2026-05-15 @34  		if (len < 0)
+0bc90a453f6e9de David Howells 2026-05-15  35  			return -ENOMEM;
+0bc90a453f6e9de David Howells 2026-05-15  36  	} else {
+a036d07724fd9ec David Howells 2026-04-09  37  		bvecq_pos_set(&subreq->content, &wreq->retry_cursor);
+0bc90a453f6e9de David Howells 2026-05-15  38  		len = bvecq_slice(&wreq->retry_cursor, subreq->len, max_segs,
+0bc90a453f6e9de David Howells 2026-05-15  39  				  &subreq->nr_segs);
+0bc90a453f6e9de David Howells 2026-05-15  40  	}
+a036d07724fd9ec David Howells 2026-04-09  41  
+a036d07724fd9ec David Howells 2026-04-09  42  	if (len < subreq->len) {
+a036d07724fd9ec David Howells 2026-04-09  43  		subreq->len = len;
+a036d07724fd9ec David Howells 2026-04-09  44  		trace_netfs_sreq(subreq, netfs_sreq_trace_limited);
+a036d07724fd9ec David Howells 2026-04-09  45  	}
+a036d07724fd9ec David Howells 2026-04-09  46  
+a036d07724fd9ec David Howells 2026-04-09  47  	stream->issue_from += len;
+a036d07724fd9ec David Howells 2026-04-09  48  	stream->buffered   -= len;
+a036d07724fd9ec David Howells 2026-04-09  49  	if (stream->buffered == 0)
+a036d07724fd9ec David Howells 2026-04-09  50  		bvecq_pos_unset(&wreq->retry_cursor);
+a036d07724fd9ec David Howells 2026-04-09  51  	return 0;
+a036d07724fd9ec David Howells 2026-04-09  52  }
+a036d07724fd9ec David Howells 2026-04-09  53  
 
 --
 0-DAY CI Kernel Test Service
