@@ -1,2925 +1,1230 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38A7E573
-	for <oe-kbuild@lists.linux.dev>; Wed, 20 May 2026 00:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21EB29DB64
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 May 2026 01:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779238112; cv=none; b=M9oKa3Ag55CKZuCA56Yfd24qET1SoRUGJvb/uZlbv8u2OEFUt6XrUxqDTUvTkEsBEeO2DDeOnGJMtaSFIwVivAaIlEuD30XsoVaBr5ie9UyerSCMcjxQzKB4fwGS6/lMZPT3Fen0y9HyXzRWa8vdF+CYUSvp1jsvo2U1Wpl4b+Y=
+	t=1779239193; cv=none; b=gFWr019rqNf0vLIA0FW3JyyeFM1Y9wciCvHVLdz6x2DxZrNLAey76Pk86HPb5yYGRSxqxq/Gp5ZBeg4kHpo4SUyIUpxvsRMUXGWLVZVp3wPJXA3ZN3VJJCw/NvULW1BcGJWRVGXtchs3mCvXKeOfXBQLuT41QjfrMhIF/kKjNzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779238112; c=relaxed/simple;
-	bh=6lGIbjrgDmQf69PJ68prcXDwPFS+bV2ItuXSiLlwfdI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TnFcIgB2IQyI2hUG2dCFz/bqNEnowRHv4AvIS67a61bmC8s8rax0ggHg13jz9Pg1GuMfApW7HQBXj6KhxF2/gSdbtsdoDfurEtl7pigdeQNuJm0T8WsG2PSu9n13hOGVxT35xh8TBdKUJko00Ds0PA8avKcJ7IgB+ti6oQicN1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrQUERML; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1779239193; c=relaxed/simple;
+	bh=la2Ody4sTgQItAKdwUUY4Y9G/7tDBilLHlnTAFqKVj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Fqvk7ZJFh4EJzsEfHEgehqCzsZ70z30IoXQcx5YksnehGNAuzkKar/8H6RaqXxdGeRtYEB5KJ/wjm+gFIqqjmg0O2bqCH8fDuheSlzwkt2qT3pzOAYbaS7ypLT4G5mh+uzqUpWlmb2/iVgAuKQwmYW9VtndqASxcy71jhKM6eZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IfbyB8gF; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrQUERML"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IfbyB8gF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779238102; x=1810774102;
-  h=date:from:to:cc:subject:message-id;
-  bh=6lGIbjrgDmQf69PJ68prcXDwPFS+bV2ItuXSiLlwfdI=;
-  b=UrQUERMLG491CEzEmEH+3hKQqtHNItfSE3u++TLaee2gsjBzj2ZmZiZh
-   xbhNHux5MTB5d+MyUoy1UBgIebhoa1Afj/DxsuoAkjG5mHWDtoMNDf3ji
-   XYMvIsAYEN68B+XepxEl39eJq7bYokQ+K56ZyMPFrcbOK01Vlkrl1/grA
-   jRI5gyceolzIePpaKcUj0P/H+t50TjBEQxxlJNLghDSyppiSyJxe9qNja
-   ywRz+TkmQWue20C3slqnsPFOZRql6P+rYNmHzlz0h5sfMzh+PZHxUKlEk
-   mjz96BWwI3hvN65CflyuYUvH1t1+peGfp4StlcCP+a8G7X3t6Dmu9VlCw
-   w==;
-X-CSE-ConnectionGUID: nAMIf5XATtiKrBtoWpMqTg==
-X-CSE-MsgGUID: NY8UPOX3Q+uN/P8Svs739w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="90429369"
+  t=1779239189; x=1810775189;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=la2Ody4sTgQItAKdwUUY4Y9G/7tDBilLHlnTAFqKVj0=;
+  b=IfbyB8gFVPE6r+77MPRjRqVLgvo60A4oS3xjiqAzVQ+nYbaQ8CbLJdEm
+   ylOgzwQ2Gj9fIwWGufTOdB9DZTf8upJVGW42ScMSC7nXiKXCCT8ckBSN1
+   C0smX+86cbTBop0wGwIr4eG7M2p/CbrDS5dUdz1pRQ84NiX9g5vgZ1Jmf
+   F7ZtaPxdl3NDN02BhnqTA/VbY5wTJyNevoAwBdxnefZYNN+dByaxnC1Cl
+   4sf21sN/V6TVeaZA3QVcNqFlInjSXgWLqjxMOuIOemRK6m3zNzZZ1nccG
+   HRG5nXvmHmTf4ismjhSzzgEVCMsPxJ4Mx1UfeljjzmghK7KfgG8zr3o+Q
+   g==;
+X-CSE-ConnectionGUID: JPnfr78LSX2D7czNx9kjJw==
+X-CSE-MsgGUID: Fj8DwQwlQomu3bHMMEwNzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="79856883"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="90429369"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 17:48:22 -0700
-X-CSE-ConnectionGUID: 7HTi0LfkTOygzHkX0vr9iw==
-X-CSE-MsgGUID: 9lyCUhCKTC+V1ysyLhyXcw==
+   d="scan'208";a="79856883"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 18:06:28 -0700
+X-CSE-ConnectionGUID: YAuERv0rSgWQULPUESJOSQ==
+X-CSE-MsgGUID: ZF71VGuAQuaGPlnck8Br5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="263461026"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 19 May 2026 17:48:18 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
+   d="scan'208";a="239118974"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 19 May 2026 18:06:27 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPV67-000000002ET-28dG;
-	Wed, 20 May 2026 00:47:57 +0000
-Date: Wed, 20 May 2026 08:47:15 +0800
+	id 1wPVOC-00000000AOP-3ckJ;
+	Wed, 20 May 2026 01:06:24 +0000
+Date: Wed, 20 May 2026 03:05:37 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [akpm-mm:mm-nonmm-unstable 113/128]
- include/uapi/linux/swab.h:73:9: sparse: sparse: Trying to use reserved word
- 'return' as identifier
-Message-ID: <202605200819.NAtiZbCN-lkp@intel.com>
+Subject: arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: pmic@2
+ (qcom,pmi8998): 'vbus-reg@1100' does not match any of the regexes:
+ '(.*)?(wled|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$',
+ '^audio-codec@[0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@...
+Message-ID: <202605200244.kNVuAbvu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: include/uapi/linux/swab.h:73:9: sparse: sparse: Trying to use reserved word 'return' as identifier"
-:::::: 
+::::::=20
+:::::: Manual check reason: "dtcheck: binding changes may go via different =
+trees"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: David Hildenbrand <david@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: mm-commits@vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: taygoth <taygoth@gmail.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   d067a83c8063d1bdcbd9af8e1326d846f85138b8
-commit: 6bd91fe379470799a6e439ea1535eddaa9b31fde [113/128] raid6: hide internals
-:::::: branch date: 2 hours ago
-:::::: commit date: 23 hours ago
-config: powerpc-randconfig-r121-20260519 (https://download.01.org/0day-ci/archive/20260520/202605200819.NAtiZbCN-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200819.NAtiZbCN-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/taygoth/dt-bindings-=
+regulator-qcom-usb-vbus-regulator-add-PMI8998/20260519-042837
+head:   05f7faecd107d17be0a4d2c0a0f60cae26352cc6
+commit: dcd123811a0d50bd739d681bd11e3715bbec597f arm64: dts: qcom: pmi8998:=
+ add USB Type-C and VBUS regulator nodes
+date:   28 hours ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: arm64-randconfig-2055-20260519 (https://download.01.org/0day-ci/arc=
+hive/20260520/202605200244.kNVuAbvu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260520/202605200244.kNVuAbvu-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605200819.NAtiZbCN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605200244.kNVuAbvu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file:
-   ../lib/gcc/powerpc-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/vdso/processor.h, include/vdso/processor.h, arch/powerpc/include/asm/processor.h, ...):
-   arch/powerpc/include/asm/feature-fixups.h:294:13: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/feature-fixups.h:294:13: sparse: sparse: got static_key_feature_checks_initialized
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/processor.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
-   arch/powerpc/include/asm/reg.h:1414:13: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/reg.h:1414:13: sparse: sparse: got strict_msr_control
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/rwonce.h, arch/powerpc/include/generated/asm/rwonce.h, include/linux/compiler.h, include/asm-generic/bug.h, ...):
-   include/linux/kasan-checks.h:22:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/kasan-checks.h:22:20: sparse: sparse: got __kasan_check_read
-   include/linux/kasan-checks.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:25:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:29:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:29:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:43:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:47:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:47:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, include/linux/thread_info.h, ...):
-   include/linux/panic.h:20:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:20:13: sparse: sparse: got oops_may_print
-   include/linux/panic.h:22:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:22:13: sparse: sparse: got panic_triggering_all_cpu_backtrace
-   include/linux/panic.h:29:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:29:13: sparse: sparse: got panic_on_taint_nousertaint
-   include/linux/panic.h:33:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:33:13: sparse: sparse: got crash_kexec_post_notifiers
-   include/linux/panic.h:54:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:54:6: sparse: sparse: got panic_try_start
-   include/linux/panic.h:56:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:56:6: sparse: sparse: got panic_in_progress
-   include/linux/panic.h:57:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:57:6: sparse: sparse: got panic_on_this_cpu
-   include/linux/panic.h:58:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:58:6: sparse: sparse: got panic_on_other_cpu
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, ...):
-   include/linux/init.h:165:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/init.h:165:13: sparse: sparse: got rodata_enabled
-   include/linux/init.h:170:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/init.h:170:13: sparse: sparse: got initcall_debug
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/bits.h, include/linux/ratelimit_types.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   include/linux/overflow.h:45:42: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:45:42: sparse: sparse: got __must_check_overflow
-   include/linux/overflow.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:48:1: sparse: sparse: got }
-   include/linux/overflow.h:334:13: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:334:13: sparse: sparse: got (
-   include/linux/overflow.h:334:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:337:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:337:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:337:16: sparse: sparse: got bytes
-   include/linux/overflow.h:338:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:338:1: sparse: sparse: got }
-   include/linux/overflow.h:353:13: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:353:13: sparse: sparse: got (
-   include/linux/overflow.h:353:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:356:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:356:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:356:16: sparse: sparse: got bytes
-   include/linux/overflow.h:357:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:357:1: sparse: sparse: got }
-   include/linux/overflow.h:374:21: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:374:21: sparse: sparse: got ==
-   include/linux/overflow.h:374:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:378:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:378:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:378:16: sparse: sparse: got bytes
-   include/linux/overflow.h:379:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:379:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/swab.h, include/uapi/linux/byteorder/big_endian.h, include/linux/byteorder/big_endian.h, ...):
-   include/uapi/linux/swab.h:55:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:55:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:64:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:64:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:73:17: sparse: sparse: Expected ) in function declarator
-   include/uapi/linux/swab.h:73:17: sparse: sparse: got (
->> include/uapi/linux/swab.h:73:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/uapi/linux/swab.h:77:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:77:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:86:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:86:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:95:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:95:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:143:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:143:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:178:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:178:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:191:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:191:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:204:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:204:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:219:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:219:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:234:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:234:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:247:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:247:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:259:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:259:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:272:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:272:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:287:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:287:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:302:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:302:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/uapi/linux/byteorder/big_endian.h, include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, ...):
-   include/linux/swab.h:28:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:28:20: sparse: sparse: got ++
-   include/linux/swab.h:29:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:29:9: sparse: sparse: got }
-   include/linux/swab.h:36:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:36:20: sparse: sparse: got ++
-   include/linux/swab.h:37:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:37:9: sparse: sparse: got }
-   include/linux/swab.h:44:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:44:20: sparse: sparse: got ++
-   include/linux/swab.h:45:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:45:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, arch/powerpc/include/asm/qspinlock_types.h, ...):
-   include/uapi/linux/byteorder/big_endian.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:48:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:52:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:52:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:56:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:56:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:60:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:60:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:64:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:64:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:68:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:68:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:72:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:72:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:76:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:76:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:80:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:80:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:84:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:84:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:88:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:88:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:92:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:92:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, arch/powerpc/include/asm/qspinlock_types.h, ...):
-   include/linux/byteorder/generic.h:147:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:147:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:152:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:152:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:157:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:157:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:164:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:164:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:165:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:165:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:172:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:172:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:173:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:173:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:180:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:180:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:181:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:181:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:188:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:188:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:189:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:189:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:196:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:196:16: sparse: sparse: got =
->> include/linux/byteorder/generic.h:196:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:196:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:196:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:196:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:196:33: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:198:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:198:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:204:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:204:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:204:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:204:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:204:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:204:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:204:33: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:206:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:206:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:211:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:211:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:216:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:216:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:221:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:221:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:227:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:227:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:227:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:227:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:227:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:227:31: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:227:31: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:229:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:229:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:235:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:235:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:235:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:235:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:235:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:235:31: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:235:31: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:237:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:237:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/spinlock_types.h, include/linux/spinlock_types_raw.h, include/linux/ratelimit_types.h, ...):
-   arch/powerpc/include/asm/qspinlock_types.h:23:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/qspinlock_types.h:23:9: sparse: sparse: got }
-   arch/powerpc/include/asm/qspinlock_types.h:24:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/qspinlock_types.h:24:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/spinlock_types.h, include/linux/spinlock_types_raw.h, include/linux/ratelimit_types.h, ...):
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: expected ; at end of declaration
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: Expected } at end of specifier
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: got wait_lock
-   include/asm-generic/qrwlock_types.h:27:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/qrwlock_types.h:27:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/ratelimit_types.h, include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, ...):
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: expected ; at end of declaration
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: Expected } at end of specifier
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: got raw_lock
-   include/linux/spinlock_types_raw.h:23:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/spinlock_types_raw.h:23:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, include/linux/thread_info.h, ...):
-   include/linux/printk.h:188:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:188:13: sparse: sparse: got printk_timed_ratelimit
-   include/linux/printk.h:208:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:208:13: sparse: sparse: got nbcon_device_try_acquire
-   include/linux/printk.h:211:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:211:6: sparse: sparse: got pr_flush
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/cleanup.h, include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, ...):
-   include/linux/err.h:76:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/err.h:76:33: sparse: sparse: got IS_ERR
-   include/linux/err.h:79:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:79:1: sparse: sparse: got }
-   include/linux/err.h:93:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:93:1: sparse: sparse: got }
-   include/linux/err.h:106:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:106:1: sparse: sparse: got }
-   include/linux/err.h:129:9: sparse: sparse: Trying to use reserved word 'else' as identifier
-   include/linux/err.h:130:17: sparse: sparse: Expected ; at end of declaration
-   include/linux/err.h:130:17: sparse: sparse: got return
-   include/linux/err.h:131:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:131:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   include/linux/cleanup.h:225:15: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/cleanup.h:225:15: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   arch/powerpc/include/asm/jump_label.h:18:29: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:18:29: sparse: sparse: got arch_static_branch
-   arch/powerpc/include/asm/jump_label.h:28:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/jump_label.h:28:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:28:16: sparse: sparse: got false
-   arch/powerpc/include/asm/jump_label.h:29:6: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:29:6: sparse: sparse: got :
-   arch/powerpc/include/asm/jump_label.h:31:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/jump_label.h:31:1: sparse: sparse: got }
-   arch/powerpc/include/asm/jump_label.h:43:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: got false
-   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: got :
-   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, ...):
-   include/linux/jump_label.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/jump_label.h:115:1: sparse: sparse: got }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+>> arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: pmic@2 (qcom,pmi8998): =
+'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-9a-=
+f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', =
+'^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$',=
+ '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[0-9=
+]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '^u=
+sb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f=
+]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: pmic@2 (qcom,pmi8998): =
+typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: pmic@2 (qcom,pmi8998): =
+typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: pmic@2 (qcom,pmi8998): =
+typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: pmic@2 (qcom,pmi8998): =
+typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: pmic@2 (qcom,pmi8998): =
+typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
 --
-   include/asm-generic/bitops/generic-non-atomic.h:140:23: sparse: sparse: got }
-   include/asm-generic/bitops/generic-non-atomic.h:141:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/generic-non-atomic.h:141:1: sparse: sparse: got }
-   include/asm-generic/bitops/generic-non-atomic.h:172:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/generic-non-atomic.h:172:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/generic-non-atomic.h:172:16: sparse: sparse: got !
-   include/asm-generic/bitops/generic-non-atomic.h:173:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/generic-non-atomic.h:173:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, ...):
-   arch/powerpc/include/asm/bitops.h:85:29: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:85:29: sparse: sparse: got is_rlwinm_mask_valid
-   arch/powerpc/include/asm/bitops.h:89:15: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:89:15: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:89:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:91:11: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:91:11: sparse: sparse: got +=
-   arch/powerpc/include/asm/bitops.h:93:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:93:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:93:16: sparse: sparse: got !
-   arch/powerpc/include/asm/bitops.h:94:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:94:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:132:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:132:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:137:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:137:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:142:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:142:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:147:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:147:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:183:13: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:183:13: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:183:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:195:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:195:9: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:206:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:206:9: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:209:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:209:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:215:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:215:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:222:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:222:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:228:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:228:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:234:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:234:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:251:21: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:251:21: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:251:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:252:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:252:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:260:9: sparse: sparse: Expected ) in nested declarator
-   arch/powerpc/include/asm/bitops.h:260:9: sparse: sparse: got &&
-   arch/powerpc/include/asm/bitops.h:261:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:261:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/builtin-__ffs.h:14:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/builtin-__ffs.h:14:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, ...):
-   arch/powerpc/include/asm/bitops.h:283:33: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:283:33: sparse: sparse: got (
-   arch/powerpc/include/asm/bitops.h:283:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:286:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:286:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:286:16: sparse: sparse: got 32
-   arch/powerpc/include/asm/bitops.h:287:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:287:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/builtin-__fls.h:14:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/builtin-__fls.h:14:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
->> include/asm-generic/bitops/fls64.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/fls64.h:23:17: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/fls64.h:23:17: sparse: sparse: got return
->> include/asm-generic/bitops/fls64.h:24:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/fls64.h:24:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/fls64.h:24:16: sparse: sparse: got fls
-   include/asm-generic/bitops/fls64.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/fls64.h:25:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/bitops/hweight.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   include/asm-generic/bitops/arch_hweight.h:10:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:10:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/bitops/instrumented-atomic.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, ...):
-   include/linux/instrumented.h:28:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:28:9: sparse: sparse: got ,
-   include/linux/instrumented.h:29:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:29:1: sparse: sparse: got }
-   include/linux/instrumented.h:42:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:42:9: sparse: sparse: got ,
-   include/linux/instrumented.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:43:1: sparse: sparse: got }
-   include/linux/instrumented.h:56:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:56:9: sparse: sparse: got ,
-   include/linux/instrumented.h:57:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:57:1: sparse: sparse: got }
-   include/linux/instrumented.h:65:21: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:65:21: sparse: sparse: got 0
->> include/linux/instrumented.h:65:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/instrumented.h:66:57: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:66:57: sparse: sparse: got }
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in nested declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got {
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got (
-   include/linux/instrumented.h:67:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got !
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:67:17: sparse: sparse: got }
-   include/linux/instrumented.h:68:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:68:9: sparse: sparse: got }
-   include/linux/instrumented.h:83:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:83:9: sparse: sparse: got ,
-   include/linux/instrumented.h:85:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:85:1: sparse: sparse: got }
-   include/linux/instrumented.h:98:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:98:9: sparse: sparse: got ,
-   include/linux/instrumented.h:100:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:100:1: sparse: sparse: got }
-   include/linux/instrumented.h:113:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:113:9: sparse: sparse: got ,
-   include/linux/instrumented.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:115:1: sparse: sparse: got }
-   include/linux/instrumented.h:130:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:130:9: sparse: sparse: got ,
-   include/linux/instrumented.h:131:39: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:131:39: sparse: sparse: got ,
-   include/linux/instrumented.h:132:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:132:1: sparse: sparse: got }
-   include/linux/instrumented.h:147:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:147:9: sparse: sparse: got ,
-   include/linux/instrumented.h:148:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:148:1: sparse: sparse: got }
-   include/linux/instrumented.h:165:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:165:1: sparse: sparse: got }
-   include/linux/instrumented.h:181:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:181:9: sparse: sparse: got ,
-   include/linux/instrumented.h:182:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:182:9: sparse: sparse: got ,
-   include/linux/instrumented.h:183:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:183:1: sparse: sparse: got }
-   include/linux/instrumented.h:200:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:200:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:72:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: got arch_test_and_set_bit
-   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:86:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: got arch_test_and_clear_bit
-   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:100:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: got arch_test_and_change_bit
-   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: got arch_test_and_set_bit_lock
-   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: got (
-   include/asm-generic/bitops/instrumented-lock.h:80:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: got arch_xor_unlock_is_negative_byte
-   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/le.h:22:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:22:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:27:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:27:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:32:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:32:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:37:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:37:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:42:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:42:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:47:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:47:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:52:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:52:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:57:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:57:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:62:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:62:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: got [
->> include/asm-generic/bitops/sched.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: got [
-   include/asm-generic/bitops/sched.h:24:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/sched.h:26:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: got __ffs
-   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, ...):
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'const_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, ...):
-   include/linux/log2.h:45:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/log2.h:45:6: sparse: sparse: got is_power_of_2
-   include/linux/log2.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:48:1: sparse: sparse: got }
-   include/linux/log2.h:58:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:58:1: sparse: sparse: got }
-   include/linux/log2.h:68:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:68:1: sparse: sparse: got }
-   include/linux/log2.h:202:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:202:1: sparse: sparse: got }
-   include/linux/log2.h:230:26: sparse: sparse: Expected ) in function declarator
-   include/linux/log2.h:230:26: sparse: sparse: got (
-   include/linux/log2.h:230:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/log2.h:232:16: sparse: sparse: Expected ) in function declarator
-   include/linux/log2.h:232:16: sparse: sparse: got (
-   include/linux/log2.h:232:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/log2.h:233:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:233:1: sparse: sparse: got }
-   include/linux/log2.h:270:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:270:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, include/linux/time64.h, ...):
-   include/asm-generic/div64.h:151:14: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:151:14: sparse: sparse: got no_ovf
->> include/asm-generic/div64.h:154:9: sparse: sparse: Trying to use reserved word 'if' as identifier
->> include/asm-generic/div64.h:154:13: sparse: sparse: missing type declaration for parameter 'no_ovf'
->> include/asm-generic/div64.h:161:11: sparse: sparse: Trying to use reserved word 'else' as identifier
-   include/asm-generic/div64.h:161:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:161:16: sparse: sparse: got {
-   include/asm-generic/div64.h:166:19: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:166:19: sparse: sparse: got +=
-   include/asm-generic/div64.h:167:9: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/div64.h:167:9: sparse: sparse: got }
-   include/asm-generic/div64.h:170:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/div64.h:170:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/math64.h, include/linux/time64.h, include/linux/restart_block.h, include/linux/thread_info.h, ...):
-   include/vdso/math64.h:46:14: sparse: sparse: Expected ; at end of statement
-   include/vdso/math64.h:46:14: sparse: sparse: got ovf
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/time64.h, include/linux/restart_block.h, include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, ...):
-   include/linux/math64.h:92:22: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:92:22: sparse: sparse: got ___bias
-   include/linux/math64.h:286:21: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:286:21: sparse: sparse: got ___bias
-   include/linux/math64.h:289:9: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:289:9: sparse: sparse: got ___bias
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/restart_block.h, include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, include/linux/sched.h, ...):
-   include/linux/time64.h:52:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:52:20: sparse: sparse: got timespec64_is_epoch
-   include/linux/time64.h:55:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:55:1: sparse: sparse: got }
-   include/linux/time64.h:66:16: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:66:16: sparse: sparse: got ->
-   include/linux/time64.h:66:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:68:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:68:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:68:16: sparse: sparse: got lhs
-   include/linux/time64.h:69:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:69:1: sparse: sparse: got }
-   include/linux/time64.h:97:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:97:20: sparse: sparse: got timespec64_valid
-   include/linux/time64.h:103:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:103:13: sparse: sparse: got (
-   include/linux/time64.h:103:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:105:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:105:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:105:16: sparse: sparse: got true
-   include/linux/time64.h:106:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:106:1: sparse: sparse: got }
-   include/linux/time64.h:113:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:113:13: sparse: sparse: got (
-   include/linux/time64.h:113:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:115:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:115:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:115:16: sparse: sparse: got true
-   include/linux/time64.h:116:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:116:1: sparse: sparse: got }
-   include/linux/time64.h:123:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:123:13: sparse: sparse: got (
-   include/linux/time64.h:123:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:125:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:125:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:125:16: sparse: sparse: got true
-   include/linux/time64.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:126:1: sparse: sparse: got }
-   include/linux/time64.h:141:15: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:141:15: sparse: sparse: got ->
-   include/linux/time64.h:141:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:144:17: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:144:17: sparse: sparse: got (
-   include/linux/time64.h:144:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:145:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:145:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/kstrtox.h:98:49: sparse: sparse: Expected ) in function declarator
-   include/linux/kstrtox.h:98:49: sparse: sparse: got *
-   include/linux/kstrtox.h:110:80: sparse: sparse: Expected ) in function declarator
-   include/linux/kstrtox.h:110:80: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/minmax.h:276:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/minmax.h:276:20: sparse: sparse: got in_range64
-   include/linux/minmax.h:279:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/minmax.h:279:1: sparse: sparse: got }
-   include/linux/minmax.h:284:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/minmax.h:284:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/sprintf.h:25:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/sprintf.h:25:13: sparse: sparse: got no_hash_pointers
-   include/linux/sprintf.h:26:34: sparse: sparse: Expected ) in function declarator
-   include/linux/sprintf.h:26:34: sparse: sparse: got slub_debug
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/kernel.h:162:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/kernel.h:162:13: sparse: sparse: got early_boot_irqs_disabled
-   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, include/linux/sched.h, ...):
-   arch/powerpc/include/asm/thread_info.h:171:20: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/thread_info.h:171:20: sparse: sparse: got test_thread_local_flags
-   arch/powerpc/include/asm/thread_info.h:174:19: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/thread_info.h:174:19: sparse: sparse: got ->
-   arch/powerpc/include/asm/thread_info.h:174:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/thread_info.h:175:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:175:1: sparse: sparse: got }
-   arch/powerpc/include/asm/thread_info.h:220:22: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/thread_info.h:220:22: sparse: sparse: got <=
-   arch/powerpc/include/asm/thread_info.h:220:9: sparse: sparse: Trying to use reserved word 'while' as identifier
-   arch/powerpc/include/asm/thread_info.h:225:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:225:9: sparse: sparse: got }
-   arch/powerpc/include/asm/thread_info.h:228:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:228:1: sparse: sparse: got }
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+>> arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: pmic@2 (qcom,pmi8998): 'vbus-r=
+eg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-9a-f]+$', =
+'^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', '^batte=
+ry@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$', '^mpps=
+@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[0-9]+$', '=
+^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '^usb-dete=
+ct@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f]+$', '=
+gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: pmic@2 (qcom,pmi8998): typec@1=
+300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: pmic@2 (qcom,pmi8998): typec@1=
+300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: pmic@2 (qcom,pmi8998): typec@1=
+300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: pmic@2 (qcom,pmi8998): typec@1=
+300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: pmic@2 (qcom,pmi8998): typec@1=
+300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
 --
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file:
-   ../lib/gcc/powerpc-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/vdso/processor.h, include/vdso/processor.h, arch/powerpc/include/asm/processor.h, ...):
-   arch/powerpc/include/asm/feature-fixups.h:294:13: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/feature-fixups.h:294:13: sparse: sparse: got static_key_feature_checks_initialized
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/processor.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
-   arch/powerpc/include/asm/reg.h:1414:13: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/reg.h:1414:13: sparse: sparse: got strict_msr_control
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/rwonce.h, arch/powerpc/include/generated/asm/rwonce.h, include/linux/compiler.h, include/asm-generic/bug.h, ...):
-   include/linux/kasan-checks.h:22:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/kasan-checks.h:22:20: sparse: sparse: got __kasan_check_read
-   include/linux/kasan-checks.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:25:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:29:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:29:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:43:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:47:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:47:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, include/linux/thread_info.h, ...):
-   include/linux/panic.h:20:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:20:13: sparse: sparse: got oops_may_print
-   include/linux/panic.h:22:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:22:13: sparse: sparse: got panic_triggering_all_cpu_backtrace
-   include/linux/panic.h:29:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:29:13: sparse: sparse: got panic_on_taint_nousertaint
-   include/linux/panic.h:33:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:33:13: sparse: sparse: got crash_kexec_post_notifiers
-   include/linux/panic.h:54:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:54:6: sparse: sparse: got panic_try_start
-   include/linux/panic.h:56:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:56:6: sparse: sparse: got panic_in_progress
-   include/linux/panic.h:57:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:57:6: sparse: sparse: got panic_on_this_cpu
-   include/linux/panic.h:58:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:58:6: sparse: sparse: got panic_on_other_cpu
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, ...):
-   include/linux/init.h:165:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/init.h:165:13: sparse: sparse: got rodata_enabled
-   include/linux/init.h:170:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/init.h:170:13: sparse: sparse: got initcall_debug
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/bits.h, include/linux/ratelimit_types.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   include/linux/overflow.h:45:42: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:45:42: sparse: sparse: got __must_check_overflow
-   include/linux/overflow.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:48:1: sparse: sparse: got }
-   include/linux/overflow.h:334:13: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:334:13: sparse: sparse: got (
-   include/linux/overflow.h:334:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:337:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:337:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:337:16: sparse: sparse: got bytes
-   include/linux/overflow.h:338:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:338:1: sparse: sparse: got }
-   include/linux/overflow.h:353:13: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:353:13: sparse: sparse: got (
-   include/linux/overflow.h:353:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:356:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:356:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:356:16: sparse: sparse: got bytes
-   include/linux/overflow.h:357:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:357:1: sparse: sparse: got }
-   include/linux/overflow.h:374:21: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:374:21: sparse: sparse: got ==
-   include/linux/overflow.h:374:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:378:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:378:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:378:16: sparse: sparse: got bytes
-   include/linux/overflow.h:379:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:379:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/swab.h, include/uapi/linux/byteorder/big_endian.h, include/linux/byteorder/big_endian.h, ...):
-   include/uapi/linux/swab.h:55:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:55:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:64:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:64:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:73:17: sparse: sparse: Expected ) in function declarator
-   include/uapi/linux/swab.h:73:17: sparse: sparse: got (
->> include/uapi/linux/swab.h:73:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/uapi/linux/swab.h:77:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:77:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:86:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:86:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:95:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:95:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:143:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:143:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:178:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:178:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:191:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:191:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:204:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:204:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:219:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:219:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:234:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:234:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:247:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:247:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:259:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:259:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:272:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:272:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:287:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:287:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:302:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:302:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/uapi/linux/byteorder/big_endian.h, include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, ...):
-   include/linux/swab.h:28:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:28:20: sparse: sparse: got ++
-   include/linux/swab.h:29:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:29:9: sparse: sparse: got }
-   include/linux/swab.h:36:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:36:20: sparse: sparse: got ++
-   include/linux/swab.h:37:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:37:9: sparse: sparse: got }
-   include/linux/swab.h:44:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:44:20: sparse: sparse: got ++
-   include/linux/swab.h:45:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:45:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, arch/powerpc/include/asm/qspinlock_types.h, ...):
-   include/uapi/linux/byteorder/big_endian.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:48:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:52:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:52:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:56:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:56:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:60:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:60:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:64:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:64:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:68:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:68:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:72:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:72:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:76:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:76:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:80:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:80:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:84:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:84:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:88:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:88:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:92:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:92:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, arch/powerpc/include/asm/qspinlock_types.h, ...):
-   include/linux/byteorder/generic.h:147:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:147:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:152:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:152:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:157:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:157:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:164:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:164:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:165:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:165:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:172:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:172:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:173:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:173:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:180:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:180:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:181:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:181:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:188:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:188:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:189:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:189:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:196:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:196:16: sparse: sparse: got =
->> include/linux/byteorder/generic.h:196:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:196:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:196:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:196:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:196:33: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:198:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:198:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:204:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:204:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:204:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:204:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:204:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:204:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:204:33: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:206:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:206:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:211:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:211:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:216:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:216:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:221:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:221:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:227:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:227:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:227:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:227:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:227:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:227:31: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:227:31: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:229:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:229:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:235:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:235:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:235:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:235:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:235:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:235:31: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:235:31: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:237:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:237:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/spinlock_types.h, include/linux/spinlock_types_raw.h, include/linux/ratelimit_types.h, ...):
-   arch/powerpc/include/asm/qspinlock_types.h:23:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/qspinlock_types.h:23:9: sparse: sparse: got }
-   arch/powerpc/include/asm/qspinlock_types.h:24:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/qspinlock_types.h:24:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/spinlock_types.h, include/linux/spinlock_types_raw.h, include/linux/ratelimit_types.h, ...):
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: expected ; at end of declaration
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: Expected } at end of specifier
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: got wait_lock
-   include/asm-generic/qrwlock_types.h:27:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/qrwlock_types.h:27:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/ratelimit_types.h, include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, ...):
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: expected ; at end of declaration
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: Expected } at end of specifier
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: got raw_lock
-   include/linux/spinlock_types_raw.h:23:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/spinlock_types_raw.h:23:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, include/linux/thread_info.h, ...):
-   include/linux/printk.h:188:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:188:13: sparse: sparse: got printk_timed_ratelimit
-   include/linux/printk.h:208:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:208:13: sparse: sparse: got nbcon_device_try_acquire
-   include/linux/printk.h:211:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:211:6: sparse: sparse: got pr_flush
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/cleanup.h, include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, ...):
-   include/linux/err.h:76:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/err.h:76:33: sparse: sparse: got IS_ERR
-   include/linux/err.h:79:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:79:1: sparse: sparse: got }
-   include/linux/err.h:93:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:93:1: sparse: sparse: got }
-   include/linux/err.h:106:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:106:1: sparse: sparse: got }
-   include/linux/err.h:129:9: sparse: sparse: Trying to use reserved word 'else' as identifier
-   include/linux/err.h:130:17: sparse: sparse: Expected ; at end of declaration
-   include/linux/err.h:130:17: sparse: sparse: got return
-   include/linux/err.h:131:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:131:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   include/linux/cleanup.h:225:15: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/cleanup.h:225:15: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   arch/powerpc/include/asm/jump_label.h:18:29: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:18:29: sparse: sparse: got arch_static_branch
-   arch/powerpc/include/asm/jump_label.h:28:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/jump_label.h:28:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:28:16: sparse: sparse: got false
-   arch/powerpc/include/asm/jump_label.h:29:6: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:29:6: sparse: sparse: got :
-   arch/powerpc/include/asm/jump_label.h:31:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/jump_label.h:31:1: sparse: sparse: got }
-   arch/powerpc/include/asm/jump_label.h:43:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: got false
-   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: got :
-   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, ...):
-   include/linux/jump_label.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/jump_label.h:115:1: sparse: sparse: got }
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: pmic@2 (qcom,=
+pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|le=
+ds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-=
+9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0=
+-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pi=
+nctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-=
+f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrat=
+or@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must be fi=
+xed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
 --
-   include/asm-generic/bitops/generic-non-atomic.h:140:23: sparse: sparse: got }
-   include/asm-generic/bitops/generic-non-atomic.h:141:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/generic-non-atomic.h:141:1: sparse: sparse: got }
-   include/asm-generic/bitops/generic-non-atomic.h:172:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/generic-non-atomic.h:172:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/generic-non-atomic.h:172:16: sparse: sparse: got !
-   include/asm-generic/bitops/generic-non-atomic.h:173:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/generic-non-atomic.h:173:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, ...):
-   arch/powerpc/include/asm/bitops.h:85:29: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:85:29: sparse: sparse: got is_rlwinm_mask_valid
-   arch/powerpc/include/asm/bitops.h:89:15: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:89:15: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:89:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:91:11: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:91:11: sparse: sparse: got +=
-   arch/powerpc/include/asm/bitops.h:93:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:93:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:93:16: sparse: sparse: got !
-   arch/powerpc/include/asm/bitops.h:94:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:94:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:132:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:132:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:137:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:137:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:142:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:142:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:147:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:147:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:183:13: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:183:13: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:183:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:195:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:195:9: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:206:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:206:9: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:209:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:209:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:215:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:215:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:222:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:222:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:228:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:228:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:234:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:234:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:251:21: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:251:21: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:251:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:252:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:252:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:260:9: sparse: sparse: Expected ) in nested declarator
-   arch/powerpc/include/asm/bitops.h:260:9: sparse: sparse: got &&
-   arch/powerpc/include/asm/bitops.h:261:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:261:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/builtin-__ffs.h:14:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/builtin-__ffs.h:14:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, ...):
-   arch/powerpc/include/asm/bitops.h:283:33: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:283:33: sparse: sparse: got (
-   arch/powerpc/include/asm/bitops.h:283:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:286:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:286:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:286:16: sparse: sparse: got 32
-   arch/powerpc/include/asm/bitops.h:287:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:287:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/builtin-__fls.h:14:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/builtin-__fls.h:14:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
->> include/asm-generic/bitops/fls64.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/fls64.h:23:17: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/fls64.h:23:17: sparse: sparse: got return
->> include/asm-generic/bitops/fls64.h:24:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/fls64.h:24:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/fls64.h:24:16: sparse: sparse: got fls
-   include/asm-generic/bitops/fls64.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/fls64.h:25:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/bitops/hweight.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   include/asm-generic/bitops/arch_hweight.h:10:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:10:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/bitops/instrumented-atomic.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, ...):
-   include/linux/instrumented.h:28:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:28:9: sparse: sparse: got ,
-   include/linux/instrumented.h:29:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:29:1: sparse: sparse: got }
-   include/linux/instrumented.h:42:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:42:9: sparse: sparse: got ,
-   include/linux/instrumented.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:43:1: sparse: sparse: got }
-   include/linux/instrumented.h:56:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:56:9: sparse: sparse: got ,
-   include/linux/instrumented.h:57:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:57:1: sparse: sparse: got }
-   include/linux/instrumented.h:65:21: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:65:21: sparse: sparse: got 0
->> include/linux/instrumented.h:65:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/instrumented.h:66:57: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:66:57: sparse: sparse: got }
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in nested declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got {
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got (
-   include/linux/instrumented.h:67:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got !
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:67:17: sparse: sparse: got }
-   include/linux/instrumented.h:68:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:68:9: sparse: sparse: got }
-   include/linux/instrumented.h:83:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:83:9: sparse: sparse: got ,
-   include/linux/instrumented.h:85:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:85:1: sparse: sparse: got }
-   include/linux/instrumented.h:98:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:98:9: sparse: sparse: got ,
-   include/linux/instrumented.h:100:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:100:1: sparse: sparse: got }
-   include/linux/instrumented.h:113:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:113:9: sparse: sparse: got ,
-   include/linux/instrumented.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:115:1: sparse: sparse: got }
-   include/linux/instrumented.h:130:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:130:9: sparse: sparse: got ,
-   include/linux/instrumented.h:131:39: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:131:39: sparse: sparse: got ,
-   include/linux/instrumented.h:132:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:132:1: sparse: sparse: got }
-   include/linux/instrumented.h:147:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:147:9: sparse: sparse: got ,
-   include/linux/instrumented.h:148:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:148:1: sparse: sparse: got }
-   include/linux/instrumented.h:165:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:165:1: sparse: sparse: got }
-   include/linux/instrumented.h:181:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:181:9: sparse: sparse: got ,
-   include/linux/instrumented.h:182:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:182:9: sparse: sparse: got ,
-   include/linux/instrumented.h:183:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:183:1: sparse: sparse: got }
-   include/linux/instrumented.h:200:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:200:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:72:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: got arch_test_and_set_bit
-   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:86:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: got arch_test_and_clear_bit
-   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:100:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: got arch_test_and_change_bit
-   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: got arch_test_and_set_bit_lock
-   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: got (
-   include/asm-generic/bitops/instrumented-lock.h:80:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: got arch_xor_unlock_is_negative_byte
-   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/le.h:22:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:22:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:27:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:27:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:32:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:32:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:37:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:37:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:42:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:42:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:47:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:47:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:52:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:52:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:57:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:57:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:62:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:62:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: got [
->> include/asm-generic/bitops/sched.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: got [
-   include/asm-generic/bitops/sched.h:24:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/sched.h:26:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: got __ffs
-   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, ...):
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'const_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, ...):
-   include/linux/log2.h:45:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/log2.h:45:6: sparse: sparse: got is_power_of_2
-   include/linux/log2.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:48:1: sparse: sparse: got }
-   include/linux/log2.h:58:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:58:1: sparse: sparse: got }
-   include/linux/log2.h:68:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:68:1: sparse: sparse: got }
-   include/linux/log2.h:202:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:202:1: sparse: sparse: got }
-   include/linux/log2.h:230:26: sparse: sparse: Expected ) in function declarator
-   include/linux/log2.h:230:26: sparse: sparse: got (
-   include/linux/log2.h:230:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/log2.h:232:16: sparse: sparse: Expected ) in function declarator
-   include/linux/log2.h:232:16: sparse: sparse: got (
-   include/linux/log2.h:232:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/log2.h:233:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:233:1: sparse: sparse: got }
-   include/linux/log2.h:270:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:270:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, include/linux/time64.h, ...):
-   include/asm-generic/div64.h:151:14: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:151:14: sparse: sparse: got no_ovf
->> include/asm-generic/div64.h:154:9: sparse: sparse: Trying to use reserved word 'if' as identifier
->> include/asm-generic/div64.h:154:13: sparse: sparse: missing type declaration for parameter 'no_ovf'
->> include/asm-generic/div64.h:161:11: sparse: sparse: Trying to use reserved word 'else' as identifier
-   include/asm-generic/div64.h:161:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:161:16: sparse: sparse: got {
-   include/asm-generic/div64.h:166:19: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:166:19: sparse: sparse: got +=
-   include/asm-generic/div64.h:167:9: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/div64.h:167:9: sparse: sparse: got }
-   include/asm-generic/div64.h:170:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/div64.h:170:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/math64.h, include/linux/time64.h, include/linux/restart_block.h, include/linux/thread_info.h, ...):
-   include/vdso/math64.h:46:14: sparse: sparse: Expected ; at end of statement
-   include/vdso/math64.h:46:14: sparse: sparse: got ovf
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/time64.h, include/linux/restart_block.h, include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, ...):
-   include/linux/math64.h:92:22: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:92:22: sparse: sparse: got ___bias
-   include/linux/math64.h:286:21: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:286:21: sparse: sparse: got ___bias
-   include/linux/math64.h:289:9: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:289:9: sparse: sparse: got ___bias
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/restart_block.h, include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, include/linux/sched.h, ...):
-   include/linux/time64.h:52:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:52:20: sparse: sparse: got timespec64_is_epoch
-   include/linux/time64.h:55:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:55:1: sparse: sparse: got }
-   include/linux/time64.h:66:16: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:66:16: sparse: sparse: got ->
-   include/linux/time64.h:66:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:68:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:68:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:68:16: sparse: sparse: got lhs
-   include/linux/time64.h:69:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:69:1: sparse: sparse: got }
-   include/linux/time64.h:97:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:97:20: sparse: sparse: got timespec64_valid
-   include/linux/time64.h:103:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:103:13: sparse: sparse: got (
-   include/linux/time64.h:103:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:105:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:105:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:105:16: sparse: sparse: got true
-   include/linux/time64.h:106:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:106:1: sparse: sparse: got }
-   include/linux/time64.h:113:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:113:13: sparse: sparse: got (
-   include/linux/time64.h:113:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:115:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:115:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:115:16: sparse: sparse: got true
-   include/linux/time64.h:116:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:116:1: sparse: sparse: got }
-   include/linux/time64.h:123:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:123:13: sparse: sparse: got (
-   include/linux/time64.h:123:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:125:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:125:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:125:16: sparse: sparse: got true
-   include/linux/time64.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:126:1: sparse: sparse: got }
-   include/linux/time64.h:141:15: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:141:15: sparse: sparse: got ->
-   include/linux/time64.h:141:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:144:17: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:144:17: sparse: sparse: got (
-   include/linux/time64.h:144:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:145:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:145:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/kstrtox.h:98:49: sparse: sparse: Expected ) in function declarator
-   include/linux/kstrtox.h:98:49: sparse: sparse: got *
-   include/linux/kstrtox.h:110:80: sparse: sparse: Expected ) in function declarator
-   include/linux/kstrtox.h:110:80: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/minmax.h:276:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/minmax.h:276:20: sparse: sparse: got in_range64
-   include/linux/minmax.h:279:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/minmax.h:279:1: sparse: sparse: got }
-   include/linux/minmax.h:284:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/minmax.h:284:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/sprintf.h:25:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/sprintf.h:25:13: sparse: sparse: got no_hash_pointers
-   include/linux/sprintf.h:26:34: sparse: sparse: Expected ) in function declarator
-   include/linux/sprintf.h:26:34: sparse: sparse: got slub_debug
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/kernel.h:162:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/kernel.h:162:13: sparse: sparse: got early_boot_irqs_disabled
-   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, include/linux/sched.h, ...):
-   arch/powerpc/include/asm/thread_info.h:171:20: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/thread_info.h:171:20: sparse: sparse: got test_thread_local_flags
-   arch/powerpc/include/asm/thread_info.h:174:19: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/thread_info.h:174:19: sparse: sparse: got ->
-   arch/powerpc/include/asm/thread_info.h:174:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/thread_info.h:175:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:175:1: sparse: sparse: got }
-   arch/powerpc/include/asm/thread_info.h:220:22: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/thread_info.h:220:22: sparse: sparse: got <=
-   arch/powerpc/include/asm/thread_info.h:220:9: sparse: sparse: Trying to use reserved word 'while' as identifier
-   arch/powerpc/include/asm/thread_info.h:225:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:225:9: sparse: sparse: got }
-   arch/powerpc/include/asm/thread_info.h:228:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:228:1: sparse: sparse: got }
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: pmic@2 (qcom,pmi8=
+998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@=
+[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f=
+]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-=
+f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctr=
+l-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$=
+', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[=
+0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
 --
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file:
-   ../lib/gcc/powerpc-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/vdso/processor.h, include/vdso/processor.h, arch/powerpc/include/asm/processor.h, ...):
-   arch/powerpc/include/asm/feature-fixups.h:294:13: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/feature-fixups.h:294:13: sparse: sparse: got static_key_feature_checks_initialized
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/processor.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
-   arch/powerpc/include/asm/reg.h:1414:13: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/reg.h:1414:13: sparse: sparse: got strict_msr_control
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/rwonce.h, arch/powerpc/include/generated/asm/rwonce.h, include/linux/compiler.h, include/asm-generic/bug.h, ...):
-   include/linux/kasan-checks.h:22:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/kasan-checks.h:22:20: sparse: sparse: got __kasan_check_read
-   include/linux/kasan-checks.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:25:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:29:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:29:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:43:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:47:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:47:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, include/linux/thread_info.h, ...):
-   include/linux/panic.h:20:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:20:13: sparse: sparse: got oops_may_print
-   include/linux/panic.h:22:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:22:13: sparse: sparse: got panic_triggering_all_cpu_backtrace
-   include/linux/panic.h:29:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:29:13: sparse: sparse: got panic_on_taint_nousertaint
-   include/linux/panic.h:33:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:33:13: sparse: sparse: got crash_kexec_post_notifiers
-   include/linux/panic.h:54:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:54:6: sparse: sparse: got panic_try_start
-   include/linux/panic.h:56:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:56:6: sparse: sparse: got panic_in_progress
-   include/linux/panic.h:57:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:57:6: sparse: sparse: got panic_on_this_cpu
-   include/linux/panic.h:58:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:58:6: sparse: sparse: got panic_on_other_cpu
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, ...):
-   include/linux/init.h:165:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/init.h:165:13: sparse: sparse: got rodata_enabled
-   include/linux/init.h:170:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/init.h:170:13: sparse: sparse: got initcall_debug
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/bits.h, include/linux/ratelimit_types.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   include/linux/overflow.h:45:42: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:45:42: sparse: sparse: got __must_check_overflow
-   include/linux/overflow.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:48:1: sparse: sparse: got }
-   include/linux/overflow.h:334:13: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:334:13: sparse: sparse: got (
-   include/linux/overflow.h:334:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:337:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:337:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:337:16: sparse: sparse: got bytes
-   include/linux/overflow.h:338:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:338:1: sparse: sparse: got }
-   include/linux/overflow.h:353:13: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:353:13: sparse: sparse: got (
-   include/linux/overflow.h:353:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:356:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:356:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:356:16: sparse: sparse: got bytes
-   include/linux/overflow.h:357:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:357:1: sparse: sparse: got }
-   include/linux/overflow.h:374:21: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:374:21: sparse: sparse: got ==
-   include/linux/overflow.h:374:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:378:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:378:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:378:16: sparse: sparse: got bytes
-   include/linux/overflow.h:379:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:379:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/swab.h, include/uapi/linux/byteorder/big_endian.h, include/linux/byteorder/big_endian.h, ...):
-   include/uapi/linux/swab.h:55:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:55:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:64:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:64:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:73:17: sparse: sparse: Expected ) in function declarator
-   include/uapi/linux/swab.h:73:17: sparse: sparse: got (
->> include/uapi/linux/swab.h:73:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/uapi/linux/swab.h:77:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:77:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:86:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:86:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:95:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:95:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:143:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:143:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:178:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:178:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:191:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:191:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:204:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:204:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:219:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:219:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:234:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:234:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:247:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:247:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:259:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:259:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:272:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:272:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:287:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:287:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:302:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:302:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/uapi/linux/byteorder/big_endian.h, include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, ...):
-   include/linux/swab.h:28:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:28:20: sparse: sparse: got ++
-   include/linux/swab.h:29:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:29:9: sparse: sparse: got }
-   include/linux/swab.h:36:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:36:20: sparse: sparse: got ++
-   include/linux/swab.h:37:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:37:9: sparse: sparse: got }
-   include/linux/swab.h:44:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:44:20: sparse: sparse: got ++
-   include/linux/swab.h:45:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:45:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, arch/powerpc/include/asm/qspinlock_types.h, ...):
-   include/uapi/linux/byteorder/big_endian.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:48:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:52:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:52:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:56:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:56:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:60:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:60:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:64:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:64:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:68:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:68:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:72:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:72:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:76:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:76:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:80:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:80:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:84:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:84:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:88:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:88:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:92:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:92:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, arch/powerpc/include/asm/qspinlock_types.h, ...):
-   include/linux/byteorder/generic.h:147:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:147:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:152:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:152:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:157:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:157:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:164:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:164:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:165:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:165:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:172:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:172:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:173:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:173:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:180:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:180:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:181:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:181:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:188:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:188:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:189:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:189:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:196:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:196:16: sparse: sparse: got =
->> include/linux/byteorder/generic.h:196:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:196:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:196:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:196:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:196:33: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:198:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:198:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:204:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:204:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:204:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:204:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:204:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:204:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:204:33: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:206:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:206:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:211:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:211:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:216:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:216:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:221:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:221:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:227:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:227:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:227:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:227:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:227:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:227:31: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:227:31: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:229:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:229:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:235:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:235:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:235:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:235:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:235:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:235:31: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:235:31: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:237:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:237:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/spinlock_types.h, include/linux/spinlock_types_raw.h, include/linux/ratelimit_types.h, ...):
-   arch/powerpc/include/asm/qspinlock_types.h:23:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/qspinlock_types.h:23:9: sparse: sparse: got }
-   arch/powerpc/include/asm/qspinlock_types.h:24:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/qspinlock_types.h:24:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/spinlock_types.h, include/linux/spinlock_types_raw.h, include/linux/ratelimit_types.h, ...):
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: expected ; at end of declaration
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: Expected } at end of specifier
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: got wait_lock
-   include/asm-generic/qrwlock_types.h:27:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/qrwlock_types.h:27:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/ratelimit_types.h, include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, ...):
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: expected ; at end of declaration
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: Expected } at end of specifier
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: got raw_lock
-   include/linux/spinlock_types_raw.h:23:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/spinlock_types_raw.h:23:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, include/linux/thread_info.h, ...):
-   include/linux/printk.h:188:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:188:13: sparse: sparse: got printk_timed_ratelimit
-   include/linux/printk.h:208:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:208:13: sparse: sparse: got nbcon_device_try_acquire
-   include/linux/printk.h:211:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:211:6: sparse: sparse: got pr_flush
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/cleanup.h, include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, ...):
-   include/linux/err.h:76:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/err.h:76:33: sparse: sparse: got IS_ERR
-   include/linux/err.h:79:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:79:1: sparse: sparse: got }
-   include/linux/err.h:93:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:93:1: sparse: sparse: got }
-   include/linux/err.h:106:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:106:1: sparse: sparse: got }
-   include/linux/err.h:129:9: sparse: sparse: Trying to use reserved word 'else' as identifier
-   include/linux/err.h:130:17: sparse: sparse: Expected ; at end of declaration
-   include/linux/err.h:130:17: sparse: sparse: got return
-   include/linux/err.h:131:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:131:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   include/linux/cleanup.h:225:15: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/cleanup.h:225:15: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   arch/powerpc/include/asm/jump_label.h:18:29: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:18:29: sparse: sparse: got arch_static_branch
-   arch/powerpc/include/asm/jump_label.h:28:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/jump_label.h:28:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:28:16: sparse: sparse: got false
-   arch/powerpc/include/asm/jump_label.h:29:6: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:29:6: sparse: sparse: got :
-   arch/powerpc/include/asm/jump_label.h:31:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/jump_label.h:31:1: sparse: sparse: got }
-   arch/powerpc/include/asm/jump_label.h:43:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: got false
-   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: got :
-   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, ...):
-   include/linux/jump_label.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/jump_label.h:115:1: sparse: sparse: got }
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:90.20-98.5: Warning (avoid_unneces=
+sary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells=
+/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" prop=
+erty
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: pinctrl@=
+3400000 (qcom,msm8998-pinctrl): blsp1-i2c5-sleep-state: 'oneOf' conditional=
+ failed, one must be fixed:
+   	'bias-disable', 'bias-pull-up', 'drive-strength', 'function', 'pins' do=
+ not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,msm8998-pin=
+ctrl.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: pmic@2 (=
+qcom,pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wl=
+ed|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-code=
+c@[0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controll=
+er@[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$',=
+ '^pinctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[=
+0-9a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^v=
+ibrator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must =
+be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was exp=
+ected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
 --
-   include/asm-generic/bitops/generic-non-atomic.h:140:23: sparse: sparse: got }
-   include/asm-generic/bitops/generic-non-atomic.h:141:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/generic-non-atomic.h:141:1: sparse: sparse: got }
-   include/asm-generic/bitops/generic-non-atomic.h:172:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/generic-non-atomic.h:172:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/generic-non-atomic.h:172:16: sparse: sparse: got !
-   include/asm-generic/bitops/generic-non-atomic.h:173:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/generic-non-atomic.h:173:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, ...):
-   arch/powerpc/include/asm/bitops.h:85:29: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:85:29: sparse: sparse: got is_rlwinm_mask_valid
-   arch/powerpc/include/asm/bitops.h:89:15: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:89:15: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:89:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:91:11: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:91:11: sparse: sparse: got +=
-   arch/powerpc/include/asm/bitops.h:93:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:93:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:93:16: sparse: sparse: got !
-   arch/powerpc/include/asm/bitops.h:94:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:94:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:132:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:132:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:137:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:137:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:142:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:142:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:147:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:147:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:183:13: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:183:13: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:183:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:195:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:195:9: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:206:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:206:9: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:209:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:209:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:215:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:215:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:222:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:222:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:228:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:228:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:234:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:234:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:251:21: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:251:21: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:251:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:252:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:252:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:260:9: sparse: sparse: Expected ) in nested declarator
-   arch/powerpc/include/asm/bitops.h:260:9: sparse: sparse: got &&
-   arch/powerpc/include/asm/bitops.h:261:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:261:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/builtin-__ffs.h:14:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/builtin-__ffs.h:14:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, ...):
-   arch/powerpc/include/asm/bitops.h:283:33: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:283:33: sparse: sparse: got (
-   arch/powerpc/include/asm/bitops.h:283:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:286:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:286:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:286:16: sparse: sparse: got 32
-   arch/powerpc/include/asm/bitops.h:287:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:287:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/builtin-__fls.h:14:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/builtin-__fls.h:14:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
->> include/asm-generic/bitops/fls64.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/fls64.h:23:17: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/fls64.h:23:17: sparse: sparse: got return
->> include/asm-generic/bitops/fls64.h:24:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/fls64.h:24:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/fls64.h:24:16: sparse: sparse: got fls
-   include/asm-generic/bitops/fls64.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/fls64.h:25:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/bitops/hweight.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   include/asm-generic/bitops/arch_hweight.h:10:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:10:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/bitops/instrumented-atomic.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, ...):
-   include/linux/instrumented.h:28:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:28:9: sparse: sparse: got ,
-   include/linux/instrumented.h:29:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:29:1: sparse: sparse: got }
-   include/linux/instrumented.h:42:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:42:9: sparse: sparse: got ,
-   include/linux/instrumented.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:43:1: sparse: sparse: got }
-   include/linux/instrumented.h:56:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:56:9: sparse: sparse: got ,
-   include/linux/instrumented.h:57:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:57:1: sparse: sparse: got }
-   include/linux/instrumented.h:65:21: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:65:21: sparse: sparse: got 0
->> include/linux/instrumented.h:65:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/instrumented.h:66:57: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:66:57: sparse: sparse: got }
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in nested declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got {
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got (
-   include/linux/instrumented.h:67:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got !
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:67:17: sparse: sparse: got }
-   include/linux/instrumented.h:68:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:68:9: sparse: sparse: got }
-   include/linux/instrumented.h:83:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:83:9: sparse: sparse: got ,
-   include/linux/instrumented.h:85:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:85:1: sparse: sparse: got }
-   include/linux/instrumented.h:98:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:98:9: sparse: sparse: got ,
-   include/linux/instrumented.h:100:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:100:1: sparse: sparse: got }
-   include/linux/instrumented.h:113:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:113:9: sparse: sparse: got ,
-   include/linux/instrumented.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:115:1: sparse: sparse: got }
-   include/linux/instrumented.h:130:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:130:9: sparse: sparse: got ,
-   include/linux/instrumented.h:131:39: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:131:39: sparse: sparse: got ,
-   include/linux/instrumented.h:132:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:132:1: sparse: sparse: got }
-   include/linux/instrumented.h:147:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:147:9: sparse: sparse: got ,
-   include/linux/instrumented.h:148:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:148:1: sparse: sparse: got }
-   include/linux/instrumented.h:165:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:165:1: sparse: sparse: got }
-   include/linux/instrumented.h:181:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:181:9: sparse: sparse: got ,
-   include/linux/instrumented.h:182:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:182:9: sparse: sparse: got ,
-   include/linux/instrumented.h:183:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:183:1: sparse: sparse: got }
-   include/linux/instrumented.h:200:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:200:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:72:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: got arch_test_and_set_bit
-   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:86:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: got arch_test_and_clear_bit
-   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:100:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: got arch_test_and_change_bit
-   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: got arch_test_and_set_bit_lock
-   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: got (
-   include/asm-generic/bitops/instrumented-lock.h:80:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: got arch_xor_unlock_is_negative_byte
-   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/le.h:22:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:22:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:27:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:27:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:32:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:32:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:37:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:37:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:42:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:42:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:47:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:47:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:52:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:52:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:57:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:57:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:62:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:62:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: got [
->> include/asm-generic/bitops/sched.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: got [
-   include/asm-generic/bitops/sched.h:24:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/sched.h:26:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: got __ffs
-   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, ...):
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'const_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, ...):
-   include/linux/log2.h:45:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/log2.h:45:6: sparse: sparse: got is_power_of_2
-   include/linux/log2.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:48:1: sparse: sparse: got }
-   include/linux/log2.h:58:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:58:1: sparse: sparse: got }
-   include/linux/log2.h:68:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:68:1: sparse: sparse: got }
-   include/linux/log2.h:202:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:202:1: sparse: sparse: got }
-   include/linux/log2.h:230:26: sparse: sparse: Expected ) in function declarator
-   include/linux/log2.h:230:26: sparse: sparse: got (
-   include/linux/log2.h:230:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/log2.h:232:16: sparse: sparse: Expected ) in function declarator
-   include/linux/log2.h:232:16: sparse: sparse: got (
-   include/linux/log2.h:232:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/log2.h:233:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:233:1: sparse: sparse: got }
-   include/linux/log2.h:270:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:270:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, include/linux/time64.h, ...):
-   include/asm-generic/div64.h:151:14: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:151:14: sparse: sparse: got no_ovf
->> include/asm-generic/div64.h:154:9: sparse: sparse: Trying to use reserved word 'if' as identifier
->> include/asm-generic/div64.h:154:13: sparse: sparse: missing type declaration for parameter 'no_ovf'
->> include/asm-generic/div64.h:161:11: sparse: sparse: Trying to use reserved word 'else' as identifier
-   include/asm-generic/div64.h:161:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:161:16: sparse: sparse: got {
-   include/asm-generic/div64.h:166:19: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:166:19: sparse: sparse: got +=
-   include/asm-generic/div64.h:167:9: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/div64.h:167:9: sparse: sparse: got }
-   include/asm-generic/div64.h:170:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/div64.h:170:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/math64.h, include/linux/time64.h, include/linux/restart_block.h, include/linux/thread_info.h, ...):
-   include/vdso/math64.h:46:14: sparse: sparse: Expected ; at end of statement
-   include/vdso/math64.h:46:14: sparse: sparse: got ovf
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/time64.h, include/linux/restart_block.h, include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, ...):
-   include/linux/math64.h:92:22: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:92:22: sparse: sparse: got ___bias
-   include/linux/math64.h:286:21: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:286:21: sparse: sparse: got ___bias
-   include/linux/math64.h:289:9: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:289:9: sparse: sparse: got ___bias
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/restart_block.h, include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, include/linux/sched.h, ...):
-   include/linux/time64.h:52:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:52:20: sparse: sparse: got timespec64_is_epoch
-   include/linux/time64.h:55:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:55:1: sparse: sparse: got }
-   include/linux/time64.h:66:16: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:66:16: sparse: sparse: got ->
-   include/linux/time64.h:66:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:68:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:68:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:68:16: sparse: sparse: got lhs
-   include/linux/time64.h:69:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:69:1: sparse: sparse: got }
-   include/linux/time64.h:97:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:97:20: sparse: sparse: got timespec64_valid
-   include/linux/time64.h:103:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:103:13: sparse: sparse: got (
-   include/linux/time64.h:103:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:105:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:105:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:105:16: sparse: sparse: got true
-   include/linux/time64.h:106:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:106:1: sparse: sparse: got }
-   include/linux/time64.h:113:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:113:13: sparse: sparse: got (
-   include/linux/time64.h:113:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:115:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:115:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:115:16: sparse: sparse: got true
-   include/linux/time64.h:116:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:116:1: sparse: sparse: got }
-   include/linux/time64.h:123:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:123:13: sparse: sparse: got (
-   include/linux/time64.h:123:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:125:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:125:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:125:16: sparse: sparse: got true
-   include/linux/time64.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:126:1: sparse: sparse: got }
-   include/linux/time64.h:141:15: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:141:15: sparse: sparse: got ->
-   include/linux/time64.h:141:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:144:17: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:144:17: sparse: sparse: got (
-   include/linux/time64.h:144:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:145:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:145:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/kstrtox.h:98:49: sparse: sparse: Expected ) in function declarator
-   include/linux/kstrtox.h:98:49: sparse: sparse: got *
-   include/linux/kstrtox.h:110:80: sparse: sparse: Expected ) in function declarator
-   include/linux/kstrtox.h:110:80: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/minmax.h:276:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/minmax.h:276:20: sparse: sparse: got in_range64
-   include/linux/minmax.h:279:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/minmax.h:279:1: sparse: sparse: got }
-   include/linux/minmax.h:284:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/minmax.h:284:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/sprintf.h:25:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/sprintf.h:25:13: sparse: sparse: got no_hash_pointers
-   include/linux/sprintf.h:26:34: sparse: sparse: Expected ) in function declarator
-   include/linux/sprintf.h:26:34: sparse: sparse: got slub_debug
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/kernel.h:162:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/kernel.h:162:13: sparse: sparse: got early_boot_irqs_disabled
-   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, include/linux/sched.h, ...):
-   arch/powerpc/include/asm/thread_info.h:171:20: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/thread_info.h:171:20: sparse: sparse: got test_thread_local_flags
-   arch/powerpc/include/asm/thread_info.h:174:19: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/thread_info.h:174:19: sparse: sparse: got ->
-   arch/powerpc/include/asm/thread_info.h:174:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/thread_info.h:175:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:175:1: sparse: sparse: got }
-   arch/powerpc/include/asm/thread_info.h:220:22: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/thread_info.h:220:22: sparse: sparse: got <=
-   arch/powerpc/include/asm/thread_info.h:220:9: sparse: sparse: Trying to use reserved word 'while' as identifier
-   arch/powerpc/include/asm/thread_info.h:225:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:225:9: sparse: sparse: got }
-   arch/powerpc/include/asm/thread_info.h:228:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:228:1: sparse: sparse: got }
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:90.20-98.5: Warning (avoid_unneces=
+sary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells=
+/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" prop=
+erty
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: pinctrl@=
+3400000 (qcom,msm8998-pinctrl): blsp1-i2c5-sleep-state: 'oneOf' conditional=
+ failed, one must be fixed:
+   	'bias-disable', 'bias-pull-up', 'drive-strength', 'function', 'pins' do=
+ not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,msm8998-pin=
+ctrl.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: pmic@2 (=
+qcom,pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wl=
+ed|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-code=
+c@[0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controll=
+er@[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$',=
+ '^pinctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[=
+0-9a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^v=
+ibrator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must =
+be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was exp=
+ected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: pmic@2 (=
+qcom,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
 --
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file:
-   ../lib/gcc/powerpc-linux/10.5.0/include/altivec.h:34:2: sparse: sparse: Use the "-maltivec" flag to enable PowerPC AltiVec support
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/vdso/processor.h, include/vdso/processor.h, arch/powerpc/include/asm/processor.h, ...):
-   arch/powerpc/include/asm/feature-fixups.h:294:13: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/feature-fixups.h:294:13: sparse: sparse: got static_key_feature_checks_initialized
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/processor.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
-   arch/powerpc/include/asm/reg.h:1414:13: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/reg.h:1414:13: sparse: sparse: got strict_msr_control
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/rwonce.h, arch/powerpc/include/generated/asm/rwonce.h, include/linux/compiler.h, include/asm-generic/bug.h, ...):
-   include/linux/kasan-checks.h:22:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/kasan-checks.h:22:20: sparse: sparse: got __kasan_check_read
-   include/linux/kasan-checks.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:25:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:29:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:29:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:43:1: sparse: sparse: got }
-   include/linux/kasan-checks.h:47:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/kasan-checks.h:47:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, include/linux/thread_info.h, ...):
-   include/linux/panic.h:20:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:20:13: sparse: sparse: got oops_may_print
-   include/linux/panic.h:22:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:22:13: sparse: sparse: got panic_triggering_all_cpu_backtrace
-   include/linux/panic.h:29:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:29:13: sparse: sparse: got panic_on_taint_nousertaint
-   include/linux/panic.h:33:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:33:13: sparse: sparse: got crash_kexec_post_notifiers
-   include/linux/panic.h:54:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:54:6: sparse: sparse: got panic_try_start
-   include/linux/panic.h:56:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:56:6: sparse: sparse: got panic_in_progress
-   include/linux/panic.h:57:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:57:6: sparse: sparse: got panic_on_this_cpu
-   include/linux/panic.h:58:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/panic.h:58:6: sparse: sparse: got panic_on_other_cpu
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, ...):
-   include/linux/init.h:165:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/init.h:165:13: sparse: sparse: got rodata_enabled
-   include/linux/init.h:170:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/init.h:170:13: sparse: sparse: got initcall_debug
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/bits.h, include/linux/ratelimit_types.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   include/linux/overflow.h:45:42: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:45:42: sparse: sparse: got __must_check_overflow
-   include/linux/overflow.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:48:1: sparse: sparse: got }
-   include/linux/overflow.h:334:13: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:334:13: sparse: sparse: got (
-   include/linux/overflow.h:334:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:337:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:337:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:337:16: sparse: sparse: got bytes
-   include/linux/overflow.h:338:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:338:1: sparse: sparse: got }
-   include/linux/overflow.h:353:13: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:353:13: sparse: sparse: got (
-   include/linux/overflow.h:353:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:356:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:356:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:356:16: sparse: sparse: got bytes
-   include/linux/overflow.h:357:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:357:1: sparse: sparse: got }
-   include/linux/overflow.h:374:21: sparse: sparse: Expected ) in function declarator
-   include/linux/overflow.h:374:21: sparse: sparse: got ==
-   include/linux/overflow.h:374:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/overflow.h:378:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/overflow.h:378:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/overflow.h:378:16: sparse: sparse: got bytes
-   include/linux/overflow.h:379:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/overflow.h:379:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/swab.h, include/uapi/linux/byteorder/big_endian.h, include/linux/byteorder/big_endian.h, ...):
-   include/uapi/linux/swab.h:55:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:55:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:64:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:64:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:73:17: sparse: sparse: Expected ) in function declarator
-   include/uapi/linux/swab.h:73:17: sparse: sparse: got (
->> include/uapi/linux/swab.h:73:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/uapi/linux/swab.h:77:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:77:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:86:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:86:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:95:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:95:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:143:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:143:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:178:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:178:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:191:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:191:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:204:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:204:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:219:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:219:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:234:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:234:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:247:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:247:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:259:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:259:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:272:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:272:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:287:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:287:1: sparse: sparse: got }
-   include/uapi/linux/swab.h:302:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/swab.h:302:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/uapi/linux/byteorder/big_endian.h, include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, ...):
-   include/linux/swab.h:28:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:28:20: sparse: sparse: got ++
-   include/linux/swab.h:29:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:29:9: sparse: sparse: got }
-   include/linux/swab.h:36:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:36:20: sparse: sparse: got ++
-   include/linux/swab.h:37:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:37:9: sparse: sparse: got }
-   include/linux/swab.h:44:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/swab.h:44:20: sparse: sparse: got ++
-   include/linux/swab.h:45:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/swab.h:45:9: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, arch/powerpc/include/asm/qspinlock_types.h, ...):
-   include/uapi/linux/byteorder/big_endian.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:48:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:52:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:52:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:56:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:56:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:60:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:60:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:64:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:64:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:68:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:68:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:72:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:72:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:76:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:76:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:80:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:80:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:84:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:84:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:88:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:88:1: sparse: sparse: got }
-   include/uapi/linux/byteorder/big_endian.h:92:1: sparse: sparse: Expected ; at the end of type declaration
-   include/uapi/linux/byteorder/big_endian.h:92:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/powerpc/include/uapi/asm/byteorder.h, arch/powerpc/include/asm/qspinlock_types.h, ...):
-   include/linux/byteorder/generic.h:147:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:147:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:152:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:152:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:157:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:157:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:164:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:164:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:165:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:165:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:172:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:172:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:173:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:173:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:180:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:180:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:181:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:181:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:188:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:188:20: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:189:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:189:9: sparse: sparse: got }
-   include/linux/byteorder/generic.h:196:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:196:16: sparse: sparse: got =
->> include/linux/byteorder/generic.h:196:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:196:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:196:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:196:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:196:33: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:198:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:198:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:204:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:204:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:204:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:204:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:204:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:204:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:204:33: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:206:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:206:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:211:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:211:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:216:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:216:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:221:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:221:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:227:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:227:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:227:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:227:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:227:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:227:31: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:227:31: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:229:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:229:1: sparse: sparse: got }
-   include/linux/byteorder/generic.h:235:16: sparse: sparse: Expected ) in function declarator
-   include/linux/byteorder/generic.h:235:16: sparse: sparse: got =
-   include/linux/byteorder/generic.h:235:9: sparse: sparse: Trying to use reserved word 'for' as identifier
-   include/linux/byteorder/generic.h:235:23: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:235:23: sparse: sparse: got <
-   include/linux/byteorder/generic.h:235:31: sparse: sparse: Expected ; at end of declaration
-   include/linux/byteorder/generic.h:235:31: sparse: sparse: got ++
-   include/linux/byteorder/generic.h:237:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/byteorder/generic.h:237:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/spinlock_types.h, include/linux/spinlock_types_raw.h, include/linux/ratelimit_types.h, ...):
-   arch/powerpc/include/asm/qspinlock_types.h:23:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/qspinlock_types.h:23:9: sparse: sparse: got }
-   arch/powerpc/include/asm/qspinlock_types.h:24:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/qspinlock_types.h:24:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/spinlock_types.h, include/linux/spinlock_types_raw.h, include/linux/ratelimit_types.h, ...):
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: expected ; at end of declaration
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: Expected } at end of specifier
-   include/asm-generic/qrwlock_types.h:26:33: sparse: sparse: got wait_lock
-   include/asm-generic/qrwlock_types.h:27:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/qrwlock_types.h:27:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/ratelimit_types.h, include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, ...):
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: expected ; at end of declaration
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: Expected } at end of specifier
-   include/linux/spinlock_types_raw.h:15:25: sparse: sparse: got raw_lock
-   include/linux/spinlock_types_raw.h:23:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/spinlock_types_raw.h:23:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, include/linux/bug.h, include/linux/thread_info.h, ...):
-   include/linux/printk.h:188:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:188:13: sparse: sparse: got printk_timed_ratelimit
-   include/linux/printk.h:208:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:208:13: sparse: sparse: got nbcon_device_try_acquire
-   include/linux/printk.h:211:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/printk.h:211:6: sparse: sparse: got pr_flush
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/cleanup.h, include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, ...):
-   include/linux/err.h:76:33: sparse: sparse: Expected ; at end of declaration
-   include/linux/err.h:76:33: sparse: sparse: got IS_ERR
-   include/linux/err.h:79:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:79:1: sparse: sparse: got }
-   include/linux/err.h:93:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:93:1: sparse: sparse: got }
-   include/linux/err.h:106:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:106:1: sparse: sparse: got }
-   include/linux/err.h:129:9: sparse: sparse: Trying to use reserved word 'else' as identifier
-   include/linux/err.h:130:17: sparse: sparse: Expected ; at end of declaration
-   include/linux/err.h:130:17: sparse: sparse: got return
-   include/linux/err.h:131:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/err.h:131:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   include/linux/cleanup.h:225:15: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/cleanup.h:225:15: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/jump_label.h, include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, ...):
-   arch/powerpc/include/asm/jump_label.h:18:29: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:18:29: sparse: sparse: got arch_static_branch
-   arch/powerpc/include/asm/jump_label.h:28:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/jump_label.h:28:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:28:16: sparse: sparse: got false
-   arch/powerpc/include/asm/jump_label.h:29:6: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:29:6: sparse: sparse: got :
-   arch/powerpc/include/asm/jump_label.h:31:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/jump_label.h:31:1: sparse: sparse: got }
-   arch/powerpc/include/asm/jump_label.h:43:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: got false
-   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: got :
-   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/dynamic_debug.h, include/linux/printk.h, include/asm-generic/bug.h, arch/powerpc/include/asm/bug.h, ...):
-   include/linux/jump_label.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/jump_label.h:115:1: sparse: sparse: got }
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:90.20-98.5: Warning (avoid_unneces=
+sary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells=
+/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" prop=
+erty
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: pinctrl=
+@3400000 (qcom,msm8998-pinctrl): blsp1-i2c5-sleep-state: 'oneOf' conditiona=
+l failed, one must be fixed:
+   	'bias-disable', 'bias-pull-up', 'drive-strength', 'function', 'pins' do=
+ not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,msm8998-pin=
+ctrl.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: pmic@2 =
+(qcom,pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(w=
+led|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-cod=
+ec@[0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-control=
+ler@[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$'=
+, '^pinctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@=
+[0-9a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^=
+vibrator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must=
+ be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was ex=
+pected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
 --
-   include/asm-generic/bitops/generic-non-atomic.h:140:23: sparse: sparse: got }
-   include/asm-generic/bitops/generic-non-atomic.h:141:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/generic-non-atomic.h:141:1: sparse: sparse: got }
-   include/asm-generic/bitops/generic-non-atomic.h:172:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/generic-non-atomic.h:172:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/generic-non-atomic.h:172:16: sparse: sparse: got !
-   include/asm-generic/bitops/generic-non-atomic.h:173:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/generic-non-atomic.h:173:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, ...):
-   arch/powerpc/include/asm/bitops.h:85:29: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:85:29: sparse: sparse: got is_rlwinm_mask_valid
-   arch/powerpc/include/asm/bitops.h:89:15: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:89:15: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:89:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:91:11: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:91:11: sparse: sparse: got +=
-   arch/powerpc/include/asm/bitops.h:93:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:93:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:93:16: sparse: sparse: got !
-   arch/powerpc/include/asm/bitops.h:94:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:94:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:126:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:127:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:132:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:132:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:137:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:137:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:142:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:142:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:147:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:147:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:171:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:173:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:175:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:183:13: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:183:13: sparse: sparse: got 1
-   arch/powerpc/include/asm/bitops.h:183:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:195:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:195:9: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:206:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:206:9: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:209:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:209:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:215:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:215:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:222:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:222:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:228:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:228:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:234:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:234:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:251:21: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:251:21: sparse: sparse: got &
-   arch/powerpc/include/asm/bitops.h:251:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:252:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:252:1: sparse: sparse: got }
-   arch/powerpc/include/asm/bitops.h:260:9: sparse: sparse: Expected ) in nested declarator
-   arch/powerpc/include/asm/bitops.h:260:9: sparse: sparse: got &&
-   arch/powerpc/include/asm/bitops.h:261:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:261:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/builtin-__ffs.h:14:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/builtin-__ffs.h:14:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, ...):
-   arch/powerpc/include/asm/bitops.h:283:33: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/bitops.h:283:33: sparse: sparse: got (
-   arch/powerpc/include/asm/bitops.h:283:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   arch/powerpc/include/asm/bitops.h:286:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/bitops.h:286:16: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/bitops.h:286:16: sparse: sparse: got 32
-   arch/powerpc/include/asm/bitops.h:287:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/bitops.h:287:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/builtin-__fls.h:14:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/builtin-__fls.h:14:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
->> include/asm-generic/bitops/fls64.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/fls64.h:23:17: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/fls64.h:23:17: sparse: sparse: got return
->> include/asm-generic/bitops/fls64.h:24:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/fls64.h:24:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/fls64.h:24:16: sparse: sparse: got fls
-   include/asm-generic/bitops/fls64.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/fls64.h:25:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/bitops/hweight.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   include/asm-generic/bitops/arch_hweight.h:10:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:10:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: got }
-   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/bitops/instrumented-atomic.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, ...):
-   include/linux/instrumented.h:28:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:28:9: sparse: sparse: got ,
-   include/linux/instrumented.h:29:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:29:1: sparse: sparse: got }
-   include/linux/instrumented.h:42:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:42:9: sparse: sparse: got ,
-   include/linux/instrumented.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:43:1: sparse: sparse: got }
-   include/linux/instrumented.h:56:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:56:9: sparse: sparse: got ,
-   include/linux/instrumented.h:57:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:57:1: sparse: sparse: got }
-   include/linux/instrumented.h:65:21: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:65:21: sparse: sparse: got 0
->> include/linux/instrumented.h:65:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/instrumented.h:66:57: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:66:57: sparse: sparse: got }
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in nested declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got {
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got (
-   include/linux/instrumented.h:67:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:67:17: sparse: sparse: got !
-   include/linux/instrumented.h:67:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:67:17: sparse: sparse: got }
-   include/linux/instrumented.h:68:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:68:9: sparse: sparse: got }
-   include/linux/instrumented.h:83:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:83:9: sparse: sparse: got ,
-   include/linux/instrumented.h:85:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:85:1: sparse: sparse: got }
-   include/linux/instrumented.h:98:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:98:9: sparse: sparse: got ,
-   include/linux/instrumented.h:100:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:100:1: sparse: sparse: got }
-   include/linux/instrumented.h:113:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:113:9: sparse: sparse: got ,
-   include/linux/instrumented.h:115:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:115:1: sparse: sparse: got }
-   include/linux/instrumented.h:130:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:130:9: sparse: sparse: got ,
-   include/linux/instrumented.h:131:39: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:131:39: sparse: sparse: got ,
-   include/linux/instrumented.h:132:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:132:1: sparse: sparse: got }
-   include/linux/instrumented.h:147:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:147:9: sparse: sparse: got ,
-   include/linux/instrumented.h:148:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:148:1: sparse: sparse: got }
-   include/linux/instrumented.h:165:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:165:1: sparse: sparse: got }
-   include/linux/instrumented.h:181:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:181:9: sparse: sparse: got ,
-   include/linux/instrumented.h:182:9: sparse: sparse: Expected ) in function declarator
-   include/linux/instrumented.h:182:9: sparse: sparse: got ,
-   include/linux/instrumented.h:183:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:183:1: sparse: sparse: got }
-   include/linux/instrumented.h:200:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/instrumented.h:200:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:72:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: got arch_test_and_set_bit
-   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:86:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: got arch_test_and_clear_bit
-   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-atomic.h:100:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: got arch_test_and_change_bit
-   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: got +
-   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: got arch_test_and_set_bit_lock
-   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: got }
-   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: got (
-   include/asm-generic/bitops/instrumented-lock.h:80:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: got arch_xor_unlock_is_negative_byte
-   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/le.h:22:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:22:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:27:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:27:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:32:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:32:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:37:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:37:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:42:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:42:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:47:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:47:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:52:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:52:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:57:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:57:1: sparse: sparse: got }
-   include/asm-generic/bitops/le.h:62:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/le.h:62:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
-   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: got [
->> include/asm-generic/bitops/sched.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: Expected ) in function declarator
-   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: got [
-   include/asm-generic/bitops/sched.h:24:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/asm-generic/bitops/sched.h:26:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: got __ffs
-   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, ...):
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'const_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, ...):
-   include/linux/log2.h:45:6: sparse: sparse: Expected ; at end of declaration
-   include/linux/log2.h:45:6: sparse: sparse: got is_power_of_2
-   include/linux/log2.h:48:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:48:1: sparse: sparse: got }
-   include/linux/log2.h:58:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:58:1: sparse: sparse: got }
-   include/linux/log2.h:68:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:68:1: sparse: sparse: got }
-   include/linux/log2.h:202:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:202:1: sparse: sparse: got }
-   include/linux/log2.h:230:26: sparse: sparse: Expected ) in function declarator
-   include/linux/log2.h:230:26: sparse: sparse: got (
-   include/linux/log2.h:230:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/log2.h:232:16: sparse: sparse: Expected ) in function declarator
-   include/linux/log2.h:232:16: sparse: sparse: got (
-   include/linux/log2.h:232:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/log2.h:233:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:233:1: sparse: sparse: got }
-   include/linux/log2.h:270:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/log2.h:270:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, include/linux/time64.h, ...):
-   include/asm-generic/div64.h:151:14: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:151:14: sparse: sparse: got no_ovf
->> include/asm-generic/div64.h:154:9: sparse: sparse: Trying to use reserved word 'if' as identifier
->> include/asm-generic/div64.h:154:13: sparse: sparse: missing type declaration for parameter 'no_ovf'
->> include/asm-generic/div64.h:161:11: sparse: sparse: Trying to use reserved word 'else' as identifier
-   include/asm-generic/div64.h:161:16: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:161:16: sparse: sparse: got {
-   include/asm-generic/div64.h:166:19: sparse: sparse: Expected ; at end of declaration
-   include/asm-generic/div64.h:166:19: sparse: sparse: got +=
-   include/asm-generic/div64.h:167:9: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/div64.h:167:9: sparse: sparse: got }
-   include/asm-generic/div64.h:170:1: sparse: sparse: Expected ; at the end of type declaration
-   include/asm-generic/div64.h:170:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/math64.h, include/linux/time64.h, include/linux/restart_block.h, include/linux/thread_info.h, ...):
-   include/vdso/math64.h:46:14: sparse: sparse: Expected ; at end of statement
-   include/vdso/math64.h:46:14: sparse: sparse: got ovf
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/time64.h, include/linux/restart_block.h, include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, ...):
-   include/linux/math64.h:92:22: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:92:22: sparse: sparse: got ___bias
-   include/linux/math64.h:286:21: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:286:21: sparse: sparse: got ___bias
-   include/linux/math64.h:289:9: sparse: sparse: Expected ; at end of statement
-   include/linux/math64.h:289:9: sparse: sparse: got ___bias
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/restart_block.h, include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, include/linux/sched.h, ...):
-   include/linux/time64.h:52:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:52:20: sparse: sparse: got timespec64_is_epoch
-   include/linux/time64.h:55:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:55:1: sparse: sparse: got }
-   include/linux/time64.h:66:16: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:66:16: sparse: sparse: got ->
-   include/linux/time64.h:66:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:68:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:68:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:68:16: sparse: sparse: got lhs
-   include/linux/time64.h:69:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:69:1: sparse: sparse: got }
-   include/linux/time64.h:97:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:97:20: sparse: sparse: got timespec64_valid
-   include/linux/time64.h:103:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:103:13: sparse: sparse: got (
-   include/linux/time64.h:103:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:105:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:105:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:105:16: sparse: sparse: got true
-   include/linux/time64.h:106:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:106:1: sparse: sparse: got }
-   include/linux/time64.h:113:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:113:13: sparse: sparse: got (
-   include/linux/time64.h:113:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:115:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:115:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:115:16: sparse: sparse: got true
-   include/linux/time64.h:116:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:116:1: sparse: sparse: got }
-   include/linux/time64.h:123:13: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:123:13: sparse: sparse: got (
-   include/linux/time64.h:123:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:125:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:125:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/time64.h:125:16: sparse: sparse: got true
-   include/linux/time64.h:126:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:126:1: sparse: sparse: got }
-   include/linux/time64.h:141:15: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:141:15: sparse: sparse: got ->
-   include/linux/time64.h:141:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/time64.h:144:17: sparse: sparse: Expected ) in function declarator
-   include/linux/time64.h:144:17: sparse: sparse: got (
-   include/linux/time64.h:144:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/time64.h:145:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/time64.h:145:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/kstrtox.h:98:49: sparse: sparse: Expected ) in function declarator
-   include/linux/kstrtox.h:98:49: sparse: sparse: got *
-   include/linux/kstrtox.h:110:80: sparse: sparse: Expected ) in function declarator
-   include/linux/kstrtox.h:110:80: sparse: sparse: got *
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/minmax.h:276:20: sparse: sparse: Expected ; at end of declaration
-   include/linux/minmax.h:276:20: sparse: sparse: got in_range64
-   include/linux/minmax.h:279:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/minmax.h:279:1: sparse: sparse: got }
-   include/linux/minmax.h:284:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/minmax.h:284:1: sparse: sparse: got }
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/kernel.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/sprintf.h:25:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/sprintf.h:25:13: sparse: sparse: got no_hash_pointers
-   include/linux/sprintf.h:26:34: sparse: sparse: Expected ) in function declarator
-   include/linux/sprintf.h:26:34: sparse: sparse: got slub_debug
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   include/linux/kernel.h:162:13: sparse: sparse: Expected ; at end of declaration
-   include/linux/kernel.h:162:13: sparse: sparse: got early_boot_irqs_disabled
-   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/thread_info.h, arch/powerpc/include/asm/processor.h, include/linux/sched.h, ...):
-   arch/powerpc/include/asm/thread_info.h:171:20: sparse: sparse: Expected ; at end of declaration
-   arch/powerpc/include/asm/thread_info.h:171:20: sparse: sparse: got test_thread_local_flags
-   arch/powerpc/include/asm/thread_info.h:174:19: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/thread_info.h:174:19: sparse: sparse: got ->
-   arch/powerpc/include/asm/thread_info.h:174:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   arch/powerpc/include/asm/thread_info.h:175:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:175:1: sparse: sparse: got }
-   arch/powerpc/include/asm/thread_info.h:220:22: sparse: sparse: Expected ) in function declarator
-   arch/powerpc/include/asm/thread_info.h:220:22: sparse: sparse: got <=
-   arch/powerpc/include/asm/thread_info.h:220:9: sparse: sparse: Trying to use reserved word 'while' as identifier
-   arch/powerpc/include/asm/thread_info.h:225:9: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:225:9: sparse: sparse: got }
-   arch/powerpc/include/asm/thread_info.h:228:1: sparse: sparse: Expected ; at the end of type declaration
-   arch/powerpc/include/asm/thread_info.h:228:1: sparse: sparse: got }
-
-vim +/return +73 include/uapi/linux/swab.h
-
-607ca46e97a1b6 David Howells 2012-10-13   9  
-607ca46e97a1b6 David Howells 2012-10-13  10  /*
-607ca46e97a1b6 David Howells 2012-10-13  11   * casts are necessary for constants, because we never know how for sure
-607ca46e97a1b6 David Howells 2012-10-13  12   * how U/UL/ULL map to __u16, __u32, __u64. At least not in a portable way.
-607ca46e97a1b6 David Howells 2012-10-13  13   */
-607ca46e97a1b6 David Howells 2012-10-13  14  #define ___constant_swab16(x) ((__u16)(				\
-607ca46e97a1b6 David Howells 2012-10-13  15  	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
-607ca46e97a1b6 David Howells 2012-10-13  16  	(((__u16)(x) & (__u16)0xff00U) >> 8)))
-607ca46e97a1b6 David Howells 2012-10-13  17  
-607ca46e97a1b6 David Howells 2012-10-13  18  #define ___constant_swab32(x) ((__u32)(				\
-607ca46e97a1b6 David Howells 2012-10-13  19  	(((__u32)(x) & (__u32)0x000000ffUL) << 24) |		\
-607ca46e97a1b6 David Howells 2012-10-13  20  	(((__u32)(x) & (__u32)0x0000ff00UL) <<  8) |		\
-607ca46e97a1b6 David Howells 2012-10-13  21  	(((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |		\
-607ca46e97a1b6 David Howells 2012-10-13  22  	(((__u32)(x) & (__u32)0xff000000UL) >> 24)))
-607ca46e97a1b6 David Howells 2012-10-13  23  
-607ca46e97a1b6 David Howells 2012-10-13  24  #define ___constant_swab64(x) ((__u64)(				\
-607ca46e97a1b6 David Howells 2012-10-13  25  	(((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |	\
-607ca46e97a1b6 David Howells 2012-10-13  26  	(((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |	\
-607ca46e97a1b6 David Howells 2012-10-13  27  	(((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |	\
-607ca46e97a1b6 David Howells 2012-10-13  28  	(((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |	\
-607ca46e97a1b6 David Howells 2012-10-13  29  	(((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |	\
-607ca46e97a1b6 David Howells 2012-10-13  30  	(((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |	\
-607ca46e97a1b6 David Howells 2012-10-13  31  	(((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |	\
-607ca46e97a1b6 David Howells 2012-10-13  32  	(((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
-607ca46e97a1b6 David Howells 2012-10-13  33  
-607ca46e97a1b6 David Howells 2012-10-13  34  #define ___constant_swahw32(x) ((__u32)(			\
-607ca46e97a1b6 David Howells 2012-10-13  35  	(((__u32)(x) & (__u32)0x0000ffffUL) << 16) |		\
-607ca46e97a1b6 David Howells 2012-10-13  36  	(((__u32)(x) & (__u32)0xffff0000UL) >> 16)))
-607ca46e97a1b6 David Howells 2012-10-13  37  
-607ca46e97a1b6 David Howells 2012-10-13  38  #define ___constant_swahb32(x) ((__u32)(			\
-607ca46e97a1b6 David Howells 2012-10-13  39  	(((__u32)(x) & (__u32)0x00ff00ffUL) << 8) |		\
-607ca46e97a1b6 David Howells 2012-10-13  40  	(((__u32)(x) & (__u32)0xff00ff00UL) >> 8)))
-607ca46e97a1b6 David Howells 2012-10-13  41  
-607ca46e97a1b6 David Howells 2012-10-13  42  /*
-607ca46e97a1b6 David Howells 2012-10-13  43   * Implement the following as inlines, but define the interface using
-607ca46e97a1b6 David Howells 2012-10-13  44   * macros to allow constant folding when possible:
-607ca46e97a1b6 David Howells 2012-10-13  45   * ___swab16, ___swab32, ___swab64, ___swahw32, ___swahb32
-607ca46e97a1b6 David Howells 2012-10-13  46   */
-607ca46e97a1b6 David Howells 2012-10-13  47  
-607ca46e97a1b6 David Howells 2012-10-13  48  static inline __attribute_const__ __u16 __fswab16(__u16 val)
-607ca46e97a1b6 David Howells 2012-10-13  49  {
-7322dd755e7dd3 Arnd Bergmann 2016-05-05  50  #if defined (__arch_swab16)
-607ca46e97a1b6 David Howells 2012-10-13  51  	return __arch_swab16(val);
-607ca46e97a1b6 David Howells 2012-10-13  52  #else
-607ca46e97a1b6 David Howells 2012-10-13  53  	return ___constant_swab16(val);
-607ca46e97a1b6 David Howells 2012-10-13  54  #endif
-607ca46e97a1b6 David Howells 2012-10-13 @55  }
-607ca46e97a1b6 David Howells 2012-10-13  56  
-607ca46e97a1b6 David Howells 2012-10-13  57  static inline __attribute_const__ __u32 __fswab32(__u32 val)
-607ca46e97a1b6 David Howells 2012-10-13  58  {
-7322dd755e7dd3 Arnd Bergmann 2016-05-05  59  #if defined(__arch_swab32)
-607ca46e97a1b6 David Howells 2012-10-13  60  	return __arch_swab32(val);
-607ca46e97a1b6 David Howells 2012-10-13  61  #else
-607ca46e97a1b6 David Howells 2012-10-13  62  	return ___constant_swab32(val);
-607ca46e97a1b6 David Howells 2012-10-13  63  #endif
-607ca46e97a1b6 David Howells 2012-10-13  64  }
-607ca46e97a1b6 David Howells 2012-10-13  65  
-607ca46e97a1b6 David Howells 2012-10-13  66  static inline __attribute_const__ __u64 __fswab64(__u64 val)
-607ca46e97a1b6 David Howells 2012-10-13  67  {
-7322dd755e7dd3 Arnd Bergmann 2016-05-05  68  #if defined (__arch_swab64)
-607ca46e97a1b6 David Howells 2012-10-13  69  	return __arch_swab64(val);
-607ca46e97a1b6 David Howells 2012-10-13  70  #elif defined(__SWAB_64_THRU_32__)
-607ca46e97a1b6 David Howells 2012-10-13  71  	__u32 h = val >> 32;
-607ca46e97a1b6 David Howells 2012-10-13  72  	__u32 l = val & ((1ULL << 32) - 1);
-607ca46e97a1b6 David Howells 2012-10-13 @73  	return (((__u64)__fswab32(l)) << 32) | ((__u64)(__fswab32(h)));
-607ca46e97a1b6 David Howells 2012-10-13  74  #else
-607ca46e97a1b6 David Howells 2012-10-13  75  	return ___constant_swab64(val);
-607ca46e97a1b6 David Howells 2012-10-13  76  #endif
-607ca46e97a1b6 David Howells 2012-10-13  77  }
-607ca46e97a1b6 David Howells 2012-10-13  78  
-
-:::::: The code at line 73 was first introduced by commit
-:::::: 607ca46e97a1b6594b29647d98a32d545c24bdff UAPI: (Scripted) Disintegrate include/linux
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unn=
+ecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecess=
+ary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg=
+" or "ranges" property
+>> arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: pmic@2 (qcom,pmi8998)=
+: 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-9=
+a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$'=
+, '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$=
+', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[0=
+-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '=
+^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a=
+-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4785.27-4840.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pmic@2 (qcom,pmi8998): 'vbus=
+-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-9a-f]+$'=
+, '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', '^bat=
+tery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$', '^mp=
+ps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[0-9]+$',=
+ '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '^usb-de=
+tect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f]+$',=
+ 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pmic@2 (qcom,pmi8998): typec=
+@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pmic@2 (qcom,pmi8998): typec=
+@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pmic@2 (qcom,pmi8998): typec=
+@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pmic@2 (qcom,pmi8998): typec=
+@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pmic@2 (qcom,pmi8998): typec=
+@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4785.27-4840.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dtb: pmic@2 (qcom,pmi8=
+998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@=
+[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f=
+]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-=
+f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctr=
+l-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$=
+', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[=
+0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-crosshatch.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-google-blueline.dtb: pmic@2 (qcom,pmi899=
+8): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0=
+-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+=
+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]=
++$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-=
+[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$',=
+ '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-=
+9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-blueline.dtb: pmic@2 (qcom,pmi899=
+8): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-blueline.dtb: pmic@2 (qcom,pmi899=
+8): typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-blueline.dtb: pmic@2 (qcom,pmi899=
+8): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-blueline.dtb: pmic@2 (qcom,pmi899=
+8): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-google-blueline.dtb: pmic@2 (qcom,pmi899=
+8): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: panel@0 (lg,sw49410-lh609=
+qh1): compatible:0: 'lg,sw49410-lh609qh1' is not one of ['ampire,am-1280800=
+n3tzqw-t00h', 'ampire,am-480272h3tmqw-t01h', 'ampire,am-800480l1tmqw-t00h',=
+ 'ampire,am800480r3tmqwa1h', 'ampire,am800600p5tmqw-tb8h', 'auo,b101aw03', =
+'auo,b101xtn01', 'auo,b116xw03', 'auo,g070vvn01', 'auo,g101evn010', 'auo,g1=
+04sn02', 'auo,g104stn01', 'auo,g121ean01', 'auo,g156xtn01', 'auo,p238han01'=
+, 'auo,p320hvn03', 'avic,tm070ddh03', 'boe,av101hdt-a10', 'boe,bp082wx1-100=
+', 'boe,bp101wx1-100', 'boe,ev121wxm-n10-1850', 'boe,hv070wsa-100', 'cct,cm=
+t430b19n00', 'cdtech,s043wq26h-ct7', 'cdtech,s070pws19hp-fc21', 'cdtech,s07=
+0swv29hg-dc44', 'cdtech,s070wv95-ct16', 'chefree,ch101olhlwh-002', 'chunghw=
+a,claa101wa01a', 'chunghwa,claa101wb01', 'chunghwa,claa101wb03', 'dataimage=
+,fg040346dsswbg04', 'dataimage,fg1001l0dsswmg01', 'dataimage,scf0700c48ggu1=
+8', 'dlc,dlc1010gig', 'edt,et035012dm6', 'edt,et057023udba', 'edt,et057090d=
+hu', 'edt,et070080dh6', 'edt,etm0350g0dh6', 'edt,etm043080dh6gp', 'edt,etm0=
+430g0dh6', 'edt,etm070080bdh6', 'edt,etm070080dh6', 'edt,etm070080edh6', 'e=
+dt,etm0700g0bdh6', 'edt,etm0700g0dh6', 'edt,etm0700g0edh6', 'edt,etml0700y5=
+dha', 'edt,etml1010g3dra', 'edt,etmv570g2dhu', 'eink,vb3300-kca', 'evervisi=
+on,vgg644804', 'evervision,vgg804821', 'foxlink,fl500wvr00-a0t', 'frida,frd=
+350h54004', 'giantplus,gpg48273qs5', 'giantplus,gpm940b0', 'hannstar,hsd070=
+pww1', 'hannstar,hsd100pxn1', 'hannstar,hsd156juw2', 'hit,tx23d38vm0caa', '=
+innolux,at043tn24', 'innolux,at070tn92', 'innolux,g070ace-l01', 'innolux,g0=
+70ace-lh3', 'innolux,g070y2-l01', 'innolux,g070y2-t02', 'innolux,g101ice-l0=
+1', 'innolux,g121i1-l01', 'innolux,g121x1-l03', 'innolux,g121xce-l01', 'inn=
+olux,g150xge-l05', 'innolux,n133hse-ea1', 'innolux,n156bge-l21', 'innolux,z=
+j070na-01p', 'jutouch,jt070tm041', 'jutouch,jt101tm023', 'koe,tx14d24vm1bpa=
+', 'koe,tx31d200vm0baa', 'kyo,tcg070wvlq', 'kyo,tcg121xglp', 'lemaker,bl035=
+-rgb-002', 'lg,lb070wv8', 'lg,sw49410', 'logictechno,lt161010-2nhc', 'logic=
+techno,lt161010-2nhr', 'logictechno,lt170410-2whc', 'logictechno,lttd800480=
+070-l2rt', 'logictechno,lttd800480070-l6wh-rt', 'microchip,ac69t88a', 'mits=
+ubishi,aa070mc01-ca1', 'mitsubishi,aa084xe01', 'multi-inno,mi0700a2t-30', '=
+multi-inno,mi0700s4t-6', 'multi-inno,mi0800ft-9', 'multi-inno,mi1010ait-1cp=
+', 'multi-inno,mi1010z1t-1cp11', 'nec,nl12880bc20-05', 'nec,nl4827hc19-05b'=
+, 'netron-dy,e231732', 'newhaven,nhd-4.3-480272ef-atxl', 'nlt,nl12880bc20-s=
+pwg-24', 'nlt,nl13676bc25-03f', 'nvd,9128', 'okaya,rs800480t-7x0gp', 'olime=
+x,lcd-olinuxino-43-ts', 'olimex,lcd-olinuxino-5-cts', 'ontat,kd50g21-40nt-a=
+1', 'ontat,yx700wv03', 'ortustech,com37h3m05dtc', 'ortustech,com37h3m99dtc'=
+, 'ortustech,com43h4m85ulc', 'osddisplays,osd070t1718-19ts', 'osddisplays,o=
+sd101t2045-53ts', 'powertip,ph128800t004-zza01', 'powertip,ph128800t006-zhc=
+01', 'powertip,ph800480t013-idf02', 'powertip,ph800480t032-zhc19', 'primevi=
+ew,pm070wl4', 'qiaodian,qd43003c0-40', 'qishenglong,gopher2b-lcd', 'raystar=
+,rff500f-awh-dnn', 'rocktech,rk101ii01d-ct', 'rocktech,rk070er9427', 'rockt=
+ech,rk043fn48h', 'samsung,ltl101al01', 'samsung,ltl106al01', 'samsung,ltn10=
+1nt05', 'satoz,sat050at40h12r2', 'sharp,lq035q7db03', 'sharp,lq070y3dg3b', =
+'sharp,lq101k1ly04', 'sharp,ls020b1dd01d', 'shelly,sca07010-bfn-lnn', 'star=
+ry,kr070pe2t', 'startek,kd070wvfpa', 'team-source-display,tst043015cmhx', '=
+tianma,p0700wxf1mbaa', 'tianma,tm050rdh03', 'tianma,tm070jdhg30', 'tianma,t=
+m070jdhg34-00', 'tianma,tm070jvhg33', 'tianma,tm070rvhg71', 'topland,tian-g=
+07017-01', 'toshiba,lt089ac29000', 'tpk,f07a-0102', 'tpk,f10a-0102', 'urt,u=
+msh-8596md-t', 'urt,umsh-8596md-1t', 'urt,umsh-8596md-7t', 'urt,umsh-8596md=
+-11t', 'urt,umsh-8596md-19t', 'urt,umsh-8596md-20t', 'vivax,tpc9150-panel',=
+ 'vxt,vl050-8048nt-c01', 'waveshare,13.3inch-panel', 'waveshare,7.0inch-c-p=
+anel', 'winstar,wf35ltiacd', 'yes-optoelectronics,ytc700tlag-05-201c']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simp=
+le.yaml
+   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: panel@0 (lg,sw49410-lh609=
+qh1): compatible: ['lg,sw49410-lh609qh1', 'lg,sw49410'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simp=
+le.yaml
+   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: panel@0 (lg,sw49410-lh609=
+qh1): 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simp=
+le.yaml
+   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: panel@0 (lg,sw49410-lh609=
+qh1): Unevaluated properties are not allowed ('reg', 'vsn-supply', 'vsp-sup=
+ply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simp=
+le.yaml
+   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: /soc@0/display-subsystem@=
+ae00000/dsi@ae94000/panel@0: failed to match any schema with compatible: ['=
+lg,sw49410-lh609qh1', 'lg,sw49410']
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: pmic@2 (qcom,pmi8998): 'v=
+bus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-9a-f]=
++$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', '^=
+battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$', '=
+^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[0-9]+=
+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '^usb=
+-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f]+=
+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: pmic@2 (qcom,pmi8998): ty=
+pec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: pmic@2 (qcom,pmi8998): ty=
+pec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: pmic@2 (qcom,pmi8998): ty=
+pec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: pmic@2 (qcom,pmi8998): ty=
+pec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: pmic@2 (qcom,pmi8998): ty=
+pec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4785.27-4840.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:90.20-98.5: Warning (avoid_unneces=
+sary_addr_size): /soc@0/spmi@c440000/pmic@3/pwm: unnecessary #address-cells=
+/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" prop=
+erty
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: pmic@2 (qcom,pmi8998): 'vb=
+us-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-9a-f]+=
+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', '^b=
+attery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$', '^=
+mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[0-9]+$=
+', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '^usb-=
+detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f]+$=
+', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: pmic@2 (qcom,pmi8998): typ=
+ec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: pmic@2 (qcom,pmi8998): typ=
+ec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: pmic@2 (qcom,pmi8998): typ=
+ec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: pmic@2 (qcom,pmi8998): typ=
+ec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: pmic@2 (qcom,pmi8998): typ=
+ec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: pmic@2 (qcom,pmi8998): 'vbus-re=
+g@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-9a-f]+$', '=
+^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', '^batter=
+y@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$', '^mpps@=
+[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^=
+rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '^usb-detec=
+t@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f]+$', 'g=
+pio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: pmic@2 (qcom,pmi8998): typec@13=
+00:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: pmic@2 (qcom,pmi8998): typec@13=
+00:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: pmic@2 (qcom,pmi8998): typec@13=
+00:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: pmic@2 (qcom,pmi8998): typec@13=
+00:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: pmic@2 (qcom,pmi8998): typec@13=
+00:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi:75.37-82.5: Warning =
+(unit_address_vs_reg): /chosen/framebuffer@9d400000: node has a unit name, =
+but no reg or ranges property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:90.20-98.5: Warning (avoid_unneces=
+sary_addr_size): /soc@0/spmi@c440000/pmic@3/pwm: unnecessary #address-cells=
+/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" prop=
+erty
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: pmic@2 (qcom,pmi8=
+998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@=
+[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f=
+]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-=
+f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctr=
+l-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$=
+', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[=
+0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: pmic@2 (qcom,pmi8=
+998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi:75.37-82.5: Warning =
+(unit_address_vs_reg): /chosen/framebuffer@9d400000: node has a unit name, =
+but no reg or ranges property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: pmic@2 (qcom,pmi8998=
+): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-=
+9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$=
+', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+=
+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[=
+0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', =
+'^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9=
+a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@c440000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+   arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akari.dtb: touchscreen@=
+2c (syna,rmi4-i2c): Unevaluated properties are not allowed ('incell-supply'=
+ was unexpected)
+   	from schema $id: http://devicetree.org/schemas/input/syna,rmi4.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akari.dtb: pmic@2 (qcom=
+,pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|l=
+eds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0=
+-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[=
+0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^p=
+inctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a=
+-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibra=
+tor@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akari.dtb: pmic@2 (qcom=
+,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akari.dtb: pmic@2 (qcom=
+,pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must be f=
+ixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akari.dtb: pmic@2 (qcom=
+,pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akari.dtb: pmic@2 (qcom=
+,pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akari.dtb: pmic@2 (qcom=
+,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1562.21-1582.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/geniqup@8c0000/i2c@894000: unnecessary #address-=
+cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges"=
+ property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@c440000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akatsuki.dtb: pmic@2 (q=
+com,pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wle=
+d|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec=
+@[0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controlle=
+r@[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', =
+'^pinctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0=
+-9a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vi=
+brator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akatsuki.dtb: pmic@2 (q=
+com,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akatsuki.dtb: pmic@2 (q=
+com,pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must b=
+e fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akatsuki.dtb: pmic@2 (q=
+com,pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expe=
+cted
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akatsuki.dtb: pmic@2 (q=
+com,pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-akatsuki.dtb: pmic@2 (q=
+com,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@c440000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+   arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-apollo.dtb: touchscreen=
+@2c (syna,rmi4-i2c): Unevaluated properties are not allowed ('incell-supply=
+' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/input/syna,rmi4.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-apollo.dtb: pmic@2 (qco=
+m,pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|=
+leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[=
+0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@=
+[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^=
+pinctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9=
+a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibr=
+ator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-apollo.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-apollo.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must be =
+fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-apollo.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expect=
+ed
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-apollo.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama-apollo.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: pmic@2 (qcom,=
+pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|le=
+ds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-=
+9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0=
+-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pi=
+nctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-=
+f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrat=
+or@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must be fi=
+xed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: pmic@2 (qcom,=
+pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: pmic@2 (qco=
+m,pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|=
+leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[=
+0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@=
+[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^=
+pinctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9=
+a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibr=
+ator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must be =
+fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expect=
+ed
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: pmic@2 (qco=
+m,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts:472.25-493.4: Warning=
+ (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae9400=
+0/panel@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ra=
+nges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecess=
+ary_addr_size): /soc@0/spmi@c440000/pmic@5: unnecessary #address-cells/#siz=
+e-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: /soc@0/display-subsy=
+stem@ae00000/dsi@ae94000/panel@0: failed to match any schema with compatibl=
+e: ['jdi,fhd-nt35596s']
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: pmic@2 (qcom,pmi8998=
+): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-=
+9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$=
+', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+=
+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[=
+0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', =
+'^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9=
+a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: pmic@2 (qcom,pmi8998=
+): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4861.27-4916.6: Warning (avoid_unne=
+cessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessa=
+ry #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"=
+ or "ranges" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:90.20-98.5: Warning (avoid_unneces=
+sary_addr_size): /soc@0/spmi@c440000/pmic@3/pwm: unnecessary #address-cells=
+/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" prop=
+erty
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_uni=
+t_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicat=
+e unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@=
+1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: pmic@2 (qcom,pmi8998)=
+: 'vbus-reg@1100' does not match any of the regexes: '(.*)?(wled|leds)@[0-9=
+a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$'=
+, '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-controller@[0-9a-f]+$=
+', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$', '^pinctrl-[0=
+-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@[0-9a-f]+$', '=
+^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a=
+-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:interrupt-names:0: 'or-rid-detect-change' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: pmic@2 (qcom,pmi8998)=
+: typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+--
+>> arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pmic@2 =
+(qcom,pmi8998): 'vbus-reg@1100' does not match any of the regexes: '(.*)?(w=
+led|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$', '^adc@[0-9a-f]+$', '^audio-cod=
+ec@[0-9a-f]+$', '^battery@[0-9a-f]+$', '^charger@[0-9a-f]+$', '^led-control=
+ler@[0-9a-f]+$', '^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^pbs@[0-9a-f]+$'=
+, '^pinctrl-[0-9]+$', '^rtc@[0-9a-f]+$', '^temp-alarm@[0-9a-f]+$', '^typec@=
+[0-9a-f]+$', '^usb-detect@[0-9a-f]+$', '^usb-vbus-regulator@[0-9a-f]+$', '^=
+vibrator@[0-9a-f]+$', 'gpio@[0-9a-f]+$', 'phy@[0-9a-f]+$', 'pon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:compatible: 'oneOf' conditional failed, one must=
+ be fixed:
+   	['qcom,pmi8998-typec'] is too short
+   	'qcom,pmi8998-typec' is not one of ['qcom,pmi632-typec', 'qcom,pm8150b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm6150-typec', 'qcom,pm7250b-=
+typec']
+   	'qcom,pmi8998-typec' is not one of ['qcom,pm4125-typec']
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:interrupt-names:0: 'or-rid-detect-change' was ex=
+pected
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:interrupt-names: ['type-c-change'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pmic@2 =
+(qcom,pmi8998): typec@1300:interrupts: [[2, 19, 7, 3]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml
 
 --
 0-DAY CI Kernel Test Service
