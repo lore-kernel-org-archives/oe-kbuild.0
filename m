@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F33D31B114
-	for <oe-kbuild@lists.linux.dev>; Wed, 20 May 2026 16:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75DD53D8138
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 May 2026 17:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779293143; cv=none; b=u1IWjMpMyk6JTxjsMiOF/ESN6oamjZ7yVF4rGx4HXyN1ym+3l+7q7bNy3Igvwh1LFu2UX4PsA4QkKqO9ZT02+rZ2NZ7aw6bfaHTZuKvMJZTaXWrtfa3ZycahDhrTvgtp3l/E0YQBbLJE2Gsk97iqaTlgxoh/XD/rFWVjmME57hE=
+	t=1779296441; cv=none; b=Fq7XcPqVwjvaL7+7Zu68FnNkhxR9NPEgIIbwH0vNXSlPAXVAG+1DSa1jRCBf9y1D+7cJ90cJkuYUvsN/S90GvNpItylY6SPkkNR6BUktjiAMKdhkBGjDPmSVUpA+MTSjdS/DHXGw0wYqD50Uqof83WQOmHMuuOaODYyv68ut1Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779293143; c=relaxed/simple;
-	bh=Ov7qwn3FIKN/TIlFNmY3Ns4wOvQ3J5avK+DKJyc/SiE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DGSiTHplVSi+sPNTYmnP3jCwjyV4GH1uUvIFhrNW5zeAwv+OSunKkvH9ROKopcpO43eg9fk0NjJFTE0PPbHx8gQwUhvDawzwxKZ5N9pEbYQzjB9ShOg4QPCDuAegf0MDVQTQCJUfinEgHEq5n+uiMPKInQlhjppNUyDbrERVDHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAR3ApsE; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1779296441; c=relaxed/simple;
+	bh=kaH+4fxZ/u3pq8lIbF8GNMdpAH1KA87Lx+NUNS2r/ig=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Mh/77DoIEBkvzZn35fIqIAd2+tvcwdIJPobv/QyxyIdRka1BO8tCYleFuxK4QPYbxoTglcl5JOiiXTP289VvaFdXMMZNFxrtjatFyQlGCNsK61E6/FneYwrkVzQNLDxSUjRjjR0ZbwvMJ+poVb400ecxStSPlWsiOiRh32zv0Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h1klmlBl; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAR3ApsE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1klmlBl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779293140; x=1810829140;
+  t=1779296441; x=1810832441;
   h=date:from:to:cc:subject:message-id;
-  bh=Ov7qwn3FIKN/TIlFNmY3Ns4wOvQ3J5avK+DKJyc/SiE=;
-  b=gAR3ApsE05CgdgXOdN5btxVaHq1KLFpR1aweTiolXFkiG8EUKTPm+1OS
-   9mMxzyWg9HIowJPMIevNgRSR4p6w5sV9gfrQkhUd79VQ6FMaFN/KxqqGY
-   x6etdXxrt2GLZI0wxIg4D0jtuzk9rqkqEhUFMFU6NZWKrhSt+N3428sNi
-   /Y8jnB3HzE65QMJzptIfatoPQHpSODEkbqTZ5JikFlXT+yFGyzKr83PVI
-   4iB8WVCStKIrFBlZBVV23WdKdUtEAFO0RK26fn6QzF3fx5iPFofCGqRer
-   Oexqkjb3f2psCpLxzZD3sCWLKuv3Qpcf6fd/xGZznX6DZhW5nQoQVDHme
-   Q==;
-X-CSE-ConnectionGUID: GvNUakhgT+W+FCQQZRjb7A==
-X-CSE-MsgGUID: y2d8N2FIRruzL2zlXZ/PoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="84054669"
+  bh=kaH+4fxZ/u3pq8lIbF8GNMdpAH1KA87Lx+NUNS2r/ig=;
+  b=h1klmlBliYksMDKVXOJUZFkoidnHroUTZUn/dgcvEo9rJ05vhmoNjGcI
+   D2IErR9dcaN8kfNA6BVVhfw9jKy4ggTPazPo5hA2LrLAcequq3cJvn2tK
+   Z4MvzkcSSvtRbRvcS5yA/CW7ugzIi53YYNQqxVFXJelFZ91XL+lxFuEab
+   tURGyMPB7P4VOJM8YPVN6fVzJnO8Xrf1NNg1fok6ebs8Pqurt8w8QNclz
+   S49PPVwevvolPh2y/OkT5yFqNds5kr5LDjnBNRu0DWsJPj9ZYqZfqa20v
+   lIBnHywubi6frqvLgEjR00EFpQ9VWCUFLv+Ib9x1oWdyYlLEd90n3vDkV
+   w==;
+X-CSE-ConnectionGUID: ApEq3nv4RUyv1XRrVRuIog==
+X-CSE-MsgGUID: ge1XUegRSCCJoHwAlNDeLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="83820152"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="84054669"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 09:05:40 -0700
-X-CSE-ConnectionGUID: VpyXgCYgT9OxQ8k4XvHQzw==
-X-CSE-MsgGUID: 8v36sBwHQbKYI+xMwNstLg==
+   d="scan'208";a="83820152"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 10:00:41 -0700
+X-CSE-ConnectionGUID: PRLpXxvwTDyHyQlqA4rfAQ==
+X-CSE-MsgGUID: zuw8xLonSiKPoXwIAjc6MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="242035371"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 20 May 2026 09:05:39 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="270589598"
+Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 20 May 2026 10:00:36 -0700
+Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPjQO-00000000Aaj-3vId;
-	Wed, 20 May 2026 16:05:36 +0000
-Date: Wed, 20 May 2026 18:04:37 +0200
+	id 1wPkH0-000000003ab-296N;
+	Wed, 20 May 2026 17:00:09 +0000
+Date: Thu, 21 May 2026 00:59:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/intel/socfpga_agilex3_socdk.dtb: soc@0
- (simple-bus): regulator-fixed-3p3v: 'ranges' is a required property
-Message-ID: <202605201807.ReavUbdJ-lkp@intel.com>
+Subject: [dhowells-fs:netfs-crypt 25/34]
+ fs/netfs/write_retry.c:34:27: sparse: sparse: unsigned value that used to be
+ signed checked against zero?
+Message-ID: <202605210057.U1F932Nx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,66 +61,75 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: fs/netfs/write_retry.c:34:27: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Tanmay Kathpalia <tanmay.kathpalia@altera.com>
-CC: 0day robot <lkp@intel.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Tanmay-Kathpalia/dt-bindings-reset-altr-add-COMBOPHY_RESET-for-Agilex5/20260514-171032
-head:   622e0667dd0c2dd40581a3ccfb6c36f7afb1da3e
-commit: e8cde37a60c80c9a28c2a8daba9121f983fc7012 arm64: dts: agilex5: add Cadence SD6HC controller and SOCDK enablement
-date:   6 days ago
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-2052-20260520 (https://download.01.org/0day-ci/archive/20260520/202605201807.ReavUbdJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201807.ReavUbdJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
+head:   13cee75c8b683f7c4382573f8c27adfbd49ffc47
+commit: 0bc90a453f6e9deeddbf0a9f923637e0fc614ee7 [25/34] netfs: Allow the fs to ask for the bvecq to be copied when prepping
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: sparc-randconfig-r122-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210057.U1F932Nx-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210057.U1F932Nx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605201807.ReavUbdJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605210057.U1F932Nx-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi:303.39-309.5: Warning (simple_bus_reg): /soc@0/regulator-fixed-3p3v: missing or empty reg/ranges property
-   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi:311.33-318.5: Warning (simple_bus_reg): /soc@0/regulator-1p8v: missing or empty reg/ranges property
->> arch/arm64/boot/dts/intel/socfpga_agilex3_socdk.dtb: soc@0 (simple-bus): regulator-fixed-3p3v: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/intel/socfpga_agilex3_socdk.dtb: soc@0 (simple-bus): regulator-1p8v: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/intel/socfpga_agilex3_socdk.dtb: regulator-1p8v (regulator-gpio): 'gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/gpio-regulator.yaml
---
-   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi:303.39-309.5: Warning (simple_bus_reg): /soc@0/regulator-fixed-3p3v: missing or empty reg/ranges property
-   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi:311.33-318.5: Warning (simple_bus_reg): /soc@0/regulator-1p8v: missing or empty reg/ranges property
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dtb: soc@0 (simple-bus): regulator-1p8v: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dtb: soc@0 (simple-bus): regulator-fixed-3p3v: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dtb: mmc@10808000 (altr,agilex5-sd6hc): Unevaluated properties are not allowed ('dma-coherent', 'fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
---
-   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi:303.39-309.5: Warning (simple_bus_reg): /soc@0/regulator-fixed-3p3v: missing or empty reg/ranges property
-   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi:311.33-318.5: Warning (simple_bus_reg): /soc@0/regulator-1p8v: missing or empty reg/ranges property
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_013b.dtb: soc@0 (simple-bus): regulator-1p8v: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_013b.dtb: soc@0 (simple-bus): regulator-fixed-3p3v: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_013b.dtb: regulator-1p8v (regulator-gpio): 'gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/gpio-regulator.yaml
---
-   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi:303.39-309.5: Warning (simple_bus_reg): /soc@0/regulator-fixed-3p3v: missing or empty reg/ranges property
-   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi:311.33-318.5: Warning (simple_bus_reg): /soc@0/regulator-1p8v: missing or empty reg/ranges property
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dtb: soc@0 (simple-bus): regulator-1p8v: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dtb: soc@0 (simple-bus): regulator-fixed-3p3v: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dtb: regulator-1p8v (regulator-gpio): 'gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/gpio-regulator.yaml
+sparse warnings: (new ones prefixed by >>)
+>> fs/netfs/write_retry.c:34:27: sparse: sparse: unsigned value that used to be signed checked against zero?
+   fs/netfs/write_retry.c:32:36: sparse: signed value source
+
+vim +34 fs/netfs/write_retry.c
+
+751e213f9f8a24 David Howells 2024-12-16  13  
+751e213f9f8a24 David Howells 2024-12-16  14  /*
+a036d07724fd9e David Howells 2026-04-09  15   * Prepare the write buffer for a retry.  We can't necessarily reuse the write
+a036d07724fd9e David Howells 2026-04-09  16   * buffer from the previous run of a subrequest because the filesystem is
+a036d07724fd9e David Howells 2026-04-09  17   * permitted to modify it (add headers/trailers, encrypt it).  Further, the
+a036d07724fd9e David Howells 2026-04-09  18   * subrequest may now be a different size (e.g. cifs has to negotiate for
+a036d07724fd9e David Howells 2026-04-09  19   * maximum transfer size).  Also, we can't look at *stream as that may still
+a036d07724fd9e David Howells 2026-04-09  20   * refer to the source material being broken up into original subrequests.
+a036d07724fd9e David Howells 2026-04-09  21   */
+a036d07724fd9e David Howells 2026-04-09  22  int netfs_prepare_write_retry_buffer(struct netfs_io_subrequest *subreq,
+0bc90a453f6e9d David Howells 2026-05-15  23  				     unsigned int max_segs, bool copy)
+a036d07724fd9e David Howells 2026-04-09  24  {
+a036d07724fd9e David Howells 2026-04-09  25  	struct netfs_io_request *wreq = subreq->rreq;
+a036d07724fd9e David Howells 2026-04-09  26  	struct netfs_io_stream *stream = &wreq->io_streams[subreq->stream_nr];
+a036d07724fd9e David Howells 2026-04-09  27  	size_t len;
+a036d07724fd9e David Howells 2026-04-09  28  
+a036d07724fd9e David Howells 2026-04-09  29  	bvecq_pos_set(&subreq->dispatch_pos, &wreq->retry_cursor);
+0bc90a453f6e9d David Howells 2026-05-15  30  
+0bc90a453f6e9d David Howells 2026-05-15  31  	if (copy) {
+0bc90a453f6e9d David Howells 2026-05-15  32  		len = bvecq_extract(&wreq->retry_cursor, subreq->len, max_segs,
+0bc90a453f6e9d David Howells 2026-05-15  33  				    &subreq->content.bvecq);
+0bc90a453f6e9d David Howells 2026-05-15 @34  		if (len < 0)
+0bc90a453f6e9d David Howells 2026-05-15  35  			return -ENOMEM;
+0bc90a453f6e9d David Howells 2026-05-15  36  	} else {
+a036d07724fd9e David Howells 2026-04-09  37  		bvecq_pos_set(&subreq->content, &wreq->retry_cursor);
+0bc90a453f6e9d David Howells 2026-05-15  38  		len = bvecq_slice(&wreq->retry_cursor, subreq->len, max_segs,
+0bc90a453f6e9d David Howells 2026-05-15  39  				  &subreq->nr_segs);
+0bc90a453f6e9d David Howells 2026-05-15  40  	}
+a036d07724fd9e David Howells 2026-04-09  41  
+a036d07724fd9e David Howells 2026-04-09  42  	if (len < subreq->len) {
+a036d07724fd9e David Howells 2026-04-09  43  		subreq->len = len;
+a036d07724fd9e David Howells 2026-04-09  44  		trace_netfs_sreq(subreq, netfs_sreq_trace_limited);
+a036d07724fd9e David Howells 2026-04-09  45  	}
+a036d07724fd9e David Howells 2026-04-09  46  
+a036d07724fd9e David Howells 2026-04-09  47  	stream->issue_from += len;
+a036d07724fd9e David Howells 2026-04-09  48  	stream->buffered   -= len;
+a036d07724fd9e David Howells 2026-04-09  49  	if (stream->buffered == 0)
+a036d07724fd9e David Howells 2026-04-09  50  		bvecq_pos_unset(&wreq->retry_cursor);
+a036d07724fd9e David Howells 2026-04-09  51  	return 0;
+a036d07724fd9e David Howells 2026-04-09  52  }
+a036d07724fd9e David Howells 2026-04-09  53  
 
 --
 0-DAY CI Kernel Test Service
