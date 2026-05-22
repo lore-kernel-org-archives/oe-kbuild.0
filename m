@@ -1,242 +1,1734 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93201383C76
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 May 2026 21:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7743833A6F2
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 May 2026 21:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779485316; cv=none; b=M2vInS5788Kh7IQge2ORFgjEQOSiEsXAwvDGFwzcwqD2bu4FEv8ObqkzyVCmaog1Fj3AIuA/5CqS4vLRdkSeUUTl+yfYAan5RqFRJvSbEaxKZFTY6g1llj4nHQlECWUVyDOWs8v2nn5nN1vAUCEgWZ/tat3ptOlrr9YP36WIR+M=
+	t=1779486580; cv=none; b=B6Y1A50fW1GYBiBI3Gl+ViWAg1MCvfVu4PELQOfNbh0MBGP/dd+yonqSOkXtZPXiHwPMFU3UZY7nPniwMRaWBRVIu7C6f71uvtidZ5c6dZbxX2xS6s2AhCZaIK+nA1iB34yLjQqe6oKk1DvtkiDl6asD/Lr6kFEzIlccuVx454U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779485316; c=relaxed/simple;
-	bh=x4A6sUTw4bs9TkSCp1879ifAbyBbyZCJCoe5MCTifj8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k/0s7xMvptEuNPigQi/DRi2Z+qT/VBumWmZR/Jj4TUrNn/xSwTQpqsofDepNtCC7eTc+cRZ8ivgtgnS59A5s4o0nwowNd0IiaHRKUO//VpH/fFhBkZupyZG0GWMy8Fulw18TYM2MV+3PSClZzASBQI4e6FFdPL0EKssSMpRoPIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LljA9XHB; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1779486580; c=relaxed/simple;
+	bh=xAozgNFZdeXIHfW9HPw4+o6qUqnAI8QPJeu5dldQ2ws=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Kv5RZkcz2W25OqyVfu6XkodccMMz53RS7x1n+u79ItLjeWQz3BLPY3z6Rf+e9/rDdprQh0vtoEe8aC4ytVGsYeocCNPS+hew7UhOq8WfZ8M3hd4eODod44BhhAQGQYBMpzfOeiQ2hzLZGBgOzV+FNb169FKzjbd/niJRkUd6uRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fcv0pqtn; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LljA9XHB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fcv0pqtn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779485313; x=1811021313;
-  h=date:from:to:cc:subject:message-id;
-  bh=x4A6sUTw4bs9TkSCp1879ifAbyBbyZCJCoe5MCTifj8=;
-  b=LljA9XHBlrU+NQvnIzXsMrcl/0oeZPjXy4lEEIugNBKeggUlsv0iKgC7
-   8cS0lHtYJqkg7+k5fzmyOZnRTBYXc9yRJ+gy6nj6I/q7+lmJu+hk1uFZp
-   U4Qf1OYrgbhb3HFQmU5NtPT67CJCZMZrUZCT38Bus4+rgknTB38eLIqLD
-   DsXkCJstV3VZSzQOx1SYG419st+iEGEJ+jZa4q/iTKdwFEiR1WDMqhWJL
-   rvJoSpu/f32DjeX/jHX7D84eLD3V444K1HUSeaS6Tm0DKK0QXfSSnzQ9E
-   J1wSCF+FxAvGuH99iTgX/Moh1zD5gAg8naiCDrKR6do3nFoNwm3IeTYWM
-   w==;
-X-CSE-ConnectionGUID: ud5W0u2dRwSDfxsgX05uPA==
-X-CSE-MsgGUID: VxEguKZSSI2z12lLW5DiOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11794"; a="79567726"
+  t=1779486575; x=1811022575;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xAozgNFZdeXIHfW9HPw4+o6qUqnAI8QPJeu5dldQ2ws=;
+  b=Fcv0pqtnvhOOUQLnG6dDg+k6k8oc0Sjmp6qhIyNlZXftwK03ytaZmbMC
+   8OdwnMQwxJNcxU0rmXRYuWOPKXFrQt2l8olTbFpiNiQgV0OlXqTaSQWeA
+   Qf1n7nEwnzG5jtg72yK6HNlbSDm9omURkv1wxKVMzJTsBLfHjiFC+Bofm
+   ftX2X8sgq6h0Hrkqs3v00glYA+6QofcJfcLYOQfo0VxJHq6F2PeIjdB2V
+   cvljahJcaKzSc9vMubixZgEw58fP8gl0YMn85D/IpaekGoSHfWvm9/bDG
+   qQipdcU7T2dUSfPp5lLicN1fmIKjiZ1ukVTeCWLneSYYyRz03KwGP/WfZ
+   A==;
+X-CSE-ConnectionGUID: 8YJNXnVrSjiqBzFAAmhp8Q==
+X-CSE-MsgGUID: utInKVdMTBS96WgqV8itVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11794"; a="67945444"
 X-IronPort-AV: E=Sophos;i="6.24,163,1774335600"; 
-   d="scan'208";a="79567726"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 14:28:33 -0700
-X-CSE-ConnectionGUID: StxoOQ8nShqnkX54vwe79w==
-X-CSE-MsgGUID: QvVH4IkLSSSmOW9PvczNsQ==
+   d="scan'208";a="67945444"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 14:49:34 -0700
+X-CSE-ConnectionGUID: ROqDinW+QzOoBfx0jEMofw==
+X-CSE-MsgGUID: 9Nm1FRlXSB+aU7oPcXAwXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,163,1774335600"; 
-   d="scan'208";a="237986438"
+   d="scan'208";a="236806681"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 22 May 2026 14:28:32 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 May 2026 14:49:32 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQXPx-00000000BPd-3c9j;
-	Fri, 22 May 2026 21:28:29 +0000
-Date: Fri, 22 May 2026 23:27:49 +0200
+	id 1wQXkI-00000000BPn-09MK;
+	Fri, 22 May 2026 21:49:30 +0000
+Date: Fri, 22 May 2026 23:48:38 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 24/114]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: aliases: 'disp0_piodma' does not
- match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-Message-ID: <202605222352.kqH4XofO-lkp@intel.com>
+Subject: arch/powerpc/boot/dts/turris1x.dtb: power@e0070
+ (fsl,mpc8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any
+ of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202605222310.dU5xCwll-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+::::::=20
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+CC: linux-kernel@vger.kernel.org
+TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   2d563843e07af55de0249a409021af705f586961
-commit: 02b59d6f6dfa27c839c0ab42a8553b7624ceeaa1 [24/114] arm64: apple: t600x: Add display controller related device tree nodes
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: arm64-randconfig-2055-20260516 (https://download.01.org/0day-ci/archive/20260522/202605222352.kqH4XofO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   6779b50faa562e6cca1aa6a4649a4d764c6c7e28
+commit: ba127016c07b17d10cb33803fb0a0aaf24a8b53c dt-bindings: powerpc: Conv=
+ert fsl/pmc.txt to YAML
+date:   1 year, 1 month ago
+:::::: branch date: 24 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: powerpc-randconfig-2051-20260521 (https://download.01.org/0day-ci/a=
+rchive/20260522/202605222310.dU5xCwll-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43=
+d6834093b19baf79beda8c0337ab020ac5f17)
 dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605222352.kqH4XofO-lkp@intel.com/reproduce)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260522/202605222310.dU5xCwll-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: ba127016c07b ("dt-bindings: powerpc: Convert fsl/pmc.txt to YAML")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605222352.kqH4XofO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605222310.dU5xCwll-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:506.14-520.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:522.14-531.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:219.29-224.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:191.21-217.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   panel: size (25) error for type phandle
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: crypto@30000 (fsl,sec3.1): interrupt=
+s: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/pic@40000: failed to m=
+atch any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/timer@41100: failed to=
+ match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/message@41400: failed =
+to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/msi@41600: failed to m=
+atch any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/timer@42100: failed to=
+ match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/global-utilities@e0000=
+: failed to match any schema with compatible: ['fsl,p2020-guts']
+>> arch/powerpc/boot/dts/turris1x.dtb: power@e0070 (fsl,mpc8548-pmc): 'soc-=
+clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^pinc=
+trl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: /localbus@ffe05000: failed to match =
+any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/turris1x.dtb: /localbus@ffe05000: failed to match =
+any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/turris1x.dtb: nor@0,0 (cfi-flash): $nodename:0: 'n=
+or@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: nor@0,0 (cfi-flash): Unevaluated pro=
+perties are not allowed ('partitions' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: /localbus@ffe05000/nand@1,0: failed =
+to match any schema with compatible: ['fsl,p2020-fcm-nand', 'fsl,elbc-fcm-n=
+and']
+   arch/powerpc/boot/dts/turris1x.dtb: /localbus@ffe05000/nand@1,0: failed =
+to match any schema with compatible: ['fsl,p2020-fcm-nand', 'fsl,elbc-fcm-n=
+and']
+   arch/powerpc/boot/dts/turris1x.dtb: cpld@3,0 (cznic,turris1x-cpld): $nod=
+ename:0: 'cpld@3,0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|so=
+c|axi|ahb|apb)(@.+)?$'
 --
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:506.14-520.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:522.14-531.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:219.29-224.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:191.21-217.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   panel: size (25) error for type phandle
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: sdhc@2e000 (fsl,p2020-esdhc): $n=
+odename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: crypto@30000 (fsl,sec3.1): inter=
+rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/pic@40000: failed =
+to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/timer@41100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/message@41400: fai=
+led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/msi@41600: failed =
+to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/timer@42100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/global-utilities@e=
+0000: failed to match any schema with compatible: ['fsl,p2020-guts']
+>> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: power@e0070 (fsl,mpc8548-pmc): '=
+soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
+pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
+: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
+'bus-range', 'device_type', 'law_trgt_if', 'pcie@0', 'ranges' were unexpect=
+ed)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
 --
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:506.14-520.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:522.14-531.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:219.29-224.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:191.21-217.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   panel: size (25) error for type phandle
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: sdhc@2e000 (fsl,mpc8536-esdhc):=
+ $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: crypto@30000 (fsl,sec3.0): inte=
+rrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/pic@40000: failed=
+ to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/timer@41100: fail=
+ed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/message@41400: fa=
+iled to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/msi@41600: failed=
+ to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/timer@42100: fail=
+ed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/global-utilities@=
+e0000: failed to match any schema with compatible: ['fsl,mpc8536-guts']
+>> arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: power@e0070 (fsl,mpc8536-pmc): =
+'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
+^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
+): Unevaluated properties are not allowed ('#address-cells', '#size-cells',=
+ 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
 --
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:506.14-520.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:522.14-531.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:219.29-224.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:191.21-217.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   panel: size (25) error for type phandle
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('SDZ-supply', 'ti,sdout-force-zero-mask' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: sdhc@2e000 (fsl,mpc8536-esd=
+hc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: crypto@30000 (fsl,sec3.0): =
+interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/pic@40000: f=
+ailed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/timer@41100:=
+ failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/message@4140=
+0: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/msi@41600: f=
+ailed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/timer@42100:=
+ failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/global-utili=
+ties@e0000: failed to match any schema with compatible: ['fsl,mpc8536-guts']
+>> arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: power@e0070 (fsl,mpc8536-pm=
+c): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexe=
+s: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
+-pcie): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
+-pcie): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
+-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-ce=
+lls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
+-pcie): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
+-pcie): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
 --
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:395.14-404.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:406.14-415.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:219.29-224.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:191.21-217.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: pcie@590000000 (apple,t6000-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: dma@21300 (fsl,eloplus-dma): dm=
+a-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fs=
+l,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel=
+', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/pic@40000: fa=
+iled to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/timer@41100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/message@41400=
+: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/msi@41600: fa=
+iled to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/global-utilit=
+ies@e0000: failed to match any schema with compatible: ['fsl,mpc8544-guts']
+>> arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: power@e0070 (fsl,mpc8548-pmc): =
+'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
+^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
+): Unevaluated properties are not allowed ('#address-cells', '#size-cells',=
+ 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
 --
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:395.14-404.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:406.14-415.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:219.29-224.4: Warning (simple_bus_reg): /soc@200000000/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:191.21-217.4: Warning (avoid_unnecessary_addr_size): /soc@200000000/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: aliases: 'disp0_piodma' does not match any of the regexes: '^[a-z][a-z0-9\\-]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: soc@200000000 (simple-bus): display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pcie@590000000 (apple,t6000-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: ptp_clock@24e00 (fsl,etsec-ptp)=
+: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] =
+is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: crypto@30000 (fsl,sec3.0): inte=
+rrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/pic@40000: fa=
+iled to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/timer@41100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/message@41400=
+: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/msi@41600: fa=
+iled to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/timer@42100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/global-utilit=
+ies@e0000: failed to match any schema with compatible: ['fsl,mpc8572-guts']
+>> arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: power@e0070 (fsl,mpc8548-pmc): =
+'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
+^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
+): Unevaluated properties are not allowed ('#address-cells', '#size-cells',=
+ 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
+): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: ptp_clock@24e00 (fsl,etsec-=
+ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, =
+0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: crypto@30000 (fsl,sec3.0): =
+interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/pic@4000=
+0: failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/timer@41=
+100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/message@=
+41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/msi@4160=
+0: failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/timer@42=
+100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/global-u=
+tilities@e0000: failed to match any schema with compatible: ['fsl,mpc8572-g=
+uts']
+>> arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: power@e0070 (fsl,mpc8548-pm=
+c): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexe=
+s: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
+-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
+-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
+-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-ce=
+lls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
+-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
+-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: ptp_clock@24e00 (fsl=
+,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71,=
+ 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: crypto@30000 (fsl,se=
+c3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/pi=
+c@40000: failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ti=
+mer@41100: failed to match any schema with compatible: ['fsl,mpic-global-ti=
+mer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/me=
+ssage@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-ms=
+gr']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ms=
+i@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ti=
+mer@42100: failed to match any schema with compatible: ['fsl,mpic-global-ti=
+mer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/gl=
+obal-utilities@e0000: failed to match any schema with compatible: ['fsl,mpc=
+8572-guts']
+>> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: power@e0070 (fsl,mpc=
+8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the=
+ regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): Unevaluated properties are not allowed ('#address-cells', '#s=
+ize-cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: ptp_clock@24e00 (fsl=
+,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71,=
+ 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: crypto@30000 (fsl,se=
+c3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/pi=
+c@40000: failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ti=
+mer@41100: failed to match any schema with compatible: ['fsl,mpic-global-ti=
+mer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/me=
+ssage@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-ms=
+gr']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ms=
+i@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ti=
+mer@42100: failed to match any schema with compatible: ['fsl,mpic-global-ti=
+mer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/gl=
+obal-utilities@e0000: failed to match any schema with compatible: ['fsl,mpc=
+8572-guts']
+>> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: power@e0070 (fsl,mpc=
+8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the=
+ regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pcie@ffe08000 (fsl,m=
+pc8548-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /pcie@ffe08000/pcie@=
+0/uli1575@0/isa@1e/interrupt-controller@20: failed to match any schema with=
+ compatible: ['chrp,iic']
+--
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: sdhc@2e000 (fsl,p2020-esdhc): Un=
+evaluated properties are not allowed ('non-removable' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: crypto@30000 (fsl,sec3.1): inter=
+rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/pic@40000: failed =
+to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/timer@41100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/message@41400: fai=
+led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/msi@41600: failed =
+to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/timer@42100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/global-utilities@e=
+0000: failed to match any schema with compatible: ['fsl,p2020-guts']
+>> arch/powerpc/boot/dts/fsl/mvme2500.dtb: power@e0070 (fsl,mpc8548-pmc): '=
+soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
+pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /localbus@ffe05000: failed to ma=
+tch any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /localbus@ffe05000: failed to ma=
+tch any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: serial@1,0 (ns16550): Unevaluate=
+d properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: serial@2,0 (ns16550): Unevaluate=
+d properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: serial@3,0 (ns16550): Unevaluate=
+d properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: serial@4,0 (ns16550): Unevaluate=
+d properties are not allowed ('device_type' was unexpected)
+--
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000/jr=
+@1000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
+, 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000/jr=
+@2000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
+, 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000/jr=
+@3000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
+, 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000/jr=
+@4000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
+, 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/pic@40000: fail=
+ed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/timer@41100: fa=
+iled to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/message@41400: =
+failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/msi@41600: fail=
+ed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/timer@42100: fa=
+iled to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/global-utilitie=
+s@e0000: failed to match any schema with compatible: ['fsl,p1010-guts']
+>> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: power@e0070 (fsl,mpc8548-pmc)=
+: 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes:=
+ '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /pcie@ffe09000: failed to mat=
+ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /pcie@ffe09000: failed to mat=
+ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pcie@ffe09000 (fsl,p1010-pcie=
+): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pcie@ffe09000 (fsl,p1010-pcie=
+): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /pcie@ffe0a000: failed to mat=
+ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /pcie@ffe0a000: failed to mat=
+ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pcie@ffe0a000 (fsl,p1010-pcie=
+): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+--
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@300=
+00/jr@1000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
+ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@300=
+00/jr@2000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
+ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@300=
+00/jr@3000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
+ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@300=
+00/jr@4000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
+ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/pic@40000:=
+ failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/timer@4110=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/message@41=
+400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/msi@41600:=
+ failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/timer@4210=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/global-uti=
+lities@e0000: failed to match any schema with compatible: ['fsl,p1010-guts']
+>> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /pcie@fffe09000: failed t=
+o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
+']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /pcie@fffe09000: failed t=
+o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
+']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pcie@fffe09000 (fsl,p1010=
+-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pcie@fffe09000 (fsl,p1010=
+-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /pcie@fffe0a000: failed t=
+o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
+']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /pcie@fffe0a000: failed t=
+o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
+']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pcie@fffe0a000 (fsl,p1010=
+-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+--
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000/jr=
+@1000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
+, 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000/jr=
+@2000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
+, 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000/jr=
+@3000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
+, 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000/jr=
+@4000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
+, 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/pic@40000: fail=
+ed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/timer@41100: fa=
+iled to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/message@41400: =
+failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/msi@41600: fail=
+ed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/timer@42100: fa=
+iled to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/global-utilitie=
+s@e0000: failed to match any schema with compatible: ['fsl,p1010-guts']
+>> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: power@e0070 (fsl,mpc8548-pmc)=
+: 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes:=
+ '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /pcie@ffe09000: failed to mat=
+ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /pcie@ffe09000: failed to mat=
+ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pcie@ffe09000 (fsl,p1010-pcie=
+): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pcie@ffe09000 (fsl,p1010-pcie=
+): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /pcie@ffe0a000: failed to mat=
+ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /pcie@ffe0a000: failed to mat=
+ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pcie@ffe0a000 (fsl,p1010-pcie=
+): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+--
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@300=
+00/jr@1000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
+ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@300=
+00/jr@2000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
+ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@300=
+00/jr@3000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
+ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@300=
+00/jr@4000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
+ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/pic@40000:=
+ failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/timer@4110=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/message@41=
+400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/msi@41600:=
+ failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/timer@4210=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/global-uti=
+lities@e0000: failed to match any schema with compatible: ['fsl,p1010-guts']
+>> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /pcie@fffe09000: failed t=
+o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
+']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /pcie@fffe09000: failed t=
+o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
+']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pcie@fffe09000 (fsl,p1010=
+-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pcie@fffe09000 (fsl,p1010=
+-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /pcie@fffe0a000: failed t=
+o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
+']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /pcie@fffe0a000: failed t=
+o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
+']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pcie@fffe0a000 (fsl,p1010=
+-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/sdhc@2e000:=
+ failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc=
+']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: crypto@30000 (fsl,sec3.3)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/pic@40000: =
+failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/timer@41100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/message@414=
+00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/msi@41600: =
+failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/timer@42100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/global-util=
+ities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-c=
+ells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/sdhc@2e000=
+: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdh=
+c']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: crypto@30000 (fsl,sec3.3)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/pic@40000:=
+ failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/timer@4110=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/message@41=
+400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/msi@41600:=
+ failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/timer@4210=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/global-uti=
+lities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-=
+cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/sdhc@2e000:=
+ failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc=
+']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.3)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/pic@40000: =
+failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/timer@41100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/message@414=
+00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/msi@41600: =
+failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/timer@42100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/global-util=
+ities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-c=
+ells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/sdhc@2e000=
+: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdh=
+c']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.3)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/pic@40000:=
+ failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/timer@4110=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/message@41=
+400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/msi@41600:=
+ failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/timer@4210=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/global-uti=
+lities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-=
+cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/sdhc=
+@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fs=
+l,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: crypto@30000 (fsl,=
+sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/pic@=
+40000: failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/time=
+r@41100: failed to match any schema with compatible: ['fsl,mpic-global-time=
+r']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/mess=
+age@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr=
+']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/msi@=
+41600: failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/time=
+r@42100: failed to match any schema with compatible: ['fsl,mpic-global-time=
+r']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/glob=
+al-utilities@e0000: failed to match any schema with compatible: ['fsl,p1020=
+-guts']
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: power@e0070 (fsl,m=
+pc8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of t=
+he regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): Unevaluated properties are not allowed ('#address-cells', '=
+#size-cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpecte=
+d)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/sdhc=
+@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fs=
+l,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: crypto@30000 (fsl,=
+sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/pic@=
+40000: failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/time=
+r@41100: failed to match any schema with compatible: ['fsl,mpic-global-time=
+r']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/mess=
+age@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr=
+']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/msi@=
+41600: failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/time=
+r@42100: failed to match any schema with compatible: ['fsl,mpic-global-time=
+r']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/glob=
+al-utilities@e0000: failed to match any schema with compatible: ['fsl,p1020=
+-guts']
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: power@e0070 (fsl,m=
+pc8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of t=
+he regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe09000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe0a000 (fsl=
+,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/sdhc@2e000: fai=
+led to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: crypto@30000 (fsl,sec3.3): in=
+terrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/pic@40000: fail=
+ed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/timer@41100: fa=
+iled to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/message@41400: =
+failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/msi@41600: fail=
+ed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/timer@42100: fa=
+iled to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/global-utilitie=
+s@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: power@e0070 (fsl,mpc8548-pmc)=
+: 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes:=
+ '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): Unevaluated properties are not allowed ('#address-cells', '#size-cells=
+', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/sdhc@2e000: failed=
+ to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: crypto@30000 (fsl,sec3.3): inter=
+rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/pic@40000: failed =
+to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/timer@41100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/message@41400: fai=
+led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/msi@41600: failed =
+to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/timer@42100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/global-utilities@e=
+0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: power@e0070 (fsl,mpc8548-pmc): '=
+soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
+pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
+'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/sdhc@2e000: f=
+ailed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: crypto@30000 (fsl,sec3.3): i=
+nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/pic@40000: fa=
+iled to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/timer@41100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/message@41400=
+: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/msi@41600: fa=
+iled to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/timer@42100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/global-utilit=
+ies@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: power@e0070 (fsl,mpc8548-pmc=
+): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
+: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): Unevaluated properties are not allowed ('#address-cells', '#size-cel=
+ls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/sdhc@2e000:=
+ failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc=
+']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: crypto@30000 (fsl,sec3.3)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/pic@40000: =
+failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/timer@41100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/message@414=
+00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/msi@41600: =
+failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/timer@42100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/global-util=
+ities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-c=
+ells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/sdhc@2e000=
+: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdh=
+c']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: crypto@30000 (fsl,sec3.3)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/pic@40000:=
+ failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/timer@4110=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/message@41=
+400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/msi@41600:=
+ failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/timer@4210=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/global-uti=
+lities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-=
+cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: sdhc@2e000 (fsl,esdhc): compatib=
+le: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: crypto@30000 (fsl,sec3.3): inter=
+rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/pic@40000: failed =
+to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/timer@41100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/message@41400: fai=
+led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/msi@41600: failed =
+to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/timer@42100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/global-utilities@e=
+0000: failed to match any schema with compatible: ['fsl,p1021-guts']
+>> arch/powerpc/boot/dts/fsl/p1021mds.dtb: power@e0070 (fsl,mpc8548-pmc): '=
+soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
+pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
+'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: sdhc@2e000 (fsl,esdhc): c=
+ompatible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.3)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/pic@40000: =
+failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/timer@41100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/message@414=
+00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/msi@41600: =
+failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/timer@42100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/global-util=
+ities@e0000: failed to match any schema with compatible: ['fsl,p1021-guts']
+>> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-c=
+ells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: sdhc@2e000 (fsl,esdhc): c=
+ompatible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.3)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/pic@40000:=
+ failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/timer@4110=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/message@41=
+400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/msi@41600:=
+ failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/timer@4210=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/global-uti=
+lities@e0000: failed to match any schema with compatible: ['fsl,p1021-guts']
+>> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-=
+cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b0000 (fsl,etsec2): =
+Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b000=
+0', 'queue-group@b4000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000 (fsl,etsec2): =
+queue-group@b1000: '#address-cells', '#size-cells' do not match any of the =
+regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000 (fsl,etsec2): =
+queue-group@b5000: '#address-cells', '#size-cells' do not match any of the =
+regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000 (fsl,etsec2): =
+Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b100=
+0', 'queue-group@b5000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/global-utilitie=
+s@e0000: failed to match any schema with compatible: ['fsl,p1022-guts']
+>> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: power@e0070 (fsl,p1022-pmc): =
+'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
+^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ptp_clock@b0e00 (fsl,etsec-pt=
+p): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): Unevaluated properties are not allowed ('#address-cells', '#size-cells=
+', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
+ie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b0000 (fsl,etsec2): =
+Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b000=
+0', 'queue-group@b4000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000 (fsl,etsec2): =
+queue-group@b1000: '#address-cells', '#size-cells' do not match any of the =
+regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000 (fsl,etsec2): =
+queue-group@b5000: '#address-cells', '#size-cells' do not match any of the =
+regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000 (fsl,etsec2): =
+Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b100=
+0', 'queue-group@b5000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/global-utiliti=
+es@e0000: failed to match any schema with compatible: ['fsl,p1022-guts']
+>> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: power@e0070 (fsl,p1022-pmc): =
+'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
+^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ptp_clock@b0e00 (fsl,etsec-pt=
+p): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548-p=
+cie): Unevaluated properties are not allowed ('#address-cells', '#size-cell=
+s', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/sdhc@2e000: failed=
+ to match any schema with compatible: ['fsl,p1022-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: crypto@30000 (fsl,sec3.3): inter=
+rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/pic@40000: failed =
+to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/timer@41100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/message@41400: fai=
+led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/msi@41600: failed =
+to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/timer@42100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/global-utilities@e=
+0000: failed to match any schema with compatible: ['fsl,p1022-guts']
+>> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: power@e0070 (fsl,p1022-pmc): 'so=
+c-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^pi=
+nctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
+'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/sdhc@2e000: fa=
+iled to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: crypto@30000 (fsl,sec3.3): i=
+nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/pic@40000: fai=
+led to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/timer@41100: f=
+ailed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/message@41400:=
+ failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/msi@41600: fai=
+led to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/timer@42100: f=
+ailed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/global-utiliti=
+es@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: power@e0070 (fsl,mpc8548-pmc=
+): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
+: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): Unevaluated properties are not allowed ('#address-cells', '#size-cell=
+s', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/sdhc@2e000: f=
+ailed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: crypto@30000 (fsl,sec3.3): i=
+nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/pic@40000: fa=
+iled to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/timer@41100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/message@41400=
+: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/msi@41600: fa=
+iled to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/timer@42100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/global-utilit=
+ies@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
+>> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: power@e0070 (fsl,mpc8548-pmc=
+): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
+: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): Unevaluated properties are not allowed ('#address-cells', '#size-cel=
+ls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: sdhc@2e000 (fsl,esdhc): comp=
+atible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: crypto@30000 (fsl,sec3.3): i=
+nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/pic@40000: fai=
+led to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/timer@41100: f=
+ailed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/message@41400:=
+ failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/msi@41600: fai=
+led to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/timer@42100: f=
+ailed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/global-utiliti=
+es@e0000: failed to match any schema with compatible: ['fsl,p1021-guts']
+>> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: power@e0070 (fsl,mpc8548-pmc=
+): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
+: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): Unevaluated properties are not allowed ('#address-cells', '#size-cell=
+s', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
+cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: sdhc@2e000 (fsl,esdhc): comp=
+atible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: crypto@30000 (fsl,sec3.3): i=
+nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/pic@40000: fa=
+iled to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/timer@41100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/message@41400=
+: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/msi@41600: fa=
+iled to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/timer@42100: =
+failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/global-utilit=
+ies@e0000: failed to match any schema with compatible: ['fsl,p1021-guts']
+>> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: power@e0070 (fsl,mpc8548-pmc=
+): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
+: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): Unevaluated properties are not allowed ('#address-cells', '#size-cel=
+ls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
+pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: sdhc@2e000 (fsl,esdhc): compatib=
+le: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: crypto@30000 (fsl,sec3.3): inter=
+rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/pic@40000: failed =
+to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/timer@41100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/message@41400: fai=
+led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/msi@41600: failed =
+to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/timer@42100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/global-utilities@e=
+0000: failed to match any schema with compatible: ['fsl,p1021-guts']
+>> arch/powerpc/boot/dts/fsl/p1025twr.dtb: power@e0070 (fsl,mpc8548-pmc): '=
+soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
+pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
+'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: sdhc@2e000 (fsl,p2020-esdhc): $no=
+dename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: crypto@30000 (fsl,sec3.1): interr=
+upts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/pic@40000: failed t=
+o match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/timer@41100: failed=
+ to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/message@41400: fail=
+ed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/msi@41600: failed t=
+o match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/timer@42100: failed=
+ to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/global-utilities@e0=
+000: failed to match any schema with compatible: ['fsl,p2020-guts']
+>> arch/powerpc/boot/dts/fsl/p2020ds.dtb: power@e0070 (fsl,mpc8548-pmc): 's=
+oc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^p=
+inctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
+ pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
+ pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
+ Unevaluated properties are not allowed ('#address-cells', '#size-cells', '=
+bus-range', 'device_type', 'law_trgt_if', 'pcie@0', 'ranges' were unexpecte=
+d)
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
+ pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
+ pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+--
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: sdhc@2e000 (fsl,p2020-esd=
+hc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.1)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/pic@40000: =
+failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/timer@41100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/message@414=
+00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/msi@41600: =
+failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/timer@42100=
+: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/global-util=
+ities@e0000: failed to match any schema with compatible: ['fsl,p2020-guts']
+>> arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe08000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe08000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe08000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe08000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
+8-pcie): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+--
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: sdhc@2e000 (fsl,p2020-esd=
+hc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.1)=
+: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/pic@40000:=
+ failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/timer@4110=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/message@41=
+400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/msi@41600:=
+ failed to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/timer@4210=
+0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/global-uti=
+lities@e0000: failed to match any schema with compatible: ['fsl,p2020-guts']
+>> arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
+pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
+xes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe08000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe08000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe08000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe08000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
+48-pcie): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+--
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: sdhc@2e000 (fsl,p2020-esdhc): $n=
+odename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: crypto@30000 (fsl,sec3.1): inter=
+rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/pic@40000: failed =
+to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/timer@41100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/message@41400: fai=
+led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/msi@41600: failed =
+to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/timer@42100: faile=
+d to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/global-utilities@e=
+0000: failed to match any schema with compatible: ['fsl,p2020-guts']
+>> arch/powerpc/boot/dts/fsl/p2020rdb.dtb: power@e0070 (fsl,mpc8548-pmc): '=
+soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
+pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe08000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe08000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe08000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe08000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+--
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/pic@40000: fai=
+led to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/timer@41100: f=
+ailed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/message@41400:=
+ failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/msi@41600: fai=
+led to match any schema with compatible: ['fsl,mpic-msi']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000: fai=
+led to match any schema with compatible: ['fsl,srio-rmu']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000/mess=
+age-unit@0: failed to match any schema with compatible: ['fsl,srio-msg-unit=
+']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000/mess=
+age-unit@100: failed to match any schema with compatible: ['fsl,srio-msg-un=
+it']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000/door=
+bell-unit@400: failed to match any schema with compatible: ['fsl,srio-dbell=
+-unit']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000/port=
+-write-unit@4e0: failed to match any schema with compatible: ['fsl,srio-por=
+t-write-unit']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/global-utiliti=
+es@e0000: failed to match any schema with compatible: ['fsl,mpc8548-guts']
+>> arch/powerpc/boot/dts/fsl/ppa8548.dtb: power@e0070 (fsl,mpc8548-pmc): 's=
+oc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^p=
+inctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pcie@fe000a000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pcie@fe000a000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pcie@fe000a000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pcie@fe000a000 (fsl,mpc8548-pcie)=
+: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /rapidio@fe00c0000: failed to mat=
+ch any schema with compatible: ['fsl,srio']
 
 --
 0-DAY CI Kernel Test Service
