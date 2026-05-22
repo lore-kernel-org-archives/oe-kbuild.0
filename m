@@ -1,1734 +1,431 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7743833A6F2
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 May 2026 21:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF45F30674A
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 May 2026 23:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779486580; cv=none; b=B6Y1A50fW1GYBiBI3Gl+ViWAg1MCvfVu4PELQOfNbh0MBGP/dd+yonqSOkXtZPXiHwPMFU3UZY7nPniwMRaWBRVIu7C6f71uvtidZ5c6dZbxX2xS6s2AhCZaIK+nA1iB34yLjQqe6oKk1DvtkiDl6asD/Lr6kFEzIlccuVx454U=
+	t=1779492041; cv=none; b=do8BZq52nJUGCXUI9KuQXr2ZoG5g7XbBa7YamNZsa4bmgrFzOLtfsmSSpq/qFpYtxpdfQOapVYlIwFrP3LNCqF4sDzRk/2PKi/O7KoJ3Zz34+3KOymuKzefSeL6qkp8HlOBbojpifpmZJPAwdKyO/Ir5EK4O2n9cBvuUc3kMqts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779486580; c=relaxed/simple;
-	bh=xAozgNFZdeXIHfW9HPw4+o6qUqnAI8QPJeu5dldQ2ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Kv5RZkcz2W25OqyVfu6XkodccMMz53RS7x1n+u79ItLjeWQz3BLPY3z6Rf+e9/rDdprQh0vtoEe8aC4ytVGsYeocCNPS+hew7UhOq8WfZ8M3hd4eODod44BhhAQGQYBMpzfOeiQ2hzLZGBgOzV+FNb169FKzjbd/niJRkUd6uRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fcv0pqtn; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1779492041; c=relaxed/simple;
+	bh=qlbJ5ONIaBpMtBdd7Fsp4Y2UBQPVUEjjvh35YlcVDcI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=po1i6Z2B2rX/+rqgXGimi7r/fxAkHUnRzqZ/0GbfhV+7IpOx2gca3Ud2m9XeBVdr48w2PWbWEEUgFsEVy3SXDkvfkGrvuSdXB5YozUV4eMF8l+YNj0ohVA+oMdP50lejMoAkcd7oyUbw7tufVKvcNRMAIjNVWy3GDgqq1GsMfs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U88J6iEu; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fcv0pqtn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U88J6iEu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779486575; x=1811022575;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=xAozgNFZdeXIHfW9HPw4+o6qUqnAI8QPJeu5dldQ2ws=;
-  b=Fcv0pqtnvhOOUQLnG6dDg+k6k8oc0Sjmp6qhIyNlZXftwK03ytaZmbMC
-   8OdwnMQwxJNcxU0rmXRYuWOPKXFrQt2l8olTbFpiNiQgV0OlXqTaSQWeA
-   Qf1n7nEwnzG5jtg72yK6HNlbSDm9omURkv1wxKVMzJTsBLfHjiFC+Bofm
-   ftX2X8sgq6h0Hrkqs3v00glYA+6QofcJfcLYOQfo0VxJHq6F2PeIjdB2V
-   cvljahJcaKzSc9vMubixZgEw58fP8gl0YMn85D/IpaekGoSHfWvm9/bDG
-   qQipdcU7T2dUSfPp5lLicN1fmIKjiZ1ukVTeCWLneSYYyRz03KwGP/WfZ
-   A==;
-X-CSE-ConnectionGUID: 8YJNXnVrSjiqBzFAAmhp8Q==
-X-CSE-MsgGUID: utInKVdMTBS96WgqV8itVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11794"; a="67945444"
+  t=1779492038; x=1811028038;
+  h=date:from:to:cc:subject:message-id;
+  bh=qlbJ5ONIaBpMtBdd7Fsp4Y2UBQPVUEjjvh35YlcVDcI=;
+  b=U88J6iEuU3DtdfwrELTDce3852+1k6rt1tKWELiY284I2bs1nfGGSeIl
+   G2Xmn0Q/XfoABU3qPYbYRWs8yKZcVZpQ8kLXr4pArHdrHo5gDbiId6Hvq
+   XxTMPcdycLyLTvBDmNDKEp/b3G7N7wc91CAyqTHeaEDU/MJd+xebIHKzE
+   a2yrbmT77Lx4N0peugrjztX4+zvIE8cL8pll5exjfYp02vYzqZ61lm1p6
+   1z0Ea7K3LCx5xcHe1+ZzSAkY4yH3dvwC1y6ZFS9w4rVgqA0AW1T8tPojA
+   oJ0LED3BOnjxGqWS4NSZbPFd2z5sWy5ZxN4xayXl1xqHIGP9JWjhjp0yX
+   w==;
+X-CSE-ConnectionGUID: wBVbwZeTRki4j2l0K2dyBw==
+X-CSE-MsgGUID: LcvLPwC5RiKfk5WP42IVYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11794"; a="80152562"
 X-IronPort-AV: E=Sophos;i="6.24,163,1774335600"; 
-   d="scan'208";a="67945444"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 14:49:34 -0700
-X-CSE-ConnectionGUID: ROqDinW+QzOoBfx0jEMofw==
-X-CSE-MsgGUID: 9Nm1FRlXSB+aU7oPcXAwXQ==
+   d="scan'208";a="80152562"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 16:20:35 -0700
+X-CSE-ConnectionGUID: BQ6Cd6u8RI+eU1YPiloyIg==
+X-CSE-MsgGUID: RI7+p1qkRWyFT0K4KxcfzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,163,1774335600"; 
-   d="scan'208";a="236806681"
+   d="scan'208";a="271380321"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 22 May 2026 14:49:32 -0700
+  by orviesa002.jf.intel.com with ESMTP; 22 May 2026 16:20:34 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQXkI-00000000BPn-09MK;
-	Fri, 22 May 2026 21:49:30 +0000
-Date: Fri, 22 May 2026 23:48:38 +0200
+	id 1wQZAN-00000000BQz-0qHp;
+	Fri, 22 May 2026 23:20:31 +0000
+Date: Sat, 23 May 2026 01:19:49 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/powerpc/boot/dts/turris1x.dtb: power@e0070
- (fsl,mpc8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any
- of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202605222310.dU5xCwll-lkp@intel.com>
+Subject: arch/arm64/boot/dts/freescale/imx8mp-ab2.dtb:
+ blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of
+ the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202605230125.E7Ba3VDm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-::::::=20
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
-CC: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Marco Felsch <m.felsch@pengutronix.de>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6779b50faa562e6cca1aa6a4649a4d764c6c7e28
-commit: ba127016c07b17d10cb33803fb0a0aaf24a8b53c dt-bindings: powerpc: Conv=
-ert fsl/pmc.txt to YAML
-date:   1 year, 1 month ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: powerpc-randconfig-2051-20260521 (https://download.01.org/0day-ci/a=
-rchive/20260522/202605222310.dU5xCwll-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43=
-d6834093b19baf79beda8c0337ab020ac5f17)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/Revert-dt-bindings-display-bridge-ldb-Add-check-for-reg-and-reg-names/20260514-224818
+head:   f8762e7c0c33fd7fc3007e398ffbed722c96a174
+commit: f8762e7c0c33fd7fc3007e398ffbed722c96a174 arm64: dts: imx8mp: remove LDB reg and reg-names property
+date:   8 days ago
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-2055-20260522 (https://download.01.org/0day-ci/archive/20260523/202605230125.E7Ba3VDm-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260522/202605222310.dU5xCwll-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260523/202605230125.E7Ba3VDm-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ba127016c07b ("dt-bindings: powerpc: Convert fsl/pmc.txt to YAML")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605222310.dU5xCwll-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605230125.E7Ba3VDm-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	'fsl,ssi-dma-channel' was expected
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
-   arch/powerpc/boot/dts/turris1x.dtb: crypto@30000 (fsl,sec3.1): interrupt=
-s: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/pic@40000: failed to m=
-atch any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/timer@41100: failed to=
- match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/message@41400: failed =
-to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/msi@41600: failed to m=
-atch any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/timer@42100: failed to=
- match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/global-utilities@e0000=
-: failed to match any schema with compatible: ['fsl,p2020-guts']
->> arch/powerpc/boot/dts/turris1x.dtb: power@e0070 (fsl,mpc8548-pmc): 'soc-=
-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^pinc=
-trl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/turris1x.dtb: /localbus@ffe05000: failed to match =
-any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/turris1x.dtb: /localbus@ffe05000: failed to match =
-any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/turris1x.dtb: nor@0,0 (cfi-flash): $nodename:0: 'n=
-or@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
-   arch/powerpc/boot/dts/turris1x.dtb: nor@0,0 (cfi-flash): Unevaluated pro=
-perties are not allowed ('partitions' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
-   arch/powerpc/boot/dts/turris1x.dtb: /localbus@ffe05000/nand@1,0: failed =
-to match any schema with compatible: ['fsl,p2020-fcm-nand', 'fsl,elbc-fcm-n=
-and']
-   arch/powerpc/boot/dts/turris1x.dtb: /localbus@ffe05000/nand@1,0: failed =
-to match any schema with compatible: ['fsl,p2020-fcm-nand', 'fsl,elbc-fcm-n=
-and']
-   arch/powerpc/boot/dts/turris1x.dtb: cpld@3,0 (cznic,turris1x-cpld): $nod=
-ename:0: 'cpld@3,0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|so=
-c|axi|ahb|apb)(@.+)?$'
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-ab2.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: sdhc@2e000 (fsl,p2020-esdhc): $n=
-odename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: crypto@30000 (fsl,sec3.1): inter=
-rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/pic@40000: failed =
-to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/timer@41100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/message@41400: fai=
-led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/msi@41600: failed =
-to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/timer@42100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/global-utilities@e=
-0000: failed to match any schema with compatible: ['fsl,p2020-guts']
->> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: power@e0070 (fsl,mpc8548-pmc): '=
-soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
-pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
-: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
-'bus-range', 'device_type', 'law_trgt_if', 'pcie@0', 'ranges' were unexpect=
-ed)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pcie@fef08000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-adpismarc.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: sdhc@2e000 (fsl,mpc8536-esdhc):=
- $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: crypto@30000 (fsl,sec3.0): inte=
-rrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/pic@40000: failed=
- to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/timer@41100: fail=
-ed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/message@41400: fa=
-iled to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/msi@41600: failed=
- to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/timer@42100: fail=
-ed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/global-utilities@=
-e0000: failed to match any schema with compatible: ['fsl,mpc8536-guts']
->> arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: power@e0070 (fsl,mpc8536-pmc): =
-'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
-^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
-): Unevaluated properties are not allowed ('#address-cells', '#size-cells',=
- 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: sdhc@2e000 (fsl,mpc8536-esd=
-hc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: crypto@30000 (fsl,sec3.0): =
-interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/pic@40000: f=
-ailed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/timer@41100:=
- failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/message@4140=
-0: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/msi@41600: f=
-ailed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/timer@42100:=
- failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/global-utili=
-ties@e0000: failed to match any schema with compatible: ['fsl,mpc8536-guts']
->> arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: power@e0070 (fsl,mpc8536-pm=
-c): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexe=
-s: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
--pcie): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
--pcie): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
--pcie): Unevaluated properties are not allowed ('#address-cells', '#size-ce=
-lls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
--pcie): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548=
--pcie): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-proton2s.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: dma@21300 (fsl,eloplus-dma): dm=
-a-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,eloplus-dma-channel'] is too short
-   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fs=
-l,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel=
-', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
-   	'fsl,ssi-dma-channel' was expected
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/pic@40000: fa=
-iled to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/timer@41100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/message@41400=
-: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/msi@41600: fa=
-iled to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/global-utilit=
-ies@e0000: failed to match any schema with compatible: ['fsl,mpc8544-guts']
->> arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: power@e0070 (fsl,mpc8548-pmc): =
-'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
-^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
-): Unevaluated properties are not allowed ('#address-cells', '#size-cells',=
- 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pcie@e0009000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0: [25, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: ptp_clock@24e00 (fsl,etsec-ptp)=
-: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] =
-is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: crypto@30000 (fsl,sec3.0): inte=
-rrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/pic@40000: fa=
-iled to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/timer@41100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/message@41400=
-: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/msi@41600: fa=
-iled to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/timer@42100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/global-utilit=
-ies@e0000: failed to match any schema with compatible: ['fsl,mpc8572-guts']
->> arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: power@e0070 (fsl,mpc8548-pmc): =
-'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
-^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
-): Unevaluated properties are not allowed ('#address-cells', '#size-cells',=
- 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie=
-): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-cubox-m.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: ptp_clock@24e00 (fsl,etsec-=
-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, =
-0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: crypto@30000 (fsl,sec3.0): =
-interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/pic@4000=
-0: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/timer@41=
-100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/message@=
-41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/msi@4160=
-0: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/timer@42=
-100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/global-u=
-tilities@e0000: failed to match any schema with compatible: ['fsl,mpc8572-g=
-uts']
->> arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: power@e0070 (fsl,mpc8548-pm=
-c): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexe=
-s: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
--pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
--pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
--pcie): Unevaluated properties are not allowed ('#address-cells', '#size-ce=
-lls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
--pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pcie@fffe08000 (fsl,mpc8548=
--pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: ptp_clock@24e00 (fsl=
-,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71,=
- 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: crypto@30000 (fsl,se=
-c3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/pi=
-c@40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ti=
-mer@41100: failed to match any schema with compatible: ['fsl,mpic-global-ti=
-mer']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/me=
-ssage@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-ms=
-gr']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ms=
-i@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/ti=
-mer@42100: failed to match any schema with compatible: ['fsl,mpic-global-ti=
-mer']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/gl=
-obal-utilities@e0000: failed to match any schema with compatible: ['fsl,mpc=
-8572-guts']
->> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: power@e0070 (fsl,mpc=
-8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the=
- regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): Unevaluated properties are not allowed ('#address-cells', '#s=
-ize-cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: ptp_clock@24e00 (fsl=
-,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71,=
- 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: crypto@30000 (fsl,se=
-c3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/pi=
-c@40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ti=
-mer@41100: failed to match any schema with compatible: ['fsl,mpic-global-ti=
-mer']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/me=
-ssage@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-ms=
-gr']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ms=
-i@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/ti=
-mer@42100: failed to match any schema with compatible: ['fsl,mpic-global-ti=
-mer']
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/gl=
-obal-utilities@e0000: failed to match any schema with compatible: ['fsl,mpc=
-8572-guts']
->> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: power@e0070 (fsl,mpc=
-8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the=
- regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pcie@ffe08000 (fsl,m=
-pc8548-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /pcie@ffe08000/pcie@=
-0/uli1575@0/isa@1e/interrupt-controller@20: failed to match any schema with=
- compatible: ['chrp,iic']
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: sdhc@2e000 (fsl,p2020-esdhc): Un=
-evaluated properties are not allowed ('non-removable' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: crypto@30000 (fsl,sec3.1): inter=
-rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/pic@40000: failed =
-to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/timer@41100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/message@41400: fai=
-led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/msi@41600: failed =
-to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/timer@42100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/global-utilities@e=
-0000: failed to match any schema with compatible: ['fsl,p2020-guts']
->> arch/powerpc/boot/dts/fsl/mvme2500.dtb: power@e0070 (fsl,mpc8548-pmc): '=
-soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
-pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /localbus@ffe05000: failed to ma=
-tch any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /localbus@ffe05000: failed to ma=
-tch any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: serial@1,0 (ns16550): Unevaluate=
-d properties are not allowed ('device_type' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: serial@2,0 (ns16550): Unevaluate=
-d properties are not allowed ('device_type' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: serial@3,0 (ns16550): Unevaluate=
-d properties are not allowed ('device_type' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
-   arch/powerpc/boot/dts/fsl/mvme2500.dtb: serial@4,0 (ns16550): Unevaluate=
-d properties are not allowed ('device_type' was unexpected)
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-dhcom-drc02.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000/jr=
-@1000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
-, 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000/jr=
-@2000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
-, 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000/jr=
-@3000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
-, 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000/jr=
-@4000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
-, 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/pic@40000: fail=
-ed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/timer@41100: fa=
-iled to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/message@41400: =
-failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/msi@41600: fail=
-ed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/timer@42100: fa=
-iled to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/global-utilitie=
-s@e0000: failed to match any schema with compatible: ['fsl,p1010-guts']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: power@e0070 (fsl,mpc8548-pmc)=
-: 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes:=
- '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /pcie@ffe09000: failed to mat=
-ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /pcie@ffe09000: failed to mat=
-ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pcie@ffe09000 (fsl,p1010-pcie=
-): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pcie@ffe09000 (fsl,p1010-pcie=
-): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /pcie@ffe0a000: failed to mat=
-ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /pcie@ffe0a000: failed to mat=
-ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pcie@ffe0a000 (fsl,p1010-pcie=
-): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@300=
-00/jr@1000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
-ring', 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@300=
-00/jr@2000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
-ring', 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@300=
-00/jr@3000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
-ring', 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@300=
-00/jr@4000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
-ring', 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/pic@40000:=
- failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/timer@4110=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/message@41=
-400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/msi@41600:=
- failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/timer@4210=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/global-uti=
-lities@e0000: failed to match any schema with compatible: ['fsl,p1010-guts']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /pcie@fffe09000: failed t=
-o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
-']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /pcie@fffe09000: failed t=
-o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
-']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pcie@fffe09000 (fsl,p1010=
--pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pcie@fffe09000 (fsl,p1010=
--pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /pcie@fffe0a000: failed t=
-o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
-']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /pcie@fffe0a000: failed t=
-o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
-']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pcie@fffe0a000 (fsl,p1010=
--pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000/jr=
-@1000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
-, 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000/jr=
-@2000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
-, 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000/jr=
-@3000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
-, 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000/jr=
-@4000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-ring'=
-, 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/pic@40000: fail=
-ed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/timer@41100: fa=
-iled to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/message@41400: =
-failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/msi@41600: fail=
-ed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/timer@42100: fa=
-iled to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/global-utilitie=
-s@e0000: failed to match any schema with compatible: ['fsl,p1010-guts']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: power@e0070 (fsl,mpc8548-pmc)=
-: 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes:=
- '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /pcie@ffe09000: failed to mat=
-ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /pcie@ffe09000: failed to mat=
-ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pcie@ffe09000 (fsl,p1010-pcie=
-): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pcie@ffe09000 (fsl,p1010-pcie=
-): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /pcie@ffe0a000: failed to mat=
-ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /pcie@ffe0a000: failed to mat=
-ch any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pcie@ffe0a000 (fsl,p1010-pcie=
-): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-dhcom-picoitx.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@300=
-00/jr@1000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
-ring', 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@300=
-00/jr@2000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
-ring', 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@300=
-00/jr@3000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
-ring', 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@300=
-00/jr@4000: failed to match any schema with compatible: ['fsl,sec-v4.4-job-=
-ring', 'fsl,sec-v4.0-job-ring']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/pic@40000:=
- failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/timer@4110=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/message@41=
-400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/msi@41600:=
- failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/timer@4210=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/global-uti=
-lities@e0000: failed to match any schema with compatible: ['fsl,p1010-guts']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /pcie@fffe09000: failed t=
-o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
-']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /pcie@fffe09000: failed t=
-o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
-']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pcie@fffe09000 (fsl,p1010=
--pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pcie@fffe09000 (fsl,p1010=
--pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /pcie@fffe0a000: failed t=
-o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
-']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /pcie@fffe0a000: failed t=
-o match any schema with compatible: ['fsl,p1010-pcie', 'fsl,qoriq-pcie-v2.3=
-']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pcie@fffe0a000 (fsl,p1010=
--pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-edm-g-wb.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/sdhc@2e000:=
- failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc=
-']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: crypto@30000 (fsl,sec3.3)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/pic@40000: =
-failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/timer@41100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/message@414=
-00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/msi@41600: =
-failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/timer@42100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/global-util=
-ities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-c=
-ells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/sdhc@2e000=
-: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdh=
-c']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: crypto@30000 (fsl,sec3.3)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/pic@40000:=
- failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/timer@4110=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/message@41=
-400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/msi@41600:=
- failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/timer@4210=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/global-uti=
-lities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-=
-cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-frdm.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/sdhc@2e000:=
- failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc=
-']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.3)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/pic@40000: =
-failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/timer@41100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/message@414=
-00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/msi@41600: =
-failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/timer@42100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/global-util=
-ities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-c=
-ells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/sdhc@2e000=
-: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdh=
-c']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.3)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/pic@40000:=
- failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/timer@4110=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/message@41=
-400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/msi@41600:=
- failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/timer@4210=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/global-uti=
-lities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-=
-cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-mate.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/sdhc=
-@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fs=
-l,esdhc']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: crypto@30000 (fsl,=
-sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/pic@=
-40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/time=
-r@41100: failed to match any schema with compatible: ['fsl,mpic-global-time=
-r']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/mess=
-age@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr=
-']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/msi@=
-41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/time=
-r@42100: failed to match any schema with compatible: ['fsl,mpic-global-time=
-r']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/glob=
-al-utilities@e0000: failed to match any schema with compatible: ['fsl,p1020=
--guts']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: power@e0070 (fsl,m=
-pc8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of t=
-he regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): Unevaluated properties are not allowed ('#address-cells', '=
-#size-cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpecte=
-d)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-pro.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/sdhc=
-@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fs=
-l,esdhc']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: crypto@30000 (fsl,=
-sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/pic@=
-40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/time=
-r@41100: failed to match any schema with compatible: ['fsl,mpic-global-time=
-r']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/mess=
-age@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr=
-']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/msi@=
-41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/time=
-r@42100: failed to match any schema with compatible: ['fsl,mpic-global-time=
-r']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/glob=
-al-utilities@e0000: failed to match any schema with compatible: ['fsl,p1020=
--guts']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: power@e0070 (fsl,m=
-pc8548-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of t=
-he regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe09000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pcie@ffe0a000 (fsl=
-,mpc8548-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-pulse.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/sdhc@2e000: fai=
-led to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: crypto@30000 (fsl,sec3.3): in=
-terrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/pic@40000: fail=
-ed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/timer@41100: fa=
-iled to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/message@41400: =
-failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/msi@41600: fail=
-ed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/timer@42100: fa=
-iled to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/global-utilitie=
-s@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: power@e0070 (fsl,mpc8548-pmc)=
-: 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes:=
- '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): Unevaluated properties are not allowed ('#address-cells', '#size-cells=
-', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-ripple.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/sdhc@2e000: failed=
- to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: crypto@30000 (fsl,sec3.3): inter=
-rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/pic@40000: failed =
-to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/timer@41100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/message@41400: fai=
-led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/msi@41600: failed =
-to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/timer@42100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/global-utilities@e=
-0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: power@e0070 (fsl,mpc8548-pmc): '=
-soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
-pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
-'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/sdhc@2e000: f=
-ailed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: crypto@30000 (fsl,sec3.3): i=
-nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/pic@40000: fa=
-iled to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/timer@41100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/message@41400=
-: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/msi@41600: fa=
-iled to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/timer@42100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/global-utilit=
-ies@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: power@e0070 (fsl,mpc8548-pmc=
-): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
-: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-cel=
-ls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-iota2-lumpy.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/sdhc@2e000:=
- failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc=
-']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: crypto@30000 (fsl,sec3.3)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/pic@40000: =
-failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/timer@41100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/message@414=
-00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/msi@41600: =
-failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/timer@42100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/global-util=
-ities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-c=
-ells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-kontron-bl-osm-s.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/sdhc@2e000=
-: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdh=
-c']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: crypto@30000 (fsl,sec3.3)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/pic@40000:=
- failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/timer@4110=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/message@41=
-400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/msi@41600:=
- failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/timer@4210=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/global-uti=
-lities@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-=
-cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: sdhc@2e000 (fsl,esdhc): compatib=
-le: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: crypto@30000 (fsl,sec3.3): inter=
-rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/pic@40000: failed =
-to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/timer@41100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/message@41400: fai=
-led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/msi@41600: failed =
-to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/timer@42100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/global-utilities@e=
-0000: failed to match any schema with compatible: ['fsl,p1021-guts']
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: power@e0070 (fsl,mpc8548-pmc): '=
-soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
-pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
-'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-libra-rdk-fpsc.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: sdhc@2e000 (fsl,esdhc): c=
-ompatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.3)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/pic@40000: =
-failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/timer@41100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/message@414=
-00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/msi@41600: =
-failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/timer@42100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/global-util=
-ities@e0000: failed to match any schema with compatible: ['fsl,p1021-guts']
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-c=
-ells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: sdhc@2e000 (fsl,esdhc): c=
-ompatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.3)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/pic@40000:=
- failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/timer@4110=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/message@41=
-400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/msi@41600:=
- failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/timer@4210=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/global-uti=
-lities@e0000: failed to match any schema with compatible: ['fsl,p1021-guts']
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-=
-cells', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b0000 (fsl,etsec2): =
-Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b000=
-0', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000 (fsl,etsec2): =
-queue-group@b1000: '#address-cells', '#size-cells' do not match any of the =
-regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000 (fsl,etsec2): =
-queue-group@b5000: '#address-cells', '#size-cells' do not match any of the =
-regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000 (fsl,etsec2): =
-Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b100=
-0', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/global-utilitie=
-s@e0000: failed to match any schema with compatible: ['fsl,p1022-guts']
->> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: power@e0070 (fsl,p1022-pmc): =
-'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
-^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ptp_clock@b0e00 (fsl,etsec-pt=
-p): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): Unevaluated properties are not allowed ('#address-cells', '#size-cells=
-', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000 (fsl,mpc8548-pc=
-ie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-nitrogen-enc-carrier-board.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b0000 (fsl,etsec2): =
-Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b000=
-0', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000 (fsl,etsec2): =
-queue-group@b1000: '#address-cells', '#size-cells' do not match any of the =
-regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000 (fsl,etsec2): =
-queue-group@b5000: '#address-cells', '#size-cells' do not match any of the =
-regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000 (fsl,etsec2): =
-Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b100=
-0', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/global-utiliti=
-es@e0000: failed to match any schema with compatible: ['fsl,p1022-guts']
->> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: power@e0070 (fsl,p1022-pmc): =
-'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '=
-^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ptp_clock@b0e00 (fsl,etsec-pt=
-p): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548-p=
-cie): Unevaluated properties are not allowed ('#address-cells', '#size-cell=
-s', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-nitrogen-smarc-universal-board.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/sdhc@2e000: failed=
- to match any schema with compatible: ['fsl,p1022-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: crypto@30000 (fsl,sec3.3): inter=
-rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/pic@40000: failed =
-to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/timer@41100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/message@41400: fai=
-led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/msi@41600: failed =
-to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/timer@42100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/global-utilities@e=
-0000: failed to match any schema with compatible: ['fsl,p1022-guts']
->> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: power@e0070 (fsl,p1022-pmc): 'so=
-c-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^pi=
-nctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
-'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/sdhc@2e000: fa=
-iled to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: crypto@30000 (fsl,sec3.3): i=
-nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/pic@40000: fai=
-led to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/timer@41100: f=
-ailed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/message@41400:=
- failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/msi@41600: fai=
-led to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/timer@42100: f=
-ailed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/global-utiliti=
-es@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: power@e0070 (fsl,mpc8548-pmc=
-): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
-: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): Unevaluated properties are not allowed ('#address-cells', '#size-cell=
-s', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/sdhc@2e000: f=
-ailed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: crypto@30000 (fsl,sec3.3): i=
-nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/pic@40000: fa=
-iled to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/timer@41100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/message@41400=
-: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/msi@41600: fa=
-iled to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/timer@42100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/global-utilit=
-ies@e0000: failed to match any schema with compatible: ['fsl,p1020-guts']
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: power@e0070 (fsl,mpc8548-pmc=
-): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
-: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-cel=
-ls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: sdhc@2e000 (fsl,esdhc): comp=
-atible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: crypto@30000 (fsl,sec3.3): i=
-nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/pic@40000: fai=
-led to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/timer@41100: f=
-ailed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/message@41400:=
- failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/msi@41600: fai=
-led to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/timer@42100: f=
-ailed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/global-utiliti=
-es@e0000: failed to match any schema with compatible: ['fsl,p1021-guts']
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: power@e0070 (fsl,mpc8548-pmc=
-): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
-: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): Unevaluated properties are not allowed ('#address-cells', '#size-cell=
-s', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pcie@ffe09000 (fsl,mpc8548-p=
-cie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: sdhc@2e000 (fsl,esdhc): comp=
-atible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: crypto@30000 (fsl,sec3.3): i=
-nterrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/pic@40000: fa=
-iled to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/timer@41100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/message@41400=
-: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/msi@41600: fa=
-iled to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/timer@42100: =
-failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/global-utilit=
-ies@e0000: failed to match any schema with compatible: ['fsl,p1021-guts']
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: power@e0070 (fsl,mpc8548-pmc=
-): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes=
-: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): Unevaluated properties are not allowed ('#address-cells', '#size-cel=
-ls', 'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pcie@fffe09000 (fsl,mpc8548-=
-pcie): pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: sdhc@2e000 (fsl,esdhc): compatib=
-le: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: crypto@30000 (fsl,sec3.3): inter=
-rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/pic@40000: failed =
-to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/timer@41100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/message@41400: fai=
-led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/msi@41600: failed =
-to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/timer@42100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/global-utilities@e=
-0000: failed to match any schema with compatible: ['fsl,p1021-guts']
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: power@e0070 (fsl,mpc8548-pmc): '=
-soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
-pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: Unevaluated properties are not allowed ('#address-cells', '#size-cells', =
-'bus-range', 'device_type', 'pcie@0', 'ranges' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: sdhc@2e000 (fsl,p2020-esdhc): $no=
-dename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: crypto@30000 (fsl,sec3.1): interr=
-upts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/pic@40000: failed t=
-o match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/timer@41100: failed=
- to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/message@41400: fail=
-ed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/msi@41600: failed t=
-o match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/timer@42100: failed=
- to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/global-utilities@e0=
-000: failed to match any schema with compatible: ['fsl,p2020-guts']
->> arch/powerpc/boot/dts/fsl/p2020ds.dtb: power@e0070 (fsl,mpc8548-pmc): 's=
-oc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^p=
-inctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
- pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
- pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
- Unevaluated properties are not allowed ('#address-cells', '#size-cells', '=
-bus-range', 'device_type', 'law_trgt_if', 'pcie@0', 'ranges' were unexpecte=
-d)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
- pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pcie@ffe08000 (fsl,mpc8548-pcie):=
- pcie@0:interrupts:0: [24, 2, 0, 0] is too long
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: sdhc@2e000 (fsl,p2020-esd=
-hc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.1)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/pic@40000: =
-failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/timer@41100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/message@414=
-00: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/msi@41600: =
-failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/timer@42100=
-: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/global-util=
-ities@e0000: failed to match any schema with compatible: ['fsl,p2020-guts']
->> arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe08000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe08000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe08000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe08000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pcie@ffe09000 (fsl,mpc854=
-8-pcie): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-hdmi.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: sdhc@2e000 (fsl,p2020-esd=
-hc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.1)=
-: interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/pic@40000:=
- failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/timer@4110=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/message@41=
-400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/msi@41600:=
- failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/timer@4210=
-0: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/global-uti=
-lities@e0000: failed to match any schema with compatible: ['fsl,p2020-guts']
->> arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: power@e0070 (fsl,mpc8548-=
-pmc): 'soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the rege=
-xes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe08000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe08000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe08000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 24 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe08000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0: [24, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pcie@fffe09000 (fsl,mpc85=
-48-pcie): pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: sdhc@2e000 (fsl,p2020-esdhc): $n=
-odename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: crypto@30000 (fsl,sec3.1): inter=
-rupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/pic@40000: failed =
-to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/timer@41100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/message@41400: fai=
-led to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/msi@41600: failed =
-to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/timer@42100: faile=
-d to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/global-utilities@e=
-0000: failed to match any schema with compatible: ['fsl,p2020-guts']
->> arch/powerpc/boot/dts/fsl/p2020rdb.dtb: power@e0070 (fsl,mpc8548-pmc): '=
-soc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^=
-pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe08000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe08000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe08000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe08000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pcie@ffe09000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 25 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-jutouch-jt101tm023.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 --
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/pic@40000: fai=
-led to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/timer@41100: f=
-ailed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/message@41400:=
- failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/msi@41600: fai=
-led to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000: fai=
-led to match any schema with compatible: ['fsl,srio-rmu']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000/mess=
-age-unit@0: failed to match any schema with compatible: ['fsl,srio-msg-unit=
-']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000/mess=
-age-unit@100: failed to match any schema with compatible: ['fsl,srio-msg-un=
-it']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000/door=
-bell-unit@400: failed to match any schema with compatible: ['fsl,srio-dbell=
--unit']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000/port=
--write-unit@4e0: failed to match any schema with compatible: ['fsl,srio-por=
-t-write-unit']
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/global-utiliti=
-es@e0000: failed to match any schema with compatible: ['fsl,mpc8548-guts']
->> arch/powerpc/boot/dts/fsl/ppa8548.dtb: power@e0070 (fsl,mpc8548-pmc): 's=
-oc-clk@24', 'soc-clk@25', 'soc-clk@26' do not match any of the regexes: '^p=
-inctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/pmc.yaml
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pcie@fe000a000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pcie@fe000a000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pcie@fe000a000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0:0: 26 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pcie@fe000a000 (fsl,mpc8548-pcie)=
-: pcie@0:interrupts:0: [26, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /rapidio@fe00c0000: failed to mat=
-ch any schema with compatible: ['fsl,srio']
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-toradex-smarc-dev.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-ultra-mach-sbc.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw82xx-2x.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-ivy.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-ivy.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1937.38-2037.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@32c00000/blk-ctrl@32ec0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios-lvds.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot-panel-dsi-WJ70N3TYJHMNG0.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot-panel-lvds-WF70A8SYJHLNGA.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot-rs485-a.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot-rs485-b.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-kontron-dl.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-libra-rdk-fpsc-lvds-etml1010g3dra.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-libra-rdk-fpsc-lvds-ph128800t006-zhc01.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-libra-rdk-fpsc-lvds-peb-av-10.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-etml1010g3dra.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-peb-av-10.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-peb-av-10-etml1010g3dra.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-peb-av-10-ph128800t006.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-ph128800t006.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-wlbt.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-pcie-ep.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-tm070jvhg33.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-imx219.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-lvds-tm070jvhg33.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-lvds-tm070jvhg33-imx219.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dtb: blk-ctrl@32ec0000 (fsl,imx8mp-media-blk-ctrl): 'bridge' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx8mp-media-blk-ctrl.yaml
 
 --
 0-DAY CI Kernel Test Service
