@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C074A1A267
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 May 2026 04:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3638285CBA
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 May 2026 06:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779423917; cv=none; b=LPf4emjjFMb+xW9yLH7B/rBT3uwhVr1Q0bKRqSbgpukDzpcVz4zrEDgymUipzSuDUDiEI8dNGMZ5vR57wgFGKyLihE0mgi6X2XxzLYjG67QLX8iLV+Y8pj+JHJFFZgFyFC60l9ziv9GL/NXvhruHF0DUOJPfurzqtNhR+5/57Y4=
+	t=1779430358; cv=none; b=ZZZ5C/IOEIFaxv+T3X8127fWI09AyqUFnSGeZbKBSeeUufEfpmxUDP8BWKFfROoY5+rAHe5mMyr3w6939NIj6sJM0m/xIS6AFgZxleZwTQTrrW7QxCTmwhV31GZv82qDsfz2CJ7iz1gcYsNIuuC5SrnAfQMioLuImZlr3Of8Q5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779423917; c=relaxed/simple;
-	bh=xy4dn9eXrOu8Vlmfuh+IYlMbtAKq+uhuvCaODmy7gBU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pHIZliL19shfVHc/FmxL//nyufq0+8EyXbXT6o4gc5eHD0MdLuUGEQIlDeME1kbX4yIwF067zJciu6Pg2w1DdQOFyGQLLyLi71CXIO2d5JyZutCuTvSi0AEecJdNyYJZICKynFQJYkiZrA9h8UWgfffpNBoMrW2rZbukkTUg0/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nimzDSrS; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1779430358; c=relaxed/simple;
+	bh=dVsFiYERl67diYpwF9Lg3/nejgYfAURi0t8cyUzhTT8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NIdwtSCuR3HGuhjAHQ5svxOH0hZoIgpMZCSPODmRAMrjg93uU+q5RZX8sBaZBjRp0tpJOv+amkNbZvjkwYhW2dx5cwtO/pIPDT5YBmGsErzBdCKm7W0msAkiC8GHUz15zOlKWoIE5PyESOrpSd/HfVfPU6bpNaNCYSBYD+wqrk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNhoAdwA; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nimzDSrS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNhoAdwA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779423916; x=1810959916;
+  t=1779430353; x=1810966353;
   h=date:from:to:cc:subject:message-id;
-  bh=xy4dn9eXrOu8Vlmfuh+IYlMbtAKq+uhuvCaODmy7gBU=;
-  b=nimzDSrSyjG7qNjMBPYEc/OgSS3bUNUNQQRpJKqsAHsTxRInir7/XlDH
-   cOBEJR2Nmmkh8jZO352KPzCZjKjrPHTjynASEGkZPOLkBj8j7ylp/YTqL
-   MQB0wSeVCae6+Vzt4v0+WBwueL4g6lXZ+zChp8sp8sx2bhz8r6xdJIVGa
-   E2NUjQILsVyLs1G7lyy9GXAIQIuycL5911HVnBKn1ty3Qia+rpZ7N6tJK
-   E81cTOPu1Pt2icAeZAs2ORwCbBBfsMq1r3mnuqDvkpsHGTjllJ9dZD07l
-   za9oN0CXUOzny9aSzpFANgyJhqWD4MPvWYFh6Bo47RcL9A0DP3Mo0x6m2
-   Q==;
-X-CSE-ConnectionGUID: inE721MjQAqYZtIj9DVI4g==
-X-CSE-MsgGUID: 1x5yBVr9T+qqGcyzEV1ucw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="80406641"
+  bh=dVsFiYERl67diYpwF9Lg3/nejgYfAURi0t8cyUzhTT8=;
+  b=QNhoAdwAiDZ6/q7EF15ZAwKc5p1Xdyi0+mmBpgzjhKtEGQ1xMDj/yLhB
+   ykpFdiCs3WjEswLdkVGXGc1PRNW8XbdwYm07qKGEyJRppX+uF4C14wlG8
+   pXMUxJDVETANUgVj+ZJtg/lkzDNuk+WL5aaYO2PBc18E8awUQQU0K5PR6
+   UkgWbjlwASfZI5X1DS8q0CwKx82GfhaLUSEUC/6BpzIJX/oflMbx3Mng2
+   K5D/RR+7GUYjIQqUf0dhtvr8k69RTvtlC/sKQeTtmBIQCJgn2ZMU8+laZ
+   9hPojtzuSO6+049uJzQrPV05UrmR5IGxTVOxmNL7OI7Ljio+xiXQxAdxz
+   w==;
+X-CSE-ConnectionGUID: 52JAxLVNR4mibGh51Bv2Rw==
+X-CSE-MsgGUID: 27LOdF7KTciD59XtBS6w8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="97778598"
 X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
-   d="scan'208";a="80406641"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 21:25:15 -0700
-X-CSE-ConnectionGUID: cwo+xULWRB+QOGiuHKD5ow==
-X-CSE-MsgGUID: 5qkxOxsyRvGbyyteX0q5Kg==
+   d="scan'208";a="97778598"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 23:12:21 -0700
+X-CSE-ConnectionGUID: xjj3b71dS++KxOpR7nKCzA==
+X-CSE-MsgGUID: EdpdQVvYQPm6PNH2+feSUw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
-   d="scan'208";a="234422166"
-Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 May 2026 21:25:14 -0700
-Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 21 May 2026 23:12:20 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQHRf-000000001ht-2R6h;
-	Fri, 22 May 2026 04:25:11 +0000
-Date: Fri, 22 May 2026 12:24:58 +0800
+	id 1wQJ7K-00000000BFR-2eRT;
+	Fri, 22 May 2026 06:12:18 +0000
+Date: Fri, 22 May 2026 08:12:16 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [thesofproject:topic/sof-dev-rebase 59/67]
- sound/soc/sof/ipc4-loader.c:152:1-3: WARNING: possible condition with no
- effect (if == else)
-Message-ID: <202605221256.VRqOJqms-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 21/114]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: pcie@690000000 (apple,t8103-pcie):
+ Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+Message-ID: <202605220818.Z8zikRQQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,69 +58,104 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-CC: Bard Liao <yung-chuan.liao@linux.intel.com>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
-CC: Liam Girdwood <liam.r.girdwood@intel.com>
+TO: Janne Grunau <j@jannau.net>
 
-tree:   https://github.com/thesofproject/linux topic/sof-dev-rebase
-head:   136d16442a4a53119098376e23a14e4a5878c4f6
-commit: 1488c52058bd92568b9c4cbb06943dd77f5df57f [59/67] ASoC: SOF: debug-dsp-ops: Add a new op to test firmware boot
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-r062-20260522 (https://download.01.org/0day-ci/archive/20260522/202605221256.VRqOJqms-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   2d563843e07af55de0249a409021af705f586961
+commit: 86fd0888e9071bb54e6a889cd06787c33ca95ca2 [21/114] arm64: dts: apple: t8103: Mark pcie node as dma-coherent
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-2055-20260516 (https://download.01.org/0day-ci/archive/20260522/202605220818.Z8zikRQQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605220818.Z8zikRQQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202605221256.VRqOJqms-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605220818.Z8zikRQQ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> sound/soc/sof/ipc4-loader.c:152:1-3: WARNING: possible condition with no effect (if == else)
-
-vim +152 sound/soc/sof/ipc4-loader.c
-
-c62ff366b3c998 Ranjani Sridharan 2022-05-11  144  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  145  static size_t sof_ipc4_fw_parse_basefw_ext_man(struct snd_sof_dev *sdev)
-5a932cfce44014 Peter Ujfalusi    2022-10-20  146  {
-5a932cfce44014 Peter Ujfalusi    2022-10-20  147  	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  148  	struct sof_ipc4_fw_library *fw_lib;
-5cab0d6c2bd127 Peter Ujfalusi    2022-10-25  149  	ssize_t payload_offset;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  150  	int ret;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  151  
-1488c52058bd92 Ranjani Sridharan 2024-03-25 @152  	if (sdev->dsp_test_mode_enabled)
-1488c52058bd92 Ranjani Sridharan 2024-03-25  153  		fw_lib = devm_kzalloc(sdev->dev, sizeof(*fw_lib), GFP_KERNEL);
-1488c52058bd92 Ranjani Sridharan 2024-03-25  154  	else
-5a932cfce44014 Peter Ujfalusi    2022-10-20  155  		fw_lib = devm_kzalloc(sdev->dev, sizeof(*fw_lib), GFP_KERNEL);
-5a932cfce44014 Peter Ujfalusi    2022-10-20  156  	if (!fw_lib)
-5a932cfce44014 Peter Ujfalusi    2022-10-20  157  		return -ENOMEM;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  158  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  159  	fw_lib->sof_fw.fw = sdev->basefw.fw;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  160  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  161  	payload_offset = sof_ipc4_fw_parse_ext_man(sdev, fw_lib);
-1488c52058bd92 Ranjani Sridharan 2024-03-25  162  	if (sdev->dsp_test_mode_enabled) {
-1488c52058bd92 Ranjani Sridharan 2024-03-25  163  		devm_kfree(sdev->dev, fw_lib->modules);
-1488c52058bd92 Ranjani Sridharan 2024-03-25  164  		devm_kfree(sdev->dev, fw_lib);
-1488c52058bd92 Ranjani Sridharan 2024-03-25  165  		return payload_offset;
-1488c52058bd92 Ranjani Sridharan 2024-03-25  166  	}
-1488c52058bd92 Ranjani Sridharan 2024-03-25  167  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  168  	if (payload_offset > 0) {
-5a932cfce44014 Peter Ujfalusi    2022-10-20  169  		fw_lib->sof_fw.payload_offset = payload_offset;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  170  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  171  		/* basefw ID is 0 */
-5a932cfce44014 Peter Ujfalusi    2022-10-20  172  		fw_lib->id = 0;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  173  		ret = xa_insert(&ipc4_data->fw_lib_xa, 0, fw_lib, GFP_KERNEL);
-5a932cfce44014 Peter Ujfalusi    2022-10-20  174  		if (ret)
-5a932cfce44014 Peter Ujfalusi    2022-10-20  175  			return ret;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  176  	}
-5a932cfce44014 Peter Ujfalusi    2022-10-20  177  
-5a932cfce44014 Peter Ujfalusi    2022-10-20  178  	return payload_offset;
-5a932cfce44014 Peter Ujfalusi    2022-10-20  179  }
-5a932cfce44014 Peter Ujfalusi    2022-10-20  180  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema with compatible: ['apple,j274-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema with compatible: ['apple,j274-macaudio', 'apple,macaudio']
+--
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /sound: failed to match any schema with compatible: ['apple,j293-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /sound: failed to match any schema with compatible: ['apple,j293-macaudio', 'apple,macaudio']
+--
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /sound: failed to match any schema with compatible: ['apple,j313-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /sound: failed to match any schema with compatible: ['apple,j313-macaudio', 'apple,macaudio']
+--
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /sound: failed to match any schema with compatible: ['apple,j456-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /sound: failed to match any schema with compatible: ['apple,j456-macaudio', 'apple,macaudio']
+--
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2c0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2c8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2d0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2d8 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-controller@2e0 (apple,t8103-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: pcie@690000000 (apple,t8103-pcie): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/apple,pcie.yaml
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /sound: failed to match any schema with compatible: ['apple,j457-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /sound: failed to match any schema with compatible: ['apple,j457-macaudio', 'apple,macaudio']
 
 --
 0-DAY CI Kernel Test Service
