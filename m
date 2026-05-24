@@ -1,195 +1,1143 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF7D31E827
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 May 2026 20:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A14487BE
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 May 2026 22:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779656130; cv=none; b=X7iAEevzJAaYlPdnRSk9gZQ6rJ/IEO6uPaa5hOQFYldHeikZ2ZchVz10mpl8X2swz7rQJQl/Ywfb6W5dQm2AJZpBJpxim7QFpYBJ0QsFdqQ1CQ8oIA2UuOBWlPSlu4FogOlmiB3JOtYkEmEl0S+BSy1U7xJS0Kt5Vk9e1muh7WE=
+	t=1779661880; cv=none; b=ZFyOVh4obxFu8Dd6eXvZvC8wjSU/NBGooF1Ml4PBgk0mM5znl7KWo9Pa3sN8AB4i2B72QQDdHr8q/a5zli28v7K7WTl4HnUsvdfkO3U3m0ohgVj3AK+ZfT5sI9AZL7zKH8mafdJwm69U9on6z01E/W2Tc6PGuaOTzT0J033iMB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779656130; c=relaxed/simple;
-	bh=WwLlBP4agKQXb3Meg86VgpEw+ry4ZfWajfeClH2+3Xo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=aljvxWIxSuYoDJA96QfUIfpkvJ5aLOUrXsnxOmNDkoAW6zASKgcuoYbqZH48PryrCGGEW2rSyUG1VVIalouo0xeQ6hJ9n5kuQ5eNDxKLCoKWfv7kk6MvFBL6aU8kMsmD0LXnUbZFEaknmn/42OtPwdggnKTU9WoJdzsGljfy4iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFFxad4t; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1779661880; c=relaxed/simple;
+	bh=wLwYOfsTp/Wb2re85kQvH3N/emrlIJHQ3lfUhGfnHnA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uTXfn2bPXgrour2wFBVHfjtrgaX7ZoTQepKuojq7DgMxrOMDcaoWUeTWR1X8wpaPg1hS3ee04SkQtMvdskiTRenbGY96DRrxyRejb3F4yjJtd5TNJYxTTk6eeZtTh9yRhSad+D4XEefr2c0YEIqA+aLbOuyQuXHQMmuW9bj1alQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jC/FHaSm; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFFxad4t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jC/FHaSm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779656126; x=1811192126;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WwLlBP4agKQXb3Meg86VgpEw+ry4ZfWajfeClH2+3Xo=;
-  b=oFFxad4tKdBgyEP74xQSftATY9ZmCzl1E0z/se+HfqvJwG6JzbbXALkX
-   OczPnyGFcXxF//ov6CGedAvvgPkhrxNQ17VwEQgTgcDfO3wav6XMjN8gc
-   yBfwGLgTWTyjIlP7LdWuF++fFTcEThloD/yeoFrWc0AxO0hvto1hh5umb
-   L3uD/5Wmo6oOt+ygjIOohMnGvhafhMMOPy+hszBHQ5H56BGRujrLR+ktY
-   lRWLlKO1LxqnUe7+wqlX5CWUphyvpR2uuQD7WMSnJ5GdjJGiA+ymetDCB
-   qyWu3QL/93DFE4FrrusVkeBPGRcdAaUs5QTqLr+DBHceV3igAYDqdC74u
-   g==;
-X-CSE-ConnectionGUID: mPm1V+ULRs22NQ7wr6olaw==
-X-CSE-MsgGUID: vuPcXkNGQMuStU583UkSdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11796"; a="83066728"
+  t=1779661874; x=1811197874;
+  h=date:from:to:cc:subject:message-id;
+  bh=wLwYOfsTp/Wb2re85kQvH3N/emrlIJHQ3lfUhGfnHnA=;
+  b=jC/FHaSmU1YijT9oihcGxVGAoiIdjwpySXGlSDMWBTFC0b5x7fbqss1L
+   690SEV+p1WQsowGihUBDyergsxoxaCl1rVnXxuWEq+Y4N9xX6Mxq/+r+z
+   WYtSgScrK+EFOL7QF1wKaCO98qFiOp+KlLrG46CvYiVJLit334asProwM
+   UJQEQPinuwT6gDtAzUEzkfDAJIJwUP+/bmbh9OIbkncIs0OlfODEToh+O
+   hjY/vmLL3paBWficGmLfKXHlhhqVSiDuBbkjtZ+P9FeErVb7uNzUd7Vnr
+   Hz8q0lyOt9hUuVSFfV5TkY7TfU2U6ZdIn+3apIE4RN38C0lzp4kltvnuc
+   A==;
+X-CSE-ConnectionGUID: oD+7mUw0QxiVheb+vWZEoA==
+X-CSE-MsgGUID: rOxle2Y3R/qLpmtti6/PCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11796"; a="83068853"
 X-IronPort-AV: E=Sophos;i="6.24,166,1774335600"; 
-   d="scan'208";a="83066728"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2026 13:55:23 -0700
-X-CSE-ConnectionGUID: iIl1Iz+VSQu4+m/Kyv0KZQ==
-X-CSE-MsgGUID: VtjuI/VsQWuL3QSuPK0/Zg==
+   d="scan'208";a="83068853"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2026 15:31:13 -0700
+X-CSE-ConnectionGUID: dbS8lSwbT5KYEfkknj/mEw==
+X-CSE-MsgGUID: 707KO3GCSL2lxnZNyx4gEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,166,1774335600"; 
-   d="scan'208";a="245699757"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 May 2026 13:55:21 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="279546806"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 24 May 2026 15:31:11 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRFqx-000000000a7-0L9y;
-	Sun, 24 May 2026 20:55:19 +0000
-Date: Mon, 25 May 2026 04:54:56 +0800
+	id 1wRHLg-00000000C4D-2vb2;
+	Sun, 24 May 2026 22:31:08 +0000
+Date: Mon, 25 May 2026 00:30:36 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/platform/x86/toshiba_bluetooth.c:261
- toshiba_bt_rfkill_probe() warn: 'bt_dev->rfk' is an error pointer or valid
-Message-ID: <202605250449.XRHrnanj-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/powerpc/boot/dts/akebono.dtb: interrupt-controller
+ (chrp,open-pic): '#size-cells', 'dcr-reg' do not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202605250034.0fRVqF4o-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6a97c4d5262d02f04d1f41113b0d090ea51f08dd
-commit: 553b2ac59fbb434330287fde0cabc64bc6f11ceb platform/x86: toshiba_blue=
-tooth: Convert ACPI driver to a platform one
-date:   8 weeks ago
-:::::: branch date: 63 minutes ago
-:::::: commit date: 8 weeks ago
-config: x86_64-randconfig-r072-20260524 (https://download.01.org/0day-ci/ar=
-chive/20260525/202605250449.XRHrnanj-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
-7cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4cbfe4502e3d4bda48eb4b83dfad8d7da3b22e90
+commit: 326d2519811200da0e301dce3e93389dadd197a4 dt-bindings: powerpc: Drop duplicate fsl/mpic.txt
+date:   9 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 9 months ago
+config: powerpc-randconfig-2051-20260521 (https://download.01.org/0day-ci/archive/20260525/202605250034.0fRVqF4o-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260525/202605250034.0fRVqF4o-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 553b2ac59fbb ("platform/x86: toshiba_bluetooth: Convert ACPI drive=
-r to a platform one")
+| Fixes: 326d25198112 ("dt-bindings: powerpc: Drop duplicate fsl/mpic.txt")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605250449.XRHrnanj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605250034.0fRVqF4o-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/x86/toshiba_bluetooth.c:261 toshiba_bt_rfkill_probe() warn=
-: 'bt_dev->rfk' is an error pointer or valid
-
-vim +261 drivers/platform/x86/toshiba_bluetooth.c
-
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  230 =20
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  231  static int toshiba_bt_rfk=
-ill_probe(struct platform_device *pdev)
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  232  {
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  233  	struct acpi_device *devi=
-ce =3D ACPI_COMPANION(&pdev->dev);
-84c0691e514539 Azael Avalos      2015-05-03  234  	struct toshiba_bluetooth=
-_dev *bt_dev;
-18b8696b66d790 Azael Avalos      2015-03-26  235  	int result;
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  236 =20
-18b8696b66d790 Azael Avalos      2015-03-26  237  	result =3D toshiba_bluet=
-ooth_present(device->handle);
-18b8696b66d790 Azael Avalos      2015-03-26  238  	if (result)
-18b8696b66d790 Azael Avalos      2015-03-26  239  		return result;
-18b8696b66d790 Azael Avalos      2015-03-26  240 =20
-18b8696b66d790 Azael Avalos      2015-03-26  241  	pr_info("Toshiba ACPI Bl=
-uetooth device driver\n");
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  242 =20
-bf4afc53b77aea Linus Torvalds    2026-02-21  243  	bt_dev =3D kzalloc_obj(*=
-bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  244  	if (!bt_dev)
-84c0691e514539 Azael Avalos      2015-05-03  245  		return -ENOMEM;
-84c0691e514539 Azael Avalos      2015-05-03  246  	bt_dev->acpi_dev =3D dev=
-ice;
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  247 =20
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  248  	platform_set_drvdata(pde=
-v, bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  249 =20
-84c0691e514539 Azael Avalos      2015-05-03  250  	result =3D toshiba_bluet=
-ooth_sync_status(bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  251  	if (result) {
-84c0691e514539 Azael Avalos      2015-05-03  252  		kfree(bt_dev);
-84c0691e514539 Azael Avalos      2015-05-03  253  		return result;
-84c0691e514539 Azael Avalos      2015-05-03  254  	}
-84c0691e514539 Azael Avalos      2015-05-03  255 =20
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  256  	bt_dev->rfk =3D rfkill_a=
-lloc("Toshiba Bluetooth",
-553b2ac59fbb43 Rafael J. Wysocki 2026-03-24  257  				   &pdev->dev,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  258  				   RFKILL_TYPE_BLUETO=
-OTH,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  259  				   &rfk_ops,
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  260  				   bt_dev);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03 @261  	if (!bt_dev->rfk) {
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  262  		pr_err("Unable to alloc=
-ate rfkill device\n");
-4315abf3383010 Rafael J. Wysocki 2026-03-24  263  		result =3D -ENOMEM;
-4315abf3383010 Rafael J. Wysocki 2026-03-24  264  		goto err_free_bt_dev;
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  265  	}
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  266 =20
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  267  	rfkill_set_hw_state(bt_d=
-ev->rfk, !bt_dev->killswitch);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  268 =20
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  269  	result =3D rfkill_regist=
-er(bt_dev->rfk);
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  270  	if (result) {
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  271  		pr_err("Unable to regis=
-ter rfkill device\n");
-4315abf3383010 Rafael J. Wysocki 2026-03-24  272  		goto err_rfkill_destroy;
-7ee8cd3319d5e5 Azael Avalos      2015-05-03  273  	}
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  274 =20
-4315abf3383010 Rafael J. Wysocki 2026-03-24  275  	result =3D acpi_dev_inst=
-all_notify_handler(device, ACPI_DEVICE_NOTIFY,
-4315abf3383010 Rafael J. Wysocki 2026-03-24  276  						 toshiba_bt_rfkill_=
-notify, bt_dev);
-4315abf3383010 Rafael J. Wysocki 2026-03-24  277  	if (result) {
-4315abf3383010 Rafael J. Wysocki 2026-03-24  278  		pr_err("Unable to regis=
-ter ACPI notify handler\n");
-4315abf3383010 Rafael J. Wysocki 2026-03-24  279  		goto err_rfkill_unregis=
-ter;
-4315abf3383010 Rafael J. Wysocki 2026-03-24  280  	}
-4315abf3383010 Rafael J. Wysocki 2026-03-24  281 =20
-4315abf3383010 Rafael J. Wysocki 2026-03-24  282  	return 0;
-4315abf3383010 Rafael J. Wysocki 2026-03-24  283 =20
-4315abf3383010 Rafael J. Wysocki 2026-03-24  284  err_rfkill_unregister:
-4315abf3383010 Rafael J. Wysocki 2026-03-24  285  	rfkill_unregister(bt_dev=
-->rfk);
-4315abf3383010 Rafael J. Wysocki 2026-03-24  286  err_rfkill_destroy:
-4315abf3383010 Rafael J. Wysocki 2026-03-24  287  	rfkill_destroy(bt_dev->r=
-fk);
-4315abf3383010 Rafael J. Wysocki 2026-03-24  288  err_free_bt_dev:
-4315abf3383010 Rafael J. Wysocki 2026-03-24  289  	kfree(bt_dev);
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  290  	return result;
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  291  }
-42b4e9ee3d1d3b Jes Sorensen      2009-12-16  292 =20
-
-:::::: The code at line 261 was first introduced by commit
-:::::: 7ee8cd3319d5e57b1b5e2b348f078af44e67a577 toshiba_bluetooth: Add RFKi=
-ll handler functions
-
-:::::: TO: Azael Avalos <coproscefalo@gmail.com>
-:::::: CC: Darren Hart <dvhart@linux.intel.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/akebono.dts:63.9-66.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/powerpc/boot/dts/akebono.dts:157.13-249.5: Warning (unit_address_vs_reg): /plb/opb: node has a reg or ranges property, but no unit name
+   arch/powerpc/boot/dts/akebono.dtb: /: failed to match any schema with compatible: ['ibm,akebono', 'ibm,476gtr']
+   arch/powerpc/boot/dts/akebono.dtb: /: failed to match any schema with compatible: ['ibm,akebono', 'ibm,476gtr']
+   arch/powerpc/boot/dts/akebono.dtb: / (ibm,akebono): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+>> arch/powerpc/boot/dts/akebono.dtb: interrupt-controller (chrp,open-pic): '#size-cells', 'dcr-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/akebono.dtb: interrupt-controller (chrp,open-pic): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/akebono.dtb: /plb: failed to match any schema with compatible: ['ibm,plb6']
+   arch/powerpc/boot/dts/akebono.dtb: /plb/hsta@310000e0000: failed to match any schema with compatible: ['ibm,476gtr-hsta-msi', 'ibm,hsta-msi']
+   arch/powerpc/boot/dts/akebono.dtb: /plb/hsta@310000e0000: failed to match any schema with compatible: ['ibm,476gtr-hsta-msi', 'ibm,hsta-msi']
+   arch/powerpc/boot/dts/akebono.dtb: /plb/mcmal: failed to match any schema with compatible: ['ibm,mcmal-476gtr', 'ibm,mcmal2']
+   arch/powerpc/boot/dts/akebono.dtb: /plb/mcmal: failed to match any schema with compatible: ['ibm,mcmal-476gtr', 'ibm,mcmal2']
+   arch/powerpc/boot/dts/akebono.dtb: /plb/sd@30000000000: failed to match any schema with compatible: ['ibm,476gtr-sdhci', 'generic-sdhci']
+   arch/powerpc/boot/dts/akebono.dtb: /plb/sd@30000000000: failed to match any schema with compatible: ['ibm,476gtr-sdhci', 'generic-sdhci']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: crypto@30000 (fsl,sec3.1): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/turris1x.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/turris1x.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: crypto@30000 (fsl,sec-v4.4): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
+   	'fsl,sec-v4.4' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
+   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,imx8qm-caam', 'fsl,imx8qxp-caam', 'fsl,sec-v5.0']
+   	'fsl,sec-v4.0' was expected
+   	'fsl,sec-v5.0' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/crypto@30000: failed to match any schema with compatible: ['fsl,sec-v4.4', 'fsl,sec-v4.0']
+>> arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-v1.2-msgr', 'fsl,mpic-msg']
+   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-v1.2-msgr', 'fsl,mpic-msg']
+   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+--
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: crypto@30000 (fsl,sec-v4.4): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
+   	'fsl,sec-v4.4' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
+   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,imx8qm-caam', 'fsl,imx8qxp-caam', 'fsl,sec-v5.0']
+   	'fsl,sec-v4.0' was expected
+   	'fsl,sec-v5.0' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/crypto@30000: failed to match any schema with compatible: ['fsl,sec-v4.4', 'fsl,sec-v4.0']
+>> arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: sdhc@2e000 (fsl,c293-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: sdhc@2e000 (fsl,c293-esdhc): compatible:0: 'fsl,c293-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,c293-esdhc', 'fsl,esdhc']
+>> arch/powerpc/boot/dts/fsl/c293pcie.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: ptp_clock@24e00 (fsl,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: sdhc@2e000 (fsl,p2020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: crypto@30000 (fsl,sec3.1): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,mpc8536-usb2-dr' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl,mpc8536-usb2-dr' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: usb@2b000 (fsl,mpc8536-usb2-dr): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/usb@2b000: failed to match any schema with compatible: ['fsl,mpc8536-usb2-dr', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: sdhc@2e000 (fsl,mpc8536-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: crypto@30000 (fsl,sec3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8536ds.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,mpc8536-usb2-dr' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl,mpc8536-usb2-dr' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: usb@2b000 (fsl,mpc8536-usb2-dr): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/usb@2b000: failed to match any schema with compatible: ['fsl,mpc8536-usb2-dr', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: sdhc@2e000 (fsl,mpc8536-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: crypto@30000 (fsl,sec3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8536ds_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@100:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8544ds.dtb: /soc8544@e0000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,mpc8544-guts']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8568mds.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8568mds.dtb: crypto@30000 (fsl,sec2.1): Unevaluated properties are not allowed ('sleep' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8568mds.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8568mds.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8568mds.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8568mds.dtb: /soc8568@e0000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8568mds.dtb: /soc8568@e0000000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8568mds.dtb: /soc8568@e0000000/rmu@d3000: failed to match any schema with compatible: ['fsl,srio-rmu']
+--
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: crypto@30000 (fsl,sec3.1): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+   arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: crypto@30000 (fsl,sec3.1): Unevaluated properties are not allowed ('sleep' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: /soc@e0000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: /soc@e0000000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8569mds.dtb: /soc@e0000000/rmu@d3000: failed to match any schema with compatible: ['fsl,srio-rmu']
+--
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: ptp_clock@24e00 (fsl,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: crypto@30000 (fsl,sec3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8572ds.dtb: /soc8572@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: ptp_clock@24e00 (fsl,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: crypto@30000 (fsl,sec3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: /soc8572@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: ptp_clock@24e00 (fsl,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: crypto@30000 (fsl,sec3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pic@40000 (fsl,mpic): 'big-endian', 'protected-sources' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: /soc8572@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: ptp_clock@24e00 (fsl,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0], [71, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: crypto@30000 (fsl,sec3.0): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pic@40000 (fsl,mpic): 'big-endian', 'protected-sources' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: /soc8572@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: ptp_clock@24e00 (fsl,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: sdhc@2e000 (fsl,p2020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: sdhc@2e000 (fsl,p2020-esdhc): Unevaluated properties are not allowed ('non-removable' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: crypto@30000 (fsl,sec3.1): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/mvme2500.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/mvme2500.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: crypto@30000 (fsl,sec-v4.4): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
+   	'fsl,sec-v4.4' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
+   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,imx8qm-caam', 'fsl,imx8qxp-caam', 'fsl,sec-v5.0']
+   	'fsl,sec-v4.0' was expected
+   	'fsl,sec-v5.0' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec-v4.4', 'fsl,sec-v4.0']
+>> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: crypto@30000 (fsl,sec-v4.4): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
+   	'fsl,sec-v4.4' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
+   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,imx8qm-caam', 'fsl,imx8qxp-caam', 'fsl,sec-v5.0']
+   	'fsl,sec-v4.0' was expected
+   	'fsl,sec-v5.0' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec-v4.4', 'fsl,sec-v4.0']
+>> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: crypto@30000 (fsl,sec-v4.4): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
+   	'fsl,sec-v4.4' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
+   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,imx8qm-caam', 'fsl,imx8qxp-caam', 'fsl,sec-v5.0']
+   	'fsl,sec-v4.0' was expected
+   	'fsl,sec-v5.0' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec-v4.4', 'fsl,sec-v4.0']
+>> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: crypto@30000 (fsl,sec-v4.4): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
+   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
+   	'fsl,sec-v4.4' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
+   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,imx8qm-caam', 'fsl,imx8qxp-caam', 'fsl,sec-v5.0']
+   	'fsl,sec-v4.0' was expected
+   	'fsl,sec-v5.0' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec-v4.4', 'fsl,sec-v4.0']
+>> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: usb@23000 (fsl-usb2-dr-v1.6): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: usb@23000 (fsl-usb2-dr-v1.6): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: usb@23000 (fsl-usb2-dr-v1.6): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pic@40000 (fsl,mpic): 'big-endian', 'protected-sources' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: usb@23000 (fsl-usb2-dr-v1.6): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pic@40000 (fsl,mpic): 'big-endian', 'protected-sources' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: usb@23000 (fsl-usb2-dr-v1.6): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: sdhc@2e000 (fsl,esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: sdhc@2e000 (fsl,esdhc): compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: sdhc@2e000 (fsl,esdhc): compatible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1021mds.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: sdhc@2e000 (fsl,esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: sdhc@2e000 (fsl,esdhc): compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: sdhc@2e000 (fsl,esdhc): compatible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: sdhc@2e000 (fsl,esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: sdhc@2e000 (fsl,esdhc): compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: sdhc@2e000 (fsl,esdhc): compatible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: sdhc@2e000 (fsl,p1022-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: sdhc@2e000 (fsl,p1022-esdhc): compatible:0: 'fsl,p1022-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1022-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: sdhc@2e000 (fsl,p1022-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: sdhc@2e000 (fsl,p1022-esdhc): compatible:0: 'fsl,p1022-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1022-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: sdhc@2e000 (fsl,p1022-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: sdhc@2e000 (fsl,p1022-esdhc): compatible:0: 'fsl,p1022-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1022-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000: failed to match any schema with compatible: ['fsl,sec-v4.2', 'fsl,sec-v4.0']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/jr@1000: failed to match any schema with compatible: ['fsl,sec-v4.2-job-ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/jr@2000: failed to match any schema with compatible: ['fsl,sec-v4.2-job-ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/jr@3000: failed to match any schema with compatible: ['fsl,sec-v4.2-job-ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/jr@4000: failed to match any schema with compatible: ['fsl,sec-v4.2-job-ring', 'fsl,sec-v4.0-job-ring']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/rtic@6000: failed to match any schema with compatible: ['fsl,sec-v4.2-rtic', 'fsl,sec-v4.0-rtic']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/rtic@6000/rtic-a@0: failed to match any schema with compatible: ['fsl,sec-v4.2-rtic-memory', 'fsl,sec-v4.0-rtic-memory']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/rtic@6000/rtic-b@20: failed to match any schema with compatible: ['fsl,sec-v4.2-rtic-memory', 'fsl,sec-v4.0-rtic-memory']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/rtic@6000/rtic-c@40: failed to match any schema with compatible: ['fsl,sec-v4.2-rtic-memory', 'fsl,sec-v4.0-rtic-memory']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/crypto@300000/rtic@6000/rtic-d@60: failed to match any schema with compatible: ['fsl,sec-v4.2-rtic-memory', 'fsl,sec-v4.0-rtic-memory']
+>> arch/powerpc/boot/dts/fsl/p1023rdb.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1023rdb.dtb: /soc@ff600000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: sdhc@2e000 (fsl,p1020-esdhc): compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: sdhc@2e000 (fsl,esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: sdhc@2e000 (fsl,esdhc): compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: sdhc@2e000 (fsl,esdhc): compatible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: sdhc@2e000 (fsl,esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: sdhc@2e000 (fsl,esdhc): compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: sdhc@2e000 (fsl,esdhc): compatible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: sdhc@2e000 (fsl,esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: sdhc@2e000 (fsl,esdhc): compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1021a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: sdhc@2e000 (fsl,esdhc): compatible: ['fsl,esdhc'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: crypto@30000 (fsl,sec3.3): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p1025twr.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: ptp_clock@24e00 (fsl,etsec-ptp): interrupts: [[68, 2, 0, 0], [69, 2, 0, 0], [70, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: ethernet@25000 (gianfar): Unevaluated properties are not allowed ('fsl,pmc-handle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: ethernet@26000 (gianfar): Unevaluated properties are not allowed ('fsl,pmc-handle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: sdhc@2e000 (fsl,p2020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: crypto@30000 (fsl,sec3.1): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p2020ds.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p2020ds.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: sdhc@2e000 (fsl,p2020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: crypto@30000 (fsl,sec3.1): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: sdhc@2e000 (fsl,p2020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: crypto@30000 (fsl,sec3.1): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p2020rdb-pc_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: sdhc@2e000 (fsl,p2020-esdhc): $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: crypto@30000 (fsl,sec3.1): interrupts: [[45, 2, 0, 0], [58, 2, 0, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml
+>> arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/p2020rdb.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+--
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@100:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: dma@21300 (fsl,eloplus-dma): dma-channel@180:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,eloplus-dma-channel'] is too short
+   	'fsl,eloplus-dma-channel' is not one of ['fsl,mpc8540-dma-channel', 'fsl,mpc8541-dma-channel', 'fsl,mpc8548-dma-channel', 'fsl,mpc8555-dma-channel', 'fsl,mpc8560-dma-channel', 'fsl,mpc8572-dma-channel']
+   	'fsl,ssi-dma-channel' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml
+>> arch/powerpc/boot/dts/fsl/ppa8548.dtb: pic@40000 (fsl,mpic): 'big-endian' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pic@40000 (fsl,mpic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,mpic'] is too short
+   	'chrp,open-pic' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: pic@40000 (fsl,mpic): device_type:0: 'open-pci' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/chrp,open-pic.yaml
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
+   arch/powerpc/boot/dts/fsl/ppa8548.dtb: /soc8548@fe0000000/rmu@d3000: failed to match any schema with compatible: ['fsl,srio-rmu']
 
 --
 0-DAY CI Kernel Test Service
