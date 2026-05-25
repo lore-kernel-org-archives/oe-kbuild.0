@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB47123BD02
-	for <oe-kbuild@lists.linux.dev>; Mon, 25 May 2026 17:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC993955F4
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 May 2026 20:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729919; cv=none; b=oqEODq16r+ZYivBs2RwXofhuMUvOBTlZVrbhjdzdyefvUfVwE+Kud5joAba58aMiZVv1uySWO4nIbExYEJ6hztavyjfPeEuCAKA4GfA2GANnYoTA0twXwdgWylEiXitzkNDgmwbgxi4+1eDn+pkIzw0sBON8htmyD4UWsjiat98=
+	t=1779740845; cv=none; b=ECfMdkqRbNXN+4bMHKNORUUQ98iLgDawrKb8zd7ukqnMzxQJb0lMqakNx75f+E4QT+bj+HUlJozqx4cU15c+3rtJqiA7HOtG9Vdsm5oboGZf3VcN34p0p8tzEkGV9AIHvb9Lb/sbRcRW6V2xtplE9AOsE6t7olcvNFwyz/CmJtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729919; c=relaxed/simple;
-	bh=c2Gvc4etArsEJADgEkXuBqwmn8gG7K4Okhsv97kMMIM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TM4ySfZFjoP9A2F3erEZVo6r8ewUfzcjyasVHsmflJDv5BehMHJbCaelaMV2DpDXJP8oi15W11cr1p3rh7g/AzkJbwgVH/yEhDYznMLz9gG79Y5ip95vLUyn3NmttKwK7YA4f0Ihb6rkLHWgs/y/cukUoI1MgtSwLlzZuEXJYuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PfherDMi; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1779740845; c=relaxed/simple;
+	bh=z+EfKV2Y5R2rh847fqEuWISjo3vhcUxJmhb5EAIkeyA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qmDaLnNFwVet9gaaAbEoeB7LFBsugPtuSjeaynHHfA/+fTwKqExPIHCeV36IEHQX8ZLw/Vb3FMhw2N13wJg8QPRYX7sDKZPY7kzshZDRtQiW/EFOplJtQ89qczXzpnbTXm2atsSr/Hb+n/PSaImIg270AGrfMG1aZVQliL6m/lI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQ0qGNz5; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PfherDMi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQ0qGNz5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779729917; x=1811265917;
+  t=1779740843; x=1811276843;
   h=date:from:to:cc:subject:message-id;
-  bh=c2Gvc4etArsEJADgEkXuBqwmn8gG7K4Okhsv97kMMIM=;
-  b=PfherDMiV8eTMJdBHQCFNqTIFzjDcrPvSCT2sa5t97wHYiZI9A1XIFST
-   7p62WfPnjRtJC9K3jips+YFvFS87+hTV36Ys2aYElZr1wKzLiG6XsJiOh
-   ocAdkb5ap4/XHnoUdsi2EltqZ6Y+m+0BfgIa+2Je1P6kObhMvd4t79ZZX
-   rh4igpeEpm/OWdAnt2P7OXTBh6t1Uzi3tohgS0nQNXMmH+uThmuw3z1v/
-   sdNDMOpoA23MAEiltmamzWMnhsFwqJ4hfi8Nspnc6i99iDPlO4apVyjHz
-   wSzCN6MX9lWKYeckt7AhR0quvQfIroKRF86ch8154rOfqD/SVKuAP5Vm1
-   A==;
-X-CSE-ConnectionGUID: EdlDS8VmRAOhL+QKNE/0MA==
-X-CSE-MsgGUID: m/24iKQjTQKT+NFH6zR/aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="80608033"
+  bh=z+EfKV2Y5R2rh847fqEuWISjo3vhcUxJmhb5EAIkeyA=;
+  b=XQ0qGNz5oRRTls0UiQu3m7vo/9ecAHQnLxl2q9FQlJ53OoNYQUQ69+HM
+   4LcxsuuDghsg2GRNZlU6dDHA2nDzrsNJN1byMRjN5CXGBteNaMPO0sqck
+   DrkZfbidZADfQzvpCNw6cdDRUW4hEUPF841pruH19HMPl5RKx5lN3LUDC
+   CwHJNof0XaKYMoXlcHFaoDv6YFXVj1zyQGCgLbpZo8yxg1FxfBS4viUkA
+   31tMxFjPBAqpIMBl7xDZUcdSpmaE8gbaEt2Xly5/3GJwdWiq2qqz0ssAJ
+   OOd3W7TAaOImJKHhNim0J5KRoPZVZhxJ5rFrjBCTOuf1pLl7YGgv1r5Hd
+   w==;
+X-CSE-ConnectionGUID: 460JJveXRYCVkTFZj7B3dQ==
+X-CSE-MsgGUID: DbDhR/pBSbSkl8MduZSNaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="80286055"
 X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
-   d="scan'208";a="80608033"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 10:25:17 -0700
-X-CSE-ConnectionGUID: ySfuzDrHSMyfFklc2xN/Dw==
-X-CSE-MsgGUID: wTkMGzvDSGqh0CSjyjZ3Zw==
+   d="scan'208";a="80286055"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 13:27:23 -0700
+X-CSE-ConnectionGUID: 4h6Bp9RpRtCrMV4MyA41XA==
+X-CSE-MsgGUID: qgaabAB5QiSwfdp/PjC8Hg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
-   d="scan'208";a="241507858"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 May 2026 10:25:16 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 25 May 2026 13:27:21 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRZ3B-000000001hW-2oYD;
-	Mon, 25 May 2026 17:25:13 +0000
-Date: Tue, 26 May 2026 01:24:27 +0800
+	id 1wRbtP-00000000CFB-2RA2;
+	Mon, 25 May 2026 20:27:19 +0000
+Date: Mon, 25 May 2026 22:26:31 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 12590/13385] kernel/bpf/verifier.c:21350
- __add_used_btf() warn: missing error code 'ret'
-Message-ID: <202605260132.eRR5tRmt-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 1/114]
+ arch/arm64/boot/dts/apple/t6022-j180d.dtb: codec@38 (ti,sn012776):
+ compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+Message-ID: <202605252218.Wf8QQ9eY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,78 +58,41 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Anton Protopopov <a.s.protopopov@gmail.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: Hector Martin <marcan@marcan.st>
+CC: Janne Grunau <j@jannau.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d387b06f7c15b4639244ad66b4b0900c6a02b430
-commit: ccd2d799ed4467c07f5ee18c2f5c59bcc990822c [12590/13385] bpf: Fix a potential use-after-free of BTF object
-:::::: branch date: 76 minutes ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-161-20260523 (https://download.01.org/0day-ci/archive/20260526/202605260132.eRR5tRmt-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   2d563843e07af55de0249a409021af705f586961
+commit: 6a9d24ffd63e1cc4a564c95b44ae532cef1c87c7 [1/114] arm64: dts: apple: t6022-j180d: Add audio nodes
+:::::: branch date: 11 days ago
+:::::: commit date: 2 weeks ago
+config: arm64-randconfig-2055-20260516 (https://download.01.org/0day-ci/archive/20260525/202605252218.Wf8QQ9eY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260525/202605252218.Wf8QQ9eY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605260132.eRR5tRmt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605252218.Wf8QQ9eY-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/verifier.c:21350 __add_used_btf() warn: missing error code 'ret'
-
-vim +/ret +21350 kernel/bpf/verifier.c
-
-541c3bad8dc51b Andrii Nakryiko  2021-01-11  21334  
-76145f72553267 Anton Protopopov 2024-12-13  21335  /*
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21336   * Add btf to the env->used_btfs array. If needed, refcount the
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21337   * corresponding kernel module. To simplify caller's logic
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21338   * in case of error or if btf was added before the function
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21339   * decreases the btf refcount.
-76145f72553267 Anton Protopopov 2024-12-13  21340   */
-76145f72553267 Anton Protopopov 2024-12-13  21341  static int __add_used_btf(struct bpf_verifier_env *env, struct btf *btf)
-76145f72553267 Anton Protopopov 2024-12-13  21342  {
-76145f72553267 Anton Protopopov 2024-12-13  21343  	struct btf_mod_pair *btf_mod;
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21344  	int ret = 0;
-76145f72553267 Anton Protopopov 2024-12-13  21345  	int i;
-76145f72553267 Anton Protopopov 2024-12-13  21346  
-76145f72553267 Anton Protopopov 2024-12-13  21347  	/* check whether we recorded this BTF (and maybe module) already */
-76145f72553267 Anton Protopopov 2024-12-13  21348  	for (i = 0; i < env->used_btf_cnt; i++)
-76145f72553267 Anton Protopopov 2024-12-13  21349  		if (env->used_btfs[i].btf == btf)
-ccd2d799ed4467 Anton Protopopov 2026-02-09 @21350  			goto ret_put;
-76145f72553267 Anton Protopopov 2024-12-13  21351  
-dbe99ea541f023 Anton Protopopov 2025-08-16  21352  	if (env->used_btf_cnt >= MAX_USED_BTFS) {
-dbe99ea541f023 Anton Protopopov 2025-08-16  21353  		verbose(env, "The total number of btfs per program has reached the limit of %u\n",
-dbe99ea541f023 Anton Protopopov 2025-08-16  21354  			MAX_USED_BTFS);
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21355  		ret = -E2BIG;
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21356  		goto ret_put;
-dbe99ea541f023 Anton Protopopov 2025-08-16  21357  	}
-76145f72553267 Anton Protopopov 2024-12-13  21358  
-76145f72553267 Anton Protopopov 2024-12-13  21359  	btf_mod = &env->used_btfs[env->used_btf_cnt];
-76145f72553267 Anton Protopopov 2024-12-13  21360  	btf_mod->btf = btf;
-76145f72553267 Anton Protopopov 2024-12-13  21361  	btf_mod->module = NULL;
-76145f72553267 Anton Protopopov 2024-12-13  21362  
-76145f72553267 Anton Protopopov 2024-12-13  21363  	/* if we reference variables from kernel module, bump its refcount */
-76145f72553267 Anton Protopopov 2024-12-13  21364  	if (btf_is_module(btf)) {
-76145f72553267 Anton Protopopov 2024-12-13  21365  		btf_mod->module = btf_try_get_module(btf);
-76145f72553267 Anton Protopopov 2024-12-13  21366  		if (!btf_mod->module) {
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21367  			ret = -ENXIO;
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21368  			goto ret_put;
-76145f72553267 Anton Protopopov 2024-12-13  21369  		}
-76145f72553267 Anton Protopopov 2024-12-13  21370  	}
-76145f72553267 Anton Protopopov 2024-12-13  21371  
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21372  	env->used_btf_cnt++;
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21373  	return 0;
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21374  
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21375  ret_put:
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21376  	/* Either error or this BTF was already added */
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21377  	btf_put(btf);
-ccd2d799ed4467 Anton Protopopov 2026-02-09  21378  	return ret;
-76145f72553267 Anton Protopopov 2024-12-13  21379  }
-76145f72553267 Anton Protopopov 2024-12-13  21380  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t6022-j180d.dts:569.14-585.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t6022-j180d.dts:587.14-596.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: /sound: failed to match any schema with compatible: ['apple,j180-macaudio', 'apple,macaudio']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: /sound: failed to match any schema with compatible: ['apple,j180-macaudio', 'apple,macaudio']
 
 --
 0-DAY CI Kernel Test Service
