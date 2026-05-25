@@ -1,118 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED94346E43
-	for <oe-kbuild@lists.linux.dev>; Mon, 25 May 2026 05:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AE93A7F52
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 May 2026 06:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779687494; cv=none; b=BflwN9r8CdKe4sGNrc0HRB4CZyZeuKhmND+GWOJulME+wDhGEnF7q+VQJVWd8ExdEiki5tud4+We8PuJxZI3SDzmPBdCu/+9GVHb/DEWmIcIZEnwy9fVRjaukr+ljjMtozf2MA+lBPLLAKVWwHiahakto3kmchQuNcvo/7UeJls=
+	t=1779690921; cv=none; b=P2Eh0xih9qwrTtwgtvv2DnCZtkHlj1b3zpd2aa7UrgMY77HukdWXYCnNYUKxqV8xgRhJZ5Mz3q1x5EjemnkGk1vfBar7QlQPdPaFvx6wpM5te+9XBz57MkeZ/OBkWmr9/SozzcToCmuYA0LNA2s1fEwytuUVwmAYVqnVN2h4cs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779687494; c=relaxed/simple;
-	bh=nQUu7s2TMJUvY9+9YzZA+VbgL8RFwhh7U/9013zV7d8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LhuIImK2YyPMc+RiqGYDkndy0FVtOoC7CDWjYDMhFXMwmTitk4ogwdfC+WvKkKxltNR42gEsymRLH6U7Ie3mcZn/VZvM71y3IPh8lLeSwkw7nAj4UR4UkNWR3+cil3G8uMgFLxebL7Gt7C6LkKsA5LmsN5DP1xGNdhBUTP1Sq0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SDIyFAwo; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779690921; c=relaxed/simple;
+	bh=pgQNVMwHgd/79KTFGqpCTZV0hVZ1wRZLsMAShdulXsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XOsZDpq96EAi1fvFUbmeWY3o6JPWr9zN9uImBRq61JY09g9ywAxrwReIj0DT2Xn503iObQVjbAV1PholautCyCYTy6ja/u9otscE7NuG2BDPAtIioXvvLkhdZ6vmARDkiTpZoce1JAcc0JKMeAOStRH2xK43ArF4v4GioIwJaAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rnx1YR7X; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SDIyFAwo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779687490; x=1811223490;
-  h=date:from:to:cc:subject:message-id;
-  bh=nQUu7s2TMJUvY9+9YzZA+VbgL8RFwhh7U/9013zV7d8=;
-  b=SDIyFAwor5NYlv7v2qNDj0Xb/zvZxLjgvn9lrDFSoIwO4rWDjWwjL22L
-   yMSr4aH+lUAy2lZ6yCbVf0NAAwBKgIYTTexJHrcuRYFzHsz9Dsrd+KLka
-   GmPtFa5VTy/QJ91YMX7Ta5+7dBJByTKDu8FINwKRU8wpHpgDoKuW/mvYh
-   P7DAiwEtKnVW9j+ZPvVZ9IrgwavomJP/2KDJ4nN5hrti3r4Dj01RZNDRt
-   2UW6+QgMS4XJcYg1seKIGix2G6UkEN3wV8SsFQTJ4eJjl6s+bF0FWTNlH
-   DZ/sYr0Ep61qWDQo6gSmghzR8/fzWl/8HKJZ2cutorhnSVOwanSqEuJRR
-   Q==;
-X-CSE-ConnectionGUID: KSxD0HoQQOm8NhnfdZD59g==
-X-CSE-MsgGUID: 9gRCeC61SwKdf//1zoVKuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11796"; a="79653665"
-X-IronPort-AV: E=Sophos;i="6.24,167,1774335600"; 
-   d="scan'208";a="79653665"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2026 22:38:06 -0700
-X-CSE-ConnectionGUID: Y1os1iG0S3itAnVlwDIjCA==
-X-CSE-MsgGUID: XwlOOqEPSQmPUV80exOqFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,167,1774335600"; 
-   d="scan'208";a="237082630"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 May 2026 22:38:05 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wRO0o-0000000017R-3A5I;
-	Mon, 25 May 2026 05:38:02 +0000
-Date: Mon, 25 May 2026 13:37:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/pinctrl/freescale/pinctrl-imx1-core.c:553:1-23:
- WARNING: Function "for_each_child_of_node" should have of_node_put() before
- return around line 555.
-Message-ID: <202605251340.6R7jAyAS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rnx1YR7X"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49056b9f04aso18226575e9.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 24 May 2026 23:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779690915; x=1780295715; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GDjCROWH9nSvrhq6KIZXc73qPDIQ1q/sUsS874OlOkQ=;
+        b=rnx1YR7X13yu6i6uhsyz2dALIbGUncu/iR7LJf7uKp6aLoC0qp/zdA4wyC4F/dHAO5
+         vYKYghQiz5giAKvTdhe3Qq2pzqBqdIoJmalAEvuq5bWqacZRO3RUzZuWTLUhYJIiewJw
+         HJRrXGoAEexIeU20A1lg3OargXfJYSjpO9MKU6d0RmrFBhl2B8ly4WmazON/JP6vNJAC
+         BWcQZvtF03zEBfx57sexkmzyvnDSaaFOvFRFdREhJX+5WtN2pW1zzgJc6IaKFjG5sD+4
+         r/4GG7IzuE3Ku9ufah8/MlLEsD3WdHz4ITZ5ldso2elafUWO76gEyeePa+aeDefjmmyE
+         2QLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779690915; x=1780295715;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GDjCROWH9nSvrhq6KIZXc73qPDIQ1q/sUsS874OlOkQ=;
+        b=TFYitxuWv0l6EcaRc5jGW6Xi7kvrgp6YeYUGVjCA4tispzxa5MmuuovLnT5eksRnXA
+         KsLhH9gXUG1Eo3pG/5e8bqJa3QGb/qAAt+XQb7X6joSMoWyV1QY4vKx8UMeNWdfRbA2x
+         9EGvpMW3kfPI+GeptAQE7n7nuytW7cbHPYGGe/c1WarPE7KIRCDL3VSWJd4QgnZokg4Y
+         ScY7LJD0DS0OhLwk1TKQc/ygXDogJEFv4qHxiawCy1tNFpcj6GW7ex6KjyOrsx3w4OWt
+         YrseCDaw5k8d9IWaTUdfZNGaL0gbXtBikeP0z+HMGeMlXxvCEccmJbgJVUibh9fZytIb
+         NkMg==
+X-Gm-Message-State: AOJu0YwOzOOiWf6RLxQIdwGQAiHbXbd9vaZ4O58qJx4W0YBtEnQAvwxz
+	KF+4ur7F1jHd0my9zxFt2Enn0DT6b5kDopyvfkwQyFUUuAULo6EtXjRF
+X-Gm-Gg: Acq92OFJotLSmMz3EbXcsIiQDl8pAfJ+QhDp7nBiwictxdsQlfuUJ5uDEb/8TJIHSbB
+	aE5SMSIBUPfbujlpa8Kl8IM3nb8SAsepPlGlq0t3vlPpXZbobeRTkICMeDfGTGT0UhFaJoUSm0O
+	kY1W7Z3Mv706oMw51EIyq3OAncV3nBCB61afzQQsedkcdcImMrOvOHbZk+eJf2R8hXpCFU/xxU2
+	/P83noU7QzBfPrRsjKEcXFVnkRAHVl0zovyyEDqJ4NkDxwgvbdmfs9bvyTtYHf8+SIdKSJlXvWG
+	5GDd4Vf5ZcKo+7C6FsmCVl0W0GhxunooevGaqBZ8ffCWZFhgwgamzNLfK/W5dfPv31tyI6epdd5
+	Bs+mjPSHJNSlzO3FaRVfSj4ZVs8tylaL6kVm3l0aCJC4wXm7usd+tGhENGi7lEIlxMlRcUue5WR
+	U4Lve3H9OAxGSMii8OoRASbPM=
+X-Received: by 2002:a05:600c:4fd4:b0:490:623b:b107 with SMTP id 5b1f17b1804b1-490623bb259mr57788875e9.12.1779690915274;
+        Sun, 24 May 2026 23:35:15 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49048c6acf8sm66053585e9.10.2026.05.24.23.35.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 May 2026 23:35:14 -0700 (PDT)
+Date: Mon, 25 May 2026 09:35:11 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: oe-kbuild@lists.linux.dev, Saravana Kannan <saravanak@google.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [driver-core:driver-core-testing 12/18] drivers/base/core.c:286
+ fw_devlink_refresh_fwnode() error: we previously assumed 'dev' could be null
+ (see line 270)
+Message-ID: <ahPtn3jZF2JmukXB@stanley.mountain>
+References: <202605230211.567ddMEp-lkp@intel.com>
+ <20260523130142.5efe048d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260523130142.5efe048d@bootlin.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Linus Walleij <linusw@kernel.org>
+On Sat, May 23, 2026 at 01:01:42PM +0200, Herve Codina wrote:
+ > 
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> > 
+> 
+> I don't understand why smatch reported a problem.
+> Do I miss something?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e7ae89a0c97ce2b68b0983cd01eda67cf373517d
-commit: 63d2059cd665c4e5e4ca6cfbc58c6f171e7939b1 pinctrl: imx1: Allow parsing DT without function nodes
-date:   13 days ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 13 days ago
-config: sh-randconfig-r062-20260525 (https://download.01.org/0day-ci/archive/20260525/202605251340.6R7jAyAS-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
+Thanks for looking at this.  Your analysis is correct.  The problem
+is that the zero day bot doesn't do cross function analysis so it can't
+parse this code correctly.  (Cross function analysis can't scale well
+enough to enable it).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 63d2059cd665 ("pinctrl: imx1: Allow parsing DT without function nodes")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202605251340.6R7jAyAS-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/pinctrl/freescale/pinctrl-imx1-core.c:553:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 555.
-   drivers/pinctrl/freescale/pinctrl-imx1-core.c:557:2-24: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 559.
-
-vim +/for_each_child_of_node +553 drivers/pinctrl/freescale/pinctrl-imx1-core.c
-
-30612cd90005d8 drivers/pinctrl/pinctrl-imx1-core.c           Markus Schneider-Pargmann 2013-10-28  542  
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  543  /*
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  544   * Check if the DT contains pins in the direct child nodes. This indicates the
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  545   * newer DT format to store pins. This function returns true if the first found
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  546   * fsl,pins property is in a child of np. Otherwise false is returned.
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  547   */
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  548  static bool imx1_pinctrl_dt_is_flat_functions(struct device_node *np)
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  549  {
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  550  	struct device_node *function_np;
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  551  	struct device_node *pinctrl_np;
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  552  
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05 @553  	for_each_child_of_node(np, function_np) {
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  554  		if (of_property_present(function_np, "fsl,pins"))
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05 @555  			return true;
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  556  
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  557  		for_each_child_of_node(function_np, pinctrl_np) {
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  558  			if (of_property_present(pinctrl_np, "fsl,pins"))
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  559  				return false;
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  560  		}
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  561  	}
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  562  
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  563  	return true;
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  564  }
-63d2059cd665c4 drivers/pinctrl/freescale/pinctrl-imx1-core.c Frank Li                  2026-05-05  565  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
