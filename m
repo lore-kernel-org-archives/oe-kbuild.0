@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2F42F8EA8
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 May 2026 20:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57270F507
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 May 2026 22:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779915111; cv=none; b=ACeLkpMnzgAUirbMAWqyZe6BK5Fj1Tj4cmfzJC7DZiC4EvSvVbikPt8dX6Bry9YjBWADXvlbzMFURpvrV2n/LTgo6tkizF0vsYPs+1K27vu2XAbrOOm94trmIq7NAWfaYnJL4Kii1LuJV6fXAnX1f6oSJxj9XyZY2k7A6PGCMvU=
+	t=1779920875; cv=none; b=j3KZdhjXwf5xdy13Zl1ZlO17u55JKXqOr6JfIUWdtTbiiDOnje+fBvE/lw7WFlsch41qTFB11maakRYAFBDY7QdCGf32FgKe9vb8BRQUoEyPwRZ3mX3Z9P+9d9JJoEDl8iFwrtfbY3jnYH8clt51sX6RtNYP+iCmiXvQbzPfICc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779915111; c=relaxed/simple;
-	bh=yV1oychJX6SPR9a4lWrD+X11TLlB6JU7UjXhl6R9+OQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=D3xRD9nzOzxGwPaocOjke2SYjcepQZ9CzqCV0dwtDT84FrA/BPU6vOjJIpnjIIPetVp9WmsYvMSGd/L6ODJiEubow8vN+Egl+YlGKNrie8UtBbG3G+UC/KRHpYiN+hbngfz3cvjlKp7PSrejO9wZvx1V8j9y4x/CImhpSO2umRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UVYvRaUY; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1779920875; c=relaxed/simple;
+	bh=xhVtjTtBvIMbCTz9JoHNQGKj4CTK9toToGeRKTtQoN4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Hfw1TG+i5uD3wSMcOMJiw0NWSS35v1jdDdJZgiC7ALAzq0zxkG7DCjy3Rw3Gkz3b1W+5ciFq1hnf0HH8iO3RWcHA+VU2lT6D/h3yitQracYSyJyznhVwnaax7/SMcZJDuyTS2XCUadzxrQ2ey7auiA8kG6Fdiu/uesjaK9TiAQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdDtOY4+; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UVYvRaUY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdDtOY4+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779915109; x=1811451109;
+  t=1779920873; x=1811456873;
   h=date:from:to:cc:subject:message-id;
-  bh=yV1oychJX6SPR9a4lWrD+X11TLlB6JU7UjXhl6R9+OQ=;
-  b=UVYvRaUY3AoAtQhe+E/8sFzgEjY0Gsug0yhilZ+3fVzRUMrOLtTo/s3S
-   NbYJO7s8BIKytY6SyPExUE/BXxVRRBVLR0dD8QhE7P1dmwdsizNLD0XIM
-   mJT/Hrn00ns2gmodwnAQavfmkpyj6+WZD+naYa1dEq7b5r+7Nw+UHEpKI
-   ws/x2L6ASbIgSFrGoFor4oGrWw6Tg3bjNLiCQiydijwmpD/Q62RZ2baQT
-   48ekrSDWfKsyJduFjrKugps+ef2LYLR8yhs7o9XEpkaA+MR2+F5GtbJte
-   Znqd3RJM8/H1qmkT/cZ+rUZV9fsOBf8ghBsbyqeIwc7Rg1k+cA64xaT1L
-   w==;
-X-CSE-ConnectionGUID: Dn4qJJgjTImmDzoy0FlMJw==
-X-CSE-MsgGUID: DcjixK0qT2Sp8gPJ5TXFEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="80745485"
+  bh=xhVtjTtBvIMbCTz9JoHNQGKj4CTK9toToGeRKTtQoN4=;
+  b=OdDtOY4+h7ujh3keClDwxtYNW9fCv5JgkmiVag+p1Eo4xtkqXCICkuwX
+   7GcSlQKL8FXYJJZvzy07uC5qLXUc47LT3UdudR3Ilj4f7HxgwrhoZHI/t
+   cYrH77zHEJLTOW/RgRBs2mUX7v6LsT56FXc2m1M6K8GRKyerFqn67QjFf
+   PEFyqA+aEBChEpU4dJOPbMGBJK09dUWs/Skzgblp1/YJPApz6mcJ+Qrf0
+   6r9FXiqkGDxGV75mYw6lOi7cxcMCbhQEYCorPWUEuWn5Qoh/DNuDoj7au
+   qoYtpZt6k9bSpE9oMOYNogHF83xbTzGC5+tf89DW4Q28yzwky2IoKCTzs
+   A==;
+X-CSE-ConnectionGUID: hRTfVMpfTqSMeNYY2tchXg==
+X-CSE-MsgGUID: QdfekiLRSvCwbm2vhB/d5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="79913992"
 X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="80745485"
+   d="scan'208";a="79913992"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 13:51:49 -0700
-X-CSE-ConnectionGUID: XKlOWv5KQQ2gyHjIMaLmDA==
-X-CSE-MsgGUID: 8A/VJO5MSaWGbGPGo224jw==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 15:27:52 -0700
+X-CSE-ConnectionGUID: 2VdCm0VYTh2USwReMTWCGQ==
+X-CSE-MsgGUID: EqQ5YSClSTyDRzPWI5hWkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="237921766"
+   d="scan'208";a="237943470"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 May 2026 13:51:48 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 May 2026 15:27:51 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSLE9-000000004Rg-2va4;
-	Wed, 27 May 2026 20:51:45 +0000
-Date: Thu, 28 May 2026 04:50:46 +0800
+	id 1wSMj7-000000004VC-2ACL;
+	Wed, 27 May 2026 22:27:49 +0000
+Date: Thu, 28 May 2026 06:27:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/media/i2c/imx335.c:1036 imx335_enable_streams()
- error: buffer overflow 'link_freq_reglist' 2 <= 64
-Message-ID: <202605280413.7B6AlIRw-lkp@intel.com>
+Subject: [android-common:android16-6.12-lts 2/2]
+ fs/bcachefs/rcu_pending.c:455 __rcu_pending_enqueue() error: we previously
+ assumed 'head' could be null (see line 408)
+Message-ID: <202605280648.M4sqJI9m-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,127 +62,135 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jai Luthra <jai.luthra@ideasonboard.com>
-CC: Hans Verkuil <hverkuil@kernel.org>
-CC: Kieran Bingham <kieran.bingham@ideasonboard.com>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eb3f4b7426cfd2b79d65b7d37155480b32259a11
-commit: ca042de64800a0bcc3e0866e4efaa4a657e8ddc9 media: imx335: Switch to {enable,disable}_streams
-date:   7 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 7 months ago
-config: sparc64-randconfig-r073-20260527 (https://download.01.org/0day-ci/archive/20260528/202605280413.7B6AlIRw-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.3.0
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   7d38f5b0e4b0d06970e261174e220a997a0908e7
+commit: 8e973a4f3c74824ef03ed06006726321bc2346d6 [2/2] bcachefs: rcu_pending
+:::::: branch date: 2 days ago
+:::::: commit date: 1 year, 9 months ago
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260528/202605280648.M4sqJI9m-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ca042de64800 ("media: imx335: Switch to {enable,disable}_streams")
+| Fixes: 8e973a4f3c74 ("bcachefs: rcu_pending")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605280413.7B6AlIRw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605280648.M4sqJI9m-lkp@intel.com/
 
 smatch warnings:
-drivers/media/i2c/imx335.c:1036 imx335_enable_streams() error: buffer overflow 'link_freq_reglist' 2 <= 64
+fs/bcachefs/rcu_pending.c:455 __rcu_pending_enqueue() error: we previously assumed 'head' could be null (see line 408)
 
-vim +/link_freq_reglist +1036 drivers/media/i2c/imx335.c
+vim +/head +455 fs/bcachefs/rcu_pending.c
 
-cfa49ff0558a32 Umang Jain       2023-12-11  1013  
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1014  /**
-ca042de64800a0 Jai Luthra       2025-10-30  1015   * imx335_enable_streams() - Enable sensor streams
-ca042de64800a0 Jai Luthra       2025-10-30  1016   * @sd: V4L2 subdevice
-ca042de64800a0 Jai Luthra       2025-10-30  1017   * @state: V4L2 subdevice state
-ca042de64800a0 Jai Luthra       2025-10-30  1018   * @pad: The pad to enable
-ca042de64800a0 Jai Luthra       2025-10-30  1019   * @streams_mask: Bitmask of streams to enable
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1020   *
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1021   * Return: 0 if successful, error code otherwise.
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1022   */
-ca042de64800a0 Jai Luthra       2025-10-30  1023  static int imx335_enable_streams(struct v4l2_subdev *sd,
-ca042de64800a0 Jai Luthra       2025-10-30  1024  				 struct v4l2_subdev_state *state, u32 pad,
-ca042de64800a0 Jai Luthra       2025-10-30  1025  				 u64 streams_mask)
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1026  {
-ca042de64800a0 Jai Luthra       2025-10-30  1027  	struct imx335 *imx335 = to_imx335(sd);
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1028  	const struct imx335_reg_list *reg_list;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1029  	int ret;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1030  
-34af620e67550d Jai Luthra       2025-10-30  1031  	ret = pm_runtime_resume_and_get(imx335->dev);
-34af620e67550d Jai Luthra       2025-10-30  1032  	if (ret < 0)
-34af620e67550d Jai Luthra       2025-10-30  1033  		return ret;
-34af620e67550d Jai Luthra       2025-10-30  1034  
-a95253d83297f8 Umang Jain       2024-02-20  1035  	/* Setup PLL */
-a95253d83297f8 Umang Jain       2024-02-20 @1036  	reg_list = &link_freq_reglist[__ffs(imx335->link_freq_bitmap)];
-8f0926dba79918 Umang Jain       2024-04-14  1037  	ret = cci_multi_reg_write(imx335->cci, reg_list->regs,
-8f0926dba79918 Umang Jain       2024-04-14  1038  				  reg_list->num_of_regs, NULL);
-a95253d83297f8 Umang Jain       2024-02-20  1039  	if (ret) {
-a95253d83297f8 Umang Jain       2024-02-20  1040  		dev_err(imx335->dev, "%s failed to set plls\n", __func__);
-34af620e67550d Jai Luthra       2025-10-30  1041  		goto err_rpm_put;
-a95253d83297f8 Umang Jain       2024-02-20  1042  	}
-a95253d83297f8 Umang Jain       2024-02-20  1043  
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1044  	/* Write sensor mode registers */
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1045  	reg_list = &imx335->cur_mode->reg_list;
-8f0926dba79918 Umang Jain       2024-04-14  1046  	ret = cci_multi_reg_write(imx335->cci, reg_list->regs,
-8f0926dba79918 Umang Jain       2024-04-14  1047  				  reg_list->num_of_regs, NULL);
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1048  	if (ret) {
-d5ca45b8b91ea4 Kieran Bingham   2023-12-11  1049  		dev_err(imx335->dev, "fail to write initial registers\n");
-34af620e67550d Jai Luthra       2025-10-30  1050  		goto err_rpm_put;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1051  	}
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1052  
-8a2451bd20e6f8 Jai Luthra       2025-10-30  1053  	/* Write sensor common registers */
-8a2451bd20e6f8 Jai Luthra       2025-10-30  1054  	ret = cci_multi_reg_write(imx335->cci, imx335_common_regs,
-8a2451bd20e6f8 Jai Luthra       2025-10-30  1055  				  ARRAY_SIZE(imx335_common_regs), NULL);
-8a2451bd20e6f8 Jai Luthra       2025-10-30  1056  	if (ret) {
-8a2451bd20e6f8 Jai Luthra       2025-10-30  1057  		dev_err(imx335->dev, "fail to write initial registers\n");
-8a2451bd20e6f8 Jai Luthra       2025-10-30  1058  		goto err_rpm_put;
-8a2451bd20e6f8 Jai Luthra       2025-10-30  1059  	}
-8a2451bd20e6f8 Jai Luthra       2025-10-30  1060  
-cfa49ff0558a32 Umang Jain       2023-12-11  1061  	ret = imx335_set_framefmt(imx335);
-cfa49ff0558a32 Umang Jain       2023-12-11  1062  	if (ret) {
-cfa49ff0558a32 Umang Jain       2023-12-11  1063  		dev_err(imx335->dev, "%s failed to set frame format: %d\n",
-cfa49ff0558a32 Umang Jain       2023-12-11  1064  			__func__, ret);
-34af620e67550d Jai Luthra       2025-10-30  1065  		goto err_rpm_put;
-cfa49ff0558a32 Umang Jain       2023-12-11  1066  	}
-cfa49ff0558a32 Umang Jain       2023-12-11  1067  
-8249d084ac9b95 Kieran Bingham   2024-04-14  1068  	/* Configure lanes */
-8f0926dba79918 Umang Jain       2024-04-14  1069  	ret = cci_write(imx335->cci, IMX335_REG_LANEMODE,
-8f0926dba79918 Umang Jain       2024-04-14  1070  			imx335->lane_mode, NULL);
-8249d084ac9b95 Kieran Bingham   2024-04-14  1071  	if (ret)
-34af620e67550d Jai Luthra       2025-10-30  1072  		goto err_rpm_put;
-8249d084ac9b95 Kieran Bingham   2024-04-14  1073  
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1074  	/* Setup handler will write actual exposure and gain */
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1075  	ret =  __v4l2_ctrl_handler_setup(imx335->sd.ctrl_handler);
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1076  	if (ret) {
-d5ca45b8b91ea4 Kieran Bingham   2023-12-11  1077  		dev_err(imx335->dev, "fail to setup handler\n");
-34af620e67550d Jai Luthra       2025-10-30  1078  		goto err_rpm_put;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1079  	}
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1080  
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1081  	/* Start streaming */
-8f0926dba79918 Umang Jain       2024-04-14  1082  	ret = cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
-8f0926dba79918 Umang Jain       2024-04-14  1083  			IMX335_MODE_STREAMING, NULL);
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1084  	if (ret) {
-d5ca45b8b91ea4 Kieran Bingham   2023-12-11  1085  		dev_err(imx335->dev, "fail to start streaming\n");
-34af620e67550d Jai Luthra       2025-10-30  1086  		goto err_rpm_put;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1087  	}
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1088  
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1089  	/* Initial regulator stabilization period */
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1090  	usleep_range(18000, 20000);
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1091  
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1092  	return 0;
-34af620e67550d Jai Luthra       2025-10-30  1093  
-34af620e67550d Jai Luthra       2025-10-30  1094  err_rpm_put:
-34af620e67550d Jai Luthra       2025-10-30  1095  	pm_runtime_put(imx335->dev);
-34af620e67550d Jai Luthra       2025-10-30  1096  
-34af620e67550d Jai Luthra       2025-10-30  1097  	return ret;
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1098  }
-45d19b5fb9aeab Martina Krasteva 2021-05-27  1099  
-
-:::::: The code at line 1036 was first introduced by commit
-:::::: a95253d83297f8c740cad822df4b5288c0c10c04 media: imx335: Support multiple link frequency
-
-:::::: TO: Umang Jain <umang.jain@ideasonboard.com>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+8e973a4f3c7482 Kent Overstreet 2024-06-10  364  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  365  	struct rcu_pending_pcpu *p;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  366  	struct rcu_pending_seq *objs;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  367  	struct genradix_node *new_node = NULL;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  368  	unsigned long seq, flags;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  369  	bool start_gp = false;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  370  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  371  	BUG_ON((ptr != NULL) != (pending->process == RCU_PENDING_KVFREE_FN));
+8e973a4f3c7482 Kent Overstreet 2024-06-10  372  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  373  	local_irq_save(flags);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  374  	p = this_cpu_ptr(pending->p);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  375  	spin_lock(&p->lock);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  376  	seq = __get_state_synchronize_rcu(pending->srcu);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  377  restart:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  378  	if (may_sleep &&
+8e973a4f3c7482 Kent Overstreet 2024-06-10  379  	    unlikely(process_finished_items(pending, p, flags)))
+8e973a4f3c7482 Kent Overstreet 2024-06-10  380  		goto check_expired;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  381  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  382  	/*
+8e973a4f3c7482 Kent Overstreet 2024-06-10  383  	 * In kvfree_rcu() mode, the radix tree is only for slab pointers so
+8e973a4f3c7482 Kent Overstreet 2024-06-10  384  	 * that we can do kfree_bulk() - vmalloc pointers always use the linked
+8e973a4f3c7482 Kent Overstreet 2024-06-10  385  	 * list:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  386  	 */
+8e973a4f3c7482 Kent Overstreet 2024-06-10  387  	if (ptr && unlikely(is_vmalloc_addr(ptr)))
+8e973a4f3c7482 Kent Overstreet 2024-06-10  388  		goto list_add;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  389  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  390  	objs = get_object_radix(p, seq);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  391  	if (unlikely(!objs))
+8e973a4f3c7482 Kent Overstreet 2024-06-10  392  		goto list_add;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  393  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  394  	if (unlikely(!objs->cursor)) {
+8e973a4f3c7482 Kent Overstreet 2024-06-10  395  		/*
+8e973a4f3c7482 Kent Overstreet 2024-06-10  396  		 * New radix tree nodes must be added under @p->lock because the
+8e973a4f3c7482 Kent Overstreet 2024-06-10  397  		 * tree root is in a darray that can be resized (typically,
+8e973a4f3c7482 Kent Overstreet 2024-06-10  398  		 * genradix supports concurrent unlocked allocation of new
+8e973a4f3c7482 Kent Overstreet 2024-06-10  399  		 * nodes) - hence preallocation and the retry loop:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  400  		 */
+8e973a4f3c7482 Kent Overstreet 2024-06-10  401  		objs->cursor = genradix_ptr_alloc_preallocated_inlined(&objs->objs,
+8e973a4f3c7482 Kent Overstreet 2024-06-10  402  						objs->nr, &new_node, GFP_ATOMIC|__GFP_NOWARN);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  403  		if (unlikely(!objs->cursor)) {
+8e973a4f3c7482 Kent Overstreet 2024-06-10  404  			if (may_sleep) {
+8e973a4f3c7482 Kent Overstreet 2024-06-10  405  				spin_unlock_irqrestore(&p->lock, flags);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  406  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  407  				gfp_t gfp = GFP_KERNEL;
+8e973a4f3c7482 Kent Overstreet 2024-06-10 @408  				if (!head)
+8e973a4f3c7482 Kent Overstreet 2024-06-10  409  					gfp |= __GFP_NOFAIL;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  410  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  411  				new_node = genradix_alloc_node(gfp);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  412  				if (!new_node)
+8e973a4f3c7482 Kent Overstreet 2024-06-10  413  					may_sleep = false;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  414  				goto check_expired;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  415  			}
+8e973a4f3c7482 Kent Overstreet 2024-06-10  416  list_add:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  417  			start_gp = rcu_pending_enqueue_list(p, seq, head, ptr, &flags);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  418  			goto start_gp;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  419  		}
+8e973a4f3c7482 Kent Overstreet 2024-06-10  420  	}
+8e973a4f3c7482 Kent Overstreet 2024-06-10  421  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  422  	*objs->cursor++ = ptr ?: head;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  423  	/* zero cursor if we hit the end of a radix tree node: */
+8e973a4f3c7482 Kent Overstreet 2024-06-10  424  	if (!(((ulong) objs->cursor) & (GENRADIX_NODE_SIZE - 1)))
+8e973a4f3c7482 Kent Overstreet 2024-06-10  425  		objs->cursor = NULL;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  426  	start_gp = !objs->nr;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  427  	objs->nr++;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  428  start_gp:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  429  	if (unlikely(start_gp)) {
+8e973a4f3c7482 Kent Overstreet 2024-06-10  430  		/*
+8e973a4f3c7482 Kent Overstreet 2024-06-10  431  		 * We only have one callback (ideally, we would have one for
+8e973a4f3c7482 Kent Overstreet 2024-06-10  432  		 * every outstanding graceperiod) - so if our callback is
+8e973a4f3c7482 Kent Overstreet 2024-06-10  433  		 * already in flight, we may still have to start a grace period
+8e973a4f3c7482 Kent Overstreet 2024-06-10  434  		 * (since we used get_state() above, not start_poll())
+8e973a4f3c7482 Kent Overstreet 2024-06-10  435  		 */
+8e973a4f3c7482 Kent Overstreet 2024-06-10  436  		if (!p->cb_armed) {
+8e973a4f3c7482 Kent Overstreet 2024-06-10  437  			p->cb_armed = true;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  438  			__call_rcu(pending->srcu, &p->cb, rcu_pending_rcu_cb);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  439  		} else {
+8e973a4f3c7482 Kent Overstreet 2024-06-10  440  			__start_poll_synchronize_rcu(pending->srcu);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  441  		}
+8e973a4f3c7482 Kent Overstreet 2024-06-10  442  	}
+8e973a4f3c7482 Kent Overstreet 2024-06-10  443  	spin_unlock_irqrestore(&p->lock, flags);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  444  free_node:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  445  	if (new_node)
+8e973a4f3c7482 Kent Overstreet 2024-06-10  446  		genradix_free_node(new_node);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  447  	return;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  448  check_expired:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  449  	if (unlikely(__poll_state_synchronize_rcu(pending->srcu, seq))) {
+8e973a4f3c7482 Kent Overstreet 2024-06-10  450  		switch ((ulong) pending->process) {
+8e973a4f3c7482 Kent Overstreet 2024-06-10  451  		case RCU_PENDING_KVFREE:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  452  			kvfree(ptr);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  453  			break;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  454  		case RCU_PENDING_CALL_RCU:
+8e973a4f3c7482 Kent Overstreet 2024-06-10 @455  			head->func(head);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  456  			break;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  457  		default:
+8e973a4f3c7482 Kent Overstreet 2024-06-10  458  			pending->process(pending, head);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  459  			break;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  460  		}
+8e973a4f3c7482 Kent Overstreet 2024-06-10  461  		goto free_node;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  462  	}
+8e973a4f3c7482 Kent Overstreet 2024-06-10  463  
+8e973a4f3c7482 Kent Overstreet 2024-06-10  464  	local_irq_save(flags);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  465  	p = this_cpu_ptr(pending->p);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  466  	spin_lock(&p->lock);
+8e973a4f3c7482 Kent Overstreet 2024-06-10  467  	goto restart;
+8e973a4f3c7482 Kent Overstreet 2024-06-10  468  }
+8e973a4f3c7482 Kent Overstreet 2024-06-10  469  
 
 --
 0-DAY CI Kernel Test Service
