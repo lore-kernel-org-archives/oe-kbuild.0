@@ -1,378 +1,3043 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047153DFC74
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 May 2026 08:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E053290C4
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 May 2026 14:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779870835; cv=none; b=U7Jb7xn1oRpPIZk7MCvdbaBqTLGOajjOBMk/FluECVeskVRVEMtonz8sPppkOGvJeNz9jYhM9c2ScingOMelGX0wCrLVuaY4qgATt7Vw3R6JmouxvoQ7E4WSgBwaa3bG9EItp+WmnYmC/8hvnBn6SOqJweNomqhH56Xq31ZNgEU=
+	t=1779891317; cv=none; b=fQVnBRHBuDkc+Shfsbaw6aRDtSlHohnyceX29iLS59sAGONPwFBhz/qzDBKvdiEUB7VMER0w75n5mnobcB/Rwtw/Eq8LbvVELPYLZQhLtQBqKDe8xfnO1FBHf513Z7is3zNmqiDIyAX74D697JPeMVqFU5+0AieHM6fCYceCSB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779870835; c=relaxed/simple;
-	bh=Q4ikFsisYvp2L6N2CTD1LExYSjetkrEy+evTpW/AJhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jKU0uKuLx8bD1zQhug/khosjGUKvKzvA/oqZqecmtL9qxqT5TZwR6sC0tfoSJzDPXY055A1Rsiz346EuA4u2DsLr6YXPYKoYgl+iDwmpllLD4k+1S1+GLYQCscpu9ZkCfL28FASUQ8x0eigsflguxkW+r8sP/GDUptkC7ol+xks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HCVHX8HJ; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1779891317; c=relaxed/simple;
+	bh=Lb3dCMJFvQf3GUZ9xElQrVPHuH2ndMa2EULkRlzjG7M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cSWydlJgiOoY3faaQBivFYOAr3d5LgSPmGP+T3LYuycfjht70UMfTneF4wasB1CumnSNsFT+o69B7ZZipsn43pMjcN4WKydL1BAw50HB4beyNXXNFxsF9DPwDteyBostUcUnlstMJ2SHSe5bbTJQuy5ENnepjwOrzIuQQ+wMvZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VWZ3dS7E; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HCVHX8HJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VWZ3dS7E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779870831; x=1811406831;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Q4ikFsisYvp2L6N2CTD1LExYSjetkrEy+evTpW/AJhM=;
-  b=HCVHX8HJ5jL/0cgdZag6jV15U8CPF1FL6LBzeuxnG+69V/tC2swADioB
-   2PAq+QlCHUjpkS3jKW2P2g5fEs9RBQ3rePBjgzxQveRJz/JBGtGnwpxJr
-   Ti9Jk2YwZMwONulmcGO1pyY30lzmLE3DcHhxXKbe12EPP4zkd8nAQJjuj
-   MtMvlueH1160CsRjbz/pIiiIb17cmwpAASDqsrmJa7RCgx8zHOP58EEqW
-   p/1shnI3R/f/hKOjl7q4jf4zgs+xrGcOBSKkYeuMDTQoy9hSrTPNJ0NP0
-   ATHR/GwgYi6jbKtqLsrcGlq2Q+TTBCx1eVVAe5pfZ8aydvh2RLmdoS0el
-   A==;
-X-CSE-ConnectionGUID: u7TsLsSbT166MZyVhpuo3A==
-X-CSE-MsgGUID: MF2W9K0URQ2dGubVnBJ4Vw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="98117270"
+  t=1779891305; x=1811427305;
+  h=date:from:to:cc:subject:message-id;
+  bh=Lb3dCMJFvQf3GUZ9xElQrVPHuH2ndMa2EULkRlzjG7M=;
+  b=VWZ3dS7E0dTGpwCNw4mnmHnqW871IpbWKuz8suoxlW0KFf+ns1HPwsjf
+   yBxHyF0P4lYt+3+22aQD4j40z9uICMsjyEZxQNpR/lEedRq4L17Gn09oj
+   We7mTJswTeN+vAwMeS9pMmXV0MMbimLSHRg7xVDvbpc7PwnOiZkDDlN6w
+   YAAP3CNXzRuqzP2C4GgtoT42cQrxH/okayhTog6h3fSQbvdd5Sz1xNA/7
+   C03Sk3GaRpfsuWFK5R7Mi4BoGC6JPoXl7MsP626vcHP2xEGjVaShxXFzb
+   E274eWVyOGT0sMj7+PofujgkuykKkWiKSU0PJKg5ozH767KuaA1AzPkJn
+   g==;
+X-CSE-ConnectionGUID: 20SkdeuRRSWG/TZn+6b1WQ==
+X-CSE-MsgGUID: peROBCzNTXqybQ/NEBVxMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="80780123"
 X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
-   d="scan'208";a="98117270"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 01:33:43 -0700
-X-CSE-ConnectionGUID: GbjK+ZgqQY+ovgAIUeacSA==
-X-CSE-MsgGUID: Ljk4ZmeZRoS9/pEShsp8jw==
+   d="scan'208";a="80780123"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 07:15:05 -0700
+X-CSE-ConnectionGUID: Z4MvwPGmQ8GOmjuAKoc8lg==
+X-CSE-MsgGUID: 2CfF0/V+RjyJKfDNvV2eEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
-   d="scan'208";a="241340283"
+   d="scan'208";a="247204828"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 27 May 2026 01:33:42 -0700
+  by orviesa005.jf.intel.com with ESMTP; 27 May 2026 07:15:03 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wS9hr-000000003g0-0kLE;
-	Wed, 27 May 2026 08:33:39 +0000
-Date: Wed, 27 May 2026 16:33:02 +0800
+	id 1wSF2C-00000000422-2pbs;
+	Wed, 27 May 2026 14:15:00 +0000
+Date: Wed, 27 May 2026 22:14:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 407/8275]
- drivers/dma-buf/st-dma-fence-chain.c:207 test_find_seqno() warn: passing
- freed memory 'fence' (line 195)
-Message-ID: <202605271632.zd7M2Tsq-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 6658/7547]
+ include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying
+ to use reserved word 'return' as identifier
+Message-ID: <202605272222.ut7STxKm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jason Gunthorpe <jgg@nvidia.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   e7e28506af98ce4e1059e5ec59334b335c00a246
-commit: 6055c9e333cfbb5af3eabe204caea92757094d19 [407/8275] dma-buf: Change=
- st-dma-fence-chain.c to use kunit
-:::::: branch date: 17 hours ago
-:::::: commit date: 6 weeks ago
-config: x86_64-randconfig-161-20260526 (https://download.01.org/0day-ci/arc=
-hive/20260527/202605271632.zd7M2Tsq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
-7cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-smatch: v0.5.0-9185-gbcc58b9c
+commit: cda00f9ad27061d148b030b80a9c22e092c8f0e9 [6658/7547] raid6: hide internals
+:::::: branch date: 23 hours ago
+:::::: commit date: 8 days ago
+config: powerpc-randconfig-r113-20260527 (https://download.01.org/0day-ci/archive/20260527/202605272222.ut7STxKm-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605272222.ut7STxKm-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605271632.zd7M2Tsq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605272222.ut7STxKm-lkp@intel.com/
 
-New smatch warnings:
-drivers/dma-buf/st-dma-fence-chain.c:207 test_find_seqno() warn: passing fr=
-eed memory 'fence' (line 195)
-drivers/dma-buf/st-dma-fence-chain.c:266 test_find_signaled() error: derefe=
-rencing freed memory 'fence' (line 259)
-drivers/dma-buf/st-dma-fence-chain.c:307 test_find_out_of_order() error: de=
-referencing freed memory 'fence' (line 293)
-drivers/dma-buf/st-dma-fence-chain.c:339 test_find_gap() error: dereferenci=
-ng freed memory 'fence' (line 332)
-drivers/dma-buf/st-dma-fence-chain.c:346 test_find_gap() warn: passing free=
-d memory 'fence' (line 332)
+sparse warnings: (new ones prefixed by >>)
+   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: got }
+   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: got }
+   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/bitops/instrumented-atomic.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, ...):
+   include/linux/instrumented.h:28:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:28:9: sparse: sparse: got ,
+   include/linux/instrumented.h:29:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:29:1: sparse: sparse: got }
+   include/linux/instrumented.h:42:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:42:9: sparse: sparse: got ,
+   include/linux/instrumented.h:43:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:43:1: sparse: sparse: got }
+   include/linux/instrumented.h:56:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:56:9: sparse: sparse: got ,
+   include/linux/instrumented.h:57:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:57:1: sparse: sparse: got }
+   include/linux/instrumented.h:65:21: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:65:21: sparse: sparse: got 0
+   include/linux/instrumented.h:65:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/instrumented.h:66:57: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:66:57: sparse: sparse: got }
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in nested declarator
+   include/linux/instrumented.h:67:17: sparse: sparse: got {
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:67:17: sparse: sparse: got !
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:67:17: sparse: sparse: got }
+   include/linux/instrumented.h:68:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:68:9: sparse: sparse: got }
+   include/linux/instrumented.h:83:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:83:9: sparse: sparse: got ,
+   include/linux/instrumented.h:85:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:85:1: sparse: sparse: got }
+   include/linux/instrumented.h:98:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:98:9: sparse: sparse: got ,
+   include/linux/instrumented.h:100:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:100:1: sparse: sparse: got }
+   include/linux/instrumented.h:113:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:113:9: sparse: sparse: got ,
+   include/linux/instrumented.h:115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:115:1: sparse: sparse: got }
+   include/linux/instrumented.h:130:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:130:9: sparse: sparse: got ,
+   include/linux/instrumented.h:131:39: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:131:39: sparse: sparse: got ,
+   include/linux/instrumented.h:132:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:132:1: sparse: sparse: got }
+   include/linux/instrumented.h:147:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:147:9: sparse: sparse: got ,
+   include/linux/instrumented.h:148:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:148:1: sparse: sparse: got }
+   include/linux/instrumented.h:165:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:165:1: sparse: sparse: got }
+   include/linux/instrumented.h:181:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:181:9: sparse: sparse: got ,
+   include/linux/instrumented.h:182:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:182:9: sparse: sparse: got ,
+   include/linux/instrumented.h:183:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:183:1: sparse: sparse: got }
+   include/linux/instrumented.h:200:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:200:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:72:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: got arch_test_and_set_bit
+   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:86:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: got arch_test_and_clear_bit
+   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:100:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: got arch_test_and_change_bit
+   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: got }
+>> include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: got arch_test_and_set_bit_lock
+   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: got (
+   include/asm-generic/bitops/instrumented-lock.h:80:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: got arch_xor_unlock_is_negative_byte
+   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/le.h:22:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:22:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:27:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:27:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:32:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:32:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:37:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:37:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:42:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:42:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:47:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:47:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:52:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:52:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:57:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:57:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:62:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:62:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: got [
+   include/asm-generic/bitops/sched.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: got [
+   include/asm-generic/bitops/sched.h:24:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/bitops/sched.h:26:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: got __ffs
+   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, ...):
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'const_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, ...):
+   include/linux/log2.h:45:6: sparse: sparse: Expected ; at end of declaration
+   include/linux/log2.h:45:6: sparse: sparse: got is_power_of_2
+   include/linux/log2.h:48:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:48:1: sparse: sparse: got }
+   include/linux/log2.h:58:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:58:1: sparse: sparse: got }
+   include/linux/log2.h:68:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:68:1: sparse: sparse: got }
+   include/linux/log2.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:202:1: sparse: sparse: got }
+   include/linux/log2.h:230:26: sparse: sparse: Expected ) in function declarator
+   include/linux/log2.h:230:26: sparse: sparse: got (
+   include/linux/log2.h:230:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/log2.h:232:16: sparse: sparse: Expected ) in function declarator
+   include/linux/log2.h:232:16: sparse: sparse: got (
+   include/linux/log2.h:232:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/log2.h:233:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:233:1: sparse: sparse: got }
+   include/linux/log2.h:270:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:270:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, include/linux/time64.h, ...):
+   include/asm-generic/div64.h:151:14: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/div64.h:151:14: sparse: sparse: got no_ovf
+   include/asm-generic/div64.h:154:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/div64.h:154:13: sparse: sparse: missing type declaration for parameter 'no_ovf'
+   include/asm-generic/div64.h:161:11: sparse: sparse: Trying to use reserved word 'else' as identifier
+--
+   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: got false
+   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: got :
+   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/preempt.h, include/linux/preempt.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/jump_label.h:115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:115:1: sparse: sparse: got }
+   include/linux/jump_label.h:153:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:153:20: sparse: sparse: got jump_entry_is_branch
+   include/linux/jump_label.h:156:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:156:1: sparse: sparse: got }
+   include/linux/jump_label.h:161:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:161:1: sparse: sparse: got }
+   include/linux/jump_label.h:167:9: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/linux/jump_label.h:168:17: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:168:17: sparse: sparse: got entry
+   include/linux/jump_label.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:169:1: sparse: sparse: got }
+   include/linux/jump_label.h:178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:178:1: sparse: sparse: got }
+   include/linux/jump_label.h:199:29: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:199:29: sparse: sparse: got static_key_false
+   include/linux/jump_label.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:202:1: sparse: sparse: got }
+   include/linux/jump_label.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:207:1: sparse: sparse: got }
+   include/linux/jump_label.h:218:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:218:13: sparse: sparse: got arch_jump_label_transform_queue
+   include/linux/jump_label.h:222:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:222:13: sparse: sparse: got static_key_slow_inc
+   include/linux/jump_label.h:223:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:223:13: sparse: sparse: got static_key_fast_inc_not_disabled
+   include/linux/jump_label.h:225:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:225:13: sparse: sparse: got static_key_slow_inc_cpuslocked
+   include/linux/jump_label.h:337:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:337:1: sparse: sparse: got class_jump_label_lock_is_conditional
+   include/linux/jump_label.h:405:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:405:13: sparse: sparse: got ____wrong_branch_error
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/preempt.h:468:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:468:1: sparse: sparse: got class_preempt_is_conditional
+   include/linux/preempt.h:469:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:469:1: sparse: sparse: got class_preempt_notrace_is_conditional
+   include/linux/preempt.h:473:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:473:13: sparse: sparse: got preempt_model_none
+   include/linux/preempt.h:474:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:474:13: sparse: sparse: got preempt_model_voluntary
+   include/linux/preempt.h:475:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:475:13: sparse: sparse: got preempt_model_full
+   include/linux/preempt.h:476:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:476:13: sparse: sparse: got preempt_model_lazy
+   include/linux/preempt.h:500:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:500:20: sparse: sparse: got preempt_model_rt
+   include/linux/preempt.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/preempt.h:503:1: sparse: sparse: got }
+   include/linux/preempt.h:515:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:515:20: sparse: sparse: got preempt_model_preemptible
+   include/linux/preempt.h:518:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/preempt.h:518:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/cpumask_types.h:9:57: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/cpumask_types.h:9:57: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through arch/powerpc/include/asm/irqflags.h, include/linux/irqflags.h, include/asm-generic/cmpxchg-local.h, ...):
+   arch/powerpc/include/asm/hw_irq.h:457:20: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/hw_irq.h:457:20: sparse: sparse: got arch_irqs_disabled_flags
+   arch/powerpc/include/asm/hw_irq.h:460:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:460:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:465:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:465:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:472:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:472:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:477:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:477:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Expected ) in function declarator
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: got !
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:482:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:482:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:486:58: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:486:58: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:513:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   arch/powerpc/include/asm/hw_irq.h:513:16: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/hw_irq.h:513:16: sparse: sparse: got msr
+   arch/powerpc/include/asm/hw_irq.h:514:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:514:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/asm-generic/cmpxchg-local.h, arch/powerpc/include/asm/cmpxchg.h, arch/powerpc/include/asm/atomic.h, ...):
+   include/linux/irqflags.h:265:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/irqflags.h:265:1: sparse: sparse: got class_irq_is_conditional
+   include/linux/irqflags.h:265:1: sparse: sparse: Expected ; at end of statement
+   include/linux/irqflags.h:265:1: sparse: sparse: got was_disabled
+   include/linux/irqflags.h:266:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/irqflags.h:266:1: sparse: sparse: got class_irqsave_is_conditional
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:2127:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2127:1: sparse: sparse: got raw_atomic_try_cmpxchg
+   include/linux/atomic/atomic-arch-fallback.h:2140:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2140:13: sparse: sparse: got (
+>> include/linux/atomic/atomic-arch-fallback.h:2140:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+>> include/linux/atomic/atomic-arch-fallback.h:2142:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2142:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2142:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2144:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2144:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2174:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2174:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2174:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2176:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2176:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2176:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2178:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2207:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2207:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2207:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2209:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2209:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2209:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2211:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2211:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2237:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2237:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2237:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2239:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2239:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2239:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2241:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2241:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2262:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2262:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2282:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2282:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2302:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2302:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2329:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2329:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2356:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2356:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2382:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2382:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2405:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2405:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2435:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2435:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2458:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2458:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2479:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2479:1: sparse: sparse: got }
+>> include/linux/atomic/atomic-arch-fallback.h:2500:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2500:12: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2500:12: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2503:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2503:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2505:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2505:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2505:16: sparse: sparse: got true
+   include/linux/atomic/atomic-arch-fallback.h:2507:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2507:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2528:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2528:12: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2528:12: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2531:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2531:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2533:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2533:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2533:16: sparse: sparse: got true
+   include/linux/atomic/atomic-arch-fallback.h:2535:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2535:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2564:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2564:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/atomic/atomic-arch-fallback.h, include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, ...):
+   include/asm-generic/atomic64.h:14:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/atomic64.h:14:1: sparse: sparse: got }
+   include/asm-generic/atomic64.h:18:51: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:18:51: sparse: sparse: got *
+   include/asm-generic/atomic64.h:19:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:19:45: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:47:56: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:47:56: sparse: sparse: got *
+   include/asm-generic/atomic64.h:48:48: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:48:48: sparse: sparse: got *
+   include/asm-generic/atomic64.h:49:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:49:45: sparse: sparse: got *
+   include/asm-generic/atomic64.h:50:57: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:50:57: sparse: sparse: got *
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:2581:36: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2581:36: sparse: sparse: got *
+   include/linux/atomic/atomic-arch-fallback.h:2584:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2584:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2604:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2604:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2604:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got !
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in nested declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got volatile
+>> include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'const' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got !
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2606:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2606:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2609:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2609:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2613:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2613:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2656:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2656:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2673:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2673:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2700:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2700:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2727:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2727:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2753:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2753:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2776:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2776:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2803:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2803:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2830:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2830:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2856:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2856:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2879:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2879:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2896:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2896:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2923:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2923:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2950:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2950:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2976:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2976:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2999:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2999:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3026:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3026:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3053:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3053:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3079:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3079:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3102:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3102:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3122:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3122:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3148:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3148:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3174:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3174:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3221:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3221:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3247:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3247:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3273:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3273:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3298:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3298:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3320:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3320:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3340:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3340:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3366:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3366:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3392:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3392:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3417:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3417:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3439:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3439:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3465:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3465:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3491:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3491:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3516:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3516:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3538:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3538:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3555:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3555:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3582:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3582:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3609:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3609:1: sparse: sparse: got }
+--
+   include/linux/atomic/atomic-long.h:762:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:782:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:782:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:802:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:802:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:822:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:822:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:842:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:842:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:863:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:863:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:884:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:884:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:905:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:905:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:926:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:926:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:947:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:947:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:968:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:968:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:989:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:989:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1010:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1010:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1031:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1031:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1052:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1052:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1073:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1073:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1094:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1094:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1115:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1136:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1136:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1157:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1157:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1178:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1220:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1220:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1241:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1241:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1262:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1262:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1283:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1283:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1304:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1304:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1325:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1325:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1346:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1346:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1369:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1369:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1392:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1392:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1415:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1415:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1438:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1438:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1462:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1462:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1486:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1486:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1510:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1510:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1534:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1534:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1555:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1555:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1575:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1575:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1595:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1595:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1616:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1616:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1637:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1637:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1658:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1658:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1679:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1679:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1702:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1702:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1725:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1725:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1746:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1746:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1767:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1767:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1788:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1788:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1809:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1809:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec1.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+>> include/linux/atomic/atomic-instrumented.h:33:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:33:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:33:16: sparse: sparse: got raw_atomic_read
+   include/linux/atomic/atomic-instrumented.h:34:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:34:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:50:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:50:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:50:16: sparse: sparse: got raw_atomic_read_acquire
+   include/linux/atomic/atomic-instrumented.h:51:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:51:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:69:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:69:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:86:42: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:86:42: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:88:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:88:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:106:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:106:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:123:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:123:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:124:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:124:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:124:16: sparse: sparse: got raw_atomic_add_return
+   include/linux/atomic/atomic-instrumented.h:125:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:125:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:142:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:142:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:142:16: sparse: sparse: got raw_atomic_add_return_acquire
+   include/linux/atomic/atomic-instrumented.h:143:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:143:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:160:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:160:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:161:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:161:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:161:16: sparse: sparse: got raw_atomic_add_return_release
+   include/linux/atomic/atomic-instrumented.h:162:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:162:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:179:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:179:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:179:16: sparse: sparse: got raw_atomic_add_return_relaxed
+   include/linux/atomic/atomic-instrumented.h:180:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:180:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:197:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:197:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:198:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:198:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:198:16: sparse: sparse: got raw_atomic_fetch_add
+   include/linux/atomic/atomic-instrumented.h:199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:216:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:216:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:216:16: sparse: sparse: got raw_atomic_fetch_add_acquire
+   include/linux/atomic/atomic-instrumented.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:217:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:234:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:234:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:235:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:235:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:235:16: sparse: sparse: got raw_atomic_fetch_add_release
+   include/linux/atomic/atomic-instrumented.h:236:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:236:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:253:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:253:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:253:16: sparse: sparse: got raw_atomic_fetch_add_relaxed
+   include/linux/atomic/atomic-instrumented.h:254:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:254:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:272:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:289:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:289:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:290:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:290:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:290:16: sparse: sparse: got raw_atomic_sub_return
+   include/linux/atomic/atomic-instrumented.h:291:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:291:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:308:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:308:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:308:16: sparse: sparse: got raw_atomic_sub_return_acquire
+   include/linux/atomic/atomic-instrumented.h:309:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:309:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:326:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:326:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:327:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:327:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:327:16: sparse: sparse: got raw_atomic_sub_return_release
+   include/linux/atomic/atomic-instrumented.h:328:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:328:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:345:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:345:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:345:16: sparse: sparse: got raw_atomic_sub_return_relaxed
+   include/linux/atomic/atomic-instrumented.h:346:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:346:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:363:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:363:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:364:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:364:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:364:16: sparse: sparse: got raw_atomic_fetch_sub
+   include/linux/atomic/atomic-instrumented.h:365:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:365:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:382:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:382:16: sparse: sparse: Expected ; at end of declaration
+--
+   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: got }
+   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: got }
+   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/bitops/instrumented-atomic.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, ...):
+   include/linux/instrumented.h:28:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:28:9: sparse: sparse: got ,
+   include/linux/instrumented.h:29:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:29:1: sparse: sparse: got }
+   include/linux/instrumented.h:42:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:42:9: sparse: sparse: got ,
+   include/linux/instrumented.h:43:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:43:1: sparse: sparse: got }
+   include/linux/instrumented.h:56:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:56:9: sparse: sparse: got ,
+   include/linux/instrumented.h:57:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:57:1: sparse: sparse: got }
+   include/linux/instrumented.h:65:21: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:65:21: sparse: sparse: got 0
+   include/linux/instrumented.h:65:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/instrumented.h:66:57: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:66:57: sparse: sparse: got }
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in nested declarator
+   include/linux/instrumented.h:67:17: sparse: sparse: got {
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:67:17: sparse: sparse: got !
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:67:17: sparse: sparse: got }
+   include/linux/instrumented.h:68:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:68:9: sparse: sparse: got }
+   include/linux/instrumented.h:83:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:83:9: sparse: sparse: got ,
+   include/linux/instrumented.h:85:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:85:1: sparse: sparse: got }
+   include/linux/instrumented.h:98:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:98:9: sparse: sparse: got ,
+   include/linux/instrumented.h:100:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:100:1: sparse: sparse: got }
+   include/linux/instrumented.h:113:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:113:9: sparse: sparse: got ,
+   include/linux/instrumented.h:115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:115:1: sparse: sparse: got }
+   include/linux/instrumented.h:130:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:130:9: sparse: sparse: got ,
+   include/linux/instrumented.h:131:39: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:131:39: sparse: sparse: got ,
+   include/linux/instrumented.h:132:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:132:1: sparse: sparse: got }
+   include/linux/instrumented.h:147:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:147:9: sparse: sparse: got ,
+   include/linux/instrumented.h:148:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:148:1: sparse: sparse: got }
+   include/linux/instrumented.h:165:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:165:1: sparse: sparse: got }
+   include/linux/instrumented.h:181:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:181:9: sparse: sparse: got ,
+   include/linux/instrumented.h:182:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:182:9: sparse: sparse: got ,
+   include/linux/instrumented.h:183:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:183:1: sparse: sparse: got }
+   include/linux/instrumented.h:200:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:200:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:72:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: got arch_test_and_set_bit
+   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:86:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: got arch_test_and_clear_bit
+   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:100:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: got arch_test_and_change_bit
+   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: got }
+>> include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: got arch_test_and_set_bit_lock
+   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: got (
+   include/asm-generic/bitops/instrumented-lock.h:80:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: got arch_xor_unlock_is_negative_byte
+   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/le.h:22:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:22:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:27:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:27:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:32:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:32:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:37:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:37:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:42:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:42:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:47:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:47:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:52:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:52:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:57:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:57:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:62:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:62:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: got [
+   include/asm-generic/bitops/sched.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: got [
+   include/asm-generic/bitops/sched.h:24:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/bitops/sched.h:26:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: got __ffs
+   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, ...):
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'const_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, ...):
+   include/linux/log2.h:45:6: sparse: sparse: Expected ; at end of declaration
+   include/linux/log2.h:45:6: sparse: sparse: got is_power_of_2
+   include/linux/log2.h:48:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:48:1: sparse: sparse: got }
+   include/linux/log2.h:58:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:58:1: sparse: sparse: got }
+   include/linux/log2.h:68:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:68:1: sparse: sparse: got }
+   include/linux/log2.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:202:1: sparse: sparse: got }
+   include/linux/log2.h:230:26: sparse: sparse: Expected ) in function declarator
+   include/linux/log2.h:230:26: sparse: sparse: got (
+   include/linux/log2.h:230:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/log2.h:232:16: sparse: sparse: Expected ) in function declarator
+   include/linux/log2.h:232:16: sparse: sparse: got (
+   include/linux/log2.h:232:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/log2.h:233:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:233:1: sparse: sparse: got }
+   include/linux/log2.h:270:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:270:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, include/linux/time64.h, ...):
+   include/asm-generic/div64.h:151:14: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/div64.h:151:14: sparse: sparse: got no_ovf
+   include/asm-generic/div64.h:154:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/div64.h:154:13: sparse: sparse: missing type declaration for parameter 'no_ovf'
+   include/asm-generic/div64.h:161:11: sparse: sparse: Trying to use reserved word 'else' as identifier
+--
+   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: got false
+   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: got :
+   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/preempt.h, include/linux/preempt.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/jump_label.h:115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:115:1: sparse: sparse: got }
+   include/linux/jump_label.h:153:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:153:20: sparse: sparse: got jump_entry_is_branch
+   include/linux/jump_label.h:156:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:156:1: sparse: sparse: got }
+   include/linux/jump_label.h:161:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:161:1: sparse: sparse: got }
+   include/linux/jump_label.h:167:9: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/linux/jump_label.h:168:17: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:168:17: sparse: sparse: got entry
+   include/linux/jump_label.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:169:1: sparse: sparse: got }
+   include/linux/jump_label.h:178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:178:1: sparse: sparse: got }
+   include/linux/jump_label.h:199:29: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:199:29: sparse: sparse: got static_key_false
+   include/linux/jump_label.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:202:1: sparse: sparse: got }
+   include/linux/jump_label.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:207:1: sparse: sparse: got }
+   include/linux/jump_label.h:218:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:218:13: sparse: sparse: got arch_jump_label_transform_queue
+   include/linux/jump_label.h:222:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:222:13: sparse: sparse: got static_key_slow_inc
+   include/linux/jump_label.h:223:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:223:13: sparse: sparse: got static_key_fast_inc_not_disabled
+   include/linux/jump_label.h:225:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:225:13: sparse: sparse: got static_key_slow_inc_cpuslocked
+   include/linux/jump_label.h:337:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:337:1: sparse: sparse: got class_jump_label_lock_is_conditional
+   include/linux/jump_label.h:405:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:405:13: sparse: sparse: got ____wrong_branch_error
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/preempt.h:468:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:468:1: sparse: sparse: got class_preempt_is_conditional
+   include/linux/preempt.h:469:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:469:1: sparse: sparse: got class_preempt_notrace_is_conditional
+   include/linux/preempt.h:473:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:473:13: sparse: sparse: got preempt_model_none
+   include/linux/preempt.h:474:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:474:13: sparse: sparse: got preempt_model_voluntary
+   include/linux/preempt.h:475:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:475:13: sparse: sparse: got preempt_model_full
+   include/linux/preempt.h:476:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:476:13: sparse: sparse: got preempt_model_lazy
+   include/linux/preempt.h:500:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:500:20: sparse: sparse: got preempt_model_rt
+   include/linux/preempt.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/preempt.h:503:1: sparse: sparse: got }
+   include/linux/preempt.h:515:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:515:20: sparse: sparse: got preempt_model_preemptible
+   include/linux/preempt.h:518:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/preempt.h:518:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/cpumask_types.h:9:57: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/cpumask_types.h:9:57: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through arch/powerpc/include/asm/irqflags.h, include/linux/irqflags.h, include/asm-generic/cmpxchg-local.h, ...):
+   arch/powerpc/include/asm/hw_irq.h:457:20: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/hw_irq.h:457:20: sparse: sparse: got arch_irqs_disabled_flags
+   arch/powerpc/include/asm/hw_irq.h:460:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:460:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:465:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:465:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:472:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:472:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:477:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:477:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Expected ) in function declarator
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: got !
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:482:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:482:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:486:58: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:486:58: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:513:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   arch/powerpc/include/asm/hw_irq.h:513:16: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/hw_irq.h:513:16: sparse: sparse: got msr
+   arch/powerpc/include/asm/hw_irq.h:514:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:514:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/asm-generic/cmpxchg-local.h, arch/powerpc/include/asm/cmpxchg.h, arch/powerpc/include/asm/atomic.h, ...):
+   include/linux/irqflags.h:265:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/irqflags.h:265:1: sparse: sparse: got class_irq_is_conditional
+   include/linux/irqflags.h:265:1: sparse: sparse: Expected ; at end of statement
+   include/linux/irqflags.h:265:1: sparse: sparse: got was_disabled
+   include/linux/irqflags.h:266:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/irqflags.h:266:1: sparse: sparse: got class_irqsave_is_conditional
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:2127:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2127:1: sparse: sparse: got raw_atomic_try_cmpxchg
+   include/linux/atomic/atomic-arch-fallback.h:2140:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2140:13: sparse: sparse: got (
+>> include/linux/atomic/atomic-arch-fallback.h:2140:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+>> include/linux/atomic/atomic-arch-fallback.h:2142:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2142:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2142:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2144:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2144:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2174:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2174:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2174:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2176:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2176:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2176:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2178:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2207:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2207:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2207:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2209:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2209:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2209:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2211:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2211:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2237:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2237:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2237:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2239:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2239:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2239:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2241:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2241:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2262:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2262:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2282:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2282:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2302:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2302:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2329:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2329:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2356:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2356:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2382:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2382:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2405:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2405:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2435:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2435:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2458:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2458:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2479:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2479:1: sparse: sparse: got }
+>> include/linux/atomic/atomic-arch-fallback.h:2500:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2500:12: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2500:12: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2503:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2503:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2505:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2505:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2505:16: sparse: sparse: got true
+   include/linux/atomic/atomic-arch-fallback.h:2507:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2507:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2528:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2528:12: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2528:12: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2531:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2531:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2533:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2533:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2533:16: sparse: sparse: got true
+   include/linux/atomic/atomic-arch-fallback.h:2535:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2535:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2564:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2564:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/atomic/atomic-arch-fallback.h, include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, ...):
+   include/asm-generic/atomic64.h:14:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/atomic64.h:14:1: sparse: sparse: got }
+   include/asm-generic/atomic64.h:18:51: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:18:51: sparse: sparse: got *
+   include/asm-generic/atomic64.h:19:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:19:45: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:47:56: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:47:56: sparse: sparse: got *
+   include/asm-generic/atomic64.h:48:48: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:48:48: sparse: sparse: got *
+   include/asm-generic/atomic64.h:49:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:49:45: sparse: sparse: got *
+   include/asm-generic/atomic64.h:50:57: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:50:57: sparse: sparse: got *
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:2581:36: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2581:36: sparse: sparse: got *
+   include/linux/atomic/atomic-arch-fallback.h:2584:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2584:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2604:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2604:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2604:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got !
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in nested declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got volatile
+>> include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'const' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got !
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2606:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2606:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2609:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2609:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2613:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2613:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2656:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2656:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2673:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2673:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2700:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2700:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2727:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2727:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2753:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2753:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2776:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2776:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2803:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2803:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2830:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2830:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2856:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2856:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2879:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2879:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2896:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2896:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2923:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2923:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2950:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2950:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2976:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2976:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2999:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2999:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3026:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3026:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3053:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3053:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3079:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3079:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3102:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3102:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3122:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3122:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3148:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3148:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3174:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3174:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3221:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3221:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3247:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3247:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3273:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3273:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3298:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3298:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3320:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3320:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3340:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3340:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3366:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3366:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3392:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3392:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3417:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3417:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3439:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3439:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3465:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3465:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3491:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3491:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3516:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3516:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3538:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3538:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3555:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3555:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3582:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3582:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3609:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3609:1: sparse: sparse: got }
+--
+   include/linux/atomic/atomic-long.h:762:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:782:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:782:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:802:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:802:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:822:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:822:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:842:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:842:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:863:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:863:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:884:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:884:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:905:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:905:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:926:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:926:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:947:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:947:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:968:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:968:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:989:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:989:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1010:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1010:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1031:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1031:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1052:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1052:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1073:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1073:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1094:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1094:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1115:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1136:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1136:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1157:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1157:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1178:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1220:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1220:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1241:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1241:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1262:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1262:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1283:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1283:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1304:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1304:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1325:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1325:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1346:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1346:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1369:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1369:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1392:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1392:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1415:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1415:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1438:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1438:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1462:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1462:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1486:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1486:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1510:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1510:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1534:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1534:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1555:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1555:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1575:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1575:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1595:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1595:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1616:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1616:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1637:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1637:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1658:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1658:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1679:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1679:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1702:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1702:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1725:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1725:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1746:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1746:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1767:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1767:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1788:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1788:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1809:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1809:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec2.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+>> include/linux/atomic/atomic-instrumented.h:33:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:33:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:33:16: sparse: sparse: got raw_atomic_read
+   include/linux/atomic/atomic-instrumented.h:34:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:34:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:50:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:50:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:50:16: sparse: sparse: got raw_atomic_read_acquire
+   include/linux/atomic/atomic-instrumented.h:51:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:51:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:69:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:69:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:86:42: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:86:42: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:88:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:88:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:106:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:106:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:123:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:123:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:124:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:124:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:124:16: sparse: sparse: got raw_atomic_add_return
+   include/linux/atomic/atomic-instrumented.h:125:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:125:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:142:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:142:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:142:16: sparse: sparse: got raw_atomic_add_return_acquire
+   include/linux/atomic/atomic-instrumented.h:143:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:143:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:160:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:160:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:161:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:161:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:161:16: sparse: sparse: got raw_atomic_add_return_release
+   include/linux/atomic/atomic-instrumented.h:162:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:162:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:179:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:179:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:179:16: sparse: sparse: got raw_atomic_add_return_relaxed
+   include/linux/atomic/atomic-instrumented.h:180:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:180:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:197:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:197:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:198:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:198:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:198:16: sparse: sparse: got raw_atomic_fetch_add
+   include/linux/atomic/atomic-instrumented.h:199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:216:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:216:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:216:16: sparse: sparse: got raw_atomic_fetch_add_acquire
+   include/linux/atomic/atomic-instrumented.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:217:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:234:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:234:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:235:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:235:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:235:16: sparse: sparse: got raw_atomic_fetch_add_release
+   include/linux/atomic/atomic-instrumented.h:236:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:236:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:253:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:253:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:253:16: sparse: sparse: got raw_atomic_fetch_add_relaxed
+   include/linux/atomic/atomic-instrumented.h:254:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:254:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:272:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:289:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:289:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:290:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:290:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:290:16: sparse: sparse: got raw_atomic_sub_return
+   include/linux/atomic/atomic-instrumented.h:291:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:291:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:308:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:308:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:308:16: sparse: sparse: got raw_atomic_sub_return_acquire
+   include/linux/atomic/atomic-instrumented.h:309:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:309:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:326:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:326:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:327:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:327:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:327:16: sparse: sparse: got raw_atomic_sub_return_release
+   include/linux/atomic/atomic-instrumented.h:328:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:328:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:345:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:345:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:345:16: sparse: sparse: got raw_atomic_sub_return_relaxed
+   include/linux/atomic/atomic-instrumented.h:346:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:346:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:363:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:363:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:364:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:364:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:364:16: sparse: sparse: got raw_atomic_fetch_sub
+   include/linux/atomic/atomic-instrumented.h:365:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:365:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:382:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:382:16: sparse: sparse: Expected ; at end of declaration
+--
+   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: got }
+   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: got }
+   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/bitops/instrumented-atomic.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, ...):
+   include/linux/instrumented.h:28:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:28:9: sparse: sparse: got ,
+   include/linux/instrumented.h:29:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:29:1: sparse: sparse: got }
+   include/linux/instrumented.h:42:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:42:9: sparse: sparse: got ,
+   include/linux/instrumented.h:43:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:43:1: sparse: sparse: got }
+   include/linux/instrumented.h:56:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:56:9: sparse: sparse: got ,
+   include/linux/instrumented.h:57:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:57:1: sparse: sparse: got }
+   include/linux/instrumented.h:65:21: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:65:21: sparse: sparse: got 0
+   include/linux/instrumented.h:65:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/instrumented.h:66:57: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:66:57: sparse: sparse: got }
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in nested declarator
+   include/linux/instrumented.h:67:17: sparse: sparse: got {
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:67:17: sparse: sparse: got !
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:67:17: sparse: sparse: got }
+   include/linux/instrumented.h:68:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:68:9: sparse: sparse: got }
+   include/linux/instrumented.h:83:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:83:9: sparse: sparse: got ,
+   include/linux/instrumented.h:85:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:85:1: sparse: sparse: got }
+   include/linux/instrumented.h:98:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:98:9: sparse: sparse: got ,
+   include/linux/instrumented.h:100:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:100:1: sparse: sparse: got }
+   include/linux/instrumented.h:113:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:113:9: sparse: sparse: got ,
+   include/linux/instrumented.h:115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:115:1: sparse: sparse: got }
+   include/linux/instrumented.h:130:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:130:9: sparse: sparse: got ,
+   include/linux/instrumented.h:131:39: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:131:39: sparse: sparse: got ,
+   include/linux/instrumented.h:132:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:132:1: sparse: sparse: got }
+   include/linux/instrumented.h:147:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:147:9: sparse: sparse: got ,
+   include/linux/instrumented.h:148:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:148:1: sparse: sparse: got }
+   include/linux/instrumented.h:165:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:165:1: sparse: sparse: got }
+   include/linux/instrumented.h:181:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:181:9: sparse: sparse: got ,
+   include/linux/instrumented.h:182:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:182:9: sparse: sparse: got ,
+   include/linux/instrumented.h:183:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:183:1: sparse: sparse: got }
+   include/linux/instrumented.h:200:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:200:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:72:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: got arch_test_and_set_bit
+   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:86:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: got arch_test_and_clear_bit
+   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:100:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: got arch_test_and_change_bit
+   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: got }
+>> include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: got arch_test_and_set_bit_lock
+   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: got (
+   include/asm-generic/bitops/instrumented-lock.h:80:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: got arch_xor_unlock_is_negative_byte
+   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/le.h:22:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:22:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:27:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:27:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:32:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:32:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:37:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:37:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:42:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:42:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:47:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:47:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:52:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:52:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:57:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:57:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:62:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:62:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: got [
+   include/asm-generic/bitops/sched.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: got [
+   include/asm-generic/bitops/sched.h:24:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/bitops/sched.h:26:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: got __ffs
+   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, ...):
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'const_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, ...):
+   include/linux/log2.h:45:6: sparse: sparse: Expected ; at end of declaration
+   include/linux/log2.h:45:6: sparse: sparse: got is_power_of_2
+   include/linux/log2.h:48:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:48:1: sparse: sparse: got }
+   include/linux/log2.h:58:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:58:1: sparse: sparse: got }
+   include/linux/log2.h:68:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:68:1: sparse: sparse: got }
+   include/linux/log2.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:202:1: sparse: sparse: got }
+   include/linux/log2.h:230:26: sparse: sparse: Expected ) in function declarator
+   include/linux/log2.h:230:26: sparse: sparse: got (
+   include/linux/log2.h:230:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/log2.h:232:16: sparse: sparse: Expected ) in function declarator
+   include/linux/log2.h:232:16: sparse: sparse: got (
+   include/linux/log2.h:232:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/log2.h:233:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:233:1: sparse: sparse: got }
+   include/linux/log2.h:270:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:270:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, include/linux/time64.h, ...):
+   include/asm-generic/div64.h:151:14: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/div64.h:151:14: sparse: sparse: got no_ovf
+   include/asm-generic/div64.h:154:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/div64.h:154:13: sparse: sparse: missing type declaration for parameter 'no_ovf'
+   include/asm-generic/div64.h:161:11: sparse: sparse: Trying to use reserved word 'else' as identifier
+--
+   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: got false
+   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: got :
+   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/preempt.h, include/linux/preempt.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/jump_label.h:115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:115:1: sparse: sparse: got }
+   include/linux/jump_label.h:153:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:153:20: sparse: sparse: got jump_entry_is_branch
+   include/linux/jump_label.h:156:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:156:1: sparse: sparse: got }
+   include/linux/jump_label.h:161:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:161:1: sparse: sparse: got }
+   include/linux/jump_label.h:167:9: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/linux/jump_label.h:168:17: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:168:17: sparse: sparse: got entry
+   include/linux/jump_label.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:169:1: sparse: sparse: got }
+   include/linux/jump_label.h:178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:178:1: sparse: sparse: got }
+   include/linux/jump_label.h:199:29: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:199:29: sparse: sparse: got static_key_false
+   include/linux/jump_label.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:202:1: sparse: sparse: got }
+   include/linux/jump_label.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:207:1: sparse: sparse: got }
+   include/linux/jump_label.h:218:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:218:13: sparse: sparse: got arch_jump_label_transform_queue
+   include/linux/jump_label.h:222:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:222:13: sparse: sparse: got static_key_slow_inc
+   include/linux/jump_label.h:223:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:223:13: sparse: sparse: got static_key_fast_inc_not_disabled
+   include/linux/jump_label.h:225:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:225:13: sparse: sparse: got static_key_slow_inc_cpuslocked
+   include/linux/jump_label.h:337:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:337:1: sparse: sparse: got class_jump_label_lock_is_conditional
+   include/linux/jump_label.h:405:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:405:13: sparse: sparse: got ____wrong_branch_error
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/preempt.h:468:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:468:1: sparse: sparse: got class_preempt_is_conditional
+   include/linux/preempt.h:469:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:469:1: sparse: sparse: got class_preempt_notrace_is_conditional
+   include/linux/preempt.h:473:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:473:13: sparse: sparse: got preempt_model_none
+   include/linux/preempt.h:474:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:474:13: sparse: sparse: got preempt_model_voluntary
+   include/linux/preempt.h:475:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:475:13: sparse: sparse: got preempt_model_full
+   include/linux/preempt.h:476:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:476:13: sparse: sparse: got preempt_model_lazy
+   include/linux/preempt.h:500:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:500:20: sparse: sparse: got preempt_model_rt
+   include/linux/preempt.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/preempt.h:503:1: sparse: sparse: got }
+   include/linux/preempt.h:515:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:515:20: sparse: sparse: got preempt_model_preemptible
+   include/linux/preempt.h:518:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/preempt.h:518:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/cpumask_types.h:9:57: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/cpumask_types.h:9:57: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through arch/powerpc/include/asm/irqflags.h, include/linux/irqflags.h, include/asm-generic/cmpxchg-local.h, ...):
+   arch/powerpc/include/asm/hw_irq.h:457:20: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/hw_irq.h:457:20: sparse: sparse: got arch_irqs_disabled_flags
+   arch/powerpc/include/asm/hw_irq.h:460:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:460:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:465:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:465:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:472:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:472:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:477:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:477:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Expected ) in function declarator
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: got !
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:482:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:482:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:486:58: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:486:58: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:513:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   arch/powerpc/include/asm/hw_irq.h:513:16: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/hw_irq.h:513:16: sparse: sparse: got msr
+   arch/powerpc/include/asm/hw_irq.h:514:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:514:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/asm-generic/cmpxchg-local.h, arch/powerpc/include/asm/cmpxchg.h, arch/powerpc/include/asm/atomic.h, ...):
+   include/linux/irqflags.h:265:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/irqflags.h:265:1: sparse: sparse: got class_irq_is_conditional
+   include/linux/irqflags.h:265:1: sparse: sparse: Expected ; at end of statement
+   include/linux/irqflags.h:265:1: sparse: sparse: got was_disabled
+   include/linux/irqflags.h:266:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/irqflags.h:266:1: sparse: sparse: got class_irqsave_is_conditional
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:2127:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2127:1: sparse: sparse: got raw_atomic_try_cmpxchg
+   include/linux/atomic/atomic-arch-fallback.h:2140:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2140:13: sparse: sparse: got (
+>> include/linux/atomic/atomic-arch-fallback.h:2140:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+>> include/linux/atomic/atomic-arch-fallback.h:2142:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2142:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2142:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2144:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2144:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2174:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2174:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2174:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2176:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2176:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2176:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2178:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2207:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2207:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2207:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2209:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2209:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2209:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2211:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2211:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2237:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2237:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2237:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2239:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2239:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2239:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2241:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2241:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2262:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2262:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2282:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2282:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2302:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2302:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2329:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2329:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2356:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2356:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2382:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2382:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2405:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2405:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2435:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2435:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2458:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2458:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2479:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2479:1: sparse: sparse: got }
+>> include/linux/atomic/atomic-arch-fallback.h:2500:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2500:12: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2500:12: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2503:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2503:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2505:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2505:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2505:16: sparse: sparse: got true
+   include/linux/atomic/atomic-arch-fallback.h:2507:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2507:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2528:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2528:12: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2528:12: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2531:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2531:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2533:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2533:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2533:16: sparse: sparse: got true
+   include/linux/atomic/atomic-arch-fallback.h:2535:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2535:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2564:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2564:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/atomic/atomic-arch-fallback.h, include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, ...):
+   include/asm-generic/atomic64.h:14:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/atomic64.h:14:1: sparse: sparse: got }
+   include/asm-generic/atomic64.h:18:51: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:18:51: sparse: sparse: got *
+   include/asm-generic/atomic64.h:19:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:19:45: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:47:56: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:47:56: sparse: sparse: got *
+   include/asm-generic/atomic64.h:48:48: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:48:48: sparse: sparse: got *
+   include/asm-generic/atomic64.h:49:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:49:45: sparse: sparse: got *
+   include/asm-generic/atomic64.h:50:57: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:50:57: sparse: sparse: got *
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:2581:36: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2581:36: sparse: sparse: got *
+   include/linux/atomic/atomic-arch-fallback.h:2584:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2584:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2604:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2604:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2604:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got !
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in nested declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got volatile
+>> include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'const' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got !
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2606:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2606:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2609:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2609:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2613:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2613:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2656:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2656:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2673:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2673:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2700:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2700:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2727:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2727:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2753:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2753:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2776:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2776:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2803:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2803:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2830:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2830:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2856:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2856:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2879:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2879:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2896:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2896:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2923:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2923:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2950:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2950:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2976:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2976:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2999:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2999:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3026:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3026:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3053:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3053:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3079:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3079:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3102:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3102:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3122:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3122:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3148:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3148:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3174:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3174:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3221:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3221:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3247:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3247:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3273:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3273:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3298:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3298:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3320:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3320:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3340:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3340:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3366:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3366:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3392:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3392:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3417:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3417:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3439:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3439:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3465:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3465:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3491:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3491:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3516:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3516:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3538:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3538:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3555:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3555:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3582:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3582:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3609:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3609:1: sparse: sparse: got }
+--
+   include/linux/atomic/atomic-long.h:762:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:782:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:782:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:802:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:802:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:822:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:822:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:842:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:842:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:863:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:863:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:884:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:884:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:905:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:905:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:926:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:926:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:947:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:947:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:968:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:968:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:989:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:989:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1010:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1010:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1031:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1031:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1052:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1052:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1073:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1073:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1094:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1094:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1115:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1136:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1136:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1157:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1157:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1178:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1220:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1220:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1241:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1241:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1262:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1262:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1283:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1283:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1304:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1304:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1325:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1325:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1346:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1346:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1369:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1369:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1392:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1392:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1415:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1415:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1438:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1438:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1462:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1462:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1486:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1486:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1510:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1510:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1534:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1534:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1555:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1555:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1575:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1575:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1595:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1595:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1616:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1616:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1637:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1637:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1658:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1658:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1679:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1679:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1702:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1702:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1725:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1725:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1746:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1746:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1767:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1767:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1788:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1788:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1809:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1809:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec4.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+>> include/linux/atomic/atomic-instrumented.h:33:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:33:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:33:16: sparse: sparse: got raw_atomic_read
+   include/linux/atomic/atomic-instrumented.h:34:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:34:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:50:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:50:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:50:16: sparse: sparse: got raw_atomic_read_acquire
+   include/linux/atomic/atomic-instrumented.h:51:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:51:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:69:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:69:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:86:42: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:86:42: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:88:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:88:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:106:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:106:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:123:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:123:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:124:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:124:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:124:16: sparse: sparse: got raw_atomic_add_return
+   include/linux/atomic/atomic-instrumented.h:125:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:125:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:142:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:142:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:142:16: sparse: sparse: got raw_atomic_add_return_acquire
+   include/linux/atomic/atomic-instrumented.h:143:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:143:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:160:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:160:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:161:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:161:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:161:16: sparse: sparse: got raw_atomic_add_return_release
+   include/linux/atomic/atomic-instrumented.h:162:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:162:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:179:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:179:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:179:16: sparse: sparse: got raw_atomic_add_return_relaxed
+   include/linux/atomic/atomic-instrumented.h:180:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:180:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:197:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:197:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:198:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:198:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:198:16: sparse: sparse: got raw_atomic_fetch_add
+   include/linux/atomic/atomic-instrumented.h:199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:216:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:216:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:216:16: sparse: sparse: got raw_atomic_fetch_add_acquire
+   include/linux/atomic/atomic-instrumented.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:217:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:234:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:234:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:235:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:235:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:235:16: sparse: sparse: got raw_atomic_fetch_add_release
+   include/linux/atomic/atomic-instrumented.h:236:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:236:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:253:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:253:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:253:16: sparse: sparse: got raw_atomic_fetch_add_relaxed
+   include/linux/atomic/atomic-instrumented.h:254:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:254:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:272:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:289:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:289:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:290:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:290:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:290:16: sparse: sparse: got raw_atomic_sub_return
+   include/linux/atomic/atomic-instrumented.h:291:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:291:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:308:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:308:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:308:16: sparse: sparse: got raw_atomic_sub_return_acquire
+   include/linux/atomic/atomic-instrumented.h:309:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:309:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:326:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:326:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:327:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:327:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:327:16: sparse: sparse: got raw_atomic_sub_return_release
+   include/linux/atomic/atomic-instrumented.h:328:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:328:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:345:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:345:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:345:16: sparse: sparse: got raw_atomic_sub_return_relaxed
+   include/linux/atomic/atomic-instrumented.h:346:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:346:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:363:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:363:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:364:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:364:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:364:16: sparse: sparse: got raw_atomic_fetch_sub
+   include/linux/atomic/atomic-instrumented.h:365:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:365:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:382:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:382:16: sparse: sparse: Expected ; at end of declaration
+--
+   include/asm-generic/bitops/arch_hweight.h:15:1: sparse: sparse: got }
+   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/arch_hweight.h:20:1: sparse: sparse: got }
+   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/arch_hweight.h:25:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/bitops/instrumented-atomic.h, arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, ...):
+   include/linux/instrumented.h:28:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:28:9: sparse: sparse: got ,
+   include/linux/instrumented.h:29:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:29:1: sparse: sparse: got }
+   include/linux/instrumented.h:42:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:42:9: sparse: sparse: got ,
+   include/linux/instrumented.h:43:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:43:1: sparse: sparse: got }
+   include/linux/instrumented.h:56:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:56:9: sparse: sparse: got ,
+   include/linux/instrumented.h:57:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:57:1: sparse: sparse: got }
+   include/linux/instrumented.h:65:21: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:65:21: sparse: sparse: got 0
+   include/linux/instrumented.h:65:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/instrumented.h:66:57: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:66:57: sparse: sparse: got }
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in nested declarator
+   include/linux/instrumented.h:67:17: sparse: sparse: got {
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:67:17: sparse: sparse: got !
+   include/linux/instrumented.h:67:17: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:67:17: sparse: sparse: got }
+   include/linux/instrumented.h:68:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:68:9: sparse: sparse: got }
+   include/linux/instrumented.h:83:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:83:9: sparse: sparse: got ,
+   include/linux/instrumented.h:85:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:85:1: sparse: sparse: got }
+   include/linux/instrumented.h:98:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:98:9: sparse: sparse: got ,
+   include/linux/instrumented.h:100:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:100:1: sparse: sparse: got }
+   include/linux/instrumented.h:113:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:113:9: sparse: sparse: got ,
+   include/linux/instrumented.h:115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:115:1: sparse: sparse: got }
+   include/linux/instrumented.h:130:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:130:9: sparse: sparse: got ,
+   include/linux/instrumented.h:131:39: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:131:39: sparse: sparse: got ,
+   include/linux/instrumented.h:132:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:132:1: sparse: sparse: got }
+   include/linux/instrumented.h:147:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:147:9: sparse: sparse: got ,
+   include/linux/instrumented.h:148:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:148:1: sparse: sparse: got }
+   include/linux/instrumented.h:165:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:165:1: sparse: sparse: got }
+   include/linux/instrumented.h:181:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:181:9: sparse: sparse: got ,
+   include/linux/instrumented.h:182:9: sparse: sparse: Expected ) in function declarator
+   include/linux/instrumented.h:182:9: sparse: sparse: got ,
+   include/linux/instrumented.h:183:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:183:1: sparse: sparse: got }
+   include/linux/instrumented.h:200:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/instrumented.h:200:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:30:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:43:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:59:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:71:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:72:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:72:16: sparse: sparse: got arch_test_and_set_bit
+   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:73:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:85:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:86:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:86:16: sparse: sparse: got arch_test_and_clear_bit
+   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:87:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-atomic.h:99:43: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-atomic.h:100:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-atomic.h:100:16: sparse: sparse: got arch_test_and_change_bit
+   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-atomic.h:101:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:26:38: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:28:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:42:31: sparse: sparse: got +
+   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:44:1: sparse: sparse: got }
+>> include/asm-generic/bitops/instrumented-lock.h:58:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-lock.h:58:16: sparse: sparse: got arch_test_and_set_bit_lock
+   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:59:1: sparse: sparse: got }
+   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/instrumented-lock.h:79:45: sparse: sparse: got (
+   include/asm-generic/bitops/instrumented-lock.h:80:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/instrumented-lock.h:80:16: sparse: sparse: got arch_xor_unlock_is_negative_byte
+   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/instrumented-lock.h:81:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/le.h:22:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:22:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:27:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:27:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:32:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:32:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:37:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:37:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:42:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:42:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:47:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:47:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:52:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:52:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:57:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:57:1: sparse: sparse: got }
+   include/asm-generic/bitops/le.h:62:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/le.h:62:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, include/asm-generic/div64.h, ...):
+   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/sched.h:22:14: sparse: sparse: got [
+   include/asm-generic/bitops/sched.h:22:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/bitops/sched.h:24:14: sparse: sparse: got [
+   include/asm-generic/bitops/sched.h:24:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/bitops/sched.h:26:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/bitops/sched.h:26:16: sparse: sparse: got __ffs
+   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/bitops/sched.h:30:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/log2.h, include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, ...):
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:78:1: sparse: sparse: undefined identifier 'generic___test_and_set_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:79:1: sparse: sparse: undefined identifier 'generic___test_and_clear_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:80:1: sparse: sparse: undefined identifier 'generic___test_and_change_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'const_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:81:1: sparse: sparse: undefined identifier 'generic_test_bit'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   include/linux/bitops.h:82:1: sparse: sparse: undefined identifier 'generic_test_bit_acquire'
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/div64.h, arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, ...):
+   include/linux/log2.h:45:6: sparse: sparse: Expected ; at end of declaration
+   include/linux/log2.h:45:6: sparse: sparse: got is_power_of_2
+   include/linux/log2.h:48:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:48:1: sparse: sparse: got }
+   include/linux/log2.h:58:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:58:1: sparse: sparse: got }
+   include/linux/log2.h:68:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:68:1: sparse: sparse: got }
+   include/linux/log2.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:202:1: sparse: sparse: got }
+   include/linux/log2.h:230:26: sparse: sparse: Expected ) in function declarator
+   include/linux/log2.h:230:26: sparse: sparse: got (
+   include/linux/log2.h:230:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/log2.h:232:16: sparse: sparse: Expected ) in function declarator
+   include/linux/log2.h:232:16: sparse: sparse: got (
+   include/linux/log2.h:232:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/log2.h:233:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:233:1: sparse: sparse: got }
+   include/linux/log2.h:270:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/log2.h:270:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/generated/asm/div64.h, include/linux/math.h, include/linux/math64.h, include/linux/time64.h, ...):
+   include/asm-generic/div64.h:151:14: sparse: sparse: Expected ; at end of declaration
+   include/asm-generic/div64.h:151:14: sparse: sparse: got no_ovf
+   include/asm-generic/div64.h:154:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/asm-generic/div64.h:154:13: sparse: sparse: missing type declaration for parameter 'no_ovf'
+   include/asm-generic/div64.h:161:11: sparse: sparse: Trying to use reserved word 'else' as identifier
+--
+   arch/powerpc/include/asm/jump_label.h:43:16: sparse: sparse: got false
+   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/jump_label.h:44:6: sparse: sparse: got :
+   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/jump_label.h:46:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/preempt.h, include/linux/preempt.h, include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/jump_label.h:115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:115:1: sparse: sparse: got }
+   include/linux/jump_label.h:153:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:153:20: sparse: sparse: got jump_entry_is_branch
+   include/linux/jump_label.h:156:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:156:1: sparse: sparse: got }
+   include/linux/jump_label.h:161:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:161:1: sparse: sparse: got }
+   include/linux/jump_label.h:167:9: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/linux/jump_label.h:168:17: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:168:17: sparse: sparse: got entry
+   include/linux/jump_label.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:169:1: sparse: sparse: got }
+   include/linux/jump_label.h:178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:178:1: sparse: sparse: got }
+   include/linux/jump_label.h:199:29: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:199:29: sparse: sparse: got static_key_false
+   include/linux/jump_label.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:202:1: sparse: sparse: got }
+   include/linux/jump_label.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/jump_label.h:207:1: sparse: sparse: got }
+   include/linux/jump_label.h:218:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:218:13: sparse: sparse: got arch_jump_label_transform_queue
+   include/linux/jump_label.h:222:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:222:13: sparse: sparse: got static_key_slow_inc
+   include/linux/jump_label.h:223:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:223:13: sparse: sparse: got static_key_fast_inc_not_disabled
+   include/linux/jump_label.h:225:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:225:13: sparse: sparse: got static_key_slow_inc_cpuslocked
+   include/linux/jump_label.h:337:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:337:1: sparse: sparse: got class_jump_label_lock_is_conditional
+   include/linux/jump_label.h:405:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/jump_label.h:405:13: sparse: sparse: got ____wrong_branch_error
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/preempt.h:468:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:468:1: sparse: sparse: got class_preempt_is_conditional
+   include/linux/preempt.h:469:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:469:1: sparse: sparse: got class_preempt_notrace_is_conditional
+   include/linux/preempt.h:473:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:473:13: sparse: sparse: got preempt_model_none
+   include/linux/preempt.h:474:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:474:13: sparse: sparse: got preempt_model_voluntary
+   include/linux/preempt.h:475:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:475:13: sparse: sparse: got preempt_model_full
+   include/linux/preempt.h:476:13: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:476:13: sparse: sparse: got preempt_model_lazy
+   include/linux/preempt.h:500:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:500:20: sparse: sparse: got preempt_model_rt
+   include/linux/preempt.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/preempt.h:503:1: sparse: sparse: got }
+   include/linux/preempt.h:515:20: sparse: sparse: Expected ; at end of declaration
+   include/linux/preempt.h:515:20: sparse: sparse: got preempt_model_preemptible
+   include/linux/preempt.h:518:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/preempt.h:518:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/sched.h, arch/powerpc/include/asm/switch_to.h):
+   include/linux/cpumask_types.h:9:57: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/cpumask_types.h:9:57: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through arch/powerpc/include/asm/irqflags.h, include/linux/irqflags.h, include/asm-generic/cmpxchg-local.h, ...):
+   arch/powerpc/include/asm/hw_irq.h:457:20: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/hw_irq.h:457:20: sparse: sparse: got arch_irqs_disabled_flags
+   arch/powerpc/include/asm/hw_irq.h:460:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:460:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:465:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:465:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:472:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:472:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:477:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:477:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Expected ) in function declarator
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: got !
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:481:9: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:482:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:482:1: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:486:58: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:486:58: sparse: sparse: got }
+   arch/powerpc/include/asm/hw_irq.h:513:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   arch/powerpc/include/asm/hw_irq.h:513:16: sparse: sparse: Expected ; at end of declaration
+   arch/powerpc/include/asm/hw_irq.h:513:16: sparse: sparse: got msr
+   arch/powerpc/include/asm/hw_irq.h:514:1: sparse: sparse: Expected ; at the end of type declaration
+   arch/powerpc/include/asm/hw_irq.h:514:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/asm-generic/cmpxchg-local.h, arch/powerpc/include/asm/cmpxchg.h, arch/powerpc/include/asm/atomic.h, ...):
+   include/linux/irqflags.h:265:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/irqflags.h:265:1: sparse: sparse: got class_irq_is_conditional
+   include/linux/irqflags.h:265:1: sparse: sparse: Expected ; at end of statement
+   include/linux/irqflags.h:265:1: sparse: sparse: got was_disabled
+   include/linux/irqflags.h:266:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/irqflags.h:266:1: sparse: sparse: got class_irqsave_is_conditional
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:2127:1: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2127:1: sparse: sparse: got raw_atomic_try_cmpxchg
+   include/linux/atomic/atomic-arch-fallback.h:2140:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2140:13: sparse: sparse: got (
+>> include/linux/atomic/atomic-arch-fallback.h:2140:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+>> include/linux/atomic/atomic-arch-fallback.h:2142:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2142:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2142:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2144:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2144:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2174:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2174:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2174:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2176:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2176:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2176:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2178:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2207:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2207:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2207:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2209:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2209:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2209:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2211:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2211:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2237:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2237:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2237:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2239:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2239:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2239:16: sparse: sparse: got __builtin_expect
+   include/linux/atomic/atomic-arch-fallback.h:2241:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2241:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2262:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2262:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2282:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2282:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2302:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2302:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2329:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2329:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2356:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2356:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2382:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2382:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2405:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2405:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2435:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2435:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2458:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2458:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2479:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2479:1: sparse: sparse: got }
+>> include/linux/atomic/atomic-arch-fallback.h:2500:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2500:12: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2500:12: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2503:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2503:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2505:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2505:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2505:16: sparse: sparse: got true
+   include/linux/atomic/atomic-arch-fallback.h:2507:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2507:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2528:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2528:12: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2528:12: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2531:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2531:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2533:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2533:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2533:16: sparse: sparse: got true
+   include/linux/atomic/atomic-arch-fallback.h:2535:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2535:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2564:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2564:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/atomic/atomic-arch-fallback.h, include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, ...):
+   include/asm-generic/atomic64.h:14:1: sparse: sparse: Expected ; at the end of type declaration
+   include/asm-generic/atomic64.h:14:1: sparse: sparse: got }
+   include/asm-generic/atomic64.h:18:51: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:18:51: sparse: sparse: got *
+   include/asm-generic/atomic64.h:19:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:19:45: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:32:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:33:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:38:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:39:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:40:1: sparse: sparse: got *
+   include/asm-generic/atomic64.h:47:56: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:47:56: sparse: sparse: got *
+   include/asm-generic/atomic64.h:48:48: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:48:48: sparse: sparse: got *
+   include/asm-generic/atomic64.h:49:45: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:49:45: sparse: sparse: got *
+   include/asm-generic/atomic64.h:50:57: sparse: sparse: Expected ) in function declarator
+   include/asm-generic/atomic64.h:50:57: sparse: sparse: got *
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:2581:36: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2581:36: sparse: sparse: got *
+   include/linux/atomic/atomic-arch-fallback.h:2584:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2584:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2604:13: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2604:13: sparse: sparse: got (
+   include/linux/atomic/atomic-arch-fallback.h:2604:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got !
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in nested declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got volatile
+>> include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'const' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got {
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got !
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2605:23: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2606:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2606:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2609:9: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2609:9: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2613:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2613:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2656:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2656:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2673:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2673:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2700:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2700:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2727:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2727:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2753:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2753:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2776:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2776:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2803:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2803:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2830:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2830:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2856:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2856:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2879:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2879:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2896:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2896:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2923:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2923:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2950:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2950:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2976:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2976:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:2999:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:2999:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3026:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3026:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3053:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3053:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3079:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3079:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3102:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3102:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3122:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3122:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3148:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3148:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3174:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3174:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3221:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3221:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3247:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3247:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3273:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3273:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3298:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3298:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3320:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3320:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3340:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3340:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3366:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3366:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3392:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3392:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3417:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3417:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3439:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3439:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3465:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3465:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3491:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3491:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3516:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3516:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3538:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3538:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3555:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3555:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3582:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3582:1: sparse: sparse: got }
+   include/linux/atomic/atomic-arch-fallback.h:3609:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-arch-fallback.h:3609:1: sparse: sparse: got }
+--
+   include/linux/atomic/atomic-long.h:762:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:782:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:782:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:802:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:802:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:822:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:822:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:842:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:842:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:863:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:863:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:884:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:884:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:905:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:905:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:926:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:926:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:947:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:947:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:968:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:968:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:989:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:989:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1010:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1010:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1031:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1031:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1052:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1052:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1073:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1073:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1094:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1094:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1115:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1115:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1136:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1136:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1157:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1157:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1178:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1178:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1220:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1220:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1241:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1241:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1262:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1262:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1283:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1283:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1304:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1304:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1325:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1325:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1346:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1346:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1369:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1369:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1392:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1392:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1415:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1415:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1438:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1438:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1462:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1462:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1486:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1486:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1510:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1510:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1534:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1534:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1555:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1555:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1575:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1575:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1595:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1595:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1616:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1616:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1637:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1637:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1658:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1658:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1679:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1679:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1702:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1702:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1725:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1725:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1746:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1746:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1767:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1767:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1788:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1788:1: sparse: sparse: got }
+   include/linux/atomic/atomic-long.h:1809:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-long.h:1809:1: sparse: sparse: got }
+   lib/raid/raid6/powerpc/altivec8.c: note: in included file (through include/linux/atomic.h, include/linux/llist.h, include/linux/smp_types.h, include/linux/sched.h, ...):
+>> include/linux/atomic/atomic-instrumented.h:33:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:33:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:33:16: sparse: sparse: got raw_atomic_read
+   include/linux/atomic/atomic-instrumented.h:34:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:34:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:50:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:50:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:50:16: sparse: sparse: got raw_atomic_read_acquire
+   include/linux/atomic/atomic-instrumented.h:51:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:51:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:69:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:69:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:86:42: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:86:42: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:88:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:88:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:106:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:106:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:123:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:123:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:124:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:124:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:124:16: sparse: sparse: got raw_atomic_add_return
+   include/linux/atomic/atomic-instrumented.h:125:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:125:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:142:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:142:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:142:16: sparse: sparse: got raw_atomic_add_return_acquire
+   include/linux/atomic/atomic-instrumented.h:143:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:143:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:160:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:160:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:161:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:161:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:161:16: sparse: sparse: got raw_atomic_add_return_release
+   include/linux/atomic/atomic-instrumented.h:162:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:162:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:179:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:179:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:179:16: sparse: sparse: got raw_atomic_add_return_relaxed
+   include/linux/atomic/atomic-instrumented.h:180:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:180:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:197:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:197:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:198:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:198:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:198:16: sparse: sparse: got raw_atomic_fetch_add
+   include/linux/atomic/atomic-instrumented.h:199:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:199:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:216:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:216:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:216:16: sparse: sparse: got raw_atomic_fetch_add_acquire
+   include/linux/atomic/atomic-instrumented.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:217:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:234:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:234:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:235:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:235:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:235:16: sparse: sparse: got raw_atomic_fetch_add_release
+   include/linux/atomic/atomic-instrumented.h:236:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:236:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:253:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:253:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:253:16: sparse: sparse: got raw_atomic_fetch_add_relaxed
+   include/linux/atomic/atomic-instrumented.h:254:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:254:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:272:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:289:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:289:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:290:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:290:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:290:16: sparse: sparse: got raw_atomic_sub_return
+   include/linux/atomic/atomic-instrumented.h:291:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:291:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:308:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:308:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:308:16: sparse: sparse: got raw_atomic_sub_return_acquire
+   include/linux/atomic/atomic-instrumented.h:309:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:309:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:326:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:326:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:327:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:327:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:327:16: sparse: sparse: got raw_atomic_sub_return_release
+   include/linux/atomic/atomic-instrumented.h:328:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:328:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:345:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:345:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:345:16: sparse: sparse: got raw_atomic_sub_return_relaxed
+   include/linux/atomic/atomic-instrumented.h:346:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:346:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:363:47: sparse: sparse: Expected ) in function declarator
+   include/linux/atomic/atomic-instrumented.h:363:47: sparse: sparse: got (
+   include/linux/atomic/atomic-instrumented.h:364:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:364:16: sparse: sparse: Expected ; at end of declaration
+   include/linux/atomic/atomic-instrumented.h:364:16: sparse: sparse: got raw_atomic_fetch_sub
+   include/linux/atomic/atomic-instrumented.h:365:1: sparse: sparse: Expected ; at the end of type declaration
+   include/linux/atomic/atomic-instrumented.h:365:1: sparse: sparse: got }
+   include/linux/atomic/atomic-instrumented.h:382:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/linux/atomic/atomic-instrumented.h:382:16: sparse: sparse: Expected ; at end of declaration
 
-Old smatch warnings:
-drivers/dma-buf/st-dma-fence-chain.c:219 test_find_seqno() warn: passing fr=
-eed memory 'fence' (line 209)
-drivers/dma-buf/st-dma-fence-chain.c:228 test_find_seqno() warn: passing fr=
-eed memory 'fence' (line 221)
+vim +/return +58 include/asm-generic/bitops/instrumented-lock.h
 
-vim +/fence +207 drivers/dma-buf/st-dma-fence-chain.c
+81d2c6f81996e01 Daniel Axtens 2019-08-20  45  
+81d2c6f81996e01 Daniel Axtens 2019-08-20  46  /**
+81d2c6f81996e01 Daniel Axtens 2019-08-20  47   * test_and_set_bit_lock - Set a bit and return its old value, for lock
+81d2c6f81996e01 Daniel Axtens 2019-08-20  48   * @nr: Bit to set
+81d2c6f81996e01 Daniel Axtens 2019-08-20  49   * @addr: Address to count from
+81d2c6f81996e01 Daniel Axtens 2019-08-20  50   *
+81d2c6f81996e01 Daniel Axtens 2019-08-20  51   * This operation is atomic and provides acquire barrier semantics if
+81d2c6f81996e01 Daniel Axtens 2019-08-20  52   * the returned value is 0.
+81d2c6f81996e01 Daniel Axtens 2019-08-20  53   * It can be used to implement bit locks.
+81d2c6f81996e01 Daniel Axtens 2019-08-20  54   */
+81d2c6f81996e01 Daniel Axtens 2019-08-20  55  static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
+81d2c6f81996e01 Daniel Axtens 2019-08-20  56  {
+b159eeccb75a791 Marco Elver   2020-07-24  57  	instrument_atomic_read_write(addr + BIT_WORD(nr), sizeof(long));
+81d2c6f81996e01 Daniel Axtens 2019-08-20 @58  	return arch_test_and_set_bit_lock(nr, addr);
+81d2c6f81996e01 Daniel Axtens 2019-08-20  59  }
+81d2c6f81996e01 Daniel Axtens 2019-08-20  60  
 
-dc2f7e67a28a5c Chris Wilson      2020-04-09  173 =20
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  174  static void test_find_seq=
-no(struct kunit *test)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  175  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  176  	struct fence_chains fc;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  177  	struct dma_fence *fence;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  178  	int err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  179  	int i;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  180 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  181  	err =3D fence_chains_ini=
-t(&fc, 64, seqno_inc);
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  182  	KUNIT_ASSERT_EQ_MSG(test=
-, err, 0, "Failed to init fence chains");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  183 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  184  	fence =3D dma_fence_get(=
-fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  185  	err =3D dma_fence_chain_=
-find_seqno(&fence, 0);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  186  	dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  187  	if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  188  		KUNIT_FAIL(test, "Repor=
-ted %d for find_seqno(0)!", err);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  189  		goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  190  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  191 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  192  	for (i =3D 0; i < fc.cha=
-in_length; i++) {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  193  		fence =3D dma_fence_get=
-(fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  194  		err =3D dma_fence_chain=
-_find_seqno(&fence, i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @195  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  196  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  197  			KUNIT_FAIL(test, "Repo=
-rted %d for find_seqno(%d:%d)!",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  198  				   err, fc.chain_leng=
-th + 1, i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  199  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  200  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  201  		if (fence !=3D fc.chain=
-s[i]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  202  			KUNIT_FAIL(test, "Inco=
-rrect fence reported by find_seqno(%d:%d)",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  203  				   fc.chain_length + =
-1, i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  204  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  205  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  206 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @207  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  208  		err =3D dma_fence_chain=
-_find_seqno(&fence, i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  209  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  210  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  211  			KUNIT_FAIL(test, "Erro=
-r reported for finding self");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  212  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  213  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  214  		if (fence !=3D fc.chain=
-s[i]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  215  			KUNIT_FAIL(test, "Inco=
-rrect fence reported by find self");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  216  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  217  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  218 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  219  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  220  		err =3D dma_fence_chain=
-_find_seqno(&fence, i + 2);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  221  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  222  		if (!err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  223  			KUNIT_FAIL(test, "Erro=
-r not reported for future fence: find_seqno(%d:%d)!",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  224  				   i + 1, i + 2);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  225  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  226  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  227 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  228  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  229  		err =3D dma_fence_chain=
-_find_seqno(&fence, i);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  230  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  231  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  232  			KUNIT_FAIL(test, "Erro=
-r reported for previous fence!");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  233  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  234  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  235  		if (i > 0 && fence !=3D =
-fc.chains[i - 1]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  236  			KUNIT_FAIL(test, "Inco=
-rrect fence reported by find_seqno(%d:%d)",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  237  				   i + 1, i);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  238  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  239  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  240  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  241 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  242  err:
-dc2f7e67a28a5c Chris Wilson      2020-04-09  243  	fence_chains_fini(&fc);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  244  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  245 =20
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  246  static void test_find_sig=
-naled(struct kunit *test)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  247  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  248  	struct fence_chains fc;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  249  	struct dma_fence *fence;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  250  	int err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  251 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  252  	err =3D fence_chains_ini=
-t(&fc, 2, seqno_inc);
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  253  	KUNIT_ASSERT_EQ_MSG(test=
-, err, 0, "Failed to init fence chains");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  254 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  255  	dma_fence_signal(fc.fenc=
-es[0]);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  256 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  257  	fence =3D dma_fence_get(=
-fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  258  	err =3D dma_fence_chain_=
-find_seqno(&fence, 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @259  	dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  260  	if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  261  		KUNIT_FAIL(test, "Repor=
-ted %d for find_seqno()!", err);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  262  		goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  263  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  264 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  265  	if (fence && fence !=3D =
-fc.chains[0]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01 @266  		KUNIT_FAIL(test, "Incor=
-rect chain-fence.seqno:%lld reported for completed seqno:1",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  267  			   fence->seqno);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  268 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  269  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  270  		err =3D dma_fence_chain=
-_find_seqno(&fence, 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  271  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  272  		if (err)
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  273  			KUNIT_FAIL(test, "Repo=
-rted %d for finding self!", err);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  274  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  275 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  276  err:
-dc2f7e67a28a5c Chris Wilson      2020-04-09  277  	fence_chains_fini(&fc);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  278  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  279 =20
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  280  static void test_find_out=
-_of_order(struct kunit *test)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  281  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  282  	struct fence_chains fc;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  283  	struct dma_fence *fence;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  284  	int err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  285 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  286  	err =3D fence_chains_ini=
-t(&fc, 3, seqno_inc);
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  287  	KUNIT_ASSERT_EQ_MSG(test=
-, err, 0, "Failed to init fence chains");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  288 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  289  	dma_fence_signal(fc.fenc=
-es[1]);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  290 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  291  	fence =3D dma_fence_get(=
-fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  292  	err =3D dma_fence_chain_=
-find_seqno(&fence, 2);
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @293  	dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  294  	if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  295  		KUNIT_FAIL(test, "Repor=
-ted %d for find_seqno()!", err);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  296  		goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  297  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  298 =20
-4cca2e64164176 Lionel Landwerlin 2020-06-25  299  	/*
-4cca2e64164176 Lionel Landwerlin 2020-06-25  300  	 * We signaled the middl=
-e fence (2) of the 1-2-3 chain. The behavior
-4cca2e64164176 Lionel Landwerlin 2020-06-25  301  	 * of the dma-fence-chai=
-n is to make us wait for all the fences up to
-4cca2e64164176 Lionel Landwerlin 2020-06-25  302  	 * the point we want. Si=
-nce fence 1 is still not signaled, this what
-4cca2e64164176 Lionel Landwerlin 2020-06-25  303  	 * we should get as fenc=
-e to wait upon (fence 2 being garbage
-4cca2e64164176 Lionel Landwerlin 2020-06-25  304  	 * collected during the =
-traversal of the chain).
-4cca2e64164176 Lionel Landwerlin 2020-06-25  305  	 */
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  306  	if (fence !=3D fc.chains=
-[0])
-6055c9e333cfbb Jason Gunthorpe   2026-03-01 @307  		KUNIT_FAIL(test, "Incor=
-rect chain-fence.seqno:%lld reported for completed seqno:2",
-4cca2e64164176 Lionel Landwerlin 2020-06-25  308  			   fence ? fence->seqn=
-o : 0);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  309 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  310  err:
-dc2f7e67a28a5c Chris Wilson      2020-04-09  311  	fence_chains_fini(&fc);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  312  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  313 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  314  static uint64_t seqno_inc=
-2(unsigned int i)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  315  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  316  	return 2 * i + 2;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  317  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  318 =20
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  319  static void test_find_gap=
-(struct kunit *test)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  320  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  321  	struct fence_chains fc;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  322  	struct dma_fence *fence;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  323  	int err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  324  	int i;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  325 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  326  	err =3D fence_chains_ini=
-t(&fc, 64, seqno_inc2);
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  327  	KUNIT_ASSERT_EQ_MSG(test=
-, err, 0, "Failed to init fence chains");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  328 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  329  	for (i =3D 0; i < fc.cha=
-in_length; i++) {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  330  		fence =3D dma_fence_get=
-(fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  331  		err =3D dma_fence_chain=
-_find_seqno(&fence, 2 * i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @332  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  333  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  334  			KUNIT_FAIL(test, "Repo=
-rted %d for find_seqno(%d:%d)!",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  335  				   err, fc.chain_leng=
-th + 1, 2 * i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  336  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  337  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  338  		if (fence !=3D fc.chain=
-s[i]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01 @339  			KUNIT_FAIL(test, "Inco=
-rrect fence.seqno:%lld reported by find_seqno(%d:%d)",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  340  				   fence->seqno,
-dc2f7e67a28a5c Chris Wilson      2020-04-09  341  				   fc.chain_length + =
-1,
-dc2f7e67a28a5c Chris Wilson      2020-04-09  342  				   2 * i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  343  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  344  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  345 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @346  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  347  		err =3D dma_fence_chain=
-_find_seqno(&fence, 2 * i + 2);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  348  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  349  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  350  			KUNIT_FAIL(test, "Erro=
-r reported for finding self");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  351  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  352  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  353  		if (fence !=3D fc.chain=
-s[i]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  354  			KUNIT_FAIL(test, "Inco=
-rrect fence reported by find self");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  355  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  356  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  357  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  358 =20
-dc2f7e67a28a5c Chris Wilson      2020-04-09  359  err:
-dc2f7e67a28a5c Chris Wilson      2020-04-09  360  	fence_chains_fini(&fc);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  361  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  362 =20
+:::::: The code at line 58 was first introduced by commit
+:::::: 81d2c6f81996e01fbcd2b5aeefbb519e21c806e9 kasan: support instrumented bitops combined with generic bitops
 
-:::::: The code at line 207 was first introduced by commit
-:::::: dc2f7e67a28a5cbe4ea905dafaa6903df670014a dma-buf: Exercise dma-fence=
--chain under selftests
-
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: TO: Daniel Axtens <dja@axtens.net>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 --
 0-DAY CI Kernel Test Service
