@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180FC3C3C0F
-	for <oe-kbuild@lists.linux.dev>; Tue, 26 May 2026 22:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1182F3621
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 May 2026 00:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779835421; cv=none; b=VUzxRwONZ9c8ECNdqcY6Mm5SxdV6F75zH3nkRUHfM4Qsn9jKceT2eyI3rGmIJBs3+vSpbdbirfMsaepEm5lsVkC3yLLQ6SOVMvaYEqWMHp4TNCyEaTKq6CV3cAcVxh0j1U+Y1NTEqZfsaCO19spM+8TK3OoMbVjmIPGAkK+4oWY=
+	t=1779842149; cv=none; b=Vf7NYtKP7KX7zqD2hEbm+kgK3rztlpYY1Y3a+oLKZms7WT5tfT1tKqv6X1yqZZ0ijytmkvDAybAuOuj/OLTOSYBA54LIh/UG4gH/DNS99pAc6hDs7GvbumsaxtAZRvxd5RzBsooyQUWMrhUs5T5RFe+TDCto8KXTo/LHckFvP7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779835421; c=relaxed/simple;
-	bh=Oj8vT0OfYn8C+/b4choPrOWuCgVkfRYnddlSYIYoY9I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lN/GlmJh2O6+JfgFF5touPI366OGZ71fT0l01PvKiYGwS3H7cRk05tDM7QUTX/kMsZkA9MJ4eo7xJQytCa9IW2hfiNv74PEyGUlUY6sXxlHHccUfm5NU6+hybEfDMTIH4s2SFq7nEiXgsT38pH1MRF+pd8MqDGD2qAWOrR5e7SA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PzdELumn; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1779842149; c=relaxed/simple;
+	bh=ItNi2ayfdFulXOkqAtwpgRXxwHHPxKWKNaYir+r5bps=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=owC12voIfWFLBeQN1MgoW+pe8qTbMU0tZ7kVaf5kwrBOuv3VQYm8i62yrD7ExDZG1do3/R8NGLBr17I7aULL7zBRUMmU1cdzHfGZRJGVDB8/58YM0w9IOrifBf3sbLRCxukTodllXSE9adEpkvOBKwBugLIKh4R6Y/H1VFI3BWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Be3A+o7Q; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PzdELumn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Be3A+o7Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779835419; x=1811371419;
+  t=1779842145; x=1811378145;
   h=date:from:to:cc:subject:message-id;
-  bh=Oj8vT0OfYn8C+/b4choPrOWuCgVkfRYnddlSYIYoY9I=;
-  b=PzdELumnUFVrqDOob6ZAX5Y6TypKlEUJ2RJl32+jmBtWE4YXhfKdUQUO
-   clpOEZMSiIBvELnpGyAndp5B4hufJFBNeEdOjEyJcOpWh3tEs46uT+wLR
-   N6T6AJL7h+XMEGv+8D8bEOUDY/2UEO6JtcOgt0TYsYJJXjYrG7/4/th7r
-   KKEigS5fNButV+oGoFRa9PEPoCj9Z/UnRqTayaL1l2isRd+s/DTTAf7cE
-   38pC83iDc6++tmpVNKyYml1rXUHavltOyLEE7gQ6FjBbbGJtZ+ECTb1qA
-   8iNsbhfd5vMUarGVXHfejFeZAcWa8zROOWpEgXTOYd6ImHpmP8diTf3Fd
+  bh=ItNi2ayfdFulXOkqAtwpgRXxwHHPxKWKNaYir+r5bps=;
+  b=Be3A+o7QW18obXx3JEn3c83NkCkLtkADIroy2h9qvISIZIyObiMeqkML
+   1GfFiRGolUucrH0HPF2Mm3ovOqCGnyJjaTcVDSTRDs4hlDuIx32TABrTj
+   uaLFw1SXztnLveGGW+63vxexmgFyhIGVxAWiTkVtOo08OAgF3DKz063In
+   xGP9e33tlhiS9ohoy8yTMchBQmrOViRIS7pR1nJ18s79SmAnvIhaBk8wZ
+   x9e4Zc/juJZ+YlmAhwEsIrG+CcSS0X+rvmY+yP+/2XRqaOvtxTfhI/NId
+   JNx17GoPVQSDc2yL1g3FAj5uBG0ruD0vy42pgn+xrhnoshRXTF6TKRyjd
    w==;
-X-CSE-ConnectionGUID: 0p+S49WQQ0aX7baejaGSXQ==
-X-CSE-MsgGUID: oGCTgKhYSdi/t/8Yg7ty2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="79808842"
+X-CSE-ConnectionGUID: eNJK2+9cTGq4m+B8nfz9cg==
+X-CSE-MsgGUID: ox2afSGOSsyj9r00G+ZFGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="98093424"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="79808842"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 15:43:38 -0700
-X-CSE-ConnectionGUID: tlT68PipT9q0WlVGyAvdRw==
-X-CSE-MsgGUID: mS0SrDqWQ66e48gIDBLFQw==
+   d="scan'208";a="98093424"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 17:35:42 -0700
+X-CSE-ConnectionGUID: qGrQfLkEQxCP9r8+tqpY3w==
+X-CSE-MsgGUID: S895bheISRSJZgVv85uNqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="239053239"
+   d="scan'208";a="239471328"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 26 May 2026 15:43:37 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 26 May 2026 17:35:40 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wS0Up-00000000CVl-1PWv;
-	Tue, 26 May 2026 22:43:35 +0000
-Date: Wed, 27 May 2026 00:43:17 +0200
+	id 1wS2FG-00000000CZR-1zA4;
+	Wed, 27 May 2026 00:35:38 +0000
+Date: Wed, 27 May 2026 02:35:29 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/bpf/verifier.c:17312:51: warning: format '%ld'
- expects argument of type 'long int', but argument 3 has type 'int'
-Message-ID: <202605270018.HUv1AvAl-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 14/114]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000
+ (apple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not
+ match any of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202605270208.aS4DFHP1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,76 +62,165 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Eduard Zingerman <eddyz87@gmail.com>
-CC: 0day robot <lkp@intel.com>
+TO: Hector Martin <marcan@marcan.st>
+CC: Janne Grunau <j@jannau.net>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-move-live-registers-and-scc-printout-to-a-standalone-function/20260526-180053
-head:   71a332b01f49d441d062c1af011313255cbce050
-commit: 2ce56afff3fb6a40dc9dd6fa274faddf8f4cd661 bpf: report hot simulated callchains when 1M instructions limit is met
-date:   13 hours ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260527/202605270018.HUv1AvAl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605270018.HUv1AvAl-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   2d563843e07af55de0249a409021af705f586961
+commit: 0fe91d70bf9d32cd19576a040059bfb22b6a9b03 [14/114] arm64: dts: apple: t8112: Mark MCA power states as externally-clocked
+:::::: branch date: 13 days ago
+:::::: commit date: 13 days ago
+config: arm64-randconfig-2055-20260516 (https://download.01.org/0day-ci/archive/20260527/202605270208.aS4DFHP1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605270208.aS4DFHP1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605270018.HUv1AvAl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605270208.aS4DFHP1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   kernel/bpf/verifier.c: In function 'print_callchain_entry':
->> kernel/bpf/verifier.c:17312:51: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-   17312 |                         verbose(env, "  subprog#%ld/%d", sub - env->subprog_info, insn_idx);
-         |                                                 ~~^      ~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                   |          |
-         |                                                   long int   int
-         |                                                 %d
-   kernel/bpf/verifier.c: In function 'disasm_subprog':
-   kernel/bpf/verifier.c:17328:41: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-   17328 |                 verbose(env, "subprog#%ld:\n", sub - env->subprog_info);
-         |                                       ~~^      ~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         |          |
-         |                                         long int   int
-         |                                       %d
-
-
-vim +17312 kernel/bpf/verifier.c
-
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17294  
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17295  static void print_callchain_entry(struct bpf_verifier_env *env,
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17296  				  struct bpf_callchain_entry *entry, int idx)
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17297  {
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17298  	struct bpf_callchain *cc = &entry->cc;
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17299  	const struct bpf_line_info *linfo;
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17300  	struct bpf_subprog_info *sub;
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17301  	int i, insn_idx;
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17302  
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17303  	verbose(env, "#%d most visited simulated stacktrace (visited %llu times):\n",
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17304  		idx, entry->count);
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17305  	for (i = 0; i <= cc->curframe; i++) {
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17306  		insn_idx = cc->insn_idx[i];
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17307  		sub = bpf_find_containing_subprog(env, insn_idx);
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17308  		linfo = bpf_find_linfo(env->prog, insn_idx);
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17309  		if (sub->name)
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17310  			verbose(env, "  %s/%d", sub->name, insn_idx);
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17311  		else
-2ce56afff3fb6a Eduard Zingerman 2026-05-26 @17312  			verbose(env, "  subprog#%ld/%d", sub - env->subprog_info, insn_idx);
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17313  		if (linfo)
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17314  			verbose(env, " (%s:%u)",
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17315  				btf_name_by_offset(env->prog->aux->btf, linfo->file_name_off),
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17316  				BPF_LINE_INFO_LINE_NUM(linfo->line_col));
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17317  		verbose(env, "\n");
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17318  	}
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17319  }
-2ce56afff3fb6a Eduard Zingerman 2026-05-26  17320  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2e8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-controller@2c0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-controller@2c8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-controller@2d0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-controller@2d8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-controller@2e0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: power-controller@2e8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+--
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2e8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-controller@2c0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-controller@2c8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-controller@2d0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-controller@2d8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-controller@2e0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: power-controller@2e8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+--
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2e8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-controller@2c0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-controller@2c8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-controller@2d0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-controller@2d8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-controller@2e0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: power-controller@2e8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
+--
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2e0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-management@23b700000 (apple,t8112-pmgr): power-controller@2e8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-controller@2c0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-controller@2c8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-controller@2d0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-controller@2d8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-controller@2e0 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: power-controller@2e8 (apple,t8112-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000 (apple,t8112-dart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	'apple,t6020-dart' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml
 
 --
 0-DAY CI Kernel Test Service
