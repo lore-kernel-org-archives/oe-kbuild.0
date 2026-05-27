@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508E5277C9E
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 May 2026 03:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A1145039
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 May 2026 04:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779851533; cv=none; b=naotWNLNGUAqAuFgJD+XnVbsqz6hTH/HhIFwa4zSsqDmWPzZnruoZB8LmpcdTJGaN382uic9B4HPDXmZxzlJqYHhuEByaCd1Rx8oYhkGFhx2qtE1qgBgrN9IPZctlIIAQtBzK+QEb6sz8yOQVG9g4ZEJGXYIJVQIl9xCESqmnOA=
+	t=1779856940; cv=none; b=PEb3gacoLwJPE25XG/50EU4aXlIKdUs5jxYWL4OlXmfEHDeYNUkteePxE4WVaD4+6w0NGeTgHg+W+ppuEYGAaJBZITubOwTH8PXOrcY71gZc0y+ttagcX7bXeN1jkuP77ynfW2QIUJlqjKBO6fBrKf3BzyqXlVGsFdxPqarZAno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779851533; c=relaxed/simple;
-	bh=o1OR0hsI9hk9tE1L/EzfzfNgtW6DX12BS4t3B/WnoCY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=H1YUArSOW3YLO8QeprnJ9tHipQ3ahLwQaPdKw2PiH9/LnXJ3OH6nEKz2+/fRLLdvJZUgwlVigcQhMwY/p5SEE6QNuXxsgAD41cXZCuBYQRBFePe4s1golQGklPke9cbAoAbTlMhxCnJtkqUIGUvXbs64KWzEJqsxEePQgxDDLA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIaabFMQ; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1779856940; c=relaxed/simple;
+	bh=r8QnEnA7LGvAWhgwkxbLfkqHhVN8qa+1rYSmiaDs2l4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NmRvPILFGBQVUklHTxHsbk3hr0FglC4XLPtFDUdCSLnGIX/uGPQUbwcxrEs+xhAY14cANCB/+VLNHRnf0bN96Th1fnvQIp2rn0MffC6tFOwa29o7AcI5QPoIO/EhcbAHJNIWZ2jv4mtIswK4xYGMavyJFA2jJ59xOm9vLWRfewU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FeL0kO3V; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIaabFMQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FeL0kO3V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779851531; x=1811387531;
+  t=1779856938; x=1811392938;
   h=date:from:to:cc:subject:message-id;
-  bh=o1OR0hsI9hk9tE1L/EzfzfNgtW6DX12BS4t3B/WnoCY=;
-  b=AIaabFMQI+7bbiVdF2SjC1MnbKRefUAW9ZvxHJNPWkUdRdwLKgUnOATX
-   cNE51rRCjw4q5eq/pmOle4BM7YK9eSALlmgivpLBx3rdurnksfTlArbQS
-   BavYs5Ryp0iVjQ1euJxVKggu0qorGL7ZJLzNDZduTHusHRMEMX2a3akFx
-   pfSAUJEc1x2mpBm/gZePYlAqWmUxKdEXBcu/28I/BwU8+u/bbuBO5m4dY
-   BZ/IcAiEu191LfSxm9HdrGClac1p+G4ir+vpts8kij5l+mkRtMzgqza2p
-   /ozS5nb1l5jQY7i0lq+1JyFjeBG9YbxPZBCmTIKLJ92Td8Bfo14u4mbUZ
-   g==;
-X-CSE-ConnectionGUID: 3q3E14YDRx+pFKh13vckAw==
-X-CSE-MsgGUID: WDBxcThNQfiQXjgOwSsIkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80862948"
+  bh=r8QnEnA7LGvAWhgwkxbLfkqHhVN8qa+1rYSmiaDs2l4=;
+  b=FeL0kO3VzQwkfFAnrZBuQNITevYLtu5BYjCPqd3XzLMvBMlcrc71rJKn
+   dY/1FylSv1I0+VEC/BIMZD5W2+tb18byym0ZzdZrZemdwiVy+clMgWT8u
+   nSgPl7t6qAM2r9mhoH3tT797FK170gxmyYcrXI6emvsqtJD8YhdwOoxlC
+   mtUta/gie6uiZZHElTlM5gvmgHQvIrtYbatvKumatLrWUcMDPwrDvE0DX
+   uPrlc92ngeDROI7LVGhuj5Ncd3O/E7J+/t0Y+BxBttI/MLnQoGA0lDtL3
+   IfyKnobdk6bQutGe67pWE5EwLvIAR8BOGFcq4a3TC3jmIcX6RLTNlnCHI
+   Q==;
+X-CSE-ConnectionGUID: aGQUudhUT+SyRHCymtMvlw==
+X-CSE-MsgGUID: +2WfCiOhTxKLP9+pog37DQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80710907"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="80862948"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 20:12:10 -0700
-X-CSE-ConnectionGUID: gY2qBsrfQBSPj7OFSImFIg==
-X-CSE-MsgGUID: QXMc7s3VQA+dEuP5VNmxeA==
+   d="scan'208";a="80710907"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 21:42:18 -0700
+X-CSE-ConnectionGUID: +G87lezoRX23Jl3TeMdefA==
+X-CSE-MsgGUID: sQosSWWxSduJqu78Jq3N8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="243929831"
+   d="scan'208";a="247203985"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 May 2026 20:12:09 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 May 2026 21:42:17 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wS4gh-000000003JO-0UoU;
-	Wed, 27 May 2026 03:12:07 +0000
-Date: Wed, 27 May 2026 11:11:46 +0800
+	id 1wS65u-000000003P8-1EWJ;
+	Wed, 27 May 2026 04:42:14 +0000
+Date: Wed, 27 May 2026 12:42:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1513/2910] net/kcm/kcmsock.c:945
- kcm_sendmsg() error: we previously assumed 'head' could be null (see line
- 787)
-Message-ID: <202605271103.Ty43jmZr-lkp@intel.com>
+Subject: drivers/gpib/ines/ines_gpib.c:917 ines_isa_attach() warn:
+ 'config->ibbase' from __request_region() not released on lines: 913.
+Message-ID: <202605271229.d8wGTffx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,259 +61,77 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jiayuan Chen <jiayuan.chen@shopee.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Dave Penkler <dpenkler@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e7e28506af98ce4e1059e5ec59334b335c00a246
-commit: ca220141fa8ebae09765a242076b2b77338106b0 [1513/2910] kcm: fix zero-frag skb in frag_list on partial sendmsg error
-:::::: branch date: 12 hours ago
-:::::: commit date: 3 months ago
-config: s390-randconfig-r073-20260526 (https://download.01.org/0day-ci/archive/20260527/202605271103.Ty43jmZr-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 10.5.0
+Hi Dave,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eb3f4b7426cfd2b79d65b7d37155480b32259a11
+commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
+date:   6 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 6 months ago
+config: alpha-randconfig-r071-20260527 (https://download.01.org/0day-ci/archive/20260527/202605271229.d8wGTffx-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e6ab504633e4 ("staging: gpib: Destage gpib")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605271103.Ty43jmZr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605271229.d8wGTffx-lkp@intel.com/
 
-smatch warnings:
-net/kcm/kcmsock.c:945 kcm_sendmsg() error: we previously assumed 'head' could be null (see line 787)
+New smatch warnings:
+drivers/gpib/ines/ines_gpib.c:917 ines_isa_attach() warn: 'config->ibbase' from __request_region() not released on lines: 913.
 
-vim +/head +945 net/kcm/kcmsock.c
+Old smatch warnings:
+internal error: arch/alpha/include/asm/io_trivial.h:12 SQL error #2: near "and": syntax error
+internal error: arch/alpha/include/asm/io_trivial.h:12 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
 
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  747  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  748  static int kcm_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  749  {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  750  	struct sock *sk = sock->sk;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  751  	struct kcm_sock *kcm = kcm_sk(sk);
-ca220141fa8eba Jiayuan Chen      2026-02-19  752  	struct sk_buff *skb = NULL, *head = NULL, *frag_prev = NULL;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  753  	size_t copy, copied = 0;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  754  	long timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  755  	int eor = (sock->type == SOCK_DGRAM) ?
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  756  		  !(msg->msg_flags & MSG_MORE) : !!(msg->msg_flags & MSG_EOR);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  757  	int err = -EPIPE;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  758  
-807067bf014d4a Kuniyuki Iwashima 2024-08-15  759  	mutex_lock(&kcm->tx_mutex);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  760  	lock_sock(sk);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  761  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  762  	/* Per tcp_sendmsg this should be in poll */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  763  	sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  764  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  765  	if (sk->sk_err)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  766  		goto out_error;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  767  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  768  	if (kcm->seq_skb) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  769  		/* Previously opened message */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  770  		head = kcm->seq_skb;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  771  		skb = kcm_tx_msg(head)->last_skb;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  772  		goto start;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  773  	}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  774  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  775  	/* Call the sk_stream functions to manage the sndbuf mem. */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  776  	if (!sk_stream_memory_free(sk)) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  777  		kcm_push(kcm);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  778  		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  779  		err = sk_stream_wait_memory(sk, &timeo);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  780  		if (err)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  781  			goto out_error;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  782  	}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  783  
-98e3862ca2b1ae WANG Cong         2017-02-07  784  	if (msg_data_left(msg)) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  785  		/* New message, alloc head skb */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  786  		head = alloc_skb(0, sk->sk_allocation);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07 @787  		while (!head) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  788  			kcm_push(kcm);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  789  			err = sk_stream_wait_memory(sk, &timeo);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  790  			if (err)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  791  				goto out_error;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  792  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  793  			head = alloc_skb(0, sk->sk_allocation);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  794  		}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  795  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  796  		skb = head;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  797  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  798  		/* Set ip_summed to CHECKSUM_UNNECESSARY to avoid calling
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  799  		 * csum_and_copy_from_iter from skb_do_copy_data_nocache.
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  800  		 */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  801  		skb->ip_summed = CHECKSUM_UNNECESSARY;
-98e3862ca2b1ae WANG Cong         2017-02-07  802  	}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  803  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  804  start:
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  805  	while (msg_data_left(msg)) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  806  		bool merge = true;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  807  		int i = skb_shinfo(skb)->nr_frags;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  808  		struct page_frag *pfrag = sk_page_frag(sk);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  809  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  810  		if (!sk_page_frag_refill(sk, pfrag))
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  811  			goto wait_for_memory;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  812  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  813  		if (!skb_can_coalesce(skb, i, pfrag->page,
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  814  				      pfrag->offset)) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  815  			if (i == MAX_SKB_FRAGS) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  816  				struct sk_buff *tskb;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  817  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  818  				tskb = alloc_skb(0, sk->sk_allocation);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  819  				if (!tskb)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  820  					goto wait_for_memory;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  821  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  822  				if (head == skb)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  823  					skb_shinfo(head)->frag_list = tskb;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  824  				else
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  825  					skb->next = tskb;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  826  
-ca220141fa8eba Jiayuan Chen      2026-02-19  827  				frag_prev = skb;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  828  				skb = tskb;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  829  				skb->ip_summed = CHECKSUM_UNNECESSARY;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  830  				continue;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  831  			}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  832  			merge = false;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  833  		}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  834  
-2b03bcae66c7b2 David Howells     2023-05-31  835  		if (msg->msg_flags & MSG_SPLICE_PAGES) {
-2b03bcae66c7b2 David Howells     2023-05-31  836  			copy = msg_data_left(msg);
-2b03bcae66c7b2 David Howells     2023-05-31  837  			if (!sk_wmem_schedule(sk, copy))
-2b03bcae66c7b2 David Howells     2023-05-31  838  				goto wait_for_memory;
-2b03bcae66c7b2 David Howells     2023-05-31  839  
-25489a4f556414 Michal Luczaj     2025-07-02  840  			err = skb_splice_from_iter(skb, &msg->msg_iter, copy);
-2b03bcae66c7b2 David Howells     2023-05-31  841  			if (err < 0) {
-2b03bcae66c7b2 David Howells     2023-05-31  842  				if (err == -EMSGSIZE)
-2b03bcae66c7b2 David Howells     2023-05-31  843  					goto wait_for_memory;
-2b03bcae66c7b2 David Howells     2023-05-31  844  				goto out_error;
-2b03bcae66c7b2 David Howells     2023-05-31  845  			}
-2b03bcae66c7b2 David Howells     2023-05-31  846  
-2b03bcae66c7b2 David Howells     2023-05-31  847  			copy = err;
-2b03bcae66c7b2 David Howells     2023-05-31  848  			skb_shinfo(skb)->flags |= SKBFL_SHARED_FRAG;
-2b03bcae66c7b2 David Howells     2023-05-31  849  			sk_wmem_queued_add(sk, copy);
-2b03bcae66c7b2 David Howells     2023-05-31  850  			sk_mem_charge(sk, copy);
-2b03bcae66c7b2 David Howells     2023-05-31  851  
-2b03bcae66c7b2 David Howells     2023-05-31  852  			if (head != skb)
-2b03bcae66c7b2 David Howells     2023-05-31  853  				head->truesize += copy;
-2b03bcae66c7b2 David Howells     2023-05-31  854  		} else {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  855  			copy = min_t(int, msg_data_left(msg),
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  856  				     pfrag->size - pfrag->offset);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  857  			if (!sk_wmem_schedule(sk, copy))
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  858  				goto wait_for_memory;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  859  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  860  			err = skb_copy_to_page_nocache(sk, &msg->msg_iter, skb,
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  861  						       pfrag->page,
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  862  						       pfrag->offset,
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  863  						       copy);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  864  			if (err)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  865  				goto out_error;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  866  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  867  			/* Update the skb. */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  868  			if (merge) {
-2b03bcae66c7b2 David Howells     2023-05-31  869  				skb_frag_size_add(
-2b03bcae66c7b2 David Howells     2023-05-31  870  					&skb_shinfo(skb)->frags[i - 1], copy);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  871  			} else {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  872  				skb_fill_page_desc(skb, i, pfrag->page,
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  873  						   pfrag->offset, copy);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  874  				get_page(pfrag->page);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  875  			}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  876  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  877  			pfrag->offset += copy;
-2b03bcae66c7b2 David Howells     2023-05-31  878  		}
-2b03bcae66c7b2 David Howells     2023-05-31  879  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  880  		copied += copy;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  881  		if (head != skb) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  882  			head->len += copy;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  883  			head->data_len += copy;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  884  		}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  885  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  886  		continue;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  887  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  888  wait_for_memory:
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  889  		kcm_push(kcm);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  890  		err = sk_stream_wait_memory(sk, &timeo);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  891  		if (err)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  892  			goto out_error;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  893  	}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  894  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  895  	if (eor) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  896  		bool not_busy = skb_queue_empty(&sk->sk_write_queue);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  897  
-98e3862ca2b1ae WANG Cong         2017-02-07  898  		if (head) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  899  			/* Message complete, queue it on send buffer */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  900  			__skb_queue_tail(&sk->sk_write_queue, head);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  901  			kcm->seq_skb = NULL;
-cd6e111bf5be5c Tom Herbert       2016-03-07  902  			KCM_STATS_INCR(kcm->stats.tx_msgs);
-98e3862ca2b1ae WANG Cong         2017-02-07  903  		}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  904  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  905  		if (msg->msg_flags & MSG_BATCH) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  906  			kcm->tx_wait_more = true;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  907  		} else if (kcm->tx_wait_more || not_busy) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  908  			err = kcm_write_msgs(kcm);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  909  			if (err < 0) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  910  				/* We got a hard error in write_msgs but have
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  911  				 * already queued this message. Report an error
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  912  				 * in the socket, but don't affect return value
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  913  				 * from sendmsg
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  914  				 */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  915  				pr_warn("KCM: Hard failure on kcm_write_msgs\n");
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  916  				report_csk_error(&kcm->sk, -err);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  917  			}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  918  		}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  919  	} else {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  920  		/* Message not complete, save state */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  921  partial_message:
-cd27b96bc13841 WANG Cong         2017-02-13  922  		if (head) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  923  			kcm->seq_skb = head;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  924  			kcm_tx_msg(head)->last_skb = skb;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  925  		}
-cd27b96bc13841 WANG Cong         2017-02-13  926  	}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  927  
-cd6e111bf5be5c Tom Herbert       2016-03-07  928  	KCM_STATS_ADD(kcm->stats.tx_bytes, copied);
-cd6e111bf5be5c Tom Herbert       2016-03-07  929  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  930  	release_sock(sk);
-807067bf014d4a Kuniyuki Iwashima 2024-08-15  931  	mutex_unlock(&kcm->tx_mutex);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  932  	return copied;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  933  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  934  out_error:
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  935  	kcm_push(kcm);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  936  
-ca220141fa8eba Jiayuan Chen      2026-02-19  937  	/* When MAX_SKB_FRAGS was reached, a new skb was allocated and
-ca220141fa8eba Jiayuan Chen      2026-02-19  938  	 * linked into the frag_list before data copy. If the copy
-ca220141fa8eba Jiayuan Chen      2026-02-19  939  	 * subsequently failed, this skb has zero frags. Remove it from
-ca220141fa8eba Jiayuan Chen      2026-02-19  940  	 * the frag_list to prevent kcm_write_msgs from later hitting
-ca220141fa8eba Jiayuan Chen      2026-02-19  941  	 * WARN_ON(!skb_shinfo(skb)->nr_frags).
-ca220141fa8eba Jiayuan Chen      2026-02-19  942  	 */
-ca220141fa8eba Jiayuan Chen      2026-02-19  943  	if (frag_prev && !skb_shinfo(skb)->nr_frags) {
-ca220141fa8eba Jiayuan Chen      2026-02-19  944  		if (head == frag_prev)
-ca220141fa8eba Jiayuan Chen      2026-02-19 @945  			skb_shinfo(head)->frag_list = NULL;
-ca220141fa8eba Jiayuan Chen      2026-02-19  946  		else
-ca220141fa8eba Jiayuan Chen      2026-02-19  947  			frag_prev->next = NULL;
-ca220141fa8eba Jiayuan Chen      2026-02-19  948  		kfree_skb(skb);
-ca220141fa8eba Jiayuan Chen      2026-02-19  949  		/* Update skb as it may be saved in partial_message via goto */
-ca220141fa8eba Jiayuan Chen      2026-02-19  950  		skb = frag_prev;
-ca220141fa8eba Jiayuan Chen      2026-02-19  951  	}
-ca220141fa8eba Jiayuan Chen      2026-02-19  952  
-a22730b1b4bf43 Kuniyuki Iwashima 2023-09-11  953  	if (sock->type == SOCK_SEQPACKET) {
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  954  		/* Wrote some bytes before encountering an
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  955  		 * error, return partial success.
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  956  		 */
-a22730b1b4bf43 Kuniyuki Iwashima 2023-09-11  957  		if (copied)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  958  			goto partial_message;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  959  		if (head != kcm->seq_skb)
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  960  			kfree_skb(head);
-a22730b1b4bf43 Kuniyuki Iwashima 2023-09-11  961  	} else {
-a22730b1b4bf43 Kuniyuki Iwashima 2023-09-11  962  		kfree_skb(head);
-a22730b1b4bf43 Kuniyuki Iwashima 2023-09-11  963  		kcm->seq_skb = NULL;
-a22730b1b4bf43 Kuniyuki Iwashima 2023-09-11  964  	}
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  965  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  966  	err = sk_stream_error(sk, msg->msg_flags, err);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  967  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  968  	/* make sure we wake any epoll edge trigger waiter */
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  969  	if (unlikely(skb_queue_len(&sk->sk_write_queue) == 0 && err == -EAGAIN))
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  970  		sk->sk_write_space(sk);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  971  
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  972  	release_sock(sk);
-807067bf014d4a Kuniyuki Iwashima 2024-08-15  973  	mutex_unlock(&kcm->tx_mutex);
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  974  	return err;
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  975  }
-ab7ac4eb9832e3 Tom Herbert       2016-03-07  976  
+vim +917 drivers/gpib/ines/ines_gpib.c
+
+b8989f45d1ec0b drivers/staging/gpib/ines/ines_gpib.c Arnd Bergmann 2024-10-16  888  
+cfa6673eae0281 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-05-02  889  static int ines_isa_attach(struct gpib_board *board, const struct gpib_board_config *config)
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  890  {
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  891  	struct ines_priv *ines_priv;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  892  	struct nec7210_priv *nec_priv;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  893  	int isr_flags = 0;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  894  	int retval;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  895  
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  896  	retval = ines_generic_attach(board);
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  897  	if (retval)
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  898  		return retval;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  899  
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  900  	ines_priv = board->private_data;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  901  	nec_priv = &ines_priv->nec7210_priv;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  902  
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  903  	if (!request_region(config->ibbase, ines_isa_iosize, DRV_NAME)) {
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  904  		dev_err(board->gpib_dev, "ioports at 0x%x already in use\n",
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  905  			config->ibbase);
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  906  		return -EBUSY;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  907  	}
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  908  	nec_priv->iobase = config->ibbase;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  909  	nec_priv->offset = 1;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  910  	nec7210_board_reset(nec_priv, board);
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  911  	if (request_irq(config->ibirq, ines_pci_interrupt, isr_flags, DRV_NAME, board)) {
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  912  		dev_err(board->gpib_dev, "failed to allocate IRQ %d\n", config->ibirq);
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  913  		return -1;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  914  	}
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  915  	ines_priv->irq = config->ibirq;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  916  	ines_online(ines_priv, board, 1);
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18 @917  	return 0;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  918  }
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  919  
+
+:::::: The code at line 917 was first introduced by commit
+:::::: bb1bd92fa0f2c9c39c5766e3ea81f26d7e8355a4 staging: gpib: Add ines GPIB driver
+
+:::::: TO: Dave Penkler <dpenkler@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
