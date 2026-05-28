@@ -1,225 +1,141 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7944238150
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 May 2026 07:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55F43B2FCC
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 May 2026 10:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779951853; cv=none; b=jwDRle1+cXabm3xXg/lSqU3CoCo2a08CMT/NQcYiKa78cl3/CAdwwoIejmNpMWoTBpA/m1j2TMPswFGIT8imFYM8OY6PEoCQaAlrRgrN7kdLjP/v+wF6yC73KjC9ro0X5HqURj7icKTbouZIkR2oD78nUO68ZucIDB9N17TVCE0=
+	t=1779964398; cv=none; b=c7zt/yqhpyhz4yhiKeItmX/0L45CwbPz+n/6UevYJ8uXVuLkBr20NGlgbm258/vpbQV61BFJWZof9A2e0ztPYDlZhlho33INSxUxUQXt4K5bJfDBuUVbuTP0M7FIPQqkeL8oP0jC/lmy+qSkEnWK5gpSph7I0O5qnqAHqRM0EK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779951853; c=relaxed/simple;
-	bh=mp5eC9QcCaWdzObaBsTcJpd9HQya9qhJSNz4iceL6wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IgyuJ2Pyn3hWwhToN+Fk9aeLNKWtX8xBxjfgHSWRsnyggPacgPTzQaOJL1b09G8T13wfqlhVxUHPve8QlGOaW3jfaTTfNfJRx4cvjkzuWCPGQEa7ppxfnfKK7+II1qO6nMEoBR7B6LR9md1+nVk298HFwOnL5e3AcKY2xL16Y5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EcNCJyJ7; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779964398; c=relaxed/simple;
+	bh=razaG0nknTmVPOAN3Dc2QwE3sySB24IqbKtJFqgpans=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tqt76789p0llQaOqNgPi3GBXGM+TakT2fq8ubsvLVsWb/36/VcIVB3xxdwYrS4CAWhhT/3hLwRDfqW99m5xu1qm8aQtGdCZe2iiB1nBoi2e6Sp45xLQNSIAb7pS554XO078oBjUGhokEwZtca5y/g6sJ8ASsoNlPA/NDpYne4q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYFWbGFw; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EcNCJyJ7"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45edc09f51bso924409f8f.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 28 May 2026 00:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779951850; x=1780556650; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6tu8aAu4Ep/N6iy7DCv6X/IZDlC/z4wBdX6VJFzFJkI=;
-        b=EcNCJyJ7W4qD+VOJKRYhgR1Fwp0V0pzGoLVQvtOvHnFFhB3WqKxAwzxth0KH6cUMyH
-         xrqTuY3V0Ct6Ym2JDwP9Xal/Qj5x43Xxakjy3Axw88he0sskI8YBa7OWe/cRlDigIazk
-         uShk9scJpIky0GVv2y8Dw+oMuRXQXfYigKW0UWmu0yW7l3yB29Y39jAIaa3Ch2dFvgsV
-         SId0orfh3X4idaGWutO9AtafStDl4V12ddElAeTyz6RiFrLOZLZ1LMnGLZ3ISq07JtOg
-         +bIolSBaz6mVX9Dm55m03i0qt0lj2WwcxMK7uMHDJXbqZnvRkaIC9vgbJLUdBuffOxH7
-         iyEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779951850; x=1780556650;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6tu8aAu4Ep/N6iy7DCv6X/IZDlC/z4wBdX6VJFzFJkI=;
-        b=T9o2ouCStGhdTMhfSg5XS8rKu6xfXBkV3pZuD0jw0/p/hy8IAQZgxHwpAJtlW2DoLg
-         BgxMWZY/GPhy0nSEoEIMaVEh48zhImOvaGwtSiQxSBZIsPg1AK0YAnhxXagBwi78ircW
-         V5yMVSQtB8BnO220wDwqFnioe/XEN87wVNpWwNDxtYuAmjI6/9TOesAdCnAY8E8OMlxZ
-         dOXj4ppR3jeck97XaBt1UIe6vzHI0zhmEplmGnqCx7xg0KVrJ7HKgnSsBcmSjl3dsHYx
-         ca3AawUJriqzd1ectmwL5PzoCfyhrDb0X9bOLBGjCR+nYzHmuIiON85O0AyWwFinOojk
-         EmjA==
-X-Gm-Message-State: AOJu0YzqoGoaUfgn/SqfPjGYQpyStdMXbiHRZPy+sGfowaaXH5bJN/Ay
-	Z9Xsxb5UyA3diTXUZp+el1xMtOwgygRNs05tDeXOmaEYZhEqpV7Pl5rlIrIBMw==
-X-Gm-Gg: Acq92OEy+2px8DuyYUZEM8s9W0lJ98nSjhPdSmYV0/72GL9MoR5q1m+G11oehduEm9X
-	ovRMACy1Dwo+cOCYMF701Gei0BTbqbvWBonbrocSnXYgklfHK7ZookfxVVbQhArNY+MbKwGyiSS
-	230LYOX89SobZk4UWv7GAD1gj6vuEABv/tMsoHXby7wmqt31wv/deP1nkhAvokxB+aSQrBr5J7X
-	jtDNLqyhiLrN08GW5iWlJ55dr/9EfQiQd+fTocsd7eQqEvI8AceX0pgWr3L1HAt7XgxzXokq+1l
-	dWlP87xfNmmX28bLGgPK6wJD1UhuwrZCGNX9wINPZ+0op56cycng4/AzjrlHuIfIYtW28WO1dSz
-	JjoTUTlcYI+Dp3KntQhuxI7tU7ftM70S4ZrLZcG65UxlO2oBO2bUpPlQLTKhVGETte1Pet/7HEG
-	bqTZXXxgN2V+v9mXWpSv1JenvplZfI2XlTBw==
-X-Received: by 2002:a05:600c:1d05:b0:490:890a:da46 with SMTP id 5b1f17b1804b1-490890af5b5mr52642515e9.2.1779951850000;
-        Thu, 28 May 2026 00:04:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4908eac6042sm9186795e9.21.2026.05.28.00.04.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 00:04:08 -0700 (PDT)
-Date: Thu, 28 May 2026 10:04:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 2/2] kernel/cgroup/cgroup.c:5863
- cgroup_create() warn: passing zero to 'ERR_PTR'
-Message-ID: <202605281519.xhFrIcQD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYFWbGFw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779964396; x=1811500396;
+  h=date:from:to:cc:subject:message-id;
+  bh=razaG0nknTmVPOAN3Dc2QwE3sySB24IqbKtJFqgpans=;
+  b=MYFWbGFw8l9nYDsxb7l8AAKy6dmCXaH0cpa+UL62uRW5eIwmIszSh1mr
+   XvN8ZvKK/ZFe+EbApQsHHt6+SMsm0doce1X445SvR1atfDVzEUm7oMV1p
+   /VmQqnlB9aE0DqS4wBI6X31b9EYm7keGuqzhanbaP04TBDdDZsAnc6W2N
+   xGX66zc5WnIyu+Cej1buoppLMTEy/YVYD/GvPexswXL+7h3MAov/IMnX+
+   E8sXTpgFbKeYxtix/ttnpevRTFdQIC35oAjaPp+ULeHqtBVnLEchTL6VM
+   KBk8wfsxJk7EpseKOV3xruJAhvNQgobkfOj1hfICk4dXKTdUTRSLrs93h
+   A==;
+X-CSE-ConnectionGUID: 0Xx3aVr/Tr6ZcOEwFP5aFw==
+X-CSE-MsgGUID: jG6zhKqvTa6t8Qp1vJckXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="106256607"
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="106256607"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 03:33:15 -0700
+X-CSE-ConnectionGUID: 4LZyU9kzTt+9d1PSc6hG+Q==
+X-CSE-MsgGUID: ZWNkb8zFQz+V2O1W7oLG+A==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 28 May 2026 03:33:14 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wSY35-000000005qm-36Nv;
+	Thu, 28 May 2026 10:33:11 +0000
+Date: Thu, 28 May 2026 18:33:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [akpm-mm:mm-unstable 415/420] mm/memcontrol.c:3324
+ drain_obj_stock_slot() warn: right shifting more than type allows 16 vs 16
+Message-ID: <202605281843.zJ46f9Zo-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260528070405.bcEw4VXVdGPIr8v0urqSQoQTgL68Yhgk1K5dcy2ly6w@z>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   7d38f5b0e4b0d06970e261174e220a997a0908e7
-commit: caeb52b32bd70bc82167f136ab287e2b7a916375 [2/2] ANDROID: cgroup: Use backport reservation for freeze time
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260528/202605281519.xhFrIcQD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: David Hildenbrand <david@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: mm-commits@vger.kernel.org
+TO: Shakeel Butt <shakeel.butt@linux.dev>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "Harry Yoo (Oracle)" <harry@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   8a74e22643189e0ae339afc91110ddb4cab1941b
+commit: ec16b15b21f5643e5521efb24bcd6666986b560b [415/420] memcg: multi objcg charge support
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+config: hexagon-randconfig-r071-20260528 (https://download.01.org/0day-ci/archive/20260528/202605281843.zJ46f9Zo-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605281519.xhFrIcQD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605281843.zJ46f9Zo-lkp@intel.com/
 
 smatch warnings:
-kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
+mm/memcontrol.c:3324 drain_obj_stock_slot() warn: right shifting more than type allows 16 vs 16
 
-vim +/ERR_PTR +5863 kernel/cgroup/cgroup.c
+vim +3324 mm/memcontrol.c
 
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5741  static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5742  				    umode_t mode)
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5743  {
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5744  	struct cgroup_root *root = parent->root;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5745  	struct cgroup *cgrp, *tcgrp;
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5746  	struct kernfs_node *kn;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5747  	int level = parent->level + 1;
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5748  	int ret;
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5749  
-0a950f65e1e64f kernel/cgroup.c        Tejun Heo          2012-11-19  5750  	/* allocate the cgroup and its ID, 0 is reserved for the root */
-7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5751  	cgrp = kzalloc(struct_size(cgrp, ancestors, (level + 1)), GFP_KERNEL);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5752  	if (!cgrp)
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5753  		return ERR_PTR(-ENOMEM);
-0ab02ca8f88790 kernel/cgroup.c        Li Zefan           2014-02-11  5754  
-2aad2a86f6685c kernel/cgroup.c        Tejun Heo          2014-09-24  5755  	ret = percpu_ref_init(&cgrp->self.refcnt, css_release, 0, GFP_KERNEL);
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5756  	if (ret)
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5757  		goto out_free_cgrp;
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5758  
-c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5759  	ret = cgroup_rstat_init(cgrp);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5760  	if (ret)
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5761  		goto out_cancel_ref;
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5762  
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5763  	/* create the directory */
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5764  	kn = kernfs_create_dir_ns(parent->kn, name, mode,
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5765  				  current_fsuid(), current_fsgid(),
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5766  				  cgrp, NULL);
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5767  	if (IS_ERR(kn)) {
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5768  		ret = PTR_ERR(kn);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5769  		goto out_stat_exit;
-976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5770  	}
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5771  	cgrp->kn = kn;
-976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5772  
-cc31edceee04a7 kernel/cgroup.c        Paul Menage        2008-10-18  5773  	init_cgroup_housekeeping(cgrp);
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5774  
-9d800df12d3173 kernel/cgroup.c        Tejun Heo          2014-05-14  5775  	cgrp->self.parent = &parent->self;
-ba0f4d761503bd kernel/cgroup.c        Tejun Heo          2014-05-13  5776  	cgrp->root = root;
-b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5777  	cgrp->level = level;
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5778  
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5779  	ret = psi_cgroup_alloc(cgrp);
-324bda9e6c5add kernel/cgroup/cgroup.c Alexei Starovoitov 2017-10-02  5780  	if (ret)
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5781  		goto out_kernfs_remove;
-b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5782  
-f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5783  	if (cgrp->root == &cgrp_dfl_root) {
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5784  		ret = cgroup_bpf_inherit(cgrp);
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5785  		if (ret)
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5786  			goto out_psi_free;
-f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5787  	}
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5788  
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5789  	cgrp->kmi_ext_info = kzalloc(sizeof(*cgrp->kmi_ext_info), GFP_KERNEL);
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5790  	if (!cgrp->kmi_ext_info)
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5791  		goto out_psi_free;
-
-ret = -ENOMEM;
-
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5792  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5793  	/*
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5794  	 * New cgroup inherits effective freeze counter, and
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5795  	 * if the parent has to be frozen, the child has too.
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5796  	 */
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5797  	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5798  	seqcount_init(&cgrp->kmi_ext_info->freezer.freeze_seq);
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5799  	if (cgrp->freezer.e_freeze) {
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5800  		/*
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5801  		 * Set the CGRP_FREEZE flag, so when a process will be
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5802  		 * attached to the child cgroup, it will become frozen.
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5803  		 * At this point the new cgroup is unpopulated, so we can
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5804  		 * consider it frozen immediately.
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5805  		 */
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5806  		set_bit(CGRP_FREEZE, &cgrp->flags);
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5807  		cgrp->kmi_ext_info->freezer.freeze_start_nsec = ktime_get_ns();
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5808  		set_bit(CGRP_FROZEN, &cgrp->flags);
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5809  	}
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5810  
-4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5811  	spin_lock_irq(&css_set_lock);
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5812  	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp)) {
-7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5813  		cgrp->ancestors[tcgrp->level] = tcgrp;
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5814  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5815  		if (tcgrp != cgrp) {
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5816  			tcgrp->nr_descendants++;
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5817  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5818  			/*
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5819  			 * If the new cgroup is frozen, all ancestor cgroups
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5820  			 * get a new frozen descendant, but their state can't
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5821  			 * change because of this.
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5822  			 */
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5823  			if (cgrp->freezer.e_freeze)
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5824  				tcgrp->freezer.nr_frozen_descendants++;
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5825  		}
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5826  	}
-4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5827  	spin_unlock_irq(&css_set_lock);
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5828  
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5829  	if (notify_on_release(parent))
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5830  		set_bit(CGRP_NOTIFY_ON_RELEASE, &cgrp->flags);
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5831  
-2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5832  	if (test_bit(CGRP_CPUSET_CLONE_CHILDREN, &parent->flags))
-2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5833  		set_bit(CGRP_CPUSET_CLONE_CHILDREN, &cgrp->flags);
-97978e6d1f2da0 kernel/cgroup.c        Daniel Lezcano     2010-10-27  5834  
-0cb51d71c1fa92 kernel/cgroup.c        Tejun Heo          2014-05-16  5835  	cgrp->self.serial_nr = css_serial_nr_next++;
-53fa5261747a90 kernel/cgroup.c        Tejun Heo          2013-05-24  5836  
-4e139afc22cb98 kernel/cgroup.c        Tejun Heo          2012-11-19  5837  	/* allocation complete, commit to creation */
-d5c419b68e368f kernel/cgroup.c        Tejun Heo          2014-05-16  5838  	list_add_tail_rcu(&cgrp->self.sibling, &cgroup_parent(cgrp)->self.children);
-3c9c825b8b50de kernel/cgroup.c        Tejun Heo          2014-02-12  5839  	atomic_inc(&root->nr_cgrps);
-a590b90d472f2c kernel/cgroup/cgroup.c Tejun Heo          2017-04-28  5840  	cgroup_get_live(parent);
-415cf07a1c1c65 kernel/cgroup.c        Li Zefan           2013-04-08  5841  
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5842  	/*
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5843  	 * On the default hierarchy, a child doesn't automatically inherit
-667c24917144e3 kernel/cgroup.c        Tejun Heo          2014-07-08  5844  	 * subtree_control from the parent.  Each is configured manually.
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5845  	 */
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5846  	if (!cgroup_on_dfl(cgrp))
-5531dc915ba10b kernel/cgroup.c        Tejun Heo          2016-03-03  5847  		cgrp->subtree_control = cgroup_control(cgrp);
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5848  
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5849  	cgroup_propagate_control(cgrp);
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5850  
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5851  	return cgrp;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5852  
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5853  out_psi_free:
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5854  	psi_cgroup_free(cgrp);
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5855  out_kernfs_remove:
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5856  	kernfs_remove(cgrp->kn);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5857  out_stat_exit:
-c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5858  	cgroup_rstat_exit(cgrp);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5859  out_cancel_ref:
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5860  	percpu_ref_exit(&cgrp->self.refcnt);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5861  out_free_cgrp:
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5862  	kfree(cgrp);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03 @5863  	return ERR_PTR(ret);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5864  }
+ec16b15b21f564 Shakeel Butt    2026-05-25  3315  
+ec16b15b21f564 Shakeel Butt    2026-05-25  3316  static void drain_obj_stock_slot(struct obj_stock_pcp *stock, int i)
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3317  {
+ec16b15b21f564 Shakeel Butt    2026-05-25  3318  	struct obj_cgroup *old = READ_ONCE(stock->cached[i]);
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3319  
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3320  	if (!old)
+ae51c775aa2b1f Shakeel Butt    2025-04-03  3321  		return;
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3322  
+ec16b15b21f564 Shakeel Butt    2026-05-25  3323  	if (stock->nr_bytes[i]) {
+ec16b15b21f564 Shakeel Butt    2026-05-25 @3324  		unsigned int nr_pages = stock->nr_bytes[i] >> PAGE_SHIFT;
+ec16b15b21f564 Shakeel Butt    2026-05-25  3325  		unsigned int nr_bytes = stock->nr_bytes[i] & (PAGE_SIZE - 1);
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3326  
+af9a3b69e84bef Johannes Weiner 2022-03-22  3327  		if (nr_pages) {
+af9a3b69e84bef Johannes Weiner 2022-03-22  3328  			struct mem_cgroup *memcg;
+af9a3b69e84bef Johannes Weiner 2022-03-22  3329  
+af9a3b69e84bef Johannes Weiner 2022-03-22  3330  			memcg = get_mem_cgroup_from_objcg(old);
+af9a3b69e84bef Johannes Weiner 2022-03-22  3331  
+04fbe921d3b1f5 Roman Gushchin  2024-06-28  3332  			mod_memcg_state(memcg, MEMCG_KMEM, -nr_pages);
+04fbe921d3b1f5 Roman Gushchin  2024-06-28  3333  			memcg1_account_kmem(memcg, -nr_pages);
+89f342af660332 Shakeel Butt    2025-04-03  3334  			if (!mem_cgroup_is_root(memcg))
+89f342af660332 Shakeel Butt    2025-04-03  3335  				memcg_uncharge(memcg, nr_pages);
+af9a3b69e84bef Johannes Weiner 2022-03-22  3336  
+af9a3b69e84bef Johannes Weiner 2022-03-22  3337  			css_put(&memcg->css);
+af9a3b69e84bef Johannes Weiner 2022-03-22  3338  		}
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3339  
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3340  		/*
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3341  		 * The leftover is flushed to the centralized per-memcg value.
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3342  		 * On the next attempt to refill obj stock it will be moved
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3343  		 * to a per-cpu stock (probably, on an other CPU), see
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3344  		 * refill_obj_stock().
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3345  		 *
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3346  		 * How often it's flushed is a trade-off between the memory
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3347  		 * limit enforcement accuracy and potential CPU contention,
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3348  		 * so it might be changed in the future.
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3349  		 */
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3350  		atomic_add(nr_bytes, &old->nr_charged_bytes);
+ec16b15b21f564 Shakeel Butt    2026-05-25  3351  		stock->nr_bytes[i] = 0;
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3352  	}
+bf4f059954dcb2 Roman Gushchin  2020-08-06  3353  
+ec16b15b21f564 Shakeel Butt    2026-05-25  3354  	/* Flush vmstat data when its owning slot is being drained. */
+ec16b15b21f564 Shakeel Butt    2026-05-25  3355  	if (stock->index == i)
+ec16b15b21f564 Shakeel Butt    2026-05-25  3356  		drain_obj_stock_stats(stock);
+fc3324ad450f86 Shakeel Butt    2026-05-25  3357  
+ec16b15b21f564 Shakeel Butt    2026-05-25  3358  	WRITE_ONCE(stock->cached[i], NULL);
+ec16b15b21f564 Shakeel Butt    2026-05-25  3359  	obj_cgroup_put(old);
+68ac5b3c8db2fd Waiman Long     2021-06-28  3360  }
+68ac5b3c8db2fd Waiman Long     2021-06-28  3361  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
