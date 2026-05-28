@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044702E040E
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 May 2026 03:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E842FD1B6
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 May 2026 03:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779939770; cv=none; b=nGimvxw/tiCJ53AOaNCHm2Ctefr5LtqG4xBKlJb13yYXteBjedO9xr0TWo00D3EN5QgiGRWgWBJX6KpcLUCu23BE4lPjQiC1cbpJPC8r01PfBKFQfZePDOwWqCsCGvGQCBE4LkylaNes2kH2fHlt1SH6C5uO4nGcDRq9Vd9TnSg=
+	t=1779940090; cv=none; b=AoSIqc0Eb5LtKHo5is9uvu9az6JbmG6kiuM/vTkUsiIIq32vqRoCVSOrrcHclp2f6xOsWJOnQy/bgzcbjB7t+r/3+mghuvKsDNzrMLrd4HJz3IUGGqYs5e6vhkzRr2NTWju40KlrkV8LWvlruoXBGhQZok62PT+SJ8xAJPAHNWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779939770; c=relaxed/simple;
-	bh=l8SgRyuSKdl3pZRNAdTUcG81OoKmSdskH1Dpy32xSR4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BnWwUbTNP3YBbXTFgpe6XsIeG1A2Bhus97PCgWMUH32yra7smyn2/MMk9UpY1Yw7DCtcMFmKueGmd5OdTZVURSnOjGgsJGulsF74/ajPa4CHojNXDgj0d1yua9rpg/TCMI6feil2Fa5JbOSjUKtRPuW5IugjisCUyGjBQbu556w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NFSf3wqa; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1779940090; c=relaxed/simple;
+	bh=lK/OM8FmzIiaIIi0Jaaz6gZOpAY0fDronNAv999sENc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q141FP70TmH+6FSP9LABN27FYXtnM0jjhTBNJyzS3NUJi3uwohMaX90BSxPzbp89XMEY1k0yOgd20lmux3atLR7oK+hPMQwr/+2twiHmQF5NMEZd4b7xsNo8uSid15KgOm3GTgGK1z88hb9p+NdM0Q/LXtZbi5RDXSQAyZDM1YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TG5sVv4f; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NFSf3wqa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TG5sVv4f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779939769; x=1811475769;
+  t=1779940089; x=1811476089;
   h=date:from:to:cc:subject:message-id;
-  bh=l8SgRyuSKdl3pZRNAdTUcG81OoKmSdskH1Dpy32xSR4=;
-  b=NFSf3wqaVMi4sXxrxCNrdk1IcYLX9biTAPIdbkIJv089NkTqHQ9Fcmu0
-   J/e9HgmE3xiiOM5vOKSDHZgM3DS4lCrxpKnaozlV8lhk3Vb30pnVtCyad
-   93ZwfubCFkrbXyxOItiG6QO7ixnU50sonDU9v/HCvNr63qZyXjSXEnn/q
-   h+TC0gTXYNGqB0g4oW9jSwv1ly5Auh8RbiPZNxCC52VsdA3k6qkIJCXRX
-   okyo/Oa8yfzf34kmpZYauo7/AitS0+2XOAIl8GpWtE2QFfIX14SP+ajkJ
-   FlBqNhjUYchv8VNRO+cJTNGCNWXy07nqiLG+6yygUf4MJpGkWU+P0a0Km
-   Q==;
-X-CSE-ConnectionGUID: +9PFQzxVQCiqgdHs1+52ow==
-X-CSE-MsgGUID: DaagtNJWRaCPHJIXQtXN4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="92167246"
+  bh=lK/OM8FmzIiaIIi0Jaaz6gZOpAY0fDronNAv999sENc=;
+  b=TG5sVv4fz9hRG6KB4jPjWlXjk3KqbMIxlOYu400HY0+2SEYPyZ4RVjrD
+   tqSeBKdYXGqc0jxzNs6DVv4gPrvz9+JBDr6y5Tw8448UbtDgKnw2P8WcF
+   qiCMQPQeAbnMJXC78eH3Nh6tA44qkqR9D4Udm4XJ/doRw3ls1LjqkmFWT
+   ygZoScwDgjELcHMxCRfhYddYY9y7F/dU23gEtz5tWaI/wQ5ioKspwSqZ/
+   kmP0H+H9ocijvjfuoE/iDJRa1lBTyqxUNhl8eL1W3mfsKo63Rj8IAadfR
+   U+amO/YkXOBY8KbDAFKmRp4sGY4pwGhz8fN6oBbwh6QEsKIyNMJeucyC3
+   g==;
+X-CSE-ConnectionGUID: iForOTUYTm6SI5pRRHyZuQ==
+X-CSE-MsgGUID: B8miuoC8RdypzOKe2B+OkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="80749899"
 X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="92167246"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 20:42:48 -0700
-X-CSE-ConnectionGUID: XXgALsEhSqKCR9xdXfGwlQ==
-X-CSE-MsgGUID: 4Md5G37zS7q9Xr8ri13nNQ==
+   d="scan'208";a="80749899"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 20:48:08 -0700
+X-CSE-ConnectionGUID: 8iYHbpMoRIKJ34a4n1brQQ==
+X-CSE-MsgGUID: 7gxwGaBTRkexeIggsUF/aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="239427532"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 27 May 2026 20:42:47 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="280547986"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 27 May 2026 20:48:07 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSRds-000000005UY-422S;
-	Thu, 28 May 2026 03:42:44 +0000
-Date: Thu, 28 May 2026 11:41:53 +0800
+	id 1wSRj2-000000000H7-3H4A;
+	Thu, 28 May 2026 03:48:04 +0000
+Date: Thu, 28 May 2026 05:48:02 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7309/8766]
- drivers/pinctrl/renesas/pinctrl-rzt2h.c:197 rzt2h_pinctrl_set_pfc_mode()
- warn: subtract is higher precedence than shift
-Message-ID: <202605281126.3E7Ggbfe-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [bigeasy-staging:b4/hsr_ptp 9/9] hsr_ptp_test.c:297:35:
+ error: unknown type name 'bool'
+Message-ID: <202605280501.YkSR7zdn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,75 +59,53 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e7d700e14934e68f86338c5610cf2ae76798b663
-commit: f9fb67bc77d322568bf573e81335be0e9be2a7c8 [7309/8766] pinctrl: renesas: rzt2h: Skip PFC mode configuration if already set
-:::::: branch date: 12 hours ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-r071-20260528 (https://download.01.org/0day-ci/archive/20260528/202605281126.3E7Ggbfe-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git b4/hsr_ptp
+head:   faf1318dad835e0286f66a9a91a329ccb8f7c001
+commit: faf1318dad835e0286f66a9a91a329ccb8f7c001 [9/9] selftests: hsr: Add test for the inline PTP header on HSR
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260528/202605280501.YkSR7zdn-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605280501.YkSR7zdn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605281126.3E7Ggbfe-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605280501.YkSR7zdn-lkp@intel.com/
 
-New smatch warnings:
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:197 rzt2h_pinctrl_set_pfc_mode() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:197 rzt2h_pinctrl_set_pfc_mode() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:197 rzt2h_pinctrl_set_pfc_mode() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:197 rzt2h_pinctrl_set_pfc_mode() warn: subtract is higher precedence than shift
+Note: the bigeasy-staging/b4/hsr_ptp HEAD faf1318dad835e0286f66a9a91a329ccb8f7c001 builds fine.
+      It only hurts bisectability.
 
-Old smatch warnings:
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:523 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:523 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:523 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:523 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:556 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:556 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:556 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
-drivers/pinctrl/renesas/pinctrl-rzt2h.c:556 rzt2h_pinctrl_pinconf_get() warn: subtract is higher precedence than shift
+All errors (new ones prefixed by >>):
 
-vim +197 drivers/pinctrl/renesas/pinctrl-rzt2h.c
-
-ba4a92372bea29 Cosmin Tanislav    2025-12-05  185  
-34d4d093077a5c Thierry Bultel     2025-08-08  186  static void rzt2h_pinctrl_set_pfc_mode(struct rzt2h_pinctrl *pctrl,
-34d4d093077a5c Thierry Bultel     2025-08-08  187  				       u8 port, u8 pin, u8 func)
-34d4d093077a5c Thierry Bultel     2025-08-08  188  {
-34d4d093077a5c Thierry Bultel     2025-08-08  189  	u64 reg64;
-34d4d093077a5c Thierry Bultel     2025-08-08  190  	u16 reg16;
-34d4d093077a5c Thierry Bultel     2025-08-08  191  
-ebe7561e9b9203 Cosmin Tanislav    2026-02-05  192  	guard(raw_spinlock_irqsave)(&pctrl->lock);
-34d4d093077a5c Thierry Bultel     2025-08-08  193  
-f9fb67bc77d322 Lad Prabhakar      2026-05-13  194  	reg64 = rzt2h_pinctrl_readq(pctrl, port, PFC(port));
-f9fb67bc77d322 Lad Prabhakar      2026-05-13  195  	/* Check if pin is already configured to the desired function */
-f9fb67bc77d322 Lad Prabhakar      2026-05-13  196  	if ((rzt2h_pinctrl_readb(pctrl, port, PMC(port)) & BIT(pin)) &&
-f9fb67bc77d322 Lad Prabhakar      2026-05-13 @197  	    field_get(PFC_PIN_MASK(pin), reg64) == func)
-f9fb67bc77d322 Lad Prabhakar      2026-05-13  198  		return;
-f9fb67bc77d322 Lad Prabhakar      2026-05-13  199  
-34d4d093077a5c Thierry Bultel     2025-08-08  200  	/* Set pin to 'Non-use (Hi-Z input protection)'  */
-34d4d093077a5c Thierry Bultel     2025-08-08  201  	reg16 = rzt2h_pinctrl_readw(pctrl, port, PM(port));
-34d4d093077a5c Thierry Bultel     2025-08-08  202  	reg16 &= ~PM_PIN_MASK(pin);
-34d4d093077a5c Thierry Bultel     2025-08-08  203  	rzt2h_pinctrl_writew(pctrl, port, reg16, PM(port));
-34d4d093077a5c Thierry Bultel     2025-08-08  204  
-34d4d093077a5c Thierry Bultel     2025-08-08  205  	/* Temporarily switch to GPIO mode with PMC register */
-ba4a92372bea29 Cosmin Tanislav    2025-12-05  206  	rzt2h_pinctrl_set_gpio_en(pctrl, port, pin, true);
-34d4d093077a5c Thierry Bultel     2025-08-08  207  
-34d4d093077a5c Thierry Bultel     2025-08-08  208  	/* Select Pin function mode with PFC register */
-34d4d093077a5c Thierry Bultel     2025-08-08  209  	reg64 &= ~PFC_PIN_MASK(pin);
-34d4d093077a5c Thierry Bultel     2025-08-08  210  	rzt2h_pinctrl_writeq(pctrl, port, reg64 | ((u64)func << (pin * 8)), PFC(port));
-34d4d093077a5c Thierry Bultel     2025-08-08  211  
-34d4d093077a5c Thierry Bultel     2025-08-08  212  	/* Switch to Peripheral pin function with PMC register */
-ba4a92372bea29 Cosmin Tanislav    2025-12-05  213  	rzt2h_pinctrl_set_gpio_en(pctrl, port, pin, false);
-bf48f99d95dfd6 Geert Uytterhoeven 2025-09-24  214  }
-34d4d093077a5c Thierry Bultel     2025-08-08  215  
+>> hsr_ptp_test.c:297:35: error: unknown type name 'bool'
+     297 | static int32_t pkt_send(int port, bool hsr_hdr, void *data, int data_len)
+         |                                   ^~~~
+   hsr_ptp_test.c:22:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+      21 | #include <sys/ioctl.h>
+     +++ |+#include <stdbool.h>
+      22 | 
+   hsr_ptp_test.c: In function 'main':
+>> hsr_ptp_test.c:395:13: error: implicit declaration of function 'pkt_send' [-Wimplicit-function-declaration]
+     395 |         if (pkt_send(PORT_1, false, ptp_packet, sizeof(ptp_packet)) < 0) {
+         |             ^~~~~~~~
+>> hsr_ptp_test.c:395:30: error: 'false' undeclared (first use in this function)
+     395 |         if (pkt_send(PORT_1, false, ptp_packet, sizeof(ptp_packet)) < 0) {
+         |                              ^~~~~
+   hsr_ptp_test.c:395:30: note: 'false' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+   hsr_ptp_test.c:395:30: note: each undeclared identifier is reported only once for each function it appears in
+>> hsr_ptp_test.c:417:30: error: 'true' undeclared (first use in this function)
+     417 |         if (pkt_send(PORT_1, true, ptp_packet, sizeof(ptp_packet)) < 0) {
+         |                              ^~~~
+   hsr_ptp_test.c:417:30: note: 'true' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
 
 --
 0-DAY CI Kernel Test Service
