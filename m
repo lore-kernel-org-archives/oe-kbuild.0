@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C46F2BEFFD
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 May 2026 15:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B70C30BF67
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 May 2026 17:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779981560; cv=none; b=hOpK1gKy8su3VyHyfp6nW62YPT1xMD2wugouAoGsep9V87VsnekuRlwrv6iPhIuaOzqK1sqY7Y6Im7tUJU8X3n7Vx9Wg1ZxCapmbzy4+7qNehDtcoDqn6deQr2Jr8AEt3In50SeQeuZ1I47YYamAXaSvnxw4h+r4bixg2e5eKhI=
+	t=1779989390; cv=none; b=q4lh1jyKajUKQtyn7/NFjIcvXo2Irs1oVVZEXGr+Eancur6/JtGMJ29imsIcKJAnK3a5s15ytXisDyCuKfkRE760/eMv4dYrWLw56af+uKL8eGWRybt7oekC0ujLaB14osXFXh6SBKlT+tVgrMeQs321scjHjh6R3ULsHYtEMXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779981560; c=relaxed/simple;
-	bh=BdH3hJpBJmDTI0cZEhb4wre7ODK6a458xnP7d8YQeiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=P12ski6z/IpYO8lBAHzUg+YZJYDCJv66e9gukPFvltk6Gy80NvHsCbG+AoCMSMs5F2o82ngZSWc3xPaHrinATCQ31lKB/37yvdu1fm3phTOg7vMPbIsfHkx5VK5ey0sqEgjSZZBPA1MBbDCtXbdKmBGkqcXyvmm/i3A1OF4qJHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDxu6CGp; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1779989390; c=relaxed/simple;
+	bh=WtiWgMfEk37CDSr8z62SeUvKZsTApSdnV1B/OuqEE3o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=acsPWg1+SOy4G0EQ2a/ibHMp093F0wbmQCaRYx9hU5Oy20vi+AsbTbWSHRSIrsWK10ecUc2EL/Ee5kWkB/QAjqnM+cdJy7QRjPK1ctC5H44WhN1tJOA5B08Zaqs4RC1OHfVHBoQdV5hk5w8MiJFuiJYmNIoV9ORpJJcSaoegjSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9nL+NXC; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDxu6CGp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9nL+NXC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779981560; x=1811517560;
+  t=1779989388; x=1811525388;
   h=date:from:to:cc:subject:message-id;
-  bh=BdH3hJpBJmDTI0cZEhb4wre7ODK6a458xnP7d8YQeiQ=;
-  b=CDxu6CGprVFyy8ZWmfk2Y4XsUC7N/jCTZLdNfM70SuozDt3BIdLwlAAd
-   YhRMPNsGLwnTzeRSeKADh0/pKKutRipeNUNFg3M+NV3uPqZaOYxI/Q9Kl
-   GyPYtZ4+fbnFxMcy9sxlNiXhmp4Q86H1Na0AeWHzJldazhsjhIqcfbooI
-   QTSvFFtPLrPn/TmsBXf8CkCTdZMSAYkg9t438m0E2Hry6bZxGOTGg8quR
-   PeKleq1M/aN3ifKw5q7c1KKI0fdfEtA3Y+SxVgz1ugH2picowF2DGOW64
-   VA6WfjKLZXrMga08gZb+Nk3BhXEYWIj2XyujOwloxfheFvbpsecJ6ZDY1
-   A==;
-X-CSE-ConnectionGUID: A8DMRRvsQZu+a+NvO1HK4g==
-X-CSE-MsgGUID: rgSZQZUdSZC1uBVA7ho5EQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="83401951"
+  bh=WtiWgMfEk37CDSr8z62SeUvKZsTApSdnV1B/OuqEE3o=;
+  b=k9nL+NXCko5rO6UIv/lYLuPKksB7o0IeGefG20caq/+RD6BG1q2MiIrx
+   i8ciGMq5/7HXZ7ITSgq/u6R4yhQsqY2T/Po1+6jTS97caDRXN4ytNNqYl
+   1GLyv5LEPiVH9FUi9W+2tGE2Vu2aWYMknKWUT460McNinzzAR7QISU9Ku
+   P6L8F1GHrh4QgiShBXTBA5FAZcpbnphMRDoxuAO2YCuJCAQjvecjVY02R
+   3WEcEzpQYByTgls5VAG0xt1aokkzi/mDt/gacEM4iVmGuhZ/sl/V9ejdO
+   xxSwkEjIBymmpPdRv/FJEQdEMI4zkEB88/qNcyuDd/Xe9eUoitQt7HMBl
+   Q==;
+X-CSE-ConnectionGUID: FUIosYOPSfmnAXrGk06jsA==
+X-CSE-MsgGUID: Xgp1KfQcTquJ0mYmx7+IuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80690277"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="83401951"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 08:19:19 -0700
-X-CSE-ConnectionGUID: ZFmiZIOvQ/yWURDNLiowrw==
-X-CSE-MsgGUID: /Xi7lJwtS7G7KEO/tS4XBw==
+   d="scan'208";a="80690277"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 10:29:48 -0700
+X-CSE-ConnectionGUID: +rgefCF8TuKuT5RjSPEx/w==
+X-CSE-MsgGUID: M7CX+IAzQjuEqNB2tGaKZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="266184255"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 28 May 2026 08:19:19 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="247555712"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 28 May 2026 10:29:47 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wScVw-000000000XB-2vw7;
-	Thu, 28 May 2026 15:19:16 +0000
-Date: Thu, 28 May 2026 17:18:22 +0200
+	id 1wSeYC-000000006EH-3OnC;
+	Thu, 28 May 2026 17:29:44 +0000
+Date: Fri, 29 May 2026 01:28:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [dwmw2:ffclock 10/10] aarch64-linux-gnu-ld: Unexpected
- GOT/PLT entries detected!
-Message-ID: <202605281743.Pqcf2Ld3-lkp@intel.com>
+Subject: clang: error: unsupported option '-fbasic-block-address-map'
+ for target 'powerpc-unknown-linux-gnu'
+Message-ID: <202605290118.P3evGuve-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,34 +60,34 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/xur-google-com/kconfig-Remove-the-architecture-specific-config-for-AutoFDO/20260528-054727, commit: 9d09d5316cd7b6993cc7417cf72856ca6e6887e8"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Woodhouse <dwmw@amazon.co.uk>
+TO: Rong Xu <xur@google.com>
+CC: 0day robot <lkp@intel.com>
+CC: Kees Cook <kees@kernel.org>
 
-tree:   git://git.infradead.org/users/dwmw2/linux ffclock
-head:   0b56bf62998ffb14cc4fb5ab4781f6b3e5f60f0b
-commit: 0b56bf62998ffb14cc4fb5ab4781f6b3e5f60f0b [10/10] kernel/time: Add /dev/vmclock_host miscdev
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260528/202605281743.Pqcf2Ld3-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281743.Pqcf2Ld3-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/xur-google-com/kconfig-Remove-the-architecture-specific-config-for-AutoFDO/20260528-054727
+head:   9d09d5316cd7b6993cc7417cf72856ca6e6887e8
+commit: 9d09d5316cd7b6993cc7417cf72856ca6e6887e8 kconfig: Remove the architecture specific config for Propeller
+date:   20 hours ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: powerpc-randconfig-r111-20260528 (https://download.01.org/0day-ci/archive/20260529/202605290118.P3evGuve-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9409c07de6378507397ecdb6f05f628f58110112)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605290118.P3evGuve-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605281743.Pqcf2Ld3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605290118.P3evGuve-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
->> aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-gnu-ld: kernel/time/timekeeping.o: in function `timekeeping_adjust':
-   kernel/time/timekeeping.c:2563:(.text+0xa24): undefined reference to `ntp_get_status'
-   aarch64-linux-gnu-ld: kernel/time/timekeeping.c:2564:(.text+0xa2c): undefined reference to `ntp_get_time_state'
+>> clang: error: unsupported option '-fbasic-block-address-map' for target 'powerpc-unknown-linux-gnu'
 
 --
 0-DAY CI Kernel Test Service
