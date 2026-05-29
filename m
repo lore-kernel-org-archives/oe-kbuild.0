@@ -1,68 +1,58 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0313BB66C
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 09:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461962BE644
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 09:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780045520; cv=none; b=EPO6fPKD0q583pKuM0RkieoEevtEU7EoFZR8HhLFGVbBkZThg5L5OlE3mk2d4Ho6/EqYYOIIqgaH/tl7lXU/IzByxOPXNnnM8D0nKWnUqII8FhyqRGz8qYQmOYxeQyM7GTUJ/BZNVVzIhgNfrHRfY38g1/nWpxd4ljvv0qXXEkk=
+	t=1780048358; cv=none; b=vBbK7aR4sy0XRgz5FCh5uE/nOyattKjpNq8H2hyxqbNlrspf+cuose/pf7RGEceZ1ufnDYzJWREZ7w2EsWv6c6+eSOdPO8lcc+vdQNGO3Su5E1sNolgRqZKWaB8wWM2309t0pJAL2TQTtxmFWFbxgrIECdQs2NJczoskbd13rf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780045520; c=relaxed/simple;
-	bh=v+5liiOtJPXsUpIsSkJwAou5XSqnlimEVIHYHQmbXNc=;
+	s=arc-20240116; t=1780048358; c=relaxed/simple;
+	bh=EFDivUYM7s8L09AMl6hTfC/7YH/nfVOMdx6VnTSUWFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=szPF91trIyvfv06Lng8WqPyPzPiOKE/gmE/EqhWZmiXKxfT6dkBov336IWm9A4qUdy/Nq6P2WtQw6fO+tbqe+ygP81G1sLrDwBLeZ7w3Jy4REPAZ+fb6/9V135RSIoVMCKwB4gXSRQ41enwtJffSLwW7ScPn6EXkBRkXnInI4O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqBx2dC2; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Disposition; b=QDO/yPptljG/C5OsswIKrw33oWBZQYcYevwETRLKbLQ89w7JOhdqakKOTf0TeEP99181Btdai1Sb6+fshOTaMIfniTjud7+wmEF/A2WGoO8mtz3mOM0/io0qpeDRSXhYX0TGCpiIy5PdUzPk4EeD1DrmNNKvZkLqItNiBEMyrL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vt3/Ev+s; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqBx2dC2"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso117998095e9.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 02:05:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780045517; x=1780650317; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tohVCl3IuQLJyuLwKLcxJEjy1VE5ZddD6HVUsg4X/LY=;
-        b=OqBx2dC2dpmbGulwACi9lCHhgiR90DFNpxdXD8M3Pn8GhkKVIksS31mpgKJx7vpPkw
-         /2dFl8/aDQ3K+Q3D0YkAhWJPLUObkWHp4gFlC2fDw/1KAiRhzp4TxtWH5hhklvp8w3EY
-         wGB4VbkyE0NfBw+T3wxz1zv28N0tF4iLgJ70Sr/vY0En3ftd4n2B4xYKUu0PccAK0M/S
-         tPY++g3FKL9EiKMMiwwVzdkggGCl38rp7CG8vsmnIelnwM/A4w7wa43nlTpbvZ5Oas/e
-         aACqkYNxK6/wewIxJYdc+9Uq+i4nWSH3DRbZr0y5d4AKkwNxDWF9hK/tcBqnf1E+2ayF
-         pgKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780045517; x=1780650317;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tohVCl3IuQLJyuLwKLcxJEjy1VE5ZddD6HVUsg4X/LY=;
-        b=S+VBqk7JXkgP8ad8RWAVxyZhSzYeYh9vmET0qdzhTp3TYpk3WCqk5gf806xFstY7AQ
-         nza3DNNa62TzLWopel928Zt/OsnKyaqKt4vWYBP3q3I0BRXV9oFn//MsZl+JI6E5HcyM
-         6lYeFXhfzdBLIsAlJPZJxYXFsbHyd8oafP0cmb7vND19yCbzPgwEE7/X4sGo/hQOEd/f
-         54DmLmNMcfT4suro0zp6hqlV5htGgc3piykjIJExICiCPnuv8NfwCb20BHh/MBs9DcFe
-         33CHGOTQ8d9XpglQDDtODdR6HyA3oWvgCSckC9VuvPbZasWVR4AW7FN/CH+fG5encHP6
-         lDyg==
-X-Gm-Message-State: AOJu0YyUkPwUyii/OGG9Ikx/pERo2YBzHO824ehJhdE+w7sPbSb7SKHj
-	JtzpgLzi2ig35lFXQVp2FbYhh/thebRvV/f44r3Z+tnLRqhnPM7vxUynxg4vuYRF
-X-Gm-Gg: Acq92OGqHVLVhj85IWkXNYDCJ7NBTqy6vU3X4pIEWOMhDnElLYaduX68HXEl48GsURk
-	Uq8xrmDwWkZIX11Pn2XbD4FN7MgD+ycVAqFQofXKjXMDECzkgmJw+fiMD3ICWvLLKtOZ2dv4zQ7
-	Y/DXqzhJPE3v1DbVVy/FRIcYN63BS18kl7hpZmx1FpWbRxyvIFurDTuf9wIDDjJlSTdEgk2XS5x
-	KsyosqEQqosdbIRtjlT+ulyl/F2F1VOqspt1ijALHxmVUSzbkPShhpvvEGvvIlOQ/hlK/tFGsvl
-	qg4zD79pqk0vbQP4bOWp3RIrCXJiGekIN54xZbjle9/9u9u0nKboeZwmUT4u4bTGL8iY4HqAwKT
-	vD61eWGteTF0n01I7NTit3I1wqow4Y+ZDM7FrL5kLg0uXUAPBI8KViTZvHttd8Wc6vPqKtzIQjC
-	1/LKWgN9hTU1PnlwWV+cg8hi/9cfDpMw==
-X-Received: by 2002:a05:600c:b46:b0:48f:e3e7:3d39 with SMTP id 5b1f17b1804b1-4909c08ee6dmr26440785e9.11.1780045517097;
-        Fri, 29 May 2026 02:05:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909d5f2347sm26381475e9.0.2026.05.29.02.05.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 02:05:16 -0700 (PDT)
-Date: Fri, 29 May 2026 12:05:13 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Hannes Reinecke <hare@suse.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hare-scsi-devel:configfs-ns.v5 18/26] fs/configfs/mount.c:206
- configfs_init() warn: missing error code 'err'
-Message-ID: <202605291604.0ixc9ROU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vt3/Ev+s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780048356; x=1811584356;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EFDivUYM7s8L09AMl6hTfC/7YH/nfVOMdx6VnTSUWFc=;
+  b=Vt3/Ev+sO5N+oEWirdzBWFK146xFX4dLkNB9lvk6XivZp1mmKJffuHfa
+   YuXhvYxO87GthzuteKfT6G8uTld+5u0rjpwfhSA5CAijXfpdVoIxVlDa/
+   nnscWopFPF0w25v4LKuJS9WukVSMsk8rpqsp3jXEyYZbjM+6VKtSt1bZB
+   m4ogs3TdHjdDodNBMUyWvSlk14SbOriB+e5FNEE2rESvjT9+EJ48x+ltv
+   LCD5ybSNAg2MZ+c76GJ/PFOUhCFM8zsnu+4+7YPGU8EKsMzwhwscRHGad
+   fppZPATHnCsDOwRzoca8q44i6IWYLXhdTvAF+courrZaoJdztjeEZXhbc
+   w==;
+X-CSE-ConnectionGUID: AysvoU7MTnipMGCPOdAIWA==
+X-CSE-MsgGUID: eSCmaQJwQ4+9jaHVrZT2Uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="91583906"
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="91583906"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 02:52:35 -0700
+X-CSE-ConnectionGUID: +OV/g3toRXmqryvAKiY8BA==
+X-CSE-MsgGUID: qHXKr4muQMedrHHUYTM/8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="247900332"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 29 May 2026 02:52:34 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wSttI-000000000r3-1CCV;
+	Fri, 29 May 2026 09:52:32 +0000
+Date: Fri, 29 May 2026 11:52:09 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2] KVM: selftests: hyperv_tlb_flush: use swap() to swap
+ PTEs
+Message-ID: <202605291150.gsn5py6z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,70 +61,63 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20260529090513.kSnzwFFyVj-hfNZk7D0FwCAjsa_Q65JTupp-rYDZ3Xo@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v5
-head:   ef344c27d4d9d0e8ba46f599a08ab287a95e132b
-commit: c799a72504df6236d949d8c65ab1d39ea4dc0ccd [18/26] fs/configfs: dynamically allocate super_info
-config: x86_64-randconfig-r073-20260529 (https://download.01.org/0day-ci/archive/20260529/202605291604.0ixc9ROU-lkp@intel.com/config)
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260528154003.3594107-1-piotr.zarycki@gmail.com>
+References: <20260528154003.3594107-1-piotr.zarycki@gmail.com>
+TO: Piotr Zarycki <piotr.zarycki@gmail.com>
+TO: seanjc@google.com
+TO: pbonzini@redhat.com
+CC: shuah@kernel.org
+CC: dmatlack@google.com
+CC: vkuznets@redhat.com
+CC: kvm@vger.kernel.org
+CC: linux-kselftest@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Piotr Zarycki <piotr.zarycki@gmail.com>
+
+Hi Piotr,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvm/next linus/master v7.1-rc5 next-20260528]
+[cannot apply to shuah-kselftest/next shuah-kselftest/fixes kvm/linux-next mst-vhost/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Piotr-Zarycki/KVM-selftests-hyperv_tlb_flush-use-swap-to-swap-PTEs/20260528-235427
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260528154003.3594107-1-piotr.zarycki%40gmail.com
+patch subject: [PATCH v2] KVM: selftests: hyperv_tlb_flush: use swap() to swap PTEs
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260529/202605291150.gsn5py6z-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605291150.gsn5py6z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605291604.0ixc9ROU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605291150.gsn5py6z-lkp@intel.com/
 
-New smatch warnings:
-fs/configfs/mount.c:206 configfs_init() warn: missing error code 'err'
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-fs/configfs/mount.c:205 configfs_init() warn: 'configfs_root' is an error pointer or valid
-
-vim +/err +206 fs/configfs/mount.c
-
-7063fbf2261194f Joel Becker       2005-12-15  186  static int __init configfs_init(void)
-7063fbf2261194f Joel Becker       2005-12-15  187  {
-3d0f89bb169482d Joel Becker       2006-01-25  188  	int err = -ENOMEM;
-3d0f89bb169482d Joel Becker       2006-01-25  189  
-3d0f89bb169482d Joel Becker       2006-01-25  190  	configfs_dir_cachep = kmem_cache_create("configfs_dir_cache",
-3d0f89bb169482d Joel Becker       2006-01-25  191  						sizeof(struct configfs_dirent),
-20c2df83d25c6a9 Paul Mundt        2007-07-20  192  						0, 0, NULL);
-3d0f89bb169482d Joel Becker       2006-01-25  193  	if (!configfs_dir_cachep)
-3d0f89bb169482d Joel Becker       2006-01-25  194  		goto out;
-7063fbf2261194f Joel Becker       2005-12-15  195  
-f9bb48825a6b5d0 Eric W. Biederman 2015-05-13  196  	err = sysfs_create_mount_point(kernel_kobj, "config");
-f9bb48825a6b5d0 Eric W. Biederman 2015-05-13  197  	if (err)
-7c6455e368bc87e Al Viro           2011-12-13  198  		goto out2;
-7c6455e368bc87e Al Viro           2011-12-13  199  
-7063fbf2261194f Joel Becker       2005-12-15  200  	err = register_filesystem(&configfs_fs_type);
-7c6455e368bc87e Al Viro           2011-12-13  201  	if (err)
-b4caecd48005fbe Christoph Hellwig 2015-01-14  202  		goto out3;
-7063fbf2261194f Joel Becker       2005-12-15  203  
-c799a72504df623 Hannes Reinecke   2026-05-22  204  	configfs_root = configfs_get_root(NULL);
-c799a72504df623 Hannes Reinecke   2026-05-22  205  	if (!configfs_root)
-c799a72504df623 Hannes Reinecke   2026-05-22 @206  		goto out4;
-
-Apparently this should be an IS_ERR() check and we need to set the
-error code.
-
-c799a72504df623 Hannes Reinecke   2026-05-22  207  
-7c6455e368bc87e Al Viro           2011-12-13  208  	return 0;
-c799a72504df623 Hannes Reinecke   2026-05-22  209  out4:
-c799a72504df623 Hannes Reinecke   2026-05-22  210  	pr_err("Unable to get initlal root context\n");
-c799a72504df623 Hannes Reinecke   2026-05-22  211  	unregister_filesystem(&configfs_fs_type);
-7c6455e368bc87e Al Viro           2011-12-13  212  out3:
-b4caecd48005fbe Christoph Hellwig 2015-01-14  213  	pr_err("Unable to register filesystem!\n");
-f9bb48825a6b5d0 Eric W. Biederman 2015-05-13  214  	sysfs_remove_mount_point(kernel_kobj, "config");
-7c6455e368bc87e Al Viro           2011-12-13  215  out2:
-e0bf68ddec4f4f9 Peter Zijlstra    2007-10-16  216  	kmem_cache_destroy(configfs_dir_cachep);
-e0bf68ddec4f4f9 Peter Zijlstra    2007-10-16  217  	configfs_dir_cachep = NULL;
-3d0f89bb169482d Joel Becker       2006-01-25  218  out:
-7063fbf2261194f Joel Becker       2005-12-15  219  	return err;
-7063fbf2261194f Joel Becker       2005-12-15  220  }
+>> uffd-stress.c:59:9: warning: "swap" redefined
+      59 | #define swap(a, b) \
+         |         ^~~~
+   In file included from uffd-common.h:38,
+                    from uffd-stress.c:37:
+   tools/testing/selftests/../../../tools/testing/selftests/kselftest.h:68:9: note: this is the location of the previous definition
+      68 | #define swap(a, b)  do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
+         |         ^~~~
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
