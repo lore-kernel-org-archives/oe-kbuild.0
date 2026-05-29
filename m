@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0C4309EF9
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 06:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970753403F2
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 07:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780036067; cv=none; b=HfeiD1ZKnunT9SKxxIuW8uBMGGtVf0b9wVjcZhuW9GlRvfxQhBcp+ezuwX7bFvdqgkyRDCqCDuo8sPqTP4tVzOkQRQTTi+5WCu4gMs1bqTaInTTpDhDHVnsQ568EbD/XBjVwzEHFMmk/ok2n926bSJ8CovAk4L0O8HyZvdEmPGI=
+	t=1780041177; cv=none; b=fJ44/HeFxbLjKsMSw2ahI2o81L48BXV/zXJ5qv4RXMA5L4IgOlFiVoFZHeMuz4tfwIAIt05lazwczng6bhGy3hEmTtC9caEi/7hkzz2MFQiGaf6b9mQJoAdDjoFwVXurdzrLcoX2bWlrr2JuSKR7hDZjBmmQyEmDg5SbBWWgDYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780036067; c=relaxed/simple;
-	bh=dMl1DHBCvY9ZEvbIfOkJgKXeEqHBHi4soO7IR5NLZYE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lbxIK6dV//K3my+N2g2qh6zUQLd1Ca7jFKbRM88z1B9unKKrFiF3aBTFzW7uqvRJI+vbfkSkmohPmS8+RctgwCERasoB83ijOLQpbAo4Nkx+HqonMGgkr77MeK9TmdY0mdNeu+aJVc7r2LqjhCQg4CYG4F/duUIEM+JsUajmDtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n/UhvmCp; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1780041177; c=relaxed/simple;
+	bh=TzdzsuyZbVWh6Fq0oIfmPZXcE16Soyil1hoLowU0Ohc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QZj1hspD0/QqhpwoNrY3MHDUdVbeYFFo7djPCO7dUcWVdJ916vt7GNufb39/602e+HpkRe1y3EmylyDzr9RSuRBD3YxmioBgYnVf6lzPQsVaIHZINnUDlZmWIF1Oja1otSUQv7EYQG2n0xcE5wjbVz/VJe2TeYrMCSn1aCW6Kvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcqaDBZP; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/UhvmCp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcqaDBZP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780036066; x=1811572066;
+  t=1780041176; x=1811577176;
   h=date:from:to:cc:subject:message-id;
-  bh=dMl1DHBCvY9ZEvbIfOkJgKXeEqHBHi4soO7IR5NLZYE=;
-  b=n/UhvmCpnoh2VqIBLMEgWBSzxPeo9wTqilrONRn95GwppcKq7eAzMsG7
-   iQECQe6EKHo3UfzngeE4LGrg2DZIrl/owe4BZiwVAnAgUZug8S8WvrV/y
-   Nf2EmrjSDbQAuduyhOgmj91hF0E5FOYWQTumE94mDuPj0tkbCCFLTFyQe
-   +5iEFLwUXO/mYXLHmxqoOWPbGwIFS58PJ0Nia1xXLnJ75+5JT5+8nQ9YG
-   t2KFE04ACetvl1kxUoCzsbqD6eI4MucqtyWTHjDwu5WmrGOEoYgLKZ1Fs
-   5/WPncherRF4UsxWg3wiqURZjbOrxmBySLZu6nB7kHjruQwq8L8YGrgd2
-   A==;
-X-CSE-ConnectionGUID: 5XEz4i6VScKn1jM5gQY3Xw==
-X-CSE-MsgGUID: P2Bsq8A+RrCYgWQiFxFQJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="98300939"
-X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="98300939"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 23:27:45 -0700
-X-CSE-ConnectionGUID: GcwyeKU2TVmaH71ZRiCZcw==
-X-CSE-MsgGUID: zpL5bGMcQ1WffHwN9ZAw1g==
+  bh=TzdzsuyZbVWh6Fq0oIfmPZXcE16Soyil1hoLowU0Ohc=;
+  b=dcqaDBZPoYTcytjyDSOucSaCutyEZqzUYTNfA63YCOE1O+DSDqNc+bOl
+   iW+LGY3LGk61b4xGl66tup+P+NZqj5+OXm/ExAgqddfQqHmHvxmViiOWQ
+   snK5Ny3k7sqVUoNWsWQ00AIbl7JmOxfI5fK1FHCEu/Xvi+92rv/tX578G
+   yCQvB4dfpolwEZFyhPx/2zJKEAOYXFUoCgwgHTD7XTIsSd/qSuIduPn9X
+   Sx1tLNDSzpQcf9sOr+5izLyKILvuIPuJY4T+CMl2X7H2Rf6jH0gLWWafi
+   oZQfotxCbh32HcQU0H0D8L6MxOeKGoabKMzBvovOYELaYe/+cO9u/xzlz
+   Q==;
+X-CSE-ConnectionGUID: IwN/UZneQCu+eMAKeqGWLQ==
+X-CSE-MsgGUID: ikRUt7FpSSGKmVTwcOsqhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="92364962"
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="92364962"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 00:52:55 -0700
+X-CSE-ConnectionGUID: 6i9Xi98jTMauJPg8lWqY/w==
+X-CSE-MsgGUID: vQtSZeyGRjeZMKfSkHoPgw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="247708163"
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="247873444"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 28 May 2026 23:27:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 29 May 2026 00:52:53 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSqh4-000000006qE-0a06;
-	Fri, 29 May 2026 06:27:42 +0000
-Date: Fri, 29 May 2026 14:26:44 +0800
+	id 1wSs1T-000000006wi-1PVG;
+	Fri, 29 May 2026 07:52:51 +0000
+Date: Fri, 29 May 2026 15:51:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [avpatel:riscv_trace_support_v4 46/61]
- arch/riscv/kernel/sbi_mpxy.c:103:19-20: WARNING opportunity for min()
-Message-ID: <202605291415.zwBUuMyv-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [bigeasy-staging:b4/hsr_ptp 3/9] net/hsr/hsr_forward.c:381
+ hsr_create_tagged_frame() error: use kfree_skb() here instead of kfree(skb)
+Message-ID: <202605291505.4v18xVW0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,64 +61,86 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Anup Patel <anup.patel@oss.qualcomm.com>
-CC: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v4
-head:   f532a039b5f6357db1cefa8fba19666b46049341
-commit: d715c82481af6e5c6576ae0cb3a17bdb66a9e4ea [46/61] RISC-V: Move common MPXY helper routines to arch/riscv
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: riscv-randconfig-r061-20260529 (https://download.01.org/0day-ci/archive/20260529/202605291415.zwBUuMyv-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git b4/hsr_ptp
+head:   faf1318dad835e0286f66a9a91a329ccb8f7c001
+commit: 0acc81038697434eef72adb295def2c53faff66b [3/9] hsr: Use skb_clone() while adding the HSR header
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20260529 (https://download.01.org/0day-ci/archive/20260529/202605291505.4v18xVW0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202605291415.zwBUuMyv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605291505.4v18xVW0-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/sbi_mpxy.c:103:19-20: WARNING opportunity for min()
+smatch warnings:
+net/hsr/hsr_forward.c:381 hsr_create_tagged_frame() error: use kfree_skb() here instead of kfree(skb)
 
-vim +103 arch/riscv/kernel/sbi_mpxy.c
+vim +381 net/hsr/hsr_forward.c
 
-d715c82481af6e Anup Patel 2026-05-26   79  
-d715c82481af6e Anup Patel 2026-05-26   80  int sbi_mpxy_get_channel_ids(u32 channel_count, u32 *channel_ids)
-d715c82481af6e Anup Patel 2026-05-26   81  {
-d715c82481af6e Anup Patel 2026-05-26   82  	struct mpxy_local *mpxy = this_cpu_ptr(&mpxy_local);
-d715c82481af6e Anup Patel 2026-05-26   83  	struct sbi_mpxy_channel_ids_data *sdata = mpxy->shmem;
-d715c82481af6e Anup Patel 2026-05-26   84  	u32 remaining, returned, count, start_index = 0;
-d715c82481af6e Anup Patel 2026-05-26   85  	struct sbiret sret;
-d715c82481af6e Anup Patel 2026-05-26   86  
-d715c82481af6e Anup Patel 2026-05-26   87  	if (!mpxy->shmem_active)
-d715c82481af6e Anup Patel 2026-05-26   88  		return -ENODEV;
-d715c82481af6e Anup Patel 2026-05-26   89  	if (!channel_count || !channel_ids)
-d715c82481af6e Anup Patel 2026-05-26   90  		return -EINVAL;
-d715c82481af6e Anup Patel 2026-05-26   91  
-d715c82481af6e Anup Patel 2026-05-26   92  	get_cpu();
-d715c82481af6e Anup Patel 2026-05-26   93  
-d715c82481af6e Anup Patel 2026-05-26   94  	do {
-d715c82481af6e Anup Patel 2026-05-26   95  		sret = sbi_ecall(SBI_EXT_MPXY, SBI_EXT_MPXY_GET_CHANNEL_IDS,
-d715c82481af6e Anup Patel 2026-05-26   96  				 start_index, 0, 0, 0, 0, 0);
-d715c82481af6e Anup Patel 2026-05-26   97  		if (sret.error)
-d715c82481af6e Anup Patel 2026-05-26   98  			goto err_put_cpu;
-d715c82481af6e Anup Patel 2026-05-26   99  
-d715c82481af6e Anup Patel 2026-05-26  100  		remaining = le32_to_cpu(sdata->remaining);
-d715c82481af6e Anup Patel 2026-05-26  101  		returned = le32_to_cpu(sdata->returned);
-d715c82481af6e Anup Patel 2026-05-26  102  
-d715c82481af6e Anup Patel 2026-05-26 @103  		count = returned < (channel_count - start_index) ?
-d715c82481af6e Anup Patel 2026-05-26  104  			returned : (channel_count - start_index);
-d715c82481af6e Anup Patel 2026-05-26  105  		memcpy_from_le32(&channel_ids[start_index], sdata->channel_array, count);
-d715c82481af6e Anup Patel 2026-05-26  106  		start_index += count;
-d715c82481af6e Anup Patel 2026-05-26  107  	} while (remaining && start_index < channel_count);
-d715c82481af6e Anup Patel 2026-05-26  108  
-d715c82481af6e Anup Patel 2026-05-26  109  err_put_cpu:
-d715c82481af6e Anup Patel 2026-05-26  110  	put_cpu();
-d715c82481af6e Anup Patel 2026-05-26  111  	return sbi_err_map_linux_errno(sret.error);
-d715c82481af6e Anup Patel 2026-05-26  112  }
-d715c82481af6e Anup Patel 2026-05-26  113  EXPORT_SYMBOL_GPL(sbi_mpxy_get_channel_ids);
-d715c82481af6e Anup Patel 2026-05-26  114  
+f266a683a4804d Arvid Brodin              2014-07-04  327  
+451d8123f89791 Murali Karicheri          2020-07-22  328  /* If the original frame was an HSR tagged frame, just clone it to be sent
+451d8123f89791 Murali Karicheri          2020-07-22  329   * unchanged. Otherwise, create a private frame especially tagged for 'port'.
+451d8123f89791 Murali Karicheri          2020-07-22  330   */
+451d8123f89791 Murali Karicheri          2020-07-22  331  struct sk_buff *hsr_create_tagged_frame(struct hsr_frame_info *frame,
+f266a683a4804d Arvid Brodin              2014-07-04  332  					struct hsr_port *port)
+f266a683a4804d Arvid Brodin              2014-07-04  333  {
+f266a683a4804d Arvid Brodin              2014-07-04  334  	unsigned char *dst, *src;
+f266a683a4804d Arvid Brodin              2014-07-04  335  	struct sk_buff *skb;
+451d8123f89791 Murali Karicheri          2020-07-22  336  	int movelen;
+451d8123f89791 Murali Karicheri          2020-07-22  337  
+451d8123f89791 Murali Karicheri          2020-07-22  338  	if (frame->skb_hsr) {
+451d8123f89791 Murali Karicheri          2020-07-22  339  		struct hsr_ethhdr *hsr_ethhdr =
+451d8123f89791 Murali Karicheri          2020-07-22  340  			(struct hsr_ethhdr *)skb_mac_header(frame->skb_hsr);
+451d8123f89791 Murali Karicheri          2020-07-22  341  
+451d8123f89791 Murali Karicheri          2020-07-22  342  		/* set the lane id properly */
+b2c26c82f7a94e Felix Maurer              2025-11-11  343  		hsr_set_path_id(frame, hsr_ethhdr, port);
+451d8123f89791 Murali Karicheri          2020-07-22  344  		return skb_clone(frame->skb_hsr, GFP_ATOMIC);
+451d8123f89791 Murali Karicheri          2020-07-22  345  	}
+f266a683a4804d Arvid Brodin              2014-07-04  346  
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  347  	skb = skb_clone(frame->skb_std, GFP_ATOMIC);
+05ca6e644dc9b7 Murali Karicheri          2019-04-05  348  	if (!skb)
+f266a683a4804d Arvid Brodin              2014-07-04  349  		return NULL;
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  350  
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  351  	if (port->dev->features & NETIF_F_HW_HSR_TAG_INS)
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  352  		return skb;
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  353  
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  354  	/* Ensure the cloned skb has enough headroom to fit the HSR tag */
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  355  	if (skb_cow_head(skb, HSR_HLEN))
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  356  		goto err;
+f266a683a4804d Arvid Brodin              2014-07-04  357  
+f266a683a4804d Arvid Brodin              2014-07-04  358  	if (skb->ip_summed == CHECKSUM_PARTIAL)
+f266a683a4804d Arvid Brodin              2014-07-04  359  		skb->csum_start += HSR_HLEN;
+f266a683a4804d Arvid Brodin              2014-07-04  360  
+f266a683a4804d Arvid Brodin              2014-07-04  361  	movelen = ETH_HLEN;
+f266a683a4804d Arvid Brodin              2014-07-04  362  	if (frame->is_vlan)
+f266a683a4804d Arvid Brodin              2014-07-04  363  		movelen += VLAN_HLEN;
+f266a683a4804d Arvid Brodin              2014-07-04  364  
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  365  	/* The entire header area needs to be linear */
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  366  	if (!pskb_may_pull(skb, HSR_HLEN + movelen))
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  367  		goto err;
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  368  
+f266a683a4804d Arvid Brodin              2014-07-04  369  	src = skb_mac_header(skb);
+f266a683a4804d Arvid Brodin              2014-07-04  370  	dst = skb_push(skb, HSR_HLEN);
+f266a683a4804d Arvid Brodin              2014-07-04  371  	memmove(dst, src, movelen);
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  372  	skb_set_network_header(skb, ETH_HLEN + HSR_HLEN);
+f266a683a4804d Arvid Brodin              2014-07-04  373  	skb_reset_mac_header(skb);
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  374  	skb_reset_mac_len(skb);
+f266a683a4804d Arvid Brodin              2014-07-04  375  
+5d93518e06b210 Murali Karicheri          2020-07-20  376  	/* skb_put_padto free skb on error and hsr_fill_tag returns NULL in
+5d93518e06b210 Murali Karicheri          2020-07-20  377  	 * that case
+5d93518e06b210 Murali Karicheri          2020-07-20  378  	 */
+5d93518e06b210 Murali Karicheri          2020-07-20  379  	return hsr_fill_tag(skb, frame, port, port->hsr->prot_version);
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  380  err:
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19 @381  	kfree(skb);
+0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  382  	return NULL;
+f266a683a4804d Arvid Brodin              2014-07-04  383  }
+f266a683a4804d Arvid Brodin              2014-07-04  384  
 
 --
 0-DAY CI Kernel Test Service
