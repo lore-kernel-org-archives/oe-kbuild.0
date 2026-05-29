@@ -1,83 +1,74 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A533A9D9A
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 08:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27CC3C5DDB
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 08:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780041626; cv=none; b=MkH5sREACcs+zcmOqq8hrl4lnyrZupOfMH99HvxjjKpwi59EfRCc6v41qmgxmPJ+dZ/VB4TXz7QXbh85GNm+nevm9psKd7bbHDIVNemDTxg7MisaUJlQwBs27Bpl13X6I4h76Fbzp9guV2EFepzLb3od2Kv0Fob5FlouKIPX8Pg=
+	t=1780044487; cv=none; b=lVfudwFpFp4XuD8B/1R7b39gFehd0/3mF9493L5B0+R2na9NfjUCP+xtUA+aQ/I4JQ0TmT2L7ax/RkQu5w/XCchhB2t+Iaan3wxipeQeyIWMvdXgFI0UxZyUPjYQfTlECAOb3hpQdUd2p3raTxUZaraSKfQ28K5vUON0AR9czzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780041626; c=relaxed/simple;
-	bh=zYlVntXwhdlUnW5vAlvjPe38i7azvGS2GlqNP0KOc+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WkWy3ZewbPF2sTul6POAQUYDwUaaGpLBSbcGq5ZdUF9HbF0IpaBUaBdvKXVM+4esVsqOFE0Cha5JoLIMV+7qjPVVC95GVJv0G+RiNkqD3+cw27rxwIoBoQmV0EEqRk1ij80e5AO4gI4OAZGVIJzm5fjcsWk+QgD+n+8UPSRWke8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UPj4s1nn; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780044487; c=relaxed/simple;
+	bh=wLTFmurOfam9BCo7FGGB1vPoMcmUpUXaz+X2I0PQY1M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fC7mh5/PIxeblEMKEN8jMgNabP93jUsqi97CimkvigUDViFm2Gy3/F56SY7qhPy5+qUT5WE9SMHfyO+WhRAe9uIG821nlGOulGmSpHdJ7EXJ0otgfIe9QD+UA/Nx7BJicO+fq/8qGAE89Oz8iiaxa1Y0vCQWM7iGgbYOCCDPHK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CudnYW1w; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UPj4s1nn"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49039a8851fso79973075e9.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 01:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780041623; x=1780646423; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lsWWYwHWwiKpmV/6esUQv13E1pN3/bXaI09Fv/IDkuU=;
-        b=UPj4s1nncATBc6eY3L9yu9XdytykEInb7JTdtsMdpSyMGOfLGi3psQBLfkqBdB88Yx
-         4V4RM6ko6b26CTq89dyQrdbkpIqF+WX4Dp86AovFfO6CexWM3NVdvOHIvV0O7264j3u7
-         ufoTRaca6cuXTSMUdL08Ay2KJipgSLu9t/Es693BBGty4nbc0qpoyc1FFw3NIIYK1Ugj
-         IcqCxQZdOKFaJymL8w3mSBWpwbVnvQRrXqWYTm0KgRMI3IevxW/+fQPZa9PNb20FK0BS
-         wn20UdtbB1BfWfm6jbrnqxvtyUY311uXMirfQjYmwbptMG3qjmWTNTI/3iuTRPdt+RLk
-         wCRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780041623; x=1780646423;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lsWWYwHWwiKpmV/6esUQv13E1pN3/bXaI09Fv/IDkuU=;
-        b=OZ7qKHb1vYAurA/4tJwnWu2V1AxnXagWyYXQzaDLW3C0EWaP4LzYGRMqKs2NteNKl7
-         QQYKFSJyW10z7wm6gAxrgOwtNDRNjdX3Ay2YpwmtaUkt8hM0BCacoFiqjlBElTFTQWee
-         6RPe8fsdY0e6hzsSLkDtujMaQ0F3ZC1FScSxFcNn3WCH2CRYhgsG++Fr3AbrPujSuIad
-         OlEf+SQ7gdDN/KhB4KccNhNnAAjDCYqF+KFY89Nv6kRYhnZuTuur7Gxp+A+1YhlSZzmu
-         eYHTEjJf1gR9jtxww5p+lvMCstRsdlRzxOlPNEgPTej8VvQjD6T8TCp4g8ctMclOVfbx
-         NcDA==
-X-Gm-Message-State: AOJu0YxFRXZ9o9sZWd610nfJkXfvmOggx3qhB/0d6SgGEyaNYZgcdYfv
-	VarFXYRWU8zCaZI/eFt8tHkLShOxlDQZjdxL9Dr6nMc0YWHSBQfgYzBojdJCbSGe
-X-Gm-Gg: Acq92OFhfP2rZSdKvn2vxdfA4mDEjPY1RozszHpkQZEPE8kUNsA3WYqDVJuQaskkTXf
-	R9W3op2tXEqmiIDCDNcUCTVi4//3AsnR6hhniCSyvduI5sYr6E9cx3vGbonBqdazfvx1Ik8ZBjo
-	qia0In6GtgksdvCEl6AiwJ8/v/X0O/BPShMTdhv2HnhYcRAYgLRjg74KPbApLL55CJHNRtHLnX/
-	EDHYcWzFFZFbHivK/O1CqqINzx55xnkoGXC4+/F/03UjZ07fLHN9xaXaOdmeQMZUNLXm7qG0bhJ
-	kCT92+gmNMA+GHoTO3IO4eh+IAOV7h4h8rb0hSM/QfeJDBfhBILQkxylwaoOS2jpsalhWiGNf9L
-	nj1PYH1jzgDVIWja4y6ltlHX4wWvtSZV1D9HBMaiFNXDigQDldHx6blPY5pbW0jssnr8+kuSWlb
-	QwqFEy85nag6UE+YJgvNJZgfNn0S+mqbkCfN6xN45mv3ch
-X-Received: by 2002:a05:600c:4b1e:b0:490:4973:91a0 with SMTP id 5b1f17b1804b1-4909c082d1cmr18777105e9.10.1780041622797;
-        Fri, 29 May 2026 01:00:22 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef3563cb9sm1728778f8f.29.2026.05.29.01.00.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 01:00:22 -0700 (PDT)
-Date: Fri, 29 May 2026 11:00:19 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [bigeasy-staging:b4/hsr_ptp 3/9] net/hsr/hsr_forward.c:381
- hsr_create_tagged_frame() error: use kfree_skb() here instead of kfree(skb)
-Message-ID: <202605291505.4v18xVW0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CudnYW1w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780044484; x=1811580484;
+  h=date:from:to:cc:subject:message-id;
+  bh=wLTFmurOfam9BCo7FGGB1vPoMcmUpUXaz+X2I0PQY1M=;
+  b=CudnYW1wQJu1KpBvjh9bY2WEm12u22aPKKspGqGGtY6T2bex7iMt9WGT
+   +2XZS52Se8Rc9lSZ+VDRuFnli5HlCT0SYMqggRkZPWl0jF/LHx7LI9ybu
+   kIziwckcfJB885dnEnTL4tTbOR50e1TbMNs3ivhIuqWej2dkN7E0G0+JC
+   bKhvIGRr4sJnXyG4ux0u/EcTvquPwYMbxqqjTUxWwPcDZ8Phzo1ZnQfXz
+   JIoUJpMCq5+r+W/8MfGeLQW/+kz0jiU8FLweGNgU5ifI3tqg3fqShjNAT
+   +ZAU04HPXKvArbZg4W0kQz/uipv+Efjk/D00qTMIXb5DUOhvJRZb0IJeb
+   A==;
+X-CSE-ConnectionGUID: ScSDMb/yQFSEl5alMP4nnA==
+X-CSE-MsgGUID: 0ebovElzS76/089PzFgg9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="98310078"
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="98310078"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 01:48:00 -0700
+X-CSE-ConnectionGUID: IPcYg91jQqOmyGVxPN86Aw==
+X-CSE-MsgGUID: ezcgQWUMR1qH4p3zxheNVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="280915190"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 29 May 2026 01:47:58 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wSssm-00000000706-1c8R;
+	Fri, 29 May 2026 08:47:56 +0000
+Date: Fri, 29 May 2026 16:47:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [hare-scsi-devel:configfs-ns.v5 18/26]
+ fs/configfs/mount.c:206 configfs_init() warn: missing error code 'err'
+Message-ID: <202605291604.0ixc9ROU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260529080019.6F3YdemfEGUNFwKYd312E_sSny_c09wbUZB5djVazQA@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git b4/hsr_ptp
-head:   faf1318dad835e0286f66a9a91a329ccb8f7c001
-commit: 0acc81038697434eef72adb295def2c53faff66b [3/9] hsr: Use skb_clone() while adding the HSR header
-config: x86_64-randconfig-161-20260529 (https://download.01.org/0day-ci/archive/20260529/202605291505.4v18xVW0-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Hannes Reinecke <hare@suse.de>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v5
+head:   ef344c27d4d9d0e8ba46f599a08ab287a95e132b
+commit: c799a72504df6236d949d8c65ab1d39ea4dc0ccd [18/26] fs/configfs: dynamically allocate super_info
+:::::: branch date: 6 days ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-r073-20260529 (https://download.01.org/0day-ci/archive/20260529/202605291604.0ixc9ROU-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
 
@@ -85,71 +76,55 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605291505.4v18xVW0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605291604.0ixc9ROU-lkp@intel.com/
 
-smatch warnings:
-net/hsr/hsr_forward.c:381 hsr_create_tagged_frame() error: use kfree_skb() here instead of kfree(skb)
+New smatch warnings:
+fs/configfs/mount.c:206 configfs_init() warn: missing error code 'err'
 
-vim +381 net/hsr/hsr_forward.c
+Old smatch warnings:
+fs/configfs/mount.c:205 configfs_init() warn: 'configfs_root' is an error pointer or valid
 
-451d8123f89791 Murali Karicheri          2020-07-22  331  struct sk_buff *hsr_create_tagged_frame(struct hsr_frame_info *frame,
-f266a683a4804d Arvid Brodin              2014-07-04  332  					struct hsr_port *port)
-f266a683a4804d Arvid Brodin              2014-07-04  333  {
-f266a683a4804d Arvid Brodin              2014-07-04  334  	unsigned char *dst, *src;
-f266a683a4804d Arvid Brodin              2014-07-04  335  	struct sk_buff *skb;
-451d8123f89791 Murali Karicheri          2020-07-22  336  	int movelen;
-451d8123f89791 Murali Karicheri          2020-07-22  337  
-451d8123f89791 Murali Karicheri          2020-07-22  338  	if (frame->skb_hsr) {
-451d8123f89791 Murali Karicheri          2020-07-22  339  		struct hsr_ethhdr *hsr_ethhdr =
-451d8123f89791 Murali Karicheri          2020-07-22  340  			(struct hsr_ethhdr *)skb_mac_header(frame->skb_hsr);
-451d8123f89791 Murali Karicheri          2020-07-22  341  
-451d8123f89791 Murali Karicheri          2020-07-22  342  		/* set the lane id properly */
-b2c26c82f7a94e Felix Maurer              2025-11-11  343  		hsr_set_path_id(frame, hsr_ethhdr, port);
-451d8123f89791 Murali Karicheri          2020-07-22  344  		return skb_clone(frame->skb_hsr, GFP_ATOMIC);
-451d8123f89791 Murali Karicheri          2020-07-22  345  	}
-f266a683a4804d Arvid Brodin              2014-07-04  346  
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  347  	skb = skb_clone(frame->skb_std, GFP_ATOMIC);
-05ca6e644dc9b7 Murali Karicheri          2019-04-05  348  	if (!skb)
-f266a683a4804d Arvid Brodin              2014-07-04  349  		return NULL;
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  350  
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  351  	if (port->dev->features & NETIF_F_HW_HSR_TAG_INS)
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  352  		return skb;
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  353  
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  354  	/* Ensure the cloned skb has enough headroom to fit the HSR tag */
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  355  	if (skb_cow_head(skb, HSR_HLEN))
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  356  		goto err;
-f266a683a4804d Arvid Brodin              2014-07-04  357  
-f266a683a4804d Arvid Brodin              2014-07-04  358  	if (skb->ip_summed == CHECKSUM_PARTIAL)
-f266a683a4804d Arvid Brodin              2014-07-04  359  		skb->csum_start += HSR_HLEN;
-f266a683a4804d Arvid Brodin              2014-07-04  360  
-f266a683a4804d Arvid Brodin              2014-07-04  361  	movelen = ETH_HLEN;
-f266a683a4804d Arvid Brodin              2014-07-04  362  	if (frame->is_vlan)
-f266a683a4804d Arvid Brodin              2014-07-04  363  		movelen += VLAN_HLEN;
-f266a683a4804d Arvid Brodin              2014-07-04  364  
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  365  	/* The entire header area needs to be linear */
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  366  	if (!pskb_may_pull(skb, HSR_HLEN + movelen))
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  367  		goto err;
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  368  
-f266a683a4804d Arvid Brodin              2014-07-04  369  	src = skb_mac_header(skb);
-f266a683a4804d Arvid Brodin              2014-07-04  370  	dst = skb_push(skb, HSR_HLEN);
-f266a683a4804d Arvid Brodin              2014-07-04  371  	memmove(dst, src, movelen);
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  372  	skb_set_network_header(skb, ETH_HLEN + HSR_HLEN);
-f266a683a4804d Arvid Brodin              2014-07-04  373  	skb_reset_mac_header(skb);
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  374  	skb_reset_mac_len(skb);
-f266a683a4804d Arvid Brodin              2014-07-04  375  
-5d93518e06b210 Murali Karicheri          2020-07-20  376  	/* skb_put_padto free skb on error and hsr_fill_tag returns NULL in
-5d93518e06b210 Murali Karicheri          2020-07-20  377  	 * that case
-5d93518e06b210 Murali Karicheri          2020-07-20  378  	 */
-5d93518e06b210 Murali Karicheri          2020-07-20  379  	return hsr_fill_tag(skb, frame, port, port->hsr->prot_version);
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  380  err:
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19 @381  	kfree(skb);
+vim +/err +206 fs/configfs/mount.c
 
-This should be kfree_skb()
-
-0acc8103869743 Sebastian Andrzej Siewior 2026-05-19  382  	return NULL;
-f266a683a4804d Arvid Brodin              2014-07-04  383  }
+7063fbf2261194f Joel Becker       2005-12-15  184  
+7063fbf2261194f Joel Becker       2005-12-15  185  
+7063fbf2261194f Joel Becker       2005-12-15  186  static int __init configfs_init(void)
+7063fbf2261194f Joel Becker       2005-12-15  187  {
+3d0f89bb169482d Joel Becker       2006-01-25  188  	int err = -ENOMEM;
+3d0f89bb169482d Joel Becker       2006-01-25  189  
+3d0f89bb169482d Joel Becker       2006-01-25  190  	configfs_dir_cachep = kmem_cache_create("configfs_dir_cache",
+3d0f89bb169482d Joel Becker       2006-01-25  191  						sizeof(struct configfs_dirent),
+20c2df83d25c6a9 Paul Mundt        2007-07-20  192  						0, 0, NULL);
+3d0f89bb169482d Joel Becker       2006-01-25  193  	if (!configfs_dir_cachep)
+3d0f89bb169482d Joel Becker       2006-01-25  194  		goto out;
+7063fbf2261194f Joel Becker       2005-12-15  195  
+f9bb48825a6b5d0 Eric W. Biederman 2015-05-13  196  	err = sysfs_create_mount_point(kernel_kobj, "config");
+f9bb48825a6b5d0 Eric W. Biederman 2015-05-13  197  	if (err)
+7c6455e368bc87e Al Viro           2011-12-13  198  		goto out2;
+7c6455e368bc87e Al Viro           2011-12-13  199  
+7063fbf2261194f Joel Becker       2005-12-15  200  	err = register_filesystem(&configfs_fs_type);
+7c6455e368bc87e Al Viro           2011-12-13  201  	if (err)
+b4caecd48005fbe Christoph Hellwig 2015-01-14  202  		goto out3;
+7063fbf2261194f Joel Becker       2005-12-15  203  
+c799a72504df623 Hannes Reinecke   2026-05-22  204  	configfs_root = configfs_get_root(NULL);
+c799a72504df623 Hannes Reinecke   2026-05-22  205  	if (!configfs_root)
+c799a72504df623 Hannes Reinecke   2026-05-22 @206  		goto out4;
+c799a72504df623 Hannes Reinecke   2026-05-22  207  
+7c6455e368bc87e Al Viro           2011-12-13  208  	return 0;
+c799a72504df623 Hannes Reinecke   2026-05-22  209  out4:
+c799a72504df623 Hannes Reinecke   2026-05-22  210  	pr_err("Unable to get initlal root context\n");
+c799a72504df623 Hannes Reinecke   2026-05-22  211  	unregister_filesystem(&configfs_fs_type);
+7c6455e368bc87e Al Viro           2011-12-13  212  out3:
+b4caecd48005fbe Christoph Hellwig 2015-01-14  213  	pr_err("Unable to register filesystem!\n");
+f9bb48825a6b5d0 Eric W. Biederman 2015-05-13  214  	sysfs_remove_mount_point(kernel_kobj, "config");
+7c6455e368bc87e Al Viro           2011-12-13  215  out2:
+e0bf68ddec4f4f9 Peter Zijlstra    2007-10-16  216  	kmem_cache_destroy(configfs_dir_cachep);
+e0bf68ddec4f4f9 Peter Zijlstra    2007-10-16  217  	configfs_dir_cachep = NULL;
+3d0f89bb169482d Joel Becker       2006-01-25  218  out:
+7063fbf2261194f Joel Becker       2005-12-15  219  	return err;
+7063fbf2261194f Joel Becker       2005-12-15  220  }
+7063fbf2261194f Joel Becker       2005-12-15  221  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
