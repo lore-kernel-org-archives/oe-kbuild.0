@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583B61A6803
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 13:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CC3338910
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 May 2026 13:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780060220; cv=none; b=ExbHU2nlPCUXpBqoTkjp/4e2sd97UUziZlvPsNTo2HJbyBERhUleP/fIyyPKjsLGzxVEJ0Bns/TJ8WDDDe22frAVRe5Xir4gvHdhlJUTwdtJbnAI8vAYFWd/M4t7jPMCBbbbfWIW+7Ym/Bl4qnYK+c1FwDGiZlOGWyQGTL5V1x8=
+	t=1780061543; cv=none; b=Vb0U6WbnaH0c59DjbaKyI0KpV55puoSBqiuPOOqcNgP64OwuoB04mqphahMqtr0R9qsSV5W2iaNreM51RHr04FcCpa87b++3FLtZKTLH/r0yrMYSj5tjE0EYfUr2KXROYMMgt7eAhU5rwok3nPVRGholzB5YhZsPZyvw0UghAy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780060220; c=relaxed/simple;
-	bh=HcZSwIv23XaAF+cDMelb/QSyLdqcp9hpdMT3dGxfCxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=qCa7IupSAwPoZpl4MocAU4kZ+/VOciwKiNzqI3ln8uZhVLRt2JzEqu+YZg9ceKR1iU9kJD3jlZNrdQVCKG0M/S1aB4F7VUI6dL9x6LxTIwrO3HflFsCcStuVCU/wcyKlscMFgYwejoFO3rMDuHXOvpVRLGWI2mkVXVc76LKZNNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkNuxPNx; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1780061543; c=relaxed/simple;
+	bh=11rsDjEilIwpQ9FbqjGUGPVAuGy9DN8j1INykuCWXQw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=oGzm9xkWZcEd7tTRsTHFYCHnc1x1ZJQH+owyhYh6hbCZyEPHz3JUotSJm1MqJ/YyvqUHtH/Qlvx39L9gPJZjOTRETayMdYRZ1HhD0WO9MbNYbj9p2QcV6cp6my0XxpjLnQtQlexX+1kXzcbPklzCI+m0ivXFE1rFaQR3+Opxdcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DiXDL0e5; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkNuxPNx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DiXDL0e5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780060219; x=1811596219;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HcZSwIv23XaAF+cDMelb/QSyLdqcp9hpdMT3dGxfCxs=;
-  b=RkNuxPNxK48yMPapBFVinGogMsKh+KG8eqHSbXb8F0dR82nkOBuGFv38
-   B1/cb8ak5Tcp7TKWhHGEhcEZX94+bI4rJFBxmQvQJGzTssNSrU6AOCleR
-   7kVAXR0xgcN/P8yIa2DmKG1M3FXaA7c4Ufe2WXSOJ7fYzWZUcNrfDHN+k
-   HU9FtFyjV4f4l7/2VuOrTtWJJ8MhP8VQ2ytp30KT1Zu+tKQ3KhzXzBP7B
-   lNDkJaXDy7m/v9cKhWisxyduYQdB08VsYLR5dmdQ3tgKzjbiURiyk+yho
-   x1oPbTI2XbwZW/hghXH89eO/jdEPE4A5poEcxbDt+K8Xbk2cxpk6w0hS6
+  t=1780061541; x=1811597541;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=11rsDjEilIwpQ9FbqjGUGPVAuGy9DN8j1INykuCWXQw=;
+  b=DiXDL0e5Ht6Cy7fyCHvSa6v2VIFgVcbU2b5Y77+OHmN7W9gaRhBSDB5+
+   sOIGpWVrqn9l9+/xvQxxreehUyVIGSxr+pz7zjNihveTT8XR02EJ5as3k
+   w5B9G6eyet1kLEpHajLRfq2KSOtpA4nPkmUMoiXG7GNWXcy2F38FU+Sjj
+   hPXDMm94oyhaJoiKkKNF60jh5Qq6DaPzbEF7ft9FSJf2quRAi9DxtPVKU
+   +KiHUcp2hThtVpm0eRn8uZT9alFA9v180zOMwWs4dauBtrm8gdCTaf2x/
+   x9VxF1MzNF926y+IQce/ZLRTNo3sv86g5eS7eVLy3LtgwLPNgXBybrOd3
    Q==;
-X-CSE-ConnectionGUID: rwyNc0c6QfOayzYnImd+VQ==
-X-CSE-MsgGUID: Dqr+1If8RpSpotw8GCgivA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="98483774"
+X-CSE-ConnectionGUID: gelO6hdzSCWiXA3fhTYxZA==
+X-CSE-MsgGUID: Cr8XMrFQRaCpzY6hZhzJUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="92024029"
 X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="98483774"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 06:10:19 -0700
-X-CSE-ConnectionGUID: WKwya7rJRAKKRcStVUL/cA==
-X-CSE-MsgGUID: m1HqIIw4RcSGg0WBKAHfww==
+   d="scan'208";a="92024029"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 06:32:21 -0700
+X-CSE-ConnectionGUID: Dap++ZzMTj6vO6tzyzwEDw==
+X-CSE-MsgGUID: Aq0gR8EBS5G3pdoHKz6GcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="238447611"
+   d="scan'208";a="241808992"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 May 2026 06:10:17 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 May 2026 06:32:19 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSwyd-000000007GE-3Wcr;
-	Fri, 29 May 2026 13:10:15 +0000
-Date: Fri, 29 May 2026 21:10:07 +0800
+	id 1wSxJx-000000007Hu-07LZ;
+	Fri, 29 May 2026 13:32:17 +0000
+Date: Fri, 29 May 2026 21:31:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/nova-core/nova_core.o: warning: objtool:
- =?us-ascii?Q?=5FRINvXs5=5FNtNtCshc5sK6KjdJJ=5F6kernel5alloc4kboxINtB?=
- =?us-ascii?Q?6=5F3BoxINtNtNtCsbsbRiabPlh9=5F4core3mem12maybe=5Funinit11?=
- =?us-ascii?Q?MaybeUninitINtNtBa=5F9auxiliary16RegistrationDatauEENtNtB8?=
- =?us-ascii?Q?=5F9allocator7KmallocEINtCs57PXBekmiam=5F8pin=5Fini...?=
-Message-ID: <202605292119.wX5ML321-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 7278/9137] net/rfkill/core.c:377
+ rfkill_set_block() error: calling 'spin_unlock_irqrestore()' with bogus flags
+Message-ID: <202605292119.1CLXLZkT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,43 +60,386 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Danilo-Krummrich/rust-pci-use-static-lifetime-for-PCI-BAR-resource-names/20260526-043253, commit: 9869f189730ea87a3dea2069ab6d6f7a680c4f0c"
-:::::: 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Danilo Krummrich <dakr@kernel.org>
-CC: 0day robot <lkp@intel.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Alexandre Courbot <acourbot@nvidia.com>
-CC: Eliot Courtney <ecourtney@nvidia.com>
+TO: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/rust-pci-use-static-lifetime-for-PCI-BAR-resource-names/20260526-043253
-head:   953178433dc3f49fbe9170320eec40466b1c28da
-commit: 9869f189730ea87a3dea2069ab6d6f7a680c4f0c rust: auxiliary: generalize Registration over ForLt
-date:   4 days ago
-:::::: branch date: 4 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   f7af91adc230aa99e23330ecf85bc9badd9780ad
+commit: 888c290a0240da1ce1a4d69beafe44f9abec93c0 [7278/9137] lib/Kconfig.de=
+bug: enable CONFIG_PREEMPT_RT for syzbot kernels.
+:::::: branch date: 20 hours ago
 :::::: commit date: 4 days ago
-config: x86_64-randconfig-004-20260529 (https://download.01.org/0day-ci/archive/20260529/202605292119.wX5ML321-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260529/202605292119.wX5ML321-lkp@intel.com/reproduce)
+config: x86_64-randconfig-161-20260529 (https://download.01.org/0day-ci/arc=
+hive/20260529/202605292119.1CLXLZkT-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605292119.wX5ML321-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605292119.1CLXLZkT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+net/rfkill/core.c:377 rfkill_set_block() error: calling 'spin_unlock_irqres=
+tore()' with bogus flags
+drivers/dma/xilinx/xilinx_dma.c:1113 xilinx_dma_chan_desc_cleanup() error: =
+calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/leds/leds-wm831x-status.c:59 wm831x_status_set() error: calling 'sp=
+in_unlock_irqrestore()' with bogus flags
+drivers/ata/sata_qstor.c:433 qs_intr() error: calling 'spin_unlock_irqresto=
+re()' with bogus flags
+drivers/block/aoe/aoeblk.c:431 aoeblk_gdalloc() error: calling 'spin_unlock=
+_irqrestore()' with bogus flags
+drivers/block/aoe/aoechr.c:254 aoechr_read() error: calling 'spin_unlock_ir=
+qrestore()' with bogus flags
+drivers/block/aoe/aoedev.c:96 minor_get_static() error: calling 'spin_unloc=
+k_irqrestore()' with bogus flags
+drivers/block/aoe/aoedev.c:306 freedev() error: calling 'spin_unlock_irqres=
+tore()' with bogus flags
+drivers/block/aoe/aoedev.c:376 flush() error: calling 'spin_unlock_irqresto=
+re()' with bogus flags
+drivers/block/aoe/aoecmd.c:1299 ktcomplete() error: calling 'spin_unlock_ir=
+qrestore()' with bogus flags
+drivers/usb/isp1760/isp1760-udc.c:994 isp1760_ep_dequeue() error: calling '=
+spin_unlock_irqrestore()' with bogus flags
+drivers/usb/isp1760/isp1760-udc.c:1586 isp1760_udc_register() warn: 'irq' f=
+rom request_irq() not released on lines: 1586.
+drivers/scsi/device_handler/scsi_dh_alua.c:918 alua_rtpg_work() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/i3c/master/i3c-master-cdns.c:1450 cdns_i3c_master_enable_ibi() erro=
+r: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/net/usb/hso.c:605 get_serial_by_index() error: calling 'spin_unlock=
+_irqrestore()' with bogus flags
+drivers/rtc/rtc-cmos.c:780 rtc_handler() error: calling 'spin_unlock_irqres=
+tore()' with bogus flags
+drivers/usb/host/isp116x-hcd.c:829 isp116x_urb_enqueue() error: calling 'sp=
+in_unlock_irqrestore()' with bogus flags
+drivers/usb/host/isp116x-hcd.c:1242 isp116x_sw_reset() error: calling 'spin=
+_unlock_irqrestore()' with bogus flags
+drivers/net/usb/r8152.c:3137 rx_bottom() error: calling 'spin_unlock_irqres=
+tore()' with bogus flags
+drivers/ptp/ptp_ines.c:652 ines_txtstamp() error: calling 'spin_unlock_irqr=
+estore()' with bogus flags
+drivers/usb/c67x00/c67x00-sched.c:330 c67x00_endpoint_disable() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/usbip/usbip_event.c:183 usbip_event_happened() error: calling '=
+spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/function/u_serial.c:779 gs_write() error: calling 'spin_=
+unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/function/u_serial.c:822 gs_flush_chars() error: calling =
+'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/function/u_serial.c:1511 gserial_suspend() error: callin=
+g 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/usbip/vhci_rx.c:191 vhci_priv_tx_empty() error: calling 'spin_u=
+nlock_irqrestore()' with bogus flags
+drivers/usb/host/max3421-hcd.c:796 max3421_check_unlink() error: calling 's=
+pin_unlock_irqrestore()' with bogus flags
+drivers/usb/usbip/vhci_hcd.c:830 vhci_urb_enqueue() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/usb/usbip/vhci_hcd.c:976 vhci_urb_dequeue() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/usb/usbip/vhci_hcd.c:1022 vhci_cleanup_unlink_list() error: calling=
+ 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/usbip/vhci_hcd.c:1311 vhci_bus_resume() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:359 gadget_setup() error: calling 's=
+pin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:563 raw_ioctl_init() error: calling =
+'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:594 raw_ioctl_run() error: calling '=
+spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:726 raw_process_ep0_io() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:836 raw_ioctl_ep0_stall() error: cal=
+ling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:916 raw_ioctl_ep_enable() error: cal=
+ling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:959 raw_ioctl_ep_disable() error: ca=
+lling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:1038 raw_ioctl_ep_set_clear_halt_wed=
+ge() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:1112 raw_process_ep_io() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:1203 raw_ioctl_configure() error: ca=
+lling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:1226 raw_ioctl_vbus_draw() error: ca=
+lling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:1264 raw_ioctl_eps_info() error: cal=
+ling 'spin_unlock_irqrestore()' with bogus flags
+drivers/memstick/core/mspro_block.c:734 mspro_block_stop() error: calling '=
+spin_unlock_irqrestore()' with bogus flags
+drivers/usb/serial/digi_acceleport.c:404 digi_write_oob_command() error: ca=
+lling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/serial/digi_acceleport.c:484 digi_write_inb_command() error: ca=
+lling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/serial/digi_acceleport.c:553 digi_set_modem_signals() error: ca=
+lling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/serial/digi_acceleport.c:604 digi_transmit_idle() error: callin=
+g 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/serial/digi_acceleport.c:641 digi_rx_unthrottle() error: callin=
+g 'spin_unlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:4437 ufshcd_uic_pwr_ctrl() error: calling 'spin_u=
+nlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:4546 ufshcd_link_recovery() error: calling 'spin_=
+unlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:5514 ufshcd_sdev_destroy() error: calling 'spin_u=
+nlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:6593 ufshcd_quirk_dl_nac_errors() error: calling =
+'spin_unlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:6914 ufshcd_err_handler() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:7472 __ufshcd_issue_tm_cmd() error: calling 'spin=
+_unlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:8160 ufshcd_reset_and_restore() error: calling 's=
+pin_unlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:8230 ufshcd_eh_host_reset_handler() error: callin=
+g 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/usbip/vudc_tx.c:216 v_send_ret() error: calling 'spin_unlock_ir=
+qrestore()' with bogus flags
+drivers/usb/serial/io_edgeport.c:1487 get_lsr_info() error: calling 'spin_u=
+nlock_irqrestore()' with bogus flags
+drivers/usb/gadget/udc/pch_udc.c:1188 pch_udc_pcd_pullup() error: calling '=
+spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/udc/pch_udc.c:611 pch_udc_vbus_session() error: calling =
+'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/udc/pch_udc.c:1842 pch_udc_pcd_queue() error: calling 's=
+pin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/udc/udc-xilinx.c:1403 xudc_start() error: calling 'spin_=
+unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/function/f_fs.c:4091 ffs_func_unbind() error: calling 's=
+pin_unlock_irqrestore()' with bogus flags
+drivers/usb/serial/keyspan_pda.c:513 keyspan_pda_write_start() error: calli=
+ng 'spin_unlock_irqrestore()' with bogus flags
+drivers/md/dm-raid1.c:138 queue_bio() error: calling 'spin_unlock_irqrestor=
+e()' with bogus flags
+drivers/md/dm-raid1.c:650 write_callback() error: calling 'spin_unlock_irqr=
+estore()' with bogus flags
+drivers/gpib/eastwood/fluke_gpib.c:669 fluke_dma_read() error: calling 'spi=
+n_unlock_irqrestore()' with bogus flags
+drivers/gpib/eastwood/fluke_gpib.c:1065 fluke_attach_impl() warn: 'e_priv->=
+write_transfer_counter' from ioremap() not released on lines: 1044,1050.
+drivers/gpib/eastwood/fluke_gpib.c:1065 fluke_attach_impl() warn: 'nec_priv=
+->mmiobase' from ioremap() not released on lines: 1011,1017,1024,1031,1039,=
+1044,1050.
+drivers/gpib/eastwood/fluke_gpib.c:1065 fluke_attach_impl() warn: 'res->sta=
+rt' from __request_region() not released on lines: 1005,1011,1017,1024,1031=
+,1039,1044,1050.
+drivers/md/dm-region-hash.c:436 dm_rh_mark_nosync() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/md/dm-clone-metadata.c:862 dm_clone_set_region_hydrated() error: ca=
+lling 'spin_unlock_irqrestore()' with bogus flags
+drivers/gpu/drm/arm/display/komeda/komeda_crtc.c:321 komeda_crtc_flush_and_=
+wait_for_flip_done() error: calling 'spin_unlock_irqrestore()' with bogus f=
+lags
+drivers/comedi/drivers/ni_tiocmd.c:91 ni_tio_input_inttrig() error: calling=
+ 'spin_unlock_irqrestore()' with bogus flags
+drivers/comedi/drivers/ni_tiocmd.c:228 ni_tio_cmd() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/comedi/drivers/ni_tiocmd.c:378 should_ack_gate() error: calling 'sp=
+in_unlock_irqrestore()' with bogus flags
+drivers/comedi/drivers/ni_mio_common.c:1508 ni_ao_setup_MITE_dma() error: c=
+alling 'spin_unlock_irqrestore()' with bogus flags
+drivers/comedi/drivers/ni_mio_common.c:3653 ni_cdo_inttrig() error: calling=
+ 'spin_unlock_irqrestore()' with bogus flags
 
-   drivers/gpu/nova-core/nova_core.o: warning: objtool: asan.module_ctor+0xd: call without frame pointer save/setup
-   drivers/gpu/nova-core/nova_core.o: warning: objtool: asan.module_dtor+0x1: call without frame pointer save/setup
->> drivers/gpu/nova-core/nova_core.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9auxiliary16RegistrationDatauEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB2R_10___internal11InitClosureNCINvYIBH_B1L_B2o_EINtNtBa_4init11InPlaceInitB1L_E8pin_initB3N_IB47_NCINvMsd_B1O_INtB1O_12RegistrationINtNtNtBa_5types6for_lt15UnsafeForLtImplDG_INtB6m_6WithLtL0_Ep2OfuEL_uKj0_EE11new_with_ltNtNtBX_7convert10InfallibleuEs_0B1L_B3N_EE0B1L_B3N_EECsel4MriKkfEK_9nova_core: symbol name too long, can't create __pfx_ symbol
-   drivers/gpu/nova-core/nova_core.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNtCsel4MriKkfEK_9nova_core6driver8NovaCoreENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB2X_10___internal11InitClosureNCINvYIBH_B1L_B2u_EINtNtBa_4init11InPlaceInitB1L_E8pin_initB3T_IB4d_NCINvB2X_14pin_init_scopeB1L_B3T_NCNvXB1N_NtB1N_14NovaCoreDriverNtNtBa_3pci6Driver5probe0IB4d_NCNCB6q_0s_0B1L_B3T_EE0B1L_B3T_EE0B1L_B3T_EEB1P_: symbol name too long, can't create __pfx_ symbol
+Old smatch warnings:
+drivers/dma/xilinx/xilinx_dma.c:3097 xilinx_dma_chan_probe() warn: 'chan->i=
+rq' from request_irq() not released on lines: 3094.
+drivers/block/aoe/aoedev.c:399 flush() error: calling 'spin_unlock_irqresto=
+re()' with bogus flags
+drivers/scsi/device_handler/scsi_dh_alua.c:941 alua_rtpg_work() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/scsi/device_handler/scsi_dh_alua.c:949 alua_rtpg_work() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/scsi/device_handler/scsi_dh_alua.c:956 alua_rtpg_work() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/scsi/device_handler/scsi_dh_alua.c:969 alua_rtpg_work() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/scsi/device_handler/scsi_dh_alua.c:982 alua_rtpg_work() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/net/usb/hso.c:1390 hso_serial_set_termios() error: we previously as=
+sumed 'old' could be null (see line 1380)
+drivers/net/usb/r8152.c:10026 rtl8152_probe_once() warn: missing error code=
+ 'ret'
+drivers/usb/gadget/function/u_serial.c:348 gs_start_rx() warn: variable der=
+eferenced before check 'port->port_usb' (see line 313)
+drivers/usb/gadget/function/u_serial.c:580 gs_start_io() warn: variable der=
+eferenced before check 'port->port_usb' (see line 547)
+drivers/usb/usbip/vhci_hcd.c:845 vhci_urb_enqueue() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/usb/usbip/vhci_hcd.c:794 vhci_urb_enqueue() warn: missing error cod=
+e 'ret'
+drivers/usb/gadget/legacy/raw_gadget.c:367 gadget_setup() error: calling 's=
+pin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:567 raw_ioctl_init() error: calling =
+'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:611 raw_ioctl_run() error: calling '=
+spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:754 raw_process_ep0_io() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:970 raw_ioctl_ep_disable() error: ca=
+lling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:1140 raw_process_ep_io() error: call=
+ing 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:1270 raw_ioctl_eps_info() error: cal=
+ling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/gadget/legacy/raw_gadget.c:1283 raw_ioctl_eps_info() error: cal=
+ling 'spin_unlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:6946 ufshcd_err_handler() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:6956 ufshcd_err_handler() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:6970 ufshcd_err_handler() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:6994 ufshcd_err_handler() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:7020 ufshcd_err_handler() error: calling 'spin_un=
+lock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:8187 ufshcd_reset_and_restore() error: calling 's=
+pin_unlock_irqrestore()' with bogus flags
+drivers/ufs/core/ufshcd.c:9763 ufshcd_setup_clocks() warn: 'clki->clk' from=
+ clk_prepare_enable() not released on lines: 9742.
+drivers/usb/serial/io_edgeport.c:2360 change_port_settings() warn: inconsis=
+tent indenting
+drivers/usb/gadget/udc/pch_udc.c:1838 pch_udc_pcd_queue() warn: can 'req' e=
+ven be NULL?
+drivers/usb/gadget/function/f_fs.c:1063 ffs_epfile_io() warn: 'ep' can also=
+ be NULL
+drivers/usb/gadget/function/f_fs.c:1086 ffs_epfile_io() warn: 'ep' can also=
+ be NULL
+drivers/usb/gadget/function/f_fs.c:1106 ffs_epfile_io() warn: 'ep' can also=
+ be NULL
+drivers/usb/gadget/function/f_fs.c:1155 ffs_epfile_io() warn: 'ep' can also=
+ be NULL
+drivers/usb/gadget/function/f_fs.c:1671 ffs_dmabuf_transfer() warn: 'ep' ca=
+n also be NULL
+drivers/gpib/eastwood/fluke_gpib.c:1065 fluke_attach_impl() warn: 'res->sta=
+rt' from __request_region() not released on lines: 1024,1031,1039,1044,1050.
+drivers/gpib/eastwood/fluke_gpib.c:1065 fluke_attach_impl() warn: 'res->sta=
+rt' from __request_region() not released on lines: 1039,1044,1050.
+drivers/gpu/drm/arm/display/komeda/komeda_crtc.c:162 komeda_crtc_prepare() =
+warn: 'mdev->aclk' from clk_prepare_enable() not released on lines: 162.
+drivers/comedi/drivers/ni_pcimio.c:1388 pcimio_auto_attach() warn: 'pcidev-=
+>irq' from request_irq() not released on lines: 1380.
+
+vim +377 net/rfkill/core.c
+
+19d337dff95cbf Johannes Berg         2009-06-02  317 =20
+19d337dff95cbf Johannes Berg         2009-06-02  318  /**
+19d337dff95cbf Johannes Berg         2009-06-02  319   * rfkill_set_block -=
+ wrapper for set_block method
+19d337dff95cbf Johannes Berg         2009-06-02  320   *
+19d337dff95cbf Johannes Berg         2009-06-02  321   * @rfkill: the rfkil=
+l struct to use
+19d337dff95cbf Johannes Berg         2009-06-02  322   * @blocked: the new =
+software state
+19d337dff95cbf Johannes Berg         2009-06-02  323   *
+19d337dff95cbf Johannes Berg         2009-06-02  324   * Calls the set_bloc=
+k method (when applicable) and handles notifications
+19d337dff95cbf Johannes Berg         2009-06-02  325   * etc. as well.
+19d337dff95cbf Johannes Berg         2009-06-02  326   */
+19d337dff95cbf Johannes Berg         2009-06-02  327  static void rfkill_se=
+t_block(struct rfkill *rfkill, bool blocked)
+19d337dff95cbf Johannes Berg         2009-06-02  328  {
+19d337dff95cbf Johannes Berg         2009-06-02  329  	unsigned long flags;
+eab48345c2b2d7 Vitaly Wool           2012-09-06  330  	bool prev, curr;
+19d337dff95cbf Johannes Berg         2009-06-02  331  	int err;
+19d337dff95cbf Johannes Berg         2009-06-02  332 =20
+7fa20a7f60df0a Alan Jenkins          2009-06-16  333  	if (unlikely(rfkill-=
+>dev.power.power_state.event & PM_EVENT_SLEEP))
+7fa20a7f60df0a Alan Jenkins          2009-06-16  334  		return;
+7fa20a7f60df0a Alan Jenkins          2009-06-16  335 =20
+19d337dff95cbf Johannes Berg         2009-06-02  336  	/*
+19d337dff95cbf Johannes Berg         2009-06-02  337  	 * Some platforms (.=
+..!) generate input events which affect the
+19d337dff95cbf Johannes Berg         2009-06-02  338  	 * _hard_ kill state=
+ -- whenever something tries to change the
+19d337dff95cbf Johannes Berg         2009-06-02  339  	 * current software =
+state query the hardware state too.
+19d337dff95cbf Johannes Berg         2009-06-02  340  	 */
+19d337dff95cbf Johannes Berg         2009-06-02  341  	if (rfkill->ops->que=
+ry)
+19d337dff95cbf Johannes Berg         2009-06-02  342  		rfkill->ops->query(=
+rfkill, rfkill->data);
+19d337dff95cbf Johannes Berg         2009-06-02  343 =20
+19d337dff95cbf Johannes Berg         2009-06-02  344  	spin_lock_irqsave(&r=
+fkill->lock, flags);
+eab48345c2b2d7 Vitaly Wool           2012-09-06  345  	prev =3D rfkill->sta=
+te & RFKILL_BLOCK_SW;
+eab48345c2b2d7 Vitaly Wool           2012-09-06  346 =20
+f3e7fae248224b Jo=C3=A3o Paulo Rechi Vita 2016-01-19  347  	if (prev)
+19d337dff95cbf Johannes Berg         2009-06-02  348  		rfkill->state |=3D =
+RFKILL_BLOCK_SW_PREV;
+19d337dff95cbf Johannes Berg         2009-06-02  349  	else
+19d337dff95cbf Johannes Berg         2009-06-02  350  		rfkill->state &=3D =
+~RFKILL_BLOCK_SW_PREV;
+19d337dff95cbf Johannes Berg         2009-06-02  351 =20
+19d337dff95cbf Johannes Berg         2009-06-02  352  	if (blocked)
+19d337dff95cbf Johannes Berg         2009-06-02  353  		rfkill->state |=3D =
+RFKILL_BLOCK_SW;
+19d337dff95cbf Johannes Berg         2009-06-02  354  	else
+19d337dff95cbf Johannes Berg         2009-06-02  355  		rfkill->state &=3D =
+~RFKILL_BLOCK_SW;
+19d337dff95cbf Johannes Berg         2009-06-02  356 =20
+19d337dff95cbf Johannes Berg         2009-06-02  357  	rfkill->state |=3D R=
+FKILL_BLOCK_SW_SETCALL;
+19d337dff95cbf Johannes Berg         2009-06-02  358  	spin_unlock_irqresto=
+re(&rfkill->lock, flags);
+19d337dff95cbf Johannes Berg         2009-06-02  359 =20
+19d337dff95cbf Johannes Berg         2009-06-02  360  	err =3D rfkill->ops-=
+>set_block(rfkill->data, blocked);
+19d337dff95cbf Johannes Berg         2009-06-02  361 =20
+19d337dff95cbf Johannes Berg         2009-06-02  362  	spin_lock_irqsave(&r=
+fkill->lock, flags);
+19d337dff95cbf Johannes Berg         2009-06-02  363  	if (err) {
+19d337dff95cbf Johannes Berg         2009-06-02  364  		/*
+3ff707d66881d3 Jo=C3=A3o Paulo Rechi Vita 2016-02-22  365  		 * Failed -- r=
+eset status to _PREV, which may be different
+3ff707d66881d3 Jo=C3=A3o Paulo Rechi Vita 2016-02-22  366  		 * from what w=
+e have set _PREV to earlier in this function
+19d337dff95cbf Johannes Berg         2009-06-02  367  		 * if rfkill_set_sw=
+_state was invoked.
+19d337dff95cbf Johannes Berg         2009-06-02  368  		 */
+19d337dff95cbf Johannes Berg         2009-06-02  369  		if (rfkill->state &=
+ RFKILL_BLOCK_SW_PREV)
+19d337dff95cbf Johannes Berg         2009-06-02  370  			rfkill->state |=3D =
+RFKILL_BLOCK_SW;
+19d337dff95cbf Johannes Berg         2009-06-02  371  		else
+19d337dff95cbf Johannes Berg         2009-06-02  372  			rfkill->state &=3D =
+~RFKILL_BLOCK_SW;
+19d337dff95cbf Johannes Berg         2009-06-02  373  	}
+19d337dff95cbf Johannes Berg         2009-06-02  374  	rfkill->state &=3D ~=
+RFKILL_BLOCK_SW_SETCALL;
+19d337dff95cbf Johannes Berg         2009-06-02  375  	rfkill->state &=3D ~=
+RFKILL_BLOCK_SW_PREV;
+eab48345c2b2d7 Vitaly Wool           2012-09-06  376  	curr =3D rfkill->sta=
+te & RFKILL_BLOCK_SW;
+19d337dff95cbf Johannes Berg         2009-06-02 @377  	spin_unlock_irqresto=
+re(&rfkill->lock, flags);
+19d337dff95cbf Johannes Berg         2009-06-02  378 =20
+19d337dff95cbf Johannes Berg         2009-06-02  379  	rfkill_led_trigger_e=
+vent(rfkill);
+d874cd74306694 Jo=C3=A3o Paulo Rechi Vita 2018-05-22  380  	rfkill_global_l=
+ed_trigger_event();
+eab48345c2b2d7 Vitaly Wool           2012-09-06  381 =20
+eab48345c2b2d7 Vitaly Wool           2012-09-06  382  	if (prev !=3D curr)
+c64fb01627e247 Johannes Berg         2009-06-02  383  		rfkill_event(rfkill=
+);
+19d337dff95cbf Johannes Berg         2009-06-02  384  }
+19d337dff95cbf Johannes Berg         2009-06-02  385 =20
+
+:::::: The code at line 377 was first introduced by commit
+:::::: 19d337dff95cbf76edd3ad95c0cee2732c3e1ec5 rfkill: rewrite
+
+:::::: TO: Johannes Berg <johannes@sipsolutions.net>
+:::::: CC: John W. Linville <linville@tuxdriver.com>
 
 --
 0-DAY CI Kernel Test Service
