@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA5B29B799
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 May 2026 18:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA631427A
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 May 2026 19:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780164656; cv=none; b=HtIIEof5MfzwMBzfp78/+wefJLj5JlmqjwrJF/5CNC8OKU71I+L2X6bYDy2XghTB0iviNzaGwBY151DKFf6kSXZ1USzzo0BZyiBAewbQvjT0Xp6asqL1eg9dVqME7dlbbSBd/Io/pB7s+3CSMuGrnd0sdbE1elyxqiq8XLlJFrY=
+	t=1780168316; cv=none; b=fLV2OL3cUU2xWa4tMvQFlAdzKP6kTTHaJu6ey6XfWvcs+CMzoUCMNf0mtjeyir6Izcp2x0Ti19L2dpn/tGPULdysm16HYSCLoh9TqhBiMqTlIz06gZZHQMpWNfqiTCCs9W8Wmwxet4oWjxH2C1j9EdAS+xxJf7mMoBg2phf3rsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780164656; c=relaxed/simple;
-	bh=uJjOsPWdZ7lM/eJrmyQ3McJTb9rpBOpKApqK4iXS1JY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Yds3XUgHSQpkNvrHbdcRI1JJvaMqUi4B7Pmmrh11UCyZUQzOxzGC6R81hM9U7M0o9CmsEcv0RetJ/FXgvwW5iuv/CfjKV6Z5vOuj8lhI4kZcL8Cb+6CrFSFDRPHRn/d6ZTnHk7SNmDjHh8ZBMtUtg10cEc6O2DVjnjcQGGAmclQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DEzf80oc; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1780168316; c=relaxed/simple;
+	bh=t3aVSTd7j8MlNQaC9AD+oZXlMSTR2VcY0sW1EAk2dYU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SV/M+I9+i9ZV5CnN0ckSSQBCTHU0u0ywvo+XdcL2GBNPSIGhoi4vsjCCyRSc7IZRa8FVLyfUi067CGtHW+Lpfxbpodn2wMVJHpqZu0L5E1GlsrQr71YaS0tzwFDKD83Pn/5tglH7bQSp+JTDkykAdIKqKA2140ggn2dH1RjnWTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGMJ6LpK; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DEzf80oc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGMJ6LpK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780164654; x=1811700654;
+  t=1780168314; x=1811704314;
   h=date:from:to:cc:subject:message-id;
-  bh=uJjOsPWdZ7lM/eJrmyQ3McJTb9rpBOpKApqK4iXS1JY=;
-  b=DEzf80ocF7OV6dYA1D+SWjCrHIsR/8l2p7u/qpuNWqnrV++NIUgsB3j/
-   jigB63G/TypATlTZ9VHMQm/KR5BNSXkaWm0tV7UzxQ8Nu2lHu5ZBSO2KN
-   KqkzJoP2iMNaJ3II/1h5fVy3LUyB+YBnfokgNjPnmYVLSc9KLdam1GPi6
-   DRjQ+yr81swl2q+zbJuRXJmQbBbgKPzJ5ijtpzH4IXCqGVQhLEwa8cXBT
-   LcZvULkxJmo2ofppZBYjO2tN349rHnqnxefysfCdKJ70h6ofCFrryaKAS
-   ICGIBUDXze0C9iXEPSS0uaFHtd0kHpFs+72AWWPz41vEgBOWcQl2IfZ6v
-   A==;
-X-CSE-ConnectionGUID: xRhEc2WpS9CFGpbFwAJM7g==
-X-CSE-MsgGUID: x8LiPwsbRZ2OaDmmmYMQvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="80125362"
+  bh=t3aVSTd7j8MlNQaC9AD+oZXlMSTR2VcY0sW1EAk2dYU=;
+  b=UGMJ6LpKcf3k0mPK30w2hr3le2GhtwfCzsh+DsNqmfrVXE5ER5xI5m9G
+   by+9LCxSVvK5W96s9rtnGORSlh1okP19bHdbHp4s9rqXeS4nqeMOtiQmT
+   WVuIv/+9ALUsnfeDA3sHOf1GeDfoZWqzl7KI/qqGb34lU9zvX0bhgn6UN
+   cXe+vuZtUD5aXngZZGNTKrDJTxkyxzq2wZSGRtJsvHG2dSeLlSvQ5Zs4Q
+   jjUln7ncLmk24qvoRVQ73QQOGgX5rXIh6JETo2dY37T8NLT9qksDu6CCn
+   gx7nIs72lY+W2aq/3Pw7sM0ggU/6WusJ1ptsmbIYkepttcVfJTuIkt6CR
+   w==;
+X-CSE-ConnectionGUID: 9H+60JQERJiKfKpgNZQIMQ==
+X-CSE-MsgGUID: Zt7++qfeQJeYFaopjR8VWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11802"; a="91559665"
 X-IronPort-AV: E=Sophos;i="6.24,177,1774335600"; 
-   d="scan'208";a="80125362"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 11:10:54 -0700
-X-CSE-ConnectionGUID: NeROWfePQQSZIX+t6652dQ==
-X-CSE-MsgGUID: s8WsF5h2TZGPT3LtOuDT/w==
+   d="scan'208";a="91559665"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2026 12:11:53 -0700
+X-CSE-ConnectionGUID: Zt7+Z1ZoRoyiXo/DxZyskw==
+X-CSE-MsgGUID: MSWA/ur3Tpi8ggnolJ0MNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,177,1774335600"; 
-   d="scan'208";a="243007566"
+   d="scan'208";a="267021266"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 30 May 2026 11:10:53 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 May 2026 12:11:53 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wTO94-000000001CL-0xAA;
-	Sat, 30 May 2026 18:10:50 +0000
-Date: Sat, 30 May 2026 20:10:45 +0200
+	id 1wTP66-000000001Cn-2Q2a;
+	Sat, 30 May 2026 19:11:50 +0000
+Date: Sat, 30 May 2026 21:11:41 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [spacemit:dt-for-next 32/34]
- arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a000
- (spacemit,k3-pwm): 'clock-names' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202605302009.WiEprWQn-lkp@intel.com>
+Subject: arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb:
+ pinctrl@802c0000 (renesas,r9a09g077-pinctrl):
+ sci0-pins:drive-strength-microamp: [9000] is not one of [2500, 5000, 9000,
+ 11800]
+Message-ID: <202605302150.hZgGrplW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -67,267 +67,69 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Yixun Lan <dlan@gentoo.org>
-TO: Yixun Lan <dlan@kernel.org>
+TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://github.com/spacemit-com/linux dt-for-next
-head:   3ea695eb111fc5a7ffddd21d5c3fee6d82560413
-commit: cfe5c91cb73c87f9021e446ec9d323c483851c46 [32/34] riscv: dts: spacemit: k3: Initial support for CoM260-IFX board
-:::::: branch date: 14 hours ago
+tree:   https://github.com/intel-lab-lkp/linux/commits/Prabhakar/arm64-dts-renesas-rzt2h-n2h-evk-Remove-unused-MII-GMII-pins/20260529-020043
+head:   2f8b96077a9359e2dd4b43cb4b1c455b99cd7639
+commit: 2f8b96077a9359e2dd4b43cb4b1c455b99cd7639 arm64: dts: renesas: rzt2h-n2h-evk: Configure SCI0 pins
+date:   2 days ago
+:::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: riscv-randconfig-2051-20260530 (https://download.01.org/0day-ci/archive/20260530/202605302009.WiEprWQn-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.5.0
+config: arm64-randconfig-2055-20260529 (https://download.01.org/0day-ci/archive/20260530/202605302150.hZgGrplW-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605302009.WiEprWQn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260530/202605302150.hZgGrplW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202605302009.WiEprWQn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605302150.hZgGrplW-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/phy@c0a20000: failed to match any schema with compatible: ['spacemit,k3-usb2-phy']
-   arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/dma-controller@d4000000: failed to match any schema with compatible: ['spacemit,k3-pdma']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a000 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a000 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a000 (spacemit,k3-pwm): clocks: [[21, 22], [21, 42]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a000 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d401a000: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a400 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a400 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a400 (spacemit,k3-pwm): clocks: [[21, 23], [21, 43]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a400 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d401a400: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a800 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a800 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a800 (spacemit,k3-pwm): clocks: [[21, 24], [21, 44]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401a800 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d401a800: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401ac00 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401ac00 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401ac00 (spacemit,k3-pwm): clocks: [[21, 25], [21, 45]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401ac00 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d401ac00: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b000 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b000 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b000 (spacemit,k3-pwm): clocks: [[21, 26], [21, 46]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b000 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d401b000: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b400 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b400 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b400 (spacemit,k3-pwm): clocks: [[21, 27], [21, 47]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b400 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d401b400: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b800 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b800 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b800 (spacemit,k3-pwm): clocks: [[21, 28], [21, 48]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401b800 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d401b800: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401bc00 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401bc00 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401bc00 (spacemit,k3-pwm): clocks: [[21, 29], [21, 49]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d401bc00 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d401bc00: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020000 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020000 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020000 (spacemit,k3-pwm): clocks: [[21, 30], [21, 50]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020000 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4020000: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020400 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020400 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020400 (spacemit,k3-pwm): clocks: [[21, 31], [21, 51]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020400 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4020400: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020800 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020800 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020800 (spacemit,k3-pwm): clocks: [[21, 32], [21, 52]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020800 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4020800: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020c00 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020c00 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020c00 (spacemit,k3-pwm): clocks: [[21, 33], [21, 53]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4020c00 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4020c00: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021000 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021000 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021000 (spacemit,k3-pwm): clocks: [[21, 34], [21, 54]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021000 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4021000: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021400 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021400 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021400 (spacemit,k3-pwm): clocks: [[21, 35], [21, 55]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021400 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4021400: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021800 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021800 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021800 (spacemit,k3-pwm): clocks: [[21, 36], [21, 56]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021800 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4021800: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021c00 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021c00 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021c00 (spacemit,k3-pwm): clocks: [[21, 37], [21, 57]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4021c00 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4021c00: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022000 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022000 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022000 (spacemit,k3-pwm): clocks: [[21, 38], [21, 58]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022000 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4022000: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022400 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022400 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022400 (spacemit,k3-pwm): clocks: [[21, 39], [21, 59]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022400 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4022400: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022800 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022800 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022800 (spacemit,k3-pwm): clocks: [[21, 40], [21, 60]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022800 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4022800: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022c00 (spacemit,k3-pwm): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022c00 (spacemit,k3-pwm): #pwm-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022c00 (spacemit,k3-pwm): clocks: [[21, 41], [21, 61]] is too long
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: pwm@d4022c00 (spacemit,k3-pwm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['spacemit,k3-pwm', 'marvell,pxa910-pwm'] is too long
-   	'spacemit,k3-pwm' is not one of ['marvell,pxa250-pwm', 'marvell,pxa270-pwm', 'marvell,pxa168-pwm', 'marvell,pxa910-pwm']
-   	'spacemit,k1-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/marvell,pxa-pwm.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/pwm@d4022c00: failed to match any schema with compatible: ['spacemit,k3-pwm', 'marvell,pxa910-pwm']
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml
+   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: spi@801c1000 (renesas,r9a09g077-xspi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,r9a09g077-xspi', 'renesas,r9a09g047-xspi'] is too long
+   	'renesas,r9a09g047-xspi' was expected
+   	'renesas,r9a09g077-xspi' is not one of ['renesas,r9a09g056-xspi', 'renesas,r9a09g057-xspi']
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml
+   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: spi@801c1000 (renesas,r9a09g077-xspi): reset-names: ['hresetn'] is too short
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml
+   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: spi@801c1000 (renesas,r9a09g077-xspi): resets: [[3, 5]] is too short
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g077-pinctrl): sci0-pins:drive-strength-microamp: [9000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g077-pinctrl): sd0-emmc-group:data-pins:drive-strength-microamp: [5000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g077-pinctrl): sd0-emmc-group:clk-pins:drive-strength-microamp: [9000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g077-pinctrl): sd0-emmc-group:cmd-pins:drive-strength-microamp: [5000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g077-pinctrl): sd0-emmc-group:rst-pins:drive-strength-microamp: [5000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g077-pinctrl): sd0-emmc-uhs-group:data-pins:drive-strength-microamp: [9000] is not one of [2500, 5000, 9000, 11800]
+--
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: spi@801c1000 (renesas,r9a09g087-xspi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,r9a09g087-xspi', 'renesas,r9a09g047-xspi'] is too long
+   	'renesas,r9a09g047-xspi' was expected
+   	'renesas,r9a09g087-xspi' is not one of ['renesas,r9a09g056-xspi', 'renesas,r9a09g057-xspi']
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: spi@801c1000 (renesas,r9a09g087-xspi): reset-names: ['hresetn'] is too short
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: spi@801c1000 (renesas,r9a09g087-xspi): resets: [[3, 5]] is too short
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g087-pinctrl): sci0-pins:drive-strength-microamp: [9000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g087-pinctrl): sd0-emmc-group:data-pins:drive-strength-microamp: [5000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g087-pinctrl): sd0-emmc-group:clk-pins:drive-strength-microamp: [9000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g087-pinctrl): sd0-emmc-group:cmd-pins:drive-strength-microamp: [5000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g087-pinctrl): sd0-emmc-group:rst-pins:drive-strength-microamp: [5000] is not one of [2500, 5000, 9000, 11800]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,r9a09g077-pinctrl.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: pinctrl@802c0000 (renesas,r9a09g087-pinctrl): sd0-emmc-uhs-group:data-pins:drive-strength-microamp: [9000] is not one of [2500, 5000, 9000, 11800]
 
 --
 0-DAY CI Kernel Test Service
