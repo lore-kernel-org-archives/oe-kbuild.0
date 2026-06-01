@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98371311958
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jun 2026 19:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40EE2236E0
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jun 2026 19:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780341663; cv=none; b=erZsiQUXa4MRJ8iEj+0du1emK7qigVlgKrTy5M7C1JcE1C74PxfrkdPdvaI2Ca7fnnWVZScWgIglhLdCLxwlegY8/tYTTLVvTazitSd92n+NAO0AMHah9EkBKfMThnObxMmEBalKSIKUXU7auMv0oCMv7Wb9IgueM0kojDLTj7g=
+	t=1780343902; cv=none; b=qhqNMb043Ci5RqJpPMINDh1+Yujpl6YEXhD6uZSB1naXITqpMaQgwiP75jlQ0xkM1WXfauyzNvxFFdT7u0ZM06FCAdYCgc6dxEphzGb5UqkmaWW5Kelp5rrcl7kjqNVNs2KfLmnuKFFfu1YtIUQMtzgZsnISWGkz7vwXp01YyI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780341663; c=relaxed/simple;
-	bh=coGWTknDt3ph9ipz90D3M85NeFQY50/ZsfJltKzgM4k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hHIBytSXmZ5LVCUh+4Vs85d/uLsw7gJ4IXatpImdAarQkLMQmfu2VrhfrXlEgHm6op0T6PmO3EJnCXPbdmM0mUZnzEqiSrtJmaSOTGelqgxe2SlzSCpH7nNnp4BGEm+gHImrwVYUmeDTDWUf8ILjOUWlNwtBjJt6dZdlRWTi1wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZBtxinF; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1780343902; c=relaxed/simple;
+	bh=AsYIR0TMuqmnHJlOa98INfMwDuF0vz8Wl8bnQOlXy60=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LvY6apl8HB0Wi5UBtjebtbp1JvSEDk/TS0Fibcsx9nl6/ARiXWiQng2e4g1peQIk3N482Mj/ggdmXwluuFYICSYUrUN7GkoOekwUp+fejt2fktV6uf3nvCnsBZ208UxdqrN3AHU1Ur/BpitsdOuhzPtUpaAM9RMyklUaF7tjHzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsPYZUF9; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZBtxinF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsPYZUF9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780341661; x=1811877661;
+  t=1780343901; x=1811879901;
   h=date:from:to:cc:subject:message-id;
-  bh=coGWTknDt3ph9ipz90D3M85NeFQY50/ZsfJltKzgM4k=;
-  b=mZBtxinFjOq9ebehhdhNhUrpTs9f3vAV4GWdKg9tYsuoDWSxp59I+J9N
-   PhygHH9v780kRIXO4DorcKQ0erqASMARzu4AQOBtuuF1/KFH4LQuYk7gQ
-   ON7bXMmMGnudIvf7TEA1luLeJ7GonX8ppAlgi3/pOiRpOKI9aR2iDUuoM
-   qD4awKlmnWausQaunLdfyeaZ8/Ww2/KMt76pWMUq5lZGVMo00kNu/4kW4
-   RbE2ifQrH3xuUtxdE2hDK70J9BNqmZtmPK41LpXZXN7E77ci6N+joGpvM
-   kohe9+V50ztycT6JiSbWclcTszgXjh6gJFijxsg1+DzEGojCUAJIx0Bho
-   A==;
-X-CSE-ConnectionGUID: gmDaUx40RqOHwQCd1/gP8g==
-X-CSE-MsgGUID: Nfyra9e0RSOYM41RXP2/TA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81083306"
+  bh=AsYIR0TMuqmnHJlOa98INfMwDuF0vz8Wl8bnQOlXy60=;
+  b=GsPYZUF9oKlMlCN6kcxcRtrevzsq0ZqlIRMBNB7GZFUCtagOJNKJUrnB
+   ShFVt+R4yuO/fyf+nO5Jfg2TvyUGoeAFyM6PCS8RKsAeewqlsW8RhDuhH
+   bsvsf/G9hXJyNxjDs8L/UTc/RElHSX5hUxCF2Ichc+h4lvslJDfnggNKs
+   QjLkrqDSxl7/HeaYk5skz/RwgKkKkiUgeQ0pbbFVpr3LIvL2+8wl78EWO
+   mlQbiUw+piYjSVSP25DrpyJiq5CBmF8/M2zGj/QKGfwg3RztlYBw2a75g
+   HLA26Rcf5VemcUjIiN+cEollIAq/Ec3pXuJFx9jBAqxo3ngou4T5J0LP4
+   w==;
+X-CSE-ConnectionGUID: 4bcOZ3mRQqaGRbYIYVh3og==
+X-CSE-MsgGUID: vWRDtVsuRn6cNPRWoCzYhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="80256581"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="81083306"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 12:21:01 -0700
-X-CSE-ConnectionGUID: LwuR+apeSxeAgONInbvXGw==
-X-CSE-MsgGUID: +B0ZOOjpTe+zUg1dQYJtoA==
+   d="scan'208";a="80256581"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 12:58:21 -0700
+X-CSE-ConnectionGUID: oh+XTNqsQd6FnDGT6IYBJg==
+X-CSE-MsgGUID: 9UinY2GHQXW/nUM06UBriQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="273943770"
+   d="scan'208";a="243774361"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Jun 2026 12:21:01 -0700
+  by orviesa009.jf.intel.com with ESMTP; 01 Jun 2026 12:58:20 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wU8C1-00000000Azk-3TMM;
-	Mon, 01 Jun 2026 19:20:57 +0000
-Date: Tue, 02 Jun 2026 03:20:21 +0800
+	id 1wU8m8-00000000B2A-3SG3;
+	Mon, 01 Jun 2026 19:58:16 +0000
+Date: Tue, 02 Jun 2026 03:58:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: kernel/cfi.c:40:1: sparse: sparse: unknown escape sequence:
- '\%'
-Message-ID: <202606020359.iQvnKYeP-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 8735/9870] lib/crc/crc64-neon.c:22
+ crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+Message-ID: <202606020347.dVghkfIx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,63 +59,54 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: kernel/cfi.c:40:1: sparse: sparse: unknown escape sequence: '\%'"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <kees@kernel.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Eric Biggers <ebiggers@kernel.org>
 
-Hi Kees,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e43ffb69e0438cddd72aaa30898b4dc446f664f8
-commit: 23ef9d439769d5f35353650e771c63d13824235b kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-date:   8 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-122-20260601 (https://download.01.org/0day-ci/archive/20260602/202606020359.iQvnKYeP-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606020359.iQvnKYeP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7da7f07112610a520567421dd2ffcb51beaefbcc
+commit: 061cef5fcee5a4bbaa8726f8c5fc1d5e2f89bff7 [8735/9870] lib/crc: Turn NEON intrinsics crc64 implementation into common code
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-r073-20260601 (https://download.01.org/0day-ci/archive/20260602/202606020347.dVghkfIx-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e5ab4f8a1f766febdc65ce89c00dec85393cfd68)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 23ef9d439769 ("kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606020359.iQvnKYeP-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606020347.dVghkfIx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/cfi.c:40:1: sparse: sparse: unknown escape sequence: '\%'
->> kernel/cfi.c:40:1: sparse: sparse: unknown escape sequence: '\%'
-   kernel/cfi.c:43:1: sparse: sparse: unknown escape sequence: '\%'
-   kernel/cfi.c:43:1: sparse: sparse: unknown escape sequence: '\%'
+New smatch warnings:
+lib/crc/crc64-neon.c:22 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
 
-vim +40 kernel/cfi.c
+Old smatch warnings:
+lib/crc/crc64-neon.c:23 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+lib/crc/crc64-neon.c:24 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+lib/crc/crc64-neon.c:41 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
+lib/crc/crc64-neon.c:42 crc64_nvme_neon() warn: statement has no effect 'uint64x2_t'
 
-cf68fffb66d60d Sami Tolvanen 2021-04-08  31  
-f1befc82addda9 Sami Tolvanen 2025-08-01  32  /*
-f1befc82addda9 Sami Tolvanen 2025-08-01  33   * Declare two non-existent functions with types that match bpf_func_t and
-f1befc82addda9 Sami Tolvanen 2025-08-01  34   * bpf_callback_t pointers, and use DEFINE_CFI_TYPE to define type hash
-f1befc82addda9 Sami Tolvanen 2025-08-01  35   * variables for each function type. The cfi_bpf_* variables are used by
-f1befc82addda9 Sami Tolvanen 2025-08-01  36   * arch-specific BPF JIT implementations to ensure indirectly callable JIT
-f1befc82addda9 Sami Tolvanen 2025-08-01  37   * code has matching CFI type hashes.
-f1befc82addda9 Sami Tolvanen 2025-08-01  38   */
-f1befc82addda9 Sami Tolvanen 2025-08-01  39  extern typeof(*(bpf_func_t)0) __bpf_prog_runX;
-f1befc82addda9 Sami Tolvanen 2025-08-01 @40  DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
-f1befc82addda9 Sami Tolvanen 2025-08-01  41  
+vim +/uint64x2_t +22 lib/crc/crc64-neon.c
 
-:::::: The code at line 40 was first introduced by commit
-:::::: f1befc82addda926c8301436123d041bf3249505 cfi: Move BPF CFI types and helpers to generic code
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  12  
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  13  /* x^191 mod G, x^127 mod G */
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  14  static const u64 fold_consts_val[2] = { 0xeadc41fd2ba3d420ULL,
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  15  					0x21e9761e252621acULL };
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  16  /* floor(x^127 / G), (G - x^64) / x */
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  17  static const u64 bconsts_val[2] = { 0x27ecfa329aef9f77ULL,
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  18  				    0x34d926535897936aULL };
+63432fd625372a lib/crc/arm64/crc64-neon-inner.c Demian Shulhan 2026-03-29  19  
+061cef5fcee5a4 lib/crc/crc64-neon.c             Ard Biesheuvel 2026-04-22  20  u64 crc64_nvme_neon(u64 crc, const u8 *p, size_t len)
+8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30  21  {
+8fdef85d601db6 lib/crc/arm64/crc64-neon-inner.c Ard Biesheuvel 2026-03-30 @22  	uint64x2_t fold_consts = vld1q_u64(fold_consts_val);
 
-:::::: TO: Sami Tolvanen <samitolvanen@google.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+:::::: The code at line 22 was first introduced by commit
+:::::: 8fdef85d601db670e9c178314eedffe7bbb07e52 lib/crc: arm64: Simplify intrinsics implementation
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Eric Biggers <ebiggers@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
