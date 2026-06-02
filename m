@@ -1,129 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8713BE16A
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jun 2026 09:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A22C331222
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jun 2026 12:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780394190; cv=none; b=kJ2Zm2party+O65F7+gNOJdqHcVCOZZNSF0xLRwdVj7Uj9v1GBGA5vISTlw9/zxxNl12gNJr7iqhLUywalX9KDRcb6wItIHNFx+OHlPS0yOKsQ3s1MzWwo1ZNS/yUV6PRUkcfkf5RUPfpIFuqNCXRdlQd6L6HMBnBvM5jzuFqYc=
+	t=1780402647; cv=none; b=A6ItKHT/ZnOzn4zftzzbRx98ATcVN73Ve85aaYj6gNBMxWNnvoJ0s1k/uMLkuTPMynCl1TC02PdX+9YC/GnIANzkTSkpBYpv8k+DBUPceKUF05lWWbX5cG0XC6mTjnQaelWFIQ1KIswWndM7h8alAS2oU8wnGT4g/FxANOrOhIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780394190; c=relaxed/simple;
-	bh=X97tGqr83t5p/YNcCouN8jA0gTibyk1gzYGrKQM38Wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pNmVRMyYwfOE4EJweCN0Yv5n/na45FkAkROGOPYlmC4JvNsmJIuMy72/CcNhUBWx/yJfg4uCIBp2630sa4yOROYqmhoQA9/3fY6A4K053qAuI+IN6DkEZeCBADkI5tmwA2E7ab+Gz+PCngxvDifkQbMiURLIvuhxXYnOO4jOuqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVBJjpsg; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1780402647; c=relaxed/simple;
+	bh=xQKLM+1mwi3sh4sMzbes4VdbGWK32UG5v9bsbAzrZNw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AYaA6o2u3ipZd9tYyVNU01Ixq3ZzDXS9TGptyKV3l3EGPQ2DGoHdIXnThCdFLjAf9s88kdXzEY1rNUBWNHAGB4neBnnd4ee+Xp1kXBr3WyDmTIyDamtGGQKS2i1Kr3N3zerMEMqoGMxv5tlCjNz4+6zfOLWRPlc0hYBukGV8siQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U83qdjSr; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVBJjpsg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U83qdjSr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780394188; x=1811930188;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X97tGqr83t5p/YNcCouN8jA0gTibyk1gzYGrKQM38Wo=;
-  b=nVBJjpsggHViD/dUxGlM8uGYOxcXninzNl5Lz1npDBWueqaGtUw16++e
-   +t1Yn/rX6fXcsZdrwfEgj5/B1nNRCWBbco8mMOrPEooGpUPttqgib8hsQ
-   AcBXjPdXzSLz9CxHzEsupdd00UvsAAUSe+0/zBRiMYys+vG6i24HZsXNu
-   pmQqrD3qL2dEIwoYVBf1FkGudW9LIWiU82Y0DelrcNwje46ksm8hLNqf1
-   7jpl/z5zqbWpKitMlH4owHMZUlaXpph4cEKof7J0TGZpOfOC5kscYe36S
-   hbF5Z+/+Kpwabg+aV2n+C458LkKZu3OKbk409wazbtHzEiCjnoSsR010G
-   w==;
-X-CSE-ConnectionGUID: 7ZqzCcL7SC2KDLyEFEK/oQ==
-X-CSE-MsgGUID: jEle+dhbSxW3TOPDafMJgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="80204864"
+  t=1780402646; x=1811938646;
+  h=date:from:to:cc:subject:message-id;
+  bh=xQKLM+1mwi3sh4sMzbes4VdbGWK32UG5v9bsbAzrZNw=;
+  b=U83qdjSrr4/aMT/lNeiXA3Rfil5SOL9GYUhFd22jwg2H/QBQUqiC8JFA
+   s3yqMSkYkZUgQ1eYtmLEv6IhN7ltjN2JMs7pjakz2sxLMMrQ+9evC3cu8
+   i/J9dOR47Y2RQqtXFka3jx01f7H9vZ68kL0SYlwjsWaqF5X2RT9/RTIOU
+   yzJNmw3a3d/pHQH2xNWTUnhnnSvQ7InsJ22RcwpUzCCyfZRrPeJDtYiou
+   mIPrOK9TriICizOqSQLE5v3gQq53fYNVIR3kMmEiOj+c+jrzaBJNdGbd9
+   U+GnS0pH6CKdJglBKwLLHFxUmLlotCBd75X0h+C0HAcmQ/2AVkQQ2B+sQ
+   g==;
+X-CSE-ConnectionGUID: yH4rEgcpR0KAbUteTyDfRA==
+X-CSE-MsgGUID: ArPXKKT2SLKvw1Qa4nOI5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="92670176"
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="80204864"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 02:56:27 -0700
-X-CSE-ConnectionGUID: dpn+YGA5TUGA7+jriK7q6Q==
-X-CSE-MsgGUID: mTn675rYQkmVSB9UIyuXFw==
+   d="scan'208";a="92670176"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 05:17:26 -0700
+X-CSE-ConnectionGUID: FNLNImSBToOvtedRMZSPHw==
+X-CSE-MsgGUID: O9DC2SX/QG2eFHHR6WGdPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="240858798"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 02 Jun 2026 02:56:26 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="239722192"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 02 Jun 2026 05:17:25 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wULrE-000000001mr-1E8l;
-	Tue, 02 Jun 2026 09:56:24 +0000
-Date: Tue, 2 Jun 2026 11:55:57 +0200
+	id 1wUO3e-00000000C0C-40xZ;
+	Tue, 02 Jun 2026 12:17:22 +0000
+Date: Tue, 02 Jun 2026 20:16:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 2/2] dt-bindings: arm: rockchip: add Vicharak Axon
- board
-Message-ID: <202606021103.haAqiHuz-lkp@intel.com>
+Subject: [xilinx-xlnx:master 781/889] ld.lld: error: duplicate
+ symbol: __cfi_cleanup_module
+Message-ID: <202606022030.D8bBfxkJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260601132529.139172-3-hrushirajg23@gmail.com>
-References: <20260601132529.139172-3-hrushirajg23@gmail.com>
-TO: Hrushiraj Gandhi <hrushirajg23@gmail.com>
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: Hrushiraj Gandhi <hrushirajg23@gmail.com>
+CC: git@amd.com
+TO: Michal Simek <monstr@monstr.eu>
 
-Hi Hrushiraj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on rockchip/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.16-rc1 next-20260601]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hrushiraj-Gandhi/arm64-dts-rockchip-add-Vicharak-Axon-board/20260601-213319
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260601132529.139172-3-hrushirajg23%40gmail.com
-patch subject: [PATCH v2 2/2] dt-bindings: arm: rockchip: add Vicharak Axon board
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: arm64-randconfig-2052-20260601 (https://download.01.org/0day-ci/archive/20260602/202606021103.haAqiHuz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021103.haAqiHuz-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   641071b397e4ef707f4512d9b6e48794c3b28f8f
+commit: 876b3725514698ee0158346c94ea8034a02ee82b [781/889] mtd: fix modpost errors for mtd_virt_concat symbols
+:::::: branch date: 4 weeks ago
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-001-20260602 (https://download.01.org/0day-ci/archive/20260602/202606022030.D8bBfxkJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606022030.D8bBfxkJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606021103.haAqiHuz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606022030.D8bBfxkJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'rockchip,rk3562' was expected
-   	'rockchip,rk3588' is not one of ['rockchip,rv1126', 'rockchip,rv1109']
-   	'tsd,px30-cobra' was expected
-   	'tsd,px30-pp1516' was expected
-   	'tsd,rk3588-tiger' was expected
-   	'xunlong,orangepi-3b' was expected
-   	'xunlong,orangepi-cm5' was expected
-   	'rockchip,rk3318' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/rockchip.yaml
-   arch/arm64/boot/dts/rockchip/rk3588-vicharak-axon.dtb: /: failed to match any schema with compatible: ['vicharak,axon', 'rockchip,rk3588']
->> arch/arm64/boot/dts/rockchip/rk3588-vicharak-axon.dtb: hdmi@fde80000 (rockchip,rk3588-dw-hdmi-qp): Unevaluated properties are not allowed ('enable-gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-vicharak-axon.dtb: pmic@0 (rockchip,rk806): Unevaluated properties are not allowed ('rk806_dvs1_null', 'rk806_dvs1_pwrdn', 'rk806_dvs1_rst', 'rk806_dvs1_slp', 'rk806_dvs2_dvs', 'rk806_dvs2_gpio', 'rk806_dvs2_null', 'rk806_dvs2_pwrdn', 'rk806_dvs2_rst', 'rk806_dvs2_slp', 'rk806_dvs3_dvs', 'rk806_dvs3_gpio', 'rk806_dvs3_null', 'rk806_dvs3_pwrdn', 'rk806_dvs3_rst', 'rk806_dvs3_slp' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk806.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-vicharak-axon.dtb: hdmi@fdea0000 (rockchip,rk3588-dw-hdmi-qp): Unevaluated properties are not allowed ('enable-gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: duplicate symbol: __cfi_cleanup_module
+   >>> defined at mtdcore.c
+   >>>            drivers/mtd/mtdcore.o:(__cfi_cleanup_module)
+   >>> defined at mtd_virt_concat.c
+   >>>            drivers/mtd/mtd_virt_concat.o:(.exit.text+0x0)
 
 --
 0-DAY CI Kernel Test Service
