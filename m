@@ -1,59 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEABF3F0A99
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jun 2026 16:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EB43F39FE
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jun 2026 16:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780416631; cv=none; b=IZAcw9wSUgXJyrcUE6FrZTPIjt83ScyQqi+luWqlp8+WHLJzjsfc/ssr6b8cjwwt1zq6QvRZkbyKR9pItfITb9GAL3F/SKzqf6JFA1671bx6yXRLGsr7oBhqMwxl5XJ5pi3xzdIg2lG6742zC67R4joJMCZRRvT+0M4E2upF2xA=
+	t=1780416634; cv=none; b=RW518GKTuNGvo6ck3O6kBN4fEhigV0O0mgLOEHk1we9kFU0taY+o8Ien9/2NZTFgYTXvyxvYeHq4K7k/BJ9vxma2GSAemR544lzSDG3jtOEBuOQ6YX52MKlrpjLFhdGdz67V8JVyaTbEmgP1+1U6yghK368z0PIlmIO4tjRMJ94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780416631; c=relaxed/simple;
-	bh=8I9LL/cqK3HDk9eoNjTpwqDQ0qMVweLwFAYwtWw/Tjk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uz4x1M5qgZrDJsWpSHn/ZQViJmkr5c4zzdEzip3sYAqzRX1btqYR/1O+LJjpn00rnkYpe8HAsQYgz3/ZkbheS4SNrz2DM6N1OwuylBMgfGODeQ9GZ0a31Nk3f0wx2sdbtTs34FRNI6n6c5hautTVJM/P/mNWoDAxyPB6mDMt/LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4cuhoMg; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1780416634; c=relaxed/simple;
+	bh=4Nef9q/WouF8QhVJjiu1CIVxwXfnC7zmfL2UgPXN7Rw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=j8BoShAd0IWBJkUVp4n8WnBZQ2XMvBOz9oASRNvwPdhDgLsPvkPk3m1mftA6spC8W75/f0DXA0zOR4/GGSajM0EzpkC9mRh/3SzpNLmVvZorr5hPln+sDPOBEdMZTYKV/qRC9lZUGbJXyTHLUnNUo+S3naW8eyKC+pcbfADrJPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IlQf7r70; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4cuhoMg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlQf7r70"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780416630; x=1811952630;
+  t=1780416633; x=1811952633;
   h=date:from:to:cc:subject:message-id;
-  bh=8I9LL/cqK3HDk9eoNjTpwqDQ0qMVweLwFAYwtWw/Tjk=;
-  b=O4cuhoMgwYI6RvAIQ5fBqRejxoEiWfBM0VthiVm3tJU9JqaHzLycap0r
-   ozlAgUWFXK6oQpcJP0c/Mvbm3FwSPGsAsr8FufllCFMTJ5Zmug667bZdt
-   iQS+RvKY8SaVRUMutdhcwdJqGA8z8953EPOMs5SJihrtFbK8OXXrrjF/B
-   NZUN2DRis5CxUDhbXgspSbg3VUiJpbtw6MQ3nzxdoBOLosMQWroZuuI3c
-   S4WVUw/6oH7ZKXxhU6QW2OfjUoxs/bFh5R0QXz+bLgwBltH2dvS78FLKg
-   VEQ+8qtvQV36vbB8X5CM4G8fv57puCV2cwFMHyG82byNwngVVj0wopvfj
+  bh=4Nef9q/WouF8QhVJjiu1CIVxwXfnC7zmfL2UgPXN7Rw=;
+  b=IlQf7r70a5sCyxnZ8ibJjHfl8xlLL+YXhDdlx0HUWa6Qs2kB0CUXUl32
+   XqhvZA6/Vdbm+facMZ36E078dLfMrx7qKWYPhdTklph8vYUx/iDheoOOV
+   v8kgOJTKy8bv3G/mqbPsv6k4QywipVfAnUtWN8UI/V7KOflB3f+tnWXe5
+   rDeC5ukq0NmH0ha9WO4fbVVME3z45i6uxRaBpWXxl4N8HUy/obJQuBjuZ
+   LO3k6KLJIEtslrKMv8pVz4pQNO7ZsJL8i2XECCjmOtGl4AYkkvpBjK9XK
+   iH1h4R0cp+uGym9KjOC2Sk0MZZDj27oK4ekxdWf0ilzuFuFnJx5y5ZkZu
    g==;
-X-CSE-ConnectionGUID: H3Z1P2zWSAyCvyq1ON/qhg==
-X-CSE-MsgGUID: ypfQ/9UsSzuROE9I58dXMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92693921"
+X-CSE-ConnectionGUID: LIHgIgl3TRO9Oa4vONMZbQ==
+X-CSE-MsgGUID: f/6w212sQQi06Rcd665c8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92693922"
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="92693921"
+   d="scan'208";a="92693922"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 09:10:30 -0700
-X-CSE-ConnectionGUID: tH1o3tJJThS7LDdaDAaBnA==
-X-CSE-MsgGUID: wzn34/NkQ9G74Qu16q6fUw==
+X-CSE-ConnectionGUID: S9rJgltwTSSWVUcpUL2a8w==
+X-CSE-MsgGUID: NhYoXcWQQ+my9v/ycy6N6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="244039698"
+   d="scan'208";a="244039700"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
   by orviesa009.jf.intel.com with ESMTP; 02 Jun 2026 09:10:29 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wURhC-000000001pB-2q4f;
+	id 1wURhC-000000001pD-31yD;
 	Tue, 02 Jun 2026 16:10:26 +0000
-Date: Tue, 02 Jun 2026 18:10:06 +0200
+Date: Tue, 02 Jun 2026 18:10:05 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arm-integrator:gemini-dts-for-soc 7/8]
- arch/arm/boot/dts/gemini/gemini-nas4210b.dtb: /soc/syscon@40000000: failed to
- match any schema with compatible: ['cortina,gemini-syscon', 'syscon',
- 'simple-mfd']
-Message-ID: <202606021830.mekzQ496-lkp@intel.com>
+Subject: tests/pmu-events.c:1104:34: error: implicit declaration of
+ function 'pmu_metrics_table__name'; did you mean 'pmu_metrics_table__find'?
+Message-ID: <202606021848.jZADRwin-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,39 +60,70 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linusw@kernel.org>
+TO: Ian Rogers <irogers@google.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git gemini-dts-for-soc
-head:   dce8e0cb88fb12d068459b75f299ff2242172257
-commit: 0b6084ebde381d808c80bf42364298e2ae326175 [7/8] ARM: dts: Add a Raidsonic IB-4210-B DTS
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-2055-20260528 (https://download.01.org/0day-ci/archive/20260602/202606021830.mekzQ496-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021830.mekzQ496-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/perf-test-pmu-events-A-sub-test-per-metric-table/20260602-164002
+head:   e4c41d658075c69ae93088b2c7235a38c7eceea3
+commit: e4c41d658075c69ae93088b2c7235a38c7eceea3 perf test pmu-events: A sub-test per metric table
+date:   7 hours ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260602/202606021848.jZADRwin-lkp@intel.com/config)
+compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260602/202606021848.jZADRwin-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606021830.mekzQ496-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606021848.jZADRwin-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/gemini/gemini-nas4210b.dtb: /soc/syscon@40000000: failed to match any schema with compatible: ['cortina,gemini-syscon', 'syscon', 'simple-mfd']
->> arch/arm/boot/dts/gemini/gemini-nas4210b.dtb: /soc/syscon@40000000/pinctrl: failed to match any schema with compatible: ['cortina,gemini-pinctrl']
->> arch/arm/boot/dts/gemini/gemini-nas4210b.dtb: timer@43000000 (faraday,fttmr010): False schema does not allow [[2]]
-   	from schema $id: http://devicetree.org/schemas/timer/faraday,fttmr010.yaml
->> arch/arm/boot/dts/gemini/gemini-nas4210b.dtb: power-controller@4b000000 (cortina,gemini-power-controller): '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml
->> arch/arm/boot/dts/gemini/gemini-nas4210b.dtb: ide@63000000 (cortina,gemini-pata): Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/faraday,ftide010.yaml
-   arch/arm/boot/dts/gemini/gemini-nas4210b.dtb: ide@63400000 (cortina,gemini-pata): Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/faraday,ftide010.yaml
+All errors (new ones prefixed by >>):
+
+   Makefile.config:566: No elfutils/debuginfod.h found, no debuginfo server support, please install libdebuginfod-dev/elfutils-debuginfod-client-devel or equivalent
+   Makefile.config:940: No libllvm 13+ found, slower source file resolution, please install llvm-devel/llvm-dev
+   Makefile.config:1136: Rust is not found. Test workloads with rust are disabled.
+     PERF_VERSION = 7.1.rc5.ge4c41d658075
+   tests/pmu-events.c: In function 'test__parsing':
+   tests/pmu-events.c:932:50: error: 'struct test_case' has no member named 'priv'
+     932 |                 table = test->test_cases[subtest].priv;
+         |                                                  ^
+   tests/pmu-events.c: In function 'test__parsing_fake':
+   tests/pmu-events.c:1050:50: error: 'struct test_case' has no member named 'priv'
+    1050 |                 table = test->test_cases[subtest].priv;
+         |                                                  ^
+   tests/pmu-events.c: In function 'populate_metrics_tables_cb':
+>> tests/pmu-events.c:1104:34: error: implicit declaration of function 'pmu_metrics_table__name'; did you mean 'pmu_metrics_table__find'? [-Wimplicit-function-declaration]
+    1104 |         const char *table_name = pmu_metrics_table__name(table);
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                  pmu_metrics_table__find
+>> tests/pmu-events.c:1104:34: error: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   tests/pmu-events.c:1121:18: error: 'struct test_case' has no member named 'priv'
+    1121 |                 .priv = (void *)table,
+         |                  ^~~~
+   tests/pmu-events.c:1129:18: error: 'struct test_case' has no member named 'priv'
+    1129 |                 .priv = (void *)table,
+         |                  ^~~~
+   tests/pmu-events.c: In function 'setup_pmu_events_suite':
+>> tests/pmu-events.c:1151:15: error: implicit declaration of function 'pmu_metrics_table__iterate_tables'; did you mean 'pmu_metrics_table__default'? [-Wimplicit-function-declaration]
+    1151 |         ret = pmu_metrics_table__iterate_tables(count_metrics_tables_cb, &num_tables);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               pmu_metrics_table__default
+   tests/pmu-events.c: At top level:
+   tests/pmu-events.c:1214:10: error: 'struct test_suite' has no member named 'setup'
+    1214 |         .setup = setup_pmu_events_suite,
+         |          ^~~~~
+   make[4]: *** [tools/build/Makefile.build:95: tests/pmu-events.o] Error 1
+   make[4]: *** Waiting for unfinished jobs....
+   make[3]: *** [tools/build/Makefile.build:158: tests] Error 2
+   make[2]: *** [Makefile.perf:566: perf-test-in.o] Error 2
+   make[2]: *** Waiting for unfinished jobs....
+   make[1]: *** [Makefile.perf:288: sub-make] Error 2
 
 --
 0-DAY CI Kernel Test Service
