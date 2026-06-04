@@ -1,282 +1,262 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D6938D3E3
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jun 2026 07:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A35C332EC8
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jun 2026 07:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780558861; cv=none; b=fdtDCUm+bZlxyjoaLKQz6LHKFpV0Ax+5YAxm2EjQy2Dqf5yZJ3iZ0iZwKr+xLUoYcfSyn4VqYNf5+oYTRA12K0qxjfU5TkY6awRalJeeyELOy66bmiZjaClEPazmFp5Wim0GJCx1wStyoJAlZhrgpXSMRLpVqrJ6wC2jsR6+qqQ=
+	t=1780559504; cv=none; b=tPukeWuzr/A/PQmqkDM6Kf/0DIRmtu5Ac1zHR5WOekLsv32xL3ZEyBO2dmflmxDYyPKyh3/vyW1X8oxunZEFKaHJaVOA4srjXMsQVDq/Hg8ZC1qBOcihHRE2yA4yDLhT4V0G1wJ3sg8psal+Ict7ZNgtvER8tVolpG38UDYUzh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780558861; c=relaxed/simple;
-	bh=ZbV6ivVJX/6l4goPFhyWGZu1Bh4Sp3pbRftBV0Z14GY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=mg4+qIYl4bXJvWMmftwMS0rHVIvG6F8xl0lLCh1LZilUtlxRi4I3S5KxqDI/DpWf1fk150GIKzVr2vtNiLtR6QYVTkN2cjrWKjLmnAoAPAeOH23ZlgBeycrdLpFzKM9/MY8ZLj78Glmx/YD1acG5uwwvaZrO4WnepHM543Piaa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlNFYuG9; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780559504; c=relaxed/simple;
+	bh=FV+N87suUUs+iLHlfFjEEsfrN2RzK6MoF3lJkQQJeYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=M5hTXFIjrGYRC9MfwCxo48MvVZXW3Ru3vDXI6QWAK4mlnBHkkVuc3eAefiKdz+/Imk5jwjI5peQO52UqVmkqPdlRVGK1vXeLSeDuVSm6tnlPxWqaxX4gimN0NaKALoifz7SYxRSMsrB8cltIDQmiFFKvYqC4+HZc9+fgSRSkfeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ru3ZspAp; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlNFYuG9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780558859; x=1812094859;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZbV6ivVJX/6l4goPFhyWGZu1Bh4Sp3pbRftBV0Z14GY=;
-  b=XlNFYuG9gh4VtOr7hswniLK04WtUdzw4z+GoWGUU3FpKP/DoXrH2VK3e
-   e+l5fk3hGalAEu7q9O/x0Ks7bgRLzDVsm2M3//qNYcAfv4kkviwzJRbri
-   Yxot4+M994kmA0B8yIJO7086+/I3XLeurceRp7YiOUSBqYN899ljdbm2M
-   MfbRFJNkonyEQxXV31CyYobasHZ0D0CDStFKaAXbFEHsusjkXvXONyCMN
-   nD/qX8jQVG3jH0MIgqNDX10sawoNjZJebvVRnwuDHbQn1rIg2xprOKOCa
-   oSsXD8uGPWIEcpTE57gNaJqESQ6jECN3EP9C1w8Nbv4mwHKGEFAUikS8B
-   Q==;
-X-CSE-ConnectionGUID: N6tF7XF7TAGTXukQb6TAhA==
-X-CSE-MsgGUID: 83zOwv3NR+mjoaps6OHQpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="104040882"
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="104040882"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 00:40:59 -0700
-X-CSE-ConnectionGUID: QfGPU6+zSu684q75BEduEw==
-X-CSE-MsgGUID: eqmXg54PSgGyhfjIEZ96/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="248412923"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Jun 2026 00:40:58 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wV2hC-00000000EQE-3Eb9;
-	Thu, 04 Jun 2026 07:40:54 +0000
-Date: Thu, 04 Jun 2026 15:40:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1467/2910]
- drivers/gpu/drm/xe/xe_sync.c:168 xe_sync_entry_parse() warn: missing unwind
- goto?
-Message-ID: <202606041511.d0kweV9I-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ru3ZspAp"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-91563382bcfso54662785a.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 04 Jun 2026 00:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780559502; x=1781164302; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KMjb4giZH4nYOsBgqkE4+V82FGKxrHLIUiOWlEV+G84=;
+        b=Ru3ZspApIZ7oBDMc3ATRon1ThdicEw81ICcgdim/NtHTUlbKTBYQMHtnEI7i21T2j0
+         HDe2B7FZUdwlfzuQIHCn6maaSdJkJkyedgUnrJsca8DTDzabdj0Puh4Ztnwj3yE/zhed
+         92dc0yJXMV3je13cB7iBPu2FpG6VFOfaE1N0/9YE10cUMx6aVu4N806438OCdh7kVBpp
+         WcIZh0tDbo6mg4hLe4VfUJSoxyHwRx+sPGUbYXJjyoJywPgOoxge9VASYIZ6s+TDz25R
+         MvP0Bn6XGjjkmTgmTfIWhRqXEbrUe7YYrRVE8kKb+ucA6Wq4OxvntUNBVvHBWSB9/F+W
+         CIVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780559502; x=1781164302;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KMjb4giZH4nYOsBgqkE4+V82FGKxrHLIUiOWlEV+G84=;
+        b=TeD3U3m9luBf4bQsQdVlTu45OiJ0cNFZvGc2YpNL6xZCJsW49ID35eUpYOy0R2Hiu0
+         3Uk9RZFE84EdYLKnWPTKkOgvSAOOWPvjaNaA+a7K/gE4/kzr4ppuwrvaNohFfmMUK8qi
+         5+cBiGhHB2zsFtyApsscEqf4eQoFlCuGr9SmhPmv1Kg3giV8qsT8nD+pxzQ9OCTNIEmN
+         3HMovySNcobqbxXtbBSrcRiik2Vgc9Y7BMSmyaVw0EWX/0wYIjVaY3sFH1wn2Amc2KN6
+         oEH2u3l5HKpolYDOso7yRsioPDGwkePTwv78YXiWolCR5A/ACf8eaLeKyofIkntcDqE4
+         D6zg==
+X-Gm-Message-State: AOJu0YzQPPeMgZIgfb9YWRkydBG85j3Krv9HOecb1U3tnW9PQVdnnTc0
+	CkCK3Nmt1A71ZzdVBV0+1qdxoR+JDhaEvoiM0L+sKSCLLGdUP57ngPw2yMwmpXpU
+X-Gm-Gg: Acq92OEaQHSUpuXa+BMCd8lQgl+YC9Xzd6u6a1c38kGBy4DOV0i5qZj9a8OSjf737e3
+	GjrRKyQx4O1KmqpXXsoN2156cuC/BtWS1y3RPeBZs0I9ZV0sYSHJEmGL0GzdML88CADHucsGEct
+	odigGy1XUoTh+xORdXNw/3U6T5RkZW05F2JqHiKKBZl8hgsMwixZumvug51W0dW8CcyyCyqeY4Q
+	KxEedySXXAaEE1fzJz9p51RUmYpNswPbFW5DUma1L8q/DqJcsXxItRmEqXy2iTFkoGMAl6djWaE
+	ieiEyq/BafhnDEDHaJiGTumpnVH7IVvfpau886J+nwopmMsd2LqRNxLqRL32ZYrrULRhV7yzv6W
+	zVkAr4GoqVefsF84otalnM73SoefONCU5U/gM/OtEr/3YmTt4pjbckVWcZtexDqxGi3zLmcyPkA
+	MQQCyuKG94L5zFdTKKooXevRHGgFw=
+X-Received: by 2002:a05:620a:1722:b0:912:1206:ddd1 with SMTP id af79cd13be357-9158a656cbcmr1068462185a.1.1780559502030;
+        Thu, 04 Jun 2026 00:51:42 -0700 (PDT)
+Received: from localhost ([149.40.50.195])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a243f24sm524092285a.20.2026.06.04.00.51.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 00:51:41 -0700 (PDT)
+Date: Thu, 4 Jun 2026 10:51:36 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Mark Harmstone <mark@harmstone.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	David Sterba <dsterba@suse.com>, Boris Burkov <boris@bur.io>
+Subject: [kdave:for-7.0-rc6 63/199] fs/btrfs/relocation.c:5080
+ do_remap_reloc_trans() warn: variable dereferenced before check 'dest_bg'
+ (see line 5014)
+Message-ID: <202606041517.HaryVyGy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260604075136.WPxa_v0YDXCJBqj2IVHmPtVf2u-kJqt9F4ZOvffiqCs@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Shuicheng Lin <shuicheng.lin@intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   a225caacc36546a09586e3ece36c0313146e7da9
-commit: 1bfd7575092420ba5a0b944953c95b74a5646ff8 [1467/2910] drm/xe/sync: C=
-leanup partially initialized sync on parse failure
-:::::: branch date: 12 hours ago
-:::::: commit date: 3 months ago
-config: powerpc64-randconfig-r071-20260604 (https://download.01.org/0day-ci=
-/archive/20260604/202606041511.d0kweV9I-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-7.0-rc6
+head:   316fb1b3169efb081d2db910cbbfef445afa03b9
+commit: fd6594b1446cc753450bad8d0da6288da1ad7b96 [63/199] btrfs: replace identity remaps with actual remaps when doing relocations
+config: sparc-randconfig-r073-20260604 (https://download.01.org/0day-ci/archive/20260604/202606041517.HaryVyGy-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606041511.d0kweV9I-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606041517.HaryVyGy-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/xe/xe_sync.c:168 xe_sync_entry_parse() warn: missing unwind=
- goto?
+smatch warnings:
+fs/btrfs/relocation.c:5080 do_remap_reloc_trans() warn: variable dereferenced before check 'dest_bg' (see line 5014)
 
-Old smatch warnings:
-arch/powerpc/include/asm/mmu.h:253 mmu_has_feature() warn: bitwise AND cond=
-ition is false here
+vim +/dest_bg +5080 fs/btrfs/relocation.c
 
-vim +168 drivers/gpu/drm/xe/xe_sync.c
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4931  static int do_remap_reloc_trans(struct btrfs_fs_info *fs_info,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4932  				struct btrfs_block_group *src_bg,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4933  				struct btrfs_path *path, u64 *last_start)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4934  {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4935  	struct btrfs_trans_handle *trans;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4936  	struct btrfs_root *extent_root;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4937  	struct btrfs_key ins;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4938  	struct btrfs_block_group *dest_bg = NULL;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4939  	u64 start = 0, remap_length = 0;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4940  	u64 length, new_addr, min_size;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4941  	int ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4942  	const bool is_data = (src_bg->flags & BTRFS_BLOCK_GROUP_DATA);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4943  	bool no_more = false;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4944  	bool made_reservation = false, bg_needs_free_space;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4945  	struct btrfs_space_info *sinfo = src_bg->space_info;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4946  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4947  	extent_root = btrfs_extent_root(fs_info, src_bg->start);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4948  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4949  	trans = btrfs_start_transaction(extent_root, 0);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4950  	if (IS_ERR(trans))
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4951  		return PTR_ERR(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4952  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4953  	mutex_lock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4954  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4955  	ret = find_next_identity_remap(trans, path, src_bg->start + src_bg->length,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4956  				       *last_start, &start, &remap_length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4957  	if (ret == -ENOENT) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4958  		no_more = true;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4959  		goto next;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4960  	} else if (ret) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4961  		mutex_unlock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4962  		btrfs_end_transaction(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4963  		return ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4964  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4965  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4966  	/* Try to reserve enough space for block. */
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4967  	spin_lock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4968  	btrfs_space_info_update_bytes_may_use(sinfo, remap_length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4969  	spin_unlock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4970  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4971  	if (is_data)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4972  		min_size = fs_info->sectorsize;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4973  	else
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4974  		min_size = fs_info->nodesize;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4975  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4976  	/*
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4977  	 * We're using btrfs_reserve_extent() to allocate a contiguous
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4978  	 * logical address range, but this will become a remap item rather than
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4979  	 * an extent in the extent tree.
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4980  	 *
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4981  	 * Short allocations are fine: it means that we chop off the beginning
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4982  	 * of the identity remap that we're processing, and will tackle the
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4983  	 * rest of it the next time round.
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4984  	 */
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4985  	ret = btrfs_reserve_extent(fs_info->fs_root, remap_length, remap_length,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4986  				   min_size, 0, 0, &ins, is_data, false);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4987  	if (ret) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4988  		spin_lock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4989  		btrfs_space_info_update_bytes_may_use(sinfo, -remap_length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4990  		spin_unlock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4991  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4992  		mutex_unlock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4993  		btrfs_end_transaction(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4994  		return ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4995  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4996  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4997  	made_reservation = true;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4998  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  4999  	new_addr = ins.objectid;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5000  	length = ins.offset;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5001  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5002  	if (!is_data && !IS_ALIGNED(length, fs_info->nodesize)) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5003  		u64 new_length = ALIGN_DOWN(length, fs_info->nodesize);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5004  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5005  		btrfs_free_reserved_extent(fs_info, new_addr + new_length,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5006  					   length - new_length, 0);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5007  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5008  		length = new_length;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5009  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5010  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5011  	dest_bg = btrfs_lookup_block_group(fs_info, new_addr);
 
-dd08ebf6c3525a Matthew Brost      2023-03-30  112 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  113  int xe_sync_entry_parse(=
-struct xe_device *xe, struct xe_file *xef,
-dd08ebf6c3525a Matthew Brost      2023-03-30  114  			struct xe_sync_entry =
-*sync,
-dd08ebf6c3525a Matthew Brost      2023-03-30  115  			struct drm_xe_sync __=
-user *sync_user,
-adda4e855ab640 Matthew Brost      2025-10-31  116  			struct drm_syncobj *u=
-fence_syncobj,
-adda4e855ab640 Matthew Brost      2025-10-31  117  			u64 ufence_timeline_v=
-alue,
-53bf60f6d8503c Matthew Brost      2023-12-05  118  			unsigned int flags)
-dd08ebf6c3525a Matthew Brost      2023-03-30  119  {
-dd08ebf6c3525a Matthew Brost      2023-03-30  120  	struct drm_xe_sync sync=
-_in;
-dd08ebf6c3525a Matthew Brost      2023-03-30  121  	int err;
-53bf60f6d8503c Matthew Brost      2023-12-05  122  	bool exec =3D flags & S=
-YNC_PARSE_FLAG_EXEC;
-53bf60f6d8503c Matthew Brost      2023-12-05  123  	bool in_lr_mode =3D fla=
-gs & SYNC_PARSE_FLAG_LR_MODE;
-eb9702ad29863c Matthew Brost      2023-12-05  124  	bool disallow_user_fenc=
-e =3D flags & SYNC_PARSE_FLAG_DISALLOW_USER_FENCE;
-7cabe5580cb9dc Matthew Brost      2023-04-16  125  	bool signal;
-dd08ebf6c3525a Matthew Brost      2023-03-30  126 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  127  	if (copy_from_user(&syn=
-c_in, sync_user, sizeof(*sync_user)))
-dd08ebf6c3525a Matthew Brost      2023-03-30  128  		return -EFAULT;
-dd08ebf6c3525a Matthew Brost      2023-03-30  129 =20
-37d078e51b4cba Rodrigo Vivi       2023-11-22  130  	if (XE_IOCTL_DBG(xe, sy=
-nc_in.flags & ~DRM_XE_SYNC_FLAG_SIGNAL) ||
-b8c1ba831e6750 Francois Dugast    2023-07-17  131  	    XE_IOCTL_DBG(xe, sy=
-nc_in.reserved[0] || sync_in.reserved[1]))
-dd08ebf6c3525a Matthew Brost      2023-03-30  132  		return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  133 =20
-3ac4a7896d1c02 Francois Dugast    2023-11-14  134  	signal =3D sync_in.flag=
-s & DRM_XE_SYNC_FLAG_SIGNAL;
-37d078e51b4cba Rodrigo Vivi       2023-11-22  135  	switch (sync_in.type) {
-37d078e51b4cba Rodrigo Vivi       2023-11-22  136  	case DRM_XE_SYNC_TYPE_S=
-YNCOBJ:
-fdb6a05383fab3 Thomas Hellstr=C3=B6m   2023-11-27  137  		if (XE_IOCTL_DBG(=
-xe, in_lr_mode && signal))
-ee6ad13705286b Janga Rahul Kumar  2023-06-13  138  			return -EOPNOTSUPP;
-dd08ebf6c3525a Matthew Brost      2023-03-30  139 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  140  		if (XE_IOCTL_DBG(xe, u=
-pper_32_bits(sync_in.addr)))
-dd08ebf6c3525a Matthew Brost      2023-03-30  141  			return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  142 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  143  		sync->syncobj =3D drm_=
-syncobj_find(xef->drm, sync_in.handle);
-b8c1ba831e6750 Francois Dugast    2023-07-17  144  		if (XE_IOCTL_DBG(xe, !=
-sync->syncobj))
-dd08ebf6c3525a Matthew Brost      2023-03-30  145  			return -ENOENT;
-dd08ebf6c3525a Matthew Brost      2023-03-30  146 =20
-7cabe5580cb9dc Matthew Brost      2023-04-16  147  		if (!signal) {
-dd08ebf6c3525a Matthew Brost      2023-03-30  148  			sync->fence =3D drm_s=
-yncobj_fence_get(sync->syncobj);
-1bfd7575092420 Shuicheng Lin      2026-02-19  149  			if (XE_IOCTL_DBG(xe, =
-!sync->fence)) {
-1bfd7575092420 Shuicheng Lin      2026-02-19  150  				err =3D -EINVAL;
-1bfd7575092420 Shuicheng Lin      2026-02-19  151  				goto free_sync;
-1bfd7575092420 Shuicheng Lin      2026-02-19  152  			}
-dd08ebf6c3525a Matthew Brost      2023-03-30  153  		}
-dd08ebf6c3525a Matthew Brost      2023-03-30  154  		break;
-dd08ebf6c3525a Matthew Brost      2023-03-30  155 =20
-37d078e51b4cba Rodrigo Vivi       2023-11-22  156  	case DRM_XE_SYNC_TYPE_T=
-IMELINE_SYNCOBJ:
-fdb6a05383fab3 Thomas Hellstr=C3=B6m   2023-11-27  157  		if (XE_IOCTL_DBG(=
-xe, in_lr_mode && signal))
-ee6ad13705286b Janga Rahul Kumar  2023-06-13  158  			return -EOPNOTSUPP;
-dd08ebf6c3525a Matthew Brost      2023-03-30  159 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  160  		if (XE_IOCTL_DBG(xe, u=
-pper_32_bits(sync_in.addr)))
-dd08ebf6c3525a Matthew Brost      2023-03-30  161  			return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  162 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  163  		if (XE_IOCTL_DBG(xe, s=
-ync_in.timeline_value =3D=3D 0))
-dd08ebf6c3525a Matthew Brost      2023-03-30  164  			return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  165 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  166  		sync->syncobj =3D drm_=
-syncobj_find(xef->drm, sync_in.handle);
-b8c1ba831e6750 Francois Dugast    2023-07-17  167  		if (XE_IOCTL_DBG(xe, !=
-sync->syncobj))
-dd08ebf6c3525a Matthew Brost      2023-03-30 @168  			return -ENOENT;
-dd08ebf6c3525a Matthew Brost      2023-03-30  169 =20
-7cabe5580cb9dc Matthew Brost      2023-04-16  170  		if (signal) {
-dd08ebf6c3525a Matthew Brost      2023-03-30  171  			sync->chain_fence =3D =
-dma_fence_chain_alloc();
-1bfd7575092420 Shuicheng Lin      2026-02-19  172  			if (!sync->chain_fenc=
-e) {
-1bfd7575092420 Shuicheng Lin      2026-02-19  173  				err =3D -ENOMEM;
-1bfd7575092420 Shuicheng Lin      2026-02-19  174  				goto free_sync;
-1bfd7575092420 Shuicheng Lin      2026-02-19  175  			}
-dd08ebf6c3525a Matthew Brost      2023-03-30  176  		} else {
-dd08ebf6c3525a Matthew Brost      2023-03-30  177  			sync->fence =3D drm_s=
-yncobj_fence_get(sync->syncobj);
-1bfd7575092420 Shuicheng Lin      2026-02-19  178  			if (XE_IOCTL_DBG(xe, =
-!sync->fence)) {
-1bfd7575092420 Shuicheng Lin      2026-02-19  179  				err =3D -EINVAL;
-1bfd7575092420 Shuicheng Lin      2026-02-19  180  				goto free_sync;
-1bfd7575092420 Shuicheng Lin      2026-02-19  181  			}
-dd08ebf6c3525a Matthew Brost      2023-03-30  182 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  183  			err =3D dma_fence_cha=
-in_find_seqno(&sync->fence,
-dd08ebf6c3525a Matthew Brost      2023-03-30  184  							 sync_in.timeline=
-_value);
-dd08ebf6c3525a Matthew Brost      2023-03-30  185  			if (err)
-1bfd7575092420 Shuicheng Lin      2026-02-19  186  				goto free_sync;
-dd08ebf6c3525a Matthew Brost      2023-03-30  187  		}
-dd08ebf6c3525a Matthew Brost      2023-03-30  188  		break;
-dd08ebf6c3525a Matthew Brost      2023-03-30  189 =20
-37d078e51b4cba Rodrigo Vivi       2023-11-22  190  	case DRM_XE_SYNC_TYPE_U=
-SER_FENCE:
-eb9702ad29863c Matthew Brost      2023-12-05  191  		if (XE_IOCTL_DBG(xe, d=
-isallow_user_fence))
-eb9702ad29863c Matthew Brost      2023-12-05  192  			return -EOPNOTSUPP;
-eb9702ad29863c Matthew Brost      2023-12-05  193 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  194  		if (XE_IOCTL_DBG(xe, !=
-signal))
-ee6ad13705286b Janga Rahul Kumar  2023-06-13  195  			return -EOPNOTSUPP;
-dd08ebf6c3525a Matthew Brost      2023-03-30  196 =20
-b8c1ba831e6750 Francois Dugast    2023-07-17  197  		if (XE_IOCTL_DBG(xe, s=
-ync_in.addr & 0x7))
-dd08ebf6c3525a Matthew Brost      2023-03-30  198  			return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  199 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  200  		if (exec) {
-dd08ebf6c3525a Matthew Brost      2023-03-30  201  			sync->addr =3D sync_i=
-n.addr;
-dd08ebf6c3525a Matthew Brost      2023-03-30  202  		} else {
-adda4e855ab640 Matthew Brost      2025-10-31  203  			sync->ufence_timeline=
-_value =3D ufence_timeline_value;
-dd08ebf6c3525a Matthew Brost      2023-03-30  204  			sync->ufence =3D user=
-_fence_create(xe, sync_in.addr,
-dd08ebf6c3525a Matthew Brost      2023-03-30  205  							 sync_in.timeline=
-_value);
-0fde907da2d5fd Matthew Brost      2024-07-17  206  			if (XE_IOCTL_DBG(xe, =
-IS_ERR(sync->ufence)))
-0fde907da2d5fd Matthew Brost      2024-07-17  207  				return PTR_ERR(sync-=
->ufence);
-adda4e855ab640 Matthew Brost      2025-10-31  208  			sync->ufence_chain_fe=
-nce =3D dma_fence_chain_alloc();
-adda4e855ab640 Matthew Brost      2025-10-31  209  			if (!sync->ufence_cha=
-in_fence)
-adda4e855ab640 Matthew Brost      2025-10-31  210  				return -ENOMEM;
-adda4e855ab640 Matthew Brost      2025-10-31  211  			sync->ufence_syncobj =
-=3D ufence_syncobj;
-dd08ebf6c3525a Matthew Brost      2023-03-30  212  		}
-dd08ebf6c3525a Matthew Brost      2023-03-30  213 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  214  		break;
-dd08ebf6c3525a Matthew Brost      2023-03-30  215 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  216  	default:
-dd08ebf6c3525a Matthew Brost      2023-03-30  217  		return -EINVAL;
-dd08ebf6c3525a Matthew Brost      2023-03-30  218  	}
-dd08ebf6c3525a Matthew Brost      2023-03-30  219 =20
-37d078e51b4cba Rodrigo Vivi       2023-11-22  220  	sync->type =3D sync_in.=
-type;
-dd08ebf6c3525a Matthew Brost      2023-03-30  221  	sync->flags =3D sync_in=
-.flags;
-dd08ebf6c3525a Matthew Brost      2023-03-30  222  	sync->timeline_value =
-=3D sync_in.timeline_value;
-dd08ebf6c3525a Matthew Brost      2023-03-30  223 =20
-dd08ebf6c3525a Matthew Brost      2023-03-30  224  	return 0;
-1bfd7575092420 Shuicheng Lin      2026-02-19  225 =20
-1bfd7575092420 Shuicheng Lin      2026-02-19  226  free_sync:
-1bfd7575092420 Shuicheng Lin      2026-02-19  227  	xe_sync_entry_cleanup(s=
-ync);
-1bfd7575092420 Shuicheng Lin      2026-02-19  228  	return err;
-dd08ebf6c3525a Matthew Brost      2023-03-30  229  }
-70c7273778bf7f Priyanka Dandamudi 2025-02-12  230  ALLOW_ERROR_INJECTION(xe=
-_sync_entry_parse, ERRNO);
-dd08ebf6c3525a Matthew Brost      2023-03-30  231 =20
+Do we not need to check for NULL returns from btrfs_lookup_block_group()?
 
-:::::: The code at line 168 was first introduced by commit
-:::::: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM=
- driver for Intel GPUs
-
-:::::: TO: Matthew Brost <matthew.brost@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5012  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5013  	mutex_lock(&dest_bg->free_space_lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07 @5014  	bg_needs_free_space = test_bit(BLOCK_GROUP_FLAG_NEEDS_FREE_SPACE,
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5015  				       &dest_bg->runtime_flags);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5016  	mutex_unlock(&dest_bg->free_space_lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5017  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5018  	if (bg_needs_free_space) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5019  		ret = btrfs_add_block_group_free_space(trans, dest_bg);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5020  		if (ret)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5021  			goto fail;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5022  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5023  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5024  	ret = copy_remapped_data(fs_info, start, new_addr, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5025  	if (ret)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5026  		goto fail;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5027  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5028  	ret = btrfs_remove_from_free_space_tree(trans, new_addr, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5029  	if (ret)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5030  		goto fail;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5031  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5032  	ret = add_remap_entry(trans, path, src_bg, start, new_addr, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5033  	if (ret) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5034  		btrfs_add_to_free_space_tree(trans, new_addr, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5035  		goto fail;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5036  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5037  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5038  	adjust_block_group_remap_bytes(trans, dest_bg, length);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5039  	btrfs_free_reserved_bytes(dest_bg, length, 0);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5040  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5041  	spin_lock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5042  	sinfo->bytes_readonly += length;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5043  	spin_unlock(&sinfo->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5044  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5045  next:
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5046  	if (dest_bg)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5047  		btrfs_put_block_group(dest_bg);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5048  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5049  	if (made_reservation)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5050  		btrfs_dec_block_group_reservations(fs_info, new_addr);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5051  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5052  	mutex_unlock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5053  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5054  	if (src_bg->identity_remap_count == 0) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5055  		bool mark_fully_remapped = false;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5056  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5057  		spin_lock(&src_bg->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5058  		if (!test_bit(BLOCK_GROUP_FLAG_FULLY_REMAPPED, &src_bg->runtime_flags)) {
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5059  			mark_fully_remapped = true;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5060  			set_bit(BLOCK_GROUP_FLAG_FULLY_REMAPPED, &src_bg->runtime_flags);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5061  		}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5062  		spin_unlock(&src_bg->lock);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5063  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5064  		if (mark_fully_remapped)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5065  			btrfs_mark_bg_fully_remapped(src_bg, trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5066  	}
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5067  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5068  	ret = btrfs_end_transaction(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5069  	if (ret)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5070  		return ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5071  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5072  	if (no_more)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5073  		return 1;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5074  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5075  	*last_start = start;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5076  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5077  	return 0;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5078  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5079  fail:
+fd6594b1446cc7 Mark Harmstone 2026-01-07 @5080  	if (dest_bg)
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5081  		btrfs_put_block_group(dest_bg);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5082  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5083  	btrfs_free_reserved_extent(fs_info, new_addr, length, 0);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5084  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5085  	mutex_unlock(&fs_info->remap_mutex);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5086  	btrfs_end_transaction(trans);
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5087  
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5088  	return ret;
+fd6594b1446cc7 Mark Harmstone 2026-01-07  5089  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
