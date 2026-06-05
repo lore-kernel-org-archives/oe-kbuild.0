@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7747A318146
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jun 2026 12:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EC02773CC
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jun 2026 14:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780664083; cv=none; b=DPfaHR15SS6NMMEtcDecZBTVgPOfO8kMO5XgxcqYUpibdfULkYtv8k3S0+3ngaTSzAuSdJuKHV4CZfq4imEjtwa2b8i+INtmCEPnFwpC+pDHhTIBrKav4C4WyeydcFhVu/Q4LQ7lsgFO0UrmHsuGXmb14xvlPE0JQsh+vOkjxos=
+	t=1780668921; cv=none; b=tDbCNpKr73mOL6lGm+e6XlDi53zbJbhMmYuBPZYiXu0RM/q+5nYxPHIm8syFbaDzLbNUjKCx24yeXVcmbWqJ+5zODWukOJXaCtIOjG2WaVQhrUi0z2e+WvDcnW3IUTqfsmLQeOfUd6SWjl6Xo7sbcToqL/KvHb3luKP/Hl7tzj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780664083; c=relaxed/simple;
-	bh=VkgOg4jJAd5FcK+0zr0Br1+wIOkr5lIwZyhc66CyA8k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nGel4nMc6TlTWtcbOxqtGhYNXYdY9i9w583GNwrSdp6FBIptCkWRCFbXQdUGKn05xUHA3ppCGENMc/jcZ3mDS8bd1JmbQz3dMNo4u1dvkrcjxppVkpwN+MrOAKoveMj3x7//41RkIXSDGwQQaO2OR6rtCetEL+xF+0fnmKahPao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CejkvvqQ; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1780668921; c=relaxed/simple;
+	bh=lTTk7fw/Xf1PEir7Cm6YgTBKyaO8Rpgg4C5HaE+aY5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eiaES9K4NfkmJELEep/6R7sSwIAVvtCprVHpbS0FrH2fnuPMicV4VFNif5H8bhwGX6DiqRPjI0sRekw+6PIEWoSPeuy0I6Rpr4isYPVYFl+6oOQ4q/8BXQem9ofAVU4v3OrWH188+4+pqeJPcAyGCg1N3/VaiC0M7zvXFgY7Qd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqxemYeu; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CejkvvqQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqxemYeu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780664082; x=1812200082;
+  t=1780668919; x=1812204919;
   h=date:from:to:cc:subject:message-id;
-  bh=VkgOg4jJAd5FcK+0zr0Br1+wIOkr5lIwZyhc66CyA8k=;
-  b=CejkvvqQFDvBWkpNO6Aqtxmq95eHYmnKnDoSn+mCsKkvHdAEujotXL9p
-   7dGvfuizWPBFv+YMQDgRbYgVza3JV99XmL0W3+zugoJJEmrrFdNJlh+SP
-   EHzdzdoWAm5f/E66yCSSYueKnCpMfwnpl+T/kzUdD7ZdO7WK3JkyvBz0w
-   EfrebV/lxvTKFAR2E5e6URR3zqmBoyn6QsPptte5zYyXlgstm+ZzdpmQ0
-   Qyq6x4p4GW19qS6XjmubdiIjqP2TA7nrELoBdF+lRcvBHONmsz4HbYLqd
-   YP0r6tQcXPb5L8a1rDSTGAnOi963DAhx7RNk8QyVO39/z+ylQIEgE/Y9i
-   A==;
-X-CSE-ConnectionGUID: qxxCOAlVR7yi3a8AovRQoQ==
-X-CSE-MsgGUID: CyTG2Ze0Q3KrtGd219R8lA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="99069313"
+  bh=lTTk7fw/Xf1PEir7Cm6YgTBKyaO8Rpgg4C5HaE+aY5Q=;
+  b=SqxemYeuSpuJwNr5GrLf8RRVFlASVJEtRbcfC3XAGcIsxrbV0Xv1yA0L
+   S/xXZ/SelsVR1SRCgqo9Kg1mI9T46LQkol0JC8o7o37DMBE0d0v0ZQbbq
+   zraZqKfwfiHBbWog955vC6IuPqnmMWjzi+ia1FSeIqf6jQXTWHCvV7Hk2
+   ykBJYo3terlHlEjep3iEGg4dG3HzJ97/kvQciJQXqJ/LpSTeexrR9Loen
+   0LI06JWEd2L56eUBudX5NnHaa6/hAqXqRi3E42cOGHOGYg0kbrmw0U+PK
+   QashATzaOWO+38K7DxvGkONf9HZbR3HBN8ZVJGSmoXX7FiJR9gHPqhzgh
+   g==;
+X-CSE-ConnectionGUID: zNeznl8xSJaUAay+dEzLqQ==
+X-CSE-MsgGUID: 6FLvc4XxR9KMszYAPe3llQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="69034660"
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="99069313"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 05:54:42 -0700
-X-CSE-ConnectionGUID: W8RM7xObQXeTWSwatDBhKA==
-X-CSE-MsgGUID: ft8IzWm0RT6izDXWeMdpvg==
+   d="scan'208";a="69034660"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 07:15:17 -0700
+X-CSE-ConnectionGUID: uf1tqYJ4QhCm3dETrdNGaA==
+X-CSE-MsgGUID: j4OSfZl3RX6miWpOVMXiXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="242360912"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Jun 2026 05:54:41 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="244918037"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 05 Jun 2026 07:15:17 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wVU4M-00000000G0A-2GuB;
-	Fri, 05 Jun 2026 12:54:38 +0000
-Date: Fri, 05 Jun 2026 20:53:44 +0800
+	id 1wVVKM-000000002aX-1Mik;
+	Fri, 05 Jun 2026 14:15:14 +0000
+Date: Fri, 05 Jun 2026 16:14:31 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: io_uring/loop.c:50:3-9: preceding lock on line 67
-Message-ID: <202606052058.KpmWpKnd-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android16-6.12 8/8]
+ progs/hid_bpf_helpers.h:116:12: error: conflicting types for
+ 'bpf_wq_set_callback_impl'
+Message-ID: <202606051654.BUSJHbDz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -58,74 +60,53 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Pavel Begunkov <asml.silence@gmail.com>
-CC: Jens Axboe <axboe@kernel.dk>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ddd664bbff63e09e7a7f9acae9c43605d4cf185f
-commit: 033af2b3eb19c5ed96825572105bca3611635ada io_uring: introduce callback driven main loop
-date:   3 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 3 months ago
-config: mips-randconfig-r063-20260604 (https://download.01.org/0day-ci/archive/20260605/202606052058.KpmWpKnd-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e5ab4f8a1f766febdc65ce89c00dec85393cfd68)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   d7c970e477a170f747392effd61753561f1e7251
+commit: 5714d24869a65b639f8192eb15bc14193da86e36 [8/8] ANDROID: dma-buf: Follow function parameter type change
+:::::: branch date: 10 hours ago
+:::::: commit date: 1 year, 10 months ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260605/202606051654.BUSJHbDz-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606051654.BUSJHbDz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 033af2b3eb19 ("io_uring: introduce callback driven main loop")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202606052058.KpmWpKnd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606051654.BUSJHbDz-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> io_uring/loop.c:50:3-9: preceding lock on line 67
-   io_uring/loop.c:56:3-9: preceding lock on line 67
-   io_uring/loop.c:70:3-9: preceding lock on line 67
+Note: the android-common/android16-6.12 HEAD d7c970e477a170f747392effd61753561f1e7251 builds fine.
+      It only hurts bisectability.
 
-vim +50 io_uring/loop.c
+All errors (new ones prefixed by >>):
 
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  41  
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  42  static int __io_run_loop(struct io_ring_ctx *ctx)
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  43  {
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  44  	struct iou_loop_params lp = {};
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  45  
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  46  	while (true) {
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  47  		int nr_wait, step_res;
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  48  
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  49  		if (unlikely(!ctx->loop_step))
-033af2b3eb19c5 Pavel Begunkov 2026-02-26 @50  			return -EFAULT;
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  51  
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  52  		step_res = ctx->loop_step(ctx, &lp);
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  53  		if (step_res == IOU_LOOP_STOP)
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  54  			break;
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  55  		if (step_res != IOU_LOOP_CONTINUE)
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  56  			return -EINVAL;
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  57  
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  58  		nr_wait = io_loop_nr_cqes(ctx, &lp);
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  59  		if (nr_wait > 0)
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  60  			io_loop_wait(ctx, &lp, nr_wait);
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  61  		else
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  62  			nr_wait = 0;
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  63  
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  64  		if (task_work_pending(current)) {
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  65  			mutex_unlock(&ctx->uring_lock);
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  66  			io_run_task_work();
-033af2b3eb19c5 Pavel Begunkov 2026-02-26 @67  			mutex_lock(&ctx->uring_lock);
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  68  		}
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  69  		if (unlikely(task_sigpending(current)))
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  70  			return -EINTR;
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  71  		io_run_local_work_locked(ctx, nr_wait);
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  72  
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  73  		if (READ_ONCE(ctx->check_cq) & BIT(IO_CHECK_CQ_OVERFLOW_BIT))
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  74  			io_cqring_overflow_flush_locked(ctx);
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  75  	}
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  76  
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  77  	return 0;
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  78  }
-033af2b3eb19c5 Pavel Begunkov 2026-02-26  79  
+   In file included from progs/hid.c:3:
+>> progs/hid_bpf_helpers.h:116:12: error: conflicting types for 'bpf_wq_set_callback_impl'
+     116 | extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
+         |            ^
+   tools/testing/selftests/hid/tools/include/vmlinux.h:110074:12: note: previous declaration is here
+    110074 | extern int bpf_wq_set_callback_impl(struct bpf_wq *wq, int (*callback_fn)(void *, int *, void *), unsigned int flags, void *aux__ign) __weak __ksym;
+           |            ^
+   progs/hid.c:490:30: error: incompatible function pointer types passing 'int (void *, int *, struct bpf_wq *)' to parameter of type 'int (*)(void *, int *, void *)' [-Wincompatible-function-pointer-types]
+     490 |         if (bpf_wq_set_callback(wq, wq_cb_sleepable, 0))
+         |                                     ^~~~~~~~~~~~~~~
+   tools/testing/selftests/hid/tools/include/vmlinux.h:110074:62: note: passing argument to parameter 'callback_fn' here
+    110074 | extern int bpf_wq_set_callback_impl(struct bpf_wq *wq, int (*callback_fn)(void *, int *, void *), unsigned int flags, void *aux__ign) __weak __ksym;
+           |                                                              ^
+   progs/hid.c:503:24: error: incomplete definition of type 'struct hid_device'
+     503 |         int hid = hid_ctx->hid->id;
+         |                   ~~~~~~~~~~~~^
+   progs/hid_bpf_helpers.h:56:9: note: forward declaration of 'struct hid_device'
+      56 |         struct hid_device *hid;
+         |                ^
+   3 errors generated.
 
 --
 0-DAY CI Kernel Test Service
