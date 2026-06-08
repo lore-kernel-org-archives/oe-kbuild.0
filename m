@@ -1,98 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF2119005E
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jun 2026 04:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97533399372
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jun 2026 08:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780892681; cv=none; b=vCWmNFXnXpX96Xdm5MEQMpeUZBQMy52OkvIORoPd6D+1Oqd2/6rHfEGDaIhie9IAOsFpBD9xySlXpXylW16ZLWicb1WCsgTgu5Vohl80OKfOeqiTn/XCkcWa2MfEnsMDfeB6jSbtP+i2a4x4qHYhwF5cQSNYw3eogMDN4bQqSBg=
+	t=1780906322; cv=none; b=VdZ5RB4VhKpX/sWBH3BAGy5wSpaznmNRjqn7GASDdPN47k+zSUYFtIHCPgybrV8r3R35eZsha7xDekV7u4o3Bop/kRuquGWHVJX24bqa3IiVJcr3bxvO4Y3ac2Yp0iBLVaPgXa7bDe/6x2dJdtdRpjGlBzjxG7KJlvrfvqqGmM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780892681; c=relaxed/simple;
-	bh=aG5OSVyHPaEL6LfayP0CRRlIGMKmJZtawV/l1E8Nmr0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=vEl8EQ0Cqv3hvOJd0nict6gCMlCU1HZMQigK1b2nhrPFq4SkQjTEGG3OkWs6kx9Q/RfeyR4KaT5OsyGl2WPnckYfxbAFqtXE0hlsGRqEctHCqlwpzSAtgBJrb6qU6mv9VaQBPyieIDRvBazSdfVL3k0pq+1zmtYChFd3aIs763I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HX9QK6La; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1780906322; c=relaxed/simple;
+	bh=dIKPjiTOe/Yy0q7DwCUcihTonpoX2DBpGhkbVJzYcN0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HGHKwXA2Vg7G5hZBX93kHRIaA6MQ+IvtNPBTRrkdTbXyWlbWnw8bqubRW+vKj/BBgtfV4qXnxXH3j4yeUyWjgzyJsVpcRqKkt3rCEvvbDQXMeyDZVYdkgEBDScWQRBvEyACqodXxdqTbj0ArB6IYzmXoyp0K+wWt18UCjz078r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I22JDFC+; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HX9QK6La"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I22JDFC+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780892679; x=1812428679;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aG5OSVyHPaEL6LfayP0CRRlIGMKmJZtawV/l1E8Nmr0=;
-  b=HX9QK6La3CbBu05np8240QdttPpX3WeiNtJJvOgbBC1xyNQgqFDptj13
-   CQRbnNHBKVE5ZbTDybzhr+hWTqnPNVQimgGbDWhI3dahK1umhj6AYvkJw
-   iAC/FGYcedH1BYjo+dRPus54XqKRwT5EVaAszbQS3AnV5+FYnt3pUJt5x
-   Akxdk3oq21wxzqCGi/gpIsUz7htqlscoV2Zl7VapZ5DL6E8WON1PzueQ/
-   IWcUzwaHsbU1yKlxmStSRAC9+Ce4Ou2YTPbxrxBmLM/OQLuZl+tqJjsJX
-   ZX3+XlO4soCSnDrmiz4Sof7xTQjjm+u7e+3ZIKG2dca/QoUzdifPEKVu3
-   A==;
-X-CSE-ConnectionGUID: +um9Vy71R3G1uKI9Lu8Ijw==
-X-CSE-MsgGUID: 1ydSstrhTpe8VZDaGdEzeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11810"; a="85507193"
-X-IronPort-AV: E=Sophos;i="6.24,193,1774335600"; 
-   d="scan'208";a="85507193"
+  t=1780906320; x=1812442320;
+  h=date:from:to:cc:subject:message-id;
+  bh=dIKPjiTOe/Yy0q7DwCUcihTonpoX2DBpGhkbVJzYcN0=;
+  b=I22JDFC+7uPVQpMYoqQSkgyZC2I72Y5c3rNTxwqn5mNaxY4M1AUci1Yp
+   iiSWXK0ESMc173OyWWRyi2PtQTFcExGIH6G7nfKUq891ypu2RHNRMEnk4
+   QSpEJ1dm+blYZ23vI8udi0XfNq9/ldlIGTvMpv4SFoxUVVmUEUTK3ZL6x
+   25R/8CWz8OaJ9PwpBsLhVde3rs7vtDNXFkbwQ9K6lcxDnzIOY3HQio0g4
+   ErJr+YRNc2/HEcJAUFJYAcH1UmdicbBCE9qNxV56FIZL+9i0gaRVUnkXZ
+   7AgHXp4B98QdhxqdZoXLA13jrsP0W3iLYRGwT5nORIj8s5x4Kvc4WFO13
+   w==;
+X-CSE-ConnectionGUID: xMQAkm85SGOqSaOFqtnKpw==
+X-CSE-MsgGUID: 7XZUZ+HEQWKrSCS3V8uQZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11810"; a="85261786"
+X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
+   d="scan'208";a="85261786"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2026 21:24:38 -0700
-X-CSE-ConnectionGUID: fIb9KrQ3TT66bzwHO5SWDQ==
-X-CSE-MsgGUID: tXQm4i4LRf2+PJHBIt/OUQ==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 01:12:00 -0700
+X-CSE-ConnectionGUID: PpqPay/ETJykAW9w/yBJOw==
+X-CSE-MsgGUID: ZLByrrsBTSC0J4oz4YwemA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,193,1774335600"; 
-   d="scan'208";a="247280976"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Jun 2026 21:24:37 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
+   d="scan'208";a="247335055"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 08 Jun 2026 01:11:59 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wWRXP-00000000INs-1L9x;
-	Mon, 08 Jun 2026 04:24:35 +0000
-Date: Mon, 08 Jun 2026 12:24:25 +0800
+	id 1wWV5R-000000003DB-0thu;
+	Mon, 08 Jun 2026 08:11:57 +0000
+Date: Mon, 08 Jun 2026 10:11:23 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [thomas-weissschuh:b4/vdso-arch-clockmodes 3/4] find:
- 'arch/nios2/include/generated/uapi/asm': No such file or directory
-Message-ID: <202606081250.ZzfeYaKZ-lkp@intel.com>
+Subject: 
+ arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dtb:
+ /soc/hstimer@3008000: failed to match any schema with compatible:
+ ['allwinner,sun20i-d1-hstimer']
+Message-ID: <202606081038.F1LjdUSY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "only suspicious fbc files changed"
-::::::=20
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Wei=C3=9Fschuh" <linux@weissschuh.net>
+TO: Lukas Schmid <lukas.schmid@netcube.li>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/vdso-arch-clockmodes
-head:   9a949a63a8b066c75c8a6efa28cda2b3e7fecb19
-commit: ff6270d723df5895f0242fe7843afed8b5836bd2 [3/4] recursive
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: nios2-randconfig-r064-20260608 (https://download.01.org/0day-ci/arc=
-hive/20260608/202606081250.ZzfeYaKZ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260608/202606081250.ZzfeYaKZ-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Lukas-Schmid/dt-bindings-arm-sunxi-Add-NetCube-Systems-OpenNMC-dobermann/20260607-051101
+head:   db9a856f594986822035c2363e8274e35faeb9a2
+commit: db9a856f594986822035c2363e8274e35faeb9a2 ARM: dts: sunxi: add support for NetCube Systems OpenNMC (dobermann)
+date:   35 hours ago
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: arm-randconfig-2051-20260607 (https://download.01.org/0day-ci/archive/20260608/202606081038.F1LjdUSY-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260608/202606081038.F1LjdUSY-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606081250.ZzfeYaKZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606081038.F1LjdUSY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> find: 'arch/nios2/include/generated/uapi/asm': No such file or directory
->> find: 'arch/nios2/include/generated/asm': No such file or directory
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-dobermann.dtb: /soc/hstimer@3008000: failed to match any schema with compatible: ['allwinner,sun20i-d1-hstimer']
 
 --
 0-DAY CI Kernel Test Service
