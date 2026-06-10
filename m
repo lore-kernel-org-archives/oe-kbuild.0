@@ -1,74 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8543B221F26
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 Jun 2026 02:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CEB1465B4
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 Jun 2026 07:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781058661; cv=none; b=SeSC14rEapSkDj4btCiG7j8SdpmThvkYbk2P+aFZQQKUBzQBRm+H/7ohDWeTDvCUgwe2cDKZJltfTZWvzSdnEg5Qt3WEVvLnrrFqKGNO2Tg3YdnSvMibnpKP711vZE4PlY4UA4arNfhFx3vCs9wrzCdRd+E8QoGUGblfuC14BjI=
+	t=1781075328; cv=none; b=rouHicGUaiExan6NXhXUjPfATzZbFjVJ1D3apbRSnF7USsWOBnIQRsgYbwAIbfEEr38hEzTolBEXjhgRbfabu9oxZeF3XtV9c4cqrxVhwMb3j4ys29d0/+2LFnL+YOyzW2UtZCpfT33YhYmfMOA1PFhmqfXLNTf+nOOiPNSSwhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781058661; c=relaxed/simple;
-	bh=K/mgZjbgWAPZ6iBfGNTUCD3yAFEVO6TE/vQZtxelWk8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gKbWBNOQdy40oROZuYS3YvOUrTz6pimAfdsrBIx+xCdUxBlGrsm4oH7DJKVoT/BySIz1jGKBLDfQVMCk3FekAZDQfcTy++XQw00xWstezp/WUAVhtUvwm/oMhplDzEYTDdIh+xljvdakWeBay33LqPSUmShdHX5Fh/zhAU4d9T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kUkexJib; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781075328; c=relaxed/simple;
+	bh=z9SfO4YZfEkxFjWHtOFy237C4YuhngdvmE3eshvhIOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pYV56EXsDugmvkHkLPGrSbN6waOV9TjBanwU+91bnp3Msdo4qD9JGIauyxNW+9RG+g1ZD/oywHVmOYBJOP6RtYmlj/oVaLcsM4dZ8rj6nZz3WjSA1GOj+pzI1PGW/z7sinqRIsHWekbLFeu1ONo8IeauhIpcT9rBtayR5B1heYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o7QB8wU/; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kUkexJib"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781058660; x=1812594660;
-  h=date:from:to:cc:subject:message-id;
-  bh=K/mgZjbgWAPZ6iBfGNTUCD3yAFEVO6TE/vQZtxelWk8=;
-  b=kUkexJibZrhZCt3pCmMQEGzhtSNCsxKMVoWCIKNzFzcTN/ZqSqsil6Or
-   QwcJAP9yI861CzfuCs98EewYDXGqBXIZsFhiXT4zWiCKCq+pouoPKgfHa
-   s2Z9MgsNHuQ8Ujt20LlpzTVqznVmberRVwVLr4gsd37nfW+jG5KZKU8SF
-   NkuZDVW56YG7EDUkUdjdvwnnI/IVnykWBMM4M5gXIzLkcAskSjRJpVHR/
-   qNokLfr7zQHX4mahcU0nc5vRmghgj0XzdA1ukFfce7ZPymc+AhWbdCkWA
-   2pc3bt/1WbLul23Q/HePfs8mkvreCytywstYGeLQsUSM+uFHmbiY2mWiw
-   w==;
-X-CSE-ConnectionGUID: 5XDowZqKTGmj6rObXxSi0w==
-X-CSE-MsgGUID: TRfxkEbDSa+AUGEyno9YJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81844714"
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="81844714"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 19:30:59 -0700
-X-CSE-ConnectionGUID: sAz/Dyo8S7u2CTC6t4GfpA==
-X-CSE-MsgGUID: tQp6PeY/SiGn3fTLyfp/9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="269711214"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Jun 2026 19:30:57 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wX8iU-00000000KoY-30p3;
-	Wed, 10 Jun 2026 02:30:54 +0000
-Date: Wed, 10 Jun 2026 10:30:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [reinette:resctrl/controls_rfc_v1 48/82]
- fs/resctrl/rdtgroup.c:1160 rdt_bit_usage_show() warn: inconsistent returns
- 'global &rdtgroup_mutex'.
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o7QB8wU/"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ccdf8d4ac5so68242416d6.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 10 Jun 2026 00:08:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781075326; x=1781680126; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6QXmN4Nis92iygGTCnfDBrK0hXHiuDKbCiKMUYEvshY=;
+        b=o7QB8wU/JXmd0MwZJWyrpiXNAefQoZHdzeWX2YoU0Xg6e5BH2X87gIeFRiqik6yTCo
+         IVMH3CR3g/icV8DxHwoibzpIfTgThIvmUTcZCTL3FATQd3QKFxGRNYvZPHLiNFVUdShW
+         ZAhztg1ic81pfrFwcn5cHGLdEdo0fTOo4TnnaRCLbZmYqjd4CqpdmLPExRPeq+U04ceV
+         xrxsj06x0lvpcMmUYvdM+GSeUJnfd0mNttPIEWkoRSZq+079qzs77B/0LYvb8ZyLiGky
+         bieMba5ijB/S9s9koCan1tZynGByWcBnsY1VQq3VNYe2/pm9YjaizVR/BIoiEKR6WlsJ
+         ofaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781075326; x=1781680126;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6QXmN4Nis92iygGTCnfDBrK0hXHiuDKbCiKMUYEvshY=;
+        b=hUl8dI4o9i0VO8tIWPR+0iO5ykvwkA4NTyVr5Cqt3SQJrdVBeMD8tEWn4rBvstOnBC
+         U3XxvVgGLPUu4RQ7JW4jD+TER5V2p8emV3MEoWdSohGgJ+Bn2aMZeYsVez8FrSKGYRUJ
+         5nQx84bcTibE7m9EkeMoEJWP59E4xgPL3kNwXalNuP9YkYTroaadVNIYLTNP6Y2itHJm
+         OqgRqimR9y4lpRFYw0KJnTVdfTjrteECRC9VAAvZp/X9e4ImDSsTb7LiBmPceK3kwYuM
+         KXcUDzlj9hCgWUwHVi+/hhyuI8yHely/oLjnVBNIBYLrTafulNzUPAeevBwoCfHP8+Wg
+         S3/w==
+X-Gm-Message-State: AOJu0YwqNCllkgUt+mTMLVuGMKuNojoINF9wxDjXXazttKe15HiJKRPf
+	RPo8/vGAzKU1PGCJE+NqLMGQuJg+3z7fcIkjUwHW9fPZ/42tA+Wo+jqA8dG7wFy2
+X-Gm-Gg: Acq92OEv6ouqrrULJvheUA6NjtMbaaUx7tHqSzPqiNv2yWluxIwi6/KsZiTjbG0Mnwo
+	pLM1wENoSgpdTXm1ESERKK7zGffKCnQkvz04xryfOEam9J+PHn21ZEPZlooLkqBMvaDNeh2XpRc
+	LCv+Wao2iqiRcFgOAaGDxjYKeMH6zUzvmaHxi5KTnzWIUbHckbc5A6XQhaWb+avRGH9GqAPdmB5
+	bf4xuWUBW7GlPVRUAqhBFcx+xOGT2VkXY6EhV30Ad3W+CeQlvxBi4bb2F0jhySk9+qKuhm2+dtD
+	CKTnAuvl/diMg7MmbWHnMA/M6PwvDp7oNXdf+imC8rJ7rTkH4IhW8MEF0mhfpdikSGYzMyB7eJK
+	ASbBzXloOvCQjlSCG6cj4+SbC2yw2/cSLAUS7E2mBR1f9zeU/+obGLcP0ULrL0zzUe7H2A8lDA9
+	0mKwCSV9/LN/4ED6carxOnfFQ51eLEm2pARIDg+Q==
+X-Received: by 2002:a05:6214:1d2d:b0:8cc:e102:b491 with SMTP id 6a1803df08f44-8cee5f991ccmr375281166d6.4.1781075326189;
+        Wed, 10 Jun 2026 00:08:46 -0700 (PDT)
+Received: from localhost ([149.40.50.222])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd263003sm229607936d6.42.2026.06.10.00.08.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 00:08:45 -0700 (PDT)
+Date: Wed, 10 Jun 2026 10:08:39 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Reinette Chatre <reinette.chatre@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [reinette:resctrl/controls_rfc_v1 48/82] fs/resctrl/rdtgroup.c:1160
+ rdt_bit_usage_show() warn: inconsistent returns 'global &rdtgroup_mutex'.
 Message-ID: <202606101004.PsNAKxDj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Reinette Chatre <reinette.chatre@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260610070839.wcLLrAWUKkR9G2n6j1sESfKkPjCNIeqCX3V-YDT-crE@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/reinette/linux.git resctrl/controls_rfc_v1
 head:   37557cac804539e802e887a320e85c7a916a0bb9
 commit: a54ec3de291898407c4cf41dea220e5fe0a2c2e9 [48/82] fs/resctrl: Obtain global properties from default cache control
-:::::: branch date: 12 days ago
-:::::: commit date: 12 days ago
 config: i386-randconfig-141-20260610 (https://download.01.org/0day-ci/archive/20260610/202606101004.PsNAKxDj-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
@@ -84,21 +91,6 @@ fs/resctrl/rdtgroup.c:1160 rdt_bit_usage_show() warn: inconsistent returns 'glob
 
 vim +1160 fs/resctrl/rdtgroup.c
 
-7168ae330e8105 James Morse     2025-05-15  1043  
-7168ae330e8105 James Morse     2025-05-15  1044  /*
-7168ae330e8105 James Morse     2025-05-15  1045   * rdt_bit_usage_show - Display current usage of resources
-7168ae330e8105 James Morse     2025-05-15  1046   *
-7168ae330e8105 James Morse     2025-05-15  1047   * A domain is a shared resource that can now be allocated differently. Here
-7168ae330e8105 James Morse     2025-05-15  1048   * we display the current regions of the domain as an annotated bitmask.
-7168ae330e8105 James Morse     2025-05-15  1049   * For each domain of this resource its allocation bitmask
-7168ae330e8105 James Morse     2025-05-15  1050   * is annotated as below to indicate the current usage of the corresponding bit:
-7168ae330e8105 James Morse     2025-05-15  1051   *   0 - currently unused
-7168ae330e8105 James Morse     2025-05-15  1052   *   X - currently available for sharing and used by software and hardware
-7168ae330e8105 James Morse     2025-05-15  1053   *   H - currently used by hardware only but available for software use
-7168ae330e8105 James Morse     2025-05-15  1054   *   S - currently used and shareable by software only
-7168ae330e8105 James Morse     2025-05-15  1055   *   E - currently used exclusively by one resource group
-7168ae330e8105 James Morse     2025-05-15  1056   *   P - currently pseudo-locked by one resource group
-7168ae330e8105 James Morse     2025-05-15  1057   */
 7168ae330e8105 James Morse     2025-05-15  1058  static int rdt_bit_usage_show(struct kernfs_open_file *of,
 7168ae330e8105 James Morse     2025-05-15  1059  			      struct seq_file *seq, void *v)
 7168ae330e8105 James Morse     2025-05-15  1060  {
@@ -118,11 +110,16 @@ a54ec3de291898 Reinette Chatre 2026-04-14  1071  	struct resctrl_ctrl *ctrl;
 7168ae330e8105 James Morse     2025-05-15  1074  	u32 ctrl_val;
 7168ae330e8105 James Morse     2025-05-15  1075  
 7168ae330e8105 James Morse     2025-05-15  1076  	cpus_read_lock();
+                                                        ^^^^^^^^^^^^^^^^^
 7168ae330e8105 James Morse     2025-05-15  1077  	mutex_lock(&rdtgroup_mutex);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 a54ec3de291898 Reinette Chatre 2026-04-14  1078  
 a54ec3de291898 Reinette Chatre 2026-04-14  1079  	ctrl = resctrl_get_cache_ctrl(r);
 a54ec3de291898 Reinette Chatre 2026-04-14  1080  	if (!ctrl)
 a54ec3de291898 Reinette Chatre 2026-04-14  1081  		return 0;
+
+Needs a couple unlocks.
+
 a54ec3de291898 Reinette Chatre 2026-04-14  1082  
 a54ec3de291898 Reinette Chatre 2026-04-14  1083  	list_for_each_entry(dom, &ctrl->domains, hdr.list) {
 7168ae330e8105 James Morse     2025-05-15  1084  		if (sep)
@@ -203,14 +200,8 @@ a54ec3de291898 Reinette Chatre 2026-04-14  1136  		for (i = ctrl->cache.cbm_len 
 7168ae330e8105 James Morse     2025-05-15  1159  	cpus_read_unlock();
 7168ae330e8105 James Morse     2025-05-15 @1160  	return 0;
 7168ae330e8105 James Morse     2025-05-15  1161  }
-7168ae330e8105 James Morse     2025-05-15  1162  
-
-:::::: The code at line 1160 was first introduced by commit
-:::::: 7168ae330e8105296210b2b2d31d791d5c073345 x86,fs/resctrl: Move the resctrl filesystem code to live in /fs/resctrl
-
-:::::: TO: James Morse <james.morse@arm.com>
-:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
