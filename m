@@ -1,128 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5268427C162
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 Jun 2026 01:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902037E0E4
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 Jun 2026 02:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781056019; cv=none; b=MY10nj2RRrYQxkDjbo15/uJOgn3Fpw/QWv+GYBxGDDED6ooJW5xQdzkuXByQEQRHVVGtnAqtcgHtVkSFkJNJpUqSZq1nv7md4lNC+egxqp+fsob+ih9zSjvwEjgOAfz/4elPJAEWn/wn5qMbe/G/Jekaci4H/GTAbNsA+ShimpY=
+	t=1781058632; cv=none; b=AAy4DEGmiw2LSQHRiqdcCUmv8QCnOxZSk6Wxi4tDD2dR+LarkdAVeHoFiXGXa1rtxiP+nMrNbgjQSzowDM8lWuCrDESLQCVuKNHLJOv6Bzi2pz+L/+1cx71OKdNEf5U3ojKVi1GWaOO6tNWO9uuJ7bXM1liObWCsjPaGGwTL8uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781056019; c=relaxed/simple;
-	bh=aAfuC7KXo5YUO42QfRCl7oBPywxnjuXV3E1t1OqHraQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Zr5yT4tUABS8Y9mLoP7dUU7VYXqmqchYrVbe+QsDfg5JpYMq6lGbwMyyDMwXoCLX6rVK0jTa35mM5libMNoz9cGZZiRi16uv0jtB5SAH3ybZBfdRXVmD3s+BDRARjPQSKy24XLDet2cRFlYpFdNx71aP8B3JbbsTQUDMlk5eLbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=byQG6zDl; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1781058632; c=relaxed/simple;
+	bh=eOqBa2PHBwl0gcu69znwhGl4HG2IHVF19Xbbk6Xve7s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VOfRpV9bsORsWjuA49/bbiF2do49nEPMYch/lKSbrY3RKNZcQsjDGmf8XVrYUXGiM6u4Nbk7Ol5DLzyNa/qS2ywECIU0qL/xVdewN4ZhTXLKt7CkgqEOdXaRkTB9LHSY+9SnXT2uc/hZKl28TFlvV+teHw9nYWfS+GqrCtNmQyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1e92pfJ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="byQG6zDl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1e92pfJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781056017; x=1812592017;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aAfuC7KXo5YUO42QfRCl7oBPywxnjuXV3E1t1OqHraQ=;
-  b=byQG6zDlLCDe7uVvoSsYjs83l5rpI8AexLLrp/75Yq3qQ7pKwpDN2/yK
-   oxT+lqGXOPUQBf+X1Nrd4TF336O/bucKUVWi2WWvFg4JguVbQmYy7OKKL
-   xrRglBbyNfgzLAmkH3q2eWWkZaockyGdLnNmy8uXGaCa8HzxXMk1aSu5s
-   j4bccL+/cPDoKbSlRNkxgtjAMMKwCCv99tyuo4Pwiw5LNOWNLgQLFSpAS
-   GQcV2pD8LU520pTG2SAFb53N8pn7URfeK5fImjriPKmPK1WZwmKz4XOYP
-   V8FYyW81qIxt/OXOBn0vngdmK83E3c9PpnYYFsgq/94MhqS6LAEvU3c72
-   A==;
-X-CSE-ConnectionGUID: R9MF6JVgQ8iNWyl8EeKK3Q==
-X-CSE-MsgGUID: x36cXS3TQR6/JHNlgWN42g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81841931"
+  t=1781058631; x=1812594631;
+  h=date:from:to:cc:subject:message-id;
+  bh=eOqBa2PHBwl0gcu69znwhGl4HG2IHVF19Xbbk6Xve7s=;
+  b=Q1e92pfJYND7C+MTM0by+bP8yx/HpbBfhqtXFKzDFia4FBmEzQjNLdvB
+   6jfWD5MFgOOzJwUSCMPKef4tZDwX+P9hJ3k3PL8b5j4H886LkXx2pr9cz
+   gB4YMED+LB1dhUtEPATH9JONfYcuIVDUPq8x61h9Zr71JO7UmXCfOxHLG
+   cQd+In8g0vGoKBUS+A8Kvyadmrc4QwZe3QIQ+HJ4yg86KpFouTe8iZKEX
+   B/dK5O1ArA5xas0EhALTVxq9nnEzPTZKEfg6YAC3p0vAbKKJ5lLNxj8sL
+   WugJUAP71QzZxNfGcosgTn1Jkd0ZnQ2NIJuKxh3caraZTiRKE+WXR3its
+   g==;
+X-CSE-ConnectionGUID: He7aL7XjSLq7QTvUva5ruQ==
+X-CSE-MsgGUID: bYfNmDBuQNWksIPltFsLnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="92515901"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="81841931"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 18:46:56 -0700
-X-CSE-ConnectionGUID: 93Yn2X15S5eth9f435QblQ==
-X-CSE-MsgGUID: HR4k7vsyQ0iwTiW6Id0OGA==
+   d="scan'208";a="92515901"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 19:30:30 -0700
+X-CSE-ConnectionGUID: AVacq+LCQOqZQ8iNuL/5qA==
+X-CSE-MsgGUID: dlw8WqvrRLSelkHo7/zJNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="245173089"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Jun 2026 18:46:54 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="250951182"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 09 Jun 2026 19:30:29 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wX81s-00000000KmU-0qdt;
-	Wed, 10 Jun 2026 01:46:52 +0000
-Date: Wed, 10 Jun 2026 09:46:37 +0800
+	id 1wX8i1-000000003b1-3eCN;
+	Wed, 10 Jun 2026 02:30:25 +0000
+Date: Wed, 10 Jun 2026 04:30:03 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 9242/12670]
- arch/powerpc/boot/dts/fsp2.dtb: Warning (interrupt_map): Failed prerequisite
- 'interrupt_provider'
-Message-ID: <202606100954.Js25uNeq-lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-dts-for-v7.3 84/95]
+ arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: clock-controller@10420000
+ (renesas,r9a09g047-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal',
+ 'audio_clkb', 'audio_clkc'] is too long
+Message-ID: <202606100412.s9AxSDVp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "only suspicious fbc files changed"
-::::::=20
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
-CC: Madhavan Srinivasan <maddy@linux.ibm.com>
+CC: linux-renesas-soc@vger.kernel.org
+TO: John Madieu <john.madieu.xa@bp.renesas.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   49e02880ec0a8c378e811bc9d85da188d7c6204c
-commit: 2442f10c6eae63392452ab84a813dbc1f87c724d [9242/12670] powerpc: dts:=
- Build devicetrees of enabled platforms
-:::::: branch date: 7 hours ago
-:::::: commit date: 8 days ago
-config: powerpc-randconfig-r053-20260610 (https://download.01.org/0day-ci/a=
-rchive/20260610/202606100954.Js25uNeq-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 600970=
-8b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v7.3
+head:   039608fad80827cc1db55aed77478bf807093582
+commit: 9c9094d5d889e6259683d9afbd4b578ccea0b700 [84/95] arm64: dts: renesas: rzv2h: Add audio clock inputs
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: arm64-randconfig-2055-20260609 (https://download.01.org/0day-ci/archive/20260610/202606100412.s9AxSDVp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100412.s9AxSDVp-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606100954.Js25uNeq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606100412.s9AxSDVp-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/fsp2.dts:384.7-607.4: Warning (unit_address_vs_reg=
-): /plb4: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/fsp2.dts:392.24-397.5: Warning (interrupt_provider=
-): /plb4/plb6-system-hung-irq: '#interrupt-cells' found, but node is not an=
- interrupt provider
-   arch/powerpc/boot/dts/fsp2.dts:399.16-404.5: Warning (interrupt_provider=
-): /plb4/l2-error-irq: '#interrupt-cells' found, but node is not an interru=
-pt provider
-   arch/powerpc/boot/dts/fsp2.dts:406.17-411.5: Warning (interrupt_provider=
-): /plb4/plb6-plb4-irq: '#interrupt-cells' found, but node is not an interr=
-upt provider
-   arch/powerpc/boot/dts/fsp2.dts:413.16-418.5: Warning (interrupt_provider=
-): /plb4/plb4-ahb-irq: '#interrupt-cells' found, but node is not an interru=
-pt provider
-   arch/powerpc/boot/dts/fsp2.dts:420.18-425.5: Warning (interrupt_provider=
-): /plb4/opbd-error-irq: '#interrupt-cells' found, but node is not an inter=
-rupt provider
-   arch/powerpc/boot/dts/fsp2.dts:427.17-432.5: Warning (interrupt_provider=
-): /plb4/cmu-error-irq: '#interrupt-cells' found, but node is not an interr=
-upt provider
-   arch/powerpc/boot/dts/fsp2.dts:434.18-439.5: Warning (interrupt_provider=
-): /plb4/conf-error-irq: '#interrupt-cells' found, but node is not an inter=
-rupt provider
-   arch/powerpc/boot/dts/fsp2.dts:441.13-446.5: Warning (interrupt_provider=
-): /plb4/mc-ue-irq: '#interrupt-cells' found, but node is not an interrupt =
-provider
-   arch/powerpc/boot/dts/fsp2.dts:448.21-453.5: Warning (interrupt_provider=
-): /plb4/reset-warning-irq: '#interrupt-cells' found, but node is not an in=
-terrupt provider
->> arch/powerpc/boot/dts/fsp2.dtb: Warning (interrupt_map): Failed prerequi=
-site 'interrupt_provider'
+>> arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: clock-controller@10420000 (renesas,r9a09g047-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: clock-controller@10420000 (renesas,r9a09g047-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+   arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: fcp@16470000 (renesas,r9a09g047-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+   arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: fcp@16470000 (renesas,r9a09g047-fcpvd): clocks: [[3, 1, 237], [3, 1, 238], [3, 1, 239]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+   arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: fcp@16470000 (renesas,r9a09g047-fcpvd): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,r9a09g047-fcpvd', 'renesas,fcpv'] is too long
+   	'renesas,r9a09g047-fcpvd' is not one of ['renesas,fcpv', 'renesas,fcpf']
+   	'renesas,r9a09g047-fcpvd' is not one of ['renesas,r9a07g043u-fcpvd', 'renesas,r9a07g044-fcpvd', 'renesas,r9a07g054-fcpvd', 'renesas,r9a09g056-fcpvd', 'renesas,r9a09g057-fcpvd']
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: clock-controller@10420000 (renesas,r9a09g056-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: clock-controller@10420000 (renesas,r9a09g056-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pcie@13400000 (renesas,r9a09g056-pcie): pcie@0,0:device-id: 59 is not one of [51, 57]
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pcie@13400000 (renesas,r9a09g056-pcie): compatible:0: 'renesas,r9a09g056-pcie' is not one of ['renesas,r9a08g045-pcie', 'renesas,r9a09g047-pcie']
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pcie@13400000 (renesas,r9a09g056-pcie): compatible: ['renesas,r9a09g056-pcie', 'renesas,r9a09g047-pcie'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtb: clock-controller@10420000 (renesas,r9a09g047-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtb: clock-controller@10420000 (renesas,r9a09g047-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+   arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtb: fcp@16470000 (renesas,r9a09g047-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+   arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtb: fcp@16470000 (renesas,r9a09g047-fcpvd): clocks: [[3, 1, 237], [3, 1, 238], [3, 1, 239]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+   arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtb: fcp@16470000 (renesas,r9a09g047-fcpvd): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,r9a09g047-fcpvd', 'renesas,fcpv'] is too long
+   	'renesas,r9a09g047-fcpvd' is not one of ['renesas,fcpv', 'renesas,fcpf']
+   	'renesas,r9a09g047-fcpvd' is not one of ['renesas,r9a07g043u-fcpvd', 'renesas,r9a07g044-fcpvd', 'renesas,r9a07g054-fcpvd', 'renesas,r9a09g056-fcpvd', 'renesas,r9a09g057-fcpvd']
+   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: clock-controller@10420000 (renesas,r9a09g056-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: clock-controller@10420000 (renesas,r9a09g056-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pcie@13400000 (renesas,r9a09g056-pcie): pcie@0,0:device-id: 59 is not one of [51, 57]
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pcie@13400000 (renesas,r9a09g056-pcie): compatible:0: 'renesas,r9a09g056-pcie' is not one of ['renesas,r9a08g045-pcie', 'renesas,r9a09g047-pcie']
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pcie@13400000 (renesas,r9a09g056-pcie): compatible: ['renesas,r9a09g056-pcie', 'renesas,r9a09g047-pcie'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: clock-controller@10420000 (renesas,r9a09g056-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: clock-controller@10420000 (renesas,r9a09g056-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pcie@13400000 (renesas,r9a09g056-pcie): pcie@0,0:device-id: 59 is not one of [51, 57]
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pcie@13400000 (renesas,r9a09g056-pcie): compatible:0: 'renesas,r9a09g056-pcie' is not one of ['renesas,r9a08g045-pcie', 'renesas,r9a09g047-pcie']
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pcie@13400000 (renesas,r9a09g056-pcie): compatible: ['renesas,r9a09g056-pcie', 'renesas,r9a09g047-pcie'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/renesas,r9a08g045-pcie.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+--
+>> arch/arm64/boot/dts/renesas/r9a09g057h48-kakip-pixpaper.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clock-names: ['audio_extal', 'rtxin', 'qextal', 'audio_clkb', 'audio_clkc'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g057h48-kakip-pixpaper.dtb: clock-controller@10420000 (renesas,r9a09g057-cpg): clocks: [[7], [8], [9], [10], [11]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml
 
 --
 0-DAY CI Kernel Test Service
