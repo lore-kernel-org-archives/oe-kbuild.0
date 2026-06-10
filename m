@@ -1,207 +1,216 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CEB1465B4
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 Jun 2026 07:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011B2306749
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 Jun 2026 09:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781075328; cv=none; b=rouHicGUaiExan6NXhXUjPfATzZbFjVJ1D3apbRSnF7USsWOBnIQRsgYbwAIbfEEr38hEzTolBEXjhgRbfabu9oxZeF3XtV9c4cqrxVhwMb3j4ys29d0/+2LFnL+YOyzW2UtZCpfT33YhYmfMOA1PFhmqfXLNTf+nOOiPNSSwhQ=
+	t=1781084473; cv=none; b=DaRGHbSj9Ep5kpqhSvuGkXRfyNREfgWA3x2gIVePTYLlYbzQ9R6ykNiIEKR/RAR/CcaPl8/Bx49+k4RUwpOlhgdhZs3rmgTTZ78Gorle5ibNjyl+fTWJ2HkVV2OpARTO1MQwE81E4QjQT+utFxEQ3yjXRxZTAoFWdULJ1llKGaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781075328; c=relaxed/simple;
-	bh=z9SfO4YZfEkxFjWHtOFy237C4YuhngdvmE3eshvhIOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pYV56EXsDugmvkHkLPGrSbN6waOV9TjBanwU+91bnp3Msdo4qD9JGIauyxNW+9RG+g1ZD/oywHVmOYBJOP6RtYmlj/oVaLcsM4dZ8rj6nZz3WjSA1GOj+pzI1PGW/z7sinqRIsHWekbLFeu1ONo8IeauhIpcT9rBtayR5B1heYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o7QB8wU/; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781084473; c=relaxed/simple;
+	bh=L9rT7OiQ4o2g4+WHk4u2Z5W9Hc+cufxfjoemaAnzF1c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gD1ZPBhaSuZ9U5apulurPTgwfHOkGad/Az6GgJkLMQXAF+WaeevD07JABvkLVsK/hS/8D2lIQLwa5QVV31tLoVKuwJbCirA+tFonxlNWTRmk3ziMMNabwhzOI2vqZvvOYX9SRDKq7HOhidnZWnXb2ANhTaZcDFvOadGRowb9zdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KvxS4v6T; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o7QB8wU/"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ccdf8d4ac5so68242416d6.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 10 Jun 2026 00:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781075326; x=1781680126; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6QXmN4Nis92iygGTCnfDBrK0hXHiuDKbCiKMUYEvshY=;
-        b=o7QB8wU/JXmd0MwZJWyrpiXNAefQoZHdzeWX2YoU0Xg6e5BH2X87gIeFRiqik6yTCo
-         IVMH3CR3g/icV8DxHwoibzpIfTgThIvmUTcZCTL3FATQd3QKFxGRNYvZPHLiNFVUdShW
-         ZAhztg1ic81pfrFwcn5cHGLdEdo0fTOo4TnnaRCLbZmYqjd4CqpdmLPExRPeq+U04ceV
-         xrxsj06x0lvpcMmUYvdM+GSeUJnfd0mNttPIEWkoRSZq+079qzs77B/0LYvb8ZyLiGky
-         bieMba5ijB/S9s9koCan1tZynGByWcBnsY1VQq3VNYe2/pm9YjaizVR/BIoiEKR6WlsJ
-         ofaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781075326; x=1781680126;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6QXmN4Nis92iygGTCnfDBrK0hXHiuDKbCiKMUYEvshY=;
-        b=hUl8dI4o9i0VO8tIWPR+0iO5ykvwkA4NTyVr5Cqt3SQJrdVBeMD8tEWn4rBvstOnBC
-         U3XxvVgGLPUu4RQ7JW4jD+TER5V2p8emV3MEoWdSohGgJ+Bn2aMZeYsVez8FrSKGYRUJ
-         5nQx84bcTibE7m9EkeMoEJWP59E4xgPL3kNwXalNuP9YkYTroaadVNIYLTNP6Y2itHJm
-         OqgRqimR9y4lpRFYw0KJnTVdfTjrteECRC9VAAvZp/X9e4ImDSsTb7LiBmPceK3kwYuM
-         KXcUDzlj9hCgWUwHVi+/hhyuI8yHely/oLjnVBNIBYLrTafulNzUPAeevBwoCfHP8+Wg
-         S3/w==
-X-Gm-Message-State: AOJu0YwqNCllkgUt+mTMLVuGMKuNojoINF9wxDjXXazttKe15HiJKRPf
-	RPo8/vGAzKU1PGCJE+NqLMGQuJg+3z7fcIkjUwHW9fPZ/42tA+Wo+jqA8dG7wFy2
-X-Gm-Gg: Acq92OEv6ouqrrULJvheUA6NjtMbaaUx7tHqSzPqiNv2yWluxIwi6/KsZiTjbG0Mnwo
-	pLM1wENoSgpdTXm1ESERKK7zGffKCnQkvz04xryfOEam9J+PHn21ZEPZlooLkqBMvaDNeh2XpRc
-	LCv+Wao2iqiRcFgOAaGDxjYKeMH6zUzvmaHxi5KTnzWIUbHckbc5A6XQhaWb+avRGH9GqAPdmB5
-	bf4xuWUBW7GlPVRUAqhBFcx+xOGT2VkXY6EhV30Ad3W+CeQlvxBi4bb2F0jhySk9+qKuhm2+dtD
-	CKTnAuvl/diMg7MmbWHnMA/M6PwvDp7oNXdf+imC8rJ7rTkH4IhW8MEF0mhfpdikSGYzMyB7eJK
-	ASbBzXloOvCQjlSCG6cj4+SbC2yw2/cSLAUS7E2mBR1f9zeU/+obGLcP0ULrL0zzUe7H2A8lDA9
-	0mKwCSV9/LN/4ED6carxOnfFQ51eLEm2pARIDg+Q==
-X-Received: by 2002:a05:6214:1d2d:b0:8cc:e102:b491 with SMTP id 6a1803df08f44-8cee5f991ccmr375281166d6.4.1781075326189;
-        Wed, 10 Jun 2026 00:08:46 -0700 (PDT)
-Received: from localhost ([149.40.50.222])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd263003sm229607936d6.42.2026.06.10.00.08.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 00:08:45 -0700 (PDT)
-Date: Wed, 10 Jun 2026 10:08:39 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Reinette Chatre <reinette.chatre@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [reinette:resctrl/controls_rfc_v1 48/82] fs/resctrl/rdtgroup.c:1160
- rdt_bit_usage_show() warn: inconsistent returns 'global &rdtgroup_mutex'.
-Message-ID: <202606101004.PsNAKxDj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KvxS4v6T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781084471; x=1812620471;
+  h=date:from:to:cc:subject:message-id;
+  bh=L9rT7OiQ4o2g4+WHk4u2Z5W9Hc+cufxfjoemaAnzF1c=;
+  b=KvxS4v6TUwp86htyq/txQvmYjywJujF8fO/2CsCufvb2TkTS58xBj8XT
+   YtUrDmhp1cesrzWrso5hMZvapIlV0AWcAWIWGYjn92apkxJPV41VCtac5
+   4s78K0jTLgzii+uxCFDqoSxact1cOfxljhxRI/+nKJmaeMCB1wmsnk5FD
+   nU+zhkBgbCjZU5UBmIoH01Z4JMR4VV+tvNHSwxLtGqvaXIDiFBa/dGgFf
+   YB66pu4Y9JvzlFo7sr2Bbwgc8bB3MvhrUJFLAFFcU6g5vhkoqr8DJolkl
+   eb5VX/t2Mo9WTJwCXcN0nTfmmQge1i4FdQkjWF9a3Bucv4m7X7ZTtGRVp
+   g==;
+X-CSE-ConnectionGUID: Rkvu2YBrTm6EhPXPnVlZ4A==
+X-CSE-MsgGUID: AO4VG6T0S4SRfBv1PBrq7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="92438683"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="92438683"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 02:41:10 -0700
+X-CSE-ConnectionGUID: FeR/ucGRQWO0gH9eLXuL6g==
+X-CSE-MsgGUID: Nl1RM/sVQOSAV3NT+X9apw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="243155987"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 10 Jun 2026 02:41:09 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wXFQo-00000000LE4-1MjJ;
+	Wed, 10 Jun 2026 09:41:06 +0000
+Date: Wed, 10 Jun 2026 17:40:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 4283/12670]
+ net/mac80211/tests/chan-mode.c:256 test_determine_chan_mode() warn: passing
+ freed memory 'elems' (line 252)
+Message-ID: <202606101714.IyCeUwST-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260610070839.wcLLrAWUKkR9G2n6j1sESfKkPjCNIeqCX3V-YDT-crE@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/reinette/linux.git resctrl/controls_rfc_v1
-head:   37557cac804539e802e887a320e85c7a916a0bb9
-commit: a54ec3de291898407c4cf41dea220e5fe0a2c2e9 [48/82] fs/resctrl: Obtain global properties from default cache control
-config: i386-randconfig-141-20260610 (https://download.01.org/0day-ci/archive/20260610/202606101004.PsNAKxDj-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Marco Elver <elver@google.com>
+CC: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+CC: "Harry Yoo (Oracle)" <harry@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   49e02880ec0a8c378e811bc9d85da188d7c6204c
+commit: feb662d9168b63e1d4c02671ec96005410c6f3ce [4283/12670] slab: support for compiler-assisted type-based slab cache partitioning
+:::::: branch date: 15 hours ago
+:::::: commit date: 4 weeks ago
+config: x86_64-randconfig-161-20260610 (https://download.01.org/0day-ci/archive/20260610/202606101714.IyCeUwST-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606101004.PsNAKxDj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606101714.IyCeUwST-lkp@intel.com/
 
 smatch warnings:
-fs/resctrl/rdtgroup.c:1160 rdt_bit_usage_show() warn: inconsistent returns 'global &rdtgroup_mutex'.
+net/mac80211/tests/chan-mode.c:256 test_determine_chan_mode() warn: passing freed memory 'elems' (line 252)
+net/mac80211/tests/chan-mode.c:256 test_determine_chan_mode() warn: passing zero to 'PTR_ERR'
 
-vim +1160 fs/resctrl/rdtgroup.c
+vim +/elems +256 net/mac80211/tests/chan-mode.c
 
-7168ae330e8105 James Morse     2025-05-15  1058  static int rdt_bit_usage_show(struct kernfs_open_file *of,
-7168ae330e8105 James Morse     2025-05-15  1059  			      struct seq_file *seq, void *v)
-7168ae330e8105 James Morse     2025-05-15  1060  {
-cb6283f40b6a21 Reinette Chatre 2026-04-09  1061  	struct rdt_resource_final *f = rdt_kn_parent_priv(of->kn);
-7168ae330e8105 James Morse     2025-05-15  1062  	/*
-7168ae330e8105 James Morse     2025-05-15  1063  	 * Use unsigned long even though only 32 bits are used to ensure
-7168ae330e8105 James Morse     2025-05-15  1064  	 * test_bit() is used safely.
-7168ae330e8105 James Morse     2025-05-15  1065  	 */
-7168ae330e8105 James Morse     2025-05-15  1066  	unsigned long sw_shareable = 0, hw_shareable = 0;
-7168ae330e8105 James Morse     2025-05-15  1067  	unsigned long exclusive = 0, pseudo_locked = 0;
-cb6283f40b6a21 Reinette Chatre 2026-04-09  1068  	struct rdt_resource *r = f->res;
-7168ae330e8105 James Morse     2025-05-15  1069  	struct rdt_ctrl_domain *dom;
-7168ae330e8105 James Morse     2025-05-15  1070  	int i, hwb, swb, excl, psl;
-a54ec3de291898 Reinette Chatre 2026-04-14  1071  	struct resctrl_ctrl *ctrl;
-7168ae330e8105 James Morse     2025-05-15  1072  	enum rdtgrp_mode mode;
-7168ae330e8105 James Morse     2025-05-15  1073  	bool sep = false;
-7168ae330e8105 James Morse     2025-05-15  1074  	u32 ctrl_val;
-7168ae330e8105 James Morse     2025-05-15  1075  
-7168ae330e8105 James Morse     2025-05-15  1076  	cpus_read_lock();
-                                                        ^^^^^^^^^^^^^^^^^
-7168ae330e8105 James Morse     2025-05-15  1077  	mutex_lock(&rdtgroup_mutex);
-                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-a54ec3de291898 Reinette Chatre 2026-04-14  1078  
-a54ec3de291898 Reinette Chatre 2026-04-14  1079  	ctrl = resctrl_get_cache_ctrl(r);
-a54ec3de291898 Reinette Chatre 2026-04-14  1080  	if (!ctrl)
-a54ec3de291898 Reinette Chatre 2026-04-14  1081  		return 0;
+b46524b57afdde Benjamin Berg 2025-02-05  147  
+b46524b57afdde Benjamin Berg 2025-02-05  148  static void test_determine_chan_mode(struct kunit *test)
+b46524b57afdde Benjamin Berg 2025-02-05  149  {
+b46524b57afdde Benjamin Berg 2025-02-05  150  	const struct determine_chan_mode_case *params = test->param_value;
+b46524b57afdde Benjamin Berg 2025-02-05  151  	struct t_sdata *t_sdata = T_SDATA(test);
+b46524b57afdde Benjamin Berg 2025-02-05  152  	struct ieee80211_conn_settings conn = {
+b46524b57afdde Benjamin Berg 2025-02-05  153  		.mode = params->conn_mode,
+75575e2d252afb Benjamin Berg 2025-08-26  154  		.bw_limit = params->conn_bw_limit,
+b46524b57afdde Benjamin Berg 2025-02-05  155  	};
+b46524b57afdde Benjamin Berg 2025-02-05  156  	struct cfg80211_bss cbss = {
+b46524b57afdde Benjamin Berg 2025-02-05  157  		.channel = &t_sdata->band_5ghz.channels[0],
+b46524b57afdde Benjamin Berg 2025-02-05  158  	};
+b46524b57afdde Benjamin Berg 2025-02-05  159  	unsigned long userspace_selectors[BITS_TO_LONGS(128)] = {};
+b46524b57afdde Benjamin Berg 2025-02-05  160  	u8 bss_ies[] = {
+b46524b57afdde Benjamin Berg 2025-02-05  161  		/* Supported Rates */
+b46524b57afdde Benjamin Berg 2025-02-05  162  		WLAN_EID_SUPP_RATES, 0x08,
+b46524b57afdde Benjamin Berg 2025-02-05  163  		0x82, 0x84, 0x8b, 0x96, 0xc, 0x12, 0x18, 0x24,
+b46524b57afdde Benjamin Berg 2025-02-05  164  		/* Extended Supported Rates */
+b46524b57afdde Benjamin Berg 2025-02-05  165  		WLAN_EID_EXT_SUPP_RATES, 0x05,
+b46524b57afdde Benjamin Berg 2025-02-05  166  		0x30, 0x48, 0x60, 0x6c, params->extra_supp_rate,
+b46524b57afdde Benjamin Berg 2025-02-05  167  		/* HT Capabilities */
+b46524b57afdde Benjamin Berg 2025-02-05  168  		WLAN_EID_HT_CAPABILITY, 0x1a,
+b46524b57afdde Benjamin Berg 2025-02-05  169  		0x0c, 0x00, 0x1b, 0xff, 0xff, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  170  		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+b46524b57afdde Benjamin Berg 2025-02-05  171  		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  172  		0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  173  		/* HT Information (0xff for 1 stream) */
+b46524b57afdde Benjamin Berg 2025-02-05  174  		WLAN_EID_HT_OPERATION, 0x16,
+b46524b57afdde Benjamin Berg 2025-02-05  175  		0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  176  		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  177  		0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  178  		/* VHT Capabilities */
+b46524b57afdde Benjamin Berg 2025-02-05  179  		WLAN_EID_VHT_CAPABILITY, 0xc,
+b46524b57afdde Benjamin Berg 2025-02-05  180  		0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  181  		0xff, 0xff, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  182  		/* VHT Operation */
+b46524b57afdde Benjamin Berg 2025-02-05  183  		WLAN_EID_VHT_OPERATION, 0x05,
+b46524b57afdde Benjamin Berg 2025-02-05  184  		0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  185  		params->vht_basic_mcs_1_4_set ?
+b46524b57afdde Benjamin Berg 2025-02-05  186  			params->vht_basic_mcs_1_4 :
+b46524b57afdde Benjamin Berg 2025-02-05  187  			le16_get_bits(t_sdata->band_5ghz.vht_cap.vht_mcs.rx_mcs_map, 0xff),
+b46524b57afdde Benjamin Berg 2025-02-05  188  		params->vht_basic_mcs_5_8_set ?
+b46524b57afdde Benjamin Berg 2025-02-05  189  			params->vht_basic_mcs_5_8 :
+b46524b57afdde Benjamin Berg 2025-02-05  190  			le16_get_bits(t_sdata->band_5ghz.vht_cap.vht_mcs.rx_mcs_map, 0xff00),
+b46524b57afdde Benjamin Berg 2025-02-05  191  		/* HE Capabilities */
+b46524b57afdde Benjamin Berg 2025-02-05  192  		WLAN_EID_EXTENSION, 0x16, WLAN_EID_EXT_HE_CAPABILITY,
+b46524b57afdde Benjamin Berg 2025-02-05  193  		0x01, 0x78, 0xc8, 0x1a, 0x40, 0x00, 0x00, 0xbf,
+b46524b57afdde Benjamin Berg 2025-02-05  194  		0xce, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  195  		0x00, 0xfa, 0xff, 0xfa, 0xff,
+b46524b57afdde Benjamin Berg 2025-02-05  196  		/* HE Operation (permit overriding values) */
+b46524b57afdde Benjamin Berg 2025-02-05  197  		WLAN_EID_EXTENSION, 0x07, WLAN_EID_EXT_HE_OPERATION,
+b46524b57afdde Benjamin Berg 2025-02-05  198  		0xf0, 0x3f, 0x00, 0xb0,
+b46524b57afdde Benjamin Berg 2025-02-05  199  		params->he_basic_mcs_1_4_set ? params->he_basic_mcs_1_4 : 0xfc,
+b46524b57afdde Benjamin Berg 2025-02-05  200  		params->he_basic_mcs_5_8_set ? params->he_basic_mcs_5_8 : 0xff,
+b46524b57afdde Benjamin Berg 2025-02-05  201  		/* EHT Capabilities */
+b46524b57afdde Benjamin Berg 2025-02-05  202  		WLAN_EID_EXTENSION, 0x12, WLAN_EID_EXT_EHT_CAPABILITY,
+b46524b57afdde Benjamin Berg 2025-02-05  203  		0x07, 0x00, 0x1c, 0x00, 0x00, 0xfe, 0xff, 0xff,
+b46524b57afdde Benjamin Berg 2025-02-05  204  		0x7f, 0x01, 0x00, 0x88, 0x88, 0x88, 0x00, 0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  205  		0x00,
+b46524b57afdde Benjamin Berg 2025-02-05  206  		/* EHT Operation */
+75575e2d252afb Benjamin Berg 2025-08-26  207  		WLAN_EID_EXTENSION, 0x0b, WLAN_EID_EXT_EHT_OPERATION,
+75575e2d252afb Benjamin Berg 2025-08-26  208  		0x03, params->eht_mcs7_min_nss ? params->eht_mcs7_min_nss : 0x11,
+75575e2d252afb Benjamin Berg 2025-08-26  209  		0x00, 0x00, 0x00, params->eht_bw,
+75575e2d252afb Benjamin Berg 2025-08-26  210  		params->eht_bw == IEEE80211_EHT_OPER_CHAN_WIDTH_80MHZ ? 42 : 36,
+75575e2d252afb Benjamin Berg 2025-08-26  211  		0x00,
+75575e2d252afb Benjamin Berg 2025-08-26  212  		u16_get_bits(params->eht_disabled_subchannels, 0xff),
+75575e2d252afb Benjamin Berg 2025-08-26  213  		u16_get_bits(params->eht_disabled_subchannels, 0xff00),
+b46524b57afdde Benjamin Berg 2025-02-05  214  	};
+b46524b57afdde Benjamin Berg 2025-02-05  215  	struct ieee80211_chan_req chanreq = {};
+b46524b57afdde Benjamin Berg 2025-02-05  216  	struct cfg80211_chan_def ap_chandef = {};
+b46524b57afdde Benjamin Berg 2025-02-05  217  	struct ieee802_11_elems *elems;
+b46524b57afdde Benjamin Berg 2025-02-05  218  
+75575e2d252afb Benjamin Berg 2025-08-26  219  	/* To force EHT downgrade to HE on punctured 80 MHz downgraded to 40 MHz */
+75575e2d252afb Benjamin Berg 2025-08-26  220  	set_bit(IEEE80211_HW_DISALLOW_PUNCTURING, t_sdata->local.hw.flags);
+75575e2d252afb Benjamin Berg 2025-08-26  221  
+b46524b57afdde Benjamin Berg 2025-02-05  222  	if (params->strict)
+b46524b57afdde Benjamin Berg 2025-02-05  223  		set_bit(IEEE80211_HW_STRICT, t_sdata->local.hw.flags);
+b46524b57afdde Benjamin Berg 2025-02-05  224  	else
+b46524b57afdde Benjamin Berg 2025-02-05  225  		clear_bit(IEEE80211_HW_STRICT, t_sdata->local.hw.flags);
+b46524b57afdde Benjamin Berg 2025-02-05  226  
+b46524b57afdde Benjamin Berg 2025-02-05  227  	t_sdata->sdata->u.mgd.ht_capa_mask = params->ht_capa_mask;
+b46524b57afdde Benjamin Berg 2025-02-05  228  	t_sdata->sdata->u.mgd.vht_capa = params->vht_capa;
+b46524b57afdde Benjamin Berg 2025-02-05  229  	t_sdata->sdata->u.mgd.vht_capa_mask = params->vht_capa_mask;
+b46524b57afdde Benjamin Berg 2025-02-05  230  
+b46524b57afdde Benjamin Berg 2025-02-05  231  	if (params->userspace_selector)
+b46524b57afdde Benjamin Berg 2025-02-05  232  		set_bit(params->userspace_selector, userspace_selectors);
+b46524b57afdde Benjamin Berg 2025-02-05  233  
+b46524b57afdde Benjamin Berg 2025-02-05  234  	rcu_assign_pointer(cbss.ies,
+b46524b57afdde Benjamin Berg 2025-02-05  235  			   kunit_kzalloc(test,
+b46524b57afdde Benjamin Berg 2025-02-05  236  					 sizeof(cbss) + sizeof(bss_ies),
+b46524b57afdde Benjamin Berg 2025-02-05  237  					 GFP_KERNEL));
+b46524b57afdde Benjamin Berg 2025-02-05  238  	KUNIT_ASSERT_NOT_NULL(test, rcu_access_pointer(cbss.ies));
+b46524b57afdde Benjamin Berg 2025-02-05  239  	((struct cfg80211_bss_ies *)rcu_access_pointer(cbss.ies))->len = sizeof(bss_ies);
+b46524b57afdde Benjamin Berg 2025-02-05  240  
+b46524b57afdde Benjamin Berg 2025-02-05  241  	memcpy((void *)rcu_access_pointer(cbss.ies)->data, bss_ies,
+b46524b57afdde Benjamin Berg 2025-02-05  242  	       sizeof(bss_ies));
+b46524b57afdde Benjamin Berg 2025-02-05  243  
+b46524b57afdde Benjamin Berg 2025-02-05  244  	rcu_read_lock();
+b46524b57afdde Benjamin Berg 2025-02-05  245  	elems = ieee80211_determine_chan_mode(t_sdata->sdata, &conn, &cbss,
+b46524b57afdde Benjamin Berg 2025-02-05  246  					      0, &chanreq, &ap_chandef,
+b46524b57afdde Benjamin Berg 2025-02-05  247  					      userspace_selectors);
+b46524b57afdde Benjamin Berg 2025-02-05  248  	rcu_read_unlock();
+b46524b57afdde Benjamin Berg 2025-02-05  249  
+b46524b57afdde Benjamin Berg 2025-02-05  250  	/* We do not need elems, free them if they are valid. */
+b46524b57afdde Benjamin Berg 2025-02-05  251  	if (!IS_ERR_OR_NULL(elems))
+b46524b57afdde Benjamin Berg 2025-02-05 @252  		kfree(elems);
+b46524b57afdde Benjamin Berg 2025-02-05  253  
+b46524b57afdde Benjamin Berg 2025-02-05  254  	if (params->error) {
+b46524b57afdde Benjamin Berg 2025-02-05  255  		KUNIT_ASSERT_TRUE(test, IS_ERR(elems));
+b46524b57afdde Benjamin Berg 2025-02-05 @256  		KUNIT_ASSERT_EQ(test, PTR_ERR(elems), -params->error);
+b46524b57afdde Benjamin Berg 2025-02-05  257  	} else {
+b46524b57afdde Benjamin Berg 2025-02-05  258  		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, elems);
+b46524b57afdde Benjamin Berg 2025-02-05  259  		KUNIT_ASSERT_EQ(test, conn.mode, params->expected_mode);
+75575e2d252afb Benjamin Berg 2025-08-26  260  		KUNIT_ASSERT_EQ(test, conn.bw_limit, params->expected_bw_limit);
+b46524b57afdde Benjamin Berg 2025-02-05  261  	}
+b46524b57afdde Benjamin Berg 2025-02-05  262  }
+b46524b57afdde Benjamin Berg 2025-02-05  263  
 
-Needs a couple unlocks.
+:::::: The code at line 256 was first introduced by commit
+:::::: b46524b57afdde8ed9ee9567e78d1293ad0e6ea7 wifi: mac80211: tests: add tests for ieee80211_determine_chan_mode
 
-a54ec3de291898 Reinette Chatre 2026-04-14  1082  
-a54ec3de291898 Reinette Chatre 2026-04-14  1083  	list_for_each_entry(dom, &ctrl->domains, hdr.list) {
-7168ae330e8105 James Morse     2025-05-15  1084  		if (sep)
-7168ae330e8105 James Morse     2025-05-15  1085  			seq_putc(seq, ';');
-a54ec3de291898 Reinette Chatre 2026-04-14  1086  		hw_shareable = ctrl->cache.shareable_bits;
-7168ae330e8105 James Morse     2025-05-15  1087  		sw_shareable = 0;
-7168ae330e8105 James Morse     2025-05-15  1088  		exclusive = 0;
-7168ae330e8105 James Morse     2025-05-15  1089  		seq_printf(seq, "%d=", dom->hdr.id);
-7168ae330e8105 James Morse     2025-05-15  1090  		for (i = 0; i < closids_supported(); i++) {
-ac7de456a37f9b Babu Moger      2025-11-12  1091  			if (!closid_allocated(i) ||
-ac7de456a37f9b Babu Moger      2025-11-12  1092  			    (resctrl_arch_get_io_alloc_enabled(r) &&
-ac7de456a37f9b Babu Moger      2025-11-12  1093  			     i == resctrl_io_alloc_closid(r)))
-7168ae330e8105 James Morse     2025-05-15  1094  				continue;
-7168ae330e8105 James Morse     2025-05-15  1095  			ctrl_val = resctrl_arch_get_config(r, dom, i,
-cb6283f40b6a21 Reinette Chatre 2026-04-09  1096  							   f->conf_type);
-7168ae330e8105 James Morse     2025-05-15  1097  			mode = rdtgroup_mode_by_closid(i);
-7168ae330e8105 James Morse     2025-05-15  1098  			switch (mode) {
-7168ae330e8105 James Morse     2025-05-15  1099  			case RDT_MODE_SHAREABLE:
-7168ae330e8105 James Morse     2025-05-15  1100  				sw_shareable |= ctrl_val;
-7168ae330e8105 James Morse     2025-05-15  1101  				break;
-7168ae330e8105 James Morse     2025-05-15  1102  			case RDT_MODE_EXCLUSIVE:
-7168ae330e8105 James Morse     2025-05-15  1103  				exclusive |= ctrl_val;
-7168ae330e8105 James Morse     2025-05-15  1104  				break;
-7168ae330e8105 James Morse     2025-05-15  1105  			case RDT_MODE_PSEUDO_LOCKSETUP:
-7168ae330e8105 James Morse     2025-05-15  1106  			/*
-7168ae330e8105 James Morse     2025-05-15  1107  			 * RDT_MODE_PSEUDO_LOCKSETUP is possible
-7168ae330e8105 James Morse     2025-05-15  1108  			 * here but not included since the CBM
-7168ae330e8105 James Morse     2025-05-15  1109  			 * associated with this CLOSID in this mode
-7168ae330e8105 James Morse     2025-05-15  1110  			 * is not initialized and no task or cpu can be
-7168ae330e8105 James Morse     2025-05-15  1111  			 * assigned this CLOSID.
-7168ae330e8105 James Morse     2025-05-15  1112  			 */
-7168ae330e8105 James Morse     2025-05-15  1113  				break;
-7168ae330e8105 James Morse     2025-05-15  1114  			case RDT_MODE_PSEUDO_LOCKED:
-7168ae330e8105 James Morse     2025-05-15  1115  			case RDT_NUM_MODES:
-7168ae330e8105 James Morse     2025-05-15  1116  				WARN(1,
-7168ae330e8105 James Morse     2025-05-15  1117  				     "invalid mode for closid %d\n", i);
-7168ae330e8105 James Morse     2025-05-15  1118  				break;
-7168ae330e8105 James Morse     2025-05-15  1119  			}
-7168ae330e8105 James Morse     2025-05-15  1120  		}
-ac7de456a37f9b Babu Moger      2025-11-12  1121  
-ac7de456a37f9b Babu Moger      2025-11-12  1122  		/*
-ac7de456a37f9b Babu Moger      2025-11-12  1123  		 * When the "io_alloc" feature is enabled, a portion of the cache
-ac7de456a37f9b Babu Moger      2025-11-12  1124  		 * is configured for shared use between hardware and software.
-ac7de456a37f9b Babu Moger      2025-11-12  1125  		 * Also, when CDP is enabled the CBMs of CDP_CODE and CDP_DATA
-ac7de456a37f9b Babu Moger      2025-11-12  1126  		 * resources are kept in sync. So, the CBMs for "io_alloc" can
-ac7de456a37f9b Babu Moger      2025-11-12  1127  		 * be accessed through either resource.
-ac7de456a37f9b Babu Moger      2025-11-12  1128  		 */
-ac7de456a37f9b Babu Moger      2025-11-12  1129  		if (resctrl_arch_get_io_alloc_enabled(r)) {
-ac7de456a37f9b Babu Moger      2025-11-12  1130  			ctrl_val = resctrl_arch_get_config(r, dom,
-ac7de456a37f9b Babu Moger      2025-11-12  1131  							   resctrl_io_alloc_closid(r),
-cb6283f40b6a21 Reinette Chatre 2026-04-09  1132  							   f->conf_type);
-ac7de456a37f9b Babu Moger      2025-11-12  1133  			hw_shareable |= ctrl_val;
-ac7de456a37f9b Babu Moger      2025-11-12  1134  		}
-ac7de456a37f9b Babu Moger      2025-11-12  1135  
-a54ec3de291898 Reinette Chatre 2026-04-14  1136  		for (i = ctrl->cache.cbm_len - 1; i >= 0; i--) {
-7168ae330e8105 James Morse     2025-05-15  1137  			pseudo_locked = dom->plr ? dom->plr->cbm : 0;
-7168ae330e8105 James Morse     2025-05-15  1138  			hwb = test_bit(i, &hw_shareable);
-7168ae330e8105 James Morse     2025-05-15  1139  			swb = test_bit(i, &sw_shareable);
-7168ae330e8105 James Morse     2025-05-15  1140  			excl = test_bit(i, &exclusive);
-7168ae330e8105 James Morse     2025-05-15  1141  			psl = test_bit(i, &pseudo_locked);
-7168ae330e8105 James Morse     2025-05-15  1142  			if (hwb && swb)
-7168ae330e8105 James Morse     2025-05-15  1143  				seq_putc(seq, 'X');
-7168ae330e8105 James Morse     2025-05-15  1144  			else if (hwb && !swb)
-7168ae330e8105 James Morse     2025-05-15  1145  				seq_putc(seq, 'H');
-7168ae330e8105 James Morse     2025-05-15  1146  			else if (!hwb && swb)
-7168ae330e8105 James Morse     2025-05-15  1147  				seq_putc(seq, 'S');
-7168ae330e8105 James Morse     2025-05-15  1148  			else if (excl)
-7168ae330e8105 James Morse     2025-05-15  1149  				seq_putc(seq, 'E');
-7168ae330e8105 James Morse     2025-05-15  1150  			else if (psl)
-7168ae330e8105 James Morse     2025-05-15  1151  				seq_putc(seq, 'P');
-7168ae330e8105 James Morse     2025-05-15  1152  			else /* Unused bits remain */
-7168ae330e8105 James Morse     2025-05-15  1153  				seq_putc(seq, '0');
-7168ae330e8105 James Morse     2025-05-15  1154  		}
-7168ae330e8105 James Morse     2025-05-15  1155  		sep = true;
-7168ae330e8105 James Morse     2025-05-15  1156  	}
-7168ae330e8105 James Morse     2025-05-15  1157  	seq_putc(seq, '\n');
-7168ae330e8105 James Morse     2025-05-15  1158  	mutex_unlock(&rdtgroup_mutex);
-7168ae330e8105 James Morse     2025-05-15  1159  	cpus_read_unlock();
-7168ae330e8105 James Morse     2025-05-15 @1160  	return 0;
-7168ae330e8105 James Morse     2025-05-15  1161  }
+:::::: TO: Benjamin Berg <benjamin.berg@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
