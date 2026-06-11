@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78293B895B
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 12:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA1F34DCC8
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 13:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781182617; cv=none; b=tzQ7rS19cHAcb99eZAx2a3JJ0xY34NuI/Y7J8XXDMnFqlse7fIqrxLNR2gLX3PktVwslsv4Qm2W23UwYC2PKcLJ29YojguB0J1SuKLDe0fPpX6PcuJ0HMcM2UA4BxOWy0hXRfWVoyl+7hPmsIzccU2gkg/p/7V5IvLHijAc7+oM=
+	t=1781182903; cv=none; b=GhsGC7PG69RGzgMyAodrHOg8aeIgKAHrvxm1xNQ6aSbmM6DbkkUWlNxYldulUEouV2FPV36t+WRl2qaS4O4fdvbW09mOgGJwpd2aXE6sp2uFgNzH8LmI1CeRxJt7g9wmMFC5454natnVKrnWORzIa0gbRTpfUuqX86kFyp10Sqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781182617; c=relaxed/simple;
-	bh=jR7/cYOhLEH+60tvOlAxyeOAI/ztMYzpKeOummhZ0Cs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LTuJVFBJWkzfRm5lYZeNz+42nW0bHq6Q5YangTzd4cgDbilkJCjJ0214MLrSEawwkFmlwyspTVZ9PYyvIAcxKHPY7o8x7G9YIFxc38mNKr2GIjSM0wDORVJ4LM/K8kq+cCdPWJsfTjdPZxbdZ3E4dE5JqGOIROSsN/OozICpNcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EeH6WQRH; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1781182903; c=relaxed/simple;
+	bh=K5WUA8ZVyWKlP1R/aGAntz37nQu7vRnKg3DEOeUCP/s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dHUHcPjwoqKWG8odPfWZRpnf0gDZ9GMdZkrLbmeGueJyK4Fqiq0kq+lEDOwAJPZr05bXz3SwhSFWrbxtn/78Y4JK4DfIzIcw2BYlxpfLFmjnWVLCmkZipodUeHLQvrHeTkksXVnx0tfki/9o6Al9AXCFV34wtDwEGRB/k6iy08g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbMRQx4+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EeH6WQRH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbMRQx4+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781182614; x=1812718614;
+  t=1781182901; x=1812718901;
   h=date:from:to:cc:subject:message-id;
-  bh=jR7/cYOhLEH+60tvOlAxyeOAI/ztMYzpKeOummhZ0Cs=;
-  b=EeH6WQRHYRPuRafmEJozQ7out/34KXJWN+pgeILP6v7Mzv4oPgKytk4j
-   2qGHqiZT6WEtocGl69Em5uWSdCGLFP97n9N85GfIBVqX+rwYzNdr8FBu0
-   naOoTlqSfl40isE38aNPUqzzHy2x8VMrAIkbrBn1WpufrPN4nNI7xOmp6
-   Q1tWOTaC5SWDVLmm0bAhq8vYrZJDzeMn0EcIefSVegX6eLViWnpLOjUC3
-   rWFuk+V9J48e9ywWCz4QLGC7ZkEFsc+hKijgbdIeuxQCOgJzLfhcN5CS4
-   H200zV7Tw1E1pLlWVq1fucnVdAs99LGLGjIM8OvZMu/jDEoeUJMm7lMxl
+  bh=K5WUA8ZVyWKlP1R/aGAntz37nQu7vRnKg3DEOeUCP/s=;
+  b=SbMRQx4+Mo2KzNGmF4RX2FbkFWBZ3fE90KvhHFZnAGhwRAABlvfyq0IG
+   ih4bfIvdL8xcy0zPOU3fT9SuiDDUrrtQf7Hjr0njN3kGorR50dUYxBL1z
+   uOui6bfJF9GU0AB6JcuxnRk728VFuB9BVCy0qigyHvNQvjFVGVCAi2S8O
+   OBRfz1g2LePwZFqG+rUl0nz1RIE9Cwat5INlkPGOEGeP/qRuNJqpMd0Hf
+   V+FseUFd+bh8RH4S2VIquiwDJAsZuGBFq5T0EKSuhNrgPuiS4htAueMpn
+   UZ3yXsZOCBslgvGLXpJFi0VfSf2aBzuxJGiS1u15X/ZBuSs11x15lLCFf
    A==;
-X-CSE-ConnectionGUID: OBTY4WVeQTmBSwgZjNdrTA==
-X-CSE-MsgGUID: 9jGieTYeRaGnt8IqWWUeYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="85893009"
+X-CSE-ConnectionGUID: B63zPwQySyCLal2Wyu/v5w==
+X-CSE-MsgGUID: VB7yL23cSPi8Te2kdpy1kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="93383698"
 X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="85893009"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 05:56:54 -0700
-X-CSE-ConnectionGUID: ZpqOAkL1SIq+AiUXMwFf0w==
-X-CSE-MsgGUID: jHDvVwlmQg+GTOIJbqjNPw==
+   d="scan'208";a="93383698"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 06:01:40 -0700
+X-CSE-ConnectionGUID: yDOS+s+eQxi7eLhTgDA7rw==
+X-CSE-MsgGUID: xVJIgmvSQiivEhzWEf/0fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="276661777"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 11 Jun 2026 05:56:52 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="250760397"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 11 Jun 2026 06:01:39 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXexl-0000000041V-3qaS;
-	Thu, 11 Jun 2026 12:56:49 +0000
-Date: Thu, 11 Jun 2026 14:56:21 +0200
+	id 1wXf2O-00000000N1g-2Cz9;
+	Thu, 11 Jun 2026 13:01:36 +0000
+Date: Thu, 11 Jun 2026 21:00:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [sean-jc:slf/phy_pages_by_region 38/39]
- arm64/vgic_lpi_stress.c:193:34: error: too many arguments to function
- 'vm_phy_pages_alloc'
-Message-ID: <202606111412.k3WQWE9L-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: kernel/sched/deadline.c:2519 find_later_rq() warn: missing
+ error code? 'best_cpu'
+Message-ID: <202606112106.ej9jKbTB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,73 +59,131 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sean Christopherson <seanjc@google.com>
+CC: linux-kernel@vger.kernel.org
+TO: Ingo Molnar <mingo@kernel.org>
 
-tree:   https://github.com/sean-jc/linux slf/phy_pages_by_region
-head:   5c7f0114b3d801f561dbd82a98749da3af0b95a5
-commit: 47b44e3e67928ea3823d79b25208187bde2d6822 [38/39] KVM: selftests: Automatically pick min_gpa for allocations based on region type
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260611/202606111412.k3WQWE9L-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111412.k3WQWE9L-lkp@intel.com/reproduce)
+Hi Ingo,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
+commit: cac5cefbade90ff0bb0b393d301fa3b5234cf056 sched/smp: Make SMP unconditional
+date:   12 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260611/202606112106.ej9jKbTB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: cac5cefbade9 ("sched/smp: Make SMP unconditional")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606111412.k3WQWE9L-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606112106.ej9jKbTB-lkp@intel.com/
 
-Note: the sean-jc/slf/phy_pages_by_region HEAD 5c7f0114b3d801f561dbd82a98749da3af0b95a5 builds fine.
-      It only hurts bisectability.
+smatch warnings:
+kernel/sched/deadline.c:2519 find_later_rq() warn: missing error code? 'best_cpu'
 
-All errors (new ones prefixed by >>):
+vim +/best_cpu +2519 kernel/sched/deadline.c
 
-   arm64/vgic_lpi_stress.c: In function 'setup_test_data':
->> arm64/vgic_lpi_stress.c:193:34: error: too many arguments to function 'vm_phy_pages_alloc'
-     193 |         test_data.device_table = vm_phy_pages_alloc(vm, pages_per_64k,
-         |                                  ^~~~~~~~~~~~~~~~~~
-   In file included from arm64/vgic_lpi_stress.c:13:
-   include/kvm_util.h:1038:21: note: declared here
-    1038 | static inline gpa_t vm_phy_pages_alloc(struct kvm_vm *vm, size_t nr_pages,
-         |                     ^~~~~~~~~~~~~~~~~~
-   arm64/vgic_lpi_stress.c:197:38: error: too many arguments to function 'vm_phy_pages_alloc'
-     197 |         test_data.collection_table = vm_phy_pages_alloc(vm, pages_per_64k,
-         |                                      ^~~~~~~~~~~~~~~~~~
-   include/kvm_util.h:1038:21: note: declared here
-    1038 | static inline gpa_t vm_phy_pages_alloc(struct kvm_vm *vm, size_t nr_pages,
-         |                     ^~~~~~~~~~~~~~~~~~
-   arm64/vgic_lpi_stress.c:201:21: error: too many arguments to function 'vm_phy_pages_alloc'
-     201 |         cmdq_base = vm_phy_pages_alloc(vm, pages_per_64k, gpa_base,
-         |                     ^~~~~~~~~~~~~~~~~~
-   include/kvm_util.h:1038:21: note: declared here
-    1038 | static inline gpa_t vm_phy_pages_alloc(struct kvm_vm *vm, size_t nr_pages,
-         |                     ^~~~~~~~~~~~~~~~~~
-   arm64/vgic_lpi_stress.c:207:32: error: too many arguments to function 'vm_phy_pages_alloc'
-     207 |         test_data.itt_tables = vm_phy_pages_alloc(vm, pages_per_64k * nr_devices,
-         |                                ^~~~~~~~~~~~~~~~~~
-   include/kvm_util.h:1038:21: note: declared here
-    1038 | static inline gpa_t vm_phy_pages_alloc(struct kvm_vm *vm, size_t nr_pages,
-         |                     ^~~~~~~~~~~~~~~~~~
-   arm64/vgic_lpi_stress.c:210:36: error: too many arguments to function 'vm_phy_pages_alloc'
-     210 |         test_data.lpi_prop_table = vm_phy_pages_alloc(vm, pages_per_64k,
-         |                                    ^~~~~~~~~~~~~~~~~~
-   include/kvm_util.h:1038:21: note: declared here
-    1038 | static inline gpa_t vm_phy_pages_alloc(struct kvm_vm *vm, size_t nr_pages,
-         |                     ^~~~~~~~~~~~~~~~~~
-   arm64/vgic_lpi_stress.c:214:37: error: too many arguments to function 'vm_phy_pages_alloc'
-     214 |         test_data.lpi_pend_tables = vm_phy_pages_alloc(vm, pages_per_64k * nr_cpus,
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/kvm_util.h:1038:21: note: declared here
-    1038 | static inline gpa_t vm_phy_pages_alloc(struct kvm_vm *vm, size_t nr_pages,
-         |                     ^~~~~~~~~~~~~~~~~~
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+1baca4ce16b8cc Juri Lelli        2013-11-07  2451  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2452  static int find_later_rq(struct task_struct *task)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2453  {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2454  	struct sched_domain *sd;
+4ba2968420fa9d Christoph Lameter 2014-08-26  2455  	struct cpumask *later_mask = this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
+1baca4ce16b8cc Juri Lelli        2013-11-07  2456  	int this_cpu = smp_processor_id();
+b18c3ca11c20ca Byungchul Park    2017-05-23  2457  	int cpu = task_cpu(task);
+1baca4ce16b8cc Juri Lelli        2013-11-07  2458  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2459  	/* Make sure the mask is initialized first */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2460  	if (unlikely(!later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2461  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2462  
+4b53a3412d6663 Ingo Molnar       2017-02-05  2463  	if (task->nr_cpus_allowed == 1)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2464  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2465  
+91ec6778ec4f96 Juri Lelli        2014-09-19  2466  	/*
+91ec6778ec4f96 Juri Lelli        2014-09-19  2467  	 * We have to consider system topology and task affinity
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2468  	 * first, then we can look for a suitable CPU.
+91ec6778ec4f96 Juri Lelli        2014-09-19  2469  	 */
+3261ed0b25098f Byungchul Park    2017-05-23  2470  	if (!cpudl_find(&task_rq(task)->rd->cpudl, task, later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2471  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2472  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2473  	/*
+b18c3ca11c20ca Byungchul Park    2017-05-23  2474  	 * If we are here, some targets have been found, including
+b18c3ca11c20ca Byungchul Park    2017-05-23  2475  	 * the most suitable which is, among the runqueues where the
+b18c3ca11c20ca Byungchul Park    2017-05-23  2476  	 * current tasks have later deadlines than the task's one, the
+b18c3ca11c20ca Byungchul Park    2017-05-23  2477  	 * rq with the latest possible one.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2478  	 *
+1baca4ce16b8cc Juri Lelli        2013-11-07  2479  	 * Now we check how well this matches with task's
+1baca4ce16b8cc Juri Lelli        2013-11-07  2480  	 * affinity and system topology.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2481  	 *
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2482  	 * The last CPU where the task run is our first
+1baca4ce16b8cc Juri Lelli        2013-11-07  2483  	 * guess, since it is most likely cache-hot there.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2484  	 */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2485  	if (cpumask_test_cpu(cpu, later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2486  		return cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2487  	/*
+1baca4ce16b8cc Juri Lelli        2013-11-07  2488  	 * Check if this_cpu is to be skipped (i.e., it is
+1baca4ce16b8cc Juri Lelli        2013-11-07  2489  	 * not in the mask) or not.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2490  	 */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2491  	if (!cpumask_test_cpu(this_cpu, later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2492  		this_cpu = -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2493  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2494  	rcu_read_lock();
+1baca4ce16b8cc Juri Lelli        2013-11-07  2495  	for_each_domain(cpu, sd) {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2496  		if (sd->flags & SD_WAKE_AFFINE) {
+b18c3ca11c20ca Byungchul Park    2017-05-23  2497  			int best_cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2498  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2499  			/*
+1baca4ce16b8cc Juri Lelli        2013-11-07  2500  			 * If possible, preempting this_cpu is
+1baca4ce16b8cc Juri Lelli        2013-11-07  2501  			 * cheaper than migrating.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2502  			 */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2503  			if (this_cpu != -1 &&
+1baca4ce16b8cc Juri Lelli        2013-11-07  2504  			    cpumask_test_cpu(this_cpu, sched_domain_span(sd))) {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2505  				rcu_read_unlock();
+1baca4ce16b8cc Juri Lelli        2013-11-07  2506  				return this_cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2507  			}
+1baca4ce16b8cc Juri Lelli        2013-11-07  2508  
+14e292f8d45380 Peter Zijlstra    2020-10-01  2509  			best_cpu = cpumask_any_and_distribute(later_mask,
+b18c3ca11c20ca Byungchul Park    2017-05-23  2510  							      sched_domain_span(sd));
+1baca4ce16b8cc Juri Lelli        2013-11-07  2511  			/*
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2512  			 * Last chance: if a CPU being in both later_mask
+b18c3ca11c20ca Byungchul Park    2017-05-23  2513  			 * and current sd span is valid, that becomes our
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2514  			 * choice. Of course, the latest possible CPU is
+b18c3ca11c20ca Byungchul Park    2017-05-23  2515  			 * already under consideration through later_mask.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2516  			 */
+b18c3ca11c20ca Byungchul Park    2017-05-23  2517  			if (best_cpu < nr_cpu_ids) {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2518  				rcu_read_unlock();
+1baca4ce16b8cc Juri Lelli        2013-11-07 @2519  				return best_cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2520  			}
+1baca4ce16b8cc Juri Lelli        2013-11-07  2521  		}
+1baca4ce16b8cc Juri Lelli        2013-11-07  2522  	}
+1baca4ce16b8cc Juri Lelli        2013-11-07  2523  	rcu_read_unlock();
+1baca4ce16b8cc Juri Lelli        2013-11-07  2524  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2525  	/*
+1baca4ce16b8cc Juri Lelli        2013-11-07  2526  	 * At this point, all our guesses failed, we just return
+1baca4ce16b8cc Juri Lelli        2013-11-07  2527  	 * 'something', and let the caller sort the things out.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2528  	 */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2529  	if (this_cpu != -1)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2530  		return this_cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2531  
+14e292f8d45380 Peter Zijlstra    2020-10-01  2532  	cpu = cpumask_any_distribute(later_mask);
+1baca4ce16b8cc Juri Lelli        2013-11-07  2533  	if (cpu < nr_cpu_ids)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2534  		return cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2535  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2536  	return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2537  }
+1baca4ce16b8cc Juri Lelli        2013-11-07  2538  
+
+:::::: The code at line 2519 was first introduced by commit
+:::::: 1baca4ce16b8cc7d4f50be1f7914799af30a2861 sched/deadline: Add SCHED_DEADLINE SMP-related data structures & logic
+
+:::::: TO: Juri Lelli <juri.lelli@gmail.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
