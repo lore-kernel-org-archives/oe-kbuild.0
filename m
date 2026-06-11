@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C65A306B08
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 20:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF151BBBE5
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 23:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781208839; cv=none; b=dDlYinVhl6loMVPUW3nQU+Bn0kEO8zZVk+9q83K5WlF6OPyK5u2QmKMpIj/9JD/npoQS6xpgHXcNVi43xXJaPnwrXy0cGOCQfswF0Zvssi5Ty+KAkaX/POohnhIwb9JhSn/mROVPE+mvc7Jk75GaNjoNB3WeEorK1GZI6dk+BG8=
+	t=1781220003; cv=none; b=alGSLQRZi0lx5mrrbHeaGB/4toq1dOxjqcg2ACY6ufDvTAlt3RPwExFTZffXJzCRAEBetCozuP+JHVElCJCJ/9Vu2KKsb4mE/eNNk0oWdSU2hkbnP5EjM81Vw2kkerj5C5YoFWQrcAEpwuzLCXoyAgY8DzPcCWM7RBeYXtxH3vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781208839; c=relaxed/simple;
-	bh=fNxERp0YLZI7f3MDlm0ZTSEABtLzoBu6tdfTc2Z7iQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Oy6KvLzuCdY43GFKr9WzeDrXMb9ZEfukGphwF0+qq0ALWMQjkSkWowv7ySZph56wDCgdbY2BqAwBnQUceex1EqBqYaOj+AdT0YfVPpFbMCiRT0CJ3z4lXYRcwHxYELCY6tLO6Z2ujxMsV2uIBrxTB+594BYBgpK2pJza0zARriE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mriWSn7n; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1781220003; c=relaxed/simple;
+	bh=GzNT1DmUYxdLpNpO0wTqmA0K2Yc7cDw3AAXdAX8aqs8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bfvedj88JfXTLehgtmmMsOD05E1HHg+QXMTNrsVst0CiXaeNpNz2TD+2n8ZIADIriVfc05cNlPiYJIJvA9ggK/5mskOr/dJ8Sm7DmKQg8k4bnbv9WDh6AU3eAc9vLXlNnodscgXjt1V/7UvOi0MuhMR6B13vA4ajrE3QJJO0QGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OyvD82T3; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mriWSn7n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyvD82T3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781208837; x=1812744837;
+  t=1781220001; x=1812756001;
   h=date:from:to:cc:subject:message-id;
-  bh=fNxERp0YLZI7f3MDlm0ZTSEABtLzoBu6tdfTc2Z7iQ8=;
-  b=mriWSn7nRdkj2AVolHFKWzq8Y03XQnk5uxtmHC3yBmdWktM4fM0/6NKc
-   wVSufFaOdtmSfCSD51qDnq31K9k1DE0v+7k5jZu7ZTgpPzIjyq2SY+o9X
-   rceCUXR/bM9172qe2ty5c0/QsLesqeNJSIs9nmFds4k5N9vxXUukpJ0D9
-   DRLJij/snkaVXv8xSBiganMxKY9WOTIgVvYv3t6f2nzPTad/2iB6M77+N
-   BvFaHszsxSa6O+5BhIqZ+B4lcEPZB/CN9D9Qzlt6gKWkPYTg5URtZj/l8
-   VdxCLaOXA18smfrlWYE2U4wOC9cyfjjEjXnnvnTHxoFXfxEcvgRo4pZUP
-   w==;
-X-CSE-ConnectionGUID: zOqQTfpLQKqNNtW/Z3aWiA==
-X-CSE-MsgGUID: zB1Pu/P1TNiNkvLf4O0LVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81942245"
+  bh=GzNT1DmUYxdLpNpO0wTqmA0K2Yc7cDw3AAXdAX8aqs8=;
+  b=OyvD82T329KyKvQwBBzy5MS9AlylJJntQO+hFf/bWLbQNAwAUqW+5wc1
+   X/L1zd/CDrbKqLfM0xB0MZ0tZ86aT4hRxRokBwlrlCBJKg6F0a0AsCHCU
+   DkcXxVaNkdSBY7mQ6rPJRKhqCX2nv1qifo4q8OVKyKpp0MsQuPNXWE7bF
+   pQf5uFBZWUs9S5LX1NcMBAQfrlxq8lNMVBMQaNi5+0pcdK1nDyRarNzSx
+   u81ha/4/E+QvOVnjKK9VVtsx73ISHoP1jhEmuL94WWA9wE0F/4vT4CYBF
+   Ry6J/aw8CX0+BSRcPNs6cQbij0N/7h9ueEyB2ItYFDuOxE5lmSn4Pyt2L
+   g==;
+X-CSE-ConnectionGUID: 7gI2jEm5QSiycTA+XN0T8w==
+X-CSE-MsgGUID: py1H9a0FRe27+B1B56AU3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82091845"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="81942245"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 13:13:56 -0700
-X-CSE-ConnectionGUID: DQv80gNyT5+hYig8SwTEDg==
-X-CSE-MsgGUID: sXnxmALSTCazAqQjrU3XQw==
+   d="scan'208";a="82091845"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 16:20:00 -0700
+X-CSE-ConnectionGUID: eVzN3PnxRJWdktp7k34zFg==
+X-CSE-MsgGUID: hLu59cLdSdWWZkmdWRNWrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="246673339"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 11 Jun 2026 13:13:56 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="250919990"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 11 Jun 2026 16:20:00 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXlmj-0000000045V-2qPm;
-	Thu, 11 Jun 2026 20:13:53 +0000
-Date: Thu, 11 Jun 2026 22:13:13 +0200
+	id 1wXogn-00000000O0H-0dj3;
+	Thu, 11 Jun 2026 23:19:57 +0000
+Date: Fri, 12 Jun 2026 07:19:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: ../../../mm/vma.c:237:39: error: implicit declaration of
- function 'get_rb_root'
-Message-ID: <202606112221.JPcGpX2B-lkp@intel.com>
+Subject: net/core/skbuff.c:589:22: warning: variable
+ 'skb_data_buckets' set but not used
+Message-ID: <202606120720.FsvcWEL3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,124 +60,44 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Pedro-Falcato/mm-slab-add-a-node-track-caller-variant-for-kmem-buckets-allocation/20260611-204922, commit: 5c968129b45a089923aa587d58e745bb77960216"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Huang Shijie <huangsj@hygon.cn>
+TO: Pedro Falcato <pfalcato@suse.de>
 CC: 0day robot <lkp@intel.com>
+CC: Kees Cook <kees@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Huang-Shijie/mm-use-mapping_mapped-to-simplify-the-code/20260611-142755
-head:   ee7e1033fa7e44f962fe205a7d73aa57c32212c7
-commit: 325c55f0a357c96a21f650e0d4a3c3c2f869c4a1 mm/fs: split the file's i_mmap tree
-date:   14 hours ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260611/202606112221.JPcGpX2B-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606112221.JPcGpX2B-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Pedro-Falcato/mm-slab-add-a-node-track-caller-variant-for-kmem-buckets-allocation/20260611-204922
+head:   5c968129b45a089923aa587d58e745bb77960216
+commit: 5c968129b45a089923aa587d58e745bb77960216 net: skb: isolate skb data area allocations into a separate bucket
+date:   10 hours ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: um-defconfig (https://download.01.org/0day-ci/archive/20260612/202606120720.FsvcWEL3-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c8ad049db78ae52052722b6f42b54cd2a666072b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606120720.FsvcWEL3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606112221.JPcGpX2B-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606120720.FsvcWEL3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from main.c:10:
-   ../../../mm/vma.c: In function '__vma_link_file':
->> ../../../mm/vma.c:237:39: error: implicit declaration of function 'get_rb_root' [-Wimplicit-function-declaration]
-     237 |         vma_interval_tree_insert(vma, get_rb_root(vma, mapping));
-         |                                       ^~~~~~~~~~~
-   ../../../mm/vma.c:237:39: error: passing argument 2 of 'vma_interval_tree_insert' makes pointer from integer without a cast [-Wint-conversion]
-     237 |         vma_interval_tree_insert(vma, get_rb_root(vma, mapping));
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                       |
-         |                                       int
-   In file included from vma_internal.h:60,
-                    from shared.h:11,
-                    from main.c:3:
-   include/stubs.h:261:68: note: expected 'struct rb_root_cached *' but argument is of type 'int'
-     261 |                                             struct rb_root_cached *rb)
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~
->> ../../../mm/vma.c:238:9: error: implicit declaration of function 'inc_mapping_vma' [-Wimplicit-function-declaration]
-     238 |         inc_mapping_vma(mapping, vma);
-         |         ^~~~~~~~~~~~~~~
-   ../../../mm/vma.c: In function '__remove_shared_vm_struct':
->> ../../../mm/vma.c:245:9: error: implicit declaration of function 'i_mmap_tree_lock_write'; did you mean 'i_mmap_lock_write'? [-Wimplicit-function-declaration]
-     245 |         i_mmap_tree_lock_write(mapping, vma);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         i_mmap_lock_write
-   ../../../mm/vma.c:250:39: error: passing argument 2 of 'vma_interval_tree_remove' makes pointer from integer without a cast [-Wint-conversion]
-     250 |         vma_interval_tree_remove(vma, get_rb_root(vma, mapping));
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                       |
-         |                                       int
-   include/stubs.h:266:68: note: expected 'struct rb_root_cached *' but argument is of type 'int'
-     266 |                                             struct rb_root_cached *rb)
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~
->> ../../../mm/vma.c:251:9: error: implicit declaration of function 'dec_mapping_vma' [-Wimplicit-function-declaration]
-     251 |         dec_mapping_vma(mapping, vma);
-         |         ^~~~~~~~~~~~~~~
->> ../../../mm/vma.c:253:9: error: implicit declaration of function 'i_mmap_tree_unlock_write'; did you mean 'i_mmap_unlock_write'? [-Wimplicit-function-declaration]
-     253 |         i_mmap_tree_unlock_write(mapping, vma);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         i_mmap_unlock_write
-   ../../../mm/vma.c: In function 'vma_prepare':
->> ../../../mm/vma.c:301:17: error: implicit declaration of function 'i_mmap_lock_write_prepare'; did you mean 'i_mmap_lock_write'? [-Wimplicit-function-declaration]
-     301 |                 i_mmap_lock_write_prepare(vp->mapping);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 i_mmap_lock_write
-   ../../../mm/vma.c:327:41: error: passing argument 2 of 'vma_interval_tree_remove' makes pointer from integer without a cast [-Wint-conversion]
-     327 |                                         get_rb_root(vp->vma, vp->mapping));
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         int
-   include/stubs.h:266:68: note: expected 'struct rb_root_cached *' but argument is of type 'int'
-     266 |                                             struct rb_root_cached *rb)
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~
-   ../../../mm/vma.c:332:41: error: passing argument 2 of 'vma_interval_tree_remove' makes pointer from integer without a cast [-Wint-conversion]
-     332 |                                         get_rb_root(vp->adj_next, vp->mapping));
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         int
-   include/stubs.h:266:68: note: expected 'struct rb_root_cached *' but argument is of type 'int'
-     266 |                                             struct rb_root_cached *rb)
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~
-   ../../../mm/vma.c: In function 'vma_complete':
-   ../../../mm/vma.c:353:41: error: passing argument 2 of 'vma_interval_tree_insert' makes pointer from integer without a cast [-Wint-conversion]
-     353 |                                         get_rb_root(vp->adj_next, vp->mapping));
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         int
-   include/stubs.h:261:68: note: expected 'struct rb_root_cached *' but argument is of type 'int'
-     261 |                                             struct rb_root_cached *rb)
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~
-   ../../../mm/vma.c:358:41: error: passing argument 2 of 'vma_interval_tree_insert' makes pointer from integer without a cast [-Wint-conversion]
-     358 |                                         get_rb_root(vp->vma, vp->mapping));
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         int
-   include/stubs.h:261:68: note: expected 'struct rb_root_cached *' but argument is of type 'int'
-     261 |                                             struct rb_root_cached *rb)
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~
->> ../../../mm/vma.c:386:17: error: implicit declaration of function 'i_mmap_unlock_write_complete'; did you mean 'i_mmap_unlock_write'? [-Wimplicit-function-declaration]
-     386 |                 i_mmap_unlock_write_complete(vp->mapping);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 i_mmap_unlock_write
-   ../../../mm/vma.c: At top level:
->> ../../../mm/vma.c:2194:40: warning: 'struct rw_semaphore' declared inside parameter list will not be visible outside of this definition or declaration
-    2194 |                                 struct rw_semaphore *lock)
-         |                                        ^~~~~~~~~~~~
-   ../../../mm/vma.c: In function 'vm_lock_mapping':
->> ../../../mm/vma.c:2214:46: error: 'struct mm_struct' has no member named 'mmap_lock'
-    2214 |                 i_mmap_nest_lock(mapping, &mm->mmap_lock);
-         |                                              ^~
-   ../../../mm/vma.c: In function '__mmap_new_file_vma':
->> ../../../mm/vma.c:2525:9: error: implicit declaration of function 'vma_set_tree_idx' [-Wimplicit-function-declaration]
-    2525 |         vma_set_tree_idx(vma);
-         |         ^~~~~~~~~~~~~~~~
+>> net/core/skbuff.c:589:22: warning: variable 'skb_data_buckets' set but not used [-Wunused-but-set-global]
+     589 | static kmem_buckets *skb_data_buckets __ro_after_init;
+         |                      ^
+   1 warning generated.
+
+
+vim +/skb_data_buckets +589 net/core/skbuff.c
+
+f450d539c05a14 Alexander Lobakin 2021-02-13  588  
+5c968129b45a08 Pedro Falcato     2026-06-11 @589  static kmem_buckets *skb_data_buckets __ro_after_init;
+5c968129b45a08 Pedro Falcato     2026-06-11  590  
 
 --
 0-DAY CI Kernel Test Service
