@@ -1,120 +1,305 @@
-Received: from d218-7.smtp-out.eu-west-2.amazonses.com (d218-7.smtp-out.eu-west-2.amazonses.com [23.249.218.7])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B06286419;
-	Thu, 11 Jun 2026 10:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.249.218.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD6A40D580
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 10:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781173052; cv=none; b=pyQYzQQ01KJNYmItPHykp5Cs7XcjbJ10JUdWKi3ETulDRFBneDn52e5+rfRYUJ092Z/AGkZOi5+KPY6HAoKmm8FQroeKQ1Orz2FjGeQL6tgwNNDWq5gMa+3RjvbiKlJdQKKG5F4U+LWUHI1xt02ytUn4sOB1mhFnxPa2/EqIZAY=
+	t=1781173203; cv=none; b=krYJ6o70nGJ/JnAEgs1BQkkthLdKva7GvJXDZSCyALdom6gQ3mMyJkP5gvg/V3a7ZLbmlGjKVHKoOUqyMNbqbyxq1C7N/3Odw8tGxv0XX+v1en2QQzQtl7RCemiQqlncI8rwA7kRAsl9OTxf6NPD90qalFCWw5nvJTYCzXE6PNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781173052; c=relaxed/simple;
-	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+nhLvvGlAOvgsiVTpPRZDx1yHj/OV2JuXRHMrcimS5lwKCzYJkHy/TWwGAOHtSXna4smvXIFisDZKgh6rsdLoXvuDl45+4Lic531fGTbP3SsjZaAUAUt9dChcIo/89qyhH6InZJaobnEpXbN5EqTvV0aq0KX5lS43OcQ4cyte8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net; spf=pass smtp.mailfrom=mail.electricworry.net; dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b=Qb3z5Qhg; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=DcXKIQIZ; arc=none smtp.client-ip=23.249.218.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.electricworry.net
+	s=arc-20240116; t=1781173203; c=relaxed/simple;
+	bh=bjxuGH/2Z4jw9352FyuTalDYl5DP9mV2pgceLwHHPZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lLPF4AmYVfZLODTCuqxDuNeXDhOVg+BERpRhS5AUEOYYI9Y6Lz+y2jubkSNJiifMZPq7oftjpoC/o85R8oIke97/nKRfiMlW5a1k0kftG5Njdzie+wvEQVaqBA3/eNEW3PXoqX4UOgwjqGenC9WExDrXK3cJdLRiBq/+SX0VxXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pph9WRXU; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b="Qb3z5Qhg";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="DcXKIQIZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=xxcsvipqs5hvfd7f74n2i5bueyncqkjk; d=electricworry.net;
-	t=1781173049;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
-	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
-	b=Qb3z5Qhg67X/kFLbCygIWg3mcpKMfPPlPjU/az6ybXP+s1Q1EPaOUWqIbLruG3js
-	0l9lDLTfJfmCX5ndK5YiQpfo/Ft8xxc1/P74kgQp4XofI/5MfNfqyigmL1PPuZh3vfb
-	GhU33TCApyNQMAbgGFggr4mTQRAXjbnlikOlImmDLj5fKC9RDpy+uKHj4+yuEK9Ygag
-	PQyuyLmwHclBKCMn5wSlSVfq89O7CNNPTTDQITMgLBsRn/OvYKY962+C4fCv4ojIVnF
-	Exiu87Bt1truPs/wNVzqBYVSQfiVvolM4rivJB+8PDfU6qi5CEWbMFL/baUD2z6sU1e
-	7uD5Sjp5QA==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=smjs5bczbyxi6u2ua6eveuxqal7joyry; d=amazonses.com; t=1781173049;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Feedback-ID;
-	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
-	b=DcXKIQIZAOub/VADAw2xAZwpXQPnpvWjXVAd6eZYPNmWzQ/DcCB5NZ04px2MKePe
-	W5XvAiyZJMd9E8enRsL95TpBwtIQ/ZxRDOCx7qIHH54GHB964l+lv5y2vy/UN9pKTgB
-	kOrEavWgDNw+v+h9MJQwc1qovrkVGo0khYxrShpY=
-Date: Thu, 11 Jun 2026 10:17:28 +0000
-From: Bob McChesney <bob@electricworry.net>
-To: Marco Elver <elver@google.com>
-Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	"Harry Yoo (Oracle)" <harry@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, linux-sunxi@lists.linux.dev, 
-	Chen-Yu Tsai <wens@kernel.org>
-Subject: Re: [linux-next:master 4283/12670] drivers/dma/sun6i-dma.c:792
- sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line
- 793)
-Message-ID: <010b019eb62fd604-d3a75323-b446-46a0-b164-57cc0d1a75b4-000000@eu-west-2.amazonses.com>
-Mail-Followup-To: Marco Elver <elver@google.com>, 
-	Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	"Harry Yoo (Oracle)" <harry@kernel.org>, Vinod Koul <vkoul@kernel.org>, linux-sunxi@lists.linux.dev, 
-	Chen-Yu Tsai <wens@kernel.org>
-References: <202606110958.2CPRMnM0-lkp@intel.com>
- <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pph9WRXU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781173201; x=1812709201;
+  h=date:from:to:cc:subject:message-id;
+  bh=bjxuGH/2Z4jw9352FyuTalDYl5DP9mV2pgceLwHHPZQ=;
+  b=Pph9WRXUE3P88qCdAnRgwZS1kd3Tm179uq/7nEttOtaS5Pwn38kKF+3p
+   zdO1UVr6WW3xvN/vmUzAFSRB2+mXqOx+7MxSJVb6vjwywWAcoshlH9t3v
+   U1GybKMZZu7h1/PhNIQb7Tmz5ELXv8tPIGXlXEmBSNvBAEcgpCqcZjPXv
+   BljWNL09lxoyBS/LxhuLxkbW9/3EvOSVLVqeVpbFdkveB4RdgHguf5LAw
+   1pfy5eLsL5GOs2KSHkTDLiV6c5hxqL8BRoa+ACDbC8a4tMecoHWnCxkDL
+   FD7b9Tg3tegzXBzZUtGq32IMkRoTHDaNuyKCbYGCZ7+ysbNkJ+ceKwUBz
+   A==;
+X-CSE-ConnectionGUID: uwGRLTk8TvKKs7hSDjxvyA==
+X-CSE-MsgGUID: p44wil3jSg2LxZ/POZkf0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82175727"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="82175727"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 03:20:00 -0700
+X-CSE-ConnectionGUID: 0cPVShhaRLqIA7T5RCNStw==
+X-CSE-MsgGUID: Esnfxu9qQ8OlkL30R5cuaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="242014766"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jun 2026 03:19:59 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wXcVw-00000000Mm2-2Sdl;
+	Thu, 11 Jun 2026 10:19:56 +0000
+Date: Thu, 11 Jun 2026 18:19:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tip:timers/vdso 12/18]
+ drivers/iio/magnetometer/yamaha-yas530.c:1103 yas537_get_calibration_data()
+ warn: ' - 64' 4294967232 can't fit into 127 'c->a3'
+Message-ID: <202606111843.XdhMFJN6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
-Feedback-ID: ::1.eu-west-2.gfFyncE+PRqcG/qebM3Lg+wfopUKzk5aGDEiDVENH+o=:AmazonSES
-X-SES-Outgoing: 2026.06.11-23.249.218.7
 
-On Thu, Jun 11, 2026 at 11:24:09AM +0200, Marco Elver wrote:
-> +cc maintainers of this driver
-> 
-> On Thu, 11 Jun 2026 at 10:59, Dan Carpenter <error27@gmail.com> wrote:
-> > vim +/v_lli +792 drivers/dma/sun6i-dma.c
-> >
-> > 555859308723d8 Maxime Ripard       2014-07-17  783      dev_dbg(chan2dev(chan), "First: %pad\n", &txd->p_lli);
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  784      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  785           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  786              sun6i_dma_dump_lli(vchan, v_lli, p_lli);
-> > 555859308723d8 Maxime Ripard       2014-07-17  787
-> > 555859308723d8 Maxime Ripard       2014-07-17  788      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> > 555859308723d8 Maxime Ripard       2014-07-17  789
-> > 4fbd804e009ae9 Maxime Ripard       2014-07-30  790  err_lli_free:
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  791      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @792           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> >                                                                                                 ^^^^^^^^^^^^^^^^^
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @793              dma_pool_free(sdev->pool, v_lli, p_lli);
-> >                                                                                           ^^^^^
-> > freed and then dereferenced to get the next block.
-> >
-> > 4fbd804e009ae9 Maxime Ripard       2014-07-30  794      kfree(txd);
-> > 555859308723d8 Maxime Ripard       2014-07-17  795      return NULL;
-> > 555859308723d8 Maxime Ripard       2014-07-17  796  }
-> > 555859308723d8 Maxime Ripard       2014-07-17  797
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  798  static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  799                                      struct dma_chan *chan,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  800                                      dma_addr_t buf_addr,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  801                                      size_t buf_len,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  802                                      size_t period_len,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  803                                      enum dma_transfer_direction dir,
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  804                                      unsigned long flags)
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  805  {
-> >
-> > [ snip ]
-> >
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  868
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  869      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  870
-> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  871  err_lli_free:
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24  872      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @873           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> >                                                                                                 ^^^^^^^^^^^^^^^^^
-> > Same.
-> 
-> Not sure what's going on here, but is this a latent bug in this
-> driver?  It appears some recent changes made Smatch see through this
-> better.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Ian Rogers <irogers@google.com>
+CC: Thomas Gleixner <tglx@kernel.org>
 
-I remember seeing a proposed fix for this very issue:
-https://lore.kernel.org/linux-sunxi/20260611063631.96566-1-zenghongling@kylinos.cn/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+head:   8d563bd7904734c05a4f2abf4ecca0e4fe764b50
+commit: a339671db64b12bb02492557d2b0658811286277 [12/18] vdso: Switch get/put_unaligned() from packed struct to memcpy()
+:::::: branch date: 2 days ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260611/202606111843.XdhMFJN6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606111843.XdhMFJN6-lkp@intel.com/
+
+New smatch warnings:
+drivers/iio/magnetometer/yamaha-yas530.c:1103 yas537_get_calibration_data() warn: ' - 64' 4294967232 can't fit into 127 'c->a3'
+
+Old smatch warnings:
+drivers/iio/magnetometer/yamaha-yas530.c:1099 yas537_get_calibration_data() warn: ' - 256' 4294967040 can't fit into 32767 'c->Cx'
+drivers/iio/magnetometer/yamaha-yas530.c:1100 yas537_get_calibration_data() warn: ' - 256' 4294967040 can't fit into 32767 'c->Cy1'
+drivers/iio/magnetometer/yamaha-yas530.c:1102 yas537_get_calibration_data() warn: ' - 64' 4294967232 can't fit into 127 'c->a2'
+drivers/iio/magnetometer/yamaha-yas530.c:1105 yas537_get_calibration_data() warn: ' - 112' 4294967184 can't fit into 32767 'c->a5'
+drivers/iio/magnetometer/yamaha-yas530.c:1106 yas537_get_calibration_data() warn: ' - 64' 4294967232 can't fit into 127 'c->a6'
+drivers/iio/magnetometer/yamaha-yas530.c:1108 yas537_get_calibration_data() warn: ' - 64' 4294967232 can't fit into 127 'c->a8'
+drivers/iio/magnetometer/yamaha-yas530.c:1109 yas537_get_calibration_data() warn: ' - 112' 4294967184 can't fit into 32767 'c->a9'
+
+vim +1103 drivers/iio/magnetometer/yamaha-yas530.c
+
+de8860b1ed4701 Linus Walleij 2020-12-24   923  
+65f79b50103067 Jakob Hauser  2022-08-13   924  static int yas537_get_calibration_data(struct yas5xx *yas5xx)
+65f79b50103067 Jakob Hauser  2022-08-13   925  {
+65f79b50103067 Jakob Hauser  2022-08-13   926  	struct yas5xx_calibration *c = &yas5xx->calibration;
+65f79b50103067 Jakob Hauser  2022-08-13   927  	u8 data[17];
+65f79b50103067 Jakob Hauser  2022-08-13   928  	u32 val1, val2, val3, val4;
+65f79b50103067 Jakob Hauser  2022-08-13   929  	int i, ret;
+65f79b50103067 Jakob Hauser  2022-08-13   930  
+65f79b50103067 Jakob Hauser  2022-08-13   931  	/* Writing SRST register */
+65f79b50103067 Jakob Hauser  2022-08-13   932  	ret = regmap_write(yas5xx->map, YAS537_SRST, BIT(1));
+65f79b50103067 Jakob Hauser  2022-08-13   933  	if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13   934  		return ret;
+65f79b50103067 Jakob Hauser  2022-08-13   935  
+65f79b50103067 Jakob Hauser  2022-08-13   936  	/* Calibration readout, YAS537 needs one readout only */
+65f79b50103067 Jakob Hauser  2022-08-13   937  	ret = regmap_bulk_read(yas5xx->map, YAS537_CAL, data, sizeof(data));
+65f79b50103067 Jakob Hauser  2022-08-13   938  	if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13   939  		return ret;
+65f79b50103067 Jakob Hauser  2022-08-13   940  	dev_dbg(yas5xx->dev, "calibration data: %17ph\n", data);
+65f79b50103067 Jakob Hauser  2022-08-13   941  
+65f79b50103067 Jakob Hauser  2022-08-13   942  	/* Sanity check, is this all zeroes? */
+65f79b50103067 Jakob Hauser  2022-08-13   943  	if (!memchr_inv(data, 0x00, 16) && !FIELD_GET(GENMASK(5, 0), data[16]))
+65f79b50103067 Jakob Hauser  2022-08-13   944  		dev_warn(yas5xx->dev, "calibration is blank!\n");
+65f79b50103067 Jakob Hauser  2022-08-13   945  
+65f79b50103067 Jakob Hauser  2022-08-13   946  	/* Contribute calibration data to the input pool for kernel entropy */
+65f79b50103067 Jakob Hauser  2022-08-13   947  	add_device_randomness(data, sizeof(data));
+65f79b50103067 Jakob Hauser  2022-08-13   948  
+65f79b50103067 Jakob Hauser  2022-08-13   949  	/* Extract version information */
+65f79b50103067 Jakob Hauser  2022-08-13   950  	yas5xx->version = FIELD_GET(GENMASK(7, 6), data[16]);
+65f79b50103067 Jakob Hauser  2022-08-13   951  
+65f79b50103067 Jakob Hauser  2022-08-13   952  	/* There are two versions of YAS537 behaving differently */
+65f79b50103067 Jakob Hauser  2022-08-13   953  	switch (yas5xx->version) {
+65f79b50103067 Jakob Hauser  2022-08-13   954  	case YAS537_VERSION_0:
+65f79b50103067 Jakob Hauser  2022-08-13   955  		/*
+65f79b50103067 Jakob Hauser  2022-08-13   956  		 * The first version simply writes data back into registers:
+65f79b50103067 Jakob Hauser  2022-08-13   957  		 *
+65f79b50103067 Jakob Hauser  2022-08-13   958  		 * data[0]  YAS537_MTC		0x93
+65f79b50103067 Jakob Hauser  2022-08-13   959  		 * data[1]			0x94
+65f79b50103067 Jakob Hauser  2022-08-13   960  		 * data[2]			0x95
+65f79b50103067 Jakob Hauser  2022-08-13   961  		 * data[3]			0x96
+65f79b50103067 Jakob Hauser  2022-08-13   962  		 * data[4]			0x97
+65f79b50103067 Jakob Hauser  2022-08-13   963  		 * data[5]			0x98
+65f79b50103067 Jakob Hauser  2022-08-13   964  		 * data[6]			0x99
+65f79b50103067 Jakob Hauser  2022-08-13   965  		 * data[7]			0x9a
+65f79b50103067 Jakob Hauser  2022-08-13   966  		 * data[8]			0x9b
+65f79b50103067 Jakob Hauser  2022-08-13   967  		 * data[9]			0x9c
+65f79b50103067 Jakob Hauser  2022-08-13   968  		 * data[10]			0x9d
+65f79b50103067 Jakob Hauser  2022-08-13   969  		 * data[11] YAS537_OC		0x9e
+65f79b50103067 Jakob Hauser  2022-08-13   970  		 *
+65f79b50103067 Jakob Hauser  2022-08-13   971  		 * data[12] YAS537_OFFSET_X	0x84
+65f79b50103067 Jakob Hauser  2022-08-13   972  		 * data[13] YAS537_OFFSET_Y1	0x85
+65f79b50103067 Jakob Hauser  2022-08-13   973  		 * data[14] YAS537_OFFSET_Y2	0x86
+65f79b50103067 Jakob Hauser  2022-08-13   974  		 *
+65f79b50103067 Jakob Hauser  2022-08-13   975  		 * data[15] YAS537_HCK		0x88
+65f79b50103067 Jakob Hauser  2022-08-13   976  		 * data[16] YAS537_LCK		0x89
+65f79b50103067 Jakob Hauser  2022-08-13   977  		 */
+65f79b50103067 Jakob Hauser  2022-08-13   978  		for (i = 0; i < 12; i++) {
+65f79b50103067 Jakob Hauser  2022-08-13   979  			ret = regmap_write(yas5xx->map, YAS537_MTC + i,
+65f79b50103067 Jakob Hauser  2022-08-13   980  					   data[i]);
+65f79b50103067 Jakob Hauser  2022-08-13   981  			if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13   982  				return ret;
+65f79b50103067 Jakob Hauser  2022-08-13   983  		}
+65f79b50103067 Jakob Hauser  2022-08-13   984  		for (i = 0; i < 3; i++) {
+65f79b50103067 Jakob Hauser  2022-08-13   985  			ret = regmap_write(yas5xx->map, YAS537_OFFSET_X + i,
+65f79b50103067 Jakob Hauser  2022-08-13   986  					   data[i + 12]);
+65f79b50103067 Jakob Hauser  2022-08-13   987  			if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13   988  				return ret;
+65f79b50103067 Jakob Hauser  2022-08-13   989  			yas5xx->hard_offsets[i] = data[i + 12];
+65f79b50103067 Jakob Hauser  2022-08-13   990  		}
+65f79b50103067 Jakob Hauser  2022-08-13   991  		for (i = 0; i < 2; i++) {
+65f79b50103067 Jakob Hauser  2022-08-13   992  			ret = regmap_write(yas5xx->map, YAS537_HCK + i,
+65f79b50103067 Jakob Hauser  2022-08-13   993  					   data[i + 15]);
+65f79b50103067 Jakob Hauser  2022-08-13   994  			if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13   995  				return ret;
+65f79b50103067 Jakob Hauser  2022-08-13   996  		}
+65f79b50103067 Jakob Hauser  2022-08-13   997  		break;
+65f79b50103067 Jakob Hauser  2022-08-13   998  	case YAS537_VERSION_1:
+65f79b50103067 Jakob Hauser  2022-08-13   999  		/*
+65f79b50103067 Jakob Hauser  2022-08-13  1000  		 * The second version writes some data into registers but also
+65f79b50103067 Jakob Hauser  2022-08-13  1001  		 * extracts calibration coefficients.
+65f79b50103067 Jakob Hauser  2022-08-13  1002  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1003  		 * Registers being written:
+65f79b50103067 Jakob Hauser  2022-08-13  1004  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1005  		 * data[0]  YAS537_MTC			0x93
+65f79b50103067 Jakob Hauser  2022-08-13  1006  		 * data[1]  YAS537_MTC+1		0x94
+65f79b50103067 Jakob Hauser  2022-08-13  1007  		 * data[2]  YAS537_MTC+2		0x95
+65f79b50103067 Jakob Hauser  2022-08-13  1008  		 * data[3]  YAS537_MTC+3 (partially)	0x96
+65f79b50103067 Jakob Hauser  2022-08-13  1009  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1010  		 * data[12] YAS537_OFFSET_X		0x84
+65f79b50103067 Jakob Hauser  2022-08-13  1011  		 * data[13] YAS537_OFFSET_Y1		0x85
+65f79b50103067 Jakob Hauser  2022-08-13  1012  		 * data[14] YAS537_OFFSET_Y2		0x86
+65f79b50103067 Jakob Hauser  2022-08-13  1013  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1014  		 * data[15] YAS537_HCK (partially)	0x88
+65f79b50103067 Jakob Hauser  2022-08-13  1015  		 *          YAS537_LCK (partially)	0x89
+65f79b50103067 Jakob Hauser  2022-08-13  1016  		 * data[16] YAS537_OC  (partially)	0x9e
+65f79b50103067 Jakob Hauser  2022-08-13  1017  		 */
+65f79b50103067 Jakob Hauser  2022-08-13  1018  		for (i = 0; i < 3; i++) {
+65f79b50103067 Jakob Hauser  2022-08-13  1019  			ret = regmap_write(yas5xx->map, YAS537_MTC + i,
+65f79b50103067 Jakob Hauser  2022-08-13  1020  					   data[i]);
+65f79b50103067 Jakob Hauser  2022-08-13  1021  			if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13  1022  				return ret;
+65f79b50103067 Jakob Hauser  2022-08-13  1023  		}
+65f79b50103067 Jakob Hauser  2022-08-13  1024  		for (i = 0; i < 3; i++) {
+65f79b50103067 Jakob Hauser  2022-08-13  1025  			ret = regmap_write(yas5xx->map, YAS537_OFFSET_X + i,
+65f79b50103067 Jakob Hauser  2022-08-13  1026  					   data[i + 12]);
+65f79b50103067 Jakob Hauser  2022-08-13  1027  			if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13  1028  				return ret;
+65f79b50103067 Jakob Hauser  2022-08-13  1029  			yas5xx->hard_offsets[i] = data[i + 12];
+65f79b50103067 Jakob Hauser  2022-08-13  1030  		}
+65f79b50103067 Jakob Hauser  2022-08-13  1031  		/*
+65f79b50103067 Jakob Hauser  2022-08-13  1032  		 * Visualization of partially taken data:
+65f79b50103067 Jakob Hauser  2022-08-13  1033  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1034  		 * data[3]       n 7 6 5 4 3 2 1 0
+65f79b50103067 Jakob Hauser  2022-08-13  1035  		 * YAS537_MTC+3    x x x 1 0 0 0 0
+65f79b50103067 Jakob Hauser  2022-08-13  1036  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1037  		 * data[15]      n 7 6 5 4 3 2 1 0
+65f79b50103067 Jakob Hauser  2022-08-13  1038  		 * YAS537_HCK      x x x x 0
+65f79b50103067 Jakob Hauser  2022-08-13  1039  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1040  		 * data[15]      n 7 6 5 4 3 2 1 0
+65f79b50103067 Jakob Hauser  2022-08-13  1041  		 * YAS537_LCK              x x x x 0
+65f79b50103067 Jakob Hauser  2022-08-13  1042  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1043  		 * data[16]      n 7 6 5 4 3 2 1 0
+65f79b50103067 Jakob Hauser  2022-08-13  1044  		 * YAS537_OC           x x x x x x
+65f79b50103067 Jakob Hauser  2022-08-13  1045  		 */
+65f79b50103067 Jakob Hauser  2022-08-13  1046  		ret = regmap_write(yas5xx->map, YAS537_MTC + 3,
+65f79b50103067 Jakob Hauser  2022-08-13  1047  				   FIELD_PREP(YAS537_MTC3_MASK_PREP,
+65f79b50103067 Jakob Hauser  2022-08-13  1048  				   FIELD_GET(YAS537_MTC3_MASK_GET, data[3])) |
+65f79b50103067 Jakob Hauser  2022-08-13  1049  				   YAS537_MTC3_ADD_BIT);
+65f79b50103067 Jakob Hauser  2022-08-13  1050  		if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13  1051  			return ret;
+65f79b50103067 Jakob Hauser  2022-08-13  1052  		ret = regmap_write(yas5xx->map, YAS537_HCK,
+65f79b50103067 Jakob Hauser  2022-08-13  1053  				   FIELD_PREP(YAS537_HCK_MASK_PREP,
+65f79b50103067 Jakob Hauser  2022-08-13  1054  				   FIELD_GET(YAS537_HCK_MASK_GET, data[15])));
+65f79b50103067 Jakob Hauser  2022-08-13  1055  		if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13  1056  			return ret;
+65f79b50103067 Jakob Hauser  2022-08-13  1057  		ret = regmap_write(yas5xx->map, YAS537_LCK,
+65f79b50103067 Jakob Hauser  2022-08-13  1058  				   FIELD_PREP(YAS537_LCK_MASK_PREP,
+65f79b50103067 Jakob Hauser  2022-08-13  1059  				   FIELD_GET(YAS537_LCK_MASK_GET, data[15])));
+65f79b50103067 Jakob Hauser  2022-08-13  1060  		if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13  1061  			return ret;
+65f79b50103067 Jakob Hauser  2022-08-13  1062  		ret = regmap_write(yas5xx->map, YAS537_OC,
+65f79b50103067 Jakob Hauser  2022-08-13  1063  				   FIELD_GET(YAS537_OC_MASK_GET, data[16]));
+65f79b50103067 Jakob Hauser  2022-08-13  1064  		if (ret)
+65f79b50103067 Jakob Hauser  2022-08-13  1065  			return ret;
+65f79b50103067 Jakob Hauser  2022-08-13  1066  		/*
+65f79b50103067 Jakob Hauser  2022-08-13  1067  		 * For data extraction, build some blocks. Four 32-bit blocks
+65f79b50103067 Jakob Hauser  2022-08-13  1068  		 * look appropriate.
+65f79b50103067 Jakob Hauser  2022-08-13  1069  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1070  		 *            n    7  6  5  4  3  2  1  0
+65f79b50103067 Jakob Hauser  2022-08-13  1071  		 *  data[0]   0 [ Cx Cx Cx Cx Cx Cx Cx Cx ] bits 31 .. 24
+65f79b50103067 Jakob Hauser  2022-08-13  1072  		 *  data[1]   1 [ Cx C1 C1 C1 C1 C1 C1 C1 ] bits 23 .. 16
+65f79b50103067 Jakob Hauser  2022-08-13  1073  		 *  data[2]   2 [ C1 C1 C2 C2 C2 C2 C2 C2 ] bits 15 .. 8
+65f79b50103067 Jakob Hauser  2022-08-13  1074  		 *  data[3]   3 [ C2 C2 C2                ] bits  7 .. 0
+65f79b50103067 Jakob Hauser  2022-08-13  1075  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1076  		 *            n    7  6  5  4  3  2  1  0
+65f79b50103067 Jakob Hauser  2022-08-13  1077  		 *  data[3]   0 [          a2 a2 a2 a2 a2 ] bits 31 .. 24
+65f79b50103067 Jakob Hauser  2022-08-13  1078  		 *  data[4]   1 [ a2 a2 a3 a3 a3 a3 a3 a3 ] bits 23 .. 16
+65f79b50103067 Jakob Hauser  2022-08-13  1079  		 *  data[5]   2 [ a3 a4 a4 a4 a4 a4 a4 a4 ] bits 15 .. 8
+65f79b50103067 Jakob Hauser  2022-08-13  1080  		 *  data[6]   3 [ a4                      ] bits  7 .. 0
+65f79b50103067 Jakob Hauser  2022-08-13  1081  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1082  		 *            n    7  6  5  4  3  2  1  0
+65f79b50103067 Jakob Hauser  2022-08-13  1083  		 *  data[6]   0 [    a5 a5 a5 a5 a5 a5 a5 ] bits 31 .. 24
+65f79b50103067 Jakob Hauser  2022-08-13  1084  		 *  data[7]   1 [ a5 a5 a6 a6 a6 a6 a6 a6 ] bits 23 .. 16
+65f79b50103067 Jakob Hauser  2022-08-13  1085  		 *  data[8]   2 [ a6 a7 a7 a7 a7 a7 a7 a7 ] bits 15 .. 8
+65f79b50103067 Jakob Hauser  2022-08-13  1086  		 *  data[9]   3 [ a7                      ] bits  7 .. 0
+65f79b50103067 Jakob Hauser  2022-08-13  1087  		 *
+65f79b50103067 Jakob Hauser  2022-08-13  1088  		 *            n    7  6  5  4  3  2  1  0
+65f79b50103067 Jakob Hauser  2022-08-13  1089  		 *  data[9]   0 [    a8 a8 a8 a8 a8 a8 a8 ] bits 31 .. 24
+65f79b50103067 Jakob Hauser  2022-08-13  1090  		 *  data[10]  1 [ a9 a9 a9 a9 a9 a9 a9 a9 ] bits 23 .. 16
+65f79b50103067 Jakob Hauser  2022-08-13  1091  		 *  data[11]  2 [ a9  k  k  k  k  k  k  k ] bits 15 .. 8
+65f79b50103067 Jakob Hauser  2022-08-13  1092  		 *  data[12]  3 [                         ] bits  7 .. 0
+65f79b50103067 Jakob Hauser  2022-08-13  1093  		 */
+65f79b50103067 Jakob Hauser  2022-08-13  1094  		val1 = get_unaligned_be32(&data[0]);
+65f79b50103067 Jakob Hauser  2022-08-13  1095  		val2 = get_unaligned_be32(&data[3]);
+65f79b50103067 Jakob Hauser  2022-08-13  1096  		val3 = get_unaligned_be32(&data[6]);
+65f79b50103067 Jakob Hauser  2022-08-13  1097  		val4 = get_unaligned_be32(&data[9]);
+65f79b50103067 Jakob Hauser  2022-08-13  1098  		/* Extract calibration coefficients and modify */
+65f79b50103067 Jakob Hauser  2022-08-13  1099  		c->Cx  = FIELD_GET(GENMASK(31, 23), val1) - 256;
+65f79b50103067 Jakob Hauser  2022-08-13  1100  		c->Cy1 = FIELD_GET(GENMASK(22, 14), val1) - 256;
+65f79b50103067 Jakob Hauser  2022-08-13  1101  		c->Cy2 = FIELD_GET(GENMASK(13,  5), val1) - 256;
+65f79b50103067 Jakob Hauser  2022-08-13  1102  		c->a2  = FIELD_GET(GENMASK(28, 22), val2) -  64;
+65f79b50103067 Jakob Hauser  2022-08-13 @1103  		c->a3  = FIELD_GET(GENMASK(21, 15), val2) -  64;
+65f79b50103067 Jakob Hauser  2022-08-13  1104  		c->a4  = FIELD_GET(GENMASK(14,  7), val2) - 128;
+65f79b50103067 Jakob Hauser  2022-08-13  1105  		c->a5  = FIELD_GET(GENMASK(30, 22), val3) - 112;
+65f79b50103067 Jakob Hauser  2022-08-13  1106  		c->a6  = FIELD_GET(GENMASK(21, 15), val3) -  64;
+65f79b50103067 Jakob Hauser  2022-08-13  1107  		c->a7  = FIELD_GET(GENMASK(14,  7), val3) - 128;
+65f79b50103067 Jakob Hauser  2022-08-13  1108  		c->a8  = FIELD_GET(GENMASK(30, 24), val4) -  64;
+65f79b50103067 Jakob Hauser  2022-08-13  1109  		c->a9  = FIELD_GET(GENMASK(23, 15), val4) - 112;
+65f79b50103067 Jakob Hauser  2022-08-13  1110  		c->k   = FIELD_GET(GENMASK(14,  8), val4);
+65f79b50103067 Jakob Hauser  2022-08-13  1111  		break;
+65f79b50103067 Jakob Hauser  2022-08-13  1112  	default:
+65f79b50103067 Jakob Hauser  2022-08-13  1113  		dev_err(yas5xx->dev, "unknown version of YAS537\n");
+65f79b50103067 Jakob Hauser  2022-08-13  1114  		return -EINVAL;
+65f79b50103067 Jakob Hauser  2022-08-13  1115  	}
+65f79b50103067 Jakob Hauser  2022-08-13  1116  
+65f79b50103067 Jakob Hauser  2022-08-13  1117  	return 0;
+65f79b50103067 Jakob Hauser  2022-08-13  1118  }
+65f79b50103067 Jakob Hauser  2022-08-13  1119  
+
+:::::: The code at line 1103 was first introduced by commit
+:::::: 65f79b501030678393eae0ae03d60a8151fbef55 iio: magnetometer: yas530: Add YAS537 variant
+
+:::::: TO: Jakob Hauser <jahau@rocketmail.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
