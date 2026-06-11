@@ -1,203 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C054192FB
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 16:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5ADA33ADB5
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 16:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781194750; cv=none; b=lwzs5cY8PGg0lqwj3vJwf+HRCWQ8ITqE+uvXhg3Saz7GKi6GGdNVN09DqH6JXp/FLws0TQkGspzeCLkyp0UFPBu+OIwslIgY8Dk7BCuXRRRP2WgL6JEdJ+qh+2JG6nhVwXN/M1SdSoHSZ8bZhXi/1/pewZlUpB+JnObf9xnjVkk=
+	t=1781196672; cv=none; b=DN1O9IsQk9JrFgELSFbnhsGgx1K6xmOUZ4a7AAFYABOkbUpC60xMCzGC/LETHIhliKRZh3NPqxilGaeNpDzVRpxSmfXhr2lq//jmTDsum5cuo5TCJKIXLwna/Jcrr60FnRSHvSb1gGSDK9u5gvHr9tuVyc11MXTeRTegQhl3blg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781194750; c=relaxed/simple;
-	bh=cdspmPTsRRjWPnnztr6ag2oSCwQngcfCIsLAScK1oE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=m9JSK41s4Tod/I88ter4kYTtmOZRyJlUkWRkDOocTmg3K82Hl9mFQuMU8pcvnWiBREkRsxlIKPOM6wfwPmGIFHSY/fMFoY9RZjN7WLRi/IZsuPc29Ulfd6BM21OxT4vyY7O7ibdEDRPrw1+XTfIQZ7dajikZc9iAwl/goBQqO+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGyWDS/W; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1781196672; c=relaxed/simple;
+	bh=Te+7y8ExDxi4LceNqvBZHZqu0EyWuAjc7LQ4gOHejUs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z+ETtwzqfs12cFDaq5s0Can31TMC82VoROEYWIYX9gYroRvVJBSjtbUXliYAjgpx5OvzupmnjreWdhIdznion/lP/8UiJpRq3XtEHB1VQyViHxHVCnSqwpIA1+9VdziwOwmes3x8+j4GMGBYGwGKJ+QGNNrZrLFB8+lI9pDpd5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrLwyp6c; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGyWDS/W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrLwyp6c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781194749; x=1812730749;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cdspmPTsRRjWPnnztr6ag2oSCwQngcfCIsLAScK1oE0=;
-  b=dGyWDS/WMtjBoS5gySq06eevvh21oh+GNbcOSxQlN+dSCxD1yT8Nql24
-   mmWYV784SsQKEESBeL+v2x4hUn0WnrtPtxEFwMQ1ZtezraT3+XVaHaPTC
-   MB0mlilUxCyqW6puspfYoBx0hLYkpiNMXhmQOHbC7AB6S3ynz/ulQfQnk
-   V1vJy4dHtE+rHleUxfe3BzO32UgRp1Dix9gcwl8m/s/byEWnl+mhgFlux
-   Vz5vKTrGr0eVb/jw520rNkLXLEG2eVatt60mOdUb4tjM48xh3vaQp/Dcl
-   E/8ubjiY8b2F7oulIjCDyw9tZ+QPggZctcAd5YIZLa+adpUACcmvRfVes
-   Q==;
-X-CSE-ConnectionGUID: c2l43EIcRj+DLlfNfZhnBg==
-X-CSE-MsgGUID: hwx665vKRIiNeQM1SAjglQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92579342"
+  t=1781196671; x=1812732671;
+  h=date:from:to:cc:subject:message-id;
+  bh=Te+7y8ExDxi4LceNqvBZHZqu0EyWuAjc7LQ4gOHejUs=;
+  b=mrLwyp6cLRnQMkksALqvRFWXme85ye/rEpLQuAho+w/V0/LPgrlt9J0p
+   xfD45kbm/WWdP890oRCIGdutceuRaDspV8KPI6lEdtO6lT3QSMPYo14+G
+   ZP1MOjMmZ17zriSwz3mml7n3OcTGMIRqr3eWlMT8Mwen7AK/BYoJhBITb
+   43gL6qY7UUeuCy53B8uASRxZ+FeCyniHCEZmKLIMJ/00zmH1lbrt1tGO2
+   zl0fdHccUpSGttobW4izmPrf3SMYLthrM510Go5BWGsIdgKoJkznxD01U
+   Q39ubdsAesnt2r9O+brM066ZJZBwJPAzb/5hGsgMkDaGnPZ9xq1cBM+rH
+   A==;
+X-CSE-ConnectionGUID: TkPFmdDUQpmwAJoqLkfbSA==
+X-CSE-MsgGUID: gkeCfNI+TLeMTY9P0zEECw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="93123903"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="92579342"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 09:19:06 -0700
-X-CSE-ConnectionGUID: ZLL8LrAsSGCASn3BH477/g==
-X-CSE-MsgGUID: vnX7P/4XSJ2cDg8nWVBrqQ==
+   d="scan'208";a="93123903"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 09:51:11 -0700
+X-CSE-ConnectionGUID: qkw7v7n3RtuM/Uo5zFPuVQ==
+X-CSE-MsgGUID: SFW7SpKiRDmRWmVOol+GfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="284617306"
+   d="scan'208";a="246416789"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jun 2026 09:19:05 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Jun 2026 09:51:09 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXi7S-00000000NSU-13Eo;
-	Thu, 11 Jun 2026 16:19:02 +0000
-Date: Fri, 12 Jun 2026 00:18:28 +0800
+	id 1wXicU-00000000NWC-0rYS;
+	Thu, 11 Jun 2026 16:51:06 +0000
+Date: Fri, 12 Jun 2026 00:50:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn:
- format string contains non-ascii character '\xe2'
-Message-ID: <202606120009.sskIDhvJ-lkp@intel.com>
+Subject: [linux-next:master 8891/13002]
+ sound/soc/renesas/rcar/adg.c:523 rsnd_adg_clk_control() warn: 'clk' from
+ clk_prepare_enable() not released on lines: 523.
+Message-ID: <202606120053.A24i8uLb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Oleksij Rempel <o.rempel@pengutronix.de>
-CC: Thangaraj Samynathan <thangaraj.s@microchip.com>
+TO: John Madieu <john.madieu.xa@bp.renesas.com>
+CC: Mark Brown <broonie@kernel.org>
 
-Hi Oleksij,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it'=
-s irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
-commit: d39f339d2603736ff90b0b32d9aea3b954307fd5 net: usb: lan78xx: refacto=
-r PHY init to separate detection and MAC configuration
-date:   1 year, 1 month ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/2026=
-0612/202606120009.sskIDhvJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   abe651837cb394f76d738a7a747322fca3bf17ba
+commit: 47899d53f86f5ab8a65a8d7bfa53d4ba79fa9e82 [8891/13002] ASoC: rsnd: adg: Add per-SSI ADG and SSIF supply clock management
+:::::: branch date: 25 hours ago
+:::::: commit date: 10 days ago
+config: riscv-randconfig-r072-20260611 (https://download.01.org/0day-ci/archive/20260612/202606120053.A24i8uLb-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.2.0
 smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: d39f339d2603 ("net: usb: lan78xx: refactor PHY init to separate de=
-tection and MAC configuration")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606120009.sskIDhvJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606120053.A24i8uLb-lkp@intel.com/
 
 New smatch warnings:
-drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contai=
-ns non-ascii character '\xe2'
+sound/soc/renesas/rcar/adg.c:523 rsnd_adg_clk_control() warn: 'clk' from clk_prepare_enable() not released on lines: 523.
 
 Old smatch warnings:
-drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format st=
-ring contains non-ascii character '\xe2'
-drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format st=
-ring contains non-ascii character '\x80'
-drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format st=
-ring contains non-ascii character '\x93'
-drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contai=
-ns non-ascii character '\x80'
-drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contai=
-ns non-ascii character '\x93'
-drivers/net/usb/lan78xx.c:3005 lan78xx_init_ltm() warn: missing unwind goto?
+sound/soc/renesas/rcar/adg.c:523 rsnd_adg_clk_control() warn: 'adg->adg' from clk_prepare_enable() not released on lines: 523.
+sound/soc/renesas/rcar/adg.c:536 rsnd_adg_create_null_clk() warn: passing zero to 'ERR_CAST'
 
-vim +2560 drivers/net/usb/lan78xx.c
+vim +/clk +523 sound/soc/renesas/rcar/adg.c
 
-d39f339d2603736 Oleksij Rempel            2025-05-05  2534 =20
-d39f339d2603736 Oleksij Rempel            2025-05-05  2535  /**
-d39f339d2603736 Oleksij Rempel            2025-05-05  2536   * lan78xx_get_=
-phy() - Probe or register PHY device and set interface mode
-d39f339d2603736 Oleksij Rempel            2025-05-05  2537   * @dev: LAN78x=
-x device structure
-d39f339d2603736 Oleksij Rempel            2025-05-05  2538   *
-d39f339d2603736 Oleksij Rempel            2025-05-05  2539   * This functio=
-n attempts to find a PHY on the MDIO bus. If no PHY is found
-d39f339d2603736 Oleksij Rempel            2025-05-05  2540   * and the chip=
- is LAN7801, it registers a fixed PHY as fallback. It also
-d39f339d2603736 Oleksij Rempel            2025-05-05  2541   * sets dev->in=
-terface based on chip ID and detected PHY type.
-d39f339d2603736 Oleksij Rempel            2025-05-05  2542   *
-d39f339d2603736 Oleksij Rempel            2025-05-05  2543   * Return: a va=
-lid PHY device pointer, or ERR_PTR() on failure.
-d39f339d2603736 Oleksij Rempel            2025-05-05  2544   */
-d39f339d2603736 Oleksij Rempel            2025-05-05  2545  static struct p=
-hy_device *lan78xx_get_phy(struct lan78xx_net *dev)
-d39f339d2603736 Oleksij Rempel            2025-05-05  2546  {
-3b51cc75eba28a7 Colin Ian King            2018-02-01  2547  	struct phy_dev=
-ice *phydev;
-55d7de9de6c30ad Woojung.Huh@microchip.com 2015-07-30  2548 =20
-d39f339d2603736 Oleksij Rempel            2025-05-05  2549  	/* Attempt to =
-locate a PHY on the MDIO bus */
-ce85e13ad6ef47d Woojung.Huh@microchip.com 2015-09-16  2550  	phydev =3D phy=
-_find_first(dev->mdiobus);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2551 =20
-d39f339d2603736 Oleksij Rempel            2025-05-05  2552  	switch (dev->c=
-hipid) {
-d39f339d2603736 Oleksij Rempel            2025-05-05  2553  	case ID_REV_CH=
-IP_ID_7801_:
-d39f339d2603736 Oleksij Rempel            2025-05-05  2554  		if (phydev) {
-d39f339d2603736 Oleksij Rempel            2025-05-05  2555  			/* External =
-RGMII PHY detected */
-d39f339d2603736 Oleksij Rempel            2025-05-05  2556  			dev->interfa=
-ce =3D PHY_INTERFACE_MODE_RGMII_ID;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2557  			phydev->is_i=
-nternal =3D false;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2558 =20
-d39f339d2603736 Oleksij Rempel            2025-05-05  2559  			if (!phydev-=
->drv)
-d39f339d2603736 Oleksij Rempel            2025-05-05 @2560  				netdev_warn=
-(dev->net,
-d39f339d2603736 Oleksij Rempel            2025-05-05  2561  					    "PHY d=
-river not found =E2=80=93 assuming RGMII delays are on PCB or strapped for =
-the PHY\n");
-d39f339d2603736 Oleksij Rempel            2025-05-05  2562 =20
-d39f339d2603736 Oleksij Rempel            2025-05-05  2563  			return phyde=
-v;
-ce85e13ad6ef47d Woojung.Huh@microchip.com 2015-09-16  2564  		}
-d39f339d2603736 Oleksij Rempel            2025-05-05  2565 =20
-89b36fb5e532447 Raghuram Chary J          2018-04-28  2566  		dev->interfac=
-e =3D PHY_INTERFACE_MODE_RGMII;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2567  		/* No PHY fou=
-nd =E2=80=93 fallback to fixed PHY (e.g. KSZ switch board) */
-d39f339d2603736 Oleksij Rempel            2025-05-05  2568  		return lan78x=
-x_register_fixed_phy(dev);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2569 =20
-d39f339d2603736 Oleksij Rempel            2025-05-05  2570  	case ID_REV_CH=
-IP_ID_7800_:
-d39f339d2603736 Oleksij Rempel            2025-05-05  2571  	case ID_REV_CH=
-IP_ID_7850_:
-d39f339d2603736 Oleksij Rempel            2025-05-05  2572  		if (!phydev)
-d39f339d2603736 Oleksij Rempel            2025-05-05  2573  			return ERR_P=
-TR(-ENODEV);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2574 =20
-d39f339d2603736 Oleksij Rempel            2025-05-05  2575  		/* These use =
-internal GMII-connected PHY */
-d39f339d2603736 Oleksij Rempel            2025-05-05  2576  		dev->interfac=
-e =3D PHY_INTERFACE_MODE_GMII;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2577  		phydev->is_in=
-ternal =3D true;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2578  		return phydev;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2579 =20
-d39f339d2603736 Oleksij Rempel            2025-05-05  2580  	default:
-d39f339d2603736 Oleksij Rempel            2025-05-05  2581  		netdev_err(de=
-v->net, "Unknown CHIP ID: 0x%08x\n", dev->chipid);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2582  		return ERR_PT=
-R(-ENODEV);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2583  	}
-d39f339d2603736 Oleksij Rempel            2025-05-05  2584  }
-d39f339d2603736 Oleksij Rempel            2025-05-05  2585 =20
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  451  
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  452  int rsnd_adg_clk_control(struct rsnd_priv *priv, int enable)
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  453  {
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  454  	struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  455  	struct rsnd_mod *adg_mod = rsnd_mod_get(adg);
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  456  	struct clk *clk;
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  457  	int ret = 0, i;
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  458  
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  459  	if (enable) {
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  460  		ret = clk_prepare_enable(adg->adg);
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  461  		if (ret < 0)
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  462  			return ret;
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  463  
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  464  		rsnd_mod_bset(adg_mod, BRGCKR, 0x80770000, adg->ckr);
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  465  		rsnd_mod_write(adg_mod, BRRA,  adg->brga);
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  466  		rsnd_mod_write(adg_mod, BRRB,  adg->brgb);
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  467  	}
+4acdf9aedd5624 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-08-22  468  
+4bbff16d26e83a sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-02-01  469  	for_each_rsnd_clkin(clk, adg, i) {
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  470  		if (enable) {
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  471  			ret = clk_prepare_enable(clk);
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  472  
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  473  			/*
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  474  			 * We shouldn't use clk_get_rate() under
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  475  			 * atomic context. Let's keep it when
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  476  			 * rsnd_adg_clk_enable() was called
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  477  			 */
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  478  			if (ret < 0)
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  479  				break;
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  480  
+4bbff16d26e83a sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-02-01  481  			adg->clkin_rate[i] = clk_get_rate(clk);
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  482  		} else {
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  483  			if (adg->clkin_rate[i])
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  484  				clk_disable_unprepare(clk);
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  485  
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  486  			adg->clkin_rate[i] = 0;
+06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  487  		}
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  488  	}
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  489  
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  490  	/*
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  491  	 * rsnd_adg_clk_enable() might return error (_disable() will not).
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  492  	 * We need to rollback in such case
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  493  	 */
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  494  	/*
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  495  	 * RZ/G3E per-SSI ADG and SSIF supply clocks.
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  496  	 *
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  497  	 * Follow the same style as for_each_rsnd_clkin() above: on enable,
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  498  	 * try to prepare every clock and accumulate the error. On disable,
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  499  	 * unprepare every clock. Absent optional clocks are NULL, for
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  500  	 * which clk_prepare() and clk_unprepare() are no-ops.
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  501  	 */
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  502  	if (enable) {
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  503  		int sub_ret = rsnd_adg_ssi_clk_prepare(adg);
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  504  
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  505  		/* Preserve the first error from the clkin loop above. */
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  506  		if (sub_ret && !ret)
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  507  			ret = sub_ret;
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  508  	} else {
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  509  		rsnd_adg_ssi_clk_unprepare(adg);
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  510  	}
+47899d53f86f5a sound/soc/renesas/rcar/adg.c John Madieu       2026-05-25  511  
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  512  	/*
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  513  	 * rsnd_adg_clk_enable() might return error (_disable() will not).
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  514  	 * We need to rollback in such case
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  515  	 */
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  516  	if (ret < 0)
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  517  		rsnd_adg_clk_disable(priv);
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  518  
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  519  	/* disable adg */
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  520  	if (!enable)
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  521  		clk_disable_unprepare(adg->adg);
+0cc88846cbfb30 sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-04-17  522  
+139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09 @523  	return ret;
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  524  }
+c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  525  
+
+:::::: The code at line 523 was first introduced by commit
+:::::: 139fa599cea0fd9d38e00246ea9f79af6c59acbd ASoC: rsnd: check rsnd_adg_clk_enable() return value
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
