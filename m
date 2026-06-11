@@ -1,178 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A383101C8
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 15:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C054192FB
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 16:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781190118; cv=none; b=FvYByvpdOmVg0fvZR+zMRw5vkTIEXejRB2+JQJkYH7xiE+BpoKeQl2kgcxNQbacX21EAHQXc2lpEKa96da5jYhA+uw25dPHDe1mqiow8MSom2lRjwVbBbf/oiy9Pf8BDjCrL2v3w53hN0JQC+5a2xe9mO1DkxNoZ4P9sdNo18M0=
+	t=1781194750; cv=none; b=lwzs5cY8PGg0lqwj3vJwf+HRCWQ8ITqE+uvXhg3Saz7GKi6GGdNVN09DqH6JXp/FLws0TQkGspzeCLkyp0UFPBu+OIwslIgY8Dk7BCuXRRRP2WgL6JEdJ+qh+2JG6nhVwXN/M1SdSoHSZ8bZhXi/1/pewZlUpB+JnObf9xnjVkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781190118; c=relaxed/simple;
-	bh=n8E88LSHgwr7UFIVUU+6g8AcLOuCZChhUGFQEtWHf8g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CEXqoKe2qCprH9Ra0TD0gShDeJfUlXFyGJrngsSmFLcCXGCPWASNex65BMZDwoO7SDRelU+zrr5X8WtBOoWVGLHiYKGj8VnHkQXm5zDaeh/3prTzitNBAnUso+HizD4O+F2K9iZyq7+MOfkRo/U0/0uXMAAKptaz68AyXOchUTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgOi0T3Q; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1781194750; c=relaxed/simple;
+	bh=cdspmPTsRRjWPnnztr6ag2oSCwQngcfCIsLAScK1oE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=m9JSK41s4Tod/I88ter4kYTtmOZRyJlUkWRkDOocTmg3K82Hl9mFQuMU8pcvnWiBREkRsxlIKPOM6wfwPmGIFHSY/fMFoY9RZjN7WLRi/IZsuPc29Ulfd6BM21OxT4vyY7O7ibdEDRPrw1+XTfIQZ7dajikZc9iAwl/goBQqO+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGyWDS/W; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgOi0T3Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGyWDS/W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781190116; x=1812726116;
-  h=date:from:to:cc:subject:message-id;
-  bh=n8E88LSHgwr7UFIVUU+6g8AcLOuCZChhUGFQEtWHf8g=;
-  b=jgOi0T3Qvt+/kA+WzMfl5YQ/P3Xwa7VcKfGzlSCZixYMeAhjI5tfpPmi
-   8wZU5rWYvoHLpa8DvsrMDB/0RSNyfO9H/s4vAunP5dMR0Mz0JWPaAKgkD
-   GoZhMmrRy429TcJEBSdtgByMTMnFzn3REcWl1Osv0pDVfSJI7fzPn40K9
-   G4Fc312w+fxyqVYFvAxO/nYdrVDnvlr3MZa0J2KrBZVx5GxtK3sj3NT1N
-   80ZyYn74oCycJY6Yt1EnFqeTK/tTN2uKD1zXq2+qRiQWKKEbsBxLWNdp5
-   qvRGXx8fmuVomd5OB5sW3Sgn09/sjKLppJreNZ1Qk6i2VpapHrSqqSU2M
+  t=1781194749; x=1812730749;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cdspmPTsRRjWPnnztr6ag2oSCwQngcfCIsLAScK1oE0=;
+  b=dGyWDS/WMtjBoS5gySq06eevvh21oh+GNbcOSxQlN+dSCxD1yT8Nql24
+   mmWYV784SsQKEESBeL+v2x4hUn0WnrtPtxEFwMQ1ZtezraT3+XVaHaPTC
+   MB0mlilUxCyqW6puspfYoBx0hLYkpiNMXhmQOHbC7AB6S3ynz/ulQfQnk
+   V1vJy4dHtE+rHleUxfe3BzO32UgRp1Dix9gcwl8m/s/byEWnl+mhgFlux
+   Vz5vKTrGr0eVb/jw520rNkLXLEG2eVatt60mOdUb4tjM48xh3vaQp/Dcl
+   E/8ubjiY8b2F7oulIjCDyw9tZ+QPggZctcAd5YIZLa+adpUACcmvRfVes
    Q==;
-X-CSE-ConnectionGUID: zHnWPscSSnW0Pu2Cfu4/bg==
-X-CSE-MsgGUID: OkL5GjazTtC9mb5BIW/uFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="69550102"
+X-CSE-ConnectionGUID: c2l43EIcRj+DLlfNfZhnBg==
+X-CSE-MsgGUID: hwx665vKRIiNeQM1SAjglQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92579342"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="69550102"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 08:01:49 -0700
-X-CSE-ConnectionGUID: 3nbM0zr2SIGb5M5F1Q4emA==
-X-CSE-MsgGUID: NcK4i+UbSq+B/52HUd09Sw==
+   d="scan'208";a="92579342"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 09:19:06 -0700
+X-CSE-ConnectionGUID: ZLL8LrAsSGCASn3BH477/g==
+X-CSE-MsgGUID: vnX7P/4XSJ2cDg8nWVBrqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="251593171"
+   d="scan'208";a="284617306"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Jun 2026 08:01:47 -0700
+  by orviesa001.jf.intel.com with ESMTP; 11 Jun 2026 09:19:05 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXguf-00000000NH6-1OIw;
-	Thu, 11 Jun 2026 15:01:45 +0000
-Date: Thu, 11 Jun 2026 23:01:13 +0800
+	id 1wXi7S-00000000NSU-13Eo;
+	Thu, 11 Jun 2026 16:19:02 +0000
+Date: Fri, 12 Jun 2026 00:18:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 11410/13002]
- include/linux/printk.h:511:44: warning: 'root_flags' may be used
- uninitialized in this function
-Message-ID: <202606112245.MoLYDw1w-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn:
+ format string contains non-ascii character '\xe2'
+Message-ID: <202606120009.sskIDhvJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-:::::: 
-:::::: Manual check reason: "likely FALSE maybe-used-uninitialized warning on old compiler"
-:::::: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Sterba <dsterba@suse.com>
+CC: linux-kernel@vger.kernel.org
+TO: Oleksij Rempel <o.rempel@pengutronix.de>
+CC: Thangaraj Samynathan <thangaraj.s@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   abe651837cb394f76d738a7a747322fca3bf17ba
-commit: 3fc0803f1c644e60b24cdb175109fcae83b2849a [11410/13002] btrfs: make more ASSERTs verbose, part 3
-:::::: branch date: 23 hours ago
-:::::: commit date: 3 days ago
-config: nios2-randconfig-r072-20260611 (https://download.01.org/0day-ci/archive/20260611/202606112245.MoLYDw1w-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+Hi Oleksij,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it'=
+s irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
+commit: d39f339d2603736ff90b0b32d9aea3b954307fd5 net: usb: lan78xx: refacto=
+r PHY init to separate detection and MAC configuration
+date:   1 year, 1 month ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/2026=
+0612/202606120009.sskIDhvJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606112245.MoLYDw1w-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: d39f339d2603 ("net: usb: lan78xx: refactor PHY init to separate de=
+tection and MAC configuration")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606112245.MoLYDw1w-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606120009.sskIDhvJ-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+New smatch warnings:
+drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contai=
+ns non-ascii character '\xe2'
 
-All warnings (new ones prefixed by >>):
+Old smatch warnings:
+drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format st=
+ring contains non-ascii character '\xe2'
+drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format st=
+ring contains non-ascii character '\x80'
+drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format st=
+ring contains non-ascii character '\x93'
+drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contai=
+ns non-ascii character '\x80'
+drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contai=
+ns non-ascii character '\x93'
+drivers/net/usb/lan78xx.c:3005 lan78xx_init_ltm() warn: missing unwind goto?
 
-   In file included from include/asm-generic/bug.h:31,
-                    from ./arch/nios2/include/generated/asm/bug.h:1,
-                    from include/linux/bug.h:5,
-                    from include/linux/instrumented.h:10,
-                    from include/linux/atomic/atomic-instrumented.h:17,
-                    from include/linux/atomic.h:82,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from include/asm-generic/bitops.h:31,
-                    from ./arch/nios2/include/generated/asm/bitops.h:1,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23,
-                    from fs/btrfs/ioctl.c:6:
-   fs/btrfs/ioctl.c: In function 'btrfs_ioctl_subvol_sync':
->> include/linux/printk.h:511:44: warning: 'root_flags' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                               ^~~~~~~
-   fs/btrfs/ioctl.c:4904:6: note: 'root_flags' was declared here
-     u64 root_flags;
-         ^~~~~~~~~~
+vim +2560 drivers/net/usb/lan78xx.c
 
-
-vim +/root_flags +511 include/linux/printk.h
-
-337015573718b16 Chris Down      2021-06-15  459  
-337015573718b16 Chris Down      2021-06-15  460  /*
-337015573718b16 Chris Down      2021-06-15  461   * Some subsystems have their own custom printk that applies a va_format to a
-337015573718b16 Chris Down      2021-06-15  462   * generic format, for example, to include a device number or other metadata
-337015573718b16 Chris Down      2021-06-15  463   * alongside the format supplied by the caller.
-337015573718b16 Chris Down      2021-06-15  464   *
-337015573718b16 Chris Down      2021-06-15  465   * In order to store these in the way they would be emitted by the printk
-337015573718b16 Chris Down      2021-06-15  466   * infrastructure, the subsystem provides us with the start, fixed string, and
-337015573718b16 Chris Down      2021-06-15  467   * any subsequent text in the format string.
-337015573718b16 Chris Down      2021-06-15  468   *
-337015573718b16 Chris Down      2021-06-15  469   * We take a variable argument list as pr_fmt/dev_fmt/etc are sometimes passed
-337015573718b16 Chris Down      2021-06-15  470   * as multiple arguments (eg: `"%s: ", "blah"`), and we must only take the
-337015573718b16 Chris Down      2021-06-15  471   * first one.
-337015573718b16 Chris Down      2021-06-15  472   *
-337015573718b16 Chris Down      2021-06-15  473   * subsys_fmt_prefix must be known at compile time, or compilation will fail
-337015573718b16 Chris Down      2021-06-15  474   * (since this is a mistake). If fmt or level is not known at compile time, no
-337015573718b16 Chris Down      2021-06-15  475   * index entry will be made (since this can legitimately happen).
-337015573718b16 Chris Down      2021-06-15  476   */
-337015573718b16 Chris Down      2021-06-15  477  #define printk_index_subsys_emit(subsys_fmt_prefix, level, fmt, ...) \
-337015573718b16 Chris Down      2021-06-15  478  	__printk_index_emit(fmt, level, subsys_fmt_prefix)
-337015573718b16 Chris Down      2021-06-15  479  
-337015573718b16 Chris Down      2021-06-15  480  #define printk_index_wrap(_p_func, _fmt, ...)				\
-337015573718b16 Chris Down      2021-06-15  481  	({								\
-337015573718b16 Chris Down      2021-06-15  482  		__printk_index_emit(_fmt, NULL, NULL);			\
-337015573718b16 Chris Down      2021-06-15  483  		_p_func(_fmt, ##__VA_ARGS__);				\
-337015573718b16 Chris Down      2021-06-15  484  	})
-337015573718b16 Chris Down      2021-06-15  485  
-337015573718b16 Chris Down      2021-06-15  486  
-7d9e2661f268585 Jonathan Corbet 2021-07-25  487  /**
-7d9e2661f268585 Jonathan Corbet 2021-07-25  488   * printk - print a kernel message
-7d9e2661f268585 Jonathan Corbet 2021-07-25  489   * @fmt: format string
-7d9e2661f268585 Jonathan Corbet 2021-07-25  490   *
-7d9e2661f268585 Jonathan Corbet 2021-07-25  491   * This is printk(). It can be called from any context. We want it to work.
-7d9e2661f268585 Jonathan Corbet 2021-07-25  492   *
-7d9e2661f268585 Jonathan Corbet 2021-07-25  493   * If printk indexing is enabled, _printk() is called from printk_index_wrap.
-7d9e2661f268585 Jonathan Corbet 2021-07-25  494   * Otherwise, printk is simply #defined to _printk.
-7d9e2661f268585 Jonathan Corbet 2021-07-25  495   *
-7d9e2661f268585 Jonathan Corbet 2021-07-25  496   * We try to grab the console_lock. If we succeed, it's easy - we log the
-7d9e2661f268585 Jonathan Corbet 2021-07-25  497   * output and call the console drivers.  If we fail to get the semaphore, we
-7d9e2661f268585 Jonathan Corbet 2021-07-25  498   * place the output into the log buffer and return. The current holder of
-7d9e2661f268585 Jonathan Corbet 2021-07-25  499   * the console_sem will notice the new output in console_unlock(); and will
-7d9e2661f268585 Jonathan Corbet 2021-07-25  500   * send it to the consoles before releasing the lock.
-7d9e2661f268585 Jonathan Corbet 2021-07-25  501   *
-7d9e2661f268585 Jonathan Corbet 2021-07-25  502   * One effect of this deferred printing is that code which calls printk() and
-7d9e2661f268585 Jonathan Corbet 2021-07-25  503   * then changes console_loglevel may break. This is because console_loglevel
-7d9e2661f268585 Jonathan Corbet 2021-07-25  504   * is inspected when the actual printing occurs.
-7d9e2661f268585 Jonathan Corbet 2021-07-25  505   *
-7d9e2661f268585 Jonathan Corbet 2021-07-25  506   * See also:
-7d9e2661f268585 Jonathan Corbet 2021-07-25  507   * printf(3)
-7d9e2661f268585 Jonathan Corbet 2021-07-25  508   *
-7d9e2661f268585 Jonathan Corbet 2021-07-25  509   * See the vsnprintf() documentation for format string extensions over C99.
-7d9e2661f268585 Jonathan Corbet 2021-07-25  510   */
-337015573718b16 Chris Down      2021-06-15 @511  #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-337015573718b16 Chris Down      2021-06-15  512  #define printk_deferred(fmt, ...)					\
-337015573718b16 Chris Down      2021-06-15  513  	printk_index_wrap(_printk_deferred, fmt, ##__VA_ARGS__)
-337015573718b16 Chris Down      2021-06-15  514  
-
-:::::: The code at line 511 was first introduced by commit
-:::::: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format indexing support
-
-:::::: TO: Chris Down <chris@chrisdown.name>
-:::::: CC: Petr Mladek <pmladek@suse.com>
+d39f339d2603736 Oleksij Rempel            2025-05-05  2534 =20
+d39f339d2603736 Oleksij Rempel            2025-05-05  2535  /**
+d39f339d2603736 Oleksij Rempel            2025-05-05  2536   * lan78xx_get_=
+phy() - Probe or register PHY device and set interface mode
+d39f339d2603736 Oleksij Rempel            2025-05-05  2537   * @dev: LAN78x=
+x device structure
+d39f339d2603736 Oleksij Rempel            2025-05-05  2538   *
+d39f339d2603736 Oleksij Rempel            2025-05-05  2539   * This functio=
+n attempts to find a PHY on the MDIO bus. If no PHY is found
+d39f339d2603736 Oleksij Rempel            2025-05-05  2540   * and the chip=
+ is LAN7801, it registers a fixed PHY as fallback. It also
+d39f339d2603736 Oleksij Rempel            2025-05-05  2541   * sets dev->in=
+terface based on chip ID and detected PHY type.
+d39f339d2603736 Oleksij Rempel            2025-05-05  2542   *
+d39f339d2603736 Oleksij Rempel            2025-05-05  2543   * Return: a va=
+lid PHY device pointer, or ERR_PTR() on failure.
+d39f339d2603736 Oleksij Rempel            2025-05-05  2544   */
+d39f339d2603736 Oleksij Rempel            2025-05-05  2545  static struct p=
+hy_device *lan78xx_get_phy(struct lan78xx_net *dev)
+d39f339d2603736 Oleksij Rempel            2025-05-05  2546  {
+3b51cc75eba28a7 Colin Ian King            2018-02-01  2547  	struct phy_dev=
+ice *phydev;
+55d7de9de6c30ad Woojung.Huh@microchip.com 2015-07-30  2548 =20
+d39f339d2603736 Oleksij Rempel            2025-05-05  2549  	/* Attempt to =
+locate a PHY on the MDIO bus */
+ce85e13ad6ef47d Woojung.Huh@microchip.com 2015-09-16  2550  	phydev =3D phy=
+_find_first(dev->mdiobus);
+d39f339d2603736 Oleksij Rempel            2025-05-05  2551 =20
+d39f339d2603736 Oleksij Rempel            2025-05-05  2552  	switch (dev->c=
+hipid) {
+d39f339d2603736 Oleksij Rempel            2025-05-05  2553  	case ID_REV_CH=
+IP_ID_7801_:
+d39f339d2603736 Oleksij Rempel            2025-05-05  2554  		if (phydev) {
+d39f339d2603736 Oleksij Rempel            2025-05-05  2555  			/* External =
+RGMII PHY detected */
+d39f339d2603736 Oleksij Rempel            2025-05-05  2556  			dev->interfa=
+ce =3D PHY_INTERFACE_MODE_RGMII_ID;
+d39f339d2603736 Oleksij Rempel            2025-05-05  2557  			phydev->is_i=
+nternal =3D false;
+d39f339d2603736 Oleksij Rempel            2025-05-05  2558 =20
+d39f339d2603736 Oleksij Rempel            2025-05-05  2559  			if (!phydev-=
+>drv)
+d39f339d2603736 Oleksij Rempel            2025-05-05 @2560  				netdev_warn=
+(dev->net,
+d39f339d2603736 Oleksij Rempel            2025-05-05  2561  					    "PHY d=
+river not found =E2=80=93 assuming RGMII delays are on PCB or strapped for =
+the PHY\n");
+d39f339d2603736 Oleksij Rempel            2025-05-05  2562 =20
+d39f339d2603736 Oleksij Rempel            2025-05-05  2563  			return phyde=
+v;
+ce85e13ad6ef47d Woojung.Huh@microchip.com 2015-09-16  2564  		}
+d39f339d2603736 Oleksij Rempel            2025-05-05  2565 =20
+89b36fb5e532447 Raghuram Chary J          2018-04-28  2566  		dev->interfac=
+e =3D PHY_INTERFACE_MODE_RGMII;
+d39f339d2603736 Oleksij Rempel            2025-05-05  2567  		/* No PHY fou=
+nd =E2=80=93 fallback to fixed PHY (e.g. KSZ switch board) */
+d39f339d2603736 Oleksij Rempel            2025-05-05  2568  		return lan78x=
+x_register_fixed_phy(dev);
+d39f339d2603736 Oleksij Rempel            2025-05-05  2569 =20
+d39f339d2603736 Oleksij Rempel            2025-05-05  2570  	case ID_REV_CH=
+IP_ID_7800_:
+d39f339d2603736 Oleksij Rempel            2025-05-05  2571  	case ID_REV_CH=
+IP_ID_7850_:
+d39f339d2603736 Oleksij Rempel            2025-05-05  2572  		if (!phydev)
+d39f339d2603736 Oleksij Rempel            2025-05-05  2573  			return ERR_P=
+TR(-ENODEV);
+d39f339d2603736 Oleksij Rempel            2025-05-05  2574 =20
+d39f339d2603736 Oleksij Rempel            2025-05-05  2575  		/* These use =
+internal GMII-connected PHY */
+d39f339d2603736 Oleksij Rempel            2025-05-05  2576  		dev->interfac=
+e =3D PHY_INTERFACE_MODE_GMII;
+d39f339d2603736 Oleksij Rempel            2025-05-05  2577  		phydev->is_in=
+ternal =3D true;
+d39f339d2603736 Oleksij Rempel            2025-05-05  2578  		return phydev;
+d39f339d2603736 Oleksij Rempel            2025-05-05  2579 =20
+d39f339d2603736 Oleksij Rempel            2025-05-05  2580  	default:
+d39f339d2603736 Oleksij Rempel            2025-05-05  2581  		netdev_err(de=
+v->net, "Unknown CHIP ID: 0x%08x\n", dev->chipid);
+d39f339d2603736 Oleksij Rempel            2025-05-05  2582  		return ERR_PT=
+R(-ENODEV);
+d39f339d2603736 Oleksij Rempel            2025-05-05  2583  	}
+d39f339d2603736 Oleksij Rempel            2025-05-05  2584  }
+d39f339d2603736 Oleksij Rempel            2025-05-05  2585 =20
 
 --
 0-DAY CI Kernel Test Service
