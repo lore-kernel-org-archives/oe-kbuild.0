@@ -1,125 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9412E6CC8
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 09:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169773; cv=none; b=HA8m1Fkxtb76Lv4pH+OEWeVTdZnAlwwkFsoMfMThr28SpWKcDRUotKb6iNL9p6x78TpRHlb0MlxYQVeiV6wKy8exTZkvOATlqZr+DfGOa95EsRbSRo+wxd1ggK8IzOnedV0EdFwku8/Q8rCLiiS51jSoI93/NjjT5N/vGGZqlYA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169773; c=relaxed/simple;
-	bh=sDJJt4WIHztQyirsrT/HxAnsOuKVeg1GnYcDKEbWveg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=INUwTfahZjHzmnVf074Ex5Lu32ZegpNvnvybAxrvrN4u/XYlB7mRZXY/i2tGQOB17Hw7faJ0zoRMjVYwjTs1yMlZbtQtJexGA6nNQEOWPU+K+7kPXy+1pmQvLyQ2blS/cezDDHNbGiCtcwSnlaxK6XM7+S2bVWELmP24Y+Lhh84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCOa+MLc; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2A3347BC1
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 09:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781169889; cv=pass; b=PCoKSRTmEQMNlyurSdqTNJhkIjjuhTGJsGosICREPlhowmabggIMCwAUHrBvuNgCVKP9Iwv5PQOF//BODusB7CFaaR9+75q2SMpE4hX4gfWvMJ+5+nL5jOVMIN5XhL2iTL0u/74pF3CXoLrMbmMh3sGJXnlfcfPJ5yiRHTplNOg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781169889; c=relaxed/simple;
+	bh=ptpjUzlQRW1tacZ47KxbrmuVX9kEVKwX3KItC4VS0co=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cab3Ro6aEvc3UuwnE7g8IJEcfznFegexO3+stHeMhk88kUtuNwzu21ojbsoELitxkznjG80AHSoNwjpdr3d/+FjjxsrbVZrgapifSx5AgUaVSBnpKsw/XjTewBbUylZsI5W1XkJkN6QCIvj9+Shm9fVI4VYnYWFnbCAsDtT8wtQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mgZ4iPOl; arc=pass smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCOa+MLc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781169772; x=1812705772;
-  h=date:from:to:cc:subject:message-id;
-  bh=sDJJt4WIHztQyirsrT/HxAnsOuKVeg1GnYcDKEbWveg=;
-  b=hCOa+MLcETV84GR8TILil8PBFysKnAHv2dh9h+kQnypGrEJiM3Z7yCkv
-   uGg+lSxXoidohAQA7ep4UVsRPLSF6lD1SXwtQDudqWI70fexsh5bbgJSQ
-   YlNI6CscgPdvdaUBIsWkL84kdb3Zfr2XTqWOFltkckKpxPxM7AwnKZd/0
-   xTrb4n5aLkFTbEcJRSGO3CN8Eo4Z5OCLcoCD50cMRDhDJEnapS99PXEzb
-   ErAOypy81qgh9jCKCtYLjrYAoF6e2nRryFkiLOfhQImUkViOoeU7eH9d8
-   zI2ItmDLusUKxbSlRXYJ/BhPDm4UY4mmXwbAIOXLRCfwr+XpVBnfKXByZ
-   w==;
-X-CSE-ConnectionGUID: WupFW5cXQnqLPE54lOfJHQ==
-X-CSE-MsgGUID: rKu0NPhkRCOjCZkaMhxBag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82085722"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="82085722"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 02:22:51 -0700
-X-CSE-ConnectionGUID: HHokwFA8TWmputWkVdpRPQ==
-X-CSE-MsgGUID: mrXNdJkLTGCDfM4PE42YIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="250713021"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 11 Jun 2026 02:22:50 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXbcd-000000003zJ-410h;
-	Thu, 11 Jun 2026 09:22:47 +0000
-Date: Thu, 11 Jun 2026 11:22:08 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [peter-chen-usb:cdns3_kconfig_reorg 3/4]
- Documentation/devicetree/bindings/usb/cix,sky1-cdns3.yaml: ignoring, error
- parsing file
-Message-ID: <202606111133.TIWXziJC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mgZ4iPOl"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-13807d2f898so7216133c88.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 02:24:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781169886; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WPY0GyDmBHYHR1vzbd3DphP1/S4xi+k19FKoyBkP31WXRJmeOxUOSKxsYhAA1Pzspr
+         GzZq5j4cp+gVIYRYNIIsd+LBojvvwoSrl22peDMBS68KTRa7sK8nzdd0w4saNZ5muEbC
+         SrC1Mcb/PMKFlBo8XpoOXU9rfQgc82FEbQ9kBQ3OK3KozwHU+KP/pyxIt/pvBEljQqQO
+         85qy7B6OlDfpT6/oeQEY6d31eAq9Awo+Gvz/NNiFI0ajgUF1ThAvXC49whxlMqBhJkTr
+         ntMfqN5Vt0awALwtyQJmHRD9d4U85u3pgcIhfUsxYi8fe8knf3BY8KpS13O0+wc6Yx5p
+         PFXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jxNaQG6Oi1Xty0lZOZ4/NPsjnTXhNNGyA26nZBNmjac=;
+        fh=efq8KbuWBzRqf4W+fdeLFpI8dbkpUHr77cJL+nhdNU0=;
+        b=i5jsRfhWG0ZNmzqg4+Z8Ia5jy+tKMRXobk0SRu69NaVgt08BRkN8Ba/jeclL6HNAFf
+         FRBSo5Rnp7iGrCJJIkx+RRQC/vcEh8/6bhMg2wWGmLzv465zBd97Cbf1ZkNSclFNELeV
+         Hvcnf6KnaF18znnwpPeQHFUdylLibndGtwxz3F60y8RfV0GEFetsnLRMt+XbxAYz8Wuz
+         UUtaz3Mjee0pDVJ4jxw+lAtrQ8OEGe4OKThpA8gxLYsn/XXzyEEuND8wgU5qO4NDpwiN
+         4opRLF8KdazIrF2FulK/wza2F7f4qpRWPsl5k55ugIGWEspyGZn/DIIpFtrcNAThwn3p
+         zwbg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781169886; x=1781774686; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jxNaQG6Oi1Xty0lZOZ4/NPsjnTXhNNGyA26nZBNmjac=;
+        b=mgZ4iPOlzGeot9PinNJnh6lA73cJ5I+Fcipvd7AyixavbipH6B1NTGBgs+TDRV9tKl
+         oPFD+uNvBZlRDd9PcSk6E5LjFa+dS783Nl7Ida2IStSlw1DZKRh3M0AbSXCulCNepCB1
+         WbLxIg1Tf/umIWNrlPP+ifkjjbtdpn0N5PwtANAtS4ANEHoYO7fWk9WkaCIwGWDG2AZG
+         4kI16SaCphzoI+/Aw6066qWOZRze2xiAwGDxhRAhdnNh476CvgsdmB2X4uniiIGoatom
+         ad/ljoSTjG30F9Wk7F7ZCWKiu5/KHVlQupzjrzf3Db3W6yXtlCtdNH0D+pRvHyaWcA5w
+         ksLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781169886; x=1781774686;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jxNaQG6Oi1Xty0lZOZ4/NPsjnTXhNNGyA26nZBNmjac=;
+        b=lw1S3Htj9og5YoDBhs+X5KhlMldjA1OsA/mkNH1OiDTxS9SZClpSsUw7xbzBy6jewU
+         mSsXKJCiheJD+6DNlullEXbua6W5cre2jfh5QJ3yxmXiVGI1SfAKTAANH4QUpC89t4rV
+         JCtwt4uSTPfN7Id1j58aQKw5PiQ5PZQxW6WUl9LLChxWS+g7LuWZu+kyrYsdn206Qqpa
+         9/R0NuIKhnIVUR0JR2c5osDWrsYiGmTaAeH0jTZRe0YOvpPtiprqskLrhaXO9057Y9Ud
+         /DrVAuRe3OfX74RmkTVk9NVIQBZaehcvAo/akqt0Xt9X/0BVhhbloFfQG3xYD+H4PdwU
+         7tMw==
+X-Gm-Message-State: AOJu0YzehLSXF9eu3P9wpEE+ERUHSugVhcgAAn8NcJCmo34e909nzLqg
+	qOLrH/Ot1ZVivHJyjJ+EubJJsbQpnQHjiNhpgJ6oSWp+kVnMLoQ3BbK0J/8pTvRPjqz5TArKnHv
+	Op8DQyDRmATIelfy+CIB0D+hn2ET7BCfje5VTWFRH
+X-Gm-Gg: Acq92OHsET9XJb5qDSrOuNMs3eCNN31Vf7dXC+jM6wr6s0T8anux6lNMrkfYaatq5Pa
+	3ccWUT88MZBHmMO+4IigZEfeQ0znOM/Gr6/J+wZ22YygVgMq1OYPI+tFCxYW8YVA8F8uS+IzlFB
+	2AIQqPCSMaTirc7dy8wQkaVKZUnhsmHn+Ms6iMUPnkwXfpKrop61c+o5tKRgh/Z9jPVkPXMw0Q6
+	nG0yPpUWVdgpizB7vwqtYdQHZU7TJZ9/v5K7lVn41vFbm3vsmjkAqwmJ/RF8Q5n4DtnfdxZ8+wB
+	J+jP4dk3iMrN37Z/DH7HtJpycZDoQtRgEPS+NwIVKTci4s8=
+X-Received: by 2002:a05:7022:1b08:b0:137:1ae1:bc2f with SMTP id
+ a92af1059eb24-13842181f98mr1005419c88.13.1781169885639; Thu, 11 Jun 2026
+ 02:24:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202606110958.2CPRMnM0-lkp@intel.com>
+In-Reply-To: <202606110958.2CPRMnM0-lkp@intel.com>
+From: Marco Elver <elver@google.com>
+Date: Thu, 11 Jun 2026 11:24:09 +0200
+X-Gm-Features: AVVi8CfR5bv_cwVh1j_mobE8Sz1NOjQDmqNkwS0WX3LWG1D7btR5qlprUv15XLU
+Message-ID: <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
+Subject: Re: [linux-next:master 4283/12670] drivers/dma/sun6i-dma.c:792
+ sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line 793)
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, "Harry Yoo (Oracle)" <harry@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
++cc maintainers of this driver
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-usb@vger.kernel.org
-TO: Peter Chen <peter.chen@cixtech.com>
-CC: linux-doc@vger.kernel.org
+On Thu, 11 Jun 2026 at 10:59, Dan Carpenter <error27@gmail.com> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   49e02880ec0a8c378e811bc9d85da188d7c6204c
+> commit: feb662d9168b63e1d4c02671ec96005410c6f3ce [4283/12670] slab: support for compiler-assisted type-based slab cache partitioning
+> config: arm64-randconfig-r072-20260610 (https://download.01.org/0day-ci/archive/20260611/202606110958.2CPRMnM0-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 8.5.0
+> smatch: v0.5.0-9185-gbcc58b9c
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202606110958.2CPRMnM0-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/dma/sun6i-dma.c:792 sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line 793)
+> drivers/dma/sun6i-dma.c:873 sun6i_dma_prep_dma_cyclic() error: dereferencing freed memory 'v_lli' (line 874)
+>
+> vim +/v_lli +792 drivers/dma/sun6i-dma.c
+>
+> 555859308723d8 Maxime Ripard       2014-07-17  783      dev_dbg(chan2dev(chan), "First: %pad\n", &txd->p_lli);
+> 9aa48806edb8c3 Samuel Holland      2022-04-24  784      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> 9aa48806edb8c3 Samuel Holland      2022-04-24  785           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> 9aa48806edb8c3 Samuel Holland      2022-04-24  786              sun6i_dma_dump_lli(vchan, v_lli, p_lli);
+> 555859308723d8 Maxime Ripard       2014-07-17  787
+> 555859308723d8 Maxime Ripard       2014-07-17  788      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> 555859308723d8 Maxime Ripard       2014-07-17  789
+> 4fbd804e009ae9 Maxime Ripard       2014-07-30  790  err_lli_free:
+> 9aa48806edb8c3 Samuel Holland      2022-04-24  791      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> 9aa48806edb8c3 Samuel Holland      2022-04-24 @792           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+>                                                                                                 ^^^^^^^^^^^^^^^^^
+> 9aa48806edb8c3 Samuel Holland      2022-04-24 @793              dma_pool_free(sdev->pool, v_lli, p_lli);
+>                                                                                           ^^^^^
+> freed and then dereferenced to get the next block.
+>
+> 4fbd804e009ae9 Maxime Ripard       2014-07-30  794      kfree(txd);
+> 555859308723d8 Maxime Ripard       2014-07-17  795      return NULL;
+> 555859308723d8 Maxime Ripard       2014-07-17  796  }
+> 555859308723d8 Maxime Ripard       2014-07-17  797
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  798  static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  799                                      struct dma_chan *chan,
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  800                                      dma_addr_t buf_addr,
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  801                                      size_t buf_len,
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  802                                      size_t period_len,
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  803                                      enum dma_transfer_direction dir,
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  804                                      unsigned long flags)
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  805  {
+>
+> [ snip ]
+>
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  868
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  869      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  870
+> a90e173f3faf29 Jean-Francois Moine 2016-04-28  871  err_lli_free:
+> 9aa48806edb8c3 Samuel Holland      2022-04-24  872      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> 9aa48806edb8c3 Samuel Holland      2022-04-24 @873           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+>                                                                                                 ^^^^^^^^^^^^^^^^^
+> Same.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git cdns3_kconfig_reorg
-head:   92f1268518fcc084e175fdfeeadc03f0b9d125f2
-commit: 1acd0c6d0cb1ec8d8dc76b7e0f96fc72f5d9757f [3/4] dt-bindings: usb: add CIX Sky1 Cadence USB3 controller
-:::::: branch date: 32 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-2052 (https://download.01.org/0day-ci/archive/20260611/202606111133.TIWXziJC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-dtschema: 2026.5.dev10+g5d839523d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111133.TIWXziJC-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606111133.TIWXziJC-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> make[3]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/usb/cix,sky1-cdns3.example.dts] Error 1
-   make[3]: *** Deleting file 'Documentation/devicetree/bindings/usb/cix,sky1-cdns3.example.dts'
-   make[3]: Target 'dt_binding_check' not remade because of errors.
-
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/usb/cix,sky1-cdns3.yaml: ignoring, error parsing file
---
-   Documentation/devicetree/bindings/remoteproc/qcom,sc7280-mss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
-   Documentation/devicetree/bindings/remoteproc/qcom,sdm845-adsp-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
->> Documentation/devicetree/bindings/usb/cix,sky1-cdns3.yaml:150:1: found character '\t' that cannot start any token
-   Documentation/devicetree/bindings/net/qcom,ipa.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
-   Documentation/devicetree/bindings/net/qcom,ipa.yaml: properties:qcom,smem-states:items:1: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
---
->> Documentation/devicetree/bindings/usb/cix,sky1-cdns3.yaml:150:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
---
->> Documentation/devicetree/bindings/usb/cix,sky1-cdns3.yaml:150:1: found character '\t' that cannot start any token
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Not sure what's going on here, but is this a latent bug in this
+driver?  It appears some recent changes made Smatch see through this
+better.
