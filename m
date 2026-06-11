@@ -1,160 +1,173 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2A3347BC1
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 09:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169889; cv=pass; b=PCoKSRTmEQMNlyurSdqTNJhkIjjuhTGJsGosICREPlhowmabggIMCwAUHrBvuNgCVKP9Iwv5PQOF//BODusB7CFaaR9+75q2SMpE4hX4gfWvMJ+5+nL5jOVMIN5XhL2iTL0u/74pF3CXoLrMbmMh3sGJXnlfcfPJ5yiRHTplNOg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169889; c=relaxed/simple;
-	bh=ptpjUzlQRW1tacZ47KxbrmuVX9kEVKwX3KItC4VS0co=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF343BCD07
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 09:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781170241; cv=none; b=fsHzhd9BjO6YiSmq8mMQH0ascss62DPkjQxcFGUgmZUAGznYrhTRIy7W19z6JLbNHH5UDIbR/WFqB+FL70vxECWoOV/D7Axltr70W81Thdf0lgosozXNGFinIIAjBAX4Iopnyc1jmXuNA4bRSKmMF7yiM5+e4Vb0SDYTZ8CsUIk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781170241; c=relaxed/simple;
+	bh=C1S3L/LEpKSx7OkdBw3weRasepoj5Ehsa+LpRcAEm8w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cab3Ro6aEvc3UuwnE7g8IJEcfznFegexO3+stHeMhk88kUtuNwzu21ojbsoELitxkznjG80AHSoNwjpdr3d/+FjjxsrbVZrgapifSx5AgUaVSBnpKsw/XjTewBbUylZsI5W1XkJkN6QCIvj9+Shm9fVI4VYnYWFnbCAsDtT8wtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mgZ4iPOl; arc=pass smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=goxAyFG0aCHejg2EforW5TpZNxNjAYE8jcidZSZd9anbyaB+zegfhWFu8+Fi0M1cEqKR3MIl0//zbu0opbP2byf3hFkCq11xOzmd97aF1vmUsv+9u+zhIaHvSyC1KNUl55pg6n2gjrPdZc0UyXaV3sy6CMNepFK1cX9BjWYhjGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CN1jDZtx; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mgZ4iPOl"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-13807d2f898so7216133c88.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 02:24:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781169886; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WPY0GyDmBHYHR1vzbd3DphP1/S4xi+k19FKoyBkP31WXRJmeOxUOSKxsYhAA1Pzspr
-         GzZq5j4cp+gVIYRYNIIsd+LBojvvwoSrl22peDMBS68KTRa7sK8nzdd0w4saNZ5muEbC
-         SrC1Mcb/PMKFlBo8XpoOXU9rfQgc82FEbQ9kBQ3OK3KozwHU+KP/pyxIt/pvBEljQqQO
-         85qy7B6OlDfpT6/oeQEY6d31eAq9Awo+Gvz/NNiFI0ajgUF1ThAvXC49whxlMqBhJkTr
-         ntMfqN5Vt0awALwtyQJmHRD9d4U85u3pgcIhfUsxYi8fe8knf3BY8KpS13O0+wc6Yx5p
-         PFXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=jxNaQG6Oi1Xty0lZOZ4/NPsjnTXhNNGyA26nZBNmjac=;
-        fh=efq8KbuWBzRqf4W+fdeLFpI8dbkpUHr77cJL+nhdNU0=;
-        b=i5jsRfhWG0ZNmzqg4+Z8Ia5jy+tKMRXobk0SRu69NaVgt08BRkN8Ba/jeclL6HNAFf
-         FRBSo5Rnp7iGrCJJIkx+RRQC/vcEh8/6bhMg2wWGmLzv465zBd97Cbf1ZkNSclFNELeV
-         Hvcnf6KnaF18znnwpPeQHFUdylLibndGtwxz3F60y8RfV0GEFetsnLRMt+XbxAYz8Wuz
-         UUtaz3Mjee0pDVJ4jxw+lAtrQ8OEGe4OKThpA8gxLYsn/XXzyEEuND8wgU5qO4NDpwiN
-         4opRLF8KdazIrF2FulK/wza2F7f4qpRWPsl5k55ugIGWEspyGZn/DIIpFtrcNAThwn3p
-         zwbg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781169886; x=1781774686; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jxNaQG6Oi1Xty0lZOZ4/NPsjnTXhNNGyA26nZBNmjac=;
-        b=mgZ4iPOlzGeot9PinNJnh6lA73cJ5I+Fcipvd7AyixavbipH6B1NTGBgs+TDRV9tKl
-         oPFD+uNvBZlRDd9PcSk6E5LjFa+dS783Nl7Ida2IStSlw1DZKRh3M0AbSXCulCNepCB1
-         WbLxIg1Tf/umIWNrlPP+ifkjjbtdpn0N5PwtANAtS4ANEHoYO7fWk9WkaCIwGWDG2AZG
-         4kI16SaCphzoI+/Aw6066qWOZRze2xiAwGDxhRAhdnNh476CvgsdmB2X4uniiIGoatom
-         ad/ljoSTjG30F9Wk7F7ZCWKiu5/KHVlQupzjrzf3Db3W6yXtlCtdNH0D+pRvHyaWcA5w
-         ksLg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CN1jDZtx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781170237;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8aMr7MQeoSiuBHAcF+jVEe51nOK2JsiXVmtxZEm7uzc=;
+	b=CN1jDZtxbTTunJt9puPPsaKigx2rzEIDf3fqYCbGn6+0/wCw7h0Noe9ideR1NIJB+WKQSy
+	oImYJ/W5wAC5gWKuFkDzw9cbtbh5gn7I25TgNZi6o02UKyR2aScm8RsCvyUQUI77xp20tD
+	x063YywAbMml7mtPZMxqGvLlwlcjZ7Y=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-384-GqTp2OFTNbSb5iB6rl9WPA-1; Thu, 11 Jun 2026 05:30:35 -0400
+X-MC-Unique: GqTp2OFTNbSb5iB6rl9WPA-1
+X-Mimecast-MFC-AGG-ID: GqTp2OFTNbSb5iB6rl9WPA_1781170235
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-66077c3f223so5476933d50.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 02:30:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781169886; x=1781774686;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jxNaQG6Oi1Xty0lZOZ4/NPsjnTXhNNGyA26nZBNmjac=;
-        b=lw1S3Htj9og5YoDBhs+X5KhlMldjA1OsA/mkNH1OiDTxS9SZClpSsUw7xbzBy6jewU
-         mSsXKJCiheJD+6DNlullEXbua6W5cre2jfh5QJ3yxmXiVGI1SfAKTAANH4QUpC89t4rV
-         JCtwt4uSTPfN7Id1j58aQKw5PiQ5PZQxW6WUl9LLChxWS+g7LuWZu+kyrYsdn206Qqpa
-         9/R0NuIKhnIVUR0JR2c5osDWrsYiGmTaAeH0jTZRe0YOvpPtiprqskLrhaXO9057Y9Ud
-         /DrVAuRe3OfX74RmkTVk9NVIQBZaehcvAo/akqt0Xt9X/0BVhhbloFfQG3xYD+H4PdwU
-         7tMw==
-X-Gm-Message-State: AOJu0YzehLSXF9eu3P9wpEE+ERUHSugVhcgAAn8NcJCmo34e909nzLqg
-	qOLrH/Ot1ZVivHJyjJ+EubJJsbQpnQHjiNhpgJ6oSWp+kVnMLoQ3BbK0J/8pTvRPjqz5TArKnHv
-	Op8DQyDRmATIelfy+CIB0D+hn2ET7BCfje5VTWFRH
-X-Gm-Gg: Acq92OHsET9XJb5qDSrOuNMs3eCNN31Vf7dXC+jM6wr6s0T8anux6lNMrkfYaatq5Pa
-	3ccWUT88MZBHmMO+4IigZEfeQ0znOM/Gr6/J+wZ22YygVgMq1OYPI+tFCxYW8YVA8F8uS+IzlFB
-	2AIQqPCSMaTirc7dy8wQkaVKZUnhsmHn+Ms6iMUPnkwXfpKrop61c+o5tKRgh/Z9jPVkPXMw0Q6
-	nG0yPpUWVdgpizB7vwqtYdQHZU7TJZ9/v5K7lVn41vFbm3vsmjkAqwmJ/RF8Q5n4DtnfdxZ8+wB
-	J+jP4dk3iMrN37Z/DH7HtJpycZDoQtRgEPS+NwIVKTci4s8=
-X-Received: by 2002:a05:7022:1b08:b0:137:1ae1:bc2f with SMTP id
- a92af1059eb24-13842181f98mr1005419c88.13.1781169885639; Thu, 11 Jun 2026
- 02:24:45 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781170235; x=1781775035;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8aMr7MQeoSiuBHAcF+jVEe51nOK2JsiXVmtxZEm7uzc=;
+        b=jqZF5orUVCmF0peteyFklJR0HqPLlkauiNtpPUIp7kEbzZFspjkhZS2SIhJJyOdvAT
+         UPTxbQNQF7bI6iClvCiaq2QdnhgzKhFnyX5r0ok1JmUqbzxAu75pbxK6YDOaV2lbmO5T
+         CUHM4Z8jr50FzoN/9jq2z1ffY3Sbq8f2N4S8wthFdXODGS+Rmivv9/EfRt5HUebJGV2V
+         nnCuIplRdqTj/Zo73Jg3FgPnC4ZODtQ0Sh0fk6pgfQ4igQwWInRXWyLfRFvbwo5I3/dU
+         HOvzX5puR2MhYoK6FV54jl/tCv8uAa2YUdAauWPccix4xBwGz3e2ucVronLES2ZuHPXA
+         +2aw==
+X-Forwarded-Encrypted: i=1; AFNElJ8IA25wYieu9pJRpO4h/xUxdc2vv/3qZw4mEsa+VDYQ/l93ojTEagpMIIUV8ErBMC0PlG5hqiXKnb8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmqHDbTTA4ETYlsG/ZTglKMMwGq/CObrFVrMkio4tnZbRiV4Pk
+	RCzVJnqfe+FZcg740dM7TBD+VITBeJye2cBQQoK2+hhdFSnJ4+unA7toXrC2NWDvAf0ZxfxFDw6
+	6TPH5/cJGHKsOWHwHUdNr+31vASIN0+LcD5GA7WtD/2nlX4P2PW1n2tRwa3VSBIgcwuLi+d9c1Y
+	rYrlNns4O7LjbhrNRpAkb/ZeU9DDha96+OGj2K
+X-Gm-Gg: Acq92OFDn8NzCSigJJkTsTGHf+Fc4d8JRfh8R/8KPlkAi1+lRvb6aeLAhnO6UNFADF2
+	J4egbdS6l3P7FCwStFD1IuCWeylNaY1pVIguoyJvcTKr8BEx2VXLyim0zurBdANnaS2pDirGFR1
+	oiIGqTF/OC/6Gp0/uGBlFW2CckVrrmY4Ii8aGxZFlKElJ7evT0QFtubuhN7K5TdJGpjFe83ztcu
+	a4lzbaa5cqRGnW2
+X-Received: by 2002:a05:690e:169c:b0:651:bd70:1622 with SMTP id 956f58d0204a3-6626960e086mr1532245d50.10.1781170234912;
+        Thu, 11 Jun 2026 02:30:34 -0700 (PDT)
+X-Received: by 2002:a05:690e:169c:b0:651:bd70:1622 with SMTP id
+ 956f58d0204a3-6626960e086mr1532162d50.10.1781170232819; Thu, 11 Jun 2026
+ 02:30:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202606110958.2CPRMnM0-lkp@intel.com>
-In-Reply-To: <202606110958.2CPRMnM0-lkp@intel.com>
-From: Marco Elver <elver@google.com>
-Date: Thu, 11 Jun 2026 11:24:09 +0200
-X-Gm-Features: AVVi8CfR5bv_cwVh1j_mobE8Sz1NOjQDmqNkwS0WX3LWG1D7btR5qlprUv15XLU
-Message-ID: <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
-Subject: Re: [linux-next:master 4283/12670] drivers/dma/sun6i-dma.c:792
- sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line 793)
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, "Harry Yoo (Oracle)" <harry@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>
+References: <20260610083452.477759-1-eperezma@redhat.com> <202606111115.tKKe1qCE-lkp@intel.com>
+ <20260611050140-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20260611050140-mutt-send-email-mst@kernel.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 11 Jun 2026 11:29:56 +0200
+X-Gm-Features: AVVi8CdmsRFKQZIyZ17UopqWAhMPANwF34pMq76ydWAvEXpRbOQ4uag66Ggnruk
+Message-ID: <CAJaqyWfCLBV7wc9usmX20A+NWwBvNiDfyFWhRkNc8Uyr632WnA@mail.gmail.com>
+Subject: Re: [PATCH v3] vduse: Add suspend
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, virtualization@lists.linux.dev, 
+	Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+	linux-kernel@vger.kernel.org, Laurent Vivier <lvivier@redhat.com>, 
+	Yongji Xie <xieyongji@bytedance.com>, Maxime Coquelin <mcoqueli@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Lo0ADs4vug8m4VqVs4GBEonqO9RLNBhe9ICkhfGJCqA_1781170235
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-+cc maintainers of this driver
+On Thu, Jun 11, 2026 at 11:03=E2=80=AFAM Michael S. Tsirkin <mst@redhat.com=
+> wrote:
+>
+> On Thu, Jun 11, 2026 at 10:18:51AM +0300, Dan Carpenter wrote:
+> > Hi Eugenio,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Eugenio-P-rez/vd=
+use-Add-suspend/20260610-164534
+> > base:   next-20260609
+> > patch link:    https://lore.kernel.org/r/20260610083452.477759-1-eperez=
+ma%40redhat.com
+> > patch subject: [PATCH v3] vduse: Add suspend
+> > config: arm64-randconfig-r072-20260610 (https://download.01.org/0day-ci=
+/archive/20260611/202606111115.tKKe1qCE-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 8.5.0
+> > smatch: v0.5.0-9185-gbcc58b9c
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Closes: https://lore.kernel.org/r/202606111115.tKKe1qCE-lkp@intel.com=
+/
+> >
+> > smatch warnings:
+> > drivers/vdpa/vdpa_user/vduse_dev.c:577 vduse_vq_kick() warn: inconsiste=
+nt returns '&vq->kick_lock'.
+> > drivers/vdpa/vdpa_user/vduse_dev.c:1302 vduse_dev_queue_irq_work() warn=
+: inconsistent returns '&dev->rwsem'.
+> >
+> > vim +577 drivers/vdpa/vdpa_user/vduse_dev.c
+> >
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  562  static void vduse_vq_=
+kick(struct vduse_virtqueue *vq)
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  563  {
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  564      spin_lock(&vq->ki=
+ck_lock);
+> >                                                         ^^^^^^^^^^^^^^^=
+^^^^^^^^^^^
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  565      if (!vq->ready)
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  566              goto unlo=
+ck;
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  567
+> > 9c4307e82fa1dc Eugenio P=C3=A9rez     2026-06-10  568      guard(rwsem_=
+read)(&vq->dev->rwsem);
+> > 9c4307e82fa1dc Eugenio P=C3=A9rez     2026-06-10  569      if (vq->dev-=
+>suspended)
+> > 9c4307e82fa1dc Eugenio P=C3=A9rez     2026-06-10  570              retu=
+rn;
+> >
+> > unlock before returning?
+> >
+> > 9c4307e82fa1dc Eugenio P=C3=A9rez     2026-06-10  571
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  572      if (vq->kickfd)
+> > 3652117f854819 Christian Brauner 2023-11-22  573              eventfd_s=
+ignal(vq->kickfd);
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  574      else
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  575              vq->kicke=
+d =3D true;
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  576  unlock:
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31 @577      spin_unlock(&vq->=
+kick_lock);
+> > c8a6153b6c59d9 Xie Yongji        2021-08-31  578  }
+>
+>
+> I think this is fixed by:
+>
+> commit e4a249d15eb2d4b28213bebb1eefaf2e6d99de0b (HEAD -> vhost, linux-nex=
+t-vhost/linux-next, kernel.org/vhost, kernel.org/test)
+> Author: Nathan Chancellor <nathan@kernel.org>
+> Date:   Wed Jun 10 12:16:49 2026 -0700
+>
+>     vduse: Fix error around jumping over a __cleanup() variable
+>
+> right?
+>
 
-On Thu, 11 Jun 2026 at 10:59, Dan Carpenter <error27@gmail.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   49e02880ec0a8c378e811bc9d85da188d7c6204c
-> commit: feb662d9168b63e1d4c02671ec96005410c6f3ce [4283/12670] slab: support for compiler-assisted type-based slab cache partitioning
-> config: arm64-randconfig-r072-20260610 (https://download.01.org/0day-ci/archive/20260611/202606110958.2CPRMnM0-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 8.5.0
-> smatch: v0.5.0-9185-gbcc58b9c
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202606110958.2CPRMnM0-lkp@intel.com/
->
-> smatch warnings:
-> drivers/dma/sun6i-dma.c:792 sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line 793)
-> drivers/dma/sun6i-dma.c:873 sun6i_dma_prep_dma_cyclic() error: dereferencing freed memory 'v_lli' (line 874)
->
-> vim +/v_lli +792 drivers/dma/sun6i-dma.c
->
-> 555859308723d8 Maxime Ripard       2014-07-17  783      dev_dbg(chan2dev(chan), "First: %pad\n", &txd->p_lli);
-> 9aa48806edb8c3 Samuel Holland      2022-04-24  784      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> 9aa48806edb8c3 Samuel Holland      2022-04-24  785           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-> 9aa48806edb8c3 Samuel Holland      2022-04-24  786              sun6i_dma_dump_lli(vchan, v_lli, p_lli);
-> 555859308723d8 Maxime Ripard       2014-07-17  787
-> 555859308723d8 Maxime Ripard       2014-07-17  788      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> 555859308723d8 Maxime Ripard       2014-07-17  789
-> 4fbd804e009ae9 Maxime Ripard       2014-07-30  790  err_lli_free:
-> 9aa48806edb8c3 Samuel Holland      2022-04-24  791      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> 9aa48806edb8c3 Samuel Holland      2022-04-24 @792           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
->                                                                                                 ^^^^^^^^^^^^^^^^^
-> 9aa48806edb8c3 Samuel Holland      2022-04-24 @793              dma_pool_free(sdev->pool, v_lli, p_lli);
->                                                                                           ^^^^^
-> freed and then dereferenced to get the next block.
->
-> 4fbd804e009ae9 Maxime Ripard       2014-07-30  794      kfree(txd);
-> 555859308723d8 Maxime Ripard       2014-07-17  795      return NULL;
-> 555859308723d8 Maxime Ripard       2014-07-17  796  }
-> 555859308723d8 Maxime Ripard       2014-07-17  797
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  798  static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  799                                      struct dma_chan *chan,
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  800                                      dma_addr_t buf_addr,
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  801                                      size_t buf_len,
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  802                                      size_t period_len,
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  803                                      enum dma_transfer_direction dir,
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  804                                      unsigned long flags)
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  805  {
->
-> [ snip ]
->
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  868
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  869      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  870
-> a90e173f3faf29 Jean-Francois Moine 2016-04-28  871  err_lli_free:
-> 9aa48806edb8c3 Samuel Holland      2022-04-24  872      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-> 9aa48806edb8c3 Samuel Holland      2022-04-24 @873           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
->                                                                                                 ^^^^^^^^^^^^^^^^^
-> Same.
+Right, that was fast indeed.
 
-Not sure what's going on here, but is this a latent bug in this
-driver?  It appears some recent changes made Smatch see through this
-better.
