@@ -1,85 +1,100 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902C03BAD94
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 08:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCCC3BAD94
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 08:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781168370; cv=none; b=pw3QA+2zNcEyvved1G0MmqIE7oIqD7a1TNT0Rp5xaXi81DA2YJbqxyJ9KkVeKGqsKakOMrtefLPxmpszdIftYXWwTg/AXoTv4DDAcXyXukHf96w2t7DAqqk3fo5zMrRPYA90BBNK/uP+weW4kGO3rZT/zMJVHGXsNN3xLefd/g0=
+	t=1781168376; cv=none; b=qhXCLVMYA/ZtGTHCSI7uEnnrjFAB+D++ZqCcPKfyuyzvU0S+BK9yapI3XAAiXc1aINuxn8LWJOcCC4+r1uYXtSprILfjpn24fOY4gqTg3AxVl4taV1X6kwHV3jOH5g3f+k0gLvqNg4Ppmxhy/B9OduXpbB5MFpQ15P86dznL/mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781168370; c=relaxed/simple;
-	bh=NNmb7nIu8orrtSEUZJR5J0qd2Gkj3Q2XLIm3WPGBnL8=;
+	s=arc-20240116; t=1781168376; c=relaxed/simple;
+	bh=RaJv571HKEcRvX9MGjkYaW+4oKH2q5iRRdHFPdhTId0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ffiGolErKlLrUvaWzGJKh+SLlc1Zpz6TqfAx6EjZh+7slVAtGT6k1Zbnc8AqwNfk/E5nGXKvX+qWgY2GZlgyvltmomTcvkfIqZNeTT5DlEDKxEOKq0iLceipFsCMmdIzHuv/R8S4pzAw7932XS5yrROywcKhthM40fm+vHhT0Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bY8u1K55; arc=none smtp.client-ip=209.85.222.174
+	 Content-Disposition:In-Reply-To; b=BtKZ5PkIf5xSXkbZ6ErJSKcZe1dYDnxHzFuv+YkxTRjxM6cpG7rfB5eYaZLJgmuvDcOngBwVqBE55GSPCXExitpYbEPkAJcfMgkOFhEM2SxqLH1yKHC0bS0f8UiOxhV6alRbRZKpR71yN10DjOqY339pNl2SCBm5v8HtsjpOOro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MkV7WzK0; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bY8u1K55"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9158629a220so860061085a.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 01:59:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MkV7WzK0"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-9159951f05aso890346385a.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 01:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781168368; x=1781773168; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZbD+dNU3/p7RKZb43yjMctw6jjSoT/XuklLlBnk5ImY=;
-        b=bY8u1K558DelFCBGeWWknT5jKiC4IWwNxxMluvzu603+/+OMDb0iieQmVYBgwXkvUb
-         dACP3ADQ+LHdGVp0NYvNL1yDkXIZLf2Dsq5MNXP/DpuBF+GwA7sWZ6u/ZPfBGZBFnqGW
-         LdxR7Y2AEkheUhZTWLtftmCzVwSRsexRY0NuweSX96Fw2YXc9na4Lu/eixV3/ssWVUGP
-         pNGmAD79rwCWBW/IXl6z8eXoBmxgtkWkeLzIE+OXooF08Fn7TQ4fN1FjKRuKam/tHcz9
-         vCk6X0YQVaZpI1ImcxjS8uaLXWw/9J7mhW107deyly6VEyVhGL8j2xmyJ5VwECOENNiT
-         /EDw==
+        d=gmail.com; s=20251104; t=1781168374; x=1781773174; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4uXW7MRbQJd427EHnO48VbQxxD2p5RQ9HepN918NJz8=;
+        b=MkV7WzK0f7B5+mF78gzjPzi/LJ4XsZVFfnl0SpDIWx/DuGKJUWoHWA7jQxdNL1+ATx
+         3QiTt/QYhwGhmSazu6TzGgRF++k9VnBPfVlnP7aUqXa/JZcVhlOuDW3WeL5ZIWbZ772v
+         FwqcYf842+F8nyfKyAdeUnNuP2vt8H3jgel6rh0SABtluWrWEXRFKaQueJFsW/AzfQ7A
+         edBX/PUwYMZWA1K32l5VaGI6rxaPiEXaEtoEKimRK5m7U4pHLjTsxSlT0YP9vC6EVwD4
+         RQzFXy8scG2yVvUEYm2MKqF0qzuS57RoYnHfpsRHuHQbbghNGN6DSvOkAlABl3sqIzzD
+         GEmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781168368; x=1781773168;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZbD+dNU3/p7RKZb43yjMctw6jjSoT/XuklLlBnk5ImY=;
-        b=FT7E3aCw0NhA5khkYpwGU3KukrUTN9FQxKXIDGGq9qTbWWVt4RAUCNI9761h+E2RTL
-         Fbby/3FjMd4PoP3etki6Zt/YCV8ZXdktpsC5gKgpV2Q9Uv1arIRrzKOWS49eJGHVrrtU
-         lc7UUxcfuG8wn1X3yb9Xt7vtxvCNhEf4ITo+QIduYDw4yWCyjkMs2JZz0OdG2K/Y5ylM
-         841oydAuzQU+gRNHGVTBO0sInlzBqSc/hBM3F2WJ6SaF1MBFTkqL9xi7pojEb8Vi7O5B
-         EOv9PIVXDbVKZYn8qCujfUFZ0sdfhOWPNkA1f0CgGR+635btvegdhPKEGVfeZhUpoJvP
-         9DrQ==
-X-Gm-Message-State: AOJu0YyCZXTNNlXo6+RX1KXV2Ji0yLCSJYv03t+9Zzkj3wfFHDG/EHE/
-	WoCraLTqP/BVG8mzU+ThcLgB0z8PATJnoDpEl62oVsowKDNo8/KzoM2adC4bCFsG
-X-Gm-Gg: Acq92OH+wzfNkzYQmjGm2RSKk1zz0sx6gAlCjfxuP7beKaey/55crYtjexPol0EFbLF
-	JNc5qhITmnVONf1HencCLR+9GHTKIDuZo8PFgxLEktk4qJIT44Tj4ttr3vkep2OPWCRe6GmV8tH
-	F2PVajzIs10yZdcn4GQQLpSEtwavar3JAbJyLiPOYfY6bWGN7Hq4d2kWOD/35gazlqZ+NZ+/RpM
-	e02jEUSTUZbNyDIsAjrTBie1GZzM1gGpXsSMJw1uZn2Dw87LdUJVXCw3QY2/AdUc+UZpKoMJwd9
-	QWbPdUDiwQe16ACQ6biQYXwq8cJNPQ228OBBdKG4E/XIEZXV4H1PSviI52bbYsp+hI6Zdj/x7nE
-	SPjxCpUMPmcsp1UrBZNUmdpNyeWrAKy9bbZNPLbT2kqlBkzvJXOXzoVxAhT7uzD3t6rLGbQmp6M
-	gXAK7ceUjjT5gF49W34WAnO92vTts=
-X-Received: by 2002:a05:620a:3909:b0:915:d443:e6e1 with SMTP id af79cd13be357-9160ad97737mr250356385a.26.1781168368329;
-        Thu, 11 Jun 2026 01:59:28 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781168374; x=1781773174;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4uXW7MRbQJd427EHnO48VbQxxD2p5RQ9HepN918NJz8=;
+        b=LIyhjbs4Ife5JpQ4q0wMAtns6qWdriz8T+gWeeY6l+h2q0jFv2B0pginlY9gG69WS6
+         L0QsVi6OZ/KMaVJ1N4e9oy6xM0bOa5VnL1WYzjUKC1nnoQRuw+HM2AanKKtUrRcLNuYM
+         5kXht/LrI6xgK+HzZjEIF08yBe+GWfDnsdMLxsyh6UxZ72cZVc13GZ2lVGaojdI+Fb9K
+         bLJEYB5g0TjU7kGFIGoi+xvWW0c2ae9mWZ0EnunhlQkrgMBY3lYNvEwTJixq477cGsfj
+         nagfRmD6SbI5n35YHd3u8mpjnUrBFuDlLv/nj0xW4agUI66ShsBt5W4Og3rDBAPBOdT+
+         flqg==
+X-Gm-Message-State: AOJu0Yz92nFRfQwLQyDeW+4nfxmNLB33143ANV6IbSiPZvXTojE9Fxpf
+	jZIAsryALuaYz2oSJYaw31uSOoJKjSYZYgaPQm+6j8R7uQvUl7MJgw8mVCvxAIcgX3Q=
+X-Gm-Gg: Acq92OEoh/0pRcySFOH+nK061jkr4r2ioCALXxLSL8Ej+cc/ee8zzMFFc4iibcnCMC4
+	th7N2pFjpHQJ6whvEJOh6/pU5v390tZFSNv9PEaBVJCtsLe2tqMSIBDgAjkDx7HsUza+8qD17DF
+	4fMqyZHBlevmxbaBBBdAfVwn5sIf29ysqAcoZn99QbTSRahySXI/pW8uSSXGVi9sGnYSU63Cmgw
+	YQTkMmLIvRFT4hq523zYgRVb8WU+/Ti2qBL4whPw0QNiplCbkH7T51jKaKQNCs9lVISKylUxI6T
+	kU2ZlYJN3A3DShHSgEjqC6U0PPDbGAsYV5XQLtVUbD7bThRjZ3L3bmCuIkPavItrHHuUpePh2tZ
+	3K+v6dBFoNdR0yNSBUwWXO60ndWN3TALWfVG10BnL8siGLie108xPcDZHLm/0ORPqXxoV4gIt/G
+	aljx3mc6D9xDbsVRuTPXTu44CDCkU=
+X-Received: by 2002:a05:620a:25d0:b0:915:9f28:6741 with SMTP id af79cd13be357-9160ac9657emr268532885a.11.1781168374274;
+        Thu, 11 Jun 2026 01:59:34 -0700 (PDT)
 Received: from localhost ([149.40.50.215])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9160b0446f1sm126596485a.41.2026.06.11.01.59.26
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9160ae26238sm127924285a.33.2026.06.11.01.59.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 01:59:26 -0700 (PDT)
-Date: Thu, 11 Jun 2026 10:16:05 +0300
+        Thu, 11 Jun 2026 01:59:33 -0700 (PDT)
+Date: Thu, 11 Jun 2026 10:18:51 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Marco Elver <elver@google.com>
+To: oe-kbuild@lists.linux.dev,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	"Harry Yoo (Oracle)" <harry@kernel.org>
-Subject: [linux-next:master 4283/12670] drivers/dma/sun6i-dma.c:792
- sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line
- 793)
-Message-ID: <202606110958.2CPRMnM0-lkp@intel.com>
+	virtualization@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Cindy Lu <lulu@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	linux-kernel@vger.kernel.org, Laurent Vivier <lvivier@redhat.com>,
+	Yongji Xie <xieyongji@bytedance.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Maxime Coquelin <mcoqueli@redhat.com>
+Subject: Re: [PATCH v3] vduse: Add suspend
+Message-ID: <202606111115.tKKe1qCE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Message-ID: <20260611071605.1ovY3FsEzR59ehgOLym5M5nJhjoZe7KGLYunEUZfHSo@z>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260610083452.477759-1-eperezma@redhat.com>
+Message-ID: <20260611071851.08lsSBcmmxb8ZU8JZrzSCsGdNzLU7ksK9E63It7Up4o@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   49e02880ec0a8c378e811bc9d85da188d7c6204c
-commit: feb662d9168b63e1d4c02671ec96005410c6f3ce [4283/12670] slab: support for compiler-assisted type-based slab cache partitioning
-config: arm64-randconfig-r072-20260610 (https://download.01.org/0day-ci/archive/20260611/202606110958.2CPRMnM0-lkp@intel.com/config)
+Hi Eugenio,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugenio-P-rez/vduse-Add-suspend/20260610-164534
+base:   next-20260609
+patch link:    https://lore.kernel.org/r/20260610083452.477759-1-eperezma%40redhat.com
+patch subject: [PATCH v3] vduse: Add suspend
+config: arm64-randconfig-r072-20260610 (https://download.01.org/0day-ci/archive/20260611/202606111115.tKKe1qCE-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9185-gbcc58b9c
 
@@ -87,57 +102,35 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606110958.2CPRMnM0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606111115.tKKe1qCE-lkp@intel.com/
 
 smatch warnings:
-drivers/dma/sun6i-dma.c:792 sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line 793)
-drivers/dma/sun6i-dma.c:873 sun6i_dma_prep_dma_cyclic() error: dereferencing freed memory 'v_lli' (line 874)
+drivers/vdpa/vdpa_user/vduse_dev.c:577 vduse_vq_kick() warn: inconsistent returns '&vq->kick_lock'.
+drivers/vdpa/vdpa_user/vduse_dev.c:1302 vduse_dev_queue_irq_work() warn: inconsistent returns '&dev->rwsem'.
 
-vim +/v_lli +792 drivers/dma/sun6i-dma.c
+vim +577 drivers/vdpa/vdpa_user/vduse_dev.c
 
-555859308723d8 Maxime Ripard       2014-07-17  783  	dev_dbg(chan2dev(chan), "First: %pad\n", &txd->p_lli);
-9aa48806edb8c3 Samuel Holland      2022-04-24  784  	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-9aa48806edb8c3 Samuel Holland      2022-04-24  785  	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-9aa48806edb8c3 Samuel Holland      2022-04-24  786  		sun6i_dma_dump_lli(vchan, v_lli, p_lli);
-555859308723d8 Maxime Ripard       2014-07-17  787  
-555859308723d8 Maxime Ripard       2014-07-17  788  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-555859308723d8 Maxime Ripard       2014-07-17  789  
-4fbd804e009ae9 Maxime Ripard       2014-07-30  790  err_lli_free:
-9aa48806edb8c3 Samuel Holland      2022-04-24  791  	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-9aa48806edb8c3 Samuel Holland      2022-04-24 @792  	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-                                                                                                ^^^^^^^^^^^^^^^^^
-9aa48806edb8c3 Samuel Holland      2022-04-24 @793  		dma_pool_free(sdev->pool, v_lli, p_lli);
-                                                                                          ^^^^^
-freed and then dereferenced to get the next block.
+c8a6153b6c59d9 Xie Yongji        2021-08-31  562  static void vduse_vq_kick(struct vduse_virtqueue *vq)
+c8a6153b6c59d9 Xie Yongji        2021-08-31  563  {
+c8a6153b6c59d9 Xie Yongji        2021-08-31  564  	spin_lock(&vq->kick_lock);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+c8a6153b6c59d9 Xie Yongji        2021-08-31  565  	if (!vq->ready)
+c8a6153b6c59d9 Xie Yongji        2021-08-31  566  		goto unlock;
+c8a6153b6c59d9 Xie Yongji        2021-08-31  567  
+9c4307e82fa1dc Eugenio Pérez     2026-06-10  568  	guard(rwsem_read)(&vq->dev->rwsem);
+9c4307e82fa1dc Eugenio Pérez     2026-06-10  569  	if (vq->dev->suspended)
+9c4307e82fa1dc Eugenio Pérez     2026-06-10  570  		return;
 
-4fbd804e009ae9 Maxime Ripard       2014-07-30  794  	kfree(txd);
-555859308723d8 Maxime Ripard       2014-07-17  795  	return NULL;
-555859308723d8 Maxime Ripard       2014-07-17  796  }
-555859308723d8 Maxime Ripard       2014-07-17  797  
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  798  static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  799  					struct dma_chan *chan,
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  800  					dma_addr_t buf_addr,
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  801  					size_t buf_len,
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  802  					size_t period_len,
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  803  					enum dma_transfer_direction dir,
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  804  					unsigned long flags)
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  805  {
+unlock before returning?
 
-[ snip ]
-
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  868  
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  869  	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  870  
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  871  err_lli_free:
-9aa48806edb8c3 Samuel Holland      2022-04-24  872  	for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
-9aa48806edb8c3 Samuel Holland      2022-04-24 @873  	     p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
-                                                                                                ^^^^^^^^^^^^^^^^^
-Same.
-
-9aa48806edb8c3 Samuel Holland      2022-04-24 @874  		dma_pool_free(sdev->pool, v_lli, p_lli);
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  875  	kfree(txd);
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  876  	return NULL;
-a90e173f3faf29 Jean-Francois Moine 2016-04-28  877  }
+9c4307e82fa1dc Eugenio Pérez     2026-06-10  571  
+c8a6153b6c59d9 Xie Yongji        2021-08-31  572  	if (vq->kickfd)
+3652117f854819 Christian Brauner 2023-11-22  573  		eventfd_signal(vq->kickfd);
+c8a6153b6c59d9 Xie Yongji        2021-08-31  574  	else
+c8a6153b6c59d9 Xie Yongji        2021-08-31  575  		vq->kicked = true;
+c8a6153b6c59d9 Xie Yongji        2021-08-31  576  unlock:
+c8a6153b6c59d9 Xie Yongji        2021-08-31 @577  	spin_unlock(&vq->kick_lock);
+c8a6153b6c59d9 Xie Yongji        2021-08-31  578  }
 
 --
 0-DAY CI Kernel Test Service
