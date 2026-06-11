@@ -1,305 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD6A40D580
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 10:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080643D47AD
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 10:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781173203; cv=none; b=krYJ6o70nGJ/JnAEgs1BQkkthLdKva7GvJXDZSCyALdom6gQ3mMyJkP5gvg/V3a7ZLbmlGjKVHKoOUqyMNbqbyxq1C7N/3Odw8tGxv0XX+v1en2QQzQtl7RCemiQqlncI8rwA7kRAsl9OTxf6NPD90qalFCWw5nvJTYCzXE6PNI=
+	t=1781174295; cv=none; b=GVraWAnL6Zz9GIkwizKRu7r81V1mfNDHBwD+FRrOfQvSfZzBorSolJNp2Tf7Q/AZzkl3IaFVAY6RC/qna+OjJXiPmDSwpryww3bH8bqeZd6cgABulwV+J5VldBgqPVzcfhlRum1/U9bcW7fJ5xt4PBlGniKuQtnKe/WN8IIlfkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781173203; c=relaxed/simple;
-	bh=bjxuGH/2Z4jw9352FyuTalDYl5DP9mV2pgceLwHHPZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lLPF4AmYVfZLODTCuqxDuNeXDhOVg+BERpRhS5AUEOYYI9Y6Lz+y2jubkSNJiifMZPq7oftjpoC/o85R8oIke97/nKRfiMlW5a1k0kftG5Njdzie+wvEQVaqBA3/eNEW3PXoqX4UOgwjqGenC9WExDrXK3cJdLRiBq/+SX0VxXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pph9WRXU; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781174295; c=relaxed/simple;
+	bh=XoTYR/TeqMK2ycCgG5+xbyxi/eud39OEFhZfHmqkKeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=PPp9VAypBs2WAy3uOGbjxl5iF06R4xqm2SboeTXLTX50HZqaFwdjQgp3tK7IN8t/mx+Boalvsb4TmG+5evRVxmiSGBs7yme6upb/Qi8r+qm59S1YZcPUrO4BvtDH4THNGtA1tnp9Vhd2OhW6PGhEoAf2611XgQ2J2uj9ak/VYoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KOr4eiL9; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pph9WRXU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781173201; x=1812709201;
-  h=date:from:to:cc:subject:message-id;
-  bh=bjxuGH/2Z4jw9352FyuTalDYl5DP9mV2pgceLwHHPZQ=;
-  b=Pph9WRXUE3P88qCdAnRgwZS1kd3Tm179uq/7nEttOtaS5Pwn38kKF+3p
-   zdO1UVr6WW3xvN/vmUzAFSRB2+mXqOx+7MxSJVb6vjwywWAcoshlH9t3v
-   U1GybKMZZu7h1/PhNIQb7Tmz5ELXv8tPIGXlXEmBSNvBAEcgpCqcZjPXv
-   BljWNL09lxoyBS/LxhuLxkbW9/3EvOSVLVqeVpbFdkveB4RdgHguf5LAw
-   1pfy5eLsL5GOs2KSHkTDLiV6c5hxqL8BRoa+ACDbC8a4tMecoHWnCxkDL
-   FD7b9Tg3tegzXBzZUtGq32IMkRoTHDaNuyKCbYGCZ7+ysbNkJ+ceKwUBz
-   A==;
-X-CSE-ConnectionGUID: uwGRLTk8TvKKs7hSDjxvyA==
-X-CSE-MsgGUID: p44wil3jSg2LxZ/POZkf0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82175727"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="82175727"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 03:20:00 -0700
-X-CSE-ConnectionGUID: 0cPVShhaRLqIA7T5RCNStw==
-X-CSE-MsgGUID: Esnfxu9qQ8OlkL30R5cuaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="242014766"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jun 2026 03:19:59 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXcVw-00000000Mm2-2Sdl;
-	Thu, 11 Jun 2026 10:19:56 +0000
-Date: Thu, 11 Jun 2026 18:19:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tip:timers/vdso 12/18]
- drivers/iio/magnetometer/yamaha-yas530.c:1103 yas537_get_calibration_data()
- warn: ' - 64' 4294967232 can't fit into 127 'c->a3'
-Message-ID: <202606111843.XdhMFJN6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KOr4eiL9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781174293;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X/vtY/v3M5U6llxqJZ4Yn6/DNDaMuf4s018w2I93KIY=;
+	b=KOr4eiL9y3zw82rQbC2xif0vWjnLMDnkkJWniygba8JDegEofT2Iw9Cquc02ZY9/5QcvjU
+	kFoHsAoRD1OQr4DM/oHJwjRQXirm6zzTWxY3wBdnPfbSYxOG+m0y7XIL1SlZ2mT36xx73k
+	CD7gPYk29Awk53vsw1AYVc0A14WNnqY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-531-YjEwe7_WMEKs4T9nqtpVYA-1; Thu, 11 Jun 2026 06:38:12 -0400
+X-MC-Unique: YjEwe7_WMEKs4T9nqtpVYA-1
+X-Mimecast-MFC-AGG-ID: YjEwe7_WMEKs4T9nqtpVYA_1781174291
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-45ef6417092so6575063f8f.2
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 03:38:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781174291; x=1781779091;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X/vtY/v3M5U6llxqJZ4Yn6/DNDaMuf4s018w2I93KIY=;
+        b=AZ8jC6XW3K7gp0swsPA3/ySPABU94/NJ9lcRFK6tp8x0kEMpdSEXT9sXaK6Mhm3dN5
+         NvR5HTq/lXgnbN1tG/iFseIxNwrONnXI1ptnjJfGg3c0WGMaWrTFUo7xwd+K6ieQCr4w
+         RMnWcHySDtNcpwi/be4htdDwLKhOzx/pm6YxZFc111LxZxxl0M06o8m7k64NGkZR432Q
+         htgI0U7NzocLcZiYjIDW9NRotyNYufQgaYPBobxKYdZv3Ygd3BZSe8zBJuyIyRLT6ZmO
+         xFp7WAskSEh1c5u4BzM3GbjT/uKaV24W5fZWtCPQPtG2Nz8oRkRaQu7syMeLFHbVTktX
+         QtgQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8iBvIRd2iEFmXj9sfQJIWNyZY+ZmI8R+plF8xw7cYDq48iEfj4ZHeVhKjn4ytzgMG1ahXXGi6ww60=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6IbTQ6gqDpiWUTtgJBOF2GkYQ9rBc16NY16IrLuuyUUEEcFIl
+	TH1c3iXy4yyWY7uQnAjn24chGgbYMVYPtIvfy00o0OgldfoYq5apIga7oaPfVHEbIVDkQdv+pw+
+	qAXYH2bUxw41up0Z32tyiMgXbBCaKf/LfCoXcLpqf6cKYNaBojrixO8Gg3FQ0n4nzlmONCA==
+X-Gm-Gg: Acq92OHeyjk4J+G6dlc4RnRDHn85cOip9yrASKAQ3G0mJ4z2mqmjEafKqlEAoOHOBz5
+	klbaCX9LGBaIyHrCfQgau1Bd5mgFyDbgLp5M6MjhwxfOu4mxa+usqGMuVp94S21KMANuKfkgcUc
+	eMTN8bWqLj7JHkzNqZB1aYHzNh8YiGVpuwJhmZIS1hb8kZdP8yO7Zq+dVsgCOunSAwfYHZ3Kl6X
+	NrDYHXIfX/xA6NErgcu87/qK3PkWT//CMQrcjQxUT+PctAcNp+UGmQtL9DxsQ41tW9UCybPFD/V
+	ivNnDVZYT5sDCVpdMKCtCg6IcaoHuDAjaNxGvD+dkBBiKN2nUEZj8t5+3OB1MMefS3D0EozayGl
+	qSAm8HEZcYPbN8GplgGdTxjJCmAis8FvNO54KvThrIg147g+CwuSoIQ==
+X-Received: by 2002:a05:6000:41e3:b0:460:3234:293f with SMTP id ffacd0b85a97d-460677e92a0mr3648451f8f.42.1781174290530;
+        Thu, 11 Jun 2026 03:38:10 -0700 (PDT)
+X-Received: by 2002:a05:6000:41e3:b0:460:3234:293f with SMTP id ffacd0b85a97d-460677e92a0mr3648382f8f.42.1781174289911;
+        Thu, 11 Jun 2026 03:38:09 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-85-71.inter.net.il. [80.230.85.71])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f67c6sm76938127f8f.16.2026.06.11.03.38.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 03:38:09 -0700 (PDT)
+Date: Thu, 11 Jun 2026 06:38:06 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	virtualization@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Cindy Lu <lulu@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	linux-kernel@vger.kernel.org, Laurent Vivier <lvivier@redhat.com>,
+	Yongji Xie <xieyongji@bytedance.com>,
+	Maxime Coquelin <mcoqueli@redhat.com>
+Subject: Re: [PATCH v3] vduse: Add suspend
+Message-ID: <20260611063730-mutt-send-email-mst@kernel.org>
+References: <20260610083452.477759-1-eperezma@redhat.com>
+ <202606111115.tKKe1qCE-lkp@intel.com>
+ <20260611050140-mutt-send-email-mst@kernel.org>
+ <aip9tNOx6WHIq22p@stanley.mountain>
+ <CAJaqyWdQ7_1zYcfNVF_vQrrLHf_TRAbqS0X1kMQm7QMZ4UY+kA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <CAJaqyWdQ7_1zYcfNVF_vQrrLHf_TRAbqS0X1kMQm7QMZ4UY+kA@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: y6-qThcKn8RJcOO3VyMXgDzW8wjEdahHHxMNYSO61Pw_1781174291
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Ian Rogers <irogers@google.com>
-CC: Thomas Gleixner <tglx@kernel.org>
+On Thu, Jun 11, 2026 at 11:30:23AM +0200, Eugenio Perez Martin wrote:
+> On Thu, Jun 11, 2026 at 11:20 AM Dan Carpenter <error27@gmail.com> wrote:
+> >
+> > On Thu, Jun 11, 2026 at 05:03:24AM -0400, Michael S. Tsirkin wrote:
+> > > On Thu, Jun 11, 2026 at 10:18:51AM +0300, Dan Carpenter wrote:
+> > > > Hi Eugenio,
+> > > >
+> > > > kernel test robot noticed the following build warnings:
+> > > >
+> > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > >
+> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Eugenio-P-rez/vduse-Add-suspend/20260610-164534
+> > > > base:   next-20260609
+> > > > patch link:    https://lore.kernel.org/r/20260610083452.477759-1-eperezma%40redhat.com
+> > > > patch subject: [PATCH v3] vduse: Add suspend
+> > > > config: arm64-randconfig-r072-20260610 (https://download.01.org/0day-ci/archive/20260611/202606111115.tKKe1qCE-lkp@intel.com/config)
+> > > > compiler: aarch64-linux-gcc (GCC) 8.5.0
+> > > > smatch: v0.5.0-9185-gbcc58b9c
+> > > >
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > > | Closes: https://lore.kernel.org/r/202606111115.tKKe1qCE-lkp@intel.com/
+> > > >
+> > > > smatch warnings:
+> > > > drivers/vdpa/vdpa_user/vduse_dev.c:577 vduse_vq_kick() warn: inconsistent returns '&vq->kick_lock'.
+> > > > drivers/vdpa/vdpa_user/vduse_dev.c:1302 vduse_dev_queue_irq_work() warn: inconsistent returns '&dev->rwsem'.
+> > > >
+> > > > vim +577 drivers/vdpa/vdpa_user/vduse_dev.c
+> > > >
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  562  static void vduse_vq_kick(struct vduse_virtqueue *vq)
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  563  {
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  564    spin_lock(&vq->kick_lock);
+> > > >                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  565    if (!vq->ready)
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  566            goto unlock;
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  567
+> > > > 9c4307e82fa1dc Eugenio Pérez     2026-06-10  568    guard(rwsem_read)(&vq->dev->rwsem);
+> > > > 9c4307e82fa1dc Eugenio Pérez     2026-06-10  569    if (vq->dev->suspended)
+> > > > 9c4307e82fa1dc Eugenio Pérez     2026-06-10  570            return;
+> > > >
+> > > > unlock before returning?
+> > > >
+> > > > 9c4307e82fa1dc Eugenio Pérez     2026-06-10  571
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  572    if (vq->kickfd)
+> > > > 3652117f854819 Christian Brauner 2023-11-22  573            eventfd_signal(vq->kickfd);
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  574    else
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  575            vq->kicked = true;
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  576  unlock:
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31 @577    spin_unlock(&vq->kick_lock);
+> > > > c8a6153b6c59d9 Xie Yongji        2021-08-31  578  }
+> > >
+> > >
+> > > I think this is fixed by:
+> > >
+> > > commit e4a249d15eb2d4b28213bebb1eefaf2e6d99de0b (HEAD -> vhost, linux-next-vhost/linux-next, kernel.org/vhost, kernel.org/test)
+> > > Author: Nathan Chancellor <nathan@kernel.org>
+> > > Date:   Wed Jun 10 12:16:49 2026 -0700
+> > >
+> > >     vduse: Fix error around jumping over a __cleanup() variable
+> > >
+> > > right?
+> >
+> > These things haven't hit linux-next yet.  I found the email.
+> > https://lore.kernel.org/all/20260610-vduse_vq_kick-fix-guard-usage-v1-1-0ce02c08006e@kernel.org/
+> >
+> > That only fixes the bug in vduse_vq_kick(), not the bug in
+> > vduse_dev_queue_irq_work().  I don't see a fix for that
+> > yet on lore but I may have missed it.
+> >
+> 
+> No, I can test & send a fast patch for that.
+> 
+> Thanks!
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-head:   8d563bd7904734c05a4f2abf4ecca0e4fe764b50
-commit: a339671db64b12bb02492557d2b0658811286277 [12/18] vdso: Switch get/put_unaligned() from packed struct to memcpy()
-:::::: branch date: 2 days ago
-:::::: commit date: 5 months ago
-config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260611/202606111843.XdhMFJN6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+Alright.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606111843.XdhMFJN6-lkp@intel.com/
+-- 
+MST
 
-New smatch warnings:
-drivers/iio/magnetometer/yamaha-yas530.c:1103 yas537_get_calibration_data() warn: ' - 64' 4294967232 can't fit into 127 'c->a3'
-
-Old smatch warnings:
-drivers/iio/magnetometer/yamaha-yas530.c:1099 yas537_get_calibration_data() warn: ' - 256' 4294967040 can't fit into 32767 'c->Cx'
-drivers/iio/magnetometer/yamaha-yas530.c:1100 yas537_get_calibration_data() warn: ' - 256' 4294967040 can't fit into 32767 'c->Cy1'
-drivers/iio/magnetometer/yamaha-yas530.c:1102 yas537_get_calibration_data() warn: ' - 64' 4294967232 can't fit into 127 'c->a2'
-drivers/iio/magnetometer/yamaha-yas530.c:1105 yas537_get_calibration_data() warn: ' - 112' 4294967184 can't fit into 32767 'c->a5'
-drivers/iio/magnetometer/yamaha-yas530.c:1106 yas537_get_calibration_data() warn: ' - 64' 4294967232 can't fit into 127 'c->a6'
-drivers/iio/magnetometer/yamaha-yas530.c:1108 yas537_get_calibration_data() warn: ' - 64' 4294967232 can't fit into 127 'c->a8'
-drivers/iio/magnetometer/yamaha-yas530.c:1109 yas537_get_calibration_data() warn: ' - 112' 4294967184 can't fit into 32767 'c->a9'
-
-vim +1103 drivers/iio/magnetometer/yamaha-yas530.c
-
-de8860b1ed4701 Linus Walleij 2020-12-24   923  
-65f79b50103067 Jakob Hauser  2022-08-13   924  static int yas537_get_calibration_data(struct yas5xx *yas5xx)
-65f79b50103067 Jakob Hauser  2022-08-13   925  {
-65f79b50103067 Jakob Hauser  2022-08-13   926  	struct yas5xx_calibration *c = &yas5xx->calibration;
-65f79b50103067 Jakob Hauser  2022-08-13   927  	u8 data[17];
-65f79b50103067 Jakob Hauser  2022-08-13   928  	u32 val1, val2, val3, val4;
-65f79b50103067 Jakob Hauser  2022-08-13   929  	int i, ret;
-65f79b50103067 Jakob Hauser  2022-08-13   930  
-65f79b50103067 Jakob Hauser  2022-08-13   931  	/* Writing SRST register */
-65f79b50103067 Jakob Hauser  2022-08-13   932  	ret = regmap_write(yas5xx->map, YAS537_SRST, BIT(1));
-65f79b50103067 Jakob Hauser  2022-08-13   933  	if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13   934  		return ret;
-65f79b50103067 Jakob Hauser  2022-08-13   935  
-65f79b50103067 Jakob Hauser  2022-08-13   936  	/* Calibration readout, YAS537 needs one readout only */
-65f79b50103067 Jakob Hauser  2022-08-13   937  	ret = regmap_bulk_read(yas5xx->map, YAS537_CAL, data, sizeof(data));
-65f79b50103067 Jakob Hauser  2022-08-13   938  	if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13   939  		return ret;
-65f79b50103067 Jakob Hauser  2022-08-13   940  	dev_dbg(yas5xx->dev, "calibration data: %17ph\n", data);
-65f79b50103067 Jakob Hauser  2022-08-13   941  
-65f79b50103067 Jakob Hauser  2022-08-13   942  	/* Sanity check, is this all zeroes? */
-65f79b50103067 Jakob Hauser  2022-08-13   943  	if (!memchr_inv(data, 0x00, 16) && !FIELD_GET(GENMASK(5, 0), data[16]))
-65f79b50103067 Jakob Hauser  2022-08-13   944  		dev_warn(yas5xx->dev, "calibration is blank!\n");
-65f79b50103067 Jakob Hauser  2022-08-13   945  
-65f79b50103067 Jakob Hauser  2022-08-13   946  	/* Contribute calibration data to the input pool for kernel entropy */
-65f79b50103067 Jakob Hauser  2022-08-13   947  	add_device_randomness(data, sizeof(data));
-65f79b50103067 Jakob Hauser  2022-08-13   948  
-65f79b50103067 Jakob Hauser  2022-08-13   949  	/* Extract version information */
-65f79b50103067 Jakob Hauser  2022-08-13   950  	yas5xx->version = FIELD_GET(GENMASK(7, 6), data[16]);
-65f79b50103067 Jakob Hauser  2022-08-13   951  
-65f79b50103067 Jakob Hauser  2022-08-13   952  	/* There are two versions of YAS537 behaving differently */
-65f79b50103067 Jakob Hauser  2022-08-13   953  	switch (yas5xx->version) {
-65f79b50103067 Jakob Hauser  2022-08-13   954  	case YAS537_VERSION_0:
-65f79b50103067 Jakob Hauser  2022-08-13   955  		/*
-65f79b50103067 Jakob Hauser  2022-08-13   956  		 * The first version simply writes data back into registers:
-65f79b50103067 Jakob Hauser  2022-08-13   957  		 *
-65f79b50103067 Jakob Hauser  2022-08-13   958  		 * data[0]  YAS537_MTC		0x93
-65f79b50103067 Jakob Hauser  2022-08-13   959  		 * data[1]			0x94
-65f79b50103067 Jakob Hauser  2022-08-13   960  		 * data[2]			0x95
-65f79b50103067 Jakob Hauser  2022-08-13   961  		 * data[3]			0x96
-65f79b50103067 Jakob Hauser  2022-08-13   962  		 * data[4]			0x97
-65f79b50103067 Jakob Hauser  2022-08-13   963  		 * data[5]			0x98
-65f79b50103067 Jakob Hauser  2022-08-13   964  		 * data[6]			0x99
-65f79b50103067 Jakob Hauser  2022-08-13   965  		 * data[7]			0x9a
-65f79b50103067 Jakob Hauser  2022-08-13   966  		 * data[8]			0x9b
-65f79b50103067 Jakob Hauser  2022-08-13   967  		 * data[9]			0x9c
-65f79b50103067 Jakob Hauser  2022-08-13   968  		 * data[10]			0x9d
-65f79b50103067 Jakob Hauser  2022-08-13   969  		 * data[11] YAS537_OC		0x9e
-65f79b50103067 Jakob Hauser  2022-08-13   970  		 *
-65f79b50103067 Jakob Hauser  2022-08-13   971  		 * data[12] YAS537_OFFSET_X	0x84
-65f79b50103067 Jakob Hauser  2022-08-13   972  		 * data[13] YAS537_OFFSET_Y1	0x85
-65f79b50103067 Jakob Hauser  2022-08-13   973  		 * data[14] YAS537_OFFSET_Y2	0x86
-65f79b50103067 Jakob Hauser  2022-08-13   974  		 *
-65f79b50103067 Jakob Hauser  2022-08-13   975  		 * data[15] YAS537_HCK		0x88
-65f79b50103067 Jakob Hauser  2022-08-13   976  		 * data[16] YAS537_LCK		0x89
-65f79b50103067 Jakob Hauser  2022-08-13   977  		 */
-65f79b50103067 Jakob Hauser  2022-08-13   978  		for (i = 0; i < 12; i++) {
-65f79b50103067 Jakob Hauser  2022-08-13   979  			ret = regmap_write(yas5xx->map, YAS537_MTC + i,
-65f79b50103067 Jakob Hauser  2022-08-13   980  					   data[i]);
-65f79b50103067 Jakob Hauser  2022-08-13   981  			if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13   982  				return ret;
-65f79b50103067 Jakob Hauser  2022-08-13   983  		}
-65f79b50103067 Jakob Hauser  2022-08-13   984  		for (i = 0; i < 3; i++) {
-65f79b50103067 Jakob Hauser  2022-08-13   985  			ret = regmap_write(yas5xx->map, YAS537_OFFSET_X + i,
-65f79b50103067 Jakob Hauser  2022-08-13   986  					   data[i + 12]);
-65f79b50103067 Jakob Hauser  2022-08-13   987  			if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13   988  				return ret;
-65f79b50103067 Jakob Hauser  2022-08-13   989  			yas5xx->hard_offsets[i] = data[i + 12];
-65f79b50103067 Jakob Hauser  2022-08-13   990  		}
-65f79b50103067 Jakob Hauser  2022-08-13   991  		for (i = 0; i < 2; i++) {
-65f79b50103067 Jakob Hauser  2022-08-13   992  			ret = regmap_write(yas5xx->map, YAS537_HCK + i,
-65f79b50103067 Jakob Hauser  2022-08-13   993  					   data[i + 15]);
-65f79b50103067 Jakob Hauser  2022-08-13   994  			if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13   995  				return ret;
-65f79b50103067 Jakob Hauser  2022-08-13   996  		}
-65f79b50103067 Jakob Hauser  2022-08-13   997  		break;
-65f79b50103067 Jakob Hauser  2022-08-13   998  	case YAS537_VERSION_1:
-65f79b50103067 Jakob Hauser  2022-08-13   999  		/*
-65f79b50103067 Jakob Hauser  2022-08-13  1000  		 * The second version writes some data into registers but also
-65f79b50103067 Jakob Hauser  2022-08-13  1001  		 * extracts calibration coefficients.
-65f79b50103067 Jakob Hauser  2022-08-13  1002  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1003  		 * Registers being written:
-65f79b50103067 Jakob Hauser  2022-08-13  1004  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1005  		 * data[0]  YAS537_MTC			0x93
-65f79b50103067 Jakob Hauser  2022-08-13  1006  		 * data[1]  YAS537_MTC+1		0x94
-65f79b50103067 Jakob Hauser  2022-08-13  1007  		 * data[2]  YAS537_MTC+2		0x95
-65f79b50103067 Jakob Hauser  2022-08-13  1008  		 * data[3]  YAS537_MTC+3 (partially)	0x96
-65f79b50103067 Jakob Hauser  2022-08-13  1009  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1010  		 * data[12] YAS537_OFFSET_X		0x84
-65f79b50103067 Jakob Hauser  2022-08-13  1011  		 * data[13] YAS537_OFFSET_Y1		0x85
-65f79b50103067 Jakob Hauser  2022-08-13  1012  		 * data[14] YAS537_OFFSET_Y2		0x86
-65f79b50103067 Jakob Hauser  2022-08-13  1013  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1014  		 * data[15] YAS537_HCK (partially)	0x88
-65f79b50103067 Jakob Hauser  2022-08-13  1015  		 *          YAS537_LCK (partially)	0x89
-65f79b50103067 Jakob Hauser  2022-08-13  1016  		 * data[16] YAS537_OC  (partially)	0x9e
-65f79b50103067 Jakob Hauser  2022-08-13  1017  		 */
-65f79b50103067 Jakob Hauser  2022-08-13  1018  		for (i = 0; i < 3; i++) {
-65f79b50103067 Jakob Hauser  2022-08-13  1019  			ret = regmap_write(yas5xx->map, YAS537_MTC + i,
-65f79b50103067 Jakob Hauser  2022-08-13  1020  					   data[i]);
-65f79b50103067 Jakob Hauser  2022-08-13  1021  			if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13  1022  				return ret;
-65f79b50103067 Jakob Hauser  2022-08-13  1023  		}
-65f79b50103067 Jakob Hauser  2022-08-13  1024  		for (i = 0; i < 3; i++) {
-65f79b50103067 Jakob Hauser  2022-08-13  1025  			ret = regmap_write(yas5xx->map, YAS537_OFFSET_X + i,
-65f79b50103067 Jakob Hauser  2022-08-13  1026  					   data[i + 12]);
-65f79b50103067 Jakob Hauser  2022-08-13  1027  			if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13  1028  				return ret;
-65f79b50103067 Jakob Hauser  2022-08-13  1029  			yas5xx->hard_offsets[i] = data[i + 12];
-65f79b50103067 Jakob Hauser  2022-08-13  1030  		}
-65f79b50103067 Jakob Hauser  2022-08-13  1031  		/*
-65f79b50103067 Jakob Hauser  2022-08-13  1032  		 * Visualization of partially taken data:
-65f79b50103067 Jakob Hauser  2022-08-13  1033  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1034  		 * data[3]       n 7 6 5 4 3 2 1 0
-65f79b50103067 Jakob Hauser  2022-08-13  1035  		 * YAS537_MTC+3    x x x 1 0 0 0 0
-65f79b50103067 Jakob Hauser  2022-08-13  1036  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1037  		 * data[15]      n 7 6 5 4 3 2 1 0
-65f79b50103067 Jakob Hauser  2022-08-13  1038  		 * YAS537_HCK      x x x x 0
-65f79b50103067 Jakob Hauser  2022-08-13  1039  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1040  		 * data[15]      n 7 6 5 4 3 2 1 0
-65f79b50103067 Jakob Hauser  2022-08-13  1041  		 * YAS537_LCK              x x x x 0
-65f79b50103067 Jakob Hauser  2022-08-13  1042  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1043  		 * data[16]      n 7 6 5 4 3 2 1 0
-65f79b50103067 Jakob Hauser  2022-08-13  1044  		 * YAS537_OC           x x x x x x
-65f79b50103067 Jakob Hauser  2022-08-13  1045  		 */
-65f79b50103067 Jakob Hauser  2022-08-13  1046  		ret = regmap_write(yas5xx->map, YAS537_MTC + 3,
-65f79b50103067 Jakob Hauser  2022-08-13  1047  				   FIELD_PREP(YAS537_MTC3_MASK_PREP,
-65f79b50103067 Jakob Hauser  2022-08-13  1048  				   FIELD_GET(YAS537_MTC3_MASK_GET, data[3])) |
-65f79b50103067 Jakob Hauser  2022-08-13  1049  				   YAS537_MTC3_ADD_BIT);
-65f79b50103067 Jakob Hauser  2022-08-13  1050  		if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13  1051  			return ret;
-65f79b50103067 Jakob Hauser  2022-08-13  1052  		ret = regmap_write(yas5xx->map, YAS537_HCK,
-65f79b50103067 Jakob Hauser  2022-08-13  1053  				   FIELD_PREP(YAS537_HCK_MASK_PREP,
-65f79b50103067 Jakob Hauser  2022-08-13  1054  				   FIELD_GET(YAS537_HCK_MASK_GET, data[15])));
-65f79b50103067 Jakob Hauser  2022-08-13  1055  		if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13  1056  			return ret;
-65f79b50103067 Jakob Hauser  2022-08-13  1057  		ret = regmap_write(yas5xx->map, YAS537_LCK,
-65f79b50103067 Jakob Hauser  2022-08-13  1058  				   FIELD_PREP(YAS537_LCK_MASK_PREP,
-65f79b50103067 Jakob Hauser  2022-08-13  1059  				   FIELD_GET(YAS537_LCK_MASK_GET, data[15])));
-65f79b50103067 Jakob Hauser  2022-08-13  1060  		if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13  1061  			return ret;
-65f79b50103067 Jakob Hauser  2022-08-13  1062  		ret = regmap_write(yas5xx->map, YAS537_OC,
-65f79b50103067 Jakob Hauser  2022-08-13  1063  				   FIELD_GET(YAS537_OC_MASK_GET, data[16]));
-65f79b50103067 Jakob Hauser  2022-08-13  1064  		if (ret)
-65f79b50103067 Jakob Hauser  2022-08-13  1065  			return ret;
-65f79b50103067 Jakob Hauser  2022-08-13  1066  		/*
-65f79b50103067 Jakob Hauser  2022-08-13  1067  		 * For data extraction, build some blocks. Four 32-bit blocks
-65f79b50103067 Jakob Hauser  2022-08-13  1068  		 * look appropriate.
-65f79b50103067 Jakob Hauser  2022-08-13  1069  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1070  		 *            n    7  6  5  4  3  2  1  0
-65f79b50103067 Jakob Hauser  2022-08-13  1071  		 *  data[0]   0 [ Cx Cx Cx Cx Cx Cx Cx Cx ] bits 31 .. 24
-65f79b50103067 Jakob Hauser  2022-08-13  1072  		 *  data[1]   1 [ Cx C1 C1 C1 C1 C1 C1 C1 ] bits 23 .. 16
-65f79b50103067 Jakob Hauser  2022-08-13  1073  		 *  data[2]   2 [ C1 C1 C2 C2 C2 C2 C2 C2 ] bits 15 .. 8
-65f79b50103067 Jakob Hauser  2022-08-13  1074  		 *  data[3]   3 [ C2 C2 C2                ] bits  7 .. 0
-65f79b50103067 Jakob Hauser  2022-08-13  1075  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1076  		 *            n    7  6  5  4  3  2  1  0
-65f79b50103067 Jakob Hauser  2022-08-13  1077  		 *  data[3]   0 [          a2 a2 a2 a2 a2 ] bits 31 .. 24
-65f79b50103067 Jakob Hauser  2022-08-13  1078  		 *  data[4]   1 [ a2 a2 a3 a3 a3 a3 a3 a3 ] bits 23 .. 16
-65f79b50103067 Jakob Hauser  2022-08-13  1079  		 *  data[5]   2 [ a3 a4 a4 a4 a4 a4 a4 a4 ] bits 15 .. 8
-65f79b50103067 Jakob Hauser  2022-08-13  1080  		 *  data[6]   3 [ a4                      ] bits  7 .. 0
-65f79b50103067 Jakob Hauser  2022-08-13  1081  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1082  		 *            n    7  6  5  4  3  2  1  0
-65f79b50103067 Jakob Hauser  2022-08-13  1083  		 *  data[6]   0 [    a5 a5 a5 a5 a5 a5 a5 ] bits 31 .. 24
-65f79b50103067 Jakob Hauser  2022-08-13  1084  		 *  data[7]   1 [ a5 a5 a6 a6 a6 a6 a6 a6 ] bits 23 .. 16
-65f79b50103067 Jakob Hauser  2022-08-13  1085  		 *  data[8]   2 [ a6 a7 a7 a7 a7 a7 a7 a7 ] bits 15 .. 8
-65f79b50103067 Jakob Hauser  2022-08-13  1086  		 *  data[9]   3 [ a7                      ] bits  7 .. 0
-65f79b50103067 Jakob Hauser  2022-08-13  1087  		 *
-65f79b50103067 Jakob Hauser  2022-08-13  1088  		 *            n    7  6  5  4  3  2  1  0
-65f79b50103067 Jakob Hauser  2022-08-13  1089  		 *  data[9]   0 [    a8 a8 a8 a8 a8 a8 a8 ] bits 31 .. 24
-65f79b50103067 Jakob Hauser  2022-08-13  1090  		 *  data[10]  1 [ a9 a9 a9 a9 a9 a9 a9 a9 ] bits 23 .. 16
-65f79b50103067 Jakob Hauser  2022-08-13  1091  		 *  data[11]  2 [ a9  k  k  k  k  k  k  k ] bits 15 .. 8
-65f79b50103067 Jakob Hauser  2022-08-13  1092  		 *  data[12]  3 [                         ] bits  7 .. 0
-65f79b50103067 Jakob Hauser  2022-08-13  1093  		 */
-65f79b50103067 Jakob Hauser  2022-08-13  1094  		val1 = get_unaligned_be32(&data[0]);
-65f79b50103067 Jakob Hauser  2022-08-13  1095  		val2 = get_unaligned_be32(&data[3]);
-65f79b50103067 Jakob Hauser  2022-08-13  1096  		val3 = get_unaligned_be32(&data[6]);
-65f79b50103067 Jakob Hauser  2022-08-13  1097  		val4 = get_unaligned_be32(&data[9]);
-65f79b50103067 Jakob Hauser  2022-08-13  1098  		/* Extract calibration coefficients and modify */
-65f79b50103067 Jakob Hauser  2022-08-13  1099  		c->Cx  = FIELD_GET(GENMASK(31, 23), val1) - 256;
-65f79b50103067 Jakob Hauser  2022-08-13  1100  		c->Cy1 = FIELD_GET(GENMASK(22, 14), val1) - 256;
-65f79b50103067 Jakob Hauser  2022-08-13  1101  		c->Cy2 = FIELD_GET(GENMASK(13,  5), val1) - 256;
-65f79b50103067 Jakob Hauser  2022-08-13  1102  		c->a2  = FIELD_GET(GENMASK(28, 22), val2) -  64;
-65f79b50103067 Jakob Hauser  2022-08-13 @1103  		c->a3  = FIELD_GET(GENMASK(21, 15), val2) -  64;
-65f79b50103067 Jakob Hauser  2022-08-13  1104  		c->a4  = FIELD_GET(GENMASK(14,  7), val2) - 128;
-65f79b50103067 Jakob Hauser  2022-08-13  1105  		c->a5  = FIELD_GET(GENMASK(30, 22), val3) - 112;
-65f79b50103067 Jakob Hauser  2022-08-13  1106  		c->a6  = FIELD_GET(GENMASK(21, 15), val3) -  64;
-65f79b50103067 Jakob Hauser  2022-08-13  1107  		c->a7  = FIELD_GET(GENMASK(14,  7), val3) - 128;
-65f79b50103067 Jakob Hauser  2022-08-13  1108  		c->a8  = FIELD_GET(GENMASK(30, 24), val4) -  64;
-65f79b50103067 Jakob Hauser  2022-08-13  1109  		c->a9  = FIELD_GET(GENMASK(23, 15), val4) - 112;
-65f79b50103067 Jakob Hauser  2022-08-13  1110  		c->k   = FIELD_GET(GENMASK(14,  8), val4);
-65f79b50103067 Jakob Hauser  2022-08-13  1111  		break;
-65f79b50103067 Jakob Hauser  2022-08-13  1112  	default:
-65f79b50103067 Jakob Hauser  2022-08-13  1113  		dev_err(yas5xx->dev, "unknown version of YAS537\n");
-65f79b50103067 Jakob Hauser  2022-08-13  1114  		return -EINVAL;
-65f79b50103067 Jakob Hauser  2022-08-13  1115  	}
-65f79b50103067 Jakob Hauser  2022-08-13  1116  
-65f79b50103067 Jakob Hauser  2022-08-13  1117  	return 0;
-65f79b50103067 Jakob Hauser  2022-08-13  1118  }
-65f79b50103067 Jakob Hauser  2022-08-13  1119  
-
-:::::: The code at line 1103 was first introduced by commit
-:::::: 65f79b501030678393eae0ae03d60a8151fbef55 iio: magnetometer: yas530: Add YAS537 variant
-
-:::::: TO: Jakob Hauser <jahau@rocketmail.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
