@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D84C331EDA
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 19:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD5F36B076
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 20:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781207861; cv=none; b=AMXOXk/vTkbJcZyyiKJF8Oeh1tOQRqB8+MbUr3Ps5Kie174QpxjX3VzhS8xUjS6htTerf9hthcCKZVrBZsbSDCTIKbz6tQxjM57D+aFDDrYN2Kn2p6Jta7LLmrEnGy9Y0+Wg6qRnaV+UXYeXGn+DrNOzX6ymj0uTlgG6UrVaKNg=
+	t=1781208582; cv=none; b=IY3Iu4ZnTrQwQ+r5v5rUmYUgsYK1RqN00PLNkDBEKyxp1JVJd+Jp8rO+2byQz2rnbqnHqH3vJyd5seUwNE92whfvrAcFZAbgDXf0lF2oVxdp+faIWQ/5ZqvtiQXHvk7K7p6yKf3FdY/us9CNlp5zb6epNwC/Ua124id2HKKtx58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781207861; c=relaxed/simple;
-	bh=ZOOGnDHo460cbP+1TH7fSU8zzM2LSHLmCf3AgJdtrTk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DRP55oBjXQQx97StSWgstNUxH9I2G+kd5GDCFcD22oK/6KUbSEo+gQ2yq1ZawVuNQ4xFtziMx5i5898E2QA1nmZeltHRXbIz3PlMqVd3ivnNl4j62bd8Sm0cCsLoKOpbWrP/PxZMPx9iE0NTGneWvfr6TreNvGouRKetNLiU08M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z1kxELzq; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1781208582; c=relaxed/simple;
+	bh=7E327qqiaqRNOBexjq/NiEUiFlwl+g2a+e0T0udUsZU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hNDrlS9NIx4KPYA7Gj4I7VRJ5vKfU2/4RAJxkPncOqu8T5+y9/1sS0Ef89uJMEqnFWFflwsgaRsJnOUqZldBDqK2h0IHmujfu9ZExqfnQEFnPkdyOPOUU93Frm4g5BITPCcKCccpQ91NngZtry15BEXp+XUAVtoZUcxELbVQnyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjxjZDa7; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z1kxELzq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjxjZDa7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781207860; x=1812743860;
+  t=1781208579; x=1812744579;
   h=date:from:to:cc:subject:message-id;
-  bh=ZOOGnDHo460cbP+1TH7fSU8zzM2LSHLmCf3AgJdtrTk=;
-  b=Z1kxELzqNwNAL6E1INN5aWVZPPgoqRUtckoU/tz0rVL2RBRthHmyTgeK
-   5VmJ5yYm+0WRz5BJvDMZ0FviD3bi/hDXHf24SDcmqeyyCpcNi6zImxxEI
-   /7ak2aoWrYMoBhG3J5x/tWoMzwN4u/4rsjmgdWP4FWdn2DHxSzvdkn2ke
-   yvZTtLy9bbZ7sA5Bykug07Cx6ynDE6eCsyi5vP1KdXZh5W9sjih8zMgPB
-   D0i/75QaRnGo3C/bfkfNo35Dp7IqCWKBR7yHA5ommVWXVBqNCTnsqmMzZ
-   Xibx+LHkP/4oez8767hCi2ABV5S6CuDzdSKWBBLX/TAaNtzwSCq18hw0V
-   A==;
-X-CSE-ConnectionGUID: X0n82BoWS5u7kfLyW7HfzA==
-X-CSE-MsgGUID: +WuVi7zMTeGELhndxFl+Qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82095357"
+  bh=7E327qqiaqRNOBexjq/NiEUiFlwl+g2a+e0T0udUsZU=;
+  b=IjxjZDa7ZiyQlCkks+N7ISZ0+SQA8Oprvp8zn/YIhrAZmbALnRVtOuiZ
+   wu/+kqELK7ZfP74EaZ6d9OjIbiyMuNvY6r5AhQt+3uprFNJkEruinHFc6
+   Qqf10bLq9hj7dOPy2PJnDcaVDYge/kY+J/eiMibI5aPtBJbbWdN7pjpj/
+   sGcWxlxaBWr5akgMqqlVHWa2GgL8Dz9mApjCokN2hPTcVtlLbkYhOFLNt
+   zEyygFPvwBQG6iQ5OI4LE8/k9r+HgUg/EAkfg8DpHHPEzL+T83LHXeR1C
+   Kq5q7k6yO2QYtp56tj7sy/mgyrY9AvwYdeUTlqPuclojGTyoxPWdzMO8z
+   w==;
+X-CSE-ConnectionGUID: soRaeS7sTtiOWhRH7q2FlQ==
+X-CSE-MsgGUID: msQIAhyRR4iCYmlsWFLfPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82040439"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="82095357"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 12:57:39 -0700
-X-CSE-ConnectionGUID: cOtftfVMRcqR+Rv4qGAmSw==
-X-CSE-MsgGUID: TwMXyUP3RVKVJE7gLDq9+Q==
+   d="scan'208";a="82040439"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 13:09:39 -0700
+X-CSE-ConnectionGUID: apwwP6gjQtaxajGQF8BVrQ==
+X-CSE-MsgGUID: mv3oboTkTPW8ZRa1ItXR6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="270259431"
+   d="scan'208";a="276783459"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Jun 2026 12:57:37 -0700
+  by orviesa002.jf.intel.com with ESMTP; 11 Jun 2026 13:09:38 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXlWx-00000000Nnj-12wb;
-	Thu, 11 Jun 2026 19:57:35 +0000
-Date: Fri, 12 Jun 2026 03:57:00 +0800
+	id 1wXliZ-00000000NoZ-3cXK;
+	Thu, 11 Jun 2026 20:09:35 +0000
+Date: Fri, 12 Jun 2026 04:08:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/events/core.c:5774:6-11: ERROR: iterator variable
- bound on line 5733 cannot be NULL
-Message-ID: <202606120326.TJymRY2a-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/f2fs/gc.c:1288 ra_data_block() warn: missing error code
+ 'err'
+Message-ID: <202606120424.xoSOsUTC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,135 +62,124 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ravi Bangoria <ravi.bangoria@amd.com>
+TO: Jianan Huang <huangjianan@xiaomi.com>
+CC: Jaegeuk Kim <jaegeuk@kernel.org>
+CC: Sheng Yong <shengyong1@xiaomi.com>
+CC: Chao Yu <chao@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
-commit: 3e8671e00e57b3d006ed8ae5ef055807506e44b2 perf: Simplify perf_event_release_kernel()
-date:   1 year, 2 months ago
+commit: 570e2ccc7cb35fe720106964e65060602d3d2ac4 f2fs: avoid reading already updated pages during GC
+date:   3 months ago
 :::::: branch date: 25 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: arm-randconfig-r052-20260611 (https://download.01.org/0day-ci/archive/20260612/202606120326.TJymRY2a-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+:::::: commit date: 3 months ago
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260612/202606120424.xoSOsUTC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3e8671e00e57 ("perf: Simplify perf_event_release_kernel()")
+| Fixes: 570e2ccc7cb3 ("f2fs: avoid reading already updated pages during GC")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202606120326.TJymRY2a-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606120424.xoSOsUTC-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/events/core.c:5774:6-11: ERROR: iterator variable bound on line 5733 cannot be NULL
+smatch warnings:
+fs/f2fs/gc.c:1288 ra_data_block() warn: missing error code 'err'
 
-vim +5774 kernel/events/core.c
+vim +/err +1288 fs/f2fs/gc.c
 
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5689  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5690  /*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5691   * Kill an event dead; while event:refcount will preserve the event
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5692   * object, it will not preserve its functionality. Once the last 'user'
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5693   * gives up the object, we'll destroy the thing.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5694   */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5695  int perf_event_release_kernel(struct perf_event *event)
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5696  {
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5697  	struct perf_event_context *ctx = event->ctx;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5698  	struct perf_event *child, *tmp;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5699  
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5700  	/*
-bd27568117664b kernel/events/core.c Peter Zijlstra      2022-10-08  5701  	 * If we got here through err_alloc: free_event(event); we will not
-bd27568117664b kernel/events/core.c Peter Zijlstra      2022-10-08  5702  	 * have attached to a context yet.
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5703  	 */
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5704  	if (!ctx) {
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5705  		WARN_ON_ONCE(event->attach_state &
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5706  				(PERF_ATTACH_CONTEXT|PERF_ATTACH_GROUP));
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5707  		goto no_ctx;
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5708  	}
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5709  
-f86977620ee463 kernel/events/core.c Jiri Olsa           2014-08-01  5710  	if (!is_kernel_event(event))
-f86977620ee463 kernel/events/core.c Jiri Olsa           2014-08-01  5711  		perf_remove_from_owner(event);
-8882135bcd332f kernel/perf_event.c  Peter Zijlstra      2010-11-09  5712  
-5fa7c8ec57f70a kernel/events/core.c Peter Zijlstra      2016-01-26  5713  	ctx = perf_event_ctx_lock(event);
-a83fe28e2e4539 kernel/events/core.c Peter Zijlstra      2015-01-29  5714  	WARN_ON_ONCE(ctx->parent_ctx);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5715  
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5716  	/*
-d8a8cfc76919b6 kernel/events/core.c Peter Zijlstra      2017-03-16  5717  	 * Mark this event as STATE_DEAD, there is no external reference to it
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5718  	 * anymore.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5719  	 *
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5720  	 * Anybody acquiring event->child_mutex after the below loop _must_
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5721  	 * also see this, most importantly inherit_event() which will avoid
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5722  	 * placing more children on the list.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5723  	 *
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5724  	 * Thus this guarantees that we will in fact observe and kill _ALL_
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5725  	 * child events.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5726  	 */
-517e6a301f3461 kernel/events/core.c Peter Zijlstra      2022-11-24  5727  	perf_remove_from_context(event, DETACH_GROUP|DETACH_DEAD);
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5728  
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5729  	perf_event_ctx_unlock(event, ctx);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5730  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5731  again:
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5732  	mutex_lock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15 @5733  	list_for_each_entry(child, &event->child_list, child_list) {
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5734  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5735  		 * Cannot change, child events are not migrated, see the
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5736  		 * comment with perf_event_ctx_lock_nested().
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5737  		 */
-506458efaf153c kernel/events/core.c Will Deacon         2017-10-24  5738  		ctx = READ_ONCE(child->ctx);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5739  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5740  		 * Since child_mutex nests inside ctx::mutex, we must jump
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5741  		 * through hoops. We start by grabbing a reference on the ctx.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5742  		 *
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5743  		 * Since the event cannot get freed while we hold the
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5744  		 * child_mutex, the context must also exist and have a !0
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5745  		 * reference count.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5746  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5747  		get_ctx(ctx);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5748  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5749  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5750  		 * Now that we have a ctx ref, we can drop child_mutex, and
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5751  		 * acquire ctx::mutex without fear of it going away. Then we
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5752  		 * can re-acquire child_mutex.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5753  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5754  		mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5755  		mutex_lock(&ctx->mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5756  		mutex_lock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5757  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5758  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5759  		 * Now that we hold ctx::mutex and child_mutex, revalidate our
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5760  		 * state, if child is still the first entry, it didn't get freed
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5761  		 * and we can continue doing so.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5762  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5763  		tmp = list_first_entry_or_null(&event->child_list,
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5764  					       struct perf_event, child_list);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5765  		if (tmp == child) {
-0a00a43b8c200d kernel/events/core.c Peter Zijlstra      2025-01-17  5766  			perf_remove_from_context(child, DETACH_GROUP | DETACH_CHILD);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5767  		} else {
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5768  			child = NULL;
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5769  		}
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5770  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5771  		mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5772  		mutex_unlock(&ctx->mutex);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5773  
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17 @5774  		if (child) {
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5775  			/* Last reference unless ->pending_task work is pending */
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5776  			put_event(child);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5777  		}
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5778  		put_ctx(ctx);
-74751ef5c1912e kernel/events/core.c Haifeng Xu          2024-05-13  5779  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5780  		goto again;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5781  	}
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5782  	mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5783  
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5784  no_ctx:
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5785  	/*
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5786  	 * Last reference unless ->pending_task work is pending on this event
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5787  	 * or any of its children.
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5788  	 */
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5789  	put_event(event);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5790  	return 0;
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5791  }
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5792  EXPORT_SYMBOL_GPL(perf_event_release_kernel);
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5793  
+7bc0900347e069 Jaegeuk Kim             2012-11-02  1216  
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1217  static int ra_data_block(struct inode *inode, pgoff_t index)
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1218  {
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1219  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+f18d0076933689 Sunmin Jeong            2024-07-10  1220  	struct address_space *mapping = f2fs_is_cow_file(inode) ?
+f18d0076933689 Sunmin Jeong            2024-07-10  1221  				F2FS_I(inode)->atomic_inode->i_mapping : inode->i_mapping;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1222  	struct dnode_of_data dn;
+e0b89d00ea9f84 Chao Yu                 2025-10-14  1223  	struct folio *folio, *efolio;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1224  	struct f2fs_io_info fio = {
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1225  		.sbi = sbi,
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1226  		.ino = inode->i_ino,
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1227  		.type = DATA,
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1228  		.temp = COLD,
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1229  		.op = REQ_OP_READ,
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1230  		.op_flags = 0,
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1231  		.encrypted_page = NULL,
+2eae077e6e46f9 Chao Yu                 2023-02-02  1232  		.in_list = 0,
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1233  	};
+570e2ccc7cb35f Jianan Huang            2026-03-05  1234  	int err = 0;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1235  
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1236) 	folio = f2fs_grab_cache_folio(mapping, index, true);
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1237) 	if (IS_ERR(folio))
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1238) 		return PTR_ERR(folio);
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1239  
+04a91ab0168474 Christoph Hellwig       2022-11-28  1240  	if (f2fs_lookup_read_extent_cache_block(inode, index,
+04a91ab0168474 Christoph Hellwig       2022-11-28  1241  						&dn.data_blkaddr)) {
+93770ab7a6e963 Chao Yu                 2019-04-15  1242  		if (unlikely(!f2fs_is_valid_blkaddr(sbi, dn.data_blkaddr,
+93770ab7a6e963 Chao Yu                 2019-04-15  1243  						DATA_GENERIC_ENHANCE_READ))) {
+10f966bbf521bb Chao Yu                 2019-06-20  1244  			err = -EFSCORRUPTED;
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1245) 			goto put_folio;
+93770ab7a6e963 Chao Yu                 2019-04-15  1246  		}
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1247  		goto got_it;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1248  	}
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1249  
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1250  	set_new_dnode(&dn, inode, NULL, NULL, 0);
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1251  	err = f2fs_get_dnode_of_data(&dn, index, LOOKUP_NODE);
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1252  	if (err)
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1253) 		goto put_folio;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1254  	f2fs_put_dnode(&dn);
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1255  
+93770ab7a6e963 Chao Yu                 2019-04-15  1256  	if (!__is_valid_data_blkaddr(dn.data_blkaddr)) {
+93770ab7a6e963 Chao Yu                 2019-04-15  1257  		err = -ENOENT;
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1258) 		goto put_folio;
+93770ab7a6e963 Chao Yu                 2019-04-15  1259  	}
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1260  	if (unlikely(!f2fs_is_valid_blkaddr(sbi, dn.data_blkaddr,
+93770ab7a6e963 Chao Yu                 2019-04-15  1261  						DATA_GENERIC_ENHANCE))) {
+10f966bbf521bb Chao Yu                 2019-06-20  1262  		err = -EFSCORRUPTED;
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1263) 		goto put_folio;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1264  	}
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1265  got_it:
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1266) 	/* read folio */
+d342b7adad71e5 Matthew Wilcox (Oracle  2025-07-08  1267) 	fio.folio = folio;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1268  	fio.new_blkaddr = fio.old_blkaddr = dn.data_blkaddr;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1269  
+9bf1a3f7392749 Yunlong Song            2018-09-18  1270  	/*
+9bf1a3f7392749 Yunlong Song            2018-09-18  1271  	 * don't cache encrypted data into meta inode until previous dirty
+9bf1a3f7392749 Yunlong Song            2018-09-18  1272  	 * data were writebacked to avoid racing between GC and flush.
+9bf1a3f7392749 Yunlong Song            2018-09-18  1273  	 */
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1274) 	f2fs_folio_wait_writeback(folio, DATA, true, true);
+9bf1a3f7392749 Yunlong Song            2018-09-18  1275  
+9bf1a3f7392749 Yunlong Song            2018-09-18  1276  	f2fs_wait_on_block_writeback(inode, dn.data_blkaddr);
+9bf1a3f7392749 Yunlong Song            2018-09-18  1277  
+e0b89d00ea9f84 Chao Yu                 2025-10-14  1278  	efolio = f2fs_filemap_get_folio(META_MAPPING(sbi), dn.data_blkaddr,
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1279  					FGP_LOCK | FGP_CREAT, GFP_NOFS);
+e0b89d00ea9f84 Chao Yu                 2025-10-14  1280  	if (IS_ERR(efolio)) {
+e0b89d00ea9f84 Chao Yu                 2025-10-14  1281  		err = PTR_ERR(efolio);
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1282) 		goto put_folio;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1283  	}
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1284  
+e0b89d00ea9f84 Chao Yu                 2025-10-14  1285  	fio.encrypted_page = &efolio->page;
+e0b89d00ea9f84 Chao Yu                 2025-10-14  1286  
+570e2ccc7cb35f Jianan Huang            2026-03-05  1287  	if (folio_test_uptodate(efolio))
+570e2ccc7cb35f Jianan Huang            2026-03-05 @1288  		goto put_encrypted_page;
+570e2ccc7cb35f Jianan Huang            2026-03-05  1289  
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1290  	err = f2fs_submit_page_bio(&fio);
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1291  	if (err)
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1292  		goto put_encrypted_page;
+89c16629e3136f Yongpeng Yang           2025-10-27  1293  	f2fs_put_page(fio.encrypted_page, false);
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1294) 	f2fs_folio_put(folio, true);
+8b83ac81f4283a Chao Yu                 2020-04-16  1295  
+34a23525601a16 Chao Yu                 2022-08-20  1296  	f2fs_update_iostat(sbi, inode, FS_DATA_READ_IO, F2FS_BLKSIZE);
+34a23525601a16 Chao Yu                 2022-08-20  1297  	f2fs_update_iostat(sbi, NULL, FS_GDATA_READ_IO, F2FS_BLKSIZE);
+8b83ac81f4283a Chao Yu                 2020-04-16  1298  
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1299  	return 0;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1300  put_encrypted_page:
+89c16629e3136f Yongpeng Yang           2025-10-27  1301  	f2fs_put_page(fio.encrypted_page, true);
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1302) put_folio:
+0d53be232343c1 Matthew Wilcox (Oracle  2025-03-31  1303) 	f2fs_folio_put(folio, true);
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1304  	return err;
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1305  }
+6aa58d8ad20a33 Chao Yu                 2018-08-14  1306  
 
 --
 0-DAY CI Kernel Test Service
