@@ -1,833 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from d218-7.smtp-out.eu-west-2.amazonses.com (d218-7.smtp-out.eu-west-2.amazonses.com [23.249.218.7])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1B83C415E
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jun 2026 09:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B06286419;
+	Thu, 11 Jun 2026 10:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.249.218.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781171214; cv=none; b=Dn66Ay4DOrzHo7WJ0I8e0RkpOKWeIYqhWaon9usELL0Kg4a7VVEk73gauJUDNwZ3yGdFhGJ8idCRu6Rqk1IFmzvE5sgz4GwKa0fyeMA+V4DaMEZQu7KDNd+5VVGfsEwpBFEDmL3Gc18+xDnrx/uwzFCnU20A2VgDx7vg1Aj0uLc=
+	t=1781173052; cv=none; b=pyQYzQQ01KJNYmItPHykp5Cs7XcjbJ10JUdWKi3ETulDRFBneDn52e5+rfRYUJ092Z/AGkZOi5+KPY6HAoKmm8FQroeKQ1Orz2FjGeQL6tgwNNDWq5gMa+3RjvbiKlJdQKKG5F4U+LWUHI1xt02ytUn4sOB1mhFnxPa2/EqIZAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781171214; c=relaxed/simple;
-	bh=3RZhRTUi3EK6i8NkFV6tbXUYwue7QIDU3XEpUZ1y3dU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FQswbkJFvmJtLeOIaKo655SJUKgf2Ciiy02GucAU9g7+fT3yIFKdSRkFskeiP4wNS3mqs+0/DQaKXdKDno0hvygjRM9Q1b+HCWIwp0Pac17FpFhhW6yP7yw6wZ4HRSXUNhhHVg128oJcz9t5i7IaQboZDDXRb9lk4M4/tR7vE8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+p2Mm3K; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781173052; c=relaxed/simple;
+	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t+nhLvvGlAOvgsiVTpPRZDx1yHj/OV2JuXRHMrcimS5lwKCzYJkHy/TWwGAOHtSXna4smvXIFisDZKgh6rsdLoXvuDl45+4Lic531fGTbP3SsjZaAUAUt9dChcIo/89qyhH6InZJaobnEpXbN5EqTvV0aq0KX5lS43OcQ4cyte8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net; spf=pass smtp.mailfrom=mail.electricworry.net; dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b=Qb3z5Qhg; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=DcXKIQIZ; arc=none smtp.client-ip=23.249.218.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=electricworry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.electricworry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+p2Mm3K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781171212; x=1812707212;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3RZhRTUi3EK6i8NkFV6tbXUYwue7QIDU3XEpUZ1y3dU=;
-  b=B+p2Mm3K9N9DPUS8Te5qCdSOFxWfmI7qNYQ9Fk8pOrvBH0we24yMYibH
-   IFHik2eZxFWjAiqy2wfpX4+9SZpwQdg0WAr2hclDq+VKfP3E3VDp5j317
-   Oj5ANvQw+HYanTiC7+twB6HlGvSkNobXrTaQI1gWrQO+uXrTbzrnrVz0T
-   U1md4gu2XN9ZnDUiRbirm8kFZkCCsKjbdi7R61ZDYsc6OTKK3vQkNP9Mi
-   ahcIOYGlYqYvTZ9mZS8BUYRTpDEwzwY71gP2LuKFAsfl6q9Y91EqE8/gY
-   VJov7ubrUWqXCb2Usy+cQTexofYDIGVjkuuI3CE056Wuoe7tdpvrPQZwP
-   g==;
-X-CSE-ConnectionGUID: wNUtlonwT46bussKePlKOg==
-X-CSE-MsgGUID: KdEAYQ0uSZKTvdTNEio7Dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82041405"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="82041405"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 02:46:52 -0700
-X-CSE-ConnectionGUID: 90tCM5+YSLiCZSm35lRsWQ==
-X-CSE-MsgGUID: 9mFKi5cMS1eMEd7cqeE1RA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="250355744"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jun 2026 02:46:51 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXbzr-00000000MiY-3Uaf;
-	Thu, 11 Jun 2026 09:46:47 +0000
-Date: Thu, 11 Jun 2026 17:46:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/powerpc/kernel/rtas.c:378:46: sparse: sparse: obsolete
- array initializer, use C99 syntax
-Message-ID: <202606111702.duuiq7JU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=electricworry.net header.i=@electricworry.net header.b="Qb3z5Qhg";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="DcXKIQIZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=xxcsvipqs5hvfd7f74n2i5bueyncqkjk; d=electricworry.net;
+	t=1781173049;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
+	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
+	b=Qb3z5Qhg67X/kFLbCygIWg3mcpKMfPPlPjU/az6ybXP+s1Q1EPaOUWqIbLruG3js
+	0l9lDLTfJfmCX5ndK5YiQpfo/Ft8xxc1/P74kgQp4XofI/5MfNfqyigmL1PPuZh3vfb
+	GhU33TCApyNQMAbgGFggr4mTQRAXjbnlikOlImmDLj5fKC9RDpy+uKHj4+yuEK9Ygag
+	PQyuyLmwHclBKCMn5wSlSVfq89O7CNNPTTDQITMgLBsRn/OvYKY962+C4fCv4ojIVnF
+	Exiu87Bt1truPs/wNVzqBYVSQfiVvolM4rivJB+8PDfU6qi5CEWbMFL/baUD2z6sU1e
+	7uD5Sjp5QA==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=smjs5bczbyxi6u2ua6eveuxqal7joyry; d=amazonses.com; t=1781173049;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Feedback-ID;
+	bh=tBJd3a9smvQtcySn9NIc9PhT29b+XntTkiv/O3RxqXE=;
+	b=DcXKIQIZAOub/VADAw2xAZwpXQPnpvWjXVAd6eZYPNmWzQ/DcCB5NZ04px2MKePe
+	W5XvAiyZJMd9E8enRsL95TpBwtIQ/ZxRDOCx7qIHH54GHB964l+lv5y2vy/UN9pKTgB
+	kOrEavWgDNw+v+h9MJQwc1qovrkVGo0khYxrShpY=
+Date: Thu, 11 Jun 2026 10:17:28 +0000
+From: Bob McChesney <bob@electricworry.net>
+To: Marco Elver <elver@google.com>
+Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, 
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	"Harry Yoo (Oracle)" <harry@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, linux-sunxi@lists.linux.dev, 
+	Chen-Yu Tsai <wens@kernel.org>
+Subject: Re: [linux-next:master 4283/12670] drivers/dma/sun6i-dma.c:792
+ sun6i_dma_prep_slave_sg() error: dereferencing freed memory 'v_lli' (line
+ 793)
+Message-ID: <010b019eb62fd604-d3a75323-b446-46a0-b164-57cc0d1a75b4-000000@eu-west-2.amazonses.com>
+Mail-Followup-To: Marco Elver <elver@google.com>, 
+	Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	"Harry Yoo (Oracle)" <harry@kernel.org>, Vinod Koul <vkoul@kernel.org>, linux-sunxi@lists.linux.dev, 
+	Chen-Yu Tsai <wens@kernel.org>
+References: <202606110958.2CPRMnM0-lkp@intel.com>
+ <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOZ_11Ef0qYnagaDshHoYy4=cUOQBsd+0DPJyJt02pWnQ@mail.gmail.com>
+Feedback-ID: ::1.eu-west-2.gfFyncE+PRqcG/qebM3Lg+wfopUKzk5aGDEiDVENH+o=:AmazonSES
+X-SES-Outgoing: 2026.06.11-23.249.218.7
 
-::::::=20
-:::::: Manual check reason: "low confidence static check warning: arch/powe=
-rpc/kernel/rtas.c:378:46: sparse: sparse: obsolete array initializer, use C=
-99 syntax"
-::::::=20
+On Thu, Jun 11, 2026 at 11:24:09AM +0200, Marco Elver wrote:
+> +cc maintainers of this driver
+> 
+> On Thu, 11 Jun 2026 at 10:59, Dan Carpenter <error27@gmail.com> wrote:
+> > vim +/v_lli +792 drivers/dma/sun6i-dma.c
+> >
+> > 555859308723d8 Maxime Ripard       2014-07-17  783      dev_dbg(chan2dev(chan), "First: %pad\n", &txd->p_lli);
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  784      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  785           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  786              sun6i_dma_dump_lli(vchan, v_lli, p_lli);
+> > 555859308723d8 Maxime Ripard       2014-07-17  787
+> > 555859308723d8 Maxime Ripard       2014-07-17  788      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> > 555859308723d8 Maxime Ripard       2014-07-17  789
+> > 4fbd804e009ae9 Maxime Ripard       2014-07-30  790  err_lli_free:
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  791      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @792           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> >                                                                                                 ^^^^^^^^^^^^^^^^^
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @793              dma_pool_free(sdev->pool, v_lli, p_lli);
+> >                                                                                           ^^^^^
+> > freed and then dereferenced to get the next block.
+> >
+> > 4fbd804e009ae9 Maxime Ripard       2014-07-30  794      kfree(txd);
+> > 555859308723d8 Maxime Ripard       2014-07-17  795      return NULL;
+> > 555859308723d8 Maxime Ripard       2014-07-17  796  }
+> > 555859308723d8 Maxime Ripard       2014-07-17  797
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  798  static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  799                                      struct dma_chan *chan,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  800                                      dma_addr_t buf_addr,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  801                                      size_t buf_len,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  802                                      size_t period_len,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  803                                      enum dma_transfer_direction dir,
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  804                                      unsigned long flags)
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  805  {
+> >
+> > [ snip ]
+> >
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  868
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  869      return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  870
+> > a90e173f3faf29 Jean-Francois Moine 2016-04-28  871  err_lli_free:
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24  872      for (p_lli = txd->p_lli, v_lli = txd->v_lli; v_lli;
+> > 9aa48806edb8c3 Samuel Holland      2022-04-24 @873           p_lli = v_lli->p_lli_next, v_lli = v_lli->v_lli_next)
+> >                                                                                                 ^^^^^^^^^^^^^^^^^
+> > Same.
+> 
+> Not sure what's going on here, but is this a latent bug in this
+> driver?  It appears some recent changes made Smatch see through this
+> better.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Haren Myneni <haren@linux.ibm.com>
-CC: Madhavan Srinivasan <maddy@linux.ibm.com>
-CC: Mahesh Salgaonkar <mahesh@linux.ibm.com>
-CC: Tyrel Datwyler <tyreld@linux.ibm.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9716c086c8e8b141d35aa61f2e96a2e83de212a7
-commit: 26b4fcecea05b8927b17c9ace132914ffcb4d97e powerpc/pseries: Define HV=
-PIPE specific macros
-date:   9 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 9 months ago
-config: powerpc64-randconfig-r123-20260611 (https://download.01.org/0day-ci=
-/archive/20260611/202606111702.duuiq7JU-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project f99=
-ad325b987c3f2fb2d298f1569377c989b06d3)
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260611/202606111702.duuiq7JU-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Fixes: 26b4fcecea05 ("powerpc/pseries: Define HVPIPE specific macros")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606111702.duuiq7JU-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/kernel/rtas.c:378:46: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   arch/powerpc/kernel/rtas.c:407:43: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
->> arch/powerpc/kernel/rtas.c:101:1: sparse: sparse: symbol 'rtas_ibm_recei=
-ve_hvpipe_msg_lock' was not declared. Should it be static?
-
-vim +378 arch/powerpc/kernel/rtas.c
-
-adf7a019e5f826 Nathan Lynch 2023-12-12  103 =20
-8252b88294d2a7 Nathan Lynch 2023-02-10  104  static struct rtas_function rt=
-as_function_table[] __ro_after_init =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  105  	[RTAS_FNIDX__CHECK_EXCEPTION]=
- =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  106  		.name =3D "check-exception",
-8252b88294d2a7 Nathan Lynch 2023-02-10  107  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  108  	[RTAS_FNIDX__DISPLAY_CHARACTE=
-R] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  109  		.name =3D "display-character=
-",
-8252b88294d2a7 Nathan Lynch 2023-02-10  110  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  111  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  112  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  113  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  114  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  115  	[RTAS_FNIDX__EVENT_SCAN] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  116  		.name =3D "event-scan",
-8252b88294d2a7 Nathan Lynch 2023-02-10  117  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  118  	[RTAS_FNIDX__FREEZE_TIME_BASE=
-] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  119  		.name =3D "freeze-time-base",
-8252b88294d2a7 Nathan Lynch 2023-02-10  120  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  121  	[RTAS_FNIDX__GET_POWER_LEVEL]=
- =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  122  		.name =3D "get-power-level",
-8252b88294d2a7 Nathan Lynch 2023-02-10  123  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  124  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  125  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  126  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  127  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  128  	[RTAS_FNIDX__GET_SENSOR_STATE=
-] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  129  		.name =3D "get-sensor-state",
-8252b88294d2a7 Nathan Lynch 2023-02-10  130  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  131  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  132  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  133  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  134  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  135  	[RTAS_FNIDX__GET_TERM_CHAR] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  136  		.name =3D "get-term-char",
-8252b88294d2a7 Nathan Lynch 2023-02-10  137  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  138  	[RTAS_FNIDX__GET_TIME_OF_DAY]=
- =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  139  		.name =3D "get-time-of-day",
-8252b88294d2a7 Nathan Lynch 2023-02-10  140  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  141  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  142  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  143  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  144  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  145  	[RTAS_FNIDX__IBM_ACTIVATE_FIR=
-MWARE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  146  		.name =3D "ibm,activate-firm=
-ware",
-8252b88294d2a7 Nathan Lynch 2023-02-10  147  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  148  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  149  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  150  		},
-adf7a019e5f826 Nathan Lynch 2023-12-12  151  		/*
-adf7a019e5f826 Nathan Lynch 2023-12-12  152  		 * PAPR+ as of v2.13 doesn't=
- explicitly impose any
-adf7a019e5f826 Nathan Lynch 2023-12-12  153  		 * restriction, but this typ=
-ically requires multiple
-adf7a019e5f826 Nathan Lynch 2023-12-12  154  		 * calls before success, and=
- there's no reason to
-adf7a019e5f826 Nathan Lynch 2023-12-12  155  		 * allow sequences to interl=
-eave.
-adf7a019e5f826 Nathan Lynch 2023-12-12  156  		 */
-adf7a019e5f826 Nathan Lynch 2023-12-12  157  		.lock =3D &rtas_ibm_activate=
-_firmware_lock,
-8252b88294d2a7 Nathan Lynch 2023-02-10  158  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  159  	[RTAS_FNIDX__IBM_CBE_START_PT=
-CAL] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  160  		.name =3D "ibm,cbe-start-ptc=
-al",
-8252b88294d2a7 Nathan Lynch 2023-02-10  161  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  162  	[RTAS_FNIDX__IBM_CBE_STOP_PTC=
-AL] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  163  		.name =3D "ibm,cbe-stop-ptca=
-l",
-8252b88294d2a7 Nathan Lynch 2023-02-10  164  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  165  	[RTAS_FNIDX__IBM_CHANGE_MSI] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  166  		.name =3D "ibm,change-msi",
-8252b88294d2a7 Nathan Lynch 2023-02-10  167  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  168  	[RTAS_FNIDX__IBM_CLOSE_ERRINJ=
-CT] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  169  		.name =3D "ibm,close-errinjc=
-t",
-8252b88294d2a7 Nathan Lynch 2023-02-10  170  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  171  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  172  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  173  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  174  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  175  	[RTAS_FNIDX__IBM_CONFIGURE_BR=
-IDGE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  176  		.name =3D "ibm,configure-bri=
-dge",
-8252b88294d2a7 Nathan Lynch 2023-02-10  177  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  178  	[RTAS_FNIDX__IBM_CONFIGURE_CO=
-NNECTOR] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  179  		.name =3D "ibm,configure-con=
-nector",
-8252b88294d2a7 Nathan Lynch 2023-02-10  180  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  181  			.buf_idx1 =3D 0, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  182  			.buf_idx2 =3D 1, .size_idx2=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  183  			.fixed_size =3D 4096,
-8252b88294d2a7 Nathan Lynch 2023-02-10  184  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  185  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  186  	[RTAS_FNIDX__IBM_CONFIGURE_KE=
-RNEL_DUMP] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  187  		.name =3D "ibm,configure-ker=
-nel-dump",
-8252b88294d2a7 Nathan Lynch 2023-02-10  188  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  189  	[RTAS_FNIDX__IBM_CONFIGURE_PE=
-] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  190  		.name =3D "ibm,configure-pe",
-8252b88294d2a7 Nathan Lynch 2023-02-10  191  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  192  	[RTAS_FNIDX__IBM_CREATE_PE_DM=
-A_WINDOW] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  193  		.name =3D "ibm,create-pe-dma=
--window",
-8252b88294d2a7 Nathan Lynch 2023-02-10  194  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  195  	[RTAS_FNIDX__IBM_DISPLAY_MESS=
-AGE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  196  		.name =3D "ibm,display-messa=
-ge",
-8252b88294d2a7 Nathan Lynch 2023-02-10  197  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  198  			.buf_idx1 =3D 0, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  199  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  200  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  201  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  202  	[RTAS_FNIDX__IBM_ERRINJCT] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  203  		.name =3D "ibm,errinjct",
-8252b88294d2a7 Nathan Lynch 2023-02-10  204  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  205  			.buf_idx1 =3D 2, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  206  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  207  			.fixed_size =3D 1024,
-8252b88294d2a7 Nathan Lynch 2023-02-10  208  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  209  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  210  	[RTAS_FNIDX__IBM_EXTI2C] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  211  		.name =3D "ibm,exti2c",
-8252b88294d2a7 Nathan Lynch 2023-02-10  212  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  213  	[RTAS_FNIDX__IBM_GET_CONFIG_A=
-DDR_INFO] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  214  		.name =3D "ibm,get-config-ad=
-dr-info",
-8252b88294d2a7 Nathan Lynch 2023-02-10  215  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  216  	[RTAS_FNIDX__IBM_GET_CONFIG_A=
-DDR_INFO2] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  217  		.name =3D "ibm,get-config-ad=
-dr-info2",
-8252b88294d2a7 Nathan Lynch 2023-02-10  218  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  219  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  220  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  221  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  222  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  223  	[RTAS_FNIDX__IBM_GET_DYNAMIC_=
-SENSOR_STATE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  224  		.name =3D "ibm,get-dynamic-s=
-ensor-state",
-8252b88294d2a7 Nathan Lynch 2023-02-10  225  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  226  			.buf_idx1 =3D 1, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  227  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  228  		},
-adf7a019e5f826 Nathan Lynch 2023-12-12  229  		/*
-adf7a019e5f826 Nathan Lynch 2023-12-12  230  		 * PAPR+ v2.13 R1=E2=80=937.=
-3.19=E2=80=933 is explicit that the OS
-adf7a019e5f826 Nathan Lynch 2023-12-12  231  		 * must not call ibm,get-dyn=
-amic-sensor-state with
-adf7a019e5f826 Nathan Lynch 2023-12-12  232  		 * different inputs until a =
-non-retry status has been
-adf7a019e5f826 Nathan Lynch 2023-12-12  233  		 * returned.
-adf7a019e5f826 Nathan Lynch 2023-12-12  234  		 */
-adf7a019e5f826 Nathan Lynch 2023-12-12  235  		.lock =3D &rtas_ibm_get_dyna=
-mic_sensor_state_lock,
-8252b88294d2a7 Nathan Lynch 2023-02-10  236  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  237  	[RTAS_FNIDX__IBM_GET_INDICES]=
- =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  238  		.name =3D "ibm,get-indices",
-8252b88294d2a7 Nathan Lynch 2023-02-10  239  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  240  			.buf_idx1 =3D 2, .size_idx1=
- =3D 3,
-8252b88294d2a7 Nathan Lynch 2023-02-10  241  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  242  		},
-adf7a019e5f826 Nathan Lynch 2023-12-12  243  		/*
-adf7a019e5f826 Nathan Lynch 2023-12-12  244  		 * PAPR+ v2.13 R1=E2=80=937.=
-3.17=E2=80=932 says that the OS must not
-adf7a019e5f826 Nathan Lynch 2023-12-12  245  		 * interleave ibm,get-indice=
-s call sequences with
-adf7a019e5f826 Nathan Lynch 2023-12-12  246  		 * different inputs.
-adf7a019e5f826 Nathan Lynch 2023-12-12  247  		 */
-adf7a019e5f826 Nathan Lynch 2023-12-12  248  		.lock =3D &rtas_ibm_get_indi=
-ces_lock,
-8252b88294d2a7 Nathan Lynch 2023-02-10  249  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  250  	[RTAS_FNIDX__IBM_GET_RIO_TOPO=
-LOGY] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  251  		.name =3D "ibm,get-rio-topol=
-ogy",
-8252b88294d2a7 Nathan Lynch 2023-02-10  252  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  253  	[RTAS_FNIDX__IBM_GET_SYSTEM_P=
-ARAMETER] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  254  		.name =3D "ibm,get-system-pa=
-rameter",
-8252b88294d2a7 Nathan Lynch 2023-02-10  255  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  256  			.buf_idx1 =3D 1, .size_idx1=
- =3D 2,
-8252b88294d2a7 Nathan Lynch 2023-02-10  257  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  258  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  259  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  260  	[RTAS_FNIDX__IBM_GET_VPD] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  261  		.name =3D "ibm,get-vpd",
-8252b88294d2a7 Nathan Lynch 2023-02-10  262  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  263  			.buf_idx1 =3D 0, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  264  			.buf_idx2 =3D 1, .size_idx2=
- =3D 2,
-8252b88294d2a7 Nathan Lynch 2023-02-10  265  		},
-adf7a019e5f826 Nathan Lynch 2023-12-12  266  		/*
-adf7a019e5f826 Nathan Lynch 2023-12-12  267  		 * PAPR+ v2.13 R1=E2=80=937.=
-3.20=E2=80=934 indicates that sequences
-adf7a019e5f826 Nathan Lynch 2023-12-12  268  		 * should not be allowed to =
-interleave.
-adf7a019e5f826 Nathan Lynch 2023-12-12  269  		 */
-adf7a019e5f826 Nathan Lynch 2023-12-12  270  		.lock =3D &rtas_ibm_get_vpd_=
-lock,
-8252b88294d2a7 Nathan Lynch 2023-02-10  271  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  272  	[RTAS_FNIDX__IBM_GET_XIVE] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  273  		.name =3D "ibm,get-xive",
-8252b88294d2a7 Nathan Lynch 2023-02-10  274  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  275  	[RTAS_FNIDX__IBM_INT_OFF] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  276  		.name =3D "ibm,int-off",
-8252b88294d2a7 Nathan Lynch 2023-02-10  277  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  278  	[RTAS_FNIDX__IBM_INT_ON] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  279  		.name =3D "ibm,int-on",
-8252b88294d2a7 Nathan Lynch 2023-02-10  280  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  281  	[RTAS_FNIDX__IBM_IO_QUIESCE_A=
-CK] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  282  		.name =3D "ibm,io-quiesce-ac=
-k",
-8252b88294d2a7 Nathan Lynch 2023-02-10  283  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  284  	[RTAS_FNIDX__IBM_LPAR_PERFTOO=
-LS] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  285  		.name =3D "ibm,lpar-perftool=
-s",
-8252b88294d2a7 Nathan Lynch 2023-02-10  286  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  287  			.buf_idx1 =3D 2, .size_idx1=
- =3D 3,
-8252b88294d2a7 Nathan Lynch 2023-02-10  288  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  289  		},
-adf7a019e5f826 Nathan Lynch 2023-12-12  290  		/*
-adf7a019e5f826 Nathan Lynch 2023-12-12  291  		 * PAPR+ v2.13 R1=E2=80=937.=
-3.26=E2=80=936 says the OS should allow
-adf7a019e5f826 Nathan Lynch 2023-12-12  292  		 * only one call sequence in=
- progress at a time.
-adf7a019e5f826 Nathan Lynch 2023-12-12  293  		 */
-adf7a019e5f826 Nathan Lynch 2023-12-12  294  		.lock =3D &rtas_ibm_lpar_per=
-ftools_lock,
-8252b88294d2a7 Nathan Lynch 2023-02-10  295  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  296  	[RTAS_FNIDX__IBM_MANAGE_FLASH=
-_IMAGE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  297  		.name =3D "ibm,manage-flash-=
-image",
-8252b88294d2a7 Nathan Lynch 2023-02-10  298  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  299  	[RTAS_FNIDX__IBM_MANAGE_STORA=
-GE_PRESERVATION] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  300  		.name =3D "ibm,manage-storag=
-e-preservation",
-8252b88294d2a7 Nathan Lynch 2023-02-10  301  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  302  	[RTAS_FNIDX__IBM_NMI_INTERLOC=
-K] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  303  		.name =3D "ibm,nmi-interlock=
-",
-8252b88294d2a7 Nathan Lynch 2023-02-10  304  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  305  	[RTAS_FNIDX__IBM_NMI_REGISTER=
-] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  306  		.name =3D "ibm,nmi-register",
-8252b88294d2a7 Nathan Lynch 2023-02-10  307  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  308  	[RTAS_FNIDX__IBM_OPEN_ERRINJC=
-T] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  309  		.name =3D "ibm,open-errinjct=
-",
-8252b88294d2a7 Nathan Lynch 2023-02-10  310  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  311  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  312  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  313  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  314  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  315  	[RTAS_FNIDX__IBM_OPEN_SRIOV_A=
-LLOW_UNFREEZE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  316  		.name =3D "ibm,open-sriov-al=
-low-unfreeze",
-8252b88294d2a7 Nathan Lynch 2023-02-10  317  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  318  	[RTAS_FNIDX__IBM_OPEN_SRIOV_M=
-AP_PE_NUMBER] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  319  		.name =3D "ibm,open-sriov-ma=
-p-pe-number",
-8252b88294d2a7 Nathan Lynch 2023-02-10  320  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  321  	[RTAS_FNIDX__IBM_OS_TERM] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  322  		.name =3D "ibm,os-term",
-8252b88294d2a7 Nathan Lynch 2023-02-10  323  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  324  	[RTAS_FNIDX__IBM_PARTNER_CONT=
-ROL] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  325  		.name =3D "ibm,partner-contr=
-ol",
-8252b88294d2a7 Nathan Lynch 2023-02-10  326  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  327  	[RTAS_FNIDX__IBM_PHYSICAL_ATT=
-ESTATION] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  328  		.name =3D "ibm,physical-atte=
-station",
-8252b88294d2a7 Nathan Lynch 2023-02-10  329  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  330  			.buf_idx1 =3D 0, .size_idx1=
- =3D 1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  331  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  332  		},
-adf7a019e5f826 Nathan Lynch 2023-12-12  333  		/*
-adf7a019e5f826 Nathan Lynch 2023-12-12  334  		 * This follows a sequence-b=
-ased pattern similar to
-adf7a019e5f826 Nathan Lynch 2023-12-12  335  		 * ibm,get-vpd et al. Since =
-PAPR+ restricts
-adf7a019e5f826 Nathan Lynch 2023-12-12  336  		 * interleaving call sequenc=
-es for other functions of
-adf7a019e5f826 Nathan Lynch 2023-12-12  337  		 * this style, assume the re=
-striction applies here,
-adf7a019e5f826 Nathan Lynch 2023-12-12  338  		 * even though it's not expl=
-icit in the spec.
-adf7a019e5f826 Nathan Lynch 2023-12-12  339  		 */
-adf7a019e5f826 Nathan Lynch 2023-12-12  340  		.lock =3D &rtas_ibm_physical=
-_attestation_lock,
-8252b88294d2a7 Nathan Lynch 2023-02-10  341  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  342  	[RTAS_FNIDX__IBM_PLATFORM_DUM=
-P] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  343  		.name =3D "ibm,platform-dump=
-",
-8252b88294d2a7 Nathan Lynch 2023-02-10  344  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  345  			.buf_idx1 =3D 4, .size_idx1=
- =3D 5,
-8252b88294d2a7 Nathan Lynch 2023-02-10  346  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  347  		},
-adf7a019e5f826 Nathan Lynch 2023-12-12  348  		/*
-adf7a019e5f826 Nathan Lynch 2023-12-12  349  		 * PAPR+ v2.13 7.3.3.4.1 ind=
-icates that concurrent
-adf7a019e5f826 Nathan Lynch 2023-12-12  350  		 * sequences of ibm,platform=
--dump are allowed if they
-adf7a019e5f826 Nathan Lynch 2023-12-12  351  		 * are operating on differen=
-t dump tags. So leave the
-adf7a019e5f826 Nathan Lynch 2023-12-12  352  		 * lock pointer unset for no=
-w. This may need
-adf7a019e5f826 Nathan Lynch 2023-12-12  353  		 * reconsideration if kernel=
--internal users appear.
-adf7a019e5f826 Nathan Lynch 2023-12-12  354  		 */
-8252b88294d2a7 Nathan Lynch 2023-02-10  355  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  356  	[RTAS_FNIDX__IBM_POWER_OFF_UP=
-S] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  357  		.name =3D "ibm,power-off-ups=
-",
-8252b88294d2a7 Nathan Lynch 2023-02-10  358  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  359  	[RTAS_FNIDX__IBM_QUERY_INTERR=
-UPT_SOURCE_NUMBER] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  360  		.name =3D "ibm,query-interru=
-pt-source-number",
-8252b88294d2a7 Nathan Lynch 2023-02-10  361  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  362  	[RTAS_FNIDX__IBM_QUERY_PE_DMA=
-_WINDOW] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  363  		.name =3D "ibm,query-pe-dma-=
-window",
-8252b88294d2a7 Nathan Lynch 2023-02-10  364  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  365  	[RTAS_FNIDX__IBM_READ_PCI_CON=
-FIG] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  366  		.name =3D "ibm,read-pci-conf=
-ig",
-8252b88294d2a7 Nathan Lynch 2023-02-10  367  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  368  	[RTAS_FNIDX__IBM_READ_SLOT_RE=
-SET_STATE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  369  		.name =3D "ibm,read-slot-res=
-et-state",
-8252b88294d2a7 Nathan Lynch 2023-02-10  370  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  371  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  372  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  373  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  374  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  375  	[RTAS_FNIDX__IBM_READ_SLOT_RE=
-SET_STATE2] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  376  		.name =3D "ibm,read-slot-res=
-et-state2",
-8252b88294d2a7 Nathan Lynch 2023-02-10  377  	},
-26b4fcecea05b8 Haren Myneni 2025-09-09 @378  	[RTAS_FNIDX__IBM_RECEIVE_HVPI=
-PE_MSG] {
-26b4fcecea05b8 Haren Myneni 2025-09-09  379  		.name =3D "ibm,receive-hvpip=
-e-msg",
-26b4fcecea05b8 Haren Myneni 2025-09-09  380  		.filter =3D &(const struct r=
-tas_filter) {
-26b4fcecea05b8 Haren Myneni 2025-09-09  381  			.buf_idx1 =3D 0, .size_idx1=
- =3D 1,
-26b4fcecea05b8 Haren Myneni 2025-09-09  382  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-26b4fcecea05b8 Haren Myneni 2025-09-09  383  		},
-26b4fcecea05b8 Haren Myneni 2025-09-09  384  		/*
-26b4fcecea05b8 Haren Myneni 2025-09-09  385  		 * PAPR+ v2.13 R1=E2=80=937.=
-3.32.1
-26b4fcecea05b8 Haren Myneni 2025-09-09  386  		 */
-26b4fcecea05b8 Haren Myneni 2025-09-09  387  		.lock =3D &rtas_ibm_receive_=
-hvpipe_msg_lock,
-26b4fcecea05b8 Haren Myneni 2025-09-09  388  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  389  	[RTAS_FNIDX__IBM_REMOVE_PE_DM=
-A_WINDOW] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  390  		.name =3D "ibm,remove-pe-dma=
--window",
-8252b88294d2a7 Nathan Lynch 2023-02-10  391  	},
-fad87dbd48156a Nathan Lynch 2024-02-22  392  	[RTAS_FNIDX__IBM_RESET_PE_DMA=
-_WINDOW] =3D {
-fad87dbd48156a Nathan Lynch 2024-02-22  393  		/*
-fad87dbd48156a Nathan Lynch 2024-02-22  394  		 * Note: PAPR+ v2.13 7.3.31.=
-4.1 spells this as
-fad87dbd48156a Nathan Lynch 2024-02-22  395  		 * "ibm,reset-pe-dma-windows=
-" (plural), but RTAS
-fad87dbd48156a Nathan Lynch 2024-02-22  396  		 * implementations use the s=
-ingular form in practice.
-fad87dbd48156a Nathan Lynch 2024-02-22  397  		 */
-fad87dbd48156a Nathan Lynch 2024-02-22  398  		.name =3D "ibm,reset-pe-dma-=
-window",
-8252b88294d2a7 Nathan Lynch 2023-02-10  399  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  400  	[RTAS_FNIDX__IBM_SCAN_LOG_DUM=
-P] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  401  		.name =3D "ibm,scan-log-dump=
-",
-8252b88294d2a7 Nathan Lynch 2023-02-10  402  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  403  			.buf_idx1 =3D 0, .size_idx1=
- =3D 1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  404  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  405  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  406  	},
-26b4fcecea05b8 Haren Myneni 2025-09-09  407  	[RTAS_FNIDX__IBM_SEND_HVPIPE_=
-MSG] {
-26b4fcecea05b8 Haren Myneni 2025-09-09  408  		.name =3D "ibm,send-hvpipe-m=
-sg",
-26b4fcecea05b8 Haren Myneni 2025-09-09  409  		.filter =3D &(const struct r=
-tas_filter) {
-26b4fcecea05b8 Haren Myneni 2025-09-09  410  			.buf_idx1 =3D 1, .size_idx1=
- =3D -1,
-26b4fcecea05b8 Haren Myneni 2025-09-09  411  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-26b4fcecea05b8 Haren Myneni 2025-09-09  412  		},
-26b4fcecea05b8 Haren Myneni 2025-09-09  413  		/*
-26b4fcecea05b8 Haren Myneni 2025-09-09  414  		 * PAPR+ v2.13 R1=E2=80=937.=
-3.32.2
-26b4fcecea05b8 Haren Myneni 2025-09-09  415  		 */
-26b4fcecea05b8 Haren Myneni 2025-09-09  416  		.lock =3D &rtas_ibm_send_hvp=
-ipe_msg_lock,
-26b4fcecea05b8 Haren Myneni 2025-09-09  417  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  418  	[RTAS_FNIDX__IBM_SET_DYNAMIC_=
-INDICATOR] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  419  		.name =3D "ibm,set-dynamic-i=
-ndicator",
-8252b88294d2a7 Nathan Lynch 2023-02-10  420  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  421  			.buf_idx1 =3D 2, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  422  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  423  		},
-adf7a019e5f826 Nathan Lynch 2023-12-12  424  		/*
-adf7a019e5f826 Nathan Lynch 2023-12-12  425  		 * PAPR+ v2.13 R1=E2=80=937.=
-3.18=E2=80=933 says the OS must not call
-adf7a019e5f826 Nathan Lynch 2023-12-12  426  		 * this function with differ=
-ent inputs until a
-adf7a019e5f826 Nathan Lynch 2023-12-12  427  		 * non-retry status has been=
- returned.
-adf7a019e5f826 Nathan Lynch 2023-12-12  428  		 */
-adf7a019e5f826 Nathan Lynch 2023-12-12  429  		.lock =3D &rtas_ibm_set_dyna=
-mic_indicator_lock,
-8252b88294d2a7 Nathan Lynch 2023-02-10  430  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  431  	[RTAS_FNIDX__IBM_SET_EEH_OPTI=
-ON] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  432  		.name =3D "ibm,set-eeh-optio=
-n",
-8252b88294d2a7 Nathan Lynch 2023-02-10  433  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  434  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  435  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  436  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  437  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  438  	[RTAS_FNIDX__IBM_SET_SLOT_RES=
-ET] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  439  		.name =3D "ibm,set-slot-rese=
-t",
-8252b88294d2a7 Nathan Lynch 2023-02-10  440  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  441  	[RTAS_FNIDX__IBM_SET_SYSTEM_P=
-ARAMETER] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  442  		.name =3D "ibm,set-system-pa=
-rameter",
-8252b88294d2a7 Nathan Lynch 2023-02-10  443  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  444  			.buf_idx1 =3D 1, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  445  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  446  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  447  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  448  	[RTAS_FNIDX__IBM_SET_XIVE] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  449  		.name =3D "ibm,set-xive",
-8252b88294d2a7 Nathan Lynch 2023-02-10  450  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  451  	[RTAS_FNIDX__IBM_SLOT_ERROR_D=
-ETAIL] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  452  		.name =3D "ibm,slot-error-de=
-tail",
-8252b88294d2a7 Nathan Lynch 2023-02-10  453  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  454  	[RTAS_FNIDX__IBM_SUSPEND_ME] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  455  		.name =3D "ibm,suspend-me",
-8252b88294d2a7 Nathan Lynch 2023-02-10  456  		.banned_for_syscall_on_le =
-=3D true,
-8252b88294d2a7 Nathan Lynch 2023-02-10  457  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  458  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  459  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  460  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  461  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  462  	[RTAS_FNIDX__IBM_TUNE_DMA_PAR=
-MS] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  463  		.name =3D "ibm,tune-dma-parm=
-s",
-8252b88294d2a7 Nathan Lynch 2023-02-10  464  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  465  	[RTAS_FNIDX__IBM_UPDATE_FLASH=
-_64_AND_REBOOT] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  466  		.name =3D "ibm,update-flash-=
-64-and-reboot",
-8252b88294d2a7 Nathan Lynch 2023-02-10  467  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  468  	[RTAS_FNIDX__IBM_UPDATE_NODES=
-] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  469  		.name =3D "ibm,update-nodes",
-8252b88294d2a7 Nathan Lynch 2023-02-10  470  		.banned_for_syscall_on_le =
-=3D true,
-8252b88294d2a7 Nathan Lynch 2023-02-10  471  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  472  			.buf_idx1 =3D 0, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  473  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  474  			.fixed_size =3D 4096,
-8252b88294d2a7 Nathan Lynch 2023-02-10  475  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  476  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  477  	[RTAS_FNIDX__IBM_UPDATE_PROPE=
-RTIES] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  478  		.name =3D "ibm,update-proper=
-ties",
-8252b88294d2a7 Nathan Lynch 2023-02-10  479  		.banned_for_syscall_on_le =
-=3D true,
-8252b88294d2a7 Nathan Lynch 2023-02-10  480  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  481  			.buf_idx1 =3D 0, .size_idx1=
- =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  482  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  483  			.fixed_size =3D 4096,
-8252b88294d2a7 Nathan Lynch 2023-02-10  484  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  485  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  486  	[RTAS_FNIDX__IBM_VALIDATE_FLA=
-SH_IMAGE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  487  		.name =3D "ibm,validate-flas=
-h-image",
-8252b88294d2a7 Nathan Lynch 2023-02-10  488  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  489  	[RTAS_FNIDX__IBM_WRITE_PCI_CO=
-NFIG] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  490  		.name =3D "ibm,write-pci-con=
-fig",
-8252b88294d2a7 Nathan Lynch 2023-02-10  491  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  492  	[RTAS_FNIDX__NVRAM_FETCH] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  493  		.name =3D "nvram-fetch",
-8252b88294d2a7 Nathan Lynch 2023-02-10  494  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  495  	[RTAS_FNIDX__NVRAM_STORE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  496  		.name =3D "nvram-store",
-8252b88294d2a7 Nathan Lynch 2023-02-10  497  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  498  	[RTAS_FNIDX__POWER_OFF] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  499  		.name =3D "power-off",
-8252b88294d2a7 Nathan Lynch 2023-02-10  500  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  501  	[RTAS_FNIDX__PUT_TERM_CHAR] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  502  		.name =3D "put-term-char",
-8252b88294d2a7 Nathan Lynch 2023-02-10  503  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  504  	[RTAS_FNIDX__QUERY_CPU_STOPPE=
-D_STATE] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  505  		.name =3D "query-cpu-stopped=
--state",
-8252b88294d2a7 Nathan Lynch 2023-02-10  506  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  507  	[RTAS_FNIDX__READ_PCI_CONFIG]=
- =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  508  		.name =3D "read-pci-config",
-8252b88294d2a7 Nathan Lynch 2023-02-10  509  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  510  	[RTAS_FNIDX__RTAS_LAST_ERROR]=
- =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  511  		.name =3D "rtas-last-error",
-8252b88294d2a7 Nathan Lynch 2023-02-10  512  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  513  	[RTAS_FNIDX__SET_INDICATOR] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  514  		.name =3D "set-indicator",
-8252b88294d2a7 Nathan Lynch 2023-02-10  515  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  516  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  517  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  518  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  519  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  520  	[RTAS_FNIDX__SET_POWER_LEVEL]=
- =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  521  		.name =3D "set-power-level",
-8252b88294d2a7 Nathan Lynch 2023-02-10  522  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  523  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  524  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  525  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  526  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  527  	[RTAS_FNIDX__SET_TIME_FOR_POW=
-ER_ON] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  528  		.name =3D "set-time-for-powe=
-r-on",
-8252b88294d2a7 Nathan Lynch 2023-02-10  529  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  530  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  531  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  532  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  533  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  534  	[RTAS_FNIDX__SET_TIME_OF_DAY]=
- =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  535  		.name =3D "set-time-of-day",
-8252b88294d2a7 Nathan Lynch 2023-02-10  536  		.filter =3D &(const struct r=
-tas_filter) {
-8252b88294d2a7 Nathan Lynch 2023-02-10  537  			.buf_idx1 =3D -1, .size_idx=
-1 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  538  			.buf_idx2 =3D -1, .size_idx=
-2 =3D -1,
-8252b88294d2a7 Nathan Lynch 2023-02-10  539  		},
-8252b88294d2a7 Nathan Lynch 2023-02-10  540  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  541  	[RTAS_FNIDX__START_CPU] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  542  		.name =3D "start-cpu",
-8252b88294d2a7 Nathan Lynch 2023-02-10  543  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  544  	[RTAS_FNIDX__STOP_SELF] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  545  		.name =3D "stop-self",
-8252b88294d2a7 Nathan Lynch 2023-02-10  546  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  547  	[RTAS_FNIDX__SYSTEM_REBOOT] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  548  		.name =3D "system-reboot",
-8252b88294d2a7 Nathan Lynch 2023-02-10  549  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  550  	[RTAS_FNIDX__THAW_TIME_BASE] =
-=3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  551  		.name =3D "thaw-time-base",
-8252b88294d2a7 Nathan Lynch 2023-02-10  552  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  553  	[RTAS_FNIDX__WRITE_PCI_CONFIG=
-] =3D {
-8252b88294d2a7 Nathan Lynch 2023-02-10  554  		.name =3D "write-pci-config",
-8252b88294d2a7 Nathan Lynch 2023-02-10  555  	},
-8252b88294d2a7 Nathan Lynch 2023-02-10  556  };
-8252b88294d2a7 Nathan Lynch 2023-02-10  557 =20
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I remember seeing a proposed fix for this very issue:
+https://lore.kernel.org/linux-sunxi/20260611063631.96566-1-zenghongling@kylinos.cn/
