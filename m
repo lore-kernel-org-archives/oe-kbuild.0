@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1783B285068
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 19:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2693750C9
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 20:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781292852; cv=none; b=f51NeFSyTMd8aq6ghMIeQdH2BAjptwN9PVu2y8hnRHXJBqBk1sCBL+OBA8MSmNXxyPZ78u1gHh4foUPGSEs6dSGNOmQO1dfK6bWQ1zTkwE8Jo8rvHdyBzPH/wN71+pcicedidv8o65W/ezV8AARXYJEudn5jQLiou8uJ0NvEQ5c=
+	t=1781295313; cv=none; b=s+xcqwBDdRXu35tlGZEHrom+POEQeie/K4jufs36Bu8n43gv73PsvD9gBDsV/qI1x8DXOZWibv7j93iToCNNkupVrkP/CW+r/jcUV4N7ucR8JFd6nwTkje/6nl29ryI06/wjpci8FCSErZkl00ZEQJGuJM40fg4rCbDJ5OBIm28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781292852; c=relaxed/simple;
-	bh=gqyXpKePav5DVBfpfbGasF78qOacUQHIm/EmFlqEIZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=G5kT0it0Pd1yXN22mPClN4mfJH6uHhwgK7me6792+lo015SIFQSLraayy6CvWvxl9JB/5A2Jf1Q3VEGwrZYOYV0ljFvO2gD02wCpSps5icfP+gNoo0nkaQN336t1FlvM5r3uqHWj1UZ97dV7gTqts23+LKcjXb+EXqCIySnzCLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrTijhVt; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1781295313; c=relaxed/simple;
+	bh=bLZ02VywPSPFxmK09739UyMtUTCROWSv7KF96s7IGFo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q8L4fZ+soSUSUCa8HrCRCHjRBoaRWRXab8p2XcT8Aj+KkRPYIFzFbZVqnpugP6VrrBZy9nGN0SoBYD3nCmbtuItsIrIMU5PtVLJxiR3VpxqvQ5CTYnmksJk2hOH6SIbGUYQWFppcGda0y70P3sBhZXowc+Z94ooSHOLmYDUCsxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDiYWlfk; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrTijhVt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDiYWlfk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781292851; x=1812828851;
+  t=1781295311; x=1812831311;
   h=date:from:to:cc:subject:message-id;
-  bh=gqyXpKePav5DVBfpfbGasF78qOacUQHIm/EmFlqEIZ4=;
-  b=BrTijhVt7W0GdsaRqTpvI9K2tAltEcDIHOma+dP6gsEnrysuS9zao0Fh
-   XRS4W2ovyEVVH2279QqHEV3mSWN1oKllIJgHZYMv7EtTmvOBzrbu19Xgq
-   +M/spacUodj9j+VidZJxfTbFysl0knNcj2dCLGikwdd22f4VCbp48NCJA
-   TUohq2KRw+M+9ukJz8ExbHD8pPBDbZUDFHS9g2Ev97GTrdJBtSNwhW3Eh
-   rGBO5xDu8imosKwyiHNmH0Asjb8wU4VeKjd7fFSbOcEqcgpe1eyhZ2M6L
-   asw57o3GF9Ys3NGBHtx5JvbbOYi1LTAktlZ+2Ly49AFmVTyHxzsLSczlQ
+  bh=bLZ02VywPSPFxmK09739UyMtUTCROWSv7KF96s7IGFo=;
+  b=oDiYWlfkIthbo69G0Te9SOscW2KDba3b4EESwNvTYA0DlVkHGQnEu+mm
+   PO+1TOV+Z71KPk3LUOvE/7xN127PvGIl1OslFynIzaX4+eRv9Fiuxehnf
+   6Epu/xC8c44i7I/mnM7a4DQSb+yfwxD6gI/lqKhQflkN0ye4UTBVrzSy2
+   dkaNVLtOKiiYjl/Z29csdeQ7Ot8HEfJgl86Aug72REZguYK59t2nZGlZd
+   83Nsv+ceZ6r29+yvx3h/pESlkTfiunGAlvYReg+3+RmhteRrCkhG4tbrY
+   lv4g6fZWy3f42kZQ4d9eaazqpKstVA7Llyw+DLqQnYZyxzB1nT7VxNRbl
    w==;
-X-CSE-ConnectionGUID: y66zS68oSPKKs5YU2sDY8A==
-X-CSE-MsgGUID: Hay2oRp0SGOEggRFThavyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="92452878"
+X-CSE-ConnectionGUID: ZOJ9pzHxSCWYR3lHm4GfnA==
+X-CSE-MsgGUID: yOL1rDRcQ7OAUUCeKgQZGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="69679414"
 X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="92452878"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 12:34:11 -0700
-X-CSE-ConnectionGUID: eOoWK6XvTBGtFsM/DV1I+Q==
-X-CSE-MsgGUID: J3h6oxCXT+u5ID1YkO3kdA==
+   d="scan'208";a="69679414"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 13:15:10 -0700
+X-CSE-ConnectionGUID: A6zII9NtTuOwTLjBCx70ow==
+X-CSE-MsgGUID: MgLP1CDYSlamOU6WamR74w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="250814570"
+   d="scan'208";a="248799723"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 12 Jun 2026 12:34:10 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 12 Jun 2026 13:15:10 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wY7dn-000000004Iv-1q18;
-	Fri, 12 Jun 2026 19:34:07 +0000
-Date: Fri, 12 Jun 2026 21:33:38 +0200
+	id 1wY8HT-000000004JT-3rM9;
+	Fri, 12 Jun 2026 20:15:07 +0000
+Date: Fri, 12 Jun 2026 22:14:24 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [hare-scsi-devel:configfs-ns.v6 21/24] ERROR: modpost:
- "mnt_clone_direct" [fs/configfs/configfs.ko] undefined!
-Message-ID: <202606122115.g8BLJRxb-lkp@intel.com>
+Subject: [linux-next:master 12966/13336]
+ ../../../lib/interval_tree_test.c:315:17: error: implicit declaration of
+ function 'pr_warn'
+Message-ID: <202606122249.neYsYssG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,25 +66,38 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hannes Reinecke <hare@kernel.org>
+TO: Samuel Moelius <sam.moelius@trailofbits.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v6
-head:   65843faa046b6a3ff4953aba7319313104638535
-commit: 6c327e2c66e67e1296c6bd57719991db3a0f250c [21/24] fs/configfs: add superblock as attribute to configfs_pin_fs()
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260612/202606122115.g8BLJRxb-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c425609d6ac4012c8bbf01ec2e10e801b1923a7b
+commit: da58d4edb02fe347b676a3be230fd16da68c4fc8 [12966/13336] lib: interval_tree_test: validate benchmark parameters
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260612/202606122249.neYsYssG-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606122115.g8BLJRxb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606122249.neYsYssG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606122115.g8BLJRxb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606122249.neYsYssG-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "mnt_clone_direct" [fs/configfs/configfs.ko] undefined!
+   In file included from interval_tree_test.c:11:
+   ../../../lib/interval_tree_test.c: In function 'interval_tree_test_init':
+>> ../../../lib/interval_tree_test.c:315:17: error: implicit declaration of function 'pr_warn' [-Wimplicit-function-declaration]
+     315 |                 pr_warn("nnodes must be positive\n");
+         |                 ^~~~~~~
+   ../../../lib/interval_tree_test.c:335:17: error: implicit declaration of function 'kmalloc_objs'; did you mean 'kzalloc_obj'? [-Wimplicit-function-declaration]
+     335 |         nodes = kmalloc_objs(struct interval_tree_node, nnodes);
+         |                 ^~~~~~~~~~~~
+         |                 kzalloc_obj
+   ../../../lib/interval_tree_test.c:335:30: error: expected expression before 'struct'
+     335 |         nodes = kmalloc_objs(struct interval_tree_node, nnodes);
+         |                              ^~~~~~
 
 --
 0-DAY CI Kernel Test Service
