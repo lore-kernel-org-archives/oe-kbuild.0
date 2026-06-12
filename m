@@ -1,228 +1,232 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EEC347505
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 11:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A741364059
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 11:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781262179; cv=none; b=smn43sXjpFVdxWKtPyE9zGBfOEhZ8KyezmPg6cvvHRlAvr7vjiRZKuS3/Pqz55SQvL8qhY51AF4JzzTc9YLBGoSHAhFzVSXBeYz+FYyVOzxysvkUutRSwQDTQbhwuUU2bBWem+YRfUWnY8CLkE8lMLA2L3/yGXPItLNFFc00VCA=
+	t=1781262308; cv=none; b=uVkzT/iMhaYd2RYwrBrUt6oNxHmcjOuvrG64iZCSjS1d+ZtkVZaptxcWHLoc2so+uB1zmAk8KVq+//flvs9xzywXyhe1gbZZX1uWBpWB1O0AOTTtO3q9v7dx7HTMyqJUUH6XkficOHjyE3p2FIdnG9zpc9pb2FUgVzHFXFiJZ/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781262179; c=relaxed/simple;
-	bh=yWfq02XqjLidvyFtQokGUh/Ol0aDzGqEbZFDgvRLxM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GtKooZXpEakxhmMImmW2YVUiJPcXRU7deenaiqT7cdk56gi4BllV2aAIluwaXZfq5IcYvehtMEAWJPOF/+c/cxvpdpq9HhYB4cBu7tZ+O1H2ulyMWHh9Ltwx8vtn8faPY/Wgb+Y6I8V6aCVhJBecdshGrvcgBfuiC7r55P2RURI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bz/2EVjz; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1781262308; c=relaxed/simple;
+	bh=blavlihAeoGhIpj+a4l6kkZTIO/CmlQHeEEtyO0/x4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AP/lxlc73EO+sb3K2XpnMPUCqsvXAUXkGf4EAWbFeIfdWDDdQ3oLtRUIwjvZ/8UOhsIUWeQjo2zOnyL4YiHbNBbnCysM7edNBL90pb/kR0cBO0K4cnSHHMPnf+HC0uOdNh4whMbeq6YL3LY1Au1Qdd6djZfsPsMvZhBzWj65c9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aIR2l4i3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bz/2EVjz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aIR2l4i3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781262177; x=1812798177;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yWfq02XqjLidvyFtQokGUh/Ol0aDzGqEbZFDgvRLxM0=;
-  b=Bz/2EVjzFngQFh2o0BC+KR070lk8geYfZOgwPbhR8OgwTJUHMD8BdzEn
-   TGOhtQMEUa312E2sz3X9aO2BhstlVS96sxFnjxxCPR9EVZk0yoZT1HAnD
-   ijd/nMioLMvUAD06p1xpq/Ikin+nvUnfpNgxwAdIx+mhIb6USMXniV0ze
-   ncUBnxR3bupVA2BapP+nwkckuygh9pbGwLrmHKVFp8ugQdd8T7+vkta7Q
-   3mQ5LHEDQuUIUb3U64FpiwHrwOw6CBTysg3heGXUirTZdz2mk4wRU4DFt
-   xrOcIq6ztgr278RNKROG/wuQQjwQi8Df8L9EC9rFX4Cs0YzyZEIlFnUS/
-   w==;
-X-CSE-ConnectionGUID: /Q97H1lDQOGNJwbqJbjHjw==
-X-CSE-MsgGUID: rhAuqq97TGy2W8sYDY3DNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="85721303"
+  t=1781262307; x=1812798307;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=blavlihAeoGhIpj+a4l6kkZTIO/CmlQHeEEtyO0/x4Q=;
+  b=aIR2l4i3XsyI1wIbRbxO+pzjaUbf+6au1rqj3L5n7lZhrv3a7l+D4Ed9
+   H0Tln3DmPuGYIZXIZ4fstgFl3yn+W3wq95BdmqT87axJYoaYcjDWG+qI4
+   8oTJtBJSx+DxxkhNB3DofyeuMjWDWcObEEe3scKCVt/ZcPO5mlK40lMgR
+   4kd4BXxHpyTICO8eWnjVtCDK3bJMOvjaHY6v8NRiB5dmi+wSLlZK2K8R2
+   aAwP6oamKUIJQnDcsSOKStZRn1p5dyLYJiZvK6CtTsJICVWLeIRQmpSP4
+   kvwu8ffY7rn15r0xqMufG51uFjwtxRYJ1pocQThl8ucsg3gY4FOzTXcMq
+   Q==;
+X-CSE-ConnectionGUID: a3+Hjm5QSOGx+48Py0DfhA==
+X-CSE-MsgGUID: VefX8bLxQhiB8c+o+YDNHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="104761718"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="85721303"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 04:02:57 -0700
-X-CSE-ConnectionGUID: SS9CdFvoRxSy53hyo1/Zlg==
-X-CSE-MsgGUID: B6RzyxXGSfWRFpKlpLyBGA==
+   d="scan'208";a="104761718"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 04:05:07 -0700
+X-CSE-ConnectionGUID: EeJC4vQ6RuKpqstGRPWy2A==
+X-CSE-MsgGUID: TR1TCbZUTxacV68RedwvLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="244369569"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Jun 2026 04:02:55 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="242659323"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 12 Jun 2026 04:05:05 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wXzf2-00000000Odh-3eSS;
-	Fri, 12 Jun 2026 11:02:52 +0000
-Date: Fri, 12 Jun 2026 19:02:20 +0800
+	id 1wXzh8-000000004Ez-2xMv;
+	Fri, 12 Jun 2026 11:05:02 +0000
+Date: Fri, 12 Jun 2026 13:04:56 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] Add LoadPin support for eBPF program loading
-Message-ID: <202606121804.5BKo0Bfw-lkp@intel.com>
+Subject: arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb:
+ /localbus@fef05000/watchdog@4,2000: failed to match any schema with
+ compatible: ['gef,ppc9a-fpga-wdt', 'gef,fpga-wdt-1.00', 'gef,fpga-wdt']
+Message-ID: <202606121200.Kx5GREBd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
-:::::: 
+::::::=20
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+::::::=20
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260611-b4-rfc-loadpin-ebpf-v1-1-11a6c8e6170d@outlook.com>
-References: <20260611-b4-rfc-loadpin-ebpf-v1-1-11a6c8e6170d@outlook.com>
-TO: Alex Roberts via B4 Relay <devnull+alex.roberts109.outlook.com@kernel.org>
-TO: Kees Cook <kees@kernel.org>
-TO: Paul Moore <paul@paul-moore.com>
-TO: James Morris <jmorris@namei.org>
-TO: "Serge E. Hallyn" <serge@hallyn.com>
 CC: linux-kernel@vger.kernel.org
-CC: linux-security-module@vger.kernel.org
-CC: bpf@vger.kernel.org
-CC: Alexei Starovoitov <ast@kernel.org>
-CC: KP Singh <kpsingh@kernel.org>
-CC: Alex Roberts <alex.roberts109@outlook.com>
+TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
+CC: Madhavan Srinivasan <maddy@linux.ibm.com>
+CC: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-Hi Alex,
+Hi Neusch=C3=A4fer,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it'=
+s irrelevant.
 
-[auto build test ERROR on 122b52f0bab007ebeb414c8280c1def17b9ed1f4]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2b414a95b8f7307d42173ba9e580d6d3e2bcbfce
+commit: 39fe29e7f2fd38b0fee9bf987d180dee976dd2c7 powerpc: 86xx: Rename wdt@=
+ nodes to watchdog@
+date:   7 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 7 months ago
+config: powerpc-randconfig-2051-20260611 (https://download.01.org/0day-ci/a=
+rchive/20260612/202606121200.Kx5GREBd-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 9.5.0
+dtschema: 2026.5.dev10+g5d839523d
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260612/202606121200.Kx5GREBd-lkp@intel.com/reproduce)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Roberts-via-B4-Relay/Add-LoadPin-support-for-eBPF-program-loading/20260612-031559
-base:   122b52f0bab007ebeb414c8280c1def17b9ed1f4
-patch link:    https://lore.kernel.org/r/20260611-b4-rfc-loadpin-ebpf-v1-1-11a6c8e6170d%40outlook.com
-patch subject: [PATCH] Add LoadPin support for eBPF program loading
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20260612/202606121804.5BKo0Bfw-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c8ad049db78ae52052722b6f42b54cd2a666072b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121804.5BKo0Bfw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: 39fe29e7f2fd ("powerpc: 86xx: Rename wdt@ nodes to watchdog@")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606121804.5BKo0Bfw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606121200.Kx5GREBd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> security/selinux/hooks.c:4449:2: error: call to '__compiletime_assert_1089' declared with 'error' attribute: New kernel_load_data_id introduced; update SELinux!
-    4449 |         BUILD_BUG_ON_MSG(LOADING_MAX_ID > 8,
-         |         ^
-   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:699:2: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:687:2: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:680:4: note: expanded from macro '__compiletime_assert'
-     680 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:198:1: note: expanded from here
-     198 | __compiletime_assert_1089
-         | ^
->> security/selinux/hooks.c:4412:2: error: call to '__compiletime_assert_1088' declared with 'error' attribute: New kernel_read_file_id introduced; update SELinux!
-    4412 |         BUILD_BUG_ON_MSG(READING_MAX_ID > 8,
-         |         ^
-   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:699:2: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:687:2: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:680:4: note: expanded from macro '__compiletime_assert'
-     680 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:195:1: note: expanded from here
-     195 | __compiletime_assert_1088
-         | ^
-   2 errors generated.
-
-
-vim +4449 security/selinux/hooks.c
-
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4405  
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4406  static int selinux_kernel_read_file(struct file *file,
-2039bda1fa8dad Kees Cook           2020-10-02  4407  				    enum kernel_read_file_id id,
-2039bda1fa8dad Kees Cook           2020-10-02  4408  				    bool contents)
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4409  {
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4410  	int rc = 0;
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4411  
-c200892b46ba3d Coiby Xu            2025-11-19 @4412  	BUILD_BUG_ON_MSG(READING_MAX_ID > 8,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4413  			 "New kernel_read_file_id introduced; update SELinux!");
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4414  
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4415  	switch (id) {
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4416  	case READING_FIRMWARE:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4417  		rc = selinux_kernel_load_from_file(file, SYSTEM__FIRMWARE_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4418  		break;
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4419  	case READING_MODULE:
-c200892b46ba3d Coiby Xu            2025-11-19  4420  	case READING_MODULE_COMPRESSED:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4421  		rc = selinux_kernel_load_from_file(file, SYSTEM__MODULE_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4422  		break;
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4423  	case READING_KEXEC_IMAGE:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4424  		rc = selinux_kernel_load_from_file(file,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4425  						   SYSTEM__KEXEC_IMAGE_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4426  		break;
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4427  	case READING_KEXEC_INITRAMFS:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4428  		rc = selinux_kernel_load_from_file(file,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4429  						SYSTEM__KEXEC_INITRAMFS_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4430  		break;
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4431  	case READING_POLICY:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4432  		rc = selinux_kernel_load_from_file(file, SYSTEM__POLICY_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4433  		break;
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4434  	case READING_X509_CERTIFICATE:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4435  		rc = selinux_kernel_load_from_file(file,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4436  						SYSTEM__X509_CERTIFICATE_LOAD);
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4437  		break;
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4438  	default:
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4439  		break;
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4440  	}
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4441  
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4442  	return rc;
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4443  }
-61d612ea731e57 Jeff Vander Stoep   2016-04-05  4444  
-b64fcae74b6d69 Kees Cook           2020-10-02  4445  static int selinux_kernel_load_data(enum kernel_load_data_id id, bool contents)
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4446  {
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4447  	int rc = 0;
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4448  
-c200892b46ba3d Coiby Xu            2025-11-19 @4449  	BUILD_BUG_ON_MSG(LOADING_MAX_ID > 8,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4450  			 "New kernel_load_data_id introduced; update SELinux!");
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4451  
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4452  	switch (id) {
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4453  	case LOADING_FIRMWARE:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4454  		rc = selinux_kernel_load_from_file(NULL, SYSTEM__FIRMWARE_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4455  		break;
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4456  	case LOADING_MODULE:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4457  		rc = selinux_kernel_load_from_file(NULL, SYSTEM__MODULE_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4458  		break;
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4459  	case LOADING_KEXEC_IMAGE:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4460  		rc = selinux_kernel_load_from_file(NULL,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4461  						   SYSTEM__KEXEC_IMAGE_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4462  		break;
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4463  	case LOADING_KEXEC_INITRAMFS:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4464  		rc = selinux_kernel_load_from_file(NULL,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4465  						SYSTEM__KEXEC_INITRAMFS_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4466  		break;
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4467  	case LOADING_POLICY:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4468  		rc = selinux_kernel_load_from_file(NULL,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4469  						   SYSTEM__POLICY_LOAD);
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4470  		break;
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4471  	case LOADING_X509_CERTIFICATE:
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4472  		rc = selinux_kernel_load_from_file(NULL,
-2c2b1e059792f6 "Kipp N. Davis"     2025-02-11  4473  						SYSTEM__X509_CERTIFICATE_LOAD);
-b2d99bcb27225f Gustavo A. R. Silva 2020-11-20  4474  		break;
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4475  	default:
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4476  		break;
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4477  	}
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4478  
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4479  	return rc;
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4480  }
-c77b8cdf745d91 Mimi Zohar          2018-07-13  4481  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dts:211.22-213.4: Warning (interrupt=
+_provider): /pcie@fef09000: '#interrupt-cells' found, but node is not an in=
+terrupt provider
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: Warning (interrupt_map): Failed=
+ prerequisite 'interrupt_provider'
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /: failed to match any schema w=
+ith compatible: ['gef,ppc9a']
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: / (gef,ppc9a): False schema doe=
+s not allow {'device_type': ['memory'], 'reg': [[0, 1073741824]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000: failed to m=
+atch any schema with compatible: ['fsl,mpc8641-localbus', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/nvram@3,0: f=
+ailed to match any schema with compatible: ['simtek,stk14ca8']
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/fpga@4,0: fa=
+iled to match any schema with compatible: ['gef,ppc9a-fpga-regs']
+>> arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/watchdog@4,2=
+000: failed to match any schema with compatible: ['gef,ppc9a-fpga-wdt', 'ge=
+f,fpga-wdt-1.00', 'gef,fpga-wdt']
+>> arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/watchdog@4,2=
+000: failed to match any schema with compatible: ['gef,ppc9a-fpga-wdt', 'ge=
+f,fpga-wdt-1.00', 'gef,fpga-wdt']
+>> arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/watchdog@4,2=
+000: failed to match any schema with compatible: ['gef,ppc9a-fpga-wdt', 'ge=
+f,fpga-wdt-1.00', 'gef,fpga-wdt']
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/pic@4,4000: =
+failed to match any schema with compatible: ['gef,ppc9a-fpga-pic', 'gef,fpg=
+a-pic-1.00']
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/pic@4,4000: =
+failed to match any schema with compatible: ['gef,ppc9a-fpga-pic', 'gef,fpg=
+a-pic-1.00']
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/gpio@7,14000=
+: failed to match any schema with compatible: ['gef,ppc9a-gpio', 'gef,sbc61=
+0-gpio']
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: /localbus@fef05000/gpio@7,14000=
+: failed to match any schema with compatible: ['gef,ppc9a-gpio', 'gef,sbc61=
+0-gpio']
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: soc@fef00000 (fsl,mpc8641-soc):=
+ dma-channel@0: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/powerpc/boot/dts/fsl/gef_ppc9a.dtb: soc@fef00000 (fsl,mpc8641-soc):=
+ dma-channel@80: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+--
+   arch/powerpc/boot/dts/fsl/mpc8641si-post.dtsi:22.12-26.4: Warning (uniqu=
+e_unit_address_if_enabled): /soc@fef00000/mcm-law@0: duplicate unit-address=
+ (also used in node /soc@fef00000/dma-channel@0)
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dts:217.22-231.4: Warning (interrup=
+t_provider): /pcie@fef09000: '#interrupt-cells' found, but node is not an i=
+nterrupt provider
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: Warning (interrupt_map): Faile=
+d prerequisite 'interrupt_provider'
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /: failed to match any schema =
+with compatible: ['gef,sbc310']
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: / (gef,sbc310): False schema d=
+oes not allow {'device_type': ['memory'], 'reg': [[0, 1073741824]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000: failed to =
+match any schema with compatible: ['fsl,mpc8641-localbus', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000/nvram@3,0: =
+failed to match any schema with compatible: ['simtek,stk14ca8']
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000/fpga@4,0: f=
+ailed to match any schema with compatible: ['gef,fpga-regs']
+>> arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000/watchdog@4,=
+2000: failed to match any schema with compatible: ['gef,sbc310-fpga-wdt', '=
+gef,fpga-wdt-1.00', 'gef,fpga-wdt']
+>> arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000/watchdog@4,=
+2000: failed to match any schema with compatible: ['gef,sbc310-fpga-wdt', '=
+gef,fpga-wdt-1.00', 'gef,fpga-wdt']
+>> arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000/watchdog@4,=
+2000: failed to match any schema with compatible: ['gef,sbc310-fpga-wdt', '=
+gef,fpga-wdt-1.00', 'gef,fpga-wdt']
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000/pic@4,4000:=
+ failed to match any schema with compatible: ['gef,sbc310-fpga-pic', 'gef,f=
+pga-pic']
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000/pic@4,4000:=
+ failed to match any schema with compatible: ['gef,sbc310-fpga-pic', 'gef,f=
+pga-pic']
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: /localbus@fef05000/gpio@4,8000=
+: failed to match any schema with compatible: ['gef,sbc310-gpio']
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: soc@fef00000 (fsl,mpc8641-soc)=
+: dma-channel@0: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/powerpc/boot/dts/fsl/gef_sbc310.dtb: soc@fef00000 (fsl,mpc8641-soc)=
+: dma-channel@80: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+--
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dts:209.22-211.4: Warning (interrup=
+t_provider): /pcie@fef09000: '#interrupt-cells' found, but node is not an i=
+nterrupt provider
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: Warning (interrupt_map): Faile=
+d prerequisite 'interrupt_provider'
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: /: failed to match any schema =
+with compatible: ['gef,sbc610']
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: / (gef,sbc610): False schema d=
+oes not allow {'device_type': ['memory'], 'reg': [[0, 1073741824]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: /localbus@fef05000: failed to =
+match any schema with compatible: ['fsl,mpc8641-localbus', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: /localbus@fef05000/nvram@3,0: =
+failed to match any schema with compatible: ['simtek,stk14ca8']
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: /localbus@fef05000/fpga@4,0: f=
+ailed to match any schema with compatible: ['gef,fpga-regs']
+>> arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: /localbus@fef05000/watchdog@4,=
+2000: failed to match any schema with compatible: ['gef,fpga-wdt']
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: /localbus@fef05000/pic@4,4000:=
+ failed to match any schema with compatible: ['gef,fpga-pic']
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: /localbus@fef05000/gpio@7,1400=
+0: failed to match any schema with compatible: ['gef,sbc610-gpio']
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: soc@fef00000 (fsl,mpc8641-soc)=
+: dma-channel@0: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/powerpc/boot/dts/fsl/gef_sbc610.dtb: soc@fef00000 (fsl,mpc8641-soc)=
+: dma-channel@80: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
 
 --
 0-DAY CI Kernel Test Service
