@@ -1,155 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA3F1E8826
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 18:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1783B285068
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 19:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781287633; cv=none; b=GobuuOk/8cMYtC95aSuJfUBdt1oS9boDEB7knTR6fnmmu3nf8EYSpLj86jHI4Vb3GLx7KKPhdKJgm1tMfO63OcWHfdBeqpjrjlBKWR3lYcOtx/NExr6UMvsv8ZWocUXAPVQIiu0xVmp27beMWpHjs+BiHZuQUwQUkT+EaEhFZJk=
+	t=1781292852; cv=none; b=f51NeFSyTMd8aq6ghMIeQdH2BAjptwN9PVu2y8hnRHXJBqBk1sCBL+OBA8MSmNXxyPZ78u1gHh4foUPGSEs6dSGNOmQO1dfK6bWQ1zTkwE8Jo8rvHdyBzPH/wN71+pcicedidv8o65W/ezV8AARXYJEudn5jQLiou8uJ0NvEQ5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781287633; c=relaxed/simple;
-	bh=/ni1O6FN+QkNJ98GdDaWP7ghIwjKTyP1DFNMnTkuut0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=c6bxArkL8iqzVfP74OpxJ8SdK+YStlOXNmBWatIZhQi8zZYjtDsFR+V9DSbfQwXzraDrGSiNug9t3e/74/2Cr9GEQjpD5AcBZ93XSjNYwqi8CXL+xgQAW9cWYzS7kc54IRqEvgXfW7yiBqERDhwWlWTe6YkGs3kg1jW43lATGko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6c4qV1E; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1781292852; c=relaxed/simple;
+	bh=gqyXpKePav5DVBfpfbGasF78qOacUQHIm/EmFlqEIZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=G5kT0it0Pd1yXN22mPClN4mfJH6uHhwgK7me6792+lo015SIFQSLraayy6CvWvxl9JB/5A2Jf1Q3VEGwrZYOYV0ljFvO2gD02wCpSps5icfP+gNoo0nkaQN336t1FlvM5r3uqHWj1UZ97dV7gTqts23+LKcjXb+EXqCIySnzCLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrTijhVt; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6c4qV1E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrTijhVt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781287632; x=1812823632;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/ni1O6FN+QkNJ98GdDaWP7ghIwjKTyP1DFNMnTkuut0=;
-  b=I6c4qV1EFoFQ4QebrlWlA1FW/01h9PaehhLIeiCekSJXBU/icwDCZXQ6
-   0uPgTBfY//uIdFhSIsA8Bto0K/8uxuFIeQo55x2PXCTbbuj4IZm6Csqs5
-   RRScKaJc+cnlGNbD0GPBv0fy8U+M8cvJqLshrCY3L1XMBIi4co5qd6sZH
-   J0jqzZDbNAJW5QBbIWPWdroioWCZ3TNxbdFgY9gDcsueVe4IrAE5Nh7pL
-   WcoKoofd5Th8qws7QRIE93jZ1vlTrDXlb3S5m3BSydPpme0VrS9xh+V3M
-   pvfWJSRhgHNB/goQr0Aim1v0tYZCDHs+dussg2HYbDWI5TjyPs/sjRjgN
-   Q==;
-X-CSE-ConnectionGUID: /Xcrod8WR62uA1vphy4lGA==
-X-CSE-MsgGUID: JkAN+b5pQLmQ+j4lC4ovpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="82185904"
+  t=1781292851; x=1812828851;
+  h=date:from:to:cc:subject:message-id;
+  bh=gqyXpKePav5DVBfpfbGasF78qOacUQHIm/EmFlqEIZ4=;
+  b=BrTijhVt7W0GdsaRqTpvI9K2tAltEcDIHOma+dP6gsEnrysuS9zao0Fh
+   XRS4W2ovyEVVH2279QqHEV3mSWN1oKllIJgHZYMv7EtTmvOBzrbu19Xgq
+   +M/spacUodj9j+VidZJxfTbFysl0knNcj2dCLGikwdd22f4VCbp48NCJA
+   TUohq2KRw+M+9ukJz8ExbHD8pPBDbZUDFHS9g2Ev97GTrdJBtSNwhW3Eh
+   rGBO5xDu8imosKwyiHNmH0Asjb8wU4VeKjd7fFSbOcEqcgpe1eyhZ2M6L
+   asw57o3GF9Ys3NGBHtx5JvbbOYi1LTAktlZ+2Ly49AFmVTyHxzsLSczlQ
+   w==;
+X-CSE-ConnectionGUID: y66zS68oSPKKs5YU2sDY8A==
+X-CSE-MsgGUID: Hay2oRp0SGOEggRFThavyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="92452878"
 X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="82185904"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 11:07:12 -0700
-X-CSE-ConnectionGUID: CAkyebKUTQKF0tK+DG9N2w==
-X-CSE-MsgGUID: y9x5NZxnQm6o0ijcTFaQLQ==
+   d="scan'208";a="92452878"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 12:34:11 -0700
+X-CSE-ConnectionGUID: eOoWK6XvTBGtFsM/DV1I+Q==
+X-CSE-MsgGUID: J3h6oxCXT+u5ID1YkO3kdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="243956628"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Jun 2026 11:07:10 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="250814570"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 12 Jun 2026 12:34:10 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wY6Hc-00000000PB1-0soB;
-	Fri, 12 Jun 2026 18:07:08 +0000
-Date: Sat, 13 Jun 2026 02:06:51 +0800
+	id 1wY7dn-000000004Iv-1q18;
+	Fri, 12 Jun 2026 19:34:07 +0000
+Date: Fri, 12 Jun 2026 21:33:38 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/net/veth.c:1051:31: error: no member named 'dql' in
- 'struct netdev_queue'
-Message-ID: <202606130214.MS4ybkwg-lkp@intel.com>
+Subject: [hare-scsi-devel:configfs-ns.v6 21/24] ERROR: modpost:
+ "mnt_clone_direct" [fs/configfs/configfs.ko] undefined!
+Message-ID: <202606122115.g8BLJRxb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "bisect to a FBC not belonging to original linu=
-x-review patches: branch: linux-review/hawk-kernel-org/net-add-dev-bql-flag=
--to-allow-BQL-sysfs-for-IFF_NO_QUEUE-devices/20260612-164112, commit: 0b32f=
-89b62f44ff3c25a5745be17a7362adb4ab7"
-::::::=20
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Simon Schippers <simon.schippers@tu-dortmund.de>
-CC: 0day robot <lkp@intel.com>
-CC: Jesper Dangaard Brouer <hawk@kernel.org>
-CC: "Jonas K=C3=B6ppeler" <j.koeppeler@tu-berlin.de>
+TO: Hannes Reinecke <hare@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/hawk-kernel-org/net-=
-add-dev-bql-flag-to-allow-BQL-sysfs-for-IFF_NO_QUEUE-devices/20260612-164112
-head:   0b32f89b62f44ff3c25a5745be17a7362adb4ab7
-commit: 0b32f89b62f44ff3c25a5745be17a7362adb4ab7 veth: time-based BQL compl=
-etion coalescing via ethtool tx-usecs
-date:   9 hours ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: x86_64-randconfig-013-20260612 (https://download.01.org/0day-ci/arc=
-hive/20260613/202606130214.MS4ybkwg-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
-48fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260613/202606130214.MS4ybkwg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v6
+head:   65843faa046b6a3ff4953aba7319313104638535
+commit: 6c327e2c66e67e1296c6bd57719991db3a0f250c [21/24] fs/configfs: add superblock as attribute to configfs_pin_fs()
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260612/202606122115.g8BLJRxb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606122115.g8BLJRxb-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606130214.MS4ybkwg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606122115.g8BLJRxb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/veth.c:1051:31: error: no member named 'dql' in 'struct netd=
-ev_queue'
-    1051 |             state->n_bql > peer_txq->dql.limit) {
-         |                            ~~~~~~~~  ^
-   1 error generated.
-
-
-vim +1051 drivers/net/veth.c
-
-948d4f214fde43 Toshiaki Makita 2018-08-03  1031 =20
-0b32f89b62f44f Simon Schippers 2026-06-12  1032  static void veth_bql_maybe=
-_complete(struct veth_bql_state *state,
-0b32f89b62f44f Simon Schippers 2026-06-12  1033  				    struct netdev_queu=
-e *peer_txq,
-0b32f89b62f44f Simon Schippers 2026-06-12  1034  				    u64 bql_flush_ns)
-0b32f89b62f44f Simon Schippers 2026-06-12  1035  {
-0b32f89b62f44f Simon Schippers 2026-06-12  1036  	u64 current_time;
-0b32f89b62f44f Simon Schippers 2026-06-12  1037 =20
-0b32f89b62f44f Simon Schippers 2026-06-12  1038  	/* There is no reason to =
-complete with 0 and
-0b32f89b62f44f Simon Schippers 2026-06-12  1039  	 * peer_txq could go away.
-0b32f89b62f44f Simon Schippers 2026-06-12  1040  	 */
-0b32f89b62f44f Simon Schippers 2026-06-12  1041  	if (!state->n_bql || !pee=
-r_txq)
-0b32f89b62f44f Simon Schippers 2026-06-12  1042  		return;
-0b32f89b62f44f Simon Schippers 2026-06-12  1043 =20
-0b32f89b62f44f Simon Schippers 2026-06-12  1044  	current_time =3D sched_cl=
-ock();
-0b32f89b62f44f Simon Schippers 2026-06-12  1045 =20
-0b32f89b62f44f Simon Schippers 2026-06-12  1046  	/* We complete if:
-0b32f89b62f44f Simon Schippers 2026-06-12  1047  	 * 1. We reach bql_flush_=
-ns.
-0b32f89b62f44f Simon Schippers 2026-06-12  1048  	 * 2. We potentially have=
- BQL starvation.
-0b32f89b62f44f Simon Schippers 2026-06-12  1049  	 */
-0b32f89b62f44f Simon Schippers 2026-06-12  1050  	if (state->time + bql_flu=
-sh_ns <=3D current_time ||
-0b32f89b62f44f Simon Schippers 2026-06-12 @1051  	    state->n_bql > peer_t=
-xq->dql.limit) {
-0b32f89b62f44f Simon Schippers 2026-06-12  1052  		netdev_tx_completed_queu=
-e(peer_txq, state->n_bql,
-0b32f89b62f44f Simon Schippers 2026-06-12  1053  					  state->n_bql * VETH=
-_BQL_UNIT);
-0b32f89b62f44f Simon Schippers 2026-06-12  1054  		state->time =3D current_=
-time;
-0b32f89b62f44f Simon Schippers 2026-06-12  1055  		state->n_bql =3D 0;
-0b32f89b62f44f Simon Schippers 2026-06-12  1056  	}
-0b32f89b62f44f Simon Schippers 2026-06-12  1057  }
-0b32f89b62f44f Simon Schippers 2026-06-12  1058 =20
+>> ERROR: modpost: "mnt_clone_direct" [fs/configfs/configfs.ko] undefined!
 
 --
 0-DAY CI Kernel Test Service
