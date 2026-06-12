@@ -1,116 +1,149 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785D93F4135
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 16:32:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378F439184F
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 16:41:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781281927; cv=none; b=mwMiYyRoGxEZhEL9QVPKTf+N5RaaLrMAKtFMGh68bXhyxoLDcEBPS25sC5YPs9OIRq0tIthiER0bQ7FVmjuC8hAHf2G0czPXPgrsGUGrIDO5TppFgKTQCUi68a493TbCIZGoHTAOxtHLMP03T8h2b/AgRShqEuwLe2hmws6OV5w=
+	t=1781282475; cv=none; b=qAmPgTe0y/EMtlkCv1VuqSYhptuAOEBsaWRusFRtDACEHmUCtL7cEmS7ztz06ST6nSHSNmGH6/Hq0z0ZTH5/f8DsrWwu2bGWn0UcRoPkFPLRnIv5HghVWT/sxr4BsMhEhmRsA06mP/a2PmVx4lvOLk/H5ffGAZauHFbHkFvHNCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781281927; c=relaxed/simple;
-	bh=EiVcRGnOXUVNHv1YSB2YvCnS+9/Bl9mFBJvc6Yk6QVI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UiPTpUMUYe8Zftuot7OMkjoPFnRHsbbae/+2uKulrAmTagDfJpwM2/dV1foOhE2eLrc3ymgK1FhKDEYSCAFBlMyigubffQfaora+Ry8ATVo+KURo4J87E3DB6dqZnFnIUw4neTNVPyqI1ran9DkYKOxxwrygwpYnXeMI4rG3K4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZrK5Egv9; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1781282475; c=relaxed/simple;
+	bh=XjoBmlPbb3rMbBmDrcUsYM9y9BScIut/d/FMluVFL3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=WnSSyWZ1rPpGqfPsOB6OyQDRHmeSm+9DRnMwVlhDaXyOlYEpvyseQW5rBPxYa9tt48mDPae35mbQx+/aH44AdllBM+YWbsLTlW3fRgIIr1yDZMLS67Mj/XOPuTEAWiN2DxQmRc304R57ZegjGQBVUQWApQ3ONdG1opuNHgrY/3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=afYZFdDF; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZrK5Egv9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="afYZFdDF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781281924; x=1812817924;
-  h=date:from:to:cc:subject:message-id;
-  bh=EiVcRGnOXUVNHv1YSB2YvCnS+9/Bl9mFBJvc6Yk6QVI=;
-  b=ZrK5Egv982ebzUnq6aPoEneh5M70UMbzQvluPeR02VyEuL/eIszxVSZp
-   6HJFgJpi4fvikNw9rvZ/Xo3YVZQlfudNF8Aca6UzTUSvGPhCFreWSPRtM
-   mn1lX2o0N3qF8WglOl8m7R/o/rf/hrXInGRq5nXlzWhPLQA43QjvgSk0H
-   7KvgtKLoLjSDO+45jVmba6q//qKY9ZQrkqKvcgDn1nBH35MN0WeKha893
-   BUtmAWe8Zq7GXcLLYva2bJP8363xzteu+NOo66slbfHhS36RGkTDoiSaJ
-   oq4jzj+vssVcJGPA2cMwBXI9briGDGDLyKqZbnrkZ5fEBYtlZQyr1r+LQ
-   w==;
-X-CSE-ConnectionGUID: 39zTGPeAQmS6371zk5mEOQ==
-X-CSE-MsgGUID: m6R6pPjmR3aV5k/Ak34boA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="93608207"
+  t=1781282473; x=1812818473;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XjoBmlPbb3rMbBmDrcUsYM9y9BScIut/d/FMluVFL3Q=;
+  b=afYZFdDFdBRCRoxICK7iuVsVgLfRPfjmOQDS6BvE4hudalsDIilIih/k
+   AOQXoCGNJGFTEwq6p5nkO8AujGPSPHnU7fwKQiFVlWmb2ipVy1nYvAT9l
+   yMf2bsFcmjNWjIfa/28OoJHuYqfT5zd11UxXCae0Wn+JwNP9w/c4KPZ0H
+   vkSEh2FaBt2Ur4YDFk89AyKPcCW4cVkvVRD93H7HKfoGGgU4GUEyeoxsJ
+   qv8jYDfk7ETIEDROXIwfn2WCbrS3fdzVtDhkJuLsH5hOq3MTuvRifdrqK
+   RCRPnkqksujp2MIxW6TI4xYLiVfw7d3c68sSJFmCo4bvR+n+v3Lo6rxc/
+   A==;
+X-CSE-ConnectionGUID: MG9PKjEDS+W5YI9fvVxF9w==
+X-CSE-MsgGUID: zCWrw74UTPuviof9LJxvRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="93609225"
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="93608207"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 09:32:04 -0700
-X-CSE-ConnectionGUID: 54XSxCRGRx24ubnjoGP54w==
-X-CSE-MsgGUID: P5oBZEUwQvWRZxHv/x9u2w==
+   d="scan'208";a="93609225"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 09:41:09 -0700
+X-CSE-ConnectionGUID: P5kGOAfMSV++j/aiIASHpQ==
+X-CSE-MsgGUID: 5k1KZvGdSH2tzQnInh2iDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="246890799"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 12 Jun 2026 09:32:03 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="246924234"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 12 Jun 2026 09:41:08 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wY4nY-00000000P3b-2GOB;
-	Fri, 12 Jun 2026 16:32:00 +0000
-Date: Sat, 13 Jun 2026 00:31:46 +0800
+	id 1wY4wM-000000004Hd-0yrz;
+	Fri, 12 Jun 2026 16:41:06 +0000
+Date: Fri, 12 Jun 2026 18:40:57 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [tip:irq/core 3/17] kernel/irq/proc.c:467:31: sparse:
- sparse: label 'continue' already bound
-Message-ID: <202606130029.51vvy0B5-lkp@intel.com>
+Subject: arch/powerpc/boot/dts/fsl/ge_imp3a.dtb:
+ /localbus@fef05000/watchdog@4,800: failed to match any schema with
+ compatible: ['ge,imp3a-fpga-wdt', 'gef,fpga-wdt-1.00', 'gef,fpga-wdt']
+Message-ID: <202606121833.ywJUGKXv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/irq/proc.c:467:31: sparse: sparse: label 'continue' already bound"
-:::::: 
+::::::=20
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Thomas Gleixner <tglx@kernel.org>
-CC: Dmitry Ilvokhin <d@ilvokhin.com>
-CC: Radu Rendec <radu@rendec.net>
-CC: Shrikanth Hegde <sshegde@linux.ibm.com>
+TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
+CC: Madhavan Srinivasan <maddy@linux.ibm.com>
+CC: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-head:   171cc0d9eed1cad5de7ce6a212efbeda390edb0f
-commit: 95c33a64f203be444954a1e1d855a4820c4f0efa [3/17] genirq/proc: Avoid formatting zero counts in /proc/interrupts
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: um-randconfig-r122-20260612 (https://download.01.org/0day-ci/archive/20260613/202606130029.51vvy0B5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260613/202606130029.51vvy0B5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2b414a95b8f7307d42173ba9e580d6d3e2bcbfce
+commit: af6850ac9ef3c98e6e8f2929e24ed6fd154fa39e powerpc: p2020: Rename wdt=
+@ nodes to watchdog@
+date:   7 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 7 months ago
+config: powerpc-randconfig-2051-20260611 (https://download.01.org/0day-ci/a=
+rchive/20260612/202606121833.ywJUGKXv-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 9.5.0
+dtschema: 2026.5.dev10+g5d839523d
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260612/202606121833.ywJUGKXv-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: af6850ac9ef3 ("powerpc: p2020: Rename wdt@ nodes to watchdog@")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606130029.51vvy0B5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606121833.ywJUGKXv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/irq/proc.c:467:31: sparse: sparse: label 'continue' already bound
->> kernel/irq/proc.c:467:31: sparse: sparse: label 'break' already bound
-
-vim +/continue +467 kernel/irq/proc.c
-
-a6e120ed42004d6 Thomas Gleixner 2011-03-25  453  
-95c33a64f203be4 Thomas Gleixner 2026-05-17  454  /* Same as seq_put_decimal_ull_width(p, " ", cnt, 10) */
-95c33a64f203be4 Thomas Gleixner 2026-05-17  455  #define ZSTR1 "          0"
-95c33a64f203be4 Thomas Gleixner 2026-05-17  456  #define ZSTR1_LEN	(sizeof(ZSTR1) - 1)
-95c33a64f203be4 Thomas Gleixner 2026-05-17  457  #define ZSTR16		ZSTR1 ZSTR1 ZSTR1 ZSTR1 ZSTR1 ZSTR1 ZSTR1 ZSTR1 \
-95c33a64f203be4 Thomas Gleixner 2026-05-17  458  			ZSTR1 ZSTR1 ZSTR1 ZSTR1 ZSTR1 ZSTR1 ZSTR1 ZSTR1
-95c33a64f203be4 Thomas Gleixner 2026-05-17  459  #define ZSTR256		ZSTR16 ZSTR16 ZSTR16 ZSTR16 ZSTR16 ZSTR16 ZSTR16 ZSTR16 \
-95c33a64f203be4 Thomas Gleixner 2026-05-17  460  			ZSTR16 ZSTR16 ZSTR16 ZSTR16 ZSTR16 ZSTR16 ZSTR16 ZSTR16
-95c33a64f203be4 Thomas Gleixner 2026-05-17  461  
-95c33a64f203be4 Thomas Gleixner 2026-05-17  462  static inline void irq_proc_emit_zero_counts(struct seq_file *p, unsigned int zeros)
-95c33a64f203be4 Thomas Gleixner 2026-05-17  463  {
-95c33a64f203be4 Thomas Gleixner 2026-05-17  464  	if (!zeros)
-95c33a64f203be4 Thomas Gleixner 2026-05-17  465  		return;
-95c33a64f203be4 Thomas Gleixner 2026-05-17  466  
-95c33a64f203be4 Thomas Gleixner 2026-05-17 @467  	for (unsigned int n = min(zeros, 256); n; zeros -= n, n = min(zeros, 256))
-95c33a64f203be4 Thomas Gleixner 2026-05-17  468  		seq_write(p, ZSTR256, n * ZSTR1_LEN);
-95c33a64f203be4 Thomas Gleixner 2026-05-17  469  }
-95c33a64f203be4 Thomas Gleixner 2026-05-17  470  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000: failed to ma=
+tch any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: nor@1,0 (ge,imp3a-paged-flash): =
+$nodename:0: 'nor@1,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: nor@1,0 (ge,imp3a-paged-flash): =
+Unevaluated properties are not allowed ('partition@0', 'partition@7800000' =
+were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/nvram@3,0: fa=
+iled to match any schema with compatible: ['simtek,stk14ca8']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/fpga@4,0: fai=
+led to match any schema with compatible: ['ge,imp3a-fpga-regs']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/pic@4,20: fai=
+led to match any schema with compatible: ['ge,imp3a-fpga-pic', 'gef,fpga-pi=
+c-1.00']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/pic@4,20: fai=
+led to match any schema with compatible: ['ge,imp3a-fpga-pic', 'gef,fpga-pi=
+c-1.00']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/gpio@4,400: f=
+ailed to match any schema with compatible: ['ge,imp3a-gpio']
+>> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/watchdog@4,80=
+0: failed to match any schema with compatible: ['ge,imp3a-fpga-wdt', 'gef,f=
+pga-wdt-1.00', 'gef,fpga-wdt']
+>> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/watchdog@4,80=
+0: failed to match any schema with compatible: ['ge,imp3a-fpga-wdt', 'gef,f=
+pga-wdt-1.00', 'gef,fpga-wdt']
+>> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/watchdog@4,80=
+0: failed to match any schema with compatible: ['ge,imp3a-fpga-wdt', 'gef,f=
+pga-wdt-1.00', 'gef,fpga-wdt']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/nand@6,0: fai=
+led to match any schema with compatible: ['fsl,elbc-fcm-nand']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/nand@7,0: fai=
+led to match any schema with compatible: ['fsl,elbc-fcm-nand']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000: failed to match a=
+ny schema with compatible: ['fsl,p2020-immr', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: i2c@3000 (fsl-i2c): compatible: =
+'oneOf' conditional failed, one must be fixed:
+   	['fsl-i2c'] is too short
+   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121=
+-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
+   	'fsl,mpc5200b-i2c' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml
+   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: i2c@3000 (fsl-i2c): Unevaluated =
+properties are not allowed ('cell-index', 'dfsrr' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml
 
 --
 0-DAY CI Kernel Test Service
