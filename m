@@ -1,182 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDAB296BBA
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 17:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA3F1E8826
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Jun 2026 18:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781286432; cv=none; b=CCLtO7XJrTPIFwzt8+5/6WKOKCuV3N2NcxFRpiHsdKADJKbDuwzzkI58r4fGwgMPNy/8AgAsD18s6TTH1saVzWw+bDCqBAGA6pzpId6uIK9OwQEcN657xICv0xsoj/Y8Zk1wTlRne7/+YKcTFsnWVc8gf1AO/a/OJ1wNkTiohVk=
+	t=1781287633; cv=none; b=GobuuOk/8cMYtC95aSuJfUBdt1oS9boDEB7knTR6fnmmu3nf8EYSpLj86jHI4Vb3GLx7KKPhdKJgm1tMfO63OcWHfdBeqpjrjlBKWR3lYcOtx/NExr6UMvsv8ZWocUXAPVQIiu0xVmp27beMWpHjs+BiHZuQUwQUkT+EaEhFZJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781286432; c=relaxed/simple;
-	bh=aG6KMf10TQXTBQRdQEJchZ9vQgS2/D6n4+f0/Dx45dU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fTF0ePCmsUitazIG+cqyqw+xDQuqZcx/lW0ZPpS2qfq9S5saM0sF6c1XbNO+aEM1F/O2r9ZiBftfkWOll9Ys+JZCf43uspT9s/SxbVQds/Yq6t7uBswIEIo55Aq2jOLbWcdQ3Vta8geoVaRFuONCJ3Qbj0mZKH+MWZLP0su225Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqsRqQU1; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1781287633; c=relaxed/simple;
+	bh=/ni1O6FN+QkNJ98GdDaWP7ghIwjKTyP1DFNMnTkuut0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=c6bxArkL8iqzVfP74OpxJ8SdK+YStlOXNmBWatIZhQi8zZYjtDsFR+V9DSbfQwXzraDrGSiNug9t3e/74/2Cr9GEQjpD5AcBZ93XSjNYwqi8CXL+xgQAW9cWYzS7kc54IRqEvgXfW7yiBqERDhwWlWTe6YkGs3kg1jW43lATGko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6c4qV1E; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqsRqQU1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6c4qV1E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781286431; x=1812822431;
-  h=date:from:to:cc:subject:message-id;
-  bh=aG6KMf10TQXTBQRdQEJchZ9vQgS2/D6n4+f0/Dx45dU=;
-  b=iqsRqQU1QHPb9BPpG0SQmA9oVLZjvRmBRgkIyvMlznrEklRoeViWyAhR
-   UY8n+Ehk2h8e1lvA1tPmkSFEDbgll8OuUYRw86mDoanFhOvL9uyigGgew
-   eQpunAQx9ITp0qy7timqwWMNVP8kMcOiScKz2CRfiXT4hyXijPNMRttvm
-   cuDhkoTf3nMufS4hkwC4bSHOj8/Tx50z1hW4jISr5RijqBqX0uuB/C3Ts
-   vpCqa2cdiOUmbOA+sGnC9vWH9APwbdpQyWMtt1s7AFBGnft5Fi+oJWVS9
-   DI3/7Sk+TDV6C/WRr/+f/lSCcxRrBbgwCaQenMNQVhogjCtwYgfe0izwM
+  t=1781287632; x=1812823632;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/ni1O6FN+QkNJ98GdDaWP7ghIwjKTyP1DFNMnTkuut0=;
+  b=I6c4qV1EFoFQ4QebrlWlA1FW/01h9PaehhLIeiCekSJXBU/icwDCZXQ6
+   0uPgTBfY//uIdFhSIsA8Bto0K/8uxuFIeQo55x2PXCTbbuj4IZm6Csqs5
+   RRScKaJc+cnlGNbD0GPBv0fy8U+M8cvJqLshrCY3L1XMBIi4co5qd6sZH
+   J0jqzZDbNAJW5QBbIWPWdroioWCZ3TNxbdFgY9gDcsueVe4IrAE5Nh7pL
+   WcoKoofd5Th8qws7QRIE93jZ1vlTrDXlb3S5m3BSydPpme0VrS9xh+V3M
+   pvfWJSRhgHNB/goQr0Aim1v0tYZCDHs+dussg2HYbDWI5TjyPs/sjRjgN
    Q==;
-X-CSE-ConnectionGUID: iL8T/b3kTFmkCZoohIfhuQ==
-X-CSE-MsgGUID: dGP6XyBATQGiVE9ZRonBGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="82312363"
+X-CSE-ConnectionGUID: /Xcrod8WR62uA1vphy4lGA==
+X-CSE-MsgGUID: JkAN+b5pQLmQ+j4lC4ovpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="82185904"
 X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="82312363"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 10:47:10 -0700
-X-CSE-ConnectionGUID: cZo3f1ISSOa3ps3FSPQrEg==
-X-CSE-MsgGUID: dYkAZZW0RAagR5ed4jDj8A==
+   d="scan'208";a="82185904"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 11:07:12 -0700
+X-CSE-ConnectionGUID: CAkyebKUTQKF0tK+DG9N2w==
+X-CSE-MsgGUID: y9x5NZxnQm6o0ijcTFaQLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="242733291"
+   d="scan'208";a="243956628"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Jun 2026 10:47:08 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 12 Jun 2026 11:07:10 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wY5yD-00000000P9N-47oM;
-	Fri, 12 Jun 2026 17:47:05 +0000
-Date: Sat, 13 Jun 2026 01:46:22 +0800
+	id 1wY6Hc-00000000PB1-0soB;
+	Fri, 12 Jun 2026 18:07:08 +0000
+Date: Sat, 13 Jun 2026 02:06:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [geert-renesas-devel:renesas-drivers-for-v6.20 3/6]
- drivers/of/unittest.c:1701 of_unittest_parse_interrupt_map() warn: bitwise
- AND condition is false here
-Message-ID: <202606130103.yIeRERLX-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/net/veth.c:1051:31: error: no member named 'dql' in
+ 'struct netdev_queue'
+Message-ID: <202606130214.MS4ybkwg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "bisect to a FBC not belonging to original linu=
+x-review patches: branch: linux-review/hawk-kernel-org/net-add-dev-bql-flag=
+-to-allow-BQL-sysfs-for-IFF_NO_QUEUE-devices/20260612-164112, commit: 0b32f=
+89b62f44ff3c25a5745be17a7362adb4ab7"
+::::::=20
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+TO: Simon Schippers <simon.schippers@tu-dortmund.de>
+CC: 0day robot <lkp@intel.com>
+CC: Jesper Dangaard Brouer <hawk@kernel.org>
+CC: "Jonas K=C3=B6ppeler" <j.koeppeler@tu-berlin.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.20
-head:   49261f479d45714692587ff0abe0c5279c6068d6
-commit: a9811aeb42f85bd423725996ef7dce5cd51f8ff7 [3/6] of: unittest: Add a test case for for_each_of_imap_item iterator
-:::::: branch date: 5 months ago
-:::::: commit date: 5 months ago
-config: csky-randconfig-r073-20260611 (https://download.01.org/0day-ci/archive/20260613/202606130103.yIeRERLX-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.5.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://github.com/intel-lab-lkp/linux/commits/hawk-kernel-org/net-=
+add-dev-bql-flag-to-allow-BQL-sysfs-for-IFF_NO_QUEUE-devices/20260612-164112
+head:   0b32f89b62f44ff3c25a5745be17a7362adb4ab7
+commit: 0b32f89b62f44ff3c25a5745be17a7362adb4ab7 veth: time-based BQL compl=
+etion coalescing via ethtool tx-usecs
+date:   9 hours ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: x86_64-randconfig-013-20260612 (https://download.01.org/0day-ci/arc=
+hive/20260613/202606130214.MS4ybkwg-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
+48fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260613/202606130214.MS4ybkwg-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606130103.yIeRERLX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606130214.MS4ybkwg-lkp@intel.com/
 
-New smatch warnings:
-drivers/of/unittest.c:1701 of_unittest_parse_interrupt_map() warn: bitwise AND condition is false here
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/of/unittest.c:860 of_unittest_changeset() error: potential null dereference 'n1'.  (__of_node_dup returns null)
-drivers/of/unittest.c:861 of_unittest_changeset() error: potential null dereference 'n2'.  (__of_node_dup returns null)
-drivers/of/unittest.c:862 of_unittest_changeset() error: potential null dereference 'n21'.  (__of_node_dup returns null)
-drivers/of/unittest.c:1506 of_unittest_parse_interrupts() warn: bitwise AND condition is false here
-drivers/of/unittest.c:1583 of_unittest_parse_interrupts_extended() warn: bitwise AND condition is false here
-drivers/of/unittest.c:1782 of_unittest_irq_refcount() warn: bitwise AND condition is false here
-drivers/of/unittest.c:1926 of_unittest_platform_populate() warn: bitwise AND condition is false here
+>> drivers/net/veth.c:1051:31: error: no member named 'dql' in 'struct netd=
+ev_queue'
+    1051 |             state->n_bql > peer_txq->dql.limit) {
+         |                            ~~~~~~~~  ^
+   1 error generated.
 
-vim +1701 drivers/of/unittest.c
 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1692) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1693) static void __init of_unittest_parse_interrupt_map(void)
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1694) {
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1695) 	const struct of_unittest_expected_imap_item *expected_item;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1696) 	struct device_node *imap_np, *expected_parent_np;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1697) 	struct of_imap_parser imap_parser;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1698) 	struct of_imap_item imap_item;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1699) 	int count, ret, i;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1700) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14 @1701) 	if (of_irq_workarounds & (OF_IMAP_NO_PHANDLE | OF_IMAP_OLDWORLD_MAC))
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1702) 		return;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1703) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1704) 	imap_np = of_find_node_by_path("/testcase-data/interrupts/intmap2");
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1705) 	if (!imap_np) {
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1706) 		pr_err("missing testcase data\n");
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1707) 		return;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1708) 	}
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1709) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1710) 	ret = of_imap_parser_init(&imap_parser, imap_np, &imap_item);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1711) 	if (unittest(!ret, "of_imap_parser_init(%pOF) returned error %d\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1712) 		     imap_np, ret))
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1713) 		goto end;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1714) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1715) 	expected_item = of_unittest_expected_imap_items;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1716) 	count = 0;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1717) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1718) 	for_each_of_imap_item(&imap_parser, &imap_item) {
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1719) 		if (unittest(count < ARRAY_SIZE(of_unittest_expected_imap_items),
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1720) 			     "imap item number %d not expected. Max number %zu\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1721) 			     count, ARRAY_SIZE(of_unittest_expected_imap_items) - 1)) {
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1722) 			of_node_put(imap_item.parent_args.np);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1723) 			goto end;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1724) 		}
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1725) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1726) 		expected_parent_np = of_find_node_by_path(expected_item->parent_path);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1727) 		if (unittest(expected_parent_np,
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1728) 			     "missing dependent testcase data (%s)\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1729) 			     expected_item->parent_path)) {
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1730) 			of_node_put(imap_item.parent_args.np);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1731) 			goto end;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1732) 		}
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1733) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1734) 		unittest(imap_item.child_imap_count == expected_item->child_imap_count,
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1735) 			 "imap[%d] child_imap_count = %u, expected %u\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1736) 			 count, imap_item.child_imap_count,
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1737) 			 expected_item->child_imap_count);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1738) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1739) 		for (i = 0; i < expected_item->child_imap_count; i++)
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1740) 			unittest(imap_item.child_imap[i] == expected_item->child_imap[i],
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1741) 				 "imap[%d] child_imap[%d] = %u, expected %u\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1742) 				 count, i, imap_item.child_imap[i],
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1743) 				 expected_item->child_imap[i]);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1744) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1745) 		unittest(imap_item.parent_args.np == expected_parent_np,
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1746) 			 "imap[%d] parent np = %pOF, expected %pOF\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1747) 			 count, imap_item.parent_args.np, expected_parent_np);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1748) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1749) 		unittest(imap_item.parent_args.args_count == expected_item->parent_args_count,
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1750) 			 "imap[%d] parent param_count = %d, expected %d\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1751) 			 count, imap_item.parent_args.args_count,
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1752) 			 expected_item->parent_args_count);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1753) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1754) 		for (i = 0; i < expected_item->parent_args_count; i++)
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1755) 			unittest(imap_item.parent_args.args[i] == expected_item->parent_args[i],
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1756) 				 "imap[%d] parent param[%d] = %u, expected %u\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1757) 				 count, i, imap_item.parent_args.args[i],
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1758) 				 expected_item->parent_args[i]);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1759) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1760) 		of_node_put(expected_parent_np);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1761) 		count++;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1762) 		expected_item++;
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1763) 	}
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1764) 
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1765) 	unittest(count == ARRAY_SIZE(of_unittest_expected_imap_items),
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1766) 		 "Missing items. %d parsed, expected %zu\n",
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1767) 		 count, ARRAY_SIZE(of_unittest_expected_imap_items));
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1768) end:
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1769) 	of_node_put(imap_np);
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1770) }
-a9811aeb42f85b Herve Codina (Schneider Electric  2026-01-14  1771) 
+vim +1051 drivers/net/veth.c
+
+948d4f214fde43 Toshiaki Makita 2018-08-03  1031 =20
+0b32f89b62f44f Simon Schippers 2026-06-12  1032  static void veth_bql_maybe=
+_complete(struct veth_bql_state *state,
+0b32f89b62f44f Simon Schippers 2026-06-12  1033  				    struct netdev_queu=
+e *peer_txq,
+0b32f89b62f44f Simon Schippers 2026-06-12  1034  				    u64 bql_flush_ns)
+0b32f89b62f44f Simon Schippers 2026-06-12  1035  {
+0b32f89b62f44f Simon Schippers 2026-06-12  1036  	u64 current_time;
+0b32f89b62f44f Simon Schippers 2026-06-12  1037 =20
+0b32f89b62f44f Simon Schippers 2026-06-12  1038  	/* There is no reason to =
+complete with 0 and
+0b32f89b62f44f Simon Schippers 2026-06-12  1039  	 * peer_txq could go away.
+0b32f89b62f44f Simon Schippers 2026-06-12  1040  	 */
+0b32f89b62f44f Simon Schippers 2026-06-12  1041  	if (!state->n_bql || !pee=
+r_txq)
+0b32f89b62f44f Simon Schippers 2026-06-12  1042  		return;
+0b32f89b62f44f Simon Schippers 2026-06-12  1043 =20
+0b32f89b62f44f Simon Schippers 2026-06-12  1044  	current_time =3D sched_cl=
+ock();
+0b32f89b62f44f Simon Schippers 2026-06-12  1045 =20
+0b32f89b62f44f Simon Schippers 2026-06-12  1046  	/* We complete if:
+0b32f89b62f44f Simon Schippers 2026-06-12  1047  	 * 1. We reach bql_flush_=
+ns.
+0b32f89b62f44f Simon Schippers 2026-06-12  1048  	 * 2. We potentially have=
+ BQL starvation.
+0b32f89b62f44f Simon Schippers 2026-06-12  1049  	 */
+0b32f89b62f44f Simon Schippers 2026-06-12  1050  	if (state->time + bql_flu=
+sh_ns <=3D current_time ||
+0b32f89b62f44f Simon Schippers 2026-06-12 @1051  	    state->n_bql > peer_t=
+xq->dql.limit) {
+0b32f89b62f44f Simon Schippers 2026-06-12  1052  		netdev_tx_completed_queu=
+e(peer_txq, state->n_bql,
+0b32f89b62f44f Simon Schippers 2026-06-12  1053  					  state->n_bql * VETH=
+_BQL_UNIT);
+0b32f89b62f44f Simon Schippers 2026-06-12  1054  		state->time =3D current_=
+time;
+0b32f89b62f44f Simon Schippers 2026-06-12  1055  		state->n_bql =3D 0;
+0b32f89b62f44f Simon Schippers 2026-06-12  1056  	}
+0b32f89b62f44f Simon Schippers 2026-06-12  1057  }
+0b32f89b62f44f Simon Schippers 2026-06-12  1058 =20
 
 --
 0-DAY CI Kernel Test Service
