@@ -1,130 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593C7357CEB
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Jun 2026 11:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8312F3C18
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Jun 2026 13:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781610661; cv=none; b=al3EAAvgiKel+ikPBNKwSiTxRfJIDCtNFSkkz7ioS4AHoYj9MF+qGwqA5RklRWWoChYJWQKf7aHBr4mgjEXd9+ykvCU5LpSTrkvdyHjTt/Gff1I6FLC3RM8IHZ54XpgQLqmyxfG+xQcmGsvtAQd0+1SCR+kQjlZ6KV+vCgEkiEw=
+	t=1781616626; cv=none; b=JkCcyYyB/UNeqcyv8UxxYgcafREkdszjDFCII7injhNJvmCIW3MSnLAYn+H+j2uv/OODquP7csnYe1v0uXPUIbWb3EKYHXkR2dVg5mSY2quRl3SQslGN4JaXxhfqEAHz3oq4wBZRiF+YTTeVluGcqmkw0CVdEN8BOB+H9QNKp7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781610661; c=relaxed/simple;
-	bh=XbqUjNqdNmx5t4g5/uhECow2MiCJ8IN7SV+3lnmzvq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GggsjkUd7ZTaD0CEdQAsg6YFZiqpbEGtsA1X0paQ/VjN5XB7qWVBlKz6ivXj6dUaaG2UxpVJyzixa4g14rKQ2kCqZUSTl8YKMthSXI8MuuZB/GXOJWTab6TaCTRB81ECTkCM0CemL6oNcS5ZUIKhr4+gCRmDB78Me+n+ran9Org=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgTQfVxp; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1781616626; c=relaxed/simple;
+	bh=YCGZni2goBZyJE0zU69+YugYK3z7kx63EVgyaeDE2gg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SyOHadJAKp6XLocfCV44ZK6avBQLFX/TZ/wG9MXBpcUkCXqZgos7kLknpEH+8I7miLsWdqJJkag/vDCvS3f1QlPqFV+njbM9DQEREQvnJAfKfQDioGnHuLy7dSi32zg9Y/x8DeuCxNfkrIOaNOsE+FJLP/XlJJ+mDsGpOiKKSM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWPAtWuS; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgTQfVxp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWPAtWuS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781610661; x=1813146661;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XbqUjNqdNmx5t4g5/uhECow2MiCJ8IN7SV+3lnmzvq8=;
-  b=kgTQfVxpoybU9O7LaOce6GkjAU+QTJEK1M6ZNdTRBQ/GYDNxCUSYM/vt
-   pkAiHwo3XU/joIK0e8k4amlqf6PPvZclW2/ZG3Y7TCXrLbjwmJXflnSct
-   UKekrYRyKV1JKYqryDZPPA3xLDZ68EZ91Y+XYh4Zx/nqX92ssD0HoZ6UD
-   TGTfcNQPBv33rM+mkcGdmNja2X6kbAiI+6ouA6nyKxJHuBtNt9BfQswXT
-   EeeqSH/01Sp95ywHAy+kY1dCiuEZV2/qvXTtQcPWAuG1F6Z0u1MYf1m7U
-   HSjffCrZmavtE8eLo07aE1kN1rfsV8GosSxATrjaXbDPsKUgoGaAoyCrY
-   Q==;
-X-CSE-ConnectionGUID: RzsNwbENQT21zpiXhRfHLw==
-X-CSE-MsgGUID: lv987ogaRtSsyjiywiDIYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="86210255"
+  t=1781616625; x=1813152625;
+  h=date:from:to:cc:subject:message-id;
+  bh=YCGZni2goBZyJE0zU69+YugYK3z7kx63EVgyaeDE2gg=;
+  b=eWPAtWuSbAMgHjxK6lsg1+jYEDlJxmBkiq+ccjcA9qmgwg3BYi58Opi7
+   WvDpxZa2PdwH8dNhla9FmBiN/egelZYfVBLcCFQ23Hpz+KX6MJBL0fIMl
+   gHWVcLvaalMAJUT9TiSm0AEgHCgGjWXv+IAnkyTV/0XDq8GEPjAbsD2Cg
+   wCzwS9vtc4fN+Vtifo4OUrsC0n29VfZnQsn112dbIQ2xZbTHKZCXeu3wK
+   RbXVt8lE+IRGNACpioQlsu/Ml/YWBQwxEBQTsgYv5mfEK6cZSrFBO6/Qa
+   kRMLJgAvQBp51inAimmlAh9TmCTVITudtCCz2tpVI1LGldDBIav7db26K
+   A==;
+X-CSE-ConnectionGUID: q2iqKSaGShWMS4EzACOHJg==
+X-CSE-MsgGUID: po+x3DdoQpqIuiVUS2v+qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="99798746"
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="86210255"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 04:51:00 -0700
-X-CSE-ConnectionGUID: bxGGfUWoRYaCjfpAFbiWMQ==
-X-CSE-MsgGUID: /gDi8tSoSPuNbabDxcNS6w==
+   d="scan'208";a="99798746"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 06:30:24 -0700
+X-CSE-ConnectionGUID: zq0DuPXTTYyTmzpNYGc6ng==
+X-CSE-MsgGUID: DiWH35VkTNmvz0pfT6xJsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="285858454"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jun 2026 04:50:58 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="243408613"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 16 Jun 2026 06:30:23 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wZSJk-0000000056P-1HSm;
-	Tue, 16 Jun 2026 11:50:56 +0000
-Date: Tue, 16 Jun 2026 13:50:46 +0200
+	id 1wZTrw-00000000TD0-3rsG;
+	Tue, 16 Jun 2026 13:30:20 +0000
+Date: Tue, 16 Jun 2026 21:29:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 5/5] arm64: dts: renesas: Add LCDC overlays for RZ/T2H
- and RZ/N2H EVKs with ADV7513
-Message-ID: <202606161321.cQxGIGz6-lkp@intel.com>
+Subject: arch/arm/include/asm/neon-intrinsics.h:7:2: sparse: sparse:
+ You should compile this file with '-march=armv7-a -mfloat-abi=softfp
+ -mfpu=neon'
+Message-ID: <202606162116.QEohc7gs-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check first_new_problem: arch/arm/include/asm/neon-intrinsics.h:7:2: sparse: sparse: You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260615115455.1412098-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260615115455.1412098-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-TO: Prabhakar <prabhakar.csengg@gmail.com>
-TO: Geert Uytterhoeven <geert+renesas@glider.be>
-TO: Magnus Damm <magnus.damm@gmail.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-renesas-soc@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: Prabhakar <prabhakar.csengg@gmail.com>
-CC: Biju Das <biju.das.jz@bp.renesas.com>
-CC: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-CC: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Eric Biggers <ebiggers@kernel.org>
 
-Hi Lad,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linux-review/Prabhakar/clk-renesas-rzv2h-cpg-Use-per-SoC-PLL-reference-frequency-for-calculations/20260615-190846]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/arm64-dts-renesas-r9a09g077-Add-VSPD-and-FCPVD-nodes/20260615-200213
-base:   https://github.com/intel-lab-lkp/linux Prabhakar/clk-renesas-rzv2h-cpg-Use-per-SoC-PLL-reference-frequency-for-calculations/20260615-190846
-patch link:    https://lore.kernel.org/r/20260615115455.1412098-6-prabhakar.mahadev-lad.rj%40bp.renesas.com
-patch subject: [PATCH v2 5/5] arm64: dts: renesas: Add LCDC overlays for RZ/T2H and RZ/N2H EVKs with ADV7513
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: arm64-randconfig-2054-20260615 (https://download.01.org/0day-ci/archive/20260616/202606161321.cQxGIGz6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema: 2026.5.dev10+g5d839523d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161321.cQxGIGz6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6b5a2b7d9bc156e505f09e698d85d6a1547c1206
+commit: a967b1f51c83b65372a93d652a888e3addd9c5a3 xor/arm: Replace vectorized implementation with arm64's intrinsics
+date:   3 weeks ago
+:::::: branch date: 67 minutes ago
+:::::: commit date: 3 weeks ago
+config: arm-randconfig-r122-20260616 (https://download.01.org/0day-ci/archive/20260616/202606162116.QEohc7gs-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606162116.QEohc7gs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: a967b1f51c83 ("xor/arm: Replace vectorized implementation with arm64's intrinsics")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606161321.cQxGIGz6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606162116.QEohc7gs-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: fcp@920d0000 (renesas,r9a09g077-fcpvd): False schema does not allow ['aclk', 'pclk', 'vclk']
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: fcp@920d0000 (renesas,r9a09g077-fcpvd): clocks: [[3, 0, 8], [3, 1, 1204], [3, 0, 25]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: fcp@920d0000 (renesas,r9a09g077-fcpvd): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g077-fcpvd', 'renesas,fcpv'] is too long
-   	'renesas,r9a09g077-fcpvd' is not one of ['renesas,fcpv', 'renesas,fcpf']
-   	'renesas,r9a09g077-fcpvd' is not one of ['renesas,r9a07g043u-fcpvd', 'renesas,r9a07g044-fcpvd', 'renesas,r9a07g054-fcpvd', 'renesas,r9a09g056-fcpvd', 'renesas,r9a09g057-fcpvd']
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: fcp@920d0000 (renesas,r9a09g077-fcpvd): 'resets' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/renesas,fcp.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: vsp@920e0000 (renesas,r9a09g077-vsp2): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g077-vsp2', 'renesas,r9a07g044-vsp2'] is too long
-   	'renesas,r9a09g077-vsp2' is not one of ['renesas,r9a07g044-vsp2', 'renesas,vsp1', 'renesas,vsp2']
-   	'renesas,r9a09g077-vsp2' is not one of ['renesas,r9a07g043u-vsp2', 'renesas,r9a07g054-vsp2', 'renesas,r9a09g056-vsp2', 'renesas,r9a09g057-vsp2']
-   	from schema $id: http://devicetree.org/schemas/media/renesas,vsp1.yaml
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: vsp@920e0000 (renesas,r9a09g077-vsp2): 'resets' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/renesas,vsp1.yaml
+sparse warnings: (new ones prefixed by >>)
+   lib/raid/xor/xor-neon.c: note: in included file:
+>> arch/arm/include/asm/neon-intrinsics.h:7:2: sparse: sparse: You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
+   lib/raid/xor/xor-neon.c: note: in included file (through arch/arm/include/asm/neon-intrinsics.h):
+   ../lib/gcc/arm-linux-gnueabi/16.1.0/include/arm_neon.h:45:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI.  Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/raid/xor/xor-neon.c:18:29: sparse: sparse: Expected ; at end of declaration
+   lib/raid/xor/xor-neon.c:18:29: sparse: sparse: got v0
+   lib/raid/xor/xor-neon.c:47:29: sparse: sparse: Expected ; at end of declaration
+   lib/raid/xor/xor-neon.c:47:29: sparse: sparse: got v0
+   lib/raid/xor/xor-neon.c:85:29: sparse: sparse: Expected ; at end of declaration
+   lib/raid/xor/xor-neon.c:85:29: sparse: sparse: got v0
+   lib/raid/xor/xor-neon.c:132:29: sparse: sparse: Expected ; at end of declaration
+   lib/raid/xor/xor-neon.c:132:29: sparse: sparse: got v0
+   lib/raid/xor/xor-neon.c:23:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:23:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:24:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:24:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:25:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:25:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:26:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:26:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:29:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:30:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:31:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:32:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:52:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:52:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:53:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:53:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:54:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:54:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:55:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:55:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:58:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:58:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:59:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:59:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:60:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:60:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:61:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:61:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:64:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:65:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:66:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:67:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:90:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:90:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:91:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:91:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:92:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:92:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:93:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:93:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:96:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:96:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:97:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:97:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:98:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:98:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:99:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:99:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:102:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:102:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:103:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:103:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:104:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:104:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:105:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:105:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:108:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:109:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:110:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:111:17: sparse: sparse: undefined identifier 'vst1q_u64'
+   lib/raid/xor/xor-neon.c:137:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:137:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:138:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:138:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:139:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:139:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:140:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:140:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:143:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:143:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:144:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:144:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:145:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:145:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:146:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:146:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:149:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:149:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:150:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:150:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:151:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:151:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:152:17: sparse: sparse: undefined identifier 'v3'
+   lib/raid/xor/xor-neon.c:152:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:155:17: sparse: sparse: undefined identifier 'v0'
+   lib/raid/xor/xor-neon.c:155:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:156:17: sparse: sparse: undefined identifier 'v1'
+   lib/raid/xor/xor-neon.c:156:22: sparse: sparse: undefined identifier 'veorq_u64'
+   lib/raid/xor/xor-neon.c:157:17: sparse: sparse: undefined identifier 'v2'
+   lib/raid/xor/xor-neon.c:157:22: sparse: sparse: undefined identifier 'veorq_u64'
+
+vim +7 arch/arm/include/asm/neon-intrinsics.h
+
+4156e65624f8a1 Ard Biesheuvel 2026-04-22  5  
+4156e65624f8a1 Ard Biesheuvel 2026-04-22  6  #ifndef __ARM_NEON__
+4156e65624f8a1 Ard Biesheuvel 2026-04-22 @7  #error You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
+4156e65624f8a1 Ard Biesheuvel 2026-04-22  8  #endif
+4156e65624f8a1 Ard Biesheuvel 2026-04-22  9  
+
+:::::: The code at line 7 was first introduced by commit
+:::::: 4156e65624f8a1816cad423ec005b336e280999d ARM: Add a neon-intrinsics.h header like on arm64
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Eric Biggers <ebiggers@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
