@@ -1,77 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D3E425CEE
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Jun 2026 10:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0184D42981C
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Jun 2026 10:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781605757; cv=none; b=dpdWCa5k0untHCgHyH9JD+9GVE2oRLELgp09fdkZ8ZofWGlWTGCsXXKPkXlG9JRtzIE1lxvW+PglAgP1lqWMTqMEHSsRpFeKloI6JFSwnEA/dziccWKrWjNLae7kUzLhX+w0ohVyJ1yALaIyIF1/FsMubjQkeBxolZRbDhWSDeE=
+	t=1781607378; cv=none; b=DA9pnn42tQ1/ELcNgGz+8e7yCAqRrmRQT9nWjJx4SEl1to0rAF7MFZCiJb2S/A0XlDJY1CagmdXcHzW5DVXFqHLkWC1GZw1u34dinU+Y7KJUoG22iXoPNlQ7O/sVnpC/LjAxmEyL2/udmMfSi+49lAzi3yk52DBbx0dyBKtvyP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781605757; c=relaxed/simple;
-	bh=zXD5LLB1gwYZhoCR/V8iJ/aQeEc2XCk1EUtet0W/5js=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A1qb0SvU/PjzhBBklUxzNqVvGSHjhs+eJDvWeuKIeSj5zvHjtpYASkSjwxWeHwK7UkxExNU6LiDRTJlPkVHKecCzFbLNCWVEvaseQcQ5NZ4rR0oKBlrmqbZ8duIVb0tdF2t54CNa6v797Y6t+w0FikOxmZ6Ad78jMT0mZ5TOySs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNv2s8EP; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781607378; c=relaxed/simple;
+	bh=Cgw3ABT9pBkomqaKRkRYcm74nI6B59+N8g63924rC3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rgatAvmjfNGCKBmhCeKjA21xCkYWQh9xmV2I2JpDyl1ir1hi4pMxNtxNxRw/5bm9VEMhEF0K0WQPB1WHzeeNq+aDsIbvApsEKM/uYWcWRatTKx5MC5NYb+giyi3VYlCfezuOzZCjnLNZ7+hBIn7FxVDxFvyb6ZdQeqA4VCTPNFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCbabpKU; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNv2s8EP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781605756; x=1813141756;
-  h=date:from:to:cc:subject:message-id;
-  bh=zXD5LLB1gwYZhoCR/V8iJ/aQeEc2XCk1EUtet0W/5js=;
-  b=RNv2s8EPwrkYlrw+dwp27ofwjfxC/vKAJfq+b208bpfd5FpfDPfjOuM7
-   3fJSiSecfFEyM/fdZlzrxIwi/8TdgDn0OyH9DeILyOuRWajzBzRCvAcWp
-   0wuVTUzNokNBDsiNfys9gq4DyqdDFokciYtFWL6coC1pbbELgU7pWR0IS
-   BuZn4cMpR4VDMGkz2YdxEuZzrZj3TWNhgCK/9Ygurf3hnUHm6WEs+AqzR
-   OmFgDEG3Q2Er4EEkhVlx4TL82UmSA6ATeY1V2MacO2t7ujHLda25j+JbV
-   YY/2kxhV4XVN+uT32bJv4KUuAV5sj/RjMXz83gKIaOnjVDP4DxH3qUGee
-   w==;
-X-CSE-ConnectionGUID: wD8ac9bkQs6CuAVPIgIpNg==
-X-CSE-MsgGUID: NX/rVWggTFmbAeJxAkggIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="93038699"
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="93038699"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 03:29:12 -0700
-X-CSE-ConnectionGUID: iWapVs5zQhio8cfZkqg8uA==
-X-CSE-MsgGUID: QZaemGArTceYlaniu6ekLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="252038091"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Jun 2026 03:29:11 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wZR2a-00000000T2c-2A4o;
-	Tue, 16 Jun 2026 10:29:08 +0000
-Date: Tue, 16 Jun 2026 18:28:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCbabpKU"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-9157f7c1c0eso465766485a.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 16 Jun 2026 03:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781607376; x=1782212176; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sL1EYeunZVmeX2O8G+uTenF+3xBYFtXT4U5wPuM3bzc=;
+        b=cCbabpKUdHltJ7i0ml9+1RvI/lZw1+hP1vg+Gv+ztRDSRZdDFOhnhdTzNuKsJarB52
+         UQWdPlbmImNJoy6Z0u2RggZleVCECRl0tCrI5FjYJ3a55lsu+Mhmt1GdRAUFTRaD26++
+         x5SK6hAkTScJR5a+5+BsevOwWN/24T+M9OuXUms6nEB9tCp9aqhKRxoRw/2/iG+th26v
+         4OcvLHWdWUNAR75Sdj9Dt3WaK5Rp2npgh4Nmda4Y0B5VzC40O+SSYqrSCIrZ4i+Ekae7
+         nN4pNBMOa4+fXn+vktdsqjt3nY/QXzbCEbFnhyhiMdgeBJ7BA4TqGUhbsk4s3sEP4mjL
+         vDIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781607376; x=1782212176;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sL1EYeunZVmeX2O8G+uTenF+3xBYFtXT4U5wPuM3bzc=;
+        b=s285lTvYIG6wmXZ+GEDq2st3k1jpTZb0s0GY35TM76WPDBIvi/SLpY2wOAWWjkYsxu
+         hQ7UQLI4lbqcAqQaXTE1KwNYd7XiRZ6BnkmTzTZyDfjRSBC3XPsDXDTXuVTMzgjdMMIm
+         3/E9+VptA4ofUK7QLdnUn9HAOu0PIoqanX6NaC6wOABWU+eJAuEYtzxGF+5Uc/bThPZI
+         XPP34zLT8ObWB6Nipkwn+UAdkHBq8Fd9dvHplYIP6yS3CjPidMDnNSIMhjaT0qu0gwaR
+         4gvnnzv1rl0zddGNcPkdfva0o0Df6L/oRgt3Nfxv1aZF0m1M8STO4SCjRxpFpNcHwrVd
+         N7Ew==
+X-Gm-Message-State: AOJu0YywMceIIlxIopSbFUuR4NQ8Ppi9aXRYuEMsA9GdQgyU3ZSXmC9d
+	8y52CEyxsq35q46K7QrloWjWKLV3/10GlSwRjDSrk2TEeG63n3LQL4PgVXUQUIVl1qM=
+X-Gm-Gg: Acq92OGhFpopnv9mcQjXmCFpFJPsINMDxfILaWV7cNy+cCWTr/wWdbK1zOSP9GMsV4q
+	aZYWZ0o4BQqrSGtsDDuf9y+RiucVOqQTg6NNm5bsSP99zBhmK6z7aNnH/oZbMOi+7q050pRLz+v
+	YkMSpm6hTnhm2xpGtysXpJco8SKD88L/+ZAZo9kdzYl1eE+hxUQzTeZN0zsgQmk9OXp92p6fVzy
+	0ES23odOpGcdEMLSvzdAFC1YVkrMSm60+KjXa6vUaRjoNoMP0QYytYmpCk0Esq+7Rnto+u0KQGg
+	cR0ZcNPboGhsLVRBdXI30aKU//2fQfz2o65UAYH1KhE5BgDc0OPbKIcDzuYUuR/lUYgDvVyAHwH
+	ozU14PqSCPDU5UnsoaMkEc1hMpA6QrXynIfhZdNSsVS+LKfJJEW6g3rB1dnqxgTFJg7AJSiaLnC
+	2FK3azOMeHV0cHI0mf
+X-Received: by 2002:a05:620a:1a10:b0:915:79c8:ec9c with SMTP id af79cd13be357-91c4807388emr438300585a.35.1781607376030;
+        Tue, 16 Jun 2026 03:56:16 -0700 (PDT)
+Received: from localhost ([43.225.189.75])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d9f19e917bsm31563066d6.13.2026.06.16.03.56.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 03:56:15 -0700 (PDT)
+Date: Tue, 16 Jun 2026 13:56:08 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Harry Wentland <harry.wentland@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Fangzhi Zuo <Jerry.Zuo@amd.com>
 Subject: [linux-next:master 9794/14023]
  drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_hdcp.c:584
  update_config() error: we previously assumed 'aconnector->dc_sink' could be
  null (see line 559)
 Message-ID: <202606161822.yCBePSkO-lkp@intel.com>
-User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Harry Wentland <harry.wentland@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Fangzhi Zuo <Jerry.Zuo@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260616105608.2N5SaOjNy_3HN9SNYfOy-akABrTwocSQq66CrqtmQEI@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   8d6dbbbe3ba62de0a63e962ee004afb848c8e3ac
 commit: 5c9b8b27a883822fe5812bed23bca7ffeb4301f7 [9794/14023] drm/amd/display: Tie FRL support into amdgpu_dm
-:::::: branch date: 18 hours ago
-:::::: commit date: 13 days ago
 config: i386-randconfig-141-20260611 (https://download.01.org/0day-ci/archive/20260616/202606161822.yCBePSkO-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
@@ -87,7 +95,6 @@ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_hdcp.c:584 update_conf
 
 vim +584 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_hdcp.c
 
-ef9de1876aa7743 Bhawanpreet Lakha      2020-06-01  534  
 a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  535  static void update_config(void *handle, struct cp_psp_stream_config *config)
 a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  536  {
 a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  537  	struct hdcp_workqueue *hdcp_work = handle;
@@ -113,6 +120,10 @@ a30a8c2f884c283 Bhawanpreet Lakha      2019-12-06  551  	}
 a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  557  	display->state = MOD_HDCP_DISPLAY_ACTIVE;
 a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  558  
 4d31819a3746b1f Wayne Lin              2022-05-31 @559  	if (aconnector->dc_sink)
+                                                                    ^^^^^^^^^^^^^^^^^^^
+This looks like there is a very good reason to thing aconnector->dc_sink
+can be NULL.
+
 4d31819a3746b1f Wayne Lin              2022-05-31  560  		sink = aconnector->dc_sink;
 4d31819a3746b1f Wayne Lin              2022-05-31  561  	else if (aconnector->dc_em_sink)
 4d31819a3746b1f Wayne Lin              2022-05-31  562  		sink = aconnector->dc_em_sink;
@@ -138,32 +149,13 @@ aac6d4391a0a354 Wenjing Liu            2020-12-10  581  	link->dp.mst_enabled = 
 c32699caeca802c Jasdeep Dhillon        2023-01-25  582  	link->dp.dp2_enabled = config->dp2_enabled;
 f51d22b0d04aa33 Qingqing Zhuo          2022-06-03  583  	link->dp.usb4_enabled = config->usb4_enabled;
 5c9b8b27a883822 Harry Wentland         2026-04-24 @584  	if (aconnector->dc_sink->sink_signal == SIGNAL_TYPE_HDMI_FRL)
+                                                                    ^^^^^^^^^^^^^^^^^^^
+Unchecked dereference.
+
 5c9b8b27a883822 Harry Wentland         2026-04-24  585  		link->hdmi.frl_enabled = config->frl_enabled;
 4fe1fdcc230189b Wenjing Liu            2021-03-10  586  	display->adjust.disable = MOD_HDCP_DISPLAY_DISABLE_AUTHENTICATION;
-28f7e8971846519 Bhawanpreet Lakha      2023-02-17  587  	link->adjust.auth_delay = 2;
-9fd2da71c301184 Oleh Kuzhylnyi         2025-08-18  588  	link->adjust.retry_limit = MAX_NUM_OF_ATTEMPTS;
-c2850c125d919ef Bhawanpreet Lakha      2020-03-30  589  	link->adjust.hdcp1.disable = 0;
-face6a3615a6494 Wenjing Liu            2025-10-03  590  	link->adjust.hdcp2.use_fw_locality_check = (dc->caps.fused_io_supported || dc->debug.hdcp_lc_force_fw_enable);
-face6a3615a6494 Wenjing Liu            2025-10-03  591  	link->adjust.hdcp2.use_sw_locality_fallback = dc->debug.hdcp_lc_enable_sw_fallback;
-393e83484839970 Bhawanpreet Lakha      2023-07-24  592  	hdcp_w->encryption_status[display->index] = MOD_HDCP_ENCRYPTION_STATUS_HDCP_OFF;
-a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  593  
-caa18dd6dd9305d Dingchen (David  Zhang 2021-05-31  594) 	DRM_DEBUG_DRIVER("[HDCP_DM] display %d, CP %d, type %d\n", aconnector->base.index,
-a19de9dbb4d293c Srinivasan Shanmugam   2023-07-13  595  			 (!!aconnector->base.state) ?
-a19de9dbb4d293c Srinivasan Shanmugam   2023-07-13  596  			 aconnector->base.state->content_protection : -1,
-a19de9dbb4d293c Srinivasan Shanmugam   2023-07-13  597  			 (!!aconnector->base.state) ?
-a19de9dbb4d293c Srinivasan Shanmugam   2023-07-13  598  			 aconnector->base.state->hdcp_content_type : -1);
-26739690354b699 Dingchen (David  Zhang 2021-01-08  599) 
-6b675ab8efbf2bc Mario Limonciello      2025-02-28  600  	guard(mutex)(&hdcp_w->mutex);
-393e83484839970 Bhawanpreet Lakha      2023-07-24  601  
-393e83484839970 Bhawanpreet Lakha      2023-07-24  602  	mod_hdcp_add_display(&hdcp_w->hdcp, link, display, &hdcp_w->output);
-be593d9d91c5a3a Chris Bainbridge       2025-04-17  603  	drm_connector_get(&aconnector->base);
-be593d9d91c5a3a Chris Bainbridge       2025-04-17  604  	if (hdcp_w->aconnector[conn_index])
-be593d9d91c5a3a Chris Bainbridge       2025-04-17  605  		drm_connector_put(&hdcp_w->aconnector[conn_index]->base);
-be593d9d91c5a3a Chris Bainbridge       2025-04-17  606  	hdcp_w->aconnector[conn_index] = aconnector;
-393e83484839970 Bhawanpreet Lakha      2023-07-24  607  	process_output(hdcp_w);
-a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  608  }
-a193ed2094ba2f8 Bhawanpreet Lakha      2019-05-14  609  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
