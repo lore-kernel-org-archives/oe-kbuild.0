@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E98121ABC9
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Jun 2026 06:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C787430C153
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Jun 2026 16:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781762475; cv=none; b=P2jF0wVPH8ClclWcbKW9fW/v5FJve3gFY1AtZNBT9cEFONRpnmZ6sPpSoctnZAV+K2fIHgFIQsb8Gz3VZikePnOf/SH3nbZ43r2gMd1X84ZKFeAfnJMpKRxgOPE7x6tBxI1na4eWUZw+FLqFecTzJksIN9WyIREXqnW0IGX9jfU=
+	t=1781800645; cv=none; b=uUscBcm1RvSQybYx//1mHh9AszEMdozmikhRmJgy9YF/8tiZuB8SYC91ynhqKTXqhe33swyiyIltLS14EPwWNDoujVUNobp6YeNgKs2fP4zrL88fA2HrYqitlzyigACHgKIWLP5Z8CKUkjDDvRxtC04b55y8c0SAjbMBML08aXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781762475; c=relaxed/simple;
-	bh=n+aV8ZHRg+rA1yfLd7ZjKXgKKxHvISBpv0V+2o1JsbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IlPMhkGoHLh+6ZsWCQViworfPEfxrhHrW/+k1EvZHWeITGxwb3ePfMuGft+PEnsTnE5kvZcz+RMUd1zK5iqOz5AQ3/70N521VxTpjLhjuaaYboDuqzxbfaXszNxxB8AiriO8fZLIcUm1ymkL8/bM4l5V+6pUh+ng8qxj5FFuanw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RP86j92w; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1781800645; c=relaxed/simple;
+	bh=/vj7Q9uLsmjS31Rap8w0vROsUUs0+QEZpGFV/NEuVws=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uUZHmmefrMjfZPCTzrG8L6L2q6l/1SuBA1cZYSFfrHDrhvt3kPHeGUEZgCCgnqzAyctm1aupKd1GKLBLpe2vMQV2a+IPlPOijhmDL9M35KomqBSgVpI3KEeWeo2jr+7vG/xeP2Ewv0a+9hoEImKOAkv1NUAenHPdVmH0XbcBt5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyYThzDG; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RP86j92w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyYThzDG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781762473; x=1813298473;
+  t=1781800644; x=1813336644;
   h=date:from:to:cc:subject:message-id;
-  bh=n+aV8ZHRg+rA1yfLd7ZjKXgKKxHvISBpv0V+2o1JsbQ=;
-  b=RP86j92wtxkExsJ15Qu43c9dnRK+etC8xT6Qdzp3TTSpfjS8iFaYACAP
-   cT6q5gIcc4yJaiyBD+ysJymnzx7f8E8MrO+9Y5w3ckg5Lmjb6D2AzBmMS
-   aMZGCwtbtAL75XT5vO+JAmSH0MBDVBnyjspdX8S9qGP3yQdEPHPtGwpfQ
-   /Y/P8xP1TdjoCOE3IPqCEpexiaJuL9wy3eAxVSaxugyu3BBNJujC0G4Yi
-   B/LVd2shOodixRPortfhS5GbopiznKmYTbAYY1Yu9gViofPMVndxbEqT0
-   pDsRaWTiN8CX69ype5lrWobNuQSbBEaAotKqSF1eW+R6rNIEcZntwc3EH
-   g==;
-X-CSE-ConnectionGUID: PNsaDeL2TZmojk/YsMsOYg==
-X-CSE-MsgGUID: 1+/E/7peRYiWhnxUn3SthA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="81572381"
-X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="81572381"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 23:01:12 -0700
-X-CSE-ConnectionGUID: mvxgZD5kT4meI4n5Cn792w==
-X-CSE-MsgGUID: sCgmW/gOTF2HPwFQWowVJw==
+  bh=/vj7Q9uLsmjS31Rap8w0vROsUUs0+QEZpGFV/NEuVws=;
+  b=SyYThzDGHa4vZvbiWNpXrSxaImA+eEWJr7PSgshMr13DvDSgUx6as19A
+   e0bG/kZeLJjizE/zPAZoR2hQ99PbaOE28PP0vcd82ilVx5PoCvBiKOHOo
+   lIeJjkkf0cDgBCSuevXQOyahBQEENsUZTTwVaGk40lULF1Op1DFqDKsUH
+   5a1QoueQPfCyy20VLSw5ISOfd2PXpXhjpMsFCKIQRhMyTXEqGoOxel1wZ
+   rCLNOYxiaHstkbYw2cuiyHzy7p3Cs8QjNu8D3nMrw6EHRP6r+FCpO3g0K
+   p0jTpSMDaPMpNrRTUyybt5voIJx1e/nI2oiPWHm8uXeNv58MLNkzgSvRd
+   Q==;
+X-CSE-ConnectionGUID: /oIT1TmcQlWZV/nY1x2oCQ==
+X-CSE-MsgGUID: n96PGzCrRXOLJApU/+RPZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11821"; a="82537146"
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="82537146"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 09:37:23 -0700
+X-CSE-ConnectionGUID: 5Wu3bp+0TRShv0oABAr27w==
+X-CSE-MsgGUID: XGX3HmodRHG3FUpXm3ElRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="286389934"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Jun 2026 23:01:11 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="244255382"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 18 Jun 2026 09:37:22 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wa5oK-00000000VHe-3uNO;
-	Thu, 18 Jun 2026 06:01:08 +0000
-Date: Thu, 18 Jun 2026 14:00:45 +0800
+	id 1waFk0-000000005XJ-1EQE;
+	Thu, 18 Jun 2026 16:37:20 +0000
+Date: Thu, 18 Jun 2026 18:37:16 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: lib/crc/arm/crc64-neon.h:11:9: sparse: sparse: Trying to use
- reserved word 'return' as identifier
-Message-ID: <202606181200.hWkw6EH4-lkp@intel.com>
+Subject: arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb:
+ ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible: 'oneOf'
+ conditional failed, one must be fixed:
+Message-ID: <202606181850.ryH7t4pH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,103 +61,84 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: lib/crc/arm/crc64-neon.h:11:9: sparse: sparse: Trying to use reserved word 'return' as identifier"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ard Biesheuvel <ardb@kernel.org>
-CC: Eric Biggers <ebiggers@kernel.org>
+TO: Conor Dooley <conor.dooley@microchip.com>
+CC: Lee Jones <lee@kernel.org>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e771677c937da5808f7b6c1f0e4a97ec1a84f8a8
-commit: e3babebfb83865ec2be90e64d3f73f9aca140b3a lib/crc: arm: Enable arm64's NEON intrinsics implementation of crc64
-date:   3 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 weeks ago
-config: arm-randconfig-r112-20260618 (https://download.01.org/0day-ci/archive/20260618/202606181200.hWkw6EH4-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606181200.hWkw6EH4-lkp@intel.com/reproduce)
+commit: 1f9793a4d5188cddc0eb69d7840b7c5c57c939a6 dt-bindings: mfd: Document control-scb and sysreg-scb on pic64gx
+date:   7 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-2051-20260617 (https://download.01.org/0day-ci/archive/20260618/202606181850.ryH7t4pH-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2026.7.dev1+g2203c1720
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606181850.ryH7t4pH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e3babebfb838 ("lib/crc: arm: Enable arm64's NEON intrinsics implementation of crc64")
+| Fixes: 1f9793a4d518 ("dt-bindings: mfd: Document control-scb and sysreg-scb on pic64gx")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606181200.hWkw6EH4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606181850.ryH7t4pH-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/crc/crc64-neon.c: note: in included file:
-   arch/arm/include/asm/neon-intrinsics.h:7:2: sparse: sparse: You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
-   lib/crc/crc64-neon.c: note: in included file (through arch/arm/include/asm/neon-intrinsics.h):
-   /opt/cross/clang-87f0227cb6/lib/clang/20/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
-   lib/crc/crc64-neon.c: note: in included file:
-   lib/crc/arm/crc64-neon.h:3:26: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm/crc64-neon.h:3:26: sparse: sparse: got pmull64
-   lib/crc/arm/crc64-neon.h:7:20: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm/crc64-neon.h:7:20: sparse: sparse: got result
->> lib/crc/arm/crc64-neon.h:11:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/crc/arm/crc64-neon.h:11:16: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm/crc64-neon.h:11:16: sparse: sparse: got result
-   lib/crc/arm/crc64-neon.h:12:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/arm/crc64-neon.h:12:1: sparse: sparse: got }
-   lib/crc/arm/crc64-neon.h:18:20: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm/crc64-neon.h:18:20: sparse: sparse: got result
-   lib/crc/arm/crc64-neon.h:22:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/crc/arm/crc64-neon.h:22:16: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm/crc64-neon.h:22:16: sparse: sparse: got result
-   lib/crc/arm/crc64-neon.h:23:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/arm/crc64-neon.h:23:1: sparse: sparse: got }
-   lib/crc/arm/crc64-neon.h:29:20: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm/crc64-neon.h:29:20: sparse: sparse: got result
-   lib/crc/arm/crc64-neon.h:33:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/crc/arm/crc64-neon.h:33:16: sparse: sparse: Expected ; at end of declaration
-   lib/crc/arm/crc64-neon.h:33:16: sparse: sparse: got result
-   lib/crc/arm/crc64-neon.h:34:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/crc/arm/crc64-neon.h:34:1: sparse: sparse: got }
-   lib/crc/crc64-neon.c:22:20: sparse: sparse: Expected ; at end of statement
-   lib/crc/crc64-neon.c:22:20: sparse: sparse: got fold_consts
-   lib/crc/crc64-neon.c:23:20: sparse: sparse: Expected ; at end of statement
-   lib/crc/crc64-neon.c:23:20: sparse: sparse: got v0
-   lib/crc/crc64-neon.c:24:20: sparse: sparse: Expected ; at end of statement
-   lib/crc/crc64-neon.c:24:20: sparse: sparse: got zero
-   lib/crc/crc64-neon.c:41:20: sparse: sparse: Expected ; at end of statement
-   lib/crc/crc64-neon.c:41:20: sparse: sparse: got bconsts
-   lib/crc/crc64-neon.c:42:20: sparse: sparse: Expected ; at end of statement
-   lib/crc/crc64-neon.c:42:20: sparse: sparse: got final
-   lib/crc/arm/crc64-neon.h:6:22: sparse: sparse: undefined identifier 'vgetq_lane_u64'
-   lib/crc/arm/crc64-neon.h:17:22: sparse: sparse: undefined identifier 'vgetq_lane_u64'
-   lib/crc/arm/crc64-neon.h:17:18: sparse: sparse: symbol 'm' has multiple initializers (originally initialized at lib/crc/arm/crc64-neon.h:6)
-   lib/crc/arm/crc64-neon.h:28:22: sparse: sparse: undefined identifier 'vgetq_lane_u64'
-   lib/crc/arm/crc64-neon.h:28:18: sparse: sparse: symbol 'm' has multiple initializers (originally initialized at lib/crc/arm/crc64-neon.h:17)
-   lib/crc/crc64-neon.c:27:17: sparse: sparse: undefined identifier 'v0'
-   lib/crc/crc64-neon.c:27:23: sparse: sparse: undefined identifier 'vreinterpretq_u64_u8'
-   lib/crc/crc64-neon.c:34:17: sparse: sparse: undefined identifier 'v0'
-   lib/crc/crc64-neon.c:34:22: sparse: sparse: undefined identifier 'pmull64'
-   lib/crc/crc64-neon.c:34:49: sparse: sparse: undefined identifier 'pmull64_high'
-   lib/crc/crc64-neon.c:38:9: sparse: sparse: undefined identifier 'v0'
-   lib/crc/crc64-neon.c:38:14: sparse: sparse: undefined identifier 'vextq_u64'
-   lib/crc/crc64-neon.c:38:39: sparse: sparse: undefined identifier 'pmull64_hi_lo'
-   lib/crc/crc64-neon.c:44:9: sparse: sparse: undefined identifier 'v0'
-   lib/crc/crc64-neon.c:44:15: sparse: sparse: undefined identifier 'vextq_u64'
-   lib/crc/crc64-neon.c:44:43: sparse: sparse: undefined identifier 'pmull64_hi_lo'
-   lib/crc/crc64-neon.c:46:16: sparse: sparse: undefined identifier 'vgetq_lane_u64'
-
-vim +/return +11 lib/crc/arm/crc64-neon.h
-
-e3babebfb83865 Ard Biesheuvel 2026-04-22   2  
-e3babebfb83865 Ard Biesheuvel 2026-04-22   3  static inline uint64x2_t pmull64(uint64x2_t a, uint64x2_t b)
-e3babebfb83865 Ard Biesheuvel 2026-04-22   4  {
-e3babebfb83865 Ard Biesheuvel 2026-04-22   5  	uint64_t l = vgetq_lane_u64(a, 0);
-e3babebfb83865 Ard Biesheuvel 2026-04-22   6  	uint64_t m = vgetq_lane_u64(b, 0);
-e3babebfb83865 Ard Biesheuvel 2026-04-22   7  	uint64x2_t result;
-e3babebfb83865 Ard Biesheuvel 2026-04-22   8  
-e3babebfb83865 Ard Biesheuvel 2026-04-22   9  	asm("vmull.p64	%q0, %P1, %P2" : "=w"(result) : "w"(l), "w"(m));
-e3babebfb83865 Ard Biesheuvel 2026-04-22  10  
-e3babebfb83865 Ard Biesheuvel 2026-04-22 @11  	return result;
-e3babebfb83865 Ard Biesheuvel 2026-04-22  12  }
-e3babebfb83865 Ard Biesheuvel 2026-04-22  13  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: flexcom@e182c000 (microchip,sama7d65-flexcom): i2c@600:#size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/atmel,sama5d2-flexcom.yaml
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: i2c@600 (microchip,sama7d65-i2c): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/atmel,at91sam-i2c.yaml
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: i2c@600 (microchip,sama7d65-i2c): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-controller.yaml
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7d65-uddrc', 'microchip,sama7g5-uddrc']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7d65-uddrc', 'microchip,sama7g5-uddrc']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible: ['microchip,sama7d65-ddr3phy', 'microchip,sama7g5-ddr3phy'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-ddr3phy', 'microchip,sama7g5-ddr3phy'] is too short
+   	'microchip,pic64gx-control-scb' was expected
+   	'microchip,pic64gx-sysreg-scb' was expected
+   	'syscon' was expected
+   	'microchip,mpfs-control-scb' was expected
+   	'microchip,mpfs-sysreg-scb' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
+--
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml
+   arch/arm/boot/dts/microchip/at91-sama7g54_curiosity.dtb: timer@e2814000 (atmel,sama5d2-tcb): clock-names: ['t0_clk', 't1_clk', 't2_clk', 'slow_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml
+   arch/arm/boot/dts/microchip/at91-sama7g54_curiosity.dtb: timer@e2814000 (atmel,sama5d2-tcb): clocks: [[2, 2, 88], [2, 2, 89], [2, 2, 90], [17, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml
+   arch/arm/boot/dts/microchip/at91-sama7g54_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7g5-uddrc']
+   arch/arm/boot/dts/microchip/at91-sama7g54_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7g5-ddr3phy): compatible: ['microchip,sama7g5-ddr3phy'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
+   arch/arm/boot/dts/microchip/at91-sama7g54_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7g5-ddr3phy): compatible: ['microchip,sama7g5-ddr3phy'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
+>> arch/arm/boot/dts/microchip/at91-sama7g54_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7g5-ddr3phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7g5-ddr3phy'] is too short
+   	'microchip,pic64gx-control-scb' was expected
+   	'microchip,pic64gx-sysreg-scb' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
+--
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml
+   arch/arm/boot/dts/microchip/at91-sama7g5ek.dtb: timer@e2814000 (atmel,sama5d2-tcb): clock-names: ['t0_clk', 't1_clk', 't2_clk', 'slow_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml
+   arch/arm/boot/dts/microchip/at91-sama7g5ek.dtb: timer@e2814000 (atmel,sama5d2-tcb): clocks: [[2, 2, 88], [2, 2, 89], [2, 2, 90], [16, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml
+   arch/arm/boot/dts/microchip/at91-sama7g5ek.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7g5-uddrc']
+   arch/arm/boot/dts/microchip/at91-sama7g5ek.dtb: ddr3phy@e3804000 (microchip,sama7g5-ddr3phy): compatible: ['microchip,sama7g5-ddr3phy'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
+   arch/arm/boot/dts/microchip/at91-sama7g5ek.dtb: ddr3phy@e3804000 (microchip,sama7g5-ddr3phy): compatible: ['microchip,sama7g5-ddr3phy'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
+>> arch/arm/boot/dts/microchip/at91-sama7g5ek.dtb: ddr3phy@e3804000 (microchip,sama7g5-ddr3phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7g5-ddr3phy'] is too short
+   	'microchip,pic64gx-control-scb' was expected
+   	'microchip,pic64gx-sysreg-scb' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
 
 --
 0-DAY CI Kernel Test Service
