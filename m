@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532433168E1
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jun 2026 01:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAFA3B6BFD
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jun 2026 15:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781832271; cv=none; b=Ue6u2vklaTpi4Iyn+UAjt7Qc2JTzwvTGCMQb/+pEOMac3Uyl1h6gxacPRg3Lj30ETkeGg07XHwuhdQ+4R1jXDzpVt92knAMbhbUA5U9E8KteF05jABVPPoKuweyty0s63sXb5gJJU3k/6J8WSrJ1AGR3pPj0Sb/oXmlvyyF79BM=
+	t=1781883820; cv=none; b=g96cn5z6s+7XfIu8VYkylQ1po2NlNUAFhT04aIFjrHfQJzTKbraeGMZanPGdTmken+TJ2X3ZwQh2KpXzptI3Q7RKmFfxE+pqXX2w5cuXHZM1rUpSf5ztn5ystiAo/WCvSdVl53yPSoPUI8pXZ1EZe9rIqOK45tY0tELuR2YvQ0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781832271; c=relaxed/simple;
-	bh=TO4IwGRL3yCRqYSyhxK52nLJN3i3JGaqdKMQv0xRUjo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KyiO2R3vrN/1c385gd2o9Ywn0F0AjUlTnQtIw8zbD4dRPCjAvX/tYOyouYAV1/S4s9EYw0RXGDRtyNfB0Wgux+sjWadFoYQKvxYS6VXPtEL2WMEIXuFmdUpt2+OCiCP00Nvq0w4hlJ2EjtFl5TEC9Mlef3mkBRebC1JN2+YQldk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyTnj5FW; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1781883820; c=relaxed/simple;
+	bh=5FLxWI844t54PC7MnjcC97M7/YKkQSlQOLMkL2ch9VQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cxzCL0e+I5BsOm7VJcCYJDRcfGRkk8bwQq5PVxJWh0yQ/RYD1hoRGE4QaRGigiQh5JZtAzm2koYsrQKvFr9ZMG8iX0lNaFpmr+/JThNo07Mcp6569BPI49LxSFulH6/Xb2wAGj/wuPKXuW32PvuLFIYbk94+7gN5A5varUt7MMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Al8/rEcm; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyTnj5FW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Al8/rEcm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781832269; x=1813368269;
+  t=1781883813; x=1813419813;
   h=date:from:to:cc:subject:message-id;
-  bh=TO4IwGRL3yCRqYSyhxK52nLJN3i3JGaqdKMQv0xRUjo=;
-  b=cyTnj5FWCSTKltxcEfC5fjbNFNhwqb8fvT3D+9zMf4qHZfNIJTahuhy7
-   LiMIOW1+QLgAAOz6Gv0Xl/2J71CNn7pwWLqn5nWPNrfB5BRhcIhJOUy8a
-   nQEKq+hHU7TYMEFV+6ORfsuTlmEa9h46qBvENzOCHnYkwzce2Mg+uh2+O
-   Efj6KqlKzEe4zjO/uF8cFQAMdbbGvSNHDTE8698FVpZpTALlFcfyTi6D7
-   AJoNgyQIsGsi+YDJU8aLyZ83teWVn7IJjpbKa/YGxKlSUxju/J1WRi42q
-   WbVApbBbAxPP2aH5Tgtisy2pek5FzjtV/o2wsOUVAwATLqTvb/lscXSB6
-   g==;
-X-CSE-ConnectionGUID: 0cbhsTOoT1iPCi6IVHbG+Q==
-X-CSE-MsgGUID: lSR4UVh/SjarFnAWIELa5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11821"; a="82461660"
-X-IronPort-AV: E=Sophos;i="6.24,212,1774335600"; 
-   d="scan'208";a="82461660"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 18:24:29 -0700
-X-CSE-ConnectionGUID: bs4KKPrGStWw1FWTQZqZJw==
-X-CSE-MsgGUID: OPfXRNs6Q+q7WiWps8+lpg==
+  bh=5FLxWI844t54PC7MnjcC97M7/YKkQSlQOLMkL2ch9VQ=;
+  b=Al8/rEcmwfJvAHvOvdgUlE2erl5ytBiavnvOQwtIOvLrJsXxtdKI8kQ+
+   SWrDERKuOHwe4ZK0FyqoLDvyy9BA2o4LG6HEC0l/ld5HlDTUDDq5mrubu
+   OgwJiaXER0IfAgff9hiztKZKjWMyfsuFnWY4lIKTdWo5BWsMhoarRhj1A
+   L4LkytnYXWzPCcDl0lbUgUM8nntkf7xtADNJF8PFoQyGdaPr4eErNjZYX
+   LPdU8EFbDgwUnD4PDBNAXMSRoLlLoU5lSEzz209oQ+WcSiD1XxlSHZch0
+   50wrvKuTKNCAEaAC9/QmGIxmqVxOst9psWVcAh7da3cMkOKc0jj5XAcUO
+   A==;
+X-CSE-ConnectionGUID: 8ay/xIJIQpuD/F36Gy4YeQ==
+X-CSE-MsgGUID: gX106FFOTTS8VZ1awy5NQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11821"; a="86412851"
+X-IronPort-AV: E=Sophos;i="6.24,213,1774335600"; 
+   d="scan'208";a="86412851"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 08:43:31 -0700
+X-CSE-ConnectionGUID: /zTMg+8/RwaHwt0U1roN3A==
+X-CSE-MsgGUID: WTE279TjSHCKGT8UwdVXEQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,212,1774335600"; 
-   d="scan'208";a="246157293"
+X-IronPort-AV: E=Sophos;i="6.24,213,1774335600"; 
+   d="scan'208";a="242283906"
 Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Jun 2026 18:24:28 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 Jun 2026 08:43:29 -0700
 Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1waNy5-000000005dp-261d;
-	Fri, 19 Jun 2026 01:24:25 +0000
-Date: Fri, 19 Jun 2026 03:24:06 +0200
+	id 1wabNP-000000005fR-2vKJ;
+	Fri, 19 Jun 2026 15:43:27 +0000
+Date: Fri, 19 Jun 2026 17:42:57 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm/boot/dts/ti/omap/omap2420-h4.dtb: wdt@48022000
- (ti,omap2-wdt): $nodename:0: 'wdt@48022000' does not match
+Subject: arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: wdt@20300
+ (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match
  '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-Message-ID: <202606190328.wp6GBtms-lkp@intel.com>
+Message-ID: <202606191748.8C8FBuOi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -75,77 +75,239 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   e771677c937da5808f7b6c1f0e4a97ec1a84f8a8
 commit: 017bca91639f01302382013033b685ec8759aba4 dt-bindings: watchdog: Allow node names named 'pmic'
 date:   7 months ago
-:::::: branch date: 30 hours ago
+:::::: branch date: 2 days ago
 :::::: commit date: 7 months ago
-config: arm-randconfig-2053-20260617 (https://download.01.org/0day-ci/archive/20260619/202606190328.wp6GBtms-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+config: arm-randconfig-2054-20260617 (https://download.01.org/0day-ci/archive/20260619/202606191748.8C8FBuOi-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
 dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260619/202606190328.wp6GBtms-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260619/202606191748.8C8FBuOi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Fixes: 017bca91639f ("dt-bindings: watchdog: Allow node names named 'pmic'")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606190328.wp6GBtms-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606191748.8C8FBuOi-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: flash@0 (jedec-flash): partitions: Unevaluated properties are not allowed ('uboot_env@3F000' was unexpected)
    	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
-   arch/arm/boot/dts/ti/omap/omap2420-h4.dtb: nor@0,0 (cfi-flash): Unevaluated properties are not allowed ('partition@0', 'partition@20000', 'partition@240000', 'partition@40000' were unexpected)
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: flash@0 (jedec-flash): Unevaluated properties are not allowed ('partitions' was unexpected)
    	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
-   arch/arm/boot/dts/ti/omap/omap2420-h4.dtb: /ocp/mcbsp@48074000: failed to match any schema with compatible: ['ti,omap2420-mcbsp']
-   arch/arm/boot/dts/ti/omap/omap2420-h4.dtb: /ocp/mcbsp@48076000: failed to match any schema with compatible: ['ti,omap2420-mcbsp']
-   arch/arm/boot/dts/ti/omap/omap2420-h4.dtb: /ocp/mmc@4809c000: failed to match any schema with compatible: ['ti,omap2420-mmc']
-   arch/arm/boot/dts/ti/omap/omap2420-h4.dtb: timer@0 (ti,omap2420-timer): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml
->> arch/arm/boot/dts/ti/omap/omap2420-h4.dtb: wdt@48022000 (ti,omap2-wdt): $nodename:0: 'wdt@48022000' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/ti,omap2-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-nand']
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/orion5x-kuroboxpro.dtb: sa-sram (mmio-sram): 'ranges' is a required property
 --
-   arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: scm_conf@270 (syscon): compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: /ocp/l4@48000000/target-module@4000/counter@0: failed to match any schema with compatible: ['ti,omap-counter32k']
-   arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: /ocp/mcbsp@48074000: failed to match any schema with compatible: ['ti,omap2420-mcbsp']
-   arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: /ocp/mcbsp@48076000: failed to match any schema with compatible: ['ti,omap2420-mcbsp']
-   arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: /ocp/mmc@4809c000: failed to match any schema with compatible: ['ti,omap2420-mmc']
-   arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: timer@0 (ti,omap2420-timer): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml
->> arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: wdt@48022000 (ti,omap2-wdt): $nodename:0: 'wdt@48022000' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/ti,omap2-wdt.yaml
-   arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: /ocp/i2c0: failed to match any schema with compatible: ['i2c-cbus-gpio']
-   arch/arm/boot/dts/ti/omap/omap2420-n800.dtb: /ocp/i2c0/retu@1: failed to match any schema with compatible: ['nokia,retu']
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: soc (marvell,orion5x-88f5182-mbus): sa-sram: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/orion5x-lacie-d2-network.dtb: sa-sram (mmio-sram): 'ranges' is a required property
 --
-   arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: scm_conf@270 (syscon): compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: /ocp/l4@48000000/target-module@4000/counter@0: failed to match any schema with compatible: ['ti,omap-counter32k']
-   arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: /ocp/mcbsp@48074000: failed to match any schema with compatible: ['ti,omap2420-mcbsp']
-   arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: /ocp/mcbsp@48076000: failed to match any schema with compatible: ['ti,omap2420-mcbsp']
-   arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: /ocp/mmc@4809c000: failed to match any schema with compatible: ['ti,omap2420-mmc']
-   arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: timer@0 (ti,omap2420-timer): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml
->> arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: wdt@48022000 (ti,omap2-wdt): $nodename:0: 'wdt@48022000' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/ti,omap2-wdt.yaml
-   arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: /ocp/i2c0: failed to match any schema with compatible: ['i2c-cbus-gpio']
-   arch/arm/boot/dts/ti/omap/omap2420-n810.dtb: /ocp/i2c0/retu@1: failed to match any schema with compatible: ['nokia,retu']
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-cs2:ranges: [[0, 18546688, 0, 4294967295]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/orion5x-lacie-ethernet-disk-mini-v2.dtb: sa-sram (mmio-sram): 'ranges' is a required property
 --
-   arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: scm_conf@270 (syscon): compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: /ocp/l4@48000000/target-module@4000/counter@0: failed to match any schema with compatible: ['ti,omap-counter32k']
-   arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: /ocp/mcbsp@48074000: failed to match any schema with compatible: ['ti,omap2420-mcbsp']
-   arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: /ocp/mcbsp@48076000: failed to match any schema with compatible: ['ti,omap2420-mcbsp']
-   arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: /ocp/mmc@4809c000: failed to match any schema with compatible: ['ti,omap2420-mmc']
-   arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: timer@0 (ti,omap2420-timer): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml
->> arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: wdt@48022000 (ti,omap2-wdt): $nodename:0: 'wdt@48022000' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/ti,omap2-wdt.yaml
-   arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: /ocp/i2c0: failed to match any schema with compatible: ['i2c-cbus-gpio']
-   arch/arm/boot/dts/ti/omap/omap2420-n810-wimax.dtb: /ocp/i2c0/retu@1: failed to match any schema with compatible: ['nokia,retu']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: flash@0 (jedec-flash): partitions: Unevaluated properties are not allowed ('uboot_env@3F000' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: flash@0 (jedec-flash): Unevaluated properties are not allowed ('partitions' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lsgl.dtb: sa-sram (mmio-sram): 'ranges' is a required property
+--
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: flash@0 (jedec-flash): partitions: Unevaluated properties are not allowed ('uboot_env@3F000' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: flash@0 (jedec-flash): Unevaluated properties are not allowed ('partitions' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lswtgl.dtb: sa-sram (mmio-sram): 'ranges' is a required property
+--
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: flash@0 (jedec-flash): partitions: Unevaluated properties are not allowed ('uboot_env@3F000' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: flash@0 (jedec-flash): Unevaluated properties are not allowed ('partitions' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/orion5x-linkstation-lschl.dtb: sa-sram (mmio-sram): 'ranges' is a required property
+--
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-bootcs:ranges: [[0, 17760256, 0, 4294967295]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/orion5x-lswsgl.dtb: sa-sram (mmio-sram): 'ranges' is a required property
+--
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: soc (marvell,orion5x-88f5182-mbus): devbus-bootcs:ranges: [[0, 17760256, 0, 4294967295]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
+   arch/arm/boot/dts/marvell/orion5x-maxtor-shared-storage-2.dtb: sa-sram (mmio-sram): 'ranges' is a required property
+--
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: soc (marvell,orion5x-88f5181-mbus): devbus-cs1:ranges: [[0, 18677760, 0, 4294967295]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5181-mbus', 'simple-bus']
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: switch@0 (marvell,mv88e6085): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/marvell,mv88e6xxx.yaml
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5181-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: pinctrl@10000 (marvell,88f5181-pinctrl): pmx-pci-gpios: {'marvell,pins': ['mpp4'], 'marvell,function': ['gpio'], 'phandle': 13} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+--
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: soc (marvell,orion5x-88f5182-mbus): internal-regs:ranges: [[0, 4026597376, 0, 1048576]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: /soc: failed to match any schema with compatible: ['marvell,orion5x-88f5182-mbus', 'simple-bus']
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: /soc/devbus-bootcs: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: wdt@20300 (marvell,orion-wdt): $nodename:0: 'wdt@20300' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/marvell,orion-wdt.yaml
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: mdio-bus@72004 (marvell,orion-mdio): Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/marvell,orion-mdio.yaml
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5182-pinctrl']
+   arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dtb: pinctrl@10000 (marvell,88f5182-pinctrl): pmx-misc-gpios: {'marvell,pins': ['mpp4', 'mpp5'], 'marvell,function': ['gpio'], 'phandle': 11} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
 
 --
 0-DAY CI Kernel Test Service
