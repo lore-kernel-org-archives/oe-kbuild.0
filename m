@@ -1,122 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C0633EAF9
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Jun 2026 18:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0A6361DDE
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Jun 2026 20:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782152344; cv=none; b=ghGCOsHsa8xm7RqsKA35Qq1OwwSj6UfYLKm1OEFkrR2t8bqIQbN5QzYcZVZUreeCRScGzEGd9WuNUNNHsS7bUoZjTcrzrrkuKzDOrxtZsPewUnyKK4ZXzMT9x97Zz1oiR1gfkNqX6fZwIBiBR9/dnR2v7P2igwKdueR36/dr6cU=
+	t=1782161507; cv=none; b=lCmAiEjOuMKAhywQno7bEk6XMOyuXyOpVfMbWSIvvmpV69MqbbQ+VBgWisew0IcU6kS09bPm44LiQRSxpeqiX4eJIor12Si1ezR1BfCVjJg/PK9rYb/5oJg04EKS8YwtzGsFOTu89GX+9WXlnqqNt2vXuwyyfjM8Fykz8H714wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782152344; c=relaxed/simple;
-	bh=mRsXNNEsa6+NelvNn0CCxInX+VlIVUABOa7zK/IwtRY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k+QpPwkQSEa0154OTldYVRQbs94Tzgj8EFtGLRIUCBE4oV89SKCplDz/ddLzb8bvXS/cXEk0m6BK93u1i9jvipQIHkXtMWxYxSw8qU5mb2dIX6uOvtOS0elarFwkU/0ZhKrVFwduvJQbBWlkFBqhKLhBSjNfavSmXISP21ExZwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nTZ55O5u; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1782161507; c=relaxed/simple;
+	bh=I63lq5yM6LqBaQtikEEMCyHnLqnPKyP/cn8SCHoiWmg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=n9Bh3hsWA5/dIBYDP4dFHw2yeXH06wyHoocNrnG5ROx5vTTmqc+VBJauh4oPb/IlIYCvv5iIhFBFi4KcHbdSxV8k2keNpm9+Kn6DF/l00mhfPaVp3nI3uD9tJOSXtsXpTW/IlNQeYhqKy5CzqnWfyoZrcddYm1sJi6Dq65+rhSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ld9HMou9; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nTZ55O5u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ld9HMou9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782152343; x=1813688343;
-  h=date:from:to:cc:subject:message-id;
-  bh=mRsXNNEsa6+NelvNn0CCxInX+VlIVUABOa7zK/IwtRY=;
-  b=nTZ55O5uMbX5RDmrTqK9jL4ldo0/FgjFgQxBqEdnI9DgjPO0mVX+AyAf
-   1BQoaU8wPVpfKIXG1bqmhg2JgtVU27BI69EcL+VO70UIG0eFdAFtr+OA/
-   IZooDgr0es7LyqpKprWBR2StB5sEPEbv9W5upmr0UgXsm4EZ2lPZEeXt7
-   /tPnDCApJ71A8xYY480GTUJidUS8sTO5W+FqGPWZWG4z8x5d/sVSeHuXg
-   Dt8xQykZXZ0qq67SGlTLwmiNfaoPnI/zycbfS60UTL5XnKVTuKEyABwPc
-   K8YDYfbBxYedtxYcRXBpDaqsq1G6aAM7UtRw2p05Q4PkgVq5mXgGZ3xwC
-   w==;
-X-CSE-ConnectionGUID: UUTrl8hoQ6S6DSUSt8FkDg==
-X-CSE-MsgGUID: loRp1oupQz+HAJ5IsCEjnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="93546282"
+  t=1782161506; x=1813697506;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=I63lq5yM6LqBaQtikEEMCyHnLqnPKyP/cn8SCHoiWmg=;
+  b=Ld9HMou9d0eYcDgsDXMS0QB4beMZ8TS9zNnlNQYCLsazfVUB+M/tcbpy
+   N9YqGRdxOGT8A2X57gpenl53stEt5R/wzdgcv9RBj1ErrCDf/Tyg4qFx1
+   qIlLHMdyRmzoKXeFNkAnNrouwv/e+dPgArbpAQEq57M/BhWOOGFk3AzIs
+   aPPCA4p2YXsEh6f2pzxKV0Q5lWab6hs45nvJ9cvlqTlUQEHlGG9mCLiVh
+   ipiLPCdAlcUbL2TJniqKIrhY0eg4BamsJ/eonzlIT7ECEvZAKDFtZLvzq
+   rTRW1kU3bSShKkmsawovoodwUvMGmX/KVzcEBlqbVLcUif2JU2tEVKaAm
+   Q==;
+X-CSE-ConnectionGUID: Gb7aPKj5Twyd/SJVeevvfg==
+X-CSE-MsgGUID: dLrTctQNTgKsaVk5rMEU2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82769776"
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="93546282"
+   d="scan'208";a="82769776"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 11:19:02 -0700
-X-CSE-ConnectionGUID: vqwsPFdBRZuUGdRDE93sQA==
-X-CSE-MsgGUID: 77VtZe84TG2qBvERRxMMdw==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 13:51:45 -0700
+X-CSE-ConnectionGUID: bFJmWxpDTF+MiW7dYm56JQ==
+X-CSE-MsgGUID: b9TXXmWiTUq2m/hKskYd0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
-   d="scan'208";a="273367847"
+   d="scan'208";a="273395579"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Jun 2026 11:19:01 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 22 Jun 2026 13:51:44 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbjEQ-000000001gn-2x0U;
-	Mon, 22 Jun 2026 18:18:52 +0000
-Date: Tue, 23 Jun 2026 02:15:26 +0800
+	id 1wblcA-000000001uZ-0h97;
+	Mon, 22 Jun 2026 20:51:35 +0000
+Date: Tue, 23 Jun 2026 04:50:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 865/14705] drivers/iio/adc/ad4130.c:1527
- ad4130_validate_diff_channel() error: buffer overflow 'st->pins_fn' 16 <= 29
-Message-ID: <202606230258.7nyjvsEO-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/powerpc/boot/dts/fsl/kmcoge4.dtb: Warning
+ (unit_address_format): Failed prerequisite 'pci_bridge'
+Message-ID: <202606230418.jxTMjQpC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "only suspicious fbc files changed"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jonathan Santos <Jonathan.Santos@analog.com>
-CC: Jonathan Cameron <jic23@kernel.org>
-CC: Andy Shevchenko <andriy.shevchenko@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
+CC: Madhavan Srinivasan <maddy@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3ce97bd3c4f18608335e709c24d6a40e7036cab8
-commit: 71c1a1b376b3a7520c8f59f81ab6a28d77938ff5 [865/14705] iio: adc: ad4130: introduce chip info for future multidevice support
-:::::: branch date: 3 days ago
-:::::: commit date: 8 weeks ago
-config: openrisc-randconfig-r071-20260622 (https://download.01.org/0day-ci/archive/20260623/202606230258.7nyjvsEO-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4708cac0e22cfd217f48f7cec3c35e5922efcccd
+commit: 2442f10c6eae63392452ab84a813dbc1f87c724d powerpc: dts: Build device=
+trees of enabled platforms
+date:   3 weeks ago
+:::::: branch date: 57 minutes ago
+:::::: commit date: 3 weeks ago
+config: powerpc-randconfig-001-20260622 (https://download.01.org/0day-ci/ar=
+chive/20260623/202606230418.jxTMjQpC-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260623/202606230418.jxTMjQpC-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: 2442f10c6eae ("powerpc: dts: Build devicetrees of enabled platform=
+s")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606230258.7nyjvsEO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606230418.jxTMjQpC-lkp@intel.com/
 
-New smatch warnings:
-drivers/iio/adc/ad4130.c:1527 ad4130_validate_diff_channel() error: buffer overflow 'st->pins_fn' 16 <= 29
-
-Old smatch warnings:
-drivers/iio/adc/ad4130.c:1530 ad4130_validate_diff_channel() error: buffer overflow 'st->pins_fn' 16 <= 29
-drivers/iio/adc/ad4130.c:1532 ad4130_validate_diff_channel() error: buffer overflow 'st->pins_fn' 16 <= 29
-
-vim +1527 drivers/iio/adc/ad4130.c
-
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1515  
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1516  static int ad4130_validate_diff_channel(struct ad4130_state *st, u32 pin)
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1517  {
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1518  	struct device *dev = &st->spi->dev;
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1519  
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1520  	if (pin >= AD4130_MAX_DIFF_INPUTS)
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1521  		return dev_err_probe(dev, -EINVAL,
-6abcb19e0a6a371 Colin Ian King  2022-11-04  1522  				     "Invalid differential channel %u\n", pin);
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1523  
-71c1a1b376b3a75 Jonathan Santos 2026-04-01  1524  	if (pin >= st->chip_info->max_analog_pins)
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1525  		return 0;
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1526  
-62094060cf3acaf Cosmin Tanislav 2022-10-21 @1527  	if (st->pins_fn[pin] == AD4130_PIN_FN_SPECIAL)
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1528  		return dev_err_probe(dev, -EINVAL,
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1529  				     "Pin %u already used with fn %u\n", pin,
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1530  				     st->pins_fn[pin]);
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1531  
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1532  	st->pins_fn[pin] |= AD4130_PIN_FN_DIFF;
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1533  
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1534  	return 0;
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1535  }
-62094060cf3acaf Cosmin Tanislav 2022-10-21  1536  
-
-:::::: The code at line 1527 was first introduced by commit
-:::::: 62094060cf3acaf52e277457d807ea753269b89e iio: adc: ad4130: add AD4130 driver
-
-:::::: TO: Cosmin Tanislav <cosmin.tanislav@analog.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/fsl/p2041si-post.dtsi:179.11-182.4: Warning (unit_=
+address_vs_reg): /dcsr@f00000000/dcsr-npc: node has a reg or ranges propert=
+y, but no unit name
+   arch/powerpc/boot/dts/fsl/p2041si-post.dtsi:187.15-190.4: Warning (unit_=
+address_vs_reg): /dcsr@f00000000/dcsr-corenet: node has a reg or ranges pro=
+perty, but no unit name
+   arch/powerpc/boot/dts/fsl/kmcoge4.dts:148.25-150.4: Warning (unit_addres=
+s_vs_reg): /rapidio@ffe0c0000: node has a unit name, but no reg or ranges p=
+roperty
+   arch/powerpc/boot/dts/fsl/kmcoge4.dts:196.23-198.4: Warning (unit_addres=
+s_vs_reg): /pcie@ffe201000: node has a unit name, but no reg or ranges prop=
+erty
+   arch/powerpc/boot/dts/fsl/kmcoge4.dts:196.23-198.4: Warning (pci_bridge)=
+: /pcie@ffe201000: missing ranges for PCI bridge (or not a bridge)
+   arch/powerpc/boot/dts/fsl/p2041si-post.dtsi:97.9-112.4: Warning (pci_bri=
+dge): /pcie@ffe201000/pcie@0: missing ranges for PCI bridge (or not a bridg=
+e)
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: Warning (unit_address_format): Fa=
+iled prerequisite 'pci_bridge'
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: Warning (pci_device_reg): Failed =
+prerequisite 'pci_bridge'
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: Warning (pci_device_bus_num): Fai=
+led prerequisite 'pci_bridge'
+   arch/powerpc/boot/dts/fsl/p2041si-post.dtsi:179.11-182.4: Warning (simpl=
+e_bus_reg): /dcsr@f00000000/dcsr-npc: simple-bus unit address format error,=
+ expected "1000"
+   arch/powerpc/boot/dts/fsl/p2041si-post.dtsi:187.15-190.4: Warning (simpl=
+e_bus_reg): /dcsr@f00000000/dcsr-corenet: simple-bus unit address format er=
+ror, expected "8000"
+   arch/powerpc/boot/dts/fsl/p2041si-post.dtsi:244.17-247.4: Warning (simpl=
+e_bus_reg): /soc@ffe000000/soc-sram-error: missing or empty reg/ranges prop=
+erty
+   arch/powerpc/boot/dts/fsl/kmcoge4.dts:159.12-164.5: Warning (simple_bus_=
+reg): /localbus@ffe124000/nand@0,0: simple-bus unit address format error, e=
+xpected "0"
+   arch/powerpc/boot/dts/fsl/kmcoge4.dts:166.21-169.5: Warning (simple_bus_=
+reg): /localbus@ffe124000/board-control@1,0: simple-bus unit address format=
+ error, expected "100000000"
+   arch/powerpc/boot/dts/fsl/kmcoge4.dts:171.20-178.5: Warning (simple_bus_=
+reg): /localbus@ffe124000/chassis-mgmt@3,0: simple-bus unit address format =
+error, expected "300000000"
+   arch/powerpc/boot/dts/fsl/p2041si-pre.dtsi:45.10-83.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/fsl/p2041si-pre.dtsi:45.10-83.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/fsl/p2041si-pre.dtsi:45.10-83.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/fsl/p2041si-pre.dtsi:45.10-83.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+--
+   arch/powerpc/boot/dts/fsl/oca4080.dts:132.23-134.4: Warning (pci_bridge)=
+: /pcie@ffe200000: missing ranges for PCI bridge (or not a bridge)
+   arch/powerpc/boot/dts/fsl/p4080si-post.dtsi:68.9-83.4: Warning (pci_brid=
+ge): /pcie@ffe200000/pcie@0: missing ranges for PCI bridge (or not a bridge)
+   arch/powerpc/boot/dts/fsl/oca4080.dts:136.23-138.4: Warning (pci_bridge)=
+: /pcie@ffe201000: missing ranges for PCI bridge (or not a bridge)
+   arch/powerpc/boot/dts/fsl/p4080si-post.dtsi:97.9-112.4: Warning (pci_bri=
+dge): /pcie@ffe201000/pcie@0: missing ranges for PCI bridge (or not a bridg=
+e)
+   arch/powerpc/boot/dts/fsl/oca4080.dts:140.23-142.4: Warning (pci_bridge)=
+: /pcie@ffe202000: missing ranges for PCI bridge (or not a bridge)
+   arch/powerpc/boot/dts/fsl/p4080si-post.dtsi:126.9-141.4: Warning (pci_br=
+idge): /pcie@ffe202000/pcie@0: missing ranges for PCI bridge (or not a brid=
+ge)
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: Warning (unit_address_format): Fa=
+iled prerequisite 'pci_bridge'
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: Warning (pci_device_reg): Failed =
+prerequisite 'pci_bridge'
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: Warning (pci_device_bus_num): Fai=
+led prerequisite 'pci_bridge'
+   arch/powerpc/boot/dts/fsl/p4080si-post.dtsi:180.11-183.4: Warning (simpl=
+e_bus_reg): /dcsr@f00000000/dcsr-npc: simple-bus unit address format error,=
+ expected "1000"
+   arch/powerpc/boot/dts/fsl/p4080si-post.dtsi:188.15-191.4: Warning (simpl=
+e_bus_reg): /dcsr@f00000000/dcsr-corenet: simple-bus unit address format er=
+ror, expected "8000"
+   arch/powerpc/boot/dts/fsl/p4080si-post.dtsi:271.17-274.4: Warning (simpl=
+e_bus_reg): /soc@ffe000000/soc-sram-error: missing or empty reg/ranges prop=
+erty
+   arch/powerpc/boot/dts/fsl/oca4080.dts:124.13-129.5: Warning (simple_bus_=
+reg): /localbus@ffe124000/flash@0,0: simple-bus unit address format error, =
+expected "0"
+   arch/powerpc/boot/dts/fsl/p4080si-pre.dtsi:45.10-88.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/fsl/p4080si-pre.dtsi:45.10-88.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/fsl/p4080si-pre.dtsi:45.10-88.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/fsl/p4080si-pre.dtsi:45.10-88.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/fsl/p4080si-pre.dtsi:45.10-88.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/fsl/p4080si-pre.dtsi:45.10-88.4: Warning (alias_pa=
+ths): /aliases: aliases property name must include only lowercase and '-'
 
 --
 0-DAY CI Kernel Test Service
