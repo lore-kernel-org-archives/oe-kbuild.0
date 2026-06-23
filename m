@@ -1,125 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C22A376A17
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jun 2026 10:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4745C22E3F0
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jun 2026 13:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782210243; cv=none; b=sZmC45xjL832oovQLXENqpm69WG6RxUpmcigXijR3EQDhoFBcGH663fenh6ILIdkkgc9ggaGL40lj+nxaEYmZRpt06iVJ1sDmo1OhOsyeMEGupAxLXhpWSbSmOoqCCrk7fOjqZLtke8Km9HdP8i0g3EmvC8rkOoDWJU5TpNSimw=
+	t=1782221994; cv=none; b=XOve2cBF0Q9CS0R8bbLDijfuWpBjWM5h3rUQDI/JsFJyhJXffCGaR8t86NTltzD4OMFMzlSfU3Pg0tLb+2A0PPnZvO+CrdI22r/XnKo4taOGXsN4oscAhdmcBaDdJr4ni5qAoM7YWdcMA6Xfl/px1fI6jb0G/HtQZzS08HDGvoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782210243; c=relaxed/simple;
-	bh=nb8yuikwFdAEZMdRZ6NZlV6LLA+pSXthU/PSiSOwmGY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=os71BrZu14t5Tix1n4L139gIkvUaOCUPSL7gNPFodI0uzioJNMthIKuS2DSJYm8obp/uWYq8qG0YE+e+qX5QISDoIuaFSmeZM5KQcM+gVCPczhg47azHHk4iI7SKSwSGaEj9yJ4L7haaXpegGvVK5nEawKahcWYWon1PSdmm6R8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FddwjCvi; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1782221994; c=relaxed/simple;
+	bh=NCi4wVpu6IjClv1LXzgQPAg9B8ydyAThNmxzKLpEzRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=fRLrXRaBppyDMMjvYXhG5pGeWXwrz+zCODYMZO2zk1/dNAg9Cyo8iFon0Gc91CadonY2mipB47Ul7xJejb3poGJuwiwkiHbGMSn5p9DAGV4fy8Cpq1uvfJsi54CVrxEl3QMvT3rO5WEJC5cKUAYcIKYvxoPIjfeb8PujWEzI+E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRRpPr0m; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FddwjCvi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRRpPr0m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782210241; x=1813746241;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nb8yuikwFdAEZMdRZ6NZlV6LLA+pSXthU/PSiSOwmGY=;
-  b=FddwjCvig4NN1qAxl+YEES36cccNERNfLUjsxevhqh2y2c4BHfoIxFKj
-   m3bKUxOSZqQuVxgSukG56o30/YT3LTPID007IAG68LiBfJid6FwTDwwLB
-   /aQpIo+AX2aoz+ntlYlX67uoU7orY1k4ljUmWYmRLPgDfaZU7mLNaYRXA
-   OOWss/JQ1cR1rtXzs3gCht+5/yJ+GD67MeVHisU4rO7ioEhA5YrEcd3su
-   C8B655CmlkN8k6/dy5SXB8cKhcdSYp/WZXO40hvM7F7sg331ft0MOfTRZ
-   BLAcLp1vIkEgyLN6dfLGgxr3fLCWrfwpM5dLuXuiifxYkeC6EbzzhOrNj
-   Q==;
-X-CSE-ConnectionGUID: Niymi6nxQS2lGcccv0dlAQ==
-X-CSE-MsgGUID: 5GT6QsKqSpSH86+DZ6Qb6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="100498865"
+  t=1782221993; x=1813757993;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NCi4wVpu6IjClv1LXzgQPAg9B8ydyAThNmxzKLpEzRo=;
+  b=JRRpPr0mOPMc/J7dUA++IK+JU5KudFYQMv1Tp5sOKgJiOGnDfqGE4P36
+   99H1yUAWLW93PKMk9MD3Rsh1Ld5CO6vuOKIdExH1SBhAxCx3SNsIVRTDC
+   MdWBKJEjvr4rMitJ1FZ2wb5XugsuHYE6QeYq4/SkWsBjZL9mgQc2DS0vc
+   J4/hbW7F4lPP4fY9m1tHC0qQ6dn8MqYIb+cHvuMgsc2wac5VunyxKAMbw
+   epUXzd+NI/UvmfvXYQA7M9+lEuIT/fCwbUVlFN7FTiNy4qQ4vkvuMKEy3
+   u3QtjDTSfNC7kiwOPTT3M2msLlg+K4Unnwtq04UN0kc4Cv812RouQMfiA
+   A==;
+X-CSE-ConnectionGUID: P596mxwaR8WoEXn//r3jiQ==
+X-CSE-MsgGUID: HDeaJd/KShird+p0eYYssg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="94080913"
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="100498865"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:24:01 -0700
-X-CSE-ConnectionGUID: zZtlFWgERMGFmK5OSyVV1g==
-X-CSE-MsgGUID: b+NjjPA1Qg6PuwCCvi0WCg==
+   d="scan'208";a="94080913"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 06:39:53 -0700
+X-CSE-ConnectionGUID: 8/2XmGIHQ5OdpuEY6DAUUg==
+X-CSE-MsgGUID: AINPVJ7zQsGmP/uFALQizg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="249518503"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 23 Jun 2026 03:23:59 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+   d="scan'208";a="243163450"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 23 Jun 2026 06:39:51 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wbyIP-000000006BN-2s2Y;
-	Tue, 23 Jun 2026 10:23:57 +0000
-Date: Tue, 23 Jun 2026 12:23:14 +0200
+	id 1wc1Lu-000000002ZB-1S6w;
+	Tue, 23 Jun 2026 13:39:46 +0000
+Date: Tue, 23 Jun 2026 21:38:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH RFC] dt-bindings: sound: Convert cirrus,cs35l36 to DT
- schema
-Message-ID: <202606231229.hmoDlYYP-lkp@intel.com>
+Subject: [thomas-weissschuh:korg/b4/vdso-arch-clockmodes 3/5] find:
+ 'arch/parisc/include/generated/uapi/asm': No such file or directory
+Message-ID: <202606232146.xyno0OEj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+::::::=20
+:::::: Manual check reason: "only suspicious fbc files changed"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260618-dt-cirrus-cs35l36-v1-1-1a43515666ad@ixit.cz>
-References: <20260618-dt-cirrus-cs35l36-v1-1-1a43515666ad@ixit.cz>
-TO: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+TO: "Thomas Wei=C3=9Fschuh" <linux@weissschuh.net>
 
-Hi David,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
+inux.git korg/b4/vdso-arch-clockmodes
+head:   7145c58a41a91ecd43150c53b21c4d82f7e024cc
+commit: 5418f662ee90802bef3cbeb90df15f0b4c3f7c84 [3/5] find 1
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/202606=
+23/202606232146.xyno0OEj-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260623/202606232146.xyno0OEj-lkp@intel.com/reproduce)
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8cd9520d35a6c38db6567e97dd93b1f11f185dc6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Heidelberg-via-B4-Relay/dt-bindings-sound-Convert-cirrus-cs35l36-to-DT-schema/20260623-055007
-base:   8cd9520d35a6c38db6567e97dd93b1f11f185dc6
-patch link:    https://lore.kernel.org/r/20260618-dt-cirrus-cs35l36-v1-1-1a43515666ad%40ixit.cz
-patch subject: [PATCH RFC] dt-bindings: sound: Convert cirrus,cs35l36 to DT schema
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: arc-randconfig-2051-20260623 (https://download.01.org/0day-ci/archive/20260623/202606231229.hmoDlYYP-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260623/202606231229.hmoDlYYP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606231229.hmoDlYYP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606232146.xyno0OEj-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/remoteproc/qcom,qcs404-cdsp-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
-   Documentation/devicetree/bindings/remoteproc/qcom,pas-common.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
->> Documentation/devicetree/bindings/sound/cirrus,cs35l36.yaml: properties:cirrus,vpbr-config:type: 'boolean' was expected
-   	hint: A vendor boolean property can use "type: boolean"
-   	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml
->> Documentation/devicetree/bindings/sound/cirrus,cs35l36.yaml: Unresolvable reference: /schemas/sound/dai-common.yaml#
-   Documentation/devicetree/bindings/remoteproc/qcom,wcnss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
-   Documentation/devicetree/bindings/remoteproc/qcom,msm8996-mss-pil.yaml: properties:qcom,smem-states:items:0: 'anyOf' conditional failed, one must be fixed:
-   	'items' is a required property
-   	'minItems' is a required property
-   	'maxItems' is a required property
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+All errors (new ones prefixed by >>):
+
+>> find: 'arch/parisc/include/generated/uapi/asm': No such file or directory
 
 --
 0-DAY CI Kernel Test Service
