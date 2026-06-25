@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C59F25771
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Jun 2026 18:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C772F25E4
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Jun 2026 23:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782413190; cv=none; b=rskownzr8XfAD1kBjyxrGUSo5fVklun1KAp6UACYzZdef4bR4bqO8ypdampJf3YEYKpBNx+hTWlWy0fJJ+MkiEpn5mfjI6d/Hdn+RlPlSyaKmkFVkzmGb38FMeS7yu64Ct50ZTAHI8Xw097jjifRYBVUrgUooTcCRLSsHiMLLjg=
+	t=1782430143; cv=none; b=vCXSZ2VTXDW9+J81WjunOKXVWHjKQ94QCFk0i1eF6AuDSVLYNUBNgDNHy72/hmJ+LEpUJUXiBs4H6FerUQVXAPb75aHm+YW8t3uYnRNmss0LpANYQwzwt7O8TMdRuZ94MvqL02Efv9C5tZ1Iqp5mSgaiaYtmLQ9Lm1ZCEZGH0hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782413190; c=relaxed/simple;
-	bh=Yh9T2yhWBenJa/1xop+IridfMHbn+Vebl3bCmr2FCJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Uq0XQSUtuf+30+4QjvB9fXkw4HHk2rXb3C6jr+FPSfcrL1lkskcLOyynID11HDPH54OrLDa6Z6+oDhuJPCO75xCy0b73DxnvhuNQIDJ01BI9MyYKNT4IShhyk/qhnwAfJmcKa7MIR5u9XIPauqU9HT+3v9uLOUStBnvjqwJzyxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=glD3EB3a; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1782430143; c=relaxed/simple;
+	bh=zrQw917PaKD7NHZCEdwH+Xhxw328X5sXwJ9IXaj23Go=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MXEQGEPsU5NlQZzXGBTFv4EnL8+o0uV811Y25Cqx+ikQGK7MV/j9FNG4/Pn4S4pcRAclPVAXSGgvzXQkNZ7VSG34YYF6bICS9NzKaC11C47RfrED1HQRZPmVMTrXQRy9gCR5QLkC0R1fSjb0TOup3MonaN0VEp2vbZP2H6fnAis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SWJjh8eX; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="glD3EB3a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWJjh8eX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782413189; x=1813949189;
+  t=1782430141; x=1813966141;
   h=date:from:to:cc:subject:message-id;
-  bh=Yh9T2yhWBenJa/1xop+IridfMHbn+Vebl3bCmr2FCJ0=;
-  b=glD3EB3astCIq3vrT5Vhf1++QNEo9m5KPu5q8XBG408RbPGQbBexcnh7
-   b7UoKRL+yZxdpNzP1alhhqC0S/OPuqKgrg/1jTKrrK86SLJxHEPJW+6ev
-   34VMuvsqfDpfEHIugEH3+04DFhW6igZllLggezr7ySh5UPEpzxw73cY8S
-   2Za4OhBL1hM7FY3hYepCypoKnoEgHAs40AI/7pL0aDPJGuGztA2Xx6abT
-   t645Kh+Wq3PiBGM95XYHNpFcvNsQyyimeSHPYkzmCVlyxi2BiLu7qsSPH
-   u4ZrDnpbklVkCNpqCyvgdmWPLORmG3hyZoX8GoVXdWyVCU6T7lRzaONq7
-   Q==;
-X-CSE-ConnectionGUID: pGhCndBuSNqb8G2YG/DqCQ==
-X-CSE-MsgGUID: 83iQQbGpQDKKVHnwcyYkpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="70711343"
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="70711343"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 11:46:28 -0700
-X-CSE-ConnectionGUID: bBLNMc4PRtOTClZl1KbmQA==
-X-CSE-MsgGUID: RxhJyFB9TuWAL7Mi4hFXDA==
+  bh=zrQw917PaKD7NHZCEdwH+Xhxw328X5sXwJ9IXaj23Go=;
+  b=SWJjh8eXClJwrGDtI45DjDqOF2nbdcxjRA/1y8mVQw3imzvlYCegbb7U
+   KyjjSj302mVtkn4i5TdIqJ51RGH/88LSRf2lppCt0UUkclgN1PKicN5pa
+   mDQBJk/rl616AWiYXhw1/fqF/uf/frGgWVD3wjuEcXe+O97/UmDGDwr2w
+   3t1X5Ne11HmBoPnvKYt1mrsAvzj74tzwTnJRo/YMwLWLX/HoIzLaHFQgm
+   AqhEIJESZTvi4x4fMRMGPgVT7OPLvoNd9lWfXdyRCmcXYDA57bjX5oNlu
+   0OrGRWC387MUJllBzAEb/zqCwsOyz14uT1BXEHFcT/Gb5rhJEr2w6uxlb
+   A==;
+X-CSE-ConnectionGUID: y8Fj68KIQTyYBf8kERiEHA==
+X-CSE-MsgGUID: +7Ul1UJSTsKS1SDEU1BqCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83421597"
+X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
+   d="scan'208";a="83421597"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 16:29:00 -0700
+X-CSE-ConnectionGUID: 7uFgYP6VRoej+r4sbF5cEw==
+X-CSE-MsgGUID: Tb5WFt1CTXariIPUFLKCdg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="246544901"
+X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
+   d="scan'208";a="249490643"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 25 Jun 2026 11:46:27 -0700
+  by orviesa006.jf.intel.com with ESMTP; 25 Jun 2026 16:28:59 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wcp5k-000000004Of-2A96;
-	Thu, 25 Jun 2026 18:46:24 +0000
-Date: Fri, 26 Jun 2026 02:45:30 +0800
+	id 1wctVA-000000004c5-2tQz;
+	Thu, 25 Jun 2026 23:28:56 +0000
+Date: Fri, 26 Jun 2026 07:28:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/migrate.c:445 pmd_migration_entry_wait() warn:
- inconsistent returns 'ptl'.
-Message-ID: <202606260236.YopQx3ft-lkp@intel.com>
+Subject: security/integrity/ima/ima_fs.c:413
+ create_securityfs_measurement_lists() error: testing array offset 'algo'
+ after use.
+Message-ID: <202606260708.mGv1832w-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,54 +63,73 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
+TO: Dmitry Safonov <dima@arista.com>
+CC: Mimi Zohar <zohar@linux.ibm.com>
+CC: Roberto Sassu <roberto.sassu@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ab9de95c9cf952332ab79453b4b5d1bfca8e514f
-commit: 10dd5a0009898ba35eafeb6087e5c83b84742ff1 s390/mm: Enable THP_SWAP and THP_MIGRATION
-date:   11 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 11 months ago
-config: s390-randconfig-r072-20260625 (https://download.01.org/0day-ci/archive/20260626/202606260236.YopQx3ft-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+head:   4edcdefd4083ae04b1a5656f4be6cd83ae919ef4
+commit: d7bd8cf0b348d3edae7bee33e74a32b21668b181 ima_fs: Correctly create securityfs files for unsupported hash algos
+date:   4 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 4 months ago
+config: sparc-randconfig-r071-20260626 (https://download.01.org/0day-ci/archive/20260626/202606260708.mGv1832w-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 16.1.0
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 10dd5a000989 ("s390/mm: Enable THP_SWAP and THP_MIGRATION")
+| Fixes: d7bd8cf0b348 ("ima_fs: Correctly create securityfs files for unsupported hash algos")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606260236.YopQx3ft-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606260708.mGv1832w-lkp@intel.com/
 
 smatch warnings:
-mm/migrate.c:445 pmd_migration_entry_wait() warn: inconsistent returns 'ptl'.
+security/integrity/ima/ima_fs.c:413 create_securityfs_measurement_lists() error: testing array offset 'algo' after use.
 
-vim +/ptl +445 mm/migrate.c
+vim +/algo +413 security/integrity/ima/ima_fs.c
 
-30dad30922ccc7 Naoya Horiguchi 2013-06-12  433  
-616b8371539a6c Zi Yan          2017-09-08  434  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
-616b8371539a6c Zi Yan          2017-09-08  435  void pmd_migration_entry_wait(struct mm_struct *mm, pmd_t *pmd)
-616b8371539a6c Zi Yan          2017-09-08  436  {
-616b8371539a6c Zi Yan          2017-09-08  437  	spinlock_t *ptl;
-616b8371539a6c Zi Yan          2017-09-08  438  
-616b8371539a6c Zi Yan          2017-09-08  439  	ptl = pmd_lock(mm, pmd);
-616b8371539a6c Zi Yan          2017-09-08  440  	if (!is_pmd_migration_entry(*pmd))
-616b8371539a6c Zi Yan          2017-09-08  441  		goto unlock;
-0cb8fd4d14165a Hugh Dickins    2023-06-08  442  	migration_entry_wait_on_locked(pmd_to_swp_entry(*pmd), ptl);
-616b8371539a6c Zi Yan          2017-09-08  443  	return;
-616b8371539a6c Zi Yan          2017-09-08  444  unlock:
-616b8371539a6c Zi Yan          2017-09-08 @445  	spin_unlock(ptl);
-616b8371539a6c Zi Yan          2017-09-08  446  }
-616b8371539a6c Zi Yan          2017-09-08  447  #endif
-616b8371539a6c Zi Yan          2017-09-08  448  
-
-:::::: The code at line 445 was first introduced by commit
-:::::: 616b8371539a6c487404c3b8fb04078016dab4ba mm: thp: enable thp migration in generic path
-
-:::::: TO: Zi Yan <zi.yan@cs.rutgers.edu>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+80eae209d63ac6 Petko Manolov  2015-12-02  388  
+9fa8e76250082a Enrico Bravi   2024-04-12  389  static int __init create_securityfs_measurement_lists(void)
+9fa8e76250082a Enrico Bravi   2024-04-12  390  {
+d15ffbbf4d32a9 Al Viro        2025-03-10  391  	int count = NR_BANKS(ima_tpm_chip);
+9fa8e76250082a Enrico Bravi   2024-04-12  392  
+9fa8e76250082a Enrico Bravi   2024-04-12  393  	if (ima_sha1_idx >= NR_BANKS(ima_tpm_chip))
+d15ffbbf4d32a9 Al Viro        2025-03-10  394  		count++;
+9fa8e76250082a Enrico Bravi   2024-04-12  395  
+d15ffbbf4d32a9 Al Viro        2025-03-10  396  	for (int i = 0; i < count; i++) {
+d15ffbbf4d32a9 Al Viro        2025-03-10  397  		u16 algo = ima_algo_array[i].algo;
+d15ffbbf4d32a9 Al Viro        2025-03-10  398  		char file_name[NAME_MAX + 1];
+d15ffbbf4d32a9 Al Viro        2025-03-10  399  		struct dentry *dentry;
+9fa8e76250082a Enrico Bravi   2024-04-12  400  
+d7bd8cf0b348d3 Dmitry Safonov 2026-03-10  401  		if (algo == HASH_ALGO__LAST)
+d7bd8cf0b348d3 Dmitry Safonov 2026-03-10  402  			sprintf(file_name, "ascii_runtime_measurements_tpm_alg_%x",
+d7bd8cf0b348d3 Dmitry Safonov 2026-03-10  403  				ima_tpm_chip->allocated_banks[i].alg_id);
+d7bd8cf0b348d3 Dmitry Safonov 2026-03-10  404  		else
+9fa8e76250082a Enrico Bravi   2024-04-12  405  			sprintf(file_name, "ascii_runtime_measurements_%s",
+9fa8e76250082a Enrico Bravi   2024-04-12  406  				hash_algo_name[algo]);
+9fa8e76250082a Enrico Bravi   2024-04-12  407  		dentry = securityfs_create_file(file_name, S_IRUSR | S_IRGRP,
+d15ffbbf4d32a9 Al Viro        2025-03-10  408  						ima_dir, (void *)(uintptr_t)i,
+9fa8e76250082a Enrico Bravi   2024-04-12  409  						&ima_ascii_measurements_ops);
+9fa8e76250082a Enrico Bravi   2024-04-12  410  		if (IS_ERR(dentry))
+9fa8e76250082a Enrico Bravi   2024-04-12  411  			return PTR_ERR(dentry);
+9fa8e76250082a Enrico Bravi   2024-04-12  412  
+d7bd8cf0b348d3 Dmitry Safonov 2026-03-10 @413  		if (algo == HASH_ALGO__LAST)
+d7bd8cf0b348d3 Dmitry Safonov 2026-03-10  414  			sprintf(file_name, "binary_runtime_measurements_tpm_alg_%x",
+d7bd8cf0b348d3 Dmitry Safonov 2026-03-10  415  				ima_tpm_chip->allocated_banks[i].alg_id);
+d7bd8cf0b348d3 Dmitry Safonov 2026-03-10  416  		else
+9fa8e76250082a Enrico Bravi   2024-04-12  417  			sprintf(file_name, "binary_runtime_measurements_%s",
+9fa8e76250082a Enrico Bravi   2024-04-12  418  				hash_algo_name[algo]);
+9fa8e76250082a Enrico Bravi   2024-04-12  419  		dentry = securityfs_create_file(file_name, S_IRUSR | S_IRGRP,
+d15ffbbf4d32a9 Al Viro        2025-03-10  420  						ima_dir, (void *)(uintptr_t)i,
+9fa8e76250082a Enrico Bravi   2024-04-12  421  						&ima_measurements_ops);
+9fa8e76250082a Enrico Bravi   2024-04-12  422  		if (IS_ERR(dentry))
+9fa8e76250082a Enrico Bravi   2024-04-12  423  			return PTR_ERR(dentry);
+9fa8e76250082a Enrico Bravi   2024-04-12  424  	}
+9fa8e76250082a Enrico Bravi   2024-04-12  425  
+9fa8e76250082a Enrico Bravi   2024-04-12  426  	return 0;
+9fa8e76250082a Enrico Bravi   2024-04-12  427  }
+9fa8e76250082a Enrico Bravi   2024-04-12  428  
 
 --
 0-DAY CI Kernel Test Service
