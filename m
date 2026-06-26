@@ -1,257 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43253AB29D
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jun 2026 08:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE4B30BB9B
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jun 2026 09:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782461510; cv=none; b=ogUT39ChAPmHYUZvh7bmNyks2vFZdTRCBewjJHbo6+RgMp01wAJCZCvjwNPPH3YCV6+r8qV6TjxUP4jz5rbS1nk7BHwasc2f4x3SBt5FrRMTxexc/e28ndCjvTMkMMygwQutb5wO4Hbhnhq7hETLvx5W0DhssKfVRXw+TUeovvE=
+	t=1782466988; cv=none; b=Z/8Y9tV2MRpeZpbDvXfSR2Rya6C9adfZjrVKOAM3DeaLTBTTmAVdurbKv1QBchkp57bC5eRsWdQxbQMgP9Y2cl7JeaLn/dgW/ojvHs5NbAedzZhQaxT/c7mrox0rbrDvpWC1WABX0w5p6Ea8j7yrswBNrkThz3/09UV6dfbm9DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782461510; c=relaxed/simple;
-	bh=TbHz5B+UkO8FKwbdX/UTz/vj5ps/d21IWaGQM7krfE4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZHMhkW39f8QtjL4gXKYK4ZCh+gm/ULKi0l+PuST4pByj5Q8hU2Fe870OMdBAx7fWrRb9rXcJLgvkl/EBoMZGNwLr1BXLQ1tZvap1IGmUJrPa/Bo/F1C2Mj6YP8YzqhVMlYvKbQOCDBZsazIN35mIJppcpwcGk22vtFJNvyLHiNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzbGBA1l; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782466988; c=relaxed/simple;
+	bh=ZHyD7fXlPkmq8qBmYMRn+jnw7L6dlDoxe45z5TNdASY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LhJxyAfWIACpiVK8wpvlbJyqGLiTOXfRnz4My9mreZ7+W8UhFFtJe6zB9sIC2nsQ0ykkMLjgQB83WhDpjEDbCHSTqFFxx6VG+G7UIQ1ejaV3gTHOnvMTY3jRJMfRn4eI1Cvq6fgr4q/kORYO037kflYR3tGXkZ5J7z9OCEjDLYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXuG9veG; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzbGBA1l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782461508; x=1813997508;
-  h=date:from:to:cc:subject:message-id;
-  bh=TbHz5B+UkO8FKwbdX/UTz/vj5ps/d21IWaGQM7krfE4=;
-  b=gzbGBA1lCaISP8WAQWCRNiqP34/VJt3Hl/W1L2MfbgSy684mMSS/FUC/
-   cyuww1R6D8FxXqLzzxLDtiEW8ypC5SrECx5XGGk+SKzi2rNyFWXEKh6IC
-   AELUR7jxlHiPsCTobzW7vx9f8gsud0Nk+9v+6K9hi3jX1M4tZDMKsmcAL
-   yDozK8UgaEXm5mTYj4yebFwkKFqX89u5hqB2srrJVsEEKrCa/SBnhNuNk
-   E5wFt86/9IbxQtlGYsDFy6ogKAqdAFw96OMqc5E3AX79ulIl1J2PDcZm/
-   2r1F/KgNxOMVnAWfnKPMpzwmOhkgCr+FjyV5XdXBPyDH7+MREMlPVouB0
-   A==;
-X-CSE-ConnectionGUID: DTmOLYGETdulshgZSegcdw==
-X-CSE-MsgGUID: kohlY1XMT4qxy2mfENz1Xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="70775491"
-X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
-   d="scan'208";a="70775491"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 01:11:48 -0700
-X-CSE-ConnectionGUID: dqCuBDJ7Tj6uLAgyD6KVrw==
-X-CSE-MsgGUID: JBNgfXyiRCK2Q88x+V3VNw==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Jun 2026 01:11:47 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wd1f6-000000004v9-2QtU;
-	Fri, 26 Jun 2026 08:11:44 +0000
-Date: Fri, 26 Jun 2026 16:11:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/irqchip/irq-qcom-mpm.c:441 qcom_mpm_probe() warn:
- missing unwind goto?
-Message-ID: <202606261634.IxvXG6n2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXuG9veG"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7e6e21c47e6so416592a34.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 26 Jun 2026 02:43:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782466986; x=1783071786; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BEA6039rXQdzzbULZRZgWzoeHr96Z9YLKGML0slBm+Y=;
+        b=mXuG9veGq9T6B/WduDS96KjBWZg7Fugurcl2wcrRfxfVs+9/OpBAtpMuXgaieSjVjm
+         fSAgNOpCvM8F3affe6cbxF2xO8LzCLzdNco7NUg123vtjzRw1hvRyqu9nVAVi0PKTmTN
+         v837u/6q1pXcCGzWfr6QGLhhnVnVkwHoCqoyiRl0tfaJtaW0UArL+6SOkfM6JFOtfgZG
+         h7x5lpzq3A5nI+KTACaGPc9e/e1qBd0kJIFwJiyanzzZKtfJ53qyKzNtbyQPsVdrFY/t
+         FBKqQNgo0enCOn6NFEQdnzBzV02j08jSvqfnHzSlpz2hrJGtwmIzMBGUJuavF3Cv/ehy
+         xIzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782466986; x=1783071786;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BEA6039rXQdzzbULZRZgWzoeHr96Z9YLKGML0slBm+Y=;
+        b=MM+C453xvwfdqO/64rnMuJlQw0CNhCzAhKrqfMFABG0aC2aG9ba0q5ZCsWmvGZtk26
+         pBFXyzGWGq1qt6seGvSb3A7mlaDEYCPtLATb8h8btfwQlCICTsP68P2K7LQ5EZibWTVL
+         mtEklBuNZ4frdBSTXztVGXtvNDIx8N+9gw6KdvBYryQ6xPDXVzPhUTOAGLCRZLH2FOSF
+         CRowjf7QgylWYwnzAwgiDMQloewst/IldTPU06gjvqcEy2eQtHJEPvpGpOilIs+UCv/3
+         QtuJuUtp/OK9M70ueFswV7HqwEQqcMlq8SPCDNyGRa22uJG7yjien04O4oio87sHlV+H
+         Qa+A==
+X-Forwarded-Encrypted: i=1; AFNElJ8miTZS6imAXOjq5BqbnFEvnrSvnWBKFyIjYsUF4tNXwxgOK0Y4+kcquG4DKlJOEBl4AazFfICoSwA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgL26Cn4ALZha3dhO0SvNtlgsL2Q141vOADVNiM1kNX/nX3+E3
+	5j0QT2gAubnA/6VWLMdCYaYEYc0hli8gPZYnDrGnd73NnqpnJA8+9vE4
+X-Gm-Gg: AfdE7cm58pl56ykzYo3J0HVnFaxOqBBUNJ8Fh+7LFlPj0yuvFx1fU+vEul5sjwIlQ2e
+	jsku/lXfVQhzz7pqnhcwY/dFaWw44DlNYPr5o2iJBUeE5VrhWme5Q++hQJE3rXUgJ4KTGboL7GD
+	ipz4Y+5pkWMMx9lCnMebS7QFxyaR5hlimA22A2xXKku+7clyb0EZ7dfiLV01fod3oXtzZn3Dzd5
+	NiCjlCgKlwEQtQox3b/28HxznbQ1fc94rAvZMB8QakPash7oXWRO3Pb9/qAc5wPesNx16GAnIfD
+	KY/NHTcAGlFSUwtp99V2mlpwpozpbNQ6ZJdexnufPL3YvkpcJwb6gbc0vcfk/qeYpMoW8CyknjN
+	5hKw8Ln4keW0VVkXjAlwdwI2FOHlvswvr+QS7Ho4/B7C3ZNO1aNtBByaMWbUolKofyqGFl9y4Pe
+	n8l+Oj
+X-Received: by 2002:a05:6830:6084:b0:7e9:8867:cb23 with SMTP id 46e09a7af769-7e99c257361mr6019099a34.16.1782466985935;
+        Fri, 26 Jun 2026 02:43:05 -0700 (PDT)
+Received: from localhost ([74.80.182.98])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9aa787445sm1201600a34.16.2026.06.26.02.43.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 02:43:03 -0700 (PDT)
+Date: Fri, 26 Jun 2026 12:42:56 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: "Datta, Shubhrajyoti" <shubhraj@amd.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev
+Subject: Re: drivers/edac/versalnet_edac.c:785 init_one_mc() error: buffer
+ overflow 'priv->adec' 152 <= s32max
+Message-ID: <aj5JoH5U2n1fOQGi@stanley.mountain>
+References: <202606061200.j14yIFYw-lkp@intel.com>
+ <96aa204f-8ad4-4f5b-a7ca-48df8c9eb187@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <96aa204f-8ad4-4f5b-a7ca-48df8c9eb187@amd.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Johan Hovold <johan@kernel.org>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Florian Fainelli <florian.fainelli@broadcom.com>
-CC: Changhuang Liang <changhuang.liang@starfivetech.com>
+On Fri, Jun 26, 2026 at 11:05:11AM +0530, Datta, Shubhrajyoti wrote:
+> 
+> On 6/6/2026 9:57 AM, kernel test robot wrote:
+> > BCC: lkp@intel.com
+> > CC: oe-kbuild-all@lists.linux.dev
+> > CC: linux-kernel@vger.kernel.org
+> > TO: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+> > CC: "Borislav Petkov (AMD)" <bp@alien8.de>
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   8e65320d91cdc3b241d4b94855c88459b91abf66
+> > commit: 62a9fc50e8d947601ea3484e732b1a65a0a54b96 EDAC/versalnet: Refactor memory controller initialization and cleanup
+> > date:   3 months ago
+> > :::::: branch date: 3 hours ago
+> > :::::: commit date: 3 months ago
+> > config: arm64-randconfig-r072-20260606 (https://download.01.org/0day-ci/archive/20260606/202606061200.j14yIFYw-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 8.5.0
+> > smatch: v0.5.0-9185-gbcc58b9c
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Fixes: 62a9fc50e8d9 ("EDAC/versalnet: Refactor memory controller initialization and cleanup")
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Closes: https://lore.kernel.org/r/202606061200.j14yIFYw-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/edac/versalnet_edac.c:785 init_one_mc() error: buffer overflow 'priv->adec' 152 <= s32max
+> > 
+> > vim +785 drivers/edac/versalnet_edac.c
+> > 
+> > 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  774
+> > 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  775  static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i)
+> 
+> This is a static function called from
+> 
+> 865         for (i = 0; i < NUM_CONTROLLERS; i++) {
+> 866                 rc = init_one_mc(priv, pdev, i);
+> 867                 if (rc) {
+> 
+> The NUM_CONTROLLERS is 8 so the value of i at max can be 8.
+> 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4edcdefd4083ae04b1a5656f4be6cd83ae919ef4
-commit: 1e3e330c07076a0582385bbea029c9cc918fa30d irqchip: Pass platform device to platform drivers
-date:   8 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 8 months ago
-config: arm64-randconfig-r072-20260626 (https://download.01.org/0day-ci/archive/20260626/202606261634.IxvXG6n2-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
-smatch: v0.5.0-9185-gbcc58b9c
+Yeah...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 1e3e330c0707 ("irqchip: Pass platform device to platform drivers")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606261634.IxvXG6n2-lkp@intel.com/
+The zero day bot doesn't do cross function analysis.  It cann't
+scale well enough.
 
-smatch warnings:
-drivers/irqchip/irq-qcom-mpm.c:441 qcom_mpm_probe() warn: missing unwind goto?
+These warnings are normally filtered by a human before being resent, but
+since you're using lei you get the unfiltered patches that didn't go out
+to the public.  As more and more people adopt lei, we should probably
+stop sending unfiltered warnings to the list...
 
-vim +441 drivers/irqchip/irq-qcom-mpm.c
+regards,
+dan carpenter
 
-a6199bb514d8a6 Shawn Guo         2022-03-08  322  
-1e3e330c07076a Johan Hovold      2025-10-13  323  static int qcom_mpm_probe(struct platform_device *pdev, struct device_node *parent)
-a6199bb514d8a6 Shawn Guo         2022-03-08  324  {
-1e3e330c07076a Johan Hovold      2025-10-13  325  	struct device_node *np = pdev->dev.of_node;
-a6199bb514d8a6 Shawn Guo         2022-03-08  326  	struct device *dev = &pdev->dev;
-a6199bb514d8a6 Shawn Guo         2022-03-08  327  	struct irq_domain *parent_domain;
-a6199bb514d8a6 Shawn Guo         2022-03-08  328  	struct generic_pm_domain *genpd;
-221b110d87c2d3 Konrad Dybcio     2023-11-27  329  	struct device_node *msgram_np;
-a6199bb514d8a6 Shawn Guo         2022-03-08  330  	struct qcom_mpm_priv *priv;
-a6199bb514d8a6 Shawn Guo         2022-03-08  331  	unsigned int pin_cnt;
-221b110d87c2d3 Konrad Dybcio     2023-11-27  332  	struct resource res;
-a6199bb514d8a6 Shawn Guo         2022-03-08  333  	int i, irq;
-a6199bb514d8a6 Shawn Guo         2022-03-08  334  	int ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  335  
-a6199bb514d8a6 Shawn Guo         2022-03-08  336  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-a6199bb514d8a6 Shawn Guo         2022-03-08  337  	if (!priv)
-a6199bb514d8a6 Shawn Guo         2022-03-08  338  		return -ENOMEM;
-a6199bb514d8a6 Shawn Guo         2022-03-08  339  
-a6199bb514d8a6 Shawn Guo         2022-03-08  340  	ret = of_property_read_u32(np, "qcom,mpm-pin-count", &pin_cnt);
-a6199bb514d8a6 Shawn Guo         2022-03-08  341  	if (ret) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  342  		dev_err(dev, "failed to read qcom,mpm-pin-count: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  343  		return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  344  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  345  
-a6199bb514d8a6 Shawn Guo         2022-03-08  346  	priv->reg_stride = DIV_ROUND_UP(pin_cnt, 32);
-a6199bb514d8a6 Shawn Guo         2022-03-08  347  
-a6199bb514d8a6 Shawn Guo         2022-03-08  348  	ret = of_property_count_u32_elems(np, "qcom,mpm-pin-map");
-a6199bb514d8a6 Shawn Guo         2022-03-08  349  	if (ret < 0) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  350  		dev_err(dev, "failed to read qcom,mpm-pin-map: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  351  		return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  352  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  353  
-a6199bb514d8a6 Shawn Guo         2022-03-08  354  	if (ret % 2) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  355  		dev_err(dev, "invalid qcom,mpm-pin-map\n");
-a6199bb514d8a6 Shawn Guo         2022-03-08  356  		return -EINVAL;
-a6199bb514d8a6 Shawn Guo         2022-03-08  357  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  358  
-a6199bb514d8a6 Shawn Guo         2022-03-08  359  	priv->map_cnt = ret / 2;
-a6199bb514d8a6 Shawn Guo         2022-03-08  360  	priv->maps = devm_kcalloc(dev, priv->map_cnt, sizeof(*priv->maps),
-a6199bb514d8a6 Shawn Guo         2022-03-08  361  				  GFP_KERNEL);
-a6199bb514d8a6 Shawn Guo         2022-03-08  362  	if (!priv->maps)
-a6199bb514d8a6 Shawn Guo         2022-03-08  363  		return -ENOMEM;
-a6199bb514d8a6 Shawn Guo         2022-03-08  364  
-a6199bb514d8a6 Shawn Guo         2022-03-08  365  	for (i = 0; i < priv->map_cnt; i++) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  366  		u32 pin, hwirq;
-a6199bb514d8a6 Shawn Guo         2022-03-08  367  
-a6199bb514d8a6 Shawn Guo         2022-03-08  368  		of_property_read_u32_index(np, "qcom,mpm-pin-map", i * 2, &pin);
-a6199bb514d8a6 Shawn Guo         2022-03-08  369  		of_property_read_u32_index(np, "qcom,mpm-pin-map", i * 2 + 1, &hwirq);
-a6199bb514d8a6 Shawn Guo         2022-03-08  370  
-a6199bb514d8a6 Shawn Guo         2022-03-08  371  		if (gic_hwirq_is_mapped(priv->maps, i, hwirq)) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  372  			dev_warn(dev, "failed to map pin %d as GIC hwirq %d is already mapped\n",
-a6199bb514d8a6 Shawn Guo         2022-03-08  373  				 pin, hwirq);
-a6199bb514d8a6 Shawn Guo         2022-03-08  374  			continue;
-a6199bb514d8a6 Shawn Guo         2022-03-08  375  		}
-a6199bb514d8a6 Shawn Guo         2022-03-08  376  
-a6199bb514d8a6 Shawn Guo         2022-03-08  377  		priv->maps[i].pin = pin;
-a6199bb514d8a6 Shawn Guo         2022-03-08  378  		priv->maps[i].hwirq = hwirq;
-a6199bb514d8a6 Shawn Guo         2022-03-08  379  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  380  
-a6199bb514d8a6 Shawn Guo         2022-03-08  381  	raw_spin_lock_init(&priv->lock);
-a6199bb514d8a6 Shawn Guo         2022-03-08  382  
-221b110d87c2d3 Konrad Dybcio     2023-11-27  383  	/* If we have a handle to an RPM message ram partition, use it. */
-221b110d87c2d3 Konrad Dybcio     2023-11-27  384  	msgram_np = of_parse_phandle(np, "qcom,rpm-msg-ram", 0);
-221b110d87c2d3 Konrad Dybcio     2023-11-27  385  	if (msgram_np) {
-221b110d87c2d3 Konrad Dybcio     2023-11-27  386  		ret = of_address_to_resource(msgram_np, 0, &res);
-221b110d87c2d3 Konrad Dybcio     2023-11-27  387  		if (ret) {
-221b110d87c2d3 Konrad Dybcio     2023-11-27  388  			of_node_put(msgram_np);
-221b110d87c2d3 Konrad Dybcio     2023-11-27  389  			return ret;
-221b110d87c2d3 Konrad Dybcio     2023-11-27  390  		}
-221b110d87c2d3 Konrad Dybcio     2023-11-27  391  
-221b110d87c2d3 Konrad Dybcio     2023-11-27  392  		/* Don't use devm_ioremap_resource, as we're accessing a shared region. */
-221b110d87c2d3 Konrad Dybcio     2023-11-27  393  		priv->base = devm_ioremap(dev, res.start, resource_size(&res));
-221b110d87c2d3 Konrad Dybcio     2023-11-27  394  		of_node_put(msgram_np);
-8ad032cc8c499a Dan Carpenter     2024-02-01  395  		if (!priv->base)
-8ad032cc8c499a Dan Carpenter     2024-02-01  396  			return -ENOMEM;
-221b110d87c2d3 Konrad Dybcio     2023-11-27  397  	} else {
-221b110d87c2d3 Konrad Dybcio     2023-11-27  398  		/* Otherwise, fall back to simple MMIO. */
-a6199bb514d8a6 Shawn Guo         2022-03-08  399  		priv->base = devm_platform_ioremap_resource(pdev, 0);
-76ff614a79152c Yang Yingliang    2022-03-16  400  		if (IS_ERR(priv->base))
-a6199bb514d8a6 Shawn Guo         2022-03-08  401  			return PTR_ERR(priv->base);
-221b110d87c2d3 Konrad Dybcio     2023-11-27  402  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  403  
-a6199bb514d8a6 Shawn Guo         2022-03-08  404  	for (i = 0; i < priv->reg_stride; i++) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  405  		qcom_mpm_write(priv, MPM_REG_ENABLE, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  406  		qcom_mpm_write(priv, MPM_REG_FALLING_EDGE, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  407  		qcom_mpm_write(priv, MPM_REG_RISING_EDGE, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  408  		qcom_mpm_write(priv, MPM_REG_POLARITY, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  409  		qcom_mpm_write(priv, MPM_REG_STATUS, i, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  410  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  411  
-a6199bb514d8a6 Shawn Guo         2022-03-08  412  	irq = platform_get_irq(pdev, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  413  	if (irq < 0)
-a6199bb514d8a6 Shawn Guo         2022-03-08  414  		return irq;
-a6199bb514d8a6 Shawn Guo         2022-03-08  415  
-a6199bb514d8a6 Shawn Guo         2022-03-08  416  	genpd = &priv->genpd;
-a6199bb514d8a6 Shawn Guo         2022-03-08  417  	genpd->flags = GENPD_FLAG_IRQ_SAFE;
-a6199bb514d8a6 Shawn Guo         2022-03-08  418  	genpd->power_off = mpm_pd_power_off;
-a6199bb514d8a6 Shawn Guo         2022-03-08  419  
-a6199bb514d8a6 Shawn Guo         2022-03-08  420  	genpd->name = devm_kasprintf(dev, GFP_KERNEL, "%s", dev_name(dev));
-a6199bb514d8a6 Shawn Guo         2022-03-08  421  	if (!genpd->name)
-a6199bb514d8a6 Shawn Guo         2022-03-08  422  		return -ENOMEM;
-a6199bb514d8a6 Shawn Guo         2022-03-08  423  
-a6199bb514d8a6 Shawn Guo         2022-03-08  424  	ret = pm_genpd_init(genpd, NULL, false);
-a6199bb514d8a6 Shawn Guo         2022-03-08  425  	if (ret) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  426  		dev_err(dev, "failed to init genpd: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  427  		return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  428  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  429  
-a6199bb514d8a6 Shawn Guo         2022-03-08  430  	ret = of_genpd_add_provider_simple(np, genpd);
-a6199bb514d8a6 Shawn Guo         2022-03-08  431  	if (ret) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  432  		dev_err(dev, "failed to add genpd provider: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  433  		goto remove_genpd;
-a6199bb514d8a6 Shawn Guo         2022-03-08  434  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  435  
-a6199bb514d8a6 Shawn Guo         2022-03-08  436  	priv->mbox_client.dev = dev;
-a6199bb514d8a6 Shawn Guo         2022-03-08  437  	priv->mbox_chan = mbox_request_channel(&priv->mbox_client, 0);
-a6199bb514d8a6 Shawn Guo         2022-03-08  438  	if (IS_ERR(priv->mbox_chan)) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  439  		ret = PTR_ERR(priv->mbox_chan);
-a6199bb514d8a6 Shawn Guo         2022-03-08  440  		dev_err(dev, "failed to acquire IPC channel: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08 @441  		return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  442  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  443  
-a6199bb514d8a6 Shawn Guo         2022-03-08  444  	parent_domain = irq_find_host(parent);
-a6199bb514d8a6 Shawn Guo         2022-03-08  445  	if (!parent_domain) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  446  		dev_err(dev, "failed to find MPM parent domain\n");
-a6199bb514d8a6 Shawn Guo         2022-03-08  447  		ret = -ENXIO;
-a6199bb514d8a6 Shawn Guo         2022-03-08  448  		goto free_mbox;
-a6199bb514d8a6 Shawn Guo         2022-03-08  449  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  450  
-a6199bb514d8a6 Shawn Guo         2022-03-08  451  	priv->domain = irq_domain_create_hierarchy(parent_domain,
-a6199bb514d8a6 Shawn Guo         2022-03-08  452  				IRQ_DOMAIN_FLAG_QCOM_MPM_WAKEUP, pin_cnt,
-87228532e7e968 Jiri Slaby (SUSE  2025-03-19  453) 				of_fwnode_handle(np), &qcom_mpm_ops, priv);
-a6199bb514d8a6 Shawn Guo         2022-03-08  454  	if (!priv->domain) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  455  		dev_err(dev, "failed to create MPM domain\n");
-a6199bb514d8a6 Shawn Guo         2022-03-08  456  		ret = -ENOMEM;
-a6199bb514d8a6 Shawn Guo         2022-03-08  457  		goto free_mbox;
-a6199bb514d8a6 Shawn Guo         2022-03-08  458  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  459  
-a6199bb514d8a6 Shawn Guo         2022-03-08  460  	irq_domain_update_bus_token(priv->domain, DOMAIN_BUS_WAKEUP);
-a6199bb514d8a6 Shawn Guo         2022-03-08  461  
-a6199bb514d8a6 Shawn Guo         2022-03-08  462  	ret = devm_request_irq(dev, irq, qcom_mpm_handler, IRQF_NO_SUSPEND,
-a6199bb514d8a6 Shawn Guo         2022-03-08  463  			       "qcom_mpm", priv);
-a6199bb514d8a6 Shawn Guo         2022-03-08  464  	if (ret) {
-a6199bb514d8a6 Shawn Guo         2022-03-08  465  		dev_err(dev, "failed to request irq: %d\n", ret);
-a6199bb514d8a6 Shawn Guo         2022-03-08  466  		goto remove_domain;
-a6199bb514d8a6 Shawn Guo         2022-03-08  467  	}
-a6199bb514d8a6 Shawn Guo         2022-03-08  468  
-a6199bb514d8a6 Shawn Guo         2022-03-08  469  	return 0;
-a6199bb514d8a6 Shawn Guo         2022-03-08  470  
-a6199bb514d8a6 Shawn Guo         2022-03-08  471  remove_domain:
-a6199bb514d8a6 Shawn Guo         2022-03-08  472  	irq_domain_remove(priv->domain);
-a6199bb514d8a6 Shawn Guo         2022-03-08  473  free_mbox:
-a6199bb514d8a6 Shawn Guo         2022-03-08  474  	mbox_free_channel(priv->mbox_chan);
-a6199bb514d8a6 Shawn Guo         2022-03-08  475  remove_genpd:
-a6199bb514d8a6 Shawn Guo         2022-03-08  476  	pm_genpd_remove(genpd);
-a6199bb514d8a6 Shawn Guo         2022-03-08  477  	return ret;
-a6199bb514d8a6 Shawn Guo         2022-03-08  478  }
-a6199bb514d8a6 Shawn Guo         2022-03-08  479  
-
-:::::: The code at line 441 was first introduced by commit
-:::::: a6199bb514d8a63f61c2a22c1f912376e14d0fb2 irqchip: Add Qualcomm MPM controller driver
-
-:::::: TO: Shawn Guo <shawn.guo@linaro.org>
-:::::: CC: Marc Zyngier <maz@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
