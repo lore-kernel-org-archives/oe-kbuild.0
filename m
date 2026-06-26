@@ -1,202 +1,272 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010052.outbound.protection.outlook.com [52.101.46.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF152E2DDD
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jun 2026 02:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782439661; cv=none; b=rZJK0JSe+9IzQFvyqZoSMC29wZgN4GnrHhp8tN+IDxjvp9kX08iE980xjBOdl2Vxto7BJRdCpuoaxF8ohENx4B6b172bXK6QB0Ki7marSr93Q5Q8LioZ270BZTzrN3PRSRYLy5IKIRucggaIdrDPfB0Ip9vxrnwiS/f10shNs9o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782439661; c=relaxed/simple;
-	bh=qwchQr5o2MnGOxb3yKIKqVX24TFnYoOdoTt/bszxKTc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RAw76y4ZTcCbpBXigMUrulEeVcepnQudQQ6WXJgy30Za7iN/dGo4YFLjMWk1VO8Zne9Vr8A0BgvYTsIWCChJNbNMU8mflXXO8P8WQLmKlSJyZqh4HMS7p2L/JsSuIeZcdwqwq1YjyPaXwUStW1vrcDKSksnRPL46PU2afzUmky4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VZVMzAro; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFA93C2779
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jun 2026 05:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782452123; cv=fail; b=tqe7GwDjV8lZ2aMJZGZ1R1ZE0q8SlSYYNzrQQW+Nm/ZX+j6zW0oQJGZheICvK3awsBtyu82WfwtYP5RADm6cTbEhlfTzs89wmfhJf1qcAQrGEPCpzbAR+fR4+7sJhJGfLC0Q5mko0WD/lFVos1I1C0OnWBT87zSoy+59ncAPVPI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782452123; c=relaxed/simple;
+	bh=IDhKApKdN/pCqA4a0/2dstd1nSP43n3PSrpJPnY0RRY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=PE76RXQqCzz3cTajUmu5b3QFsHKuPggLeJF+56vUHthBPf8n5WWjQz6mejyYscH+vjikmb3fwjI7P/x0OMyuVcd6QJmW7ahCT+aH1+pjqz8LuluoDVmazbmZIC4U59qfhuLtkUu0K9txCtNJvyEBRSRhwVEDVpUBrhA0vhHvU0U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=o6doZtWm; arc=fail smtp.client-ip=52.101.46.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VZVMzAro"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782439659; x=1813975659;
-  h=date:from:to:cc:subject:message-id;
-  bh=qwchQr5o2MnGOxb3yKIKqVX24TFnYoOdoTt/bszxKTc=;
-  b=VZVMzAroZXLQqy2DDCnZyjvVnIHBdxauUb0ueuyzA9O9xgpnHWadrJ06
-   x8Q0pBPFwGEAA3i4N7OaafTm4ji1cGEshiQBmJMbMFaOt2fzRPMWdnCKV
-   L1mNGYvn2vz+oh4n5TPwO/DOjJleL2QukAWpb6UFXDCl5fAaAO3x8xAdk
-   S6ONqON4ITvudRncetm87EH3cutnedq291/g/mVKd3u4kzoep++chLhqA
-   BXqYP+fPDgR8eaciC86yBJ5qvHfu9AOIyxVeyt8W9D1wGL3iNN5RYYm91
-   zZLeEhH1ZT3dVEDHuyNIXR/JwQ0w48/dgI5ot7euSX+Fhyxs0ybLOQTDR
-   A==;
-X-CSE-ConnectionGUID: IAaSIsJFQcWKkRRXERXhxQ==
-X-CSE-MsgGUID: 4tYxs4+5STiilkaP+AaGPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="86912907"
-X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
-   d="scan'208";a="86912907"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 19:07:39 -0700
-X-CSE-ConnectionGUID: uZh64j7+RiaR94TTdjKnrA==
-X-CSE-MsgGUID: pORa1uGWTnWa2XVH7GcJ9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,225,1774335600"; 
-   d="scan'208";a="247248511"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Jun 2026 19:07:32 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wcvyb-000000004jR-3hTs;
-	Fri, 26 Jun 2026 02:07:29 +0000
-Date: Fri, 26 Jun 2026 10:06:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 11086/15425]
- drivers/char/ipmi/ssif_bmc.c:158 ssif_bmc_read() error: calling
- 'spin_unlock_irqrestore()' with bogus flags
-Message-ID: <202606261001.a4rYzg2M-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="o6doZtWm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=umgrsiFQhIvCqe2HBbdjV5quZujeWF12yQvNI0DeUYaJcOT4goj7rHQzgShqVTbmap2oaN7pkX/KXKeWyLyllflFL5IGGW7q6dJDlDfFoCq8o/no+xZEwBe2KLar5b3sKcjM2m/0XLk2YzCEHqFy2YhoeQw4FMB0R6VMfKZGq1q3ke5emHO2a5pXM6bWLfCdrAeFiKPBypHHea5fXy8aQUVusCfnrx5ZeM2nXucNv5wQchAYc/Qf2q703SHu7BTEMR2Hcq3Jt0em6LJs0vSycqUVn9LsPW7TCqv0YDKVEjQbtULn8neejEDD9PIv0rPFdjaEp6mcQUH7chY24V7fkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=td+4Ov/ZwRt7ow9Y78/DLd/LXToCev7n7D/Ij3YU6q8=;
+ b=t86e5B+J0wG526Wg3gXprq67K2Vop8BES+Rsam4BiojUBPdaTIBfu+8Xs+dtZa3lGXmFpoucVfG2egmsRIcXIe1K9JhPOqWGLIjqlf/KX3KsRvAjfhm/StmJ30WbHKhD1Ayf7h7ce/9MlUfFA2YR0yAjkiS6KS9YtRv5EzHGPwhwtME2iGl85E372vv6Sd1d3lAbWcRbTrx3y+dZDspdOZ+1Cs6QNQBpvSHojyukKy6iHkmlAkcz4aecyf+U7Mvhx2YRVtLg5BzJTqs2IUyOzMpEIkTCn6jZcVcJh3rJxJyHV1oPYqjQRE+JD5zOVfBl1hvi6NoijYvi4gfy2KJB+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=td+4Ov/ZwRt7ow9Y78/DLd/LXToCev7n7D/Ij3YU6q8=;
+ b=o6doZtWmTKG1pspj2L+J4PXptJqMEe2rltmZMLLh1IQGfltSLnnMdc0FC6QJJAW4w86DL795mLmeNqMdYDrDDriyVc7olTcpzfgw7mnOQ+c5j1CSQYKKvRJ2av8A1QlQJfmlU6hKRrtsqMTpAmAZH2b878tvyvO9hEhNT2WvfyU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9821.namprd12.prod.outlook.com (2603:10b6:8:270::13)
+ by CH3PR12MB9429.namprd12.prod.outlook.com (2603:10b6:610:1c9::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
+ 2026 05:35:16 +0000
+Received: from DS2PR12MB9821.namprd12.prod.outlook.com
+ ([fe80::f91c:af1b:9bf9:7396]) by DS2PR12MB9821.namprd12.prod.outlook.com
+ ([fe80::f91c:af1b:9bf9:7396%4]) with mapi id 15.21.0159.016; Fri, 26 Jun 2026
+ 05:35:16 +0000
+Message-ID: <96aa204f-8ad4-4f5b-a7ca-48df8c9eb187@amd.com>
+Date: Fri, 26 Jun 2026 11:05:11 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/edac/versalnet_edac.c:785 init_one_mc() error: buffer
+ overflow 'priv->adec' 152 <= s32max
+To: kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev
+Cc: Dan Carpenter <error27@gmail.com>
+References: <202606061200.j14yIFYw-lkp@intel.com>
+Content-Language: en-US
+From: "Datta, Shubhrajyoti" <shubhraj@amd.com>
+In-Reply-To: <202606061200.j14yIFYw-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5P287CA0133.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d2::7) To DS2PR12MB9821.namprd12.prod.outlook.com
+ (2603:10b6:8:270::13)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9821:EE_|CH3PR12MB9429:EE_
+X-MS-Office365-Filtering-Correlation-Id: d68eae77-6699-4a97-e9f8-08ded344b3f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|18002099003|22082099003|11063799006|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	AaVNz1DCggVzaCasyh81y2rbdLFf88LVqRC8oOAA/w4la0nNkr9CpUgAsW2vZqK1TTibheAUbCdt9AiTT/cPe5EvYARqBcNZ/UUhJumoy3i/0swE7v5gc2Rks3rmthPmaP9Osf9nh84UB3o2/10PRwX3ColoRys94iIDT1gPmKGSANgl+9CkBgh3WhH57FVQ64Uv+yXn2sZFQ9DOR91CWtMn4eFkfIu62OFEKoKjc3TW43plriGlsslkyjjdQje8FyQCb16rZZ1anrsRMRQziYaod4y+p3XRCJJcN5sgDd56k7BFQllsNKYfqYYtc1P+Yjwlptt7uXxEb+FgkZ30J6H0zSCR02H+5CGXU+lMVPz3flRXM9Akutp5xM9XsxrLDbiy6bp/uaHM1xLJ5oCDqaPWoxQvetAtMMU86fp5OAm0HbIPb2sIsRnBIRP5aMxRHKXctzbT2QXRSZdtMMnrz9lB6TtS4fmaJ3XpJHYDL6QO6dZtDZNo4i2Ex3bKtc6ZsZ315rB+CVeVXah+kENpAENdlhaLPjEUXD+v1JfrlU2ayEVMdEdpEodtNJdy8hauZTD9g8ur3LJOXJvibor8yHh1ORbyUZepO/c7uZVw7YRV7BoJIKIt3MC085g1m9VQnWLkxYpxGJbCnw/IUiSeqqaKsFJW5yyCjK9MzhtV+3E=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9821.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(18002099003)(22082099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OGQ2czFFWnNTankyUS9JbEZLT3pGcnAyQmFhNHVDczlMeEJON0xVb3g0Yk1W?=
+ =?utf-8?B?VUdKclAxaG52Z0VYNldXc2diN2FCdzByZCtrczBQek1zUmhZeGd5d2NiQWRh?=
+ =?utf-8?B?b2d6bVNVeXhXdHhWdjV1S2lRWWZYZGZPMmRZeFc5MStVSVIyMW1tSEQzc0NF?=
+ =?utf-8?B?YkcwN25ZOWpjK1U3bWkvY2l5cVBORUlocGdaR0x3QmI2NGZmSDJhSzNHeEFt?=
+ =?utf-8?B?RS82M2RNNVY4V1dUZkZjajlWV1ZqbkpKWTQxSHFKdklJR0R4am1BaVB1cDlW?=
+ =?utf-8?B?T1FHbDVTYnk1Wkd0RWRweDhqYjc1OFNmRCtQTmlpRHVhUnBPVURyR1RkYTdN?=
+ =?utf-8?B?YlpiNUI5NGpFNXRrQVFLSDJVL2prSmVoQjJiaE9pVzJZQUFDRFIwWmF4Tm5R?=
+ =?utf-8?B?SFZjdmJ6Tm1ac1AxcmdIYXRpakNyYVVxY2MxZzZSbi9RandYVy9WeGJzVVdE?=
+ =?utf-8?B?dnZPbHVLYUZMaWMvZm9GMW5DQjRBWncxY0pZSTJuSUdxRlpONFErYnE3OXdV?=
+ =?utf-8?B?M2hFcHJCaDZrTi9kTmNWQ1loL3JxVDdScW9pdW5NeG8vRmRHSllBajJXaW1N?=
+ =?utf-8?B?YmtDN01makZoRlIvK1p3TmJhTXNtNGFkdzgyRjRjQm5aNWVpWkNNbnlOV3Q4?=
+ =?utf-8?B?QUF0dEp2cTBNbVRuQXRneHpremdZelNOd2tpVkg5OG1HQmZBaEttMDN2OFR2?=
+ =?utf-8?B?Wk5QRTA5M0NBbVQraXdZcFJqdkVDWlRvV3pRRGZ0dG5vR3laa0thYWprWEFm?=
+ =?utf-8?B?Zm5mdzBOYWtabXRPa2lMVDI0b1dqVmhCNTh2YjE5dElhL05RankrZmIvY3JX?=
+ =?utf-8?B?YzE5c3NQNXU5eU9ZaG01Y1Qwby8ya1libWFXVEZTLzg2ZmFlWG5rd3h3UEgz?=
+ =?utf-8?B?RGV0WlNTYldSeEZzTWhwRWw4RGpJai9NU2FXcWZsYy9KR2lKVXd3WXVaaENv?=
+ =?utf-8?B?Z1NYTkFkZmt6dEVTWENoRVpqZnZSMWxCTjJ4UHdpK3p6Wi9oV0srY0dZdVd0?=
+ =?utf-8?B?S0pvN1BReU8zUVlyQUx0U3ZaWld4Rm9XZG93T2RadWtFeldTeXdNdWRZb2F5?=
+ =?utf-8?B?cVBTb21iWFFiVUlSNnYwR3BjN2RZcWtOaHBlaCtneVFCbnJkSmlLTkJHWEFK?=
+ =?utf-8?B?RFRpOFZIbGk2N29pLzRZbWVaSko2TE5vL01rNjlTQmtZT1ZjcWE2ekxZRzlS?=
+ =?utf-8?B?VXpWclR0V1IvRTcvUGVKcUplUjFJSDIxNHlLcnE4RlZyM1BtQWFmVUtRQ2px?=
+ =?utf-8?B?SGFKc0FKZVJuYnNiR0VQMXBzblZDSzB5Rk1HMUJlQjF3aTR5U1M4ZlQzK0JC?=
+ =?utf-8?B?bEZRUGNEdG8wSEdEbUNhTXBqbG1qaXQzc3l5dlNlNVpRQkR3MnVIMlpzZzRF?=
+ =?utf-8?B?YWgrSlFFZXNzZUt6YzBQQkxoYWJQcXR5UHlZVUg1WURDMVFBZWlMSmdWTW1v?=
+ =?utf-8?B?Wi8xUEpOT2plZDJMUklITTFScWVvZHcvdHZpemlNajJOT20xZGs4TjUvaGlZ?=
+ =?utf-8?B?OTAyQ2RDdmdleHZzQUdaLzNSV3lTNVVIb09yWDNINEltbis1NkNhV1dHbENm?=
+ =?utf-8?B?STJFS3JvNzNyNWV1NkpZdHhYR0xDc1F0UDV2ZDFlbXdmS3RLTVQ0Rmx2T2xF?=
+ =?utf-8?B?OU9XVnRqQkNCREQyNnZQdURjR1BTSnMzWFg1NGtGNnV5WlBhSzFiQ0w3V0xQ?=
+ =?utf-8?B?UTgvclFRUTFTaEEwdHpWZHlQUWVzVDBSbEt6UXNnclBZV2JJMWlubXU4bGR1?=
+ =?utf-8?B?Uktvcy9qUzZ0Y0hNQUxnQjNOWkJrek5Jd3p4THJYTlAyZzNtQW1HS3lWNTVo?=
+ =?utf-8?B?YitFQUVkODZQQy9TWG5UL1FwVHB0QmxGbmtKTko3emR5MWpWcEJ5V2NYZkJW?=
+ =?utf-8?B?d1RHVzNpaDdYMkhlcFNIUFJKbWlBbmxRWFF1U09zWXN1akROdVBTcWFGZDRx?=
+ =?utf-8?B?bDQrME1hMi9xN1VqRGp3S2pYRVpJa3FCanZjYlh2STVxMG90enEvbzlTTkhk?=
+ =?utf-8?B?bTNIajZUejhIbDhyTUxnSEdqY2R0UUpqY1B4NGZ6Ni8vS3JKZk5IMzR2WDRG?=
+ =?utf-8?B?NUUwcnRTSmIyT09WZWxXcGdTVk9jc09hRkxMaldOK21OUDFtaHdiNGNPaFNL?=
+ =?utf-8?B?SSs2SmdyODlOMndhaThOVmdEdVVEbDVNMnNEWXRFUFpBSEhsWWJjRHdrdFNt?=
+ =?utf-8?B?U1VPZjN3NFZNeVdrNlp2c21BdzJOVThOQkVOZVdYVUNtVU8wNU80SHJldkRY?=
+ =?utf-8?B?ZlNsTy9HaUY2MENWNk16MXFnMFZQNjhoSjVjNS9SeDNJeFNBYjdrTzVpZUth?=
+ =?utf-8?B?YUxmOHVRSWczSWZTb0ZnaDA5SmZLMGk2NlpRWkhXNkgrRlBKUGt4UT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d68eae77-6699-4a97-e9f8-08ded344b3f9
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9821.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 05:35:16.5167
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HWgIMS/E+WMG/Ca3Ye1UWXi8Epui0++o7fhRfnSpx//VylbiELnpRfzDlvWLWMAAimBLJ/xOo+zwTIhyOxS8nw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9429
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   30ffa8de54e5cc80d93fd211ca134d1764a7011f
-commit: e07d10ed0f238d3f4a8276932a36fe1f74775621 [11086/15425] lib/Kconfig.debug: enable CONFIG_PREEMPT_RT for syzbot kernels.
-:::::: branch date: 9 hours ago
-:::::: commit date: 2 weeks ago
-config: i386-randconfig-r073-20260624 (https://download.01.org/0day-ci/archive/20260626/202606261001.a4rYzg2M-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9185-gbcc58b9c
+On 6/6/2026 9:57 AM, kernel test robot wrote:
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> CC: linux-kernel@vger.kernel.org
+> TO: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+> CC: "Borislav Petkov (AMD)" <bp@alien8.de>
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   8e65320d91cdc3b241d4b94855c88459b91abf66
+> commit: 62a9fc50e8d947601ea3484e732b1a65a0a54b96 EDAC/versalnet: Refactor memory controller initialization and cleanup
+> date:   3 months ago
+> :::::: branch date: 3 hours ago
+> :::::: commit date: 3 months ago
+> config: arm64-randconfig-r072-20260606 (https://download.01.org/0day-ci/archive/20260606/202606061200.j14yIFYw-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 8.5.0
+> smatch: v0.5.0-9185-gbcc58b9c
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: 62a9fc50e8d9 ("EDAC/versalnet: Refactor memory controller initialization and cleanup")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202606061200.j14yIFYw-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/edac/versalnet_edac.c:785 init_one_mc() error: buffer overflow 'priv->adec' 152 <= s32max
+>
+> vim +785 drivers/edac/versalnet_edac.c
+>
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  774
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  775  static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606261001.a4rYzg2M-lkp@intel.com/
+This is a static function called from
 
-New smatch warnings:
-drivers/char/ipmi/ssif_bmc.c:158 ssif_bmc_read() error: calling 'spin_unlock_irqrestore()' with bogus flags
-drivers/char/ipmi/ssif_bmc.c:231 ssif_bmc_write() error: calling 'spin_unlock_irqrestore()' with bogus flags
+865         for (i = 0; i < NUM_CONTROLLERS; i++) {
+866                 rc = init_one_mc(priv, pdev, i);
+867                 if (rc) {
 
-Old smatch warnings:
-drivers/char/ipmi/ssif_bmc.c:166 ssif_bmc_read() error: calling 'spin_unlock_irqrestore()' with bogus flags
+The NUM_CONTROLLERS is 8 so the value of i at max can be 8.
 
-vim +158 drivers/char/ipmi/ssif_bmc.c
-
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  134  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  135  /* Handle SSIF message that will be sent to user */
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  136  static ssize_t ssif_bmc_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  137  {
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  138  	struct ssif_bmc_ctx *ssif_bmc = to_ssif_bmc(file);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  139  	struct ipmi_ssif_msg msg;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  140  	unsigned long flags;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  141  	ssize_t ret;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  142  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  143  	spin_lock_irqsave(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  144  	while (!ssif_bmc->request_available) {
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  145  		spin_unlock_irqrestore(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  146  		if (file->f_flags & O_NONBLOCK)
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  147  			return -EAGAIN;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  148  		ret = wait_event_interruptible(ssif_bmc->wait_queue,
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  149  					       ssif_bmc->request_available);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  150  		if (ret)
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  151  			return ret;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  152  		spin_lock_irqsave(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  153  	}
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  154  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  155  	if (count < min_t(ssize_t,
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  156  			  sizeof_field(struct ipmi_ssif_msg, len) + ssif_bmc->request.len,
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  157  			  sizeof(struct ipmi_ssif_msg))) {
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04 @158  		spin_unlock_irqrestore(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  159  		ret = -EINVAL;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  160  	} else {
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  161  		count = min_t(ssize_t,
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  162  			      sizeof_field(struct ipmi_ssif_msg, len) + ssif_bmc->request.len,
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  163  			      sizeof(struct ipmi_ssif_msg));
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  164  		memcpy(&msg, &ssif_bmc->request, count);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  165  		ssif_bmc->request_available = false;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  166  		spin_unlock_irqrestore(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  167  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  168  		ret = copy_to_user(buf, &msg, count);
-ea641be7a4faee Jian Zhang      2026-04-03  169  		if (ret > 0)
-ea641be7a4faee Jian Zhang      2026-04-03  170  			ret = -EFAULT;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  171  	}
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  172  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  173  	return (ret < 0) ? ret : count;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  174  }
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  175  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  176  /* Handle SSIF message that is written by user */
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  177  static ssize_t ssif_bmc_write(struct file *file, const char __user *buf, size_t count,
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  178  			      loff_t *ppos)
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  179  {
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  180  	struct ssif_bmc_ctx *ssif_bmc = to_ssif_bmc(file);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  181  	struct ipmi_ssif_msg msg;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  182  	unsigned long flags;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  183  	ssize_t ret;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  184  
-0627cef36145c9 Dan Carpenter   2024-06-14  185  	if (count < sizeof(msg.len) ||
-0627cef36145c9 Dan Carpenter   2024-06-14  186  	    count > sizeof(struct ipmi_ssif_msg))
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  187  		return -EINVAL;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  188  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  189  	if (copy_from_user(&msg, buf, count))
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  190  		return -EFAULT;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  191  
-0627cef36145c9 Dan Carpenter   2024-06-14  192  	if (!msg.len || msg.len > IPMI_SSIF_PAYLOAD_MAX ||
-0627cef36145c9 Dan Carpenter   2024-06-14  193  	    count < sizeof_field(struct ipmi_ssif_msg, len) + msg.len)
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  194  		return -EINVAL;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  195  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  196  	spin_lock_irqsave(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  197  	while (ssif_bmc->response_in_progress) {
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  198  		spin_unlock_irqrestore(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  199  		if (file->f_flags & O_NONBLOCK)
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  200  			return -EAGAIN;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  201  		ret = wait_event_interruptible(ssif_bmc->wait_queue,
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  202  					       !ssif_bmc->response_in_progress);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  203  		if (ret)
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  204  			return ret;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  205  		spin_lock_irqsave(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  206  	}
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  207  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  208  	/*
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  209  	 * The write must complete before the response timeout fired, otherwise
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  210  	 * the response is aborted and wait for next request
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  211  	 * Return -EINVAL if the response is aborted
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  212  	 */
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  213  	ret = (ssif_bmc->response_timer_inited) ? 0 : -EINVAL;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  214  	if (ret)
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  215  		goto exit;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  216  
-8fa7292fee5c52 Thomas Gleixner 2025-04-05  217  	timer_delete(&ssif_bmc->response_timer);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  218  	ssif_bmc->response_timer_inited = false;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  219  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  220  	memcpy(&ssif_bmc->response, &msg, count);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  221  	ssif_bmc->is_singlepart_read = (msg.len <= MAX_PAYLOAD_PER_TRANSACTION);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  222  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  223  	ssif_bmc->response_in_progress = true;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  224  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  225  	/* ssif_bmc not busy */
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  226  	ssif_bmc->busy = false;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  227  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  228  	/* Clean old request buffer */
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  229  	memset(&ssif_bmc->request, 0, sizeof(struct ipmi_ssif_msg));
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  230  exit:
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04 @231  	spin_unlock_irqrestore(&ssif_bmc->lock, flags);
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  232  
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  233  	return (ret < 0) ? ret : count;
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  234  }
-dd2bc5cc9e2555 Quan Nguyen     2022-10-04  235  
-
-:::::: The code at line 158 was first introduced by commit
-:::::: dd2bc5cc9e25554546f16661f8de1dcb8033dde0 ipmi: ssif_bmc: Add SSIF BMC driver
-
-:::::: TO: Quan Nguyen <quan@os.amperecomputing.com>
-:::::: CC: Corey Minyard <cminyard@mvista.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  776  {
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  777  	u32 num_chans, rank, dwidth, config;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  778  	struct edac_mc_layer layers[2];
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  779  	struct mem_ctl_info *mci;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  780  	struct device *dev;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  781  	enum dev_type dt;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  782  	char *name;
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  783  	int rc;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  784
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08 @785  	config = priv->adec[CONF + i * ADEC_NUM];
+The max offset can be   8*19 =152.
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  786  	num_chans = FIELD_GET(MC5_NUM_CHANS_MASK, config);
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  787  	rank = 1 << FIELD_GET(MC5_RANK_MASK, config);
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  788  	dwidth = FIELD_GET(MC5_BUS_WIDTH_MASK, config);
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  789
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  790  	switch (dwidth) {
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  791  	case XDDR5_BUS_WIDTH_16:
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  792  		dt = DEV_X16;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  793  		break;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  794  	case XDDR5_BUS_WIDTH_32:
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  795  		dt = DEV_X32;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  796  		break;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  797  	case XDDR5_BUS_WIDTH_64:
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  798  		dt = DEV_X64;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  799  		break;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  800  	default:
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  801  		dt = DEV_UNKNOWN;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  802  	}
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  803
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  804  	if (dt == DEV_UNKNOWN)
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  805  		return 0;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  806
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  807  	/* Find the first enabled device and register that one. */
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  808  	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  809  	layers[0].size = rank;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  810  	layers[0].is_virt_csrow = true;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  811  	layers[1].type = EDAC_MC_LAYER_CHANNEL;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  812  	layers[1].size = num_chans;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  813  	layers[1].is_virt_csrow = false;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  814
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  815  	rc = -ENOMEM;
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  816  	name = kzalloc(MC_NAME_LEN, GFP_KERNEL);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  817  	if (!name)
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  818  		return rc;
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  819
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  820  	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  821  	if (!dev)
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  822  		goto err_name_free;
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  823
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  824  	mci = edac_mc_alloc(i, ARRAY_SIZE(layers), layers, sizeof(struct mc_priv));
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  825  	if (!mci) {
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  826  		edac_printk(KERN_ERR, EDAC_MC, "Failed memory allocation for MC%d\n", i);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  827  		goto err_dev_free;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  828  	}
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  829
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  830  	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  831
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  832  	dev->init_name = name;
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  833  	dev->release = versal_edac_release;
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  834
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  835  	rc = device_register(dev);
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  836  	if (rc)
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  837  		goto err_mc_free;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  838
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  839  	mci->pdev = dev;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  840  	mc_init(mci, dev);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  841
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  842  	rc = edac_mc_add_mc(mci);
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  843  	if (rc) {
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  844  		edac_printk(KERN_ERR, EDAC_MC, "Failed to register MC%d with EDAC core\n", i);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  845  		goto err_unreg;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  846  	}
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  847
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  848  	priv->mci[i] = mci;
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  849  	priv->dwidth = dt;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  850
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  851  	platform_set_drvdata(pdev, priv);
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  852
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  853  	return 0;
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  854
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  855  err_unreg:
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  856  	device_unregister(mci->pdev);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  857  err_mc_free:
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  858  	edac_mc_free(mci);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  859  err_dev_free:
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  860  	kfree(dev);
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  861  err_name_free:
+> 62a9fc50e8d947 Shubhrajyoti Datta 2025-11-04  862  	kfree(name);
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  863
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  864  	return rc;
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  865  }
+> d5fe2fec6c40dd Shubhrajyoti Datta 2025-09-08  866
+>
+> :::::: The code at line 785 was first introduced by commit
+> :::::: d5fe2fec6c40dda03df8cc9b4a97de0b7e39f984 EDAC: Add a driver for the AMD Versal NET DDR controller
+>
+> :::::: TO: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+> :::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
