@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC603E5A3D
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jun 2026 15:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485FA3DF003
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jun 2026 17:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782488193; cv=none; b=lwACNwgycVORw2J6f+m+0b3rLQYq8CERHXq2wuM8OjZXAOZrjEQ18qROM77lAMz+bWjpNEyUzKsbLCTxrHYP37RvCeX44t1bg9IYFk4fSA1OfIryiXtOTBHkBoXgdNIl1cs19UBhShHlLdaa5h3AdtN42ge3uS76vrJLS70Phgo=
+	t=1782493254; cv=none; b=WwSAsJOQKBvzeP6JPfKj/yV2oHmFdB0wWGHrxI8ejDPjyIuODhTVLaUxXlkD1VH/flXdXLYxWrHHX0T0hCjKzaFECtN8la5kXhJ1J8TasbMTZdzj7iQ77/SmxF+YFEPnxklmOubhWNvQn077JqaeMBxW7ZOAdAfpovERmoIFQxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782488193; c=relaxed/simple;
-	bh=FhaVN9GHPE2ztNd0+foTZaU3bCKXVAXzMUwx1vqk5OU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Gk9+/gMXyJpK4Qy0uNQf4Yeov+tsH3jAuUl04KiZ7SVdHTMmsl/rx5Hu59zwFVehF0GSpb11QchNbSXu5tOhdN/tH+J6ggQKQ8bwznJgwBuWyKCYWNiFWkX4cbNDeEUbdoMkiQzZnPIJB9LruBcJvfYkfatxRRbPplvX9Afk3sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J63zNvLc; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1782493254; c=relaxed/simple;
+	bh=2Cx9Kx+eHbBnq6ocRI/w9z3DbGyS81iPQ9k2WexjZpk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cYVUodQSR1aQYHDhx4XrLLHlcdhItphGfj56QJyVTSFA9mj6jQxyoh04F/cSwRQjJXTHpbcuQeF2hUE9AlXfY4M2k/EXCwUI+2yMFK+IaL2wvJc/TiZIQuTOuewzi1DTttEhs4GMdNUh7P1Ya9UFmeCHDqkXVkTExtjAHr8GWUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhrghoFJ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J63zNvLc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhrghoFJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782488190; x=1814024190;
+  t=1782493253; x=1814029253;
   h=date:from:to:cc:subject:message-id;
-  bh=FhaVN9GHPE2ztNd0+foTZaU3bCKXVAXzMUwx1vqk5OU=;
-  b=J63zNvLcortLOHFgCcv7n6p5wp1KuPQAJaBe0LgKYmJRREXax+iLiD0X
-   680lO2jOczjlGa/eQYZ0BBQQSUXL3DBrU7SYJ3pZgH4xfVqFpyDGj7ojh
-   jyMaAa+SwWMo9cZ+b+vYYguF37stLDECHebLICZpVct33Rv17hUhRTS8h
-   TDlOGyCg48VEULce6AT7xA3+RaAM5+yicy0tiFiSxlCzU4sRmwh8z35fQ
-   0Sblv1jPn+nVrZ2ecogca4vrbzcZdFYPKJ2NFejdCaQ6xuQFc9xFPo4d9
-   Du2Ok8wlkHj6R6bXO01FPhBYo8V1unWtp/yNcQOfeNsrqw9I3F0XiUfhZ
-   w==;
-X-CSE-ConnectionGUID: j/xmify2T4ap6aGafGiPBg==
-X-CSE-MsgGUID: JRU+09VgR7ykNNerC9augA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11829"; a="93635298"
+  bh=2Cx9Kx+eHbBnq6ocRI/w9z3DbGyS81iPQ9k2WexjZpk=;
+  b=OhrghoFJGEDbfDd9K4SjxpyXqkx+1uBGBjTyEPEC/vxZnNlimzWxbOcl
+   oe/Rh3DUah5YD3u2EGhYWcz8DjAzHmQSV9dJaoA6Fr2bZXY2wj0GaK0x3
+   78fKz4MaCNLLwh/8ad0ZsUkelIOTSbm2/YEqvxg0ovA1CY6CUA7mk2eXY
+   /ZA6nfwrKRVCQ+e0dX5UotgUC57Z9dbN6wTgR1xnUYdlszryY2Af6H6Ea
+   S0EAH1yEVsO9+LhnC99q6TJ5da+wDk7IMBcW2zcHOknFJOps49CGTSqcl
+   X86w5DXMA+TbCxrQX0EpVZDTzitVVSYvRJODmn8n6DrtGDEthuRNDSh/s
+   g==;
+X-CSE-ConnectionGUID: VQhoElbTRM6sBynhkGMWWA==
+X-CSE-MsgGUID: sAdmEJ6sR8qBeRpq8vUO0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11829"; a="94439059"
 X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
-   d="scan'208";a="93635298"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 08:36:29 -0700
-X-CSE-ConnectionGUID: Drt5eExOS2GeXlirI609LQ==
-X-CSE-MsgGUID: d0gsmhtcTD+VlwQT82sr0A==
+   d="scan'208";a="94439059"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 10:00:52 -0700
+X-CSE-ConnectionGUID: S4oeYyQvRGuFUT0sDi1QnQ==
+X-CSE-MsgGUID: bLr2RMaBSdCBtujE9X5c0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
-   d="scan'208";a="250271812"
+   d="scan'208";a="254980557"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 26 Jun 2026 08:36:29 -0700
+  by orviesa003.jf.intel.com with ESMTP; 26 Jun 2026 10:00:50 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wd8bS-000000005C9-02oS;
-	Fri, 26 Jun 2026 15:36:26 +0000
-Date: Fri, 26 Jun 2026 23:36:24 +0800
+	id 1wd9v5-000000005H3-47E2;
+	Fri, 26 Jun 2026 17:00:47 +0000
+Date: Sat, 27 Jun 2026 01:00:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [intel-lts:6.12/emt 2/2] mm/slub.c:775:31: sparse: sparse:
+Subject: [intel-lts:6.12/emt 2/2]
+ drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:2098:75: sparse: sparse:
  unsigned value that used to be signed checked against zero?
-Message-ID: <202606262356.YG6QBIpn-lkp@intel.com>
+Message-ID: <202606270049.bFfzE6vZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,77 +61,90 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/slub.c:775:31: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: Manual check reason: "low confidence static check warning: drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:2098:75: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 
-Hi Harry,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
 tree:   https://github.com/intel/linux-intel-lts.git 6.12/emt
 head:   efa0eceac635132225b11aaee467c1452a2b775c
-commit: b6e5cef4d6df31f7e61f2e2713b3358a0b48f7e7 [2/2] mm/slab: use unsigned long for orig_size to ensure proper metadata align
+commit: 2da8fe5a1092edb8ab2dcac37e5a8ba052e5312e [2/2] bnxt_en: Fix ethtool -d byte order for 32-bit values
 :::::: branch date: 4 weeks ago
-:::::: commit date: 4 months ago
-config: arm64-randconfig-r122-20260626 (https://download.01.org/0day-ci/archive/20260626/202606262356.YG6QBIpn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
+:::::: commit date: 1 year, 2 months ago
+config: csky-randconfig-r111-20260626 (https://download.01.org/0day-ci/archive/20260627/202606270049.bFfzE6vZ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 10.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260626/202606262356.YG6QBIpn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260627/202606270049.bFfzE6vZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606262356.YG6QBIpn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606270049.bFfzE6vZ-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> mm/slub.c:775:31: sparse: sparse: unsigned value that used to be signed checked against zero?
-   mm/slub.c:1616:34: sparse: signed value source
-   mm/slub.c:3179:55: sparse: sparse: context imbalance in '__put_partials' - unexpected unlock
-   mm/slub.c:4475:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
+>> drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:2098:75: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:2108:27: sparse: signed value source
 
-vim +775 mm/slub.c
+vim +2098 drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
 
-b789ef518b2a72 Christoph Lameter 2011-06-01  752  
-59090e479ac78a Peng Fan          2024-08-29  753  /*
-59090e479ac78a Peng Fan          2024-08-29  754   * kmalloc caches has fixed sizes (mostly power of 2), and kmalloc() API
-59090e479ac78a Peng Fan          2024-08-29  755   * family will round up the real request size to these fixed ones, so
-59090e479ac78a Peng Fan          2024-08-29  756   * there could be an extra area than what is requested. Save the original
-59090e479ac78a Peng Fan          2024-08-29  757   * request size in the meta data area, for better debug and sanity check.
-59090e479ac78a Peng Fan          2024-08-29  758   */
-59090e479ac78a Peng Fan          2024-08-29  759  static inline void set_orig_size(struct kmem_cache *s,
-b6e5cef4d6df31 Harry Yoo         2026-01-13  760  				void *object, unsigned long orig_size)
-59090e479ac78a Peng Fan          2024-08-29  761  {
-59090e479ac78a Peng Fan          2024-08-29  762  	void *p = kasan_reset_tag(object);
-59090e479ac78a Peng Fan          2024-08-29  763  	unsigned int kasan_meta_size;
-59090e479ac78a Peng Fan          2024-08-29  764  
-59090e479ac78a Peng Fan          2024-08-29  765  	if (!slub_debug_orig_size(s))
-59090e479ac78a Peng Fan          2024-08-29  766  		return;
-59090e479ac78a Peng Fan          2024-08-29  767  
-59090e479ac78a Peng Fan          2024-08-29  768  	/*
-59090e479ac78a Peng Fan          2024-08-29  769  	 * KASAN can save its free meta data inside of the object at offset 0.
-59090e479ac78a Peng Fan          2024-08-29  770  	 * If this meta data size is larger than 'orig_size', it will overlap
-59090e479ac78a Peng Fan          2024-08-29  771  	 * the data redzone in [orig_size+1, object_size]. Thus, we adjust
-59090e479ac78a Peng Fan          2024-08-29  772  	 * 'orig_size' to be as at least as big as KASAN's meta data.
-59090e479ac78a Peng Fan          2024-08-29  773  	 */
-59090e479ac78a Peng Fan          2024-08-29  774  	kasan_meta_size = kasan_metadata_size(s, true);
-59090e479ac78a Peng Fan          2024-08-29 @775  	if (kasan_meta_size > orig_size)
-59090e479ac78a Peng Fan          2024-08-29  776  		orig_size = kasan_meta_size;
-59090e479ac78a Peng Fan          2024-08-29  777  
-59090e479ac78a Peng Fan          2024-08-29  778  	p += get_info_end(s);
-59090e479ac78a Peng Fan          2024-08-29  779  	p += sizeof(struct track) * 2;
-59090e479ac78a Peng Fan          2024-08-29  780  
-b6e5cef4d6df31 Harry Yoo         2026-01-13  781  	*(unsigned long *)p = orig_size;
-59090e479ac78a Peng Fan          2024-08-29  782  }
-59090e479ac78a Peng Fan          2024-08-29  783  
-
-:::::: The code at line 775 was first introduced by commit
-:::::: 59090e479ac78ae18facd4c58eb332562a23020e mm, slub: avoid zeroing kmalloc redzone
-
-:::::: TO: Peng Fan <peng.fan@nxp.com>
-:::::: CC: Vlastimil Babka <vbabka@suse.cz>
+2da8fe5a1092ed Michael Chan     2025-04-28  2054  
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2055  static void bnxt_get_regs(struct net_device *dev, struct ethtool_regs *regs,
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2056  			  void *_p)
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2057  {
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2058  	struct pcie_ctx_hw_stats *hw_pcie_stats;
+bbf33d1d9805fc Edwin Peer       2021-08-29  2059  	struct hwrm_pcie_qstats_input *req;
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2060  	struct bnxt *bp = netdev_priv(dev);
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2061  	dma_addr_t hw_pcie_stats_addr;
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2062  	int rc;
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2063  
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2064  	regs->version = 0;
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2065  	bnxt_dbg_hwrm_rd_reg(bp, 0, BNXT_PXP_REG_LEN / 4, _p);
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2066  
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2067  	if (!(bp->fw_cap & BNXT_FW_CAP_PCIE_STATS_SUPPORTED))
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2068  		return;
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2069  
+bbf33d1d9805fc Edwin Peer       2021-08-29  2070  	if (hwrm_req_init(bp, req, HWRM_PCIE_QSTATS))
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2071  		return;
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2072  
+bbf33d1d9805fc Edwin Peer       2021-08-29  2073  	hw_pcie_stats = hwrm_req_dma_slice(bp, req, sizeof(*hw_pcie_stats),
+bbf33d1d9805fc Edwin Peer       2021-08-29  2074  					   &hw_pcie_stats_addr);
+bbf33d1d9805fc Edwin Peer       2021-08-29  2075  	if (!hw_pcie_stats) {
+bbf33d1d9805fc Edwin Peer       2021-08-29  2076  		hwrm_req_drop(bp, req);
+bbf33d1d9805fc Edwin Peer       2021-08-29  2077  		return;
+bbf33d1d9805fc Edwin Peer       2021-08-29  2078  	}
+bbf33d1d9805fc Edwin Peer       2021-08-29  2079  
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2080  	regs->version = 1;
+bbf33d1d9805fc Edwin Peer       2021-08-29  2081  	hwrm_req_hold(bp, req); /* hold on to slice */
+bbf33d1d9805fc Edwin Peer       2021-08-29  2082  	req->pcie_stat_size = cpu_to_le16(sizeof(*hw_pcie_stats));
+bbf33d1d9805fc Edwin Peer       2021-08-29  2083  	req->pcie_stat_host_addr = cpu_to_le64(hw_pcie_stats_addr);
+bbf33d1d9805fc Edwin Peer       2021-08-29  2084  	rc = hwrm_req_send(bp, req);
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2085  	if (!rc) {
+2da8fe5a1092ed Michael Chan     2025-04-28  2086  		u8 *dst = (u8 *)(_p + BNXT_PXP_REG_LEN);
+2da8fe5a1092ed Michael Chan     2025-04-28  2087  		u8 *src = (u8 *)hw_pcie_stats;
+2da8fe5a1092ed Michael Chan     2025-04-28  2088  		int i, j;
+2da8fe5a1092ed Michael Chan     2025-04-28  2089  
+2da8fe5a1092ed Michael Chan     2025-04-28  2090  		for (i = 0, j = 0; i < sizeof(*hw_pcie_stats); ) {
+2da8fe5a1092ed Michael Chan     2025-04-28  2091  			if (i >= bnxt_pcie_32b_entries[j].start &&
+2da8fe5a1092ed Michael Chan     2025-04-28  2092  			    i <= bnxt_pcie_32b_entries[j].end) {
+2da8fe5a1092ed Michael Chan     2025-04-28  2093  				u32 *dst32 = (u32 *)(dst + i);
+2da8fe5a1092ed Michael Chan     2025-04-28  2094  
+2da8fe5a1092ed Michael Chan     2025-04-28  2095  				*dst32 = le32_to_cpu(*(__le32 *)(src + i));
+2da8fe5a1092ed Michael Chan     2025-04-28  2096  				i += 4;
+2da8fe5a1092ed Michael Chan     2025-04-28  2097  				if (i > bnxt_pcie_32b_entries[j].end &&
+2da8fe5a1092ed Michael Chan     2025-04-28 @2098  				    j < ARRAY_SIZE(bnxt_pcie_32b_entries) - 1)
+2da8fe5a1092ed Michael Chan     2025-04-28  2099  					j++;
+2da8fe5a1092ed Michael Chan     2025-04-28  2100  			} else {
+2da8fe5a1092ed Michael Chan     2025-04-28  2101  				u64 *dst64 = (u64 *)(dst + i);
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2102  
+2da8fe5a1092ed Michael Chan     2025-04-28  2103  				*dst64 = le64_to_cpu(*(__le64 *)(src + i));
+2da8fe5a1092ed Michael Chan     2025-04-28  2104  				i += 8;
+2da8fe5a1092ed Michael Chan     2025-04-28  2105  			}
+2da8fe5a1092ed Michael Chan     2025-04-28  2106  		}
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2107  	}
+bbf33d1d9805fc Edwin Peer       2021-08-29  2108  	hwrm_req_drop(bp, req);
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2109  }
+b5d600b027eb27 Vasundhara Volam 2020-07-27  2110  
 
 --
 0-DAY CI Kernel Test Service
