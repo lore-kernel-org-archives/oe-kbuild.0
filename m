@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B3136402D
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Jun 2026 11:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B916936C598
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 Jun 2026 11:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782732762; cv=none; b=obTbmotOCw/16GRbS3xod8hSAarkEsFl8h6/v8QtdRjH0KrYQiqyxlkMe32lK11BA6+engUDUJ+KfXAFqT/aC51SfK/UyoqX1WLuvIhhiZigI+p5cMB8jLtaXuHmWy+OjWis1talegHyl5KCsZtmtfq4THCaKQmZlG35VDeDZl0=
+	t=1782733497; cv=none; b=dLv09avlXV6BOFYsiikwtk0TOm3BzK4OephJuu/6OYT0ff0sNXSxpiSwume32NNMdJUiZWqkB+tli8z7xttBcc9JB19lOzevIClvZL4CMXcV1b8edridJfckem/G+GoiqKCTN9PxM2+C9JzeEEy3FpNfnHvQRn+9Z/pjAz3nATw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782732762; c=relaxed/simple;
-	bh=BgGA6nbozNx+39HK4Xbo1+hWSDPRXFo8GKXZQo0/puM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fFJXkvx4npPQbtNJdJjl/azqNLLcrjr5FWYw13Q42JxZ6jM6oeonaS3GmD7nXAzFK1tFrJrfwzCT67QvV5DwiRzVD1FivngVRMuMe2+b1ry3tftkbZR+TPtVtSDd6rjv2xPEihYNs/PxTLzUT/AXTwWmPCx3SiSB6gOzihFFoO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RRehzp+O; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1782733497; c=relaxed/simple;
+	bh=Qvajv/Q0brvNNDbOhr4r+mUEzFTUFFkxcnwdkt5jpLM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=N7fyfR1w8s+1gkmtLEgXR9J0RXbhTLIzqWNuk795GQlYCUrCqrRDr6/KdWqjEauTP44/Dvqc0FO5OyQqfCDPMD7F2SYQPM/hQ7I5VMSmN+I04FtGx4tXvLtHWLZidNZEVS6X2/Itpt5/tdY0WuadyP0rvtER9wcXx9t60Qb49OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlHxxBSf; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RRehzp+O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlHxxBSf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782732760; x=1814268760;
+  t=1782733496; x=1814269496;
   h=date:from:to:cc:subject:message-id;
-  bh=BgGA6nbozNx+39HK4Xbo1+hWSDPRXFo8GKXZQo0/puM=;
-  b=RRehzp+OHFn8iUb8yyX9Ov2EFiqBeUMu4zm61avLINhKoxnRKsTcR7qQ
-   AJckmVeit9L0NY18ZFjxGsc9cJRH+V15GLpoNJkdklQQmpPZIK0tPfA8m
-   E/RO/6MLaWZvTDX4yT/NsP8E8fHjvyNMVSf671pGeMczBR8hVPJBmFWF4
-   Epa1zDdXrcrcRdyaKRH1GQtsIq6eU9UZaOubTUDcKRzkYqsgJ3E6x6C4z
-   mCXOCHDCCnNIwAK+QQn9icOUAfKE3Vm+U7a/4n4P4e2xMiEjoCjXAieU8
-   Rr9E2bZ1wrQxmlvJV9xYbuvSYMy+B+SoYq0Dhwm/VROPyEmB18FXshYZE
-   Q==;
-X-CSE-ConnectionGUID: U4nnIw4zQNySz1Bgz9e7FQ==
-X-CSE-MsgGUID: XWUK5sRyTreiI+qUjqvxNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="85966230"
+  bh=Qvajv/Q0brvNNDbOhr4r+mUEzFTUFFkxcnwdkt5jpLM=;
+  b=ZlHxxBSf5/iaqESDFrTtZsPer6fE5VnosQcLIqIRQVHzj6hI5RdzW8ck
+   FJxCw5U2RlUuse1RLtfpEwT/CCcqqH3muSVWm6xWhyyP5c1lUA/C4ZSLN
+   N7KyCDXSuekxzs96dG6WYcSHAu1z3R/VYTTjCTNRbgd2gm4p1XHsBUg82
+   VdqQtvDgeZB9uXVRVsEegjBodknFncpUlRe27Vs9kaaCGoWd5C6Wpcn2H
+   BIdtB9oy/RYHe+8VXXQgHvR0rLav/zgwyaeQinKGvrSJcnJw7SSYmg1Eu
+   jqS7GxXSlmdFbAs5Bno39jvFwcjb/WgCGib3POoU/2uHUxz0F9tUPpWHh
+   A==;
+X-CSE-ConnectionGUID: akBh2DXiQVCVxxUJ4GVZHg==
+X-CSE-MsgGUID: 4ufUKn7MQeue2ogfzP8OKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="83449883"
 X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
-   d="scan'208";a="85966230"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 04:32:40 -0700
-X-CSE-ConnectionGUID: +4xRmPo9RHGR4uTMjvl1pw==
-X-CSE-MsgGUID: EmYeHRaBSQuPNYNqYypw9A==
+   d="scan'208";a="83449883"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 04:44:51 -0700
+X-CSE-ConnectionGUID: AeH29vofTqyS9WCDVrHKdA==
+X-CSE-MsgGUID: V+lELF2QSV+AMIZ7gxAx4A==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
+   d="scan'208";a="245575621"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Jun 2026 04:32:39 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 29 Jun 2026 04:44:42 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weAE8-000000007Lv-2Xl6;
-	Mon, 29 Jun 2026 11:32:36 +0000
-Date: Mon, 29 Jun 2026 19:31:57 +0800
+	id 1weAPo-000000007MF-0XDu;
+	Mon, 29 Jun 2026 11:44:40 +0000
+Date: Mon, 29 Jun 2026 19:44:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/acpi/riscv/irq.c:161:24-28: ERROR: invalid reference
- to the index variable of the iterator on line 155
-Message-ID: <202606291919.3qKk5h1d-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/marvell/octeontx2/nic/cn20k.c:296
+ cn20k_aura_aq_init() error: we previously assumed 'pool->fc_addr' could be
+ null (see line 267)
+Message-ID: <202606291951.IauMitv3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,69 +63,111 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Sunil V L <sunilvl@ventanamicro.com>
-CC: Paul Walmsley <pjw@kernel.org>
-CC: Anup Patel <apatel@ventanamicro.com>
+TO: Linu Cherian <lcherian@marvell.com>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Subbaraya Sundeep <sbhatta@marvell.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
-commit: 4d185fdeef67d0c2c5d4a142392cf1ade3786dd2 ACPI: RISC-V: Add support to update gsi range
-date:   9 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 9 months ago
-config: riscv-randconfig-r062-20260629 (https://download.01.org/0day-ci/archive/20260629/202606291919.3qKk5h1d-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
+commit: d322fbd1720382a37ec4d2cf3f3eda7e59439d40 octeontx2-pf: Initialize cn20k specific aura and pool contexts
+date:   8 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 8 months ago
+config: alpha-randconfig-r071-20260629 (https://download.01.org/0day-ci/archive/20260629/202606291951.IauMitv3-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.3.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4d185fdeef67 ("ACPI: RISC-V: Add support to update gsi range")
+| Fixes: d322fbd17203 ("octeontx2-pf: Initialize cn20k specific aura and pool contexts")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202606291919.3qKk5h1d-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202606291951.IauMitv3-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/riscv/irq.c:161:24-28: ERROR: invalid reference to the index variable of the iterator on line 155
+smatch warnings:
+drivers/net/ethernet/marvell/octeontx2/nic/cn20k.c:296 cn20k_aura_aq_init() error: we previously assumed 'pool->fc_addr' could be null (see line 267)
+drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:1416 otx2_aura_aq_init() error: we previously assumed 'pool->fc_addr' could be null (see line 1388)
 
-vim +161 drivers/acpi/riscv/irq.c
+vim +296 drivers/net/ethernet/marvell/octeontx2/nic/cn20k.c
 
-e77b8dc02a1ca2 Sunil V L 2024-08-12  133  
-e77b8dc02a1ca2 Sunil V L 2024-08-12  134  static int __init riscv_acpi_register_ext_intc(u32 gsi_base, u32 nr_irqs, u32 nr_idcs,
-e77b8dc02a1ca2 Sunil V L 2024-08-12  135  					       u32 id, u32 type)
-e77b8dc02a1ca2 Sunil V L 2024-08-12  136  {
-4d185fdeef67d0 Sunil V L 2025-08-18  137  	struct riscv_ext_intc_list *ext_intc_element, *node, *prev;
-e77b8dc02a1ca2 Sunil V L 2024-08-12  138  
-e77b8dc02a1ca2 Sunil V L 2024-08-12  139  	ext_intc_element = kzalloc(sizeof(*ext_intc_element), GFP_KERNEL);
-e77b8dc02a1ca2 Sunil V L 2024-08-12  140  	if (!ext_intc_element)
-e77b8dc02a1ca2 Sunil V L 2024-08-12  141  		return -ENOMEM;
-e77b8dc02a1ca2 Sunil V L 2024-08-12  142  
-e77b8dc02a1ca2 Sunil V L 2024-08-12  143  	ext_intc_element->gsi_base = gsi_base;
-4d185fdeef67d0 Sunil V L 2025-08-18  144  
-4d185fdeef67d0 Sunil V L 2025-08-18  145  	/* If nr_irqs is zero, indicate it in flag and set to max range possible */
-4d185fdeef67d0 Sunil V L 2025-08-18  146  	if (nr_irqs) {
-e77b8dc02a1ca2 Sunil V L 2024-08-12  147  		ext_intc_element->nr_irqs = nr_irqs;
-4d185fdeef67d0 Sunil V L 2025-08-18  148  	} else {
-4d185fdeef67d0 Sunil V L 2025-08-18  149  		ext_intc_element->flag |= RISCV_ACPI_INTC_FLAG_PENDING;
-4d185fdeef67d0 Sunil V L 2025-08-18  150  		ext_intc_element->nr_irqs = U32_MAX - ext_intc_element->gsi_base;
-4d185fdeef67d0 Sunil V L 2025-08-18  151  	}
-4d185fdeef67d0 Sunil V L 2025-08-18  152  
-e77b8dc02a1ca2 Sunil V L 2024-08-12  153  	ext_intc_element->nr_idcs = nr_idcs;
-e77b8dc02a1ca2 Sunil V L 2024-08-12  154  	ext_intc_element->id = id;
-694b2ef1e73c5e Sunil V L 2025-08-18 @155  	list_for_each_entry(node, &ext_intc_list, list) {
-694b2ef1e73c5e Sunil V L 2025-08-18  156  		if (node->gsi_base < ext_intc_element->gsi_base)
-694b2ef1e73c5e Sunil V L 2025-08-18  157  			break;
-694b2ef1e73c5e Sunil V L 2025-08-18  158  	}
-694b2ef1e73c5e Sunil V L 2025-08-18  159  
-4d185fdeef67d0 Sunil V L 2025-08-18  160  	/* Adjust the previous node's GSI range if that has pending registration */
-4d185fdeef67d0 Sunil V L 2025-08-18 @161  	prev = list_prev_entry(node, list);
-4d185fdeef67d0 Sunil V L 2025-08-18  162  	if (!list_entry_is_head(prev, &ext_intc_list, list)) {
-4d185fdeef67d0 Sunil V L 2025-08-18  163  		if (prev->flag & RISCV_ACPI_INTC_FLAG_PENDING)
-4d185fdeef67d0 Sunil V L 2025-08-18  164  			prev->nr_irqs = ext_intc_element->gsi_base - prev->gsi_base;
-4d185fdeef67d0 Sunil V L 2025-08-18  165  	}
-4d185fdeef67d0 Sunil V L 2025-08-18  166  
-694b2ef1e73c5e Sunil V L 2025-08-18  167  	list_add_tail(&ext_intc_element->list, &node->list);
-e77b8dc02a1ca2 Sunil V L 2024-08-12  168  	return 0;
-e77b8dc02a1ca2 Sunil V L 2024-08-12  169  }
-e77b8dc02a1ca2 Sunil V L 2024-08-12  170  
+d322fbd1720382 Linu Cherian 2025-10-25  253  
+d322fbd1720382 Linu Cherian 2025-10-25  254  static int cn20k_aura_aq_init(struct otx2_nic *pfvf, int aura_id,
+d322fbd1720382 Linu Cherian 2025-10-25  255  			      int pool_id, int numptrs)
+d322fbd1720382 Linu Cherian 2025-10-25  256  {
+d322fbd1720382 Linu Cherian 2025-10-25  257  	struct npa_cn20k_aq_enq_req *aq;
+d322fbd1720382 Linu Cherian 2025-10-25  258  	struct otx2_pool *pool;
+d322fbd1720382 Linu Cherian 2025-10-25  259  	u8 bpid_idx;
+d322fbd1720382 Linu Cherian 2025-10-25  260  	int err;
+d322fbd1720382 Linu Cherian 2025-10-25  261  
+d322fbd1720382 Linu Cherian 2025-10-25  262  	pool = &pfvf->qset.pool[pool_id];
+d322fbd1720382 Linu Cherian 2025-10-25  263  
+d322fbd1720382 Linu Cherian 2025-10-25  264  	/* Allocate memory for HW to update Aura count.
+d322fbd1720382 Linu Cherian 2025-10-25  265  	 * Alloc one cache line, so that it fits all FC_STYPE modes.
+d322fbd1720382 Linu Cherian 2025-10-25  266  	 */
+d322fbd1720382 Linu Cherian 2025-10-25 @267  	if (!pool->fc_addr) {
+d322fbd1720382 Linu Cherian 2025-10-25  268  		err = qmem_alloc(pfvf->dev, &pool->fc_addr, 1, OTX2_ALIGN);
+d322fbd1720382 Linu Cherian 2025-10-25  269  		if (err)
+d322fbd1720382 Linu Cherian 2025-10-25  270  			return err;
+d322fbd1720382 Linu Cherian 2025-10-25  271  	}
+d322fbd1720382 Linu Cherian 2025-10-25  272  
+d322fbd1720382 Linu Cherian 2025-10-25  273  	/* Initialize this aura's context via AF */
+d322fbd1720382 Linu Cherian 2025-10-25  274  	aq = otx2_mbox_alloc_msg_npa_cn20k_aq_enq(&pfvf->mbox);
+d322fbd1720382 Linu Cherian 2025-10-25  275  	if (!aq) {
+d322fbd1720382 Linu Cherian 2025-10-25  276  		/* Shared mbox memory buffer is full, flush it and retry */
+d322fbd1720382 Linu Cherian 2025-10-25  277  		err = otx2_sync_mbox_msg(&pfvf->mbox);
+d322fbd1720382 Linu Cherian 2025-10-25  278  		if (err)
+d322fbd1720382 Linu Cherian 2025-10-25  279  			return err;
+d322fbd1720382 Linu Cherian 2025-10-25  280  		aq = otx2_mbox_alloc_msg_npa_cn20k_aq_enq(&pfvf->mbox);
+d322fbd1720382 Linu Cherian 2025-10-25  281  		if (!aq)
+d322fbd1720382 Linu Cherian 2025-10-25  282  			return -ENOMEM;
+d322fbd1720382 Linu Cherian 2025-10-25  283  	}
+d322fbd1720382 Linu Cherian 2025-10-25  284  
+d322fbd1720382 Linu Cherian 2025-10-25  285  	aq->aura_id = aura_id;
+d322fbd1720382 Linu Cherian 2025-10-25  286  
+d322fbd1720382 Linu Cherian 2025-10-25  287  	/* Will be filled by AF with correct pool context address */
+d322fbd1720382 Linu Cherian 2025-10-25  288  	aq->aura.pool_addr = pool_id;
+d322fbd1720382 Linu Cherian 2025-10-25  289  	aq->aura.pool_caching = 1;
+d322fbd1720382 Linu Cherian 2025-10-25  290  	aq->aura.shift = ilog2(numptrs) - 8;
+d322fbd1720382 Linu Cherian 2025-10-25  291  	aq->aura.count = numptrs;
+d322fbd1720382 Linu Cherian 2025-10-25  292  	aq->aura.limit = numptrs;
+d322fbd1720382 Linu Cherian 2025-10-25  293  	aq->aura.avg_level = 255;
+d322fbd1720382 Linu Cherian 2025-10-25  294  	aq->aura.ena = 1;
+d322fbd1720382 Linu Cherian 2025-10-25  295  	aq->aura.fc_ena = 1;
+d322fbd1720382 Linu Cherian 2025-10-25 @296  	aq->aura.fc_addr = pool->fc_addr->iova;
+d322fbd1720382 Linu Cherian 2025-10-25  297  	aq->aura.fc_hyst_bits = 0; /* Store count on all updates */
+d322fbd1720382 Linu Cherian 2025-10-25  298  
+d322fbd1720382 Linu Cherian 2025-10-25  299  	/* Enable backpressure for RQ aura */
+d322fbd1720382 Linu Cherian 2025-10-25  300  	if (aura_id < pfvf->hw.rqpool_cnt && !is_otx2_lbkvf(pfvf->pdev)) {
+d322fbd1720382 Linu Cherian 2025-10-25  301  		aq->aura.bp_ena = 0;
+d322fbd1720382 Linu Cherian 2025-10-25  302  		/* If NIX1 LF is attached then specify NIX1_RX.
+d322fbd1720382 Linu Cherian 2025-10-25  303  		 *
+d322fbd1720382 Linu Cherian 2025-10-25  304  		 * Below NPA_AURA_S[BP_ENA] is set according to the
+d322fbd1720382 Linu Cherian 2025-10-25  305  		 * NPA_BPINTF_E enumeration given as:
+d322fbd1720382 Linu Cherian 2025-10-25  306  		 * 0x0 + a*0x1 where 'a' is 0 for NIX0_RX and 1 for NIX1_RX so
+d322fbd1720382 Linu Cherian 2025-10-25  307  		 * NIX0_RX is 0x0 + 0*0x1 = 0
+d322fbd1720382 Linu Cherian 2025-10-25  308  		 * NIX1_RX is 0x0 + 1*0x1 = 1
+d322fbd1720382 Linu Cherian 2025-10-25  309  		 * But in HRM it is given that
+d322fbd1720382 Linu Cherian 2025-10-25  310  		 * "NPA_AURA_S[BP_ENA](w1[33:32]) - Enable aura backpressure to
+d322fbd1720382 Linu Cherian 2025-10-25  311  		 * NIX-RX based on [BP] level. One bit per NIX-RX; index
+d322fbd1720382 Linu Cherian 2025-10-25  312  		 * enumerated by NPA_BPINTF_E."
+d322fbd1720382 Linu Cherian 2025-10-25  313  		 */
+d322fbd1720382 Linu Cherian 2025-10-25  314  		if (pfvf->nix_blkaddr == BLKADDR_NIX1)
+d322fbd1720382 Linu Cherian 2025-10-25  315  			aq->aura.bp_ena = 1;
+d322fbd1720382 Linu Cherian 2025-10-25  316  
+d322fbd1720382 Linu Cherian 2025-10-25  317  		bpid_idx = cn20k_aura_bpid_idx(pfvf, aura_id);
+d322fbd1720382 Linu Cherian 2025-10-25  318  		aq->aura.bpid = pfvf->bpid[bpid_idx];
+d322fbd1720382 Linu Cherian 2025-10-25  319  
+d322fbd1720382 Linu Cherian 2025-10-25  320  		/* Set backpressure level for RQ's Aura */
+d322fbd1720382 Linu Cherian 2025-10-25  321  		aq->aura.bp = RQ_BP_LVL_AURA;
+d322fbd1720382 Linu Cherian 2025-10-25  322  	}
+d322fbd1720382 Linu Cherian 2025-10-25  323  
+d322fbd1720382 Linu Cherian 2025-10-25  324  	/* Fill AQ info */
+d322fbd1720382 Linu Cherian 2025-10-25  325  	aq->ctype = NPA_AQ_CTYPE_AURA;
+d322fbd1720382 Linu Cherian 2025-10-25  326  	aq->op = NPA_AQ_INSTOP_INIT;
+d322fbd1720382 Linu Cherian 2025-10-25  327  
+d322fbd1720382 Linu Cherian 2025-10-25  328  	return 0;
+d322fbd1720382 Linu Cherian 2025-10-25  329  }
+d322fbd1720382 Linu Cherian 2025-10-25  330  
 
 --
 0-DAY CI Kernel Test Service
