@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5747B314D37
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Jun 2026 23:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C9F78F59
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jun 2026 01:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782774383; cv=none; b=sBm9NrTkAo9XukigXgrNK7uzhVaq0/jYz4Tav74bILkdHV7/WHwpE3vQ/7vOjeDcv4FDzHqTRGd2M4Ky8cat5GTnxIPohAdMOWpa7ScO1bDCQvrOBx6nZPC8hztHSPmLLUC+9/dXjFzWMVo7KbFsKuZgtnq1AAMMBAfBGtM50DI=
+	t=1782784597; cv=none; b=hQoM/04pG69esIYzlEjbV8OKs9fqYm6dkDotEBq8V3Zt/G33Xlaii+jIWLf/Tjt0ytHJOefXnkIS8BzLhXBjRsTGt3G3Ftad27MPmmjHrjHQQhkev1Iy2dbtu4Si4hmzyefTHI2UIKnOeDYYrVMY2bAI6l9T3z2/GjxyOZP1Jzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782774383; c=relaxed/simple;
-	bh=IhVH2rXJMvnToC+AoG1WmHmRgTviXa9Izilcze687wE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bR/0IoZG/EzFJ899CyZhlzVUTZ8MKgFjK6wY9IjDku2WrdGB2Z5L0xTtioH8n5OihmSMM9dktw6DgpRQLlAq/7Mrcyjp6u1XgvetWowDtoiQ47qsehZP2F1o+NjFsyMKlh34MZ8w6nu90D9u1/siwUu01KOcWxqNr5aztglnt7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RLigiWKD; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1782784597; c=relaxed/simple;
+	bh=KXPEhSuK7mUJgmz2T9y3HqAIqks9kcHiWsTsC6qyafo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BX9Xej5u5DX88IfYsJIMwIwgoY+WDFJcDjIHyrrLcNlmDnfeCNAE8HtuUadA0s8EQgbZmMfE4zDZAnxApFhjZbLTDjmPbBjCoMjp6QgQazvJyv5w3VIn0jm9tFKnNWe/LKD+b4VXhHnN1Nl+ntkaUIxaGRbhqUL/9eOhHUH8Thc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oKVf+Uze; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RLigiWKD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oKVf+Uze"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782774382; x=1814310382;
+  t=1782784595; x=1814320595;
   h=date:from:to:cc:subject:message-id;
-  bh=IhVH2rXJMvnToC+AoG1WmHmRgTviXa9Izilcze687wE=;
-  b=RLigiWKDXTeGnLbQHvvneQOU15ZeISpwOQXjQ5lXmPiJnxyoH6NZGrwD
-   m+82DfdI6+ne5tNfVgkornX9aQteBoN335b2HAXZZHV/gmGv4BEuVHDoM
-   ROwTUt9Svgebg2jtUmfcRDYCRps8wBJ3H1zB+OdHhujfgMUbfZujwNcnE
-   ftWv1tDuc25IzgK7lZ+jvSV9jtTK6ma65tHRyXp7x3yD992BwO8WMp4IQ
-   EYz4qN2Oar0jdSlV3PUsPkPuYQCQVypKL97+SkMySOarnkFyGsFYtFxet
-   vG8/mfHyyMdKAyH4+QnU8780Uxt1tO8IUku/sZfZahlTPr2MYJNiRvBq7
-   A==;
-X-CSE-ConnectionGUID: PInI2NJiR3mhmIOh7FSHDw==
-X-CSE-MsgGUID: kB+e9kzBQL+eEOl5l4GyQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="109030081"
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="109030081"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 16:06:22 -0700
-X-CSE-ConnectionGUID: 1TKLzoCuTUS0gxVyJ0QEdQ==
-X-CSE-MsgGUID: WoxjpMqBTFCmk1nCwQ8X6g==
+  bh=KXPEhSuK7mUJgmz2T9y3HqAIqks9kcHiWsTsC6qyafo=;
+  b=oKVf+Uze1rMHjIT91HAzSXdMhG+Y0Kes7IdvEUNfM/UxbAIrEd8YtI4U
+   AqlIjsImYHc9FRO/bkNvmaEddhR9PWQxZq0/TfkSt7mgKTxnMp0mGmy0n
+   +dXAoM1fxmdaeL0W9v+RTyR555iMYv0DsbuhKmQB2c7GazA9oEviDFyZq
+   JmI8TxkwbQ/HHhOO0c6eaHERz7BaYhow7F3zLvAmdtHwIM3plzSbO1Uke
+   4VXTcYbx7U6ttj5i8nErZ2HxYR/tGo9H7rjeD/4i4mguOl3r9BpGL7qyN
+   Ovgh66iebI0Cul8BwxowD2wPmhnZnTmO+T/wsjnSdKkubgo8Qp8hixhPz
+   Q==;
+X-CSE-ConnectionGUID: kAU4LJi+TZG0NaYKOB5Xdw==
+X-CSE-MsgGUID: Bw74km95Tje2OyZnXGX0MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="82600694"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="82600694"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 18:56:34 -0700
+X-CSE-ConnectionGUID: u3TtEThzQtG3kRNil07BUQ==
+X-CSE-MsgGUID: n1Ccn/BxQf2BJZ2SN6WWPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="252236324"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="252775905"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 29 Jun 2026 16:06:21 -0700
+  by orviesa009.jf.intel.com with ESMTP; 29 Jun 2026 18:56:33 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weL37-000000007pN-2uaz;
-	Mon, 29 Jun 2026 23:06:14 +0000
-Date: Tue, 30 Jun 2026 07:05:08 +0800
+	id 1weNiA-000000007vd-3u9x;
+	Tue, 30 Jun 2026 01:56:30 +0000
+Date: Tue, 30 Jun 2026 09:55:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iommu/generic_pt/fmt/../iommu_pt.h:908
- riscv_64_map_range() warn: impossible condition '(paddr >
- 18446744073709551615) => (0-u64max > u64max)'
-Message-ID: <202606300726.OAI4DIwU-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Warning: drivers/irqchip/irq-econet-en751221.c:43 Cannot
+ find identifier on line:
+Message-ID: <202606300942.bkTx83wC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,123 +59,70 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jason Gunthorpe <jgg@nvidia.com>
-CC: Joerg Roedel <joerg.roedel@amd.com>
-CC: Samiullah Khawaja <skhawaja@google.com>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Lu Baolu <baolu.lu@linux.intel.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Jonathan Corbet <corbet@lwn.net>
+
+Hi Mauro,
+
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
-commit: d6c65b0fd6218bd21ed0be7a8d3218e8f6dc91de iommupt: Avoid rewalking during map
-date:   3 months ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-141-20260630 (https://download.01.org/0day-ci/archive/20260630/202606300726.OAI4DIwU-lkp@intel.com/config)
+commit: 292eca3163218f2185a8eabe59f4a576bb9e05f8 docs: kdoc: fix logic to handle unissued warnings
+date:   5 months ago
+:::::: branch date: 31 hours ago
+:::::: commit date: 5 months ago
+config: mips-randconfig-r073-20260629 (https://download.01.org/0day-ci/archive/20260630/202606300942.bkTx83wC-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606300942.bkTx83wC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: d6c65b0fd621 ("iommupt: Avoid rewalking during map")
+| Fixes: 292eca316321 ("docs: kdoc: fix logic to handle unissued warnings")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202606300726.OAI4DIwU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202606300942.bkTx83wC-lkp@intel.com/
 
-smatch warnings:
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 riscv_64_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u64max > u64max)'
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 amdv1_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u64max > u64max)'
+All warnings (new ones prefixed by >>):
 
-vim +908 drivers/iommu/generic_pt/fmt/../iommu_pt.h
+>> Warning: drivers/irqchip/irq-econet-en751221.c:43 Cannot find identifier on line:
+    * @membase: Base address of the interrupt controller registers
+   Warning: drivers/irqchip/irq-econet-en751221.c:44 Cannot find identifier on line:
+    * @interrupt_shadows: Array of all interrupts, for each value,
+   Warning: drivers/irqchip/irq-econet-en751221.c:45 Cannot find identifier on line:
+    *      - NOT_PERCPU: This interrupt is not per-cpu, so it has no shadow
+   Warning: drivers/irqchip/irq-econet-en751221.c:46 Cannot find identifier on line:
+    *      - IS_SHADOW: This interrupt is a shadow of another per-cpu interrupt
+   Warning: drivers/irqchip/irq-econet-en751221.c:47 Cannot find identifier on line:
+    *      - else: This is a per-cpu interrupt whose shadow is the value
+   Warning: drivers/irqchip/irq-econet-en751221.c:48 Cannot find identifier on line:
+    */
+   Warning: drivers/irqchip/irq-econet-en751221.c:49 Cannot find identifier on line:
+   static struct {
+>> Warning: drivers/irqchip/irq-econet-en751221.c:50 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+           void __iomem    *membase;
 
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  885  
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27  886  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27  887  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27  888  			 gfp_t gfp, size_t *mapped)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  889  {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  890  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  891  	struct pt_common *common = common_from_iommu(iommu_table);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  892  	struct iommu_iotlb_gather iotlb_gather;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  893  	struct pt_iommu_map_args map = {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  894  		.iotlb_gather = &iotlb_gather,
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  895  		.oa = paddr,
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  896  	};
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  897  	bool single_page = false;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  898  	struct pt_range range;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  899  	int ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  900  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  901  	iommu_iotlb_gather_init(&iotlb_gather);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  902  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  903  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  904  		return -EINVAL;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  905  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  906  	/* Check the paddr doesn't exceed what the table can store */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  907  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04 @908  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  909  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  910  	     oalog2_div(paddr, common->max_oasz_lg2)))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  911  		return -ERANGE;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  912  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  913  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  914  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  915  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  916  	map.attrs.gfp = gfp;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  917  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  918  	ret = make_range_no_check(common, &range, iova, len);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  919  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  920  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  921  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  922  	/* Calculate target page size and level for the leaves */
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27  923  	if (pt_has_system_page_size(common) && len == PAGE_SIZE) {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  924  		PT_WARN_ON(!(pgsize_bitmap & PAGE_SIZE));
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  925  		if (log2_mod(iova | paddr, PAGE_SHIFT))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  926  			return -ENXIO;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  927  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  928  		map.leaf_level = 0;
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27  929  		map.num_leaves = 1;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  930  		single_page = true;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  931  	} else {
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  932  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  933  			pgsize_bitmap, range.va, range.last_va, paddr);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  934  		if (!map.leaf_pgsize_lg2)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  935  			return -ENXIO;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  936  		map.leaf_level =
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  937  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27  938  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27  939  					       range.last_va, paddr,
-d6c65b0fd6218b Jason Gunthorpe 2026-02-27  940  					       map.leaf_pgsize_lg2);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  941  	}
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  942  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  943  	ret = check_map_range(iommu_table, &range, &map);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  944  	if (ret)
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  945  		return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  946  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  947  	PT_WARN_ON(map.leaf_level > range.top_level);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  948  
-efa03dab7ce4ed Jason Gunthorpe 2025-10-23  949  	ret = do_map(&range, common, single_page, &map);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  950  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  951  	/*
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  952  	 * Table levels were freed and replaced with large items, flush any walk
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  953  	 * cache that may refer to the freed levels.
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  954  	 */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  955  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  956  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  957  
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  958  	/* Bytes successfully mapped */
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  959  	PT_WARN_ON(!ret && map.oa - paddr != len);
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  960  	*mapped += map.oa - paddr;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  961  	return ret;
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  962  }
-dcd6a011a8d523 Jason Gunthorpe 2025-11-04  963  
-
-:::::: The code at line 908 was first introduced by commit
-:::::: dcd6a011a8d523a114af2360a8753de5bd60c139 iommupt: Add map_pages op
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SERIAL_8250
+   Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && !S390
+   Selected by [y]:
+   - ECONET [=y]
+   WARNING: unmet direct dependencies detected for EARLY_PRINTK_8250
+   Depends on [n]: EARLY_PRINTK [=n] && USE_GENERIC_EARLY_PRINTK_8250 [=y]
+   Selected by [y]:
+   - ECONET [=y]
+   WARNING: unmet direct dependencies detected for SERIAL_OF_PLATFORM
+   Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && SERIAL_8250 [=y] && OF [=y]
+   Selected by [y]:
+   - ECONET [=y]
 
 --
 0-DAY CI Kernel Test Service
