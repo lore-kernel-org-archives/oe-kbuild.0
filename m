@@ -1,190 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC1D1F0E25
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 06:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CD33769FF
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 12:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782888832; cv=none; b=nGIUDY8Cxy9KGy3DAPdhDm5CtzV+DF0NzOnbGHt+aW8j9L2+ACxNWrqL2gdommXJfXVpIYgQUKdhEVE48vgsBEKPhI2f2GSTi8N9fNeysXQ/HyewukYyojOCW1A5ZxI330x+G6pSCono9XgYelRAqp8Qzt+bBz+woi942mXQyYE=
+	t=1782908180; cv=none; b=bXjDfhJlfkaBbWjtVwkw9JdP5jB/3yhsjcDch2ebnAFbcS/5V666ghC3iPTjt0JCIBAPZCWHnUBMz0IU+G8Jgi1JW/TtKptZsGB7aHUqONTW4j7kvw9EIwVugU2HF9CN9SpO7/R+2Ep7hUDiOnwLjCojK0sJlNb59D+iK8wEydg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782888832; c=relaxed/simple;
-	bh=OG9baRZYvUPfPBc2277GONUsD8acl5Wtd3dnjFuhLIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZPQJHcPkXOX4ZQxesyDsBpFXT8F4lDOkDFRv3eiGl4NNRBQNSygnBXVRT7JQpFdKICNSGU/EDxNumcvGTrsYE92Sth/Du9LD4idADyW+jNjpERdAqvZjNHLVZqYZHQpfyFazIiNSqd9ZpI1rA+u9MV0oj4rBjGm9u5/3418g7E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JusYHewP; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1782908180; c=relaxed/simple;
+	bh=PFBuoYJ/6EiP3h2RK2X4JzwkNcMTHeXBX4e3ipbZ8UE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WdSlcINZDytlRQxG6BsY1JKtFe/VkxVI5cIzfLSymJ8Myi4IFXPOLDSimYLTKnr6hm76FpeU6wBX0RvAZOzEEGiQefe3wh8HuSCL+tPLxfazLvMf7D06wbKNWWcHmIrgXedXl5X5dCp2dlce2byB1MIUM4lXgFrilAdGEA4tgA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JCyDOddn; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JusYHewP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCyDOddn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782888831; x=1814424831;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OG9baRZYvUPfPBc2277GONUsD8acl5Wtd3dnjFuhLIQ=;
-  b=JusYHewP8vab7ceDVeq3zsa62NTZ0ecTTKYQ6gJa4m8wnYtM+4W1iG9x
-   JAE4uIkZaI06IHkaE4udFgU2E+BvLd3ekmCZk86nh502eYH9jTZXRJSqv
-   /HUdbkTQaroaW1E0RYYDJ5xDLdxlWNduUoTOwFYl0SXl9QjIgfmUb/C+v
-   CFgICVhjBhtiakxZFSBOegJYfouoZAcYswqNY3mgbZvNdQ5VD+iPxhy+x
-   oz1y+xTQPMuXa3ZkKT64zBQ8833q6EfOzVZ1ozpn8nXzqWIFECu3/MjAF
-   F9qsKNU8f7PPfIDv7PmMre2ADc+BKrqLFUTkfWdNolOHYwSPIRFg2W87J
-   A==;
-X-CSE-ConnectionGUID: LGZZzemLTq620IsZX+wPZQ==
-X-CSE-MsgGUID: 4D4SAhAuSSChHo9lkP4owg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="83641349"
-X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="83641349"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 23:53:51 -0700
-X-CSE-ConnectionGUID: 12c+Dh59RHGYHCCyHyAcVw==
-X-CSE-MsgGUID: uA8IBf/aTKeUe7wkfmyFYA==
+  t=1782908178; x=1814444178;
+  h=date:from:to:cc:subject:message-id;
+  bh=PFBuoYJ/6EiP3h2RK2X4JzwkNcMTHeXBX4e3ipbZ8UE=;
+  b=JCyDOddn9a5k6mG9ACFNZrxdLFGIQomHH0xxPsQziEquwzqh6CwbO4EV
+   VuOTyV1au0ik/S2MiW432SATo6EtxkG4XeQJ3UC4eTyhO75bqPepMvKT6
+   5Im/2APfzonQ3WqXDWCmpyHyCwC82/Sn4CGtKPbLXNTiLBFXJ6Mij/xL3
+   dXVK9Pd78xDc5WNfJMyAbiCdcKvYU1R3eOqB4oVFZraQ4cPujfHpVct4U
+   dq0PgWVdBlQvuf0kHkrome3Vgxa6Jig0E//UId5seSmiaRcdT6Mfnvvt3
+   LbOWvBBS+O7FQx/UW+bNbPwIn0aMnKc7zlpebS0S0Zjuk5zyaSLppbHAg
+   g==;
+X-CSE-ConnectionGUID: oocsRRR0TNOKR9avJKQUpA==
+X-CSE-MsgGUID: w+L+GxXbRPyrLdLY58jJfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="95141842"
+X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
+   d="scan'208";a="95141842"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 05:16:17 -0700
+X-CSE-ConnectionGUID: OlKiK8BNQ3u7vtownK1jWQ==
+X-CSE-MsgGUID: xiFNEvfLTouGHwWX8nnK5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="248005667"
+X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
+   d="scan'208";a="276856323"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Jun 2026 23:53:21 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 01 Jul 2026 05:16:15 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weonA-0000000090d-2EvJ;
-	Wed, 01 Jul 2026 06:52:11 +0000
-Date: Wed, 01 Jul 2026 14:50:34 +0800
+	id 1wetqr-000000009G7-2qs2;
+	Wed, 01 Jul 2026 12:15:44 +0000
+Date: Wed, 01 Jul 2026 20:13:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1673/2307]
- security/apparmor/apparmorfs.c:590 policy_update() warn: passing zero to
- 'PTR_ERR'
-Message-ID: <202607011451.icwPyCIk-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 247/247]
+ drivers/hid/hid-nintendo.c:314 joycon_request_calibration() warn: right
+ shifting more than type allows 16 vs 16
+Message-ID: <202607012043.xY5v2ab0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Maxime B=C3=A9lair" <maxime.belair@canonical.com>
-CC: John Johansen <john.johansen@canonical.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   be5c93fa674f0fc3c8f359c2143abce6bbb422e6
-commit: 17b5758bf35c7a113363cd7a350b7e6a251b80f4 [1673/2307] apparmor: Init=
-ial support for compressed policies
-:::::: branch date: 13 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20260701 (https://download.01.org/0day-ci/arc=
-hive/20260701/202607011451.icwPyCIk-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
-48fd6183ee6d8cbdb4502213fcf902a211)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   4fddd1f27d67257cd7f6c443edaec03f0db3357f
+commit: 0e93c0746ae205990bb9cfdc432484cad4a7d02c [247/247] FROMLIST: HID: nintendo: add nintendo switch controller driver
+:::::: branch date: 20 hours ago
+:::::: commit date: 6 years ago
+config: x86_64-randconfig-161-20260701 (https://download.01.org/0day-ci/archive/20260701/202607012043.xY5v2ab0-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
 smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607011451.icwPyCIk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607012043.xY5v2ab0-lkp@intel.com/
 
-smatch warnings:
-security/apparmor/apparmorfs.c:590 policy_update() warn: passing zero to 'P=
-TR_ERR'
+New smatch warnings:
+drivers/hid/hid-nintendo.c:314 joycon_request_calibration() warn: right shifting more than type allows 16 vs 16
 
-vim +/PTR_ERR +590 security/apparmor/apparmorfs.c
+Old smatch warnings:
+drivers/hid/hid-nintendo.c:315 joycon_request_calibration() warn: right shifting more than type allows 16 vs 24
 
-63e2b423771ab0 John Johansen 2010-07-29  548 =20
-18e99f191a8e66 John Johansen 2017-05-26  549  static ssize_t policy_update(=
-u32 mask, const char __user *buf, size_t size,
-6601e13e828418 John Johansen 2025-11-07  550  			     loff_t *pos, struct a=
-a_ns *ns,
-6601e13e828418 John Johansen 2025-11-07  551  			     const struct cred *oc=
-red)
-63e2b423771ab0 John Johansen 2010-07-29  552  {
-5ac8c355ae0013 John Johansen 2017-01-16  553  	struct aa_loaddata *data;
-637f688dc3dc30 John Johansen 2017-06-09  554  	struct aa_label *label;
-637f688dc3dc30 John Johansen 2017-06-09  555  	ssize_t error;
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  556  	char *compressed_data =
-=3D NULL;
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  557  	__le32 magic_le;
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  558  	bool is_compressed;
-cf797c0e5e3125 John Johansen 2017-06-09  559 =20
-637f688dc3dc30 John Johansen 2017-06-09  560  	label =3D begin_current_labe=
-l_crit_section();
-cf797c0e5e3125 John Johansen 2017-06-09  561 =20
-5ac8c355ae0013 John Johansen 2017-01-16  562  	/* high level check about po=
-licy management - fine grained in
-5ac8c355ae0013 John Johansen 2017-01-16  563  	 * below after unpack
-5ac8c355ae0013 John Johansen 2017-01-16  564  	 */
-6601e13e828418 John Johansen 2025-11-07  565  	error =3D aa_may_manage_poli=
-cy(current_cred(), label, ns, ocred, mask);
-5ac8c355ae0013 John Johansen 2017-01-16  566  	if (error)
-c6b39f070722ea Xiyu Yang     2020-04-20  567  		goto end_section;
-63e2b423771ab0 John Johansen 2010-07-29  568 =20
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  569  	/* If the policy is use=
-rspace compressed we start by decompressing it
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  570  	 * to make the required=
- checks (computing hash, verifying profile, ...)
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  571  	 *
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  572  	 * Getting a userspace-=
-compressed version then decompressing it in the
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  573  	 * kernel actually make=
-s sense since zstd decompression is ~3.5x faster
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  574  	 * than compression. Th=
-is also allow to increase the compression level.
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  575  	 */
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  576 =20
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  577  	if (size >=3D sizeof(__=
-le32) &&
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  578  	    !copy_from_user(&ma=
-gic_le, buf, sizeof(magic_le)) &&
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  579  	    le32_to_cpu(magic_l=
-e) =3D=3D ZSTD_MAGICNUMBER)
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  580  		is_compressed =3D true;
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  581  	else
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  582  		is_compressed =3D fals=
-e;
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  583 =20
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  584  	if (is_compressed) {
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  585 =20
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  586  		data =3D aa_get_data_f=
-rom_compressed(buf, size, pos, &compressed_data);
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  587  		error =3D PTR_ERR(data=
-);
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  588  	} else {
-5ef50d014c5924 John Johansen 2017-01-16  589  		data =3D aa_simple_write_to=
-_buffer(buf, size, size, pos);
-63e2b423771ab0 John Johansen 2010-07-29 @590  		error =3D PTR_ERR(data);
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  591  	}
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  592 =20
-63e2b423771ab0 John Johansen 2010-07-29  593  	if (!IS_ERR(data)) {
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  594  		error =3D aa_replace_p=
-rofiles(ns, label, mask, data,
-17b5758bf35c7a Maxime B=C3=A9lair 2024-02-01  595  					    compressed_data=
-, size);
-a0b7091c4de45a John Johansen 2026-02-24  596  		/* put pcount, which will p=
-ut count and free if no
-a0b7091c4de45a John Johansen 2026-02-24  597  		 * profiles referencing it.
-a0b7091c4de45a John Johansen 2026-02-24  598  		 */
-a0b7091c4de45a John Johansen 2026-02-24  599  		aa_put_profile_loaddata(dat=
-a);
-63e2b423771ab0 John Johansen 2010-07-29  600  	}
-c6b39f070722ea Xiyu Yang     2020-04-20  601  end_section:
-637f688dc3dc30 John Johansen 2017-06-09  602  	end_current_label_crit_secti=
-on(label);
-63e2b423771ab0 John Johansen 2010-07-29  603 =20
-63e2b423771ab0 John Johansen 2010-07-29  604  	return error;
-63e2b423771ab0 John Johansen 2010-07-29  605  }
-63e2b423771ab0 John Johansen 2010-07-29  606 =20
+vim +314 drivers/hid/hid-nintendo.c
 
-:::::: The code at line 590 was first introduced by commit
-:::::: 63e2b423771ab0bc7ad4d407f3f6517c6d05cdc0 AppArmor: userspace interfa=
-ces
-
-:::::: TO: John Johansen <john.johansen@canonical.com>
-:::::: CC: James Morris <jmorris@namei.org>
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  290  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  291  static const u16 DFLT_STICK_CAL_CEN = 2000;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  292  static const u16 DFLT_STICK_CAL_MAX = 3500;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  293  static const u16 DFLT_STICK_CAL_MIN = 500;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  294  static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  295  {
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  296  	struct joycon_subcmd_request *req;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  297  	u8 buffer[sizeof(*req) + 5] = { 0 };
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  298  	struct joycon_input_report *report;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  299  	struct joycon_stick_cal *cal_x;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  300  	struct joycon_stick_cal *cal_y;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  301  	s32 x_max_above;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  302  	s32 x_min_below;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  303  	s32 y_max_above;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  304  	s32 y_min_below;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  305  	u8 *data;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  306  	u8 *raw_cal;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  307  	int ret;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  308  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  309  	req = (struct joycon_subcmd_request *)buffer;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  310  	req->subcmd_id = JC_SUBCMD_SPI_FLASH_READ;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  311  	data = req->data;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  312  	data[0] = 0xFF & JC_CAL_DATA_START;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  313  	data[1] = 0xFF & (JC_CAL_DATA_START >> 8);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29 @314  	data[2] = 0xFF & (JC_CAL_DATA_START >> 16);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  315  	data[3] = 0xFF & (JC_CAL_DATA_START >> 24);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  316  	data[4] = JC_CAL_DATA_SIZE;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  317  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  318  	hid_dbg(ctlr->hdev, "requesting cal data\n");
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  319  	ret = joycon_send_subcmd(ctlr, req, 5);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  320  	if (ret) {
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  321  		hid_warn(ctlr->hdev,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  322  			 "Failed to read stick cal, using defaults; ret=%d\n",
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  323  			 ret);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  324  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  325  		ctlr->left_stick_cal_x.center = DFLT_STICK_CAL_CEN;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  326  		ctlr->left_stick_cal_x.max = DFLT_STICK_CAL_MAX;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  327  		ctlr->left_stick_cal_x.min = DFLT_STICK_CAL_MIN;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  328  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  329  		ctlr->left_stick_cal_y.center = DFLT_STICK_CAL_CEN;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  330  		ctlr->left_stick_cal_y.max = DFLT_STICK_CAL_MAX;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  331  		ctlr->left_stick_cal_y.min = DFLT_STICK_CAL_MIN;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  332  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  333  		ctlr->right_stick_cal_x.center = DFLT_STICK_CAL_CEN;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  334  		ctlr->right_stick_cal_x.max = DFLT_STICK_CAL_MAX;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  335  		ctlr->right_stick_cal_x.min = DFLT_STICK_CAL_MIN;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  336  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  337  		ctlr->right_stick_cal_y.center = DFLT_STICK_CAL_CEN;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  338  		ctlr->right_stick_cal_y.max = DFLT_STICK_CAL_MAX;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  339  		ctlr->right_stick_cal_y.min = DFLT_STICK_CAL_MIN;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  340  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  341  		return ret;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  342  	}
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  343  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  344  	report = (struct joycon_input_report *)ctlr->input_buf;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  345  	raw_cal = &report->reply.data[5];
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  346  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  347  	/* left stick calibration parsing */
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  348  	cal_x = &ctlr->left_stick_cal_x;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  349  	cal_y = &ctlr->left_stick_cal_y;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  350  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  351  	x_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 0), 0, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  352  	y_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 1), 4, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  353  	cal_x->center = hid_field_extract(ctlr->hdev, (raw_cal + 3), 0, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  354  	cal_y->center = hid_field_extract(ctlr->hdev, (raw_cal + 4), 4, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  355  	x_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 6), 0, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  356  	y_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 7), 4, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  357  	cal_x->max = cal_x->center + x_max_above;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  358  	cal_x->min = cal_x->center - x_min_below;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  359  	cal_y->max = cal_y->center + y_max_above;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  360  	cal_y->min = cal_y->center - y_min_below;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  361  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  362  	/* right stick calibration parsing */
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  363  	raw_cal += 9;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  364  	cal_x = &ctlr->right_stick_cal_x;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  365  	cal_y = &ctlr->right_stick_cal_y;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  366  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  367  	cal_x->center = hid_field_extract(ctlr->hdev, (raw_cal + 0), 0, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  368  	cal_y->center = hid_field_extract(ctlr->hdev, (raw_cal + 1), 4, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  369  	x_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 3), 0, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  370  	y_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 4), 4, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  371  	x_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 6), 0, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  372  	y_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 7), 4, 12);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  373  	cal_x->max = cal_x->center + x_max_above;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  374  	cal_x->min = cal_x->center - x_min_below;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  375  	cal_y->max = cal_y->center + y_max_above;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  376  	cal_y->min = cal_y->center - y_min_below;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  377  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  378  	hid_dbg(ctlr->hdev, "calibration:\n"
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  379  			    "l_x_c=%d l_x_max=%d l_x_min=%d\n"
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  380  			    "l_y_c=%d l_y_max=%d l_y_min=%d\n"
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  381  			    "r_x_c=%d r_x_max=%d r_x_min=%d\n"
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  382  			    "r_y_c=%d r_y_max=%d r_y_min=%d\n",
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  383  			    ctlr->left_stick_cal_x.center,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  384  			    ctlr->left_stick_cal_x.max,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  385  			    ctlr->left_stick_cal_x.min,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  386  			    ctlr->left_stick_cal_y.center,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  387  			    ctlr->left_stick_cal_y.max,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  388  			    ctlr->left_stick_cal_y.min,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  389  			    ctlr->right_stick_cal_x.center,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  390  			    ctlr->right_stick_cal_x.max,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  391  			    ctlr->right_stick_cal_x.min,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  392  			    ctlr->right_stick_cal_y.center,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  393  			    ctlr->right_stick_cal_y.max,
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  394  			    ctlr->right_stick_cal_y.min);
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  395  
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  396  	return 0;
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  397  }
+0e93c0746ae205 Daniel J. Ogorchock 2019-12-29  398  
 
 --
 0-DAY CI Kernel Test Service
