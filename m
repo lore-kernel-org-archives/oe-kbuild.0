@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8BF383333
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jun 2026 15:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65C5126C03
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 00:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782833274; cv=none; b=drrifihmgpWHkAbdo0MyIsnAXyMQznNEVfTW5STkZ6xQ8Y2uG++u+/Epvyv7Wz8mi/bgkNTuQ7T3c+NR9DpOLdLLmHvtv/XpLNyrZ9yn4LTXGBo8Zbv2vWgyn14qImWrwt9l349dXxZH68DlNcOosJNFrAr7TTvC18FdInL3LtA=
+	t=1782867188; cv=none; b=pAJ9re50JQ8BsiremA5mQ7Vc3YANy51+aGCGN/DGh8xUmCiNMymmkSjYV2Jsj6PbdlhX4pQC/A+7I710yav+WFbbSxwXoVO5cBXH2XM2DZirKv74IcA1MdEtCI/eSmuctMQz59MPU8sIlSeuALwVS8B5vCM0ceftf0kG+/Fwg2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782833274; c=relaxed/simple;
-	bh=Jpf+LRH0JYBmVDlGFZkZeFWatzz/t6mDWeFPE2htJ1o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GG+QguLceXx2USipv0ayvcti2YjZd+f0iIksAW5JGIvGXhAW3+jFuoVuMYufUGT6PYAXBy0JwyIpzU3vglrotmPNXDuHsIX8UY2pTKTGMdUE4hO8xbbytfqNBwAnfTVYItBXAwjnt0EUGVTnr7NSOZuH7os8LjkJ4UKxNWUcy+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbNjupKf; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1782867188; c=relaxed/simple;
+	bh=rvoSernRvv24b2y0/GZiurtmCuf73+/8oxacdIgGD0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ptHkI3IjUmmi5p2VJ10MUWdKneFGYbxTTbywkTqufCARPloU29itpTVgn9kh6VcxA8UCh30AWepGkoJl2M//TL5KfwrRaoQ96rgfqI7s4jotPUFRQaAEUwB3QAW43yKOgaAT1MChIV8b4KQC1pjD1l0pe8UCS+XBP4pfYaR+qAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LF5bhNjd; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbNjupKf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LF5bhNjd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782833270; x=1814369270;
+  t=1782867187; x=1814403187;
   h=date:from:to:cc:subject:message-id;
-  bh=Jpf+LRH0JYBmVDlGFZkZeFWatzz/t6mDWeFPE2htJ1o=;
-  b=nbNjupKfvYDadx71+Rdq3iMvSpfkOACZvoDOyf59e9/Dd8swlvJDE1lJ
-   RZhNSQ/mqMxw6WtBh4F0aw7CGK1i6LFYvEwhxEsehjIpw4mw5dlegLswE
-   HNR966cg1t2mWH6/zFLjvzl/1IGkHNVF/6OvwKueQz7cBe4as8l+/THPk
-   HNfg/Gu3730aYURgbu4w7hJDaWAQrX2xxAZ2v+/HtlSI0wHxWZOd3py7o
-   eCuoSuOSWBO6SQnIpUdXkS9mD/hGHCXQeNeqOXyVgyk8o3mkep6biX4rA
-   afiatXDw6zQL1YEr+q03BV2yfoEE5Rm6hnJ62GkaA2Kk4ESlPzfvJ3lnK
+  bh=rvoSernRvv24b2y0/GZiurtmCuf73+/8oxacdIgGD0Y=;
+  b=LF5bhNjdpL+knXX/m1sUrWSBaABu8twuUUH+qviDDLAmNjcol6uH1uwF
+   Gfb2sntngL+Ju6LgaaCs6m/axCzUeADD+p2PAt8Sg54+FxRecOHdaNvqO
+   ghjWg0XMf73BKEnaWu/dZHrQkoOG9ubVo1tM7Z9g1F+/ZYAaFlVGJV8yw
+   Cme6WpblCJ4LKwaAvHwGg9+fFEuffWYHJ9OUUEgBK9KUwjFJzmIxQ4ZvZ
+   9pnfiX/VFXGO90TbMKI1yJc3OC/vFNMnbIaX+ydy2VzIZElFe53Gi3OSz
+   0WQbCkNUasA2Ossr9urJBNR2Q39BxQRKS3WZjxNX+fxhyCQqrv10pLWxL
    Q==;
-X-CSE-ConnectionGUID: MPR+mz45SGCDB2zg3nAFzg==
-X-CSE-MsgGUID: 2wxtzz8oQyeetu7Ksf1nqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="93907944"
+X-CSE-ConnectionGUID: 1f0UuA+sQnqK43z2dOkR1A==
+X-CSE-MsgGUID: jU3GrdD/QdaiWqM+SO++nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="82707121"
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="93907944"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 08:27:49 -0700
-X-CSE-ConnectionGUID: l8qBuDNZRX+HQMRSmxUPeA==
-X-CSE-MsgGUID: bnp0y0f0TViFHb8LAvm5wQ==
+   d="scan'208";a="82707121"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 17:53:06 -0700
+X-CSE-ConnectionGUID: d8aWazCdTfSVAiZUfnFeUw==
+X-CSE-MsgGUID: GjbtKImuTg6dcAX8TYirmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="252946888"
+   d="scan'208";a="251984340"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 30 Jun 2026 08:27:48 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 Jun 2026 17:53:04 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1weaNF-000000008Ry-2ImI;
-	Tue, 30 Jun 2026 15:27:45 +0000
-Date: Tue, 30 Jun 2026 23:27:31 +0800
+	id 1wejCH-000000008p5-07Dy;
+	Wed, 01 Jul 2026 00:53:01 +0000
+Date: Wed, 01 Jul 2026 08:52:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [frank-w-bpi-r2-4.14:7.2-rc 97/160]
- drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3854:18: sparse: sparse:
- unsigned value that used to be signed checked against zero?
-Message-ID: <202606302329.LU6hi3Uw-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 330/1356] drivers/rpmsg/rpmsg_char.c:236
+ rpmsg_eptdev_read_iter() error: calling 'spin_unlock_irqrestore()' with bogus
+ flags
+Message-ID: <202607010826.2wLg1q08-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,237 +60,99 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3854:18: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+TO: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-Hi Daniel,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-rc
-head:   39cd8d05e83250c6294b8e0da3ca69359eff8a3c
-commit: b38c51084f43bbd0577275476789fd2611e06ffc [97/160] net: dsa: add 802.1Q VLAN-based tag driver for MxL862xx
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: sparc64-randconfig-r133-20260630 (https://download.01.org/0day-ci/archive/20260630/202606302329.LU6hi3Uw-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606302329.LU6hi3Uw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   be5c93fa674f0fc3c8f359c2143abce6bbb422e6
+commit: e07d10ed0f238d3f4a8276932a36fe1f74775621 [330/1356] lib/Kconfig.debug: enable CONFIG_PREEMPT_RT for syzbot kernels.
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-161-20260701 (https://download.01.org/0day-ci/archive/20260701/202607010826.2wLg1q08-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202606302329.LU6hi3Uw-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607010826.2wLg1q08-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2138:30: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] entry_index
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2138:30: sparse:     got int
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] vid_val @@     got unsigned short [usertype] vid @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2145:44: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] vid_val
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2145:44: sparse:     got unsigned short [usertype] vid
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2157:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed short @@     got restricted __le16 [addressable] [assigned] [usertype] entry_index @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2157:33: sparse:     expected signed short
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2157:33: sparse:     got restricted __le16 [addressable] [assigned] [usertype] entry_index
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2333:65: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2333:65: sparse:     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2333:65: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2336:66: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2336:66: sparse:     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2336:66: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2399:65: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2399:65: sparse:     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2399:65: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2402:66: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2402:66: sparse:     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2402:66: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2419:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] bridge_port_id @@     got int port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2419:36: sparse:     expected restricted __le16 [usertype] bridge_port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2419:36: sparse:     got int port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2424:51: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2424:51: sparse:     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2424:51: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2427:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2427:52: sparse:     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2427:52: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2555:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] bridge_id @@     got restricted __le16 [addressable] [usertype] bridge_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2555:41: sparse:     expected unsigned short [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2555:41: sparse:     got restricted __le16 [addressable] [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2605:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] bridge_id @@     got unsigned short [usertype] bridge_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2605:32: sparse:     expected restricted __le16 [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2605:32: sparse:     got unsigned short [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2676:35: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] bridge_port_id @@     got int port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2676:35: sparse:     expected restricted __le16 [usertype] bridge_port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2676:35: sparse:     got int port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2784:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] age_timer @@     got unsigned int @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2784:25: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] age_timer
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2784:25: sparse:     got unsigned int
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2814:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] bridge_id @@     got restricted __le16 [addressable] [usertype] bridge_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2814:49: sparse:     expected unsigned short [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2814:49: sparse:     got restricted __le16 [addressable] [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2851:57: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2851:57: sparse:     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2851:57: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2854:58: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2854:58: sparse:     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2854:58: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2867:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] bridge_port_id @@     got int port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2867:44: sparse:     expected restricted __le16 [usertype] bridge_port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2867:44: sparse:     got int port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2871:59: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2871:59: sparse:     expected restricted __le16 [assigned] [usertype] egress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2871:59: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2874:60: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id @@     got unsigned short [usertype] block_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2874:60: sparse:     expected restricted __le16 [assigned] [usertype] ingress_extended_vlan_block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2874:60: sparse:     got unsigned short [usertype] block_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2894:51: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] bridge_id @@     got unsigned short [usertype] bridge_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2894:51: sparse:     expected restricted __le16 [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2894:51: sparse:     got unsigned short [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2990:28: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] port_id @@     got int port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2990:28: sparse:     expected restricted __le16 [usertype] port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2990:28: sparse:     got int port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2993:28: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] port_id @@     got int port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2993:28: sparse:     expected restricted __le16 [usertype] port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2993:28: sparse:     got int port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3178:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] bridge_port_id @@     got unsigned int [assigned] cpu_port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3178:36: sparse:     expected restricted __le16 [usertype] bridge_port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3178:36: sparse:     got unsigned int [assigned] cpu_port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3179:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 @@     got unsigned short @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3179:40: sparse:     expected restricted __le16
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3179:40: sparse:     got unsigned short
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3195:28: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] port_id @@     got int port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3195:28: sparse:     expected restricted __le16 [usertype] port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3195:28: sparse:     got int port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3368:28: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] port_id @@     got int port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3368:28: sparse:     expected restricted __le16 [usertype] port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3368:28: sparse:     got int port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3506:28: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] port_id @@     got int port @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3506:28: sparse:     expected restricted __le32 [usertype] port_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3506:28: sparse:     got int port
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3525:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [usertype] fid @@     got unsigned short [usertype] bridge_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3525:27: sparse:     expected restricted __le16 [addressable] [usertype] fid
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3525:27: sparse:     got unsigned short [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3527:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [usertype] tci @@     got int @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3527:35: sparse:     expected restricted __le16 [addressable] [usertype] tci
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3527:35: sparse:     got int
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3551:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [usertype] tci @@     got int @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3551:27: sparse:     expected restricted __le16 [addressable] [usertype] tci
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3551:27: sparse:     got int
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3561:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [usertype] fid @@     got unsigned short [usertype] bridge_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3561:27: sparse:     expected restricted __le16 [addressable] [usertype] fid
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3561:27: sparse:     got unsigned short [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3591:26: sparse: sparse: restricted __le32 degrades to integer
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3592:44: sparse: sparse: restricted __le16 degrades to integer
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3633:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [assigned] [usertype] bridge_id @@     got unsigned short [assigned] [usertype] bridge_id @@
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3633:41: sparse:     expected restricted __le16 [assigned] [usertype] bridge_id
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3633:41: sparse:     got unsigned short [assigned] [usertype] bridge_id
->> drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:3854:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/sparc/include/uapi/asm/byteorder.h, include/asm-generic/qrwlock_types.h, ...):
-   include/uapi/linux/byteorder/big_endian.h:83:32: sparse: signed value source
+New smatch warnings:
+drivers/rpmsg/rpmsg_char.c:236 rpmsg_eptdev_read_iter() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/virtio/virtio_input.c:56 virtinput_recv_events() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/virtio/virtio_input.c:333 virtinput_probe() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/hid/hid-asus.c:620 asus_kbd_backlight_work() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/i2c/busses/i2c-rk3x.c:1131 rk3x_i2c_xfer_common() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/host/ehci-hub.c:691 ehci_hub_status_data() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/host/ehci-hub.c:1080 ehci_hub_control() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/host/ehci-sched.c:1290 itd_urb_transaction() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/host/ehci-sched.c:2093 sitd_urb_transaction() error: calling 'spin_unlock_irqrestore()' with bogus flags
 
-vim +3854 drivers/net/dsa/mxl862xx_downstream/mxl862xx.c
+Old smatch warnings:
+drivers/usb/host/ehci-hub.c:1161 ehci_hub_control() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/host/ehci-hub.c:1182 ehci_hub_control() error: calling 'spin_unlock_irqrestore()' with bogus flags
+drivers/usb/host/ehci-sched.c:239 reserve_release_intr_bandwidth() error: buffer overflow 'ehci->bandwidth' 64 <= 65
+drivers/usb/host/ehci-sched.c:1338 reserve_release_iso_bandwidth() error: buffer overflow 'ehci->bandwidth' 64 <= 70
+drivers/usb/host/ehci-sched.c:1340 reserve_release_iso_bandwidth() error: buffer overflow 'ehci->bandwidth' 64 <= 70
 
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3839  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3840  static int ds_add_mux(struct mxl862xx_priv *priv, struct device_node *np)
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3841  {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3842  	const __be32 *_id = of_get_property(np, "reg", NULL);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3843  	struct device_node *child;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3844  	struct combo_port_mux *mux;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3845  	unsigned int id;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3846  	int err, sfp_present;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3847  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3848  	if (!_id) {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3849  		dev_err(priv->dev, "missing attach dp id\n");
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3850  		return -EINVAL;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3851  	}
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3852  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3853  	id = be32_to_cpup(_id);
-96aefe538fdf60 Frank Wunderlich 2026-03-07 @3854  	if (id < 0 || id >= MAX_PORTS) {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3855  		dev_err(priv->dev, "%d is not a valid attach dp id\n", id);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3856  		return -EINVAL;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3857  	}
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3858  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3859  	mux = kzalloc(sizeof(struct combo_port_mux), GFP_KERNEL);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3860  	if (unlikely(!mux)) {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3861  		dev_err(priv->dev, "failed to create mux structure\n");
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3862  		return -ENOMEM;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3863  	}
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3864  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3865  	mux->mod_def0_gpio = fwnode_gpiod_get_index(of_fwnode_handle(np),
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3866  				"mod-def0", 0, GPIOD_IN |
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3867  				GPIOD_FLAGS_BIT_NONEXCLUSIVE, "?");
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3868  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3869  	if (IS_ERR(mux->mod_def0_gpio)) {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3870  		dev_err(priv->dev, "failed to requset gpio for mod-def0\n");
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3871  		err = PTR_ERR(mux->mod_def0_gpio);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3872  		goto err_free_mux;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3873  	}
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3874  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3875  	mux->chan_sel_gpio = fwnode_gpiod_get_index(of_fwnode_handle(np),
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3876  				"chan-sel", 0, GPIOD_OUT_LOW, "?");
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3877  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3878  	if (IS_ERR(mux->chan_sel_gpio)) {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3879  		dev_err(priv->dev, "failed to requset gpio for chan-sel\n");
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3880  		err = PTR_ERR(mux->chan_sel_gpio);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3881  		goto err_put_mod_def0;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3882  	}
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3883  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3884  	if (of_property_read_u32(np, "sfp-present-channel",
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3885  				 &mux->sfp_present_channel))
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3886  		mux->sfp_present_channel = 0;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3887  	else if (mux->sfp_present_channel > 1)
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3888  		mux->sfp_present_channel = 1;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3889  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3890  	priv->ds_mux[id] = mux;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3891  	mux->dp = dsa_to_port(priv->ds, id);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3892  	/* Keep probe deterministic: always start from non-SFP channel.
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3893  	 * The monitor worker will switch to SFP channel after boot if needed.
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3894  	 */
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3895  	sfp_present = gpiod_get_value_cansleep(mux->mod_def0_gpio);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3896  	if (sfp_present < 0) {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3897  		dev_warn(priv->dev,
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3898  			 "failed to read mod-def0 gpio, forcing non-SFP init channel\n");
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3899  	}
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3900  	mux->channel = !mux->sfp_present_channel;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3901  	gpiod_set_value_cansleep(mux->chan_sel_gpio, mux->channel);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3902  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3903  	for_each_child_of_node(np, child) {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3904  		err = ds_add_mux_channel(mux, child);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3905  		if (err) {
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3906  			dev_err(priv->dev, "failed to add ds_mux\n");
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3907  			of_node_put(child);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3908  			goto err_put_chan_sel;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3909  		}
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3910  	}
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3911  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3912  	mux->dp->dn = mux->data[mux->channel]->of_node;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3913  	mux->dp->pl = mux->data[mux->channel]->phylink;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3914  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3915  	INIT_DELAYED_WORK(&mux->sfp_monitor_work, sfp_monitor_work_func);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3916  	mod_delayed_work(system_wq, &mux->sfp_monitor_work, msecs_to_jiffies(3000));
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3917  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3918  	return 0;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3919  
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3920  err_put_chan_sel:
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3921  	gpiod_put(mux->chan_sel_gpio);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3922  err_put_mod_def0:
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3923  	gpiod_put(mux->mod_def0_gpio);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3924  err_free_mux:
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3925  	kfree(mux);
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3926  	priv->ds_mux[id] = NULL;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3927  	return err;
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3928  }
-96aefe538fdf60 Frank Wunderlich 2026-03-07  3929  
+vim +236 drivers/rpmsg/rpmsg_char.c
 
-:::::: The code at line 3854 was first introduced by commit
-:::::: 96aefe538fdf60924d25ab9ee28d665648458ddc net: dsa: add mxl downstream driver from 6.19-main
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  201  
+ccf45b18ce89f59 Bjorn Andersson 2018-08-07  202  static ssize_t rpmsg_eptdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  203  {
+ccf45b18ce89f59 Bjorn Andersson 2018-08-07  204  	struct file *filp = iocb->ki_filp;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  205  	struct rpmsg_eptdev *eptdev = filp->private_data;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  206  	unsigned long flags;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  207  	struct sk_buff *skb;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  208  	int use;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  209  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  210  	if (!eptdev->ept)
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  211  		return -EPIPE;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  212  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  213  	spin_lock_irqsave(&eptdev->queue_lock, flags);
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  214  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  215  	/* Wait for data in the queue */
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  216  	if (skb_queue_empty(&eptdev->queue)) {
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  217  		spin_unlock_irqrestore(&eptdev->queue_lock, flags);
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  218  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  219  		if (filp->f_flags & O_NONBLOCK)
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  220  			return -EAGAIN;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  221  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  222  		/* Wait until we get data or the endpoint goes away */
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  223  		if (wait_event_interruptible(eptdev->readq,
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  224  					     !skb_queue_empty(&eptdev->queue) ||
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  225  					     !eptdev->ept))
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  226  			return -ERESTARTSYS;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  227  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  228  		/* We lost the endpoint while waiting */
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  229  		if (!eptdev->ept)
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  230  			return -EPIPE;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  231  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  232  		spin_lock_irqsave(&eptdev->queue_lock, flags);
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  233  	}
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  234  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  235  	skb = skb_dequeue(&eptdev->queue);
+0abd6bdde04f3f7 Dan Carpenter   2017-01-21 @236  	spin_unlock_irqrestore(&eptdev->queue_lock, flags);
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  237  	if (!skb)
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  238  		return -EFAULT;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  239  
+ccf45b18ce89f59 Bjorn Andersson 2018-08-07  240  	use = min_t(size_t, iov_iter_count(to), skb->len);
+ccf45b18ce89f59 Bjorn Andersson 2018-08-07  241  	if (copy_to_iter(skb->data, use, to) != use)
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  242  		use = -EFAULT;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  243  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  244  	kfree_skb(skb);
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  245  
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  246  	return use;
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  247  }
+c0cdc19f84a4712 Bjorn Andersson 2017-01-11  248  
 
-:::::: TO: Frank Wunderlich <frank-w@public-files.de>
-:::::: CC: Frank Wunderlich <frank-w@public-files.de>
+:::::: The code at line 236 was first introduced by commit
+:::::: 0abd6bdde04f3f7e9a1b76d474f3d9e804ef1867 rpmsg: unlock on error in rpmsg_eptdev_read()
+
+:::::: TO: Dan Carpenter <dan.carpenter@oracle.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 --
 0-DAY CI Kernel Test Service
