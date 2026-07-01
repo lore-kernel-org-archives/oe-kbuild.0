@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CE62D97B5
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 14:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F0325333F
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 21:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782915228; cv=none; b=e4xDdrvlcKlfjOKopIXvb3pXLvL5FzWY1e/6uoDvkvdEhLKz4YQfyOfWC1b3uwCCw7lBq+DvtIrVlOeGUg3tHGznsAwgp8ZGdvYyWGgeF0IIqX/4G/Z0WpmApzmWN6Vdne+mnn/c3zVE9qQsmNrbpEslXwWWGlipxdNubIbrUiI=
+	t=1782942970; cv=none; b=ajltFDddwaUfBL7fcGLfpciYp+0j2mgG0NgC/aXgzzNlgghewAETYWiPU0hyHzgpsoCu8NCugBZPI8JemugyL8tKsQ1vpNuOd8Q0ocsWq3XOodDDPjPHBsqdRciWanEeCchn0ewc1i2nTIMV9lFm9GL1tJwkBF/FryUbpHZOJ/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782915228; c=relaxed/simple;
-	bh=tTwvIA6fXJwX/7+8roBKsWtlf+qjc0rNdwbZt6xyyLg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tWQz63EP4QExfvc/ldUzOR1IVNTHP4/m9l9A66RR8bdEGeVXb3Hx+eXP/3YtkhKN6Fe5tuv4HFth0rQzVzXRmt3spH1ZF/3EzC01fjx/Dfb19X61V+I1C2aStZ3th8MvzsytZBUnHRCq7cjv7+xjOflcRvSeajGjueZbSphUKwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZ0tMTNU; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1782942970; c=relaxed/simple;
+	bh=a3PhvwU7mF1dTAycJDw7aFH0iuVfiSodW2QPTYk4j0o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SG6wJ1bDsODW2iLQSqj28KRjW26Wr4Rn8756qzFY8jrlDqHZaxGRKifySObGkocXYXyd1MJv5tDMDBUpwV+NCupsh47x9nuNurI2/4saLyG9/AqlM9P9M5OqQjXnldGaBAUKbSXJ3MPPdd8PARbgVZNLXX7v+IMDk97dgBGe3wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=irmJAeKy; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZ0tMTNU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irmJAeKy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782915226; x=1814451226;
+  t=1782942968; x=1814478968;
   h=date:from:to:cc:subject:message-id;
-  bh=tTwvIA6fXJwX/7+8roBKsWtlf+qjc0rNdwbZt6xyyLg=;
-  b=eZ0tMTNUjgUN4O4VcJexQ8EEQhn9uXS9I5pBMl840vJXZb8jZbFXNOf/
-   bxOF9pqaguNfHqx/+pxsqICJSgV0QGl4IuAGgT8ZIzsq98CHHw9tvs/No
-   uYPbSxhOXMNHNC2FrmR/Bnbyz3qbQQE2OhllXyt20U+yaH6qo395F10oU
-   vzJ1aAzRqAhyPXlv6qLq/HSanCGCavwZs/BiZFx/A/TEwN2UGNcABKPwH
-   MoW+5VUYL2q/PPVwWIDNmNkFYhbKutCneCNI9NyrSk9ks+HSO1bRU5lOh
-   6li+7NosZYONS+9KpfloBIP1uO61SR4wxKSn2zxW4vq8BBFLDa5n4oQFG
-   g==;
-X-CSE-ConnectionGUID: lpb6KVXkSaK3ORDO0JBSwA==
-X-CSE-MsgGUID: m+VydSqGQG6cagDGLVdamw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="83424527"
-X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
-   d="scan'208";a="83424527"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 07:13:46 -0700
-X-CSE-ConnectionGUID: bgmqVz4tSqGdT2Q0RE6GvA==
-X-CSE-MsgGUID: 4C2jJ3uPROSRNWrD9azRmw==
+  bh=a3PhvwU7mF1dTAycJDw7aFH0iuVfiSodW2QPTYk4j0o=;
+  b=irmJAeKyako9TeT3Ev2YkttCafdeme3AreN6y0hnXgUXdMlqwpihUsfv
+   F7tuBe6IXRx3m5Yzjy0jClmXoqjbduvHLhY8pyMoR1KSKuAXXvn0b2uK5
+   e986H2wImKtEw8m5gtBan8pfZ+Bw9sE7DCYr+2icqA1YlP/o7jI5MnK+h
+   Zz+x5epMkwU4qGWXYyOV4fnI7Dc6CfRfY6ud0UZQwY7Fybx/iV4vDQmfe
+   KNImHGwvdzwVfh5eyZKJESt2ykP1YL92y9VV1Xr8SQqIb8HJkwUtBVn9s
+   AqSyzmL0Me+bnVmjSXgoTDN/JRmGd6JJeSudPnn2qPq9JEunI1axqEWbD
+   w==;
+X-CSE-ConnectionGUID: QYTAP5ozRieZerJtt2yjlA==
+X-CSE-MsgGUID: ey0Gq90UR/GEvUmgmQsplg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="82803581"
+X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
+   d="scan'208";a="82803581"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 14:56:07 -0700
+X-CSE-ConnectionGUID: WhXaKVJdQ0+D7vfN6mcCxw==
+X-CSE-MsgGUID: Uou+8dTbTBaqjjGurXTy3w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
-   d="scan'208";a="251537528"
+X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
+   d="scan'208";a="256599749"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 01 Jul 2026 07:13:45 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Jul 2026 14:56:06 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wevh7-000000009Lb-3eVs;
-	Wed, 01 Jul 2026 14:13:41 +0000
-Date: Wed, 01 Jul 2026 22:12:54 +0800
+	id 1wf2uZ-000000009fH-1pbM;
+	Wed, 01 Jul 2026 21:56:03 +0000
+Date: Thu, 02 Jul 2026 05:55:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/bridge/synopsys/dw-dp.c:913:16-27:
- opportunity for str_plural(link -> lanes)
-Message-ID: <202607012242.PBDaXI8U-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/airoha/airoha_eth.c:2139
+ airoha_qdma_set_chan_tx_sched() warn: subtract is higher precedence than
+ shift
+Message-ID: <202607020543.QhFmLp46-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,100 +63,86 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-CC: Heiko Stuebner <heiko@sntech.de>
-
-Hi Chaoyi,
-
-First bad commit (maybe != root cause):
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Jakub Kicinski <kuba@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   665159e246749578d4e4bfe106ee3b74edcdab18
-commit: 0244539f9a4f3b564604dfe4d639f61cecec381a drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP
-date:   6 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 6 months ago
-config: csky-randconfig-r063-20260701 (https://download.01.org/0day-ci/archive/20260701/202607012242.PBDaXI8U-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.4.0
+commit: 7600fb3b41dd6ab65ed61169df1b6099044edf97 net: airoha: Rely __field_prep for non-constant masks
+date:   4 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 4 months ago
+config: sh-randconfig-r072-20260702 (https://download.01.org/0day-ci/archive/20260702/202607020543.QhFmLp46-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0244539f9a4f ("drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP")
+| Fixes: 7600fb3b41dd ("net: airoha: Rely __field_prep for non-constant masks")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202607012242.PBDaXI8U-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607020543.QhFmLp46-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/bridge/synopsys/dw-dp.c:913:16-27: opportunity for str_plural(link -> lanes)
-   drivers/gpu/drm/bridge/synopsys/dw-dp.c:972:16-27: opportunity for str_plural(link -> lanes)
+New smatch warnings:
+drivers/net/ethernet/airoha/airoha_eth.c:2139 airoha_qdma_set_chan_tx_sched() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:2139 airoha_qdma_set_chan_tx_sched() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:2139 airoha_qdma_set_chan_tx_sched() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:2139 airoha_qdma_set_chan_tx_sched() warn: subtract is higher precedence than shift
 
-vim +913 drivers/gpu/drm/bridge/synopsys/dw-dp.c
+Old smatch warnings:
+drivers/net/ethernet/airoha/airoha_eth.c:1727 airhoha_set_gdm2_loopback() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:1727 airhoha_set_gdm2_loopback() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:1727 airhoha_set_gdm2_loopback() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:1727 airhoha_set_gdm2_loopback() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:1782 airoha_dev_init() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:1782 airoha_dev_init() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:1782 airoha_dev_init() warn: subtract is higher precedence than shift
+drivers/net/ethernet/airoha/airoha_eth.c:1782 airoha_dev_init() warn: subtract is higher precedence than shift
 
-86eecc3a9c2e06 Andy Yan 2025-08-22  903  
-86eecc3a9c2e06 Andy Yan 2025-08-22  904  static int dw_dp_link_train_full(struct dw_dp *dp)
-86eecc3a9c2e06 Andy Yan 2025-08-22  905  {
-86eecc3a9c2e06 Andy Yan 2025-08-22  906  	struct dw_dp_link *link = &dp->link;
-86eecc3a9c2e06 Andy Yan 2025-08-22  907  	int ret;
-86eecc3a9c2e06 Andy Yan 2025-08-22  908  
-86eecc3a9c2e06 Andy Yan 2025-08-22  909  retry:
-86eecc3a9c2e06 Andy Yan 2025-08-22  910  	dw_dp_link_train_init(&link->train);
-86eecc3a9c2e06 Andy Yan 2025-08-22  911  
-86eecc3a9c2e06 Andy Yan 2025-08-22  912  	dev_dbg(dp->dev, "full-training link: %u lane%s at %u MHz\n",
-86eecc3a9c2e06 Andy Yan 2025-08-22 @913  		link->lanes, (link->lanes > 1) ? "s" : "", link->rate / 100);
-86eecc3a9c2e06 Andy Yan 2025-08-22  914  
-86eecc3a9c2e06 Andy Yan 2025-08-22  915  	ret = dw_dp_link_configure(dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  916  	if (ret < 0) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  917  		dev_err(dp->dev, "failed to configure DP link: %d\n", ret);
-86eecc3a9c2e06 Andy Yan 2025-08-22  918  		return ret;
-86eecc3a9c2e06 Andy Yan 2025-08-22  919  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  920  
-86eecc3a9c2e06 Andy Yan 2025-08-22  921  	ret = dw_dp_link_clock_recovery(dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  922  	if (ret < 0) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  923  		dev_err(dp->dev, "clock recovery failed: %d\n", ret);
-86eecc3a9c2e06 Andy Yan 2025-08-22  924  		goto out;
-86eecc3a9c2e06 Andy Yan 2025-08-22  925  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  926  
-86eecc3a9c2e06 Andy Yan 2025-08-22  927  	if (!link->train.clock_recovered) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  928  		dev_err(dp->dev, "clock recovery failed, downgrading link\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  929  
-86eecc3a9c2e06 Andy Yan 2025-08-22  930  		ret = dw_dp_link_downgrade(dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  931  		if (ret < 0)
-86eecc3a9c2e06 Andy Yan 2025-08-22  932  			goto out;
-86eecc3a9c2e06 Andy Yan 2025-08-22  933  		else
-86eecc3a9c2e06 Andy Yan 2025-08-22  934  			goto retry;
-86eecc3a9c2e06 Andy Yan 2025-08-22  935  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  936  
-86eecc3a9c2e06 Andy Yan 2025-08-22  937  	dev_dbg(dp->dev, "clock recovery succeeded\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  938  
-86eecc3a9c2e06 Andy Yan 2025-08-22  939  	ret = dw_dp_link_channel_equalization(dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  940  	if (ret < 0) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  941  		dev_err(dp->dev, "channel equalization failed: %d\n", ret);
-86eecc3a9c2e06 Andy Yan 2025-08-22  942  		goto out;
-86eecc3a9c2e06 Andy Yan 2025-08-22  943  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  944  
-86eecc3a9c2e06 Andy Yan 2025-08-22  945  	if (!link->train.channel_equalized) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  946  		dev_err(dp->dev, "channel equalization failed, downgrading link\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  947  
-86eecc3a9c2e06 Andy Yan 2025-08-22  948  		ret = dw_dp_link_downgrade(dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  949  		if (ret < 0)
-86eecc3a9c2e06 Andy Yan 2025-08-22  950  			goto out;
-86eecc3a9c2e06 Andy Yan 2025-08-22  951  		else
-86eecc3a9c2e06 Andy Yan 2025-08-22  952  			goto retry;
-86eecc3a9c2e06 Andy Yan 2025-08-22  953  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  954  
-86eecc3a9c2e06 Andy Yan 2025-08-22  955  	dev_dbg(dp->dev, "channel equalization succeeded\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  956  
-86eecc3a9c2e06 Andy Yan 2025-08-22  957  out:
-86eecc3a9c2e06 Andy Yan 2025-08-22  958  	dw_dp_link_train_set_pattern(dp, DP_TRAINING_PATTERN_DISABLE);
-86eecc3a9c2e06 Andy Yan 2025-08-22  959  	return ret;
-86eecc3a9c2e06 Andy Yan 2025-08-22  960  }
-86eecc3a9c2e06 Andy Yan 2025-08-22  961  
+vim +2139 drivers/net/ethernet/airoha/airoha_eth.c
 
-:::::: The code at line 913 was first introduced by commit
-:::::: 86eecc3a9c2e06462f6a273fcd24150b6da787de drm/bridge: synopsys: Add DW DPTX Controller support library
+23020f04932701d drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2024-07-12  2110  
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2111  static int airoha_qdma_set_chan_tx_sched(struct airoha_gdm_port *port,
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2112  					 int channel, enum tx_sched_mode mode,
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2113  					 const u16 *weights, u8 n_weights)
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2114  {
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2115  	int i;
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2116  
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2117  	for (i = 0; i < AIROHA_NUM_TX_RING; i++)
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2118  		airoha_qdma_clear(port->qdma, REG_QUEUE_CLOSE_CFG(channel),
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2119  				  TXQ_DISABLE_CHAN_QUEUE_MASK(channel, i));
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2120  
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2121  	for (i = 0; i < n_weights; i++) {
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2122  		u32 status;
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2123  		int err;
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2124  
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2125  		airoha_qdma_wr(port->qdma, REG_TXWRR_WEIGHT_CFG,
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2126  			       TWRR_RW_CMD_MASK |
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2127  			       FIELD_PREP(TWRR_CHAN_IDX_MASK, channel) |
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2128  			       FIELD_PREP(TWRR_QUEUE_IDX_MASK, i) |
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2129  			       FIELD_PREP(TWRR_VALUE_MASK, weights[i]));
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2130  		err = read_poll_timeout(airoha_qdma_rr, status,
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2131  					status & TWRR_RW_CMD_DONE,
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2132  					USEC_PER_MSEC, 10 * USEC_PER_MSEC,
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2133  					true, port->qdma,
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2134  					REG_TXWRR_WEIGHT_CFG);
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2135  		if (err)
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2136  			return err;
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2137  	}
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2138  
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03 @2139  	airoha_qdma_rmw(port->qdma, REG_CHAN_QOS_MODE(channel >> 3),
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2140  			CHAN_QOS_MODE_MASK(channel),
+7600fb3b41dd6ab drivers/net/ethernet/airoha/airoha_eth.c   Lorenzo Bianconi 2026-03-04  2141  			__field_prep(CHAN_QOS_MODE_MASK(channel), mode));
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2142  
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2143  	return 0;
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2144  }
+20bf7d07c956e5c drivers/net/ethernet/mediatek/airoha_eth.c Lorenzo Bianconi 2025-01-03  2145  
 
-:::::: TO: Andy Yan <andy.yan@rock-chips.com>
-:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+:::::: The code at line 2139 was first introduced by commit
+:::::: 20bf7d07c956e5c7a22d3076c599cbb7a6054917 net: airoha: Add sched ETS offload support
+
+:::::: TO: Lorenzo Bianconi <lorenzo@kernel.org>
+:::::: CC: Paolo Abeni <pabeni@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
