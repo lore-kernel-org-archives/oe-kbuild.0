@@ -1,163 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CD021257F
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 02:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD061376A01
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 04:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782873506; cv=none; b=nb86XbLmwU8VQNToJMakbyyJFSTWip3PKU7Us6+V/CVaYuRPOJxsKKnpbxYMgZfvGfQVWViJuAgLmPT9oDz6vCreSD4jw4v0FVpp37eKjBPAGgSyId4QJmVHb/QFwBNBU8fxgo0HVCw6JlOZ/TPVXGoGLyCI6kv91M+IR46WOJI=
+	t=1782880255; cv=none; b=s/QNqtgPJNWGyqT9yadaist3Eqsx73BmzQ/PuFpik2IXMP/KBz0/BC72khzH5heP8q+7wGwliSMyjNgIfzUNTRo0hkfPLySGmwWcxt/RZocIn6uxn9PFYN0+qefQKm8U6YPw66eX9Jn3YtrACoVCCz8NycMGaw0tLGWvgrAoUNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782873506; c=relaxed/simple;
-	bh=8YHJJCC1zGIpiMb+kAO/+4D5OdE+US20nKQ4s4PHaIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AAAMpztpJZwhfD4G8Dc3iXenQzgS100lG9a5fKo87hUU+cAy3RkvAZ87yTik0IWT/6r6AI5g/gBEWKSP2AkCWKdcRcurKb6vakl60+aKq1xpoxGOZ4oIr2c95Ecvmev3J/4andJiSqBIqU+MEi8tTm6mK5z1yj9h4u/RULRuo8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E+aURsUh; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1782880255; c=relaxed/simple;
+	bh=hoqbLtYxhCIwoq3hdqZT5nRnX5wZ4oVRVoMxFf8RJm8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M+HmDedv4Afun50OLOxAKHntX5lR4HbF3IpN1gHeqYivlza24dSSJhL1n1RdZK51N+nNHIaq/8hHljp3Cc8NF+6IwW8XwwPn+/rVCXqmSWMLnPDWcj7gAqyrXwmV/Q2WSl3hKTTPYRb+7hlIk1dX4PxL7/LSam/+DtCnhujrBEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZmzu8qP; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+aURsUh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZmzu8qP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782873505; x=1814409505;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8YHJJCC1zGIpiMb+kAO/+4D5OdE+US20nKQ4s4PHaIk=;
-  b=E+aURsUh7m5RXF1nFzHc8snMPXxgQGZJqpkuaFvUGQ6hb1tJ53YLtcwP
-   B4gfICArxCSPKyZ2x3Oaf9XGDGl42VxPXAN+7rprmOtG8vU6VgLGz1UBp
-   gNTyOU27MznyFeCjfsgGuE1KVFGPTAVLCTMQzQAYs1gALeFcTm7GdpZLM
-   XsSEjUcCzwfHQMPSt4lwwrcUr8VtGq3c+9RT4HkLoHyS9iZLTlNbQJMNu
-   8a7vjnx9lJrkte1f7c9x3gg6uwIoAQvlff5uUpb1dN81lVrsBEqKIlD8n
-   UUKYy/yA1OhB7Q5F5DvkckznMlpipH9RJki03wW5dQ2THYSbgmfoVHz6J
-   A==;
-X-CSE-ConnectionGUID: baRDoHNmQVKREqcPPoXyMw==
-X-CSE-MsgGUID: B7JzM9kjQ/6LN2HvuEVVlw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="109142941"
+  t=1782880251; x=1814416251;
+  h=date:from:to:cc:subject:message-id;
+  bh=hoqbLtYxhCIwoq3hdqZT5nRnX5wZ4oVRVoMxFf8RJm8=;
+  b=AZmzu8qPEUrQgscVsD1C3egP+FYgG8lkkjcxTdoX0pjDZWJc0ynuhS0T
+   kpBaiYuVudylyoPiuywy2bmdSdO+2f9DChqN68zwUZSaiL/DduhDOFuHb
+   j5qAUvubKsc8w/FSZ9pmIy5cOXvZUoERuMgohe0mLNiiaqyVdfkRA3e16
+   XNM+GZ+DOU+Rww6TYuPutysjGBZVP7s73c+j/b06hdd5d7YaLCXoVg/yH
+   BcW0YiMKbX/IExh3zPPxedqEc668jDaRkxqLoGaL70eRQTwgkvcCR7pv2
+   fpZB4pkcfXXxCTIpDRcTQk5OVv/zPDkQH1boDanRfBZiQ/L7eriV5L0bl
+   w==;
+X-CSE-ConnectionGUID: cVhoXdjZQzWBgWZmVqCjow==
+X-CSE-MsgGUID: ODfWYGg+TA6zcHk+0S9Swg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="87436571"
 X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="109142941"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 19:38:24 -0700
-X-CSE-ConnectionGUID: bY3q2+lbT9Kt1RtqVFWdxA==
-X-CSE-MsgGUID: ariJwo26Tq2qIxpcGtZXxw==
+   d="scan'208";a="87436571"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 21:30:50 -0700
+X-CSE-ConnectionGUID: 7naDhDKxQAaoaQx3vywidQ==
+X-CSE-MsgGUID: ORI3UlKLTiqdQh/a/d9OqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="276735206"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Jun 2026 19:38:23 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="246102743"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Jun 2026 21:30:48 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wekqD-000000000e1-34GY;
-	Wed, 01 Jul 2026 02:38:21 +0000
-Date: Wed, 1 Jul 2026 04:38:14 +0200
+	id 1wemaz-000000008wd-1aoP;
+	Wed, 01 Jul 2026 04:30:45 +0000
+Date: Wed, 01 Jul 2026 12:30:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3 net-next 2/2] dt-bindings: phy: cadence-torrent:
- Update property values to support 3 clocks
-Message-ID: <202607010413.ARNFa3Bx-lkp@intel.com>
+Subject: cfi_probe.c:(.xiptext+0xe0): dangerous relocation: windowed
+ longcall crosses 1GB boundary; return may fail: ftrace_likely_update
+Message-ID: <202607011208.piBfzCPm-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "xtensa: dangerous relocation"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260630134324.61085-3-g-praveen@ti.com>
-References: <20260630134324.61085-3-g-praveen@ti.com>
-TO: Gokul Praveen <g-praveen@ti.com>
-TO: conor+dt@kernel.org
-TO: devicetree@vger.kernel.org
-TO: krzk+dt@kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-phy@lists.infradead.org
-TO: neil.armstrong@linaro.org
-TO: nm@ti.com
-TO: robh@kernel.org
-TO: sjakhade@cadence.com
-TO: kristo@kernel.org
-TO: vigneshr@ti.com
-TO: vkoul@kernel.org
-TO: yamonkar@cadence.com
+CC: linux-kernel@vger.kernel.org
+TO: Gopi Krishna Menon <krishnagopi487@gmail.com>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
+CC: Vignesh Raghavendra <vigneshr@ti.com>
 
-Hi Gokul,
+Hi Gopi,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gokul-Praveen/arm64-dts-ti-Add-PLL1-refclk-to-J784S4-SoC-SERDES-node/20260630-214733
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260630134324.61085-3-g-praveen%40ti.com
-patch subject: [PATCH v3 net-next 2/2] dt-bindings: phy: cadence-torrent: Update property values to support 3 clocks
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: arm64-randconfig-2051-20260630 (https://download.01.org/0day-ci/archive/20260701/202607010413.ARNFa3Bx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607010413.ARNFa3Bx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
+commit: d496b6f42eb0455caf5d8cb30cf1f01b7fc2a747 mtd: cfi: use struct_size() helper for cfiq allocation
+date:   9 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 9 months ago
+config: xtensa-randconfig-001-20260701 (https://download.01.org/0day-ci/archive/20260701/202607011208.piBfzCPm-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607011208.piBfzCPm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: d496b6f42eb0 ("mtd: cfi: use struct_size() helper for cfiq allocation")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607010413.ARNFa3Bx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607011208.piBfzCPm-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-am69-aquila-clover.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-am69-aquila-clover.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[147, 0], [147, 1], [147, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-am69-aquila-dev.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-am69-aquila-dev.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[152, 0], [152, 1], [152, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-am69-sk.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-am69-sk.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[115, 0], [115, 1], [115, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-j784s4-evm.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-j784s4-evm.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-j784s4-evm-pcie0-pcie1-ep.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-j784s4-evm-pcie0-pcie1-ep.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-j784s4-evm-quad-port-eth-exp1.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-j784s4-evm-quad-port-eth-exp1.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-j784s4-evm-usb0-type-a.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-j784s4-evm-usb0-type-a.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-j784s4-evm-usxgmii-exp1-exp2.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-j784s4-evm-usxgmii-exp1-exp2.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-am69-sk-csi2-dual-imx219.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-am69-sk-csi2-dual-imx219.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[115, 0], [115, 1], [115, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
---
->> arch/arm64/boot/dts/ti/k3-am69-sk-pcie0-ep.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
-   arch/arm64/boot/dts/ti/k3-am69-sk-pcie0-ep.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[115, 0], [115, 1], [115, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+All errors (new ones prefixed by >>):
+
+   drivers/mtd/chips/cfi_probe.o: in function `cfi_chip_setup':
+   cfi_probe.c:(.xiptext+0xa6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x30)
+   cfi_probe.c:(.xiptext+0xc5): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
+>> cfi_probe.c:(.xiptext+0xe0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: ftrace_likely_update
+   cfi_probe.c:(.xiptext+0xee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: ftrace_likely_update
+   cfi_probe.c:(.xiptext+0x100): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __kmalloc_noprof
+   cfi_probe.c:(.xiptext+0x10f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memset
+   cfi_probe.c:(.xiptext+0x11f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
+   cfi_probe.c:(.xiptext+0x132): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_off
+   cfi_probe.c:(.xiptext+0x15e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x30)
+   cfi_probe.c:(.xiptext+0x182): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: .text
+   cfi_probe.c:(.xiptext+0x19f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: .text
+   cfi_probe.c:(.xiptext+0x1bc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: .text
+   cfi_probe.c:(.xiptext+0x1da): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: .text
+   cfi_probe.c:(.xiptext+0x1f7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: .text
+   cfi_probe.c:(.xiptext+0x214): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: .text
+   cfi_probe.c:(.xiptext+0x2ae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   cfi_probe.c:(.xiptext+0x2c4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   cfi_probe.c:(.xiptext+0x2da): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   cfi_probe.c:(.xiptext+0x2f0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   cfi_probe.c:(.xiptext+0x2fa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x88)
+   cfi_probe.c:(.xiptext+0x306): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x88)
+   cfi_probe.c:(.xiptext+0x327): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x30)
+   cfi_probe.c:(.xiptext+0x336): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x30)
+   cfi_probe.c:(.xiptext+0x359): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
+   cfi_probe.c:(.xiptext+0x3aa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
+   drivers/mtd/chips/cfi_probe.o: in function `cfi_probe_chip':
+   cfi_probe.c:(.xiptext+0x430): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
+   cfi_probe.c:(.xiptext+0x447): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_off
+   cfi_probe.c:(.xiptext+0x474): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
+   cfi_probe.c:(.xiptext+0x4f4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
+   cfi_probe.c:(.xiptext+0x506): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
+   cfi_probe.c:(.xiptext+0x538): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
+   cfi_probe.c:(.xiptext+0x54a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
+   cfi_probe.c:(.xiptext+0x5a1): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
+   cfi_probe.c:(.xiptext+0x5be): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_panic_wait':
+   cfi_cmdset_0002.c:(.text+0xd0f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x254)
+   cfi_cmdset_0002.c:(.text+0xd42): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x254)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_panic_write_oneword':
+   cfi_cmdset_0002.c:(.text+0xe9a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x254)
+   cfi_cmdset_0002.c:(.text+0xeab): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x254)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_cmdset_0002':
+   cfi_cmdset_0002.c:(.text+0x12c8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_read_pri
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `get_chip':
+   cfi_cmdset_0002.c:(.text+0x17eb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x254)
+   cfi_cmdset_0002.c:(.text+0x189a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x254)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_otp_walk.isra.13':
+   cfi_cmdset_0002.c:(.text+0x1daf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_qry_mode_on
+   cfi_cmdset_0002.c:(.text+0x1dc8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_qry_mode_off
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_otp_write':
+   cfi_cmdset_0002.c:(.text+0x2116): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x7e4)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_write_words':
+   cfi_cmdset_0002.c:(.text+0x22a2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x7e4)
+   cfi_cmdset_0002.c:(.text+0x2302): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x7e4)
+   cfi_cmdset_0002.c:(.text+0x240a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x7e4)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_erase_chip':
+   cfi_cmdset_0002.c:(.text+0x259a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x8c8)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_otp_lock':
+   cfi_cmdset_0002.c:(.text+0x26bc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x254)
+   cfi_cmdset_0002.c:(.text+0x26ea): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x50)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_ppb_xxlock':
+   cfi_cmdset_0002.c:(.text+0x291a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x254)
+   cfi_cmdset_0002.c:(.text+0x2946): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x50)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_write_buffers':
+   cfi_cmdset_0002.c:(.text+0x2c72): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xb94)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `xip_udelay':
+   cfi_cmdset_0002.c:(.xiptext+0x63): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
+   cfi_cmdset_0002.c:(.xiptext+0xb7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
+   cfi_cmdset_0002.c:(.xiptext+0x102): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
+   cfi_cmdset_0002.c:(.xiptext+0x117): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memset
+   cfi_cmdset_0002.c:(.xiptext+0x137): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __trace_set_current_state
+   cfi_cmdset_0002.c:(.xiptext+0x152): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
+   cfi_cmdset_0002.c:(.xiptext+0x15a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
+   cfi_cmdset_0002.c:(.xiptext+0x160): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
+   cfi_cmdset_0002.c:(.xiptext+0x16c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
+   cfi_cmdset_0002.c:(.xiptext+0x174): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
+   cfi_cmdset_0002.c:(.xiptext+0x18c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_off
+   cfi_cmdset_0002.c:(.xiptext+0x1a3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x868)
+   cfi_cmdset_0002.c:(.xiptext+0x20f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
+   cfi_cmdset_0002.c:(.xiptext+0x228): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: trace_hardirqs_on
+   cfi_cmdset_0002.c:(.xiptext+0x236): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
+   cfi_cmdset_0002.c:(.xiptext+0x23c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __cond_resched
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `chip_ready.isra.7':
+   cfi_cmdset_0002.c:(.xiptext+0x25e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: .text
+   cfi_cmdset_0002.c:(.xiptext+0x270): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
+   cfi_cmdset_0002.c:(.xiptext+0x28b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_buffer_reset.isra.8':
+   cfi_cmdset_0002.c:(.xiptext+0x318): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   cfi_cmdset_0002.c:(.xiptext+0x32c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   cfi_cmdset_0002.c:(.xiptext+0x342): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_buffer_wait':
+   cfi_cmdset_0002.c:(.xiptext+0x390): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __usecs_to_jiffies
+   cfi_cmdset_0002.c:(.xiptext+0x3aa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memset
+   cfi_cmdset_0002.c:(.xiptext+0x3ca): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __trace_set_current_state
+   cfi_cmdset_0002.c:(.xiptext+0x3e3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
+   cfi_cmdset_0002.c:(.xiptext+0x3ee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
+   cfi_cmdset_0002.c:(.xiptext+0x3f4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
+   cfi_cmdset_0002.c:(.xiptext+0x3fe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
+   cfi_cmdset_0002.c:(.xiptext+0x40b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
+   cfi_cmdset_0002.c:(.xiptext+0x432): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
+   cfi_cmdset_0002.c:(.xiptext+0x450): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xb88)
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `xip_enable.isra.16':
+   cfi_cmdset_0002.c:(.xiptext+0x492): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
 
 --
 0-DAY CI Kernel Test Service
