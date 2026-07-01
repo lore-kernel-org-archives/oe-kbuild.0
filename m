@@ -1,144 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0100534D385
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 01:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CD021257F
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Jul 2026 02:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782869890; cv=none; b=tPUPxD8SgK/CU+UHKKQuZBzebVzKRiRQVATJdDqdhOykb21sfWMoTcjd1dZZBhd5yHY/EscHjWJZUcmVKxgEaLy4V1YrMNLWOwPP4Bo7nHKMGO0Hc8t9q97oq0PnoMQX+GqV8RlnRE3AOa0gWcKuf0dUXVtDeGMoZXg32kHYW/U=
+	t=1782873506; cv=none; b=nb86XbLmwU8VQNToJMakbyyJFSTWip3PKU7Us6+V/CVaYuRPOJxsKKnpbxYMgZfvGfQVWViJuAgLmPT9oDz6vCreSD4jw4v0FVpp37eKjBPAGgSyId4QJmVHb/QFwBNBU8fxgo0HVCw6JlOZ/TPVXGoGLyCI6kv91M+IR46WOJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782869890; c=relaxed/simple;
-	bh=OcFEVoaqRVoUDiIPPuKbfrqOfqzYEpnOpRo9V6mW0Fc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ieZB5spjEjk3CiCxzCGEMuTOtUhAvCdoFkgYMK/DdfEjXpeehHtf8Dkca7LV1LzZWtrewxLnD7os4CK03FEKGr11PCt6VXJC5vA++HhceD52xRLawto99mhgxhAc4OLhRKhuL0Mxk7NoN9ML77ft7I9FE1cfUpz+0KRDywkKn70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aefJj2Z2; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1782873506; c=relaxed/simple;
+	bh=8YHJJCC1zGIpiMb+kAO/+4D5OdE+US20nKQ4s4PHaIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AAAMpztpJZwhfD4G8Dc3iXenQzgS100lG9a5fKo87hUU+cAy3RkvAZ87yTik0IWT/6r6AI5g/gBEWKSP2AkCWKdcRcurKb6vakl60+aKq1xpoxGOZ4oIr2c95Ecvmev3J/4andJiSqBIqU+MEi8tTm6mK5z1yj9h4u/RULRuo8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E+aURsUh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aefJj2Z2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+aURsUh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782869889; x=1814405889;
-  h=date:from:to:cc:subject:message-id;
-  bh=OcFEVoaqRVoUDiIPPuKbfrqOfqzYEpnOpRo9V6mW0Fc=;
-  b=aefJj2Z2uzKQU+s17o8u1PlWzzDzcRCGGa8cBi8BJN7b5teEGI+hcsgo
-   Mz2dSDrXj13Uk1p7bSV4LCvmMfAH5HSq8tYqpmcSBlv7iXKU9llKhzqXG
-   I5ModCkS3NV7f/l3Gfb0+iV3wXFVtOvQiyO+fvviX8kAiHD6ZoQPU8P6M
-   O2WdFTTl6aWQv6mxcToTGpBcZZBJsMWLsVqECojnbn1Um72CNLpLOVOUJ
-   PgAfHSPexcbVUZwioOtsnUfARyVwyCmkVH/vot6K0pqeA2P9Get5wN3uA
-   GQ/alGbtA22hPEsC+sFvRiPGs2WIGGKE+4qxHADgmUnF1i+mcdBzWSM1R
-   w==;
-X-CSE-ConnectionGUID: gwX2ovJ+QxaiQKcaPQnJ/A==
-X-CSE-MsgGUID: sCdWfo68R22/g+2HSv0gbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="94975402"
-X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="94975402"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 18:38:08 -0700
-X-CSE-ConnectionGUID: p1LrkxlSS0uyO7i+e/+vNA==
-X-CSE-MsgGUID: FaC57wABT1CPYYtOS9FvMg==
+  t=1782873505; x=1814409505;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8YHJJCC1zGIpiMb+kAO/+4D5OdE+US20nKQ4s4PHaIk=;
+  b=E+aURsUh7m5RXF1nFzHc8snMPXxgQGZJqpkuaFvUGQ6hb1tJ53YLtcwP
+   B4gfICArxCSPKyZ2x3Oaf9XGDGl42VxPXAN+7rprmOtG8vU6VgLGz1UBp
+   gNTyOU27MznyFeCjfsgGuE1KVFGPTAVLCTMQzQAYs1gALeFcTm7GdpZLM
+   XsSEjUcCzwfHQMPSt4lwwrcUr8VtGq3c+9RT4HkLoHyS9iZLTlNbQJMNu
+   8a7vjnx9lJrkte1f7c9x3gg6uwIoAQvlff5uUpb1dN81lVrsBEqKIlD8n
+   UUKYy/yA1OhB7Q5F5DvkckznMlpipH9RJki03wW5dQ2THYSbgmfoVHz6J
+   A==;
+X-CSE-ConnectionGUID: baRDoHNmQVKREqcPPoXyMw==
+X-CSE-MsgGUID: B7JzM9kjQ/6LN2HvuEVVlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="109142941"
+X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
+   d="scan'208";a="109142941"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 19:38:24 -0700
+X-CSE-ConnectionGUID: bY3q2+lbT9Kt1RtqVFWdxA==
+X-CSE-MsgGUID: ariJwo26Tq2qIxpcGtZXxw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="248439477"
+X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
+   d="scan'208";a="276735206"
 Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Jun 2026 18:37:22 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jun 2026 19:38:23 -0700
 Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wejtA-000000000dV-05zA;
-	Wed, 01 Jul 2026 01:37:20 +0000
-Date: Wed, 01 Jul 2026 03:36:28 +0200
+	id 1wekqD-000000000e1-34GY;
+	Wed, 01 Jul 2026 02:38:21 +0000
+Date: Wed, 1 Jul 2026 04:38:14 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dtb:
- pcie@0: wifi@0,0:compatible: ['brcm,bcm4366-fmac', 'brcm,bcm4329-fmac'] does
- not contain items matching the given schema
-Message-ID: <202607010348.FSUXkFKn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v3 net-next 2/2] dt-bindings: phy: cadence-torrent:
+ Update property values to support 3 clocks
+Message-ID: <202607010413.ARNFa3Bx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Rosen Penev <rosenp@gmail.com>
-CC: Florian Fainelli <florian.fainelli@broadcom.com>
+In-Reply-To: <20260630134324.61085-3-g-praveen@ti.com>
+References: <20260630134324.61085-3-g-praveen@ti.com>
+TO: Gokul Praveen <g-praveen@ti.com>
+TO: conor+dt@kernel.org
+TO: devicetree@vger.kernel.org
+TO: krzk+dt@kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-phy@lists.infradead.org
+TO: neil.armstrong@linaro.org
+TO: nm@ti.com
+TO: robh@kernel.org
+TO: sjakhade@cadence.com
+TO: kristo@kernel.org
+TO: vigneshr@ti.com
+TO: vkoul@kernel.org
+TO: yamonkar@cadence.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
-commit: 893faf67438cb7642d8c2da7650a436716155416 ARM: dts: BCM5301X: add root pcie bridges
-date:   4 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-2051-20260629 (https://download.01.org/0day-ci/archive/20260701/202607010348.FSUXkFKn-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 8a531c3608c722ad529be448d6ecef06ba107228)
+Hi Gokul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gokul-Praveen/arm64-dts-ti-Add-PLL1-refclk-to-J784S4-SoC-SERDES-node/20260630-214733
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260630134324.61085-3-g-praveen%40ti.com
+patch subject: [PATCH v3 net-next 2/2] dt-bindings: phy: cadence-torrent: Update property values to support 3 clocks
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: arm64-randconfig-2051-20260630 (https://download.01.org/0day-ci/archive/20260701/202607010413.ARNFa3Bx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
 dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607010348.FSUXkFKn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260701/202607010413.ARNFa3Bx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 893faf67438c ("ARM: dts: BCM5301X: add root pcie bridges")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607010348.FSUXkFKn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607010413.ARNFa3Bx-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dts:142.3-27: Warning (pci_device_bus_num): /axi@18000000/pcie@13000/pcie@0/pcie@0,0/pcie@1,0:bus-range: PCI bus number 0 out of range, expected (1 - 255)
-   arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dts:142.3-27: Warning (pci_device_bus_num): /axi@18000000/pcie@13000/pcie@0/pcie@0,0/pcie@2,0:bus-range: PCI bus number 0 out of range, expected (1 - 255)
-   arch/arm/boot/dts/broadcom/bcm5301x-nand-cs0.dtsi:10.18-19.5: Warning (avoid_unnecessary_addr_size): /nand-controller@18028000/nand@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:24.28-47.4: Warning (unique_unit_address_if_enabled): /chipcommon-a-bus@18000000: duplicate unit-address (also used in node /axi@18000000)
-   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:377.22-382.4: Warning (unique_unit_address_if_enabled): /mdio@18003000: duplicate unit-address (also used in node /mdio-mux@18003000)
-   arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dtb: /axi@18000000: failed to match any schema with compatible: ['brcm,bus-axi']
->> arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dtb: pcie@0: wifi@0,0:compatible: ['brcm,bcm4366-fmac', 'brcm,bcm4329-fmac'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dtb: pcie@1,0: wifi@0,0:compatible: ['brcm,bcm4366-fmac', 'brcm,bcm4329-fmac'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dtb: pcie@2,0: wifi@0,0:compatible: ['brcm,bcm4366-fmac', 'brcm,bcm4329-fmac'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@8: 'phy-mode' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
-   arch/arm/boot/dts/broadcom/bcm4709-netgear-r8000.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
+>> arch/arm64/boot/dts/ti/k3-am69-aquila-clover.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-am69-aquila-clover.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[147, 0], [147, 1], [147, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
 --
-   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:24.28-47.4: Warning (unique_unit_address_if_enabled): /chipcommon-a-bus@18000000: duplicate unit-address (also used in node /axi@18000000)
-   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:377.22-382.4: Warning (unique_unit_address_if_enabled): /mdio@18003000: duplicate unit-address (also used in node /mdio-mux@18003000)
-   arch/arm/boot/dts/broadcom/bcm47094-luxul-xap-1610.dtb: /axi@18000000: failed to match any schema with compatible: ['brcm,bus-axi']
->> arch/arm/boot/dts/broadcom/bcm47094-luxul-xap-1610.dtb: pcie@0: wifi@0,0:compatible: ['brcm,bcm4366-fmac', 'brcm,bcm4329-fmac'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
->> arch/arm/boot/dts/broadcom/bcm47094-luxul-xap-1610.dtb: pcie@0: wifi@0,0:compatible: ['brcm,bcm4366-fmac', 'brcm,bcm4329-fmac'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm/boot/dts/broadcom/bcm47094-luxul-xap-1610.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@5: 'phy-mode' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
-   arch/arm/boot/dts/broadcom/bcm47094-luxul-xap-1610.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@5: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-link' is a required property
-   	'phy-handle' is a required property
-   	'managed' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
-   arch/arm/boot/dts/broadcom/bcm47094-luxul-xap-1610.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
+>> arch/arm64/boot/dts/ti/k3-am69-aquila-dev.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-am69-aquila-dev.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[152, 0], [152, 1], [152, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
 --
-   arch/arm/boot/dts/broadcom/bcm5301x-nand-cs0.dtsi:10.18-19.5: Warning (avoid_unnecessary_addr_size): /nand-controller@18028000/nand@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:24.28-47.4: Warning (unique_unit_address_if_enabled): /chipcommon-a-bus@18000000: duplicate unit-address (also used in node /axi@18000000)
-   arch/arm/boot/dts/broadcom/bcm-ns.dtsi:377.22-382.4: Warning (unique_unit_address_if_enabled): /mdio@18003000: duplicate unit-address (also used in node /mdio-mux@18003000)
-   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: /axi@18000000: failed to match any schema with compatible: ['brcm,bus-axi']
->> arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: pcie@0: wifi@0,0:compatible: ['brcm,bcm4366-fmac', 'brcm,bcm4329-fmac'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
->> arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: pcie@0: wifi@0,0:compatible: ['brcm,bcm4366-fmac', 'brcm,bcm4329-fmac'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@5: 'phy-mode' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
-   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@5: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-link' is a required property
-   	'phy-handle' is a required property
-   	'managed' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
-   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml
+>> arch/arm64/boot/dts/ti/k3-am69-sk.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-am69-sk.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[115, 0], [115, 1], [115, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-j784s4-evm.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-j784s4-evm.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-j784s4-evm-pcie0-pcie1-ep.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-j784s4-evm-pcie0-pcie1-ep.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-j784s4-evm-quad-port-eth-exp1.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-j784s4-evm-quad-port-eth-exp1.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-j784s4-evm-usb0-type-a.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-j784s4-evm-usb0-type-a.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-j784s4-evm-usxgmii-exp1-exp2.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-j784s4-evm-usxgmii-exp1-exp2.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[132, 0], [132, 1], [132, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-am69-sk-csi2-dual-imx219.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-am69-sk-csi2-dual-imx219.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[115, 0], [115, 1], [115, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-am69-sk-pcie0-ep.dtb: serdes@5020000 (ti,j721e-serdes-10g): clock-names: ['refclk', 'pll1_refclk', 'phy_en_refclk'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
+   arch/arm64/boot/dts/ti/k3-am69-sk-pcie0-ep.dtb: serdes@5020000 (ti,j721e-serdes-10g): clocks: [[115, 0], [115, 1], [115, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/phy-cadence-torrent.yaml
 
 --
 0-DAY CI Kernel Test Service
