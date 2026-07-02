@@ -1,129 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DFE2571A0
-	for <oe-kbuild@lists.linux.dev>; Thu,  2 Jul 2026 21:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BF53803C7
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 Jul 2026 21:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783026174; cv=none; b=jQ4cXcPJ4lbGVRvPjLWQU8dx0KkGydvMNsEZC8jrYTMyru4PS8HsFHTrl03kPcW7X/Zgbk9rbqy0xJyfxmCC4ELypbLhCSvc5jOYa9Y2xq1TfnFj9fdzTffKF5wCDXPHvBzxlh/V1MAvWQIWf3llmpZqWZPG+3DEKyrEk1FRtYM=
+	t=1783026807; cv=none; b=FD3n+P68Hnfr7dfcexExOw5jtlcS/mFf1XX/va7EK5HV/9MkJIFbC0Y3t3gsYqHbTW89+9Bc+2j8LvNF9c2HuzzxvwEB/RfrFL784ywCKEQLaABWETEgwKMi4DVGcwTL2tHsJuZQVVGd7Cj8t45zlKfry3vA5M+McfwsIZMsyxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783026174; c=relaxed/simple;
-	bh=FmnXVV44iyGU8enrKOaHiTR23jXCGaIqLfZSoNtjfkk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jtj6gjh5psWfkzw1aJakDbExK1sY61wbYfq0McBvSOrf7aEuj7RiyzTe7Lu6PRy2+CP10UBSxoonWtg8j42JlzNSFEWYGuu+PBUEk78PiDnL09zPLrq/5uUtHHfy0wPprKKZeHiGBzY6v4KIaWdHXwiTlrPIijA006vDGmvrIYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIqL5rsH; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1783026807; c=relaxed/simple;
+	bh=YNDRXs2Vz9c7F+39of3P1kWBR3sKD+i7spjFiy7B7RU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u6l4TFm22SB5zGain0gom2js9AT97/vBOk3/AmGvc1AJCk3UNbVQBaTDLl6ebSGOKRmztaDnol7tu7d+wSLCiqdVjy5sTqKlVrWTrL/oCHBGrEof0dPy5UHq+KVA6IQL2Mu7gPa4/HPi0MsN+kWc3n7SDyCsLMiXoImONIv8T00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j8bbMdsV; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIqL5rsH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8bbMdsV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783026172; x=1814562172;
-  h=date:from:to:cc:subject:message-id;
-  bh=FmnXVV44iyGU8enrKOaHiTR23jXCGaIqLfZSoNtjfkk=;
-  b=GIqL5rsHoynZJL1OFwNnDZRfbf7XbIBmHU0XPuGyE4nh83NvhBHALMXG
-   ALDMavurqSP7DYGtVtjeAYKeuspDuWd/95TjF6K+eqBiTuRd8rQw+rnYs
-   3t4yMI8Yer1uBBxQ/NtPSrBsrxDtX4uu/3v/Hv0MLIkSkfGIHXfuXoqrU
-   Au2GOG5QItPyZvhFUyskxpUxrjGToheKeWYSFjCou9bsd23XwezJhm9jf
-   oOr4jEfgDDKpcvj2PTfNdjonnmp8W9UFHcvocoWxX5fdFOVOOBq2bbKtW
-   W3uZAl5937WdYrqr/lzPhl7wib8tk+xI5kXGLoHVqL1CBftYuDltsLUZR
-   g==;
-X-CSE-ConnectionGUID: x3OCg5NuSC+sNme8CmLSuw==
-X-CSE-MsgGUID: ZgUQW2/3RwKQrdeYqGDoyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="94436138"
+  t=1783026805; x=1814562805;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YNDRXs2Vz9c7F+39of3P1kWBR3sKD+i7spjFiy7B7RU=;
+  b=j8bbMdsV6UmHBusVr3rslYm0SVpatZgf7tnUoTJeP2Oh8eGcj6elFNZ7
+   P+7OXjvc9rrep0E4xkg3itivT7/03BiWqYz2Ms/9VtiRmYoPKBaBY2IwL
+   wV133TIVmagk45R6VGR471Pflpz/Aoj0qlWqQ2/sFN0xemRF9AydnYQgy
+   tloBeLDu7C6COEoKb4hOMCZFLOkIZMSj9XHlGPsvN1vjKyKrEoluq4+8/
+   Uocytt/yvwk5UJOv/R0buQGVLYgqgzH80lPCsb4DzTGpCSJJSQLY684vH
+   974vI/y4JGrKJBamxzwavyHM4TttnHR3CwDHLQkCvyF4FXnNwJh/ga9kC
+   A==;
+X-CSE-ConnectionGUID: MKacjBjASDaWlnM5uqcYLw==
+X-CSE-MsgGUID: nJQqmEUbRNS7I+GysjZKIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="86326528"
 X-IronPort-AV: E=Sophos;i="6.25,144,1779174000"; 
-   d="scan'208";a="94436138"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 14:02:51 -0700
-X-CSE-ConnectionGUID: RiWxk3FsS7qv8G7r/5YEWg==
-X-CSE-MsgGUID: E/DXTz0MQyK26C50O6Tg+g==
+   d="scan'208";a="86326528"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 14:13:24 -0700
+X-CSE-ConnectionGUID: E28N4zQXTjau8hHWhsWr5g==
+X-CSE-MsgGUID: vwBTA+45Tp6kUeP+mlng7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,144,1779174000"; 
-   d="scan'208";a="257292937"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 02 Jul 2026 14:02:51 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+   d="scan'208";a="249607934"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 02 Jul 2026 14:13:23 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfOYZ-00000000BEp-1vig;
-	Thu, 02 Jul 2026 21:02:47 +0000
-Date: Fri, 03 Jul 2026 05:02:19 +0800
+	id 1wfOin-000000001IL-18yw;
+	Thu, 02 Jul 2026 21:13:21 +0000
+Date: Thu, 2 Jul 2026 23:12:22 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android16-6.12 1/1] block/blk-merge.c:969
- blk_rq_merge_ok() warn: variable dereferenced before check 'rq->bio' (see
- line 958)
-Message-ID: <202607030420.y7EO6sQZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH 3/3] rtc: s35390a: make use of interrupt signal 1
+Message-ID: <202607022332.TCDi7Xuj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20260630-rtc_s35390a_int1-v1-3-1b2239e16be2@posteo.de>
+References: <20260630-rtc_s35390a_int1-v1-3-1b2239e16be2@posteo.de>
+TO: Markus Probst <markus.probst@posteo.de>
+TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: "Uwe Kleine-König" <uwe@kleine-koenig.org>
+TO: Andrew Lunn <andrew@lunn.ch>
+TO: Gregory Clement <gregory.clement@bootlin.com>
+TO: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rtc@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Markus Probst <markus.probst@posteo.de>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   d36feda1de5741a9d2bfe0fd6a0391c77047f5bb
-commit: 7f82cf03ba776076d22aebf90449ec2b83618cef [1/1] UPSTREAM: block: remove the write_hint field from struct request
-:::::: branch date: 12 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260703/202607030420.y7EO6sQZ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+Hi Markus,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 728e68a889bcf257b1e67298b12c360e5c3a13e0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Probst/dt-bindings-rtc-Add-sii-wakealarm-output-pin-property-for-S35390A/20260701-032724
+base:   728e68a889bcf257b1e67298b12c360e5c3a13e0
+patch link:    https://lore.kernel.org/r/20260630-rtc_s35390a_int1-v1-3-1b2239e16be2%40posteo.de
+patch subject: [PATCH 3/3] rtc: s35390a: make use of interrupt signal 1
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-2051-20260701 (https://download.01.org/0day-ci/archive/20260702/202607022332.TCDi7Xuj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2026.7.dev1+g2203c1720
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607022332.TCDi7Xuj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607030420.y7EO6sQZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607022332.TCDi7Xuj-lkp@intel.com/
 
-smatch warnings:
-block/blk-merge.c:969 blk_rq_merge_ok() warn: variable dereferenced before check 'rq->bio' (see line 958)
-
-vim +969 block/blk-merge.c
-
-050c8ea80e3e900 Tejun Heo          2012-02-08  944  
-050c8ea80e3e900 Tejun Heo          2012-02-08  945  bool blk_rq_merge_ok(struct request *rq, struct bio *bio)
-050c8ea80e3e900 Tejun Heo          2012-02-08  946  {
-e2a60da74fc8215 Martin K. Petersen 2012-09-18  947  	if (!rq_mergeable(rq) || !bio_mergeable(bio))
-050c8ea80e3e900 Tejun Heo          2012-02-08  948  		return false;
-050c8ea80e3e900 Tejun Heo          2012-02-08  949  
-288dab8a35a0bde Christoph Hellwig  2016-06-09  950  	if (req_op(rq) != bio_op(bio))
-f31dc1cd490539e Martin K. Petersen 2012-09-18  951  		return false;
-f31dc1cd490539e Martin K. Petersen 2012-09-18  952  
-050c8ea80e3e900 Tejun Heo          2012-02-08  953  	/* different data direction or already started, don't merge */
-050c8ea80e3e900 Tejun Heo          2012-02-08  954  	if (bio_data_dir(bio) != rq_data_dir(rq))
-050c8ea80e3e900 Tejun Heo          2012-02-08  955  		return false;
-050c8ea80e3e900 Tejun Heo          2012-02-08  956  
-6b2b04590b51aa4 Tejun Heo          2022-03-14  957  	/* don't merge across cgroup boundaries */
-6b2b04590b51aa4 Tejun Heo          2022-03-14 @958  	if (!blk_cgroup_mergeable(rq, bio))
-6b2b04590b51aa4 Tejun Heo          2022-03-14  959  		return false;
-6b2b04590b51aa4 Tejun Heo          2022-03-14  960  
-050c8ea80e3e900 Tejun Heo          2012-02-08  961  	/* only merge integrity protected bio into ditto rq */
-4eaf99beadcefbf Martin K. Petersen 2014-09-26  962  	if (blk_integrity_merge_bio(rq->q, rq, bio) == false)
-050c8ea80e3e900 Tejun Heo          2012-02-08  963  		return false;
-050c8ea80e3e900 Tejun Heo          2012-02-08  964  
-a892c8d52c02284 Satya Tangirala    2020-05-14  965  	/* Only merge if the crypt contexts are compatible */
-a892c8d52c02284 Satya Tangirala    2020-05-14  966  	if (!bio_crypt_rq_ctx_compatible(rq, bio))
-a892c8d52c02284 Satya Tangirala    2020-05-14  967  		return false;
-a892c8d52c02284 Satya Tangirala    2020-05-14  968  
-7f82cf03ba77607 Christoph Hellwig  2024-11-12 @969  	if (rq->bio) {
-449813515d3e5ef Bart Van Assche    2024-02-02  970  		/* Don't merge requests with different write hints. */
-7f82cf03ba77607 Christoph Hellwig  2024-11-12  971  		if (rq->bio->bi_write_hint != bio->bi_write_hint)
-449813515d3e5ef Bart Van Assche    2024-02-02  972  			return false;
-7f82cf03ba77607 Christoph Hellwig  2024-11-12  973  	}
-668ffc03418bc77 Damien Le Moal     2018-11-20  974  
-69db0304309a7e4 Greg Kroah-Hartman 2025-05-21  975  	if (rq->ioprio != bio_prio(bio))
-69db0304309a7e4 Greg Kroah-Hartman 2025-05-21  976  		return false;
-69db0304309a7e4 Greg Kroah-Hartman 2025-05-21  977  
-9da3d1e912f3953 John Garry         2024-06-20  978  	if (blk_atomic_write_mergeable_rq_bio(rq, bio) == false)
-9da3d1e912f3953 John Garry         2024-06-20  979  		return false;
-9da3d1e912f3953 John Garry         2024-06-20  980  
-050c8ea80e3e900 Tejun Heo          2012-02-08  981  	return true;
-050c8ea80e3e900 Tejun Heo          2012-02-08  982  }
-050c8ea80e3e900 Tejun Heo          2012-02-08  983  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/cm@48004000/clockdomains/dss_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/cm@48004000/clockdomains/core_l4_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/cm@48004000/clockdomains/dpll5_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/cm@48004000/clockdomains/sgx_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/cm@48004000/clockdomains/usbhost_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/target-module@48320000/counter@0: failed to match any schema with compatible: ['ti,omap-counter32k']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: s35390a@30 (sii,s35390a): $nodename:0: 's35390a@30' does not match '^rtc(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/rtc/sii,s35390a.yaml
+>> arch/arm/boot/dts/ti/omap/am3517-evm.dtb: s35390a@30 (sii,s35390a): Unevaluated properties are not allowed ('interrupts-extended' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/rtc/sii,s35390a.yaml
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/i2c@48070000/tps65023@48: failed to match any schema with compatible: ['ti,tps65023']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: tsc2004@4b (ti,tsc2004): $nodename:0: 'tsc2004@4b' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/i2c@48060000/tvp5146@5c: failed to match any schema with compatible: ['ti,tvp5146m2']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/am3517-evm.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
 
 --
 0-DAY CI Kernel Test Service
