@@ -1,200 +1,247 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A44477E4D
-	for <oe-kbuild@lists.linux.dev>; Thu,  2 Jul 2026 09:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95494412299
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 Jul 2026 10:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782984301; cv=none; b=STweBG43jnXTmkpHNNOW2oekPk2l+z+tAHPVtH+qUN/Vj+EyXyVEQkOJrFD3yMWgOgCPeeWCgbjDRjNlH3sLyqE7UNsCe0H6Sw4U5INTzsAMeVSLqr8g436vSU6tLuGcndU8vMdPCqjAYFumzp+tRnjTA5D1eOBV/1sq8NbyG9M=
+	t=1782987036; cv=none; b=AM7vMeVxlgdYglwBA0e/q5m+VX+RXEZ6+S4/l6suz3T9ZTFsdlPHwD5JgUviSRh8qKEcjRS3akomg81krLywuQ8sE7rv6VNFIW9JrdXiuRXJ2YoiafaH9+sTtY4kVutcvZlnuNZXD2MlxldNxER1K+Ot4o4Hl9Gfhh4psz9qPZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782984301; c=relaxed/simple;
-	bh=hPxdfOlxzlMprgSaVtRaWs2is3k4mnaNMHtzW6GH4GU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U96fqhhBskhP7Z7amsDnV8ciE5IeLMfUBjf6mXS+eslpGB8pX6L+a8lk/zZ2m86UPP6WBMYsrJBPIm7hArB6d/pgyyxAQIAF4yHT1Eb8DI4n9oZCQFGJmvcJCxDj/o8u7XDVAp6H+SE89keFMB/FP0WOjaMtDDCPEBDA2+oI9DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEF8nrx/; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1782987036; c=relaxed/simple;
+	bh=vK0mqSXrIcj9YF2e2z0Z3ObwNyVS7kx/5g9gxULR41Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bkvM5Z0DBuELPKzcX5PHwtbvV8wSHxqc7o7Lu0fzACcxExE3/iYDRYHCNapm00tQX9vND/iRwB3uvaRdSJGBQjoVvo8UJPAWTTsotFA7EoWbSU6P3IpIQvFo4+moscxb1WsM+ism8b35J+HXjeb+etYOLU/Jjtd2+Lls2yW6CMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXtDk9P2; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEF8nrx/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXtDk9P2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782984298; x=1814520298;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hPxdfOlxzlMprgSaVtRaWs2is3k4mnaNMHtzW6GH4GU=;
-  b=jEF8nrx//jBN73JemXE+D51U2Kt96/yqKQWN3r8t1y89xsRttCfOAXEp
-   bYkWzTkr7fx7uuE7a9h8261gEdMAtX1NX0Q6Ik3otiE8DkkKCaPzbgO+3
-   lsrUK3X/9I3tHE/tsxBNzlWp1W3JYPoclZpgqzsROK9p80WHLOULWTne/
-   h58nbp5VfO5uJfpno9oQ44LMyJcmw0wtbwfH+I+7EM5bTH5SEM0Vub1j6
-   KKm+wmNzMcl4rOP06ppr6s6jNLreyXvj4NmDZdvvbHuMH2RoMLjF+B9bL
-   tVsq/KHbcZaqX0zBhdJ//W7vptGiu2VdMzZcqbMNghUBWeF93Bpo+p+iq
-   Q==;
-X-CSE-ConnectionGUID: dlK1z/4VQ06/G/dy8QITqA==
-X-CSE-MsgGUID: g0pbMchvSsS49aweWMo8XA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83603184"
+  t=1782987034; x=1814523034;
+  h=date:from:to:cc:subject:message-id;
+  bh=vK0mqSXrIcj9YF2e2z0Z3ObwNyVS7kx/5g9gxULR41Y=;
+  b=cXtDk9P2uN4C2JK336MV1iJwFqV6gswuj5MWuQ8p0mBSxR+UNp7GsVPS
+   Rkv3/3HeckzbVS5ZxOTCZUFZV15n4vrGUyYGfAyu2cdH1IQdDmPxhQeCY
+   Y3ggrTR/8NSXhsNOog/XOTM/FhweMxKXd8jAfPqXWFmyXB3mreK1kNPyr
+   ecCz+4QtrgpTBpPuzUfMuE8aGuYcByshObZBAPRNpj+NfKOEPJfpLLLlA
+   Yx3kozTtqnOpG8YbXEL+27lPCiXvtY/d/qDFWvsBKJxioV6bhFUBTxPhU
+   d+QMlyYJcpmNpebzaTsx/t9zlKswCQciQg+I+gERlUVFwJYZdAAQX0C+2
+   w==;
+X-CSE-ConnectionGUID: Puixuiw0QJ2hK4t6JujxqQ==
+X-CSE-MsgGUID: 0czgIja7SaCLoQjtbPxRlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="94337931"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="83603184"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:24:58 -0700
-X-CSE-ConnectionGUID: m+eAfZaBRk6xnLXspO6MHw==
-X-CSE-MsgGUID: mdlx+peUSjyJVUaj4c8NSw==
+   d="scan'208";a="94337931"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 03:10:33 -0700
+X-CSE-ConnectionGUID: xUI2LLRVQNilQsbvlw8WjA==
+X-CSE-MsgGUID: DlU+6aIZTmyY61YjyQYWPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="248833019"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Jul 2026 02:24:57 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="248370150"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Jul 2026 03:10:32 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfDfD-000000001CT-1280;
-	Thu, 02 Jul 2026 09:24:55 +0000
-Date: Thu, 2 Jul 2026 11:23:56 +0200
+	id 1wfENC-00000000Afn-0o2o;
+	Thu, 02 Jul 2026 10:10:24 +0000
+Date: Thu, 02 Jul 2026 18:10:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 3/3] arm64: dts: monaco-arduino-monza: microcontroller
- LEDs
-Message-ID: <202607021130.mtumIui2-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [brauner-vfs:vfs.all 117/195] fs/iomap/direct-io.c:1074
+ iomap_dio_simple() warn: bitwise AND condition is false here
+Message-ID: <202607021845.yVHnfllM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260629-monza-leds-v1-3-0cf7c0a7dc14@oss.qualcomm.com>
-References: <20260629-monza-leds-v1-3-0cf7c0a7dc14@oss.qualcomm.com>
-TO: Loic Poulain <loic.poulain@oss.qualcomm.com>
-TO: Lee Jones <lee@kernel.org>
-TO: Pavel Machek <pavel@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-CC: linux-leds@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: Loic Poulain <loic.poulain@oss.qualcomm.com>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Fengnan Chang <changfengnan@bytedance.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
 
-Hi Loic,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dc59e4fea9d83f03bad6bddf3fa2e52491777482]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Loic-Poulain/dt-bindings-leds-nxp-pca963x-add-multicolor-LED-support/20260701-003134
-base:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
-patch link:    https://lore.kernel.org/r/20260629-monza-leds-v1-3-0cf7c0a7dc14%40oss.qualcomm.com
-patch subject: [PATCH 3/3] arm64: dts: monaco-arduino-monza: microcontroller LEDs
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-2051-20260701 (https://download.01.org/0day-ci/archive/20260702/202607021130.mtumIui2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021130.mtumIui2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+head:   cf6f88615485a68df77092de1f90f88708a32fa6
+commit: c45650e4f8ba25d02e860094a77bf85ec3a35f13 [117/195] iomap: add simple dio path for small direct I/O
+:::::: branch date: 2 hours ago
+:::::: commit date: 21 hours ago
+config: i386-randconfig-141-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021845.yVHnfllM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607021130.mtumIui2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607021845.yVHnfllM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too short
-   	'allwinner,sun4i-a10-i2c' was expected
-   	'allwinner,sun7i-a20-i2c' was expected
-   	'allwinner,sun6i-a31-i2c' was expected
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,suniv-f1c100s-i2c', 'allwinner,sun8i-a23-i2c', 'allwinner,sun8i-a83t-i2c', 'allwinner,sun8i-v536-i2c', 'allwinner,sun50i-a64-i2c', 'allwinner,sun50i-h6-i2c']
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,sun20i-d1-i2c', 'allwinner,sun50i-a100-i2c', 'allwinner,sun50i-h616-i2c', 'allwinner,sun50i-r329-i2c', 'allwinner,sun55i-a523-i2c']
-   	'marvell,mv64xxx-i2c' was expected
-   	'marvell,mv78230-i2c' was expected
-   	'allwinner,sun8i-v536-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/marvell,mv64xxx-i2c.yaml
->> arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: pca9635@68 (nxp,pca9635): 'usb2@5', 'usb3_1@6', 'usb3_2@7', 'wan_amber@0', 'wan_white@1', 'wlan_2g@2', 'wlan_5g@3', 'wps_amber@9', 'wps_white@8' do not match any of the regexes: '^led@[0-9a-f]+$', '^multi-led@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/nxp,pca963x.yaml
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: i2c@11100 (marvell,mv78230-a0-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too long
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too short
-   	'allwinner,sun4i-a10-i2c' was expected
-   	'allwinner,sun7i-a20-i2c' was expected
-   	'allwinner,sun6i-a31-i2c' was expected
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,suniv-f1c100s-i2c', 'allwinner,sun8i-a23-i2c', 'allwinner,sun8i-a83t-i2c', 'allwinner,sun8i-v536-i2c', 'allwinner,sun50i-a64-i2c', 'allwinner,sun50i-h6-i2c']
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,sun20i-d1-i2c', 'allwinner,sun50i-a100-i2c', 'allwinner,sun50i-h616-i2c', 'allwinner,sun50i-r329-i2c', 'allwinner,sun55i-a523-i2c']
-   	'marvell,mv64xxx-i2c' was expected
---
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too short
-   	'allwinner,sun4i-a10-i2c' was expected
-   	'allwinner,sun7i-a20-i2c' was expected
-   	'allwinner,sun6i-a31-i2c' was expected
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,suniv-f1c100s-i2c', 'allwinner,sun8i-a23-i2c', 'allwinner,sun8i-a83t-i2c', 'allwinner,sun8i-v536-i2c', 'allwinner,sun50i-a64-i2c', 'allwinner,sun50i-h6-i2c']
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,sun20i-d1-i2c', 'allwinner,sun50i-a100-i2c', 'allwinner,sun50i-h616-i2c', 'allwinner,sun50i-r329-i2c', 'allwinner,sun55i-a523-i2c']
-   	'marvell,mv64xxx-i2c' was expected
-   	'marvell,mv78230-i2c' was expected
-   	'allwinner,sun8i-v536-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/marvell,mv64xxx-i2c.yaml
->> arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: pca9635@68 (nxp,pca9635): 'usb2@5', 'usb3_1@6', 'usb3_2@7', 'wan_amber@0', 'wan_white@1', 'wlan_2g@2', 'wlan_5g@3', 'wps_amber@9', 'wps_white@8' do not match any of the regexes: '^led@[0-9a-f]+$', '^multi-led@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/nxp,pca963x.yaml
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: i2c@11100 (marvell,mv78230-a0-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too long
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too short
-   	'allwinner,sun4i-a10-i2c' was expected
-   	'allwinner,sun7i-a20-i2c' was expected
-   	'allwinner,sun6i-a31-i2c' was expected
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,suniv-f1c100s-i2c', 'allwinner,sun8i-a23-i2c', 'allwinner,sun8i-a83t-i2c', 'allwinner,sun8i-v536-i2c', 'allwinner,sun50i-a64-i2c', 'allwinner,sun50i-h6-i2c']
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,sun20i-d1-i2c', 'allwinner,sun50i-a100-i2c', 'allwinner,sun50i-h616-i2c', 'allwinner,sun50i-r329-i2c', 'allwinner,sun55i-a523-i2c']
-   	'marvell,mv64xxx-i2c' was expected
---
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too short
-   	'allwinner,sun4i-a10-i2c' was expected
-   	'allwinner,sun7i-a20-i2c' was expected
-   	'allwinner,sun6i-a31-i2c' was expected
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,suniv-f1c100s-i2c', 'allwinner,sun8i-a23-i2c', 'allwinner,sun8i-a83t-i2c', 'allwinner,sun8i-v536-i2c', 'allwinner,sun50i-a64-i2c', 'allwinner,sun50i-h6-i2c']
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,sun20i-d1-i2c', 'allwinner,sun50i-a100-i2c', 'allwinner,sun50i-h616-i2c', 'allwinner,sun50i-r329-i2c', 'allwinner,sun55i-a523-i2c']
-   	'marvell,mv64xxx-i2c' was expected
-   	'marvell,mv78230-i2c' was expected
-   	'allwinner,sun8i-v536-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/marvell,mv64xxx-i2c.yaml
->> arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: pca9635@68 (nxp,pca9635): 'usb2@5', 'usb3_1@6', 'usb3_2@7', 'wan_amber@0', 'wan_white@1', 'wps_amber@9', 'wps_white@8' do not match any of the regexes: '^led@[0-9a-f]+$', '^multi-led@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/nxp,pca963x.yaml
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: i2c@11100 (marvell,mv78230-a0-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too long
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too short
-   	'allwinner,sun4i-a10-i2c' was expected
-   	'allwinner,sun7i-a20-i2c' was expected
-   	'allwinner,sun6i-a31-i2c' was expected
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,suniv-f1c100s-i2c', 'allwinner,sun8i-a23-i2c', 'allwinner,sun8i-a83t-i2c', 'allwinner,sun8i-v536-i2c', 'allwinner,sun50i-a64-i2c', 'allwinner,sun50i-h6-i2c']
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,sun20i-d1-i2c', 'allwinner,sun50i-a100-i2c', 'allwinner,sun50i-h616-i2c', 'allwinner,sun50i-r329-i2c', 'allwinner,sun55i-a523-i2c']
-   	'marvell,mv64xxx-i2c' was expected
---
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too short
-   	'allwinner,sun4i-a10-i2c' was expected
-   	'allwinner,sun7i-a20-i2c' was expected
-   	'allwinner,sun6i-a31-i2c' was expected
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,suniv-f1c100s-i2c', 'allwinner,sun8i-a23-i2c', 'allwinner,sun8i-a83t-i2c', 'allwinner,sun8i-v536-i2c', 'allwinner,sun50i-a64-i2c', 'allwinner,sun50i-h6-i2c']
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,sun20i-d1-i2c', 'allwinner,sun50i-a100-i2c', 'allwinner,sun50i-h616-i2c', 'allwinner,sun50i-r329-i2c', 'allwinner,sun55i-a523-i2c']
-   	'marvell,mv64xxx-i2c' was expected
-   	'marvell,mv78230-i2c' was expected
-   	'allwinner,sun8i-v536-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/marvell,mv64xxx-i2c.yaml
->> arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: pca9635@68 (nxp,pca9635): 'usb2@5', 'usb3_1@6', 'usb3_2@7', 'wan_amber@0', 'wan_white@1', 'wlan_2g@2', 'wlan_5g@3', 'wps_amber@9', 'wps_white@8' do not match any of the regexes: '^led@[0-9a-f]+$', '^multi-led@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/nxp,pca963x.yaml
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: i2c@11100 (marvell,mv78230-a0-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too long
-   	['marvell,mv78230-a0-i2c', 'marvell,mv64xxx-i2c'] is too short
-   	'allwinner,sun4i-a10-i2c' was expected
-   	'allwinner,sun7i-a20-i2c' was expected
-   	'allwinner,sun6i-a31-i2c' was expected
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,suniv-f1c100s-i2c', 'allwinner,sun8i-a23-i2c', 'allwinner,sun8i-a83t-i2c', 'allwinner,sun8i-v536-i2c', 'allwinner,sun50i-a64-i2c', 'allwinner,sun50i-h6-i2c']
-   	'marvell,mv78230-a0-i2c' is not one of ['allwinner,sun20i-d1-i2c', 'allwinner,sun50i-a100-i2c', 'allwinner,sun50i-h616-i2c', 'allwinner,sun50i-r329-i2c', 'allwinner,sun55i-a523-i2c']
-   	'marvell,mv64xxx-i2c' was expected
+New smatch warnings:
+fs/iomap/direct-io.c:1074 iomap_dio_simple() warn: bitwise AND condition is false here
+
+Old smatch warnings:
+fs/iomap/direct-io.c:376 iomap_dio_bio_iter_one() warn: bitwise AND condition is false here
+fs/iomap/internal.h:15 iomap_max_bio_size() warn: bitwise AND condition is false here
+
+vim +1074 fs/iomap/direct-io.c
+
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1002  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1003  /*
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1004   * Fast path for small, block-aligned direct I/Os that map to a single
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1005   * contiguous on-disk extent.
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1006   *
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1007   * iomap_dio_simple_supported() enforces the cheap up-front constraints before
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1008   * entering this path.
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1009   *
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1010   * @dops must be NULL: a non-NULL @dops means the caller wants its
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1011   * ->end_io / ->submit_io hooks invoked, and in particular wants its bios to be
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1012   * allocated from the filesystem-private @dops->bio_set (whose front_pad sizes a
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1013   * filesystem-private wrapper around the bio).  The fast path instead allocates
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1014   * from the shared iomap_dio_simple_pool, whose front_pad matches struct
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1015   * iomap_dio_simple; the two wrappers are not interchangeable, so we must fall
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1016   * back to __iomap_dio_rw() in that case.
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1017   *
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1018   * @done_before must be zero: a non-zero caller-accumulated residual cannot be
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1019   * carried through a single-bio inline completion.
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1020   *
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1021   * @iter must describe a non-empty READ no larger than the inode block size:
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1022   * writes, zero-length I/O, and larger requests need the generic iomap direct
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1023   * I/O path.
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1024   *
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1025   * @dio_flags must not request IOMAP_DIO_FORCE_WAIT, IOMAP_DIO_PARTIAL, or
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1026   * IOMAP_DIO_BOUNCE: this path does not support forced waiting, partial direct
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1027   * I/O, or bouncing.  The range must also stay within i_size and encrypted
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1028   * inodes must use the generic iomap direct I/O path.
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1029   *
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1030   * -ENOTBLK is the private sentinel returned by iomap_dio_simple() when it
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1031   * decides the request does not fit the fast path.  In that case we proceed to
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1032   * the generic __iomap_dio_rw() slow path.  Any other errno is a real result and
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1033   * is propagated as-is, in particular -EAGAIN for IOCB_NOWAIT must reach the
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1034   * caller.
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1035   */
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1036  static ssize_t
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1037  iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1038  		 const struct iomap_ops *ops, void *private,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1039  		 unsigned int dio_flags)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1040  {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1041  	struct inode *inode = file_inode(iocb->ki_filp);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1042  	size_t count = iov_iter_count(iter);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1043  	bool wait_for_completion = is_sync_kiocb(iocb);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1044  	struct iomap_iter iomi = {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1045  		.inode		= inode,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1046  		.pos		= iocb->ki_pos,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1047  		.len		= count,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1048  		.flags		= IOMAP_DIRECT,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1049  		.private	= private,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1050  	};
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1051  	struct iomap_dio_simple *sr;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1052  	unsigned int alignment;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1053  	struct bio *bio;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1054  	ssize_t ret;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1055  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1056  	if (iocb->ki_flags & IOCB_NOWAIT)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1057  		iomi.flags |= IOMAP_NOWAIT;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1058  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1059  	ret = kiocb_write_and_wait(iocb, count);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1060  	if (ret)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1061  		return ret;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1062  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1063  	inode_dio_begin(inode);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1064  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1065  	ret = ops->iomap_begin(inode, iomi.pos, count, iomi.flags,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1066  			       &iomi.iomap, &iomi.srcmap);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1067  	if (ret) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1068  		inode_dio_end(inode);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1069  		return ret;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1070  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1071  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1072  	if (iomi.iomap.type != IOMAP_MAPPED ||
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1073  	    iomi.iomap.offset + iomi.iomap.length < iomi.pos + count ||
+c45650e4f8ba25 Fengnan Chang 2026-07-01 @1074  	    (iomi.iomap.flags & IOMAP_F_INTEGRITY)) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1075  		ret = -ENOTBLK;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1076  		goto out_iomap_end;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1077  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1078  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1079  	alignment = iomap_dio_alignment(inode, iomi.iomap.bdev, dio_flags);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1080  	if ((iomi.pos | count) & (alignment - 1)) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1081  		ret = -EINVAL;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1082  		goto out_iomap_end;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1083  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1084  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1085  	if (!wait_for_completion && unlikely(!inode->i_sb->s_dio_done_wq)) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1086  		ret = sb_init_dio_done_wq(inode->i_sb);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1087  		if (ret < 0)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1088  			goto out_iomap_end;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1089  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1090  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1091  	trace_iomap_dio_rw_begin(iocb, iter, dio_flags, 0);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1092  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1093  	if (user_backed_iter(iter))
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1094  		dio_flags |= IOMAP_DIO_USER_BACKED;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1095  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1096  	bio = bio_alloc_bioset(iomi.iomap.bdev,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1097  			       bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS),
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1098  			       REQ_OP_READ, GFP_KERNEL, &iomap_dio_simple_pool);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1099  	sr = container_of(bio, struct iomap_dio_simple, bio);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1100  	sr->iocb = iocb;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1101  	sr->dio_flags = dio_flags;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1102  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1103  	bio->bi_iter.bi_sector = iomap_sector(&iomi.iomap, iomi.pos);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1104  	bio->bi_ioprio = iocb->ki_ioprio;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1105  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1106  	ret = bio_iov_iter_get_pages(bio, iter, alignment - 1);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1107  	if (unlikely(ret))
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1108  		goto out_bio_put;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1109  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1110  	if (bio->bi_iter.bi_size != count) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1111  		iov_iter_revert(iter, bio->bi_iter.bi_size);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1112  		ret = -ENOTBLK;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1113  		goto out_bio_release_pages;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1114  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1115  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1116  	sr->size = bio->bi_iter.bi_size;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1117  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1118  	if (dio_flags & IOMAP_DIO_USER_BACKED)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1119  		bio_set_pages_dirty(bio);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1120  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1121  	if (iocb->ki_flags & IOCB_NOWAIT)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1122  		bio->bi_opf |= REQ_NOWAIT;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1123  	if ((iocb->ki_flags & IOCB_HIPRI) && !wait_for_completion) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1124  		bio->bi_opf |= REQ_POLLED;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1125  		WRITE_ONCE(iocb->private, bio);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1126  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1127  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1128  	if (ops->iomap_end)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1129  		ops->iomap_end(inode, iomi.pos, count, count, iomi.flags,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1130  			       &iomi.iomap);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1131  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1132  	if (!wait_for_completion) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1133  		bio->bi_end_io = iomap_dio_simple_end_io;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1134  		submit_bio(bio);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1135  		trace_iomap_dio_rw_queued(inode, iomi.pos, count);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1136  		return -EIOCBQUEUED;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1137  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1138  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1139  	submit_bio_wait(bio);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1140  	return iomap_dio_simple_complete(sr);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1141  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1142  out_bio_release_pages:
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1143  	bio_release_pages(bio, false);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1144  out_bio_put:
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1145  	bio_put(bio);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1146  out_iomap_end:
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1147  	if (ops->iomap_end)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1148  		ops->iomap_end(inode, iomi.pos, count, 0, iomi.flags,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1149  			       &iomi.iomap);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1150  	inode_dio_end(inode);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1151  	return ret;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1152  }
+c45650e4f8ba25 Fengnan Chang 2026-07-01  1153  
 
 --
 0-DAY CI Kernel Test Service
