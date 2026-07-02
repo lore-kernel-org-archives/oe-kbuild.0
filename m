@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95494412299
-	for <oe-kbuild@lists.linux.dev>; Thu,  2 Jul 2026 10:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463782853E0
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 Jul 2026 10:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782987036; cv=none; b=AM7vMeVxlgdYglwBA0e/q5m+VX+RXEZ6+S4/l6suz3T9ZTFsdlPHwD5JgUviSRh8qKEcjRS3akomg81krLywuQ8sE7rv6VNFIW9JrdXiuRXJ2YoiafaH9+sTtY4kVutcvZlnuNZXD2MlxldNxER1K+Ot4o4Hl9Gfhh4psz9qPZk=
+	t=1782988330; cv=none; b=oR8lHsylwJiwA0DorR2Z4Jn6LIqBqwBRXWm9IUnOuy1WkDgHmvCHK+0k1mB403J6s2fOmQVp237xkHSwb5SRhNHUyK/pqYNRxi8PQ1o4LwNO8WEWQPd0tGUySXrSuw1tBYX5+E25AVkxCYWLmqu3Gm2VMK8Tc3Ppb/sxDPY+N8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782987036; c=relaxed/simple;
-	bh=vK0mqSXrIcj9YF2e2z0Z3ObwNyVS7kx/5g9gxULR41Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bkvM5Z0DBuELPKzcX5PHwtbvV8wSHxqc7o7Lu0fzACcxExE3/iYDRYHCNapm00tQX9vND/iRwB3uvaRdSJGBQjoVvo8UJPAWTTsotFA7EoWbSU6P3IpIQvFo4+moscxb1WsM+ism8b35J+HXjeb+etYOLU/Jjtd2+Lls2yW6CMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXtDk9P2; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1782988330; c=relaxed/simple;
+	bh=xjmv6tXQV9dmDTbRjxEsL/38ZbhYJkOArYR5ejfxDzU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KOezPxewZ9S3MxZh0FHKItqtgzjtU3OzI8RBXgsFQT7MBdlVpnb6iZn90uUIv6HVxjH49rWedyT51lQyrWa3OKq9jIyLyygTjcOF3gdXNKqE5rF99SXVrSRtx4AfYZnJ85RUsrac48fi8nGKPxUkr9DwXXzq46CbyC2MWHahjz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=avK1vkND; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXtDk9P2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avK1vkND"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782987034; x=1814523034;
+  t=1782988327; x=1814524327;
   h=date:from:to:cc:subject:message-id;
-  bh=vK0mqSXrIcj9YF2e2z0Z3ObwNyVS7kx/5g9gxULR41Y=;
-  b=cXtDk9P2uN4C2JK336MV1iJwFqV6gswuj5MWuQ8p0mBSxR+UNp7GsVPS
-   Rkv3/3HeckzbVS5ZxOTCZUFZV15n4vrGUyYGfAyu2cdH1IQdDmPxhQeCY
-   Y3ggrTR/8NSXhsNOog/XOTM/FhweMxKXd8jAfPqXWFmyXB3mreK1kNPyr
-   ecCz+4QtrgpTBpPuzUfMuE8aGuYcByshObZBAPRNpj+NfKOEPJfpLLLlA
-   Yx3kozTtqnOpG8YbXEL+27lPCiXvtY/d/qDFWvsBKJxioV6bhFUBTxPhU
-   d+QMlyYJcpmNpebzaTsx/t9zlKswCQciQg+I+gERlUVFwJYZdAAQX0C+2
+  bh=xjmv6tXQV9dmDTbRjxEsL/38ZbhYJkOArYR5ejfxDzU=;
+  b=avK1vkND1x0RWcrTL1iEaoZGhCTPWoXMVRTwvpf8uuZjT0l2pWunaAb3
+   XzDQliHxHxb0FUQTleI1vu73mXtz3UQoBvuI3GYIOI1Q3jbNGZfwABjJQ
+   oHufpQiJjqBHijTUthMqq9wXxigloCPlHIfhmcwtmjwAfsn6hv3/41oym
+   n/HclL7pi0h17Laxofue/N3KoTgAmoas+M3jMJt6KasudIe6KDZcClFt1
+   lSNhY8LL3ItGk8tEjTflbnXx54RpSscSSVHy2orocYqPZvj6NB6XGBYt2
+   v327pqMN7hECvfyBFN8+GVa7P1Igo6MwnQfb/xqvK1KqPUuPz/tGD84t7
    w==;
-X-CSE-ConnectionGUID: Puixuiw0QJ2hK4t6JujxqQ==
-X-CSE-MsgGUID: 0czgIja7SaCLoQjtbPxRlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="94337931"
+X-CSE-ConnectionGUID: toUPSFt2SpORYkQKdqCGpQ==
+X-CSE-MsgGUID: Mby4wFE6T9KAoqQze/llQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="95242824"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="94337931"
+   d="scan'208";a="95242824"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 03:10:33 -0700
-X-CSE-ConnectionGUID: xUI2LLRVQNilQsbvlw8WjA==
-X-CSE-MsgGUID: DlU+6aIZTmyY61YjyQYWPA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 03:32:00 -0700
+X-CSE-ConnectionGUID: HbTVz9KrRN6ICUVzh2CNoQ==
+X-CSE-MsgGUID: WzLbnaT3S0O0omnw3Q3LRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="248370150"
+   d="scan'208";a="248372979"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Jul 2026 03:10:32 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 02 Jul 2026 03:31:59 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfENC-00000000Afn-0o2o;
-	Thu, 02 Jul 2026 10:10:24 +0000
-Date: Thu, 02 Jul 2026 18:10:04 +0800
+	id 1wfEhb-00000000Ah9-3TF3;
+	Thu, 02 Jul 2026 10:31:41 +0000
+Date: Thu, 02 Jul 2026 18:30:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-vfs:vfs.all 117/195] fs/iomap/direct-io.c:1074
- iomap_dio_simple() warn: bitwise AND condition is false here
-Message-ID: <202607021845.yVHnfllM-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [frank-w-bpi-r2-4.14:pr/187 1/1]
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c:5565:18: sparse: sparse: unsigned
+ value that used to be signed checked against zero?
+Message-ID: <202607021806.WM0nJiTS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,189 +60,118 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/net/ethernet/mediatek/mtk_eth_soc.c:5565:18: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Fengnan Chang <changfengnan@bytedance.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Christoph Hellwig <hch@lst.de>
+TO: Frank Wunderlich <frank-w@public-files.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-head:   cf6f88615485a68df77092de1f90f88708a32fa6
-commit: c45650e4f8ba25d02e860094a77bf85ec3a35f13 [117/195] iomap: add simple dio path for small direct I/O
-:::::: branch date: 2 hours ago
-:::::: commit date: 21 hours ago
-config: i386-randconfig-141-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021845.yVHnfllM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://github.com/frank-w/BPI-R2-4.14 pr/187
+head:   3591b14936035fc6eaa4ffb659d63289367e34d4
+commit: 8678640e804a2d9b6bf1ca78825accdcd2a8ebb5 [1/1] net: ethernet: mtk_eth_soc: support ethernet passive mux
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: openrisc-randconfig-r112-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021806.WM0nJiTS-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 16.1.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260702/202607021806.WM0nJiTS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607021845.yVHnfllM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607021806.WM0nJiTS-lkp@intel.com/
 
-New smatch warnings:
-fs/iomap/direct-io.c:1074 iomap_dio_simple() warn: bitwise AND condition is false here
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1973:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __sum16 [usertype] check @@     got restricted __be16 [usertype] @@
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1973:45: sparse:     expected restricted __sum16 [usertype] check
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1973:45: sparse:     got restricted __be16 [usertype]
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c: note: in included file (through include/linux/if_ether.h, include/linux/ethtool.h, include/linux/phy.h, include/linux/of_mdio.h):
+   include/linux/skbuff.h:2905:28: sparse: sparse: unsigned value that used to be signed checked against zero?
+   include/linux/skbuff.h:2905:28: sparse: signed value source
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5565:18: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c: note: in included file (through include/linux/byteorder/big_endian.h, arch/openrisc/include/uapi/asm/byteorder.h, include/asm-generic/bitops/le.h, ...):
+   include/uapi/linux/byteorder/big_endian.h:83:32: sparse: signed value source
 
-Old smatch warnings:
-fs/iomap/direct-io.c:376 iomap_dio_bio_iter_one() warn: bitwise AND condition is false here
-fs/iomap/internal.h:15 iomap_max_bio_size() warn: bitwise AND condition is false here
+vim +5565 drivers/net/ethernet/mediatek/mtk_eth_soc.c
 
-vim +1074 fs/iomap/direct-io.c
-
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1002  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1003  /*
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1004   * Fast path for small, block-aligned direct I/Os that map to a single
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1005   * contiguous on-disk extent.
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1006   *
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1007   * iomap_dio_simple_supported() enforces the cheap up-front constraints before
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1008   * entering this path.
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1009   *
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1010   * @dops must be NULL: a non-NULL @dops means the caller wants its
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1011   * ->end_io / ->submit_io hooks invoked, and in particular wants its bios to be
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1012   * allocated from the filesystem-private @dops->bio_set (whose front_pad sizes a
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1013   * filesystem-private wrapper around the bio).  The fast path instead allocates
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1014   * from the shared iomap_dio_simple_pool, whose front_pad matches struct
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1015   * iomap_dio_simple; the two wrappers are not interchangeable, so we must fall
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1016   * back to __iomap_dio_rw() in that case.
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1017   *
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1018   * @done_before must be zero: a non-zero caller-accumulated residual cannot be
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1019   * carried through a single-bio inline completion.
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1020   *
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1021   * @iter must describe a non-empty READ no larger than the inode block size:
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1022   * writes, zero-length I/O, and larger requests need the generic iomap direct
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1023   * I/O path.
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1024   *
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1025   * @dio_flags must not request IOMAP_DIO_FORCE_WAIT, IOMAP_DIO_PARTIAL, or
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1026   * IOMAP_DIO_BOUNCE: this path does not support forced waiting, partial direct
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1027   * I/O, or bouncing.  The range must also stay within i_size and encrypted
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1028   * inodes must use the generic iomap direct I/O path.
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1029   *
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1030   * -ENOTBLK is the private sentinel returned by iomap_dio_simple() when it
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1031   * decides the request does not fit the fast path.  In that case we proceed to
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1032   * the generic __iomap_dio_rw() slow path.  Any other errno is a real result and
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1033   * is propagated as-is, in particular -EAGAIN for IOCB_NOWAIT must reach the
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1034   * caller.
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1035   */
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1036  static ssize_t
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1037  iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1038  		 const struct iomap_ops *ops, void *private,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1039  		 unsigned int dio_flags)
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1040  {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1041  	struct inode *inode = file_inode(iocb->ki_filp);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1042  	size_t count = iov_iter_count(iter);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1043  	bool wait_for_completion = is_sync_kiocb(iocb);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1044  	struct iomap_iter iomi = {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1045  		.inode		= inode,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1046  		.pos		= iocb->ki_pos,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1047  		.len		= count,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1048  		.flags		= IOMAP_DIRECT,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1049  		.private	= private,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1050  	};
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1051  	struct iomap_dio_simple *sr;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1052  	unsigned int alignment;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1053  	struct bio *bio;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1054  	ssize_t ret;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1055  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1056  	if (iocb->ki_flags & IOCB_NOWAIT)
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1057  		iomi.flags |= IOMAP_NOWAIT;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1058  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1059  	ret = kiocb_write_and_wait(iocb, count);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1060  	if (ret)
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1061  		return ret;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1062  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1063  	inode_dio_begin(inode);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1064  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1065  	ret = ops->iomap_begin(inode, iomi.pos, count, iomi.flags,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1066  			       &iomi.iomap, &iomi.srcmap);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1067  	if (ret) {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1068  		inode_dio_end(inode);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1069  		return ret;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1070  	}
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1071  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1072  	if (iomi.iomap.type != IOMAP_MAPPED ||
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1073  	    iomi.iomap.offset + iomi.iomap.length < iomi.pos + count ||
-c45650e4f8ba25 Fengnan Chang 2026-07-01 @1074  	    (iomi.iomap.flags & IOMAP_F_INTEGRITY)) {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1075  		ret = -ENOTBLK;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1076  		goto out_iomap_end;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1077  	}
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1078  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1079  	alignment = iomap_dio_alignment(inode, iomi.iomap.bdev, dio_flags);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1080  	if ((iomi.pos | count) & (alignment - 1)) {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1081  		ret = -EINVAL;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1082  		goto out_iomap_end;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1083  	}
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1084  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1085  	if (!wait_for_completion && unlikely(!inode->i_sb->s_dio_done_wq)) {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1086  		ret = sb_init_dio_done_wq(inode->i_sb);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1087  		if (ret < 0)
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1088  			goto out_iomap_end;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1089  	}
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1090  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1091  	trace_iomap_dio_rw_begin(iocb, iter, dio_flags, 0);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1092  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1093  	if (user_backed_iter(iter))
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1094  		dio_flags |= IOMAP_DIO_USER_BACKED;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1095  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1096  	bio = bio_alloc_bioset(iomi.iomap.bdev,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1097  			       bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS),
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1098  			       REQ_OP_READ, GFP_KERNEL, &iomap_dio_simple_pool);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1099  	sr = container_of(bio, struct iomap_dio_simple, bio);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1100  	sr->iocb = iocb;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1101  	sr->dio_flags = dio_flags;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1102  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1103  	bio->bi_iter.bi_sector = iomap_sector(&iomi.iomap, iomi.pos);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1104  	bio->bi_ioprio = iocb->ki_ioprio;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1105  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1106  	ret = bio_iov_iter_get_pages(bio, iter, alignment - 1);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1107  	if (unlikely(ret))
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1108  		goto out_bio_put;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1109  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1110  	if (bio->bi_iter.bi_size != count) {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1111  		iov_iter_revert(iter, bio->bi_iter.bi_size);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1112  		ret = -ENOTBLK;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1113  		goto out_bio_release_pages;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1114  	}
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1115  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1116  	sr->size = bio->bi_iter.bi_size;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1117  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1118  	if (dio_flags & IOMAP_DIO_USER_BACKED)
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1119  		bio_set_pages_dirty(bio);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1120  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1121  	if (iocb->ki_flags & IOCB_NOWAIT)
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1122  		bio->bi_opf |= REQ_NOWAIT;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1123  	if ((iocb->ki_flags & IOCB_HIPRI) && !wait_for_completion) {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1124  		bio->bi_opf |= REQ_POLLED;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1125  		WRITE_ONCE(iocb->private, bio);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1126  	}
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1127  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1128  	if (ops->iomap_end)
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1129  		ops->iomap_end(inode, iomi.pos, count, count, iomi.flags,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1130  			       &iomi.iomap);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1131  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1132  	if (!wait_for_completion) {
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1133  		bio->bi_end_io = iomap_dio_simple_end_io;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1134  		submit_bio(bio);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1135  		trace_iomap_dio_rw_queued(inode, iomi.pos, count);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1136  		return -EIOCBQUEUED;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1137  	}
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1138  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1139  	submit_bio_wait(bio);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1140  	return iomap_dio_simple_complete(sr);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1141  
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1142  out_bio_release_pages:
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1143  	bio_release_pages(bio, false);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1144  out_bio_put:
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1145  	bio_put(bio);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1146  out_iomap_end:
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1147  	if (ops->iomap_end)
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1148  		ops->iomap_end(inode, iomi.pos, count, 0, iomi.flags,
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1149  			       &iomi.iomap);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1150  	inode_dio_end(inode);
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1151  	return ret;
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1152  }
-c45650e4f8ba25 Fengnan Chang 2026-07-01  1153  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5550  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5551  static int mtk_add_mux(struct mtk_eth *eth, struct device_node *np)
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5552  {
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5553  	const __be32 *_id = of_get_property(np, "reg", NULL);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5554  	struct device_node *child;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5555  	struct mtk_mux *mux;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5556  	unsigned int id;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5557  	int err;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5558  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5559  	if (!_id) {
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5560  		dev_err(eth->dev, "missing attach mac id\n");
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5561  		return -EINVAL;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5562  	}
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5563  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5564  	id = be32_to_cpup(_id);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28 @5565  	if (id < 0 || id >= MTK_MAX_DEVS) {
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5566  		dev_err(eth->dev, "%d is not a valid attach mac id\n", id);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5567  		return -EINVAL;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5568  	}
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5569  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5570  	mux = kmalloc(sizeof(struct mtk_mux), GFP_KERNEL);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5571  	if (unlikely(!mux)) {
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5572  		dev_err(eth->dev, "failed to create mux structure\n");
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5573  		return -ENOMEM;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5574  	}
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5575  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5576  	eth->mux[id] = mux;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5577  	mux->mac = eth->mac[id];
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5578  	mux->channel = 0;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5579  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5580  	mux->mod_def0_gpio = fwnode_gpiod_get_index(of_fwnode_handle(np),
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5581  				"mod-def0", 0, GPIOD_IN |
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5582  				GPIOD_FLAGS_BIT_NONEXCLUSIVE, "?");
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5583  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5584  	if (IS_ERR(mux->mod_def0_gpio)) {
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5585  		dev_err(eth->dev, "failed to requset gpio for mod-def0\n");
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5586  		err = PTR_ERR(mux->mod_def0_gpio);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5587  		goto err_free_mux;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5588  	}
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5589  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5590  	mux->chan_sel_gpio = fwnode_gpiod_get_index(of_fwnode_handle(np),
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5591  				"chan-sel", 0, GPIOD_OUT_LOW, "?");
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5592  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5593  	if (IS_ERR(mux->chan_sel_gpio)) {
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5594  		dev_err(eth->dev, "failed to requset gpio for chan-sel\n");
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5595  		err = PTR_ERR(mux->chan_sel_gpio);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5596  		goto err_put_mod_def0;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5597  	}
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5598  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5599  	of_property_read_u32(np, "sfp-present-channel",
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5600  		&mux->sfp_present_channel);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5601  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5602  	for_each_child_of_node(np, child) {
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5603  		err = mtk_add_mux_channel(mux, child);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5604  		if (err) {
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5605  			dev_err(eth->dev, "failed to add mtk_mux\n");
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5606  			of_node_put(child);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5607  			goto err_put_chan_sel;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5608  		}
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5609  	}
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5610  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5611  	INIT_DELAYED_WORK(&mux->poll, mux_poll);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5612  	mod_delayed_work(system_wq, &mux->poll, msecs_to_jiffies(3000));
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5613  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5614  	return 0;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5615  
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5616  err_put_chan_sel:
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5617  	gpiod_put(mux->chan_sel_gpio);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5618  err_put_mod_def0:
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5619  	gpiod_put(mux->mod_def0_gpio);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5620  err_free_mux:
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5621  	kfree(mux);
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5622  	eth->mux[id] = NULL;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5623  	return err;
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5624  }
+8678640e804a2d9 Bo-Cun Chen 2024-11-28  5625  
 
 --
 0-DAY CI Kernel Test Service
