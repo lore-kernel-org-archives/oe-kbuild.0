@@ -1,130 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A2734D3B0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB903360ECC
 	for <oe-kbuild@lists.linux.dev>; Thu,  2 Jul 2026 06:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782973595; cv=none; b=k5AuuLQTCclzJvSbaTLEL8VnBvrlwUgkW4IsnXUsjSXyzeFpw0k+4WzPmCd/e+qBiKln+itbrWYhnW5ohRbXQVV5GXFXONkXYf0pBWPzxOH+8t/4ZF/pZNs4I0tp/1SKxNcv/pvR5gqFqSFc0XWAGRwywlcmzFCj1HOgYKQERVg=
+	t=1782973596; cv=none; b=rZl8UPWeC4f1euXmTyItat46ru0dO1PAGoSdahIvivHzMBtXyHTi+PSNEhlZds4OgiovzrPQjPO8E1MK3ixLqi3OmHIeYfohEJUKjFU0TAQ8aFnZTv6KGeFXzHEAS4PYX4UqpUlq5r3diyKsA5IhInqGSpIn5eqr++wt0rSgLcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782973595; c=relaxed/simple;
-	bh=f8vil/ny9MCm4940fL3tiS7bdKqr6M+zmzT9rKR182Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=c7gAs4AN3vMVzDz5EyPCm2PDZVl6mJOqkd1kZiT/CZCwP5MvoakMGeQsVgImJX2g8cYpF51V1kYYAcca7XPEZvNaXXxpMeNol/EDe3tEsLFEvR/3qFunlGolUMiMj1fYuvAOTlasCmSfAxhazka7qMjW2oA7kdOG3fNnf9saeCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mz239QXr; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1782973596; c=relaxed/simple;
+	bh=W2u4/efs9NpZZpFpbed9il8ccgQYBMv2k3fojOH5CaI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=N718W34FX68YKqEktNzf9IFI42nyYpQnRXkrIe5b8j3/pk0rTDZyR6pOkESlTtuOerFIgr93aZMgiu2C54bPHFGvuTKpUYQcrNr4xR5hRXEgFW26jTspVjtCeFHKku75KWL0UaF0CL5rVhtBYIX2zSgXpzHvJp2OTNpkvMP+uSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hny5l2LO; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mz239QXr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hny5l2LO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1782973594; x=1814509594;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=f8vil/ny9MCm4940fL3tiS7bdKqr6M+zmzT9rKR182Y=;
-  b=mz239QXrRDeTUAvxIK4Z/EVSa37JMbUa3u87jV+iaNyc/X6lgDZHBc+t
-   wSoWEKnNpfWXH/LTckv7csl8BPurE5j+fO/K2qyAcJDz0+jCVk8CEy+ZB
-   QNFxLSvVfyIsUgO+v3IpZK25vg/tCPl855bD6NEW+S/Ae3xHZaFba7lyv
-   FqkGUtjp8m9Gte+4Tsx0HQDSojtvLkaxPPCnB0zt/0XvVQwSw4IrC1Xbl
-   hxQ09OiLCi0yu12skgKHXNx30e1oQpsTbZ2yno4U95oJWgbHAZQrB9f0t
-   O7S1t4Q9R4lX6PEf7ZKMioOm9kp4aEKPadr+ySU3G3cMVWsYn0qYEMuhs
-   A==;
-X-CSE-ConnectionGUID: MoOgKS03SS2nreyybs06fw==
-X-CSE-MsgGUID: aEvqVsYVQ/StOtKkTpQ4xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83493173"
+  h=date:from:to:cc:subject:message-id;
+  bh=W2u4/efs9NpZZpFpbed9il8ccgQYBMv2k3fojOH5CaI=;
+  b=hny5l2LOjexpG5B1oisHsi7gBPwOuewIc7dFRrofzXMKoaYGgC/LzuWJ
+   HAAO+sf27je8KpNOHXmYkjUcIBxVUESyMABtfoA4kEPyGGxZP7KC14T8D
+   BSm9ioqeY19k//ovlOPnHr7cGzGleBmXaIuOFGBfYke5EKDw2d5uvwk+X
+   n7ik+hLAi/nRqcNwBsa/P8wXlWKY1JvVvPzwd/MsiOxdcmSB03B3XMEf7
+   VfgcrD/S2M0M4qwsLll4zmKouGe5Ol0pqTkrnOfsWBoGc5RUndRYHdtQN
+   o/l5BEoTghu354sydmerrGPsa1T30vXOSBxZqS69PfwKmwGNmz7qtV4b9
+   g==;
+X-CSE-ConnectionGUID: 1EvXkYcrQmCYWY8FDnUJFQ==
+X-CSE-MsgGUID: HTC8KhJsSsuJY4TCoRO0vw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="109260836"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="83493173"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 23:26:33 -0700
-X-CSE-ConnectionGUID: 0B76BYTiTaKfvnwxCUSclg==
-X-CSE-MsgGUID: PLIOpBGOSOyZDaqmaWDPHw==
+   d="scan'208";a="109260836"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 23:26:34 -0700
+X-CSE-ConnectionGUID: FzsNHx8QRXGhugr6AE7QRA==
+X-CSE-MsgGUID: p8MJxIIdQbu6iykKNRSUTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="250113466"
+   d="scan'208";a="252907479"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Jul 2026 23:26:32 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Jul 2026 23:26:32 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfAsX-00000000A5p-3Nha;
+	id 1wfAsX-00000000A5j-2xmq;
 	Thu, 02 Jul 2026 06:26:29 +0000
-Date: Thu, 02 Jul 2026 14:25:53 +0800
+Date: Thu, 02 Jul 2026 14:25:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: security/apparmor/policy_unpack.c:151 aa_ploaddata_kref()
- warn: can 'd' even be NULL?
-Message-ID: <202607021440.4ZBIiSZM-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [frank-w-bpi-r2-4.14:7.1-rc 167/167]
+ drivers/net/phy/phylink.c:1025:32-35: ERROR: invalid reference to the index
+ variable of the iterator on line 1014
+Message-ID: <202607021404.U0takawU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: John Johansen <john.johansen@canonical.com>
-CC: Georgia Garcia <georgia.garcia@canonical.com>
-CC: "Maxime B=C3=A9lair" <maxime.belair@canonical.com>
-CC: Cengiz Can <cengiz.can@canonical.com>
+TO: Frank Wunderlich <frank-w@public-files.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   4a50a141f05a8d1737661b19ee22ff8455b94409
-commit: a0b7091c4de45a7325c8780e6934a894f92ac86b apparmor: fix race on rawd=
-ata dereference
-date:   4 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-141-20260702 (https://download.01.org/0day-ci/archi=
-ve/20260702/202607021440.4ZBIiSZM-lkp@intel.com/config)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
+head:   866eb49750d39fe938dca71acece6f1540bb1123
+commit: 63189053fa805e75a2a2a3a1f54b9b70cbc4d609 [167/167] net: phylink: introduce internal phylink PCS handling
+:::::: branch date: 5 days ago
+:::::: commit date: 7 weeks ago
+config: i386-randconfig-053-20260702 (https://download.01.org/0day-ci/archive/20260702/202607021404.U0takawU-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: a0b7091c4de4 ("apparmor: fix race on rawdata dereference")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607021440.4ZBIiSZM-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202607021404.U0takawU-lkp@intel.com/
 
-New smatch warnings:
-security/apparmor/policy_unpack.c:151 aa_ploaddata_kref() warn: can 'd' eve=
-n be NULL?
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/phy/phylink.c:1025:32-35: ERROR: invalid reference to the index variable of the iterator on line 1014
+   drivers/net/phy/phylink.c:1345:26-29: ERROR: invalid reference to the index variable of the iterator on line 1327
+   drivers/net/phy/phylink.c:583:7-10: ERROR: invalid reference to the index variable of the iterator on line 570
 
-Old smatch warnings:
-security/apparmor/policy_unpack.c:881 unpack_tags() warn: missing error cod=
-e 'error'
-security/apparmor/policy_unpack.c:1045 unpack_pdb() error: we previously as=
-sumed 'pdb->dfa' could be null (see line 1009)
+vim +1025 drivers/net/phy/phylink.c
 
-vim +/d +151 security/apparmor/policy_unpack.c
+e9f03a6a879bff Russell King (Oracle  2025-02-10   999) 
+df874f9e52c340 Russell King (Oracle  2024-12-03  1000) /* Query inband for a specific interface mode, asking the MAC for the
+df874f9e52c340 Russell King (Oracle  2024-12-03  1001)  * PCS which will be used to handle the interface mode.
+df874f9e52c340 Russell King (Oracle  2024-12-03  1002)  */
+df874f9e52c340 Russell King (Oracle  2024-12-03  1003) static unsigned int phylink_inband_caps(struct phylink *pl,
+df874f9e52c340 Russell King (Oracle  2024-12-03  1004) 					 phy_interface_t interface)
+df874f9e52c340 Russell King (Oracle  2024-12-03  1005) {
+df874f9e52c340 Russell King (Oracle  2024-12-03  1006) 	struct phylink_pcs *pcs;
+63189053fa805e Christian Marangi     2025-03-31  1007  	bool pcs_found = false;
+df874f9e52c340 Russell King (Oracle  2024-12-03  1008) 
+63189053fa805e Christian Marangi     2025-03-31  1009  	if (pl->mac_ops->mac_select_pcs) {
+63189053fa805e Christian Marangi     2025-03-31  1010  		pcs = pl->mac_ops->mac_select_pcs(pl->config,
+63189053fa805e Christian Marangi     2025-03-31  1011  						  interface);
+63189053fa805e Christian Marangi     2025-03-31  1012  		pcs_found = !!pcs;
+63189053fa805e Christian Marangi     2025-03-31  1013  	} else {
+63189053fa805e Christian Marangi     2025-03-31 @1014  		list_for_each_entry(pcs, &pl->pcs_list, list) {
+63189053fa805e Christian Marangi     2025-03-31  1015  			if (!phylink_validate_pcs_interface(pcs, interface)) {
+63189053fa805e Christian Marangi     2025-03-31  1016  				pcs_found = true;
+63189053fa805e Christian Marangi     2025-03-31  1017  				break;
+63189053fa805e Christian Marangi     2025-03-31  1018  			}
+63189053fa805e Christian Marangi     2025-03-31  1019  		}
+63189053fa805e Christian Marangi     2025-03-31  1020  	}
+df874f9e52c340 Russell King (Oracle  2024-12-03  1021) 
+63189053fa805e Christian Marangi     2025-03-31  1022  	if (!pcs_found)
+df874f9e52c340 Russell King (Oracle  2024-12-03  1023) 		return 0;
+df874f9e52c340 Russell King (Oracle  2024-12-03  1024) 
+df874f9e52c340 Russell King (Oracle  2024-12-03 @1025) 	return phylink_pcs_inband_caps(pcs, interface);
+df874f9e52c340 Russell King (Oracle  2024-12-03  1026) }
+df874f9e52c340 Russell King (Oracle  2024-12-03  1027) 
 
-5d5182cae40115 John Johansen 2017-05-09  146 =20
-a0b7091c4de45a John Johansen 2026-02-24  147  void aa_ploaddata_kref(struct=
- kref *kref)
-5ac8c355ae0013 John Johansen 2017-01-16  148  {
-a0b7091c4de45a John Johansen 2026-02-24  149  	struct aa_loaddata *d =3D co=
-ntainer_of(kref, struct aa_loaddata, pcount);
-5ac8c355ae0013 John Johansen 2017-01-16  150 =20
-5ac8c355ae0013 John Johansen 2017-01-16 @151  	if (d) {
-a0b7091c4de45a John Johansen 2026-02-24  152  		INIT_WORK(&d->work, do_ploa=
-ddata_rmfs);
-5d5182cae40115 John Johansen 2017-05-09  153  		schedule_work(&d->work);
-5ac8c355ae0013 John Johansen 2017-01-16  154  	}
-5ac8c355ae0013 John Johansen 2017-01-16  155  }
-5ac8c355ae0013 John Johansen 2017-01-16  156 =20
+:::::: The code at line 1025 was first introduced by commit
+:::::: df874f9e52c340cc6f0a0014a97b778f67d46849 net: phylink: add pcs_inband_caps() method
 
-:::::: The code at line 151 was first introduced by commit
-:::::: 5ac8c355ae0013d82b3a07b49aebeadfce9b6e52 apparmor: allow introspecti=
-ng the loaded policy pre internal transform
-
-:::::: TO: John Johansen <john.johansen@canonical.com>
-:::::: CC: John Johansen <john.johansen@canonical.com>
+:::::: TO: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
