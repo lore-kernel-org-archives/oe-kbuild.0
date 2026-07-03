@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD267307AF4
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jul 2026 16:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8145A30171C
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jul 2026 17:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783096518; cv=none; b=AuV3pZT0RU5eSeQknSzMRA9Sr7tX4BOXb6eBQ//RZ6funlpBGNhKULwQdK9Uc2kvXPkYL48B92YRMU4dZJq73oUIVdnA8mdyTTHXQJNEMWBGhGRIto0WAxHjoud0khUUb2mzSRIpCvCSjTg5IAMa97wfGxoeVCL+d8MiSzV/FDU=
+	t=1783100050; cv=none; b=NsCBB5XfZfws8cbh2NmQZJwfJtzesG4ppAJRaQ+CfrG5NWIZUTkY1MlT7x6NghMI2WP2FN3pSHDFYJB+1GbDUGnMPpKbPPkWVWwRucXMyPtF8NFpJodvQrK9FwB1zkk+499jduL82UcSom49NPypVyQJWIHvDbqWqFKFMQ7dsMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783096518; c=relaxed/simple;
-	bh=nXQGZPinjXMaIAXUy5XzQEEB19m28JjYfRk715IFF8w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XJHggNAd492R5jn6On42SWoM3a2bbyP1WlLWmscemzlT+6+sIcC7ZI3PhV7VyEUycYQ8h1zES2v1kaW/eNvTNLoKye7yUuznSK+rviq9L5PB9aCxebKnTYNQTcAqA4CwvIO6vAgCftcNLYnmgTWhcNqXd+iRniPB4QFaG0JRRvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1TQQ74s; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1783100050; c=relaxed/simple;
+	bh=FSvbig3IwnKJjIP87lzttegfAONmF9Rgut5YVRbQgFo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Yfrdjb/jaD3HqkK+Z8Q+SxNlOoQNwdesP/+T94fn8HyQs0Ykm+YGYLZTqL9txxQfsZ0L/8HIng/vJIVuJd40zzPAAa6Ll0ggT0BHXRFuYhTYMHSjzPG0gaM/PA+Z72doEZaj4A6KKg0gQimrTCh5hU3yAX06mXf20ynAX6QenPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Za8VFVjj; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1TQQ74s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Za8VFVjj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783096516; x=1814632516;
+  t=1783100048; x=1814636048;
   h=date:from:to:cc:subject:message-id;
-  bh=nXQGZPinjXMaIAXUy5XzQEEB19m28JjYfRk715IFF8w=;
-  b=m1TQQ74sEh9qKGrcpqOwM+wVEn4jAFYXymoy7SVbkAZCXvVcMoNj84no
-   IC6Cy/Q/wp1c76N6CVqBO+kxrxeA47pEqNhvOmEn/R0zKCQxQp3aWCaVh
-   J6dqm6kHDUkD8UN95AVFxNsADMKBR+dptuIYDg4sPl2/kAMV4zm2Wukja
-   cb0lfdR65WuJHf2HjF01Pa4CisoLXhtIkqzl3Z175gFKF28Yfxaxni5Ot
-   AnL1hJMIgRibw+wP7OS3+n0bOnYVKLYIV/0HUT2gjzxwDy6OOt1nLEGO2
-   ZeMnI/qbsyyAWHwzzMJtI1bglO24QQZkllvmQJ7RwTVHBm8a7EvR6bb8x
-   w==;
-X-CSE-ConnectionGUID: 08T6blAmRYaheIusnpJtnA==
-X-CSE-MsgGUID: QcAhy6hFRf6VJVbULnbHnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="109396497"
+  bh=FSvbig3IwnKJjIP87lzttegfAONmF9Rgut5YVRbQgFo=;
+  b=Za8VFVjjLGYKLv4OSr5uJCgJUjOX+vX2Z+8sdF21HMretnR9FE9VnBqT
+   LSez15WTT1aOdj+EcDudWD5zOB21vE38rB8T/QKmPx0+b0joFVRlQC4wI
+   jEjl7TYsLTSg2m/gqWsPujDQQeDld1YISVEKgRDWmBE6a6B67VNCC1X9J
+   4cMFslOp7wVHyZRzTT/enAb7KyQUA1+FF+VRgFP7oYMG+82a3cz8Rukp0
+   fQRLXZxdJoynFFkp83rV7YwycNVwRhJOHChVb6sCAvDfIRzgPBft3P9DP
+   d8FOI+4eTPce1Hwp5D2V0ci97z4F6iS0RjbLgIGzv/2D0slCEV2/b8X83
+   A==;
+X-CSE-ConnectionGUID: eyLTo9dvT6Oj6CT2y2iQUw==
+X-CSE-MsgGUID: LrVyIV46ShGlvy2ncn10+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="95011740"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="109396497"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 09:35:16 -0700
-X-CSE-ConnectionGUID: c6fd5nOGSSe4nJqdK2yHew==
-X-CSE-MsgGUID: s0wL1V2GSdGZw10S357CjQ==
+   d="scan'208";a="95011740"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 10:34:08 -0700
+X-CSE-ConnectionGUID: dETIBqS+TxqBUiWOxTgpJg==
+X-CSE-MsgGUID: eUjdGyTTRKWe6RzyscOKjQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="253293401"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Jul 2026 09:35:15 -0700
+  by orviesa007.jf.intel.com with ESMTP; 03 Jul 2026 10:34:06 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfgrA-00000000CMv-41Oh;
-	Fri, 03 Jul 2026 16:35:12 +0000
-Date: Sat, 04 Jul 2026 00:34:29 +0800
+	id 1wfhjh-00000000COn-13z1;
+	Fri, 03 Jul 2026 17:32:00 +0000
+Date: Sat, 04 Jul 2026 01:23:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/md/dm-mpath.c:997 parse_path() warn: passing zero to
- 'ERR_PTR'
-Message-ID: <202607040054.qr0AdRcK-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/amd/amdgpu/sdma_v7_1.c:1316:4-22:
+ opportunity for str_true_false(ring -> use_doorbell)
+Message-ID: <202607040148.gEDzLYM5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,102 +62,88 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Benjamin Marzinski <bmarzins@redhat.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Martin Wilck <mwilck@suse.com>
+TO: Likun Gao <Likun.Gao@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d2c9a99135da931377240942d44f3dea104cedb8
-commit: fd81bc5cca8fc6936a8988de6b5d4c5693b6587e scsi: device_handler: Return error pointer in scsi_dh_attached_handler_name()
+commit: 4ed5116aacf6126ef9c7bc8cd7367ed6797e5c8f drm/amdgpu: Add sdma v7_1_0 support
 date:   7 months ago
 :::::: branch date: 10 hours ago
 :::::: commit date: 7 months ago
-config: i386-randconfig-r073-20260703 (https://download.01.org/0day-ci/archive/20260704/202607040054.qr0AdRcK-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9185-gbcc58b9c
+config: loongarch-randconfig-r062-20260703 (https://download.01.org/0day-ci/archive/20260704/202607040148.gEDzLYM5-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: fd81bc5cca8f ("scsi: device_handler: Return error pointer in scsi_dh_attached_handler_name()")
+| Fixes: 4ed5116aacf6 ("drm/amdgpu: Add sdma v7_1_0 support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607040054.qr0AdRcK-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202607040148.gEDzLYM5-lkp@intel.com/
 
-smatch warnings:
-drivers/md/dm-mpath.c:997 parse_path() warn: passing zero to 'ERR_PTR'
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/sdma_v7_1.c:1316:4-22: opportunity for str_true_false(ring -> use_doorbell)
 
-vim +/ERR_PTR +997 drivers/md/dm-mpath.c
+vim +1316 drivers/gpu/drm/amd/amdgpu/sdma_v7_1.c
 
-848b8aefd44df9 Mike Snitzer        2017-12-10  936  
-848b8aefd44df9 Mike Snitzer        2017-12-10  937  static struct pgpath *parse_path(struct dm_arg_set *as, struct path_selector *ps,
-848b8aefd44df9 Mike Snitzer        2017-12-10  938  				 struct dm_target *ti)
-848b8aefd44df9 Mike Snitzer        2017-12-10  939  {
-848b8aefd44df9 Mike Snitzer        2017-12-10  940  	int r;
-848b8aefd44df9 Mike Snitzer        2017-12-10  941  	struct pgpath *p;
-848b8aefd44df9 Mike Snitzer        2017-12-10  942  	struct multipath *m = ti->private;
-e8f74a0f00113d Mike Snitzer        2018-03-12  943  	struct request_queue *q;
-b592211c33f745 Mike Snitzer        2018-09-17  944  	const char *attached_handler_name = NULL;
-848b8aefd44df9 Mike Snitzer        2017-12-10  945  
-848b8aefd44df9 Mike Snitzer        2017-12-10  946  	/* we need at least a path arg */
-848b8aefd44df9 Mike Snitzer        2017-12-10  947  	if (as->argc < 1) {
-848b8aefd44df9 Mike Snitzer        2017-12-10  948  		ti->error = "no device given";
-848b8aefd44df9 Mike Snitzer        2017-12-10  949  		return ERR_PTR(-EINVAL);
-848b8aefd44df9 Mike Snitzer        2017-12-10  950  	}
-848b8aefd44df9 Mike Snitzer        2017-12-10  951  
-848b8aefd44df9 Mike Snitzer        2017-12-10  952  	p = alloc_pgpath();
-848b8aefd44df9 Mike Snitzer        2017-12-10  953  	if (!p)
-848b8aefd44df9 Mike Snitzer        2017-12-10  954  		return ERR_PTR(-ENOMEM);
-848b8aefd44df9 Mike Snitzer        2017-12-10  955  
-848b8aefd44df9 Mike Snitzer        2017-12-10  956  	r = dm_get_device(ti, dm_shift_arg(as), dm_table_get_mode(ti->table),
-848b8aefd44df9 Mike Snitzer        2017-12-10  957  			  &p->path.dev);
-848b8aefd44df9 Mike Snitzer        2017-12-10  958  	if (r) {
-848b8aefd44df9 Mike Snitzer        2017-12-10  959  		ti->error = "error getting device";
-2bfd2e1337f0d8 Chandra Seetharaman 2009-08-03  960  		goto bad;
-2bfd2e1337f0d8 Chandra Seetharaman 2009-08-03  961  	}
-848b8aefd44df9 Mike Snitzer        2017-12-10  962  
-e8f74a0f00113d Mike Snitzer        2018-03-12  963  	q = bdev_get_queue(p->path.dev->bdev);
-e8f74a0f00113d Mike Snitzer        2018-03-12  964  	attached_handler_name = scsi_dh_attached_handler_name(q, GFP_KERNEL);
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  965  	if (IS_ERR(attached_handler_name)) {
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  966  		if (PTR_ERR(attached_handler_name) == -ENODEV) {
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  967  			if (m->hw_handler_name) {
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  968  				DMERR("hardware handlers are only allowed for SCSI devices");
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  969  				kfree(m->hw_handler_name);
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  970  				m->hw_handler_name = NULL;
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  971  			}
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  972  			attached_handler_name = NULL;
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  973  		} else {
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  974  			r = PTR_ERR(attached_handler_name);
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  975  			goto bad;
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  976  		}
-fd81bc5cca8fc6 Benjamin Marzinski  2025-12-05  977  	}
-e457edf0b21c87 Mike Snitzer        2018-03-29  978  	if (attached_handler_name || m->hw_handler_name) {
-848b8aefd44df9 Mike Snitzer        2017-12-10  979  		INIT_DELAYED_WORK(&p->activate_path, activate_path_work);
-b592211c33f745 Mike Snitzer        2018-09-17  980  		r = setup_scsi_dh(p->path.dev->bdev, m, &attached_handler_name, &ti->error);
-940bc471780b00 Martin Wilck        2019-04-29  981  		kfree(attached_handler_name);
-848b8aefd44df9 Mike Snitzer        2017-12-10  982  		if (r) {
-848b8aefd44df9 Mike Snitzer        2017-12-10  983  			dm_put_device(ti, p->path.dev);
-848b8aefd44df9 Mike Snitzer        2017-12-10  984  			goto bad;
-2bfd2e1337f0d8 Chandra Seetharaman 2009-08-03  985  		}
-ae11b1b36da726 Hannes Reinecke     2008-07-17  986  	}
-ae11b1b36da726 Hannes Reinecke     2008-07-17  987  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  988  	r = ps->type->add_path(ps, &p->path, as->argc, as->argv, &ti->error);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  989  	if (r) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  990  		dm_put_device(ti, p->path.dev);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  991  		goto bad;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  992  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  993  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  994  	return p;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  995   bad:
-^1da177e4c3f41 Linus Torvalds      2005-04-16  996  	free_pgpath(p);
-01460f3520c100 Benjamin Marzinski  2008-10-10 @997  	return ERR_PTR(r);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  998  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  999  
-
-:::::: The code at line 997 was first introduced by commit
-:::::: 01460f3520c100010aacc8f8500cafcb17ce4665 dm mpath: use more error codes
-
-:::::: TO: Benjamin Marzinski <bmarzins@redhat.com>
-:::::: CC: Alasdair G Kergon <agk@redhat.com>
+4ed5116aacf612 Likun Gao 2025-01-07  1290  
+4ed5116aacf612 Likun Gao 2025-01-07  1291  static int sdma_v7_1_sw_init(struct amdgpu_ip_block *ip_block)
+4ed5116aacf612 Likun Gao 2025-01-07  1292  {
+4ed5116aacf612 Likun Gao 2025-01-07  1293  	struct amdgpu_ring *ring;
+4ed5116aacf612 Likun Gao 2025-01-07  1294  	int r, i;
+4ed5116aacf612 Likun Gao 2025-01-07  1295  	struct amdgpu_device *adev = ip_block->adev;
+4ed5116aacf612 Likun Gao 2025-01-07  1296  	uint32_t reg_count = ARRAY_SIZE(sdma_reg_list_7_1);
+4ed5116aacf612 Likun Gao 2025-01-07  1297  	uint32_t *ptr;
+4ed5116aacf612 Likun Gao 2025-01-07  1298  	u32 xcc_id;
+4ed5116aacf612 Likun Gao 2025-01-07  1299  
+4ed5116aacf612 Likun Gao 2025-01-07  1300  	/* SDMA trap event */
+4ed5116aacf612 Likun Gao 2025-01-07  1301  	r = amdgpu_irq_add_id(adev, SOC21_IH_CLIENTID_GFX,
+4ed5116aacf612 Likun Gao 2025-01-07  1302  			      GFX_11_0_0__SRCID__SDMA_TRAP,
+4ed5116aacf612 Likun Gao 2025-01-07  1303  			      &adev->sdma.trap_irq);
+4ed5116aacf612 Likun Gao 2025-01-07  1304  	if (r)
+4ed5116aacf612 Likun Gao 2025-01-07  1305  		return r;
+4ed5116aacf612 Likun Gao 2025-01-07  1306  
+4ed5116aacf612 Likun Gao 2025-01-07  1307  	for (i = 0; i < adev->sdma.num_instances; i++) {
+4ed5116aacf612 Likun Gao 2025-01-07  1308  		ring = &adev->sdma.instance[i].ring;
+4ed5116aacf612 Likun Gao 2025-01-07  1309  		ring->ring_obj = NULL;
+4ed5116aacf612 Likun Gao 2025-01-07  1310  		ring->use_doorbell = true;
+4ed5116aacf612 Likun Gao 2025-01-07  1311  		ring->me = i;
+4ed5116aacf612 Likun Gao 2025-01-07  1312  		xcc_id = adev->sdma.instance[i].xcc_id;
+4ed5116aacf612 Likun Gao 2025-01-07  1313  
+4ed5116aacf612 Likun Gao 2025-01-07  1314  		DRM_DEBUG("SDMA%d.%d use_doorbell being set to: [%s]\n",
+4ed5116aacf612 Likun Gao 2025-01-07  1315  				xcc_id, i % adev->sdma.num_inst_per_xcc,
+4ed5116aacf612 Likun Gao 2025-01-07 @1316  				ring->use_doorbell?"true":"false");
+4ed5116aacf612 Likun Gao 2025-01-07  1317  
+4ed5116aacf612 Likun Gao 2025-01-07  1318  		ring->doorbell_index =
+4ed5116aacf612 Likun Gao 2025-01-07  1319  			(adev->doorbell_index.sdma_engine[i] << 1); // get DWORD offset
+4ed5116aacf612 Likun Gao 2025-01-07  1320  
+4ed5116aacf612 Likun Gao 2025-01-07  1321  		ring->vm_hub = AMDGPU_GFXHUB(xcc_id);
+4ed5116aacf612 Likun Gao 2025-01-07  1322  		sprintf(ring->name, "sdma%d.%d", xcc_id,
+4ed5116aacf612 Likun Gao 2025-01-07  1323  				i % adev->sdma.num_inst_per_xcc);
+4ed5116aacf612 Likun Gao 2025-01-07  1324  		r = amdgpu_ring_init(adev, ring, 1024,
+4ed5116aacf612 Likun Gao 2025-01-07  1325  				     &adev->sdma.trap_irq,
+4ed5116aacf612 Likun Gao 2025-01-07  1326  				     AMDGPU_SDMA_IRQ_INSTANCE0 + i,
+4ed5116aacf612 Likun Gao 2025-01-07  1327  				     AMDGPU_RING_PRIO_DEFAULT, NULL);
+4ed5116aacf612 Likun Gao 2025-01-07  1328  		if (r)
+4ed5116aacf612 Likun Gao 2025-01-07  1329  			return r;
+4ed5116aacf612 Likun Gao 2025-01-07  1330  	}
+4ed5116aacf612 Likun Gao 2025-01-07  1331  
+4ed5116aacf612 Likun Gao 2025-01-07  1332  	adev->sdma.supported_reset =
+4ed5116aacf612 Likun Gao 2025-01-07  1333  		amdgpu_get_soft_full_reset_mask(&adev->sdma.instance[0].ring);
+4ed5116aacf612 Likun Gao 2025-01-07  1334  	if (!amdgpu_sriov_vf(adev) &&
+4ed5116aacf612 Likun Gao 2025-01-07  1335  	    !adev->debug_disable_gpu_ring_reset)
+4ed5116aacf612 Likun Gao 2025-01-07  1336  		adev->sdma.supported_reset |= AMDGPU_RESET_TYPE_PER_QUEUE;
+4ed5116aacf612 Likun Gao 2025-01-07  1337  
+4ed5116aacf612 Likun Gao 2025-01-07  1338  	r = amdgpu_sdma_sysfs_reset_mask_init(adev);
+4ed5116aacf612 Likun Gao 2025-01-07  1339  	if (r)
+4ed5116aacf612 Likun Gao 2025-01-07  1340  		return r;
+4ed5116aacf612 Likun Gao 2025-01-07  1341  	/* Allocate memory for SDMA IP Dump buffer */
+4ed5116aacf612 Likun Gao 2025-01-07  1342  	ptr = kcalloc(adev->sdma.num_instances * reg_count, sizeof(uint32_t), GFP_KERNEL);
+4ed5116aacf612 Likun Gao 2025-01-07  1343  	if (ptr)
+4ed5116aacf612 Likun Gao 2025-01-07  1344  		adev->sdma.ip_dump = ptr;
+4ed5116aacf612 Likun Gao 2025-01-07  1345  	else
+4ed5116aacf612 Likun Gao 2025-01-07  1346  		DRM_ERROR("Failed to allocated memory for SDMA IP Dump\n");
+4ed5116aacf612 Likun Gao 2025-01-07  1347  
 
 --
 0-DAY CI Kernel Test Service
