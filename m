@@ -1,262 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E3A3B2FD8
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jul 2026 09:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758553B3BF1
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jul 2026 09:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783071140; cv=none; b=rJzhqC5e4PX0wLOTa9DDDM7cIhygttPgtZ1Pe5U9tki2HH6kN61RnNar/oa7w3DQjBib8bOHTRb05iKXWk09cKqUfsMGm+dIEIZnbaUFA60jQtu7Ycr6SUuYWE6q+6D2HFyVR/DKVD946Zu7uCYubEc+VO7JMbW3Ac76l3uiqAg=
+	t=1783071858; cv=none; b=MIXnjBpz2QeVazyziaT7bN8ddni2heqeEOEH9OgIUBXOqk6CqcUwmYl6UNWwAlmHhOV+a4MTmRP0Bc4mmWcY79TOKe3ZwqoO2DMyt7GA1PVfPS7iX8R1gX8uh5MbdtURtL+dt2uXhaod63IQuUXw4RDzMvwsIihn2amCzYWgtB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783071140; c=relaxed/simple;
-	bh=Wdr4H/YcPvwslE1qCSFj84KWtKZym+ek2+X0kTSZlRo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VDsm8v6zioyr7+vr1x9VsMMwC0KXfEy0+x4Oa/+Fjyl0JmTUQz5sAqKVDvfUHJR7WfpvNsM6Aqfg5FRH+l4F/g72ljVL6RQWj/UTou83HDrYVBCSnl/2dEO91/qo6K7rHcwvbv4kylHs/jmdJUFqmcyFBlf4l+QUT8FJtDKIXyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9YmRbFt; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1783071858; c=relaxed/simple;
+	bh=3WmUeN6bpj4lW/H3gsahfFubcfqMz6i9Xvs+9FlwPHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nXgFgAUW5g0dXk4QUm7rjDRg0oMubvffuF7rhd1omALmsRTfSYR8of4OUvpsZPbH4dhjMlA62iXvw0jq3jpR7tZfD19x0FvuUBkfqn8Jys1pfZ8CvY8SAAXWA+1FIiYDnbpUpQhcpZMNaheD0wdQyrY8++wmtnVK3JWh3LMzsKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6xiaFau; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9YmRbFt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6xiaFau"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783071139; x=1814607139;
-  h=date:from:to:cc:subject:message-id;
-  bh=Wdr4H/YcPvwslE1qCSFj84KWtKZym+ek2+X0kTSZlRo=;
-  b=A9YmRbFtfyKxwGDIqrGta0XbLUUVN6ijyaVUIvT0yhZcE1YifzWM2W3b
-   0vR2wK2C8phI9cxo+IfdMc3ZVbjsr2RpEqQZGBGA9sC9EQwDseg9rlzwo
-   HMDIkNqHC5aIBYJJIFTRtxsbZJ5zYbgACh5k8JdexnsLAthTIGc2u9jjB
-   eoYcdIM0hvLvIjkLeJ9zACYyTqOhvr+Ovia9XDnhd/+GB+Ig8tSLfF/my
-   4RDCcUL7kq438pddFE9SWj/trcI/l+mOZ/nZZ776AButPtHaF0pmZh7zZ
-   LntVRpy7gJguaUYy2sr5g+oql1cOhia8Cbzw3JlneH7WpbtOw5slmiZm2
+  t=1783071855; x=1814607855;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3WmUeN6bpj4lW/H3gsahfFubcfqMz6i9Xvs+9FlwPHo=;
+  b=J6xiaFaul5p4m2CAup7fLzP+7YV8ex3gZFRHkCg7QVpct67RUstMVZiM
+   QZl2AVBC3Nt22q3TjsD8WO/6IXgKczdmRJF+PPO2qjpx/KSEEfA6mnXf+
+   BU5Snz3I0wyvQbCJNqERQC+9qk4YsgobG1ufDzctnfX5dOCZTWL0Mt2K/
+   x2ohZxyJy+80hSYcPdcZtjPPsU+O9A7/7mYE67OwD8DnOp+lPTw4v8Wwf
+   dtus9vIPuF/wKqTIJJ3zuT75olvYK6HIbSAUYWMm2PeUJymOGbjIzzK9p
+   dlZnjCfnXXn+0xu+7obCuDfYvxbfBEHuzS59+AChkxLqGMMhX8I8pAT6F
    A==;
-X-CSE-ConnectionGUID: OELBYh1dSIGg/AMwP+buyQ==
-X-CSE-MsgGUID: Tu3hNpVbSmS1rPpilHmwwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="95330020"
+X-CSE-ConnectionGUID: N8V3bySsTt6msihjkgfb1A==
+X-CSE-MsgGUID: FXi9wDQYRBW4+0Pn6hbjig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="83690580"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="95330020"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 02:32:13 -0700
-X-CSE-ConnectionGUID: b/Sa6sxKRayVdOC/LEoUQg==
-X-CSE-MsgGUID: U8BVhDSYT+KBdchq1jEr7w==
+   d="scan'208";a="83690580"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 02:44:14 -0700
+X-CSE-ConnectionGUID: vNcnYZT8Qu6MTxYQPNqUhQ==
+X-CSE-MsgGUID: NQDeZccKRMScozTsCEW9OQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="257960543"
+   d="scan'208";a="256653933"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Jul 2026 02:32:11 -0700
+  by orviesa003.jf.intel.com with ESMTP; 03 Jul 2026 02:44:15 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfaFl-00000000BvT-0XDc;
-	Fri, 03 Jul 2026 09:32:09 +0000
-Date: Fri, 03 Jul 2026 17:31:18 +0800
+	id 1wfaRQ-00000000Bvz-0mgg;
+	Fri, 03 Jul 2026 09:44:12 +0000
+Date: Fri, 03 Jul 2026 17:43:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3945
- stmmac_request_irq_multi_msi() warn: 'msi->sfty_ce_irq' from request_irq()
- not released on lines: 3945.
-Message-ID: <202607031720.dbSTTpYt-lkp@intel.com>
+Subject: [agd5f:amd-staging-drm-next 3205/3402]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ip.c:537 amdgpu_device_ip_soft_reset()
+ error: we previously assumed 'ip_block' could be null (see line 536)
+Message-ID: <202607031711.yLwFhGfp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Florian Bezdeka <florian.bezdeka@siemens.com>
+TO: "Timur Krist=C3=B3f" <timur.kristof@gmail.com>
+CC: Alexander Deucher <alexander.deucher@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2c9a99135da931377240942d44f3dea104cedb8
-commit: dab177cbea3491354cc3c0b268602d8902501233 net: stmmac: move MSI data out of struct stmmac_priv
-date:   4 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 4 months ago
-config: m68k-randconfig-r072-20260703 (https://download.01.org/0day-ci/archive/20260703/202607031720.dbSTTpYt-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
+head:   e3cc8c108f9a91728f9ff6e24cbf3b41c58b8f8b
+commit: a6319ac34a1322cc70c8aa7a3b06a558dc4f68a5 [3205/3402] drm/amdgpu: Ad=
+d IP block soft reset as a GPU recovery method
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+config: i386-randconfig-r073-20260702 (https://download.01.org/0day-ci/arch=
+ive/20260703/202607031711.yLwFhGfp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: dab177cbea34 ("net: stmmac: move MSI data out of struct stmmac_priv")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607031720.dbSTTpYt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607031711.yLwFhGfp-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3945 stmmac_request_irq_multi_msi() warn: 'msi->sfty_ce_irq' from request_irq() not released on lines: 3945.
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3945 stmmac_request_irq_multi_msi() warn: 'msi->sfty_ue_irq' from request_irq() not released on lines: 3945.
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_ip.c:537 amdgpu_device_ip_soft_reset() er=
+ror: we previously assumed 'ip_block' could be null (see line 536)
 
-Old smatch warnings:
-arch/m68k/include/asm/io_no.h:50 __cf_internalio() warn: always true condition '(addr <= 3758096384 + 536870912 - 1) => (0-u32max <= u32max)'
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3945 stmmac_request_irq_multi_msi() warn: 'dev->irq' from request_irq() not released on lines: 3945.
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3945 stmmac_request_irq_multi_msi() warn: 'priv->sfty_irq' from request_irq() not released on lines: 3945.
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3945 stmmac_request_irq_multi_msi() warn: 'priv->wol_irq' from request_irq() not released on lines: 3945.
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3998 stmmac_request_irq_single() warn: 'dev->irq' from request_irq() not released on lines: 3998.
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3998 stmmac_request_irq_single() warn: 'priv->wol_irq' from request_irq() not released on lines: 3998.
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5816 stmmac_rx() error: 'skb' dereferencing possible ERR_PTR()
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5825 stmmac_rx() error: 'skb' dereferencing possible ERR_PTR()
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5848 stmmac_rx() error: 'skb' dereferencing possible ERR_PTR()
+vim +/ip_block +537 drivers/gpu/drm/amd/amdgpu/amdgpu_ip.c
 
-vim +3945 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-
-dab177cbea3491 Russell King (Oracle  2026-03-13  3798) 
-e9ee910218ffd4 Jakub Kicinski        2024-01-07  3799  static int stmmac_request_irq_multi_msi(struct net_device *dev)
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3800  {
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3801  	struct stmmac_priv *priv = netdev_priv(dev);
-dab177cbea3491 Russell King (Oracle  2026-03-13  3802) 	struct stmmac_msi *msi = priv->msi;
-3e6dc7b650250f Wong Vee Khee         2021-06-11  3803  	enum request_irq_err irq_err;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3804  	int irq_idx = 0;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3805  	char *int_name;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3806  	int ret;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3807  	int i;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3808  
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3809  	/* For common interrupt */
-dab177cbea3491 Russell King (Oracle  2026-03-13  3810) 	int_name = msi->int_name_mac;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3811  	sprintf(int_name, "%s:%s", dev->name, "mac");
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3812  	ret = request_irq(dev->irq, stmmac_mac_interrupt,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3813  			  0, int_name, dev);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3814  	if (unlikely(ret < 0)) {
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3815  		netdev_err(priv->dev,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3816  			   "%s: alloc mac MSI %d (error: %d)\n",
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3817  			   __func__, dev->irq, ret);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3818  		irq_err = REQ_IRQ_ERR_MAC;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3819  		goto irq_error;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3820  	}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3821  
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3822  	/* Request the Wake IRQ in case of another line
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3823  	 * is used for WoL
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3824  	 */
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3825  	if (priv->wol_irq > 0 && priv->wol_irq != dev->irq) {
-dab177cbea3491 Russell King (Oracle  2026-03-13  3826) 		int_name = msi->int_name_wol;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3827  		sprintf(int_name, "%s:%s", dev->name, "wol");
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3828  		ret = request_irq(priv->wol_irq,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3829  				  stmmac_mac_interrupt,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3830  				  0, int_name, dev);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3831  		if (unlikely(ret < 0)) {
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3832  			netdev_err(priv->dev,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3833  				   "%s: alloc wol MSI %d (error: %d)\n",
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3834  				   __func__, priv->wol_irq, ret);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3835  			irq_err = REQ_IRQ_ERR_WOL;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3836  			goto irq_error;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3837  		}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3838  	}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3839  
-5c2215167d122b Suraj Jaiswal         2024-02-09  3840  	/* Request the common Safety Feature Correctible/Uncorrectible
-5c2215167d122b Suraj Jaiswal         2024-02-09  3841  	 * Error line in case of another line is used
-5c2215167d122b Suraj Jaiswal         2024-02-09  3842  	 */
-5c2215167d122b Suraj Jaiswal         2024-02-09  3843  	if (priv->sfty_irq > 0 && priv->sfty_irq != dev->irq) {
-dab177cbea3491 Russell King (Oracle  2026-03-13  3844) 		int_name = msi->int_name_sfty;
-5c2215167d122b Suraj Jaiswal         2024-02-09  3845  		sprintf(int_name, "%s:%s", dev->name, "safety");
-5c2215167d122b Suraj Jaiswal         2024-02-09  3846  		ret = request_irq(priv->sfty_irq, stmmac_safety_interrupt,
-5c2215167d122b Suraj Jaiswal         2024-02-09  3847  				  0, int_name, dev);
-5c2215167d122b Suraj Jaiswal         2024-02-09  3848  		if (unlikely(ret < 0)) {
-5c2215167d122b Suraj Jaiswal         2024-02-09  3849  			netdev_err(priv->dev,
-5c2215167d122b Suraj Jaiswal         2024-02-09  3850  				   "%s: alloc sfty MSI %d (error: %d)\n",
-5c2215167d122b Suraj Jaiswal         2024-02-09  3851  				   __func__, priv->sfty_irq, ret);
-5c2215167d122b Suraj Jaiswal         2024-02-09  3852  			irq_err = REQ_IRQ_ERR_SFTY;
-5c2215167d122b Suraj Jaiswal         2024-02-09  3853  			goto irq_error;
-5c2215167d122b Suraj Jaiswal         2024-02-09  3854  		}
-5c2215167d122b Suraj Jaiswal         2024-02-09  3855  	}
-5c2215167d122b Suraj Jaiswal         2024-02-09  3856  
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3857  	/* Request the Safety Feature Correctible Error line in
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3858  	 * case of another line is used
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3859  	 */
-dab177cbea3491 Russell King (Oracle  2026-03-13  3860) 	if (msi->sfty_ce_irq > 0 && msi->sfty_ce_irq != dev->irq) {
-dab177cbea3491 Russell King (Oracle  2026-03-13  3861) 		int_name = msi->int_name_sfty_ce;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3862  		sprintf(int_name, "%s:%s", dev->name, "safety-ce");
-dab177cbea3491 Russell King (Oracle  2026-03-13  3863) 		ret = request_irq(msi->sfty_ce_irq,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3864  				  stmmac_safety_interrupt,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3865  				  0, int_name, dev);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3866  		if (unlikely(ret < 0)) {
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3867  			netdev_err(priv->dev,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3868  				   "%s: alloc sfty ce MSI %d (error: %d)\n",
-dab177cbea3491 Russell King (Oracle  2026-03-13  3869) 				   __func__, msi->sfty_ce_irq, ret);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3870  			irq_err = REQ_IRQ_ERR_SFTY_CE;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3871  			goto irq_error;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3872  		}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3873  	}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3874  
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3875  	/* Request the Safety Feature Uncorrectible Error line in
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3876  	 * case of another line is used
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3877  	 */
-dab177cbea3491 Russell King (Oracle  2026-03-13  3878) 	if (msi->sfty_ue_irq > 0 && msi->sfty_ue_irq != dev->irq) {
-dab177cbea3491 Russell King (Oracle  2026-03-13  3879) 		int_name = msi->int_name_sfty_ue;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3880  		sprintf(int_name, "%s:%s", dev->name, "safety-ue");
-dab177cbea3491 Russell King (Oracle  2026-03-13  3881) 		ret = request_irq(msi->sfty_ue_irq,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3882  				  stmmac_safety_interrupt,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3883  				  0, int_name, dev);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3884  		if (unlikely(ret < 0)) {
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3885  			netdev_err(priv->dev,
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3886  				   "%s: alloc sfty ue MSI %d (error: %d)\n",
-dab177cbea3491 Russell King (Oracle  2026-03-13  3887) 				   __func__, msi->sfty_ue_irq, ret);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3888  			irq_err = REQ_IRQ_ERR_SFTY_UE;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3889  			goto irq_error;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3890  		}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3891  	}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3892  
-e9ee910218ffd4 Jakub Kicinski        2024-01-07  3893  	/* Request Rx MSI irq */
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3894  	for (i = 0; i < priv->plat->rx_queues_to_use; i++) {
-d68c2e1d19c540 Arnd Bergmann         2021-09-27  3895  		if (i >= MTL_MAX_RX_QUEUES)
-3e0d5699a97571 Arnd Bergmann         2021-09-27  3896  			break;
-dab177cbea3491 Russell King (Oracle  2026-03-13  3897) 		if (msi->rx_irq[i] == 0)
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3898  			continue;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3899  
-dab177cbea3491 Russell King (Oracle  2026-03-13  3900) 		int_name = msi->int_name_rx_irq[i];
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3901  		sprintf(int_name, "%s:%s-%d", dev->name, "rx", i);
-dab177cbea3491 Russell King (Oracle  2026-03-13  3902) 		ret = request_irq(msi->rx_irq[i],
-e9ee910218ffd4 Jakub Kicinski        2024-01-07  3903  				  stmmac_msi_intr_rx,
-8531c80800c10e Christian Marangi     2022-07-23  3904  				  0, int_name, &priv->dma_conf.rx_queue[i]);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3905  		if (unlikely(ret < 0)) {
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3906  			netdev_err(priv->dev,
-e9ee910218ffd4 Jakub Kicinski        2024-01-07  3907  				   "%s: alloc rx-%d  MSI %d (error: %d)\n",
-dab177cbea3491 Russell King (Oracle  2026-03-13  3908) 				   __func__, i, msi->rx_irq[i], ret);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3909  			irq_err = REQ_IRQ_ERR_RX;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3910  			irq_idx = i;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3911  			goto irq_error;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3912  		}
-dab177cbea3491 Russell King (Oracle  2026-03-13  3913) 		irq_set_affinity_hint(msi->rx_irq[i],
-c60d101a226f18 Qingfang Deng         2025-03-18  3914  				      cpumask_of(i % num_online_cpus()));
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3915  	}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3916  
-e9ee910218ffd4 Jakub Kicinski        2024-01-07  3917  	/* Request Tx MSI irq */
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3918  	for (i = 0; i < priv->plat->tx_queues_to_use; i++) {
-d68c2e1d19c540 Arnd Bergmann         2021-09-27  3919  		if (i >= MTL_MAX_TX_QUEUES)
-3e0d5699a97571 Arnd Bergmann         2021-09-27  3920  			break;
-dab177cbea3491 Russell King (Oracle  2026-03-13  3921) 		if (msi->tx_irq[i] == 0)
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3922  			continue;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3923  
-dab177cbea3491 Russell King (Oracle  2026-03-13  3924) 		int_name = msi->int_name_tx_irq[i];
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3925  		sprintf(int_name, "%s:%s-%d", dev->name, "tx", i);
-dab177cbea3491 Russell King (Oracle  2026-03-13  3926) 		ret = request_irq(msi->tx_irq[i],
-e9ee910218ffd4 Jakub Kicinski        2024-01-07  3927  				  stmmac_msi_intr_tx,
-8531c80800c10e Christian Marangi     2022-07-23  3928  				  0, int_name, &priv->dma_conf.tx_queue[i]);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3929  		if (unlikely(ret < 0)) {
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3930  			netdev_err(priv->dev,
-e9ee910218ffd4 Jakub Kicinski        2024-01-07  3931  				   "%s: alloc tx-%d  MSI %d (error: %d)\n",
-dab177cbea3491 Russell King (Oracle  2026-03-13  3932) 				   __func__, i, msi->tx_irq[i], ret);
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3933  			irq_err = REQ_IRQ_ERR_TX;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3934  			irq_idx = i;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3935  			goto irq_error;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3936  		}
-dab177cbea3491 Russell King (Oracle  2026-03-13  3937) 		irq_set_affinity_hint(msi->tx_irq[i],
-c60d101a226f18 Qingfang Deng         2025-03-18  3938  				      cpumask_of(i % num_online_cpus()));
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3939  	}
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3940  
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3941  	return 0;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3942  
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3943  irq_error:
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3944  	stmmac_free_irq(dev, irq_err, irq_idx);
-8532f613bc78b6 Ong Boon Leong        2021-03-26 @3945  	return ret;
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3946  }
-8532f613bc78b6 Ong Boon Leong        2021-03-26  3947  
-
-:::::: The code at line 3945 was first introduced by commit
-:::::: 8532f613bc78b6e0e32b486e720848d3f5569287 net: stmmac: introduce MSI Interrupt routines for mac, safety, RX & TX
-
-:::::: TO: Ong Boon Leong <boon.leong.ong@intel.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  505 =20
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  506  /**
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  507   * amdgpu_device_ip_soft=
+_reset() - Perform a graceful soft reset on an IP block.
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  508   *
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  509   * @guilty_ring: The rin=
+g which is guilty of causing a reset.
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  510   * @guilty_fence: The fe=
+nce which didn't signal.
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  511   *
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  512   * IP block soft reset i=
+s used when attempting to recover
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  513   * from a GPU hang in a =
+situation where a more fine grained
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  514   * reset type isn't avai=
+lable or didn't work. This effectively
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  515   * resets all rings that=
+ belong to the same device IP block
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  516   * and re-initializes th=
+e device IP block.
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  517   *
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  518   * The reset is handled =
+gracefully, meaning that we try to
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  519   * minimize collateral d=
+amage (ie. avoid rejecting non-guilty jobs)
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  520   * as well as back up an=
+d restore the contents of all rings
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  521   * so that the system ca=
+n move on from the hang.
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  522   */
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  523  int amdgpu_device_ip_sof=
+t_reset(struct amdgpu_ring *guilty_ring,
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  524  				struct amdgpu_fence =
+*guilty_fence)
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  525  {
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  526  	struct amdgpu_device *a=
+dev =3D guilty_ring->adev;
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  527  	struct amdgpu_ring *rin=
+gs[AMDGPU_MAX_RINGS];
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  528  	struct amdgpu_ip_block =
+*ip_block;
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  529  	enum amd_ip_block_type =
+ip_type;
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  530  	u32 num_rings, ring_typ=
+e_mask;
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  531  	int r;
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  532 =20
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  533  	ip_type =3D amdgpu_ip_f=
+rom_ring(guilty_ring->funcs->type);
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  534  	ip_block =3D amdgpu_dev=
+ice_ip_get_ip_block(adev, ip_type);
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17  535 =20
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17 @536  	if (!ip_block || !ip_bl=
+ock->version->funcs->soft_reset) {
+a6319ac34a1322 Timur Krist=C3=B3f 2026-06-17 @537  		dev_warn(adev->dev, "I=
+P block soft reset not supported on %s\n",
 
 --
 0-DAY CI Kernel Test Service
