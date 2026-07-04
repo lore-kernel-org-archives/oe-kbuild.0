@@ -1,106 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2E8DDC5
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Jul 2026 02:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1C439EF27
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Jul 2026 08:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783131443; cv=none; b=Vk81DI2YC+N+2ZZ1KIrB3ylSG6QxSp/MAUWqaZFM9wjYGEwnvfk4sgBIICjl4et24YgHSxxZtaw+f813VjhDODp6gnURN7xwOGb1tkQJBSUgJeKb4xVsc1rbbVBEJDsVp8t+wQ020RihKeV7kJdJBxMM6MAjFz2+hDu9NL4sdU0=
+	t=1783153834; cv=none; b=qszTYn1kMWezcOvg6sJnWnGGGRPjaEZkI+fZa3hE0V1N9u8iP9tE55patoaKe4dCHc8pLpgj7R05M0WOl75DxtOXWRUXcQCW8u7xHvTfpUj9uc2DzdtZi46yQIUlHXIMOB1q7eQcAV7nhWDgpaQz72uYQi5Y+/3sRbhh8dwMiPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783131443; c=relaxed/simple;
-	bh=Brx3R8PBD1CSUHTGxRN/QoBf0XWWlihk4igsDvES1YU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=k+dHe3fWLGnJwtx5aPPQJxSZPwlZ91dOUzdD/+OmRisMXTKNA3CUbI6q7tDile4vmg5YYjHlwd/iqVgekmuq73Xq9ke0WH9B4JEQ2T84l/+wO909x6h5R159GvOQ7O4odXwHPbQXA5cpH8J8UWNBT+onO0sRPeruRgXcR6eayUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PajiZQqm; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1783153834; c=relaxed/simple;
+	bh=nsPPxwWnZZ5K0VBmZYGp8Yp+mnPIsTLX4/tmKDSSpK8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kO/riIlJ4ZxRRVwX8lQ67Aua92K16zJbDSIOkPDspIkTDoYe3Hct1+qGP5VHIzVR170ikXqFjIpED/Lg2WFpcyoAzX/e7kDTifEdBFbLyVQSeaxx7MWZuNi2Uob+37Yz5mkZrrBhGcXbh/Ixi9kcg2+sIyb2ZcDZ8gbpLK3l/HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqqBVPVc; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PajiZQqm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqqBVPVc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783131442; x=1814667442;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Brx3R8PBD1CSUHTGxRN/QoBf0XWWlihk4igsDvES1YU=;
-  b=PajiZQqmZD+hE66wsKSbNYxjT1PcX9QmqW0MYy6lu4RbuA+qomRDl6so
-   1XXZPcENoHmsOr+N8u94zsGQtAkTMBAbjZulqcFEoSp/3f0xxbmn79m1D
-   9h9pQn4I3izeCI9/Y2jhUGCoYvOMJ5rG+H41hFsVT/ZbZF6JJAILJfHZa
-   GwvIKT63JeSU7aOs6lGfRgQ9OnTREu33Aw0eB0dQ/xvqBDRVwT2gn4oqz
-   4exD+0EyqQPjZi3BUWEHTgsy9/pSdukhLz6nybhrGT9TmygOkcWxO0W+v
-   aYJoBjj713OxF6LzTz5REalooeIxKyDD0pSiz5sWb0ezX2ilTynZNI+x2
-   A==;
-X-CSE-ConnectionGUID: IslCWMLSSgOprRKFc2RERA==
-X-CSE-MsgGUID: CmmoD916SieR3wmvss80Ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="82854006"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="82854006"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 19:17:21 -0700
-X-CSE-ConnectionGUID: bA55ug/vRnqSmFfmkzlojQ==
-X-CSE-MsgGUID: JJy2Uz51RZiuC0qCy4UJxQ==
+  t=1783153829; x=1814689829;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nsPPxwWnZZ5K0VBmZYGp8Yp+mnPIsTLX4/tmKDSSpK8=;
+  b=UqqBVPVcOxS/q8Cf2WAgfjwLWk2p/ym5azNBtB/JnQf2kSxoq+Sn5cJv
+   O/zKl3f/F6+rkQWs2Qy2X0LMNp6IqWTKbaspgh+hJRxvfnW/3oSZ9QPD0
+   8aCeN17UO634+SAnVQaGJAc36pISStCjkFlfCNX7f1T+cqKUXasDwiUxM
+   exBEhETVxgU2unecEroQvL7n1+QIOMZPQjiJcQHrwdZIIQ9wLjiM3xtfN
+   1tjlq5JcwsgbTb2PQKhmohM2MCfnkBoATJ37g7Os6CNA7WHNBLf4p4jvP
+   KK70D+A8pbDDqIs+B6yd9mewETv9Tkjq/HNLSsj3NR0nxiSHwPokAOWPa
+   w==;
+X-CSE-ConnectionGUID: lR/C3viqQMqAsYUijJ3ItQ==
+X-CSE-MsgGUID: W20WdY+nQcG3me5/cxO3lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="83857651"
+X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
+   d="scan'208";a="83857651"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 01:30:27 -0700
+X-CSE-ConnectionGUID: jRrCRIL/TdC4/1epav+lFw==
+X-CSE-MsgGUID: tbFaEdWKR5+kWXO772c38w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="249874203"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Jul 2026 19:17:20 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
+   d="scan'208";a="246889762"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Jul 2026 01:30:26 -0700
+Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wfpwP-00000000Clp-22UC;
-	Sat, 04 Jul 2026 02:17:14 +0000
-Date: Sat, 04 Jul 2026 10:16:57 +0800
+	id 1wfvlX-000000001iX-3mus;
+	Sat, 04 Jul 2026 08:30:23 +0000
+Date: Sat, 4 Jul 2026 10:30:04 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [thomas-weissschuh:b4/vdso-absolute-reloc 30/44] /bin/sh: 1:
- bindgen: not found
-Message-ID: <202607041024.1uSEyhxg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH v10 36/36] phy: rockchip: usbdp: Add USB-C state without
+ DP enabled
+Message-ID: <202607041027.Yp2GIHYQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-::::::=20
-:::::: Manual check reason: "only suspicious fbc files changed"
-::::::=20
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Wei=C3=9Fschuh" <thomas.weissschuh@linutronix.de>
+In-Reply-To: <20260703-rockchip-usbdp-cleanup-v10-36-a392711ca8a9@collabora.com>
+References: <20260703-rockchip-usbdp-cleanup-v10-36-a392711ca8a9@collabora.com>
+TO: Sebastian Reichel <sebastian.reichel@collabora.com>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+TO: Heiko Stuebner <heiko@sntech.de>
+TO: Frank Wang <frank.wang@rock-chips.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+CC: Andy Yan <andy.yan@rock-chips.com>
+CC: Dmitry Baryshkov <lumag@kernel.org>
+CC: Yubing Zhang <yubing.zhang@rock-chips.com>
+CC: Alexey Charkov <alchark@flipper.net>
+CC: linux-phy@lists.infradead.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: kernel@collabora.com
+CC: devicetree@vger.kernel.org
+CC: linux-usb@vger.kernel.org
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/vdso-absolute-reloc
-head:   51bae9e2089ad8c330686d236304af8544025aa7
-commit: d35f452115bea8d5ce495e37672d184b9c5e1290 [30/44] prepare
-:::::: branch date: 12 hours ago
-:::::: commit date: 13 hours ago
-config: powerpc-randconfig-002-20260704 (https://download.01.org/0day-ci/ar=
-chive/20260704/202607041024.1uSEyhxg-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260704/202607041024.1uSEyhxg-lkp@intel.com/reproduce)
+Hi Sebastian,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dc59e4fea9d83f03bad6bddf3fa2e52491777482]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Reichel/dt-bindings-phy-rockchip-usbdp-add-improved-ports-scheme/20260704-074013
+base:   dc59e4fea9d83f03bad6bddf3fa2e52491777482
+patch link:    https://lore.kernel.org/r/20260703-rockchip-usbdp-cleanup-v10-36-a392711ca8a9%40collabora.com
+patch subject: [PATCH v10 36/36] phy: rockchip: usbdp: Add USB-C state without DP enabled
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: arc-randconfig-2052-20260704 (https://download.01.org/0day-ci/archive/20260704/202607041027.Yp2GIHYQ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 9.5.0
+dtschema: 2026.7.dev1+g2203c1720
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260704/202607041027.Yp2GIHYQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607041024.1uSEyhxg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607041027.Yp2GIHYQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> /bin/sh: 1: bindgen: not found
-   make[3]: *** [lib/vdso/check/Makefile:17: lib/vdso/check/bindings.rs] Er=
-ror 127 shuffle=3D1556586000
-   make[3]: Target 'vdsocheck' not remade because of errors.
-   make[2]: *** [Makefile:1549: vdsocheck] Error 2 shuffle=3D1556586000
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3D1556586000
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3D1556586000
-   make: Target 'prepare' not remade because of errors.
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/phy/phy-rockchip-usbdp.yaml: properties:port: 'anyOf' conditional failed, one must be fixed:
+   	'depreated' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+   	'type' was expected
+   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
 
 --
 0-DAY CI Kernel Test Service
