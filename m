@@ -1,245 +1,295 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E2E35898
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jul 2026 04:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142B3213254
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jul 2026 05:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783311639; cv=none; b=h/1bleZH5yTYEf8VrQBlW5/XKrJYMlWdmRaj0lrTZDi3oi+Ux/JGpxKOmEJGR7p/dun9En4mcYSeMJ55UuWHf4s2AxwT9O1Seo7Fpd+0jXfKqn+GecGQh49d/vn5yFMfSDB7e+pd5izXvqSb9TMoYPR+5qCipGw0dzA3fNP24FM=
+	t=1783317010; cv=none; b=ptx+IUgNxuXtgeagGG6QkY7cWfA80XKVIYC+8brdTTC86FAcOCktJJVS8ryyG/T8FsGt4a+HzwoA9wQdY81sEmiK7A/vyCAV8unzbqDEtmPWl4oRQLZK8lIJanlcsgZbc/danij7/6gTVpEX2ySMJpknSY+5k8PYNvOs5RfVERs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783311639; c=relaxed/simple;
-	bh=q8Hf+2xU/g5chcXmKzo1jzMvTiiudq/T5kZBZBhjtWw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Wjd57ys3UMJgpT0rjQNosml/ob6vgU+LwhFJdArBrC81AMlWb6TBQHXpUnLyPXKZ5Q62X1Lp+5qzToJf1a/MHzB1hPwMW0nRYRDbsTm0zi6qpjavakGP6VIfXS6YIqZXDbz7bW6h/cgEfE1eXDP2vN2e9R0dbgW9Y8Eg2Dqj7GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmoAjwpK; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1783317010; c=relaxed/simple;
+	bh=e1mqSY1OWoXUUQVXMb/oRTZ22WTG8O0CGqI+E2NO+Fs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ovm0l2UTfAV90Z0JTOYe1p54By03DSlEr3/BXfFPsICjqCP+EBk1lU7ZHJGSn6/MECkcaNUcjFdZykRHzdqFO51NVZq2FKVj6WiA4PH4TOrstBbi9JqExu+J9WTD3aloCyCq8moxoNpD5xOQRXe71zWIlUfeE8ZfOUitcMExMGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNDOzeLd; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmoAjwpK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNDOzeLd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783311637; x=1814847637;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=q8Hf+2xU/g5chcXmKzo1jzMvTiiudq/T5kZBZBhjtWw=;
-  b=nmoAjwpKmVN2uRtjP6e2BmEta3fhCdTMHQAtD/lw0SBLSMWfqWEl33Gi
-   WMY25WYJUMijzO4HiC7afv2RGiJemcC4TBbk7SLbgj3DzzhOVCNXJM6NU
-   aLuVFIR714Ggyr0wQuUi+9Bx2vpt62/EAforWY4PFinagB+dGDEBel9Gu
-   qAqMmBKHjbVlD/nxIh8NFrXtzrBX/FJQN8T/a00vc81BrSZ7QqsdYSJk+
-   Tya5uzL3IxChIKwTx0R9RdnG75/iTa9Gd8xIew2KQE+zdViWpuxY8roGO
-   BpPphKAjsZl1J5+Nbt9sSrLI91oacVxLPU3r2kLmy7Y8uo3tLjMJKdtBB
-   A==;
-X-CSE-ConnectionGUID: MBpVuQr1S2u6luQJvrldHw==
-X-CSE-MsgGUID: P6+2+eP3T62c7N7aSwW15g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="87617717"
+  t=1783317008; x=1814853008;
+  h=date:from:to:cc:subject:message-id;
+  bh=e1mqSY1OWoXUUQVXMb/oRTZ22WTG8O0CGqI+E2NO+Fs=;
+  b=RNDOzeLdgc2TNh67ywFHHels3rtKRbFREqdRcF58voSC4Sl7UhCMYQcS
+   PnykBq7+fXvlSTcQvJOXk1tsWkKbuARGu8tZQRvlMZ8ECws2rSBLZlWdQ
+   XcwaUACHlOgA0Xopl6O1GEYxn7G0ltxXCxPpH0kJoul+ETICdXyeydLuP
+   2F5dmshDaYoYvMAS/hlC+G3vto23BxXiaY5WzHHI5vwPpiEwi028alL84
+   3OaWn8iGTyUPyLIs/ICdcN6RcDLhH+RAsMW8x8Cquugne6j4i92A77POe
+   uF7m5/usmKpG6d+QuWDvUgs++uneS4ijpaMam8jqJg01UKhXFQ6Yyk/FS
+   w==;
+X-CSE-ConnectionGUID: jOWj8Ap7RYGKLyKXvdsoeA==
+X-CSE-MsgGUID: 4VzaVOU4TMO9rqbCFwPS3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="95318388"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="87617717"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 21:20:37 -0700
-X-CSE-ConnectionGUID: msk4bCFPSCutE9qfVTa9uA==
-X-CSE-MsgGUID: oxeDbmtDTLKlRakiqmdpXQ==
+   d="scan'208";a="95318388"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 22:50:08 -0700
+X-CSE-ConnectionGUID: beSe5hoeQQ2MH354CLwhRA==
+X-CSE-MsgGUID: IvNc8/6ITQOtjGB3FCzfiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="255544602"
+   d="scan'208";a="250945393"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Jul 2026 21:20:35 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 Jul 2026 22:50:06 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wgaor-00000000E4x-0ZY8;
-	Mon, 06 Jul 2026 04:20:33 +0000
-Date: Mon, 06 Jul 2026 12:19:59 +0800
+	id 1wgcDU-00000000E71-17Mk;
+	Mon, 06 Jul 2026 05:50:04 +0000
+Date: Mon, 06 Jul 2026 13:49:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/powerpc/boot/dts/a3m071.dtb: Warning (interrupt_map):
- Failed prerequisite 'interrupt_provider'
-Message-ID: <202607061248.jbrKfwKB-lkp@intel.com>
+Subject: [ath:pending 6/8] ERROR: modpost: __ex_table+0x2670
+ references non-executable section '.debug_abbrev'
+Message-ID: <202607061342.7idrl3mm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "only suspicious fbc files changed"
-::::::=20
+:::::: 
+:::::: Manual check reason: "riscv arch toolchain issue"
+:::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
-CC: Madhavan Srinivasan <maddy@linux.ibm.com>
+CC: Jeff Johnson <jjohnson@kernel.org>
+CC: ath12k@lists.infradead.org
+TO: Dmitry Morgun <d.morgun@ispras.ru>
+CC: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+CC: Rameshkumar Sundaram <rameshkumar.sundaram@oss.qualcomm.com>
+CC: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   8cdeaa50eae8dad34885515f62559ee83e7e8dda
-commit: 2442f10c6eae63392452ab84a813dbc1f87c724d powerpc: dts: Build device=
-trees of enabled platforms
-date:   5 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 weeks ago
-config: powerpc-lite5200b_defconfig (https://download.01.org/0day-ci/archiv=
-e/20260706/202607061248.jbrKfwKB-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2=
-fb2a2269da0e2a3e230beb6cad39ca314db33)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260706/202607061248.jbrKfwKB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git pending
+head:   1d5283626b8f083b88ab62107a0b506fa49b816f
+commit: 84e14bfa51d8771ddc679356d792798a0e64c99d [6/8] wifi: ath11k: fix potential buffer underflow in ath11k_hal_rx_msdu_list_get()
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: riscv-randconfig-002-20260706 (https://download.01.org/0day-ci/archive/20260706/202607061342.7idrl3mm-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260706/202607061342.7idrl3mm-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2442f10c6eae ("powerpc: dts: Build devicetrees of enabled platform=
-s")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607061248.jbrKfwKB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607061342.7idrl3mm-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:284.21-289.4: Warning (unit_address_=
-vs_reg): /localbus: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/a3m071.dts:98.13-125.5: Warning (simple_bus_reg): =
-/localbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/a3m071.dts:127.12-132.5: Warning (simple_bus_reg):=
- /localbus/fpga@3,0: simple-bus unit address format error, expected "300000=
-000"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/a3m071.dtb: Warning (interrupt_map): Failed prereq=
-uisite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/mpc5200b.dtsi:284.21-289.4: Warning (unit_address_=
-vs_reg): /localbus: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/cm5200.dts:76.13-83.5: Warning (simple_bus_reg): /=
-localbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/cm5200.dtb: Warning (interrupt_map): Failed prereq=
-uisite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/motionpro.dts:102.12-105.5: Warning (simple_bus_re=
-g): /localbus/cpld@2,0: simple-bus unit address format error, expected "200=
-000000"
-   arch/powerpc/boot/dts/motionpro.dts:108.14-111.5: Warning (simple_bus_re=
-g): /localbus/anybus@3,0: simple-bus unit address format error, expected "3=
-00000000"
-   arch/powerpc/boot/dts/motionpro.dts:112.26-115.5: Warning (simple_bus_re=
-g): /localbus/pro_module_general@3,0: simple-bus unit address format error,=
- expected "300000000"
-   arch/powerpc/boot/dts/motionpro.dts:116.24-119.5: Warning (simple_bus_re=
-g): /localbus/pro_module_dio@3,800: simple-bus unit address format error, e=
-xpected "300000800"
-   arch/powerpc/boot/dts/motionpro.dts:122.13-129.5: Warning (simple_bus_re=
-g): /localbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/motionpro.dts:108.14-111.5: Warning (unique_unit_a=
-ddress_if_enabled): /localbus/anybus@3,0: duplicate unit-address (also used=
- in node /localbus/pro_module_general@3,0)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/motionpro.dtb: Warning (interrupt_map): Failed pre=
-requisite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/mpc5200b.dtsi:284.21-289.4: Warning (unit_address_=
-vs_reg): /localbus: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/o2d.dtsi:75.13-95.5: Warning (simple_bus_reg): /lo=
-calbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/o2d.dtsi:97.11-110.5: Warning (simple_bus_reg): /l=
-ocalbus/csi@3,0: simple-bus unit address format error, expected "300000000"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/o2d.dtb: Warning (interrupt_map): Failed prerequis=
-ite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/mpc5200b.dtsi:284.21-289.4: Warning (unit_address_=
-vs_reg): /localbus: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/o2d.dtsi:75.13-95.5: Warning (simple_bus_reg): /lo=
-calbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/o2d.dtsi:97.11-110.5: Warning (simple_bus_reg): /l=
-ocalbus/csi@3,0: simple-bus unit address format error, expected "300000000"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/o2d300.dtb: Warning (interrupt_map): Failed prereq=
-uisite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/mpc5200b.dtsi:284.21-289.4: Warning (unit_address_=
-vs_reg): /localbus: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/o2d.dtsi:75.13-95.5: Warning (simple_bus_reg): /lo=
-calbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/o2d.dtsi:97.11-110.5: Warning (simple_bus_reg): /l=
-ocalbus/csi@3,0: simple-bus unit address format error, expected "300000000"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/o2dnt2.dtb: Warning (interrupt_map): Failed prereq=
-uisite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/mpc5200b.dtsi:284.21-289.4: Warning (unit_address_=
-vs_reg): /localbus: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/o2d.dtsi:75.13-95.5: Warning (simple_bus_reg): /lo=
-calbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/o2d.dtsi:97.11-110.5: Warning (simple_bus_reg): /l=
-ocalbus/csi@3,0: simple-bus unit address format error, expected "300000000"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/o2i.dtb: Warning (interrupt_map): Failed prerequis=
-ite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/mpc5200b.dtsi:284.21-289.4: Warning (unit_address_=
-vs_reg): /localbus: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/o2d.dtsi:75.13-95.5: Warning (simple_bus_reg): /lo=
-calbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/o2d.dtsi:97.11-110.5: Warning (simple_bus_reg): /l=
-ocalbus/csi@3,0: simple-bus unit address format error, expected "300000000"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/o2mnt.dtb: Warning (interrupt_map): Failed prerequ=
-isite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/mpc5200b.dtsi:284.21-289.4: Warning (unit_address_=
-vs_reg): /localbus: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/uc101.dts:109.13-149.5: Warning (simple_bus_reg): =
-/localbus/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/mpc5200b.dtsi:218.23-223.5: Warning (unique_unit_a=
-ddress_if_enabled): /soc5200@f0000000/ethernet@3000: duplicate unit-address=
- (also used in node /soc5200@f0000000/mdio@3000)
-   arch/powerpc/boot/dts/mpc5200b.dtsi:267.20-282.4: Warning (interrupt_pro=
-vider): /pci@f0000d00: '#interrupt-cells' found, but node is not an interru=
-pt provider
->> arch/powerpc/boot/dts/uc101.dtb: Warning (interrupt_map): Failed prerequ=
-isite 'interrupt_provider'
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+ERROR: modpost: __ex_table+0x2520 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2524 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2524 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x252c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x252c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2530 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2530 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2538 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2538 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x253c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x253c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2544 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2544 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2548 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2548 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2550 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2550 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2554 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2554 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x255c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x255c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2560 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2560 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2568 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2568 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x256c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x256c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2574 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2574 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2578 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2578 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2580 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2580 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2584 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2584 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x258c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x258c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2590 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2590 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2598 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2598 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x259c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x259c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25a4 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25a4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25a8 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25a8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25b0 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25b0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25b4 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25b4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25bc (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25bc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25c0 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25c0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25d4 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25d4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25d8 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25d8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25e0 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25e0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25e4 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25e4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25ec (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25ec references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25f0 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25f0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25f8 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25f8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x25fc (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x25fc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2604 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2604 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2608 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2608 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2610 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2610 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2614 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2614 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x261c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x261c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2620 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2620 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2628 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2628 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x262c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x262c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2634 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2634 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2638 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2638 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2640 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2640 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2644 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2644 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x264c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x264c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2650 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2650 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2670 (section: __ex_table) -> $d (section: .debug_abbrev)
+>> ERROR: modpost: __ex_table+0x2670 references non-executable section '.debug_abbrev'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2674 (section: __ex_table) -> .L0  (section: .debug_loc)
+ERROR: modpost: __ex_table+0x2674 references non-executable section '.debug_loc'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x267c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x267c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2680 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2680 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2688 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2688 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x268c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x268c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2694 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2694 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2698 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2698 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26a0 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26a0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26a4 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26a4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26ac (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26ac references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26b0 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26b0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26b8 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26b8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26bc (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26bc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26c4 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26c4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26c8 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26c8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26d0 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26d0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26d4 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26d4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26dc (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26dc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26e0 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26e0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26e8 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26e8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26ec (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26ec references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26f4 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26f4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x26f8 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x26f8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2700 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2700 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2704 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2704 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x270c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x270c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2710 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2710 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2718 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2718 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x271c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x271c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2724 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2724 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2728 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2728 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2730 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2730 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2734 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2734 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x273c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x273c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2740 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2740 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2748 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2748 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x274c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x274c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2754 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2754 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2758 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2758 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2760 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2760 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2764 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2764 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x276c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x276c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2770 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2770 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2778 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2778 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x277c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x277c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2784 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2784 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2788 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2788 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2790 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2790 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2794 (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x2794 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x279c (section: __ex_table) -> .L0  (section: .debug_str)
+ERROR: modpost: __ex_table+0x279c references non-executable section '.debug_str'
 
 --
 0-DAY CI Kernel Test Service
