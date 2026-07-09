@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFCC332629
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jul 2026 05:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5503AA182
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jul 2026 06:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783576128; cv=none; b=WBZimSDK/BkZlxrn876rtizIvRUCYDcZJ5jjUE/VbGdHa430HWBwxM0fEnK7ZW/+/MyQ4suL33HNNiCeHtk/Z9F/kH7Wk+FP+iEDdK8qACAJVmAyXNgq7RxvA/HuYADp/SZDVwXNvMtRJO+n4pHUQ/51hhwifMuh24FmpVNgiVc=
+	t=1783576825; cv=none; b=sk5c6y7OQG68gq01iZkdtv5Vw0MzhiY2k66hRx9HgEh6xMhCb4l/NkjGexSkjCnY4UKdgTcTvGEjvCgYXVkRG8zgXYOnss1giIDdmM3NUzQEAnqUkA4Qu4jqg+oll+skTRhxDVlo8S5Gw6wclPw4Gkt7twKchERgY2JEPAmbyhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783576128; c=relaxed/simple;
-	bh=JgIEnSnAzUh1QqW9gCKjn0tNx0gp64m9P2PCSo4GPws=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FS2VVFe2Wl6e+T5w/Op410zyAbozNwTxu5aOnmQ7pTAB++iU5v7RjpeqDkTqevJyjKDoAl2I7eT9865RFjQkSiEKTajO5AVKN4mlvG++yJl0xnzAXBCDleN2LrebQ5XM3/Hk4DVsp8N4sGgn2zd8ein9z39kkf6bCEBVfx9JJKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0aFYrMx; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1783576825; c=relaxed/simple;
+	bh=6dbk8ylap3rWUQUqqi1ESXG/b48c71cQo/wgmLy2T0U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YoXFXLXWdkRcF1vIw7Q4sNKEw3+2YLDVsQSa9zf00m5Z+XNr1pi+ZLp0ucuoq+6uzgfYmmMyI5qjGWD5SU9wCHaehay/ZW5fRZq898epVXKsse0DUJEBfkdGkysDw1uaygtfCcbUEp/BRZyCFlhgEggOE+i1G4PBCW47QawUV7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jO0IjXUp; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0aFYrMx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jO0IjXUp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783576127; x=1815112127;
+  t=1783576824; x=1815112824;
   h=date:from:to:cc:subject:message-id;
-  bh=JgIEnSnAzUh1QqW9gCKjn0tNx0gp64m9P2PCSo4GPws=;
-  b=n0aFYrMx/phDpewXvglz8l+UFVBM5kNLWJBpjLta4x2FEMFQOfsug+TA
-   sDOmjDhf/8WBtdVQ42dpctmzsls22ejiXNg5WTfIgoWlTjsA1fPGIzCoa
-   /znV1e+LvRf1ufDgLxxYeNm51oXJ32oXdRMDXW4Hp8WE57KIBeaM6qwyC
-   Yl6ycD+AZ1zLNQ4D+hHEEvAL5gsnnZyk41Rqyo+d1PonaEKnjCgUX3GMa
-   jYgbtCOpoYZvRr37ty2Xz9LJrohMmCIbTvNuX4rI31ubax7+rFnXWGEBk
-   peJPXuyZmyMw2p3fEvsCQMMcGGTB/caWZXzllj3G4KsmwhwNqQWP11acv
-   g==;
-X-CSE-ConnectionGUID: D2WmujEzQzyEr15XavPV0w==
-X-CSE-MsgGUID: YyP4buoBTcOJDeAZDhAToA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101675940"
+  bh=6dbk8ylap3rWUQUqqi1ESXG/b48c71cQo/wgmLy2T0U=;
+  b=jO0IjXUpNPPoeDPJfKm6HxCkIY/vebfHLV1XqcNXEr2I6fmypI3C90DI
+   lPAABXMIt5SsZCKAaoUfA+jIL39iXT20hyV/4k3idDmbuCaY3ipSjpv/5
+   xtKysOcbRqQCHJ5PBeIXeZI9PwHfQ9cX6QE7SfpqdaxTVgH0lHW/MAuHd
+   woN4d5mGAlOF0xhH1uLyh4GiI+Mc3TAdDv80gFgKuEUAi88Bl/c55lLRR
+   EoEN1vHETeqXIx2s/lOVoHkf9FgrHhtOeN8Ju751b10lB4Pn31oNzhuUy
+   dt1aTsSEkWWwC3T9pTBGB4IugqDY9qoLkoRm2ItCHLuH5/AfxdpYDD7Dx
+   A==;
+X-CSE-ConnectionGUID: NsCtYu/GT0y7/Uj+c3pvFQ==
+X-CSE-MsgGUID: moyako4TSU+xQuY8NbOwqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="71769326"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="101675940"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 22:48:46 -0700
-X-CSE-ConnectionGUID: mEASeyllSJWGjUoPZLEeRg==
-X-CSE-MsgGUID: 676E4yOjRIeKmd74fgnP+A==
+   d="scan'208";a="71769326"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 23:00:23 -0700
+X-CSE-ConnectionGUID: q2qwM9BKQdmKVm/w3O0TXQ==
+X-CSE-MsgGUID: C3efGQnVS+2RdrLF05M9OQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="277711667"
+   d="scan'208";a="256408691"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Jul 2026 22:48:44 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 08 Jul 2026 23:00:21 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whhcn-00000000HJv-1y1f;
-	Thu, 09 Jul 2026 05:48:41 +0000
-Date: Thu, 09 Jul 2026 13:46:58 +0800
+	id 1whho2-00000000HKR-2ViQ;
+	Thu, 09 Jul 2026 06:00:18 +0000
+Date: Thu, 09 Jul 2026 13:59:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [intel-lts:6.18/linux 1/1]
- drivers/media/platform/intel/ipu-acpi.c:73:25: sparse: sparse: unsigned value
- that used to be signed checked against zero?
-Message-ID: <202607091328.hDhinvap-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-kiwi-6.1 180/180]
+ drivers/i2c/busses/i2c-pxa.c:1364 i2c_pxa_init_recovery() warn: passing zero
+ to 'PTR_ERR'
+Message-ID: <202607091344.tyIUh9ZX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,59 +60,118 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/media/platform/intel/ipu-acpi.c:73:25: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: hepengpx <pengpengx.he@intel.com>
-CC: "sys_oak" <sys_oak@intel.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
-head:   5100e1c74efeba843945492f8d5840e6166c0392
-commit: d1a4a0a2fedfc816e1f7db99c4858dfc0b8fd300 [1/1] media: pci: intel: support PDATA in Kconfig/Makefile
-:::::: branch date: 10 days ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-r123-20260708 (https://download.01.org/0day-ci/archive/20260709/202607091328.hDhinvap-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   7b80053b707666e258e504127dd1bf5ac555f5e1
+commit: b3fd9db79e30d5eb5f76ef1f5b7e4f444af574ea [180/180] Revert "i2c: pxa: move to generic GPIO recovery"
+:::::: branch date: 2 days ago
+:::::: commit date: 2 years, 7 months ago
+config: i386-randconfig-141-20260708 (https://download.01.org/0day-ci/archive/20260709/202607091344.tyIUh9ZX-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091328.hDhinvap-lkp@intel.com/reproduce)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607091328.hDhinvap-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607091344.tyIUh9ZX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/platform/intel/ipu-acpi.c:73:25: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/media/platform/intel/ipu-acpi.c:79:16: sparse: signed value source
---
->> drivers/media/platform/intel/ipu-acpi-pdata.c:36:30: sparse: sparse: symbol 'acpi_subdev_pdata' was not declared. Should it be static?
->> drivers/media/platform/intel/ipu-acpi-pdata.c:43:21: sparse: sparse: symbol 'serdes_info' was not declared. Should it be static?
+smatch warnings:
+drivers/i2c/busses/i2c-pxa.c:1364 i2c_pxa_init_recovery() warn: passing zero to 'PTR_ERR'
+drivers/i2c/busses/i2c-pxa.c:1364 i2c_pxa_init_recovery() warn: passing zero to 'PTR_ERR'
 
-vim +73 drivers/media/platform/intel/ipu-acpi.c
+vim +/PTR_ERR +1364 drivers/i2c/busses/i2c-pxa.c
 
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  68  
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  69  static int get_table_index(const char *acpi_name)
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  70  {
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  71  	int i;
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  72  
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08 @73  	for (i = 0; i < ARRAY_SIZE(supported_devices); i++) {
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  74  		if (!strncmp(supported_devices[i].hid_name, acpi_name,
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  75  			     strlen(supported_devices[i].hid_name)))
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  76  			return i;
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  77  	}
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  78  
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  79  	return -ENODEV;
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  80  }
-02f6fe497a2baa Shahidan, Muhammad Shahmil 2026-04-08  81  
-
-:::::: The code at line 73 was first introduced by commit
-:::::: 02f6fe497a2baa45f229a6c4039418e423e8ece6 Add IPU ACPI drivers
-
-:::::: TO: Shahidan, Muhammad Shahmil <muhammad.shahmil.shahidan@intel.com>
-:::::: CC: sys_oak <sys_oak@intel.com>
+7c9ec2c5251851 Russell King 2020-05-13  1335  
+7c9ec2c5251851 Russell King 2020-05-13  1336  static int i2c_pxa_init_recovery(struct pxa_i2c *i2c)
+7c9ec2c5251851 Russell King 2020-05-13  1337  {
+7c9ec2c5251851 Russell King 2020-05-13  1338  	struct i2c_bus_recovery_info *bri = &i2c->recovery;
+7c9ec2c5251851 Russell King 2020-05-13  1339  	struct device *dev = i2c->adap.dev.parent;
+7c9ec2c5251851 Russell King 2020-05-13  1340  
+7c9ec2c5251851 Russell King 2020-05-13  1341  	/*
+7c9ec2c5251851 Russell King 2020-05-13  1342  	 * When slave mode is enabled, we are not the only master on the bus.
+7c9ec2c5251851 Russell King 2020-05-13  1343  	 * Bus recovery can only be performed when we are the master, which
+7c9ec2c5251851 Russell King 2020-05-13  1344  	 * we can't be certain of. Therefore, when slave mode is enabled, do
+7c9ec2c5251851 Russell King 2020-05-13  1345  	 * not configure bus recovery.
+7c9ec2c5251851 Russell King 2020-05-13  1346  	 */
+7c9ec2c5251851 Russell King 2020-05-13  1347  	if (IS_ENABLED(CONFIG_I2C_PXA_SLAVE))
+7c9ec2c5251851 Russell King 2020-05-13  1348  		return 0;
+7c9ec2c5251851 Russell King 2020-05-13  1349  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1350  	i2c->pinctrl = devm_pinctrl_get(dev);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1351  	if (PTR_ERR(i2c->pinctrl) == -ENODEV)
+b3fd9db79e30d5 Robert Marko 2023-11-10  1352  		i2c->pinctrl = NULL;
+b3fd9db79e30d5 Robert Marko 2023-11-10  1353  	if (IS_ERR(i2c->pinctrl))
+b3fd9db79e30d5 Robert Marko 2023-11-10  1354  		return PTR_ERR(i2c->pinctrl);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1355  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1356  	if (!i2c->pinctrl)
+b3fd9db79e30d5 Robert Marko 2023-11-10  1357  		return 0;
+b3fd9db79e30d5 Robert Marko 2023-11-10  1358  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1359  	i2c->pinctrl_default = pinctrl_lookup_state(i2c->pinctrl,
+b3fd9db79e30d5 Robert Marko 2023-11-10  1360  						    PINCTRL_STATE_DEFAULT);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1361  	i2c->pinctrl_recovery = pinctrl_lookup_state(i2c->pinctrl, "recovery");
+b3fd9db79e30d5 Robert Marko 2023-11-10  1362  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1363  	if (IS_ERR(i2c->pinctrl_default) || IS_ERR(i2c->pinctrl_recovery)) {
+b3fd9db79e30d5 Robert Marko 2023-11-10 @1364  		dev_info(dev, "missing pinmux recovery information: %ld %ld\n",
+b3fd9db79e30d5 Robert Marko 2023-11-10  1365  			 PTR_ERR(i2c->pinctrl_default),
+b3fd9db79e30d5 Robert Marko 2023-11-10  1366  			 PTR_ERR(i2c->pinctrl_recovery));
+b3fd9db79e30d5 Robert Marko 2023-11-10  1367  		return 0;
+b3fd9db79e30d5 Robert Marko 2023-11-10  1368  	}
+b3fd9db79e30d5 Robert Marko 2023-11-10  1369  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1370  	/*
+b3fd9db79e30d5 Robert Marko 2023-11-10  1371  	 * Claiming GPIOs can influence the pinmux state, and may glitch the
+b3fd9db79e30d5 Robert Marko 2023-11-10  1372  	 * I2C bus. Do this carefully.
+b3fd9db79e30d5 Robert Marko 2023-11-10  1373  	 */
+b3fd9db79e30d5 Robert Marko 2023-11-10  1374  	bri->scl_gpiod = devm_gpiod_get(dev, "scl", GPIOD_OUT_HIGH_OPEN_DRAIN);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1375  	if (bri->scl_gpiod == ERR_PTR(-EPROBE_DEFER))
+b3fd9db79e30d5 Robert Marko 2023-11-10  1376  		return -EPROBE_DEFER;
+b3fd9db79e30d5 Robert Marko 2023-11-10  1377  	if (IS_ERR(bri->scl_gpiod)) {
+b3fd9db79e30d5 Robert Marko 2023-11-10  1378  		dev_info(dev, "missing scl gpio recovery information: %pe\n",
+b3fd9db79e30d5 Robert Marko 2023-11-10  1379  			 bri->scl_gpiod);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1380  		return 0;
+b3fd9db79e30d5 Robert Marko 2023-11-10  1381  	}
+b3fd9db79e30d5 Robert Marko 2023-11-10  1382  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1383  	/*
+b3fd9db79e30d5 Robert Marko 2023-11-10  1384  	 * We have SCL. Pull SCL low and wait a bit so that SDA glitches
+b3fd9db79e30d5 Robert Marko 2023-11-10  1385  	 * have no effect.
+b3fd9db79e30d5 Robert Marko 2023-11-10  1386  	 */
+b3fd9db79e30d5 Robert Marko 2023-11-10  1387  	gpiod_direction_output(bri->scl_gpiod, 0);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1388  	udelay(10);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1389  	bri->sda_gpiod = devm_gpiod_get(dev, "sda", GPIOD_OUT_HIGH_OPEN_DRAIN);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1390  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1391  	/* Wait a bit in case of a SDA glitch, and then release SCL. */
+b3fd9db79e30d5 Robert Marko 2023-11-10  1392  	udelay(10);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1393  	gpiod_direction_output(bri->scl_gpiod, 1);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1394  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1395  	if (bri->sda_gpiod == ERR_PTR(-EPROBE_DEFER))
+b3fd9db79e30d5 Robert Marko 2023-11-10  1396  		return -EPROBE_DEFER;
+b3fd9db79e30d5 Robert Marko 2023-11-10  1397  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1398  	if (IS_ERR(bri->sda_gpiod)) {
+b3fd9db79e30d5 Robert Marko 2023-11-10  1399  		dev_info(dev, "missing sda gpio recovery information: %pe\n",
+b3fd9db79e30d5 Robert Marko 2023-11-10  1400  			 bri->sda_gpiod);
+7c9ec2c5251851 Russell King 2020-05-13  1401  		return 0;
+7c9ec2c5251851 Russell King 2020-05-13  1402  	}
+7c9ec2c5251851 Russell King 2020-05-13  1403  
+7c9ec2c5251851 Russell King 2020-05-13  1404  	bri->prepare_recovery = i2c_pxa_prepare_recovery;
+7c9ec2c5251851 Russell King 2020-05-13  1405  	bri->unprepare_recovery = i2c_pxa_unprepare_recovery;
+b3fd9db79e30d5 Robert Marko 2023-11-10  1406  	bri->recover_bus = i2c_generic_scl_recovery;
+7c9ec2c5251851 Russell King 2020-05-13  1407  
+7c9ec2c5251851 Russell King 2020-05-13  1408  	i2c->adap.bus_recovery_info = bri;
+7c9ec2c5251851 Russell King 2020-05-13  1409  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1410  	/*
+b3fd9db79e30d5 Robert Marko 2023-11-10  1411  	 * Claiming GPIOs can change the pinmux state, which confuses the
+b3fd9db79e30d5 Robert Marko 2023-11-10  1412  	 * pinctrl since pinctrl's idea of the current setting is unaffected
+b3fd9db79e30d5 Robert Marko 2023-11-10  1413  	 * by the pinmux change caused by claiming the GPIO. Work around that
+b3fd9db79e30d5 Robert Marko 2023-11-10  1414  	 * by switching pinctrl to the GPIO state here. We do it this way to
+b3fd9db79e30d5 Robert Marko 2023-11-10  1415  	 * avoid glitching the I2C bus.
+b3fd9db79e30d5 Robert Marko 2023-11-10  1416  	 */
+b3fd9db79e30d5 Robert Marko 2023-11-10  1417  	pinctrl_select_state(i2c->pinctrl, i2c->pinctrl_recovery);
+b3fd9db79e30d5 Robert Marko 2023-11-10  1418  
+b3fd9db79e30d5 Robert Marko 2023-11-10  1419  	return pinctrl_select_state(i2c->pinctrl, i2c->pinctrl_default);
+7c9ec2c5251851 Russell King 2020-05-13  1420  }
+7c9ec2c5251851 Russell King 2020-05-13  1421  
 
 --
 0-DAY CI Kernel Test Service
