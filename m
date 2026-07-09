@@ -1,143 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2085433554F
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jul 2026 04:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E3826ED3A
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jul 2026 05:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783572848; cv=none; b=fimlxBOC09rWE7n6s0BBUY2iR9RdkjKROkoCQKY7nMe+l/ff2sB9BsdpAHLU7wtW0zv6q9GDzb1HKui1EdKoGtThVdPMAX+QdiFqYuXJ4BBopl87W06lXzkiVMs5Sg0Ydm7XsjKdp4FbCRvvBFw1Ttg0CZ2bFgdmVLn38SpaCTQ=
+	t=1783574648; cv=none; b=F2uSynNAqRVVmHb9g2P0oJ1oYrBNS0lyBPUYl71+zmzvjF8OtAp6FE7NEJPuTuxEquxutmjQJEjrDVHV3/UZ2NXBMPdnOuSsLOOUKzEewwlRpm/+eIRNC79PEJGsu3CroprtECuJ7O8mZzFAccSV4UxLNKmiDlBrNZu7jz1J6Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783572848; c=relaxed/simple;
-	bh=aUdXtj5hczX08pS1RWfgenEQNlPUgA65pfE4decE+DY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=qpWAKDz+aD6OQV8DrxMeMxhvxH18Oqlt7+qw1ZaXq2KuyqUt08RsYPTwXO/2/RaGEn+sDuDeHqOWFuxiH3qJOJvl2w0FKHK5DqyzWUMF8m+BHscYWjhIimRdUkOAT37auqlf2UjGbTrpwfu+5FxRVpDL5BDHZa3OtY/ig5hzots=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXatESEW; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1783574648; c=relaxed/simple;
+	bh=qoo9By+B9KRgQ5AUI6lnbOcqkYgKH6cuXOfZdNiZTZc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jqwmQ3upOBVa+h5DWoP+79ceSNV7bqAyTnkg03hQ1Vewl1MTGJAZ6I+Ik64D17W+ezv8HqcCsZev7pwV0yv76qjfymCRg3mslWOovFPb5J4qgr9uU32t/gTnfEHGaG02+wDhwN41HV4/1IbffYK8HY7Z9MoeI7OEWZSt/Kg0vpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QdeisCkR; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXatESEW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdeisCkR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783572846; x=1815108846;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aUdXtj5hczX08pS1RWfgenEQNlPUgA65pfE4decE+DY=;
-  b=EXatESEWUcklJdSzrAHpMLBx9awYd3ZLygPoNmiEiS275WHUkXAfflJd
-   8xwTcqDj7SVL0SGG42XkgJBgTr6oiAtiIPgsB7O69do9Ln1OXGimnMTru
-   1pTj0v8mWqNr219uvkei5mGKKCY2tGT1bM+CG4DzcfDkcyZAO2yHePMiH
-   GB+VpXLGQpwQkiG5bViXHeQuDUjO0/ee7xNJVFxOwta4f8MYyT9REc/U7
-   OWR+zjNd8lUOSv1jGWv80LNsgHeA+3RMKQ6pDo/cRwA+hnhbp9Ih45sd5
-   yfqufbQA5EytKWk7LvaIJRmSHp5SPf07j5FbjPz8q0XwpoDhdZ1k3dbJS
-   w==;
-X-CSE-ConnectionGUID: NCh74XmCQ6GwVxZTjKbecg==
-X-CSE-MsgGUID: 9X52misSRIalIKAKIN9PDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101672514"
+  t=1783574646; x=1815110646;
+  h=date:from:to:cc:subject:message-id;
+  bh=qoo9By+B9KRgQ5AUI6lnbOcqkYgKH6cuXOfZdNiZTZc=;
+  b=QdeisCkR3iXMN7BWW6ni9ZWpZ5KLrqyEsi7SW2KXKMoohapYVS/wAq9h
+   CZ4sVyPDcS9z/robx/I4wduyBp0QW21EFyRWS7c+epwQ/WTNX1OyxsHo/
+   lhdnwAyxXB1xWUKvBP19iH5v/3rHE4r1HWEKKDV8sIfkApAfuBEntwp8m
+   HOHm+QczvUFv/unylStGoN77FVHB73M6Vpj22i5akx9BTflP240XLbL91
+   zstjG/s2NnRYnqsQRBuEHbEKDEUvphj6jcvGnT9wKzkeWblD7vA0++EYc
+   C+3v20PSW2X4H8+ACX9tSzqT/6GsIRtZ9UKLsAB/azVTdGVKhxBKE5wgk
+   g==;
+X-CSE-ConnectionGUID: RiTOBd8hQo6PyS3tCBMsAw==
+X-CSE-MsgGUID: IlxR5IWHTl6Gbx08atOm7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84360211"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="101672514"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 21:54:06 -0700
-X-CSE-ConnectionGUID: 9HAHk88VT16nyuoNTH53/Q==
-X-CSE-MsgGUID: sdYY5WWTS6e/hijXroXFOg==
+   d="scan'208";a="84360211"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 22:24:05 -0700
+X-CSE-ConnectionGUID: ZYCTA1o2QeenNWun4lw6Pg==
+X-CSE-MsgGUID: 1kNgl4qOTgSZhOYskoCb0w==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Jul 2026 21:54:05 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="259385579"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 08 Jul 2026 22:24:05 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whglu-000000002tt-22BD;
-	Thu, 09 Jul 2026 04:54:02 +0000
-Date: Thu, 09 Jul 2026 06:53:57 +0200
+	id 1whhEw-00000000HJB-12Kf;
+	Thu, 09 Jul 2026 05:24:02 +0000
+Date: Thu, 09 Jul 2026 13:23:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm64-for-7.3 88/196]
- arch/arm64/boot/dts/qcom/glymur-crd.dtb: touchscreen@38 (hid-over-i2c):
- 'reset-gpios' does not match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202607090644.Kzr0Wlyq-lkp@intel.com>
+Subject: [intel-lts:6.18/linux 1/1]
+ drivers/misc/mei/hw-virtio.c:704:9: sparse: sparse: no generic selection for
+ 'unsigned int virtio_cread_v'
+Message-ID: <202607091348.ehXQZbTV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/misc/mei/hw-virtio.c:704:9: sparse: sparse: no generic selection for 'unsigned int virtio_cread_v'"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Pradyot Kumar Nayak <pradyot.nayak@oss.qualcomm.com>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+TO: Alexander Usyskin <alexander.usyskin@intel.com>
+CC: "sys_oak" <sys_oak@intel.com>
+CC: Wang Yu <yu1.wang@intel.com>
+CC: Liu Shuo <shuo.a.liu@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-fo=
-r-7.3
-head:   e43584952ee7df0f72e8311341d780d84f03159c
-commit: f64ef325f1d9ca9d005b7124c2bf065bb0b99c3d [88/196] arm64: dts: glymu=
-r-crd: Add reset GPIO to touchscreen node
-:::::: branch date: 14 hours ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-2055-20260707 (https://download.01.org/0day-ci/arc=
-hive/20260709/202607090644.Kzr0Wlyq-lkp@intel.com/config)
-compiler: clang version 21.1.6 (https://github.com/llvm/llvm-project a832a5=
-222e489298337fbb5876f8dcaf072c5cca)
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260709/202607090644.Kzr0Wlyq-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
+head:   5100e1c74efeba843945492f8d5840e6166c0392
+commit: e5479216aa5ef4d1d806c4ec9d7e7b6fded0dff1 [1/1] mei: virtio: virtualization frontend driver
+:::::: branch date: 10 days ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-r111-20260708 (https://download.01.org/0day-ci/archive/20260709/202607091348.ehXQZbTV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607091348.ehXQZbTV-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607090644.Kzr0Wlyq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607091348.ehXQZbTV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: touchscreen@38 (hid-over-i2c): =
-'reset-gpios' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml
-   arch/arm64/boot/dts/qcom/glymur-crd.dtb: efuse@361c8000 (qcom,glymur-qfp=
-rom): compatible:0: 'qcom,glymur-qfprom' is not one of ['qcom,apq8064-qfpro=
-m', 'qcom,apq8084-qfprom', 'qcom,ipq5018-qfprom', 'qcom,ipq5332-qfprom', 'q=
-com,ipq5424-qfprom', 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ip=
-q8074-qfprom', 'qcom,ipq9574-qfprom', 'qcom,kaanapali-qfprom', 'qcom,msm822=
-6-qfprom', 'qcom,msm8916-qfprom', 'qcom,msm8917-qfprom', 'qcom,msm8937-qfpr=
-om', 'qcom,msm8960-qfprom', 'qcom,msm8974-qfprom', 'qcom,msm8976-qfprom', '=
-qcom,msm8996-qfprom', 'qcom,msm8998-qfprom', 'qcom,qcm2290-qfprom', 'qcom,q=
-cs404-qfprom', 'qcom,qcs615-qfprom', 'qcom,qcs8300-qfprom', 'qcom,sa8775p-q=
-fprom', 'qcom,sar2130p-qfprom', 'qcom,sc7180-qfprom', 'qcom,sc7280-qfprom',=
- 'qcom,sc8280xp-qfprom', 'qcom,sdm630-qfprom', 'qcom,sdm670-qfprom', 'qcom,=
-sdm845-qfprom', 'qcom,sm6115-qfprom', 'qcom,sm6350-qfprom', 'qcom,sm6375-qf=
-prom', 'qcom,sm8150-qfprom', 'qcom,sm8250-qfprom', 'qcom,sm8450-qfprom', 'q=
-com,sm8550-qfprom', 'qcom,sm8650-qfprom', 'qcom,sm8750-qfprom', 'qcom,x1e80=
-100-qfprom']
-   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml
-   arch/arm64/boot/dts/qcom/glymur-crd.dtb: /soc@0/efuse@361c8000: failed t=
-o match any schema with compatible: ['qcom,glymur-qfprom', 'qcom,qfprom']
---
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: touchscreen@38 (hid-over-i2c): '=
-reset-gpios' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml
-   arch/arm64/boot/dts/qcom/mahua-crd.dtb: efuse@361c8000 (qcom,glymur-qfpr=
-om): compatible:0: 'qcom,glymur-qfprom' is not one of ['qcom,apq8064-qfprom=
-', 'qcom,apq8084-qfprom', 'qcom,ipq5018-qfprom', 'qcom,ipq5332-qfprom', 'qc=
-om,ipq5424-qfprom', 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ipq=
-8074-qfprom', 'qcom,ipq9574-qfprom', 'qcom,kaanapali-qfprom', 'qcom,msm8226=
--qfprom', 'qcom,msm8916-qfprom', 'qcom,msm8917-qfprom', 'qcom,msm8937-qfpro=
-m', 'qcom,msm8960-qfprom', 'qcom,msm8974-qfprom', 'qcom,msm8976-qfprom', 'q=
-com,msm8996-qfprom', 'qcom,msm8998-qfprom', 'qcom,qcm2290-qfprom', 'qcom,qc=
-s404-qfprom', 'qcom,qcs615-qfprom', 'qcom,qcs8300-qfprom', 'qcom,sa8775p-qf=
-prom', 'qcom,sar2130p-qfprom', 'qcom,sc7180-qfprom', 'qcom,sc7280-qfprom', =
-'qcom,sc8280xp-qfprom', 'qcom,sdm630-qfprom', 'qcom,sdm670-qfprom', 'qcom,s=
-dm845-qfprom', 'qcom,sm6115-qfprom', 'qcom,sm6350-qfprom', 'qcom,sm6375-qfp=
-rom', 'qcom,sm8150-qfprom', 'qcom,sm8250-qfprom', 'qcom,sm8450-qfprom', 'qc=
-om,sm8550-qfprom', 'qcom,sm8650-qfprom', 'qcom,sm8750-qfprom', 'qcom,x1e801=
-00-qfprom']
-   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml
-   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /soc@0/efuse@361c8000: failed to=
- match any schema with compatible: ['qcom,glymur-qfprom', 'qcom,qfprom']
+sparse warnings: (new ones prefixed by >>)
+>> drivers/misc/mei/hw-virtio.c:704:9: sparse: sparse: no generic selection for 'unsigned int virtio_cread_v'
+>> drivers/misc/mei/hw-virtio.c:704:9: sparse: sparse: incompatible types in comparison expression (different base types):
+   drivers/misc/mei/hw-virtio.c:704:9: sparse:    bad type *
+   drivers/misc/mei/hw-virtio.c:704:9: sparse:    unsigned int *
+>> drivers/misc/mei/hw-virtio.c:704:9: sparse: sparse: no generic selection for 'unsigned int [addressable] virtio_cread_v'
+
+vim +704 drivers/misc/mei/hw-virtio.c
+
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  686  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  687  static int mei_virtio_probe(struct virtio_device *vdev)
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  688  {
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  689  	struct mei_virtio_hw *hw;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  690  	int ret;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  691  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  692  	hw = devm_kzalloc(&vdev->dev, sizeof(*hw), GFP_KERNEL);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  693  	if (!hw)
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  694  		return -ENOMEM;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  695  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  696  	vdev->priv = hw;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  697  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  698  	INIT_WORK(&hw->intr_handler, mei_virtio_intr_handler);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  699  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  700  	ret = mei_virtio_init_vqs(hw, vdev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  701  	if (ret)
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  702  		goto vqs_failed;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  703  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18 @704  	virtio_cread(vdev, struct mei_virtio_cfg,
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  705  		     buf_depth, &hw->cfg.buf_depth);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  706  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  707  	hw->recv_buf = kzalloc(mei_slots2data(hw->cfg.buf_depth), GFP_KERNEL);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  708  	if (!hw->recv_buf) {
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  709  		ret = -ENOMEM;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  710  		goto hbuf_failed;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  711  	}
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  712  	atomic_set(&hw->hbuf_ready, 0);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  713  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  714  	virtio_device_ready(vdev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  715  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  716  	mei_device_init(&hw->mdev, &vdev->dev, false, &mei_virtio_ops);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  717  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  718  	pm_runtime_get_noresume(&vdev->dev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  719  	pm_runtime_set_active(&vdev->dev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  720  	pm_runtime_enable(&vdev->dev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  721  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  722  	ret = mei_start(&hw->mdev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  723  	if (ret)
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  724  		goto mei_start_failed;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  725  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  726  	pm_runtime_set_autosuspend_delay(&vdev->dev, MEI_VIRTIO_RPM_TIMEOUT);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  727  	pm_runtime_use_autosuspend(&vdev->dev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  728  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  729  	ret = mei_register(&hw->mdev, &vdev->dev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  730  	if (ret)
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  731  		goto mei_failed;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  732  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  733  	pm_runtime_put(&vdev->dev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  734  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  735  	return 0;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  736  
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  737  mei_failed:
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  738  	mei_stop(&hw->mdev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  739  mei_start_failed:
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  740  	mei_cancel_work(&hw->mdev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  741  	mei_disable_interrupts(&hw->mdev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  742  	kfree(hw->recv_buf);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  743  hbuf_failed:
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  744  	vdev->config->del_vqs(vdev);
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  745  vqs_failed:
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  746  	return ret;
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  747  }
+e5479216aa5ef4d Alexander Usyskin 2020-08-18  748  
 
 --
 0-DAY CI Kernel Test Service
