@@ -1,160 +1,244 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8859141C2FB
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jul 2026 12:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1250F1FC0EA
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jul 2026 13:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783599309; cv=none; b=CKqcPJPG4pt17kAb7JYYu5IHnqw/FOiJPSF3QBAqb+yCRhy9MY6c0MbX841FaOQ5CIZLvDb5S1W6DWjCBNCJ1ecEBEjs2PciG8oo7Buu3Ip/0WikfMr1HMt53TgDJvOqjb46R/3BEMW7QSEBumHYkRHNfpOmEIlF6YPSKn069P4=
+	t=1783602794; cv=none; b=EEHPE4W5OwdX0NH/gW2o4Sn7pVb7JcZxDTfCHXwWs+qpRrqjS5QFpJj9l/5SPJ7kZN4OpIQpCgizjBlh+bIorWSstmKyAakcLEMCcjpGNUdvunquuERlGusEOv/Y+zoDfoY0UINUSmMKIHF6rZdFqZJAm4GG/HfVLgyYoq+K+kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783599309; c=relaxed/simple;
-	bh=vBB33rTVs3AjUOHgqiJ1WRm0LcgmrxE+bqsGUh4AE34=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U8GBWC+CBdWF7VH60MF/aB8Fosklq8LMGaW9xtj3hIqNSx8EAkkQpxfcsjjjwTIWz+VX29BE3Zf2na/sDoJxaV458PFKafgvdZ8sorSaKy+t8ducWJjtRZoOmCHEx20yPjxt8R5KdI6xyeOHhPvFqOuG2d5sSfLIA6AbwN3NhP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IlgO2BCJ; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1783602794; c=relaxed/simple;
+	bh=DQlERbJScl3ryPSCsCpL5QInlwr7sO3rnJ3mco2L/Bk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BtVCaoZ+EM6tYfO445M7+fRdXwefGlbhzUB4HobrEY8DC2bpmMEWnuQ2Lk/fzRisUNpQgBmXJ2+EQBfN7BwEIuEFOxvVBstuVgVMiEb/YXbPUYDRRHDLLj3ch+sCe/WCt/BzJjkYbqJAijBFMGHHdXr3IWoe4teerKMMwLmkwOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBU4/hiP; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlgO2BCJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBU4/hiP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783599307; x=1815135307;
-  h=date:from:to:cc:subject:message-id;
-  bh=vBB33rTVs3AjUOHgqiJ1WRm0LcgmrxE+bqsGUh4AE34=;
-  b=IlgO2BCJCfg9cVDwWyYk8Z+cvvuyT9ul2oKBwJ0Pk96OXrkxQu1jhjCn
-   KUs1TNCrdKCiwkVG9WVw8HTZUa7EKxv6XpfAvQajN0B1IHN5vNHFzG1jP
-   m0K+9AK4wOHMJbOWVvBPkyfs4V7PSKTdkq26rY5zgUaiXB7JuKW7PCqqN
-   Yt7GsFY0X8t/X3zgmGvtPcCLsKWR4N50FM/tPDj6lUC2qapiDsSTUc21X
-   ykgdXmfG1fNx87zSON7eLNdf6ZrRwWa/ix5MbgCImlRr1AYGFvDdZZ+Dq
-   Xq6EHw17ZP6OJst6Jj1TsJuhItgBGIjXRXsegEkPOPjboZ46VokIZjgR7
-   A==;
-X-CSE-ConnectionGUID: XLjWaqDWQDqhS+l85JbTwQ==
-X-CSE-MsgGUID: JIdkFVBLSP2/5dK9vd83yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95432085"
+  t=1783602793; x=1815138793;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DQlERbJScl3ryPSCsCpL5QInlwr7sO3rnJ3mco2L/Bk=;
+  b=LBU4/hiPUd4mpOa6eTZmXDDLVRqX8jf3RFJJjc5oScK8I3Bys4xL41W5
+   oA6BIc3ZRSyWDOUDjA53Dru+pvPyOZZSdG/GsOTzbLQ3eMgcEXQo9PVWd
+   77CrvcS3Y2YqZdPWkNOYz3vid1yVcy7r27dfLS393IrvKaYK2y4QoSSAJ
+   svsN/w+6+92to7X91v0VQj+qKB4+s1F3rL1DDwKsqMTpJk9atyehDUHG5
+   OAeI1KicQVidfLNW9L5nAWcCuCIQ6tLqUDRg3UBcmtI+UbbyKyMtbhq4s
+   BTRG1kgroLl7NGLSC8k6YKgNsYHuoZvsVzaou88yUF9IVkuw+s2GMxNRi
+   w==;
+X-CSE-ConnectionGUID: nila3HNdQamlE/SJpBDD1Q==
+X-CSE-MsgGUID: Ad7qx95XRUGZwaYr42ZSxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101829704"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="95432085"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 05:15:06 -0700
-X-CSE-ConnectionGUID: G0XkgEXsQ+qu/gMDeUK0nw==
-X-CSE-MsgGUID: w9M0jn86SGm31JhqlN2csQ==
+   d="scan'208";a="101829704"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 06:13:12 -0700
+X-CSE-ConnectionGUID: mWMnt6EtSqi1COEzntVUYw==
+X-CSE-MsgGUID: VkPY4MYfQ16kc6BgxO/LIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="252826276"
+   d="scan'208";a="251218063"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 09 Jul 2026 05:15:05 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jul 2026 06:13:11 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1whneh-00000000Hfn-1oEd;
-	Thu, 09 Jul 2026 12:15:03 +0000
-Date: Thu, 09 Jul 2026 20:14:04 +0800
+	id 1whoYu-00000000Hi7-3wiq;
+	Thu, 09 Jul 2026 13:13:08 +0000
+Date: Thu, 09 Jul 2026 21:12:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn:
- inconsistent returns '&rme96->lock'.
-Message-ID: <202607092001.07Uryu7u-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/gpu/drm/xe/xe_reg_whitelist.c:107:1: sparse: sparse:
+ directive in macro's argument list
+Message-ID: <202607092102.YWo34Jv0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/xe/xe_reg_whitelist.c:107:1: sparse: sparse: directive in macro's ar=
+gument list"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Takashi Iwai <tiwai@suse.de>
+TO: Gustavo Sousa <gustavo.sousa@intel.com>
+CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+CC: Matt Roper <matthew.d.roper@intel.com>
+CC: Violet Monti <violet.monti@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
 head:   0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
-commit: d3424b8bf78593e1751cfa19628aa0008d2e08ce ALSA: rme96: Use guard() for spin locks
-date:   10 months ago
+commit: e23fafb8594ea886ee03e005cc32dfda24f417cf drm/xe/rtp: Add struct typ=
+es for RTP tables
+date:   8 days ago
 :::::: branch date: 2 days ago
-:::::: commit date: 10 months ago
-config: alpha-randconfig-r073-20260709 (https://download.01.org/0day-ci/archive/20260709/202607092001.07Uryu7u-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9185-gbcc58b9c
+:::::: commit date: 8 days ago
+config: um-randconfig-r132-20260709 (https://download.01.org/0day-ci/archiv=
+e/20260709/202607092102.YWo34Jv0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260709/202607092102.YWo34Jv0-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: d3424b8bf785 ("ALSA: rme96: Use guard() for spin locks")
+| Fixes: e23fafb8594e ("drm/xe/rtp: Add struct types for RTP tables")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607092001.07Uryu7u-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607092102.YWo34Jv0-lkp@intel.com/
 
-smatch warnings:
-sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn: inconsistent returns '&rme96->lock'.
-sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn: inconsistent returns 'irq'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_reg_whitelist.c:107:1: sparse: sparse: directive i=
+n macro's argument list
+   drivers/gpu/drm/xe/xe_reg_whitelist.c:109:1: sparse: sparse: directive i=
+n macro's argument list
+   drivers/gpu/drm/xe/xe_reg_whitelist.c:114:1: sparse: sparse: directive i=
+n macro's argument list
+   drivers/gpu/drm/xe/xe_reg_whitelist.c:117:1: sparse: sparse: directive i=
+n macro's argument list
+   drivers/gpu/drm/xe/xe_reg_whitelist.c:128:1: sparse: sparse: directive i=
+n macro's argument list
 
-vim +1011 sound/pci/rme96.c
+vim +107 drivers/gpu/drm/xe/xe_reg_whitelist.c
 
-^1da177e4c3f415 Linus Torvalds  2005-04-16   952  
-^1da177e4c3f415 Linus Torvalds  2005-04-16   953  static int
-a3aefd883dc8c17 Takashi Iwai    2005-11-17   954  snd_rme96_playback_hw_params(struct snd_pcm_substream *substream,
-a3aefd883dc8c17 Takashi Iwai    2005-11-17   955  			     struct snd_pcm_hw_params *params)
-^1da177e4c3f415 Linus Torvalds  2005-04-16   956  {
-a3aefd883dc8c17 Takashi Iwai    2005-11-17   957  	struct rme96 *rme96 = snd_pcm_substream_chip(substream);
-a3aefd883dc8c17 Takashi Iwai    2005-11-17   958  	struct snd_pcm_runtime *runtime = substream->runtime;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   959  	int err, rate, dummy;
-a74a821624c0c75 Takashi Iwai    2015-12-04   960  	bool apply_dac_volume = false;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   961  
-4d23359b7ec8b03 Clemens Ladisch 2005-09-05   962  	runtime->dma_area = (void __force *)(rme96->iobase +
-4d23359b7ec8b03 Clemens Ladisch 2005-09-05   963  					     RME96_IO_PLAY_BUFFER);
-^1da177e4c3f415 Linus Torvalds  2005-04-16   964  	runtime->dma_addr = rme96->port + RME96_IO_PLAY_BUFFER;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   965  	runtime->dma_bytes = RME96_BUFFER_SIZE;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   966  
-d3424b8bf78593e Takashi Iwai    2025-08-29   967  	scoped_guard(spinlock_irq, &rme96->lock) {
-da8eedb169712c8 Takashi Iwai    2021-06-08   968  		rate = 0;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   969  		if (!(rme96->wcreg & RME96_WCR_MASTER) &&
-da8eedb169712c8 Takashi Iwai    2021-06-08   970  		    snd_rme96_getinputtype(rme96) != RME96_INPUT_ANALOG)
-da8eedb169712c8 Takashi Iwai    2021-06-08   971  			rate = snd_rme96_capture_getrate(rme96, &dummy);
-da8eedb169712c8 Takashi Iwai    2021-06-08   972  		if (rate > 0) {
-^1da177e4c3f415 Linus Torvalds  2005-04-16   973  			/* slave clock */
-d3424b8bf78593e Takashi Iwai    2025-08-29   974  			if ((int)params_rate(params) != rate)
-d3424b8bf78593e Takashi Iwai    2025-08-29   975  				return -EIO;
-a74a821624c0c75 Takashi Iwai    2015-12-04   976  		} else {
-a74a821624c0c75 Takashi Iwai    2015-12-04   977  			err = snd_rme96_playback_setrate(rme96, params_rate(params));
-a74a821624c0c75 Takashi Iwai    2015-12-04   978  			if (err < 0)
-d3424b8bf78593e Takashi Iwai    2025-08-29   979  				return err;
-a74a821624c0c75 Takashi Iwai    2015-12-04   980  			apply_dac_volume = err > 0; /* need to restore volume later? */
-^1da177e4c3f415 Linus Torvalds  2005-04-16   981  		}
-a74a821624c0c75 Takashi Iwai    2015-12-04   982  
-a74a821624c0c75 Takashi Iwai    2015-12-04   983  		err = snd_rme96_playback_setformat(rme96, params_format(params));
-a74a821624c0c75 Takashi Iwai    2015-12-04   984  		if (err < 0)
-a74a821624c0c75 Takashi Iwai    2015-12-04   985  			goto error;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   986  		snd_rme96_setframelog(rme96, params_channels(params), 1);
-^1da177e4c3f415 Linus Torvalds  2005-04-16   987  		if (rme96->capture_periodsize != 0) {
-^1da177e4c3f415 Linus Torvalds  2005-04-16   988  			if (params_period_size(params) << rme96->playback_frlog !=
-d3424b8bf78593e Takashi Iwai    2025-08-29   989  			    rme96->capture_periodsize) {
-a74a821624c0c75 Takashi Iwai    2015-12-04   990  				err = -EBUSY;
-a74a821624c0c75 Takashi Iwai    2015-12-04   991  				goto error;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   992  			}
-^1da177e4c3f415 Linus Torvalds  2005-04-16   993  		}
-^1da177e4c3f415 Linus Torvalds  2005-04-16   994  		rme96->playback_periodsize =
-^1da177e4c3f415 Linus Torvalds  2005-04-16   995  			params_period_size(params) << rme96->playback_frlog;
-^1da177e4c3f415 Linus Torvalds  2005-04-16   996  		snd_rme96_set_period_properties(rme96, rme96->playback_periodsize);
-^1da177e4c3f415 Linus Torvalds  2005-04-16   997  		/* S/PDIF setup */
-^1da177e4c3f415 Linus Torvalds  2005-04-16   998  		if ((rme96->wcreg & RME96_WCR_ADAT) == 0) {
-^1da177e4c3f415 Linus Torvalds  2005-04-16   999  			rme96->wcreg &= ~(RME96_WCR_PRO | RME96_WCR_DOLBY | RME96_WCR_EMP);
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1000  			writel(rme96->wcreg |= rme96->wcreg_spdif_stream, rme96->iobase + RME96_IO_CONTROL_REGISTER);
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1001  		}
-a74a821624c0c75 Takashi Iwai    2015-12-04  1002  
-a74a821624c0c75 Takashi Iwai    2015-12-04  1003  		err = 0;
-d3424b8bf78593e Takashi Iwai    2025-08-29  1004  	}
-a74a821624c0c75 Takashi Iwai    2015-12-04  1005   error:
-a74a821624c0c75 Takashi Iwai    2015-12-04  1006  	if (apply_dac_volume) {
-a74a821624c0c75 Takashi Iwai    2015-12-04  1007  		usleep_range(3000, 10000);
-a74a821624c0c75 Takashi Iwai    2015-12-04  1008  		snd_rme96_apply_dac_volume(rme96);
-a74a821624c0c75 Takashi Iwai    2015-12-04  1009  	}
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1010  
-a74a821624c0c75 Takashi Iwai    2015-12-04 @1011  	return err;
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1012  }
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1013  
+b619bbcda1389c Umesh Nerlige Ramappa     2026-05-07   43 =20
+e23fafb8594ea8 Gustavo Sousa             2026-06-01   44  static const stru=
+ct xe_rtp_table_sr register_whitelist =3D XE_RTP_TABLE_SR(
+dd08ebf6c3525a Matthew Brost             2023-03-30   45  	{ XE_RTP_NAME("W=
+aAllowPMDepthAndInvocationCountAccessFromUMD, 1408556865"),
+dd08ebf6c3525a Matthew Brost             2023-03-30   46  	  XE_RTP_RULES(G=
+RAPHICS_VERSION_RANGE(1200, 1210), ENGINE_CLASS(RENDER)),
+844c0700a675a5 Lucas De Marchi           2023-01-25   47  	  XE_RTP_ACTIONS=
+(WHITELIST(PS_INVOCATION_COUNT,
+dd08ebf6c3525a Matthew Brost             2023-03-30   48  				   RING_FORCE=
+_TO_NONPRIV_ACCESS_RD |
+844c0700a675a5 Lucas De Marchi           2023-01-25   49  				   RING_FORCE=
+_TO_NONPRIV_RANGE_4))
+dd08ebf6c3525a Matthew Brost             2023-03-30   50  	},
+dd08ebf6c3525a Matthew Brost             2023-03-30   51  	{ XE_RTP_NAME("1=
+508744258, 14012131227, 1808121037"),
+dd08ebf6c3525a Matthew Brost             2023-03-30   52  	  XE_RTP_RULES(G=
+RAPHICS_VERSION_RANGE(1200, 1210), ENGINE_CLASS(RENDER)),
+d9b79ad275e7a9 Lucas De Marchi           2023-04-27   53  	  XE_RTP_ACTIONS=
+(WHITELIST(COMMON_SLICE_CHICKEN1, 0))
+dd08ebf6c3525a Matthew Brost             2023-03-30   54  	},
+dd08ebf6c3525a Matthew Brost             2023-03-30   55  	{ XE_RTP_NAME("1=
+806527549"),
+dd08ebf6c3525a Matthew Brost             2023-03-30   56  	  XE_RTP_RULES(G=
+RAPHICS_VERSION_RANGE(1200, 1210), ENGINE_CLASS(RENDER)),
+844c0700a675a5 Lucas De Marchi           2023-01-25   57  	  XE_RTP_ACTIONS=
+(WHITELIST(HIZ_CHICKEN, 0))
+dd08ebf6c3525a Matthew Brost             2023-03-30   58  	},
+dd08ebf6c3525a Matthew Brost             2023-03-30   59  	{ XE_RTP_NAME("a=
+llow_read_ctx_timestamp"),
+dd08ebf6c3525a Matthew Brost             2023-03-30   60  	  XE_RTP_RULES(G=
+RAPHICS_VERSION_RANGE(1200, 1260), FUNC(match_not_render)),
+844c0700a675a5 Lucas De Marchi           2023-01-25   61  	  XE_RTP_ACTIONS=
+(WHITELIST(RING_CTX_TIMESTAMP(0),
+dd08ebf6c3525a Matthew Brost             2023-03-30   62  				RING_FORCE_TO=
+_NONPRIV_ACCESS_RD,
+844c0700a675a5 Lucas De Marchi           2023-01-25   63  				XE_RTP_ACTION=
+_FLAG(ENGINE_BASE)))
+dd08ebf6c3525a Matthew Brost             2023-03-30   64  	},
+b619bbcda1389c Umesh Nerlige Ramappa     2026-05-07   65  	{ XE_RTP_NAME("a=
+llow_read_queue_timestamp"),
+b619bbcda1389c Umesh Nerlige Ramappa     2026-05-07   66  	  XE_RTP_RULES(G=
+RAPHICS_VERSION_RANGE(3500, 3511), FUNC(match_multi_queue_class)),
+b619bbcda1389c Umesh Nerlige Ramappa     2026-05-07   67  	  XE_RTP_ACTIONS=
+(WHITELIST(RING_QUEUE_TIMESTAMP(0),
+b619bbcda1389c Umesh Nerlige Ramappa     2026-05-07   68  				   RING_FORCE=
+_TO_NONPRIV_ACCESS_RD,
+b619bbcda1389c Umesh Nerlige Ramappa     2026-05-07   69  				   XE_RTP_ACT=
+ION_FLAG(ENGINE_BASE)))
+b619bbcda1389c Umesh Nerlige Ramappa     2026-05-07   70  	},
+844c0700a675a5 Lucas De Marchi           2023-01-25   71  	{ XE_RTP_NAME("1=
+6014440446"),
+dd08ebf6c3525a Matthew Brost             2023-03-30   72  	  XE_RTP_RULES(P=
+LATFORM(PVC)),
+3512a78a3cefcd Lucas De Marchi           2023-04-27   73  	  XE_RTP_ACTIONS=
+(WHITELIST(XE_REG(0x4400),
+dd08ebf6c3525a Matthew Brost             2023-03-30   74  				   RING_FORCE=
+_TO_NONPRIV_DENY |
+844c0700a675a5 Lucas De Marchi           2023-01-25   75  				   RING_FORCE=
+_TO_NONPRIV_RANGE_64),
+3512a78a3cefcd Lucas De Marchi           2023-04-27   76  			 WHITELIST(XE_=
+REG(0x4500),
+dd08ebf6c3525a Matthew Brost             2023-03-30   77  				   RING_FORCE=
+_TO_NONPRIV_DENY |
+844c0700a675a5 Lucas De Marchi           2023-01-25   78  				   RING_FORCE=
+_TO_NONPRIV_RANGE_64))
+dd08ebf6c3525a Matthew Brost             2023-03-30   79  	},
+25063811d9c1f3 Niranjana Vishwanathapura 2023-08-17   80  	{ XE_RTP_NAME("1=
+6017236439"),
+25063811d9c1f3 Niranjana Vishwanathapura 2023-08-17   81  	  XE_RTP_RULES(P=
+LATFORM(PVC), ENGINE_CLASS(COPY)),
+25063811d9c1f3 Niranjana Vishwanathapura 2023-08-17   82  	  XE_RTP_ACTIONS=
+(WHITELIST(BCS_SWCTRL(0),
+25063811d9c1f3 Niranjana Vishwanathapura 2023-08-17   83  				   RING_FORCE=
+_TO_NONPRIV_DENY,
+25063811d9c1f3 Niranjana Vishwanathapura 2023-08-17   84  				   XE_RTP_ACT=
+ION_FLAG(ENGINE_BASE)))
+25063811d9c1f3 Niranjana Vishwanathapura 2023-08-17   85  	},
+570a8fc233b2ad Lucas De Marchi           2023-12-07   86  	{ XE_RTP_NAME("1=
+6020183090"),
+570a8fc233b2ad Lucas De Marchi           2023-12-07   87  	  XE_RTP_RULES(G=
+RAPHICS_VERSION(2004), GRAPHICS_STEP(A0, B0),
+570a8fc233b2ad Lucas De Marchi           2023-12-07   88  		       ENGINE_C=
+LASS(RENDER)),
+570a8fc233b2ad Lucas De Marchi           2023-12-07   89  	  XE_RTP_ACTIONS=
+(WHITELIST(CSBE_DEBUG_STATUS(RENDER_RING_BASE), 0))
+570a8fc233b2ad Lucas De Marchi           2023-12-07   90  	},
+d24f7d1f62e2ed Tapani P=C3=A4lli              2025-10-29   91  	{ XE_RTP_NA=
+ME("14024997852"),
+2882094e0db192 Arvind Yadav              2026-02-12   92  	  XE_RTP_RULES(G=
+RAPHICS_VERSION_RANGE(2001, 3005), ENGINE_CLASS(RENDER)),
+d24f7d1f62e2ed Tapani P=C3=A4lli              2025-10-29   93  	  XE_RTP_AC=
+TIONS(WHITELIST(FF_MODE,
+d24f7d1f62e2ed Tapani P=C3=A4lli              2025-10-29   94  				   RING_=
+FORCE_TO_NONPRIV_ACCESS_RW),
+d24f7d1f62e2ed Tapani P=C3=A4lli              2025-10-29   95  			 WHITELIS=
+T(VFLSKPD,
+d24f7d1f62e2ed Tapani P=C3=A4lli              2025-10-29   96  				   RING_=
+FORCE_TO_NONPRIV_ACCESS_RW))
+d24f7d1f62e2ed Tapani P=C3=A4lli              2025-10-29   97  	},
+835cd6cbb0d0e4 Shekhar Chauhan           2026-02-06   98  	{ XE_RTP_NAME("1=
+4024997852"),
+835cd6cbb0d0e4 Shekhar Chauhan           2026-02-06   99  	  XE_RTP_RULES(G=
+RAPHICS_VERSION(3510), GRAPHICS_STEP(A0, B0),
+835cd6cbb0d0e4 Shekhar Chauhan           2026-02-06  100  		       ENGINE_C=
+LASS(RENDER)),
+835cd6cbb0d0e4 Shekhar Chauhan           2026-02-06  101  	  XE_RTP_ACTIONS=
+(WHITELIST(FF_MODE,
+835cd6cbb0d0e4 Shekhar Chauhan           2026-02-06  102  				   RING_FORCE=
+_TO_NONPRIV_ACCESS_RW),
+835cd6cbb0d0e4 Shekhar Chauhan           2026-02-06  103  			 WHITELIST(VFL=
+SKPD,
+835cd6cbb0d0e4 Shekhar Chauhan           2026-02-06  104  				   RING_FORCE=
+_TO_NONPRIV_ACCESS_RW))
+835cd6cbb0d0e4 Shekhar Chauhan           2026-02-06  105  	},
+ed455775c5a68b Ashutosh Dixit            2025-12-01  106 =20
+e70086a3a06d27 Ashutosh Dixit            2026-06-15 @107  #define WHITELIST=
+_DENY(r, f) WHITELIST(r, (f) | RING_FORCE_TO_NONPRIV_DENY)
+e70086a3a06d27 Ashutosh Dixit            2026-06-15  108 =20
 
-:::::: The code at line 1011 was first introduced by commit
-:::::: a74a821624c0c75388a193337babd17a8c02c740 ALSA: rme96: Fix unexpected volume reset after rate changes
+:::::: The code at line 107 was first introduced by commit
+:::::: e70086a3a06d276b4a5d9a2c51c9330c6cf72780 drm/xe/rtp: Add RING_FORCE_=
+TO_NONPRIV_DENY to OA whitelists
 
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+:::::: TO: Ashutosh Dixit <ashutosh.dixit@intel.com>
+:::::: CC: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
 --
 0-DAY CI Kernel Test Service
