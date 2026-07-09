@@ -1,124 +1,122 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8AA407CF4
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jul 2026 10:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D093F7AB9
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jul 2026 10:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783593752; cv=none; b=mybPpqs9mW3iGT68PRCB4hND6vQiD+Y6/piKZHCsCgRYAu1j/876BQHb1SA/ezkOd7Md57/TfuwDnIk+49XWBe1hWvRtEA/eDcZhcBqxnlk3lZq0F3eUOwZd6buHgt3r0L/3K4YDZJNDRttIpEhCyvUIJYxZxXForE2JbpkJMLs=
+	t=1783593817; cv=none; b=UvrR+TpCgYd1RLr0QGSChpjhYeVymavFN2XOn86ZZ9qdoAJ9DpXyNRDAWiNyUf8BqDIhjGKphCPPtJs4Ins42iaOwkxP224tYXjcA9g5C8UlAZR4DMm8ar1RKUjhjGzu7NDsE6CrLOHpqsl4fRScxH/PVRN0iFUFb22aAeszQEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783593752; c=relaxed/simple;
-	bh=wRyd2vfRdql4h/Kz7A5B/FCEp6F8EqRGdnY2ZwKx+cY=;
+	s=arc-20240116; t=1783593817; c=relaxed/simple;
+	bh=2CceWHjsk841g1ibYYQNEzaqHQK2gQhpGazQWtOK+VU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l1rmvoziee8PxJY4hS63wSibjaSOPqCJklUqntoOf97B1X2VKqj+uiVylrUjojOcRrkDIA5RiaHcXo5EHjSf1eh2d6rGXvOFKfGau7xQXOCRRprQ6QY0w9YZVj+MMlF2wh0sa4XCGevfcpG/uovy6TQNbh4BzdPZc1hKmGUnVyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VcPX4T+0; arc=none smtp.client-ip=209.85.167.177
+	 Content-Disposition; b=uXIwDQm4OLlaZcKW0Z27KKnFa7tc0TfV0UFDqfXo4ERck4Ud2ZOagH7hrtUcF8SKFXQLJMU3rnyyiyMynKfF83HLcdvD9a9FgGGJiVAt5AH5NGB5+ooBLEqq3VdiXgU7VMAR33psKvEeht9CcYxlgK1v6lJgNjZsPkjRsPdiXwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYDzZoQx; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VcPX4T+0"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-488b3fd8d0dso770719b6e.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 09 Jul 2026 03:42:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYDzZoQx"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7eb64371a2aso967496a34.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 09 Jul 2026 03:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783593749; x=1784198549; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cqY9tTm6V78GGL+zIVOxCNvg7lHNudn+dnRY3++oib4=;
-        b=VcPX4T+0caQjyjrJm/LV2rx3XvIegvThkLMknLHuv+TBxoXzpuq3E26aJt7zvco5QR
-         TcIo4ubue++NO6zz0UW6YgXr3XKTXK/3hQBZvulZRv4OEf9HNsx2QQGq+650RHjm1/q4
-         P46FRfgObWt3N6ystlSIhdTWU07p87EmKYChBy0E273wUJK0bvKdNXQCOOZmKbVSov+m
-         UBz7I7JtT/quTahFeMWNJ8qvb3pRuhzBwiMOiqmRfpUsF3fnoqlAitKXfoo6cqGMeits
-         EsWADkkeWLgYwGtzmusCgEA9ptHGHxJXIWVK3R6luNh+WwU0b+z7T3SYLWudTgOxdCxh
-         Ie/Q==
+        d=gmail.com; s=20251104; t=1783593814; x=1784198614; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pteYtlmBZ+ziJgHaE/q1ZTT8oCJJM0UmmxtNS6yDVPI=;
+        b=SYDzZoQx5/kRcdZikJC0l7u8JjWfPQTUskrh5brDu32Y8F9CVRySnkodQpBJvXZnDh
+         BUXd5/POnyE7NpkoauTGsmY8YgNVFcV9MkQY4qhNmsLL3NjFKddXf/+vsA22nstDQ5Yn
+         QviOrhHmlfe9C8IduRxBvnLGVvjOeMjVO4DyDxwzsLivGTLBqZYdEzSBtF7oRhIV1Tn+
+         qhZAV+ck53kYSsdTjRfygzqUqDq6/YjNU2HtVIduPABHf+eMBJdGO/12rjrBdR9F7ajP
+         wZgF3dHVUOpyDmF3fo4b/qd3nHN5z9Ixen5GdVg0bTPnRBaBdk1Lmmrjq/PX0lKTCc6H
+         /15A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783593749; x=1784198549;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cqY9tTm6V78GGL+zIVOxCNvg7lHNudn+dnRY3++oib4=;
-        b=b0vbSqn3tVLzbffDqw+F74STeYiGcIRmkudQ4TV07JUFI6zh0AjcLYEniOIToA2XNS
-         LnTLv9zGn+qLqcLnF9UcW45CCbeCR17m/UQPx6DACRIan/LNsAr4W3p1bV8I3BtlEYhl
-         xpAP9P0cGqTLg0S48rprof5FpWcI57rVXVX6/KSwbZtqxTFNGVFRUtt9fxmH1uotn4wc
-         8Y8uVA9rR1yI1FZeR4RI9Z2NaRcehriREN4zeoIBKI7mP+/rQSeOw+hE+NihSYaZkKkz
-         03joe8Eq28W3d1mgeGunyBJs8rlGDbLqKnNPQSveq3U7TfnhNim/GZcdFhGImiiyqzlq
-         g9nA==
-X-Gm-Message-State: AOJu0YznobQL2WxJ+bXoaBvDade+JyKNmMOKJEe1oJrY7V3PjRs/5/5p
-	WXHcyKVR5hNOAbDRT/vdFQsGBsZTKMUVvhwotntWso2VfAzkke3r1kpPeBF30/ZZXFA=
-X-Gm-Gg: AfdE7clwwA0aHPKF8R4s2a7euv3Lo+gW4Q9lfUwQFWNAxGqYYay/QSYJ2HJO4/kCwEo
-	eRGHl8OAYBh2wWm40elnZ8SeJ6BlxZmsoWK1QyId+DCTYPXFKDJ8/dTDQ2NSOE4E4tSP/GmLbxS
-	wcHmcHZjhQlMz8omc5X3hZ5vW8EzBNhdSeQt0ZNz2DbmFziY8IxjmvwMU/3yinnCq5MTcCYOnMB
-	8ZKNtsKXQzho7GIkU2lhkkwsoSMyWoOykNJ3itvVxZqDvE2JgTEObRNi1KyLvLj4bCksv7KVWmj
-	d3yy9Yjshdu7KRRzIOErIaQL3kQFT+faIQ+bcRNUgYE7lU8td9O8y1jD2uQIm8ruFjhrdVgW8Si
-	z+P69JfAOugjj31YLjr2H5KguHE3gkETS6IitgyINfS6P7PNWgjWzIe5kNVXBWO5Oi7vSyIeTD9
-	KGO9Ugd4dAeT5rDVk=
-X-Received: by 2002:a05:6808:3198:b0:48b:9987:ba17 with SMTP id 5614622812f47-4a204bdf898mr4818811b6e.35.1783593749407;
-        Thu, 09 Jul 2026 03:42:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783593814; x=1784198614;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pteYtlmBZ+ziJgHaE/q1ZTT8oCJJM0UmmxtNS6yDVPI=;
+        b=JwcYlXJlDZoDO/1rkFd6wKUjm3+Ct0TMnomc2Orqce6sf56Kq/gMhsV1YSycCJx9Tv
+         1FN66Z0i3ea3EUndw+NqA6y+AMrvUo1hFiPUWFB+Me2ZM7yySFArbX3ZAwS1NH2Cu5zh
+         kMMQfPAG5an9Flg+soN99pNNnf2JZC69QUVR0LkHyMe+gVkv+hMC3gW7yenkx8XmL0AB
+         469wii0rff94+vv4KzHSbVB38xRKHXSeDe0wrkq63/+SCMMJZ8IwfneccI7ebGpcWtL1
+         4UM3mB7iMQODaxQcoUL7UmAiuBGl2jd/9kR+imQEYWIf/k1qSEbjFRmF4AQtbYYZB1RB
+         euCA==
+X-Gm-Message-State: AOJu0YzUjK+S9AJrMS730WElpACgBfYLyLduAofBbDSAK43OSQ1h6Xaw
+	NYqPetvA0vV0R9+g1jD2Yz8/3ilpZJp9nuYT8DyaI+ZRfQpFC0L4pBlyUwZnx6YYo9o=
+X-Gm-Gg: AfdE7ck/M0/UON8N1zfC5L4rjy8SG5xN+6C9MGsZ+MeUsgiXyzBzW0hIWUb8/6q6Ccn
+	yvFtyHIqN9G5snBagaKaM/lI4OJOtOK528RDJy8igxMiO221b15CA69kX8azPmRXyaUFH09BWxQ
+	M4aMqcddl1rLoEwgen9hcCqWPLtSRqAAbBF2Q9+ceMWiXPblLB6hBSR/xnyTgnHAvGLbfNXtj1R
+	lEIswBlUta6OH0wCkYhUemgBQJe9OcIzhbuoMwWfkgqAOYKZpqXhumlwH5htB+ybhUE9jfAhTLz
+	dfiMMRAluA8PDe0l/gUmZ1pHr6z5TjptUkjuir2a921c885tQKoM8yDFv3gT4VYTADkXPqAUixo
+	ctmHWjZk1q5IU6Rr/Q+c7bS8lSYbfKFiT+pCRo6saJXVaKP5OfMChHblRkpEz0ebSUxzMD5GJ7v
+	ooz+nE9vMpI/cVNxY=
+X-Received: by 2002:a05:6830:81ed:b0:7e6:f2ef:e231 with SMTP id 46e09a7af769-7ebcfe542c8mr5970046a34.2.1783593814306;
+        Thu, 09 Jul 2026 03:43:34 -0700 (PDT)
 Received: from localhost ([74.80.182.70])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a1acc82f31sm3343228b6e.4.2026.07.09.03.42.25
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcafdf8f2sm3834902a34.11.2026.07.09.03.43.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 03:42:27 -0700 (PDT)
-Date: Thu, 9 Jul 2026 13:42:21 +0300
+        Thu, 09 Jul 2026 03:43:32 -0700 (PDT)
+Date: Thu, 9 Jul 2026 13:43:27 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Akhil P Oommen <akhilpo@oss.qualcomm.com>
+To: oe-kbuild@lists.linux.dev,
+	Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rob Clark <robin.clark@oss.qualcomm.com>
-Subject: drivers/gpu/drm/msm/adreno/a2xx_gpu.c:503 a2xx_gpu_init() warn:
- variable dereferenced before check 'pdev' (see line 500)
-Message-ID: <202607031755.QZSurBLv-lkp@intel.com>
+	Alexander Deucher <alexander.deucher@amd.com>
+Subject: [agd5f:amd-staging-drm-next 3205/3402]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ip.c:537 amdgpu_device_ip_soft_reset()
+ error: we previously assumed 'ip_block' could be null (see line 536)
+Message-ID: <202607031711.yLwFhGfp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Message-ID: <20260709104221.p81vbMavJUcDXvJPqtKGzYKPW8PkGtPHkbT791UQqXQ@z>
+Content-Transfer-Encoding: 8bit
+Message-ID: <20260709104327.w4SXlZl2JOWU_bInE5ZxSNcAFwIFNvb07J7ErMP8PC0@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2c9a99135da931377240942d44f3dea104cedb8
-commit: 491fadb2b818e1d900229a1f8243de6458381306 drm/msm/adreno: Move adreno_gpu_func to catalogue
-date:   8 months ago
-config: arm64-randconfig-r072-20260703 (https://download.01.org/0day-ci/archive/20260703/202607031755.QZSurBLv-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
+head:   e3cc8c108f9a91728f9ff6e24cbf3b41c58b8f8b
+commit: a6319ac34a1322cc70c8aa7a3b06a558dc4f68a5 [3205/3402] drm/amdgpu: Add IP block soft reset as a GPU recovery method
+config: i386-randconfig-r073-20260702 (https://download.01.org/0day-ci/archive/20260703/202607031711.yLwFhGfp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 491fadb2b818 ("drm/msm/adreno: Move adreno_gpu_func to catalogue")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607031755.QZSurBLv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607031711.yLwFhGfp-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/msm/adreno/a2xx_gpu.c:503 a2xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 500)
-drivers/gpu/drm/msm/adreno/a4xx_gpu.c:642 a4xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 637)
-drivers/gpu/drm/msm/adreno/a3xx_gpu.c:530 a3xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 525)
+drivers/gpu/drm/amd/amdgpu/amdgpu_ip.c:537 amdgpu_device_ip_soft_reset() error: we previously assumed 'ip_block' could be null (see line 536)
 
-vim +/pdev +503 drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+vim +/ip_block +537 drivers/gpu/drm/amd/amdgpu/amdgpu_ip.c
 
-491fadb2b818e1 Akhil P Oommen 2025-11-18  493  static struct msm_gpu *a2xx_gpu_init(struct drm_device *dev)
-21af872cd8c695 Jonathan Marek 2018-11-21  494  {
-21af872cd8c695 Jonathan Marek 2018-11-21  495  	struct a2xx_gpu *a2xx_gpu = NULL;
-21af872cd8c695 Jonathan Marek 2018-11-21  496  	struct adreno_gpu *adreno_gpu;
-21af872cd8c695 Jonathan Marek 2018-11-21  497  	struct msm_gpu *gpu;
-21af872cd8c695 Jonathan Marek 2018-11-21  498  	struct msm_drm_private *priv = dev->dev_private;
-21af872cd8c695 Jonathan Marek 2018-11-21  499  	struct platform_device *pdev = priv->gpu_pdev;
-491fadb2b818e1 Akhil P Oommen 2025-11-18 @500  	struct adreno_platform_config *config = pdev->dev.platform_data;
-                                                                                        ^^^^^^
+a6319ac34a1322 Timur Kristóf 2026-06-17  523  int amdgpu_device_ip_soft_reset(struct amdgpu_ring *guilty_ring,
+a6319ac34a1322 Timur Kristóf 2026-06-17  524  				struct amdgpu_fence *guilty_fence)
+a6319ac34a1322 Timur Kristóf 2026-06-17  525  {
+a6319ac34a1322 Timur Kristóf 2026-06-17  526  	struct amdgpu_device *adev = guilty_ring->adev;
+a6319ac34a1322 Timur Kristóf 2026-06-17  527  	struct amdgpu_ring *rings[AMDGPU_MAX_RINGS];
+a6319ac34a1322 Timur Kristóf 2026-06-17  528  	struct amdgpu_ip_block *ip_block;
+a6319ac34a1322 Timur Kristóf 2026-06-17  529  	enum amd_ip_block_type ip_type;
+a6319ac34a1322 Timur Kristóf 2026-06-17  530  	u32 num_rings, ring_type_mask;
+a6319ac34a1322 Timur Kristóf 2026-06-17  531  	int r;
+a6319ac34a1322 Timur Kristóf 2026-06-17  532  
+a6319ac34a1322 Timur Kristóf 2026-06-17  533  	ip_type = amdgpu_ip_from_ring(guilty_ring->funcs->type);
+a6319ac34a1322 Timur Kristóf 2026-06-17  534  	ip_block = amdgpu_device_ip_get_ip_block(adev, ip_type);
+a6319ac34a1322 Timur Kristóf 2026-06-17  535  
+a6319ac34a1322 Timur Kristóf 2026-06-17 @536  	if (!ip_block || !ip_block->version->funcs->soft_reset) {
+                                                    ^^^^^^^^^
+a6319ac34a1322 Timur Kristóf 2026-06-17 @537  		dev_warn(adev->dev, "IP block soft reset not supported on %s\n",
 
-21af872cd8c695 Jonathan Marek 2018-11-21  501  	int ret;
-21af872cd8c695 Jonathan Marek 2018-11-21  502  
-21af872cd8c695 Jonathan Marek 2018-11-21 @503  	if (!pdev) {
-                                                    ^^^^^^
-Hopefully, this code could be deleted.
+The zero day bot chopped off the dereference of ip_block but presumably
+the warning is correct.
 
-21af872cd8c695 Jonathan Marek 2018-11-21  504  		dev_err(dev->dev, "no a2xx device\n");
-21af872cd8c695 Jonathan Marek 2018-11-21  505  		ret = -ENXIO;
-21af872cd8c695 Jonathan Marek 2018-11-21  506  		goto fail;
-21af872cd8c695 Jonathan Marek 2018-11-21  507  	}
-21af872cd8c695 Jonathan Marek 2018-11-21  508  
 
 --
 0-DAY CI Kernel Test Service
