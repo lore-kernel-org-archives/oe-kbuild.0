@@ -1,132 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D3D3C4551
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Jul 2026 21:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382E23955FF
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Jul 2026 21:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783718843; cv=none; b=Rm6FwD6wUv07XqOOcxblQWiv2o9zDk5umadIZmBgwxEQOcYo1wpP+9CLO4NayNTZkKeg3gGdIFhB8W9EJ54Pkmr3h6ZcyJPDB05xDbw8kja2iqJtj07k/AoI3zkrTeWb1uMICCU0iJDuPnf06itJv6BWyva8ve5mD2t3oL8i5K4=
+	t=1783720711; cv=none; b=h1hOZhFy84r56cm45741MngYMG/tOP9fEffwR6rCBnNSXonttQoNO/ZfoNp+4owZQFH+Lq8VKEE4em81QqvYzlv4l1GD1MfCLzqLM/Se2gVcKSYI3IujgzLgqOlvQOUbNympQANb+jep07ims7KjaKlhdtW3okcclDLR0CTKqIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783718843; c=relaxed/simple;
-	bh=L25waRcxo6/2ccxyPansdObDhUVVjTvbD+6BQz+IBH8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ORSj0GcqTeilBlzurzJ+51kQAnLm/OYFFFSZkv2099nOM5WAiHKasSj9WGGYoc3uu+29QqZst/TriQpghrkPSW1khpJK9aGRzpSzr18piOB0BHbrS57Tq9QuJB0kTLMQHOCAVmx9OaL+WNhmQyCZhPAXl1R+dGhUdxRNHVEZ580=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AQlx3dqB; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1783720711; c=relaxed/simple;
+	bh=2yktWbOksI+3Dq4jVy4DSwtIvSV5zyDWAJMTX3D9QH4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=J9SfEdg0s2SrtyCXEG2QahiYS/4myG4qdLVLph+UkyhftY24Ca+acthzSEbKpoGahBe/cdAJyv5bSYfWlOOFGvHxRgPUbkAsvnaIoPfY/UXUH4iSzYl+us9/Slhl65FrAl2Mr5TARs++mifVB71OdpVAeGbJiGwj3Pz7yBT4WE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d8LKjioH; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AQlx3dqB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8LKjioH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783718841; x=1815254841;
-  h=date:from:to:cc:subject:message-id;
-  bh=L25waRcxo6/2ccxyPansdObDhUVVjTvbD+6BQz+IBH8=;
-  b=AQlx3dqBIHrVLsAxsBPmadR9V3ooU5IiyAiv8oKCYLFqnRqy6Sr4zT5F
-   0oTuhCRvemPBdU+rMvU6dUlxLnqvC/L4wtwrB0YRvdaOecJj7EWxtcfgk
-   gUaWu37+OXU3TcL/sLAp2OBsoBqu3xKsIaxy8Re4pW4prf1X63fYcEMuA
-   Y7M7N8WoR/rqCCGF+VVMi0Jueb00V49nT5FCGrXnhgtl7P0WuzpzL/F/Q
-   a7nPtJcVI5e7HeR7fnxPjbbTgV9MxVAxHd7KKRYNkLmz/XA7l7RGtmFXS
-   wG0FDWvQov323073lvKr/r5LyGQzmlfnzD1ky47cKhFKEOtJqpMs0S3OE
-   g==;
-X-CSE-ConnectionGUID: qZ3vIVjZTPuJZXTnRUSSfA==
-X-CSE-MsgGUID: YJTMD8yLQr2PqP7EfifoTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84275684"
+  t=1783720710; x=1815256710;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2yktWbOksI+3Dq4jVy4DSwtIvSV5zyDWAJMTX3D9QH4=;
+  b=d8LKjioHaTLJG3iMbiUGG4I36PyMjqDua/6FKgXxHAKl6YYB4S/PHepL
+   aFO1JZ4EzQLTJcThXDE0GZE7cUAwVR17A6k2I5HCMkZ6H+M4Cm7dBkM4u
+   402VIfPL4OKV0ObNIlTfTdh/Wg0veTDdJpBmzfGOFfXFUvhzJtr9Pna61
+   1oVYCUvZUVpINT1xEo5f8jCLnel6nwv+SV6X88tvmoG8u25r/CaqYVbN6
+   +2xfUOGlDVYcn5QeOAZQtFgWfK4HFbeeMksgsJ1yhwRGChCLkd3nykAXg
+   PXi0X0tTVOA0Le8GupnlhzaH6rFIOniUu+9uOprhLW2TjOY5fZ/Uq0QrW
+   A==;
+X-CSE-ConnectionGUID: QBv7QIr2SIyuiHmoR+qMpQ==
+X-CSE-MsgGUID: iO2Yia4xQ/6fwcrdh/wteg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="83401606"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84275684"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 14:27:21 -0700
-X-CSE-ConnectionGUID: UEvcwnhET4+9tRm65dl7Qw==
-X-CSE-MsgGUID: q6qG9LH0QfuvGvZfG6xPXw==
+   d="scan'208";a="83401606"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 14:58:30 -0700
+X-CSE-ConnectionGUID: bY4sib3/Say+uu1g0f7Mzg==
+X-CSE-MsgGUID: rpFrTFPcT2yypFFDGQpojA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="254490105"
+   d="scan'208";a="253873583"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 10 Jul 2026 14:27:18 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Jul 2026 14:58:28 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiIkJ-00000000JQ8-3bnB;
-	Fri, 10 Jul 2026 21:27:14 +0000
-Date: Sat, 11 Jul 2026 05:25:53 +0800
+	id 1wiJEn-00000000JRd-2F4j;
+	Fri, 10 Jul 2026 21:58:25 +0000
+Date: Sat, 11 Jul 2026 05:58:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/irqchip/irq-bcm7038-l1.c:411:7-10: ERROR: iterator
- variable bound on line 408 cannot be NULL
-Message-ID: <202607110501.4s900LIY-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link()
+ warn: format string contains non-ascii character '\x93'
+Message-ID: <202607110524.LxUIuFcc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Johan Hovold <johan@kernel.org>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Florian Fainelli <florian.fainelli@broadcom.com>
+TO: Oleksij Rempel <o.rempel@pengutronix.de>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Hi Johan,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
 head:   a635d6748234582ea287c5ffeae28b9b23f91c7e
-commit: 1230fbb225abf3f04c64697c6b0f8dfb473b3790 irqchip: Enable compile testing of Broadcom drivers
-date:   9 months ago
+commit: e110bc82589752909e283ba5cbc160e0ab56c085 net: usb: lan78xx: Convert=
+ to PHYLINK for improved PHY and MAC management
+date:   1 year, 1 month ago
 :::::: branch date: 22 hours ago
-:::::: commit date: 9 months ago
-config: hexagon-randconfig-r051-20260709 (https://download.01.org/0day-ci/archive/20260711/202607110501.4s900LIY-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c279890c85da307abe34f10333442bbf72a60644)
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/2026=
+0711/202607110524.LxUIuFcc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: 1230fbb225ab ("irqchip: Enable compile testing of Broadcom drivers")
+| Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved =
+PHY and MAC management")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202607110501.4s900LIY-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607110524.LxUIuFcc-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/irqchip/irq-bcm7038-l1.c:411:7-10: ERROR: iterator variable bound on line 408 cannot be NULL
+New smatch warnings:
+drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string=
+ contains non-ascii character '\x93'
 
-vim +411 drivers/irqchip/irq-bcm7038-l1.c
+Old smatch warnings:
+drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string=
+ contains non-ascii character '\xe2'
+drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string=
+ contains non-ascii character '\x80'
+drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contai=
+ns non-ascii character '\xe2'
+drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contai=
+ns non-ascii character '\x80'
+drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contai=
+ns non-ascii character '\x93'
+drivers/net/usb/lan78xx.c:2860 lan78xx_phy_init() error: we previously assu=
+med 'phydev' could be null (see line 2848)
+drivers/net/usb/lan78xx.c:2860 lan78xx_phy_init() warn: 'phydev' can also b=
+e NULL
+drivers/net/usb/lan78xx.c:2862 lan78xx_phy_init() warn: 'phydev' can also b=
+e NULL
+drivers/net/usb/lan78xx.c:3142 lan78xx_init_ltm() warn: missing unwind goto?
 
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  396  
-1e3e330c07076a Johan Hovold      2025-10-13  397  static int bcm7038_l1_probe(struct platform_device *pdev, struct device_node *parent)
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  398  {
-1e3e330c07076a Johan Hovold      2025-10-13  399  	struct device_node *dn = pdev->dev.of_node;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  400  	struct bcm7038_l1_chip *intc;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  401  	int idx, ret;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  402  
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  403  	intc = kzalloc(sizeof(*intc), GFP_KERNEL);
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  404  	if (!intc)
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  405  		return -ENOMEM;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  406  
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  407  	raw_spin_lock_init(&intc->lock);
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25 @408  	for_each_possible_cpu(idx) {
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  409  		ret = bcm7038_l1_init_one(dn, idx, intc);
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  410  		if (ret < 0) {
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25 @411  			if (idx)
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  412  				break;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  413  			pr_err("failed to remap intc L1 registers\n");
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  414  			goto out_free;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  415  		}
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  416  	}
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  417  
-affdc0d1bdfa54 Jiri Slaby (SUSE  2025-03-19  418) 	intc->domain = irq_domain_create_linear(of_fwnode_handle(dn), IRQS_PER_WORD * intc->n_words,
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  419  					     &bcm7038_l1_domain_ops,
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  420  					     intc);
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  421  	if (!intc->domain) {
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  422  		ret = -ENOMEM;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  423  		goto out_unmap;
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  424  	}
-5f7f0317ed28b8 Kevin Cernekee    2014-12-25  425  
+vim +2625 drivers/net/usb/lan78xx.c
 
-:::::: The code at line 411 was first introduced by commit
-:::::: 5f7f0317ed28b86bdae9baf65bb72d405b6f79ee IRQCHIP: Add new driver for BCM7038-style level 1 interrupt controllers
+e110bc82589752 Oleksij Rempel            2025-06-18  2607 =20
+d39f339d260373 Oleksij Rempel            2025-05-05  2608  /**
+e110bc82589752 Oleksij Rempel            2025-06-18  2609   * lan78xx_set_f=
+ixed_link() - Set fixed link configuration for LAN7801
+d39f339d260373 Oleksij Rempel            2025-05-05  2610   * @dev: LAN78xx=
+ device
+d39f339d260373 Oleksij Rempel            2025-05-05  2611   *
+e110bc82589752 Oleksij Rempel            2025-06-18  2612   * Use fixed lin=
+k configuration with 1 Gbps full duplex. This is used in special
+e110bc82589752 Oleksij Rempel            2025-06-18  2613   * cases like EV=
+B-KSZ9897-1, where LAN7801 acts as a USB-to-Ethernet interface
+e110bc82589752 Oleksij Rempel            2025-06-18  2614   * to a switch w=
+ithout a visible PHY.
+d39f339d260373 Oleksij Rempel            2025-05-05  2615   *
+d39f339d260373 Oleksij Rempel            2025-05-05  2616   * Return: point=
+er to the registered fixed PHY, or ERR_PTR() on error.
+d39f339d260373 Oleksij Rempel            2025-05-05  2617   */
+e110bc82589752 Oleksij Rempel            2025-06-18  2618  static int lan78=
+xx_set_fixed_link(struct lan78xx_net *dev)
+55d7de9de6c30a Woojung.Huh@microchip.com 2015-07-30  2619  {
+e110bc82589752 Oleksij Rempel            2025-06-18  2620  	static const st=
+ruct phylink_link_state state =3D {
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2621  		.speed =3D SPE=
+ED_1000,
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2622  		.duplex =3D DU=
+PLEX_FULL,
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2623  	};
+d39f339d260373 Oleksij Rempel            2025-05-05  2624 =20
+d39f339d260373 Oleksij Rempel            2025-05-05 @2625  	netdev_info(dev=
+->net,
+e110bc82589752 Oleksij Rempel            2025-06-18  2626  		    "No PHY fo=
+und on LAN7801 =E2=80=93 using fixed link instead (e.g. EVB-KSZ9897-1)\n");
+d39f339d260373 Oleksij Rempel            2025-05-05  2627 =20
+e110bc82589752 Oleksij Rempel            2025-06-18  2628  	return phylink_=
+set_fixed_link(dev->phylink, &state);
+d39f339d260373 Oleksij Rempel            2025-05-05  2629  }
+d39f339d260373 Oleksij Rempel            2025-05-05  2630 =20
 
-:::::: TO: Kevin Cernekee <cernekee@gmail.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+:::::: The code at line 2625 was first introduced by commit
+:::::: d39f339d2603736ff90b0b32d9aea3b954307fd5 net: usb: lan78xx: refactor=
+ PHY init to separate detection and MAC configuration
+
+:::::: TO: Oleksij Rempel <o.rempel@pengutronix.de>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 --
 0-DAY CI Kernel Test Service
