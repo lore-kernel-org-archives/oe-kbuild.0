@@ -1,207 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9DE349CF1
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Jul 2026 15:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F250438023
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Jul 2026 16:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783699155; cv=none; b=agS9LFQ9qFEyihhl6Zf4UBtM1NiOO6skHL5RWrGvQiGvDaOW2bcU5UgZHLUjz/N1clYhef6L/KnIqYFvsOb4reL31qmjCN5ZXLbBKZqLt5Qnv1pVz7bMFQtRyunr87tvHPMfdiGneD0CLKUROB+DdMxdy+FgH6c8rIInvT3G3B4=
+	t=1783700005; cv=none; b=VRpfyAi+XnYXbYqBb1UTTyBc3293ojuB4r1ylcQEYpdTLInyiKgJHurr7E/N8OGt4g2p08/6BLJtcCmrg98wXpGsIlkorFDp03CRJWYjPB0WXSorFAQGnq3u/z3nN1w3bnBxVXhQhQ/CO91qEaKvy+pDxO7ih6ZbugJGATM2XV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783699155; c=relaxed/simple;
-	bh=9br5sQs7V7Nvgjc0ZGfBbWPL7nt11JpHNwVb9l1D/YM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=l0IdeUtuP6cJNcx0XMu60fuvcZCEs1jb3zOKyTeYxrhuIbR8T7sBYDRoZBfcoF9ReynMNTc9kV6q861wWcuHD0pJ3cOv8IjahseQM/q03QKq7V47PVYa4p5e37tqVM0ji2+o85viimFXxA4GL3c2q8qJTVX5fbZBJoQjxJ4B96U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwrVblsu; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1783700005; c=relaxed/simple;
+	bh=MieuSzUKDtkOxVdykcJ4z9AJQ2uXvt11xlGLpbZb0s8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AN6TXBawMD4ekK1NhUmKfycRPQGJPU1qjLIV+X9n/pCHinZT98b9YuGSGn4LYsFtyiTqCCi5VZWb/sbAByNmBJ7LyxYkk7DhKdV59lK7jOYG6JUIM+QjvDn6m4LhGl4xI7tzKF5VIQAZ+XmqYLpp8k/OtIQT9gEk1HCdoCuqjT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6aiC2sG; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwrVblsu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6aiC2sG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783699154; x=1815235154;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9br5sQs7V7Nvgjc0ZGfBbWPL7nt11JpHNwVb9l1D/YM=;
-  b=gwrVblsuUYUsEbwk9oexA9Ig8ZCSnasMRA6BUJ4ZZ1VOkDEQCiJKsWwm
-   p7KKixVJfoPoYcxRe9Lp9OWATuPbIXGLxqCMG6ICRA2eg2yasMWEoNImm
-   xOAcv/KES7WOvIHQRBTiFGnNFILyb3xZxTLnPthsujr8JVz98TShlF9e2
-   HuDL04eO6sGwjr3dkJJ4nFj3wb7IHA/By+oI9Mx3kglzLMptKIp1O+iek
-   ejHMaX+OELhuXLnX0e66lnADb2fubBdamHtuvFLE9UyF5xWSgNWFKopt2
-   c9XfFAOR6V7fk/se5GzH9p38UZKi2WmVWPyitpvmVcNS9Mkn7pFAcgFxR
+  t=1783700002; x=1815236002;
+  h=date:from:to:cc:subject:message-id;
+  bh=MieuSzUKDtkOxVdykcJ4z9AJQ2uXvt11xlGLpbZb0s8=;
+  b=m6aiC2sG+duCBohDhpfrp/ogIfvZoLa0RKWv8B7sU5NKhGTarVH+UbRc
+   rerdVj37XIPF3RJxo46zFtEexNrCPpNH/aEgiNdHgkX9n6/owiJFx61Sl
+   g+YLDS35cSslmTnp2lCBK7ACR3Z79Gt46wM2KuIHQ9RRab4H2zJo21tgA
+   klIO5uAmq83cNY2J6fNGP/b+q/1FXsHOfMPN/3/zkfBUsO0G1/nlGHYZP
+   N/pd/drVTBRQsJtD9zgYQvaGiFBWoaOqNbRMcIunvexv7HfaIqB/sThLI
+   J18g4QwarpUkMocCwFF3BW8gCe/XGNHtyesQbWCkVQvtP2pkWKMs2fWeZ
    g==;
-X-CSE-ConnectionGUID: 7VcJmBInTMqTDB5GlG61nw==
-X-CSE-MsgGUID: LT1mQWUeTtasRJ6X+GYReQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84179568"
+X-CSE-ConnectionGUID: PFaDaq6oSwuVznYQZDGegQ==
+X-CSE-MsgGUID: lxgzXrKCRZ+3Qa9CjofnTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84279992"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84179568"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 08:59:13 -0700
-X-CSE-ConnectionGUID: OrTdvTKARWGIXwMPatBgkw==
-X-CSE-MsgGUID: mSEoggNMTlmD9GB99M2Uag==
+   d="scan'208";a="84279992"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 09:13:21 -0700
+X-CSE-ConnectionGUID: Y5j3PxJgTTSVroJ6NPiMaA==
+X-CSE-MsgGUID: TXn7fPe/SkOZaBosAMUROw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="255015732"
+   d="scan'208";a="256865114"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 10 Jul 2026 08:59:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 10 Jul 2026 09:13:19 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiDd7-00000000J3T-14hz;
-	Fri, 10 Jul 2026 15:59:09 +0000
-Date: Fri, 10 Jul 2026 23:58:41 +0800
+	id 1wiDqn-00000000J6D-1q93;
+	Fri, 10 Jul 2026 16:13:17 +0000
+Date: Sat, 11 Jul 2026 00:12:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: Warning
- (interrupt_map): Failed prerequisite 'interrupt_provider'
-Message-ID: <202607102302.dRH4eFpy-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/iio/adc/stm32-dfsdm-core.c:481
+ stm32_dfsdm_core_resume() warn: 'priv->clk' from clk_prepare() not released
+ on lines: 481.
+Message-ID: <202607110019.uqVaY2mQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "only suspicious fbc files changed"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
-CC: Madhavan Srinivasan <maddy@linux.ibm.com>
+TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   a635d6748234582ea287c5ffeae28b9b23f91c7e
-commit: 2442f10c6eae63392452ab84a813dbc1f87c724d powerpc: dts: Build device=
-trees of enabled platforms
-date:   5 weeks ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 weeks ago
-config: powerpc-randconfig-r111-20260710 (https://download.01.org/0day-ci/a=
-rchive/20260710/202607102302.dRH4eFpy-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project b3e=
-6e6dabdc02153552a64fc74ff5c7532447eed)
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260710/202607102302.dRH4eFpy-lkp@intel.com/reproduce)
+commit: c021c1b38f90d639423c1369625daa703a8472ea PM: Move two sleep-related functions under CONFIG_PM_SLEEP
+date:   1 year ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 1 year ago
+config: alpha-randconfig-r072-20260710 (https://download.01.org/0day-ci/archive/20260711/202607110019.uqVaY2mQ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2442f10c6eae ("powerpc: dts: Build devicetrees of enabled platform=
-s")
+| Fixes: c021c1b38f90 ("PM: Move two sleep-related functions under CONFIG_PM_SLEEP")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607102302.dRH4eFpy-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607110019.uqVaY2mQ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:128.11-132.4: Warning (simple_b=
-us_reg): /localbus@ffe05000/nand@4,0: simple-bus unit address format error,=
- expected "400000000"
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:134.11-138.4: Warning (simple_b=
-us_reg): /localbus@ffe05000/nand@5,0: simple-bus unit address format error,=
- expected "500000000"
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:140.11-144.4: Warning (simple_b=
-us_reg): /localbus@ffe05000/nand@6,0: simple-bus unit address format error,=
- expected "600000000"
-   arch/powerpc/boot/dts/fsl/mpc8572si-post.dtsi:164.23-166.4: Warning (sim=
-ple_bus_reg): /soc8572@ffe00000/gpio-controller@f000: missing or empty reg/=
-ranges property
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:155.24-158.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@ffe00000/mdio@24520/ethernet-phy@0: dupli=
-cate unit-address (also used in node /soc8572@ffe00000/mdio@24520/sgmii-phy=
-@0)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:159.24-162.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@ffe00000/mdio@24520/ethernet-phy@1: dupli=
-cate unit-address (also used in node /soc8572@ffe00000/mdio@24520/sgmii-phy=
-@1)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:163.24-166.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@ffe00000/mdio@24520/ethernet-phy@2: dupli=
-cate unit-address (also used in node /soc8572@ffe00000/mdio@24520/sgmii-phy=
-@2)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:167.24-170.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@ffe00000/mdio@24520/ethernet-phy@3: dupli=
-cate unit-address (also used in node /soc8572@ffe00000/mdio@24520/sgmii-phy=
-@3)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:375.11-425.6: Warning (interrup=
-t_provider): /pcie@ffe08000/pcie@0/uli1575@0/isa@1e: '#interrupt-cells' fou=
-nd, but node is not an interrupt provider
->> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core0.dtb: Warning (interrupt_m=
-ap): Failed prerequisite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:128.11-132.4: Warning (simple_b=
-us_reg): /localbus@ffe05000/nand@4,0: simple-bus unit address format error,=
- expected "400000000"
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:134.11-138.4: Warning (simple_b=
-us_reg): /localbus@ffe05000/nand@5,0: simple-bus unit address format error,=
- expected "500000000"
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:140.11-144.4: Warning (simple_b=
-us_reg): /localbus@ffe05000/nand@6,0: simple-bus unit address format error,=
- expected "600000000"
-   arch/powerpc/boot/dts/fsl/mpc8572si-post.dtsi:164.23-166.4: Warning (sim=
-ple_bus_reg): /soc8572@ffe00000/gpio-controller@f000: missing or empty reg/=
-ranges property
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:155.24-158.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@ffe00000/mdio@24520/ethernet-phy@0: dupli=
-cate unit-address (also used in node /soc8572@ffe00000/mdio@24520/sgmii-phy=
-@0)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:159.24-162.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@ffe00000/mdio@24520/ethernet-phy@1: dupli=
-cate unit-address (also used in node /soc8572@ffe00000/mdio@24520/sgmii-phy=
-@1)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:163.24-166.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@ffe00000/mdio@24520/ethernet-phy@2: dupli=
-cate unit-address (also used in node /soc8572@ffe00000/mdio@24520/sgmii-phy=
-@2)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:167.24-170.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@ffe00000/mdio@24520/ethernet-phy@3: dupli=
-cate unit-address (also used in node /soc8572@ffe00000/mdio@24520/sgmii-phy=
-@3)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:375.11-425.6: Warning (interrup=
-t_provider): /pcie@ffe08000/pcie@0/uli1575@0/isa@1e: '#interrupt-cells' fou=
-nd, but node is not an interrupt provider
->> arch/powerpc/boot/dts/fsl/mpc8572ds_camp_core1.dtb: Warning (interrupt_m=
-ap): Failed prerequisite 'interrupt_provider'
---
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:89.11-126.4: Warning (simple_bu=
-s_reg): /localbus@fffe05000/nand@2,0: simple-bus unit address format error,=
- expected "200000000"
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:128.11-132.4: Warning (simple_b=
-us_reg): /localbus@fffe05000/nand@4,0: simple-bus unit address format error=
-, expected "400000000"
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:134.11-138.4: Warning (simple_b=
-us_reg): /localbus@fffe05000/nand@5,0: simple-bus unit address format error=
-, expected "500000000"
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:140.11-144.4: Warning (simple_b=
-us_reg): /localbus@fffe05000/nand@6,0: simple-bus unit address format error=
-, expected "600000000"
-   arch/powerpc/boot/dts/fsl/mpc8572si-post.dtsi:164.23-166.4: Warning (sim=
-ple_bus_reg): /soc8572@fffe00000/gpio-controller@f000: missing or empty reg=
-/ranges property
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:155.24-158.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@fffe00000/mdio@24520/ethernet-phy@0: dupl=
-icate unit-address (also used in node /soc8572@fffe00000/mdio@24520/sgmii-p=
-hy@0)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:159.24-162.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@fffe00000/mdio@24520/ethernet-phy@1: dupl=
-icate unit-address (also used in node /soc8572@fffe00000/mdio@24520/sgmii-p=
-hy@1)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:163.24-166.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@fffe00000/mdio@24520/ethernet-phy@2: dupl=
-icate unit-address (also used in node /soc8572@fffe00000/mdio@24520/sgmii-p=
-hy@2)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:167.24-170.5: Warning (unique_u=
-nit_address_if_enabled): /soc8572@fffe00000/mdio@24520/ethernet-phy@3: dupl=
-icate unit-address (also used in node /soc8572@fffe00000/mdio@24520/sgmii-p=
-hy@3)
-   arch/powerpc/boot/dts/fsl/mpc8572ds.dtsi:375.11-425.6: Warning (interrup=
-t_provider): /pcie@fffe08000/pcie@0/uli1575@0/isa@1e: '#interrupt-cells' fo=
-und, but node is not an interrupt provider
->> arch/powerpc/boot/dts/fsl/mpc8572ds_36b.dtb: Warning (interrupt_map): Fa=
-iled prerequisite 'interrupt_provider'
+smatch warnings:
+drivers/iio/adc/stm32-dfsdm-core.c:481 stm32_dfsdm_core_resume() warn: 'priv->clk' from clk_prepare() not released on lines: 481.
+
+vim +481 drivers/iio/adc/stm32-dfsdm-core.c
+
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  466  
+ade59a7af270d2 Jonathan Cameron 2022-01-30  467  static int stm32_dfsdm_core_resume(struct device *dev)
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  468  {
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  469  	struct stm32_dfsdm *dfsdm = dev_get_drvdata(dev);
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  470  	struct dfsdm_priv *priv = to_stm32_dfsdm_priv(dfsdm);
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  471  	int ret;
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  472  
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  473  	ret = pinctrl_pm_select_default_state(dev);
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  474  	if (ret)
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  475  		return ret;
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  476  
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  477  	ret = clk_prepare(priv->clk);
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  478  	if (ret)
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  479  		return ret;
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  480  
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25 @481  	return pm_runtime_force_resume(dev);
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  482  }
+6ec417d2f1a028 Fabrice Gasnier  2019-03-25  483  
+
+:::::: The code at line 481 was first introduced by commit
+:::::: 6ec417d2f1a028705a1ae6f59d3e15344f6a4fbe iio: adc: stm32-dfsdm: add PM support
+
+:::::: TO: Fabrice Gasnier <fabrice.gasnier@st.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 --
 0-DAY CI Kernel Test Service
