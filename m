@@ -1,131 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E342E8B98
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Jul 2026 01:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A271D45E8
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Jul 2026 02:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783734826; cv=none; b=dZ/0wscgi7CxquZVLwBdq+MNsBgddYpsfWFEyanovdYlgb1b9LSLc0MF0quRbLFnDdXkrqtItSZAtUBsm5FKkxRn/zY/LaEObNs+xgvEjhXKfBUE+ufOizaX4oW9sOke09CG/oXZdaAdE72xX+QQSuR4COrv7s95na+vlT160DU=
+	t=1783738192; cv=none; b=iVw2VshNUNjxKJqvsz5aw6EvReosKpC6kHCbJ7at8kGsWFCuqtQSm/1YkedNUpPF/NBCpCyXKAQ2z5aibRlpQqQ1D9e5aU+OFNZBwwJOio3IIipS+83PrxP5G8OjxTPkm3MMJPBDS/R9+IymBrlhx4qkL4/KStee4CM+/GxO+0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783734826; c=relaxed/simple;
-	bh=NFfkC7WrwiBXz+yTe0QSN4y6iV8cw88VpVihHEPcHMk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mbTw9ymkDAgJKWUL1bTg11TPN52fQv33oVp4eUCuvsCYm9FyuHP+J/rUvOjRTm7ztuMdYdHYOAHcM/3zTwRsHNKKcRZy1pisJh6Jog9b9MBpH5gjh7vhuGKW/aLedGzj2TW8V74kCKkPQgGHTVxaGKjktJKw9cxguci7tfo4nBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gd8Qcqw3; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1783738192; c=relaxed/simple;
+	bh=G0uZ+h8wJjX6rtLO89azH4QUonmwn8+SKO4m7IoHNlE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Rp/ic3keEmPynQwAS2wU2H1cJpo+lAXWlxviAKII7yf5LxgmyD/jPkocHvOa1/QlcArtusjPtyB0cRzI7HeYYENEkEQnJVSr4zd77c5GY0tsXh+RuBJZylWhHE3Ehv7EJ562a6+JwJaYyoBXkES/T9P8Hluyz2BRaPifJpSxWZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5f5xC0U; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gd8Qcqw3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5f5xC0U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783734824; x=1815270824;
-  h=date:from:to:cc:subject:message-id;
-  bh=NFfkC7WrwiBXz+yTe0QSN4y6iV8cw88VpVihHEPcHMk=;
-  b=Gd8Qcqw3eIA7+2t20BRwSkZECzVGomUewuYUGTI6LY8ak+10DZP4rUXy
-   tELcu393NdUEQ5opogt7pFf22dqFrk08/Yn53h2AejxtQo70B9pxfXLUM
-   8Cbf62lgAkrgxqezVK8O0yi+qSIxo/EDGMXYKDe37mmY2yUmq8oAf4++J
-   FG7qcKYqmlgDwHK4U9njtasBTroaWdIfSnDZbOnEVTV/vVyJg/G/oVh+K
-   rhHTYK1hjJi/rqQNnMaHIaILvRuRksOWLJRJ3hNhq8miQ20prcEdKYo69
-   5ohGp693Rgm2xbifYcu+APIWP7nQC6GDaIwTPP7jSGuKOFg4GuuO2WHm/
+  t=1783738190; x=1815274190;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=G0uZ+h8wJjX6rtLO89azH4QUonmwn8+SKO4m7IoHNlE=;
+  b=V5f5xC0UVoxHsfxKIHzDImQ4QQAux8PLARLoBapB18VYX40WHiK0dgu3
+   N4EjA9heNMLLPqH7fTKif8u+FibWB2pXJ27QAVWlZgL2p/6VgIgvg/dll
+   HGDGgP/bh+WmFdOPcpANzaO9Y2FIDlEjw3TazaaUic50Sy+xIR2/PFS2Q
+   5HclR7iy90fYN3zJU1ggzSheXSOO14wTpkTvaCkWkrAlO9it+fKek0N+f
+   q8uQdua36L9PncNFUH9utJmSL2GhA87fJ+oCcV4/QmvVHphGlXWOM0rj8
+   Q0L10MRxYyzjEzBdrDdQfviIfUQpLtU1o9/ZBV/Glp4ywZUDqhtG2rggg
    Q==;
-X-CSE-ConnectionGUID: bQ0JoyNcSmCYkGcsHiQbvA==
-X-CSE-MsgGUID: q0YyF7GhQXu4Brgd0xxkLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="71956490"
+X-CSE-ConnectionGUID: QmPv9hkyRyixDC+uRFIUzA==
+X-CSE-MsgGUID: k+Q+L2DpS/qBWYERcwAcrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101861118"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="71956490"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 18:53:40 -0700
-X-CSE-ConnectionGUID: kmFip7ZCQlaTDGJF7UK/WQ==
-X-CSE-MsgGUID: RAxbn3EXRIKINio4BtHodw==
+   d="scan'208";a="101861118"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 19:49:49 -0700
+X-CSE-ConnectionGUID: 3Jik72WrRyyyMsDdVih8dQ==
+X-CSE-MsgGUID: B/Hpm3B1QTiTdXE4evKBVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="259929401"
+   d="scan'208";a="250623558"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Jul 2026 18:53:39 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 10 Jul 2026 19:49:48 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wiMuO-00000000JcO-2LYL;
-	Sat, 11 Jul 2026 01:53:36 +0000
-Date: Sat, 11 Jul 2026 09:52:53 +0800
+	id 1wiNmj-00000000Jfo-2H8Y;
+	Sat, 11 Jul 2026 02:49:45 +0000
+Date: Sat, 11 Jul 2026 10:49:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/gfs2/log.c:1044 gfs2_remove_from_journal() error:
- dereferencing freed memory 'bh' (line 1038)
-Message-ID: <202607110908.l7Owhul4-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 4669/5655]
+ drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:72:59: sparse:
+ sparse: not a function init
+Message-ID: <202607111003.MvjSYuhg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/i915/display/tests/intel_dp_link_test.c:72:59: sparse: sparse: not a=
+ function init"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Andreas Gruenbacher <agruenba@redhat.com>
+TO: Imre Deak <imre.deak@intel.com>
+CC: "Micha=C5=82 Grzelak" <michal.grzelak@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a635d6748234582ea287c5ffeae28b9b23f91c7e
-commit: 10866892c79159168459289a1288df4163e94d67 gfs2: Move gfs2_remove_from_journal to log.c
-date:   4 months ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260711/202607110908.l7Owhul4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   bee763d5f341b99cf472afeb508d4988f62a6ca1
+commit: 2eb9982ff179e648675b6c5b345b9ed509fc3361 [4669/5655] drm/i915/kunit=
+: Export link training and caps funcs for testing
+:::::: branch date: 13 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-121-20260711 (https://download.01.org/0day-ci/arc=
+hive/20260711/202607111003.MvjSYuhg-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
+48fd6183ee6d8cbdb4502213fcf902a211)
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260711/202607111003.MvjSYuhg-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: 10866892c791 ("gfs2: Move gfs2_remove_from_journal to log.c")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607110908.l7Owhul4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607111003.MvjSYuhg-lkp@intel.com/
 
-New smatch warnings:
-fs/gfs2/log.c:1044 gfs2_remove_from_journal() error: dereferencing freed memory 'bh' (line 1038)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:72:59: sparse: s=
+parse: not a function init
+>> drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:83:36: sparse: s=
+parse: not a function cleanup
 
-Old smatch warnings:
-fs/gfs2/log.c:1051 gfs2_remove_from_journal() warn: passing freed memory 'bh' (line 1038)
-fs/gfs2/log.c:1181 gfs2_log_flush() error: we previously assumed 'sdp->sd_jdesc' could be null (see line 1134)
+vim +72 drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c
 
-vim +/bh +1044 fs/gfs2/log.c
-
-462582b99b6079 Bob Peterson        2020-08-21  1019  
-10866892c79159 Andreas Gruenbacher 2026-03-13  1020  void gfs2_remove_from_journal(struct buffer_head *bh, int meta)
-10866892c79159 Andreas Gruenbacher 2026-03-13  1021  {
-10866892c79159 Andreas Gruenbacher 2026-03-13  1022  	struct address_space *mapping = bh->b_folio->mapping;
-10866892c79159 Andreas Gruenbacher 2026-03-13  1023  	struct gfs2_sbd *sdp = gfs2_mapping2sbd(mapping);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1024  	struct gfs2_bufdata *bd = bh->b_private;
-10866892c79159 Andreas Gruenbacher 2026-03-13  1025  	struct gfs2_trans *tr = current->journal_info;
-10866892c79159 Andreas Gruenbacher 2026-03-13  1026  	int was_pinned = 0;
-10866892c79159 Andreas Gruenbacher 2026-03-13  1027  
-10866892c79159 Andreas Gruenbacher 2026-03-13  1028  	if (test_clear_buffer_pinned(bh)) {
-10866892c79159 Andreas Gruenbacher 2026-03-13  1029  		trace_gfs2_pin(bd, 0);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1030  		atomic_dec(&sdp->sd_log_pinned);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1031  		list_del_init(&bd->bd_list);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1032  		if (meta == REMOVE_META)
-10866892c79159 Andreas Gruenbacher 2026-03-13  1033  			tr->tr_num_buf_rm++;
-10866892c79159 Andreas Gruenbacher 2026-03-13  1034  		else
-10866892c79159 Andreas Gruenbacher 2026-03-13  1035  			tr->tr_num_databuf_rm++;
-10866892c79159 Andreas Gruenbacher 2026-03-13  1036  		set_bit(TR_TOUCHED, &tr->tr_flags);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1037  		was_pinned = 1;
-10866892c79159 Andreas Gruenbacher 2026-03-13 @1038  		brelse(bh);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1039  	}
-10866892c79159 Andreas Gruenbacher 2026-03-13  1040  	if (bd) {
-10866892c79159 Andreas Gruenbacher 2026-03-13  1041  		if (bd->bd_tr) {
-10866892c79159 Andreas Gruenbacher 2026-03-13  1042  			gfs2_trans_add_revoke(sdp, bd);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1043  		} else if (was_pinned) {
-10866892c79159 Andreas Gruenbacher 2026-03-13 @1044  			bh->b_private = NULL;
-10866892c79159 Andreas Gruenbacher 2026-03-13  1045  			kmem_cache_free(gfs2_bufdata_cachep, bd);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1046  		} else if (!list_empty(&bd->bd_ail_st_list) &&
-10866892c79159 Andreas Gruenbacher 2026-03-13  1047  			   !list_empty(&bd->bd_ail_gl_list)) {
-10866892c79159 Andreas Gruenbacher 2026-03-13  1048  			gfs2_remove_from_ail(bd);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1049  		}
-10866892c79159 Andreas Gruenbacher 2026-03-13  1050  	}
-10866892c79159 Andreas Gruenbacher 2026-03-13  1051  	clear_buffer_dirty(bh);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1052  	clear_buffer_uptodate(bh);
-10866892c79159 Andreas Gruenbacher 2026-03-13  1053  }
-10866892c79159 Andreas Gruenbacher 2026-03-13  1054  
+d3340e92be326c1 Imre Deak 2026-07-01  46 =20
+d3340e92be326c1 Imre Deak 2026-07-01  47  static int intel_dp_link_test_ini=
+t(struct kunit *test)
+d3340e92be326c1 Imre Deak 2026-07-01  48  {
+df152476d00a46b Imre Deak 2026-07-01  49  	struct intel_digital_port *dig_p=
+ort;
+df152476d00a46b Imre Deak 2026-07-01  50  	struct intel_encoder *encoder;
+df152476d00a46b Imre Deak 2026-07-01  51  	struct intel_dp *intel_dp;
+df152476d00a46b Imre Deak 2026-07-01  52 =20
+df152476d00a46b Imre Deak 2026-07-01  53  	/* Reset the dev state for each =
+test. */
+df152476d00a46b Imre Deak 2026-07-01  54  	memset(&test_ctx.dev, 0, sizeof(=
+test_ctx.dev));
+df152476d00a46b Imre Deak 2026-07-01  55 =20
+df152476d00a46b Imre Deak 2026-07-01  56  	test_ctx.dev.generic_device.drm.=
+dev =3D &test_ctx.dev.device;
+df152476d00a46b Imre Deak 2026-07-01  57 =20
+df152476d00a46b Imre Deak 2026-07-01  58  	test_ctx.dev.display.drm =3D &te=
+st_ctx.dev.generic_device.drm;
+df152476d00a46b Imre Deak 2026-07-01  59  	test_ctx.dev.generic_device.disp=
+lay =3D &test_ctx.dev.display;
+df152476d00a46b Imre Deak 2026-07-01  60 =20
+df152476d00a46b Imre Deak 2026-07-01  61  	encoder =3D &test_ctx.dev.dig_po=
+rt.base;
+df152476d00a46b Imre Deak 2026-07-01  62  	encoder->base.dev =3D &test_ctx.=
+dev.generic_device.drm;
+df152476d00a46b Imre Deak 2026-07-01  63 =20
+df152476d00a46b Imre Deak 2026-07-01  64  	dig_port =3D &test_ctx.dev.dig_p=
+ort;
+df152476d00a46b Imre Deak 2026-07-01  65  	dig_port->base.type =3D INTEL_OU=
+TPUT_DP;
+df152476d00a46b Imre Deak 2026-07-01  66 =20
+df152476d00a46b Imre Deak 2026-07-01  67  	test_ctx.dev.connector.encoder =
+=3D encoder;
+df152476d00a46b Imre Deak 2026-07-01  68 =20
+df152476d00a46b Imre Deak 2026-07-01  69  	intel_dp =3D &dig_port->dp;
+df152476d00a46b Imre Deak 2026-07-01  70  	intel_dp->attached_connector =3D =
+&test_ctx.dev.connector;
+df152476d00a46b Imre Deak 2026-07-01  71 =20
+2eb9982ff179e64 Imre Deak 2026-07-01 @72  	intel_dp->link.caps =3D test_ctx=
+.link_caps_ops->init(intel_dp);
+2eb9982ff179e64 Imre Deak 2026-07-01  73 =20
+d3340e92be326c1 Imre Deak 2026-07-01  74  	test->priv =3D &test_ctx;
+d3340e92be326c1 Imre Deak 2026-07-01  75 =20
+d3340e92be326c1 Imre Deak 2026-07-01  76  	return 0;
+d3340e92be326c1 Imre Deak 2026-07-01  77  }
+d3340e92be326c1 Imre Deak 2026-07-01  78 =20
+d3340e92be326c1 Imre Deak 2026-07-01  79  static void intel_dp_link_test_ex=
+it(struct kunit *test)
+d3340e92be326c1 Imre Deak 2026-07-01  80  {
+2eb9982ff179e64 Imre Deak 2026-07-01  81  	struct test_ctx *ctx =3D test->p=
+riv;
+2eb9982ff179e64 Imre Deak 2026-07-01  82 =20
+2eb9982ff179e64 Imre Deak 2026-07-01 @83  	ctx->link_caps_ops->cleanup(ctx-=
+>dev.dig_port.dp.link.caps);
+d3340e92be326c1 Imre Deak 2026-07-01  84  }
+d3340e92be326c1 Imre Deak 2026-07-01  85 =20
 
 --
 0-DAY CI Kernel Test Service
