@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590291EEE6
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Jul 2026 17:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0E83CD8A9
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Jul 2026 17:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783792252; cv=none; b=eK9bV8tFld1rlUd0C6jyMhg7EgGtN60bt7G+uFDD8vbSFZ5vtIxZzka8bEw3nDYqd74+Ni0oQKSs+57BW3jZg9JbCcS2G/zvXbtGCge9AlPYk5eafoPlmMwzOFYwNFebslB9jfIaIRQhUF+ihpWMzLw5wXVw6MnZKTr7FlOUQXM=
+	t=1783792422; cv=none; b=LY0BiOnGNa20iOwgKawCO8KAsMIDZKgg9LmFRihy+wBr0eb/3NrL7qrD7GoJ/zJncNRAqdm4V6yzBtySDvweNchnnqWJxkuavAByz5nYs+/vB1vQWE2PANwsU69wjy6oex2wkMF6xs+qzZHLmCGHiw9cbDlhYkU2LbsZsMQrGQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783792252; c=relaxed/simple;
-	bh=Rf206Epte87bwI1nfmW2U0v3LHQDvR1fR0WeRN/Z47Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=je78yL10HqAcqn3bbTm2KsonKKNfo0Y3/f4J4P0cbt61tXkl2XDgsMxIsqZ0NZaHEHo3a+FUNNP8Cqhjk4hcW8tqL3cpTw81P6vE1OuyiUE1Bb6YkJEbl7mwURgrB3XVcjbHkx78EJ9UXc61DulmbciD/GfAfTdcHffDT1h8tvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CgDIlrGn; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1783792422; c=relaxed/simple;
+	bh=Htj/mAGVIu+DbPGhU7Z40G9Mq8AV0sVfgA/u1E+XwJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=L5J/ZHDeuRhkjp7s6/oa1EkhLDi9H9MGQN9O0zQIHuXZbZE6pp7wh9f/LioukvmHIhsNC2cnlhqjhq2+fi9n2lagaGEDrGUjkSGLTnkU0nVDPk160M7X1kUMRL4IOBHztwE8QMMi+iyLHu+TGHytF+fNXR35HY1TyUSE+8Rh1DE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIcgWghz; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CgDIlrGn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIcgWghz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783792251; x=1815328251;
+  t=1783792420; x=1815328420;
   h=date:from:to:cc:subject:message-id;
-  bh=Rf206Epte87bwI1nfmW2U0v3LHQDvR1fR0WeRN/Z47Q=;
-  b=CgDIlrGnd03SZjZiUntWkpTagherehlW50m4QxuVkn5V9JClGctLGNGI
-   c6rG0slnZ2fjLxpJQzNDmWOxAVYHx1TXfrbxPQ9pJyxmflinFZDfbQHUB
-   ajdww+wXSNEs8Ozg9TCD66nf+zz9nzY9P+K36lzgozP5z5/v413WQ91As
-   l5gOPtmFwOacvYpT9QqTKrOliHByz5pSjdX5zYHLDy+mRAjgMRlYyQmPG
-   0TQD44MXbKmMZlGFfSRJjHFe6dgQ+xZmLQ+H8pUXaUeLhlqhngh93r/s6
-   IdKQuAfo0BQ3TXBn0nLDn8Tz3CUBddeviI4YGp9FqvAayK/WGk/Rs0JQ3
-   A==;
-X-CSE-ConnectionGUID: 0pMUPqphSIagHfZSoI4JCQ==
-X-CSE-MsgGUID: 9yGtbJ5LSEaldC/HyQU8Zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84435528"
+  bh=Htj/mAGVIu+DbPGhU7Z40G9Mq8AV0sVfgA/u1E+XwJ8=;
+  b=PIcgWghzUe5g4Dvnc4ehD9eUqDfa41WMbTnjhVrG5AAlZeBkhGpQXLyu
+   qdkXgOysJ9hyLkYl9hzeFPp/PCZapRpygvBGsvFZqz98MBWq+zzM0DB2U
+   SAI6b7kohOarG2RH2Rs/Y0Oy/ZW7EicrD1GKD186t4iCcokSiMxn/Xee0
+   jHfuAmu2NeyijS6YT9F5SlH6jIy5k7CZkuRu0vC+Epc3Pe2ykZ6qlFfZC
+   /RUfW7mxeJlNI4ts4QkTjR1VoTnmQZrbzORfrgeJDp2y3HDhTJhEGeILa
+   ZqKNybNWPHJ+ud8JUjyNmqjSFHJzpYilDtO0z0z0S/Du9CGq701j308Vu
+   w==;
+X-CSE-ConnectionGUID: JevteCV7TqSbBhTrVcC1Mg==
+X-CSE-MsgGUID: JMMcxGm7SFC8rsKnsnF69Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84486718"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84435528"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 10:50:50 -0700
-X-CSE-ConnectionGUID: H0tEoPP4TWWBZuIurxeKZw==
-X-CSE-MsgGUID: ZBYJKK1+QLGMY40oImWNqw==
+   d="scan'208";a="84486718"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 10:53:39 -0700
+X-CSE-ConnectionGUID: X1tB37heR6Si0GLbrzJbAg==
+X-CSE-MsgGUID: /xrDYgXFSVakh3G0+wFH8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="258741969"
+   d="scan'208";a="260046591"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jul 2026 10:50:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 11 Jul 2026 10:53:37 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wibqK-00000000KFp-27ii;
-	Sat, 11 Jul 2026 17:50:31 +0000
-Date: Sun, 12 Jul 2026 01:49:45 +0800
+	id 1wibtC-00000000KG5-2Emw;
+	Sat, 11 Jul 2026 17:53:25 +0000
+Date: Sun, 12 Jul 2026 01:53:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [alexshi:pr/17 1/2] arch/x86/kernel/ptrace.c:245:2: error:
- call to '__compiletime_assert_297' declared with 'error' attribute:
- BUILD_BUG_ON failed: offsetof(struct pt_regs, r15) != 0
-Message-ID: <202607120138.7bYs1bCO-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-kiwi-6.1 180/180]
+ kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent returns
+ '&timer->it_lock'.
+Message-ID: <202607120135.SvdJeAa7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,116 +60,80 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: alexs@kernel.org
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Alex,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/alexshi/linux.git pr/17
-head:   521ce3b68fcc0aae09370fcfe3aad3c45a6e9d0d
-commit: 80997c8b66fd8d73a96cd681a473bacaf75b7d98 [1/2] x86/ptrace: move down unused registers
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   1517b793772a02ed13258dd27cd6ac22fe27c5a6
+commit: e7aff15ba29ba4b3052786b1636fa5c4aa39e179 [180/180] posix-timers: Prevent RT livelock in itimer_delete()
 :::::: branch date: 18 hours ago
-:::::: commit date: 2 years, 6 months ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260712/202607120138.7bYs1bCO-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260712/202607120138.7bYs1bCO-lkp@intel.com/reproduce)
+:::::: commit date: 3 years ago
+config: x86_64-randconfig-161-20260708 (https://download.01.org/0day-ci/archive/20260712/202607120135.SvdJeAa7-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607120138.7bYs1bCO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607120135.SvdJeAa7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent returns '&timer->it_lock'.
 
-   In file included from arch/x86/kernel/ptrace.c:11:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/x86/kernel/ptrace.c:245:2: error: call to '__compiletime_assert_297' declared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct pt_regs, r15) != 0
-     245 |         BUILD_BUG_ON(offsetof(struct pt_regs, r15) != 0);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:435:2: note: expanded from macro 'compiletime_assert'
-     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:423:2: note: expanded from macro '_compiletime_assert'
-     423 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:416:4: note: expanded from macro '__compiletime_assert'
-     416 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:5:1: note: expanded from here
-       5 | __compiletime_assert_297
-         | ^
->> arch/x86/kernel/ptrace.c:245:2: error: call to '__compiletime_assert_297' declared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct pt_regs, r15) != 0
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:435:2: note: expanded from macro 'compiletime_assert'
-     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:423:2: note: expanded from macro '_compiletime_assert'
-     423 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:416:4: note: expanded from macro '__compiletime_assert'
-     416 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:5:1: note: expanded from here
-       5 | __compiletime_assert_297
-         | ^
->> arch/x86/kernel/ptrace.c:245:2: error: call to '__compiletime_assert_297' declared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct pt_regs, r15) != 0
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:435:2: note: expanded from macro 'compiletime_assert'
-     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:423:2: note: expanded from macro '_compiletime_assert'
-     423 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:416:4: note: expanded from macro '__compiletime_assert'
-     416 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:5:1: note: expanded from here
-       5 | __compiletime_assert_297
-         | ^
-   1 warning and 3 errors generated.
+vim +1079 kernel/time/posix-timers.c
 
+becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1038  
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1039  /*
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1040   * Delete a timer if it is armed, remove it from the hash and schedule it
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1041   * for RCU freeing.
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1042   */
+858119e1593843 kernel/posix-timers.c      Arjan van de Ven 2006-01-14  1043  static void itimer_delete(struct k_itimer *timer)
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1044  {
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1045  	unsigned long flags;
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1046  
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1047  	/*
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1048  	 * irqsave is required to make timer_wait_running() work.
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1049  	 */
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1050  	spin_lock_irqsave(&timer->it_lock, flags);
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1051  
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1052  retry_delete:
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1053  	/*
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1054  	 * Even if the timer is not longer accessible from other tasks
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1055  	 * it still might be armed and queued in the underlying timer
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1056  	 * mechanism. Worse, that timer mechanism might run the expiry
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1057  	 * function concurrently.
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1058  	 */
+becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1059  	if (timer_delete_hook(timer) == TIMER_RETRY) {
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1060  		/*
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1061  		 * Timer is expired concurrently, prevent livelocks
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1062  		 * and pointless spinning on RT.
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1063  		 *
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1064  		 * timer_wait_running() drops timer::it_lock, which opens
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1065  		 * the possibility for another task to delete the timer.
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1066  		 *
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1067  		 * That's not possible here because this is invoked from
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1068  		 * do_exit() only for the last thread of the thread group.
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1069  		 * So no other task can access and delete that timer.
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1070  		 */
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1071  		if (WARN_ON_ONCE(timer_wait_running(timer, &flags) != timer))
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1072  			return;
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1073  
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1074  		goto retry_delete;
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1075  	}
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1076  	list_del(&timer->list);
+4b7a1304267bff kernel/posix-timers.c      Oleg Nesterov    2008-07-25  1077  
+e7aff15ba29ba4 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1078  	spin_unlock_irqrestore(&timer->it_lock, flags);
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16 @1079  	release_posix_timer(timer, IT_ID_SET);
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1080  }
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1081  
 
-vim +245 arch/x86/kernel/ptrace.c
+:::::: The code at line 1079 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-2047b08be67b70 Roland McGrath 2008-01-30  242  
-2047b08be67b70 Roland McGrath 2008-01-30  243  static unsigned long *pt_regs_access(struct pt_regs *regs, unsigned long offset)
-2047b08be67b70 Roland McGrath 2008-01-30  244  {
-2047b08be67b70 Roland McGrath 2008-01-30 @245  	BUILD_BUG_ON(offsetof(struct pt_regs, r15) != 0);
-2047b08be67b70 Roland McGrath 2008-01-30  246  	return &regs->r15 + (offset / sizeof(regs->r15));
-2047b08be67b70 Roland McGrath 2008-01-30  247  }
-2047b08be67b70 Roland McGrath 2008-01-30  248  
-
-:::::: The code at line 245 was first introduced by commit
-:::::: 2047b08be67b70875d8765fc81d34ce28041bec3 x86: x86 ptrace getreg/putreg merge
-
-:::::: TO: Roland McGrath <roland@redhat.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 --
 0-DAY CI Kernel Test Service
