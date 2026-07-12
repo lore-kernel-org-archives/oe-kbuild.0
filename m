@@ -1,191 +1,255 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400E5233937
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 Jul 2026 15:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F072D28DC4
+	for <oe-kbuild@lists.linux.dev>; Sun, 12 Jul 2026 15:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783869632; cv=none; b=IS8ZntoO0skq4oqqn0XLzKnBIF/NeBern6pPqwSh0R8pHfGxvb+9YP7NIt8+xfBO+LU5G+wzaJY82nA7+1UjyuVOVgYgl76A8H1wnzHQxOiq+tdQxbdWVKT8lMaXmru+Y/s3g0ovN0ilCoVLwmhj76UmXvSuTKsF6bZQkbHqlnI=
+	t=1783870579; cv=none; b=avwCuD10Df0wY2lLPH8DEvQZQKge4fLX05DJTPnqlRhpMtPpgUmhtOJPzL7CZRgK55ru5Z81JqgzuFwTM9N+Etj4F4zuR7JcaHqG19qwwGk6LB+x/3ySzoZJa9lma709BdWkToijB1PeIIw+ZFskDZ99y6lAgtbP17EtAIBA2O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783869632; c=relaxed/simple;
-	bh=dryKb0nBYiErR5N0FAkdOMh0yY9ozDdcHcyT6G1M9rs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pGVcsnKQ/puSGotYK9tGRmfcU1cksUJAtOl/VczjAfAZhz1JLwLHCIo4tkBG243qWpDTwNVUbn8GfwwvKG9ZMqcch6TujXQ+x7cX/da5mf0eTezU/aUpzJKLKaVnLZw6BgsU0n4PCyVz4YkEJNgsK0OjUDXdPV1othRcI8PnZoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtzYCs2K; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1783870579; c=relaxed/simple;
+	bh=JYZ302WGA0OuNzQVoThySkgEfGlEKsA1HPud9w7nnSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dzr2QGcOJFMKTxwOt0SRYYPw0X1xpYZkhYh3/uQQIC/grdEToagigMnuOgnr52NVCtZZCSzt1sowwuEDY3UQJE2HJQg2QtKfAEeASUxD3WXBLy/svYgKw9IELkPkl8osgyKCZObN+7sBvvx7ppKo6TjIXM+ipGch8I2YVVfPktw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PPw9KD+s; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtzYCs2K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PPw9KD+s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783869630; x=1815405630;
-  h=date:from:to:cc:subject:message-id;
-  bh=dryKb0nBYiErR5N0FAkdOMh0yY9ozDdcHcyT6G1M9rs=;
-  b=YtzYCs2KljCNUYjxsDy+K39YJ+rw5MdYG6sb/sGkKTJ2yWiQFRHhNiey
-   T9ClnqwnxQXgwnL8PGQM6CtT2H4f9KUoVu7b2Y5C8f35H+KJ7Vyb8HJ9h
-   OYJfDtFgBsH0R5vwXGQqymXVBfJZOD9WR5+Yp8V1tpRYqbVeMyEWHUK0C
-   OB3lwlwpZlBpBFRjnD1AckAm464oTknJ16bnFPn+DHCBPmDJLQdOECAVK
-   XXwCngtjohL2vJ8qBruP5rZARaBHFqYbPszO6XCQnSPzdj9G7EEv0i/W6
-   epYnzCcQxBU/cni3Bka7W/h04XJxBbbOLNJSu4gwxLK38kX33hyZoOnGl
-   A==;
-X-CSE-ConnectionGUID: 6LVYWijfQr6izOo/ASlLfg==
-X-CSE-MsgGUID: /7KI7izvSx+bsP+FmiD1eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="87039717"
+  t=1783870578; x=1815406578;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JYZ302WGA0OuNzQVoThySkgEfGlEKsA1HPud9w7nnSk=;
+  b=PPw9KD+svFc48jusy6i6/CmKpt/2BxVktESKpJD2eb6BoS9g9Bs+GHNB
+   AuMR9XYoUaNikDA/0dnQ93v1xBROzhJda6zLv7FJ1MFQZFYKE8CulpIS3
+   6D6o2aAhyPJwnI7xE9PFEEWahk6bViG33/KAS/Tmz6RMguHFXxrumftzj
+   2whjfqn+WoWLg5wRf1hlt4QYbTctlkQ9f2Ob3diTmR6sHDWyu5VKE/LQA
+   5UdXlNiR9MHmOTN6BXE0CKpK/n2ATxpEDEtmYZ9PDkA+mp77J5xV7Ue8K
+   scvVya2qOFOquUXuxJyPxsTC8Bdb3zkB4MkUiLphyqbkYJroovTnQ3oMB
+   Q==;
+X-CSE-ConnectionGUID: 6wrg0q5zQPWNHPisA8pR3Q==
+X-CSE-MsgGUID: 8hTAoy2ARce/MJK3Jw6wtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="72023353"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="87039717"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 08:20:29 -0700
-X-CSE-ConnectionGUID: yYcuukdkQQiwEhG6EldvuQ==
-X-CSE-MsgGUID: ziJ8bYVASYWBBZ8GiKeaPw==
+   d="scan'208";a="72023353"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 08:36:17 -0700
+X-CSE-ConnectionGUID: YeWQJMr4QFW/RRJq/w52FA==
+X-CSE-MsgGUID: 2v1Jmy/jSKypp12VKMUuYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="278583002"
+   d="scan'208";a="260216837"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Jul 2026 08:20:28 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 12 Jul 2026 08:36:16 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wivyj-00000000KwZ-2gnN;
-	Sun, 12 Jul 2026 15:20:25 +0000
-Date: Sun, 12 Jul 2026 23:19:19 +0800
+	id 1wiwDy-00000000Kws-1fDR;
+	Sun, 12 Jul 2026 15:36:10 +0000
+Date: Sun, 12 Jul 2026 23:35:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/dma/loongson/loongson2-apb-cmc-dma.c:677:6-16:
- WARNING: Unsigned expression compared with zero: lchan -> irq < 0
-Message-ID: <202607122209.WtJaZ2I7-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 5449/5655]
+ drivers/spi/spi-geni-qcom.c:637 spi_geni_init() warn: missing error code?
+ 'ret'
+Message-ID: <202607122241.qzP3QAXF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Binbin Zhou <zhoubinbin@loongson.cn>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
-CC: Huacai Chen <chenhuacai@loongson.cn>
+TO: Praveen Talari <praveen.talari@oss.qualcomm.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd3210c47e8d3ac6b4e9141fc68acc03b38c0ba3
-commit: 1c0028e725f156ebabe68b0025f9c8e7a6170ffd dmaengine: loongson: New driver for the Loongson Multi-Channel DMA controller
-date:   4 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   bee763d5f341b99cf472afeb508d4988f62a6ca1
+commit: d8e9ea989acb54508477e4a8c9d9eaf8217e0081 [5449/5655] spi: qcom-geni=
+: Fix missing error check on pm_runtime_get_sync()
 :::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
-config: hexagon-randconfig-r051-20260709 (https://download.01.org/0day-ci/archive/20260712/202607122209.WtJaZ2I7-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c279890c85da307abe34f10333442bbf72a60644)
+:::::: commit date: 2 days ago
+config: microblaze-randconfig-r071-20260711 (https://download.01.org/0day-c=
+i/archive/20260712/202607122241.qzP3QAXF-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: 1c0028e725f1 ("dmaengine: loongson: New driver for the Loongson Multi-Channel DMA controller")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202607122209.WtJaZ2I7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607122241.qzP3QAXF-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dma/loongson/loongson2-apb-cmc-dma.c:677:6-16: WARNING: Unsigned expression compared with zero: lchan -> irq < 0
+New smatch warnings:
+drivers/spi/spi-geni-qcom.c:637 spi_geni_init() warn: missing error code? '=
+ret'
 
-vim +677 drivers/dma/loongson/loongson2-apb-cmc-dma.c
+Old smatch warnings:
+drivers/spi/spi-geni-qcom.c:648 spi_geni_init() warn: missing error code? '=
+ret'
 
-1c0028e725f156 Binbin Zhou 2026-03-07  601  
-1c0028e725f156 Binbin Zhou 2026-03-07  602  static int loongson2_cmc_dma_probe(struct platform_device *pdev)
-1c0028e725f156 Binbin Zhou 2026-03-07  603  {
-1c0028e725f156 Binbin Zhou 2026-03-07  604  	const struct loongson2_cmc_dma_config *config;
-1c0028e725f156 Binbin Zhou 2026-03-07  605  	struct loongson2_cmc_dma_chan *lchan;
-1c0028e725f156 Binbin Zhou 2026-03-07  606  	struct loongson2_cmc_dma_dev *lddev;
-1c0028e725f156 Binbin Zhou 2026-03-07  607  	struct device *dev = &pdev->dev;
-1c0028e725f156 Binbin Zhou 2026-03-07  608  	struct dma_device *ddev;
-1c0028e725f156 Binbin Zhou 2026-03-07  609  	u32 nr_chans, i;
-1c0028e725f156 Binbin Zhou 2026-03-07  610  	int ret;
-1c0028e725f156 Binbin Zhou 2026-03-07  611  
-1c0028e725f156 Binbin Zhou 2026-03-07  612  	config = (const struct loongson2_cmc_dma_config *)device_get_match_data(dev);
-1c0028e725f156 Binbin Zhou 2026-03-07  613  	if (!config)
-1c0028e725f156 Binbin Zhou 2026-03-07  614  		return -EINVAL;
-1c0028e725f156 Binbin Zhou 2026-03-07  615  
-1c0028e725f156 Binbin Zhou 2026-03-07  616  	ret = device_property_read_u32(dev, "dma-channels", &nr_chans);
-1c0028e725f156 Binbin Zhou 2026-03-07  617  	if (ret || nr_chans > config->max_channels) {
-1c0028e725f156 Binbin Zhou 2026-03-07  618  		dev_err(dev, "missing or invalid dma-channels property\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  619  		nr_chans = config->max_channels;
-1c0028e725f156 Binbin Zhou 2026-03-07  620  	}
-1c0028e725f156 Binbin Zhou 2026-03-07  621  
-1c0028e725f156 Binbin Zhou 2026-03-07  622  	lddev = devm_kzalloc(dev, struct_size(lddev, chan, nr_chans), GFP_KERNEL);
-1c0028e725f156 Binbin Zhou 2026-03-07  623  	if (!lddev)
-1c0028e725f156 Binbin Zhou 2026-03-07  624  		return -ENOMEM;
-1c0028e725f156 Binbin Zhou 2026-03-07  625  
-1c0028e725f156 Binbin Zhou 2026-03-07  626  	lddev->base = devm_platform_ioremap_resource(pdev, 0);
-1c0028e725f156 Binbin Zhou 2026-03-07  627  	if (IS_ERR(lddev->base))
-1c0028e725f156 Binbin Zhou 2026-03-07  628  		return PTR_ERR(lddev->base);
-1c0028e725f156 Binbin Zhou 2026-03-07  629  
-1c0028e725f156 Binbin Zhou 2026-03-07  630  	platform_set_drvdata(pdev, lddev);
-1c0028e725f156 Binbin Zhou 2026-03-07  631  	lddev->nr_channels = nr_chans;
-1c0028e725f156 Binbin Zhou 2026-03-07  632  	lddev->chan_reg_offset = config->chan_reg_offset;
-1c0028e725f156 Binbin Zhou 2026-03-07  633  
-1c0028e725f156 Binbin Zhou 2026-03-07  634  	lddev->dma_clk = devm_clk_get_optional_enabled(dev, NULL);
-1c0028e725f156 Binbin Zhou 2026-03-07  635  	if (IS_ERR(lddev->dma_clk))
-1c0028e725f156 Binbin Zhou 2026-03-07  636  		return dev_err_probe(dev, PTR_ERR(lddev->dma_clk), "Failed to get dma clock\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  637  
-1c0028e725f156 Binbin Zhou 2026-03-07  638  	ddev = &lddev->ddev;
-1c0028e725f156 Binbin Zhou 2026-03-07  639  	ddev->dev = dev;
-1c0028e725f156 Binbin Zhou 2026-03-07  640  
-1c0028e725f156 Binbin Zhou 2026-03-07  641  	dma_cap_zero(ddev->cap_mask);
-1c0028e725f156 Binbin Zhou 2026-03-07  642  	dma_cap_set(DMA_SLAVE, ddev->cap_mask);
-1c0028e725f156 Binbin Zhou 2026-03-07  643  	dma_cap_set(DMA_PRIVATE, ddev->cap_mask);
-1c0028e725f156 Binbin Zhou 2026-03-07  644  	dma_cap_set(DMA_CYCLIC, ddev->cap_mask);
-1c0028e725f156 Binbin Zhou 2026-03-07  645  
-1c0028e725f156 Binbin Zhou 2026-03-07  646  	ddev->device_free_chan_resources = loongson2_cmc_dma_free_chan_resources;
-1c0028e725f156 Binbin Zhou 2026-03-07  647  	ddev->device_config = loongson2_cmc_dma_slave_config;
-1c0028e725f156 Binbin Zhou 2026-03-07  648  	ddev->device_prep_slave_sg = loongson2_cmc_dma_prep_slave_sg;
-1c0028e725f156 Binbin Zhou 2026-03-07  649  	ddev->device_prep_dma_cyclic = loongson2_cmc_dma_prep_dma_cyclic;
-1c0028e725f156 Binbin Zhou 2026-03-07  650  	ddev->device_issue_pending = loongson2_cmc_dma_issue_pending;
-1c0028e725f156 Binbin Zhou 2026-03-07  651  	ddev->device_synchronize = loongson2_cmc_dma_synchronize;
-1c0028e725f156 Binbin Zhou 2026-03-07  652  	ddev->device_tx_status = loongson2_cmc_dma_tx_status;
-1c0028e725f156 Binbin Zhou 2026-03-07  653  	ddev->device_terminate_all = loongson2_cmc_dma_terminate_all;
-1c0028e725f156 Binbin Zhou 2026-03-07  654  
-1c0028e725f156 Binbin Zhou 2026-03-07  655  	ddev->max_sg_burst = LOONSON2_CMCDMA_MAX_DATA_ITEMS;
-1c0028e725f156 Binbin Zhou 2026-03-07  656  	ddev->src_addr_widths = LOONGSON2_CMCDMA_BUSWIDTHS;
-1c0028e725f156 Binbin Zhou 2026-03-07  657  	ddev->dst_addr_widths = LOONGSON2_CMCDMA_BUSWIDTHS;
-1c0028e725f156 Binbin Zhou 2026-03-07  658  	ddev->directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
-1c0028e725f156 Binbin Zhou 2026-03-07  659  	INIT_LIST_HEAD(&ddev->channels);
-1c0028e725f156 Binbin Zhou 2026-03-07  660  
-1c0028e725f156 Binbin Zhou 2026-03-07  661  	for (i = 0; i < nr_chans; i++) {
-1c0028e725f156 Binbin Zhou 2026-03-07  662  		lchan = &lddev->chan[i];
-1c0028e725f156 Binbin Zhou 2026-03-07  663  
-1c0028e725f156 Binbin Zhou 2026-03-07  664  		lchan->id = i;
-1c0028e725f156 Binbin Zhou 2026-03-07  665  		lchan->vchan.desc_free = loongson2_cmc_dma_desc_free;
-1c0028e725f156 Binbin Zhou 2026-03-07  666  		vchan_init(&lchan->vchan, ddev);
-1c0028e725f156 Binbin Zhou 2026-03-07  667  	}
-1c0028e725f156 Binbin Zhou 2026-03-07  668  
-1c0028e725f156 Binbin Zhou 2026-03-07  669  	ret = dmaenginem_async_device_register(ddev);
-1c0028e725f156 Binbin Zhou 2026-03-07  670  	if (ret)
-1c0028e725f156 Binbin Zhou 2026-03-07  671  		return dev_err_probe(dev, ret, "Failed to register DMA engine device.\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  672  
-1c0028e725f156 Binbin Zhou 2026-03-07  673  	for (i = 0; i < nr_chans; i++) {
-1c0028e725f156 Binbin Zhou 2026-03-07  674  		lchan = &lddev->chan[i];
-1c0028e725f156 Binbin Zhou 2026-03-07  675  
-1c0028e725f156 Binbin Zhou 2026-03-07  676  		lchan->irq = platform_get_irq(pdev, i);
-1c0028e725f156 Binbin Zhou 2026-03-07 @677  		if (lchan->irq < 0)
-1c0028e725f156 Binbin Zhou 2026-03-07  678  			return lchan->irq;
-1c0028e725f156 Binbin Zhou 2026-03-07  679  
-1c0028e725f156 Binbin Zhou 2026-03-07  680  		ret = devm_request_irq(dev, lchan->irq, loongson2_cmc_dma_chan_irq, IRQF_SHARED,
-1c0028e725f156 Binbin Zhou 2026-03-07  681  				       dev_name(chan2dev(lchan)), lchan);
-1c0028e725f156 Binbin Zhou 2026-03-07  682  		if (ret)
-1c0028e725f156 Binbin Zhou 2026-03-07  683  			return ret;
-1c0028e725f156 Binbin Zhou 2026-03-07  684  	}
-1c0028e725f156 Binbin Zhou 2026-03-07  685  
-1c0028e725f156 Binbin Zhou 2026-03-07  686  	ret = loongson2_cmc_dma_acpi_controller_register(lddev);
-1c0028e725f156 Binbin Zhou 2026-03-07  687  	if (ret)
-1c0028e725f156 Binbin Zhou 2026-03-07  688  		return dev_err_probe(dev, ret, "Failed to register dma controller with ACPI.\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  689  
-1c0028e725f156 Binbin Zhou 2026-03-07  690  	ret = loongson2_cmc_dma_of_controller_register(lddev);
-1c0028e725f156 Binbin Zhou 2026-03-07  691  	if (ret)
-1c0028e725f156 Binbin Zhou 2026-03-07  692  		return dev_err_probe(dev, ret, "Failed to register dma controller with FDT.\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  693  
-1c0028e725f156 Binbin Zhou 2026-03-07  694  	dev_info(dev, "Loongson-2 Multi-Channel DMA Controller registered successfully.\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  695  
-1c0028e725f156 Binbin Zhou 2026-03-07  696  	return 0;
-1c0028e725f156 Binbin Zhou 2026-03-07  697  }
-1c0028e725f156 Binbin Zhou 2026-03-07  698  
+vim +/ret +637 drivers/spi/spi-geni-qcom.c
+
+b59c122484ecb1 Vinod Koul              2021-10-20  616 =20
+561de45f72bd5f Girish Mahadevan        2018-10-03  617  static int spi_geni=
+_init(struct spi_geni_master *mas)
+561de45f72bd5f Girish Mahadevan        2018-10-03  618  {
+14cea92338a077 Uwe Kleine-K=C3=B6nig        2024-02-07  619  	struct spi_co=
+ntroller *spi =3D dev_get_drvdata(mas->dev);
+561de45f72bd5f Girish Mahadevan        2018-10-03  620  	struct geni_se *se=
+ =3D &mas->se;
+561de45f72bd5f Girish Mahadevan        2018-10-03  621  	unsigned int proto=
+, major, minor, ver;
+b59c122484ecb1 Vinod Koul              2021-10-20  622  	u32 spi_tx_cfg, fi=
+fo_disable;
+b59c122484ecb1 Vinod Koul              2021-10-20  623  	int ret =3D -ENXIO;
+561de45f72bd5f Girish Mahadevan        2018-10-03  624 =20
+d8e9ea989acb54 Praveen Talari          2026-07-10  625  	PM_RUNTIME_ACQUIRE=
+_IF_ENABLED(mas->dev, pm);
+d8e9ea989acb54 Praveen Talari          2026-07-10  626  	ret =3D PM_RUNTIME=
+_ACQUIRE_ERR(&pm);
+d8e9ea989acb54 Praveen Talari          2026-07-10  627  	if (ret < 0) {
+d8e9ea989acb54 Praveen Talari          2026-07-10  628  		dev_err(mas->dev,=
+ "Failed to resume and get %d\n", ret);
+d8e9ea989acb54 Praveen Talari          2026-07-10  629  		return ret;
+d8e9ea989acb54 Praveen Talari          2026-07-10  630  	}
+561de45f72bd5f Girish Mahadevan        2018-10-03  631 =20
+561de45f72bd5f Girish Mahadevan        2018-10-03  632  	proto =3D geni_se_=
+read_proto(se);
+d7f74cc31a89a4 Praveen Talari          2023-07-14  633 =20
+8726bdcef62eac Yang Yingliang          2023-11-28  634  	if (spi->target) {
+d7f74cc31a89a4 Praveen Talari          2023-07-14  635  		if (proto !=3D GE=
+NI_SE_SPI_SLAVE) {
+d7f74cc31a89a4 Praveen Talari          2023-07-14  636  			dev_err(mas->dev=
+, "Invalid proto %d\n", proto);
+d8e9ea989acb54 Praveen Talari          2026-07-10 @637  			return ret;
+d7f74cc31a89a4 Praveen Talari          2023-07-14  638  		}
+d7f74cc31a89a4 Praveen Talari          2023-07-14  639  		spi_slv_setup(mas=
+);
+99cf351ee1c46b Viken Dadhaniya         2025-09-11  640  	} else if (proto =
+=3D=3D GENI_SE_INVALID_PROTO) {
+99cf351ee1c46b Viken Dadhaniya         2025-09-11  641  		ret =3D geni_load=
+_se_firmware(se, GENI_SE_SPI);
+99cf351ee1c46b Viken Dadhaniya         2025-09-11  642  		if (ret) {
+99cf351ee1c46b Viken Dadhaniya         2025-09-11  643  			dev_err(mas->dev=
+, "spi master firmware load failed ret: %d\n", ret);
+d8e9ea989acb54 Praveen Talari          2026-07-10  644  			return ret;
+99cf351ee1c46b Viken Dadhaniya         2025-09-11  645  		}
+d7f74cc31a89a4 Praveen Talari          2023-07-14  646  	} else if (proto !=
+=3D GENI_SE_SPI) {
+561de45f72bd5f Girish Mahadevan        2018-10-03  647  		dev_err(mas->dev,=
+ "Invalid proto %d\n", proto);
+d8e9ea989acb54 Praveen Talari          2026-07-10  648  		return ret;
+561de45f72bd5f Girish Mahadevan        2018-10-03  649  	}
+561de45f72bd5f Girish Mahadevan        2018-10-03  650  	mas->tx_fifo_depth=
+ =3D geni_se_get_tx_fifo_depth(se);
+561de45f72bd5f Girish Mahadevan        2018-10-03  651 =20
+561de45f72bd5f Girish Mahadevan        2018-10-03  652  	/* Width of Tx and=
+ Rx FIFO is same */
+561de45f72bd5f Girish Mahadevan        2018-10-03  653  	mas->fifo_width_bi=
+ts =3D geni_se_get_tx_fifo_width(se);
+561de45f72bd5f Girish Mahadevan        2018-10-03  654 =20
+561de45f72bd5f Girish Mahadevan        2018-10-03  655  	/*
+561de45f72bd5f Girish Mahadevan        2018-10-03  656  	 * Hardware progra=
+mming guide suggests to configure
+561de45f72bd5f Girish Mahadevan        2018-10-03  657  	 * RX FIFO RFR lev=
+el to fifo_depth-2.
+561de45f72bd5f Girish Mahadevan        2018-10-03  658  	 */
+fc129a43aa2705 Douglas Anderson        2020-09-12  659  	geni_se_init(se, m=
+as->tx_fifo_depth - 3, mas->tx_fifo_depth - 2);
+561de45f72bd5f Girish Mahadevan        2018-10-03  660  	/* Transmit an ent=
+ire FIFO worth of data per IRQ */
+561de45f72bd5f Girish Mahadevan        2018-10-03  661  	mas->tx_wm =3D 1;
+561de45f72bd5f Girish Mahadevan        2018-10-03  662  	ver =3D geni_se_ge=
+t_qup_hw_version(se);
+561de45f72bd5f Girish Mahadevan        2018-10-03  663  	major =3D GENI_SE_=
+VERSION_MAJOR(ver);
+561de45f72bd5f Girish Mahadevan        2018-10-03  664  	minor =3D GENI_SE_=
+VERSION_MINOR(ver);
+561de45f72bd5f Girish Mahadevan        2018-10-03  665 =20
+561de45f72bd5f Girish Mahadevan        2018-10-03  666  	if (major =3D=3D 1=
+ && minor =3D=3D 0)
+561de45f72bd5f Girish Mahadevan        2018-10-03  667  		mas->oversampling=
+ =3D 2;
+561de45f72bd5f Girish Mahadevan        2018-10-03  668  	else
+561de45f72bd5f Girish Mahadevan        2018-10-03  669  		mas->oversampling=
+ =3D 1;
+561de45f72bd5f Girish Mahadevan        2018-10-03  670 =20
+b59c122484ecb1 Vinod Koul              2021-10-20  671  	fifo_disable =3D r=
+eadl(se->base + GENI_IF_DISABLE_RO) & FIFO_IF_DISABLE;
+b59c122484ecb1 Vinod Koul              2021-10-20  672  	switch (fifo_disab=
+le) {
+b59c122484ecb1 Vinod Koul              2021-10-20  673  	case 1:
+b59c122484ecb1 Vinod Koul              2021-10-20  674  		ret =3D spi_geni_=
+grab_gpi_chan(mas);
+b59c122484ecb1 Vinod Koul              2021-10-20  675  		if (!ret) { /* su=
+ccess case */
+b59c122484ecb1 Vinod Koul              2021-10-20  676  			mas->cur_xfer_mo=
+de =3D GENI_GPI_DMA;
+b59c122484ecb1 Vinod Koul              2021-10-20  677  			geni_se_select_m=
+ode(se, GENI_GPI_DMA);
+b59c122484ecb1 Vinod Koul              2021-10-20  678  			dev_dbg(mas->dev=
+, "Using GPI DMA mode for SPI\n");
+b59c122484ecb1 Vinod Koul              2021-10-20  679  			break;
+9d7054fb3ac2e8 Neil Armstrong          2023-06-15  680  		} else if (ret =
+=3D=3D -EPROBE_DEFER) {
+d8e9ea989acb54 Praveen Talari          2026-07-10  681  			return ret;
+b59c122484ecb1 Vinod Koul              2021-10-20  682  		}
+b59c122484ecb1 Vinod Koul              2021-10-20  683  		/*
+e5f0dfa78ac773 Vijaya Krishna Nivarthi 2022-12-08  684  		 * in case of fai=
+lure to get gpi dma channel, we can still do the
+b59c122484ecb1 Vinod Koul              2021-10-20  685  		 * FIFO mode, so =
+fallthrough
+b59c122484ecb1 Vinod Koul              2021-10-20  686  		 */
+b59c122484ecb1 Vinod Koul              2021-10-20  687  		dev_warn(mas->dev=
+, "FIFO mode disabled, but couldn't get DMA, fall back to FIFO mode\n");
+b59c122484ecb1 Vinod Koul              2021-10-20  688  		fallthrough;
+b59c122484ecb1 Vinod Koul              2021-10-20  689 =20
+b59c122484ecb1 Vinod Koul              2021-10-20  690  	case 0:
+b59c122484ecb1 Vinod Koul              2021-10-20  691  		mas->cur_xfer_mod=
+e =3D GENI_SE_FIFO;
+da48dc8c70c20e Douglas Anderson        2020-07-01  692  		geni_se_select_mo=
+de(se, GENI_SE_FIFO);
+739062a9f1e9a7 Jonathan Marek          2025-11-20  693  		/* setup_fifo_par=
+ams assumes that these registers start with a zero value */
+739062a9f1e9a7 Jonathan Marek          2025-11-20  694  		writel(0, se->bas=
+e + SE_SPI_LOOPBACK);
+739062a9f1e9a7 Jonathan Marek          2025-11-20  695  		writel(0, se->bas=
+e + SE_SPI_DEMUX_SEL);
+739062a9f1e9a7 Jonathan Marek          2025-11-20  696  		writel(0, se->bas=
+e + SE_SPI_CPHA);
+739062a9f1e9a7 Jonathan Marek          2025-11-20  697  		writel(0, se->bas=
+e + SE_SPI_CPOL);
+739062a9f1e9a7 Jonathan Marek          2025-11-20  698  		writel(0, se->bas=
+e + SE_SPI_DEMUX_OUTPUT_INV);
+b59c122484ecb1 Vinod Koul              2021-10-20  699  		ret =3D 0;
+b59c122484ecb1 Vinod Koul              2021-10-20  700  		break;
+b59c122484ecb1 Vinod Koul              2021-10-20  701  	}
+da48dc8c70c20e Douglas Anderson        2020-07-01  702 =20
+b99181cdf9fa02 Jonathan Marek          2025-11-20  703  	/* We never contro=
+l CS manually */
+8726bdcef62eac Yang Yingliang          2023-11-28  704  	if (!spi->target) {
+14ac4e049dc118 Douglas Anderson        2020-09-12  705  		spi_tx_cfg =3D re=
+adl(se->base + SE_SPI_TRANS_CFG);
+14ac4e049dc118 Douglas Anderson        2020-09-12  706  		spi_tx_cfg &=3D ~=
+CS_TOGGLE;
+14ac4e049dc118 Douglas Anderson        2020-09-12  707  		writel(spi_tx_cfg=
+, se->base + SE_SPI_TRANS_CFG);
+d7f74cc31a89a4 Praveen Talari          2023-07-14  708  	}
+14ac4e049dc118 Douglas Anderson        2020-09-12  709 =20
+b59c122484ecb1 Vinod Koul              2021-10-20  710  	return ret;
+561de45f72bd5f Girish Mahadevan        2018-10-03  711  }
+561de45f72bd5f Girish Mahadevan        2018-10-03  712 =20
 
 --
 0-DAY CI Kernel Test Service
