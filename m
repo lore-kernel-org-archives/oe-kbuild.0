@@ -1,169 +1,140 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD6836921E
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Jul 2026 11:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784027203; cv=pass; b=f83DnZtXQx1L8lqGUuDqneQQUbLhW4U8Q3c9iFUxlnSyn7tdByt1VvSj9+EYm0CGdusj50B5+5oysUByZlxZ5y2Fh/TO9wtqdsvWoJtWKlUuN44RF1aRV/kr0LUEGgdM3lwDRzGGSFh58RfUK2zRATI6ZtuhotcmIgDLSlY/K9A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784027203; c=relaxed/simple;
-	bh=Het9ihQl/VJT9xqzwtJWeYTAgX6+xn+zNF245R9sMG4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SLI15WCibT4Sxl2pKoB+sYTsBu1okF+R4lKLhUcKUNShU4QJA2uH3M5Q54jJ2905vvArptDw2Gs69/eiMzfeqv/7dJyLse0hOljaZrRTUfNTBWb2lBMYeWhgsN7728UHQWljVl4FRtz50q0uiWBEdlNux+WBPyEZ9iexmsg58Ss=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AoWL8V25; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBFF47DD5A
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Jul 2026 14:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784039800; cv=none; b=LCk/O3cOFY/e0P6O157Ky/fXNTk1sn54/45lbguGx+mIKuqNLMmCxxaF1I6H/Yr8I+EWHU1Xw0dsDWPXi+9qt4W6/9imWx5seSKSNlqWhZe7Q1XQeaSVH8HSk43nxSOKzz/NuzpvN+fubW7d9qAIfpbp7zK5y2L1YPB21jVSn30=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784039800; c=relaxed/simple;
+	bh=mAqNTi4jOibK7i+F4GtYDj3/DKq2V54T8OPQoRWz8vQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DA5NnMYfqvph0EJJI7xkcy4JHGmwoZ/sqYZd71zKfsjDDt+aUOCqLBz6R3oDMhcQzKPDBrjYP5dZIa203hSDX6dJ7WJ4qF04837sdjerdzQMOnflmWAX9XLhR3oo4IpeRbETLs3m3sB/0zJphCNDvvEr6RIgDsJVJuh8Qg47dMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ph6y67GP; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AoWL8V25"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-698ae09e356so5640707a12.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 14 Jul 2026 04:06:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784027201; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BRVqgZ4dFBOf375vdVUS6UIEC3tBQbmF2CFvjd0DM39o+w164Lj68/5KTNQwj6umdN
-         t5Tqml3MHF+rnOzv5+e4FjjJFQVKzZrujXvgSUQK5E1CJbG8Uh91gStxNSBxT32ICGPV
-         hzOgaGdlEyNurh9Wbfr8U0SSJJBSsmwRqon2aMm398eEyJ1xVdkWgXIdldPNoC8mpB8E
-         KVRlQgIs1jzB/cu1jWnNyPvqGUKtWrbE6qXWk25ZzTZJ8peEBHBu7K89PNwur/+kMDVu
-         tNR+guBfXKnS3PlzYWDZB7zRTh1XHNFAXNwqAbbQ4oIMsvpLTf5BdsBKxlq1Ak8vZd2y
-         gXHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OCsR23B5npLYx4eSEXefKKxboIrUPzq22joxYGvAxQk=;
-        fh=5VpqbdnCoaPdEzzobqEEHKi8nDl7v5EE97g2oNzYnKI=;
-        b=XnxxSwTALfKf4BEBBnD72KxZO5ftYk0gSpbHLD7Vi2BqxLX9AKqedatAuf9W2A3sEK
-         hGntlP+4XWSoCYeFmi5wCredBpynHyDqv07TKXtc+5wc9t1UakSGDJ+gHmSu+SO2g8BY
-         u5BPeJ1vDpqHUGGCKaIMl3KMuOQwBpAqj6XE/0S71U0oaCGDAArnKm8/cnXfqrBCh8k3
-         6llW3UJaSrD9OjEjF0D4oZeg/+/EByF5Gc2zSp7WcMRTOn9zy9NpmG8dYXey+O8a8Cu0
-         MH/tRbouP/KMF/ww5WiTpnFB9wlrZBC8PlQRYTfv6D4HrQqhjCCOhLL4c/7NtdbMDPEN
-         9mFw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784027201; x=1784632001; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OCsR23B5npLYx4eSEXefKKxboIrUPzq22joxYGvAxQk=;
-        b=AoWL8V25Kro+XljMOVo2YQVRJeo+xn8l/Hqqz2525ImNuuBiQaqyTYgTFpxq3ghs9X
-         jzV4FCNbozO7Lor/Weg5QRGRYPuGt8dVfXaS731x7mz5cFm6liwddzh1NGyU/WiaqyTs
-         A/0fDcgffW61+DEGX8xrEunoWOPHDgLN5werf6zy/MRSy8DwotbGzIrjv5aSN1hvXSqF
-         X2JxeUa4Ad0jZu2YFOLyOdj53rF7IbOyGDGBgrwKxlVgLOAUXmElwiekcdAanY6Pxx7f
-         R4UDdOSn9uFT7FNAEGPtzlOMSCdx5H6dzlu1R9PRTg/aJ8ltEKwMLoHc92rD9leiJlRI
-         cNLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784027201; x=1784632001;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OCsR23B5npLYx4eSEXefKKxboIrUPzq22joxYGvAxQk=;
-        b=YMw96R/A41cgpChaOrZNbe/bLHjDxQhx0bsmn9GtZLqNZOxrBSzHXv22qa2bBAPiwU
-         TbnftTwgwLAGZheafT1vtNMfX/vVpNvuq4QTzWInksd1a/2mAt5zAzbj1qRxvNef7h06
-         7oA+19Y4/nWGWxR2YLeW7Jn4Vg68942YXutD4rVOX9TMjKOk/JB5H/Uxt2Pye80w9lVn
-         iykByT5XJWuimq6lXoN6iDRgvWfCoP9eRmxGJcePLiCBe4oFIzGFm3C6/AmtJAET4wd1
-         6fgx+sBJWVqk8yWpvdxtXHm9p3hLV29LvfWn/3qVGccs9uePeUQa9FXtqRx+FoUxFWPE
-         kUZQ==
-X-Gm-Message-State: AOJu0YzqDMWw1IjPL5yvgU8GaHv4PPEP5+bpyFvQpvFPaOLRn70JJDph
-	c+RVeXjlDk2khFDR5+7rxhjHjOkP+h3nnA8YApGh0Qa0YLwdc4MDlwdckW1eW+KRoIn7qvUg4dx
-	2mVUDp0qYqA15bZYL/Ypfm6irT2leisk=
-X-Gm-Gg: AfdE7clPHXjyIMQjJOupt3F/xVBGGMbTsANHdeci18gtKsBVKopoFt3/hA5OHBu+zVV
-	EdNBH+N+IO9W6ah7ji2AEoJRxOgB4XjacGbq0toU40dRUXNKqpTGFWT8M0124T8ySMEgrYgBweo
-	X7muD2DeY/vvHdIJzMxFGVETyz4lkm9h2JeNqdmhxvkcvlmyKC1MR1PlNewOKy/+n05jg80Uz2R
-	LP4GBhwUYd4O6wN6ye7f7Su7Dae8zPymTKNAbBckQeCDVKkPYE8ss7fM0ggYwOreQiiUI3FYw==
-X-Received: by 2002:a05:6402:3605:b0:69a:9c13:a2a2 with SMTP id
- 4fb4d7f45d1cf-69cd6f15e23mr900377a12.41.1784027200462; Tue, 14 Jul 2026
- 04:06:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ph6y67GP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784039798; x=1815575798;
+  h=date:from:to:cc:subject:message-id;
+  bh=mAqNTi4jOibK7i+F4GtYDj3/DKq2V54T8OPQoRWz8vQ=;
+  b=Ph6y67GP6y8bGiVqTPnOH/nSPmiZM/zCMIsWccQp8ZSakH+dUKjA61+r
+   GONyRUN8iciI0/JaJOWJEcOCJnzTKINuah4eBQyDsLPT17qisVxF1qwEt
+   XbDa0/IRam/FoyFslcW+W4WKZ5HzPQPEQjQTH9in/ZmsPinCU4Ouv3Css
+   elebT4hhW+dkXTFKTw7/xHmtg4mScLljJRbdkCYDbd9l5/RJo9MXtLnA+
+   sp2xzkCg2omANrcOx1lD6MTFFr8a4fuXbxGFiYQE/XbhhaRRUvWe6x6Ir
+   52SL/se4PpU8TmWxqWrbOMdQ9UiPSAUP89oAf2qBgG1WbAeNtU7LhFyfW
+   g==;
+X-CSE-ConnectionGUID: RBJOEQlLSm26g4cE189GwA==
+X-CSE-MsgGUID: /dDG+D5sQX+KahYzIuTelA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="83785246"
+X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
+   d="scan'208";a="83785246"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 07:36:37 -0700
+X-CSE-ConnectionGUID: vkGIAjZPTT2by33Xo2NmNw==
+X-CSE-MsgGUID: Db3IEr2mR+um91TMi/jISw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
+   d="scan'208";a="249520459"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jul 2026 07:36:36 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wjeFO-00000000MjI-0G7R;
+	Tue, 14 Jul 2026 14:36:34 +0000
+Date: Tue, 14 Jul 2026 22:35:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/meta/fbnic/fbnic_fw.c:1176
+ fbnic_fw_xmit_send_logs() warn: sizeof(NUMBER)?
+Message-ID: <202607142214.DTuuzann-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202607140512.I7Hcmuea-lkp@intel.com>
-In-Reply-To: <202607140512.I7Hcmuea-lkp@intel.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 14 Jul 2026 13:06:27 +0200
-X-Gm-Features: AUfX_myFiQisTM3n65zWfIK4U3vrk1GtVKuWrRs4NbnUcYmvb9qW8l0moqlIPOA
-Message-ID: <CAOQ4uxjEgOH1H+YMs2y9Fe4Ri6q=yrr8FqKX1BH9DjeVwvWWag@mail.gmail.com>
-Subject: Re: [amir73il:ovl_copy_file_range 3/6] fs/read_write.c:1499
- copy_file_fs_cmp() error: we previously assumed 'f_out->f_op' could be null
- (see line 1496)
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Christian Brauner <brauner@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 14, 2026 at 9:16=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
-rote:
->
-> tree:   https://github.com/amir73il/linux ovl_copy_file_range
-> head:   4421f88f42bb20b8a6f9fd56c5c877a1088d0e00
-> commit: b86e287575a3f81b04ef92b5bb46f87329fc314f [3/6] fs: add support fo=
-r copy file range from another fs
-> config: i386-randconfig-141-20260714 (https://download.01.org/0day-ci/arc=
-hive/20260714/202607140512.I7Hcmuea-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> smatch: v0.5.0-9185-gbcc58b9c
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202607140512.I7Hcmuea-lkp@intel.com/
->
-> New smatch warnings:
-> fs/read_write.c:1499 copy_file_fs_cmp() error: we previously assumed 'f_o=
-ut->f_op' could be null (see line 1496)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Lee Trager <lee@trager.us>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Jacob Keller <jacob.e.keller@intel.com>
 
-I think this assumption was wrong and the extra f_out->f_op test can
-be avoided here
->
-> Old smatch warnings:
-> fs/read_write.c:1631 vfs_copy_file_range() error: we previously assumed '=
-file_out->f_op->copy_file_range' could be null (see line 1614)
->
-> vim +1499 fs/read_write.c
->
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1491  static int copy_file_fs_c=
-mp(struct file *f_in, struct file *f_out,
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1492                           =
-   unsigned int flags)
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1493  {
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1494          if (flags & COPY_=
-FILE_SPLICE)
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1495                  return FS=
-_COPY_SPLICE;
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13 @1496          else if (f_out->f=
-_op && f_out->f_op->copy_file_range &&
->                                                                  ^^^^^^^^=
-^^^
-> if ->f_op is NULL
->
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1497                   f_out->f=
-_op->copy_file_range =3D=3D f_in->f_op->copy_file_range)
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1498                  return FS=
-_COPY_SAME_FS;
-> b86e287575a3f8 Amir Goldstein 2026-07-13 @1499          else if (f_out->f=
-_op->fop_flags & FOP_CROSS_FS_COPY)
->                                                                  ^^^^^^^^=
-^^^^^^^^^^^^^^
-> then we are toasted.
->
-> b86e287575a3f8 Amir Goldstein 2026-07-13  1500                  return FS=
-_COPY_FROM_OTHER_FS;
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1501          else if (file_ino=
-de(f_in)->i_sb =3D=3D file_inode(f_out)->i_sb)
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1502                  return FS=
-_COPY_SAME_SB;
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1503          else
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1504                  return FS=
-_COPY_CROSS_FS;
-> cd6e8d0dbe33ef Amir Goldstein 2026-07-13  1505  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0f26556c5eeea62cc934fa8938b148aa5844a6b6
+commit: 2e972f32ae5ff7a5592c627932f0001b8fe04a36 eth: fbnic: Add mailbox support for firmware logs
+date:   1 year ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 1 year ago
+config: riscv-randconfig-r071-20260714 (https://download.01.org/0day-ci/archive/20260714/202607142214.DTuuzann-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9185-gbcc58b9c
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 2e972f32ae5f ("eth: fbnic: Add mailbox support for firmware logs")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607142214.DTuuzann-lkp@intel.com/
+
+smatch warnings:
+drivers/net/ethernet/meta/fbnic/fbnic_fw.c:1176 fbnic_fw_xmit_send_logs() warn: sizeof(NUMBER)?
+
+vim +1176 drivers/net/ethernet/meta/fbnic/fbnic_fw.c
+
+2e972f32ae5ff7 Lee Trager 2025-07-02  1154  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1155  int fbnic_fw_xmit_send_logs(struct fbnic_dev *fbd, bool enable,
+2e972f32ae5ff7 Lee Trager 2025-07-02  1156  			    bool send_log_history)
+2e972f32ae5ff7 Lee Trager 2025-07-02  1157  {
+2e972f32ae5ff7 Lee Trager 2025-07-02  1158  	struct fbnic_tlv_msg *msg;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1159  	int err;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1160  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1161  	if (fbd->fw_cap.running.mgmt.version < MIN_FW_VER_CODE_LOG) {
+2e972f32ae5ff7 Lee Trager 2025-07-02  1162  		dev_warn(fbd->dev, "Firmware version is too old to support firmware logs!\n");
+2e972f32ae5ff7 Lee Trager 2025-07-02  1163  		return -EOPNOTSUPP;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1164  	}
+2e972f32ae5ff7 Lee Trager 2025-07-02  1165  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1166  	msg = fbnic_tlv_msg_alloc(FBNIC_TLV_MSG_ID_LOG_SEND_LOGS_REQ);
+2e972f32ae5ff7 Lee Trager 2025-07-02  1167  	if (!msg)
+2e972f32ae5ff7 Lee Trager 2025-07-02  1168  		return -ENOMEM;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1169  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1170  	if (enable) {
+2e972f32ae5ff7 Lee Trager 2025-07-02  1171  		err = fbnic_tlv_attr_put_flag(msg, FBNIC_SEND_LOGS);
+2e972f32ae5ff7 Lee Trager 2025-07-02  1172  		if (err)
+2e972f32ae5ff7 Lee Trager 2025-07-02  1173  			goto free_message;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1174  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1175  		/* Report request for version 1 of logs */
+2e972f32ae5ff7 Lee Trager 2025-07-02 @1176  		err = fbnic_tlv_attr_put_int(msg, FBNIC_SEND_LOGS_VERSION,
+2e972f32ae5ff7 Lee Trager 2025-07-02  1177  					     FBNIC_FW_LOG_VERSION);
+2e972f32ae5ff7 Lee Trager 2025-07-02  1178  		if (err)
+2e972f32ae5ff7 Lee Trager 2025-07-02  1179  			goto free_message;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1180  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1181  		if (send_log_history) {
+2e972f32ae5ff7 Lee Trager 2025-07-02  1182  			err = fbnic_tlv_attr_put_flag(msg,
+2e972f32ae5ff7 Lee Trager 2025-07-02  1183  						      FBNIC_SEND_LOGS_HISTORY);
+2e972f32ae5ff7 Lee Trager 2025-07-02  1184  			if (err)
+2e972f32ae5ff7 Lee Trager 2025-07-02  1185  				goto free_message;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1186  		}
+2e972f32ae5ff7 Lee Trager 2025-07-02  1187  	}
+2e972f32ae5ff7 Lee Trager 2025-07-02  1188  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1189  	err = fbnic_mbx_map_tlv_msg(fbd, msg);
+2e972f32ae5ff7 Lee Trager 2025-07-02  1190  	if (err)
+2e972f32ae5ff7 Lee Trager 2025-07-02  1191  		goto free_message;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1192  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1193  	return 0;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1194  
+2e972f32ae5ff7 Lee Trager 2025-07-02  1195  free_message:
+2e972f32ae5ff7 Lee Trager 2025-07-02  1196  	free_page((unsigned long)msg);
+2e972f32ae5ff7 Lee Trager 2025-07-02  1197  	return err;
+2e972f32ae5ff7 Lee Trager 2025-07-02  1198  }
+2e972f32ae5ff7 Lee Trager 2025-07-02  1199  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
