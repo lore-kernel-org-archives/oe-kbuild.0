@@ -1,120 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1902D3CFF4F
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Jul 2026 08:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F41C3271EA
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Jul 2026 14:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784105191; cv=none; b=HASCiwUY+i/8OdT/Cmvp8Kkg4Ld8oXpcRutsC4+Cc2MfUsFZfISNV7MeWKIX7toVwtwcLrIHDb18kDMqGICP5Pai900jN27WlisUoS7D5+6VehgEFeqPEOY1KHQp7zFvCZOOfEhC+wiE1ov99g2iM0uB1fCanV8PcMmPuN8kVNE=
+	t=1784125250; cv=none; b=W1ZzyAGwJ4PfJ+z5rpOXe0DIPiv9re4z8lBqDN5TOL9Vo4ZCZ40agW176EaamPnlnZLXInph98wdxlpqRl5XNlspE9zOIAXaDfeH/DWYGA90GClTWtWhISZWu/XPZU7MsaMmOplYD7wfSULcs2lmXzh0m20RHHqO5dnR0s7jG0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784105191; c=relaxed/simple;
-	bh=yprxONfK6E+zLKjkLE0NzUx9/9xLMsDR/Vgg2qZ/VNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Jxl+4V1aP3HyY8sYMiXuLu3qDzSMthrxxP8sPc4F+nkKPS8a3zb881y6LO5Mbn8OAv47QR6yx4rGkVr3/OB1nP2Za8v0WqfkQPj2sOeDqBsOO2Wg2R/OSz0vq6LpUA8KnAo88Frxj7/GrNMOBrkH+p0xy4ftsgoluj4ynmgpicI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEC/8GmZ; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1784125250; c=relaxed/simple;
+	bh=ijLISXi5yWZTiC8k/LKxrDmWvPfXT//GkStdsPAUqLU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WRF0KgWleQaZ5F57b847KXEgd0/k0v9NghdAyiCnqq4J/8ZP38JTIKm7HH7/lMTJ+k30g4CdYzTRIovcXIBKvbRXaDp3qTwUyXeIoZ3gkIT/xJHZmwdPIW3ddczIXceYZs7Ey6KZeUC1fhVP84/vWI4bz5WcoTKBhKzTc18VZe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HC4i9wqp; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEC/8GmZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HC4i9wqp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784105186; x=1815641186;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yprxONfK6E+zLKjkLE0NzUx9/9xLMsDR/Vgg2qZ/VNI=;
-  b=eEC/8GmZ2SOgwxbWxGbvoU+QE2yhxArZVKcQNiZV9kAvAuKIRJyrjZCI
-   zqMfwoPuTp8LiLLZOdkm6DaduBOjT+4t96FxeZWpiMGJRQtP/blT88nQm
-   CXS1HZwTvwO5S9/qr1fXD5zLwSI6RXLBogRuG8Booh1QUpJKOPJSvWyQA
-   bQj/wIIVVzvQKnODqQUvusFB/WvxYSYsOZH+LOUUU6GjyUC6So1Ca8dwj
-   9WCe2gsLV5ZJHpbPz39VI8CaUevxwm7RqIC47Pon5HCol6Z3oeZBLS1Bn
-   L88igWuQaGzlkZ+yHW/cl96sC8QZZl07D7az2FF8F8Xcrxlq4bK5mXR+i
-   g==;
-X-CSE-ConnectionGUID: SE3UGz+YQsymnfC8U9FXTQ==
-X-CSE-MsgGUID: OqnYEc0BQa+7m3HprE9oZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="83723059"
+  t=1784125248; x=1815661248;
+  h=date:from:to:cc:subject:message-id;
+  bh=ijLISXi5yWZTiC8k/LKxrDmWvPfXT//GkStdsPAUqLU=;
+  b=HC4i9wqpaV1411Co3mMcabca0f4Ewy1UyIS/nGCKjS19kdo+FMLxTLgk
+   vXUI3T2TcLoEdni2UYTt4TZh6mWCU7Lm9qKDb+WLoZAcxcFjzyaLkP6Bv
+   EyR4Vc/Abl/zOaBNtZUulQsT4n4En5EAb1qfjR0J2UQ8o2TvVHz2vugBA
+   CpACvOWNSEIHa+cQfR1kVxH3N+FcTHX3SAD7nt6neJZX1en54rGUpu33V
+   7QPWRQ1rGLDTrzPHavbR+0nOuAoNzsXTpzVmira9oFZBozt5O7Q4EMG7B
+   mf/VqJe191vNnd62aCKZy1xDvVCjD1yWdeZSpyZRXPO5TEmqbn97smYe/
+   A==;
+X-CSE-ConnectionGUID: IcRzDCYrQGmLFpjJ0ofyQg==
+X-CSE-MsgGUID: K8Y4w+eNTFSYfo2jzlDjjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="88440545"
 X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
-   d="scan'208";a="83723059"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 01:46:10 -0700
-X-CSE-ConnectionGUID: +8AH6W2CSEScH8yBJhX9YA==
-X-CSE-MsgGUID: zuMXBoULRYqPdX4AC4bHaA==
+   d="scan'208";a="88440545"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 07:20:48 -0700
+X-CSE-ConnectionGUID: l8OdIgZ9QLG+hdrFP6jnWg==
+X-CSE-MsgGUID: w4vQcXIHST6r2fb7GMK71Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
-   d="scan'208";a="255612870"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 15 Jul 2026 01:46:09 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
+   d="scan'208";a="258149702"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 15 Jul 2026 07:20:47 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wjvFn-000000004Dl-0Brr;
-	Wed, 15 Jul 2026 08:46:07 +0000
-Date: Wed, 15 Jul 2026 10:45:24 +0200
+	id 1wk0Ta-00000000Ni5-0avG;
+	Wed, 15 Jul 2026 14:20:43 +0000
+Date: Wed, 15 Jul 2026 22:20:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Documentation/devicetree/bindings/arm/psci.yaml:
- properties:reboot-mode:patternProperties:^mode-.*$: {'minItems': 1,
- 'maxItems': 3, 'items': [{'description': 'arg1 (vendor-specific SYSTEM_RESET2
- reset_type)', 'minimum': 2147483648}, {'description': 'arg2 ...
-Message-ID: <202607151050.3u0xuqV5-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-6.1 8/8]
+ drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:274
+ mlx5_devcom_get_peer_data_rcu() error: buffer overflow 'comp->device' 2 <= 2
+ (assuming for loop doesn't break)
+Message-ID: <202607152239.OGtCQIxu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>
-CC: 0day robot <lkp@intel.com>
-CC: linux-doc@vger.kernel.org
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Shivendra-Pratap/pow=
-er-reset-reboot-mode-Remove-devres-based-allocations/20260715-024522
-head:   551f6bca8bd559897f4554e0448c661d798dfeb6
-commit: 61e39e6f4b6a5a3dc39cd4db50550da83923c8e4 dt-bindings: arm: Document=
- reboot mode magic
-date:   14 hours ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: openrisc-randconfig-2052-20260715 (https://download.01.org/0day-ci/=
-archive/20260715/202607151050.3u0xuqV5-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 9.5.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260715/202607151050.3u0xuqV5-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   e69716042404c1fdc90175146d84a7b1513b559c
+commit: 362063df6ceec80b0b6798b61ae03504dcc125a5 [8/8] net/mlx5e: Fix deadlock in tc route query code
+:::::: branch date: 2 days ago
+:::::: commit date: 3 years, 2 months ago
+config: i386-randconfig-141-20260715 (https://download.01.org/0day-ci/archive/20260715/202607152239.OGtCQIxu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607151050.3u0xuqV5-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607152239.OGtCQIxu-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/arm/psci.yaml: properties:reboot-mode:=
-patternProperties:^mode-.*$: {'minItems': 1, 'maxItems': 3, 'items': [{'des=
-cription': 'arg1 (vendor-specific SYSTEM_RESET2 reset_type)', 'minimum': 21=
-47483648}, {'description': 'arg2 (cookie_lo in 2-cell form, cookie_hi in 3-=
-cell form)'}, {'description': 'arg3 (cookie_lo in 3-cell form)'}], 'descrip=
-tion': 'Describes a PSCI SYSTEM_RESET2 vendor-specific reset type. The stri=
-ng\nafter "mode-" maps a reboot mode to a vendor-specific reset.\nA vendor-=
-specific reset takes two arguments, a 32-bit reset_type and a\n64-bit cooki=
-e. The arguments are encoded as up to three 32-bit cells.\nEach mode proper=
-ty is encoded as mode-xxx =3D <arg1[, arg2[, arg3]]>,\nwhere:\n- arg1 is re=
-set_type and must be >=3D 0x80000000.\n- In 2-cell form, arg2 is lower 32 b=
-its of cookie.\n- In 3-cell form, arg2 is high 32 bits of cookie\n  and arg=
-3 is low 32 bits of cookie.\n\nAll values should be provided as per the PSC=
-I SYSTEM_RESET2\nspecification.\n'} should not be valid under {'required': =
-['maxItems']}
-   	hint: "maxItems" is not needed with an "items" list
-   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+New smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:274 mlx5_devcom_get_peer_data_rcu() error: buffer overflow 'comp->device' 2 <= 2 (assuming for loop doesn't break)
+drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:274 mlx5_devcom_get_peer_data_rcu() error: buffer overflow 'comp->device' 2 <= 2 (assuming for loop doesn't break)
+
+Old smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:252 mlx5_devcom_get_peer_data() error: buffer overflow 'comp->device' 2 <= 2 (assuming for loop doesn't break)
+drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:252 mlx5_devcom_get_peer_data() error: buffer overflow 'comp->device' 2 <= 2 (assuming for loop doesn't break)
+drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:252 mlx5_devcom_get_peer_data() error: buffer overflow 'comp->device' 2 <= 2 (assuming for loop doesn't break)
+
+vim +274 drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c
+
+362063df6ceec8 Vlad Buslov 2023-03-31  254  
+362063df6ceec8 Vlad Buslov 2023-03-31  255  void *mlx5_devcom_get_peer_data_rcu(struct mlx5_devcom *devcom, enum mlx5_devcom_components id)
+362063df6ceec8 Vlad Buslov 2023-03-31  256  {
+362063df6ceec8 Vlad Buslov 2023-03-31  257  	struct mlx5_devcom_component *comp;
+362063df6ceec8 Vlad Buslov 2023-03-31  258  	int i;
+362063df6ceec8 Vlad Buslov 2023-03-31  259  
+362063df6ceec8 Vlad Buslov 2023-03-31  260  	if (IS_ERR_OR_NULL(devcom))
+362063df6ceec8 Vlad Buslov 2023-03-31  261  		return NULL;
+362063df6ceec8 Vlad Buslov 2023-03-31  262  
+362063df6ceec8 Vlad Buslov 2023-03-31  263  	for (i = 0; i < MLX5_DEVCOM_PORTS_SUPPORTED; i++)
+362063df6ceec8 Vlad Buslov 2023-03-31  264  		if (i != devcom->idx)
+362063df6ceec8 Vlad Buslov 2023-03-31  265  			break;
+362063df6ceec8 Vlad Buslov 2023-03-31  266  
+362063df6ceec8 Vlad Buslov 2023-03-31  267  	comp = &devcom->priv->components[id];
+362063df6ceec8 Vlad Buslov 2023-03-31  268  	/* This can change concurrently, however 'data' pointer will remain
+362063df6ceec8 Vlad Buslov 2023-03-31  269  	 * valid for the duration of RCU read section.
+362063df6ceec8 Vlad Buslov 2023-03-31  270  	 */
+362063df6ceec8 Vlad Buslov 2023-03-31  271  	if (!READ_ONCE(comp->paired))
+362063df6ceec8 Vlad Buslov 2023-03-31  272  		return NULL;
+362063df6ceec8 Vlad Buslov 2023-03-31  273  
+362063df6ceec8 Vlad Buslov 2023-03-31 @274  	return rcu_dereference(comp->device[i].data);
+fadd59fc50d010 Aviv Heller 2018-12-04  275  }
+fadd59fc50d010 Aviv Heller 2018-12-04  276  
 
 --
 0-DAY CI Kernel Test Service
