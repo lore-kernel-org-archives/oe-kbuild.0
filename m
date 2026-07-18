@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5823A75A7
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Jul 2026 23:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62051D88D7
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Jul 2026 00:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784332711; cv=none; b=Px4iVYXWIyPq6nSOUZlrNsomhbfL6ov01O+tLu1+WC1UXLx25oSi8Rn1CeD5iC6cbabhoZf/pJnjUQAdEabV8ThEWnv75mkXB2G4HAz7hOm/lQKy9LE+iUr0XXMaEKKgNBqgmRJ0gSJZZQNZIPgWLijzFvNPY6P31uTmOSbpU0s=
+	t=1784333960; cv=none; b=d/uZXEBP+fYq1p2RMwUZ7xBV3EeuaJl+GWb40P2VXiRRMscU8OHhd6VBF7RAlTBqGgVaM3uVdUrdRKkwT59ZdbW/cbyyMuAG9T1WrV2DSkDxmeQUyTIgnW8PRVK18ZQ5j+6vM6l8zW7OBdAT+jpt03OvSirJJ2QYDh5SR8/H7TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784332711; c=relaxed/simple;
-	bh=AJWpR8+pyZamVlNn7NuiQZX3hPI6Y3Skm8QYA+oxEDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kl3O1GgfpQ+Ak1UHgfmpYBddAw3wWjr50ux1ul5kcR/qxX/eBPTx1pY+PMaMF4bsCOkRoQT5DL8V1KfVbamNjU07IwitZg2c2U47zSmToJLWXp+a4+nkz822RYEnNPiwiSTiwb5EJGVadeeR0CU04L5enefFYisQupsrmrjy3Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nPSbK+BK; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1784333960; c=relaxed/simple;
+	bh=0EutAGiNa3kYZUX3gJz6Ei5siYg36eiKCHG/eXSfPso=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E6zqzSKpW9WYMjQeDnhCb23/rhRgCV+vt1jMyBMaEw1fhW8Fs7cBqHAwAsWQkQQnIwaHeB16woeMM7/HtDZCrelB01urnH4xY/759yGI3xVlpWOopVJk7rRXwoEVzGtQQ9JG8MQRSmUgKyZGYhqp3LWUKs64uSLNXU/BLQyCwQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlTjIwNU; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPSbK+BK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlTjIwNU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784332711; x=1815868711;
+  t=1784333958; x=1815869958;
   h=date:from:to:cc:subject:message-id;
-  bh=AJWpR8+pyZamVlNn7NuiQZX3hPI6Y3Skm8QYA+oxEDQ=;
-  b=nPSbK+BKHq7u1rz3JvfQd0Gq5LtPP3dqeUcB1xa3AyYpXn+iquYl30dj
-   kgpPRoRZxh0+9ScEreRxpvvVhcHWB0bmk0F3kGL7fA/lqJunrapqvz1nN
-   X/lr0LVi4ZtCq2MWPf5p1SBA5uq+05cMO6gaMTrjBINCDgnWoGIvCDt0T
-   7F3obFXrcJX7gsgP42syLcIMUanrqrhQNS3smxqVuAPocB6BcTh1Nv8oC
-   K5+npk9Kx+LLVOf4iNLr8/gy+HTqw9fK70H2LwMG1/jgTcCRCDsADQt2c
-   FgYniDxM8gLb7wSwWwR4bkZZPysl9xh1fGieKmpd5aa5J4WySJhRbYxUy
-   A==;
-X-CSE-ConnectionGUID: d4f91iGmRLOQFzUsJfDm3A==
-X-CSE-MsgGUID: KgFyqXcWT0qDyb4hu+jKMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="102430160"
+  bh=0EutAGiNa3kYZUX3gJz6Ei5siYg36eiKCHG/eXSfPso=;
+  b=XlTjIwNUW2Why37LV5r1sJQMzurtgQXACHJ6J7iFoDLKvC/UEXfGOVbq
+   hB1UkrMNppSv667LDg3tt0MSht/D5A6xcBhVdR6bHQACrcOSG1OSINA/d
+   +PZvrlPuPZ3asz5ao1E6TH6fW5n4OwYQYawpAo/+cbuMEXfjNcDTA0yvV
+   XGhV7yWgh4Hxz9HYo1cjq3bU5pnKg+2cknu8hydpb17AfxC29cq/ACT0u
+   HBdq/36ADT6r3ZGA6Su9QIIq5G+ABW/o9TUN3XjFKclW1EyCWZHYKpjT2
+   Dmei/FQNy/GB3bUWs+AIeeANT7W+ZrpMowlugigMHQcfI5cpWMXkHdlTJ
+   w==;
+X-CSE-ConnectionGUID: TUhjU7jdQM2c2ohiTUwJvQ==
+X-CSE-MsgGUID: 1n0G/FlPQK+HjjyvAkYmRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="110558838"
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="102430160"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 16:58:30 -0700
-X-CSE-ConnectionGUID: MI9S51KRS0m7290409AmnA==
-X-CSE-MsgGUID: h8g4Gvs1Q6ibWD1k7BizdQ==
+   d="scan'208";a="110558838"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 17:19:17 -0700
+X-CSE-ConnectionGUID: DGIWhyeCRaCty9rRbe1LOw==
+X-CSE-MsgGUID: /W7pxHslS9+9geg4Nj8ptA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="255141605"
+   d="scan'208";a="257561177"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 17 Jul 2026 16:58:29 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Jul 2026 17:19:16 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wksRj-00000000TGW-2mSA;
-	Fri, 17 Jul 2026 23:58:24 +0000
-Date: Sat, 18 Jul 2026 07:58:05 +0800
+	id 1wksln-00000000TIi-20j1;
+	Sat, 18 Jul 2026 00:19:08 +0000
+Date: Sat, 18 Jul 2026 08:18:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [hch-xfs:xfs-crc 8/51] fs/iomap/direct-io.c:83
- iomap_dio_submit_bio() warn: bitwise AND condition is false here
-Message-ID: <202607180708.CRDdnKsC-lkp@intel.com>
+Subject: drivers/iommu/generic_pt/fmt/../iommu_pt.h:908
+ vtdss_map_range() warn: impossible condition '(paddr > 18446744073709551615)
+ => (0-u32max > u64max)'
+Message-ID: <202607180844.Tej8EKke-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,64 +62,121 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel@vger.kernel.org
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Joerg Roedel <joerg.roedel@amd.com>
+CC: Samiullah Khawaja <skhawaja@google.com>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: Lu Baolu <baolu.lu@linux.intel.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-crc
-head:   ef3d55d014b3a800421b9dae3ac182577bfe2bd7
-commit: 10ed5659b441417bfaebb7d80c6cbcb7b9e5d0a3 [8/51] iomap: move T10 PI handling for direct I/O into ->submit_io
-:::::: branch date: 8 hours ago
-:::::: commit date: 10 hours ago
-config: nios2-randconfig-r071-20260718 (https://download.01.org/0day-ci/archive/20260718/202607180708.CRDdnKsC-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   94515f3a7d4256a5062176b7d6ed0471938cd51a
+commit: d6c65b0fd6218bd21ed0be7a8d3218e8f6dc91de iommupt: Avoid rewalking during map
+date:   4 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-141-20260718 (https://download.01.org/0day-ci/archive/20260718/202607180844.Tej8EKke-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: d6c65b0fd621 ("iommupt: Avoid rewalking during map")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607180708.CRDdnKsC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607180844.Tej8EKke-lkp@intel.com/
 
-New smatch warnings:
-fs/iomap/direct-io.c:83 iomap_dio_submit_bio() warn: bitwise AND condition is false here
-fs/xfs/xfs_file.c:729 xfs_dio_zoned_submit_io() warn: bitwise AND condition is false here
+smatch warnings:
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 vtdss_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:908 riscv_64_map_range() warn: impossible condition '(paddr > 18446744073709551615) => (0-u32max > u64max)'
 
-Old smatch warnings:
-fs/iomap/internal.h:15 iomap_max_bio_size() warn: bitwise AND condition is false here
-fs/xfs/xfs_file.c:239 xfs_dio_read_bounce_submit_io() warn: bitwise AND condition is false here
+vim +908 drivers/iommu/generic_pt/fmt/../iommu_pt.h
 
-vim +83 fs/iomap/direct-io.c
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  885  
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  886  static int NS(map_range)(struct pt_iommu *iommu_table, dma_addr_t iova,
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  887  			 phys_addr_t paddr, dma_addr_t len, unsigned int prot,
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  888  			 gfp_t gfp, size_t *mapped)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  889  {
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  890  	pt_vaddr_t pgsize_bitmap = iommu_table->domain.pgsize_bitmap;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  891  	struct pt_common *common = common_from_iommu(iommu_table);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  892  	struct iommu_iotlb_gather iotlb_gather;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  893  	struct pt_iommu_map_args map = {
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  894  		.iotlb_gather = &iotlb_gather,
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  895  		.oa = paddr,
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  896  	};
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  897  	bool single_page = false;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  898  	struct pt_range range;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  899  	int ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  900  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  901  	iommu_iotlb_gather_init(&iotlb_gather);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  902  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  903  	if (WARN_ON(!(prot & (IOMMU_READ | IOMMU_WRITE))))
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  904  		return -EINVAL;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  905  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  906  	/* Check the paddr doesn't exceed what the table can store */
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  907  	if ((sizeof(pt_oaddr_t) < sizeof(paddr) &&
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04 @908  	     (pt_vaddr_t)paddr > PT_VADDR_MAX) ||
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  909  	    (common->max_oasz_lg2 != PT_VADDR_MAX_LG2 &&
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  910  	     oalog2_div(paddr, common->max_oasz_lg2)))
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  911  		return -ERANGE;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  912  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  913  	ret = pt_iommu_set_prot(common, &map.attrs, prot);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  914  	if (ret)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  915  		return ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  916  	map.attrs.gfp = gfp;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  917  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  918  	ret = make_range_no_check(common, &range, iova, len);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  919  	if (ret)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  920  		return ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  921  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  922  	/* Calculate target page size and level for the leaves */
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  923  	if (pt_has_system_page_size(common) && len == PAGE_SIZE) {
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  924  		PT_WARN_ON(!(pgsize_bitmap & PAGE_SIZE));
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  925  		if (log2_mod(iova | paddr, PAGE_SHIFT))
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  926  			return -ENXIO;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  927  		map.leaf_pgsize_lg2 = PAGE_SHIFT;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  928  		map.leaf_level = 0;
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  929  		map.num_leaves = 1;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  930  		single_page = true;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  931  	} else {
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  932  		map.leaf_pgsize_lg2 = pt_compute_best_pgsize(
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  933  			pgsize_bitmap, range.va, range.last_va, paddr);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  934  		if (!map.leaf_pgsize_lg2)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  935  			return -ENXIO;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  936  		map.leaf_level =
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  937  			pt_pgsz_lg2_to_level(common, map.leaf_pgsize_lg2);
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  938  		map.num_leaves = pt_pgsz_count(pgsize_bitmap, range.va,
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  939  					       range.last_va, paddr,
+d6c65b0fd6218bd Jason Gunthorpe 2026-02-27  940  					       map.leaf_pgsize_lg2);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  941  	}
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  942  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  943  	ret = check_map_range(iommu_table, &range, &map);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  944  	if (ret)
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  945  		return ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  946  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  947  	PT_WARN_ON(map.leaf_level > range.top_level);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  948  
+efa03dab7ce4ed7 Jason Gunthorpe 2025-10-23  949  	ret = do_map(&range, common, single_page, &map);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  950  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  951  	/*
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  952  	 * Table levels were freed and replaced with large items, flush any walk
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  953  	 * cache that may refer to the freed levels.
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  954  	 */
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  955  	if (!iommu_pages_list_empty(&iotlb_gather.freelist))
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  956  		iommu_iotlb_sync(&iommu_table->domain, &iotlb_gather);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  957  
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  958  	/* Bytes successfully mapped */
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  959  	PT_WARN_ON(!ret && map.oa - paddr != len);
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  960  	*mapped += map.oa - paddr;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  961  	return ret;
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  962  }
+dcd6a011a8d523a Jason Gunthorpe 2025-11-04  963  
 
-908c54909ae72d Christoph Hellwig 2022-05-05  62  
-a6d3d49587d10d Christoph Hellwig 2021-08-10  63  static void iomap_dio_submit_bio(const struct iomap_iter *iter,
-a6d3d49587d10d Christoph Hellwig 2021-08-10  64  		struct iomap_dio *dio, struct bio *bio, loff_t pos)
-db074436f42196 Darrick J. Wong   2019-07-15  65  {
-daa99c5a3319e3 Jens Axboe        2023-07-20  66  	struct kiocb *iocb = dio->iocb;
-daa99c5a3319e3 Jens Axboe        2023-07-20  67  
-db074436f42196 Darrick J. Wong   2019-07-15  68  	atomic_inc(&dio->ref);
-db074436f42196 Darrick J. Wong   2019-07-15  69  
-9650b453a3d4b1 Ming Lei          2022-04-20  70  	/* Sync dio can't be polled reliably */
-daa99c5a3319e3 Jens Axboe        2023-07-20  71  	if ((iocb->ki_flags & IOCB_HIPRI) && !is_sync_kiocb(iocb)) {
-47f28b493daf90 Christoph Hellwig 2026-05-18  72  		bio->bi_opf |= REQ_POLLED;
-daa99c5a3319e3 Jens Axboe        2023-07-20  73  		WRITE_ONCE(iocb->private, bio);
-3e08773c3841e9 Christoph Hellwig 2021-10-12  74  	}
-db074436f42196 Darrick J. Wong   2019-07-15  75  
-034c29fb3e7c11 Christoph Hellwig 2025-02-06  76  	if (dio->dops && dio->dops->submit_io) {
-3e08773c3841e9 Christoph Hellwig 2021-10-12  77  		dio->dops->submit_io(iter, bio, pos);
-10ed5659b44141 Christoph Hellwig 2026-07-07  78  		return;
-10ed5659b44141 Christoph Hellwig 2026-07-07  79  	}
-10ed5659b44141 Christoph Hellwig 2026-07-07  80  
-034c29fb3e7c11 Christoph Hellwig 2025-02-06  81  	WARN_ON_ONCE(iter->iomap.flags & IOMAP_F_ANON_WRITE);
-10ed5659b44141 Christoph Hellwig 2026-07-07  82  
-10ed5659b44141 Christoph Hellwig 2026-07-07 @83  	if (iter->iomap.flags & IOMAP_F_INTEGRITY) {
-10ed5659b44141 Christoph Hellwig 2026-07-07  84  		if (dio->flags & IOMAP_DIO_WRITE)
-10ed5659b44141 Christoph Hellwig 2026-07-07  85  			fs_bio_integrity_generate(bio);
-10ed5659b44141 Christoph Hellwig 2026-07-07  86  		else
-10ed5659b44141 Christoph Hellwig 2026-07-07  87  			fs_bio_integrity_alloc(bio);
-db074436f42196 Darrick J. Wong   2019-07-15  88  	}
-10ed5659b44141 Christoph Hellwig 2026-07-07  89  
-10ed5659b44141 Christoph Hellwig 2026-07-07  90  	blk_crypto_submit_bio(bio);
-034c29fb3e7c11 Christoph Hellwig 2025-02-06  91  }
-db074436f42196 Darrick J. Wong   2019-07-15  92  
+:::::: The code at line 908 was first introduced by commit
+:::::: dcd6a011a8d523a114af2360a8753de5bd60c139 iommupt: Add map_pages op
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
 
 --
 0-DAY CI Kernel Test Service
