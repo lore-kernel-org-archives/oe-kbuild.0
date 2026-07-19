@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434F419DF4F
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Jul 2026 02:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9FD175A6C
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Jul 2026 03:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784427929; cv=none; b=N+Mw9abxG8q2vMQUW7l/8EZqULr6IvfbBZFp4UwvLVbPBXVUSSxVGQdnxYI3Yplv8+hEHpkTJI51o4eS+mBf1h6mf+1oLyDwB94mel2tZ3glEzUz+L38g3eNsO18OIm8rAzoV/ADAN+3R30JHzqfju+iWlQGpBRAcbCzmjFnVxI=
+	t=1784430270; cv=none; b=GsbUqOvZmRYhPSyUhsllRx4HbGU6lKkTs0jZ9Jal9GOEx8WmdIv6X1KvjNyKuj31eqPbkJykxTlHC5Ynb+733ax4k40QmHNKegqDapIDmeS4zHTGPYx2h5Q8cPolUZ/HXiKdEmV50hNj9US3CbB43/zcH05wU7MmKQrwNlWuJ8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784427929; c=relaxed/simple;
-	bh=EO4kP6ShxLouy4WXBGWtX1VLy/pbQfrm4D0PK9M48bw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LQzvsRHbqnr+fnYw9HQK8fe2YDke6QSjK+M50cCQb8Q8Tzh/R+Rl0ZcMuRf+cXwaWprIjilfulAVgkmtkdTbXcOfsFzL3BlXb3Zabz6FftB5uasK29N7zNx1MUZJcMEXMw4etjoBX6/zsELCRrxmZuDr373BZHP9NeQNKAzZgPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P9E8MXuk; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1784430270; c=relaxed/simple;
+	bh=AgwLnnChAFIZWel11CXFns2iwJqPaq9jWzQto66OhmM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sp8vKPnxSVK5r1IA6166Ha7Ru8i3y0lj7RzEuMwuaCc/PrmWvkQz+lxyPtCbx11IbX+pRZrlePpoRbxtIeqGqR3y+z4alaI4asupwaSa+lrZfqdxX6rir4GJHVbOpN1jcXvDlnkCxrOW9Z9FJI91F8mFJjKnA/qPA6ow6BhRigs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODcYOcf4; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P9E8MXuk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODcYOcf4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784427927; x=1815963927;
+  t=1784430268; x=1815966268;
   h=date:from:to:cc:subject:message-id;
-  bh=EO4kP6ShxLouy4WXBGWtX1VLy/pbQfrm4D0PK9M48bw=;
-  b=P9E8MXukyOt5Xxl9IB0pl+02NscZcBEFniCOu7IHPJf+e6X7+pwM4P3z
-   ntflJk3SBME19LlLtthlwV+7oNAiSpKv8dhcf5Gw5v7DOoAlXXnWd9mEd
-   pZkTfAgvbDWhwEqSmY1LbR1kxLiBcg/yVB1IRk6Yg+sUR2tOBaEdSO/mx
-   fGDPBFC6n/bmkPCqKnKZOb2D1HVZnuDNJlPaZVpYctC4PL58YKwf11aKm
-   uEEpl3POA+V8i/4x1xlzyKF2wNKSrLoKt4L0EJXd5C2z2tNRQCIfgaVEG
-   2uD2SwjdKfFeXLRsnoWNz6pemVAxd4i7wKAojN+PyM/P9Lmdarr/4xJ6L
+  bh=AgwLnnChAFIZWel11CXFns2iwJqPaq9jWzQto66OhmM=;
+  b=ODcYOcf40gqO2YG6UCkurWSMU5uVgABNCxVzAihvJYIIEnZGunr0q7Jv
+   /8nZdTPjnP7TK+HMuW0+COnp/GyCJYNwt+rSrlhvaDbqd3wsUckwwMent
+   CD7qva21/7AE5q9n86oFvpv1rZNs5CWgVYu+1k9ZvOuRlsi/L83SDYhF9
+   5tqyoGHWu9V7+BpYSagXXsRfcXw0yNwFesBd1GZwB+OY0kyKLLsaJdjvd
+   rfGpGNN1WFh6bNbbp8Za6314m9j7Sm6984FCeA7vXo1MulWx3mGG8A20H
+   nTpObulcg5InGCoVbWkT7w+Gq6cRjqpRFVhHEC4Qh/r4ZsVTErsB4kzdm
    w==;
-X-CSE-ConnectionGUID: Q8vY7MmTTJy09keESAolBw==
-X-CSE-MsgGUID: p6mB4+8LQ2mpbhr5HskkMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11850"; a="96185759"
+X-CSE-ConnectionGUID: /YwzFXb6RKuVI5pDqvhudw==
+X-CSE-MsgGUID: PDOSQgWpQeqSO0NU8z33yA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11850"; a="96187229"
 X-IronPort-AV: E=Sophos;i="6.25,172,1779174000"; 
-   d="scan'208";a="96185759"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 19:25:26 -0700
-X-CSE-ConnectionGUID: q4JlnrGLQ9SsHSJ192NzhA==
-X-CSE-MsgGUID: lnpEc3YrTze1XuYx1NCsIQ==
+   d="scan'208";a="96187229"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2026 20:04:28 -0700
+X-CSE-ConnectionGUID: uCilUo82Sl+2WcQQRGXBWA==
+X-CSE-MsgGUID: 2JAyTJ+qQCOZ3SnCF5bGmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,172,1779174000"; 
-   d="scan'208";a="257766902"
+   d="scan'208";a="250775865"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 18 Jul 2026 19:25:25 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 18 Jul 2026 20:04:26 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wlHDW-00000000VGw-1gaK;
-	Sun, 19 Jul 2026 02:25:22 +0000
-Date: Sun, 19 Jul 2026 10:25:05 +0800
+	id 1wlHpH-00000000VHK-2Kse;
+	Sun, 19 Jul 2026 03:04:23 +0000
+Date: Sun, 19 Jul 2026 11:03:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android16-6.12-kminext 1/1]
- drivers/usb/gadget/function/f_hid.c:1276 hidg_bind() warn: missing error code
- 'status'
-Message-ID: <202607191041.mUlJ0LSw-lkp@intel.com>
+Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 12/332]
+ fs/bcachefs/fs/check.c:1331 bch2_check_key_has_inode() error: we previously
+ assumed 'i' could be null (see line 1266)
+Message-ID: <202607191028.9UxcUVgA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,14 +62,14 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
-head:   2bfc8fe4015fcf2e39fc5989b95d20d6b5f7b566
-commit: c6c0d13db5d0f8d465eabc14bd23d2b6a7247a43 [1/1] usb: gadget: f_hid: don't call cdev_init while cdev in use
-:::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260719/202607191041.mUlJ0LSw-lkp@intel.com/config)
+tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
+head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
+commit: 2f2a1c5cbc324204379c68bd25fda1a69c7ec5f4 [12/332] bcachefs: Improve bch2_check_key_has_inode()
+:::::: branch date: 5 months ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260719/202607191028.9UxcUVgA-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9185-gbcc58b9c
 
@@ -77,151 +77,129 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607191041.mUlJ0LSw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607191028.9UxcUVgA-lkp@intel.com/
 
 smatch warnings:
-drivers/usb/gadget/function/f_hid.c:1276 hidg_bind() warn: missing error code 'status'
+fs/bcachefs/fs/check.c:1331 bch2_check_key_has_inode() error: we previously assumed 'i' could be null (see line 1266)
 
-vim +/status +1276 drivers/usb/gadget/function/f_hid.c
+vim +/i +1331 fs/bcachefs/fs/check.c
 
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1161  
-cb382536052fcc7 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1162  static int hidg_bind(struct usb_configuration *c, struct usb_function *f)
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1163  {
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1164  	struct usb_ep		*ep;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1165  	struct f_hidg		*hidg = func_to_hidg(f);
-5ca8d3ec9970f47 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1166  	struct usb_string	*us;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1167  	int			status;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1168  
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1169  	hidg->get_req = usb_ep_alloc_request(c->cdev->gadget->ep0, GFP_ATOMIC);
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1170  	if (!hidg->get_req)
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1171  		return -ENOMEM;
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1172  
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1173  	hidg->get_req->zero = 0;
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1174  	hidg->get_req->complete = hidg_get_report_complete;
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1175  	hidg->get_req->context = hidg;
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1176  	hidg->get_report_returned = true;
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1177  
-cb382536052fcc7 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1178  	/* maybe allocate device-global string IDs, and patch descriptors */
-5ca8d3ec9970f47 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1179  	us = usb_gstrings_attach(c->cdev, ct_func_strings,
-5ca8d3ec9970f47 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1180  				 ARRAY_SIZE(ct_func_string_defs));
-5ca8d3ec9970f47 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1181  	if (IS_ERR(us))
-5ca8d3ec9970f47 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1182  		return PTR_ERR(us);
-5ca8d3ec9970f47 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1183  	hidg_interface_desc.iInterface = us[CT_FUNC_HID_IDX].id;
-cb382536052fcc7 drivers/usb/gadget/function/f_hid.c Andrzej Pietrasiewicz     2014-11-06  1184  
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1185  	/* allocate instance-specific interface IDs, and patch descriptors */
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1186  	status = usb_interface_id(c, f);
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1187  	if (status < 0)
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1188  		goto fail;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1189  	hidg_interface_desc.bInterfaceNumber = status;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1190  
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1191  	/* allocate instance-specific endpoints */
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1192  	status = -ENODEV;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1193  	ep = usb_ep_autoconfig(c->cdev->gadget, &hidg_fs_in_ep_desc);
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1194  	if (!ep)
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1195  		goto fail;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1196  	hidg->in_ep = ep;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1197  
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1198  	hidg->out_ep = NULL;
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1199  	if (hidg->use_out_ep) {
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1200  		ep = usb_ep_autoconfig(c->cdev->gadget, &hidg_fs_out_ep_desc);
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1201  		if (!ep)
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1202  			goto fail;
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1203  		hidg->out_ep = ep;
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1204  	}
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1205  
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1206  	/* used only if use_out_ep == 1 */
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1207  	hidg->set_report_buf = NULL;
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1208  
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1209  	/* set descriptor dynamic values */
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1210  	hidg_interface_desc.bInterfaceSubClass = hidg->bInterfaceSubClass;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1211  	hidg_interface_desc.bInterfaceProtocol = hidg->bInterfaceProtocol;
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1212  	hidg_interface_desc.bNumEndpoints = hidg->use_out_ep ? 2 : 1;
-b3c4ec71ec413c2 drivers/usb/gadget/function/f_hid.c Abdulhadi Mohamed         2017-07-19  1213  	hidg->protocol = HID_REPORT_PROTOCOL;
-afcff6dc690e24d drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-07-21  1214  	hidg->idle = 1;
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1215  	hidg_ss_in_ep_desc.wMaxPacketSize = cpu_to_le16(hidg->report_length);
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1216  	hidg_ss_in_comp_desc.wBytesPerInterval =
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1217  				cpu_to_le16(hidg->report_length);
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1218  	hidg_hs_in_ep_desc.wMaxPacketSize = cpu_to_le16(hidg->report_length);
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1219  	hidg_fs_in_ep_desc.wMaxPacketSize = cpu_to_le16(hidg->report_length);
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1220  	hidg_ss_out_ep_desc.wMaxPacketSize = cpu_to_le16(hidg->report_length);
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1221  	hidg_ss_out_comp_desc.wBytesPerInterval =
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1222  				cpu_to_le16(hidg->report_length);
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1223  	hidg_hs_out_ep_desc.wMaxPacketSize = cpu_to_le16(hidg->report_length);
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1224  	hidg_fs_out_ep_desc.wMaxPacketSize = cpu_to_le16(hidg->report_length);
-f286d487e9283a4 drivers/usb/gadget/function/f_hid.c Krzysztof Opasiak         2015-03-27  1225  	/*
-f286d487e9283a4 drivers/usb/gadget/function/f_hid.c Krzysztof Opasiak         2015-03-27  1226  	 * We can use hidg_desc struct here but we should not relay
-f286d487e9283a4 drivers/usb/gadget/function/f_hid.c Krzysztof Opasiak         2015-03-27  1227  	 * that its content won't change after returning from this function.
-f286d487e9283a4 drivers/usb/gadget/function/f_hid.c Krzysztof Opasiak         2015-03-27  1228  	 */
-74388368927e9c5 drivers/usb/gadget/function/f_hid.c Terry Junge               2025-03-12  1229  	hidg_desc.rpt_desc.bDescriptorType = HID_DT_REPORT;
-74388368927e9c5 drivers/usb/gadget/function/f_hid.c Terry Junge               2025-03-12  1230  	hidg_desc.rpt_desc.wDescriptorLength =
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1231  		cpu_to_le16(hidg->report_desc_length);
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1232  
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1233  	hidg_hs_in_ep_desc.bEndpointAddress =
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1234  		hidg_fs_in_ep_desc.bEndpointAddress;
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1235  	hidg_hs_out_ep_desc.bEndpointAddress =
-99c515005857ff7 drivers/usb/gadget/f_hid.c          Daniel Mack               2012-06-13  1236  		hidg_fs_out_ep_desc.bEndpointAddress;
-10287baec761d33 drivers/usb/gadget/f_hid.c          Sebastian Andrzej Siewior 2012-10-22  1237  
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1238  	hidg_ss_in_ep_desc.bEndpointAddress =
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1239  		hidg_fs_in_ep_desc.bEndpointAddress;
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1240  	hidg_ss_out_ep_desc.bEndpointAddress =
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1241  		hidg_fs_out_ep_desc.bEndpointAddress;
-dbf499cf720a009 drivers/usb/gadget/function/f_hid.c Janusz Dziedzic           2016-11-03  1242  
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1243  	if (hidg->use_out_ep)
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1244  		status = usb_assign_descriptors(f,
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1245  			hidg_fs_descriptors_intout,
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1246  			hidg_hs_descriptors_intout,
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1247  			hidg_ss_descriptors_intout,
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1248  			hidg_ss_descriptors_intout);
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1249  	else
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1250  		status = usb_assign_descriptors(f,
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1251  			hidg_fs_descriptors_ssreport,
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1252  			hidg_hs_descriptors_ssreport,
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1253  			hidg_ss_descriptors_ssreport,
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1254  			hidg_ss_descriptors_ssreport);
-d7428bc26fc7679 drivers/usb/gadget/function/f_hid.c Maxim Devaev              2021-08-21  1255  
-10287baec761d33 drivers/usb/gadget/f_hid.c          Sebastian Andrzej Siewior 2012-10-22  1256  	if (status)
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1257  		goto fail;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1258  
-749494b6bdbbaf0 drivers/usb/gadget/function/f_hid.c Krzysztof Opasiak         2017-01-24  1259  	hidg->write_pending = 1;
-749494b6bdbbaf0 drivers/usb/gadget/function/f_hid.c Krzysztof Opasiak         2017-01-24  1260  	hidg->req = NULL;
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1261  
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1262  	INIT_WORK(&hidg->work, get_report_workqueue_handler);
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1263  	hidg->workqueue = alloc_workqueue("report_work",
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1264  					  WQ_FREEZABLE |
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1265  					  WQ_MEM_RECLAIM,
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1266  					  1);
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1267  
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1268  	if (!hidg->workqueue) {
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1269  		status = -ENOMEM;
-0ab3ae768c48472 drivers/usb/gadget/function/f_hid.c Yuhao Jiang               2025-06-23  1270  		goto fail_free_descs;
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1271  	}
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1272  
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1273  	/* create char device */
-c6c0d13db5d0f8d drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1274  	hidg->cdev = cdev_alloc();
-c6c0d13db5d0f8d drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1275  	if (!hidg->cdev)
-c6c0d13db5d0f8d drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27 @1276  		goto fail_free_all;
-c6c0d13db5d0f8d drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1277  	hidg->cdev->ops = &f_hidg_fops;
-c6c0d13db5d0f8d drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1278  
-c6c0d13db5d0f8d drivers/usb/gadget/function/f_hid.c Michael Zimmermann        2026-03-27  1279  	status = cdev_device_add(hidg->cdev, &hidg->dev);
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1280  	if (status)
-0ab3ae768c48472 drivers/usb/gadget/function/f_hid.c Yuhao Jiang               2025-06-23  1281  		goto fail_free_all;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1282  
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1283  	return 0;
-0ab3ae768c48472 drivers/usb/gadget/function/f_hid.c Yuhao Jiang               2025-06-23  1284  fail_free_all:
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1285  	destroy_workqueue(hidg->workqueue);
-0ab3ae768c48472 drivers/usb/gadget/function/f_hid.c Yuhao Jiang               2025-06-23  1286  fail_free_descs:
-d12a8727171c770 drivers/usb/gadget/function/f_hid.c Pavitrakumar Managutte    2014-10-22  1287  	usb_free_all_descriptors(f);
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1288  fail:
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1289  	ERROR(f->config->cdev, "hidg_bind FAILED\n");
-14794d7133d0f16 drivers/usb/gadget/function/f_hid.c Felipe F. Tonello         2016-08-23  1290  	if (hidg->req != NULL)
-14794d7133d0f16 drivers/usb/gadget/function/f_hid.c Felipe F. Tonello         2016-08-23  1291  		free_ep_req(hidg->in_ep, hidg->req);
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1292  
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1293  	usb_ep_free_request(c->cdev->gadget->ep0, hidg->get_req);
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1294  	hidg->get_req = NULL;
-a139c98f760efa1 drivers/usb/gadget/function/f_hid.c Chris Wulff               2024-08-17  1295  
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1296  	return status;
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1297  }
-71adf1189469578 drivers/usb/gadget/f_hid.c          Fabien Chouteau           2010-04-08  1298  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1254  
+d08a170ec3e7db fs/bcachefs/fs/check.c Kent Overstreet 2025-10-04  1255  int bch2_check_key_has_inode(struct btree_trans *trans,
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1256  			     struct btree_iter *iter,
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1257  			     struct inode_walker *inode,
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1258  			     struct inode_walker_entry *i,
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1259  			     struct bkey_s_c k)
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1260  {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1261  	errptr_try(i);
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1262  
+13ab885706d6f0 fs/bcachefs/fsck.c     Kent Overstreet 2025-07-24  1263  	if (bkey_extent_whiteout(k.k))
+f6ecd9850b5e0b fs/bcachefs/fsck.c     Kent Overstreet 2025-07-30  1264  		return 0;
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1265  
+855070dc0b349e fs/bcachefs/fsck.c     Kent Overstreet 2025-05-03 @1266  	bool have_inode = i && !i->whiteout;
+855070dc0b349e fs/bcachefs/fsck.c     Kent Overstreet 2025-05-03  1267  
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1268  	if (have_inode && btree_matches_i_mode(iter->btree_id, i->inode.bi_mode))
+f6ecd9850b5e0b fs/bcachefs/fsck.c     Kent Overstreet 2025-07-30  1269  		return 0;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1270  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1271  	struct bch_fs *c = trans->c;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1272  	CLASS(printbuf, buf)();
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1273  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1274  	if (have_inode)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1275  		prt_printf(&buf, "key for wrong inode mode %o", i->inode.bi_mode);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1276  	else
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1277  		prt_str(&buf, "key in missing inode");
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1278  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1279  	struct inode_walker_entry *good_ancestor = NULL;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1280  	darray_for_each(inode->inodes, i2)
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1281  		if (!i2->whiteout &&
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1282  		    bch2_snapshot_is_ancestor(c, k.k->p.snapshot, i2->inode.bi_snapshot) &&
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1283  		    btree_matches_i_mode(iter->btree_id, i2->inode.bi_mode)) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1284  			prt_printf(&buf, ", but found good inode in older snapshot");
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1285  			bch2_inode_unpacked_to_text(&buf, &i2->inode);
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1286  			prt_newline(&buf);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1287  			good_ancestor = i2;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1288  			break;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1289  		}
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1290  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1291  	prt_printf(&buf, "\nfound keys:\n");
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1292  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1293  	struct bpos inode_pos = SPOS(k.k->p.inode, 0, k.k->p.snapshot);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1294  	int ret = count_inode_keys(trans, inode_pos, iter->btree_id, &buf);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1295  	if (ret < 0)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1296  		return ret;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1297  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1298  	unsigned nr_keys = ret;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1299  	if (!nr_keys) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1300  		bch_err(c, "%s: error finding live keys in inode", __func__);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1301  		return bch_err_throw(c, shutdown_with_errors_unfixed);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1302  	}
+4a7e1e4ce94f54 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-30  1303  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1304  	if (nr_keys > 100)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1305  		prt_printf(&buf, "found > %u keys for this inode\n", nr_keys);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1306  	else
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1307  		prt_printf(&buf, "found %u keys for this inode\n", nr_keys);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1308  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1309  	if (c->sb.btrees_lost_data & BIT_ULL(BTREE_ID_inodes))
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1310  		prt_str(&buf, "data was lost in inodes btree\n");
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1311  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1312  	if (!have_inode) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1313  		bool inode_looks_deleted =
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1314  			good_ancestor &&
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1315  			nr_keys < 3 &&
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1316  			!(c->sb.btrees_lost_data & BIT_ULL(BTREE_ID_inodes));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1317  		if (inode_looks_deleted)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1318  			prt_str(&buf, "inode was deleted, will delete key\n");
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1319  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1320  		if (ret_fsck_err(trans, key_in_missing_inode, "%s", buf.buf)) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1321  			if (inode_looks_deleted)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1322  				return bch2_btree_delete_at(trans, iter, BTREE_UPDATE_internal_snapshot_node);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1323  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1324  			if (!good_ancestor) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1325  				try(reconstruct_inode(trans, iter->btree_id, k.k->p.snapshot, k.k->p.inode));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1326  				try(bch2_trans_commit(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1327  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1328  				inode->last_pos.inode--;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1329  				return bch_err_throw(c, transaction_restart_commit);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1330  			} else {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20 @1331  				u32 snapshot = i->inode.bi_snapshot;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1332  				i->inode = good_ancestor->inode;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1333  				i->inode.bi_snapshot = snapshot;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1334  				try(bch2_fsck_write_inode(trans, &i->inode));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1335  				try(bch2_trans_commit_lazy(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1336  			}
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1337  		}
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1338  	} else {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1339  		if (ret_fsck_err(trans, key_in_wrong_inode_type, "%s", buf.buf)) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1340  			int nr_extents = iter->btree_id == BTREE_ID_extents
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1341  				? nr_keys : count_inode_keys(trans, inode_pos, BTREE_ID_extents, NULL);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1342  			if (nr_extents < 0)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1343  				return nr_extents;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1344  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1345  			int nr_dirents = iter->btree_id == BTREE_ID_dirents
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1346  				? nr_keys : count_inode_keys(trans, inode_pos, BTREE_ID_dirents, NULL);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1347  			if (nr_dirents < 0)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1348  				return nr_dirents;
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1349  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1350  			if (nr_extents && nr_dirents) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1351  				bch_err(c, "have both extents and dirents for inode with bad mode, cannot repair");
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1352  				return bch_err_throw(c, shutdown_with_errors_unfixed);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1353  			}
+4a7e1e4ce94f54 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-30  1354  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1355  			i->inode.bi_mode &= ~S_IFMT;
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1356  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1357  			if (nr_dirents)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1358  				i->inode.bi_mode |= S_IFDIR;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1359  			else
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1360  				i->inode.bi_mode |= S_IFREG;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1361  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1362  			try(bch2_fsck_write_inode(trans, &i->inode));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1363  			try(bch2_trans_commit_lazy(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1364  		}
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1365  	}
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1366  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1367  	return 0;
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1368  }
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1369  
 
 --
 0-DAY CI Kernel Test Service
