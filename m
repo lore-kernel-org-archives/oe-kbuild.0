@@ -1,195 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFD63F4DF2
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Jul 2026 11:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3EE31A7E2
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Jul 2026 23:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784547445; cv=none; b=blDeRfO3c1kiFs0/GIFyu9uzHO9JKV08dni/BNLwfTriv3HYsf5y7bQ6AeeidZNlyYhx8ZG8lEmuZMWwrSeP3RnltkBGuMwsoJ+7bhaCg8hHOBPLcEjFf7LMyO80nobdnSyw44b7CbGGMoCNpmJm7RIxwKb91XaiPXlpcAn2nCY=
+	t=1784590956; cv=none; b=uzrXPLNm1d1wcfwe8fqMLlh1q3bAxFPCk8r7D+6ifbIqgddzBIzSZ6vqWZ0otCY4z5HTR8lzUZfm6zG++pkSImsFYag8EfbcoyGPT4M4nECudZbsrfTlvp0aRAcBDNvVdFPcveIRf3EJw/Ow+SCb0LsUMoApgr1jUTiTrXuGuSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784547445; c=relaxed/simple;
-	bh=0DEETdv61YiDAIiSb+qv4Q//a7U0gp67CPCtvWUagHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=cJCBKcj5NJOJWyzjz3UzdXWe4Z4lPxbJpicSlclVaVlr+jUiV2aBVcq8sR22N1NjLtFbGDnHyymZ/h4V7j6Dmp2EW77OQUebb82xsJ0NP4XwsnOoOzKzQS54mF5zwhRd+XQPZjdS53q53aury4weDVwJJ6W4uc4CV3Fi4pHp5Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9bXAkZm; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1784590956; c=relaxed/simple;
+	bh=Qro7g5cuMyXGpq3odEmL19+qdnzdBnhOcYyIwniA51k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Yo/Ibto6ZboljPDZhdOuYQyj2VLq1UrvD+SZOkfREkIOsqbyjQtF51UTSxqPCzsP0UqyTEoid9K9T4PfxXxKyFVVn9pzhTBPdosukAKsFppkYWV8uq+AJVoMiNsehQyNbdEMiBKxtECSQRV+1Lr09GpgoSlvGTac0P572hwiWfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=klF6DpM5; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9bXAkZm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="klF6DpM5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784547444; x=1816083444;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0DEETdv61YiDAIiSb+qv4Q//a7U0gp67CPCtvWUagHM=;
-  b=V9bXAkZm6d8qN8fpZMY2uVWaD3SvN6bT5Px/rTdwjGx1mAxuDlXX5t/f
-   i5hOJ2KuksXCqAtjTNGxeCpTu8yiinHEKUfXjE12dRFeMXqq3CvK+/JXD
-   61UPUplnPDuiPpFRc46xoyKm7GmhI3wDzgohgR3ZFI5VCPqFdtmQx/HCP
-   s8RWP7iLcrp54VChG0iyzE2gw+GNf9pmnq2EFowyMqMhaWtHyW6gRdSYM
-   xEU5FInrg6K3aZhHcebj7O+rV9ajRXsZv0nTYJor/nyCicqQIA2A9ls20
-   R3b52M0IjIE35e25ftbTIw/t720JIsygXNgGVsyIwKFCt+c1xPSMS4Xvx
+  t=1784590954; x=1816126954;
+  h=date:from:to:cc:subject:message-id;
+  bh=Qro7g5cuMyXGpq3odEmL19+qdnzdBnhOcYyIwniA51k=;
+  b=klF6DpM5YglfEfEDvqFM1PHj+8g7WnF4AXYwTaFpCn2KNBpOPlVWEjeQ
+   bnQnDVeLKbpeEdjFcTt2zEI4b9iuTvJKDj7xfq9wUG9CCTv4LnEn8rmq4
+   trZTt3OpVmE5HrTY+eA2g59njGMwN9qc0aERavjrDSTFKbutBK5j3CHbE
+   mCrCN2nRvc702sfeSYfxBRGfljq6JOZSKhCY5aMUsVg8PbdLuA2tP6DG8
+   Lgh2uqgXBgSCRqN9cb3y3cFotXZjY0Z4CfipMdimGdh7hpMQ70te6Ms/F
+   3bs9TjwUU1CTycok9D3vO9pbqkj18kzBasv+1/daWZe0cUdJw7zANtIRD
    w==;
-X-CSE-ConnectionGUID: 6dsV0G7oQAOtTyNeI06w7g==
-X-CSE-MsgGUID: yGTmSmeSRVmetJejtBFxPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11851"; a="87664810"
-X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
-   d="scan'208";a="87664810"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 04:37:23 -0700
-X-CSE-ConnectionGUID: B/TS9ddkQBS2yZhr7YIbLA==
-X-CSE-MsgGUID: YlVKGeI9Spa/ptY7SOHnuw==
+X-CSE-ConnectionGUID: w6+pX1omRqqboyFJx69nTQ==
+X-CSE-MsgGUID: N3FfNT7AS26JyzSVn7pgOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="89077892"
+X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
+   d="scan'208";a="89077892"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 16:42:33 -0700
+X-CSE-ConnectionGUID: u6W9oYNKSWeMqLuIM9m0ow==
+X-CSE-MsgGUID: eYUWINfATz65LEdxVzt5CQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
-   d="scan'208";a="280721479"
+X-IronPort-AV: E=Sophos;i="6.25,175,1779174000"; 
+   d="scan'208";a="253670362"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Jul 2026 04:37:22 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 20 Jul 2026 16:42:32 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wlmJE-00000000WCb-0oz1;
-	Mon, 20 Jul 2026 11:37:20 +0000
-Date: Mon, 20 Jul 2026 19:36:48 +0800
+	id 1wlxct-00000000Wxp-31N1;
+	Mon, 20 Jul 2026 23:42:25 +0000
+Date: Tue, 21 Jul 2026 07:41:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/drm_pagemap.c:480:12: error: call to
- '__compiletime_assert_458' declared with 'error' attribute: BUILD_BUG failed
-Message-ID: <202607201914.LpAGsbXs-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-kiwi-6.1 192/192]
+ kernel/scftorture.c:437 scftorture_invoke_one() warn: possible memory leak of
+ 'scfcp'
+Message-ID: <202607210711.dzhQmxhg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "__compiletime_assert_NNN"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Matthew Brost <matthew.brost@intel.com>
-CC: Francois Dugast <francois.dugast@intel.com>
-CC: Balbir Singh <balbirs@nvidia.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Matthew,
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   b3c531e1677cf574dd7ffc9bfce3a298c74ef2f8
+commit: 9f10b4eb1b218223e0e7c8b013ac7d9f621e890c [192/192] scftorture: Forgive memory-allocation failure if KASAN
+:::::: branch date: 6 hours ago
+:::::: commit date: 2 years, 10 months ago
+config: arm-randconfig-r071-20260716 (https://download.01.org/0day-ci/archive/20260721/202607210711.dzhQmxhg-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5c0dfced1adc55429e32b1db08570abd3a219d85)
+smatch: v0.5.0-9187-g5189e3fb
 
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   1590cf0329716306e948a8fc29f1d3ee87d3989f
-commit: 139ab31aea8a9436460568d556b432bb7e9311f7 drm/pagemap: Correct cpage=
-s calculation for migrate_vma_setup
-date:   4 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 4 months ago
-config: s390-randconfig-r062-20260720 (https://download.01.org/0day-ci/arch=
-ive/20260720/202607201914.LpAGsbXs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
-7cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260720/202607201914.LpAGsbXs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 139ab31aea8a ("drm/pagemap: Correct cpages calculation for migrate=
-_vma_setup")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607201914.LpAGsbXs-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607210711.dzhQmxhg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/scftorture.c:437 scftorture_invoke_one() warn: possible memory leak of 'scfcp'
 
->> drivers/gpu/drm/drm_pagemap.c:480:12: error: call to '__compiletime_asse=
-rt_458' declared with 'error' attribute: BUILD_BUG failed
-     480 |                         order =3D HPAGE_PMD_ORDER;
-         |                                 ^
-   include/linux/huge_mm.h:117:26: note: expanded from macro 'HPAGE_PMD_ORD=
-ER'
-     117 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-         |                          ^
-   include/linux/huge_mm.h:113:28: note: expanded from macro 'HPAGE_PMD_SHI=
-FT'
-     113 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:694:2: note: expanded from macro '_compil=
-etime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:687:4: note: expanded from macro '__compi=
-letime_assert'
-     687 |                         prefix ## suffix();                     =
-        \
-         |                         ^
-   <scratch space>:91:1: note: expanded from here
-      91 | __compiletime_assert_458
-         | ^
-   1 error generated.
+vim +/scfcp +437 kernel/scftorture.c
 
+5022b8ac608f8b Paul E. McKenney 2020-06-25  312  
+e9d338a0b1799c Paul E. McKenney 2020-06-24  313  // Randomly do an smp_call_function*() invocation.
+e9d338a0b1799c Paul E. McKenney 2020-06-24  314  static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_random_state *trsp)
+e9d338a0b1799c Paul E. McKenney 2020-06-24  315  {
+5022b8ac608f8b Paul E. McKenney 2020-06-25  316  	uintptr_t cpu;
+676e5469643e71 Paul E. McKenney 2020-07-01  317  	int ret = 0;
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  318  	struct scf_check *scfcp = NULL;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  319  	struct scf_selector *scfsp = scf_sel_rand(trsp);
+5022b8ac608f8b Paul E. McKenney 2020-06-25  320  
+e9d338a0b1799c Paul E. McKenney 2020-06-24  321  	if (use_cpus_read_lock)
+e9d338a0b1799c Paul E. McKenney 2020-06-24  322  		cpus_read_lock();
+e9d338a0b1799c Paul E. McKenney 2020-06-24  323  	else
+e9d338a0b1799c Paul E. McKenney 2020-06-24  324  		preempt_disable();
+34e8c4837adb57 Paul E. McKenney 2020-07-01  325  	if (scfsp->scfs_prim == SCF_PRIM_SINGLE || scfsp->scfs_wait) {
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  326  		scfcp = kmalloc(sizeof(*scfcp), GFP_ATOMIC);
+9f10b4eb1b2182 Paul E. McKenney 2023-05-15  327  		if (!scfcp) {
+9f10b4eb1b2182 Paul E. McKenney 2023-05-15  328  			WARN_ON_ONCE(!IS_ENABLED(CONFIG_KASAN));
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  329  			atomic_inc(&n_alloc_errs);
+4df55bddc1a360 Paul E. McKenney 2020-07-09  330  		} else {
+4df55bddc1a360 Paul E. McKenney 2020-07-09  331  			scfcp->scfc_cpu = -1;
+4df55bddc1a360 Paul E. McKenney 2020-07-09  332  			scfcp->scfc_wait = scfsp->scfs_wait;
+4df55bddc1a360 Paul E. McKenney 2020-07-09  333  			scfcp->scfc_out = false;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  334  			scfcp->scfc_rpc = false;
+4df55bddc1a360 Paul E. McKenney 2020-07-09  335  		}
+34e8c4837adb57 Paul E. McKenney 2020-07-01  336  	}
+34e8c4837adb57 Paul E. McKenney 2020-07-01  337  	switch (scfsp->scfs_prim) {
+1ac78b49d61d4a Paul E. McKenney 2020-09-03  338  	case SCF_PRIM_RESCHED:
+1ac78b49d61d4a Paul E. McKenney 2020-09-03  339  		if (IS_BUILTIN(CONFIG_SCF_TORTURE_TEST)) {
+1ac78b49d61d4a Paul E. McKenney 2020-09-03  340  			cpu = torture_random(trsp) % nr_cpu_ids;
+1ac78b49d61d4a Paul E. McKenney 2020-09-03  341  			scfp->n_resched++;
+1ac78b49d61d4a Paul E. McKenney 2020-09-03  342  			resched_cpu(cpu);
+c3d0258d5af2a5 Paul E. McKenney 2021-07-14  343  			this_cpu_inc(scf_invoked_count);
+1ac78b49d61d4a Paul E. McKenney 2020-09-03  344  		}
+1ac78b49d61d4a Paul E. McKenney 2020-09-03  345  		break;
+34e8c4837adb57 Paul E. McKenney 2020-07-01  346  	case SCF_PRIM_SINGLE:
+5022b8ac608f8b Paul E. McKenney 2020-06-25  347  		cpu = torture_random(trsp) % nr_cpu_ids;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  348  		if (scfsp->scfs_wait)
+5022b8ac608f8b Paul E. McKenney 2020-06-25  349  			scfp->n_single_wait++;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  350  		else
+5022b8ac608f8b Paul E. McKenney 2020-06-25  351  			scfp->n_single++;
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  352  		if (scfcp) {
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  353  			scfcp->scfc_cpu = cpu;
+ee7035d29576dc Paul E. McKenney 2020-07-01  354  			barrier(); // Prevent race-reduction compiler optimizations.
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  355  			scfcp->scfc_in = true;
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  356  		}
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  357  		ret = smp_call_function_single(cpu, scf_handler_1, (void *)scfcp, scfsp->scfs_wait);
+5022b8ac608f8b Paul E. McKenney 2020-06-25  358  		if (ret) {
+5022b8ac608f8b Paul E. McKenney 2020-06-25  359  			if (scfsp->scfs_wait)
+5022b8ac608f8b Paul E. McKenney 2020-06-25  360  				scfp->n_single_wait_ofl++;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  361  			else
+5022b8ac608f8b Paul E. McKenney 2020-06-25  362  				scfp->n_single_ofl++;
+b93e21a51e1c8e Paul E. McKenney 2020-06-30  363  			kfree(scfcp);
+676e5469643e71 Paul E. McKenney 2020-07-01  364  			scfcp = NULL;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  365  		}
+5022b8ac608f8b Paul E. McKenney 2020-06-25  366  		break;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  367  	case SCF_PRIM_SINGLE_RPC:
+9b9a80677fd80b Paul E. McKenney 2021-06-24  368  		if (!scfcp)
+9b9a80677fd80b Paul E. McKenney 2021-06-24  369  			break;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  370  		cpu = torture_random(trsp) % nr_cpu_ids;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  371  		scfp->n_single_rpc++;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  372  		scfcp->scfc_cpu = cpu;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  373  		scfcp->scfc_wait = true;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  374  		init_completion(&scfcp->scfc_completion);
+9b9a80677fd80b Paul E. McKenney 2021-06-24  375  		scfcp->scfc_rpc = true;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  376  		barrier(); // Prevent race-reduction compiler optimizations.
+9b9a80677fd80b Paul E. McKenney 2021-06-24  377  		scfcp->scfc_in = true;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  378  		ret = smp_call_function_single(cpu, scf_handler_1, (void *)scfcp, 0);
+9b9a80677fd80b Paul E. McKenney 2021-06-24  379  		if (!ret) {
+9b9a80677fd80b Paul E. McKenney 2021-06-24  380  			if (use_cpus_read_lock)
+9b9a80677fd80b Paul E. McKenney 2021-06-24  381  				cpus_read_unlock();
+9b9a80677fd80b Paul E. McKenney 2021-06-24  382  			else
+9b9a80677fd80b Paul E. McKenney 2021-06-24  383  				preempt_enable();
+9b9a80677fd80b Paul E. McKenney 2021-06-24  384  			wait_for_completion(&scfcp->scfc_completion);
+9b9a80677fd80b Paul E. McKenney 2021-06-24  385  			if (use_cpus_read_lock)
+9b9a80677fd80b Paul E. McKenney 2021-06-24  386  				cpus_read_lock();
+9b9a80677fd80b Paul E. McKenney 2021-06-24  387  			else
+9b9a80677fd80b Paul E. McKenney 2021-06-24  388  				preempt_disable();
+9b9a80677fd80b Paul E. McKenney 2021-06-24  389  		} else {
+9b9a80677fd80b Paul E. McKenney 2021-06-24  390  			scfp->n_single_rpc_ofl++;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  391  			kfree(scfcp);
+9b9a80677fd80b Paul E. McKenney 2021-06-24  392  			scfcp = NULL;
+9b9a80677fd80b Paul E. McKenney 2021-06-24  393  		}
+9b9a80677fd80b Paul E. McKenney 2021-06-24  394  		break;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  395  	case SCF_PRIM_MANY:
+5022b8ac608f8b Paul E. McKenney 2020-06-25  396  		if (scfsp->scfs_wait)
+5022b8ac608f8b Paul E. McKenney 2020-06-25  397  			scfp->n_many_wait++;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  398  		else
+5022b8ac608f8b Paul E. McKenney 2020-06-25  399  			scfp->n_many++;
+ee7035d29576dc Paul E. McKenney 2020-07-01  400  		if (scfcp) {
+ee7035d29576dc Paul E. McKenney 2020-07-01  401  			barrier(); // Prevent race-reduction compiler optimizations.
+980205ee8489d5 Paul E. McKenney 2020-07-01  402  			scfcp->scfc_in = true;
+ee7035d29576dc Paul E. McKenney 2020-07-01  403  		}
+980205ee8489d5 Paul E. McKenney 2020-07-01  404  		smp_call_function_many(cpu_online_mask, scf_handler, scfcp, scfsp->scfs_wait);
+5022b8ac608f8b Paul E. McKenney 2020-06-25  405  		break;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  406  	case SCF_PRIM_ALL:
+5022b8ac608f8b Paul E. McKenney 2020-06-25  407  		if (scfsp->scfs_wait)
+5022b8ac608f8b Paul E. McKenney 2020-06-25  408  			scfp->n_all_wait++;
+5022b8ac608f8b Paul E. McKenney 2020-06-25  409  		else
+e9d338a0b1799c Paul E. McKenney 2020-06-24  410  			scfp->n_all++;
+ee7035d29576dc Paul E. McKenney 2020-07-01  411  		if (scfcp) {
+ee7035d29576dc Paul E. McKenney 2020-07-01  412  			barrier(); // Prevent race-reduction compiler optimizations.
+34e8c4837adb57 Paul E. McKenney 2020-07-01  413  			scfcp->scfc_in = true;
+ee7035d29576dc Paul E. McKenney 2020-07-01  414  		}
+34e8c4837adb57 Paul E. McKenney 2020-07-01  415  		smp_call_function(scf_handler, scfcp, scfsp->scfs_wait);
+676e5469643e71 Paul E. McKenney 2020-07-01  416  		break;
+de77d4da54d10d Paul E. McKenney 2020-07-02  417  	default:
+de77d4da54d10d Paul E. McKenney 2020-07-02  418  		WARN_ON_ONCE(1);
+de77d4da54d10d Paul E. McKenney 2020-07-02  419  		if (scfcp)
+de77d4da54d10d Paul E. McKenney 2020-07-02  420  			scfcp->scfc_out = true;
+676e5469643e71 Paul E. McKenney 2020-07-01  421  	}
+676e5469643e71 Paul E. McKenney 2020-07-01  422  	if (scfcp && scfsp->scfs_wait) {
+9e66bf03f9c538 Paul E. McKenney 2020-07-03  423  		if (WARN_ON_ONCE((num_online_cpus() > 1 || scfsp->scfs_prim == SCF_PRIM_SINGLE) &&
+9b9a80677fd80b Paul E. McKenney 2021-06-24  424  				 !scfcp->scfc_out)) {
+9b9a80677fd80b Paul E. McKenney 2021-06-24  425  			pr_warn("%s: Memory-ordering failure, scfs_prim: %d.\n", __func__, scfsp->scfs_prim);
+34e8c4837adb57 Paul E. McKenney 2020-07-01  426  			atomic_inc(&n_mb_out_errs); // Leak rather than trash!
+9b9a80677fd80b Paul E. McKenney 2021-06-24  427  		} else {
+34e8c4837adb57 Paul E. McKenney 2020-07-01  428  			kfree(scfcp);
+9b9a80677fd80b Paul E. McKenney 2021-06-24  429  		}
+ee7035d29576dc Paul E. McKenney 2020-07-01  430  		barrier(); // Prevent race-reduction compiler optimizations.
+34e8c4837adb57 Paul E. McKenney 2020-07-01  431  	}
+e9d338a0b1799c Paul E. McKenney 2020-06-24  432  	if (use_cpus_read_lock)
+e9d338a0b1799c Paul E. McKenney 2020-06-24  433  		cpus_read_unlock();
+e9d338a0b1799c Paul E. McKenney 2020-06-24  434  	else
+e9d338a0b1799c Paul E. McKenney 2020-06-24  435  		preempt_enable();
+e9d338a0b1799c Paul E. McKenney 2020-06-24  436  	if (!(torture_random(trsp) & 0xfff))
+e9d338a0b1799c Paul E. McKenney 2020-06-24 @437  		schedule_timeout_uninterruptible(1);
+e9d338a0b1799c Paul E. McKenney 2020-06-24  438  }
+e9d338a0b1799c Paul E. McKenney 2020-06-24  439  
 
-vim +480 drivers/gpu/drm/drm_pagemap.c
+:::::: The code at line 437 was first introduced by commit
+:::::: e9d338a0b1799c988b678e8ccb66a442272e6aa3 scftorture: Add smp_call_function() torture test
 
-ec265e1f1cfcce Thomas Hellstr=C3=B6m 2025-12-19  454 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  455  /**
-139ab31aea8a94 Matthew Brost    2026-03-12  456   * drm_pagemap_cpages() - =
-Count collected pages
-139ab31aea8a94 Matthew Brost    2026-03-12  457   * @migrate_pfn: Array of =
-migrate_pfn entries to account
-139ab31aea8a94 Matthew Brost    2026-03-12  458   * @npages: Number of entr=
-ies in @migrate_pfn
-139ab31aea8a94 Matthew Brost    2026-03-12  459   *
-139ab31aea8a94 Matthew Brost    2026-03-12  460   * Compute the total numbe=
-r of minimum-sized pages represented by the
-139ab31aea8a94 Matthew Brost    2026-03-12  461   * collected entries in @m=
-igrate_pfn. The total is derived from the
-139ab31aea8a94 Matthew Brost    2026-03-12  462   * order encoded in each e=
-ntry.
-139ab31aea8a94 Matthew Brost    2026-03-12  463   *
-139ab31aea8a94 Matthew Brost    2026-03-12  464   * Return: Total number of=
- minimum-sized pages.
-139ab31aea8a94 Matthew Brost    2026-03-12  465   */
-139ab31aea8a94 Matthew Brost    2026-03-12  466  static int drm_pagemap_cpa=
-ges(unsigned long *migrate_pfn, unsigned long npages)
-139ab31aea8a94 Matthew Brost    2026-03-12  467  {
-139ab31aea8a94 Matthew Brost    2026-03-12  468  	unsigned long i, cpages =
-=3D 0;
-139ab31aea8a94 Matthew Brost    2026-03-12  469 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  470  	for (i =3D 0; i < npages;=
-) {
-139ab31aea8a94 Matthew Brost    2026-03-12  471  		struct page *page =3D mi=
-grate_pfn_to_page(migrate_pfn[i]);
-139ab31aea8a94 Matthew Brost    2026-03-12  472  		struct folio *folio;
-139ab31aea8a94 Matthew Brost    2026-03-12  473  		unsigned int order =3D 0;
-139ab31aea8a94 Matthew Brost    2026-03-12  474 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  475  		if (page) {
-139ab31aea8a94 Matthew Brost    2026-03-12  476  			folio =3D page_folio(pa=
-ge);
-139ab31aea8a94 Matthew Brost    2026-03-12  477  			order =3D folio_order(f=
-olio);
-139ab31aea8a94 Matthew Brost    2026-03-12  478  			cpages +=3D NR_PAGES(or=
-der);
-139ab31aea8a94 Matthew Brost    2026-03-12  479  		} else if (migrate_pfn[i=
-] & MIGRATE_PFN_COMPOUND) {
-139ab31aea8a94 Matthew Brost    2026-03-12 @480  			order =3D HPAGE_PMD_ORD=
-ER;
-139ab31aea8a94 Matthew Brost    2026-03-12  481  			cpages +=3D NR_PAGES(or=
-der);
-139ab31aea8a94 Matthew Brost    2026-03-12  482  		}
-139ab31aea8a94 Matthew Brost    2026-03-12  483 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  484  		i +=3D NR_PAGES(order);
-139ab31aea8a94 Matthew Brost    2026-03-12  485  	}
-139ab31aea8a94 Matthew Brost    2026-03-12  486 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  487  	return cpages;
-139ab31aea8a94 Matthew Brost    2026-03-12  488  }
-139ab31aea8a94 Matthew Brost    2026-03-12  489 =20
+:::::: TO: Paul E. McKenney <paulmck@kernel.org>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
