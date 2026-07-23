@@ -1,55 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA464156C5
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Jul 2026 09:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D78438028
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Jul 2026 10:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784800484; cv=none; b=HzgdywjDQYOphlHllo9p7hI8FnKi00/bdrFxZZBvTXOqlqgLyCSIdfuNLePC9NHWnn0FzuQsPWYtghTRD0+2BtlF2p2DMqs1L2sSoN/ewCRjv6cU9E8LqT3tUsfktYjTGxslQD/fpnShytSTsFwatHue+/jv8NF6uq+8pjQY5NE=
+	t=1784801439; cv=none; b=bel2QlQ1QJ9OcwjqY2Jt/XatmIpXalZbuR1+EdPwJFW71yzu3MSISuvO6GdNfDMvjPgnNkO6EcEOtioiJriFlCpoX9s5wvP1lxYSY4aGJoOWeJMDjV51zghn1E5/4v15SQmz5HR0UH6K/8GybbGXDqe+ZLDQ6XOnmIUEuwaa0hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784800484; c=relaxed/simple;
-	bh=CEAXbwt0LBUc4EKzrUso8a9SVx2/1vYlfZOaNnCdMtM=;
+	s=arc-20240116; t=1784801439; c=relaxed/simple;
+	bh=q1O2QXkBv8QuYn1SHREgbhRruAYGV/++q/ngeTn4oP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SO6WsJJdE5VsfhkZWxuRkqdzB0oKLWuJPTYJPOlijWC/5lChZWvauDfHlLhh0OwwHsfrMbJoQlg4+KthVDdZrYE2KZgazHn+mVxnHYkT672ymytzN7Qb3fOFoQ+QPsSaCqfHcJXCiPMdxobwo6l/BxfOecIKPENoMogndwnVG/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UePopBjK; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=nvTzHdQ/i1kbg/JtB5cQrO+pyvmHs1gkIzXdQponflaSmIMub4AC27TLLC9vB8xbKMiyyuTvq2JcjWxtVTmrE4F5UqZqNGzQY/TDd9Chgrju36cq4B8237LuNuQZf2prAWSrrTsWP8QfIMhxJF0r3Hgpp6C7buUwtNppd2id6IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gLPuIvS8; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UePopBjK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784800482; x=1816336482;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CEAXbwt0LBUc4EKzrUso8a9SVx2/1vYlfZOaNnCdMtM=;
-  b=UePopBjKN9JBkIwwmZcyh+3sFCgQfxmBvCQNRVQdINZnEP5HPuvfgAA/
-   uGAigsgAlDmyWhd28FqjmykLN3t4OePyLzr5f+LzSceZ7rI0n49I/kSi2
-   KfhLQNL8uj2wi579Q7jTMcsDwxtKFYgO/AQVudvAShM8Djn9JWafpkKC4
-   Lt+Y9wi+nGn9yOvEz3jSO6ELi3YJYNdcBAYPvajlW7RVbLo42bk/JAisi
-   ySswsPptILqSzF1c0ij1dBG+as0SrLe0A06ihnPZ1MZGVO2MJxXt1CmpD
-   3OR9kyOmZVLGOxWx1n9OcA61K9lOS6wxJqXOLjlxgS8Tip4w1/qjtRhhr
-   A==;
-X-CSE-ConnectionGUID: tta4Oc44Ruu0iWmJTfgAjg==
-X-CSE-MsgGUID: GYZKz47CS3CIIDU3lTcAsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="96108793"
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="96108793"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 02:54:41 -0700
-X-CSE-ConnectionGUID: PzvIcOWpQia7P69sM+B1FQ==
-X-CSE-MsgGUID: 0jwQfByyQCeIfYNX2Bee+w==
-X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Jul 2026 02:54:40 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wmq8U-000000000kY-01Fd;
-	Thu, 23 Jul 2026 09:54:38 +0000
-Date: Thu, 23 Jul 2026 11:54:10 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 2/2] mmc: sdhci-cadence: add CQE support
-Message-ID: <202607231109.yni8zd4v-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gLPuIvS8"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4955aa106b1so4395365e9.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 23 Jul 2026 03:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784801436; x=1785406236; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Jnast4lTTFuERWKfxK3aibnv+2Qqz5yf1iG+SlSyfMA=;
+        b=gLPuIvS8+AgQgBgj0HHZi710fklszTdvkFcK/s39lsJSYCYeH1hgK+snqV2UC+vpTb
+         TBluhTgmo/fjoPmriA+7hc4eUIJLk6RZRmgGsBIazZfW/v5KAXOjka8erl+ljGRv4mRR
+         84P7o/LWLyC5EynSpGAH8LJ4iSEmqf3PCuDpFJ4A9umKnaSUY/ws5N2Y0m7UtJcKFZ9F
+         Pm3AwlDzKflK18G4KhxZ2TMW4eIrAraosDEOHhBSEpapEBP05GDhlWRYWOkbX5rBp785
+         0lgcRRAFUa2DFkZjOkOn12Mzm1Az4LUmZ3ENv5f6jX1/pks69CGL5L9PoCo7lo7Vr5uP
+         i9Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784801436; x=1785406236;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Jnast4lTTFuERWKfxK3aibnv+2Qqz5yf1iG+SlSyfMA=;
+        b=QYccLxzrztrOd3QFm7dbUpV7A9yCvtj7bCRhTnpd/SIFXKzeCqeXNS/n/kXMBJXxG5
+         JOKbwxdorrl5jja9fXWFybvun41PPe9cWxuc8lauAEU2yC8hZxl2RiGVK7+xe7iN8sck
+         FD+XbaIXZxHC5OjL0l5iUZVB26w7vuHgWWWzzk4wZU8QcVExnDzkNUrqF0ZPTNPUhjDh
+         doZMFvqQZ72eXAjxRyeU4VKLRonIOffglelJBIuUnALCLFhHXuz4bk607Q2Rz5b9+NqT
+         YXfchbfSs69t3XB/gdEOY8QFax4QBVUKc7J0sggOC2ANd4I1ld3q7ajWY+SDPRek8WVX
+         P8cA==
+X-Gm-Message-State: AOJu0YzisZRRgc8+AvI74qPpBqHte9QUuXw8ol3eJTKqZHtju82MZLx1
+	XOMpoq5iJjda/7g4bJNHWwuuOr0zscQTC8t2xIKlSwC8m+Cu4iwQUbQDT4F4x81nTw8=
+X-Gm-Gg: AR+sD11N3jfadNA/Kn/lf3LGA/ne5/nGp9dCUtDuzlKdw16xN1baCl3yoSYrbYB6ep5
+	fQLWES9i3a40O3QNSPBVCqyQo7fKegI9UbE4HcLuvy7jq1l+7Vm3nQdkhurJN2yKe2U2La9jM/E
+	u2IxiRDjqMp2ZtH8S7qQd/Qwy05RIpmgMZyBO6ECzz7KL2YgOF7TfvKqCg7Qo6HxaJSCmLmKasd
+	nf/gbqE8dGYQZt64StrTXCCRa8tjz3Nv/oOMrcx5K7vMZsiTJ3QI8qT2nVJOrjQ9pZgfM46r27p
+	i6J/RUIF/ue6KYOI7QF8KsjUT/xWgYUh8PyQRgHsfJRO0IL3dxzfXj6OmQCh5Sh09Me7uXNNpi8
+	FliLy6mIQkXbKkv+FRO3itXwU6gSzAzsytAqvLn7sHsisjRoFjLLqUGrskd8X+0umey0SGUE7ww
+	==
+X-Received: by 2002:a05:600c:350f:b0:495:6f6b:127 with SMTP id 5b1f17b1804b1-49573cb9f95mr24793795e9.6.1784801435817;
+        Thu, 23 Jul 2026 03:10:35 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a64d4b6sm128760015e9.15.2026.07.23.03.10.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 03:10:35 -0700 (PDT)
+Date: Thu, 23 Jul 2026 11:31:55 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Charlene Liu <Charlene.Liu@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Gabe Teeger <gabe.teeger@amd.com>,
+	George Zhang <george.zhang@amd.com>
+Subject: [linux-next:master 5141/7793]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dio/dcn10/dcn10_link_encoder.c:1192
+ dcn10_link_encoder_dp_set_phy_pattern() warn: variable dereferenced before
+ check 'param' (see line 1169)
+Message-ID: <202607220316.QHZEudqb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,129 +77,95 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20260723083155.QyhQT6WlGxtFJPz0Mm-sDX4jSTBLDXy4CFk0tpDb_YA@z>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260722-cdns_sdhci_cqe-support-v3-2-4412856a4488@cadence.com>
-References: <20260722-cdns_sdhci_cqe-support-v3-2-4412856a4488@cadence.com>
-TO: Rohan Joshi via B4 Relay <devnull+rohan1sj.cadence.com@kernel.org>
-TO: Ulf Hansson <ulfh@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Masahiro Yamada <masahiroy@kernel.org>
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: linux-mmc@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: mparab@cadence.com
-CC: pawell@cadence.com
-CC: sjakhade@cadence.com
-CC: mpillai@cadence.com
-CC: rohan1sj@cadence.com
-CC: razb@mobileye.com
-
-Hi Rohan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 1590cf0329716306e948a8fc29f1d3ee87d3989f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rohan-Joshi-via-B4-Relay/dt-bindings-mmc-cdns-sdhci-Add-CQE-support/20260722-192126
-base:   1590cf0329716306e948a8fc29f1d3ee87d3989f
-patch link:    https://lore.kernel.org/r/20260722-cdns_sdhci_cqe-support-v3-2-4412856a4488%40cadence.com
-patch subject: [PATCH v3 2/2] mmc: sdhci-cadence: add CQE support
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: arm64-randconfig-2051-20260723 (https://download.01.org/0day-ci/archive/20260723/202607231109.yni8zd4v-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ba2be3f8add2e63266686cb1bcd40c9fab07de7b)
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260723/202607231109.yni8zd4v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3fe08b9796f36ef437ab9328e7dd1e5ff2d66603
+commit: b6f466c509ad2f390b3fc91cd0de4783554f5f98 [5141/7793] drm/amd/display: add null pointer access check
+config: x86_64-randconfig-161-20260721 (https://download.01.org/0day-ci/archive/20260722/202607220316.QHZEudqb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607231109.yni8zd4v-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607220316.QHZEudqb-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:251.22-254.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:256.22-261.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: mmc@5a000000 (socionext,uniphier-sd4hc): reg: [[1509949440, 1024]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
---
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:251.22-254.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:256.22-261.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld11-ref.dtb: mmc@5a000000 (socionext,uniphier-sd4hc): reg: [[1509949440, 1024]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
---
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:384.22-387.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:389.22-394.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld20-akebi96.dtb: mmc@5a000000 (socionext,uniphier-sd4hc): reg: [[1509949440, 1024]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
---
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:384.22-387.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:389.22-394.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: mmc@5a000000 (socionext,uniphier-sd4hc): reg: [[1509949440, 1024]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
---
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:384.22-387.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:389.22-394.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld20-ref.dtb: mmc@5a000000 (socionext,uniphier-sd4hc): reg: [[1509949440, 1024]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
---
->> arch/arm64/boot/dts/socionext/uniphier-pxs3-ref.dtb: mmc@5a000000 (socionext,uniphier-sd4hc): reg: [[1509949440, 1024]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
---
->> arch/arm64/boot/dts/socionext/uniphier-pxs3-ref-gadget0.dtb: mmc@5a000000 (socionext,uniphier-sd4hc): reg: [[1509949440, 1024]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
---
->> arch/arm64/boot/dts/socionext/uniphier-pxs3-ref-gadget1.dtb: mmc@5a000000 (socionext,uniphier-sd4hc): reg: [[1509949440, 1024]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dio/dcn10/dcn10_link_encoder.c:1192 dcn10_link_encoder_dp_set_phy_pattern() warn: variable dereferenced before check 'param' (see line 1169)
+
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dio/dcn10/dcn10_link_encoder.c:1206 dcn10_link_encoder_dp_set_phy_pattern() warn: variable dereferenced before check 'param' (see line 1169)
+
+vim +/param +1192 drivers/gpu/drm/amd/amdgpu/../display/dc/dio/dcn10/dcn10_link_encoder.c
+
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1163  void dcn10_link_encoder_dp_set_phy_pattern(
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1164  	struct link_encoder *enc,
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1165  	const struct encoder_set_dp_phy_pattern_param *param)
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1166  {
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1167  	struct dcn10_link_encoder *enc10 = TO_DCN10_LINK_ENC(enc);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1168  
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26 @1169  	switch (param->dp_phy_pattern) {
+                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^
+Dereference
+
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1170  	case DP_TEST_PATTERN_TRAINING_PATTERN1:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1171  		dcn10_link_encoder_set_dp_phy_pattern_training_pattern(enc, 0);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1172  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1173  	case DP_TEST_PATTERN_TRAINING_PATTERN2:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1174  		dcn10_link_encoder_set_dp_phy_pattern_training_pattern(enc, 1);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1175  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1176  	case DP_TEST_PATTERN_TRAINING_PATTERN3:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1177  		dcn10_link_encoder_set_dp_phy_pattern_training_pattern(enc, 2);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1178  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1179  	case DP_TEST_PATTERN_TRAINING_PATTERN4:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1180  		dcn10_link_encoder_set_dp_phy_pattern_training_pattern(enc, 3);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1181  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1182  	case DP_TEST_PATTERN_D102:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1183  		set_dp_phy_pattern_d102(enc10);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1184  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1185  	case DP_TEST_PATTERN_SYMBOL_ERROR:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1186  		set_dp_phy_pattern_symbol_error(enc10);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1187  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1188  	case DP_TEST_PATTERN_PRBS7:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1189  		set_dp_phy_pattern_prbs7(enc10);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1190  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1191  	case DP_TEST_PATTERN_80BIT_CUSTOM:
+b6f466c509ad2f drivers/gpu/drm/amd/display/dc/dio/dcn10/dcn10_link_encoder.c Charlene Liu   2026-06-22 @1192  		if (param)
+                                                                                                                            ^^^^^
+The patch adds a pointless check.
+
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1193  			set_dp_phy_pattern_80bit_custom(
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1194  				enc10, param->custom_pattern);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1195  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1196  	case DP_TEST_PATTERN_CP2520_1:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1197  		set_dp_phy_pattern_hbr2_compliance_cp2520_2(enc10, 1);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1198  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1199  	case DP_TEST_PATTERN_CP2520_2:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1200  		set_dp_phy_pattern_hbr2_compliance_cp2520_2(enc10, 2);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1201  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1202  	case DP_TEST_PATTERN_CP2520_3:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1203  		set_dp_phy_pattern_hbr2_compliance_cp2520_2(enc10, 3);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1204  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1205  	case DP_TEST_PATTERN_VIDEO_MODE: {
+b6f466c509ad2f drivers/gpu/drm/amd/display/dc/dio/dcn10/dcn10_link_encoder.c Charlene Liu   2026-06-22  1206  		if (param)
+
+And another.
+
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1207  			set_dp_phy_pattern_passthrough_mode(
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1208  				enc10, param->dp_panel_mode);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1209  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1210  	}
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1211  
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1212  	default:
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1213  		/* invalid phy pattern */
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1214  		ASSERT_CRITICAL(false);
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1215  		break;
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1216  	}
+f0cd0a346dfd1d drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c     Eric Bernstein 2018-04-26  1217  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
