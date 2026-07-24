@@ -1,293 +1,249 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B973A1DB
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Jul 2026 06:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F162A2749DF
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Jul 2026 06:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784872890; cv=none; b=RR7JUow6wXuH7UXsTl3RnUaRwHXWojOH/unzy2poFsbiTSg5EC7q4TWdGzhSq+UvmZmLc3eRbqEBQebMC6fQTQ2RLqe36YxBZrGc4s7r+Czn8XgWXiq1+U255phASFXMukJfzKlJ2KDBgbp9pzFYRGHzlX7GJ1G0UdH5GG5OnMs=
+	t=1784873358; cv=none; b=KjGruEve2OXa7K0zI49KJB2gajs3wo6cQ+j1/ldbMTWef4UPCPa0HqHZ+EdPg2Rv2o5J5R0ThCFHXqGcgGJY+59FRnBrzDaDQ4WvaawJBiFhAf4/kpwchaQOz2e2cLhijaSixUNVzXVhk+Mv0DtOrvHsmH895bPy26Sxc0iltvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784872890; c=relaxed/simple;
-	bh=9p0N2TcdaOK62dlfM2BqNCCIqmPIoDq01NM3znPMhdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=CmwEkOFBGlSsQ7kBWg5gs4eu/RuScqWkJAO9VDEhGX+8/Yc+EHBeqhzcouzMd+BmfmJmQepIP5HsGAXqhfSDBFXSIjUpyN9H/vJy6pYSEshBAQvLUYLrBkt1cv+SI/gKUwrq82LXE7997BxkMfoFCXZ2gJHCU61JAgrPN4L/ZB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NT7LORpf; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1784873358; c=relaxed/simple;
+	bh=mrsk2PwcM+shTKvPgQ1+KwRJjnWdzME0Nmp4a2HDi7E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=US4k40AahuWuFHpB95So3juAk/c+dFLYMq3VtyAty2qwp1L2jY8B8Y/qwD1PcQGoeeKMl+UFXvLkzys7RpwOiUofLV6G95kL20Sib3BraxBdgDJilBSD5LzhvNTAhbK9gzLMoiKuHQodwPVlQppajOGMuDy5Cz00A0g2B0PVRsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEstXWAv; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NT7LORpf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEstXWAv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784872887; x=1816408887;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9p0N2TcdaOK62dlfM2BqNCCIqmPIoDq01NM3znPMhdQ=;
-  b=NT7LORpfKbJMEUDV1GA9xSJMRmNfAsFVtZmd82i/X9L4ysDHJKrQ2MvR
-   D5SRDCTqZ6cETjuWoLizn/EITW1QJmL+Q1sGrUGh3eMarmH71YjhEuiUV
-   xjPTjOkNaJGHtzMDAYv0ktL5mGScu/4hcdNXZOZG98HqpTTSoqY/HjIXR
-   OS59UIOnS+hL0Q+Y+o3f7e+OYabfDuu1JQqSzzFGLfuZObQ19a95Cl5in
-   kUukZG6XStPt8ChMGOnO6ofHG0kLNI6toISslhT47EmERVL07XNfJqWeX
-   5unVb6YmHK4xh2k8gP1Z5gSph6YlpbQd1BFCftq6yum3P61qfp35fHSmg
-   Q==;
-X-CSE-ConnectionGUID: pQkSIjnhS2WvakjtPkFJVA==
-X-CSE-MsgGUID: bhddv8bBR5iISyBx8s01sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="96683920"
-X-IronPort-AV: E=Sophos;i="6.25,181,1779174000"; 
-   d="scan'208";a="96683920"
+  t=1784873356; x=1816409356;
+  h=date:from:to:cc:subject:message-id;
+  bh=mrsk2PwcM+shTKvPgQ1+KwRJjnWdzME0Nmp4a2HDi7E=;
+  b=hEstXWAvtkTYBqmlpux1Lksc79mYnUBuSKA8xcChwbe07mxa8m4mR89Q
+   /QSuWhzvhKKnvrXQMqyXvGlr4eVKrAC4j9Xi7Z2fM375rN/K3C6+kPalR
+   obWMKM+ENbufDK3tbVQVT5K2L+j+ZrTOhivYHXWcVWRclSUT/HToELpdu
+   0095nUV+uFYxbs7HvvHkVaGgoF0GLEen8PTiHgtgp7OTQzAmyHDRfQVT6
+   jKhrYcVJg2VVa4GVKBXNSGU8OoL7zU10t+gAyNlVMCHjHu9Y/rGQBN5NR
+   QHdu9u1gW1w9OxmPnTqxHJojEo8cxBL6RD9TTkaYjOELOdySFdfn4AW+h
+   w==;
+X-CSE-ConnectionGUID: 6zxSj+5FT3WmV66oZkc5Qw==
+X-CSE-MsgGUID: OKnU4OEsTlOR7RZWlc4Q3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="103077390"
+X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
+   d="scan'208";a="103077390"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 23:01:27 -0700
-X-CSE-ConnectionGUID: 85eKaSMlRL+gT4bZkBfn7A==
-X-CSE-MsgGUID: KwEap5BYTR2WOFuuzC0BcQ==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 23:09:15 -0700
+X-CSE-ConnectionGUID: Kpp/3ByMSnyCE8ndC12m6A==
+X-CSE-MsgGUID: 4yM9vhGrSu+LLqRwMIwwvw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,181,1779174000"; 
-   d="scan'208";a="262933002"
+X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
+   d="scan'208";a="262934478"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 23 Jul 2026 23:01:25 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 Jul 2026 23:09:14 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wn8yI-00000000aXI-32Q7;
-	Fri, 24 Jul 2026 06:01:22 +0000
-Date: Fri, 24 Jul 2026 14:00:43 +0800
+	id 1wn95j-00000000aXg-2Y2C;
+	Fri, 24 Jul 2026 06:09:05 +0000
+Date: Fri, 24 Jul 2026 14:08:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [morimoto:sound-cleanup-2026-07-23 293/293] /bin/bash: line
- 1: 3652547 Segmentation fault      ld.lld -m elf_i386 -mllvm
- -import-instr-limit=5 -z noexecstack -r -o
- drivers/media/platform/rockchip/rkisp1/rockchip-isp1.o
- @drivers/media/platform/rockchip/rkisp1/rockchip-isp1.mod
-Message-ID: <202607241332.ugY7hQOZ-lkp@intel.com>
+Subject: [gourryinverse:scratch/gourry/cramtest/cram_72 332/661]
+ mm/huge_memory.c:2874:35: error: call to '__compiletime_assert_612' declared
+ with 'error' attribute: BUILD_BUG failed
+Message-ID: <202607241350.mdgJqX1z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "clang compiler bug"
-::::::=20
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Rong Xu <xur@google.com>
-CC: Nathan Chancellor <nathan@kernel.org>
-CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Gregory Price <gourry@gourry.net>
+TO: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Rong,
+tree:   https://github.com/gourryinverse/linux scratch/gourry/cramtest/cram_72
+head:   22cb35457d24fb35765ef124f9c74c08a5f546a9
+commit: 7c4eebb3672eaa77e583b557b808ffcc78d74f5d [332/661] mm: preserve RWP marker across PTE rewrites
+:::::: branch date: 3 days ago
+:::::: commit date: 6 days ago
+config: sparc64-randconfig-002-20260724 (https://download.01.org/0day-ci/archive/20260724/202607241350.mdgJqX1z-lkp@intel.com/config)
+compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260724/202607241350.mdgJqX1z-lkp@intel.com/reproduce)
 
-First bad commit (maybe !=3D root cause):
-
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-07-23
-head:   5173180a2e0ab04e84faceb578ac598501f8d053
-commit: 9f2aee8f7d1842be08da860e45265d30dba0d1f7 [293/293] kbuild: distribu=
-ted build support for Clang ThinLTO
-:::::: branch date: 29 hours ago
-:::::: commit date: 8 weeks ago
-config: um-randconfig-r051-20260724 (https://download.01.org/0day-ci/archiv=
-e/20260724/202607241332.ugY7hQOZ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 600970=
-8b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260724/202607241332.ugY7hQOZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9f2aee8f7d18 ("kbuild: distributed build support for Clang ThinLTO=
-")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607241332.ugY7hQOZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607241350.mdgJqX1z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PLEASE submit a bug report to https://github.com/llvm/llvm-project/issue=
-s/ and include the crash backtrace.
-   Stack dump:
-   0.	Running pass 'Function Pass Manager' on module 'drivers/media/platfor=
-m/rockchip/rkisp1/rkisp1-capture.o'.
-   1.	Running pass 'Prologue/Epilogue Insertion & Frame Finalization' on fu=
-nction '@rkisp1_mp_sp_stop'
-    #0 0x0000557019c20f8b llvm::sys::PrintStackTrace(llvm::raw_ostream&, in=
-t) (lld+0x7dbf8b)
-    #1 0x0000557019c1e91b SignalHandler(int) Signals.cpp:0:0
-    #2 0x00007f0168eebdf0 (/lib/x86_64-linux-gnu/libc.so.6+0x3fdf0)
-    #3 0x000055701c00bbf2 (anonymous namespace)::PEI::runOnMachineFunction(=
-llvm::MachineFunction&) PrologEpilogInserter.cpp:0:0
-    #4 0x000055701bef0f15 llvm::MachineFunctionPass::runOnFunction(llvm::Fu=
-nction&) (.part.0) MachineFunctionPass.cpp:0:0
-    #5 0x000055701d7798b9 llvm::FPPassManager::runOnFunction(llvm::Function=
-&) (lld+0x43348b9)
-    #6 0x000055701d7799ec llvm::FPPassManager::runOnModule(llvm::Module&) (=
-lld+0x43349ec)
-    #7 0x000055701d77a318 llvm::legacy::PassManagerImpl::run(llvm::Module&)=
- (lld+0x4335318)
-    #8 0x000055701bcad27c codegen(llvm::lto::Config const&, llvm::TargetMac=
-hine*, std::function<llvm::Expected<std::unique_ptr<llvm::CachedFileStream,=
- std::default_delete<llvm::CachedFileStream>>> (unsigned int, llvm::Twine c=
-onst&)>, unsigned int, llvm::Module&, llvm::ModuleSummaryIndex const&) LTOB=
-ackend.cpp:0:0
-    #9 0x000055701bcae78a llvm::lto::thinBackend(llvm::lto::Config const&, =
-unsigned int, std::function<llvm::Expected<std::unique_ptr<llvm::CachedFile=
-Stream, std::default_delete<llvm::CachedFileStream>>> (unsigned int, llvm::=
-Twine const&)>, llvm::Module&, llvm::ModuleSummaryIndex const&, llvm::Strin=
-gMap<std::unordered_set<unsigned long, std::hash<unsigned long>, std::equal=
-_to<unsigned long>, std::allocator<unsigned long>>, llvm::MallocAllocator> =
-const&, llvm::DenseMap<unsigned long, llvm::GlobalValueSummary*, llvm::Dens=
-eMapInfo<unsigned long, void>, llvm::detail::DenseMapPair<unsigned long, ll=
-vm::GlobalValueSummary*>> const&, llvm::MapVector<llvm::StringRef, llvm::Bi=
-tcodeModule, llvm::DenseMap<llvm::StringRef, unsigned int, llvm::DenseMapIn=
-fo<llvm::StringRef, void>, llvm::detail::DenseMapPair<llvm::StringRef, unsi=
-gned int>>, llvm::SmallVector<std::pair<llvm::StringRef, llvm::BitcodeModul=
-e>, 0u>>*, std::vector<unsigned char, std::allocator<unsigned char>> const&=
-) (lld+0x286978a)
-   #10 0x000055701bc9ed2d std::_Function_handler<void (), std::_Bind<(anony=
-mous namespace)::InProcessThinBackend::start(unsigned int, llvm::BitcodeMod=
-ule, llvm::StringMap<std::unordered_set<unsigned long, std::hash<unsigned l=
-ong>, std::equal_to<unsigned long>, std::allocator<unsigned long>>, llvm::M=
-allocAllocator> const&, llvm::DenseSet<llvm::ValueInfo, llvm::DenseMapInfo<=
-llvm::ValueInfo, void>> const&, std::map<unsigned long, llvm::GlobalValue::=
-LinkageTypes, std::less<unsigned long>, std::allocator<std::pair<unsigned l=
-ong const, llvm::GlobalValue::LinkageTypes>>> const&, llvm::MapVector<llvm:=
-:StringRef, llvm::BitcodeModule, llvm::DenseMap<llvm::StringRef, unsigned i=
-nt, llvm::DenseMapInfo<llvm::StringRef, void>, llvm::detail::DenseMapPair<l=
-lvm::StringRef, unsigned int>>, llvm::SmallVector<std::pair<llvm::StringRef=
-, llvm::BitcodeModule>, 0u>>&)::'lambda'(llvm::BitcodeModule, llvm::ModuleS=
-ummaryIndex&, llvm::StringMap<std::unordered_set<unsigned long, std::hash<u=
-nsigned long>, std::equal_to<unsigned long>, std::allocator<unsigned long>>=
-, llvm::MallocAllocator> const&, llvm::DenseSet<llvm::ValueInfo, llvm::Dens=
-eMapInfo<llvm::ValueInfo, void>> const&, std::map<unsigned long, llvm::Glob=
-alValue::LinkageTypes, std::less<unsigned long>, std::allocator<std::pair<u=
-nsigned long const, llvm::GlobalValue::LinkageTypes>>> const&, llvm::DenseM=
-ap<unsigned long, llvm::GlobalValueSummary*, llvm::DenseMapInfo<unsigned lo=
-ng, void>, llvm::detail::DenseMapPair<unsigned long, llvm::GlobalValueSumma=
-ry*>> const&, llvm::MapVector<llvm::StringRef, llvm::BitcodeModule, llvm::D=
-enseMap<llvm::StringRef, unsigned int, llvm::DenseMapInfo<llvm::StringRef, =
-void>, llvm::detail::DenseMapPair<llvm::StringRef, unsigned int>>, llvm::Sm=
-allVector<std::pair<llvm::StringRef, llvm::BitcodeModule>, 0u>>&) (llvm::Bi=
-tcodeModule, std::reference_wrapper<llvm::ModuleSummaryIndex>, std::referen=
-ce_wrapper<llvm::StringMap<std::unordered_set<unsigned long, std::hash<unsi=
-gned long>, std::equal_to<unsigned long>, std::allocator<unsigned long>>, l=
-lvm::MallocAllocator> const>, std::reference_wrapper<llvm::DenseSet<llvm::V=
-alueInfo, llvm::DenseMapInfo<llvm::ValueInfo, void>> const>, std::reference=
-_wrapper<std::map<unsigned long, llvm::GlobalValue::LinkageTypes, std::less=
-<unsigned long>, std::allocator<std::pair<unsigned long const, llvm::Global=
-Value::LinkageTypes>>> const>, std::reference_wrapper<llvm::DenseMap<unsign=
-ed long, llvm::GlobalValueSummary*, llvm::DenseMapInfo<unsigned long, void>=
-, llvm::detail::DenseMapPair<unsigned long, llvm::GlobalValueSummary*>> con=
-st>, std::reference_wrapper<llvm::MapVector<llvm::StringRef, llvm::BitcodeM=
-odule, llvm::DenseMap<llvm::StringRef, unsigned int, llvm::DenseMapInfo<llv=
-m::StringRef, void>, llvm::detail::DenseMapPair<llvm::StringRef, unsigned i=
-nt>>, llvm::SmallVector<std::pair<llvm::StringRef, llvm::BitcodeModule>, 0u=
->>>)>>::_M_invoke(std::_Any_data const&) LTO.cpp:0:0
-   #11 0x0000557019fa832b std::_Function_handler<void (), llvm::ThreadPool:=
-:createTaskAndFuture(std::function<void ()>)::'lambda'()>::_M_invoke(std::_=
-Any_data const&) (lld+0xb6332b)
-   #12 0x000055701d8d2a9b llvm::ThreadPool::processTasks(llvm::ThreadPoolTa=
-skGroup*) (lld+0x448da9b)
-   #13 0x000055701d8d33cc void* llvm::thread::ThreadProxy<std::tuple<llvm::=
-ThreadPool::grow(int)::'lambda'()>>(void*) ThreadPool.cpp:0:0
-   #14 0x00007f0168f3eb7b (/lib/x86_64-linux-gnu/libc.so.6+0x92b7b)
-   #15 0x00007f0168fbc630 clone (/lib/x86_64-linux-gnu/libc.so.6+0x110630)
->> /bin/bash: line 1: 3652547 Segmentation fault      ld.lld -m elf_i386 -m=
-llvm -import-instr-limit=3D5 -z noexecstack -r -o drivers/media/platform/ro=
-ckchip/rkisp1/rockchip-isp1.o @drivers/media/platform/rockchip/rkisp1/rockc=
-hip-isp1.mod
---
-   PLEASE submit a bug report to https://github.com/llvm/llvm-project/issue=
-s/ and include the crash backtrace.
-   Stack dump:
-   0.	Running pass 'Function Pass Manager' on module 'drivers/media/platfor=
-m/samsung/s3c-camif/camif-core.o'.
-   1.	Running pass 'Prologue/Epilogue Insertion & Frame Finalization' on fu=
-nction '@s3c_camif_remove'
-    #0 0x0000563d11775f8b llvm::sys::PrintStackTrace(llvm::raw_ostream&, in=
-t) (lld+0x7dbf8b)
-    #1 0x0000563d1177391b SignalHandler(int) Signals.cpp:0:0
-    #2 0x00007fd28ed80df0 (/lib/x86_64-linux-gnu/libc.so.6+0x3fdf0)
-    #3 0x0000563d13b60bf2 (anonymous namespace)::PEI::runOnMachineFunction(=
-llvm::MachineFunction&) PrologEpilogInserter.cpp:0:0
-    #4 0x0000563d13a45f15 llvm::MachineFunctionPass::runOnFunction(llvm::Fu=
-nction&) (.part.0) MachineFunctionPass.cpp:0:0
-    #5 0x0000563d152ce8b9 llvm::FPPassManager::runOnFunction(llvm::Function=
-&) (lld+0x43348b9)
-    #6 0x0000563d152ce9ec llvm::FPPassManager::runOnModule(llvm::Module&) (=
-lld+0x43349ec)
-    #7 0x0000563d152cf318 llvm::legacy::PassManagerImpl::run(llvm::Module&)=
- (lld+0x4335318)
-    #8 0x0000563d1380227c codegen(llvm::lto::Config const&, llvm::TargetMac=
-hine*, std::function<llvm::Expected<std::unique_ptr<llvm::CachedFileStream,=
- std::default_delete<llvm::CachedFileStream>>> (unsigned int, llvm::Twine c=
-onst&)>, unsigned int, llvm::Module&, llvm::ModuleSummaryIndex const&) LTOB=
-ackend.cpp:0:0
-    #9 0x0000563d1380378a llvm::lto::thinBackend(llvm::lto::Config const&, =
-unsigned int, std::function<llvm::Expected<std::unique_ptr<llvm::CachedFile=
-Stream, std::default_delete<llvm::CachedFileStream>>> (unsigned int, llvm::=
-Twine const&)>, llvm::Module&, llvm::ModuleSummaryIndex const&, llvm::Strin=
-gMap<std::unordered_set<unsigned long, std::hash<unsigned long>, std::equal=
-_to<unsigned long>, std::allocator<unsigned long>>, llvm::MallocAllocator> =
-const&, llvm::DenseMap<unsigned long, llvm::GlobalValueSummary*, llvm::Dens=
-eMapInfo<unsigned long, void>, llvm::detail::DenseMapPair<unsigned long, ll=
-vm::GlobalValueSummary*>> const&, llvm::MapVector<llvm::StringRef, llvm::Bi=
-tcodeModule, llvm::DenseMap<llvm::StringRef, unsigned int, llvm::DenseMapIn=
-fo<llvm::StringRef, void>, llvm::detail::DenseMapPair<llvm::StringRef, unsi=
-gned int>>, llvm::SmallVector<std::pair<llvm::StringRef, llvm::BitcodeModul=
-e>, 0u>>*, std::vector<unsigned char, std::allocator<unsigned char>> const&=
-) (lld+0x286978a)
-   #10 0x0000563d137f3d2d std::_Function_handler<void (), std::_Bind<(anony=
-mous namespace)::InProcessThinBackend::start(unsigned int, llvm::BitcodeMod=
-ule, llvm::StringMap<std::unordered_set<unsigned long, std::hash<unsigned l=
-ong>, std::equal_to<unsigned long>, std::allocator<unsigned long>>, llvm::M=
-allocAllocator> const&, llvm::DenseSet<llvm::ValueInfo, llvm::DenseMapInfo<=
-llvm::ValueInfo, void>> const&, std::map<unsigned long, llvm::GlobalValue::=
-LinkageTypes, std::less<unsigned long>, std::allocator<std::pair<unsigned l=
-ong const, llvm::GlobalValue::LinkageTypes>>> const&, llvm::MapVector<llvm:=
-:StringRef, llvm::BitcodeModule, llvm::DenseMap<llvm::StringRef, unsigned i=
-nt, llvm::DenseMapInfo<llvm::StringRef, void>, llvm::detail::DenseMapPair<l=
-lvm::StringRef, unsigned int>>, llvm::SmallVector<std::pair<llvm::StringRef=
-, llvm::BitcodeModule>, 0u>>&)::'lambda'(llvm::BitcodeModule, llvm::ModuleS=
-ummaryIndex&, llvm::StringMap<std::unordered_set<unsigned long, std::hash<u=
-nsigned long>, std::equal_to<unsigned long>, std::allocator<unsigned long>>=
-, llvm::MallocAllocator> const&, llvm::DenseSet<llvm::ValueInfo, llvm::Dens=
-eMapInfo<llvm::ValueInfo, void>> const&, std::map<unsigned long, llvm::Glob=
-alValue::LinkageTypes, std::less<unsigned long>, std::allocator<std::pair<u=
-nsigned long const, llvm::GlobalValue::LinkageTypes>>> const&, llvm::DenseM=
-ap<unsigned long, llvm::GlobalValueSummary*, llvm::DenseMapInfo<unsigned lo=
-ng, void>, llvm::detail::DenseMapPair<unsigned long, llvm::GlobalValueSumma=
-ry*>> const&, llvm::MapVector<llvm::StringRef, llvm::BitcodeModule, llvm::D=
-enseMap<llvm::StringRef, unsigned int, llvm::DenseMapInfo<llvm::StringRef, =
-void>, llvm::detail::DenseMapPair<llvm::StringRef, unsigned int>>, llvm::Sm=
-allVector<std::pair<llvm::StringRef, llvm::BitcodeModule>, 0u>>&) (llvm::Bi=
-tcodeModule, std::reference_wrapper<llvm::ModuleSummaryIndex>, std::referen=
-ce_wrapper<llvm::StringMap<std::unordered_set<unsigned long, std::hash<unsi=
-gned long>, std::equal_to<unsigned long>, std::allocator<unsigned long>>, l=
-lvm::MallocAllocator> const>, std::reference_wrapper<llvm::DenseSet<llvm::V=
-alueInfo, llvm::DenseMapInfo<llvm::ValueInfo, void>> const>, std::reference=
-_wrapper<std::map<unsigned long, llvm::GlobalValue::LinkageTypes, std::less=
-<unsigned long>, std::allocator<std::pair<unsigned long const, llvm::Global=
-Value::LinkageTypes>>> const>, std::reference_wrapper<llvm::DenseMap<unsign=
-ed long, llvm::GlobalValueSummary*, llvm::DenseMapInfo<unsigned long, void>=
-, llvm::detail::DenseMapPair<unsigned long, llvm::GlobalValueSummary*>> con=
-st>, std::reference_wrapper<llvm::MapVector<llvm::StringRef, llvm::BitcodeM=
-odule, llvm::DenseMap<llvm::StringRef, unsigned int, llvm::DenseMapInfo<llv=
-m::StringRef, void>, llvm::detail::DenseMapPair<llvm::StringRef, unsigned i=
-nt>>, llvm::SmallVector<std::pair<llvm::StringRef, llvm::BitcodeModule>, 0u=
->>>)>>::_M_invoke(std::_Any_data const&) LTO.cpp:0:0
-   #11 0x0000563d11afd32b std::_Function_handler<void (), llvm::ThreadPool:=
-:createTaskAndFuture(std::function<void ()>)::'lambda'()>::_M_invoke(std::_=
-Any_data const&) (lld+0xb6332b)
-   #12 0x0000563d15427a9b llvm::ThreadPool::processTasks(llvm::ThreadPoolTa=
-skGroup*) (lld+0x448da9b)
-   #13 0x0000563d154283cc void* llvm::thread::ThreadProxy<std::tuple<llvm::=
-ThreadPool::grow(int)::'lambda'()>>(void*) ThreadPool.cpp:0:0
-   #14 0x00007fd28edd3b7b (/lib/x86_64-linux-gnu/libc.so.6+0x92b7b)
-   #15 0x00007fd28ee51630 clone (/lib/x86_64-linux-gnu/libc.so.6+0x110630)
->> /bin/bash: line 1: 3645835 Segmentation fault      ld.lld -m elf_i386 -m=
-llvm -import-instr-limit=3D5 -z noexecstack -r -o drivers/media/platform/sa=
-msung/s3c-camif/s3c-camif.o @drivers/media/platform/samsung/s3c-camif/s3c-c=
-amif.mod
+>> mm/huge_memory.c:2874:35: error: call to '__compiletime_assert_612' declared with 'error' attribute: BUILD_BUG failed
+    2874 |                 _dst_pmd = pmd_modify(_dst_pmd, PAGE_NONE);
+         |                                                 ^
+   include/linux/pgtable.h:2145:22: note: expanded from macro 'PAGE_NONE'
+    2145 | #define PAGE_NONE ({ BUILD_BUG(); (pgprot_t){0}; })
+         |                      ^
+   include/linux/build_bug.h:60:21: note: expanded from macro 'BUILD_BUG'
+      60 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^
+   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
+     690 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
+     683 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:157:1: note: expanded from here
+     157 | __compiletime_assert_612
+         | ^
+   1 error generated.
+
+
+vim +2874 mm/huge_memory.c
+
+cb0f01beb16669 Peter Xu                2024-08-12  2765  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2766  #ifdef CONFIG_USERFAULTFD
+adef440691bab8 Andrea Arcangeli        2023-12-06  2767  /*
+867a43a34ff8a3 Lokesh Gidra            2024-02-15  2768   * The PT lock for src_pmd and dst_vma/src_vma (for reading) are locked by
+adef440691bab8 Andrea Arcangeli        2023-12-06  2769   * the caller, but it must return after releasing the page_table_lock.
+adef440691bab8 Andrea Arcangeli        2023-12-06  2770   * Just move the page from src_pmd to dst_pmd if possible.
+adef440691bab8 Andrea Arcangeli        2023-12-06  2771   * Return zero if succeeded in moving the page, -EAGAIN if it needs to be
+adef440691bab8 Andrea Arcangeli        2023-12-06  2772   * repeated by the caller, or other errors in case of failure.
+adef440691bab8 Andrea Arcangeli        2023-12-06  2773   */
+adef440691bab8 Andrea Arcangeli        2023-12-06  2774  int move_pages_huge_pmd(struct mm_struct *mm, pmd_t *dst_pmd, pmd_t *src_pmd, pmd_t dst_pmdval,
+adef440691bab8 Andrea Arcangeli        2023-12-06  2775  			struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
+adef440691bab8 Andrea Arcangeli        2023-12-06  2776  			unsigned long dst_addr, unsigned long src_addr)
+adef440691bab8 Andrea Arcangeli        2023-12-06  2777  {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2778  	pmd_t _dst_pmd, src_pmdval;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2779  	struct page *src_page;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2780  	struct folio *src_folio;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2781  	spinlock_t *src_ptl, *dst_ptl;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2782  	pgtable_t src_pgtable;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2783  	struct mmu_notifier_range range;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2784  	int err = 0;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2785  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2786  	src_pmdval = *src_pmd;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2787  	src_ptl = pmd_lockptr(mm, src_pmd);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2788  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2789  	lockdep_assert_held(src_ptl);
+867a43a34ff8a3 Lokesh Gidra            2024-02-15  2790  	vma_assert_locked(src_vma);
+867a43a34ff8a3 Lokesh Gidra            2024-02-15  2791  	vma_assert_locked(dst_vma);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2792  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2793  	/* Sanity checks before the operation */
+adef440691bab8 Andrea Arcangeli        2023-12-06  2794  	if (WARN_ON_ONCE(!pmd_none(dst_pmdval)) || WARN_ON_ONCE(src_addr & ~HPAGE_PMD_MASK) ||
+adef440691bab8 Andrea Arcangeli        2023-12-06  2795  	    WARN_ON_ONCE(dst_addr & ~HPAGE_PMD_MASK)) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2796  		spin_unlock(src_ptl);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2797  		return -EINVAL;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2798  	}
+adef440691bab8 Andrea Arcangeli        2023-12-06  2799  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2800  	if (!pmd_trans_huge(src_pmdval)) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2801  		spin_unlock(src_ptl);
+0ac881efe16468 Lorenzo Stoakes         2025-11-10  2802  		if (pmd_is_migration_entry(src_pmdval)) {
+0a7ef0a99c1b37 Usama Arif              2026-07-05  2803  			pmd_migration_entry_wait(mm, src_pmd);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2804  			return -EAGAIN;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2805  		}
+adef440691bab8 Andrea Arcangeli        2023-12-06  2806  		return -ENOENT;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2807  	}
+adef440691bab8 Andrea Arcangeli        2023-12-06  2808  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2809  	src_page = pmd_page(src_pmdval);
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2810  
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2811  	if (!is_huge_zero_pmd(src_pmdval)) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2812  		if (unlikely(!PageAnonExclusive(src_page))) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2813  			spin_unlock(src_ptl);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2814  			return -EBUSY;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2815  		}
+adef440691bab8 Andrea Arcangeli        2023-12-06  2816  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2817  		src_folio = page_folio(src_page);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2818  		folio_get(src_folio);
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2819  	} else
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2820  		src_folio = NULL;
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2821  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2822  	spin_unlock(src_ptl);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2823  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2824  	flush_cache_range(src_vma, src_addr, src_addr + HPAGE_PMD_SIZE);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2825  	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, src_addr,
+adef440691bab8 Andrea Arcangeli        2023-12-06  2826  				src_addr + HPAGE_PMD_SIZE);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2827  	mmu_notifier_invalidate_range_start(&range);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2828  
+cc22b9978509ec Lokesh Gidra            2025-09-23  2829  	if (src_folio)
+adef440691bab8 Andrea Arcangeli        2023-12-06  2830  		folio_lock(src_folio);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2831  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2832  	dst_ptl = pmd_lockptr(mm, dst_pmd);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2833  	double_pt_lock(src_ptl, dst_ptl);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2834  	if (unlikely(!pmd_same(*src_pmd, src_pmdval) ||
+adef440691bab8 Andrea Arcangeli        2023-12-06  2835  		     !pmd_same(*dst_pmd, dst_pmdval))) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2836  		err = -EAGAIN;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2837  		goto unlock_ptls;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2838  	}
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2839  	if (src_folio) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2840  		if (folio_maybe_dma_pinned(src_folio) ||
+adef440691bab8 Andrea Arcangeli        2023-12-06  2841  		    !PageAnonExclusive(&src_folio->page)) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2842  			err = -EBUSY;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2843  			goto unlock_ptls;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2844  		}
+adef440691bab8 Andrea Arcangeli        2023-12-06  2845  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2846  		if (WARN_ON_ONCE(!folio_test_head(src_folio)) ||
+adef440691bab8 Andrea Arcangeli        2023-12-06  2847  		    WARN_ON_ONCE(!folio_test_anon(src_folio))) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2848  			err = -EBUSY;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2849  			goto unlock_ptls;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2850  		}
+adef440691bab8 Andrea Arcangeli        2023-12-06  2851  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2852  		src_pmdval = pmdp_huge_clear_flush(src_vma, src_addr, src_pmd);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2853  		/* Folio got pinned from under us. Put it back and fail the move. */
+adef440691bab8 Andrea Arcangeli        2023-12-06  2854  		if (folio_maybe_dma_pinned(src_folio)) {
+adef440691bab8 Andrea Arcangeli        2023-12-06  2855  			set_pmd_at(mm, src_addr, src_pmd, src_pmdval);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2856  			err = -EBUSY;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2857  			goto unlock_ptls;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2858  		}
+adef440691bab8 Andrea Arcangeli        2023-12-06  2859  
+c0205eaf3af9f5 Lokesh Gidra            2024-04-04  2860  		folio_move_anon_rmap(src_folio, dst_vma);
+b5ba3a64279355 Suren Baghdasaryan      2024-04-14  2861  		src_folio->index = linear_page_index(dst_vma, dst_addr);
+c0205eaf3af9f5 Lokesh Gidra            2024-04-04  2862  
+e3981db444a0a1 Matthew Wilcox (Oracle  2025-04-02  2863) 		_dst_pmd = folio_mk_pmd(src_folio, dst_vma->vm_page_prot);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2864  		/* Follow mremap() behavior and treat the entry dirty after the move */
+adef440691bab8 Andrea Arcangeli        2023-12-06  2865  		_dst_pmd = pmd_mkwrite(pmd_mkdirty(_dst_pmd), dst_vma);
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2866  	} else {
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2867  		src_pmdval = pmdp_huge_clear_flush(src_vma, src_addr, src_pmd);
+fae654083bfa40 Chris Down              2026-03-03  2868  		_dst_pmd = move_soft_dirty_pmd(src_pmdval);
+fae654083bfa40 Chris Down              2026-03-03  2869  		_dst_pmd = clear_uffd_wp_pmd(_dst_pmd);
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2870  	}
+7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2871) 
+7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2872) 	/* Re-arm RWP on the moved PMD if dst_vma is RWP-registered. */
+7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2873) 	if (userfaultfd_rwp(dst_vma)) {
+7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08 @2874) 		_dst_pmd = pmd_modify(_dst_pmd, PAGE_NONE);
+7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2875) 		_dst_pmd = pmd_mkuffd(_dst_pmd);
+7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2876) 	}
+7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2877) 
+adef440691bab8 Andrea Arcangeli        2023-12-06  2878  	set_pmd_at(mm, dst_addr, dst_pmd, _dst_pmd);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2879  
+adef440691bab8 Andrea Arcangeli        2023-12-06  2880  	src_pgtable = pgtable_trans_huge_withdraw(mm, src_pmd);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2881  	pgtable_trans_huge_deposit(mm, dst_pmd, src_pgtable);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2882  unlock_ptls:
+adef440691bab8 Andrea Arcangeli        2023-12-06  2883  	double_pt_unlock(src_ptl, dst_ptl);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2884  	/* unblock rmap walks */
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2885  	if (src_folio)
+adef440691bab8 Andrea Arcangeli        2023-12-06  2886  		folio_unlock(src_folio);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2887  	mmu_notifier_invalidate_range_end(&range);
+eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2888  	if (src_folio)
+adef440691bab8 Andrea Arcangeli        2023-12-06  2889  		folio_put(src_folio);
+adef440691bab8 Andrea Arcangeli        2023-12-06  2890  	return err;
+adef440691bab8 Andrea Arcangeli        2023-12-06  2891  }
+adef440691bab8 Andrea Arcangeli        2023-12-06  2892  #endif /* CONFIG_USERFAULTFD */
+adef440691bab8 Andrea Arcangeli        2023-12-06  2893  
 
 --
 0-DAY CI Kernel Test Service
