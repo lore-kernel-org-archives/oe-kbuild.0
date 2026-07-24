@@ -1,249 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F162A2749DF
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Jul 2026 06:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294D42D7386
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Jul 2026 06:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784873358; cv=none; b=KjGruEve2OXa7K0zI49KJB2gajs3wo6cQ+j1/ldbMTWef4UPCPa0HqHZ+EdPg2Rv2o5J5R0ThCFHXqGcgGJY+59FRnBrzDaDQ4WvaawJBiFhAf4/kpwchaQOz2e2cLhijaSixUNVzXVhk+Mv0DtOrvHsmH895bPy26Sxc0iltvg=
+	t=1784876129; cv=none; b=tJvkU5WwHhv3hYsyACCbugt6zLUdcXcpk1r9K35ft3p0ilS3AjVrxXhtvbyTjliAmwqtJ2EI1tmR4Hcd2JRyzFRLGsl9QKvJCCvBETIL9fz4gBdaJfiiVcvV/tHMgde3IVAGv5TgVAzHyl36ZQTT4VHYmvJNjSTadu+PLLgKe1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784873358; c=relaxed/simple;
-	bh=mrsk2PwcM+shTKvPgQ1+KwRJjnWdzME0Nmp4a2HDi7E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=US4k40AahuWuFHpB95So3juAk/c+dFLYMq3VtyAty2qwp1L2jY8B8Y/qwD1PcQGoeeKMl+UFXvLkzys7RpwOiUofLV6G95kL20Sib3BraxBdgDJilBSD5LzhvNTAhbK9gzLMoiKuHQodwPVlQppajOGMuDy5Cz00A0g2B0PVRsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEstXWAv; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1784876129; c=relaxed/simple;
+	bh=aFCQ0ndg3LEkjFYto8sUXfZYHUzXrip6rnpgN5fTLIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=pQ0NaTy2yO9ebTM4hk87tL0g6rdEpTm4qNhdBvxYoAjiVhkTw1vZAqxTDvr6MzJIaTEIOYKnAX/HPJN/fsRQCTZ26+T5xLDsB+15IY90sfDe+7eUfBh/Vs5ngaWC52Tgv1GJlAfh5x3q3Wssnwpkd1ygsvAD/vaOxzI05NgnxBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=msX9/Y9u; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEstXWAv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="msX9/Y9u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784873356; x=1816409356;
-  h=date:from:to:cc:subject:message-id;
-  bh=mrsk2PwcM+shTKvPgQ1+KwRJjnWdzME0Nmp4a2HDi7E=;
-  b=hEstXWAvtkTYBqmlpux1Lksc79mYnUBuSKA8xcChwbe07mxa8m4mR89Q
-   /QSuWhzvhKKnvrXQMqyXvGlr4eVKrAC4j9Xi7Z2fM375rN/K3C6+kPalR
-   obWMKM+ENbufDK3tbVQVT5K2L+j+ZrTOhivYHXWcVWRclSUT/HToELpdu
-   0095nUV+uFYxbs7HvvHkVaGgoF0GLEen8PTiHgtgp7OTQzAmyHDRfQVT6
-   jKhrYcVJg2VVa4GVKBXNSGU8OoL7zU10t+gAyNlVMCHjHu9Y/rGQBN5NR
-   QHdu9u1gW1w9OxmPnTqxHJojEo8cxBL6RD9TTkaYjOELOdySFdfn4AW+h
-   w==;
-X-CSE-ConnectionGUID: 6zxSj+5FT3WmV66oZkc5Qw==
-X-CSE-MsgGUID: OKnU4OEsTlOR7RZWlc4Q3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="103077390"
+  t=1784876126; x=1816412126;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aFCQ0ndg3LEkjFYto8sUXfZYHUzXrip6rnpgN5fTLIE=;
+  b=msX9/Y9u9OptIuICyv6chapCHArGm5RKXHomTvYD1V7fTf79QY7ERewN
+   gkdQb0yAJ/eldJ/AI+s1MhcWQZWFQy9xq95/Mb1kkeOmT1qjAy61EXR8r
+   67d3uAGOckj5xjD4VKu6f/TvXH79ivQMXCe2cLBX1b289JHOwjCju584k
+   xxoiEI+IGjgntDTzhn9xjixLJVeuLJ9B04pYSRyMdYmrOM/JBGbx9imdx
+   4ufyKhzZBcgLnPqOBAg7rVi2xdSxD7tUnuipSexY9cdwQdlZro7l4TcwX
+   l7zv1i950WBHIc6oaGEVMUdJyts5n5d7sdJX/3MWQ2nM4xsQ7rfOcmzEL
+   g==;
+X-CSE-ConnectionGUID: X3JQ0yPPSN+opVPgIq1MNQ==
+X-CSE-MsgGUID: +CA0wPXNQkOCW2LgKliAcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="89364021"
 X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
-   d="scan'208";a="103077390"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 23:09:15 -0700
-X-CSE-ConnectionGUID: Kpp/3ByMSnyCE8ndC12m6A==
-X-CSE-MsgGUID: 4yM9vhGrSu+LLqRwMIwwvw==
+   d="scan'208";a="89364021"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 23:55:23 -0700
+X-CSE-ConnectionGUID: 5O33iyxjTv+mIrF2KeQCLw==
+X-CSE-MsgGUID: X3/tOaR5QzueT/WH1Kdngw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
-   d="scan'208";a="262934478"
+   d="scan'208";a="296848901"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 23 Jul 2026 23:09:14 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Jul 2026 23:55:22 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wn95j-00000000aXg-2Y2C;
-	Fri, 24 Jul 2026 06:09:05 +0000
-Date: Fri, 24 Jul 2026 14:08:13 +0800
+	id 1wn9oV-00000000aZi-3mbV;
+	Fri, 24 Jul 2026 06:55:19 +0000
+Date: Fri, 24 Jul 2026 14:55:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [gourryinverse:scratch/gourry/cramtest/cram_72 332/661]
- mm/huge_memory.c:2874:35: error: call to '__compiletime_assert_612' declared
- with 'error' attribute: BUILD_BUG failed
-Message-ID: <202607241350.mdgJqX1z-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/stm/ltdc.c:1903 ltdc_resume() warn:
+ 'ldev->pixel_clk' from clk_prepare_enable() not released on lines: 1903.
+Message-ID: <202607241438.j6QMExVU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-:::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
-:::::: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Gregory Price <gourry@gourry.net>
-TO: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: Yannick Fertre <yannick.fertre@foss.st.com>
+CC: "Raphael Gallais-Pou" <raphael.gallais-pou@foss.st.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/cramtest/cram_72
-head:   22cb35457d24fb35765ef124f9c74c08a5f546a9
-commit: 7c4eebb3672eaa77e583b557b808ffcc78d74f5d [332/661] mm: preserve RWP marker across PTE rewrites
-:::::: branch date: 3 days ago
-:::::: commit date: 6 days ago
-config: sparc64-randconfig-002-20260724 (https://download.01.org/0day-ci/archive/20260724/202607241350.mdgJqX1z-lkp@intel.com/config)
-compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260724/202607241350.mdgJqX1z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4539944e515183668109bdf4d0c3d7d228383d88
+commit: d80667642b0f43580efd489d627dd24aa10ab98f drm/stm: ltdc: support new=
+ hardware version for STM32MP25 SoC
+date:   11 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 11 months ago
+config: um-randconfig-r071-20260724 (https://download.01.org/0day-ci/archiv=
+e/20260724/202607241438.j6QMExVU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: d80667642b0f ("drm/stm: ltdc: support new hardware version for STM=
+32MP25 SoC")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607241350.mdgJqX1z-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607241438.j6QMExVU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/stm/ltdc.c:1903 ltdc_resume() warn: 'ldev->pixel_clk' from =
+clk_prepare_enable() not released on lines: 1903.
 
->> mm/huge_memory.c:2874:35: error: call to '__compiletime_assert_612' declared with 'error' attribute: BUILD_BUG failed
-    2874 |                 _dst_pmd = pmd_modify(_dst_pmd, PAGE_NONE);
-         |                                                 ^
-   include/linux/pgtable.h:2145:22: note: expanded from macro 'PAGE_NONE'
-    2145 | #define PAGE_NONE ({ BUILD_BUG(); (pgprot_t){0}; })
-         |                      ^
-   include/linux/build_bug.h:60:21: note: expanded from macro 'BUILD_BUG'
-      60 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compiletime_assert'
-     683 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:157:1: note: expanded from here
-     157 | __compiletime_assert_612
-         | ^
-   1 error generated.
+Old smatch warnings:
+drivers/gpu/drm/stm/ltdc.c:939 ltdc_crtc_mode_set_nofb() warn: pm_runtime_g=
+et_sync() also returns 1 on success
 
+vim +1903 drivers/gpu/drm/stm/ltdc.c
 
-vim +2874 mm/huge_memory.c
-
-cb0f01beb16669 Peter Xu                2024-08-12  2765  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2766  #ifdef CONFIG_USERFAULTFD
-adef440691bab8 Andrea Arcangeli        2023-12-06  2767  /*
-867a43a34ff8a3 Lokesh Gidra            2024-02-15  2768   * The PT lock for src_pmd and dst_vma/src_vma (for reading) are locked by
-adef440691bab8 Andrea Arcangeli        2023-12-06  2769   * the caller, but it must return after releasing the page_table_lock.
-adef440691bab8 Andrea Arcangeli        2023-12-06  2770   * Just move the page from src_pmd to dst_pmd if possible.
-adef440691bab8 Andrea Arcangeli        2023-12-06  2771   * Return zero if succeeded in moving the page, -EAGAIN if it needs to be
-adef440691bab8 Andrea Arcangeli        2023-12-06  2772   * repeated by the caller, or other errors in case of failure.
-adef440691bab8 Andrea Arcangeli        2023-12-06  2773   */
-adef440691bab8 Andrea Arcangeli        2023-12-06  2774  int move_pages_huge_pmd(struct mm_struct *mm, pmd_t *dst_pmd, pmd_t *src_pmd, pmd_t dst_pmdval,
-adef440691bab8 Andrea Arcangeli        2023-12-06  2775  			struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
-adef440691bab8 Andrea Arcangeli        2023-12-06  2776  			unsigned long dst_addr, unsigned long src_addr)
-adef440691bab8 Andrea Arcangeli        2023-12-06  2777  {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2778  	pmd_t _dst_pmd, src_pmdval;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2779  	struct page *src_page;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2780  	struct folio *src_folio;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2781  	spinlock_t *src_ptl, *dst_ptl;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2782  	pgtable_t src_pgtable;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2783  	struct mmu_notifier_range range;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2784  	int err = 0;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2785  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2786  	src_pmdval = *src_pmd;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2787  	src_ptl = pmd_lockptr(mm, src_pmd);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2788  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2789  	lockdep_assert_held(src_ptl);
-867a43a34ff8a3 Lokesh Gidra            2024-02-15  2790  	vma_assert_locked(src_vma);
-867a43a34ff8a3 Lokesh Gidra            2024-02-15  2791  	vma_assert_locked(dst_vma);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2792  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2793  	/* Sanity checks before the operation */
-adef440691bab8 Andrea Arcangeli        2023-12-06  2794  	if (WARN_ON_ONCE(!pmd_none(dst_pmdval)) || WARN_ON_ONCE(src_addr & ~HPAGE_PMD_MASK) ||
-adef440691bab8 Andrea Arcangeli        2023-12-06  2795  	    WARN_ON_ONCE(dst_addr & ~HPAGE_PMD_MASK)) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2796  		spin_unlock(src_ptl);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2797  		return -EINVAL;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2798  	}
-adef440691bab8 Andrea Arcangeli        2023-12-06  2799  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2800  	if (!pmd_trans_huge(src_pmdval)) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2801  		spin_unlock(src_ptl);
-0ac881efe16468 Lorenzo Stoakes         2025-11-10  2802  		if (pmd_is_migration_entry(src_pmdval)) {
-0a7ef0a99c1b37 Usama Arif              2026-07-05  2803  			pmd_migration_entry_wait(mm, src_pmd);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2804  			return -EAGAIN;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2805  		}
-adef440691bab8 Andrea Arcangeli        2023-12-06  2806  		return -ENOENT;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2807  	}
-adef440691bab8 Andrea Arcangeli        2023-12-06  2808  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2809  	src_page = pmd_page(src_pmdval);
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2810  
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2811  	if (!is_huge_zero_pmd(src_pmdval)) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2812  		if (unlikely(!PageAnonExclusive(src_page))) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2813  			spin_unlock(src_ptl);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2814  			return -EBUSY;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2815  		}
-adef440691bab8 Andrea Arcangeli        2023-12-06  2816  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2817  		src_folio = page_folio(src_page);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2818  		folio_get(src_folio);
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2819  	} else
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2820  		src_folio = NULL;
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2821  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2822  	spin_unlock(src_ptl);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2823  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2824  	flush_cache_range(src_vma, src_addr, src_addr + HPAGE_PMD_SIZE);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2825  	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, src_addr,
-adef440691bab8 Andrea Arcangeli        2023-12-06  2826  				src_addr + HPAGE_PMD_SIZE);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2827  	mmu_notifier_invalidate_range_start(&range);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2828  
-cc22b9978509ec Lokesh Gidra            2025-09-23  2829  	if (src_folio)
-adef440691bab8 Andrea Arcangeli        2023-12-06  2830  		folio_lock(src_folio);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2831  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2832  	dst_ptl = pmd_lockptr(mm, dst_pmd);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2833  	double_pt_lock(src_ptl, dst_ptl);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2834  	if (unlikely(!pmd_same(*src_pmd, src_pmdval) ||
-adef440691bab8 Andrea Arcangeli        2023-12-06  2835  		     !pmd_same(*dst_pmd, dst_pmdval))) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2836  		err = -EAGAIN;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2837  		goto unlock_ptls;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2838  	}
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2839  	if (src_folio) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2840  		if (folio_maybe_dma_pinned(src_folio) ||
-adef440691bab8 Andrea Arcangeli        2023-12-06  2841  		    !PageAnonExclusive(&src_folio->page)) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2842  			err = -EBUSY;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2843  			goto unlock_ptls;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2844  		}
-adef440691bab8 Andrea Arcangeli        2023-12-06  2845  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2846  		if (WARN_ON_ONCE(!folio_test_head(src_folio)) ||
-adef440691bab8 Andrea Arcangeli        2023-12-06  2847  		    WARN_ON_ONCE(!folio_test_anon(src_folio))) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2848  			err = -EBUSY;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2849  			goto unlock_ptls;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2850  		}
-adef440691bab8 Andrea Arcangeli        2023-12-06  2851  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2852  		src_pmdval = pmdp_huge_clear_flush(src_vma, src_addr, src_pmd);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2853  		/* Folio got pinned from under us. Put it back and fail the move. */
-adef440691bab8 Andrea Arcangeli        2023-12-06  2854  		if (folio_maybe_dma_pinned(src_folio)) {
-adef440691bab8 Andrea Arcangeli        2023-12-06  2855  			set_pmd_at(mm, src_addr, src_pmd, src_pmdval);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2856  			err = -EBUSY;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2857  			goto unlock_ptls;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2858  		}
-adef440691bab8 Andrea Arcangeli        2023-12-06  2859  
-c0205eaf3af9f5 Lokesh Gidra            2024-04-04  2860  		folio_move_anon_rmap(src_folio, dst_vma);
-b5ba3a64279355 Suren Baghdasaryan      2024-04-14  2861  		src_folio->index = linear_page_index(dst_vma, dst_addr);
-c0205eaf3af9f5 Lokesh Gidra            2024-04-04  2862  
-e3981db444a0a1 Matthew Wilcox (Oracle  2025-04-02  2863) 		_dst_pmd = folio_mk_pmd(src_folio, dst_vma->vm_page_prot);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2864  		/* Follow mremap() behavior and treat the entry dirty after the move */
-adef440691bab8 Andrea Arcangeli        2023-12-06  2865  		_dst_pmd = pmd_mkwrite(pmd_mkdirty(_dst_pmd), dst_vma);
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2866  	} else {
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2867  		src_pmdval = pmdp_huge_clear_flush(src_vma, src_addr, src_pmd);
-fae654083bfa40 Chris Down              2026-03-03  2868  		_dst_pmd = move_soft_dirty_pmd(src_pmdval);
-fae654083bfa40 Chris Down              2026-03-03  2869  		_dst_pmd = clear_uffd_wp_pmd(_dst_pmd);
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2870  	}
-7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2871) 
-7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2872) 	/* Re-arm RWP on the moved PMD if dst_vma is RWP-registered. */
-7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2873) 	if (userfaultfd_rwp(dst_vma)) {
-7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08 @2874) 		_dst_pmd = pmd_modify(_dst_pmd, PAGE_NONE);
-7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2875) 		_dst_pmd = pmd_mkuffd(_dst_pmd);
-7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2876) 	}
-7c4eebb3672eaa Kiryl Shutsemau (Meta   2026-07-08  2877) 
-adef440691bab8 Andrea Arcangeli        2023-12-06  2878  	set_pmd_at(mm, dst_addr, dst_pmd, _dst_pmd);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2879  
-adef440691bab8 Andrea Arcangeli        2023-12-06  2880  	src_pgtable = pgtable_trans_huge_withdraw(mm, src_pmd);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2881  	pgtable_trans_huge_deposit(mm, dst_pmd, src_pgtable);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2882  unlock_ptls:
-adef440691bab8 Andrea Arcangeli        2023-12-06  2883  	double_pt_unlock(src_ptl, dst_ptl);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2884  	/* unblock rmap walks */
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2885  	if (src_folio)
-adef440691bab8 Andrea Arcangeli        2023-12-06  2886  		folio_unlock(src_folio);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2887  	mmu_notifier_invalidate_range_end(&range);
-eb1521dad8f391 Suren Baghdasaryan      2024-01-31  2888  	if (src_folio)
-adef440691bab8 Andrea Arcangeli        2023-12-06  2889  		folio_put(src_folio);
-adef440691bab8 Andrea Arcangeli        2023-12-06  2890  	return err;
-adef440691bab8 Andrea Arcangeli        2023-12-06  2891  }
-adef440691bab8 Andrea Arcangeli        2023-12-06  2892  #endif /* CONFIG_USERFAULTFD */
-adef440691bab8 Andrea Arcangeli        2023-12-06  2893  
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1883 =20
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1884  int ltdc_resume(s=
+truct drm_device *ddev)
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1885  {
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1886  	struct ltdc_devi=
+ce *ldev =3D ddev->dev_private;
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1887  	int ret;
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1888 =20
+1e00a12dbb09a7 Raphael Gallais-Pou 2025-08-25  1889  	drm_dbg_driver(ddev, =
+"\n");
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1890 =20
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1891  	ret =3D clk_prep=
+are_enable(ldev->pixel_clk);
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1892  	if (ret) {
+1e00a12dbb09a7 Raphael Gallais-Pou 2025-08-25  1893  		drm_err(ddev, "faile=
+d to enable pixel clock (%d)\n", ret);
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1894  		return ret;
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1895  	}
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1896 =20
+d80667642b0f43 Yannick Fertre      2025-08-22  1897  	if (ldev->bus_clk) {
+d80667642b0f43 Yannick Fertre      2025-08-22  1898  		ret =3D clk_prepare_=
+enable(ldev->bus_clk);
+d80667642b0f43 Yannick Fertre      2025-08-22  1899  		if (ret)
+d80667642b0f43 Yannick Fertre      2025-08-22  1900  			drm_err(ddev, "fail=
+ed to enable bus clock (%d)\n", ret);
+d80667642b0f43 Yannick Fertre      2025-08-22  1901  	}
+d80667642b0f43 Yannick Fertre      2025-08-22  1902 =20
+d80667642b0f43 Yannick Fertre      2025-08-22 @1903  	return ret;
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1904  }
+df61c776657fa5 Yannick Fertr=C3=A9      2019-03-21  1905 =20
 
 --
 0-DAY CI Kernel Test Service
