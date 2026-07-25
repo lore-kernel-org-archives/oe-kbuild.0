@@ -1,151 +1,142 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225913F329C
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Jul 2026 16:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180D431E849
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Jul 2026 17:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784997082; cv=none; b=NFeZBV0ydeHvKKuhpD435192czu6bDBYNBmjNSFb39RlOTLM+u23e/NDG8MsylL2mgkqV9rv6ujr9Clf//42PpXq8UGvF+FnSC85BaDxG5OE9p571/L/Qy5KFWb6lxqHrMQinc7kj585aw3eTYvUzONPUkuaw7qjnBQOluE0As4=
+	t=1784999721; cv=none; b=FofclKcOHUVQlY1nTtcXc6O/3Tcdhr9OMCRNMLYIUJRQlZqtQOcXp5C665nXTi+y6owRmyJ4HOxYedVjn3Io6DJwbijzCrAcdS9uOcCnPJkVdauJS9OG0oUqohElvFso8MXGht5AH8RJRKqZSaavJutHymt36QABePdrnwPi+E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784997082; c=relaxed/simple;
-	bh=/Qa1inmzanAneq/BsqpNt71srsHmc3Q9wzFTfyUU/Kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jFLi2TZ0waO/FT/S4WE/JqLww+XuXEp7y144FtH/zaMwfwBSV0VUyaU4qKpPgtbDp8SsTz5EiQHXuSzAOQ4v/IpppdFf5NvOhtiJRQ2ZC7KsEnBRnYb8cms2Dia/AkvVqKHCI/528tAEjs37p6BRpxBtz5ks6AsXmnV1C4ZJ7rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDqn5qsN; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784999721; c=relaxed/simple;
+	bh=0vfxwC7TY8fFx2/GVAbpFbK6Bsy3aTgXizxUb6KkCxw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JLRblAnR9A2tz9MB3jdK1nzsG9sVOIO/uiv3PwJLz+bi71FNfUwObU59a4rTis0w4xfAwb23fBX+uAfYDVhYgA4GuGV/4LmX6vaG+t99CiIDyHP/8859OHSGpbYXpikDil64vgWPglQt4wN2NwT1E1aUnVLr0Kdlk3kSu3JMe3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRkHllH2; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDqn5qsN"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc97653887so16884625ad.1
-        for <oe-kbuild@lists.linux.dev>; Sat, 25 Jul 2026 09:31:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784997080; x=1785601880; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K1Xu6gB2hPvfzPeGIegNJ8tUDHaIiJU8rBYzwhmih9I=;
-        b=DDqn5qsNhPqV1FmC+PwhOihA7n9AI6C2nRgnzT2d/KyWzNDGHsYBMtCulz+UB+8KFO
-         9SiQxbeZ8y6eag49hA8p0I36+HB7ursEjd9ujhdeeWPlpBQ8Lfdvv0fO3x9Q5pF0TzRh
-         x/DKIegBqK1ndEjqhumqxHeQm6bBvzcunHu4iDJ0heMFpgWYVM6PArjKMI7XgmH/tO6f
-         H4Hy+80H2ekoP/9YbyvyxvyXV8iXlCEGicWebhhdnlFTi7A4ciKvVjzsoI6JZXefsjTY
-         Q5axm11RYgunjCs/Ey7tz+y4tTV1mOeDM7cbhRh07swzU5+sWLNciELyPYD3WkQqtFfc
-         sr8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784997080; x=1785601880;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=K1Xu6gB2hPvfzPeGIegNJ8tUDHaIiJU8rBYzwhmih9I=;
-        b=A8H7l3ITLaC+Xuk8aszPni1iPkvu/p3UPpYdLEElwUPM7nDqyi0y2sugAxs0qoa24F
-         FgFpyd3dFDTNWFlhkrSffbWnD7+XWFuyjIqCk2B2+wS4Hdd1adaTVACLQX2nG8NLHS0t
-         72D+H4V7nbaog7BQMeGN3qxhNqhfzgb7W1Mq0TauYXAkGnRize0pR9oMnl6OOoGqbG/M
-         GMvxQVY8PzuKqznXY5FqXzSU/U52XAjrlLSbFFLgjmwrOhVBA007Bf0tpVtGL1iScAtr
-         kev+Vko1nFYhs1BpwS9PZTb4aolcBGSRhP3d3Zait1um0aeB4fxtR/Cq5IZTFmH5QjVb
-         M2jg==
-X-Gm-Message-State: AOJu0Yym8SAQH2qpaBb98L3T01SMKLHAdM3fJTfz93EXJNeywBTJfO08
-	Z8Wl5m6h4EHmypRqYa9EDv7j584M6HPWDgQfjXoJnYAE3jgYa6VR3Vk2vtnavphtqgA=
-X-Gm-Gg: AR+sD10K2l2GEmsz8/qd0V51ACRp6nKSluHvW1I39e8jjX6LiGqCAIaL1+tkGNG2lwH
-	3HY8IfN3/67eXoHELMYaKhYWfUBx9DOXmhYM7yUxlWbg3NVlQQ9MRBbYjBe7RbVTOW7tbIk/Zj2
-	m1Pkju+wQJIo8ZkPbaf8tM8GpLQBtcWVdJEioIfSC/YdKsNs5TIsDrcKsFAYuJG9+cWT8tb2O+M
-	cLDivfRWluxXV63+KviqAkMNUI8ofaRkbxZLdbLxbb1ENuHs43bj1zwUiT7y5HRzi7Ql1IgGRVe
-	yl8Li9dtbVt0pDlwHyqKxXu1Q4rw2aunlAJso8NAf51UNLiJFQvMS5uYYQcl7o58y5YQL1Hnpa9
-	JoQ1gua4KpvkzExj3dw6BpJlC1Hx2HMwgcnkRHpp9Phl33vJzrl+nkNUYyK1wR++9/RFtW80r
-X-Received: by 2002:a17:903:19ee:b0:2c8:2808:3ec4 with SMTP id d9443c01a7336-2cfde866afcmr24786625ad.24.1784997080266;
-        Sat, 25 Jul 2026 09:31:20 -0700 (PDT)
-Received: from localhost ([172.216.252.11])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7bc57asm10874305ad.45.2026.07.25.09.31.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 09:31:18 -0700 (PDT)
-Date: Sat, 25 Jul 2026 19:31:12 +0300
-From: Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRkHllH2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784999719; x=1816535719;
+  h=date:from:to:cc:subject:message-id;
+  bh=0vfxwC7TY8fFx2/GVAbpFbK6Bsy3aTgXizxUb6KkCxw=;
+  b=TRkHllH2s2eIh+lOiaRKsogQucwBN7WRlZ+E99cb2o5plaefFGfr66mm
+   K+UHUIEOSm3ParC6dVknqglgXb+aRHiuogMcw4sJHPExE5YoUpy9+twwq
+   ZlXi0ZGxIp7iXz4oBF8fONwsDuEhC+63P5rhmnjgIu+pVP2seB+V4io4D
+   +gGEMkiR1H3xyIU/aZgDj6kzpYZRfCYqqmifTQXa/Qmho6VqxAIh3FANU
+   RR1jdKR/tVo3SPxD9oB+bM3MU+9umYzieuSBgzuFGR3RbUxBgwyz3Xr/O
+   AuylikyDIS2eLEpGufPr2rIL2pLDGBVMG6vp42P2CibS+4wtXP6L9n0Tl
+   g==;
+X-CSE-ConnectionGUID: DqCMNKsHSf2/BBcTN/N0Wg==
+X-CSE-MsgGUID: zBP0NsUPQ3SL51MQB3zsig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="96225622"
+X-IronPort-AV: E=Sophos;i="6.25,184,1779174000"; 
+   d="scan'208";a="96225622"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2026 10:15:18 -0700
+X-CSE-ConnectionGUID: OR52lH8BQCyxPCkWqyRnvg==
+X-CSE-MsgGUID: N+j5OhzdSoGXngHElO4ecQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,184,1779174000"; 
+   d="scan'208";a="262501978"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 25 Jul 2026 10:15:17 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wnfxq-00000000bq6-00QV;
+	Sat, 25 Jul 2026 17:15:08 +0000
+Date: Sun, 26 Jul 2026 01:14:18 +0800
+From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.18/linux 1/1] kernel/kexec_handover.c:941
- kho_preserve_vmalloc() warn: missing error code 'err'
-Message-ID: <202607260054.fmMWCkfT-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/clk/aspeed/clk-aspeed.c:682 aspeed_ast2500_cc()
+ warn: mask and shift to zero: expr='val >> 23'
+Message-ID: <202607260043.DgRarqsj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260725163112.KizEsRWuhglH5P5TvKzd-qjTP17BxolWBLg6oJduYR0@z>
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
-head:   af406d75818b912a1b72efa75a20f8bf3e9a3f01
-commit: a667300bd53f272a3055238bcefe108f88836270 [1/1] kho: add support for preserving vmalloc allocations
-config: x86_64-randconfig-161-20260725 (https://download.01.org/0day-ci/archive/20260726/202607260054.fmMWCkfT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Ryan Chen <ryan_chen@aspeedtech.com>
+CC: Stephen Boyd <sboyd@kernel.org>
+CC: Brian Masney <bmasney@redhat.com>
+
+Hi Ryan,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0ce37745d4bfbc493f718169c3974898ffec8ee7
+commit: 03b3faa12c25140d00f9dca4ed44a6184600d9d8 clk: aspeed: Move the existing ASPEED clk drivers into aspeed subdirectory.
+date:   6 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 6 months ago
+config: riscv-randconfig-r071-20260723 (https://download.01.org/0day-ci/archive/20260726/202607260043.DgRarqsj-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 890b11e09e45e9d8b29f2f94f22052be3934e757)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: a667300bd53f ("kho: add support for preserving vmalloc allocations")
+| Fixes: 03b3faa12c25 ("clk: aspeed: Move the existing ASPEED clk drivers into aspeed subdirectory.")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607260054.fmMWCkfT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607260043.DgRarqsj-lkp@intel.com/
 
 smatch warnings:
-kernel/kexec_handover.c:941 kho_preserve_vmalloc() warn: missing error code 'err'
+drivers/clk/aspeed/clk-aspeed.c:682 aspeed_ast2500_cc() warn: mask and shift to zero: expr='val >> 23'
 
-vim +/err +941 kernel/kexec_handover.c
+vim +682 drivers/clk/aspeed/clk-aspeed.c
 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  907) int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  908) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  909) 	struct kho_vmalloc_chunk *chunk;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  910) 	struct vm_struct *vm = find_vm_area(ptr);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  911) 	unsigned int order, flags, nr_contig_pages;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  912) 	unsigned int idx = 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  913) 	int err;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  914) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  915) 	if (!vm)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  916) 		return -EINVAL;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  917) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  918) 	if (vm->flags & ~KHO_VMALLOC_SUPPORTED_FLAGS)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  919) 		return -EOPNOTSUPP;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  920) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  921) 	flags = vmalloc_flags_to_kho(vm->flags);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  922) 	order = get_vm_area_page_order(vm);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  923) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  924) 	chunk = new_vmalloc_chunk(NULL);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  925) 	if (!chunk)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  926) 		return -ENOMEM;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  927) 	KHOSER_STORE_PTR(preservation->first, chunk);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  928) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  929) 	nr_contig_pages = (1 << order);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  930) 	for (int i = 0; i < vm->nr_pages; i += nr_contig_pages) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  931) 		phys_addr_t phys = page_to_phys(vm->pages[i]);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  932) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  933) 		err = kho_preserve_pages(vm->pages[i], nr_contig_pages);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  934) 		if (err)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  935) 			goto err_free;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  936) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  937) 		chunk->phys[idx++] = phys;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  938) 		if (idx == ARRAY_SIZE(chunk->phys)) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  939) 			chunk = new_vmalloc_chunk(chunk);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  940) 			if (!chunk)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21 @941) 				goto err_free;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  650  
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  651  static void __init aspeed_ast2500_cc(struct regmap *map)
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  652  {
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  653  	struct clk_hw *hw;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  654  	u32 val, freq, div;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  655  
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  656  	/* CLKIN is the crystal oscillator, 24 or 25MHz selected by strapping */
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  657  	regmap_read(map, ASPEED_STRAP, &val);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  658  	if (val & CLKIN_25MHZ_EN)
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  659  		freq = 25000000;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  660  	else
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  661  		freq = 24000000;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  662  	hw = clk_hw_register_fixed_rate(NULL, "clkin", NULL, 0, freq);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  663  	pr_debug("clkin @%u MHz\n", freq / 1000000);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  664  
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  665  	/*
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  666  	 * High-speed PLL clock derived from the crystal. This the CPU clock,
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  667  	 * and we assume that it is enabled
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  668  	 */
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  669  	regmap_read(map, ASPEED_HPLL_PARAM, &val);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  670  	aspeed_clk_data->hws[ASPEED_CLK_HPLL] = aspeed_ast2500_calc_pll("hpll", val);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  671  
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  672  	/* Strap bits 11:9 define the AXI/AHB clock frequency ratio (aka HCLK)*/
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  673  	regmap_read(map, ASPEED_STRAP, &val);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  674  	val = (val >> 9) & 0x7;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  675  	WARN(val == 0, "strapping is zero: cannot determine ahb clock");
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  676  	div = 2 * (val + 1);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  677  	hw = clk_hw_register_fixed_factor(NULL, "ahb", "hpll", 0, 1, div);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  678  	aspeed_clk_data->hws[ASPEED_CLK_AHB] = hw;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  679  
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  680  	/* APB clock clock selection register SCU08 (aka PCLK) */
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  681  	regmap_read(map, ASPEED_CLK_SELECTION, &val);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22 @682  	val = (val >> 23) & 0x7;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  683  	div = 4 * (val + 1);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  684  	hw = clk_hw_register_fixed_factor(NULL, "apb", "hpll", 0, 1, div);
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  685  	aspeed_clk_data->hws[ASPEED_CLK_APB] = hw;
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  686  };
+99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  687  
 
-err = -ENOMEM;
+:::::: The code at line 682 was first introduced by commit
+:::::: 99d01e0ec3415424210fcd345ebb0c516e4b7fa9 clk: aspeed: Register core clocks
 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  942) 			idx = 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  943) 		}
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  944) 	}
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  945) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  946) 	preservation->total_pages = vm->nr_pages;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  947) 	preservation->flags = flags;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  948) 	preservation->order = order;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  949) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  950) 	return 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  951) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  952) err_free:
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  953) 	kho_vmalloc_free_chunks(preservation);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  954) 	return err;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  955) }
+:::::: TO: Joel Stanley <joel@jms.id.au>
+:::::: CC: Stephen Boyd <sboyd@codeaurora.org>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
