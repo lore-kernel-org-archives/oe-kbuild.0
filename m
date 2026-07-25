@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180D431E849
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Jul 2026 17:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68E43F8229
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Jul 2026 18:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784999721; cv=none; b=FofclKcOHUVQlY1nTtcXc6O/3Tcdhr9OMCRNMLYIUJRQlZqtQOcXp5C665nXTi+y6owRmyJ4HOxYedVjn3Io6DJwbijzCrAcdS9uOcCnPJkVdauJS9OG0oUqohElvFso8MXGht5AH8RJRKqZSaavJutHymt36QABePdrnwPi+E0=
+	t=1785005874; cv=none; b=hq8T5yYLaNWF09WnQwqIrfdiVKOke07bTlhtGIld7w4rDVhVsBoxJoWdbPpZ5ex6rAsb3ooLJs3H72VQ9nUN9vzgc722vTkF9hAvXz/LAXsviIlfFhJX80tcB5rR0DzY6ssdf83IhX7JIPrtn41soGFzWbRREVN+9kOC1MUQ9N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784999721; c=relaxed/simple;
-	bh=0vfxwC7TY8fFx2/GVAbpFbK6Bsy3aTgXizxUb6KkCxw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JLRblAnR9A2tz9MB3jdK1nzsG9sVOIO/uiv3PwJLz+bi71FNfUwObU59a4rTis0w4xfAwb23fBX+uAfYDVhYgA4GuGV/4LmX6vaG+t99CiIDyHP/8859OHSGpbYXpikDil64vgWPglQt4wN2NwT1E1aUnVLr0Kdlk3kSu3JMe3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRkHllH2; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1785005874; c=relaxed/simple;
+	bh=M/baCjW11D6K9Rd3YVnPT6/0ydBECuUnTSMBJgRQz3s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=svm2VitD75f2w+mXRF2kU0H9dXcbiPlswq/aS/w5q0wK5FcBTV5p75jGH5Fpg1qeTtnj09aonbOQo5ePoFetp6hqHtJokwwXMsGBTk50etvZNAabKiHbOS57khR1eN5radR/6PRZRlGBhMoemLG4n1X0nRRwDFNFeP5V/iZWb9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQwvlNf1; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRkHllH2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQwvlNf1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784999719; x=1816535719;
+  t=1785005871; x=1816541871;
   h=date:from:to:cc:subject:message-id;
-  bh=0vfxwC7TY8fFx2/GVAbpFbK6Bsy3aTgXizxUb6KkCxw=;
-  b=TRkHllH2s2eIh+lOiaRKsogQucwBN7WRlZ+E99cb2o5plaefFGfr66mm
-   K+UHUIEOSm3ParC6dVknqglgXb+aRHiuogMcw4sJHPExE5YoUpy9+twwq
-   ZlXi0ZGxIp7iXz4oBF8fONwsDuEhC+63P5rhmnjgIu+pVP2seB+V4io4D
-   +gGEMkiR1H3xyIU/aZgDj6kzpYZRfCYqqmifTQXa/Qmho6VqxAIh3FANU
-   RR1jdKR/tVo3SPxD9oB+bM3MU+9umYzieuSBgzuFGR3RbUxBgwyz3Xr/O
-   AuylikyDIS2eLEpGufPr2rIL2pLDGBVMG6vp42P2CibS+4wtXP6L9n0Tl
-   g==;
-X-CSE-ConnectionGUID: DqCMNKsHSf2/BBcTN/N0Wg==
-X-CSE-MsgGUID: zBP0NsUPQ3SL51MQB3zsig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="96225622"
-X-IronPort-AV: E=Sophos;i="6.25,184,1779174000"; 
-   d="scan'208";a="96225622"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2026 10:15:18 -0700
-X-CSE-ConnectionGUID: OR52lH8BQCyxPCkWqyRnvg==
-X-CSE-MsgGUID: N+j5OhzdSoGXngHElO4ecQ==
+  bh=M/baCjW11D6K9Rd3YVnPT6/0ydBECuUnTSMBJgRQz3s=;
+  b=nQwvlNf1ckM41YJIB8MEp3qrvNAmsUxO4GwYelHsXUhvUSlL8QoQpyeT
+   FrZ7WjwnElwSxAXLQUM6Y+SwxzK6dSlnqx2dAZSw/K/2oIJhOXJ9f+J2P
+   upaNn34zQ6MfioG1poiIW3nivV0Dd+Vcc17EdigQJve3E7siR/9LRJqnN
+   qaJi1+93zUXkqBZoO4KBUUv759e7wMQKCqf7gtazpebMyQtH6/AkTBS9d
+   J+2iHiMv9PebcjmnIQtU2N5f5jhn232H4IS+HI3qC9Nu2h8M8JxlQXhlH
+   DbtiXjzStLClXjrLXgWho+jVGvUQQ0P6bx52dIPgC5JhZfEeYMWbd8/8l
+   w==;
+X-CSE-ConnectionGUID: tTmz78HHTPikPFb+XDmWAw==
+X-CSE-MsgGUID: S7WaLgKuSRGm3Mbd+tI3sA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="73178115"
+X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
+   d="scan'208";a="73178115"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2026 11:57:50 -0700
+X-CSE-ConnectionGUID: n8+HddskTzyh7ydFUd+xyg==
+X-CSE-MsgGUID: kMUZGBM4QUWsN8z8CYV8kA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,184,1779174000"; 
-   d="scan'208";a="262501978"
+X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
+   d="scan'208";a="256350370"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 25 Jul 2026 10:15:17 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 25 Jul 2026 11:57:48 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wnfxq-00000000bq6-00QV;
-	Sat, 25 Jul 2026 17:15:08 +0000
-Date: Sun, 26 Jul 2026 01:14:18 +0800
+	id 1wnhZC-00000000c1O-2mpo;
+	Sat, 25 Jul 2026 18:57:46 +0000
+Date: Sun, 26 Jul 2026 02:57:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/clk/aspeed/clk-aspeed.c:682 aspeed_ast2500_cc()
- warn: mask and shift to zero: expr='val >> 23'
-Message-ID: <202607260043.DgRarqsj-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 1831/9043]
+ fs/iomap/direct-io.c:939:36-37: WARNING opportunity for min()
+Message-ID: <202607260226.sVPNzyMU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,81 +61,59 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ryan Chen <ryan_chen@aspeedtech.com>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: Brian Masney <bmasney@redhat.com>
+TO: Fengnan Chang <changfengnan@bytedance.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
 
-Hi Ryan,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0ce37745d4bfbc493f718169c3974898ffec8ee7
-commit: 03b3faa12c25140d00f9dca4ed44a6184600d9d8 clk: aspeed: Move the existing ASPEED clk drivers into aspeed subdirectory.
-date:   6 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-r071-20260723 (https://download.01.org/0day-ci/archive/20260726/202607260043.DgRarqsj-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 890b11e09e45e9d8b29f2f94f22052be3934e757)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9eebf259d5352b87080d67758f483583d9e763d7
+commit: c45650e4f8ba25d02e860094a77bf85ec3a35f13 [1831/9043] iomap: add simple dio path for small direct I/O
+:::::: branch date: 2 days ago
+:::::: commit date: 3 weeks ago
+config: microblaze-randconfig-r053-20260725 (https://download.01.org/0day-ci/archive/20260726/202607260226.sVPNzyMU-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 03b3faa12c25 ("clk: aspeed: Move the existing ASPEED clk drivers into aspeed subdirectory.")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607260043.DgRarqsj-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202607260226.sVPNzyMU-lkp@intel.com/
 
-smatch warnings:
-drivers/clk/aspeed/clk-aspeed.c:682 aspeed_ast2500_cc() warn: mask and shift to zero: expr='val >> 23'
+cocci warnings: (new ones prefixed by >>)
+>> fs/iomap/direct-io.c:939:36-37: WARNING opportunity for min()
 
-vim +682 drivers/clk/aspeed/clk-aspeed.c
+vim +939 fs/iomap/direct-io.c
 
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  650  
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  651  static void __init aspeed_ast2500_cc(struct regmap *map)
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  652  {
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  653  	struct clk_hw *hw;
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  654  	u32 val, freq, div;
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  655  
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  656  	/* CLKIN is the crystal oscillator, 24 or 25MHz selected by strapping */
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  657  	regmap_read(map, ASPEED_STRAP, &val);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  658  	if (val & CLKIN_25MHZ_EN)
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  659  		freq = 25000000;
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  660  	else
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  661  		freq = 24000000;
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  662  	hw = clk_hw_register_fixed_rate(NULL, "clkin", NULL, 0, freq);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  663  	pr_debug("clkin @%u MHz\n", freq / 1000000);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  664  
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  665  	/*
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  666  	 * High-speed PLL clock derived from the crystal. This the CPU clock,
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  667  	 * and we assume that it is enabled
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  668  	 */
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  669  	regmap_read(map, ASPEED_HPLL_PARAM, &val);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  670  	aspeed_clk_data->hws[ASPEED_CLK_HPLL] = aspeed_ast2500_calc_pll("hpll", val);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  671  
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  672  	/* Strap bits 11:9 define the AXI/AHB clock frequency ratio (aka HCLK)*/
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  673  	regmap_read(map, ASPEED_STRAP, &val);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  674  	val = (val >> 9) & 0x7;
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  675  	WARN(val == 0, "strapping is zero: cannot determine ahb clock");
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  676  	div = 2 * (val + 1);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  677  	hw = clk_hw_register_fixed_factor(NULL, "ahb", "hpll", 0, 1, div);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  678  	aspeed_clk_data->hws[ASPEED_CLK_AHB] = hw;
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  679  
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  680  	/* APB clock clock selection register SCU08 (aka PCLK) */
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  681  	regmap_read(map, ASPEED_CLK_SELECTION, &val);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22 @682  	val = (val >> 23) & 0x7;
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  683  	div = 4 * (val + 1);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  684  	hw = clk_hw_register_fixed_factor(NULL, "apb", "hpll", 0, 1, div);
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  685  	aspeed_clk_data->hws[ASPEED_CLK_APB] = hw;
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  686  };
-99d01e0ec34154 drivers/clk/clk-aspeed.c Joel Stanley 2017-12-22  687  
-
-:::::: The code at line 682 was first introduced by commit
-:::::: 99d01e0ec3415424210fcd345ebb0c516e4b7fa9 clk: aspeed: Register core clocks
-
-:::::: TO: Joel Stanley <joel@jms.id.au>
-:::::: CC: Stephen Boyd <sboyd@codeaurora.org>
+c45650e4f8ba25 Fengnan Chang 2026-07-01  913  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  914  static ssize_t iomap_dio_simple_complete(struct iomap_dio_simple *sr)
+c45650e4f8ba25 Fengnan Chang 2026-07-01  915  {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  916  	struct bio *bio = &sr->bio;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  917  	struct kiocb *iocb = sr->iocb;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  918  	struct inode *inode = file_inode(iocb->ki_filp);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  919  	ssize_t ret;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  920  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  921  	if (unlikely(bio->bi_status)) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  922  		ret = blk_status_to_errno(bio->bi_status);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  923  		if (should_report_dio_fserror(ret))
+c45650e4f8ba25 Fengnan Chang 2026-07-01  924  			fserror_report_io(inode, FSERR_DIRECTIO_READ,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  925  					  iocb->ki_pos, sr->size, ret,
+c45650e4f8ba25 Fengnan Chang 2026-07-01  926  					  GFP_NOFS);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  927  	} else {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  928  		ret = sr->size;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  929  		iocb->ki_pos += ret;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  930  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  931  
+c45650e4f8ba25 Fengnan Chang 2026-07-01  932  	if (sr->dio_flags & IOMAP_DIO_USER_BACKED) {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  933  		bio_check_pages_dirty(bio);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  934  	} else {
+c45650e4f8ba25 Fengnan Chang 2026-07-01  935  		bio_release_pages(bio, false);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  936  		bio_put(bio);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  937  	}
+c45650e4f8ba25 Fengnan Chang 2026-07-01  938  	inode_dio_end(inode);
+c45650e4f8ba25 Fengnan Chang 2026-07-01 @939  	trace_iomap_dio_complete(iocb, ret < 0 ? ret : 0, ret);
+c45650e4f8ba25 Fengnan Chang 2026-07-01  940  	return ret;
+c45650e4f8ba25 Fengnan Chang 2026-07-01  941  }
+c45650e4f8ba25 Fengnan Chang 2026-07-01  942  
 
 --
 0-DAY CI Kernel Test Service
