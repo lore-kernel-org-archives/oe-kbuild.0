@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042671DE3B7
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Jul 2026 04:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920372931CE
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Jul 2026 08:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785039904; cv=none; b=WEbGjY6W3m1Z2NiJQbePh2wK3SEn1zgHbalETyqsnegDAuNtQq5+bc6MePLxGeklqP52J6if29CCLtcfC+k/sxOdL4ZPCJ6iAFSO2m3hx0NQa275tytN5kmTG3YYNewOpFdv0zQPFctXFvckRG2n4dce2nGQ7TbzxedRHrjVrqs=
+	t=1785054431; cv=none; b=M2rUb+FXaTVwjYAOWb2pXpDimmwuEjGH+AWU6G0ioJn2eIQ52wfGfCXBbKmQUjWI4rmuxxBmQ8MlRYLxVWJTJ6FEQ9et9dyqDNs4PX0qI9Ro3yJJVhUScoGiMKSNmE3ln9S9OdMb4JsylrjJ4evkGZoHNWAm5Rx0j2gg/SROmrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785039904; c=relaxed/simple;
-	bh=PupvUWwCikWbQqIcyycyXde9b6Vu4N+X1T1UxaMAlwA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oxpoqGFt5Wey98DyAvSYk5Da2ZZPz0VKHOHhEz709FhhXhEu8YIQnDDmyqDOvvgrzkT++Jwp/eVK/14q6q6oP31DyLKRUyCB/l9dp97vwDe/E2kkRmjPkF3JFwRZT1D4hcG0HmymFCNG2pkPWzQXbEDUlTKNjSZfYE2dlgc96BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aUIT9YYY; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1785054431; c=relaxed/simple;
+	bh=E5cLjLvWKmph/KGzGXP5uipU7oG2Hr9ccqksilcv040=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ovMygwC0DkbutFZ8H4/j6sA4dRxYLcNt+eBECMTcwnT9MnOGcw7slJVnBFyORlYw518y7Eh/c0dWEvgmbKb7bYFkyNyiWhA0bDz7DMPA3nSUV1AGvhmhm+WYIYtpKRsl8g9Xko3xXhcXBEXOhbKLvlhWSsji8Fasmz172i9NFVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyGZvc+6; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aUIT9YYY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyGZvc+6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785039902; x=1816575902;
+  t=1785054429; x=1816590429;
   h=date:from:to:cc:subject:message-id;
-  bh=PupvUWwCikWbQqIcyycyXde9b6Vu4N+X1T1UxaMAlwA=;
-  b=aUIT9YYYR5hlbomGZxufoGPAnHn3Tt4fwaYa1Z+jrYUekgoEfzGsobey
-   Y4QZ6Ji0aFnxd8zCTB5wtzFlFPBgQNzcF4HvVspQwxWdvAZiWWqe91DBy
-   tloyIAX+xWCUo3w7/bazW/8rgZkNkTQefsTbDvsBKeJSrnoMeUlaxkWV8
-   qxsCp8jWVLi8aQkL6VfIHuUg9UM17+44fZBpsGs4lQYQM1grm/qcijgDs
-   85Xn9E/Y5c6jpDLfVTr3m6Z6fPaQuUYkmH0O0osggg23QpRhlEG4ohJQI
-   3j8Gvp2jq7qgSDftcZIwFM0CmiKdn319NiBjU8km8NLxhGCcXKkDfZuPj
+  bh=E5cLjLvWKmph/KGzGXP5uipU7oG2Hr9ccqksilcv040=;
+  b=QyGZvc+6KNrwoxNX7Elpwa8AZps3pQbdiyCYKEvU0aQNAf3ZExpGIA+8
+   D43yW7yEnJDeFES8RLMYW6kofPKGTSC5JvIX4q7bee5+rrohzd6uy/U6i
+   Emt8OiXk9nWSZOaVj8EIKPYRDAa4vnk4CrDjKTAUe/N1M4+9aDbFl7fUR
+   773NI77VtS0i44fr6GVf1IlFKDTR7IzwlD5st1YclCI14yvea/vakA5ZZ
+   VEaKLofHrfIKZYmtOrzne9HvJD5+mPlCQgF/GcswRiKJuC1EV2WbCWQh5
+   cOC9EIBvecFkjHEhrUV8gEfnjw58gnKWXxKjZh1mf9ifrb0fjpz8SLgpQ
    Q==;
-X-CSE-ConnectionGUID: bumRO0CCSY6uhSJVxphtyg==
-X-CSE-MsgGUID: rE2SREtaSte1Ky77BqB83Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="96239882"
-X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
-   d="scan'208";a="96239882"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2026 21:25:01 -0700
-X-CSE-ConnectionGUID: wJmm6r8SRQyBrowVRNnd9w==
-X-CSE-MsgGUID: 6vOoW/INRJuEL30QjFxAHQ==
+X-CSE-ConnectionGUID: a9fEVhyoSm+YoGZ4nyFLQg==
+X-CSE-MsgGUID: kQQdiJ/sT0m5pG2vrta25Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="85771110"
+X-IronPort-AV: E=Sophos;i="6.25,186,1779174000"; 
+   d="scan'208";a="85771110"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 01:27:09 -0700
+X-CSE-ConnectionGUID: o79fevcDRxeq2AFouaBxXg==
+X-CSE-MsgGUID: s1oRXm9TSViTMGFKPyGIKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,185,1779174000"; 
-   d="scan'208";a="262590864"
+X-IronPort-AV: E=Sophos;i="6.25,186,1779174000"; 
+   d="scan'208";a="259191540"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 25 Jul 2026 21:25:00 -0700
+  by orviesa007.jf.intel.com with ESMTP; 26 Jul 2026 01:27:07 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wnqQ5-00000000cHT-1jP0;
-	Sun, 26 Jul 2026 04:24:57 +0000
-Date: Sun, 26 Jul 2026 12:24:38 +0800
+	id 1wnuBW-00000000cPh-0dH7;
+	Sun, 26 Jul 2026 08:26:29 +0000
+Date: Sun, 26 Jul 2026 16:17:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c:174
- heartbeat() error: we previously assumed 'rq' could be null (see line 152)
-Message-ID: <202607261229.Yy2URH4b-lkp@intel.com>
+Subject: arch/arm64/kernel/probes/kprobes.c:307
+ kprobe_fault_handler() error: we previously assumed 'cur' could be null (see
+ line 292)
+Message-ID: <202607261528.q9e91HX1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,146 +63,86 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
-CC: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-CC: Krzysztof Karas <krzysztof.karas@intel.com>
-CC: Andi Shyti <andi.shyti@linux.intel.com>
+TO: Pu Hu <hupu@transsion.com>
+CC: Will Deacon <will@kernel.org>
+CC: Hongyan Xia <hongyan.xia@transsion.com>
+CC: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0ce37745d4bfbc493f718169c3974898ffec8ee7
-commit: 4c71fd099513bfa8acab529b626e1f0097b76061 drm/i915/gt: fix refcount underflow in intel_engine_park_heartbeat
-date:   4 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-141-20260726 (https://download.01.org/0day-ci/archive/20260726/202607261229.Yy2URH4b-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+commit: 879a6754d3d11e30af24b7dc486f561510d62641 arm64: kprobes: Only handle faults originating from XOL slot
+date:   9 days ago
+:::::: branch date: 29 hours ago
+:::::: commit date: 9 days ago
+config: arm64-randconfig-r073-20260726 (https://download.01.org/0day-ci/archive/20260726/202607261528.q9e91HX1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4c71fd099513 ("drm/i915/gt: fix refcount underflow in intel_engine_park_heartbeat")
+| Fixes: 879a6754d3d1 ("arm64: kprobes: Only handle faults originating from XOL slot")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607261229.Yy2URH4b-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607261528.q9e91HX1-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c:174 heartbeat() error: we previously assumed 'rq' could be null (see line 152)
+arch/arm64/kernel/probes/kprobes.c:307 kprobe_fault_handler() error: we previously assumed 'cur' could be null (see line 292)
 
-vim +/rq +174 drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+vim +/cur +307 arch/arm64/kernel/probes/kprobes.c
 
-058179e72e0956a Chris Wilson        2019-10-23  138  
-058179e72e0956a Chris Wilson        2019-10-23  139  static void heartbeat(struct work_struct *wrk)
-058179e72e0956a Chris Wilson        2019-10-23  140  {
-eb5c10cbbc2fc6c Chris Wilson        2021-01-20  141  	struct i915_sched_attr attr = { .priority = I915_PRIORITY_MIN };
-058179e72e0956a Chris Wilson        2019-10-23  142  	struct intel_engine_cs *engine =
-058179e72e0956a Chris Wilson        2019-10-23  143  		container_of(wrk, typeof(*engine), heartbeat.work.work);
-058179e72e0956a Chris Wilson        2019-10-23  144  	struct intel_context *ce = engine->kernel_context;
-058179e72e0956a Chris Wilson        2019-10-23  145  	struct i915_request *rq;
-aab4707fdd754d4 Chris Wilson        2020-07-02  146  	unsigned long serial;
-058179e72e0956a Chris Wilson        2019-10-23  147  
-5948938700446ac Chris Wilson        2020-06-15  148  	/* Just in case everything has gone horribly wrong, give it a kick */
-5948938700446ac Chris Wilson        2020-06-15  149  	intel_engine_flush_submission(engine);
-5948938700446ac Chris Wilson        2020-06-15  150  
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  151  	rq = xchg(&engine->heartbeat.systole, NULL);
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01 @152  	if (rq) {
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  153  		if (i915_request_completed(rq))
-058179e72e0956a Chris Wilson        2019-10-23  154  			i915_request_put(rq);
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  155  		else
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  156  			engine->heartbeat.systole = rq;
-058179e72e0956a Chris Wilson        2019-10-23  157  	}
-058179e72e0956a Chris Wilson        2019-10-23  158  
-3466a3def2c01e0 Chris Wilson        2019-11-06  159  	if (!intel_engine_pm_get_if_awake(engine))
-3466a3def2c01e0 Chris Wilson        2019-11-06  160  		return;
-3466a3def2c01e0 Chris Wilson        2019-11-06  161  
-058179e72e0956a Chris Wilson        2019-10-23  162  	if (intel_gt_is_wedged(engine->gt))
-058179e72e0956a Chris Wilson        2019-10-23  163  		goto out;
-058179e72e0956a Chris Wilson        2019-10-23  164  
-c41ee2873eb37ff Matthew Brost       2021-07-26  165  	if (i915_sched_engine_disabled(engine->sched_engine)) {
-c41ee2873eb37ff Matthew Brost       2021-07-26  166  		reset_engine(engine, engine->heartbeat.systole);
-c41ee2873eb37ff Matthew Brost       2021-07-26  167  		goto out;
-c41ee2873eb37ff Matthew Brost       2021-07-26  168  	}
-c41ee2873eb37ff Matthew Brost       2021-07-26  169  
-058179e72e0956a Chris Wilson        2019-10-23  170  	if (engine->heartbeat.systole) {
-2827ce6e543086d Chris Wilson        2021-02-04  171  		long delay = READ_ONCE(engine->props.heartbeat_interval_ms);
-2827ce6e543086d Chris Wilson        2021-02-04  172  
-2827ce6e543086d Chris Wilson        2021-02-04  173  		/* Safeguard against too-fast worker invocations */
-2827ce6e543086d Chris Wilson        2021-02-04 @174  		if (!time_after(jiffies,
-2827ce6e543086d Chris Wilson        2021-02-04  175  				rq->emitted_jiffies + msecs_to_jiffies(delay)))
-2827ce6e543086d Chris Wilson        2021-02-04  176  			goto out;
-2827ce6e543086d Chris Wilson        2021-02-04  177  
-ba03a63d76ac813 Chris Wilson        2020-05-28  178  		if (!i915_sw_fence_signaled(&rq->submit)) {
-ba03a63d76ac813 Chris Wilson        2020-05-28  179  			/*
-ba03a63d76ac813 Chris Wilson        2020-05-28  180  			 * Not yet submitted, system is stalled.
-ba03a63d76ac813 Chris Wilson        2020-05-28  181  			 *
-ba03a63d76ac813 Chris Wilson        2020-05-28  182  			 * This more often happens for ring submission,
-ba03a63d76ac813 Chris Wilson        2020-05-28  183  			 * where all contexts are funnelled into a common
-ba03a63d76ac813 Chris Wilson        2020-05-28  184  			 * ringbuffer. If one context is blocked on an
-ba03a63d76ac813 Chris Wilson        2020-05-28  185  			 * external fence, not only is it not submitted,
-ba03a63d76ac813 Chris Wilson        2020-05-28  186  			 * but all other contexts, including the kernel
-ba03a63d76ac813 Chris Wilson        2020-05-28  187  			 * context are stuck waiting for the signal.
-ba03a63d76ac813 Chris Wilson        2020-05-28  188  			 */
-3f623e06cd56573 Matthew Brost       2021-06-17  189  		} else if (engine->sched_engine->schedule &&
-058179e72e0956a Chris Wilson        2019-10-23  190  			   rq->sched.attr.priority < I915_PRIORITY_BARRIER) {
-058179e72e0956a Chris Wilson        2019-10-23  191  			/*
-058179e72e0956a Chris Wilson        2019-10-23  192  			 * Gradually raise the priority of the heartbeat to
-058179e72e0956a Chris Wilson        2019-10-23  193  			 * give high priority work [which presumably desires
-058179e72e0956a Chris Wilson        2019-10-23  194  			 * low latency and no jitter] the chance to naturally
-058179e72e0956a Chris Wilson        2019-10-23  195  			 * complete before being preempted.
-058179e72e0956a Chris Wilson        2019-10-23  196  			 */
-ffc02c67bf8d490 Nirmoy Das          2023-10-23  197  			attr.priority = I915_PRIORITY_NORMAL;
-058179e72e0956a Chris Wilson        2019-10-23  198  			if (rq->sched.attr.priority >= attr.priority)
-eb5c10cbbc2fc6c Chris Wilson        2021-01-20  199  				attr.priority = I915_PRIORITY_HEARTBEAT;
-058179e72e0956a Chris Wilson        2019-10-23  200  			if (rq->sched.attr.priority >= attr.priority)
-058179e72e0956a Chris Wilson        2019-10-23  201  				attr.priority = I915_PRIORITY_BARRIER;
-058179e72e0956a Chris Wilson        2019-10-23  202  
-058179e72e0956a Chris Wilson        2019-10-23  203  			local_bh_disable();
-3f623e06cd56573 Matthew Brost       2021-06-17  204  			engine->sched_engine->schedule(rq, &attr);
-058179e72e0956a Chris Wilson        2019-10-23  205  			local_bh_enable();
-058179e72e0956a Chris Wilson        2019-10-23  206  		} else {
-c41ee2873eb37ff Matthew Brost       2021-07-26  207  			reset_engine(engine, rq);
-058179e72e0956a Chris Wilson        2019-10-23  208  		}
-2827ce6e543086d Chris Wilson        2021-02-04  209  
-2827ce6e543086d Chris Wilson        2021-02-04  210  		rq->emitted_jiffies = jiffies;
-058179e72e0956a Chris Wilson        2019-10-23  211  		goto out;
-058179e72e0956a Chris Wilson        2019-10-23  212  	}
-058179e72e0956a Chris Wilson        2019-10-23  213  
-aab4707fdd754d4 Chris Wilson        2020-07-02  214  	serial = READ_ONCE(engine->serial);
-aab4707fdd754d4 Chris Wilson        2020-07-02  215  	if (engine->wakeref_serial == serial)
-058179e72e0956a Chris Wilson        2019-10-23  216  		goto out;
-058179e72e0956a Chris Wilson        2019-10-23  217  
-aab4707fdd754d4 Chris Wilson        2020-07-02  218  	if (!mutex_trylock(&ce->timeline->mutex)) {
-aab4707fdd754d4 Chris Wilson        2020-07-02  219  		/* Unable to lock the kernel timeline, is the engine stuck? */
-aab4707fdd754d4 Chris Wilson        2020-07-02  220  		if (xchg(&engine->heartbeat.blocked, serial) == serial)
-aab4707fdd754d4 Chris Wilson        2020-07-02  221  			intel_gt_handle_error(engine->gt, engine->mask,
-aab4707fdd754d4 Chris Wilson        2020-07-02  222  					      I915_ERROR_CAPTURE,
-aab4707fdd754d4 Chris Wilson        2020-07-02  223  					      "no heartbeat on %s",
-aab4707fdd754d4 Chris Wilson        2020-07-02  224  					      engine->name);
-aab4707fdd754d4 Chris Wilson        2020-07-02  225  		goto out;
-aab4707fdd754d4 Chris Wilson        2020-07-02  226  	}
-058179e72e0956a Chris Wilson        2019-10-23  227  
-fe7bcfaeb2b775f Chris Wilson        2020-12-24  228  	rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
-058179e72e0956a Chris Wilson        2019-10-23  229  	if (IS_ERR(rq))
-058179e72e0956a Chris Wilson        2019-10-23  230  		goto unlock;
-058179e72e0956a Chris Wilson        2019-10-23  231  
-fe7bcfaeb2b775f Chris Wilson        2020-12-24  232  	heartbeat_commit(rq, &attr);
-058179e72e0956a Chris Wilson        2019-10-23  233  
-058179e72e0956a Chris Wilson        2019-10-23  234  unlock:
-058179e72e0956a Chris Wilson        2019-10-23  235  	mutex_unlock(&ce->timeline->mutex);
-058179e72e0956a Chris Wilson        2019-10-23  236  out:
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  237  	if (!engine->i915->params.enable_hangcheck || !next_heartbeat(engine)) {
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  238  		rq = xchg(&engine->heartbeat.systole, NULL);
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  239  		if (rq)
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  240  			i915_request_put(rq);
-4c71fd099513bfa Sebastian Brzezinka 2026-04-01  241  	}
-058179e72e0956a Chris Wilson        2019-10-23  242  	intel_engine_pm_put(engine);
-058179e72e0956a Chris Wilson        2019-10-23  243  }
-058179e72e0956a Chris Wilson        2019-10-23  244  
-
-:::::: The code at line 174 was first introduced by commit
-:::::: 2827ce6e543086deb24a46ddedc5a8a072275670 drm/i915/gt: Double check heartbeat timeout before resetting
-
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  279  
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  280  int __kprobes kprobe_fault_handler(struct pt_regs *regs, unsigned int fsr)
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  281  {
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  282  	struct kprobe *cur = kprobe_running();
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  283  	struct kprobe_ctlblk *kcb = get_kprobe_ctlblk();
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  284  
+879a6754d3d11e Pu Hu           2026-07-10  285  	/*
+879a6754d3d11e Pu Hu           2026-07-10  286  	 * Simulated kprobes execute in the debug trap context and have no
+879a6754d3d11e Pu Hu           2026-07-10  287  	 * XOL slot. Any page fault taken while a simulated kprobe is in
+879a6754d3d11e Pu Hu           2026-07-10  288  	 * progress cannot have been caused by kprobe single-stepping and
+879a6754d3d11e Pu Hu           2026-07-10  289  	 * must be left alone for the normal page fault handler, including
+879a6754d3d11e Pu Hu           2026-07-10  290  	 * fixup_exception.
+879a6754d3d11e Pu Hu           2026-07-10  291  	 */
+879a6754d3d11e Pu Hu           2026-07-10 @292  	if (cur && !cur->ainsn.xol_insn)
+879a6754d3d11e Pu Hu           2026-07-10  293  		return 0;
+879a6754d3d11e Pu Hu           2026-07-10  294  
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  295  	switch (kcb->kprobe_status) {
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  296  	case KPROBE_HIT_SS:
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  297  	case KPROBE_REENTER:
+879a6754d3d11e Pu Hu           2026-07-10  298  		/*
+879a6754d3d11e Pu Hu           2026-07-10  299  		 * A page fault taken while in KPROBE_HIT_SS or
+879a6754d3d11e Pu Hu           2026-07-10  300  		 * KPROBE_REENTER state is only attributable to kprobe
+879a6754d3d11e Pu Hu           2026-07-10  301  		 * single-stepping if the faulting PC points to the
+879a6754d3d11e Pu Hu           2026-07-10  302  		 * current kprobe's XOL instruction. If the fault occurred
+879a6754d3d11e Pu Hu           2026-07-10  303  		 * elsewhere (e.g. in perf or tracing code invoked from the
+879a6754d3d11e Pu Hu           2026-07-10  304  		 * debug exception path), leave it for the normal page fault
+879a6754d3d11e Pu Hu           2026-07-10  305  		 * handler to process.
+879a6754d3d11e Pu Hu           2026-07-10  306  		 */
+879a6754d3d11e Pu Hu           2026-07-10 @307  		if (instruction_pointer(regs) != (unsigned long)cur->ainsn.xol_insn)
+879a6754d3d11e Pu Hu           2026-07-10  308  			break;
+879a6754d3d11e Pu Hu           2026-07-10  309  
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  310  		/*
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  311  		 * We are here because the instruction being single
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  312  		 * stepped caused a page fault. We reset the current
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  313  		 * kprobe and the ip points back to the probe address
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  314  		 * and allow the page fault handler to continue as a
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  315  		 * normal page fault.
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  316  		 */
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  317  		instruction_pointer_set(regs, (unsigned long) cur->addr);
+839157876f97fc zhouchuangao    2021-03-30  318  		BUG_ON(!instruction_pointer(regs));
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  319  
+738fa58ee13284 Jisheng Zhang   2021-04-12  320  		if (kcb->kprobe_status == KPROBE_REENTER) {
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  321  			restore_previous_kprobe(kcb);
+738fa58ee13284 Jisheng Zhang   2021-04-12  322  		} else {
+738fa58ee13284 Jisheng Zhang   2021-04-12  323  			kprobes_restore_local_irqflag(kcb, regs);
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  324  			reset_current_kprobe();
+738fa58ee13284 Jisheng Zhang   2021-04-12  325  		}
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  326  
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  327  		break;
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  328  	}
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  329  	return 0;
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  330  }
+2dd0e8d2d2a157 Sandeepa Prabhu 2016-07-08  331  
 
 --
 0-DAY CI Kernel Test Service
