@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D7120299B
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Jul 2026 12:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8177D1DE4F1
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Jul 2026 13:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785070416; cv=none; b=LCRwNGkJ1RGklCspALMI0jkg6y7oVDDLzR8Ru9wlCR8IXylLmXAPW6sAqgP7byVbAx56xFyfq43RDrE8TB9PcBoDky8qfpos2wmcuQY3Zu74xj7JkqZO6h6B723spH3kH+8BWH+g8EUOJWDMV1VeiNFQ4XLerFZfDeaLPnieLro=
+	t=1785070979; cv=none; b=NiG4jyE+50Z8UYKQ4VLhr1Cc6Dmzdm3MSpBd0MTVLQKdB/KDRNJjdqdTEiE9hjRmGsPcX758VFXfEW4RCQpW0M84AUYqvyXVC/mHLs5lV3byfH4s0xlJsWs0X9qi5cBOq8Wx83ITHyW1jZphMYwM0/TnIiLvBI5mUAY6xphoI6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785070416; c=relaxed/simple;
-	bh=wdJVC4LbRzUL4arM0gKXDqecKfeNmI8b1mvN+zdbGSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=M0/5QX2HCyXaSgCSVVZmSf1rhb1YqW5Axwx5H2PE/0PGoudDmM3Z+d+CFD3rCKzS5dxpjMO33t+psBFhIgUE0IvO50eIKQf0xpVww3vutnEsapgtcd1f8AguNgFIsjreEU3FQThS83tyz1tcRexDO6MBvpqpAQVR8yXIXzgx1+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yh+EnpNg; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1785070979; c=relaxed/simple;
+	bh=uO+0NLvCuvzjbNF8F4dHFadFHCSOvZP/PngpdFiEdCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=POOZvR5vqzxgLmmssyY1gwMvSH0lSrlyiZPEOeoSm230SWW7w87TvBocCuh/hNrQROS10leKgcbkjzeXOaV7hU+/lR/BJDxvsLlvwWrTRezcPsxt7wHIVE5EUEMmy9kAAimHEJHGDCYys7qMX1hmnY5z6nd02hz0tXqSw/jZKyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZGxzDYzo; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yh+EnpNg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZGxzDYzo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785070414; x=1816606414;
+  t=1785070977; x=1816606977;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=wdJVC4LbRzUL4arM0gKXDqecKfeNmI8b1mvN+zdbGSU=;
-  b=Yh+EnpNgWk9LQeKLxm+T7QryvFkbWyJtUU9awWofgRUHK3u3EaLPC6xH
-   6pjW+1FNVV2y7ZHJt6CKCso11LQONUYQKtbhFLcw8C6uLli79myBUNiCc
-   uiNVFAM4jZKAsAgYUbvkwZJKaYVPPCkGWMiY/YdDt7l4uEh2mXL+XLM0t
-   Q7gG0Pv7I9ZgFWuj0QSQv5ikZffP3+NGktAM8Pad2C2UKHX+M6Zux6pn/
-   0zAa7ZkiWDrfzDhBq1BxHUaqv0H0gXZUd+FYPcUCcTMchPE0wXV3oT1SF
-   csV32iYXu1R45M+D9auYM0MBkBVBwQhIaJWwpeMSOqj41BcfMG3WJV6iQ
+  bh=uO+0NLvCuvzjbNF8F4dHFadFHCSOvZP/PngpdFiEdCE=;
+  b=ZGxzDYzo6QxF4wz7343E/2tHN6DSdMvFDz6eR5fUNW2zVp6QnGX7wk0r
+   Bp09u1f94cQiIi8SaPtjX3PdcAlul9zqsrcxHF5oq73wh3ByJPtSPLtPB
+   m9C3ZgROIsmItN0lnpI15J0wFw1ytMO3twsHK5zX79y3YQfjRgtfhJLZp
+   jEB5fopl40rwPj6QWKZkz0Z8CYyX0vRwmPM22iPWQ0hVqRA4CHJw92JwO
+   d5rrjzWjpPa4joi7UzldCw+OjhPuxwUPlplwznrcxXwtYWapU3eOqGt2a
+   jVPzKkqLmrweK3efsj3I90ymHlVPHaen6O7GPll9hoFUeTOgAc+uBTTaM
    A==;
-X-CSE-ConnectionGUID: g7H8P1hmQwKF7sPzZ7/TvQ==
-X-CSE-MsgGUID: O5RKaAtkQoO+mdtaC6lRqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="85603944"
+X-CSE-ConnectionGUID: /dBvUn/NSQSJlxdHOOZgCg==
+X-CSE-MsgGUID: FYvqnnAKTxC8WXE4ri6j5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="89331355"
 X-IronPort-AV: E=Sophos;i="6.25,186,1779174000"; 
-   d="scan'208";a="85603944"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 05:53:33 -0700
-X-CSE-ConnectionGUID: Q/Izi9/1QkepT8TeegBHAw==
-X-CSE-MsgGUID: FDvAOxvmQ3WxHq2jIWDiJw==
+   d="scan'208";a="89331355"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 06:02:56 -0700
+X-CSE-ConnectionGUID: hpG3SiZ1SE2O1lcBzAD2Ew==
+X-CSE-MsgGUID: ZfMQgfBISjauVGcnDf6/hQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,186,1779174000"; 
-   d="scan'208";a="289127277"
+   d="scan'208";a="262665300"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 26 Jul 2026 05:53:32 -0700
+  by orviesa003.jf.intel.com with ESMTP; 26 Jul 2026 06:02:54 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wnyMA-00000000cWo-3cTj;
-	Sun, 26 Jul 2026 12:53:27 +0000
-Date: Sun, 26 Jul 2026 20:52:36 +0800
+	id 1wnyVI-00000000cX0-2JlO;
+	Sun, 26 Jul 2026 13:02:52 +0000
+Date: Sun, 26 Jul 2026 21:02:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: /bin/bash: line 1: 3189523 Segmentation fault      clang
- -Wp,-MMD,arch/mips/math-emu/.sp_sub.o.d -nostdinc -Iarch/mips/include
- -I./arch/mips/include/generated -Iinclude -I./include
- -Iarch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclude/ua...
-Message-ID: <202607262019.8ot0LKPP-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/i915/display/intel_crtc.c:333
+ __intel_crtc_init() warn: 'primary' can also be NULL
+Message-ID: <202607262038.N7pTymzw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,205 +60,190 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "clang compiler bug"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jeffrey Bencteux <jeff@bencteux.fr>
-CC: Paul Moore <paul@paul-moore.com>
+TO: Jani Nikula <jani.nikula@intel.com>
+CC: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   0ce37745d4bfbc493f718169c3974898ffec8ee7
-commit: 4f493a6079b588cf1f04ce5ed6cdad45ab0d53dc audit: add fchmodat2() to =
-change attributes class
-date:   7 months ago
-:::::: branch date: 33 hours ago
-:::::: commit date: 7 months ago
-config: mips-randconfig-r071-20260726 (https://download.01.org/0day-ci/arch=
-ive/20260726/202607262019.8ot0LKPP-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 890=
-b11e09e45e9d8b29f2f94f22052be3934e757)
+commit: 668e88877a9ba73182ad686e871e8678a7dbca61 drm/i915/crtc: move crtc i=
+nitialization loop to intel_crtc.c
+date:   8 months ago
+:::::: branch date: 34 hours ago
+:::::: commit date: 8 months ago
+config: alpha-randconfig-r071-20260726 (https://download.01.org/0day-ci/arc=
+hive/20260726/202607262038.N7pTymzw-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
 smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260726/202607262019.8ot0LKPP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
-| Fixes: 4f493a6079b5 ("audit: add fchmodat2() to change attributes class")
+| Fixes: 668e88877a9b ("drm/i915/crtc: move crtc initialization loop to int=
+el_crtc.c")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607262019.8ot0LKPP-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607262038.N7pTymzw-lkp@intel.com/
 
-Note: functions only called from assembly code should be annotated with the=
- asmlinkage attribute
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/i915/display/intel_crtc.c:333 __intel_crtc_init() warn: 'pr=
+imary' can also be NULL
+drivers/gpu/drm/i915/display/intel_crtc.c:348 __intel_crtc_init() warn: 'pl=
+ane' can also be NULL
 
-   PLEASE submit a bug report to https://github.com/llvm/llvm-project/issue=
-s/ and include the crash backtrace and dumped files.
-   Stack dump:
-   0.	Program arguments: clang -Wp,-MMD,arch/mips/math-emu/.sp_sub.o.d -nos=
-tdinc -Iarch/mips/include -I./arch/mips/include/generated -Iinclude -I./inc=
-lude -Iarch/mips/include/uapi -I./arch/mips/include/generated/uapi -Iinclud=
-e/uapi -I./include/generated/uapi -include include/linux/compiler-version.h=
- -include include/linux/kconfig.h -include include/linux/compiler_types.h -=
-D__KERNEL__ --target=3Dmipsel-linux-gnu -fintegrated-as -Werror=3Dunknown-w=
-arning-option -Werror=3Dignored-optimization-argument -Werror=3Doption-igno=
-red -Werror=3Dunused-command-line-argument -DVMLINUX_LOAD_ADDRESS=3D0xfffff=
-fff88002000 -DLINKER_LOAD_ADDRESS=3D0x88002000 -DDATAOFFSET=3D0 -fmacro-pre=
-fix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgnu11 -fshort-wchar -funs=
-igned-char -fno-common -fno-PIE -fno-strict-aliasing -mno-check-zero-divisi=
-on -mabi=3D32 -G 0 -mno-abicalls -fno-pic -pipe -msoft-float -Wa,-msoft-flo=
-at -ffreestanding -EB -fno-stack-check -march=3Dmips3 -Wa,--trap -DTOOLCHAI=
-N_SUPPORTS_VIRT -Iarch/mips/include/asm/mach-ip22 -Iarch/mips/include/asm/m=
-ach-generic -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks=
- -Os -fstack-protector -ftrivial-auto-var-init=3Dpattern -pg -fstrict-flex-=
-arrays=3D3 -fms-extensions -fno-strict-overflow -fno-stack-check -fno-built=
-in-wcslen -Wall -Wextra -Wundef -Werror=3Dimplicit-function-declaration -We=
-rror=3Dimplicit-int -Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-=
-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-me=
-mber -Wmissing-declarations -Wmissing-prototypes -Wno-gnu -Wno-microsoft-an=
-on-tag -Wno-format-overflow-non-kprintf -Wno-format-truncation-non-kprintf =
--Wno-default-const-init-unsafe -Wno-pointer-sign -Wcast-function-type -Wno-=
-unterminated-string-initialization -Wimplicit-fallthrough -Werror=3Ddate-ti=
-me -Werror=3Dincompatible-pointer-types -Wenum-conversion -Wunused -Wmissin=
-g-format-attribute -Wmissing-include-dirs -Wunused-const-variable -Wno-miss=
-ing-field-initializers -Wno-type-limits -Wno-shift-negative-value -Wno-enum=
--enum-conversion -Wno-sign-compare -Wno-unused-parameter -fno-crash-diagnos=
-tics -Wno-error=3Dreturn-type -Wreturn-type -funsigned-char -Wundef -falign=
--functions=3D64 -fsanitize=3Darray-bounds -Iarch/mips/math-emu -Iarch/mips/=
-math-emu -DKBUILD_MODFILE=3D\"arch/mips/math-emu/sp_sub\" -DKBUILD_BASENAME=
-=3D\"sp_sub\" -DKBUILD_MODNAME=3D\"sp_sub\" -D__KBUILD_MODNAME=3Dsp_sub -c =
--o arch/mips/math-emu/sp_sub.o arch/mips/math-emu/sp_sub.c
-   1.	<eof> parser at end of file
-   2.	Code generation
-   3.	Running pass 'Function Pass Manager' on module 'arch/mips/math-emu/sp=
-_sub.c'.
-   4.	Running pass 'Branch Probability Basic Block Placement' on function '=
-@ieee754sp_sub'
-    #0 0x000055a041f7048a llvm::sys::PrintStackTrace(llvm::raw_ostream&, in=
-t) (clang-24+0x38c748a)
-    #1 0x000055a041f6e064 llvm::sys::CleanupOnSignal(unsigned long) (clang-=
-24+0x38c5064)
-    #2 0x000055a041ea38c0 CrashRecoverySignalHandler(int) CrashRecoveryCont=
-ext.cpp:0:0
-    #3 0x00007f818fb62df0 (/lib/x86_64-linux-gnu/libc.so.6+0x3fdf0)
-    #4 0x000055a04158e88f llvm::TailDuplicator::shouldTailDuplicate(bool, l=
-lvm::MachineBasicBlock&) (.part.0) TailDuplicator.cpp:0:0
-    #5 0x000055a0412d252b (anonymous namespace)::MachineBlockPlacement::pre=
-computeTriangleChains() MachineBlockPlacement.cpp:0:0
-    #6 0x000055a0412e037b (anonymous namespace)::MachineBlockPlacement::run=
-(llvm::MachineFunction&) MachineBlockPlacement.cpp:0:0
-    #7 0x000055a0412e378c (anonymous namespace)::MachineBlockPlacementLegac=
-y::runOnMachineFunction(llvm::MachineFunction&) (.part.0) MachineBlockPlace=
-ment.cpp:0:0
-    #8 0x000055a0413234f3 llvm::MachineFunctionPass::runOnFunction(llvm::Fu=
-nction&) (clang-24+0x2c7a4f3)
-    #9 0x000055a041879bb9 llvm::FPPassManager::runOnFunction(llvm::Function=
-&) (clang-24+0x31d0bb9)
-   #10 0x000055a041879fec llvm::FPPassManager::runOnModule(llvm::Module&) (=
-clang-24+0x31d0fec)
-   #11 0x000055a04187ab8a (anonymous namespace)::MPPassManager::runOnModule=
-(llvm::Module&) LegacyPassManager.cpp:0:0
-   #12 0x000055a04187b25c llvm::legacy::PassManagerImpl::run(llvm::Module&)=
- (clang-24+0x31d225c)
-   #13 0x000055a042321a6f (anonymous namespace)::EmitAssemblyHelper::TimeCo=
-degenPasses(llvm::function_ref<void ()>) BackendUtil.cpp:0:0
-   #14 0x000055a042332d7a (anonymous namespace)::EmitAssemblyHelper::emitAs=
-sembly(clang::BackendAction, std::unique_ptr<llvm::raw_pwrite_stream, std::=
-default_delete<llvm::raw_pwrite_stream>>, clang::BackendConsumer*) (.constp=
-rop.0) BackendUtil.cpp:0:0
-   #15 0x000055a042332f6f clang::emitBackendOutput(clang::CompilerInstance&=
-, clang::CodeGenOptions&, llvm::StringRef, llvm::Module*, clang::BackendAct=
-ion, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem>, std::unique_ptr<llvm:=
-:raw_pwrite_stream, std::default_delete<llvm::raw_pwrite_stream>>, clang::B=
-ackendConsumer*) (clang-24+0x3c89f6f)
-   #16 0x000055a04296dec7 clang::BackendConsumer::HandleTranslationUnit(cla=
-ng::ASTContext&) (clang-24+0x42c4ec7)
-   #17 0x000055a044377fcc clang::ParseAST(clang::Sema&, bool, bool) (clang-=
-24+0x5ccefcc)
-   #18 0x000055a042cce41e clang::FrontendAction::Execute() (clang-24+0x4625=
-41e)
-   #19 0x000055a042c594ee clang::CompilerInstance::ExecuteAction(clang::Fro=
-ntendAction&) (clang-24+0x45b04ee)
-   #20 0x000055a042d99247 clang::ExecuteCompilerInvocation(clang::CompilerI=
-nstance*) (clang-24+0x46f0247)
-   #21 0x000055a03ef86748 cc1_main(llvm::ArrayRef<char const*>, char const*=
-, void*) (clang-24+0x8dd748)
-   #22 0x000055a03ef7e413 ExecuteCC1Tool(llvm::SmallVectorImpl<char const*>=
-&, llvm::ToolContext const&, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem=
->) driver.cpp:0:0
-   #23 0x000055a03ef7e453 int llvm::function_ref<int (llvm::SmallVectorImpl=
-<char const*>&)>::callback_fn<clang_main(int, char**, llvm::ToolContext con=
-st&)::'lambda'(llvm::SmallVectorImpl<char const*>&)>(long, llvm::SmallVecto=
-rImpl<char const*>&) driver.cpp:0:0
-   #24 0x000055a0429ebb09 void llvm::function_ref<void ()>::callback_fn<cla=
-ng::driver::CC1Command::Execute(llvm::ArrayRef<std::optional<llvm::StringRe=
-f>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocato=
-r<char>>*, bool*) const::'lambda'()>(long) Job.cpp:0:0
-   #25 0x000055a041ea3c23 llvm::CrashRecoveryContext::RunSafely(llvm::funct=
-ion_ref<void ()>) (clang-24+0x37fac23)
-   #26 0x000055a0429ed08c clang::driver::CC1Command::Execute(llvm::ArrayRef=
-<std::optional<llvm::StringRef>>, std::__cxx11::basic_string<char, std::cha=
-r_traits<char>, std::allocator<char>>*, bool*) const (.part.0) Job.cpp:0:0
-   #27 0x000055a0429a5898 clang::driver::Compilation::ExecuteCommand(clang:=
-:driver::Command const&, clang::driver::Command const*&, bool) const (clang=
--24+0x42fc898)
-   #28 0x000055a0429aa0d2 clang::driver::Compilation::ExecuteJobs(clang::dr=
-iver::JobList const&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
-ommand const*>>&, bool) const (clang-24+0x43010d2)
-   #29 0x000055a0429bbedc clang::driver::Driver::ExecuteCompilation(clang::=
-driver::Compilation&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
-ommand const*>>&) (clang-24+0x4312edc)
-   #30 0x000055a03ef830d2 clang_main(int, char**, llvm::ToolContext const&)=
- (clang-24+0x8da0d2)
-   #31 0x000055a03ee9e279 main (clang-24+0x7f5279)
-   #32 0x00007f818fb4cca8 (/lib/x86_64-linux-gnu/libc.so.6+0x29ca8)
-   #33 0x00007f818fb4cd65 __libc_start_main (/lib/x86_64-linux-gnu/libc.so.=
-6+0x29d65)
-   #34 0x000055a03ef7de71 _start (clang-24+0x8d4e71)
-   clang: error: clang frontend command failed due to signal (use -v to see=
- invocation)
->> /bin/bash: line 1: 3189523 Segmentation fault      clang -Wp,-MMD,arch/m=
-ips/math-emu/.sp_sub.o.d -nostdinc -Iarch/mips/include -I./arch/mips/includ=
-e/generated -Iinclude -I./include -Iarch/mips/include/uapi -I./arch/mips/in=
-clude/generated/uapi -Iinclude/uapi -I./include/generated/uapi -include inc=
-lude/linux/compiler-version.h -include include/linux/kconfig.h -include inc=
-lude/linux/compiler_types.h -D__KERNEL__ --target=3Dmipsel-linux-gnu -finte=
-grated-as -Werror=3Dunknown-warning-option -Werror=3Dignored-optimization-a=
-rgument -Werror=3Doption-ignored -Werror=3Dunused-command-line-argument -DV=
-MLINUX_LOAD_ADDRESS=3D0xffffffff88002000 -DLINKER_LOAD_ADDRESS=3D0x88002000=
- -DDATAOFFSET=3D0 -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -st=
-d=3Dgnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-al=
-iasing -mno-check-zero-division -mabi=3D32 -G 0 -mno-abicalls -fno-pic -pip=
-e -msoft-float -Wa,-msoft-float -ffreestanding -EB -fno-stack-check -march=
-=3Dmips3 -Wa,--trap -DTOOLCHAIN_SUPPORTS_VIRT -Iarch/mips/include/asm/mach-=
-ip22 -Iarch/mips/include/asm/mach-generic -fno-asynchronous-unwind-tables -=
-fno-delete-null-pointer-checks -Os -fstack-protector -ftrivial-auto-var-ini=
-t=3Dpattern -pg -fstrict-flex-arrays=3D3 -fms-extensions -fno-strict-overfl=
-ow -fno-stack-check -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=3Dimp=
-licit-function-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-type -We=
-rror=3Dstrict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-add=
-ress -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototy=
-pes -Wno-gnu -Wno-microsoft-anon-tag -Wno-format-overflow-non-kprintf -Wno-=
-format-truncation-non-kprintf -Wno-default-const-init-unsafe -Wno-pointer-s=
-ign -Wcast-function-type -Wno-unterminated-string-initialization -Wimplicit=
--fallthrough -Werror=3Ddate-time -Werror=3Dincompatible-pointer-types -Wenu=
-m-conversion -Wunused -Wmissing-format-attribute -Wmissing-include-dirs -Wu=
-nused-const-variable -Wno-missing-field-initializers -Wno-type-limits -Wno-=
-shift-negative-value -Wno-enum-enum-conversion -Wno-sign-compare -Wno-unuse=
-d-parameter -fno-crash-diagnostics -Wno-error=3Dreturn-type -Wreturn-type -=
-funsigned-char -Wundef -falign-functions=3D64 -fsanitize=3Darray-bounds -Ia=
-rch/mips/math-emu -Iarch/mips/math-emu -DKBUILD_MODFILE=3D'"arch/mips/math-=
-emu/sp_sub"' -DKBUILD_BASENAME=3D'"sp_sub"' -DKBUILD_MODNAME=3D'"sp_sub"' -=
-D__KBUILD_MODNAME=3Dsp_sub -c -o arch/mips/math-emu/sp_sub.o arch/mips/math=
--emu/sp_sub.c
+vim +/primary +333 drivers/gpu/drm/i915/display/intel_crtc.c
+
+fbf756c31cca38 Dave Airlie   2021-01-14  310 =20
+668e88877a9ba7 Jani Nikula   2025-12-04  311  static int __intel_crtc_init(=
+struct intel_display *display, enum pipe pipe)
+fbf756c31cca38 Dave Airlie   2021-01-14  312  {
+fbf756c31cca38 Dave Airlie   2021-01-14  313  	struct intel_plane *primary,=
+ *cursor;
+fbf756c31cca38 Dave Airlie   2021-01-14  314  	const struct drm_crtc_funcs =
+*funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  315  	struct intel_crtc *crtc;
+fbf756c31cca38 Dave Airlie   2021-01-14  316  	int sprite, ret;
+fbf756c31cca38 Dave Airlie   2021-01-14  317 =20
+fbf756c31cca38 Dave Airlie   2021-01-14  318  	crtc =3D intel_crtc_alloc();
+fbf756c31cca38 Dave Airlie   2021-01-14  319  	if (IS_ERR(crtc))
+fbf756c31cca38 Dave Airlie   2021-01-14  320  		return PTR_ERR(crtc);
+fbf756c31cca38 Dave Airlie   2021-01-14  321 =20
+fbf756c31cca38 Dave Airlie   2021-01-14  322  	crtc->pipe =3D pipe;
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  323  	crtc->num_scalers =
+=3D DISPLAY_RUNTIME_INFO(display)->num_scalers[pipe];
+fbf756c31cca38 Dave Airlie   2021-01-14  324 =20
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  325  	if (DISPLAY_VER(di=
+splay) >=3D 9)
+a2ed9f84524795 Ville Syrj=C3=A4l=C3=A4 2025-02-06  326  		primary =3D skl_u=
+niversal_plane_create(display, pipe, PLANE_1);
+46d12f911821f7 Dave Airlie   2021-02-05  327  	else
+880ed2d84db9a1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  328  		primary =3D intel=
+_primary_plane_create(display, pipe);
+fbf756c31cca38 Dave Airlie   2021-01-14  329  	if (IS_ERR(primary)) {
+fbf756c31cca38 Dave Airlie   2021-01-14  330  		ret =3D PTR_ERR(primary);
+fbf756c31cca38 Dave Airlie   2021-01-14  331  		goto fail;
+fbf756c31cca38 Dave Airlie   2021-01-14  332  	}
+fbf756c31cca38 Dave Airlie   2021-01-14 @333  	crtc->plane_ids_mask |=3D BI=
+T(primary->id);
+fbf756c31cca38 Dave Airlie   2021-01-14  334 =20
+f414bb4f717ad5 Jani Nikula   2025-02-12  335  	intel_init_fifo_underrun_rep=
+orting(display, crtc, false);
+66560f33059ebe Ville Syrj=C3=A4l=C3=A4 2023-01-25  336 =20
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  337  	for_each_sprite(di=
+splay, pipe, sprite) {
+fbf756c31cca38 Dave Airlie   2021-01-14  338  		struct intel_plane *plane;
+fbf756c31cca38 Dave Airlie   2021-01-14  339 =20
+a76a2be26df373 Jani Nikula   2025-05-06  340  		if (DISPLAY_VER(display) >=
+=3D 9)
+a2ed9f84524795 Ville Syrj=C3=A4l=C3=A4 2025-02-06  341  			plane =3D skl_un=
+iversal_plane_create(display, pipe, PLANE_2 + sprite);
+46d12f911821f7 Dave Airlie   2021-02-05  342  		else
+9665025b57796f Ville Syrj=C3=A4l=C3=A4 2025-02-06  343  			plane =3D intel_=
+sprite_plane_create(display, pipe, sprite);
+fbf756c31cca38 Dave Airlie   2021-01-14  344  		if (IS_ERR(plane)) {
+fbf756c31cca38 Dave Airlie   2021-01-14  345  			ret =3D PTR_ERR(plane);
+fbf756c31cca38 Dave Airlie   2021-01-14  346  			goto fail;
+fbf756c31cca38 Dave Airlie   2021-01-14  347  		}
+fbf756c31cca38 Dave Airlie   2021-01-14 @348  		crtc->plane_ids_mask |=3D B=
+IT(plane->id);
+fbf756c31cca38 Dave Airlie   2021-01-14  349  	}
+fbf756c31cca38 Dave Airlie   2021-01-14  350 =20
+69e79a3a3208fb Ville Syrj=C3=A4l=C3=A4 2025-02-06  351  	cursor =3D intel_c=
+ursor_plane_create(display, pipe);
+fbf756c31cca38 Dave Airlie   2021-01-14  352  	if (IS_ERR(cursor)) {
+fbf756c31cca38 Dave Airlie   2021-01-14  353  		ret =3D PTR_ERR(cursor);
+fbf756c31cca38 Dave Airlie   2021-01-14  354  		goto fail;
+fbf756c31cca38 Dave Airlie   2021-01-14  355  	}
+fbf756c31cca38 Dave Airlie   2021-01-14  356  	crtc->plane_ids_mask |=3D BI=
+T(cursor->id);
+fbf756c31cca38 Dave Airlie   2021-01-14  357 =20
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  358  	if (HAS_GMCH(displ=
+ay)) {
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  359  		if (display->plat=
+form.cherryview ||
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  360  		    display->plat=
+form.valleyview ||
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  361  		    display->plat=
+form.g4x)
+fbf756c31cca38 Dave Airlie   2021-01-14  362  			funcs =3D &g4x_crtc_funcs;
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  363  		else if (DISPLAY_=
+VER(display) =3D=3D 4)
+fbf756c31cca38 Dave Airlie   2021-01-14  364  			funcs =3D &i965_crtc_funcs;
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  365  		else if (display-=
+>platform.i945gm ||
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  366  			 display->platfo=
+rm.i915gm)
+fbf756c31cca38 Dave Airlie   2021-01-14  367  			funcs =3D &i915gm_crtc_fun=
+cs;
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  368  		else if (DISPLAY_=
+VER(display) =3D=3D 3)
+fbf756c31cca38 Dave Airlie   2021-01-14  369  			funcs =3D &i915_crtc_funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  370  		else
+fbf756c31cca38 Dave Airlie   2021-01-14  371  			funcs =3D &i8xx_crtc_funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  372  	} else {
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  373  		if (DISPLAY_VER(d=
+isplay) >=3D 8)
+fbf756c31cca38 Dave Airlie   2021-01-14  374  			funcs =3D &bdw_crtc_funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  375  		else
+fbf756c31cca38 Dave Airlie   2021-01-14  376  			funcs =3D &ilk_crtc_funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  377  	}
+fbf756c31cca38 Dave Airlie   2021-01-14  378 =20
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  379  	ret =3D drm_crtc_i=
+nit_with_planes(display->drm, &crtc->base,
+fbf756c31cca38 Dave Airlie   2021-01-14  380  					&primary->base, &cursor-=
+>base,
+fbf756c31cca38 Dave Airlie   2021-01-14  381  					funcs, "pipe %c", pipe_n=
+ame(pipe));
+fbf756c31cca38 Dave Airlie   2021-01-14  382  	if (ret)
+fbf756c31cca38 Dave Airlie   2021-01-14  383  		goto fail;
+fbf756c31cca38 Dave Airlie   2021-01-14  384 =20
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  385  	if (DISPLAY_VER(di=
+splay) >=3D 11)
+fbf756c31cca38 Dave Airlie   2021-01-14  386  		drm_crtc_create_scaling_fil=
+ter_property(&crtc->base,
+fbf756c31cca38 Dave Airlie   2021-01-14  387  						BIT(DRM_SCALING_FILTER_=
+DEFAULT) |
+fbf756c31cca38 Dave Airlie   2021-01-14  388  						BIT(DRM_SCALING_FILTER_=
+NEAREST_NEIGHBOR));
+fbf756c31cca38 Dave Airlie   2021-01-14  389 =20
+a2b1d9ecaa755c Ville Syrj=C3=A4l=C3=A4 2022-10-04  390  	intel_color_crtc_i=
+nit(crtc);
+a2b1d9ecaa755c Ville Syrj=C3=A4l=C3=A4 2022-10-04  391  	intel_drrs_crtc_in=
+it(crtc);
+fbf756c31cca38 Dave Airlie   2021-01-14  392  	intel_crtc_crc_init(crtc);
+fbf756c31cca38 Dave Airlie   2021-01-14  393 =20
+2bbc6fcaf8c58a Ville Syrj=C3=A4l=C3=A4 2021-10-21  394  	cpu_latency_qos_ad=
+d_request(&crtc->vblank_pm_qos, PM_QOS_DEFAULT_VALUE);
+2bbc6fcaf8c58a Ville Syrj=C3=A4l=C3=A4 2021-10-21  395 =20
+b2479f7231d8b1 Ville Syrj=C3=A4l=C3=A4 2025-02-06  396  	drm_WARN_ON(displa=
+y->drm, drm_crtc_index(&crtc->base) !=3D crtc->pipe);
+fbf756c31cca38 Dave Airlie   2021-01-14  397 =20
+1552691f960a9e Nemesa Garg   2025-11-26  398  	if (HAS_CASF(display) && crt=
+c->num_scalers >=3D 2)
+7460b69f1d61e8 Nemesa Garg   2025-10-28  399  		drm_crtc_create_sharpness_s=
+trength_property(&crtc->base);
+7460b69f1d61e8 Nemesa Garg   2025-10-28  400 =20
+fbf756c31cca38 Dave Airlie   2021-01-14  401  	return 0;
+fbf756c31cca38 Dave Airlie   2021-01-14  402 =20
+fbf756c31cca38 Dave Airlie   2021-01-14  403  fail:
+fbf756c31cca38 Dave Airlie   2021-01-14  404  	intel_crtc_free(crtc);
+fbf756c31cca38 Dave Airlie   2021-01-14  405 =20
+fbf756c31cca38 Dave Airlie   2021-01-14  406  	return ret;
+fbf756c31cca38 Dave Airlie   2021-01-14  407  }
+d471008b00c1a0 Dave Airlie   2021-02-05  408 =20
+
+:::::: The code at line 333 was first introduced by commit
+:::::: fbf756c31cca387510f4950bdd9704162e8196da drm/i915: refactor some crt=
+c code out of intel display. (v2)
+
+:::::: TO: Dave Airlie <airlied@redhat.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 --
 0-DAY CI Kernel Test Service
