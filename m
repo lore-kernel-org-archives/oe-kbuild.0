@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5CB385D68
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Jul 2026 11:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811013AD51C
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Jul 2026 12:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785065073; cv=none; b=IbDQc8Sk0PxfSu+EPCekCwCBRDAdwOhhnzZKFRJSKIcX87KqLUqc15sqe0PGZf68jMTWaJCa6ApGrDSjEoSYFU7eIC2OMc3uBRpVOxkZ6sN5oK4qxuKqNjlMY/fWbEAJ0ShXIhKTnJbX9jM06sFuiHpoIDCoCzyom14mZLkvmLA=
+	t=1785068736; cv=none; b=ZwpK217YqhrEK7DV7F6DHamQ32JtdJVS2ukjesTBQ4asvwQ92jgcUaC+ZLc5+/E27uhyLugVA5rwXGPpurQ7cLj8+LtqsXMsvUajzjt27DMsLZ0pnR7PAq8hYbxATgjGveDnYFA2/2tEl1LxCEzc4AsBN+5PIFwfXiHDWHt1pho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785065073; c=relaxed/simple;
-	bh=fstIQLg+glZPDMW/nPSwuIhP+DpGQOt7lkR4nVJB2M8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gqIvH7Zr+mebK8b/muwxmzXVgas8qSMSa5WrBYnTCIu6M7cshg7ilyvBXcejSFz1Hup3bLt0ehFyBXN/YO6+y94TsaV1tlsSc/zt99Ra/gor9rQDr4354Vn1XLsVzqGj1InNg1x4rqwVELe+IAs8WIqRoZXOAYzeIWNgJmNgUXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F/G2Zwpy; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1785068736; c=relaxed/simple;
+	bh=XY4JP6btTeXUq0Ixgs5MJ//jWRVLqCBTksmP3l9Eraw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jqcU16ps5Kv4R+LJE2vyWyljtesk4UxoGom5g9mE+3t5Smw/m0iZCmGqhvrv7Bs8QXGVgHmEn2QlkUag8tyiFxspbA5P3udH1SjxhzyN8jk5W4PqfnCUgSm4FOQ5FIKeDhP6srRYI/x4JWsUp8K0Y4rHWXkppqXXHxhwEUcKeys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcuXdBPm; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F/G2Zwpy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcuXdBPm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785065071; x=1816601071;
+  t=1785068733; x=1816604733;
   h=date:from:to:cc:subject:message-id;
-  bh=fstIQLg+glZPDMW/nPSwuIhP+DpGQOt7lkR4nVJB2M8=;
-  b=F/G2Zwpyl/sBTZEthOLMV+DdYl7sYt0DF+jNoq/3D1c1E4Ha9ykwm6Ma
-   JQLRK9ookPIw+EpHZc6gCAf8P72f0Il9fu0eQcd0iDc20trG7fhlu2kqU
-   +NHg3ivuFvFZYSc4axoMRYkjhlERS4N/p9cl3GboXJEU4HeXoZVkyobqU
-   HAdrm+lMvHShvNF+sa0XeTCHxvUAvsntLMqFLC6Vgu8EnesWk301vNphl
-   LEacgSRngAlGmA+lR/MaP8Dfpj/NzikbtcdeLASv+ax9gYMDSuyExZcnH
-   U7QkPDnYxHdpMY+tJpr5EFRZTYlcvenmaC8T2FKjzHWYaj/sqD4lkPnKu
-   A==;
-X-CSE-ConnectionGUID: UuOfHUnwQ+am+1J5rNvYKQ==
-X-CSE-MsgGUID: n5I2AGEmS4Szbp9TWzaIeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="85776979"
+  bh=XY4JP6btTeXUq0Ixgs5MJ//jWRVLqCBTksmP3l9Eraw=;
+  b=gcuXdBPmsXHygHSZOIOivR5ovNfbbHWkD6HByIiyJWgtEzwxHsCfAcld
+   Is0C/R6VH7kmHK4h/JERcnlg8FKHjRddwrpGHc/GLkg6MBrCoGne6mUF+
+   3QXmehY/dU+XtzfM0/cZu2mhiHoje5yV8JpRDV6+aSEF0sHvB4Rr/0ENr
+   +9ZFlG9GuMUSADMWT0HuQ2NIuDMY9cAw/dWOkrZ0ON3qJJjTyaKHaZZPX
+   /032IvTejYvGqWm8TtRmQT38HJiIx/lAwqaglDDPHgUvHM/6wzW/inFY+
+   md6GsMWfXN1bzm/iJhGhn3uH1rqv1PZ+6gGlfqIGxXKOwREI9BoXizRJQ
+   Q==;
+X-CSE-ConnectionGUID: 42yX2QpuRxqxrwoC0Yfnhg==
+X-CSE-MsgGUID: nyj9g0kfSPm/b31jYqM8qA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11856"; a="97174669"
 X-IronPort-AV: E=Sophos;i="6.25,186,1779174000"; 
-   d="scan'208";a="85776979"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 04:24:30 -0700
-X-CSE-ConnectionGUID: FSrbvynTQUCTAUDcoEbdFg==
-X-CSE-MsgGUID: 8Wkxj99MQC2uWpwBVlMiRQ==
+   d="scan'208";a="97174669"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2026 05:25:31 -0700
+X-CSE-ConnectionGUID: LdVp/suwRzSRhLRfzHS96g==
+X-CSE-MsgGUID: POiByjb0TWOLqhPcmDVA8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,186,1779174000"; 
-   d="scan'208";a="252814761"
+   d="scan'208";a="254835420"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Jul 2026 04:24:30 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Jul 2026 05:25:29 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wnwy3-000000001QM-2DEC;
-	Sun, 26 Jul 2026 11:24:27 +0000
-Date: Sun, 26 Jul 2026 13:24:02 +0200
+	id 1wnxv5-000000001QY-3ANu;
+	Sun, 26 Jul 2026 12:25:27 +0000
+Date: Sun, 26 Jul 2026 14:24:54 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [spacemit:dt-for-next 17/21]
- arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: phy@1
- (ethernet-phy-id001c.c916): $nodename:0: 'phy@1' does not match
- '^ethernet-phy(@[a-f0-9]+)?$'
-Message-ID: <202607261335.hKiActXN-lkp@intel.com>
+Subject: [spacemit:dt-for-next 19/21]
+ arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: spi@d401c000
+ (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+Message-ID: <202607261425.Ox3qGHRf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -68,31 +67,85 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Yixun Lan <dlan@kernel.org>
-TO: Inochi Amaoto <inochiama@gmail.com>
+TO: Zhengyu He <hezhy472013@gmail.com>
 CC: Yixun Lan <dlan@kernel.org>
+CC: Cody Kang <cody.kang.hk@outlook.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/spacemit/linux.git dt-for-next
 head:   31efde747b5e5d2c185e06d872a9ef9b87f505ac
-commit: 1b5753f2270072110c532e20e2785a1e2dbd7d3d [17/21] riscv: dts: spacemit: Fix phy id check for the phy on com260 board
-:::::: branch date: 3 hours ago
+commit: 26e08208efc22ab7717018030e9c6d428adfc713 [19/21] riscv: dts: spacemit: add SPI controllers for K3
+:::::: branch date: 4 hours ago
 :::::: commit date: 23 hours ago
-config: riscv-randconfig-2051-20260726 (https://download.01.org/0day-ci/archive/20260726/202607261335.hKiActXN-lkp@intel.com/config)
+config: riscv-randconfig-2051-20260726 (https://download.01.org/0day-ci/archive/20260726/202607261425.Ox3qGHRf-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 9521d0c03324fb5950727522cdf71d94fd3f68b1)
 dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260726/202607261335.hKiActXN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260726/202607261425.Ox3qGHRf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607261335.hKiActXN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607261425.Ox3qGHRf-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: phy@1 (ethernet-phy-id001c.c916): $nodename:0: 'phy@1' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: phy@1 (ethernet-phy-id001c.c916): $nodename:0: 'phy@1' does not match '^ethernet-phy(@[a-f0-9]+)?$'
    	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: phy@1 (ethernet-phy-id001c.c916): compatible: ['ethernet-phy-id001c.c916', 'ethernet-phy-ieee802.3-c22'] is too long
+   arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: phy@1 (ethernet-phy-id001c.c916): compatible: ['ethernet-phy-id001c.c916', 'ethernet-phy-ieee802.3-c22'] is too long
    	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
->> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: phy@1 (ethernet-phy-id001c.c916): Unevaluated properties are not allowed ('reg', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
+   arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: phy@1 (ethernet-phy-id001c.c916): Unevaluated properties are not allowed ('reg', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
    	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: spi@d401c000 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: spi@d401c000 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/spi@d401c000: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: spi@d4040000 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: spi@d4040000 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/spi@d4040000: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: spi@d4040800 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: spi@d4040800 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-com260-ifx.dtb: /soc/spi@d4040800: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
+--
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: spi@d401c000 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: spi@d401c000 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: /soc/spi@d401c000: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: spi@d4040000 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: spi@d4040000 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: /soc/spi@d4040000: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: spi@d4040800 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: spi@d4040800 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-deepcomputing-fml13v05.dtb: /soc/spi@d4040800: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
+--
+   arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: phy@1 (ethernet-phy-id001c.c916): $nodename:0: 'phy@1' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
+   arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: phy@1 (ethernet-phy-id001c.c916): compatible: ['ethernet-phy-id001c.c916', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
+   arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: phy@1 (ethernet-phy-id001c.c916): Unevaluated properties are not allowed ('reg', 'reset-assert-us', 'reset-deassert-us', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: spi@d401c000 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: spi@d401c000 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: /soc/spi@d401c000: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: spi@d4040000 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: spi@d4040000 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: /soc/spi@d4040000: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: spi@d4040800 (spacemit,k3-spi): compatible:0: 'spacemit,k1-spi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: spi@d4040800 (spacemit,k3-spi): compatible: ['spacemit,k3-spi', 'spacemit,k1-spi'] is too long
+   	from schema $id: http://devicetree.org/schemas/spi/spacemit,k1-spi.yaml
+>> arch/riscv/boot/dts/spacemit/k3-pico-itx.dtb: /soc/spi@d4040800: failed to match any schema with compatible: ['spacemit,k3-spi', 'spacemit,k1-spi']
 
 --
 0-DAY CI Kernel Test Service
