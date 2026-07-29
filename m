@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C5430FC26
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jul 2026 08:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243D6448CFD
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jul 2026 09:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785314272; cv=none; b=pEI0IV6at61saL+AEp/byUMC8a6ko541bNBQiFf+K8mu2PgjiH4CEcBtTY6brVfC5Eb8LYUAJf9EkOCctaNwP4Qdesj88Mg5WVNNFMXTp1hnf0e1KKoQ47tRlBOH912K/xSlhBhd07txCiA8lXabGFS3rsPiE+1sdbplPkebAzU=
+	t=1785317797; cv=none; b=fWV2HSMzMJfQ7zMvCfWvR/b/LCsdxaP30D/KIC5OLmakZ9H+6f5ybr6ZH1QIFJqDgcK2JKb4RAyw2kuI2ZnHMIf/rIP8FO1K6AvKIVRw6A2b1idY85NKb+DESVTXsSwr/gwzJbFk9zhWL9TAyHWL33AneRHS6pNouZOYnqmt6aU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785314272; c=relaxed/simple;
-	bh=DzYX2v7pg8s8XMyvu1dZSknYpQc3UMaAIRHiFaGJy/8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mwulTrPz+XhhNsacl3WNdOsgXyeI6Vos7AzUJvBdN0JCs+SR3mT9c9Onn0Or2seu7bxqE8GPaOn3R6xqhsn28GHL2Z+zQLjib1geXcK8/GswCUZy2Xkh+SXGbVwDxHylPHJjBHvOxs4sN7MNmhDXzwY+XkNb9468Yxi+iIdl4A8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKKsZ010; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1785317797; c=relaxed/simple;
+	bh=3IDfXwFWkXzflTOXJ1tVWqOehVQ59zVMDRcmbzHGFas=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZlUpot/lmO2VmHtHpkUJtQ3ouq7XTbkmgGZAXSgKWWhKqLOpza6ZjHt7yufK3YVXUC8mfI7d3nO3QcYKyRjdQe1egz4uPkd9az3dUBRpfKv8n/zdJJbXLCFkF2e+dTScGdxh81Vn5pIIbVzJiCHFselEw1lYN7D1oL/aSnExqMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I++TYINT; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKKsZ010"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I++TYINT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785314270; x=1816850270;
+  t=1785317794; x=1816853794;
   h=date:from:to:cc:subject:message-id;
-  bh=DzYX2v7pg8s8XMyvu1dZSknYpQc3UMaAIRHiFaGJy/8=;
-  b=KKKsZ010ZE1FePyMUcT6avXwIg9FdgJnXpLJKvYil5dA0NT2SONUbiOu
-   LYbHuOr3gvwiYgQYHXIQmxseMTccYMIfBwRSTjMfV9dl13CRTXYKCG/a2
-   hgWN2BcQCMwqzvVX+zROrPGYUFF8YGHmPSSWAbfrADX8pIXEOU4PqGkyI
-   k5k6/6rFkXW4z230jcFpNxm9fdWvfnoBuzf3SnJ/akk2EpZ4QleOZK99I
-   LLUFNV61qXVuMOWrJJN1yY9Y9k+lj2KbyeV5ZhVySnHAzvihcEoLokut9
-   Z8jdjMpmJwZ8fi/P88DLOevW7Nw73Uq5QvoLXvpGvZAJZBbYztRiOABy0
-   Q==;
-X-CSE-ConnectionGUID: ARH+4KrZT4mGB0yH/zSZXw==
-X-CSE-MsgGUID: TiKJlksNRaaHoAUV5RxkFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97425199"
+  bh=3IDfXwFWkXzflTOXJ1tVWqOehVQ59zVMDRcmbzHGFas=;
+  b=I++TYINTJubBGW0Vjvcjw0tFLY1CRC89WfF3igdHP//5kIVglZfaOvDH
+   iApgoEcPFTn+wgqhiZoPniqwDxt0UgZBlMLErGfeDDcLtrGq+VRNIgw5c
+   yHPeX2OTKSMFSQq3qvE4ocv8SV+jTr4Ewr4/s09KRc1c/W7M8ZV9ntPtj
+   asr/Xcb0H8tJk0wLw6DzqS0Y1FTcBljxqLZoN2sqwd2uoFiGmCTPmT6hS
+   Y8xZkCQOw4bxBvj1Y8BudsdPjUo9ltAHU0u1Pp8tnb2YQDQLCNLAH18IS
+   JX4oiBW8Cy2METjszsL1GL1S1MvJ26BAbALy6O8V/zw3NlpPo6Yi4x4jI
+   A==;
+X-CSE-ConnectionGUID: /6+5q8hgT72oLvG8SnqowA==
+X-CSE-MsgGUID: cxGn4F1HSRWFovQn4Fza6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96578516"
 X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="97425199"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 01:37:50 -0700
-X-CSE-ConnectionGUID: m349HypRR6Wm7H53nYvOlQ==
-X-CSE-MsgGUID: Bylp6lz6S+OxoBTtrT6eHw==
+   d="scan'208";a="96578516"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 02:36:33 -0700
+X-CSE-ConnectionGUID: zbS4R8YvRImGf5INsb7+5A==
+X-CSE-MsgGUID: lUlTj+K4T8KNeMHls4kJeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="257278372"
+   d="scan'208";a="256625693"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Jul 2026 01:37:49 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 29 Jul 2026 02:36:32 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1woznF-00000000fCX-0yqP;
-	Wed, 29 Jul 2026 08:37:39 +0000
-Date: Wed, 29 Jul 2026 16:36:21 +0800
+	id 1wp0iE-00000000fEb-07Sp;
+	Wed, 29 Jul 2026 09:36:30 +0000
+Date: Wed, 29 Jul 2026 17:35:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-nvme:nvme-7.3 45/48]
- drivers/nvme/host/multipath.c:249:38: warning: reading variable
- 'current_path' requires holding __ctx_lock_RCU 'RCU'
-Message-ID: <202607291634.E5clnaLh-lkp@intel.com>
+Subject: include/linux/bitfield.h:221:3: error: call to '__bad_mask'
+ declared with 'error' attribute: bad bitfield mask
+Message-ID: <202607291732.QKkxSzV3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,63 +60,167 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/muhammad-nazim-amirul-nazle-asmade-altera-com/net-stmmac-fpe-Enforce-pmac_enabled-in-set_mm-and-keep-it-on-at-init/20260729-100008, commit: 8a04b4757aed73457fdc91c3f61946a624832ba6"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-nvme@lists.infradead.org
-TO: Nilay Shroff <nilay@linux.ibm.com>
-CC: Keith Busch <kbusch@kernel.org>
-CC: Christoph Hellwig <hch@lst.de>
+TO: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+CC: 0day robot <lkp@intel.com>
+CC: Rohan G Thomas <rohan.g.thomas@altera.com>
 
-tree:   git://git.infradead.org/nvme.git nvme-7.3
-head:   b53d495c7f0db46b6748b5ade48371a10dd5d3bc
-commit: fccada336f6d29344e3853d44b96684807dd7d7d [45/48] nvme: enable context analysis support for nvme host driver
-:::::: branch date: 11 hours ago
-:::::: commit date: 15 hours ago
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260729/202607291634.E5clnaLh-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 890b11e09e45e9d8b29f2f94f22052be3934e757)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291634.E5clnaLh-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/muhammad-nazim-amirul-nazle-asmade-altera-com/net-stmmac-fpe-Enforce-pmac_enabled-in-set_mm-and-keep-it-on-at-init/20260729-100008
+head:   8a04b4757aed73457fdc91c3f61946a624832ba6
+commit: 8a04b4757aed73457fdc91c3f61946a624832ba6 net: stmmac: fpe: Move fprq configuration to stmmac_fpe_configure_pmac()
+date:   7 hours ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260729/202607291732.QKkxSzV3-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291732.QKkxSzV3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607291634.E5clnaLh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607291732.QKkxSzV3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/nvme/host/multipath.c:249:38: warning: reading variable 'current_path' requires holding __ctx_lock_RCU 'RCU' [-Wthread-safety-analysis]
-     249 |                 if (ns == rcu_access_pointer(head->current_path[node])) {
-         |                                                    ^
-   1 warning generated.
+   In file included from drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c:6:
+   In file included from drivers/net/ethernet/stmicro/stmmac/stmmac.h:17:
+   In file included from include/linux/stmmac.h:16:
+   In file included from include/linux/phylink.h:4:
+   In file included from include/linux/phy.h:20:
+   In file included from include/linux/mdio.h:10:
+>> include/linux/bitfield.h:221:3: error: call to '__bad_mask' declared with 'error' attribute: bad bitfield mask
+     221 |                 __bad_mask();
+         |                 ^
+>> include/linux/bitfield.h:221:3: error: call to '__bad_mask' declared with 'error' attribute: bad bitfield mask
+   2 errors generated.
 
 
-vim +249 drivers/nvme/host/multipath.c
+vim +221 include/linux/bitfield.h
 
-0d0b660f214dc49 Christoph Hellwig 2018-05-14  241  
-0157ec8dad3c8fc Sagi Grimberg     2019-07-25  242  bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
-32acab3181c7053 Christoph Hellwig 2017-11-02  243  {
-f333444708f82c4 Christoph Hellwig 2018-09-11  244  	struct nvme_ns_head *head = ns->head;
-0157ec8dad3c8fc Sagi Grimberg     2019-07-25  245  	bool changed = false;
-f333444708f82c4 Christoph Hellwig 2018-09-11  246  	int node;
-f333444708f82c4 Christoph Hellwig 2018-09-11  247  
-f333444708f82c4 Christoph Hellwig 2018-09-11  248  	for_each_node(node) {
-0157ec8dad3c8fc Sagi Grimberg     2019-07-25 @249  		if (ns == rcu_access_pointer(head->current_path[node])) {
-f333444708f82c4 Christoph Hellwig 2018-09-11  250  			rcu_assign_pointer(head->current_path[node], NULL);
-0157ec8dad3c8fc Sagi Grimberg     2019-07-25  251  			changed = true;
-0157ec8dad3c8fc Sagi Grimberg     2019-07-25  252  		}
-f333444708f82c4 Christoph Hellwig 2018-09-11  253  	}
-0157ec8dad3c8fc Sagi Grimberg     2019-07-25  254  	return changed;
-0157ec8dad3c8fc Sagi Grimberg     2019-07-25  255  }
-0157ec8dad3c8fc Sagi Grimberg     2019-07-25  256  
-
-:::::: The code at line 249 was first introduced by commit
-:::::: 0157ec8dad3c8fc9bc9790f76e0831ffdaf2e7f0 nvme: fix controller removal race with scan work
-
-:::::: TO: Sagi Grimberg <sagi@grimberg.me>
-:::::: CC: Sagi Grimberg <sagi@grimberg.me>
+e2192de59e457a Johannes Berg      2023-01-18  142  
+e2192de59e457a Johannes Berg      2023-01-18  143  /**
+e2192de59e457a Johannes Berg      2023-01-18  144   * FIELD_PREP_CONST() - prepare a constant bitfield element
+e2192de59e457a Johannes Berg      2023-01-18  145   * @_mask: shifted mask defining the field's length and position
+e2192de59e457a Johannes Berg      2023-01-18  146   * @_val:  value to put in the field
+e2192de59e457a Johannes Berg      2023-01-18  147   *
+e2192de59e457a Johannes Berg      2023-01-18  148   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
+e2192de59e457a Johannes Berg      2023-01-18  149   * be combined with other fields of the bitfield using logical OR.
+e2192de59e457a Johannes Berg      2023-01-18  150   *
+e2192de59e457a Johannes Berg      2023-01-18  151   * Unlike FIELD_PREP() this is a constant expression and can therefore
+e2192de59e457a Johannes Berg      2023-01-18  152   * be used in initializers. Error checking is less comfortable for this
+e2192de59e457a Johannes Berg      2023-01-18  153   * version, and non-constant masks cannot be used.
+e2192de59e457a Johannes Berg      2023-01-18  154   */
+e2192de59e457a Johannes Berg      2023-01-18  155  #define FIELD_PREP_CONST(_mask, _val)					\
+e2192de59e457a Johannes Berg      2023-01-18  156  	(								\
+e2192de59e457a Johannes Berg      2023-01-18  157  		/* mask must be non-zero */				\
+e2192de59e457a Johannes Berg      2023-01-18  158  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
+e2192de59e457a Johannes Berg      2023-01-18  159  		/* check if value fits */				\
+e2192de59e457a Johannes Berg      2023-01-18  160  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
+e2192de59e457a Johannes Berg      2023-01-18  161  		/* check if mask is contiguous */			\
+e2192de59e457a Johannes Berg      2023-01-18  162  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
+e2192de59e457a Johannes Berg      2023-01-18  163  		/* and create the value */				\
+e2192de59e457a Johannes Berg      2023-01-18  164  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
+e2192de59e457a Johannes Berg      2023-01-18  165  	)
+e2192de59e457a Johannes Berg      2023-01-18  166  
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  167  /**
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  168   * FIELD_GET() - extract a bitfield element
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  169   * @_mask: shifted mask defining the field's length and position
+7240767450d6d8 Masahiro Yamada    2017-10-03  170   * @_reg:  value of entire bitfield
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  171   *
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  172   * FIELD_GET() extracts the field specified by @_mask from the
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  173   * bitfield passed in as @_reg by masking and shifting it down.
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  174   */
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  175  #define FIELD_GET(_mask, _reg)						\
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  176  	({								\
+2a6c045640c38a Geert Uytterhoeven 2025-11-06  177  		__BF_FIELD_CHECK_REG(_mask, _reg, "FIELD_GET: ");	\
+2a6c045640c38a Geert Uytterhoeven 2025-11-06  178  		__FIELD_GET(_mask, _reg, "FIELD_GET: ");		\
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  179  	})
+3e9b3112ec74f1 Jakub Kicinski     2016-08-31  180  
+2c3f0541b99c60 Yury Norov         2026-04-27  181  /**
+2c3f0541b99c60 Yury Norov         2026-04-27  182   * FIELD_GET_SIGNED() - extract a signed bitfield element
+2c3f0541b99c60 Yury Norov         2026-04-27  183   * @mask: shifted mask defining the field's length and position
+2c3f0541b99c60 Yury Norov         2026-04-27  184   * @reg:  value of entire bitfield
+2c3f0541b99c60 Yury Norov         2026-04-27  185   *
+2c3f0541b99c60 Yury Norov         2026-04-27  186   * Returns the sign-extended field specified by @_mask from the
+2c3f0541b99c60 Yury Norov         2026-04-27  187   * bitfield passed in as @reg by masking and shifting it down.
+2c3f0541b99c60 Yury Norov         2026-04-27  188   */
+2c3f0541b99c60 Yury Norov         2026-04-27  189  #define FIELD_GET_SIGNED(mask, reg)					\
+2c3f0541b99c60 Yury Norov         2026-04-27  190  	({								\
+2c3f0541b99c60 Yury Norov         2026-04-27  191  		__BF_FIELD_CHECK(mask, reg, 0U, "FIELD_GET_SIGNED: ");	\
+2c3f0541b99c60 Yury Norov         2026-04-27  192  		 ((__signed_scalar_typeof(mask))			\
+2c3f0541b99c60 Yury Norov         2026-04-27  193  		  (((long long)(reg) << __builtin_clzll(mask)) >>	\
+2c3f0541b99c60 Yury Norov         2026-04-27  194  		   (__builtin_clzll(mask) + __builtin_ctzll(mask))));	\
+2c3f0541b99c60 Yury Norov         2026-04-27  195  	})
+2c3f0541b99c60 Yury Norov         2026-04-27  196  
+a256ae22570ee4 Luo Jie            2025-04-17  197  /**
+a256ae22570ee4 Luo Jie            2025-04-17  198   * FIELD_MODIFY() - modify a bitfield element
+a256ae22570ee4 Luo Jie            2025-04-17  199   * @_mask: shifted mask defining the field's length and position
+a256ae22570ee4 Luo Jie            2025-04-17  200   * @_reg_p: pointer to the memory that should be updated
+a256ae22570ee4 Luo Jie            2025-04-17  201   * @_val: value to store in the bitfield
+a256ae22570ee4 Luo Jie            2025-04-17  202   *
+a256ae22570ee4 Luo Jie            2025-04-17  203   * FIELD_MODIFY() modifies the set of bits in @_reg_p specified by @_mask,
+a256ae22570ee4 Luo Jie            2025-04-17  204   * by replacing them with the bitfield value passed in as @_val.
+a256ae22570ee4 Luo Jie            2025-04-17  205   */
+a256ae22570ee4 Luo Jie            2025-04-17  206  #define FIELD_MODIFY(_mask, _reg_p, _val)						\
+a256ae22570ee4 Luo Jie            2025-04-17  207  	({										\
+a256ae22570ee4 Luo Jie            2025-04-17  208  		typecheck_pointer(_reg_p);						\
+a256ae22570ee4 Luo Jie            2025-04-17  209  		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
+a256ae22570ee4 Luo Jie            2025-04-17  210  		*(_reg_p) &= ~(_mask);							\
+a256ae22570ee4 Luo Jie            2025-04-17  211  		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
+a256ae22570ee4 Luo Jie            2025-04-17  212  	})
+a256ae22570ee4 Luo Jie            2025-04-17  213  
+e7d4a95da86e0b Johannes Berg      2018-06-20  214  extern void __compiletime_error("value doesn't fit into mask")
+00b0c9b82663ac Al Viro            2017-12-14  215  __field_overflow(void);
+00b0c9b82663ac Al Viro            2017-12-14  216  extern void __compiletime_error("bad bitfield mask")
+00b0c9b82663ac Al Viro            2017-12-14  217  __bad_mask(void);
+00b0c9b82663ac Al Viro            2017-12-14  218  static __always_inline u64 field_multiplier(u64 field)
+00b0c9b82663ac Al Viro            2017-12-14  219  {
+00b0c9b82663ac Al Viro            2017-12-14  220  	if ((field | (field - 1)) & ((field | (field - 1)) + 1))
+00b0c9b82663ac Al Viro            2017-12-14 @221  		__bad_mask();
+00b0c9b82663ac Al Viro            2017-12-14  222  	return field & -field;
+00b0c9b82663ac Al Viro            2017-12-14  223  }
+00b0c9b82663ac Al Viro            2017-12-14  224  static __always_inline u64 field_mask(u64 field)
+00b0c9b82663ac Al Viro            2017-12-14  225  {
+00b0c9b82663ac Al Viro            2017-12-14  226  	return field / field_multiplier(field);
+00b0c9b82663ac Al Viro            2017-12-14  227  }
+e31a50162feb35 Alex Elder         2020-03-12  228  #define field_max(field)	((typeof(field))field_mask(field))
+00b0c9b82663ac Al Viro            2017-12-14  229  #define ____MAKE_OP(type,base,to,from)					\
+e2b02d382ae0cb Ben Horgan         2025-07-09  230  static __always_inline __##type __must_check type##_encode_bits(base v, base field)	\
+00b0c9b82663ac Al Viro            2017-12-14  231  {									\
+e7d4a95da86e0b Johannes Berg      2018-06-20  232  	if (__builtin_constant_p(v) && (v & ~field_mask(field)))	\
+00b0c9b82663ac Al Viro            2017-12-14  233  		__field_overflow();					\
+00b0c9b82663ac Al Viro            2017-12-14  234  	return to((v & field_mask(field)) * field_multiplier(field));	\
+00b0c9b82663ac Al Viro            2017-12-14  235  }									\
+e2b02d382ae0cb Ben Horgan         2025-07-09  236  static __always_inline __##type __must_check type##_replace_bits(__##type old,	\
+00b0c9b82663ac Al Viro            2017-12-14  237  							base val, base field)	\
+00b0c9b82663ac Al Viro            2017-12-14  238  {									\
+00b0c9b82663ac Al Viro            2017-12-14  239  	return (old & ~to(field)) | type##_encode_bits(val, field);	\
+00b0c9b82663ac Al Viro            2017-12-14  240  }									\
+00b0c9b82663ac Al Viro            2017-12-14  241  static __always_inline void type##p_replace_bits(__##type *p,		\
+00b0c9b82663ac Al Viro            2017-12-14  242  					base val, base field)		\
+00b0c9b82663ac Al Viro            2017-12-14  243  {									\
+00b0c9b82663ac Al Viro            2017-12-14  244  	*p = (*p & ~to(field)) | type##_encode_bits(val, field);	\
+00b0c9b82663ac Al Viro            2017-12-14  245  }									\
+e2b02d382ae0cb Ben Horgan         2025-07-09  246  static __always_inline base __must_check type##_get_bits(__##type v, base field)	\
+00b0c9b82663ac Al Viro            2017-12-14  247  {									\
+00b0c9b82663ac Al Viro            2017-12-14  248  	return (from(v) & field)/field_multiplier(field);		\
+00b0c9b82663ac Al Viro            2017-12-14  249  }
+00b0c9b82663ac Al Viro            2017-12-14  250  #define __MAKE_OP(size)							\
+00b0c9b82663ac Al Viro            2017-12-14  251  	____MAKE_OP(le##size,u##size,cpu_to_le##size,le##size##_to_cpu)	\
+00b0c9b82663ac Al Viro            2017-12-14  252  	____MAKE_OP(be##size,u##size,cpu_to_be##size,be##size##_to_cpu)	\
+00b0c9b82663ac Al Viro            2017-12-14  253  	____MAKE_OP(u##size,u##size,,)
+37a3862e123826 Johannes Berg      2018-06-20  254  ____MAKE_OP(u8,u8,,)
+00b0c9b82663ac Al Viro            2017-12-14  255  __MAKE_OP(16)
+00b0c9b82663ac Al Viro            2017-12-14  256  __MAKE_OP(32)
+00b0c9b82663ac Al Viro            2017-12-14  257  __MAKE_OP(64)
+00b0c9b82663ac Al Viro            2017-12-14  258  #undef __MAKE_OP
+00b0c9b82663ac Al Viro            2017-12-14  259  #undef ____MAKE_OP
+00b0c9b82663ac Al Viro            2017-12-14  260  
 
 --
 0-DAY CI Kernel Test Service
