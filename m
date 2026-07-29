@@ -1,236 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D6B309F08
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jul 2026 05:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB953B5841
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jul 2026 05:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785302354; cv=none; b=mWsBnOq4lMLM9XAAKBlh/yCevM5w3iWHiTSdok1GWfmdnIcHK4l4dHwiDYJmpMuOYpDIjkFpUEr11201bfYRJqNQ2tYoPpuX1WRvgnetfIuMKNOuqLC3/C1dijIKpI2jXJfW7F7irmgWHvAJrOUwmL+RSoW8SfCSxM7UPvhVVtA=
+	t=1785303798; cv=none; b=gSPgZsI70moJbwvbLRoSXcrEWXqEDMg90JWUfvnncd4FbmSk8Ghvu+GwqiNKwcOPuRV3aPf4W1ydT8m0muDnS20JXxnAqcS4QqIMLifxr5MHRucj+dFZeeItgBHcGU6B2H9rwkpT6TcAIbm1YRxdpmetOLbfRipTWwj3q4NPGCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785302354; c=relaxed/simple;
-	bh=16Ntlkrr4Cty9pRaXant2siEkjM0a0TMOcXHVggwJx8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Gcwp1wsY6fSSerGWnOB4OnIlXkjjpGEtfiDIgrpiY9bS3aiN6NU7+z6TQjqRSqyS/S9/9TPxs2JdER04Qo+sV7Ot7pWn4578I1yEt8pmGlQHsSv7UXAFEsZV9cem/FmialPJz+xEivNS+XG4HGq7TXVPyhx8v+eLzq8C3Z4xkyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+d1rIk8; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785303798; c=relaxed/simple;
+	bh=Qz3dPx3bwthAf+do+I7uz9VE6eCMPEJZNQSprXGgthc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tdvT3g6ZDjR4t4HzN3Egpa+jwrgtE+WVWyUjfKOKT040yiJ/k71ioUJcrXQBKdem6xpuRrKSALcrqUxbOneR+5JfnNkQ8z7sH7jbEDMaKhkSHtmN0gXAu+Nup9/qc7fu8FG7iXhFgu+xz5ARr1sppm9AYAJdUGCLSIOgE9a/Uj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jDkrIE8+; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+d1rIk8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785302352; x=1816838352;
-  h=date:from:to:cc:subject:message-id;
-  bh=16Ntlkrr4Cty9pRaXant2siEkjM0a0TMOcXHVggwJx8=;
-  b=Q+d1rIk8mD6s1Ho4/4hh8RQybXhB+VXi0ebl3qQsVXL0x4eh0NXbIbxV
-   k8ql51pV0/TNUfBZbDTjYDXfnhDnGPB/yhJvwqEhIgfT+UEzYBPVl6bJQ
-   14R+ezAO1swCaYJg7bU2B9wlnz3GBNe2AxxJfK9knr+Fb7sYi+8g+Ar1t
-   D5Yjy8CCy3jVaSk2R0uI7z7BS/kQsdgzj3iEc7y/WxikSJQV0+AT/Np8O
-   EiY0bqBlXAGhXEwsfxbL6ISSAmb3Q4wIyLtr9qmkXDroejSj4DAnihveS
-   pBoiKWzbwS5zs1srFeDgbrsjk5FetJwEXzfId47ZzdkmNrjyOCUaT+jKy
-   Q==;
-X-CSE-ConnectionGUID: 0XJ+KJpQSYy6LfXdCw7nnA==
-X-CSE-MsgGUID: IS887tD9QnCPcu6HzZMFdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97272711"
-X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="97272711"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 22:19:11 -0700
-X-CSE-ConnectionGUID: w6UpF//iSje2irmslJEzvA==
-X-CSE-MsgGUID: shhra3ehT96URAbEvgez+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
-   d="scan'208";a="258126873"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 28 Jul 2026 22:19:10 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wowh5-00000000f3x-1z8r;
-	Wed, 29 Jul 2026 05:19:03 +0000
-Date: Wed, 29 Jul 2026 13:18:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: include/linux/bitfield.h:221:17: error: call to '__bad_mask'
- declared with attribute error: bad bitfield mask
-Message-ID: <202607291300.VnYkvPa8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDkrIE8+"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954afac04bso5923445e9.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 28 Jul 2026 22:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785303795; x=1785908595; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=swvhDz3kyJ/SlqLpZE3Jh0FZynfZghCEQng/U4Gd79I=;
+        b=jDkrIE8+JivD7cJhJYUSZuEkkCSOR2Gmt1PwSDQHimLT7d28LifFNd4kvZm58pggOY
+         +D2MVp8xqHqvVdwbniX+vvp42uUXPhRNYY6IL2KRkIGrHjVxk+ntZubPmTfVfpblmFcZ
+         ks7hlbRMkN6YPu+1iLsuuxSHR9NtUR7AhWi1xYs1PzxW70Qo33LhH1phZ8mCTshyf93l
+         fXDO3gPcomtrIWRARCY/9Mc99uWf/91OCbnHenq4Th4zm3nXaQQPw+Ncxpk+XxkPw6Na
+         iePgKzk+qpjBRbw2pAEspWGmoapzlldlmTwLF/2of66JCek+H1GcKGwhRqdAgr9A5FJo
+         fxuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785303795; x=1785908595;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=swvhDz3kyJ/SlqLpZE3Jh0FZynfZghCEQng/U4Gd79I=;
+        b=Al9LZsjaDGTZDD/2giZkqTxeGSuloa49kCmoi5IHdsdxTJfwLneMctOReIzq7ClkF1
+         tTRyzOjtLoswcOp0pmakXn+Em4YoUB30i7NlAyl7Z2LHDWllloCO7yV2F3xdzD7t8fMn
+         0tbJyeV+dLLs1u2K/FLBs03jOsMQ1PwLhwYa+n69Zv5uOfWjHBMeNI8KP8lKiLpC+aaf
+         a1grcepTIfArub8DiWuL9lNdDWQ3iGy5W6EuzxSMo+WVgD5UzRGFcHTjSPWv+uAXCX1b
+         ym+dEzg0m2jdM1uXWnivBiR1P3HHIKeeIV//m2B8zLEu0LBpP4rjZUqyUZAxaCVuP+/O
+         1jbQ==
+X-Gm-Message-State: AOJu0YyQOuZHqINNgtQqDWxfno0Dxczwne5PuV2uSR2JAmvek/x8uoV5
+	UlAyd/Tt7ZyH2MtP4RQTmlkXQMcs+9DLnvA59igL6EZHCr322lZ+dgukpmO9esfX5gs=
+X-Gm-Gg: AR+sD10+4UmXTugK22Yg8W1SaOJGPmmOnaLENajYhZrbNGis4Sqhnnx49y5uu7tOjA4
+	H1LH+M5vTAoXNBfsszEp2ou/YQ+BQOjlchSMjAQ02Re9gl4c44lpZGDCSK86iPOSDxtxvMNd98y
+	0z4eeWqmR6SvnpIoqlB5VgSDZ6DtZ5DTTFj9wIHzMkNMt8mH4C3YHRi+JlkP705eqwnWVczjv+L
+	+k+lCsjxZfa6uoFvmAY6vIVXROuNZNTTZkax6P10boVQaHdyLqcCnotz99+yEIv6y5tkpojYlUW
+	nS9DoQR6ymkxAWwbnvjZ0pc+RgBpKS+rXvtyt6N2j+CIn46o6TDSxQnxUZ3oCCUrD9Q6uLvQSME
+	G+PLQUuEbpIZOzuOJ83ne07ko1ebOnNwVprDltUmqL7rNGeRi6/F+PKFVXSpPuYkRGnkZ3VtKGg
+	cWjkTdbR4SwqCCuNZdYnolHWl8PgYjQqQ5FK82DJKMU1CHXlquF4cLbMym2GxTvvr2jRU=
+X-Received: by 2002:a05:600c:b85:b0:493:f0f5:f2d7 with SMTP id 5b1f17b1804b1-496c653c8cfmr64279375e9.7.1785303795387;
+        Tue, 28 Jul 2026 22:43:15 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c4615f5fsm122297915e9.9.2026.07.28.22.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 22:43:14 -0700 (PDT)
+Date: Wed, 29 Jul 2026 08:43:10 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 7970/9778] sound/usb/6fire/chip.c:154
+ usb6fire_chip_probe() warn: variable dereferenced before check 'card' (see
+ line 123)
+Message-ID: <202607291057.eO0PgxqY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20260729054310.JCW7OPhF0wCU0WdN5FrtpJ8BukNAvYRli73Q0RX4pb4@z>
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/muhammad-nazim-amirul-nazle-asmade-altera-com/net-stmmac-fpe-Enforce-pmac_enabled-in-set_mm-and-keep-it-on-at-init/20260729-100008, commit: 8a04b4757aed73457fdc91c3f61946a624832ba6"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-CC: 0day robot <lkp@intel.com>
-CC: Rohan G Thomas <rohan.g.thomas@altera.com>
-
-tree:   https://github.com/intel-lab-lkp/linux/commits/muhammad-nazim-amirul-nazle-asmade-altera-com/net-stmmac-fpe-Enforce-pmac_enabled-in-set_mm-and-keep-it-on-at-init/20260729-100008
-head:   8a04b4757aed73457fdc91c3f61946a624832ba6
-commit: 8a04b4757aed73457fdc91c3f61946a624832ba6 net: stmmac: fpe: Move fprq configuration to stmmac_fpe_configure_pmac()
-date:   3 hours ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260729/202607291300.VnYkvPa8-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291300.VnYkvPa8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3652b49adac266a3d27cb41cdfdb7d8790fc3633
+commit: a54bf16965f896415c3337bc4fbb40fb11941d99 [7970/9778] ALSA: 6fire: Fix UAF at error handling during probe
+config: i386-randconfig-141-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291057.eO0PgxqY-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607291300.VnYkvPa8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607291057.eO0PgxqY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+sound/usb/6fire/chip.c:154 usb6fire_chip_probe() warn: variable dereferenced before check 'card' (see line 123)
 
-   In file included from include/linux/mdio.h:10,
-                    from include/linux/phy.h:20,
-                    from include/linux/phylink.h:4,
-                    from include/linux/stmmac.h:16,
-                    from drivers/net/ethernet/stmicro/stmmac/stmmac.h:17,
-                    from drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c:6:
-   In function 'field_multiplier',
-       inlined from 'field_mask' at include/linux/bitfield.h:226:17,
-       inlined from 'u32_encode_bits' at include/linux/bitfield.h:256:1,
-       inlined from 'u32_replace_bits' at include/linux/bitfield.h:256:1,
-       inlined from 'stmmac_fpe_configure_pmac' at drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c:83:10:
->> include/linux/bitfield.h:221:17: error: call to '__bad_mask' declared with attribute error: bad bitfield mask
-     221 |                 __bad_mask();
-         |                 ^~~~~~~~~~~~
-   In function 'field_multiplier',
-       inlined from 'u32_encode_bits' at include/linux/bitfield.h:256:1,
-       inlined from 'u32_replace_bits' at include/linux/bitfield.h:256:1,
-       inlined from 'stmmac_fpe_configure_pmac' at drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c:83:10:
->> include/linux/bitfield.h:221:17: error: call to '__bad_mask' declared with attribute error: bad bitfield mask
-     221 |                 __bad_mask();
-         |                 ^~~~~~~~~~~~
+vim +/card +154 sound/usb/6fire/chip.c
 
+87f9796a0336ef Bill Pemberton 2012-12-06   70  static int usb6fire_chip_probe(struct usb_interface *intf,
+c6d43ba816d1cf Torsten Schenk 2011-01-24   71  			       const struct usb_device_id *usb_id)
+c6d43ba816d1cf Torsten Schenk 2011-01-24   72  {
+c6d43ba816d1cf Torsten Schenk 2011-01-24   73  	int ret;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   74  	int i;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   75  	struct sfire_chip *chip = NULL;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   76  	struct usb_device *device = interface_to_usbdev(intf);
+c6d43ba816d1cf Torsten Schenk 2011-01-24   77  	int regidx = -1; /* index in module parameter array */
+c6d43ba816d1cf Torsten Schenk 2011-01-24   78  	struct snd_card *card = NULL;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   79  
+c6d43ba816d1cf Torsten Schenk 2011-01-24   80  	/* look if we already serve this card and return if so */
+f3c80e76a0e94c Takashi Iwai   2026-04-14   81  	guard(mutex)(&register_mutex);
+c6d43ba816d1cf Torsten Schenk 2011-01-24   82  	for (i = 0; i < SNDRV_CARDS; i++) {
+4d5de85b6a9961 Takashi Iwai   2026-04-14   83  		if (chips[i] && chips[i]->dev == device) {
+c6d43ba816d1cf Torsten Schenk 2011-01-24   84  			chips[i]->intf_count++;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   85  			usb_set_intfdata(intf, chips[i]);
+c6d43ba816d1cf Torsten Schenk 2011-01-24   86  			return 0;
+4d5de85b6a9961 Takashi Iwai   2026-04-14   87  		} else if (!chips[i] && regidx < 0)
+c6d43ba816d1cf Torsten Schenk 2011-01-24   88  			regidx = i;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   89  	}
+c6d43ba816d1cf Torsten Schenk 2011-01-24   90  	if (regidx < 0) {
+e3b3757b92a4df Takashi Iwai   2014-02-26   91  		dev_err(&intf->dev, "too many cards registered.\n");
+c6d43ba816d1cf Torsten Schenk 2011-01-24   92  		return -ENODEV;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   93  	}
+c6d43ba816d1cf Torsten Schenk 2011-01-24   94  
+c6d43ba816d1cf Torsten Schenk 2011-01-24   95  	/* check, if firmware is present on device, upload it if not */
+c6d43ba816d1cf Torsten Schenk 2011-01-24   96  	ret = usb6fire_fw_init(intf);
+c6d43ba816d1cf Torsten Schenk 2011-01-24   97  	if (ret < 0)
+c6d43ba816d1cf Torsten Schenk 2011-01-24   98  		return ret;
+c6d43ba816d1cf Torsten Schenk 2011-01-24   99  	else if (ret == FW_NOT_READY) /* firmware update performed */
+c6d43ba816d1cf Torsten Schenk 2011-01-24  100  		return 0;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  101  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  102  	/* if we are here, card can be registered in alsa. */
+c6d43ba816d1cf Torsten Schenk 2011-01-24  103  	if (usb_set_interface(device, 0, 0) != 0) {
+e3b3757b92a4df Takashi Iwai   2014-02-26  104  		dev_err(&intf->dev, "can't set first interface.\n");
+c6d43ba816d1cf Torsten Schenk 2011-01-24  105  		return -EIO;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  106  	}
+874b8d422e26e2 Takashi Iwai   2014-01-29  107  	ret = snd_card_new(&intf->dev, index[regidx], id[regidx],
+874b8d422e26e2 Takashi Iwai   2014-01-29  108  			   THIS_MODULE, sizeof(struct sfire_chip), &card);
+c6d43ba816d1cf Torsten Schenk 2011-01-24  109  	if (ret < 0) {
+e3b3757b92a4df Takashi Iwai   2014-02-26  110  		dev_err(&intf->dev, "cannot create alsa card.\n");
+c6d43ba816d1cf Torsten Schenk 2011-01-24  111  		return ret;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  112  	}
+19a28b8c7f9f63 Takashi Iwai   2025-07-10  113  	strscpy(card->driver, "6FireUSB");
+19a28b8c7f9f63 Takashi Iwai   2025-07-10  114  	strscpy(card->shortname, "TerraTec DMX6FireUSB");
+c6d43ba816d1cf Torsten Schenk 2011-01-24  115  	sprintf(card->longname, "%s at %d:%d", card->shortname,
+c6d43ba816d1cf Torsten Schenk 2011-01-24  116  			device->bus->busnum, device->devnum);
+c6d43ba816d1cf Torsten Schenk 2011-01-24  117  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  118  	chip = card->private_data;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  119  	chip->dev = device;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  120  	chip->regidx = regidx;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  121  	chip->intf_count = 1;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  122  	chip->card = card;
+a0810c3d6dd2d2 Takashi Iwai   2024-11-13 @123  	card->private_free = usb6fire_card_free;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  124  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  125  	ret = usb6fire_comm_init(chip);
+f804fff1361c9d Markus Elfring 2017-09-06  126  	if (ret < 0)
+f804fff1361c9d Markus Elfring 2017-09-06  127  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  128  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  129  	ret = usb6fire_midi_init(chip);
+f804fff1361c9d Markus Elfring 2017-09-06  130  	if (ret < 0)
+f804fff1361c9d Markus Elfring 2017-09-06  131  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  132  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  133  	ret = usb6fire_pcm_init(chip);
+f804fff1361c9d Markus Elfring 2017-09-06  134  	if (ret < 0)
+f804fff1361c9d Markus Elfring 2017-09-06  135  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  136  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  137  	ret = usb6fire_control_init(chip);
+f804fff1361c9d Markus Elfring 2017-09-06  138  	if (ret < 0)
+f804fff1361c9d Markus Elfring 2017-09-06  139  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  140  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  141  	ret = snd_card_register(card);
+c6d43ba816d1cf Torsten Schenk 2011-01-24  142  	if (ret < 0) {
+e3b3757b92a4df Takashi Iwai   2014-02-26  143  		dev_err(&intf->dev, "cannot register card.");
+f804fff1361c9d Markus Elfring 2017-09-06  144  		goto destroy_chip;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  145  	}
+4d5de85b6a9961 Takashi Iwai   2026-04-14  146  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  147  	usb_set_intfdata(intf, chip);
+4d5de85b6a9961 Takashi Iwai   2026-04-14  148  	chips[regidx] = chip;
+4d5de85b6a9961 Takashi Iwai   2026-04-14  149  
+c6d43ba816d1cf Torsten Schenk 2011-01-24  150  	return 0;
+f804fff1361c9d Markus Elfring 2017-09-06  151  
+f804fff1361c9d Markus Elfring 2017-09-06  152  destroy_chip:
+a54bf16965f896 Takashi Iwai   2026-07-26  153  	chip->shutdown = true;
+a54bf16965f896 Takashi Iwai   2026-07-26 @154  	if (card)
 
-vim +/__bad_mask +221 include/linux/bitfield.h
+You could delete this check if you want.
 
-e2192de59e457a Johannes Berg      2023-01-18  142  
-e2192de59e457a Johannes Berg      2023-01-18  143  /**
-e2192de59e457a Johannes Berg      2023-01-18  144   * FIELD_PREP_CONST() - prepare a constant bitfield element
-e2192de59e457a Johannes Berg      2023-01-18  145   * @_mask: shifted mask defining the field's length and position
-e2192de59e457a Johannes Berg      2023-01-18  146   * @_val:  value to put in the field
-e2192de59e457a Johannes Berg      2023-01-18  147   *
-e2192de59e457a Johannes Berg      2023-01-18  148   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
-e2192de59e457a Johannes Berg      2023-01-18  149   * be combined with other fields of the bitfield using logical OR.
-e2192de59e457a Johannes Berg      2023-01-18  150   *
-e2192de59e457a Johannes Berg      2023-01-18  151   * Unlike FIELD_PREP() this is a constant expression and can therefore
-e2192de59e457a Johannes Berg      2023-01-18  152   * be used in initializers. Error checking is less comfortable for this
-e2192de59e457a Johannes Berg      2023-01-18  153   * version, and non-constant masks cannot be used.
-e2192de59e457a Johannes Berg      2023-01-18  154   */
-e2192de59e457a Johannes Berg      2023-01-18  155  #define FIELD_PREP_CONST(_mask, _val)					\
-e2192de59e457a Johannes Berg      2023-01-18  156  	(								\
-e2192de59e457a Johannes Berg      2023-01-18  157  		/* mask must be non-zero */				\
-e2192de59e457a Johannes Berg      2023-01-18  158  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
-e2192de59e457a Johannes Berg      2023-01-18  159  		/* check if value fits */				\
-e2192de59e457a Johannes Berg      2023-01-18  160  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
-e2192de59e457a Johannes Berg      2023-01-18  161  		/* check if mask is contiguous */			\
-e2192de59e457a Johannes Berg      2023-01-18  162  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
-e2192de59e457a Johannes Berg      2023-01-18  163  		/* and create the value */				\
-e2192de59e457a Johannes Berg      2023-01-18  164  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
-e2192de59e457a Johannes Berg      2023-01-18  165  	)
-e2192de59e457a Johannes Berg      2023-01-18  166  
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  167  /**
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  168   * FIELD_GET() - extract a bitfield element
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  169   * @_mask: shifted mask defining the field's length and position
-7240767450d6d8 Masahiro Yamada    2017-10-03  170   * @_reg:  value of entire bitfield
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  171   *
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  172   * FIELD_GET() extracts the field specified by @_mask from the
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  173   * bitfield passed in as @_reg by masking and shifting it down.
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  174   */
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  175  #define FIELD_GET(_mask, _reg)						\
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  176  	({								\
-2a6c045640c38a Geert Uytterhoeven 2025-11-06  177  		__BF_FIELD_CHECK_REG(_mask, _reg, "FIELD_GET: ");	\
-2a6c045640c38a Geert Uytterhoeven 2025-11-06  178  		__FIELD_GET(_mask, _reg, "FIELD_GET: ");		\
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  179  	})
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  180  
-2c3f0541b99c60 Yury Norov         2026-04-27  181  /**
-2c3f0541b99c60 Yury Norov         2026-04-27  182   * FIELD_GET_SIGNED() - extract a signed bitfield element
-2c3f0541b99c60 Yury Norov         2026-04-27  183   * @mask: shifted mask defining the field's length and position
-2c3f0541b99c60 Yury Norov         2026-04-27  184   * @reg:  value of entire bitfield
-2c3f0541b99c60 Yury Norov         2026-04-27  185   *
-2c3f0541b99c60 Yury Norov         2026-04-27  186   * Returns the sign-extended field specified by @_mask from the
-2c3f0541b99c60 Yury Norov         2026-04-27  187   * bitfield passed in as @reg by masking and shifting it down.
-2c3f0541b99c60 Yury Norov         2026-04-27  188   */
-2c3f0541b99c60 Yury Norov         2026-04-27  189  #define FIELD_GET_SIGNED(mask, reg)					\
-2c3f0541b99c60 Yury Norov         2026-04-27  190  	({								\
-2c3f0541b99c60 Yury Norov         2026-04-27  191  		__BF_FIELD_CHECK(mask, reg, 0U, "FIELD_GET_SIGNED: ");	\
-2c3f0541b99c60 Yury Norov         2026-04-27  192  		 ((__signed_scalar_typeof(mask))			\
-2c3f0541b99c60 Yury Norov         2026-04-27  193  		  (((long long)(reg) << __builtin_clzll(mask)) >>	\
-2c3f0541b99c60 Yury Norov         2026-04-27  194  		   (__builtin_clzll(mask) + __builtin_ctzll(mask))));	\
-2c3f0541b99c60 Yury Norov         2026-04-27  195  	})
-2c3f0541b99c60 Yury Norov         2026-04-27  196  
-a256ae22570ee4 Luo Jie            2025-04-17  197  /**
-a256ae22570ee4 Luo Jie            2025-04-17  198   * FIELD_MODIFY() - modify a bitfield element
-a256ae22570ee4 Luo Jie            2025-04-17  199   * @_mask: shifted mask defining the field's length and position
-a256ae22570ee4 Luo Jie            2025-04-17  200   * @_reg_p: pointer to the memory that should be updated
-a256ae22570ee4 Luo Jie            2025-04-17  201   * @_val: value to store in the bitfield
-a256ae22570ee4 Luo Jie            2025-04-17  202   *
-a256ae22570ee4 Luo Jie            2025-04-17  203   * FIELD_MODIFY() modifies the set of bits in @_reg_p specified by @_mask,
-a256ae22570ee4 Luo Jie            2025-04-17  204   * by replacing them with the bitfield value passed in as @_val.
-a256ae22570ee4 Luo Jie            2025-04-17  205   */
-a256ae22570ee4 Luo Jie            2025-04-17  206  #define FIELD_MODIFY(_mask, _reg_p, _val)						\
-a256ae22570ee4 Luo Jie            2025-04-17  207  	({										\
-a256ae22570ee4 Luo Jie            2025-04-17  208  		typecheck_pointer(_reg_p);						\
-a256ae22570ee4 Luo Jie            2025-04-17  209  		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
-a256ae22570ee4 Luo Jie            2025-04-17  210  		*(_reg_p) &= ~(_mask);							\
-a256ae22570ee4 Luo Jie            2025-04-17  211  		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
-a256ae22570ee4 Luo Jie            2025-04-17  212  	})
-a256ae22570ee4 Luo Jie            2025-04-17  213  
-e7d4a95da86e0b Johannes Berg      2018-06-20  214  extern void __compiletime_error("value doesn't fit into mask")
-00b0c9b82663ac Al Viro            2017-12-14  215  __field_overflow(void);
-00b0c9b82663ac Al Viro            2017-12-14  216  extern void __compiletime_error("bad bitfield mask")
-00b0c9b82663ac Al Viro            2017-12-14  217  __bad_mask(void);
-00b0c9b82663ac Al Viro            2017-12-14  218  static __always_inline u64 field_multiplier(u64 field)
-00b0c9b82663ac Al Viro            2017-12-14  219  {
-00b0c9b82663ac Al Viro            2017-12-14  220  	if ((field | (field - 1)) & ((field | (field - 1)) + 1))
-00b0c9b82663ac Al Viro            2017-12-14 @221  		__bad_mask();
-00b0c9b82663ac Al Viro            2017-12-14  222  	return field & -field;
-00b0c9b82663ac Al Viro            2017-12-14  223  }
-00b0c9b82663ac Al Viro            2017-12-14  224  static __always_inline u64 field_mask(u64 field)
-00b0c9b82663ac Al Viro            2017-12-14  225  {
-00b0c9b82663ac Al Viro            2017-12-14  226  	return field / field_multiplier(field);
-00b0c9b82663ac Al Viro            2017-12-14  227  }
-e31a50162feb35 Alex Elder         2020-03-12  228  #define field_max(field)	((typeof(field))field_mask(field))
-00b0c9b82663ac Al Viro            2017-12-14  229  #define ____MAKE_OP(type,base,to,from)					\
-e2b02d382ae0cb Ben Horgan         2025-07-09  230  static __always_inline __##type __must_check type##_encode_bits(base v, base field)	\
-00b0c9b82663ac Al Viro            2017-12-14  231  {									\
-e7d4a95da86e0b Johannes Berg      2018-06-20  232  	if (__builtin_constant_p(v) && (v & ~field_mask(field)))	\
-00b0c9b82663ac Al Viro            2017-12-14  233  		__field_overflow();					\
-00b0c9b82663ac Al Viro            2017-12-14  234  	return to((v & field_mask(field)) * field_multiplier(field));	\
-00b0c9b82663ac Al Viro            2017-12-14  235  }									\
-e2b02d382ae0cb Ben Horgan         2025-07-09  236  static __always_inline __##type __must_check type##_replace_bits(__##type old,	\
-00b0c9b82663ac Al Viro            2017-12-14  237  							base val, base field)	\
-00b0c9b82663ac Al Viro            2017-12-14  238  {									\
-00b0c9b82663ac Al Viro            2017-12-14  239  	return (old & ~to(field)) | type##_encode_bits(val, field);	\
-00b0c9b82663ac Al Viro            2017-12-14  240  }									\
-00b0c9b82663ac Al Viro            2017-12-14  241  static __always_inline void type##p_replace_bits(__##type *p,		\
-00b0c9b82663ac Al Viro            2017-12-14  242  					base val, base field)		\
-00b0c9b82663ac Al Viro            2017-12-14  243  {									\
-00b0c9b82663ac Al Viro            2017-12-14  244  	*p = (*p & ~to(field)) | type##_encode_bits(val, field);	\
-00b0c9b82663ac Al Viro            2017-12-14  245  }									\
-e2b02d382ae0cb Ben Horgan         2025-07-09  246  static __always_inline base __must_check type##_get_bits(__##type v, base field)	\
-00b0c9b82663ac Al Viro            2017-12-14  247  {									\
-00b0c9b82663ac Al Viro            2017-12-14  248  	return (from(v) & field)/field_multiplier(field);		\
-00b0c9b82663ac Al Viro            2017-12-14  249  }
-00b0c9b82663ac Al Viro            2017-12-14  250  #define __MAKE_OP(size)							\
-00b0c9b82663ac Al Viro            2017-12-14  251  	____MAKE_OP(le##size,u##size,cpu_to_le##size,le##size##_to_cpu)	\
-00b0c9b82663ac Al Viro            2017-12-14  252  	____MAKE_OP(be##size,u##size,cpu_to_be##size,be##size##_to_cpu)	\
-00b0c9b82663ac Al Viro            2017-12-14  253  	____MAKE_OP(u##size,u##size,,)
-37a3862e123826 Johannes Berg      2018-06-20  254  ____MAKE_OP(u8,u8,,)
-00b0c9b82663ac Al Viro            2017-12-14  255  __MAKE_OP(16)
-00b0c9b82663ac Al Viro            2017-12-14  256  __MAKE_OP(32)
-00b0c9b82663ac Al Viro            2017-12-14  257  __MAKE_OP(64)
-00b0c9b82663ac Al Viro            2017-12-14  258  #undef __MAKE_OP
-00b0c9b82663ac Al Viro            2017-12-14  259  #undef ____MAKE_OP
-00b0c9b82663ac Al Viro            2017-12-14  260  
+a54bf16965f896 Takashi Iwai   2026-07-26  155  		snd_card_disconnect(card);
+
+Setting chip->shutdown = true means that it's pointless to
+call snd_card_disconnect().  It's a no-op.  snd_card_disconnect()
+has a "card->shutdown = 1;"
+
+a54bf16965f896 Takashi Iwai   2026-07-26  156  	usb6fire_chip_abort(chip);
+a0810c3d6dd2d2 Takashi Iwai   2024-11-13  157  	snd_card_free(card);
+f804fff1361c9d Markus Elfring 2017-09-06  158  	return ret;
+c6d43ba816d1cf Torsten Schenk 2011-01-24  159  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
