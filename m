@@ -1,227 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243D6448CFD
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jul 2026 09:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785317797; cv=none; b=fWV2HSMzMJfQ7zMvCfWvR/b/LCsdxaP30D/KIC5OLmakZ9H+6f5ybr6ZH1QIFJqDgcK2JKb4RAyw2kuI2ZnHMIf/rIP8FO1K6AvKIVRw6A2b1idY85NKb+DESVTXsSwr/gwzJbFk9zhWL9TAyHWL33AneRHS6pNouZOYnqmt6aU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785317797; c=relaxed/simple;
-	bh=3IDfXwFWkXzflTOXJ1tVWqOehVQ59zVMDRcmbzHGFas=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZlUpot/lmO2VmHtHpkUJtQ3ouq7XTbkmgGZAXSgKWWhKqLOpza6ZjHt7yufK3YVXUC8mfI7d3nO3QcYKyRjdQe1egz4uPkd9az3dUBRpfKv8n/zdJJbXLCFkF2e+dTScGdxh81Vn5pIIbVzJiCHFselEw1lYN7D1oL/aSnExqMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I++TYINT; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC48C4457B0;
+	Wed, 29 Jul 2026 09:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.154.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785319045; cv=fail; b=PF80OoEEZVK1AFd8RofHflaUkryjwsxwIRxc1OOzsdPehLKOa9zfrxqkf+x6iL7d8yVMNGFO11/zy5KuwX2sIdRpP64gLrdWUgivlh/45Tez4jeOKFJAsg/GmM/pim2+BKvzrJXA4gg652K69PYMPLudY9ecZbZ4MJhh9IyFFqs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785319045; c=relaxed/simple;
+	bh=SLM2pP9Ns0NC8CqjQ+6JI+qgnm8Y8a63b2A8CR1iRZY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=MIBwkGHcd6XeufU2GR+JvGhSmq5Vk2fRv+Lgyd+9idW+w/I1FF3FHRWSGpuowEVKyb5XPKgQ8yjGVjAWczmnnvSv/0D7F5ZmUYI1YwdmNrwoVVR3jyngNPjgR5cuTbDEbnVB3b/6mpx0sQN7b2l/nWOkwJ4d6X8S25wGfRHht+E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=I1+vwTQC; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=N/taEP2o; arc=fail smtp.client-ip=148.163.154.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I++TYINT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785317794; x=1816853794;
-  h=date:from:to:cc:subject:message-id;
-  bh=3IDfXwFWkXzflTOXJ1tVWqOehVQ59zVMDRcmbzHGFas=;
-  b=I++TYINTJubBGW0Vjvcjw0tFLY1CRC89WfF3igdHP//5kIVglZfaOvDH
-   iApgoEcPFTn+wgqhiZoPniqwDxt0UgZBlMLErGfeDDcLtrGq+VRNIgw5c
-   yHPeX2OTKSMFSQq3qvE4ocv8SV+jTr4Ewr4/s09KRc1c/W7M8ZV9ntPtj
-   asr/Xcb0H8tJk0wLw6DzqS0Y1FTcBljxqLZoN2sqwd2uoFiGmCTPmT6hS
-   Y8xZkCQOw4bxBvj1Y8BudsdPjUo9ltAHU0u1Pp8tnb2YQDQLCNLAH18IS
-   JX4oiBW8Cy2METjszsL1GL1S1MvJ26BAbALy6O8V/zw3NlpPo6Yi4x4jI
-   A==;
-X-CSE-ConnectionGUID: /6+5q8hgT72oLvG8SnqowA==
-X-CSE-MsgGUID: cxGn4F1HSRWFovQn4Fza6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96578516"
-X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="96578516"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 02:36:33 -0700
-X-CSE-ConnectionGUID: zbS4R8YvRImGf5INsb7+5A==
-X-CSE-MsgGUID: lUlTj+K4T8KNeMHls4kJeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="256625693"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Jul 2026 02:36:32 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wp0iE-00000000fEb-07Sp;
-	Wed, 29 Jul 2026 09:36:30 +0000
-Date: Wed, 29 Jul 2026 17:35:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: include/linux/bitfield.h:221:3: error: call to '__bad_mask'
- declared with 'error' attribute: bad bitfield mask
-Message-ID: <202607291732.QKkxSzV3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="I1+vwTQC";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="N/taEP2o"
+Received: from pps.filterd (m0374955.ppops.net [127.0.0.1])
+	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66T7ebsq2161968;
+	Wed, 29 Jul 2026 04:57:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	proofpoint-05-2026; bh=SLM2pP9Ns0NC8CqjQ+6JI+qgnm8Y8a63b2A8CR1iR
+	ZY=; b=I1+vwTQCYHgkfGW2AFZee5J/WTx3t8X507e49IyD4OK2uAoWWOv0nsWm0
+	iC7xcySKBYx688D0XZ1MS69dZolSCqOxE1nMN+SCZy2khf0Ro2XyP6YGKyA/0XCS
+	sPjbaTIPshcLLeEU651LkJo3XfK/LHuZvqMFyL7hIDESURNP2Myfi0+dJsk/nBdT
+	+CXsTYQei8/FO+M9YBn7upEdnP6A0iFq3I14Gw3GKjKZ/vDv37afdUxNlHY1wWiy
+	WRI6PcmXkgacC/fsOXfpR7ZDhE40mkKJjSRJFfzcjcyUR6W6IAReUJSmhfm8OySQ
+	hvLRzsrCx9vFpo99+PTOd/DxPGYMw==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010038.outbound.protection.outlook.com [52.101.85.38])
+	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4fqcwv0tcn-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 29 Jul 2026 04:57:01 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UEa2HUG9OtdGT6/UIw8emwxi+E9/HFy4Sv7jiJ6vplRVJZ8APWL9/aCWWTCYKU3xSeGXbCS/PT/nFy4IuzlkbAZD2NKJVP6k6HX76BtJ1HXU6raQqGMQX8yu5vy1mqkYJ8rlgb6oyrhD181iLeZ0lbdmpjDOn+Jjt6Iuy62GQA64EmI5RNRslmL+gJGV0sg9v2dW/4zSyvqBUhsNeZa7XMiUwpaKChGONCeH9pTriIZ0CY5HWSntox9Kzh7p/GJOPd9j2a9EOvm4VjhjLDu+Qgwm3WMDYTq43pVVg5Lk3OYkOLi3NVOGZ6VrXna7mvno0+wllkhE/+Z+y706Ofx5Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SLM2pP9Ns0NC8CqjQ+6JI+qgnm8Y8a63b2A8CR1iRZY=;
+ b=dykzeB/PkaQkCC5EzwgjVpFBx2CPVCrGFI5Fmzft2I0MNNTYK/04Bi+GlKePrDMukZAxTR3eQHDZlxBD/H+VCfE6XBWpbrwI6y34cB+5FufZ8csqvQIyRgcTZVls93sJo4cC88BXg/LIzfQRX7IXxd2kGzw1maROGY+n1nPDfCZlUIOfpyBeTb2+M5yl7921BN4vKZR7pVHwVo0ioYA36KQHUOVC2reGzbeD35ekzXxZOzFRO74JiOyQKojDQisqn0x2bMm3sHU6Tjk8MZiMimU2x6IlRSjPgVXpqEuaB4f32EnxIP75sKSpvP6fcFCOF4WEBfrePcdhLoVVNDd9aA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=gmail.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SLM2pP9Ns0NC8CqjQ+6JI+qgnm8Y8a63b2A8CR1iRZY=;
+ b=N/taEP2o0cEEH2C5M2rqrQ3awVbKd6C9oVggCqVNprnLc/rQE3VPqgfdFBEuL2sX7iKsBkYCLScFKipx5hljr7hkzmDnM2JTHiSHxaWXFoJuHUEfA9NTy/gWDjKAJBk24VFkLa1FDb/HIjKaZojgBpz1ljt7cKbDRZ3IzMFi30c=
+Received: from SJ0PR05CA0126.namprd05.prod.outlook.com (2603:10b6:a03:33d::11)
+ by MW4PR10MB5677.namprd10.prod.outlook.com (2603:10b6:303:18e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Wed, 29 Jul
+ 2026 09:56:58 +0000
+Received: from SJ1PEPF00002310.namprd03.prod.outlook.com
+ (2603:10b6:a03:33d:cafe::2c) by SJ0PR05CA0126.outlook.office365.com
+ (2603:10b6:a03:33d::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.12 via Frontend Transport; Wed,
+ 29 Jul 2026 09:56:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SJ1PEPF00002310.mail.protection.outlook.com (10.167.242.164) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.270.5 via Frontend Transport; Wed, 29 Jul 2026 09:56:58 +0000
+Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 29 Jul
+ 2026 04:56:58 -0500
+Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 29 Jul
+ 2026 04:56:57 -0500
+Received: from DLEE204.ent.ti.com ([fe80::d7f6:c8c9:f453:6bdf]) by
+ DLEE204.ent.ti.com ([fe80::d7f6:c8c9:f453:6bdf%14]) with mapi id
+ 15.02.2562.037; Wed, 29 Jul 2026 04:56:57 -0500
+From: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
+To: Dan Carpenter <error27@gmail.com>
+CC: "lkp@intel.com" <lkp@intel.com>,
+        "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Pierre-Louis
+ Bossart <pierre-louis.bossart@linux.dev>,
+        "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>
+Subject: RE: sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn:
+ missing error code 'ret'
+Thread-Topic: sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn:
+ missing error code 'ret'
+Thread-Index: AQHdH0CXGGfEtMgjGU29cvbpjYmUKg==
+Date: Wed, 29 Jul 2026 09:56:57 +0000
+Message-ID: <8a416f4caf9d41168a38e04140486aef@ti.com>
+References: <202607291308.8OeeiyIv-lkp@intel.com>
+In-Reply-To: <202607291308.8OeeiyIv-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002310:EE_|MW4PR10MB5677:EE_
+X-MS-Office365-Filtering-Correlation-Id: c344dec4-79bb-4742-c941-08deed57baf3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|36860700016|1800799024|23010399003|18002099003|22082099003|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	24/MdwjW3wWKK9Zfu52WhAWcIPbdDnKez635HEt8E727iawrYCznEM+4ExK5AE+HoTJy7o0HQ8h7VD11HQwD/Vi+Q20M1PS70Hf/pkwg0YszgjbLpaKIXx8dQP0gWbj/HvaOK9Wx9vMAlXQrtK7jD7nwBa67vyqW0hfQhBP2wkAdTDNdSqE7TNwpDYuZefHpBJvwtnBPD/FNVnoQJRgnuA4hf5zmVJ3P4uZASRXE5+LkTBlsRX/0IPmUUxSODo2z31o0D/HxumLf1FcBEghsOI1yS0qNUn5hJaX1mrGcKA4ibnkkp+NEcm4ZeDKjG4vSH/rh/Jttu1AMwFIsKM690c8v0K4AEmEymXZW4yt7dMxyc/2nvvY+OCXrTjtKMAJWUfaXBjnKkw4A5qQ4nlV8UcqkrrrUR0jv80S7Q0sLtsjDZVMFer2OVYJ6mWtUUbb/WaGYhyYcwzRMuUG1n96FBEvnoFcONi256fuCJ02Iiq528BNkJS4RaDPocWPLkS/MzdzGMcNJ1pAnwdjFeFw+sBHQxVnTBoU7y46HP9hqC4/y1w13ECbPsMWIO7XH4aIFUZqOz26DDGwbxzdJg2sBIIoyEo/KnUO/zQ/M2dXG4yYyL/aGTRIv7tytL2NJWlsenieq3PuLYzmoAEY1p6eAkHOHAqcT70qNPM1o4fdTWdKWYzdaayVln/npt8hlKrgc
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(1800799024)(23010399003)(18002099003)(22082099003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	mBh1cSALMw2yw/OlbmHth7t6riJaG4xGkA1ixdPvpagdvHTvuKPWH5rv2fTKR2Qoj/pJwuTXOBxheJ39zk9GxvCVYAXrVU5oHGhLQNHlr4PfYzoqgJds/YGNVFOSw8HGbrnmkz5JaX+oqiU35zEN4F7ViQUuAdpUwg4liFvX2VX4QhOS7sABWIW/66xaDwgNyPaJrNJBnX0rivKKxsc4QhEjPxncW7Lz5pNWe6+W9XY0epo5MRggVJGm62WnpDGwlcaX1idV/Fdw/UGBI2+yxaUFcZwTII8/+WV5VcCd4ISv5NOLIsa5jUcRSDxnDegG6DMdhjtyH7lXBP+n4tHkwVadOq6JZU0eZ5gDq5zphoIIv5z4xwT3ZKUmAytD/Lipp62UNNc6w1KAQxb732lN+PdkLW76Pg8r7nqM655jDg0alPwIX5jb5uirsv6RiLoY
+X-Exchange-RoutingPolicyChecked:
+	p7edivBa7qkLLU4ntY3ZRbSbzNVFIxKrffwle5e/CnvYhPUTXGE2KJUENfye5ZNb+yvgAHCRJlvjf15x2MJOQSKvlhGBplYe6Zl/ZXOM6knw47q0bg1OdAZ942Ypnu89Q9SqoRuRAcqhRSTm3b3gqe3IrY9n+dGsxl9t4OLBq68vqnam3/yZ9KK8xoiOfuuW3ML26ovabIfDXARmrAWy6HgA9ZnWpTWeTrTl3vb1lNR7NnpHB67CK5Rb5VAhiLmKBbsMr12fwx+3TlJ98dkM8JZamBILwH+1yKeCrIfDZy9xPcMuzERFSrIzjiBQb0QMs3qSYf4N1qmFg3NHJfrccQ==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2026 09:56:58.6257
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c344dec4-79bb-4742-c941-08deed57baf3
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00002310.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5677
+X-Proofpoint-ORIG-GUID: Df4AnQv1SxRyARqepE1tiX7RyKVRAbpu
+X-Proofpoint-GUID: Df4AnQv1SxRyARqepE1tiX7RyKVRAbpu
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDA4MSBTYWx0ZWRfX+nTsGYuUM1YA
+ hUZyYgbfirSsB2AdbHY7CtOWCPkxu1klp6sw1V5amGCYfW1hsJivo5cxeUxDjSlyA+/sHnsXx2R
+ eEcBVS89EBCdFrqwdCVfWxx5Cetv8xM=
+X-Authority-Analysis: v=2.4 cv=PsijqQM3 c=1 sm=1 tr=0 ts=6a69ce6d cx=c_pps
+ a=EPZJxM4MYJNUcCtligPUUQ==:117 a=f+v6EHfkeJbVwR46tk4DMg==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=xqWC_Br6kY4A:10 a=hd59Zx_pdMwA:10
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=V5UXEbMT0ywA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22 a=fPAWb5peG099m5CrUpKH:22
+ a=x-cJyfQxICJ8NWX9D6gA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDA4MSBTYWx0ZWRfX21lDARqhdGkA
+ L0z4LBwZNpS0pclMLj1dgToKdXr3I9yniWkNwKGZg8NFkfKHGr08gWBk/8oEqEYP+1KJZsxBLuO
+ v1w+VCpeiNxb2ezeP8/Htx1CuHDZ9wlkdL+o/wSbbqy1Px0DPtNeNVca/H+6oxrGvisFU5JU+mw
+ F0gODgG0bz6K6Th2WvhN727CafjEfZNtXNzDBDfTYTbSwg8VVUuX0JyN7w2xJX8o/5aFqTUo91X
+ hVhcGM3E2JEpXe+rx5G6H3gfr1hf57A0ncQyb78CKqbTQWAyBk/kq0c3sfrD0ZaUM6ik1koy8Zn
+ D28GcCkEd/sLAuB7uhk/jdyMwC8aKJbVWHysCvd7enN9BRiiM7DqSF9/ydsAiC+ys13Rib0oFXo
+ o36fmc5hn00VaGS4p2A2oQ8oWxZ1Ty6SOa3QvhVqdCRaIrhnVcjZmdFhn8RE58pvYulXWuSp8TL
+ paSdt7CWNjr1IPYzy8A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-29_03,2026-07-28_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 spamscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607290081
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/muhammad-nazim-amirul-nazle-asmade-altera-com/net-stmmac-fpe-Enforce-pmac_enabled-in-set_mm-and-keep-it-on-at-init/20260729-100008, commit: 8a04b4757aed73457fdc91c3f61946a624832ba6"
-:::::: 
-
-BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
-CC: oe-kbuild-all@lists.linux.dev
-TO: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-CC: 0day robot <lkp@intel.com>
-CC: Rohan G Thomas <rohan.g.thomas@altera.com>
-
-tree:   https://github.com/intel-lab-lkp/linux/commits/muhammad-nazim-amirul-nazle-asmade-altera-com/net-stmmac-fpe-Enforce-pmac_enabled-in-set_mm-and-keep-it-on-at-init/20260729-100008
-head:   8a04b4757aed73457fdc91c3f61946a624832ba6
-commit: 8a04b4757aed73457fdc91c3f61946a624832ba6 net: stmmac: fpe: Move fprq configuration to stmmac_fpe_configure_pmac()
-date:   7 hours ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260729/202607291732.QKkxSzV3-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291732.QKkxSzV3-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202607291732.QKkxSzV3-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c:6:
-   In file included from drivers/net/ethernet/stmicro/stmmac/stmmac.h:17:
-   In file included from include/linux/stmmac.h:16:
-   In file included from include/linux/phylink.h:4:
-   In file included from include/linux/phy.h:20:
-   In file included from include/linux/mdio.h:10:
->> include/linux/bitfield.h:221:3: error: call to '__bad_mask' declared with 'error' attribute: bad bitfield mask
-     221 |                 __bad_mask();
-         |                 ^
->> include/linux/bitfield.h:221:3: error: call to '__bad_mask' declared with 'error' attribute: bad bitfield mask
-   2 errors generated.
-
-
-vim +221 include/linux/bitfield.h
-
-e2192de59e457a Johannes Berg      2023-01-18  142  
-e2192de59e457a Johannes Berg      2023-01-18  143  /**
-e2192de59e457a Johannes Berg      2023-01-18  144   * FIELD_PREP_CONST() - prepare a constant bitfield element
-e2192de59e457a Johannes Berg      2023-01-18  145   * @_mask: shifted mask defining the field's length and position
-e2192de59e457a Johannes Berg      2023-01-18  146   * @_val:  value to put in the field
-e2192de59e457a Johannes Berg      2023-01-18  147   *
-e2192de59e457a Johannes Berg      2023-01-18  148   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
-e2192de59e457a Johannes Berg      2023-01-18  149   * be combined with other fields of the bitfield using logical OR.
-e2192de59e457a Johannes Berg      2023-01-18  150   *
-e2192de59e457a Johannes Berg      2023-01-18  151   * Unlike FIELD_PREP() this is a constant expression and can therefore
-e2192de59e457a Johannes Berg      2023-01-18  152   * be used in initializers. Error checking is less comfortable for this
-e2192de59e457a Johannes Berg      2023-01-18  153   * version, and non-constant masks cannot be used.
-e2192de59e457a Johannes Berg      2023-01-18  154   */
-e2192de59e457a Johannes Berg      2023-01-18  155  #define FIELD_PREP_CONST(_mask, _val)					\
-e2192de59e457a Johannes Berg      2023-01-18  156  	(								\
-e2192de59e457a Johannes Berg      2023-01-18  157  		/* mask must be non-zero */				\
-e2192de59e457a Johannes Berg      2023-01-18  158  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
-e2192de59e457a Johannes Berg      2023-01-18  159  		/* check if value fits */				\
-e2192de59e457a Johannes Berg      2023-01-18  160  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
-e2192de59e457a Johannes Berg      2023-01-18  161  		/* check if mask is contiguous */			\
-e2192de59e457a Johannes Berg      2023-01-18  162  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
-e2192de59e457a Johannes Berg      2023-01-18  163  		/* and create the value */				\
-e2192de59e457a Johannes Berg      2023-01-18  164  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
-e2192de59e457a Johannes Berg      2023-01-18  165  	)
-e2192de59e457a Johannes Berg      2023-01-18  166  
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  167  /**
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  168   * FIELD_GET() - extract a bitfield element
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  169   * @_mask: shifted mask defining the field's length and position
-7240767450d6d8 Masahiro Yamada    2017-10-03  170   * @_reg:  value of entire bitfield
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  171   *
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  172   * FIELD_GET() extracts the field specified by @_mask from the
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  173   * bitfield passed in as @_reg by masking and shifting it down.
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  174   */
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  175  #define FIELD_GET(_mask, _reg)						\
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  176  	({								\
-2a6c045640c38a Geert Uytterhoeven 2025-11-06  177  		__BF_FIELD_CHECK_REG(_mask, _reg, "FIELD_GET: ");	\
-2a6c045640c38a Geert Uytterhoeven 2025-11-06  178  		__FIELD_GET(_mask, _reg, "FIELD_GET: ");		\
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  179  	})
-3e9b3112ec74f1 Jakub Kicinski     2016-08-31  180  
-2c3f0541b99c60 Yury Norov         2026-04-27  181  /**
-2c3f0541b99c60 Yury Norov         2026-04-27  182   * FIELD_GET_SIGNED() - extract a signed bitfield element
-2c3f0541b99c60 Yury Norov         2026-04-27  183   * @mask: shifted mask defining the field's length and position
-2c3f0541b99c60 Yury Norov         2026-04-27  184   * @reg:  value of entire bitfield
-2c3f0541b99c60 Yury Norov         2026-04-27  185   *
-2c3f0541b99c60 Yury Norov         2026-04-27  186   * Returns the sign-extended field specified by @_mask from the
-2c3f0541b99c60 Yury Norov         2026-04-27  187   * bitfield passed in as @reg by masking and shifting it down.
-2c3f0541b99c60 Yury Norov         2026-04-27  188   */
-2c3f0541b99c60 Yury Norov         2026-04-27  189  #define FIELD_GET_SIGNED(mask, reg)					\
-2c3f0541b99c60 Yury Norov         2026-04-27  190  	({								\
-2c3f0541b99c60 Yury Norov         2026-04-27  191  		__BF_FIELD_CHECK(mask, reg, 0U, "FIELD_GET_SIGNED: ");	\
-2c3f0541b99c60 Yury Norov         2026-04-27  192  		 ((__signed_scalar_typeof(mask))			\
-2c3f0541b99c60 Yury Norov         2026-04-27  193  		  (((long long)(reg) << __builtin_clzll(mask)) >>	\
-2c3f0541b99c60 Yury Norov         2026-04-27  194  		   (__builtin_clzll(mask) + __builtin_ctzll(mask))));	\
-2c3f0541b99c60 Yury Norov         2026-04-27  195  	})
-2c3f0541b99c60 Yury Norov         2026-04-27  196  
-a256ae22570ee4 Luo Jie            2025-04-17  197  /**
-a256ae22570ee4 Luo Jie            2025-04-17  198   * FIELD_MODIFY() - modify a bitfield element
-a256ae22570ee4 Luo Jie            2025-04-17  199   * @_mask: shifted mask defining the field's length and position
-a256ae22570ee4 Luo Jie            2025-04-17  200   * @_reg_p: pointer to the memory that should be updated
-a256ae22570ee4 Luo Jie            2025-04-17  201   * @_val: value to store in the bitfield
-a256ae22570ee4 Luo Jie            2025-04-17  202   *
-a256ae22570ee4 Luo Jie            2025-04-17  203   * FIELD_MODIFY() modifies the set of bits in @_reg_p specified by @_mask,
-a256ae22570ee4 Luo Jie            2025-04-17  204   * by replacing them with the bitfield value passed in as @_val.
-a256ae22570ee4 Luo Jie            2025-04-17  205   */
-a256ae22570ee4 Luo Jie            2025-04-17  206  #define FIELD_MODIFY(_mask, _reg_p, _val)						\
-a256ae22570ee4 Luo Jie            2025-04-17  207  	({										\
-a256ae22570ee4 Luo Jie            2025-04-17  208  		typecheck_pointer(_reg_p);						\
-a256ae22570ee4 Luo Jie            2025-04-17  209  		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
-a256ae22570ee4 Luo Jie            2025-04-17  210  		*(_reg_p) &= ~(_mask);							\
-a256ae22570ee4 Luo Jie            2025-04-17  211  		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
-a256ae22570ee4 Luo Jie            2025-04-17  212  	})
-a256ae22570ee4 Luo Jie            2025-04-17  213  
-e7d4a95da86e0b Johannes Berg      2018-06-20  214  extern void __compiletime_error("value doesn't fit into mask")
-00b0c9b82663ac Al Viro            2017-12-14  215  __field_overflow(void);
-00b0c9b82663ac Al Viro            2017-12-14  216  extern void __compiletime_error("bad bitfield mask")
-00b0c9b82663ac Al Viro            2017-12-14  217  __bad_mask(void);
-00b0c9b82663ac Al Viro            2017-12-14  218  static __always_inline u64 field_multiplier(u64 field)
-00b0c9b82663ac Al Viro            2017-12-14  219  {
-00b0c9b82663ac Al Viro            2017-12-14  220  	if ((field | (field - 1)) & ((field | (field - 1)) + 1))
-00b0c9b82663ac Al Viro            2017-12-14 @221  		__bad_mask();
-00b0c9b82663ac Al Viro            2017-12-14  222  	return field & -field;
-00b0c9b82663ac Al Viro            2017-12-14  223  }
-00b0c9b82663ac Al Viro            2017-12-14  224  static __always_inline u64 field_mask(u64 field)
-00b0c9b82663ac Al Viro            2017-12-14  225  {
-00b0c9b82663ac Al Viro            2017-12-14  226  	return field / field_multiplier(field);
-00b0c9b82663ac Al Viro            2017-12-14  227  }
-e31a50162feb35 Alex Elder         2020-03-12  228  #define field_max(field)	((typeof(field))field_mask(field))
-00b0c9b82663ac Al Viro            2017-12-14  229  #define ____MAKE_OP(type,base,to,from)					\
-e2b02d382ae0cb Ben Horgan         2025-07-09  230  static __always_inline __##type __must_check type##_encode_bits(base v, base field)	\
-00b0c9b82663ac Al Viro            2017-12-14  231  {									\
-e7d4a95da86e0b Johannes Berg      2018-06-20  232  	if (__builtin_constant_p(v) && (v & ~field_mask(field)))	\
-00b0c9b82663ac Al Viro            2017-12-14  233  		__field_overflow();					\
-00b0c9b82663ac Al Viro            2017-12-14  234  	return to((v & field_mask(field)) * field_multiplier(field));	\
-00b0c9b82663ac Al Viro            2017-12-14  235  }									\
-e2b02d382ae0cb Ben Horgan         2025-07-09  236  static __always_inline __##type __must_check type##_replace_bits(__##type old,	\
-00b0c9b82663ac Al Viro            2017-12-14  237  							base val, base field)	\
-00b0c9b82663ac Al Viro            2017-12-14  238  {									\
-00b0c9b82663ac Al Viro            2017-12-14  239  	return (old & ~to(field)) | type##_encode_bits(val, field);	\
-00b0c9b82663ac Al Viro            2017-12-14  240  }									\
-00b0c9b82663ac Al Viro            2017-12-14  241  static __always_inline void type##p_replace_bits(__##type *p,		\
-00b0c9b82663ac Al Viro            2017-12-14  242  					base val, base field)		\
-00b0c9b82663ac Al Viro            2017-12-14  243  {									\
-00b0c9b82663ac Al Viro            2017-12-14  244  	*p = (*p & ~to(field)) | type##_encode_bits(val, field);	\
-00b0c9b82663ac Al Viro            2017-12-14  245  }									\
-e2b02d382ae0cb Ben Horgan         2025-07-09  246  static __always_inline base __must_check type##_get_bits(__##type v, base field)	\
-00b0c9b82663ac Al Viro            2017-12-14  247  {									\
-00b0c9b82663ac Al Viro            2017-12-14  248  	return (from(v) & field)/field_multiplier(field);		\
-00b0c9b82663ac Al Viro            2017-12-14  249  }
-00b0c9b82663ac Al Viro            2017-12-14  250  #define __MAKE_OP(size)							\
-00b0c9b82663ac Al Viro            2017-12-14  251  	____MAKE_OP(le##size,u##size,cpu_to_le##size,le##size##_to_cpu)	\
-00b0c9b82663ac Al Viro            2017-12-14  252  	____MAKE_OP(be##size,u##size,cpu_to_be##size,be##size##_to_cpu)	\
-00b0c9b82663ac Al Viro            2017-12-14  253  	____MAKE_OP(u##size,u##size,,)
-37a3862e123826 Johannes Berg      2018-06-20  254  ____MAKE_OP(u8,u8,,)
-00b0c9b82663ac Al Viro            2017-12-14  255  __MAKE_OP(16)
-00b0c9b82663ac Al Viro            2017-12-14  256  __MAKE_OP(32)
-00b0c9b82663ac Al Viro            2017-12-14  257  __MAKE_OP(64)
-00b0c9b82663ac Al Viro            2017-12-14  258  #undef __MAKE_OP
-00b0c9b82663ac Al Viro            2017-12-14  259  #undef ____MAKE_OP
-00b0c9b82663ac Al Viro            2017-12-14  260  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+PiBPbiAxMToxNi0yMDI2MDcyOSwgRGFuIENhcnBlbnRlciB3cm90ZToNCj4gU3ViamVjdDogc291
+bmQvc29jL2NvZGVjcy90YWM1eHgyLXNkdy5jOjk4NCB0YWM1eHgyX2phY2tfaW5pdCgpIHdhcm46
+IG1pc3NpbmcgZXJyb3IgY29kZSAncmV0J3MNCj4gDQo+IHNtYXRjaCB3YXJuaW5nczoNCj4gc291
+bmQvc29jL2NvZGVjcy90YWM1eHgyLXNkdy5jOjk4NCB0YWM1eHgyX2phY2tfaW5pdCgpIHdhcm46
+IG1pc3NpbmcgZXJyb3INCj4gY29kZSAncmV0Jw0KPiANCj4gdmltICsvcmV0ICs5ODQgc291bmQv
+c29jL2NvZGVjcy90YWM1eHgyLXNkdy5jDQo+IA0KPiAzOGM4OWZlZGVkZDVhOSBOaXJhbmphbiBI
+IFkgMjAyNi0wNS0wNSAgIDk3OSAgc3RhdGljIGludCB0YWM1eHgyX2phY2tfaW5pdChzdHJ1Y3Qg
+dGFjNXh4Ml9wcnYgKnRhY19kZXYpDQo+IDM4Yzg5ZmVkZWRkNWE5IE5pcmFuamFuIEggWSAyMDI2
+LTA1LTA1ICAgOTgwICB7DQo+IDM4Yzg5ZmVkZWRkNWE5IE5pcmFuamFuIEggWSAyMDI2LTA1LTA1
+ICAgOTgxICAJaW50IHJldCA9IDA7DQo+IDM4Yzg5ZmVkZWRkNWE5IE5pcmFuamFuIEggWSAyMDI2
+LTA1LTA1ICAgOTgyDQo+IDM4Yzg5ZmVkZWRkNWE5IE5pcmFuamFuIEggWSAyMDI2LTA1LTA1ICAg
+OTgzICAJaWYgKCF0YWNfZGV2LT5oc19qYWNrKQ0KPiAzOGM4OWZlZGVkZDVhOSBOaXJhbmphbiBI
+IFkgMjAyNi0wNS0wNSAgQDk4NCAgCQlnb3RvIGRpc2FibGVfaW50ZXJydXB0czsNCj4gDQo+IElz
+IHRoaXMgc3VwcG9zZWQgdG8gYmUgYW4gZXJyb3IgcGF0aD8gIHRhY19kZXYtPmhzX2phY2sgY2Fu
+J3QgYmUgTlVMTA0KPiBpbiByZWFsIGxpZmUuDQoNCldlIGFkZGVkIHRoaXMgYXMgZGVmZW5zaXZl
+IHN0cmF0ZWd5IGluIGNhc2Ugc29tZW9uZSBjYWxscyBsaWtlIHRoaXMNCiAgIHNuZF9zb2NfY29t
+cG9uZW50X3NldF9qYWNrKGNvbXBvbmVudCwgTlVMTCwgTlVMTCk7DQoNClJlZ2FyZHMNCk5pcmFu
+amFuDQoNCg0K
