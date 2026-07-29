@@ -1,139 +1,100 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0776222D785
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jul 2026 05:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B4A242D65
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jul 2026 06:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785303965; cv=none; b=K727EqfRHQ5zwc3piI+s+s5ecihBA/umf76QrQT2K5Q8nInTeG3zSutSkebD/yHxu0nqJN3UYKCRLG4b4AzpnNIWACZgkKd0FtYQQfgfuYxrmWgMljt4u8z/RJQwVBcOMij3UHVpRMMZAo+o1EYMk1ApmnEcC+y7PTT29qtLA0k=
+	t=1785306189; cv=none; b=qES9DW8ioW6yZ6rHNgSBAlwGtrhlU9txlWyN7BdHpB5MMP7218Eej9JeaPZWqIPkx/nsIKIFrnHmC3RMNdQsdNPj9B+0uUIt3yJU7LuVMrVFFgTx5zEe3yTxmx/MmsKyD8oJGKmUP3GIIh5XmlNgMZA980NikbpzRWUvt4+MhAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785303965; c=relaxed/simple;
-	bh=NNRhx5kCrh7KxH5C17Ma8caUSEtsaxgQsdVLvCvhiCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Msp2SCTqdeCHX769JeDUhIMErLfMzDQaGhDfiSiLhsCPFwQ5an41kz3iJ53zogUfzMfHZBOOyzhPwjQWrXphHmJruRbD45apG3A6DQDDqc45642CgVh+eizeIWYgfkSjosZlz+mA9m0JEAmeyKW7C4+264eXheMm/fZGmFDZ9Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VXXSfQZG; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785306189; c=relaxed/simple;
+	bh=ziXZH3uReMql33toCoFtcIrjAEtlE8wzF6f0KOdkBrA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GYmcQuZkW5jon+CZM7yeu627Ub0SCXF7yPA7FMViLomE2fH9BLWNfCM9RCDmhpncQH4cd+e3EzurmCvFT08GR0NFSHtbCbCZMKg57hK7XD/K2ZU8JMjbkPUwCYq8Oa2pwzlIWWMGfIMp4kVsFYUlAZK8I2F0L+D/qntvZNyPMcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ChoJR/Ta; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VXXSfQZG"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4955de8797cso3333265e9.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 28 Jul 2026 22:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785303962; x=1785908762; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hVwpUPi151eolMFYb/dgE7OHy6q7d6NUaiE4xjATEk0=;
-        b=VXXSfQZGMLPcheQBMcIr29BchM6PXAQSq7ywOCSE2hUTNI3jlllMQlfWvDvKlG6coA
-         Krt76L1fR2MjsZV2zbU14+WXU3pCFYt928b4SYuVoRVr0TZCEjJ9PjbH1cOu1/IPBNdA
-         kpYf7Nh/6qdBlj5DA5pjVnHbUrPl30BHuLAi8wQolqs1pMIszqgQx2YKjBvQR8XBPcty
-         AYKVfwjeWmVqjO1dOqGHyYOIO6ZboBf4Hz7hps8ZN70ZOi/3Nk4n01OCntOIZJS44cs8
-         riJjTiQ0vLBdJ9ji9/IE0mDWP/QLUFpjStWpy3I38QhLutOneAtSmjNIeTg/RtUqCngP
-         gWtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785303962; x=1785908762;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hVwpUPi151eolMFYb/dgE7OHy6q7d6NUaiE4xjATEk0=;
-        b=Oo/DhdWFjhKuUImGBs4MsdDhQER4eHibwmGOBxGqRvhc02+smtarra0f11BUn6gGdV
-         v2wTqkwYVPgONzJy7yCICFvSYI7d9ZHFYrQE0qIW/NIiPj5eJr+/r55FTk/XrNr7XUB/
-         R1xVfYhz6ZOtcNjBXLfLXd32p0gBZddwzbqGO5IgDHS3/Sg6Ej7OzrIzoxQiCxqN4h2d
-         7XpjBPapBPpBixMbMDIMUnQFbWBuSoF9gep6sKGyiAwsWbb7oBu8PtBHcfDz2AvO3mBl
-         J05YYisi+AJ9XWW/rLptn9Rgno59pckzO7negSkZY/L6ZGcOobNKpMKQDalKhdBhmAmv
-         EJgg==
-X-Gm-Message-State: AOJu0YwOAVeRyNmin3PvKYW/MwmvB18jy/rqyydCBvmF+ECgPWBRDyng
-	8nDwQl3KohiPVYS3YES709jHZ4GrcRFtmAJH+QA4pj8II0Nwi3dPPUYpvNR3LOGH9NQ=
-X-Gm-Gg: AR+sD13VwZBAWpq2PYVVkdZrbNPdnT1kEwu0uukl5dNrODJZ+fxrJVSucT1liBN8WA6
-	hHzALexuIM2NplVSF4aFkA9wbAFCu0hrx0mXafw9700ITfLvzHp/CF+BU2JHxSk7tah7X+/+6cM
-	xtPWVJmIUb161wsRUoMYF9GhGWzhsnYojKdiEhfpo3ztWqXDN4fOQG1NqHu58uffRb8JkbUMfWG
-	QdExMfHXbWJ8bE7MG2onMxheJUjJYxAWLXrahPnhfqfbkyAKVwc91cwSa33gosCb42Ej9kuccMC
-	ZUTMtAH4WUqOwKSqV2HEoUqcjX7DSFfErsLjdkghQ6zhaRi5wEnuBPg5eKb27rI7o53vFU1FDaK
-	RE0B94v00feUn1n5c2Eo77vjNhLB+ic9e/TcnOknFlSXY8XbEEFq0LBii8S/SPtOjTkRUJsnBFr
-	zJ6gr/xnQ6Cj6J8w7/ItQMU/SS0+KcqqpIGWftZM/kgXXLs6cVj+jrptvS
-X-Received: by 2002:a05:600c:4f91:b0:495:7eab:3abd with SMTP id 5b1f17b1804b1-496c65a26bemr53982335e9.33.1785303962326;
-        Tue, 28 Jul 2026 22:46:02 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49764d77970sm31931095e9.5.2026.07.28.22.46.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 22:46:01 -0700 (PDT)
-Date: Wed, 29 Jul 2026 08:45:58 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Niranjan H Y <niranjan.hy@ti.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn: missing
- error code 'ret'
-Message-ID: <202607291308.8OeeiyIv-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ChoJR/Ta"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785306187; x=1816842187;
+  h=date:from:to:cc:subject:message-id;
+  bh=ziXZH3uReMql33toCoFtcIrjAEtlE8wzF6f0KOdkBrA=;
+  b=ChoJR/TahcMsQLojUXwYoPH5Nn6uqGtA51f1+xu6wDzVdUloHcmWKYy/
+   A1Xw9k69Qt4sxFXARNLC4fUpbtEJYdqqz3zxvMJdwswCuqph9Bo/PJcda
+   TkgFGyYYOQ8MFqmD3K44vZ8TkVU3yFB88OfYvZqcSDgjZoPKvAgVHFdF5
+   d1rGGpRsZQsDcDxU+VGTV7ZyJaYSV/bsf3lCmP5WBB2MTMENhmq+RfxZr
+   KcFdUsDZFyq6g0RgYwjxVMkwfHWcDJSD+QNvzGILwytLoWmQRTBWj42kj
+   DROsmaddzXBJG2cfwswcSv+OCJ7q4DInWniDsBO2zj2ldyqRBJ1np2oBY
+   Q==;
+X-CSE-ConnectionGUID: 13Cy1c6YSX673CjkrcWoOQ==
+X-CSE-MsgGUID: dhS/xHVcRJyNwElNPFzx/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85757083"
+X-IronPort-AV: E=Sophos;i="6.25,191,1779174000"; 
+   d="scan'208";a="85757083"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 23:23:06 -0700
+X-CSE-ConnectionGUID: Ao/eHbHnSIefb66EzrF/yA==
+X-CSE-MsgGUID: 4mvaZ/XVQ425iy0OKheLCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
+   d="scan'208";a="264199183"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 28 Jul 2026 23:23:06 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1woxh1-00000000f79-3dvK;
+	Wed, 29 Jul 2026 06:23:03 +0000
+Date: Wed, 29 Jul 2026 14:22:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: net/wireless/util.c:3087:6: warning: no previous prototype
+ for 'cfg80211_validate_ies'
+Message-ID: <202607291343.GQPreqJa-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260729054558.MWTHkD-kwjuYPeSRCV6VXWDaEIVqAYpvrSGOGBdtKF0@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fc02acf6ac0ccde0c805c2daa9148683cdd01ba8
-commit: 38c89fededd5a9472e8222a20aa066058585f7b2 ASoC: tac5xx2-sdw: add soundwire based codec driver
-date:   3 months ago
-config: i386-randconfig-r073-20260729 (https://download.01.org/0day-ci/archive/20260729/202607291308.8OeeiyIv-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
+:::::: 
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Deepanshu-Kartikey/wifi-cfg80211-add-cfg80211_validate_ies-helper-and-use-it/20260729-101807, commit: 9f00c96249f6b1cad035a9ece55d6a199cf08cbf"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Deepanshu Kartikey <kartikey406@gmail.com>
+CC: 0day robot <lkp@intel.com>
+
+tree:   https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/wifi-cfg80211-add-cfg80211_validate_ies-helper-and-use-it/20260729-101807
+head:   9f00c96249f6b1cad035a9ece55d6a199cf08cbf
+commit: 9f00c96249f6b1cad035a9ece55d6a199cf08cbf wifi: cfg80211: add cfg80211_validate_ies() helper and use it
+date:   3 hours ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260729/202607291343.GQPreqJa-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260729/202607291343.GQPreqJa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 38c89fededd5 ("ASoC: tac5xx2-sdw: add soundwire based codec driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607291308.8OeeiyIv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607291343.GQPreqJa-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/tac5xx2-sdw.c:984 tac5xx2_jack_init() warn: missing error code 'ret'
+All warnings (new ones prefixed by >>):
 
-vim +/ret +984 sound/soc/codecs/tac5xx2-sdw.c
+>> net/wireless/util.c:3087:6: warning: no previous prototype for 'cfg80211_validate_ies' [-Wmissing-prototypes]
+    3087 | bool cfg80211_validate_ies(const u8 *data, int len)
+         |      ^~~~~~~~~~~~~~~~~~~~~
 
-38c89fededd5a9 Niranjan H Y 2026-05-05   979  static int tac5xx2_jack_init(struct tac5xx2_prv *tac_dev)
-38c89fededd5a9 Niranjan H Y 2026-05-05   980  {
-38c89fededd5a9 Niranjan H Y 2026-05-05   981  	int ret = 0;
-38c89fededd5a9 Niranjan H Y 2026-05-05   982  
-38c89fededd5a9 Niranjan H Y 2026-05-05   983  	if (!tac_dev->hs_jack)
-38c89fededd5a9 Niranjan H Y 2026-05-05  @984  		goto disable_interrupts;
 
-Is this supposed to be an error path?  tac_dev->hs_jack can't be NULL
-in real life.
+vim +/cfg80211_validate_ies +3087 net/wireless/util.c
 
-38c89fededd5a9 Niranjan H Y 2026-05-05   985  
-38c89fededd5a9 Niranjan H Y 2026-05-05   986  	ret = regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK2,
-38c89fededd5a9 Niranjan H Y 2026-05-05   987  			   SDW_SCP_SDCA_INTMASK_SDCA_11);
-38c89fededd5a9 Niranjan H Y 2026-05-05   988  	if (ret) {
-38c89fededd5a9 Niranjan H Y 2026-05-05   989  		dev_err(tac_dev->dev,
-38c89fededd5a9 Niranjan H Y 2026-05-05   990  			"Failed to register jack detection interrupt: %d\n", ret);
-38c89fededd5a9 Niranjan H Y 2026-05-05   991  		goto disable_interrupts;
-38c89fededd5a9 Niranjan H Y 2026-05-05   992  	}
-38c89fededd5a9 Niranjan H Y 2026-05-05   993  
-38c89fededd5a9 Niranjan H Y 2026-05-05   994  	ret = regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK3,
-38c89fededd5a9 Niranjan H Y 2026-05-05   995  			   SDW_SCP_SDCA_INTMASK_SDCA_16);
-38c89fededd5a9 Niranjan H Y 2026-05-05   996  	if (ret) {
-38c89fededd5a9 Niranjan H Y 2026-05-05   997  		dev_err(tac_dev->dev,
-38c89fededd5a9 Niranjan H Y 2026-05-05   998  			"Failed to register for button detect interrupt: %d\n", ret);
-38c89fededd5a9 Niranjan H Y 2026-05-05   999  		goto disable_interrupts;
-38c89fededd5a9 Niranjan H Y 2026-05-05  1000  	}
-38c89fededd5a9 Niranjan H Y 2026-05-05  1001  
-38c89fededd5a9 Niranjan H Y 2026-05-05  1002  	return 0;
-38c89fededd5a9 Niranjan H Y 2026-05-05  1003  
-38c89fededd5a9 Niranjan H Y 2026-05-05  1004  disable_interrupts:
-38c89fededd5a9 Niranjan H Y 2026-05-05  1005  	/* ignore errors while disabling interrupts */
-38c89fededd5a9 Niranjan H Y 2026-05-05  1006  	regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK2, 0);
-38c89fededd5a9 Niranjan H Y 2026-05-05  1007  	regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK3, 0);
-38c89fededd5a9 Niranjan H Y 2026-05-05  1008  
-38c89fededd5a9 Niranjan H Y 2026-05-05  1009  	return ret;
-38c89fededd5a9 Niranjan H Y 2026-05-05  1010  }
+9f00c96249f6b1 Deepanshu Kartikey 2026-07-29  3086  
+9f00c96249f6b1 Deepanshu Kartikey 2026-07-29 @3087  bool cfg80211_validate_ies(const u8 *data, int len)
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
