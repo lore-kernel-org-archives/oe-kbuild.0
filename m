@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854CF7081A
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Jul 2026 00:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D188017B505
+	for <oe-kbuild@lists.linux.dev>; Fri, 31 Jul 2026 07:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785458941; cv=none; b=TzjuuS+n2WpE4G9jNsSh6DYXHV4DEk85pR6Ba4vxumIIITgTLxFt6jmjv+5VIsy7MayBgl1Qmrb82yA4VFdDc5xjD8UdlldS6+sbpLAa3BRTJ8CZbP0Iv0ItPQBUh2f2YCs8SRqbEMkMzheiHcWqCI9PCbykBxrzZqxppHHGrRc=
+	t=1785484743; cv=none; b=UCYgI2OmV0XPvoSToM2CUUnP8o8zpc8XwTwkKdPnc7arH8aXnGfWe2BWFsZknrU3dx4s359sJFLCHj/fHPiikCCKeDsBUuXQy0P9sloi/d7Cda1AL4C6ldQM43gj3+NX2/5Gf08zYPnkjH5qalqJYkgwmc1Zbr9r0FmqjiTn1a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785458941; c=relaxed/simple;
-	bh=NWiJ4Ztt7AgS8mnH/7X3Gf/Uor0PS6HgVTDPVDCfBYA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bqD9uDK5IHj9kkzj8nH1LhLrDfvW5pYGqaJcVRV//ptUvY1fMVp8mJmZIHVOKClDznUlJ4ny/sU4eGUTMy/CfZoE2mZkrd6/GcsXbNb3tg8Jot+iQ9g2j5sEo38tLyHmgY/+NjgQz9+wtTF9cwvjwi5tSeKwWqlDZ3inDewGnn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lo6r8HcN; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1785484743; c=relaxed/simple;
+	bh=5TzHh8wdO5JKZK0ktAGdtSAs7Zs+6v/+Uc3CiNLNcrs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=n+CmZdojYfAVawKOxE0ZeBWPUZn/3WMXTrsrhNeDP4kpEq7t7AyzaeM7CuLEmP1Edp57QS/vqsXXpbiyVb9Uz4qKmMv2wApKjt8fuME8WIQiEa/7FKbEEPUnhyIji8xNZOiio6wxKNowpGWdKPHd2Xw+S8tWahgrfGKQhYFhmho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fOLUUhv5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lo6r8HcN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fOLUUhv5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785458940; x=1816994940;
+  t=1785484741; x=1817020741;
   h=date:from:to:cc:subject:message-id;
-  bh=NWiJ4Ztt7AgS8mnH/7X3Gf/Uor0PS6HgVTDPVDCfBYA=;
-  b=Lo6r8HcNgSx5sBd5lArQc+BGuMtJ50YY13GEEOAAq6IOqYPsduw9E53H
-   yBsHJBAO80wAlTNvSw2nzE1JyLBKee/JN22D1F7C7ElDE3H7lFCsVgGhw
-   cLoEkUclS582RwIuQ8Nwob2TioMy5Y9t9tp4cZExTLB4DNuY+DDpzjh8+
-   /sRixvOfvWLqvWhml0MOXDrcb7efL9r4jdFmPFBa3OkvYcAs2xXtIo2KK
-   JIaS95wZMEXCn8ekbT8CUCyC5eoOHzTNsimL6YF0XyU6WBQkl8Kqmenml
-   tIxxyzUFBNrXSOQezTZ1sUXyY9XnAMryIpQCP27nYV79N+EErBFnKzMOg
+  bh=5TzHh8wdO5JKZK0ktAGdtSAs7Zs+6v/+Uc3CiNLNcrs=;
+  b=fOLUUhv5fYUbmlKEe5q2w+Jc5uZhZxep+KDGyE72DCaV7+ETI5zzXU1Z
+   o55FkAu0lrcazvUjOgYS+Dd7xMOGNlFMRlwC8bW+0kYwQ5NMJ99lxHurF
+   yXXxvUjDu4hEWBjw6rvoRK/wr8YnpHkmSUzAq0BQx/evOhKx520R3pqWj
+   EushKoiASy1V/pFwymcigWusAT05BBcocwfoKZy1BU90++MtSDOuz8ycI
+   aoIH+WWu52ZfUhwc7xHHb6jI5izhtQGBA+BSxjbUmJrdGuzBrwcgcIH2D
+   joabPsow21CCZHKHoLzaqtWob2b1lhqy0iF4D9mLZAOG0zfRp9iW9mBOU
    g==;
-X-CSE-ConnectionGUID: LLa6mDt/QSSutgmAdRwYcQ==
-X-CSE-MsgGUID: /gLQdxhaTbeZ2Dle5lBn7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="96445740"
-X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="96445740"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 17:48:59 -0700
-X-CSE-ConnectionGUID: PeoN0FyJQ2q0BYnlSd6F6Q==
-X-CSE-MsgGUID: iW75bf5JSzimVVEpsDqkYQ==
+X-CSE-ConnectionGUID: P1lsFiyXQc6ZSSsfuPK9zw==
+X-CSE-MsgGUID: yXQ8LdQLQGqOZYW+8IyK7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="86058997"
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="86058997"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 00:59:01 -0700
+X-CSE-ConnectionGUID: HBDaBrmMQkmgcBw3eTqXVw==
+X-CSE-MsgGUID: 7pIjLP/YROGml523OuFavA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="258657342"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 30 Jul 2026 17:48:58 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="298717093"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 31 Jul 2026 00:58:59 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wpbQl-00000000hlO-33Eo;
-	Fri, 31 Jul 2026 00:48:55 +0000
-Date: Fri, 31 Jul 2026 08:48:11 +0800
+	id 1wpi8v-000000002Za-1HwW;
+	Fri, 31 Jul 2026 07:58:57 +0000
+Date: Fri, 31 Jul 2026 09:58:45 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: sound/sparc/dbri.c:1842:1-3: WARNING: possible condition
- with no effect (if == else)
-Message-ID: <202607310803.DWbaniIT-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb:
+ /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible:
+ ['aspeed,ast2600-lhc']
+Message-ID: <202607310921.kpyBL9KF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,96 +60,46 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Takashi Iwai <tiwai@suse.de>
+TO: Marc Olberding <molberding@nvidia.com>
+CC: Andrew Jeffery <andrew@codeconstruct.com.au>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   11028ab62899e4191e074ee364c712b77823a9c4
-commit: 3c30d57544bf91d6adaf3cab8474194e4c4404bc ALSA: sparc/dbri: Use guard() for spin locks
-date:   11 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 11 months ago
-config: sparc-randconfig-r063-20260731 (https://download.01.org/0day-ci/archive/20260731/202607310803.DWbaniIT-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.2.0
+head:   8ba098e6b6ff0db8edf28528d1552be261af30d4
+commit: f28674fab34f07fff9612c3f390d3699bfe8ed90 ARM: dts: aspeed: Add NVIDIA MSX4 HPM
+date:   8 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-2051-20260729 (https://download.01.org/0day-ci/archive/20260731/202607310921.kpyBL9KF-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+dtschema: 2026.7.dev1+g2203c1720
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607310921.kpyBL9KF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3c30d57544bf ("ALSA: sparc/dbri: Use guard() for spin locks")
+| Fixes: f28674fab34f ("ARM: dts: aspeed: Add NVIDIA MSX4 HPM")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202607310803.DWbaniIT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202607310921.kpyBL9KF-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> sound/sparc/dbri.c:1842:1-3: WARNING: possible condition with no effect (if == else)
-
-vim +1842 sound/sparc/dbri.c
-
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1841  
-1bd9debf25b8a5 Takashi Iwai   2005-06-30 @1842  	if (channel == D_INTR_CMD) {
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1843  		dprintk(D_CMD, "INTR: Command: %-5s  Value:%d\n",
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1844  			cmds[command], val);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1845  	} else {
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1846  		dprintk(D_INT, "INTR: Chan:%d Code:%d Val:%#x\n",
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1847  			channel, code, rval);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1848  	}
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1849  
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1850  	switch (code) {
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1851  	case D_INTR_CMDI:
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1852  		if (command != D_WAIT)
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1853  			printk(KERN_ERR "DBRI: Command read interrupt\n");
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1854  		break;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1855  	case D_INTR_BRDY:
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1856  		reception_complete_intr(dbri, channel);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1857  		break;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1858  	case D_INTR_XCMP:
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1859  	case D_INTR_MINT:
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1860  		transmission_complete_intr(dbri, channel);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1861  		break;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1862  	case D_INTR_UNDR:
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1863  		/* UNDR - Transmission underrun
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1864  		 * resend SDP command with clear pipe bit (C) set
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1865  		 */
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1866  		{
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1867  	/* FIXME: do something useful in case of underrun */
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1868  			printk(KERN_ERR "DBRI: Underrun error\n");
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1869  #if 0
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1870  			s32 *cmd;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1871  			int pipe = channel;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1872  			int td = dbri->pipes[pipe].desc;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1873  
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1874  			dbri->dma->desc[td].word4 = 0;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1875  			cmd = dbri_cmdlock(dbri, NoGetLock);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1876  			*(cmd++) = DBRI_CMD(D_SDP, 0,
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1877  					    dbri->pipes[pipe].sdp
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1878  					    | D_SDP_P | D_SDP_C | D_SDP_2SAME);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1879  			*(cmd++) = dbri->dma_dvma + dbri_dma_off(desc, td);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1880  			dbri_cmdsend(dbri, cmd);
-1be54c824be9b5 Krzysztof Helt 2006-08-21  1881  #endif
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1882  		}
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1883  		break;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1884  	case D_INTR_FXDT:
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1885  		/* FXDT - Fixed data change */
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1886  		if (dbri->pipes[channel].sdp & D_SDP_MSB)
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1887  			val = reverse_bytes(val, dbri->pipes[channel].length);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1888  
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1889  		if (dbri->pipes[channel].recv_fixed_ptr)
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1890  			*(dbri->pipes[channel].recv_fixed_ptr) = val;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1891  		break;
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1892  	default:
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1893  		if (channel != D_INTR_CMD)
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1894  			printk(KERN_WARNING
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1895  			       "DBRI: Ignored Interrupt: %d (0x%x)\n", code, x);
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1896  	}
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1897  }
-1bd9debf25b8a5 Takashi Iwai   2005-06-30  1898  
-
-:::::: The code at line 1842 was first introduced by commit
-:::::: 1bd9debf25b8a5f5029d7619f43e4a9a775973d3 [ALSA] Add DBRI driver on Sparcs
-
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Jaroslav Kysela <perex@suse.cz>
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 --
 0-DAY CI Kernel Test Service
