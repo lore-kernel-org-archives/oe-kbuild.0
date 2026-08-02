@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C80733BBAD
-	for <oe-kbuild@lists.linux.dev>; Sun,  2 Aug 2026 20:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38D725B090
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Aug 2026 22:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785702933; cv=none; b=QWTCULhtcirFgR8vjrUFQjryLVT4+1knYiynWhldvey96j9Ssxinrx71FoChSSf6AIDCUJZRhgqlH5UrPQxMwK+cB12DXMRnSZkPRqdHFyzhSfJP9GxhoBKlVdqHR+Ta/CJfMCPTzGN5q6+Sr6b2i5MvZRij9woNcnUT6+OLjJ8=
+	t=1785709631; cv=none; b=Jmtxe0UM8T2HxPFk8qz4XuedXBYc4Z3/FVFP6kYtEKreSKjqtJRvyvhxO+msqU6WDyVIIKggTig442cwbtMvr/6PVaUtAWVlGfH/yh4Q0vWoXUGSJGzxeW06iWyDZncRZqV+IqO++LErNWQm5+Re1uIWNzPMzNYf3KkIcGWgzlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785702933; c=relaxed/simple;
-	bh=i2OVVTYBCPKug2zvZe+IWUh9qNwMtwKYdkklal62S0g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EocmTs7NDyWM1aQ8y8IJuUx+qWYwTUx9ppPXJfezhRf4wn9beoPfdku3YeUbl9Q7zU+GgjajWKVPzZnKE0yQFLepKa0Lh2ZCN0mYmdM6gYbm0q2t/HHSRQV55HrEBVWVxgdAMNq+92ms6pgXRXG9vR5wqD05dvarFO9kby1/eu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SftHNMry; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1785709631; c=relaxed/simple;
+	bh=i5IP9iWggcVDvEuRVO0xzWgpIqv6zwx27pDfQSPSoCA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VrPxy4eXZXUAWvlfMF1+YkaLgAr9SezxniPSQeeiV83URpZaf5CbgcPBwQFGxM4t+z564vpwXkjBYWMwIKEtpnsluA0qVfCVDi1uev/6sdDzDUf2AQZrhDCRwrk9VtNjPURGbvhFY2Ui1/oarWH0QrxPplg8El339+xvVbkdMMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZjeY1OwP; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SftHNMry"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZjeY1OwP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785702929; x=1817238929;
+  t=1785709629; x=1817245629;
   h=date:from:to:cc:subject:message-id;
-  bh=i2OVVTYBCPKug2zvZe+IWUh9qNwMtwKYdkklal62S0g=;
-  b=SftHNMrype7vkPkCoOvbtTy3OQHIS7MLtW2B94kbHs2Y688hZl0cAS1v
-   eDenqylsptXEB1Ir2LkTZ1KTcxOv/EVFz+jUYfMiIdgDSWZ6XKPVde4M5
-   nHJYau/U1/FocsSqHAZMs5vqQqav6JE13dPnceQ0sMNLd2bj42eevRrFS
-   vx9OukDZDpwSE6xSt3gzyjtPOsTxSA6jnVgTSUZ7U9J9YWYZa+HEo128a
-   C3OJ4vgvp54ibE3NneDQmQxpNRhUwjppT6C9Da42jyQ1qQXWxTc4akUSc
-   Hlo/f2f4eGAzm7T9jCGXe386NmmqFMaDNywLlWjOb+Qff5yJx7b0VCFL5
+  bh=i5IP9iWggcVDvEuRVO0xzWgpIqv6zwx27pDfQSPSoCA=;
+  b=ZjeY1OwP9s7Tyqn9YOjsxOyu+apGmqyL1Hxht5iRkWXxuxvtnXyui99g
+   0Cdpg8uY3PIDjf8OenVRjQiYchDkD87LFugUDd+1QozeLnReP3oGj0fIX
+   gBmJDJWKDW8QJN1Z+Fmxg9LjMHwE7t1Z3wZbRqX+Q5R0mS59AaT/WB+R8
+   qIZ3rpcG4hoeSoqQdOkpdXGhn8hbfXFF+6dKz/QvAEu9nNvvctZBJBBDn
+   mzPfHu2PIG0A//gdFqAsOEbbeHwrrguXUtDd4t3VczWcR0dMMlxCMpIYT
+   jU2tP0a8r/gV9nxC4p43T9Nw5bKdiftKIBfyDSPx+8RCjwmtIH6sCu8qF
    g==;
-X-CSE-ConnectionGUID: imFkjuvNSKiGCR+/OJEzQA==
-X-CSE-MsgGUID: DyurYz6QSPiRG+5bTPanbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="97618691"
+X-CSE-ConnectionGUID: i4znuWIRToCLl5FV26r20A==
+X-CSE-MsgGUID: RpM0i/l/RwSp88VISMKt2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="86200295"
 X-IronPort-AV: E=Sophos;i="6.25,201,1779174000"; 
-   d="scan'208";a="97618691"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 13:35:29 -0700
-X-CSE-ConnectionGUID: 2VLgYE/wTnuWWVQH5JKBhg==
-X-CSE-MsgGUID: F5evNjo0RzW7e6mvgge3UQ==
+   d="scan'208";a="86200295"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 15:27:08 -0700
+X-CSE-ConnectionGUID: ypmaSQPdTX28bklv99z51A==
+X-CSE-MsgGUID: v2H2OmU0T1qktKLn2fbtgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,201,1779174000"; 
-   d="scan'208";a="261100038"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 02 Aug 2026 13:35:27 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="259827006"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 02 Aug 2026 15:27:08 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wqcu5-000000003jG-2FuD;
-	Sun, 02 Aug 2026 20:35:25 +0000
-Date: Sun, 02 Aug 2026 22:34:56 +0200
+	id 1wqee9-000000005bh-1hRL;
+	Sun, 02 Aug 2026 22:27:05 +0000
+Date: Mon, 03 Aug 2026 06:26:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [sven:apple-soc/dt-7.3 22/23]
- arch/arm64/boot/dts/apple/t6030-j514s.dtb: pinctrl@347100000
- (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be
- fixed:
-Message-ID: <202608022256.ln4OSSiZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [isilence:rw-dmabuf-v5 1/16]
+ drivers/dma-buf/dma-buf-io.c:169 dma_buf_io_create_map() warn: inconsistent
+ returns 'dmabuf->resv'.
+Message-ID: <202608030631.jIkiKCzz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,91 +60,84 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sven Peter <sven@kernel.org>
+TO: Pavel Begunkov <asml.silence@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git apple-soc/dt-7.3
-head:   6e890bf6442553c7bf56867a91c2dbcc2c295900
-commit: e81af013dbdd84c4e13f92c304eee555b1f9447a [22/23] arm64: dts: apple: Initial T6030 (M3 Pro) device trees
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: arm64-randconfig-2055-20260801 (https://download.01.org/0day-ci/archive/20260802/202608022256.ln4OSSiZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260802/202608022256.ln4OSSiZ-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux rw-dmabuf-v5
+head:   71c75106fd3c8852b3856e472b586db82e480f7b
+commit: ff5dccf71e8c03d62797352c4bb5fbb7c6c759c8 [1/16] dma-buf: introduce initial file I/O infrastructure
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: i386-randconfig-141-20260803 (https://download.01.org/0day-ci/archive/20260803/202608030631.jIkiKCzz-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608022256.ln4OSSiZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608030631.jIkiKCzz-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/apple/t6030-j514s.dtb: pinctrl@347100000 (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-pinctrl' is not one of ['apple,t6020-pinctrl', 'apple,t8122-pinctrl']
-   	'apple,t6030-pinctrl' is not one of ['apple,s5l8960x-pinctrl', 'apple,t7000-pinctrl', 'apple,s8000-pinctrl', 'apple,t8010-pinctrl', 'apple,t8015-pinctrl', 'apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	'apple,pinctrl' was expected
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml
->> arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/pinctrl@347100000: failed to match any schema with compatible: ['apple,t6030-pinctrl', 'apple,t8103-pinctrl']
->> arch/arm64/boot/dts/apple/t6030-j514s.dtb: pinctrl@3641f0000 (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-pinctrl' is not one of ['apple,t6020-pinctrl', 'apple,t8122-pinctrl']
-   	'apple,t6030-pinctrl' is not one of ['apple,s5l8960x-pinctrl', 'apple,t7000-pinctrl', 'apple,s8000-pinctrl', 'apple,t8010-pinctrl', 'apple,t8015-pinctrl', 'apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	'apple,pinctrl' was expected
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml
->> arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/pinctrl@3641f0000: failed to match any schema with compatible: ['apple,t6030-pinctrl', 'apple,t8103-pinctrl']
->> arch/arm64/boot/dts/apple/t6030-j514s.dtb: watchdog@3642b0000 (apple,t6030-wdt): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-wdt' is not one of ['apple,t6020-wdt', 'apple,t8122-wdt']
-   	'apple,t6030-wdt' is not one of ['apple,s5l8960x-wdt', 'apple,t7000-wdt', 'apple,s8000-wdt', 'apple,t8010-wdt', 'apple,t8015-wdt', 'apple,t8103-wdt', 'apple,t8112-wdt', 'apple,t6000-wdt']
-   	'apple,wdt' was expected
-   	from schema $id: http://devicetree.org/schemas/watchdog/apple,wdt.yaml
->> arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/watchdog@3642b0000: failed to match any schema with compatible: ['apple,t6030-wdt', 'apple,t8103-wdt']
->> arch/arm64/boot/dts/apple/t6030-j514s.dtb: pinctrl@36c820000 (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-pinctrl' is not one of ['apple,t6020-pinctrl', 'apple,t8122-pinctrl']
-   	'apple,t6030-pinctrl' is not one of ['apple,s5l8960x-pinctrl', 'apple,t7000-pinctrl', 'apple,s8000-pinctrl', 'apple,t8010-pinctrl', 'apple,t8015-pinctrl', 'apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	'apple,pinctrl' was expected
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml
->> arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/pinctrl@36c820000: failed to match any schema with compatible: ['apple,t6030-pinctrl', 'apple,t8103-pinctrl']
-   arch/arm64/boot/dts/apple/t6030-j514s.dtb: pinctrl@374824000 (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-pinctrl' is not one of ['apple,t6020-pinctrl', 'apple,t8122-pinctrl']
-   	'apple,t6030-pinctrl' is not one of ['apple,s5l8960x-pinctrl', 'apple,t7000-pinctrl', 'apple,s8000-pinctrl', 'apple,t8010-pinctrl', 'apple,t8015-pinctrl', 'apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	'apple,pinctrl' was expected
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml
-   arch/arm64/boot/dts/apple/t6030-j514s.dtb: /soc/pinctrl@374824000: failed to match any schema with compatible: ['apple,t6030-pinctrl', 'apple,t8103-pinctrl']
---
->> arch/arm64/boot/dts/apple/t6030-j516s.dtb: pinctrl@347100000 (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-pinctrl' is not one of ['apple,t6020-pinctrl', 'apple,t8122-pinctrl']
-   	'apple,t6030-pinctrl' is not one of ['apple,s5l8960x-pinctrl', 'apple,t7000-pinctrl', 'apple,s8000-pinctrl', 'apple,t8010-pinctrl', 'apple,t8015-pinctrl', 'apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	'apple,pinctrl' was expected
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml
->> arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/pinctrl@347100000: failed to match any schema with compatible: ['apple,t6030-pinctrl', 'apple,t8103-pinctrl']
->> arch/arm64/boot/dts/apple/t6030-j516s.dtb: pinctrl@3641f0000 (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-pinctrl' is not one of ['apple,t6020-pinctrl', 'apple,t8122-pinctrl']
-   	'apple,t6030-pinctrl' is not one of ['apple,s5l8960x-pinctrl', 'apple,t7000-pinctrl', 'apple,s8000-pinctrl', 'apple,t8010-pinctrl', 'apple,t8015-pinctrl', 'apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	'apple,pinctrl' was expected
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml
->> arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/pinctrl@3641f0000: failed to match any schema with compatible: ['apple,t6030-pinctrl', 'apple,t8103-pinctrl']
->> arch/arm64/boot/dts/apple/t6030-j516s.dtb: watchdog@3642b0000 (apple,t6030-wdt): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-wdt' is not one of ['apple,t6020-wdt', 'apple,t8122-wdt']
-   	'apple,t6030-wdt' is not one of ['apple,s5l8960x-wdt', 'apple,t7000-wdt', 'apple,s8000-wdt', 'apple,t8010-wdt', 'apple,t8015-wdt', 'apple,t8103-wdt', 'apple,t8112-wdt', 'apple,t6000-wdt']
-   	'apple,wdt' was expected
-   	from schema $id: http://devicetree.org/schemas/watchdog/apple,wdt.yaml
->> arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/watchdog@3642b0000: failed to match any schema with compatible: ['apple,t6030-wdt', 'apple,t8103-wdt']
->> arch/arm64/boot/dts/apple/t6030-j516s.dtb: pinctrl@36c820000 (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-pinctrl' is not one of ['apple,t6020-pinctrl', 'apple,t8122-pinctrl']
-   	'apple,t6030-pinctrl' is not one of ['apple,s5l8960x-pinctrl', 'apple,t7000-pinctrl', 'apple,s8000-pinctrl', 'apple,t8010-pinctrl', 'apple,t8015-pinctrl', 'apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	'apple,pinctrl' was expected
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml
->> arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/pinctrl@36c820000: failed to match any schema with compatible: ['apple,t6030-pinctrl', 'apple,t8103-pinctrl']
-   arch/arm64/boot/dts/apple/t6030-j516s.dtb: pinctrl@374824000 (apple,t6030-pinctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6030-pinctrl' is not one of ['apple,t6020-pinctrl', 'apple,t8122-pinctrl']
-   	'apple,t6030-pinctrl' is not one of ['apple,s5l8960x-pinctrl', 'apple,t7000-pinctrl', 'apple,s8000-pinctrl', 'apple,t8010-pinctrl', 'apple,t8015-pinctrl', 'apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	'apple,pinctrl' was expected
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml
-   arch/arm64/boot/dts/apple/t6030-j516s.dtb: /soc/pinctrl@374824000: failed to match any schema with compatible: ['apple,t6030-pinctrl', 'apple,t8103-pinctrl']
+smatch warnings:
+drivers/dma-buf/dma-buf-io.c:169 dma_buf_io_create_map() warn: inconsistent returns 'dmabuf->resv'.
+
+vim +169 drivers/dma-buf/dma-buf-io.c
+
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  118  
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  119  struct dma_buf_io_map *dma_buf_io_create_map(struct dma_buf_io_ctx *ctx)
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  120  {
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  121  	struct dma_buf *dmabuf = ctx->dmabuf;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  122  	struct dma_buf_io_map *map;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  123  	long ret;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  124  
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  125  retry:
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  126  	/*
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  127  	 * ->dmabuf_map() will be calling dma_buf_map_attachment(), for which
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  128  	 * we'll need to wait for fences. Do a bit nicer and try to wait
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  129  	 * without the resv lock first.
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  130  	 */
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  131  	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  132  				    true, MAX_SCHEDULE_TIMEOUT);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  133  	if (!ret)
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  134  		ret = -EAGAIN;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  135  	if (ret < 0)
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  136  		return ERR_PTR(ret);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  137  
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  138  	ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  139  	if (ret)
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  140  		return ERR_PTR(ret);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  141  
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  142  	map = dma_buf_io_get_map(ctx);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  143  	if (map) {
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  144  		ret = 0;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  145  		goto out;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  146  	}
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  147  
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  148  	if (dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  149  				  true, 0) < 0) {
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  150  		dma_resv_unlock(dmabuf->resv);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  151  		goto retry;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  152  	}
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  153  
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  154  	map = ctx->dev_ops->map(ctx);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  155  	if (IS_ERR(map)) {
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  156  		ret = PTR_ERR(map);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  157  		goto out;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  158  	}
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  159  
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  160  	if (WARN_ON_ONCE(!map->seg_shift))
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  161  		return ERR_PTR(-EFAULT);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  162  
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  163  	percpu_ref_get(&map->refs);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  164  	rcu_assign_pointer(ctx->map, map);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  165  out:
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  166  	dma_resv_unlock(dmabuf->resv);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  167  	if (ret < 0)
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  168  		return ERR_PTR(ret);
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19 @169  	return map;
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  170  }
+ff5dccf71e8c03 Pavel Begunkov 2026-04-19  171  
 
 --
 0-DAY CI Kernel Test Service
