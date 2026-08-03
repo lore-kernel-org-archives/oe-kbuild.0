@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88563328B7F
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Aug 2026 20:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D368B433E73
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Aug 2026 20:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785789547; cv=none; b=YOl2Cd+euGY7aI7yTGgPjJt8X1Uw1FS1VMImv2wKMBrVtF6JL5UgZv5KqzPQEOeAiO4PLtiBPUmA5P5x5RMIbKFgAgUIXJFZ0mciQqZw7wl7R+guGBbBuJOapb+fBrYNmUt+7xOfaMHB1jhT5kgC7PxxUwSiNnqislL6OKvYq7I=
+	t=1785789970; cv=none; b=hH8+SY6L0iN3kHNCjHS6xzQMDLBU/cuH9CvhAzMJN3Wd50oSw7tnAnyMZMmEgSOI5OF55Ux1Qp23vou12d4X64gz2wRwqdwjMgKMHG37MspdZY4g9DDNq2V8oya7o3rC1Q3bROD9pcJoPEvDfbp2SlDobuMU+IQCHS1mGnG4bws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785789547; c=relaxed/simple;
-	bh=u3agv26NVs1ghJSquhkCe8eLmzy9THwzeD04wInrx68=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=u1+BvgCoRxilSjUzN1xDiaQ0JLhlYbfLebHZvqOja9QcC4oWJNtUMfxczROudrSRAqtTCTYDe/tZjf9IPs76U1QUM9kIiGoymXZ+rDQtBBfAjx/uY/W5YOUl+fGoloBiRmDREFdk3uB5Z2J43YohEYWY56vSOuB6UuCntVmWp9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1q/iX2g; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1785789970; c=relaxed/simple;
+	bh=rSkVcPJNlVbFf1TGVb05GD4bmz6C9V9HifXTQvAHRHM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=maFvo/tqNq8IEx+rVLMX1SIVL0OLh061y4ZeUsHrRn9XU8dP/D/ia0moK0iDvV5V0J3hBkOF8edftJYo/fLl8v/Oj9uShvxUGoboaiPrF5juNn1sK92aMwEwcW17o3w9ZlfV8aZg8/c2HQPdLK64DO3pjiB09Y9xhwKIY8Oyu2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+3NuGHw; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1q/iX2g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+3NuGHw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785789545; x=1817325545;
+  t=1785789969; x=1817325969;
   h=date:from:to:cc:subject:message-id;
-  bh=u3agv26NVs1ghJSquhkCe8eLmzy9THwzeD04wInrx68=;
-  b=R1q/iX2gmI9beGCtPCPsWtNkquzAZIeqaq1oKlpm75p39z/cNJxgLeZ8
-   r0yW3lIkstkQHipCVNOtn27snPqv8tkgGFIEcdUPmLjsFOEkYvuroelp1
-   OsuBOGAH5DsAuFJ158CHTpuwB8wIV8JOIMG/XkDoKPcdkesdTVil4l60D
-   IT0g0OohJLhzPpYUvp6Mh/HO44aTtTtMA/uDy7oOR4uxosOh1QcgQCC+D
-   T4dp14hf/F+Jl/PL05KJIlcfFxzczlRaPK8JsAXwQwR50z0NYOg5SjZLW
-   RSedMr4zdkxelLOJYDwnEROiyCI6TJQUj6vjgaD5C9SuP/DlNjEmnS4Kx
+  bh=rSkVcPJNlVbFf1TGVb05GD4bmz6C9V9HifXTQvAHRHM=;
+  b=Z+3NuGHwMLXdshlqvtS78scZTtw1/hIurCkeJaNXuZwdwzhTwWGQmE7h
+   /ESWimkr2/Y1IFRrGNhUZd0TqdNqSh6Ce5JastiB4qsBCVl6yAv4kZ4oL
+   QoqSq8Yyaq5dQE/pKK6WhVenbhH/RxcFENoNTL2r2P4LtcMivR+mG2WcV
+   fZLbDTkgSFztnaxENuzdLdiS5p6c0yVsj4ccy7LGeGQm/3ytrvmAjo4th
+   vae0C/R18+K4CYKVG+hgqmOAX2VM/mQaI2kf+P3cBIqLQin3qdzg+3TUX
+   e9PZpv3hJ1mYRsVkzImPMdmxwpTpyAJUBOM9GL2eEOEm6hikKEEYPqdPZ
    Q==;
-X-CSE-ConnectionGUID: Bi9HSZI8QoKmeXf70vh1pw==
-X-CSE-MsgGUID: LOtk2fPGQiCgjA3sby1fHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="111891285"
+X-CSE-ConnectionGUID: 0WR9khb+Sv+QBjam0nrgaQ==
+X-CSE-MsgGUID: gESEmfepTZmha01td9uWMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="85314117"
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="111891285"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 13:39:05 -0700
-X-CSE-ConnectionGUID: jIUSpUxZTfa46lX3ksaG4A==
-X-CSE-MsgGUID: ZQpeGIXyRMG1tCmCxTbBjQ==
+   d="scan'208";a="85314117"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 13:46:08 -0700
+X-CSE-ConnectionGUID: ykXI/TegQ4Ou0AHaZJdLfw==
+X-CSE-MsgGUID: LpSke48sQr2NiEVxtB/4ZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="291260396"
+   d="scan'208";a="265150324"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Aug 2026 13:39:04 -0700
+  by orviesa004.jf.intel.com with ESMTP; 03 Aug 2026 13:46:08 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wqzR7-000000007wX-2LX9;
-	Mon, 03 Aug 2026 20:39:01 +0000
-Date: Tue, 04 Aug 2026 04:38:33 +0800
+	id 1wqzXx-000000007xB-0hN2;
+	Mon, 03 Aug 2026 20:46:05 +0000
+Date: Tue, 04 Aug 2026 04:45:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/mmc/host/sdhci_am654.c:531:23: warning: unused
- variable 'timing'
-Message-ID: <202608040648.vI8ODwaC-lkp@intel.com>
+Subject: drivers/iio/imu/inv_icm42607/inv_icm42607_temp.c:45:22:
+ error: implicit declaration of function 'FIELD_GET'
+Message-ID: <202608040410.Ph7dONVc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,81 +60,89 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Diogo-Ivo-Schneider-Electric/mmc-sdhci_am654-Reset-command-and-data-lines-on-failed-tuning/20260803-193450, commit: 317e0b526509616b2444e79a15461c0ab9412c4b"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Chris-Morgan/dt-bindings-iio-imu-icm42600-Add-mount-matrix/20260728-053131, commit: 140aab1534e8bbe68a79b7dde3062baf3e6d8e37"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Diogo Ivo (Schneider Electric)" <diogo.ivo@bootlin.com>
+TO: Chris Morgan <macromorgan@hotmail.com>
 CC: 0day robot <lkp@intel.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Diogo-Ivo-Schneider-Electric/mmc-sdhci_am654-Reset-command-and-data-lines-on-failed-tuning/20260803-193450
-head:   dc2f91ca1d31b8067b620bedbcf162d5aa07d0af
-commit: 317e0b526509616b2444e79a15461c0ab9412c4b mmc: sdhci_am654: Clear ITAPDLY on tuning failure
-date:   11 hours ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608040648.vI8ODwaC-lkp@intel.com/config)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-iio-imu-icm42600-Add-mount-matrix/20260728-053131
+head:   3b6203ea85a8fd56d5a9496998585e247cd94164
+commit: 140aab1534e8bbe68a79b7dde3062baf3e6d8e37 iio: imu: inv_icm42607: Add Temp Support in icm42607
+date:   7 days ago
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608040410.Ph7dONVc-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608040648.vI8ODwaC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608040410.Ph7dONVc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608040648.vI8ODwaC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608040410.Ph7dONVc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mmc/host/sdhci_am654.c: In function 'sdhci_am654_do_tuning':
->> drivers/mmc/host/sdhci_am654.c:531:23: warning: unused variable 'timing' [-Wunused-variable]
-     531 |         unsigned char timing = host->mmc->ios.timing;
-         |                       ^~~~~~
+   drivers/iio/imu/inv_icm42607/inv_icm42607_temp.c: In function 'inv_icm42607_temp_read':
+>> drivers/iio/imu/inv_icm42607/inv_icm42607_temp.c:45:22: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+      45 |         accel_mode = FIELD_GET(INV_ICM42607_PWR_MGMT0_ACCEL_MODE_MASK, val);
+         |                      ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/timing +531 drivers/mmc/host/sdhci_am654.c
+vim +/FIELD_GET +45 drivers/iio/imu/inv_icm42607/inv_icm42607_temp.c
 
-6231d99dd411931 Judith Mendez                  2024-03-20  525  
-901d16e462963cb Judith Mendez                  2024-09-04  526  static int sdhci_am654_do_tuning(struct sdhci_host *host,
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  527  				 u32 opcode)
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  528  {
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  529  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  530  	struct sdhci_am654_data *sdhci_am654 = sdhci_pltfm_priv(pltfm_host);
-387c1bf7dce0dfe Judith Mendez                  2024-03-20 @531  	unsigned char timing = host->mmc->ios.timing;
-6231d99dd411931 Judith Mendez                  2024-03-20  532  	struct window fail_window[ITAPDLY_LENGTH];
-cf6444ba528f043 Judith Mendez                  2024-09-04  533  	struct device *dev = mmc_dev(host->mmc);
-6231d99dd411931 Judith Mendez                  2024-03-20  534  	u8 curr_pass, itap;
-6231d99dd411931 Judith Mendez                  2024-03-20  535  	u8 fail_index = 0;
-6231d99dd411931 Judith Mendez                  2024-03-20  536  	u8 prev_pass = 1;
-6231d99dd411931 Judith Mendez                  2024-03-20  537  
-6231d99dd411931 Judith Mendez                  2024-03-20  538  	memset(fail_window, 0, sizeof(fail_window));
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  539  
-6231d99dd411931 Judith Mendez                  2024-03-20  540  	for (itap = 0; itap < ITAPDLY_LENGTH; itap++) {
-317e0b526509616 Diogo Ivo (Schneider Electric  2026-07-29  541) 		sdhci_am654_write_itapdly(sdhci_am654, itap, 0x1);
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  542  
-6231d99dd411931 Judith Mendez                  2024-03-20  543  		curr_pass = !mmc_send_tuning(host->mmc, opcode, NULL);
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  544  
-6231d99dd411931 Judith Mendez                  2024-03-20  545  		if (!curr_pass && prev_pass)
-6231d99dd411931 Judith Mendez                  2024-03-20  546  			fail_window[fail_index].start = itap;
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  547  
-6231d99dd411931 Judith Mendez                  2024-03-20  548  		if (!curr_pass) {
-6231d99dd411931 Judith Mendez                  2024-03-20  549  			fail_window[fail_index].end = itap;
-6231d99dd411931 Judith Mendez                  2024-03-20  550  			fail_window[fail_index].length++;
-cf6444ba528f043 Judith Mendez                  2024-09-04  551  			dev_dbg(dev, "Failed itapdly=%d\n", itap);
-13ebeae68ac9830 Faiz Abbas                     2020-09-23  552  		}
-6231d99dd411931 Judith Mendez                  2024-03-20  553  
-6231d99dd411931 Judith Mendez                  2024-03-20  554  		if (curr_pass && !prev_pass)
-6231d99dd411931 Judith Mendez                  2024-03-20  555  			fail_index++;
-6231d99dd411931 Judith Mendez                  2024-03-20  556  
-6231d99dd411931 Judith Mendez                  2024-03-20  557  		prev_pass = curr_pass;
-6231d99dd411931 Judith Mendez                  2024-03-20  558  	}
-6231d99dd411931 Judith Mendez                  2024-03-20  559  
-6231d99dd411931 Judith Mendez                  2024-03-20  560  	if (fail_window[fail_index].length != 0)
-6231d99dd411931 Judith Mendez                  2024-03-20  561  		fail_index++;
-6231d99dd411931 Judith Mendez                  2024-03-20  562  
-901d16e462963cb Judith Mendez                  2024-09-04  563  	return sdhci_am654_calculate_itap(host, fail_window, fail_index,
-6231d99dd411931 Judith Mendez                  2024-03-20  564  					 sdhci_am654->dll_enable);
-901d16e462963cb Judith Mendez                  2024-09-04  565  }
-6231d99dd411931 Judith Mendez                  2024-03-20  566  
+140aab1534e8bb Chris Morgan 2026-07-27  18  
+140aab1534e8bb Chris Morgan 2026-07-27  19  static int inv_icm42607_temp_read(struct inv_icm42607_state *st, s16 *temp)
+140aab1534e8bb Chris Morgan 2026-07-27  20  {
+140aab1534e8bb Chris Morgan 2026-07-27  21  	struct inv_icm42607_sensor_conf conf = INV_ICM42607_SENSOR_CONF_INIT;
+140aab1534e8bb Chris Morgan 2026-07-27  22  	struct device *dev = regmap_get_device(st->map);
+140aab1534e8bb Chris Morgan 2026-07-27  23  	int ret, gyro_mode, accel_mode;
+140aab1534e8bb Chris Morgan 2026-07-27  24  	unsigned int val;
+140aab1534e8bb Chris Morgan 2026-07-27  25  	u8 raw[2];
+140aab1534e8bb Chris Morgan 2026-07-27  26  
+140aab1534e8bb Chris Morgan 2026-07-27  27  	PM_RUNTIME_ACQUIRE_AUTOSUSPEND(dev, pm);
+140aab1534e8bb Chris Morgan 2026-07-27  28  	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
+140aab1534e8bb Chris Morgan 2026-07-27  29  	if (ret)
+140aab1534e8bb Chris Morgan 2026-07-27  30  		return ret;
+140aab1534e8bb Chris Morgan 2026-07-27  31  
+140aab1534e8bb Chris Morgan 2026-07-27  32  	guard(mutex)(&st->lock);
+140aab1534e8bb Chris Morgan 2026-07-27  33  
+140aab1534e8bb Chris Morgan 2026-07-27  34  	/*
+140aab1534e8bb Chris Morgan 2026-07-27  35  	 * Check if both the gyro and accel are off and if so, enable one
+140aab1534e8bb Chris Morgan 2026-07-27  36  	 * of them. The temp sensor cannot be read if both the gyro and
+140aab1534e8bb Chris Morgan 2026-07-27  37  	 * accel sensor are off. Prefer to enable the accel over the gyro
+140aab1534e8bb Chris Morgan 2026-07-27  38  	 * as the datasheet says the gyro uses 5x more power and it has
+140aab1534e8bb Chris Morgan 2026-07-27  39  	 * a minimum run time of 45ms.
+140aab1534e8bb Chris Morgan 2026-07-27  40  	 */
+140aab1534e8bb Chris Morgan 2026-07-27  41  	ret = regmap_read(st->map, INV_ICM42607_REG_PWR_MGMT0, &val);
+140aab1534e8bb Chris Morgan 2026-07-27  42  	if (ret)
+140aab1534e8bb Chris Morgan 2026-07-27  43  		return ret;
+140aab1534e8bb Chris Morgan 2026-07-27  44  
+140aab1534e8bb Chris Morgan 2026-07-27 @45  	accel_mode = FIELD_GET(INV_ICM42607_PWR_MGMT0_ACCEL_MODE_MASK, val);
+140aab1534e8bb Chris Morgan 2026-07-27  46  	gyro_mode = FIELD_GET(INV_ICM42607_PWR_MGMT0_GYRO_MODE_MASK, val);
+140aab1534e8bb Chris Morgan 2026-07-27  47  	if (!gyro_mode && !accel_mode) {
+140aab1534e8bb Chris Morgan 2026-07-27  48  		/* enable accel sensor */
+140aab1534e8bb Chris Morgan 2026-07-27  49  		conf.mode = INV_ICM42607_SENSOR_MODE_LOW_NOISE;
+140aab1534e8bb Chris Morgan 2026-07-27  50  		ret = inv_icm42607_set_sensor_conf(st, &conf, IIO_ACCEL);
+140aab1534e8bb Chris Morgan 2026-07-27  51  		if (ret)
+140aab1534e8bb Chris Morgan 2026-07-27  52  			return ret;
+140aab1534e8bb Chris Morgan 2026-07-27  53  	}
+140aab1534e8bb Chris Morgan 2026-07-27  54  
+140aab1534e8bb Chris Morgan 2026-07-27  55  	ret = regmap_bulk_read(st->map, INV_ICM42607_REG_TEMP_DATA1,
+140aab1534e8bb Chris Morgan 2026-07-27  56  			       raw, sizeof(raw));
+140aab1534e8bb Chris Morgan 2026-07-27  57  	if (ret)
+140aab1534e8bb Chris Morgan 2026-07-27  58  		return ret;
+140aab1534e8bb Chris Morgan 2026-07-27  59  
+140aab1534e8bb Chris Morgan 2026-07-27  60  	*temp = get_unaligned_be16(raw);
+140aab1534e8bb Chris Morgan 2026-07-27  61  	if (*temp == INV_ICM42607_DATA_INVALID)
+140aab1534e8bb Chris Morgan 2026-07-27  62  		return -EINVAL;
+140aab1534e8bb Chris Morgan 2026-07-27  63  
+140aab1534e8bb Chris Morgan 2026-07-27  64  	return 0;
+140aab1534e8bb Chris Morgan 2026-07-27  65  }
+140aab1534e8bb Chris Morgan 2026-07-27  66  
 
 --
 0-DAY CI Kernel Test Service
