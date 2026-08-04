@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC3B34CFDD
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Aug 2026 01:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21272E8B64
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Aug 2026 04:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785805721; cv=none; b=kshnS0mIIhHudrL5G00ZNretHOffFPWgHUvlAdS+N/THHEyFvYsSCD6DZ5FPlc0n1KhCdge0nrtOnUwzS2X3NPWZaKz7uynBhxNz1Az1idJ9Pj5JfTQthkFCdxGi7/D2QW61uRqth+PTkC/m0sRjmImNTZ1ohNQVwbU94gP13i8=
+	t=1785818031; cv=none; b=fBlYoTf6ET1xf6GZmfeiZ0GWg29Tw3K3+QOLCTHC3qG8LiukP+9e3407jT1regd+vtK0edgCJttBPGGpPi2yKk6AQzt24CmntZaZ8vjGx9R1Syu2pqNX4lTcs+Rn0H63kGqeoqYHXjQ51mCeCR/huDNTPFwlwkSxC6kqAOf7QMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785805721; c=relaxed/simple;
-	bh=HZaE1WLG91YEwthpLIOvQHyVNXPnDYfZzGIQSdgv524=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=szI1/meSmd2/C8W/Zis+KsWfBA2Le2n0vOezT+bwAWLz8UOTccbNIJx2DALDNh5qV8NuhT4gtU9jlxsAup/OipVvn3j5O+3oT8c60ubBMJ/PiJtDYZ4aeUJxO70F0tWcwu/xHt9B3fYULAMa+X9/8orKbJLV8vIZCMAAlSm4P5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qui1Qm9t; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1785818031; c=relaxed/simple;
+	bh=vmwpMLI98yt3HwZtphRhUZoHnACxARx9HZXCNNer338=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=n7NE7Au8BE4Zvl5eMnl06g1oxhw9YHsmcCKeYAJIuVGQhdl/l4W9Uo+vmI+ykR1kdN44mu6+X1/O53oN5Z7xgJp549ZG5q+DW+UIMRo5+ywr5YtzCHxvHJ5FC9mpX5Qk+BM7JTH4nLG1w4zN+sZ6RQ6q/RJ65ihxi071YZazplM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ND/vIObt; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qui1Qm9t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ND/vIObt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785805719; x=1817341719;
+  t=1785818030; x=1817354030;
   h=date:from:to:cc:subject:message-id;
-  bh=HZaE1WLG91YEwthpLIOvQHyVNXPnDYfZzGIQSdgv524=;
-  b=Qui1Qm9tiQL+vTFArTBet+4674x2L43fTYiUUYlLVguZKEgYW9J5fL+F
-   4UTSF+3CTcJ7LwnbEeCfHEqdqDyn3lpXJrRRD/GEkXRmmjvMJHC+vAJTB
-   ya+1tcJN9rsdr9CWbR4U/uDtnkRd/uvyP95E6wa/dyYoyBATe1npSxsyG
-   vM6as8fJNRK2k1fcKJ0qkvQ8oOItMRZQ2qAQ3YW1Z6n9J/FCpH5NXXV4F
-   oxCm803ZXhvnov58S/XEAHhkHG5S/ACRxMoOMZSK99P5sNaj+Sv8qxs1z
-   EYET8pvZ6SIOhLJUktuHECzWd0oEbOBPlcotCcKRj/0owVhYEigsMVe6S
-   A==;
-X-CSE-ConnectionGUID: fQ6eiazgSL2whau4NQRw7Q==
-X-CSE-MsgGUID: yN+6s3ehQ46d36yqh6D4lQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="88877770"
+  bh=vmwpMLI98yt3HwZtphRhUZoHnACxARx9HZXCNNer338=;
+  b=ND/vIObtwZp8tB1cqGWjeV0qPYqL4KjcelLnORlqXovABagqXHGQcfIw
+   x46X9i8SO5Kxq7KvSFagMfgJJfwCihqvg0UfQPuxC5hkNx4cOWMy7tvGN
+   9oML5L/wXRhtNZjY9rfx2dHIYbWsWfR1+osPxJelEPh5KhMqokON7vz+l
+   x7m6e454KIIuv5eSEL9a92SbW4VYxEWvLYjfGBcUDx9bukyTArPap7gFy
+   cpatT4fchnxyLqA9GVHYdEXy/VnAcCITiVvTDrld4kr287dD/IC3PBYnk
+   V45gHKmGmD5qqioozaQcSRijMjZZKhNdOjhVFVqaWKHzDbE6mkWkx/K4k
+   g==;
+X-CSE-ConnectionGUID: 78Hal7zqQRSmT2l5fg3GfQ==
+X-CSE-MsgGUID: klKXLSKqQcKYdQswxP0bBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="90249109"
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="88877770"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 18:08:39 -0700
-X-CSE-ConnectionGUID: Y2mEHzz0TbqKMhzS+kyL5Q==
-X-CSE-MsgGUID: QM5ffZ7+RX2n0kZcTTov6w==
+   d="scan'208";a="90249109"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 21:33:49 -0700
+X-CSE-ConnectionGUID: STxdAuhrSwmV29SmiaoqsA==
+X-CSE-MsgGUID: jRzunZYbQqyYNKpmyw2r1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="258020312"
+   d="scan'208";a="264893297"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Aug 2026 18:08:38 -0700
+  by orviesa003.jf.intel.com with ESMTP; 03 Aug 2026 21:33:48 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wr3dz-000000008YP-44JU;
-	Tue, 04 Aug 2026 01:08:35 +0000
-Date: Tue, 04 Aug 2026 09:08:18 +0800
+	id 1wr6qY-000000008wj-0VHw;
+	Tue, 04 Aug 2026 04:33:46 +0000
+Date: Tue, 04 Aug 2026 12:32:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 9403/12137]
- drivers/net/ethernet/airoha/airoha_eth.c:3470:25: sparse: sparse: division by
- zero
-Message-ID: <202608040800.45L57Mym-lkp@intel.com>
+Subject: drivers/iommu/bcm2712-iommu.c:151:24: error: implicit
+ declaration of function 'FIELD_GET'
+Message-ID: <202608041236.1JgQmtPX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,110 +60,87 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/net/ethernet/airoha/airoha_eth.c:3470:25: sparse: sparse: division by zero"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Daniel-Drake/generic_pt-allow-missing-sw-bit-in-DMA_INCOHERENT-case/20260728-104924, commit: 0ee3a30c51b6df9d40444e59dde79947e9be7e09"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Alexander Lobakin <aleksander.lobakin@intel.com>
-CC: Simon Horman <horms@kernel.org>
+TO: Daniel Drake <dan@reactivated.net>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9a4cdc958dd79fc6c3b20b51a10debec6ca09fec
-commit: 78a35725e533eef0afe83f6f96cffd69be9eaac7 [9403/12137] net: airoha: defer GDM3/GDM4 WAN mode and GDM2 loopback to QoS offload
-:::::: branch date: 8 hours ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-r121-20260803 (https://download.01.org/0day-ci/archive/20260804/202608040800.45L57Mym-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608040800.45L57Mym-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Daniel-Drake/generic_pt-allow-missing-sw-bit-in-DMA_INCOHERENT-case/20260728-104924
+head:   dfd34af1fe7ce4108ac5744c4953720d46fad45e
+commit: 0ee3a30c51b6df9d40444e59dde79947e9be7e09 iommu: Add Broadcom BCM2712 IOMMU driver
+date:   7 days ago
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260804/202608041236.1JgQmtPX-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608041236.1JgQmtPX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608040800.45L57Mym-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608041236.1JgQmtPX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/airoha/airoha_eth.c: note: in included file (through include/linux/if_ether.h, include/linux/ethtool.h, include/linux/phy.h, include/linux/of_net.h):
-   include/linux/skbuff.h:2904:28: sparse: sparse: unsigned value that used to be signed checked against zero?
-   include/linux/skbuff.h:2904:28: sparse: signed value source
-   include/linux/skbuff.h:2904:28: sparse: sparse: unsigned value that used to be signed checked against zero?
-   include/linux/skbuff.h:2904:28: sparse: signed value source
->> drivers/net/ethernet/airoha/airoha_eth.c:3470:25: sparse: sparse: division by zero
+All error/warnings (new ones prefixed by >>):
 
-vim +3470 drivers/net/ethernet/airoha/airoha_eth.c
+   drivers/iommu/bcm2712-iommu.c: In function 'bcm2712_iommu_init':
+>> drivers/iommu/bcm2712-iommu.c:151:24: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     151 |         u32 pa_width = FIELD_GET(MMMU_DEBUG_INFO_PA_WIDTH_MASK, u);
+         |                        ^~~~~~~~~
+   In file included from drivers/iommu/bcm2712-iommu.c:42:
+   drivers/iommu/bcm2712-iommu.c: In function 'bcm2712_iommu_domain_alloc':
+>> drivers/iommu/bcm2712-iommu.h:18:34: warning: conversion from 'long long unsigned int' to 'dma_addr_t' {aka 'unsigned int'} changes value from '42949672960' to '0' [-Woverflow]
+      18 | #define BCM2712_APERTURE_BASE    (40ULL << 30)
+         |                                  ^
+   drivers/iommu/bcm2712-iommu.c:437:48: note: in expansion of macro 'BCM2712_APERTURE_BASE'
+     437 |         domain->base.geometry.aperture_start = BCM2712_APERTURE_BASE;
+         |                                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/bcm2712-iommu.h:20:34: warning: conversion from 'long long unsigned int' to 'dma_addr_t' {aka 'unsigned int'} changes value from '47244640255' to '4294967295' [-Woverflow]
+      20 | #define BCM2712_APERTURE_END     (BCM2712_APERTURE_BASE + BCM2712_APERTURE_SIZE)
+         |                                  ^
+   drivers/iommu/bcm2712-iommu.c:438:46: note: in expansion of macro 'BCM2712_APERTURE_END'
+     438 |         domain->base.geometry.aperture_end = BCM2712_APERTURE_END - 1;
+         |                                              ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-09bccf56db36501 Lorenzo Bianconi 2025-04-01  3411  
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3412  static int airoha_alloc_gdm_device(struct airoha_eth *eth,
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3413  				   struct airoha_gdm_port *port,
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3414  				   int nbq, struct device_node *np)
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3415  {
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3416  	struct net_device *netdev;
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3417  	struct airoha_gdm_dev *dev;
-78a35725e533eef Lorenzo Bianconi 2026-07-25  3418  	int err, i;
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3419  	u8 index;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3420  
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3421  	netdev = devm_alloc_etherdev_mqs(eth->dev, sizeof(*dev),
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3422  					 AIROHA_NUM_NETDEV_TX_RINGS,
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3423  					 AIROHA_NUM_RX_RING);
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3424  	if (!netdev) {
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3425  		dev_err(eth->dev, "alloc_etherdev failed\n");
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3426  		return -ENOMEM;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3427  	}
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3428  
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3429  	netdev->netdev_ops = &airoha_netdev_ops;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3430  	netdev->ethtool_ops = &airoha_ethtool_ops;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3431  	netdev->max_mtu = AIROHA_MAX_MTU;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3432  	netdev->watchdog_timeo = 5 * HZ;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3433  	netdev->hw_features = NETIF_F_IP_CSUM | NETIF_F_RXCSUM | NETIF_F_TSO6 |
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3434  			      NETIF_F_IPV6_CSUM | NETIF_F_SG | NETIF_F_TSO |
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3435  			      NETIF_F_HW_TC;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3436  	netdev->features |= netdev->hw_features;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3437  	netdev->vlan_features = netdev->hw_features;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3438  	SET_NETDEV_DEV(netdev, eth->dev);
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3439  
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3440  	/* reserve hw queues for HTB offloading */
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3441  	err = netif_set_real_num_tx_queues(netdev, AIROHA_NUM_TX_RING);
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3442  	if (err)
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3443  		return err;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3444  
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3445  	err = of_get_ethdev_address(np, netdev);
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3446  	if (err) {
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3447  		if (err == -EPROBE_DEFER)
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3448  			return err;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3449  
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3450  		eth_hw_addr_random(netdev);
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3451  		dev_info(eth->dev, "generated random MAC address %pM\n",
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3452  			 netdev->dev_addr);
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3453  	}
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3454  
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3455  	/* Allowed nbq for EN7581 on GDM3 port are 4 and 5 for PCIE0
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3456  	 * and PCIE1 respectively.
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3457  	 */
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3458  	index = nbq;
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3459  	if (index && airoha_is_7581(eth) && port->id == AIROHA_GDM3_IDX)
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3460  		index -= 4;
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3461  
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3462  	if (index >= ARRAY_SIZE(port->devs) || port->devs[index]) {
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3463  		dev_err(eth->dev, "invalid nbq id: %d\n", nbq);
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3464  		return -EINVAL;
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3465  	}
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3466  
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3467  	netdev->dev.of_node = of_node_get(np);
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3468  	dev = netdev_priv(netdev);
-8f4695fb67b259b Lorenzo Bianconi 2026-06-11  3469  	u64_stats_init(&dev->stats.syncp);
-78a35725e533eef Lorenzo Bianconi 2026-07-25 @3470  	for (i = 0; i < ARRAY_SIZE(dev->txq_lock); i++)
-78a35725e533eef Lorenzo Bianconi 2026-07-25  3471  		spin_lock_init(&dev->txq_lock[i]);
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3472  	dev->port = port;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3473  	dev->eth = eth;
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3474  	dev->nbq = nbq;
-a9c2ca61fec7706 Lorenzo Bianconi 2026-06-03  3475  	port->devs[index] = dev;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3476  
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3477  	return 0;
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3478  }
-ec6c391bcca748b Lorenzo Bianconi 2026-05-27  3479  
+
+vim +/FIELD_GET +151 drivers/iommu/bcm2712-iommu.c
+
+0ee3a30c51b6df Daniel Drake 2026-07-27  146  
+0ee3a30c51b6df Daniel Drake 2026-07-27  147  static void bcm2712_iommu_init(struct bcm2712_iommu *mmu)
+0ee3a30c51b6df Daniel Drake 2026-07-27  148  {
+0ee3a30c51b6df Daniel Drake 2026-07-27  149  	unsigned int bigpage_width, superpage_width;
+0ee3a30c51b6df Daniel Drake 2026-07-27  150  	u32 u = MMU_RD(MMMU_DEBUG_INFO_OFFSET);
+0ee3a30c51b6df Daniel Drake 2026-07-27 @151  	u32 pa_width = FIELD_GET(MMMU_DEBUG_INFO_PA_WIDTH_MASK, u);
+0ee3a30c51b6df Daniel Drake 2026-07-27  152  
+0ee3a30c51b6df Daniel Drake 2026-07-27  153  	dev_dbg(mmu->dev, "DEBUG_INFO = 0x%08x\n", u);
+0ee3a30c51b6df Daniel Drake 2026-07-27  154  	WARN_ON(FIELD_GET(MMMU_DEBUG_INFO_VERSION_MASK, u) < 4 ||
+0ee3a30c51b6df Daniel Drake 2026-07-27  155  		FIELD_GET(MMMU_DEBUG_INFO_VA_WIDTH_MASK, u) < 6 ||
+0ee3a30c51b6df Daniel Drake 2026-07-27  156  		pa_width < 6 || !(u & MMMU_DEBUG_INFO_BYPASS));
+0ee3a30c51b6df Daniel Drake 2026-07-27  157  
+0ee3a30c51b6df Daniel Drake 2026-07-27  158  	dma_set_mask_and_coherent(mmu->dev, DMA_BIT_MASK(pa_width + 30u));
+0ee3a30c51b6df Daniel Drake 2026-07-27  159  
+0ee3a30c51b6df Daniel Drake 2026-07-27  160  	bigpage_width = FIELD_GET(MMMU_DEBUG_INFO_BIGPAGE_WIDTH_MASK, u);
+0ee3a30c51b6df Daniel Drake 2026-07-27  161  	if (bigpage_width)
+0ee3a30c51b6df Daniel Drake 2026-07-27  162  		mmu->bigpage_size = IOMMU_PAGE_SIZE << bigpage_width;
+0ee3a30c51b6df Daniel Drake 2026-07-27  163  
+0ee3a30c51b6df Daniel Drake 2026-07-27  164  	superpage_width = FIELD_GET(MMMU_DEBUG_INFO_SUPERPAGE_WIDTH_MASK, u);
+0ee3a30c51b6df Daniel Drake 2026-07-27  165  	if (superpage_width)
+0ee3a30c51b6df Daniel Drake 2026-07-27  166  		mmu->superpage_size = IOMMU_PAGE_SIZE << superpage_width;
+0ee3a30c51b6df Daniel Drake 2026-07-27  167  
+0ee3a30c51b6df Daniel Drake 2026-07-27  168  	/* Disable MMU and clear sticky flags; meanwhile flush the TLB */
+0ee3a30c51b6df Daniel Drake 2026-07-27  169  	MMU_WR(MMMU_CTRL_OFFSET, MMMU_CTRL_CAP_EXCEEDED | MMMU_CTRL_PT_INVALID |
+0ee3a30c51b6df Daniel Drake 2026-07-27  170  					 MMMU_CTRL_WRITE_VIOLATION |
+0ee3a30c51b6df Daniel Drake 2026-07-27  171  					 MMMU_CTRL_STATS_CLEAR |
+0ee3a30c51b6df Daniel Drake 2026-07-27  172  					 MMMU_CTRL_TLB_CLEAR);
+0ee3a30c51b6df Daniel Drake 2026-07-27  173  
+0ee3a30c51b6df Daniel Drake 2026-07-27  174  	/* Put MMU into 2-level mode */
+0ee3a30c51b6df Daniel Drake 2026-07-27  175  	MMU_WR(MMMU_MISC_OFFSET,
+0ee3a30c51b6df Daniel Drake 2026-07-27  176  	       MMU_RD(MMMU_MISC_OFFSET) & ~MMMU_MISC_SINGLE_TABLE);
+0ee3a30c51b6df Daniel Drake 2026-07-27  177  }
+0ee3a30c51b6df Daniel Drake 2026-07-27  178  
 
 --
 0-DAY CI Kernel Test Service
