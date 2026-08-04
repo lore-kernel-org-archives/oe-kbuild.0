@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FDC3BD643
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Aug 2026 08:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9951539CCF3
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Aug 2026 08:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785833197; cv=none; b=NAIrCNLWL+8r6TBxigHoi5NKmAd1Z7KTBx08hIQZUBZ84NfOEJwIf+QJtovwJ2wmHByiCeMMQmweNB19i04a3aLpvEZSisYeyBKfyYD6H94tx6aK+8i+YHydB6diqJ/2pEsGgwe2LB82d+ustu7qrgntoBKs6zJ72vNGt0dvku4=
+	t=1785833799; cv=none; b=g6drQfmN5ApmEfxKgGWQB7kZ05Cdw4Ag7K9DaVzf3pn0xFwSkWGVPC4veu6hpGY3nJuZgrEKDa5DnNvgy/yPCBM/nrlkXVVcsGzWARHvUDDXXgfO+rFI+Kf5Y9w/VfJydsowNmQHJJ2Cnuc/HG2yI+MjIcyw97xQk2vv3X+uyW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785833197; c=relaxed/simple;
-	bh=juh6z4daEGz0+c5fqzJ5exzLfLdOLEMJTctsQjaBbZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Fu1F6xO2DmLCXNz+zst/z+p7/NGbAc/MIdYgvPWDVkJxDDnktqqPlN1PRMqSa+8m1EReumyL8MHzSKk6kWe0O/M4LzydYkqEWwkZeUl5X7RGxpXjMPvgyJgn1EeaMoHGvTnmpLKiSEkW0zmy5BLr0y13CGn3NthD68y8ZDAbAf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EbqgMiwY; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1785833799; c=relaxed/simple;
+	bh=0JcWzY9FEzXCx9U845i5nVUxbK98Ozx/ceYBBt9f1xY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dY3qFribmW5opG0yQNQtFWXOISI7jk3C4H8ZmRuDbRX/I7wxNZWqetD1AjIJ3B9DTD1kGpG0nZeQzks7xCJxRa/AVSVIy0ZQ18rjZWuPkb/UCy6Rn/LlIxL3dMYnd+CawYu4gMrcDPW7rR+XWB0bWaVW1Jk1VrPfClbRAciLz7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jY89d5RD; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EbqgMiwY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jY89d5RD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785833196; x=1817369196;
+  t=1785833798; x=1817369798;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=juh6z4daEGz0+c5fqzJ5exzLfLdOLEMJTctsQjaBbZY=;
-  b=EbqgMiwY1fm1vjHOefrSxjShNOARO5u+z/YY3BJpWnhv3VY0o+uph7fy
-   +0p+9T5JDIR+gpXgTonrjElzMMZCcWMd9snEATbwjfQjPzS9SwUmXGd3j
-   ImWcM1F+fvIu4XQZrIEsqsgpLo4uZ3d2mtu3La6OrFob0ER4+QYEijy/s
-   oXcN8hBAuwYeUUfV+K8KcwQzhTjZthu3i5lH7eyl6YQjM/kN6FvSxguwU
-   PkCDSNdQxDrE92Mh2AN7B4sGCde7aV0pQG1Ik2d7ykmpJ0zjusuSPZBq4
-   W21+VIBMUDb6H0wdDGEk8hMJJcsjX5gf7SUfV64oR1KL7cyvW0PvmuTDZ
-   g==;
-X-CSE-ConnectionGUID: ySz6FdxtRhihwQKqR8ULjw==
-X-CSE-MsgGUID: T1R/SIgYTB2G3SXVqGJukA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="85508758"
+  bh=0JcWzY9FEzXCx9U845i5nVUxbK98Ozx/ceYBBt9f1xY=;
+  b=jY89d5RDJvA8XZQFSslgQSAXfxCiohZDFkS7Hm7CsAtemheHKq5N7vJw
+   YOE206OTyAkWXkW0p/asROS68zljegnHwogy+eQOJDBO5KuWnh+Wcbc7/
+   SANUnc16nl3Lnz3SWP5Ls788u0p1bjleRR68hekV4nXKTxVB2LOynfmnd
+   DFatwNKLCOz9rHjZb9X+Bhs5ya2HG00RfXZHNKIA+gS03xY61Dn4pM7Zg
+   Am49ytuaxg76kbUWOB4O1Qol0maIcxMt9CCx0ycV5apT0zl5tQoK7jvqI
+   OZ6kYNIIRM8LyOCdINzG4wJev4OOAcK1O39rJ8ULQDD1z3wHzQz8iilR1
+   Q==;
+X-CSE-ConnectionGUID: U7YI/VNlQZ65ADBrnmoO3w==
+X-CSE-MsgGUID: RF4U/cX9QFGDzFgh+dpjMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86324938"
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="85508758"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 01:46:35 -0700
-X-CSE-ConnectionGUID: 7B4h+zw1QDOsoCd6M3QvYA==
-X-CSE-MsgGUID: wf2vlQNBQfCcyowg6O4WIA==
+   d="scan'208";a="86324938"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 01:56:37 -0700
+X-CSE-ConnectionGUID: mf+Vq7RVQeuWW2B6U7KilQ==
+X-CSE-MsgGUID: kvxgUIvkRfu6nMrsQbYegg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
-   d="scan'208";a="265704559"
+   d="scan'208";a="258101799"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Aug 2026 01:46:33 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 04 Aug 2026 01:56:36 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrAn6-000000009SW-2uqW;
-	Tue, 04 Aug 2026 08:46:28 +0000
-Date: Tue, 04 Aug 2026 16:45:46 +0800
+	id 1wrAwr-000000009U8-3YNm;
+	Tue, 04 Aug 2026 08:56:33 +0000
+Date: Tue, 04 Aug 2026 16:56:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/gpu/drm/drm_pagemap.c:480:12: error: call to
- '__compiletime_assert_473' declared with 'error' attribute: BUILD_BUG failed
-Message-ID: <202608041636.OkM2eVI1-lkp@intel.com>
+Subject: arch/powerpc/boot/dts/ep8248e.dtb: Warning (interrupt_map):
+ Failed prerequisite 'interrupt_provider'
+Message-ID: <202608041606.4RyEq7cn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -64,133 +64,63 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 ::::::=20
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "only suspicious fbc files changed"
 ::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Matthew Brost <matthew.brost@intel.com>
-CC: Francois Dugast <francois.dugast@intel.com>
-CC: Balbir Singh <balbirs@nvidia.com>
-
-Hi Matthew,
-
-FYI, the error/warning still remains.
+TO: "J. Neusch=C3=A4fer" <j.ne@posteo.net>
+CC: Madhavan Srinivasan <maddy@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   848acc8ffe1b7cd5f1bf427b93069becfebc2c9d
-commit: 139ab31aea8a9436460568d556b432bb7e9311f7 drm/pagemap: Correct cpage=
-s calculation for migrate_vma_setup
-date:   5 months ago
+commit: 2442f10c6eae63392452ab84a813dbc1f87c724d powerpc: dts: Build device=
+trees of enabled platforms
+date:   9 weeks ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 5 months ago
-config: powerpc64-randconfig-r112-20260804 (https://download.01.org/0day-ci=
-/archive/20260804/202608041636.OkM2eVI1-lkp@intel.com/config)
+:::::: commit date: 9 weeks ago
+config: powerpc-randconfig-r062-20260804 (https://download.01.org/0day-ci/a=
+rchive/20260804/202608041606.4RyEq7cn-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 600970=
 8b4367171ccdbf4b5905cb6a803753fe18)
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260804/202608041636.OkM2eVI1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
-| Fixes: 139ab31aea8a ("drm/pagemap: Correct cpages calculation for migrate=
-_vma_setup")
+| Fixes: 2442f10c6eae ("powerpc: dts: Build devicetrees of enabled platform=
+s")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608041636.OkM2eVI1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608041606.4RyEq7cn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_pagemap.c:480:12: error: call to '__compiletime_asse=
-rt_473' declared with 'error' attribute: BUILD_BUG failed
-     480 |                         order =3D HPAGE_PMD_ORDER;
-         |                                 ^
-   include/linux/huge_mm.h:117:26: note: expanded from macro 'HPAGE_PMD_ORD=
-ER'
-     117 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-         |                          ^
-   include/linux/huge_mm.h:113:28: note: expanded from macro 'HPAGE_PMD_SHI=
-FT'
-     113 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:694:2: note: expanded from macro '_compil=
-etime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:687:4: note: expanded from macro '__compi=
-letime_assert'
-     687 |                         prefix ## suffix();                     =
-        \
-         |                         ^
-   <scratch space>:67:1: note: expanded from here
-      67 | __compiletime_assert_473
-         | ^
-   1 error generated.
-
-
-vim +480 drivers/gpu/drm/drm_pagemap.c
-
-ec265e1f1cfcce Thomas Hellstr=C3=B6m 2025-12-19  454 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  455  /**
-139ab31aea8a94 Matthew Brost    2026-03-12  456   * drm_pagemap_cpages() - =
-Count collected pages
-139ab31aea8a94 Matthew Brost    2026-03-12  457   * @migrate_pfn: Array of =
-migrate_pfn entries to account
-139ab31aea8a94 Matthew Brost    2026-03-12  458   * @npages: Number of entr=
-ies in @migrate_pfn
-139ab31aea8a94 Matthew Brost    2026-03-12  459   *
-139ab31aea8a94 Matthew Brost    2026-03-12  460   * Compute the total numbe=
-r of minimum-sized pages represented by the
-139ab31aea8a94 Matthew Brost    2026-03-12  461   * collected entries in @m=
-igrate_pfn. The total is derived from the
-139ab31aea8a94 Matthew Brost    2026-03-12  462   * order encoded in each e=
-ntry.
-139ab31aea8a94 Matthew Brost    2026-03-12  463   *
-139ab31aea8a94 Matthew Brost    2026-03-12  464   * Return: Total number of=
- minimum-sized pages.
-139ab31aea8a94 Matthew Brost    2026-03-12  465   */
-139ab31aea8a94 Matthew Brost    2026-03-12  466  static int drm_pagemap_cpa=
-ges(unsigned long *migrate_pfn, unsigned long npages)
-139ab31aea8a94 Matthew Brost    2026-03-12  467  {
-139ab31aea8a94 Matthew Brost    2026-03-12  468  	unsigned long i, cpages =
-=3D 0;
-139ab31aea8a94 Matthew Brost    2026-03-12  469 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  470  	for (i =3D 0; i < npages;=
-) {
-139ab31aea8a94 Matthew Brost    2026-03-12  471  		struct page *page =3D mi=
-grate_pfn_to_page(migrate_pfn[i]);
-139ab31aea8a94 Matthew Brost    2026-03-12  472  		struct folio *folio;
-139ab31aea8a94 Matthew Brost    2026-03-12  473  		unsigned int order =3D 0;
-139ab31aea8a94 Matthew Brost    2026-03-12  474 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  475  		if (page) {
-139ab31aea8a94 Matthew Brost    2026-03-12  476  			folio =3D page_folio(pa=
-ge);
-139ab31aea8a94 Matthew Brost    2026-03-12  477  			order =3D folio_order(f=
-olio);
-139ab31aea8a94 Matthew Brost    2026-03-12  478  			cpages +=3D NR_PAGES(or=
-der);
-139ab31aea8a94 Matthew Brost    2026-03-12  479  		} else if (migrate_pfn[i=
-] & MIGRATE_PFN_COMPOUND) {
-139ab31aea8a94 Matthew Brost    2026-03-12 @480  			order =3D HPAGE_PMD_ORD=
-ER;
-139ab31aea8a94 Matthew Brost    2026-03-12  481  			cpages +=3D NR_PAGES(or=
-der);
-139ab31aea8a94 Matthew Brost    2026-03-12  482  		}
-139ab31aea8a94 Matthew Brost    2026-03-12  483 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  484  		i +=3D NR_PAGES(order);
-139ab31aea8a94 Matthew Brost    2026-03-12  485  	}
-139ab31aea8a94 Matthew Brost    2026-03-12  486 =20
-139ab31aea8a94 Matthew Brost    2026-03-12  487  	return cpages;
-139ab31aea8a94 Matthew Brost    2026-03-12  488  }
-139ab31aea8a94 Matthew Brost    2026-03-12  489 =20
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/ep8248e.dts:65.9-80.6: Warning (unit_address_vs_re=
+g): /localbus@f0010100/bcsr@1,0/mdio: node has a reg or ranges property, bu=
+t no unit name
+   arch/powerpc/boot/dts/ep8248e.dts:84.9-87.4: Warning (unit_address_vs_re=
+g): /memory: node has a reg or ranges property, but no unit name
+   arch/powerpc/boot/dts/ep8248e.dts:110.10-119.6: Warning (unit_address_vs=
+_reg): /soc@f0000000/cpm@119c0/muram: node has a reg or ranges property, bu=
+t no unit name
+   arch/powerpc/boot/dts/ep8248e.dts:51.19-56.5: Warning (simple_bus_reg): =
+/localbus@f0010100/flash@0,3800000: simple-bus unit address format error, e=
+xpected "3800000"
+   arch/powerpc/boot/dts/ep8248e.dts:58.12-81.5: Warning (simple_bus_reg): =
+/localbus@f0010100/bcsr@1,0: simple-bus unit address format error, expected=
+ "100000000"
+   arch/powerpc/boot/dts/ep8248e.dts:110.10-119.6: Warning (simple_bus_reg)=
+: /soc@f0000000/cpm@119c0/muram: simple-bus unit address format error, expe=
+cted "0"
+   arch/powerpc/boot/dts/ep8248e.dts:101.13-190.5: Warning (interrupt_provi=
+der): /soc@f0000000/cpm@119c0: '#interrupt-cells' found, but node is not an=
+ interrupt provider
+>> arch/powerpc/boot/dts/ep8248e.dtb: Warning (interrupt_map): Failed prere=
+quisite 'interrupt_provider'
+   arch/powerpc/boot/dts/ep8248e.dts:15.10-22.4: Warning (alias_paths): /al=
+iases: aliases property name must include only lowercase and '-'
+   arch/powerpc/boot/dts/ep8248e.dts:15.10-22.4: Warning (alias_paths): /al=
+iases: aliases property name must include only lowercase and '-'
 
 --
 0-DAY CI Kernel Test Service
