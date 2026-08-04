@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3799533D505
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Aug 2026 06:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8CE3F54A7
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Aug 2026 06:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785823448; cv=none; b=ji6JdRI5+37E6napJNd9VwsVfLqWjJr1CCiz+cRmyaZ9al5TBXgmmCO5vXmWEcKgkYDwO6DhIuwPbjQI4DQpDa6RSV7b3IcfzIqQZbwy4shgHDIktnABZ88HXaD7oBe5sKGFTUsJQPlLRYkX+6ChBgVvTafmU9un7NvtyCaQ56U=
+	t=1785825596; cv=none; b=Rt1urJislZdDar+38NE5Hw08N/MKF1g2+jPwrnl/6lLBsObm3ux9ZYTbkrDqth34b0OHUKRC07dFvaRkay31ZBVfF/D2eLvshvLwvwNNoXntliwbo4GxzA29zOI0s2DY7T5+ytFCN6uImjJs/LAIRUnBVQcq5H7pgJ7ZjzQWAm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785823448; c=relaxed/simple;
-	bh=CbAC7Ht7PGyanLt+VhEH9s2SZ+Nu5MaBl8Z0+mBbgps=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pnBRk1zpVGiZXSRUtJlLgQCSWu3kjVJ28LJCcu4n8cr7hTTBC8GJyNyHrmUuXapH6nTe5B1EkHlQ7dvkj49Nm/KTsgCN/BBTkE2itJ00ZNiMXTze3OEnT5GF2WutneuceHQUjwZTkELJVdRosnrbaAv8v/4VOJE3x+8FBLGjYxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5WdkHp7; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1785825596; c=relaxed/simple;
+	bh=qQfgN5eYrY9xAsK4uFLSqKzeOTm1vuAwQyTy+QxA+Eo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tMQ/beKN2YNS+fmDbJ6tNu8DlS6AHPnC9z1U9U/6dHA50Vs0l9Gsmy+sgjVStZJ+rTGakIOkryUdMPbbhYniKY4pj/OiS5unoUjDZ1vBmAlrOGi9LJfp4Nx0onaP9M7UnepHHdB2xiCxx6SyK6wytYDQGCp3AIt3H3PW9acwlAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FjmSbwt7; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5WdkHp7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FjmSbwt7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785823446; x=1817359446;
+  t=1785825594; x=1817361594;
   h=date:from:to:cc:subject:message-id;
-  bh=CbAC7Ht7PGyanLt+VhEH9s2SZ+Nu5MaBl8Z0+mBbgps=;
-  b=F5WdkHp7r+wyE/IQEyLANWondn//trpms1v45QACJyXQfFAZ7p1K4ReZ
-   vdAvUAuylTDamlmMz01fHMp1URJzEkPe9hmPvVUqys/lckH2+ZeIDDlpU
-   4s8a640a1qOED3yzkjiArEeoNcjsE9C43iGvtwNeyX1DCATnHHtktdPa0
-   QwrMEX06l/EouoEnClDbJZnr2P6aA4uEkMlsrFGoHqh/nbY9Es9jElIpR
-   thuulP/2oBvdmuZCwZ3CjbBXaOA4GoZiD4CgS+JEoSANxEwOLkE8dPBTU
-   nlIXr1Mpba3oT5HR3I0b8RZbH407vufZeUAkt9qcBTdiCVh4GexwOOkg9
-   g==;
-X-CSE-ConnectionGUID: TUa39zIPQtawhMn8uHeHGg==
-X-CSE-MsgGUID: /LoC6ESjRHm1Oexom0RuiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86400524"
-X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="86400524"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 23:04:06 -0700
-X-CSE-ConnectionGUID: 4P5c+Ka/TD+AgfzFlyZZIg==
-X-CSE-MsgGUID: D9lk2zHmTa6H01MyE4+Fmw==
+  bh=qQfgN5eYrY9xAsK4uFLSqKzeOTm1vuAwQyTy+QxA+Eo=;
+  b=FjmSbwt7upeGLAeCF4D9OdX9oGgcwnLPoI8tytfP/RVFmgJg7QmdShsw
+   +wf22osy/CJvtC8eNkLlyPI4DydeXLVJAKtIrN2ZJZkc0Ks1M2CNlUM/W
+   vr8DF20xb4vPOuTCePJuhh9ImPqd3aY31zos0Krmh1myxI+76bQuuTXLb
+   upiFilY/oui0aFsob/x/9kGdLrVZtc15ch3I3vnwwqttP/S1wNa6MIo+N
+   v+MHQt7/B0diOUp4cnz1zlnEAEHagOeNs907VjyIgb3vhhlYygcUG2mnK
+   Pg6Qo5F1KU9jQtjxA5zTzrp2RVG8fQrC9sC7VRc/rKuTAhE0qXzPK/Oma
+   Q==;
+X-CSE-ConnectionGUID: QiHdthuhTjC8S0i1VHdH5A==
+X-CSE-MsgGUID: IexU9c/GRJCX/xsbMnZ5GA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="97525209"
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="97525209"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 23:39:54 -0700
+X-CSE-ConnectionGUID: LKsCq0epR2+cW/+opDKMbQ==
+X-CSE-MsgGUID: soR7BQ0nQJiSTTwxpvlIjg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="261482793"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 03 Aug 2026 23:04:05 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,204,1779174000"; 
+   d="scan'208";a="286074896"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 03 Aug 2026 23:39:51 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wr8Fu-0000000048M-29IS;
-	Tue, 04 Aug 2026 06:04:02 +0000
-Date: Tue, 04 Aug 2026 08:03:49 +0200
+	id 1wr8oW-000000009AT-0sNS;
+	Tue, 04 Aug 2026 06:39:48 +0000
+Date: Tue, 04 Aug 2026 14:38:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [akpm-mm:mm-new 445/451]
- tools/testing/selftests/mm/.gitignore: warning: ignored by one of the
- .gitignore files
-Message-ID: <202608040727.Jnjxktqh-lkp@intel.com>
+Subject: Warning: drivers/usb/gadget/udc/bcm63xx_udc.c:1845 Excess
+ function parameter 'driver' description in 'bcm63xx_udc_stop'
+Message-ID: <202608041430.DbVPV31N-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,93 +60,35 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: David Hildenbrand <david@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: mm-commits@vger.kernel.org
-TO: Pratyush Mallick <pratmal@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Lorenzo Stoakes <ljs@kernel.org>
-CC: SJ Park <sj@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Shuicheng Lin <shuicheng.lin@intel.com>
+CC: Jonathan Corbet <corbet@lwn.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   e47602c51d20a93fa1711ed896dc9480de4374d9
-commit: 1d8d77cdce9b8bdb5969aa93cad7dd9a8e023560 [445/451] selftests/mm: use pattern matching in .gitignore
-:::::: branch date: 2 hours ago
-:::::: commit date: 4 hours ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260804/202608040727.Jnjxktqh-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608040727.Jnjxktqh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   848acc8ffe1b7cd5f1bf427b93069becfebc2c9d
+commit: 46d9c16115cf046ce564f0230126cae785f73826 scripts/kernel-doc: Detect mismatched inline member documentation tags
+date:   3 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 3 months ago
+config: mips-randconfig-r064-20260804 (https://download.01.org/0day-ci/archive/20260804/202608041430.DbVPV31N-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project bacfe2950f8218268fcc0a8765644ea0c15f0360)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260804/202608041430.DbVPV31N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 46d9c16115cf ("scripts/kernel-doc: Detect mismatched inline member documentation tags")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608040727.Jnjxktqh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608041430.DbVPV31N-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/.gitignore: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/Makefile: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/charge_reserved_hugetlb.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/check_config.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/config: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/hugepage_settings.h: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/hugetlb_reparenting_test.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_compaction.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_cow.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_gup_test.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_hmm.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_hugetlb.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_hugevm.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_kmemleak_confirm.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_kmemleak_dedup.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_ksm.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_ksm_numa.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_madv_guard.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_madv_populate.sh: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/mm/ksft_mdwe.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_memfd_secret.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_memory_failure.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_migration.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_mkdirty.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_mlock.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_mmap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_mremap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_page_frag.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_pagemap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_pfnmap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_pkey.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_process_madv.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_process_mrelease.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_rmap.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_soft_dirty.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_thp.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_userfaultfd.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_vma_merge.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/ksft_vmalloc.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/mlock2.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/mseal_helpers.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/page_frag/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/pkey-arm64.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/pkey-helpers.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/pkey-powerpc.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/pkey-x86.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/run_vmtests.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/settings: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/test_hmm.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/test_page_frag.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/test_vmalloc.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/uffd-common.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/va_high_addr_switch.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/vm_util.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/mm/write_hugetlb_memory.sh: warning: ignored by one of the .gitignore files
+>> Warning: drivers/usb/gadget/udc/bcm63xx_udc.c:1845 Excess function parameter 'driver' description in 'bcm63xx_udc_stop'
+>> Warning: drivers/usb/gadget/udc/bcm63xx_udc.c:1845 Excess function parameter 'driver' description in 'bcm63xx_udc_stop'
 
 --
 0-DAY CI Kernel Test Service
