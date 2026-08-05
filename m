@@ -1,1105 +1,504 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71336374190
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Aug 2026 14:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3165B41A937
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Aug 2026 20:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785939479; cv=none; b=jYBqRLW2e2dkMyb4IphMr5g8JzhhhzIClJQhFfXnm5HZZghCLXM/chxyperqg/0n+sIPmxFPiLkzhnERKeqxJaAK5bA+/t0M75ufdOnfiKy0tskPhMZ2Arou2QvuASwqAxJ91eHhgRivbv5Npz1IFmIrkyoTYSowRb8F3cG3+qA=
+	t=1785961253; cv=none; b=CtZfTi4gCyrROUFU2uUwImZBHAW70fjus7xIiZMhBuwOy2ySm2ImqMxpcH9MReo5EDC5UP37PeBIdII/EEzgOCPgZ6w2FrCvyGBUoW3xf1vitJyvAhDbdjrRZyMZuR3AFeekmBpXgD9MuAoXcyNu+HOgXbCaM6g4VohPldA8DX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785939479; c=relaxed/simple;
-	bh=MrNq1JHSeN/TrXyMFefFbwFgsZ3ucFJL2vuY3RKQwiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=qbnGHv2OJosa9HTjNgkkaA1HgERL9BgtWIChSfaD9z7NG10aZd7pM3PQ5CZ1ngLeKazrC7UpKOSgTwOih3JsB03tOzdLoNOzz15kF55lcCJ+hWwk8KT9xvlYni2oDhi+xZKsv5ZDTA72qYaqUPMFmHgder15VGdkaVKAA1HKs/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYnsq8G3; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1785961253; c=relaxed/simple;
+	bh=HdWXt+gYCRlXu0JwIx0RVO/u2RLC7w+/jOdzx73+7gU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=vAwabpmqc+ixCV6PCi4WDJ6f8CJVdkCAPKBc5yw7f+Jbo322uwuIy+KImJi8WO5A2cmDz7wiBZCGdvpltA19UJfuZdtq4UdoVwkdf+P89epMnyrKACpXc9crie5amv6H6D7N1SqTak2jzOolTQmDN1kL/32PP9FkYlAnZci9BoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7PpbKKJ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYnsq8G3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7PpbKKJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785939474; x=1817475474;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MrNq1JHSeN/TrXyMFefFbwFgsZ3ucFJL2vuY3RKQwiU=;
-  b=JYnsq8G3wjUmsH34SgwBguw7xzzedJqP0aGoI54ot1Ol3hU5iWmsXtA6
-   0SVHf4bNMf1T9YohnPtaaex1NsGaCwn99UCpsIxgWE6OqcCNlHVzZZaO+
-   ZwZGPRHUE2L+u/IewM4HSbNR7/5sGyOB3+f39PqJDqKgcKRmGk9jHYVfX
-   3RSv0Qis9sh/X6ds6+OcED728UuSisd0xgpRxHlTJYEwsxEslA0kSzGId
-   fRhDjC0GpHjA5oQVd+opO/4qN4t7YjrI3HFE9Al8UmsYmCfm0uPt/MkHw
-   3ffgEQjYMHA3AQSnvr2S0AmHRc9aX01k+Cd+YcGoqbEssE9BYaOnGdMZ+
-   A==;
-X-CSE-ConnectionGUID: lQ8I8NfQRbKxQ5fdlt1iZQ==
-X-CSE-MsgGUID: IjCRQjA7SFSLIx77rv4XGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86629592"
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="86629592"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 07:17:53 -0700
-X-CSE-ConnectionGUID: Plyas6JoScqPUGlF6PyuWg==
-X-CSE-MsgGUID: /3tlMc+oRs6k64n+ac4vxg==
+  t=1785961250; x=1817497250;
+  h=date:from:to:cc:subject:message-id;
+  bh=HdWXt+gYCRlXu0JwIx0RVO/u2RLC7w+/jOdzx73+7gU=;
+  b=M7PpbKKJsgatgyDy7ZAzsQQfMyB1sKHjfMUHkSd4OKJRbvcSOWtJ2x4b
+   jGiQDj7fDBIS9v4d+ndcXk8CH3Qgo7dwj5k1BmGbTzfoC+f3DDHsBW/pT
+   Iy4IsJwXXmWtn65oXB1cEgF+ZzhiEDNEkBbv1SG5cdPIEvx0OLwgIEBTZ
+   k4tITPj6bbjArOH5bgABlqlXchPIeyu169uqrrkiMOmTYCIfoToPG2BHv
+   FhvpIH5Y87wiOpEz7h7aT/NSVdciPXdFDYDp17Schf7EACL3Iplx2H0zY
+   LOUgTTg8YsJNGl10KfwiTZZNOlRVamqAOsigD1Fya6EdNkOWH1lHC7b4x
+   g==;
+X-CSE-ConnectionGUID: 1NAELW5CStG+E09CjMPrLA==
+X-CSE-MsgGUID: XY/kz+9VQNys35BNltBR3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="90430326"
+X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
+   d="scan'208";a="90430326"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 13:20:48 -0700
+X-CSE-ConnectionGUID: QE9eoPkESiKKjQ2TmQDWyg==
+X-CSE-MsgGUID: RI+Tfx3LTgeHIaC649guLw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="266049041"
+X-IronPort-AV: E=Sophos;i="6.25,207,1779174000"; 
+   d="scan'208";a="263884611"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Aug 2026 07:17:51 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Aug 2026 13:20:40 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrcRJ-00000000Ch9-1u1K;
-	Wed, 05 Aug 2026 14:17:49 +0000
-Date: Wed, 05 Aug 2026 22:17:23 +0800
+	id 1wri6Q-00000000DN9-1PsB;
+	Wed, 05 Aug 2026 20:20:38 +0000
+Date: Thu, 06 Aug 2026 04:20:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 11685/12727]
- drivers/gpu/drm/xe/xe_guc_pc.c:1254:9: sparse: sparse: Trying to use reserved
- word 'return' as identifier
-Message-ID: <202608052258.rtG9Z166-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [smfrench-smb3:ksmbd-for-next-next 67/110]
+ fs/smb/server/smb2pdu.c:9073 smb2_lock() warn: missing error code 'err'
+Message-ID: <202608060342.A3MhTzNY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/xe/xe_guc_pc.c:1254:9: sparse: sparse: Trying to use reserved word '=
-return' as identifier"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+TO: Steve French <stfrench@microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   0f6da28aab51b16762ed82e8fdeaa5042da45b08
-commit: 5c45e2dbe6967bf75a500931d643d5989291109b [11685/12727] drm/xe: Use =
-IBC v3 on PTL
-:::::: branch date: 21 hours ago
-:::::: commit date: 2 days ago
-config: xtensa-randconfig-r123-20260805 (https://download.01.org/0day-ci/ar=
-chive/20260805/202608052258.rtG9Z166-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260805/202608052258.rtG9Z166-lkp@intel.com/reproduce)
+tree:   https://github.com/smfrench/smb3-kernel.git ksmbd-for-next-next
+head:   0be3df1505155c5cb9a15199b14cc2974f850605
+commit: 10e5f86a51f4383b51eb1cdae9c88146d05d46e8 [67/110] ksmbd: add SMB3 request replay support
+:::::: branch date: 2 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20260805 (https://download.01.org/0day-ci/archive/20260806/202608060342.A3MhTzNY-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608052258.rtG9Z166-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608060342.A3MhTzNY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/xe/xe_guc_pc.c: note: in included file (through arch/xte=
-nsa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, inc=
-lude/asm-generic/div64.h, ...):
-   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported x=
-tensa ABI
-   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported X=
-tensa ABI
-   drivers/gpu/drm/xe/xe_guc_pc.c:1243:21: sparse: sparse: Expected ) in ex=
-pression
-   drivers/gpu/drm/xe/xe_guc_pc.c:1243:21: sparse: sparse: got 0
->> drivers/gpu/drm/xe/xe_guc_pc.c:1254:9: sparse: sparse: Trying to use res=
-erved word 'return' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1254:16: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1254:16: sparse: sparse: got ret
-   drivers/gpu/drm/xe/xe_guc_pc.c:1255:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1255:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got &
->> drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Trying to use res=
-erved word 'void' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got 1
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got (
->> drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Trying to use res=
-erved word 'void' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1272:13: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1272:13: sparse: sparse: got !
->> drivers/gpu/drm/xe/xe_guc_pc.c:1272:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1275:15: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1275:15: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_pc.c:1275:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1278:17: sparse: sparse: Trying to use re=
-served word 'return' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1278:24: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1278:24: sparse: sparse: got 0
-   drivers/gpu/drm/xe/xe_guc_pc.c:1279:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1279:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got }
->> drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Trying to use res=
-erved word 'do' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1282:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1286:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1287:17: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1287:17: sparse: sparse: got return
-   drivers/gpu/drm/xe/xe_guc_pc.c:1289:30: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1289:30: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1289:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1291:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1291:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1291:17: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1291:17: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1291:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1291:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1295:38: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1295:38: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1295:17: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1297:25: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1297:25: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1297:25: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1297:25: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1297:25: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1297:25: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1298:25: sparse: sparse: Trying to use re=
-served word 'return' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1298:32: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1298:32: sparse: sparse: got -
-   drivers/gpu/drm/xe/xe_guc_pc.c:1299:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1299:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1301:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1301:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1301:17: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1301:17: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1301:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1301:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1303:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1303:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1306:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1307:17: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1307:17: sparse: sparse: got return
-   drivers/gpu/drm/xe/xe_guc_pc.c:1310:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1311:17: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1311:17: sparse: sparse: got return
-   drivers/gpu/drm/xe/xe_guc_pc.c:1314:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1315:17: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1315:17: sparse: sparse: got return
-   drivers/gpu/drm/xe/xe_guc_pc.c:1322:13: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1322:13: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1322:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1323:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1323:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1323:17: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1323:17: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1323:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1323:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1325:9: sparse: sparse: Trying to use res=
-erved word 'return' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1325:16: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1325:16: sparse: sparse: got ret
-   drivers/gpu/drm/xe/xe_guc_pc.c:1326:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1326:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1336:15: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1336:15: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_pc.c:1336:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1339:20: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1339:20: sparse: sparse: got &
-   drivers/gpu/drm/xe/xe_guc_pc.c:1340:11: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1340:11: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_pc.c:1341:22: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1341:22: sparse: sparse: got &
-   drivers/gpu/drm/xe/xe_guc_pc.c:1342:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1342:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1353:29: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1353:29: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1353:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:27: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:27: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: Trying to use re=
-served word 'do' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: got <
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:29: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1361:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1361:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1376:15: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1376:15: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_pc.c:1376:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1380:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1381:17: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1381:17: sparse: sparse: got return
-   drivers/gpu/drm/xe/xe_guc_pc.c:1388:19: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1388:19: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1388:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1391:11: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1391:11: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_pc.c:1393:11: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1393:11: sparse: sparse: got ->
-   drivers/gpu/drm/xe/xe_guc_pc.c:1395:9: sparse: sparse: Trying to use res=
-erved word 'return' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1395:16: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1395:16: sparse: sparse: got __devm_add_a=
-ction_or_reset
-   drivers/gpu/drm/xe/xe_guc_pc.c:1396:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1396:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got volatile
->> drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Trying to use re=
-served word 'const' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1400:17: sparse: sparse: got }
->> drivers/gpu/drm/xe/xe_guc_pc.c:1403:9: sparse: sparse: Trying to use res=
-erved word 'case' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1403:14: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1403:14: sparse: sparse: got SLPC_GLOBAL_=
-STATE_INITIALIZING
-   drivers/gpu/drm/xe/xe_guc_pc.c:1405:9: sparse: sparse: Trying to use res=
-erved word 'case' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1405:14: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1405:14: sparse: sparse: got SLPC_GLOBAL_=
-STATE_RESETTING
-   drivers/gpu/drm/xe/xe_guc_pc.c:1407:9: sparse: sparse: Trying to use res=
-erved word 'case' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1407:14: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1407:14: sparse: sparse: got SLPC_GLOBAL_=
-STATE_RUNNING
-   drivers/gpu/drm/xe/xe_guc_pc.c:1409:9: sparse: sparse: Trying to use res=
-erved word 'case' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1409:14: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1409:14: sparse: sparse: got SLPC_GLOBAL_=
-STATE_SHUTTING_DOWN
-   drivers/gpu/drm/xe/xe_guc_pc.c:1411:9: sparse: sparse: Trying to use res=
-erved word 'case' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1411:14: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1411:14: sparse: sparse: got SLPC_GLOBAL_=
-STATE_ERROR
->> drivers/gpu/drm/xe/xe_guc_pc.c:1413:9: sparse: sparse: Trying to use res=
-erved word 'default' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1413:16: sparse: sparse: Expected ; at en=
-d of declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1413:16: sparse: sparse: got :
-   drivers/gpu/drm/xe/xe_guc_pc.c:1415:9: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1415:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:21: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:21: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got volatile
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Trying to use re=
-served word 'const' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1426:39: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1427:21: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1427:21: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_pc.c:1429:39: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1429:39: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1429:9: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1432:21: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1432:21: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_pc.c:1433:21: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1433:21: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got volatile
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Trying to use re=
-served word 'const' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1434:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1436:21: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1436:21: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got volatile
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Trying to use re=
-served word 'const' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1437:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1439:21: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1439:21: sparse: sparse: got ,
---
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1446:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1448:21: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1448:21: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got volatile
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Trying to use re=
-served word 'const' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1449:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1451:21: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1451:21: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ) in fu=
-nction declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Trying to use re=
-served word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ) in ne=
-sted declarator
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got volatile
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Trying to use re=
-served word 'const' as identifier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: Expected ; at th=
-e end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1452:31: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1454:1: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/gpu/drm/xe/xe_guc_pc.c:1454:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_pc.c:1243:21: sparse: sparse: undefined identi=
-fier '__VA_OPT__'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1264:37: sparse: sparse: undefined identi=
-fier 'pc'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1269:9: sparse: sparse: undefined identif=
-ier '__xe'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1284:9: sparse: sparse: symbol 'earlier' =
-redeclared with different type (different type sizes):
-   drivers/gpu/drm/xe/xe_guc_pc.c:1284:9: sparse:    int [addressable] [top=
-level] earlier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1266:17: sparse: note: previously declare=
-d as:
-   drivers/gpu/drm/xe/xe_guc_pc.c:1266:17: sparse:    signed long long [add=
-ressable] [toplevel] [usertype] earlier
-   drivers/gpu/drm/xe/xe_guc_pc.c:1285:31: sparse: sparse: undefined identi=
-fier 'pc'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1291:17: sparse: sparse: undefined identi=
-fier '_entry'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1297:25: sparse: sparse: undefined identi=
-fier '_entry'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1297:25: sparse: sparse: symbol '_entry_p=
-tr' has multiple initializers (originally initialized at drivers/gpu/drm/xe=
-/xe_guc_pc.c:1291)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1301:17: sparse: sparse: undefined identi=
-fier '_entry'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1301:17: sparse: sparse: symbol '_entry_p=
-tr' has multiple initializers (originally initialized at drivers/gpu/drm/xe=
-/xe_guc_pc.c:1297)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1309:29: sparse: sparse: undefined identi=
-fier 'pc'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1309:9: sparse: sparse: symbol 'ret' has =
-multiple initializers (originally initialized at drivers/gpu/drm/xe/xe_guc_=
-pc.c:1285)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1313:36: sparse: sparse: undefined identi=
-fier 'pc'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1313:9: sparse: sparse: symbol 'ret' has =
-multiple initializers (originally initialized at drivers/gpu/drm/xe/xe_guc_=
-pc.c:1309)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1318:38: sparse: sparse: undefined identi=
-fier 'pc'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1318:9: sparse: sparse: symbol 'ret' has =
-multiple initializers (originally initialized at drivers/gpu/drm/xe/xe_guc_=
-pc.c:1313)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1321:43: sparse: sparse: undefined identi=
-fier 'pc'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1321:9: sparse: sparse: symbol 'ret' has =
-multiple initializers (originally initialized at drivers/gpu/drm/xe/xe_guc_=
-pc.c:1318)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1323:17: sparse: sparse: undefined identi=
-fier '_entry'
-   drivers/gpu/drm/xe/xe_guc_pc.c:1323:17: sparse: sparse: symbol '_entry_p=
-tr' has multiple initializers (originally initialized at drivers/gpu/drm/xe=
-/xe_guc_pc.c:1301)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1359:9: sparse: sparse: symbol 'fw_ref' h=
-as multiple initializers (originally initialized at drivers/gpu/drm/xe/xe_g=
-uc_pc.c:1271)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:9: sparse: sparse: symbol 'pc_set_cu=
-r_freq' redeclared with different type (incompatible argument 1 (different =
-base types)):
-   drivers/gpu/drm/xe/xe_guc_pc.c:1360:9: sparse:    int static [signed] [t=
-oplevel] pc_set_cur_freq( ... )
-   drivers/gpu/drm/xe/xe_guc_pc.c:329:13: sparse: note: previously declared=
- as:
-   drivers/gpu/drm/xe/xe_guc_pc.c:329:13: sparse:    void static [toplevel]=
- pc_set_cur_freq( ... )
-   drivers/gpu/drm/xe/xe_guc_pc.c:1371:26: sparse: sparse: symbol 'xe' has =
-multiple initializers (originally initialized at drivers/gpu/drm/xe/xe_guc_=
-pc.c:1351)
-   drivers/gpu/drm/xe/xe_guc_pc.c:1373:13: sparse: sparse: symbol 'size' ha=
-s multiple initializers (originally initialized at drivers/gpu/drm/xe/xe_gu=
-c_pc.c:1265)
->> drivers/gpu/drm/xe/xe_guc_pc.c:1379:15: sparse: sparse: cannot dereferen=
-ce this type
->> drivers/gpu/drm/xe/xe_guc_pc.c:1379:15: sparse: sparse: cannot dereferen=
-ce this type
-   drivers/gpu/drm/xe/xe_guc_pc.c:1383:9: sparse: sparse: symbol 'bo' redec=
-lared with different type (different base types):
-   drivers/gpu/drm/xe/xe_guc_pc.c:1383:9: sparse:    int [addressable] [top=
-level] bo
-   drivers/gpu/drm/xe/xe_guc_pc.c:1372:22: sparse: note: previously declare=
-d as:
-   drivers/gpu/drm/xe/xe_guc_pc.c:1372:22: sparse:    struct xe_bo *[addres=
-sable] [toplevel] bo
+New smatch warnings:
+fs/smb/server/smb2pdu.c:9073 smb2_lock() warn: missing error code 'err'
 
-vim +/return +1254 drivers/gpu/drm/xe/xe_guc_pc.c
+Old smatch warnings:
+fs/smb/server/smb2pdu.c:8392 smb2_read() warn: missing unwind goto?
 
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1228 =20
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1229  static int pc_modif=
-y_defaults(struct xe_guc_pc *pc)
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1230  {
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1231  	struct xe_device *=
-xe =3D pc_to_xe(pc);
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1232  	struct xe_gt *gt =
-=3D pc_to_gt(pc);
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1233  	int ret =3D 0;
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1234 =20
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1235  	if (xe->info.platf=
-orm =3D=3D XE_PANTHERLAKE) {
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1236  		ret =3D pc_action=
-_set_dcc(pc, false);
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1237  		if (unlikely(ret)=
-) {
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1238  			xe_gt_err(gt, "F=
-ailed to modify DCC default: %pe\n", ERR_PTR(ret));
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1239  			return ret;
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1240  		}
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1241 =20
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1242  		if (xe_gt_is_main=
-_type(gt) &&
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1243  		    GUC_FIRMWARE_=
-VER_AT_LEAST(&gt->uc.guc, 70, 48, 0)) {
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1244  			ret =3D pc_actio=
-n_set_param(pc,
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1245  						  SLPC_PARAM_=
-SET_IBC_VERSION,
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1246  						  3);
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1247  			if (unlikely(ret=
-)) {
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1248  				xe_gt_err(gt, "=
-Failed to modify IBC version: %pe\n", ERR_PTR(ret));
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1249  				return ret;
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1250  			}
-5c45e2dbe6967b Vinay Belgaumkar       2026-07-29  1251  		}
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1252  	}
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1253 =20
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23 @1254  	return ret;
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1255  }
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1256 =20
-dd08ebf6c3525a Matthew Brost          2023-03-30  1257  /**
-dd08ebf6c3525a Matthew Brost          2023-03-30  1258   * xe_guc_pc_start =
-- Start GuC's Power Conservation component
-dd08ebf6c3525a Matthew Brost          2023-03-30  1259   * @pc: Xe_GuC_PC i=
-nstance
-dd08ebf6c3525a Matthew Brost          2023-03-30  1260   */
-dd08ebf6c3525a Matthew Brost          2023-03-30  1261  int xe_guc_pc_start=
-(struct xe_guc_pc *pc)
-dd08ebf6c3525a Matthew Brost          2023-03-30  1262  {
-dd08ebf6c3525a Matthew Brost          2023-03-30  1263  	struct xe_device *=
-xe =3D pc_to_xe(pc);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1264  	struct xe_gt *gt =
-=3D pc_to_gt(pc);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1265  	u32 size =3D PAGE_=
-ALIGN(sizeof(struct slpc_shared_data));
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1266  	ktime_t earlier;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1267  	int ret;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1268 =20
-c4991ee01d480c Daniele Ceraolo Spurio 2023-09-13 @1269  	xe_gt_assert(gt, x=
-e_device_uc_enabled(xe));
-dd08ebf6c3525a Matthew Brost          2023-03-30  1270 =20
-e9bc4162bf3915 Matt Roper             2025-11-18  1271  	CLASS(xe_force_wak=
-e, fw_ref)(gt_to_fw(gt), XE_FW_GT);
-e9bc4162bf3915 Matt Roper             2025-11-18 @1272  	if (!xe_force_wake=
-_ref_has_domain(fw_ref.domains, XE_FW_GT))
-31a5dce0a37cbd Himal Prasad Ghimiray  2024-10-14  1273  		return -ETIMEDOUT;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1274 =20
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1275  	if (xe->info.skip_=
-guc_pc) {
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1276  		/* Request max po=
-ssible since dynamic freq mgmt is not enabled */
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1277  		pc_set_cur_freq(p=
-c, UINT_MAX);
-e9bc4162bf3915 Matt Roper             2025-11-18  1278  		return 0;
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1279  	}
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1280 =20
-21cf47d89fba35 Lucas De Marchi        2025-06-12  1281  	xe_map_memset(xe, =
-&pc->bo->vmap, 0, 0, size);
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17 @1282  	slpc_shared_data_w=
-rite(pc, header.size, size);
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1283 =20
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1284  	earlier =3D ktime_=
-get();
-dd08ebf6c3525a Matthew Brost          2023-03-30  1285  	ret =3D pc_action_=
-reset(pc);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1286  	if (ret)
-e9bc4162bf3915 Matt Roper             2025-11-18  1287  		return ret;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1288 =20
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1289  	if (wait_for_pc_st=
-ate(pc, SLPC_GLOBAL_STATE_RUNNING,
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1290  			      SLPC_RESET=
-_TIMEOUT_MS)) {
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1291  		xe_gt_warn(gt, "G=
-uC PC start taking longer than normal [freq =3D %dMHz (req =3D %dMHz), perf=
-_limit_reasons =3D 0x%08X]\n",
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1292  			   xe_guc_pc_get=
-_act_freq(pc), get_cur_freq(gt),
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1293  			   xe_gt_throttl=
-e_get_limit_reasons(gt));
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1294 =20
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1295  		if (wait_for_pc_s=
-tate(pc, SLPC_GLOBAL_STATE_RUNNING,
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1296  				      SLPC_RESE=
-T_EXTENDED_TIMEOUT_MS)) {
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1297  			xe_gt_err(gt, "G=
-uC PC Start failed: Dynamic GT frequency control and GT sleep states are no=
-w disabled.\n");
-e9bc4162bf3915 Matt Roper             2025-11-18  1298  			return -EIO;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1299  		}
-dd08ebf6c3525a Matthew Brost          2023-03-30  1300 =20
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1301  		xe_gt_warn(gt, "G=
-uC PC excessive start time: %lldms",
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1302  			   ktime_ms_delt=
-a(ktime_get(), earlier));
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1303  	}
-b4b05e53b550a8 Rodrigo Vivi           2025-03-07  1304 =20
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1305  	ret =3D pc_modify_=
-defaults(pc);
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1306  	if (ret)
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1307  		return ret;
-40ee63f5df2d5c Vinay Belgaumkar       2026-01-23  1308 =20
-dd08ebf6c3525a Matthew Brost          2023-03-30  1309  	ret =3D pc_init_fr=
-eqs(pc);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1310  	if (ret)
-e9bc4162bf3915 Matt Roper             2025-11-18  1311  		return ret;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1312 =20
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  1313  	ret =3D pc_set_mer=
-t_freq_cap(pc);
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  1314  	if (ret)
-e9bc4162bf3915 Matt Roper             2025-11-18  1315  		return ret;
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  1316 =20
-5488bec96bccbd Tejas Upadhyay         2025-02-28  1317  	/* Enable SLPC Opt=
-imized Strategy for compute */
-5488bec96bccbd Tejas Upadhyay         2025-02-28  1318  	ret =3D pc_action_=
-set_strategy(pc, SLPC_OPTIMIZED_STRATEGY_COMPUTE);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1319 =20
-60d2b7899142d5 Vinay Belgaumkar       2025-09-03  1320  	/* Set cached valu=
-e of power_profile */
-60d2b7899142d5 Vinay Belgaumkar       2025-09-03  1321  	ret =3D xe_guc_pc_=
-set_power_profile(pc, power_profile_to_string(pc));
-60d2b7899142d5 Vinay Belgaumkar       2025-09-03  1322  	if (unlikely(ret))
-60d2b7899142d5 Vinay Belgaumkar       2025-09-03  1323  		xe_gt_err(gt, "Fa=
-iled to set SLPC power profile: %pe\n", ERR_PTR(ret));
-60d2b7899142d5 Vinay Belgaumkar       2025-09-03  1324 =20
-dd08ebf6c3525a Matthew Brost          2023-03-30  1325  	return ret;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1326  }
-dd08ebf6c3525a Matthew Brost          2023-03-30  1327 =20
-dd08ebf6c3525a Matthew Brost          2023-03-30  1328  /**
-dd08ebf6c3525a Matthew Brost          2023-03-30  1329   * xe_guc_pc_stop -=
- Stop GuC's Power Conservation component
-dd08ebf6c3525a Matthew Brost          2023-03-30  1330   * @pc: Xe_GuC_PC i=
-nstance
-dd08ebf6c3525a Matthew Brost          2023-03-30  1331   */
-60b040fcea21dc Raag Jadav             2026-04-27  1332  void xe_guc_pc_stop=
-(struct xe_guc_pc *pc)
-dd08ebf6c3525a Matthew Brost          2023-03-30  1333  {
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1334  	struct xe_device *=
-xe =3D pc_to_xe(pc);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1335 =20
-40a684f91d2671 Vinay Belgaumkar       2026-02-03  1336  	if (xe->info.skip_=
-guc_pc)
-60b040fcea21dc Raag Jadav             2026-04-27  1337  		return;
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1338 =20
-dd08ebf6c3525a Matthew Brost          2023-03-30  1339  	mutex_lock(&pc->fr=
-eq_lock);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1340  	pc->freq_ready =3D =
-false;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1341  	mutex_unlock(&pc->=
-freq_lock);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1342  }
-dd08ebf6c3525a Matthew Brost          2023-03-30  1343 =20
-bef52b5c7a1904 Rodrigo Vivi           2023-12-08  1344  /**
-6d95155ae71963 Matthew Auld           2024-05-22  1345   * xe_guc_pc_fini_h=
-w - Finalize GuC's Power Conservation component
-8a4587ef9f9521 Micha=C5=82 Winiarski       2024-02-19  1346   * @arg: opaqu=
-e pointer that should point to Xe_GuC_PC instance
-bef52b5c7a1904 Rodrigo Vivi           2023-12-08  1347   */
-6d95155ae71963 Matthew Auld           2024-05-22  1348  static void xe_guc_=
-pc_fini_hw(void *arg)
-dd08ebf6c3525a Matthew Brost          2023-03-30  1349  {
-8a4587ef9f9521 Micha=C5=82 Winiarski       2024-02-19  1350  	struct xe_guc=
-_pc *pc =3D arg;
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1351  	struct xe_device *=
-xe =3D pc_to_xe(pc);
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1352 =20
-fb74b205cdd263 Rodrigo Vivi           2024-04-23  1353  	if (xe_device_wedg=
-ed(xe))
-fb74b205cdd263 Rodrigo Vivi           2024-04-23  1354  		return;
-fb74b205cdd263 Rodrigo Vivi           2024-04-23  1355 =20
-60b040fcea21dc Raag Jadav             2026-04-27  1356  	xe_guc_pc_stop(pc);
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  1357 =20
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  1358  	/* Bind requested =
-freq to mert_freq_cap before unload */
-8edb1f2c729c00 Raag Jadav             2026-04-27  1359  	CLASS(xe_force_wak=
-e, fw_ref)(gt_to_fw(pc_to_gt(pc)), XE_FW_GT);
-2917e17b5fd254 Sk Anirban             2025-11-13  1360  	pc_set_cur_freq(pc=
-, min(pc_max_freq_cap(pc), xe_guc_pc_get_rpe_freq(pc)));
-dd08ebf6c3525a Matthew Brost          2023-03-30  1361  }
-dd08ebf6c3525a Matthew Brost          2023-03-30  1362 =20
-dd08ebf6c3525a Matthew Brost          2023-03-30  1363  /**
-dd08ebf6c3525a Matthew Brost          2023-03-30  1364   * xe_guc_pc_init -=
- Initialize GuC's Power Conservation component
-dd08ebf6c3525a Matthew Brost          2023-03-30  1365   * @pc: Xe_GuC_PC i=
-nstance
-dd08ebf6c3525a Matthew Brost          2023-03-30  1366   */
-dd08ebf6c3525a Matthew Brost          2023-03-30  1367  int xe_guc_pc_init(=
-struct xe_guc_pc *pc)
-dd08ebf6c3525a Matthew Brost          2023-03-30  1368  {
-dd08ebf6c3525a Matthew Brost          2023-03-30  1369  	struct xe_gt *gt =
-=3D pc_to_gt(pc);
-876611c2b75689 Matt Roper             2023-06-01  1370  	struct xe_tile *ti=
-le =3D gt_to_tile(gt);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1371  	struct xe_device *=
-xe =3D gt_to_xe(gt);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1372  	struct xe_bo *bo;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1373  	u32 size =3D PAGE_=
-ALIGN(sizeof(struct slpc_shared_data));
-8a4587ef9f9521 Micha=C5=82 Winiarski       2024-02-19  1374  	int err;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1375 =20
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1376  	if (xe->info.skip_=
-guc_pc)
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1377  		return 0;
-975e4a3795d4f1 Vinay Belgaumkar       2023-11-17  1378 =20
-8a4587ef9f9521 Micha=C5=82 Winiarski       2024-02-19 @1379  	err =3D drmm_=
-mutex_init(&xe->drm, &pc->freq_lock);
-8a4587ef9f9521 Micha=C5=82 Winiarski       2024-02-19  1380  	if (err)
-8a4587ef9f9521 Micha=C5=82 Winiarski       2024-02-19  1381  		return err;
-dd08ebf6c3525a Matthew Brost          2023-03-30  1382 =20
-0e1a47fcabc8ff Micha=C5=82 Winiarski       2023-12-05  1383  	bo =3D xe_man=
-aged_bo_create_pin_map(xe, tile, size,
-62742d12663145 Lucas De Marchi        2024-03-22  1384  					  XE_BO_FLAG_V=
-RAM_IF_DGFX(tile) |
-62742d12663145 Lucas De Marchi        2024-03-22  1385  					  XE_BO_FLAG_G=
-GTT |
-045448da87bfb1 Matthew Brost          2025-04-03  1386  					  XE_BO_FLAG_G=
-GTT_INVALIDATE |
-045448da87bfb1 Matthew Brost          2025-04-03  1387  					  XE_BO_FLAG_P=
-INNED_NORESTORE);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1388  	if (IS_ERR(bo))
-dd08ebf6c3525a Matthew Brost          2023-03-30  1389  		return PTR_ERR(bo=
-);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1390 =20
-dd08ebf6c3525a Matthew Brost          2023-03-30  1391  	pc->bo =3D bo;
-8a4587ef9f9521 Micha=C5=82 Winiarski       2024-02-19  1392 =20
-60d2b7899142d5 Vinay Belgaumkar       2025-09-03  1393  	pc->power_profile =
-=3D SLPC_POWER_PROFILE_BASE;
-60d2b7899142d5 Vinay Belgaumkar       2025-09-03  1394 =20
-6d95155ae71963 Matthew Auld           2024-05-22  1395  	return devm_add_ac=
-tion_or_reset(xe->drm.dev, xe_guc_pc_fini_hw, pc);
-dd08ebf6c3525a Matthew Brost          2023-03-30  1396  }
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1397 =20
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1398  static const char *=
-pc_get_state_string(struct xe_guc_pc *pc)
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1399  {
-aaab5404b16f19 Rodrigo Vivi           2025-01-15 @1400  	switch (slpc_share=
-d_data_read(pc, header.global_state)) {
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1401  	case SLPC_GLOBAL_S=
-TATE_NOT_RUNNING:
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1402  		return "not runni=
-ng";
-aaab5404b16f19 Rodrigo Vivi           2025-01-15 @1403  	case SLPC_GLOBAL_S=
-TATE_INITIALIZING:
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1404  		return "initializ=
-ing";
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1405  	case SLPC_GLOBAL_S=
-TATE_RESETTING:
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1406  		return "resetting=
-";
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1407  	case SLPC_GLOBAL_S=
-TATE_RUNNING:
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1408  		return "running";
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1409  	case SLPC_GLOBAL_S=
-TATE_SHUTTING_DOWN:
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1410  		return "shutting =
-down";
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1411  	case SLPC_GLOBAL_S=
-TATE_ERROR:
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1412  		return "error";
-aaab5404b16f19 Rodrigo Vivi           2025-01-15 @1413  	default:
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1414  		return "unknown";
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1415  	}
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1416  }
-aaab5404b16f19 Rodrigo Vivi           2025-01-15  1417 =20
+vim +/err +9073 fs/smb/server/smb2pdu.c
 
-:::::: The code at line 1254 was first introduced by commit
-:::::: 40ee63f5df2d5c6471b583df800aac89dc0502a4 drm/xe/ptl: Disable DCC on =
-PTL
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  8992  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  8993  /**
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  8994   * smb2_lock() - handler for smb2 file lock command
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  8995   * @work:	smb work containing lock command buffer
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  8996   *
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  8997   * Return:	0 on success, otherwise error
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  8998   */
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  8999  int smb2_lock(struct ksmbd_work *work)
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9000  {
+7b7d709ef7cf285 fs/smb/server/smb2pdu.c Namjae Jeon       2023-06-24  9001  	struct smb2_lock_req *req;
+7b7d709ef7cf285 fs/smb/server/smb2pdu.c Namjae Jeon       2023-06-24  9002  	struct smb2_lock_rsp *rsp;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9003  	struct smb2_lock_element *lock_ele;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9004  	struct ksmbd_file *fp = NULL;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9005  	struct file_lock *flock = NULL;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9006  	struct file *filp = NULL;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9007  	int lock_count;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9008  	int flags = 0;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9009  	int cmd = 0;
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9010  	int err = -EIO, i, rc = 0;
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9011  	u64 lock_start, lock_length;
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9012  	struct ksmbd_lock *smb_lock = NULL, *cmp_lock, *tmp, *tmp2;
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9013  	struct ksmbd_conn *conn;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9014  	int nolock = 0;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9015  	LIST_HEAD(lock_list);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9016  	LIST_HEAD(rollback_list);
+0bcc831be535269 fs/smb/server/smb2pdu.c Namjae Jeon       2025-10-01  9017  	int prior_lock = 0, bkt;
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9018  	unsigned int id = KSMBD_NO_FID, pid = KSMBD_NO_FID;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9019  
+7b7d709ef7cf285 fs/smb/server/smb2pdu.c Namjae Jeon       2023-06-24  9020  	WORK_BUFFERS(work, req, rsp);
+7b7d709ef7cf285 fs/smb/server/smb2pdu.c Namjae Jeon       2023-06-24  9021  
+e333e77638b3cc8 fs/smb/server/smb2pdu.c Namjae Jeon       2024-11-22  9022  	ksmbd_debug(SMB, "Received smb2 lock request\n");
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9023  
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9024  	if (smb2_compound_has_failed(work, &rsp->hdr))
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9025  		return -EACCES;
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9026  
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9027  	if (work->next_smb2_rcv_hdr_off &&
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9028  	    !has_file_id(req->VolatileFileId)) {
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9029  		ksmbd_debug(SMB, "Compound request set FID = %llu\n",
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9030  			    work->compound_fid);
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9031  		id = work->compound_fid;
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9032  		pid = work->compound_pfid;
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9033  	}
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9034  
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9035  	if (!has_file_id(id)) {
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9036  		id = req->VolatileFileId;
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9037  		pid = req->PersistentFileId;
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9038  	}
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9039  
+3f67e624e591747 fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-21  9040  	fp = ksmbd_lookup_fd_slow(work, id, pid);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9041  	if (!fp) {
+2d004c6cae567e3 fs/ksmbd/smb2pdu.c      Paulo Alcantara   2022-03-21  9042  		ksmbd_debug(SMB, "Invalid file id for lock : %llu\n", req->VolatileFileId);
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9043  		err = -ENOENT;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9044  		goto out2;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9045  	}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9046  
+10e5f86a51f4383 fs/smb/server/smb2pdu.c Namjae Jeon       2026-07-19  9047  	err = smb2_set_request_open(work, fp, &req->hdr, false, false);
+10e5f86a51f4383 fs/smb/server/smb2pdu.c Namjae Jeon       2026-07-19  9048  	if (err)
+10e5f86a51f4383 fs/smb/server/smb2pdu.c Namjae Jeon       2026-07-19  9049  		goto out2;
+10e5f86a51f4383 fs/smb/server/smb2pdu.c Namjae Jeon       2026-07-19  9050  
+10e5f86a51f4383 fs/smb/server/smb2pdu.c Namjae Jeon       2026-07-19  9051  	smb2_verify_lock_sequence(work, fp, req);
+10e5f86a51f4383 fs/smb/server/smb2pdu.c Namjae Jeon       2026-07-19  9052  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9053  	filp = fp->filp;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9054  	lock_count = le16_to_cpu(req->LockCount);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9055  	lock_ele = req->locks;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9056  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9057  	ksmbd_debug(SMB, "lock count is %d\n", lock_count);
+bd0a1ca52b6da64 fs/smb/server/smb2pdu.c Akif Sait         2026-04-20  9058  	/*
+bd0a1ca52b6da64 fs/smb/server/smb2pdu.c Akif Sait         2026-04-20  9059  	 * Cap lock_count at 64. The MS-SMB2 spec defines Open.LockSequenceArray
+bd0a1ca52b6da64 fs/smb/server/smb2pdu.c Akif Sait         2026-04-20  9060  	 * as exactly 64 entries so 64 is the intended ceiling. No real workload
+bd0a1ca52b6da64 fs/smb/server/smb2pdu.c Akif Sait         2026-04-20  9061  	 * comes close to this in a single request.
+bd0a1ca52b6da64 fs/smb/server/smb2pdu.c Akif Sait         2026-04-20  9062  	 */
+bd0a1ca52b6da64 fs/smb/server/smb2pdu.c Akif Sait         2026-04-20  9063  	if (!lock_count || lock_count > 64) {
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9064  		err = -EINVAL;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9065  		goto out2;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9066  	}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9067  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9068  	for (i = 0; i < lock_count; i++) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9069  		flags = le32_to_cpu(lock_ele[i].Flags);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9070  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9071  		flock = smb_flock_init(filp);
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9072  		if (!flock)
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16 @9073  			goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9074  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9075  		cmd = smb2_set_flock_flags(flock, flags);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9076  
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9077  		lock_start = le64_to_cpu(lock_ele[i].Offset);
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9078  		lock_length = le64_to_cpu(lock_ele[i].Length);
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9079  		if (lock_start > U64_MAX - lock_length) {
+bde1694aecdb535 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-06-28  9080  			pr_err("Invalid lock range requested\n");
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9081  			rsp->hdr.Status = STATUS_INVALID_LOCK_RANGE;
+01f6c61bae3d658 fs/ksmbd/smb2pdu.c      Marios Makassikis 2022-11-29  9082  			locks_free_lock(flock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9083  			goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9084  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9085  
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9086  		if (lock_start > OFFSET_MAX)
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9087  			flock->fl_start = OFFSET_MAX;
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9088  		else
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9089  			flock->fl_start = lock_start;
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9090  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9091  		lock_length = le64_to_cpu(lock_ele[i].Length);
+50bf80a553ccb5e fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-14  9092  		if (lock_length > OFFSET_MAX - flock->fl_start)
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9093  			lock_length = OFFSET_MAX - flock->fl_start;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9094  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9095  		flock->fl_end = flock->fl_start + lock_length;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9096  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9097  		if (flock->fl_end < flock->fl_start) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9098  			ksmbd_debug(SMB,
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9099  				    "the end offset(%llx) is smaller than the start offset(%llx)\n",
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9100  				    flock->fl_end, flock->fl_start);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9101  			rsp->hdr.Status = STATUS_INVALID_LOCK_RANGE;
+01f6c61bae3d658 fs/ksmbd/smb2pdu.c      Marios Makassikis 2022-11-29  9102  			locks_free_lock(flock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9103  			goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9104  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9105  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9106  		/* Check conflict locks in one request */
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9107  		list_for_each_entry(cmp_lock, &lock_list, llist) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9108  			if (cmp_lock->fl->fl_start <= flock->fl_start &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9109  			    cmp_lock->fl->fl_end >= flock->fl_end) {
+16f9ce818901c7b fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9110  				if (cmp_lock->fl->c.flc_type != F_UNLCK &&
+16f9ce818901c7b fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9111  				    flock->c.flc_type != F_UNLCK) {
+bde1694aecdb535 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-06-28  9112  					pr_err("conflict two locks in one request\n");
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9113  					err = -EINVAL;
+01f6c61bae3d658 fs/ksmbd/smb2pdu.c      Marios Makassikis 2022-11-29  9114  					locks_free_lock(flock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9115  					goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9116  				}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9117  			}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9118  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9119  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9120  		smb_lock = smb2_lock_init(flock, cmd, flags, &lock_list);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9121  		if (!smb_lock) {
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9122  			err = -EINVAL;
+01f6c61bae3d658 fs/ksmbd/smb2pdu.c      Marios Makassikis 2022-11-29  9123  			locks_free_lock(flock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9124  			goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9125  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9126  	}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9127  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9128  	list_for_each_entry_safe(smb_lock, tmp, &lock_list, llist) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9129  		if (smb_lock->cmd < 0) {
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9130  			err = -EINVAL;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9131  			goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9132  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9133  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9134  		if (!(smb_lock->flags & SMB2_LOCKFLAG_MASK)) {
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9135  			err = -EINVAL;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9136  			goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9137  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9138  
+64b39f4a2fd293c fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-30  9139  		if ((prior_lock & (SMB2_LOCKFLAG_EXCLUSIVE | SMB2_LOCKFLAG_SHARED) &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9140  		     smb_lock->flags & SMB2_LOCKFLAG_UNLOCK) ||
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9141  		    (prior_lock == SMB2_LOCKFLAG_UNLOCK &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9142  		     !(smb_lock->flags & SMB2_LOCKFLAG_UNLOCK))) {
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9143  			err = -EINVAL;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9144  			goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9145  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9146  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9147  		prior_lock = smb_lock->flags;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9148  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9149  		if (!(smb_lock->flags & SMB2_LOCKFLAG_UNLOCK) &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9150  		    !(smb_lock->flags & SMB2_LOCKFLAG_FAIL_IMMEDIATELY))
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9151  			goto no_check_cl;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9152  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9153  		nolock = 1;
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9154  		/* check locks in connection list */
+abcc506a9a71976 fs/ksmbd/smb2pdu.c      Namjae Jeon       2023-05-03  9155  		down_read(&conn_list_lock);
+0bcc831be535269 fs/smb/server/smb2pdu.c Namjae Jeon       2025-10-01  9156  		hash_for_each(conn_list, bkt, conn, hlist) {
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9157  			spin_lock(&conn->llist_lock);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9158  			list_for_each_entry_safe(cmp_lock, tmp2, &conn->lock_list, clist) {
+16f9ce818901c7b fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9159  				if (file_inode(cmp_lock->fl->c.flc_file) !=
+16f9ce818901c7b fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9160  				    file_inode(smb_lock->fl->c.flc_file))
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9161  					continue;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9162  
+6a277077ac5189d fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9163  				if (lock_is_unlock(smb_lock->fl)) {
+16f9ce818901c7b fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9164  					if (cmp_lock->fl->c.flc_file == smb_lock->fl->c.flc_file &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9165  					    cmp_lock->start == smb_lock->start &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9166  					    cmp_lock->end == smb_lock->end &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9167  					    !lock_defer_pending(cmp_lock->fl)) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9168  						nolock = 0;
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9169  						list_del(&cmp_lock->flist);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9170  						list_del(&cmp_lock->clist);
+c1016dd1d8b2bcd fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-15  9171  						cmp_lock->conn = NULL;
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9172  						spin_unlock(&conn->llist_lock);
+abcc506a9a71976 fs/ksmbd/smb2pdu.c      Namjae Jeon       2023-05-03  9173  						up_read(&conn_list_lock);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9174  
+c1016dd1d8b2bcd fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-15  9175  						ksmbd_conn_put(conn);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9176  						locks_free_lock(cmp_lock->fl);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9177  						kfree(cmp_lock);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9178  						goto out_check_cl;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9179  					}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9180  					continue;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9181  				}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9182  
+16f9ce818901c7b fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9183  				if (cmp_lock->fl->c.flc_file == smb_lock->fl->c.flc_file) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9184  					if (smb_lock->flags & SMB2_LOCKFLAG_SHARED)
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9185  						continue;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9186  				} else {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9187  					if (cmp_lock->flags & SMB2_LOCKFLAG_SHARED)
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9188  						continue;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9189  				}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9190  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9191  				/* check zero byte lock range */
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9192  				if (cmp_lock->zero_len && !smb_lock->zero_len &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9193  				    cmp_lock->start > smb_lock->start &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9194  				    cmp_lock->start < smb_lock->end) {
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9195  					spin_unlock(&conn->llist_lock);
+abcc506a9a71976 fs/ksmbd/smb2pdu.c      Namjae Jeon       2023-05-03  9196  					up_read(&conn_list_lock);
+bde1694aecdb535 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-06-28  9197  					pr_err("previous lock conflict with zero byte lock range\n");
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9198  					goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9199  				}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9200  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9201  				if (smb_lock->zero_len && !cmp_lock->zero_len &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9202  				    smb_lock->start > cmp_lock->start &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9203  				    smb_lock->start < cmp_lock->end) {
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9204  					spin_unlock(&conn->llist_lock);
+abcc506a9a71976 fs/ksmbd/smb2pdu.c      Namjae Jeon       2023-05-03  9205  					up_read(&conn_list_lock);
+bde1694aecdb535 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-06-28  9206  					pr_err("current lock conflict with zero byte lock range\n");
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9207  					goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9208  				}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9209  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9210  				if (((cmp_lock->start <= smb_lock->start &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9211  				      cmp_lock->end > smb_lock->start) ||
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9212  				     (cmp_lock->start < smb_lock->end &&
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9213  				      cmp_lock->end >= smb_lock->end)) &&
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9214  				    !cmp_lock->zero_len && !smb_lock->zero_len) {
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9215  					spin_unlock(&conn->llist_lock);
+abcc506a9a71976 fs/ksmbd/smb2pdu.c      Namjae Jeon       2023-05-03  9216  					up_read(&conn_list_lock);
+bde1694aecdb535 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-06-28  9217  					pr_err("Not allow lock operation on exclusive lock range\n");
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9218  					goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9219  				}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9220  			}
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9221  			spin_unlock(&conn->llist_lock);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9222  		}
+abcc506a9a71976 fs/ksmbd/smb2pdu.c      Namjae Jeon       2023-05-03  9223  		up_read(&conn_list_lock);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9224  out_check_cl:
+6a277077ac5189d fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9225  		if (lock_is_unlock(smb_lock->fl) && nolock) {
+bde1694aecdb535 fs/cifsd/smb2pdu.c      Namjae Jeon       2021-06-28  9226  			pr_err("Try to unlock nolocked range\n");
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9227  			rsp->hdr.Status = STATUS_RANGE_NOT_LOCKED;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9228  			goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9229  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9230  
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9231  no_check_cl:
+84d2d1641b71dec fs/smb/server/smb2pdu.c Namjae Jeon       2025-02-26  9232  		flock = smb_lock->fl;
+84d2d1641b71dec fs/smb/server/smb2pdu.c Namjae Jeon       2025-02-26  9233  		list_del(&smb_lock->llist);
+84d2d1641b71dec fs/smb/server/smb2pdu.c Namjae Jeon       2025-02-26  9234  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9235  		if (smb_lock->zero_len) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9236  			err = 0;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9237  			goto skip;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9238  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9239  retry:
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9240  		rc = vfs_lock_file(filp, smb_lock->cmd, flock, NULL);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9241  skip:
+e26e2d2e15daf1a fs/smb/server/smb2pdu.c Namjae Jeon       2025-02-27  9242  		if (smb_lock->flags & SMB2_LOCKFLAG_UNLOCK) {
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9243  			locks_free_lock(flock);
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9244  			kfree(smb_lock);
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9245  			if (!rc) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9246  				ksmbd_debug(SMB, "File unlocked\n");
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9247  			} else if (rc == -ENOENT) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9248  				rsp->hdr.Status = STATUS_NOT_LOCKED;
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9249  				err = rc;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9250  				goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9251  			}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9252  		} else {
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9253  			if (rc == FILE_LOCK_DEFERRED) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9254  				void **argv;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9255  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9256  				ksmbd_debug(SMB,
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9257  					    "would have to wait for getting lock\n");
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9258  				list_add(&smb_lock->llist, &rollback_list);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9259  
+0066f623bce8f98 fs/smb/server/smb2pdu.c Namjae Jeon       2024-11-22  9260  				argv = kmalloc(sizeof(void *), KSMBD_DEFAULT_GFP);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9261  				if (!argv) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9262  					err = -ENOMEM;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9263  					goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9264  				}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9265  				argv[0] = flock;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9266  
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9267  				rc = setup_async_work(work,
+070fb21e5912b6a fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-26  9268  						      smb2_remove_blocked_lock,
+070fb21e5912b6a fs/cifsd/smb2pdu.c      Namjae Jeon       2021-05-26  9269  						      argv);
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9270  				if (rc) {
+8f1752723019db9 fs/smb/server/smb2pdu.c Zizhi Wo          2023-12-01  9271  					kfree(argv);
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9272  					err = -ENOMEM;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9273  					goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9274  				}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9275  				spin_lock(&fp->f_lock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9276  				list_add(&work->fp_entry, &fp->blocked_works);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9277  				spin_unlock(&fp->f_lock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9278  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9279  				smb2_send_interim_resp(work, STATUS_PENDING);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9280  
+45a64e8b08493b7 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9281  				ksmbd_vfs_posix_lock_wait(flock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9282  
+d3ca9f7aeba793d fs/ksmbd/smb2pdu.c      Hangyu Hua        2023-02-17  9283  				spin_lock(&fp->f_lock);
+d3ca9f7aeba793d fs/ksmbd/smb2pdu.c      Hangyu Hua        2023-02-17  9284  				list_del(&work->fp_entry);
+d3ca9f7aeba793d fs/ksmbd/smb2pdu.c      Hangyu Hua        2023-02-17  9285  				spin_unlock(&fp->f_lock);
+d3ca9f7aeba793d fs/ksmbd/smb2pdu.c      Hangyu Hua        2023-02-17  9286  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9287  				list_del(&smb_lock->llist);
+d20d1c8ba5765d1 fs/smb/server/smb2pdu.c Davide Ornaghi    2026-06-06  9288  				release_async_work(work);
+d20d1c8ba5765d1 fs/smb/server/smb2pdu.c Davide Ornaghi    2026-06-06  9289  
+d20d1c8ba5765d1 fs/smb/server/smb2pdu.c Davide Ornaghi    2026-06-06  9290  				if (work->state == KSMBD_WORK_ACTIVE)
+d20d1c8ba5765d1 fs/smb/server/smb2pdu.c Davide Ornaghi    2026-06-06  9291  					goto retry;
+d20d1c8ba5765d1 fs/smb/server/smb2pdu.c Davide Ornaghi    2026-06-06  9292  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9293  				locks_free_lock(flock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9294  
+d4075abbc6b571e fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-06-25  9295  				if (work->state == KSMBD_WORK_CANCELLED) {
+d20d1c8ba5765d1 fs/smb/server/smb2pdu.c Davide Ornaghi    2026-06-06  9296  					rsp->hdr.Status = STATUS_CANCELLED;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9297  					kfree(smb_lock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9298  					smb2_send_interim_resp(work,
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9299  							STATUS_CANCELLED);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9300  					work->send_no_response = 1;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9301  					goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9302  				}
+3a9b557f44ea8f2 fs/ksmbd/smb2pdu.c      Namjae Jeon       2023-03-31  9303  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9304  				rsp->hdr.Status =
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9305  					STATUS_RANGE_NOT_LOCKED;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9306  				kfree(smb_lock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9307  				goto out2;
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9308  			} else if (!rc) {
+75ac9a3dd65f7ea fs/smb/server/smb2pdu.c Namjae Jeon       2023-10-04  9309  				list_add(&smb_lock->llist, &rollback_list);
+c1016dd1d8b2bcd fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-15  9310  				smb_lock->conn = ksmbd_conn_get(work->conn);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9311  				spin_lock(&work->conn->llist_lock);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9312  				list_add_tail(&smb_lock->clist,
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9313  					      &work->conn->lock_list);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9314  				list_add_tail(&smb_lock->flist,
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9315  					      &fp->lock_list);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9316  				spin_unlock(&work->conn->llist_lock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9317  				ksmbd_debug(SMB, "successful in taking lock\n");
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9318  			} else {
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9319  				locks_free_lock(flock);
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9320  				kfree(smb_lock);
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9321  				err = rc;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9322  				goto out;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9323  			}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9324  		}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9325  	}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9326  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9327  	if (atomic_read(&fp->f_ci->op_count) > 1)
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9328  		smb_break_all_oplock(work, fp);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9329  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9330  	rsp->StructureSize = cpu_to_le16(4);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9331  	ksmbd_debug(SMB, "successful in taking lock\n");
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9332  	rsp->hdr.Status = STATUS_SUCCESS;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9333  	rsp->Reserved = 0;
+e2b76ab8b5c9327 fs/smb/server/smb2pdu.c Namjae Jeon       2023-08-29  9334  	err = ksmbd_iov_pin_rsp(work, rsp, sizeof(struct smb2_lock_rsp));
+e2b76ab8b5c9327 fs/smb/server/smb2pdu.c Namjae Jeon       2023-08-29  9335  	if (err)
+e2b76ab8b5c9327 fs/smb/server/smb2pdu.c Namjae Jeon       2023-08-29  9336  		goto out;
+10e5f86a51f4383 fs/smb/server/smb2pdu.c Namjae Jeon       2026-07-19  9337  	smb2_update_lock_sequence(work, fp, req);
+e2b76ab8b5c9327 fs/smb/server/smb2pdu.c Namjae Jeon       2023-08-29  9338  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9339  	ksmbd_fd_put(work, fp);
+96ad4ec51c06c6f fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-13  9340  	return 0;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9341  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9342  out:
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9343  	list_for_each_entry_safe(smb_lock, tmp, &lock_list, llist) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9344  		locks_free_lock(smb_lock->fl);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9345  		list_del(&smb_lock->llist);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9346  		kfree(smb_lock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9347  	}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9348  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9349  	list_for_each_entry_safe(smb_lock, tmp, &rollback_list, llist) {
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9350  		struct file_lock *rlock = NULL;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9351  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9352  		rlock = smb_flock_init(filp);
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9353  		if (rlock) {
+16f9ce818901c7b fs/smb/server/smb2pdu.c Jeff Layton       2024-01-31  9354  			rlock->c.flc_type = F_UNLCK;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9355  			rlock->fl_start = smb_lock->start;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9356  			rlock->fl_end = smb_lock->end;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9357  
+7ecbe92696bb7fe fs/ksmbd/smb2pdu.c      Jeff Layton       2022-11-11  9358  			rc = vfs_lock_file(filp, F_SETLK, rlock, NULL);
+96ad4ec51c06c6f fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-13  9359  			if (rc)
+96ad4ec51c06c6f fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-13  9360  				pr_err("rollback unlock fail : %d\n", rc);
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9361  		} else {
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9362  			pr_err("rollback unlock alloc failed\n");
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9363  		}
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9364  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9365  		list_del(&smb_lock->llist);
+c1016dd1d8b2bcd fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-15  9366  		conn = smb_lock->conn;
+c1016dd1d8b2bcd fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-15  9367  		spin_lock(&conn->llist_lock);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9368  		if (!list_empty(&smb_lock->flist))
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9369  			list_del(&smb_lock->flist);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9370  		list_del(&smb_lock->clist);
+c1016dd1d8b2bcd fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-15  9371  		smb_lock->conn = NULL;
+c1016dd1d8b2bcd fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-15  9372  		spin_unlock(&conn->llist_lock);
+c1016dd1d8b2bcd fs/smb/server/smb2pdu.c Namjae Jeon       2026-06-15  9373  		ksmbd_conn_put(conn);
+d63528eb0d43c47 fs/ksmbd/smb2pdu.c      Hyunchul Lee      2021-07-10  9374  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9375  		locks_free_lock(smb_lock->fl);
+309b44ed684496e fs/smb/server/smb2pdu.c Werner Kasselman  2026-03-17  9376  		if (rlock)
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9377  			locks_free_lock(rlock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9378  		kfree(smb_lock);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9379  	}
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9380  out2:
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9381  	ksmbd_debug(SMB, "failed in taking lock(flags : %x), err : %d\n", flags, err);
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9382  
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9383  	if (!rsp->hdr.Status) {
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9384  		if (err == -EINVAL)
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9385  			rsp->hdr.Status = STATUS_INVALID_PARAMETER;
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9386  		else if (err == -ENOMEM)
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9387  			rsp->hdr.Status = STATUS_INSUFFICIENT_RESOURCES;
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9388  		else if (err == -ENOENT)
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9389  			rsp->hdr.Status = STATUS_FILE_CLOSED;
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9390  		else
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9391  			rsp->hdr.Status = STATUS_LOCK_NOT_GRANTED;
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9392  	}
+6c99dfc4c5f6fa1 fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-27  9393  
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9394  	smb2_set_err_rsp(work);
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9395  	ksmbd_fd_put(work, fp);
+96ad4ec51c06c6f fs/ksmbd/smb2pdu.c      Namjae Jeon       2021-07-13  9396  	return err;
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9397  }
+e2f34481b24db2f fs/cifsd/smb2pdu.c      Namjae Jeon       2021-03-16  9398  
 
-:::::: TO: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+:::::: The code at line 9073 was first introduced by commit
+:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
+
+:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 --
 0-DAY CI Kernel Test Service
