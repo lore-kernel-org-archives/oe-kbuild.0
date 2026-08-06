@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B3B42B75A
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Aug 2026 10:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB1C439F90
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Aug 2026 10:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786010749; cv=none; b=Qk5krd2aKTdmwLoD2eHRNH4aAk9cejrnAsFZaunlTO/3t5UL/cnEgr9ZIOp50WAFUHRflxOhkG2VG8BTNGntVQI5wpgUbjavMDRSNXqCUP/j0SM+9XXtnyEEp+K+GiTG/0ftKSjbr7InA1fybotgiGjdYDN3XFt7iPQ8pJvKL+c=
+	t=1786011949; cv=none; b=nC1a4i2Y5c4S0kVLIv8j/g7JnUjXpl9LQsEo6Qps2/IgIoSok0tl5UlJ7iAw6H+8Q5uSxNvjWy3G9WYToS9IrlGfX6zfvb6gzIxWNBlIySbK1vwQSOafv3YfTesSvA7/2zFmP5wIV9My1RXYjE30ayKMfpQnWjgk0k2Pmn6Qdto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786010749; c=relaxed/simple;
-	bh=hhEWWZMP1i3IpVN72McWAUOjheBSIowfdCYDH8OX+70=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HPfVJck4tgRRCv3StUrBL31z9NoKqtaRM0aM33zhSi6pu3KCAxnITmI8SlGIBg++nY1Ipco9e5gu9zd0K778i7BFnNNpL6knnHkYi3SSfoabB7RJdRJYSEoHiU+CviHUTRZdlWDe8gnuRBoP4mk1MHbG8Q14PIyeVoSx/pymudI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oq7aPfRF; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1786011949; c=relaxed/simple;
+	bh=psXyUCUlDmVtb4AeNseLm23iJ2TmZc/GWqhIT44nccE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YR8NsJa1+8FELstBo6HlEOv1k5TcwCv1ZZEhhL0hSok8Y3UTZhRA1mLxYSe6SKsc1dOpGTK/ZdrxnFcsQfq/3pQ0SCH1T629cAUCna7wnxGR1747s5BvcIm08kCrkjA7TjyOXwQaxahybv4jGtysa0jwBwgevYN6/vS0Jxzl9w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lAO3fTXA; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oq7aPfRF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lAO3fTXA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786010748; x=1817546748;
+  t=1786011946; x=1817547946;
   h=date:from:to:cc:subject:message-id;
-  bh=hhEWWZMP1i3IpVN72McWAUOjheBSIowfdCYDH8OX+70=;
-  b=Oq7aPfRFwTMnRO3UOmhWJUDcdaDUX63pKPUqVWUeZ0bhv2T6i3o+MbwH
-   quiyNqdPlq6OCe2vkCGDb07HpwuWW5PDfKYVIL4/n5O42lF17I6M5oLwF
-   FHBA0vPBG4+RXddA8iuUmcqIl196TS5FmzJDtUoyUeunn7KKVW2JjyxbJ
-   4/U4juTHEbRLQa8QPQH02DmKOoem47HS7OmoEvJGbULuLSB8pR2GYZsoR
-   odTnX4TdR45VofhUFoJo42hKrcQ3myaVz20ksiahEdwiAXoS7l8N7uZ4X
-   pgTYrvXUgvRmGIAnWLc0l5CgSQGpWb4jIDEJx3eygcOr8U0JAAkCaw5x6
-   g==;
-X-CSE-ConnectionGUID: zhUZ1HTmTjeoi4orTCqEaQ==
-X-CSE-MsgGUID: +HDvr3pYT4KsYAojJgbMJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="74135079"
+  bh=psXyUCUlDmVtb4AeNseLm23iJ2TmZc/GWqhIT44nccE=;
+  b=lAO3fTXABhfTkJZAn9GgBEgfDxrFDw0nTBKrk5NEyF0EaumpbJSxcuol
+   9SyY4pG5pjxwlFd+OZ4VmGWDUk0JUwOl+DH5jwObvX5XC1IHvLvXFPwtO
+   rnSPWn9DMwHfdW9eCqyVN57SIUtVKY86A59SO1mXcztWxIHlTU5Xf/ZjB
+   7pfM/RSzBD80ip4cOE06sGdgBEIJar5wLdSsBR9hf5oqamgHuzfckjIsI
+   SfrtXrcVvR1gaQFgmHnMcQtkeOhmcePYJPYWn1wsLfvvYo1VmXBlDdWgi
+   cfxC+lpWhMg6wmGrInNpG0qopQam5kb1DaVTkoN01Z0ZJggFqjiQxfOuu
+   A==;
+X-CSE-ConnectionGUID: jp9faZ9wQXGXJeVIN706Cg==
+X-CSE-MsgGUID: ml1j5SclSY2YBxy/NLGzxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86716701"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="74135079"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 03:05:45 -0700
-X-CSE-ConnectionGUID: I7OtghJvTRmthUA+8DpaqA==
-X-CSE-MsgGUID: NzYG2ssMTCOBZncNpWyDWQ==
+   d="scan'208";a="86716701"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 03:25:44 -0700
+X-CSE-ConnectionGUID: pawSVIWxRia3Dij7+nRRAg==
+X-CSE-MsgGUID: IyzWUDIHS8mM3jnzYBF+qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="285440425"
+   d="scan'208";a="291972910"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Aug 2026 03:05:43 -0700
+  by orviesa002.jf.intel.com with ESMTP; 06 Aug 2026 03:25:44 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wruyr-000000004c4-1Fle;
-	Thu, 06 Aug 2026 10:05:41 +0000
-Date: Thu, 06 Aug 2026 12:04:43 +0200
+	id 1wrvID-000000004cI-23bO;
+	Thu, 06 Aug 2026 10:25:41 +0000
+Date: Thu, 06 Aug 2026 12:25:18 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/powerpc/boot/dts/fsl/p3041ds.dtb: board-control@3,0
- (fsl,p3041ds-fpga): 'mdio-mux-emi1' does not match any of the regexes:
- '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-Message-ID: <202608061207.HdDZaadS-lkp@intel.com>
+Subject: arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtb:
+ scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+Message-ID: <202608061207.1iLfVuJ7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -67,202 +66,47 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ioana Ciornei <ioana.ciornei@nxp.com>
-CC: Shawn Guo <shawnguo@kernel.org>
+TO: Gary Bisson <bisson.gary@gmail.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0d839570765118029aa8bf4a95444c6a11aacf85
-commit: 2346a408b4f2b8f9ea3778deb40a91c774e463b6 dt-bindings: fsl,fpga-qixis: describe the gpio child node found on LS1046AQDS
-date:   9 months ago
+commit: fe96ff075f960abb9dd1c99c4c4e7f79c4e10172 arm64: dts: mediatek: add device tree for Tungsten 700 board
+date:   7 months ago
 :::::: branch date: 19 hours ago
-:::::: commit date: 9 months ago
-config: powerpc-randconfig-2051-20260805 (https://download.01.org/0day-ci/archive/20260806/202608061207.HdDZaadS-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ade128740327db281859708ddcb3b072903b3414)
+:::::: commit date: 7 months ago
+config: arm64-randconfig-2054-20260805 (https://download.01.org/0day-ci/archive/20260806/202608061207.1iLfVuJ7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061207.HdDZaadS-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061207.1iLfVuJ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2346a408b4f2 ("dt-bindings: fsl,fpga-qixis: describe the gpio child node found on LS1046AQDS")
+| Fixes: fe96ff075f96 ("arm64: dts: mediatek: add device tree for Tungsten 700 board")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608061207.HdDZaadS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608061207.1iLfVuJ7-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	'fsl,sec-v4.2-mon' is not one of ['fsl,sec-v5.3-mon', 'fsl,sec-v5.4-mon']
-   	'syscon' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0-mon.yaml
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: sec_mon@314000 (fsl,sec-v4.2-mon): interrupts: [[93, 2, 0, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0-mon.yaml
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/sec_mon@314000: failed to match any schema with compatible: ['fsl,sec-v4.2-mon', 'fsl,sec-v4.0-mon']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /rapidio@ffe0c0000: failed to match any schema with compatible: ['fsl,srio']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /localbus@ffe124000: failed to match any schema with compatible: ['fsl,p3041-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /localbus@ffe124000: failed to match any schema with compatible: ['fsl,p3041-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /localbus@ffe124000/nand@2,0: failed to match any schema with compatible: ['fsl,elbc-fcm-nand']
->> arch/powerpc/boot/dts/fsl/p3041ds.dtb: board-control@3,0 (fsl,p3041ds-fpga): 'mdio-mux-emi1' does not match any of the regexes: '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: board-control@3,0 (fsl,p3041ds-fpga): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,p3041ds-fpga', 'fsl,fpga-ngpixis'] is too short
-   	['fsl,p3041ds-fpga', 'fsl,fpga-ngpixis'] is too long
-   	'fsl,p1022ds-fpga' was expected
-   	'fsl,p3041ds-fpga' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   	'fsl,p3041ds-fpga' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   	'fsl,p3041ds-fpga' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	'fsl,fpga-qixis' was expected
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
---
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq0@1000/jr@400: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-lp-ring']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-queue']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@0: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-hp-ring']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@0: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-hp-ring']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@400: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-lp-ring']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@400: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-lp-ring']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /rapidio@ffe0c0000: failed to match any schema with compatible: ['fsl,srio']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /localbus@ffe124000: failed to match any schema with compatible: ['fsl,p5020-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /localbus@ffe124000: failed to match any schema with compatible: ['fsl,p5020-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /localbus@ffe124000/nand@2,0: failed to match any schema with compatible: ['fsl,elbc-fcm-nand']
->> arch/powerpc/boot/dts/fsl/p5020ds.dtb: board-control@3,0 (fsl,p5020ds-fpga): 'mdio-mux-emi1' does not match any of the regexes: '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: board-control@3,0 (fsl,p5020ds-fpga): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,p5020ds-fpga', 'fsl,fpga-ngpixis'] is too short
-   	['fsl,p5020ds-fpga', 'fsl,fpga-ngpixis'] is too long
-   	'fsl,p1022ds-fpga' was expected
-   	'fsl,p5020ds-fpga' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   	'fsl,p5020ds-fpga' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   	'fsl,p5020ds-fpga' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	'fsl,fpga-qixis' was expected
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
---
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq0@1000/jr@400: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-lp-ring']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq0@1000/jr@400: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-lp-ring']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-queue']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@0: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-hp-ring']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@0: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-hp-ring']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@400: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-lp-ring']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@400: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-lp-ring']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /localbus@ffe124000: failed to match any schema with compatible: ['fsl,p5040-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /localbus@ffe124000: failed to match any schema with compatible: ['fsl,p5040-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /localbus@ffe124000/nand@2,0: failed to match any schema with compatible: ['fsl,elbc-fcm-nand']
->> arch/powerpc/boot/dts/fsl/p5040ds.dtb: board-control@3,0 (fsl,p5040ds-fpga): 'mdio-mux-emi1', 'mdio-mux-emi2' do not match any of the regexes: '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: board-control@3,0 (fsl,p5040ds-fpga): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,p5040ds-fpga', 'fsl,fpga-ngpixis'] is too short
-   	['fsl,p5040ds-fpga', 'fsl,fpga-ngpixis'] is too long
-   	'fsl,p1022ds-fpga' was expected
-   	'fsl,p5040ds-fpga' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   	'fsl,p5040ds-fpga' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   	'fsl,p5040ds-fpga' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	'fsl,fpga-qixis' was expected
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
---
-   		'fsl,fpga-qixis' is not one of ['amd,s29gl01gp', 'amd,s29gl032a', 'amd,s29gl256n', 'amd,s29gl512n', 'arm,versatile-flash', 'arm,vexpress-flash', 'cortina,gemini-flash', 'cypress,hyperflash', 'ge,imp3a-firmware-mirror', 'ge,imp3a-paged-flash', 'gef,ppc9a-firmware-mirror', 'gef,ppc9a-paged-flash', 'gef,sbc310-firmware-mirror', 'gef,sbc310-paged-flash', 'gef,sbc610-firmware-mirror', 'gef,sbc610-paged-flash', 'intel,28f128j3', 'intel,dt28f160', 'intel,ixp4xx-flash', 'intel,JS28F128', 'intel,JS28F640', 'intel,PC28F640P30T85', 'numonyx,js28f00a', 'numonyx,js28f128', 'sst,sst39vf320', 'xlnx,xps-mch-emc-2.00.a']
-   		'fsl,fpga-qixis' is not one of ['cypress,cy7c1019dv33-10zsxi', 'arm,vexpress-psram']
-   		'fsl,fpga-qixis' is not one of ['cfi-flash', 'jedec-flash', 'mtd-ram', 'mtd-rom']
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: localbus@ffe124000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'mdio-mux-emi1', 'ranges', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: localbus@ffe124000 (fsl,ifc): $nodename:0: 'localbus@ffe124000' does not match '^memory-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: nor@0,0 (cfi-flash): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
->> arch/powerpc/boot/dts/fsl/t1040qds.dtb: board-control@3,0 (fsl,fpga-qixis): 'mdio-mux-emi1' does not match any of the regexes: '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: board-control@3,0 (fsl,fpga-qixis): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,fpga-qixis'] is too short
-   	'fsl,p1022ds-fpga' was expected
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: dcsr@f00000000 (fsl,dcsr): dcsr-npc: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
---
-   		'fsl,fpga-qixis' is not one of ['amd,s29gl01gp', 'amd,s29gl032a', 'amd,s29gl256n', 'amd,s29gl512n', 'arm,versatile-flash', 'arm,vexpress-flash', 'cortina,gemini-flash', 'cypress,hyperflash', 'ge,imp3a-firmware-mirror', 'ge,imp3a-paged-flash', 'gef,ppc9a-firmware-mirror', 'gef,ppc9a-paged-flash', 'gef,sbc310-firmware-mirror', 'gef,sbc310-paged-flash', 'gef,sbc610-firmware-mirror', 'gef,sbc610-paged-flash', 'intel,28f128j3', 'intel,dt28f160', 'intel,ixp4xx-flash', 'intel,JS28F128', 'intel,JS28F640', 'intel,PC28F640P30T85', 'numonyx,js28f00a', 'numonyx,js28f128', 'sst,sst39vf320', 'xlnx,xps-mch-emc-2.00.a']
-   		'fsl,fpga-qixis' is not one of ['cypress,cy7c1019dv33-10zsxi', 'arm,vexpress-psram']
-   		'fsl,fpga-qixis' is not one of ['cfi-flash', 'jedec-flash', 'mtd-ram', 'mtd-rom']
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: localbus@ffe124000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'mdio-mux-emi1', 'ranges', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: localbus@ffe124000 (fsl,ifc): $nodename:0: 'localbus@ffe124000' does not match '^memory-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: nor@0,0 (cfi-flash): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
->> arch/powerpc/boot/dts/fsl/t1042qds.dtb: board-control@3,0 (fsl,fpga-qixis): 'mdio-mux-emi1' does not match any of the regexes: '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: board-control@3,0 (fsl,fpga-qixis): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,fpga-qixis'] is too short
-   	'fsl,p1022ds-fpga' was expected
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: dcsr@f00000000 (fsl,dcsr): dcsr-npc: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
---
-   		'fsl,fpga-qixis' is not one of ['amd,s29gl01gp', 'amd,s29gl032a', 'amd,s29gl256n', 'amd,s29gl512n', 'arm,versatile-flash', 'arm,vexpress-flash', 'cortina,gemini-flash', 'cypress,hyperflash', 'ge,imp3a-firmware-mirror', 'ge,imp3a-paged-flash', 'gef,ppc9a-firmware-mirror', 'gef,ppc9a-paged-flash', 'gef,sbc310-firmware-mirror', 'gef,sbc310-paged-flash', 'gef,sbc610-firmware-mirror', 'gef,sbc610-paged-flash', 'intel,28f128j3', 'intel,dt28f160', 'intel,ixp4xx-flash', 'intel,JS28F128', 'intel,JS28F640', 'intel,PC28F640P30T85', 'numonyx,js28f00a', 'numonyx,js28f128', 'sst,sst39vf320', 'xlnx,xps-mch-emc-2.00.a']
-   		'fsl,fpga-qixis' is not one of ['cypress,cy7c1019dv33-10zsxi', 'arm,vexpress-psram']
-   		'fsl,fpga-qixis' is not one of ['cfi-flash', 'jedec-flash', 'mtd-ram', 'mtd-rom']
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: localbus@ffe124000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'mdio-mux-emi1', 'ranges', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: localbus@ffe124000 (fsl,ifc): $nodename:0: 'localbus@ffe124000' does not match '^memory-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: nor@0,0 (cfi-flash): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
->> arch/powerpc/boot/dts/fsl/t2080qds.dtb: board-control@3,0 (fsl,fpga-qixis): 'mdio-mux-emi1' does not match any of the regexes: '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: board-control@3,0 (fsl,fpga-qixis): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,fpga-qixis'] is too short
-   	'fsl,p1022ds-fpga' was expected
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: dcsr@f00000000 (fsl,dcsr): dcsr-npc: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
---
-   		'fsl,fpga-qixis' is not one of ['amd,s29gl01gp', 'amd,s29gl032a', 'amd,s29gl256n', 'amd,s29gl512n', 'arm,versatile-flash', 'arm,vexpress-flash', 'cortina,gemini-flash', 'cypress,hyperflash', 'ge,imp3a-firmware-mirror', 'ge,imp3a-paged-flash', 'gef,ppc9a-firmware-mirror', 'gef,ppc9a-paged-flash', 'gef,sbc310-firmware-mirror', 'gef,sbc310-paged-flash', 'gef,sbc610-firmware-mirror', 'gef,sbc610-paged-flash', 'intel,28f128j3', 'intel,dt28f160', 'intel,ixp4xx-flash', 'intel,JS28F128', 'intel,JS28F640', 'intel,PC28F640P30T85', 'numonyx,js28f00a', 'numonyx,js28f128', 'sst,sst39vf320', 'xlnx,xps-mch-emc-2.00.a']
-   		'fsl,fpga-qixis' is not one of ['cypress,cy7c1019dv33-10zsxi', 'arm,vexpress-psram']
-   		'fsl,fpga-qixis' is not one of ['cfi-flash', 'jedec-flash', 'mtd-ram', 'mtd-rom']
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: localbus@ffe124000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'mdio-mux-emi1', 'ranges', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: localbus@ffe124000 (fsl,ifc): $nodename:0: 'localbus@ffe124000' does not match '^memory-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: nor@0,0 (cfi-flash): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
->> arch/powerpc/boot/dts/fsl/t2081qds.dtb: board-control@3,0 (fsl,fpga-qixis): 'mdio-mux-emi1' does not match any of the regexes: '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: board-control@3,0 (fsl,fpga-qixis): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,fpga-qixis'] is too short
-   	'fsl,p1022ds-fpga' was expected
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   	'fsl,fpga-qixis' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: dcsr@f00000000 (fsl,dcsr): dcsr-corenet: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
---
-   		'mtd-ram' was expected
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: localbus@ffe124000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'mdio-mux-emi1', 'ranges', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: localbus@ffe124000 (fsl,ifc): nand@2,0: 'partition@C00000' does not match any of the regexes: '^partition@[0-9a-f]+', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: localbus@ffe124000 (fsl,ifc): $nodename:0: 'localbus@ffe124000' does not match '^memory-controller@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: nor@0,0 (cfi-flash): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
->> arch/powerpc/boot/dts/fsl/t4240qds.dtb: board-control@3,0 (fsl,t4240qds-fpga): 'mdio-mux-emi1' does not match any of the regexes: '^gpio@[0-9a-f]+$', '^mdio-mux@[a-f0-9,]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: board-control@3,0 (fsl,t4240qds-fpga): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,t4240qds-fpga', 'fsl,fpga-qixis'] is too short
-   	['fsl,t4240qds-fpga', 'fsl,fpga-qixis'] is too long
-   	'fsl,p1022ds-fpga' was expected
-   	'fsl,t4240qds-fpga' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   	'fsl,t4240qds-fpga' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   	'fsl,t4240qds-fpga' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	'fsl,fpga-ngpixis' was expected
-   	from schema $id: http://devicetree.org/schemas/board/fsl,fpga-qixis.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtsi:945.13-965.4: Warning (avoid_unnecessary_addr_size): /soc/usb@112a1000/usb@0/ethernet@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/mediatek/mt8188.dtsi:3081.27-3094.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1c008000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtsi:969.7-977.4: Warning (graph_child_address): /soc/syscon@1c01d000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+>> arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtb: scp@10720000 (mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtb: hdmi-phy@11d5f000 (mediatek,mt8188-hdmi-phy): clock-output-names:0: 'hdmitx_dig_cts' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,hdmi-phy.yaml
+   arch/arm64/boot/dts/mediatek/mt8390-tungsten-smarc.dtb: hdmi-phy@11d5f000 (mediatek,mt8188-hdmi-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-hdmi-phy', 'mediatek,mt8195-hdmi-phy'] is too long
+   	'mediatek,mt8188-hdmi-phy' is not one of ['mediatek,mt7623-hdmi-phy']
+   	'mediatek,mt2701-hdmi-phy' was expected
+   	'mediatek,mt8173-hdmi-phy' was expected
+   	'mediatek,mt8195-hdmi-phy' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,hdmi-phy.yaml
 
 --
 0-DAY CI Kernel Test Service
