@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69613A7F7A
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Aug 2026 18:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0BB494801
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Aug 2026 19:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786041629; cv=none; b=WngdBxndaobSOAHgsWPxL+Gt0udZlMuD3f3oN14ya2S4akW+zL6g1RvxfiWnEAJA4/Mykh8UADyvdnmzO124uz0coJ0pqG/vsRLSJMXDm2ZCVLjHHpPWvCbRNqTCjBj/1Pt9b+PyyJjrwHchEaNkfuPNfKPqHRAOG2vUfD+SikI=
+	t=1786045173; cv=none; b=DRthOsZ3B5m2w6Uny4mGzcdYB3x1r+GPB9p02XjHihUvRE6j4OW6yx5lh8qzT1Qzom2j+7ZBtPxrNnGE7cWwGNVrGPv/PBetSlQ62YPsd26r9EeLCZwMT2LQHmw19bMS+ApQYClckCcRp49icIdvwwMMExUt+tAPPskGbpB2bK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786041629; c=relaxed/simple;
-	bh=W2Vxhi6uUlWNIRMFjdwwC9Dbc8feeiB4lGhLUy+a2qw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GInGEuNKMjgDkFXPVpJDfH/gOCnzxWuf0Sosi/4zu2uinZcJHAeyjUfT8LBtbKq5EIaz9fHTqkg2Cy5g95Y/Xnwx+ufUBDoOCpMtm4PxL07YtRcLuYamYsU2/4gnZ0qHsCd1Kcalk0c4Omb9QfOMfMJ5bm6u080UHaQah9q6WDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c1RCsf66; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1786045173; c=relaxed/simple;
+	bh=y4O2YIpYUwg440cdCrrFpyF0GrLXVpVzbHprCfyT4VY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ANaGzXsq6AxkO0jvDDH58cN5zGrxsWELoyKztn3Z3RJ35dJle2kb0kEp5lQnlOgyqWhqfakSX9uhGReXcU1b3H2yYmtS4gHglSIbEcWUtdaBZ/gcG1D31riAtXP44IZHCPsyOSD3gCBIJMudT/9AWueT/Bzq9mkH9P1k+me7RzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMKC6TmN; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1RCsf66"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMKC6TmN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786041627; x=1817577627;
+  t=1786045172; x=1817581172;
   h=date:from:to:cc:subject:message-id;
-  bh=W2Vxhi6uUlWNIRMFjdwwC9Dbc8feeiB4lGhLUy+a2qw=;
-  b=c1RCsf66adA9PPTjaEvL17A1LrHb6FZR8zenQUWUL9CDpdCmONEQLFtO
-   bokepkvruCYRtuVbGCw4GZ+i21Rw7uv0X+c8fT3PSbeJAKTQSHabkLW5h
-   OYqfFoA9OOkzu/kEWuLlFiAiwLBBuhMpS2CL9jpBG7LjWYJeCGiGiubP6
-   /dA1egetZlf76mm0zCb7ASy2mJVFXN5O0/e6jJd5R/7pJtEy9foK1COxy
-   1TBunb3rCX3BBZ3cYT7Lo+rAT8D6r9VjPw3YacKeLFY0RCgIKhWNWMmqN
-   euZuzXS235eChCLYeer42LuVARNQ6dFVyWkr5BTHE4YRt2G8FPAA4bSbX
-   Q==;
-X-CSE-ConnectionGUID: Ta/J7R2YSTiKfJC0BEMqxw==
-X-CSE-MsgGUID: DZ7d1UGyS3WdRVKLKxdIQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="89173739"
-X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="89173739"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 11:40:26 -0700
-X-CSE-ConnectionGUID: Xn5MbRfuToev7Yihq+ZTmA==
-X-CSE-MsgGUID: V0CGgfvnR1ClGk9eZOcO0A==
+  bh=y4O2YIpYUwg440cdCrrFpyF0GrLXVpVzbHprCfyT4VY=;
+  b=AMKC6TmNnKQ21cjz1CIS2q1v1XCxjYTxr7fVuT1LfSLvHa4qpYH36vks
+   DnLmvqrcW8ADTMignHzN24ClT2M2MmSPBAnAoDherH2ZbcybxozjeQ7xD
+   jPiWkfqKNM7KhtqHisSiBhe3WB7/lhwr14eyv8OIeT0zsWSUsY2DsufLc
+   g/L8XIu95ht1sH95II+LInkkWeBJPp4WTjeneIPHQcljDoo8cqrXGSlYW
+   aDVWU0jRTTDewK2rd2+KZPB7XcY6txjp1ll1xgPZQpimJtpCDOE3RY1ah
+   uwr2dqxD5LRqepass8mtVAasEjc15c1x/aFsHz/eUw5/wrLxnUR7ahQ8x
+   A==;
+X-CSE-ConnectionGUID: PI+mu62ASXmKDD7B99dnQQ==
+X-CSE-MsgGUID: f7BMoxEAQ3W0+vkfrCo7Fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86681328"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="86681328"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 12:39:14 -0700
+X-CSE-ConnectionGUID: 1CWIWjYeQXOjchZ/zrXk2w==
+X-CSE-MsgGUID: 74HrTdKISduxi9T699KHWQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="262810163"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="266427349"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Aug 2026 11:40:24 -0700
+  by orviesa005.jf.intel.com with ESMTP; 06 Aug 2026 12:39:13 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ws30w-00000000FyC-2HmU;
-	Thu, 06 Aug 2026 18:40:22 +0000
-Date: Fri, 07 Aug 2026 02:39:17 +0800
+	id 1ws3vq-00000000G5I-1lU3;
+	Thu, 06 Aug 2026 19:39:10 +0000
+Date: Fri, 07 Aug 2026 03:38:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/amd/amdgpu/gfxhub_v12_1.c:69
- gfxhub_v12_1_xcc_setup_vm_pt_regs() error: buffer overflow 'adev->vmhub' 13
- <= s32max
-Message-ID: <202608070257.3q9GpqXZ-lkp@intel.com>
+Subject: [tiwai-sound:for-next 51/71] sound/core/init.c:1074
+ snd_component_add() error: we previously assumed 'card->components' could be
+ null (see line 1045)
+Message-ID: <202608070323.doCkgrTn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,61 +62,92 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Hawking Zhang <Hawking.Zhang@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Le Ma <le.ma@amd.com>
-CC: Likun Gao <Likun.Gao@amd.com>
+CC: alsa-devel@alsa-project.org
+TO: Maciej Strozek <mstrozek@opensource.cirrus.com>
+CC: Takashi Iwai <tiwai@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fcaeecb8b0cd44f77d03b28de0671258d4db18f8
-commit: e87bfaf55e7311b9587c0163060c6939c36f077e drm/amdgpu: Add gfxhub v12_1 support
-date:   8 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+head:   3690ef20469d5959378260e2752f2314a2572913
+commit: 86cac980c9668106b32ffca3bda106cbb6d7ac2b [51/71] ALSA: control: add ioctl to retrieve full card components
 :::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: i386-randconfig-141-20260806 (https://download.01.org/0day-ci/archive/20260807/202608070257.3q9GpqXZ-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+:::::: commit date: 2 days ago
+config: arm64-randconfig-r073-20260806 (https://download.01.org/0day-ci/archive/20260807/202608070323.doCkgrTn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.1.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e87bfaf55e73 ("drm/amdgpu: Add gfxhub v12_1 support")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608070257.3q9GpqXZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608070323.doCkgrTn-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/gfxhub_v12_1.c:69 gfxhub_v12_1_xcc_setup_vm_pt_regs() error: buffer overflow 'adev->vmhub' 13 <= s32max
-drivers/gpu/drm/amd/amdgpu/gfxhub_v12_1.c:412 gfxhub_v12_1_xcc_setup_vmid_config() error: buffer overflow 'adev->vmhub' 13 <= s32max
-drivers/gpu/drm/amd/amdgpu/gfxhub_v12_1.c:470 gfxhub_v12_1_xcc_program_invalidation() error: buffer overflow 'adev->vmhub' 13 <= u32max
-drivers/gpu/drm/amd/amdgpu/gfxhub_v12_1.c:539 gfxhub_v12_1_xcc_gart_disable() error: buffer overflow 'adev->vmhub' 13 <= u32max
-drivers/gpu/drm/amd/amdgpu/gfxhub_v12_1.c:752 gfxhub_v12_1_xcc_init() error: buffer overflow 'adev->vmhub' 13 <= s32max
+sound/core/init.c:1074 snd_component_add() error: we previously assumed 'card->components' could be null (see line 1045)
 
-vim +69 drivers/gpu/drm/amd/amdgpu/gfxhub_v12_1.c
+vim +1074 sound/core/init.c
 
-e87bfaf55e7311b Hawking Zhang 2025-02-24  59  
-e87bfaf55e7311b Hawking Zhang 2025-02-24  60  static void gfxhub_v12_1_xcc_setup_vm_pt_regs(struct amdgpu_device *adev,
-e87bfaf55e7311b Hawking Zhang 2025-02-24  61  					      uint32_t vmid,
-e87bfaf55e7311b Hawking Zhang 2025-02-24  62  					      uint64_t page_table_base,
-e87bfaf55e7311b Hawking Zhang 2025-02-24  63  					      uint32_t xcc_mask)
-e87bfaf55e7311b Hawking Zhang 2025-02-24  64  {
-e87bfaf55e7311b Hawking Zhang 2025-02-24  65  	struct amdgpu_vmhub *hub;
-e87bfaf55e7311b Hawking Zhang 2025-02-24  66  	int i;
-e87bfaf55e7311b Hawking Zhang 2025-02-24  67  
-e87bfaf55e7311b Hawking Zhang 2025-02-24  68  	for_each_inst(i, xcc_mask) {
-e87bfaf55e7311b Hawking Zhang 2025-02-24 @69  		hub = &adev->vmhub[AMDGPU_GFXHUB(i)];
-e87bfaf55e7311b Hawking Zhang 2025-02-24  70  		WREG32_SOC15_OFFSET(GC, GET_INST(GC, i),
-e87bfaf55e7311b Hawking Zhang 2025-02-24  71  				    regGCVM_CONTEXT0_PAGE_TABLE_BASE_ADDR_LO32,
-e87bfaf55e7311b Hawking Zhang 2025-02-24  72  				    hub->ctx_addr_distance * vmid,
-e87bfaf55e7311b Hawking Zhang 2025-02-24  73  				    lower_32_bits(page_table_base));
-e87bfaf55e7311b Hawking Zhang 2025-02-24  74  
-e87bfaf55e7311b Hawking Zhang 2025-02-24  75  		WREG32_SOC15_OFFSET(GC, GET_INST(GC, i),
-e87bfaf55e7311b Hawking Zhang 2025-02-24  76  				    regGCVM_CONTEXT0_PAGE_TABLE_BASE_ADDR_HI32,
-e87bfaf55e7311b Hawking Zhang 2025-02-24  77  				    hub->ctx_addr_distance * vmid,
-e87bfaf55e7311b Hawking Zhang 2025-02-24  78  				    upper_32_bits(page_table_base));
-e87bfaf55e7311b Hawking Zhang 2025-02-24  79  	}
-e87bfaf55e7311b Hawking Zhang 2025-02-24  80  }
-e87bfaf55e7311b Hawking Zhang 2025-02-24  81  
+e28563cceb9f25 Takashi Iwai   2005-12-01  1025  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1026  /**
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1027   *  snd_component_add - add a component string
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1028   *  @card: soundcard structure
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1029   *  @component: the component id string
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1030   *
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1031   *  This function adds the component id string to the supported list.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1032   *  The component can be referred from the alsa-lib.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1033   *
+eb7c06e8e9c93b Yacine Belkadi 2013-03-11  1034   *  Return: Zero otherwise a negative error code.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1035   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1036  
+512bbd6a85230f Takashi Iwai   2005-11-17  1037  int snd_component_add(struct snd_card *card, const char *component)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1038  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1039  	char *ptr;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1040  	int len = strlen(component);
+86cac980c96681 Maciej Strozek 2026-07-20  1041  	unsigned int cur_len, need_len;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1042  
+86cac980c96681 Maciej Strozek 2026-07-20  1043  	guard(rwsem_write)(&snd_ioctl_rwsem);
+86cac980c96681 Maciej Strozek 2026-07-20  1044  
+86cac980c96681 Maciej Strozek 2026-07-20 @1045  	if (card->components) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1046  		ptr = strstr(card->components, component);
+86cac980c96681 Maciej Strozek 2026-07-20  1047  		if (ptr) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1048  			if (ptr[len] == '\0' || ptr[len] == ' ')	/* already there */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1049  				return 1;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1050  		}
+86cac980c96681 Maciej Strozek 2026-07-20  1051  		cur_len = strlen(card->components) + 1;
+86cac980c96681 Maciej Strozek 2026-07-20  1052  	} else {
+86cac980c96681 Maciej Strozek 2026-07-20  1053  		cur_len = 0;
+86cac980c96681 Maciej Strozek 2026-07-20  1054  	}
+86cac980c96681 Maciej Strozek 2026-07-20  1055  
+86cac980c96681 Maciej Strozek 2026-07-20  1056  	need_len = cur_len + len + 1;
+86cac980c96681 Maciej Strozek 2026-07-20  1057  	if (need_len > 512) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1058  		snd_BUG();
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1059  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1060  	}
+86cac980c96681 Maciej Strozek 2026-07-20  1061  
+86cac980c96681 Maciej Strozek 2026-07-20  1062  	if (need_len > card->components_alloc_size) {
+86cac980c96681 Maciej Strozek 2026-07-20  1063  		unsigned int new_alloc = roundup(need_len, 32);
+86cac980c96681 Maciej Strozek 2026-07-20  1064  
+86cac980c96681 Maciej Strozek 2026-07-20  1065  		ptr = krealloc(card->components, new_alloc, GFP_KERNEL);
+86cac980c96681 Maciej Strozek 2026-07-20  1066  		if (!ptr)
+86cac980c96681 Maciej Strozek 2026-07-20  1067  			return -ENOMEM;
+86cac980c96681 Maciej Strozek 2026-07-20  1068  		if (!card->components)
+86cac980c96681 Maciej Strozek 2026-07-20  1069  			ptr[0] = '\0';
+86cac980c96681 Maciej Strozek 2026-07-20  1070  		card->components = ptr;
+86cac980c96681 Maciej Strozek 2026-07-20  1071  		card->components_alloc_size = new_alloc;
+86cac980c96681 Maciej Strozek 2026-07-20  1072  	}
+86cac980c96681 Maciej Strozek 2026-07-20  1073  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @1074  	if (card->components[0] != '\0')
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1075  		strcat(card->components, " ");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1076  	strcat(card->components, component);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1077  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1078  }
+c0d3fb39e9511c Takashi Iwai   2006-04-28  1079  EXPORT_SYMBOL(snd_component_add);
+c0d3fb39e9511c Takashi Iwai   2006-04-28  1080  
+
+:::::: The code at line 1074 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 --
 0-DAY CI Kernel Test Service
