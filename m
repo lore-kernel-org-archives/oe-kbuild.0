@@ -1,245 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40273E7151
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Aug 2026 11:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB4125B09E
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Aug 2026 13:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786015008; cv=none; b=qUT5WqCeecZodj6UecocmVc0SfES0daNrIV9w34uZxvZU4nblnZWlxh5YK0Ei8LNs4KT7AcS+QRGIG/5TmsC6PrPa7BCpQsPoRO2pEqt4BOcicDNDzqpIGcDpN83kROM2UuHHwYreze7oiIdTYFbnpUZvOWx310D8ONHm9LxOUU=
+	t=1786021440; cv=none; b=bU9x+tWXSe9WUPerHebb9vB+5saHDy1inmzkkB1gGb61vIaa/2VnNYUWcH8OtAXjdoGMAI0Adl2Gubv6NFnd2XVEtGlaWO5hOU8vd0VUUWyB1q95KonnhOVlGnfOCIDaw9ryapEEbGJUEBP1U2UVYJvk1ysGR7lxQmHlqwz2S9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786015008; c=relaxed/simple;
-	bh=jR4PrLEw+Bv6f963xK9wuK89Sio3ywvwW1GCbs1WsSI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g5ZTVLT3OAViBDruB4uaFxXDML7pfaNpj3ZujEhMq+BzMknIvYny6x6BXw8uoWCvkPKNmxsp9mp9ziokDUHXxB+etWefg+NtkGkfSytdiw2JPug9z7KZZfz34lqKh6YLOJYgdMoAy/UlEoy70u4onhbBD65QZJMyfog/IokcNDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEris1Vv; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1786021440; c=relaxed/simple;
+	bh=1XNdjBSXWED8Uw9fS9mMaviaf3AHNeMFliOh16a485Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UuIHhpiXLN5cjSM92wxBZt3BOJtM1DKyPxArjDZuPffIVrMMA4XBZYPq0fsYqwLiCEkZugP8/QXkSEgmAVWLn0ShVyT5UdnpbNeQ/x3VOIntRaT1jrw7QUpIY3lXA8TrSjIXpqh3j/bqyTG0Jze8hkBo5mplD/hA7sN/qF8yjbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLaX1zJn; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEris1Vv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLaX1zJn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786015006; x=1817551006;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jR4PrLEw+Bv6f963xK9wuK89Sio3ywvwW1GCbs1WsSI=;
-  b=OEris1Vv/YCfHVhQ4/JB/OVQe3YaMpdhVFl+Az6lG2Lbw2EkV0w8L1t0
-   BB+rBuYNSuao01qeZOWAc5Ff98j/ScQgymrlhtoh6QKfETRurztoYu9dY
-   yD3PlkRB/VWqG0FHoPj9NEQlTIjPxwqghuXvcsZ3b6attjxM7hsZbqzRx
-   QVN8/3cDNVat8K27Rx5e77OhcLq/Nhey7jj1qL+sZAfSQrFoUZIkJld/Q
-   XPwblvqaS1tnBmqNrx5O2LCbvkwpCoHjc2nA+B05iy52LSeKxxenIBgcS
-   3xB71UKBf2H/q2MknMlnLY+R63hJjvLs/yIce0bf7tulQRmrZom6+ue55
-   g==;
-X-CSE-ConnectionGUID: 48AIEYtGTHCifZLv5WP30A==
-X-CSE-MsgGUID: qxR1BEz0SaeoLT3ctj7bUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="97252719"
+  t=1786021436; x=1817557436;
+  h=date:from:to:cc:subject:message-id;
+  bh=1XNdjBSXWED8Uw9fS9mMaviaf3AHNeMFliOh16a485Q=;
+  b=jLaX1zJnIKw8NATIdHqIaNKEZFazFuYP2IhRgSXAkorsVZSLxY01IW6n
+   kJdcL++AYVww1TGMwdoEAOBFjHhDO+HefX15uJeJQRsvEkPQZ4o6R0hLn
+   m9ViMAYQjEDw62yMMCJCX36clnWYpxzoNIPZRKVm2VdYGD/NXP0ZlmAFb
+   mlL3i96ll/pZ0JRKU0yAbCHaXZGKaUKAnSvQk5mDDzmKj+qgqfL0TT3OT
+   zTGOvy2BJ/aRsrzhNcMNZKtkhKM8BduGuvTgSJt3mwporXrTuYoIGL0tX
+   /URabGITr9kV9hahA527bQCkVUgpXtwqXPTxi7Qqf8G9yz83DqV+bp2/l
+   Q==;
+X-CSE-ConnectionGUID: hsfbCLoOTg6RJGYB4yJclA==
+X-CSE-MsgGUID: nYH9go3USqyDOwx1x3MJQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="90432085"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="97252719"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 04:16:45 -0700
-X-CSE-ConnectionGUID: p35c1SUgSYSlFieTjm2UPA==
-X-CSE-MsgGUID: IZJJKKPnRQ2KWs5tSYOuoQ==
+   d="scan'208";a="90432085"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 06:03:53 -0700
+X-CSE-ConnectionGUID: 1tMxs78JST+4jmbetHPYwg==
+X-CSE-MsgGUID: DhzvquaoS8eAAWfYjs+BKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="291983609"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 06 Aug 2026 04:16:44 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="265940742"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 06 Aug 2026 06:03:52 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wrw5Z-000000004cc-3Zqz;
-	Thu, 06 Aug 2026 11:16:41 +0000
-Date: Thu, 6 Aug 2026 13:16:29 +0200
+	id 1wrxlG-00000000FB3-1cyJ;
+	Thu, 06 Aug 2026 13:03:50 +0000
+Date: Thu, 06 Aug 2026 21:03:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: usb: qcom,snps-dwc3: Fix glymur binding for
- non-MP controllers
-Message-ID: <202608061303.KhJcDj0D-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_cmd.c:315
+ ras_cmd_get_batch_trace_records() error: buffer overflow
+ 'output_data->records' 300 <= 2147483646
+Message-ID: <202608062021.qBlC0p7f-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260803-glymur-usb-binding-fixes-v1-1-9ce334777387@oss.qualc=
-omm.com>
-References: <20260803-glymur-usb-binding-fixes-v1-1-9ce334777387@oss.qualco=
-mm.com>
-TO: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Wesley Cheng <quic_wcheng@quicinc.com>
-CC: linux-arm-msm@vger.kernel.org
-CC: linux-usb@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+TO: YiPeng Chai <YiPeng.Chai@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Tao Zhou <tao.zhou1@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
-Hi Krishna,
+Hi YiPeng,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on 5d5fd841c34649f1b09220fe58e59dffd61c447d]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0d839570765118029aa8bf4a95444c6a11aacf85
+commit: ace232eff50e8c898103c56b3b5303e776616274 drm/amdgpu: Add ras module files into amdgpu
+date:   10 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-141-20260806 (https://download.01.org/0day-ci/archive/20260806/202608062021.qBlC0p7f-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Kurapati/dt-=
-bindings-usb-qcom-snps-dwc3-Fix-glymur-binding-for-non-MP-controllers/20260=
-804-205335
-base:   5d5fd841c34649f1b09220fe58e59dffd61c447d
-patch link:    https://lore.kernel.org/r/20260803-glymur-usb-binding-fixes-=
-v1-1-9ce334777387%40oss.qualcomm.com
-patch subject: [PATCH] dt-bindings: usb: qcom,snps-dwc3: Fix glymur binding=
- for non-MP controllers
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-2054-20260805 (https://download.01.org/0day-ci/arc=
-hive/20260806/202608061303.KhJcDj0D-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260806/202608061303.KhJcDj0D-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ace232eff50e ("drm/amdgpu: Add ras module files into amdgpu")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608061303.KhJcDj0D-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608062021.qBlC0p7f-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/glymur-crd.dtb: clock-controller@100000 (qcom,g=
-lymur-gcc): clocks: [[59, 0], [59, 1], [60], [0], [0], [0], [0], [0], [0], =
-[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [61], [62], [63], [64], [=
-0], [0], [0], [0], [0], [0], [0], [0], [0], [65, 0], [66, 0], [67, 0], [68]=
-, [0], [69], [0], [0], [0], [0], [0], [0], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,glymur-gcc.ya=
-ml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a600000 (qcom,glymur-dwc3):=
- interrupt-names:2: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a600000 (qcom,glymur-dwc3):=
- interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a600000 (qcom,glymur-dwc3):=
- interrupt-names:4: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a800000 (qcom,glymur-dwc3):=
- interrupt-names:2: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a800000 (qcom,glymur-dwc3):=
- interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a800000 (qcom,glymur-dwc3):=
- interrupt-names:4: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a000000 (qcom,glymur-dwc3):=
- interrupt-names:2: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a000000 (qcom,glymur-dwc3):=
- interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a000000 (qcom,glymur-dwc3):=
- interrupt-names:4: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a200000 (qcom,glymur-dwc3):=
- interrupt-names:2: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a200000 (qcom,glymur-dwc3):=
- interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a200000 (qcom,glymur-dwc3):=
- interrupt-names:4: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
-   arch/arm64/boot/dts/qcom/glymur-crd.dtb: efuse@361c8000 (qcom,glymur-qfp=
-rom): compatible:0: 'qcom,glymur-qfprom' is not one of ['qcom,apq8064-qfpro=
-m', 'qcom,apq8084-qfprom', 'qcom,ipq5018-qfprom', 'qcom,ipq5332-qfprom', 'q=
-com,ipq5424-qfprom', 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ip=
-q8074-qfprom', 'qcom,ipq9574-qfprom', 'qcom,kaanapali-qfprom', 'qcom,msm822=
-6-qfprom', 'qcom,msm8916-qfprom', 'qcom,msm8917-qfprom', 'qcom,msm8937-qfpr=
-om', 'qcom,msm8960-qfprom', 'qcom,msm8974-qfprom', 'qcom,msm8976-qfprom', '=
-qcom,msm8996-qfprom', 'qcom,msm8998-qfprom', 'qcom,qcm2290-qfprom', 'qcom,q=
-cs404-qfprom', 'qcom,qcs615-qfprom', 'qcom,qcs8300-qfprom', 'qcom,sa8775p-q=
-fprom', 'qcom,sar2130p-qfprom', 'qcom,sc7180-qfprom', 'qcom,sc7280-qfprom',=
- 'qcom,sc8280xp-qfprom', 'qcom,sdm630-qfprom', 'qcom,sdm670-qfprom', 'qcom,=
-sdm845-qfprom', 'qcom,sm6115-qfprom', 'qcom,sm6350-qfprom', 'qcom,sm6375-qf=
-prom', 'qcom,sm8150-qfprom', 'qcom,sm8250-qfprom', 'qcom,sm8450-qfprom', 'q=
-com,sm8550-qfprom', 'qcom,sm8650-qfprom', 'qcom,sm8750-qfprom', 'qcom,x1e80=
-100-qfprom']
-   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml
-   arch/arm64/boot/dts/qcom/glymur-crd.dtb: /soc@0/efuse@361c8000: failed t=
-o match any schema with compatible: ['qcom,glymur-qfprom', 'qcom,qfprom']
---
-   arch/arm64/boot/dts/qcom/mahua-crd.dtb: clock-controller@100000 (qcom,gl=
-ymur-gcc): clocks: [[45, 0], [45, 1], [46], [0], [0], [0], [0], [0], [0], [=
-0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [47], [48], [49], [50], [0=
-], [0], [0], [0], [0], [0], [0], [0], [0], [51, 0], [52, 0], [53, 0], [54],=
- [0], [55], [0], [0], [0], [0], [0], [0], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,glymur-gcc.ya=
-ml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a600000 (qcom,glymur-dwc3): =
-interrupt-names:2: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a600000 (qcom,glymur-dwc3): =
-interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a600000 (qcom,glymur-dwc3): =
-interrupt-names:4: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a800000 (qcom,glymur-dwc3): =
-interrupt-names:2: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a800000 (qcom,glymur-dwc3): =
-interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a800000 (qcom,glymur-dwc3): =
-interrupt-names:4: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a000000 (qcom,glymur-dwc3): =
-interrupt-names:2: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a000000 (qcom,glymur-dwc3): =
-interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a000000 (qcom,glymur-dwc3): =
-interrupt-names:4: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a200000 (qcom,glymur-dwc3): =
-interrupt-names:2: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a200000 (qcom,glymur-dwc3): =
-interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
->> arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a200000 (qcom,glymur-dwc3): =
-interrupt-names:4: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
-   arch/arm64/boot/dts/qcom/mahua-crd.dtb: efuse@361c8000 (qcom,glymur-qfpr=
-om): compatible:0: 'qcom,glymur-qfprom' is not one of ['qcom,apq8064-qfprom=
-', 'qcom,apq8084-qfprom', 'qcom,ipq5018-qfprom', 'qcom,ipq5332-qfprom', 'qc=
-om,ipq5424-qfprom', 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ipq=
-8074-qfprom', 'qcom,ipq9574-qfprom', 'qcom,kaanapali-qfprom', 'qcom,msm8226=
--qfprom', 'qcom,msm8916-qfprom', 'qcom,msm8917-qfprom', 'qcom,msm8937-qfpro=
-m', 'qcom,msm8960-qfprom', 'qcom,msm8974-qfprom', 'qcom,msm8976-qfprom', 'q=
-com,msm8996-qfprom', 'qcom,msm8998-qfprom', 'qcom,qcm2290-qfprom', 'qcom,qc=
-s404-qfprom', 'qcom,qcs615-qfprom', 'qcom,qcs8300-qfprom', 'qcom,sa8775p-qf=
-prom', 'qcom,sar2130p-qfprom', 'qcom,sc7180-qfprom', 'qcom,sc7280-qfprom', =
-'qcom,sc8280xp-qfprom', 'qcom,sdm630-qfprom', 'qcom,sdm670-qfprom', 'qcom,s=
-dm845-qfprom', 'qcom,sm6115-qfprom', 'qcom,sm6350-qfprom', 'qcom,sm6375-qfp=
-rom', 'qcom,sm8150-qfprom', 'qcom,sm8250-qfprom', 'qcom,sm8450-qfprom', 'qc=
-om,sm8550-qfprom', 'qcom,sm8650-qfprom', 'qcom,sm8750-qfprom', 'qcom,x1e801=
-00-qfprom']
-   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml
-   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /soc@0/efuse@361c8000: failed to=
- match any schema with compatible: ['qcom,glymur-qfprom', 'qcom,qfprom']
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_cmd.c:315 ras_cmd_get_batch_trace_records() error: buffer overflow 'output_data->records' 300 <= 2147483646
+
+vim +315 drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_cmd.c
+
+19030244e1f99f YiPeng Chai 2025-03-17  276  
+19030244e1f99f YiPeng Chai 2025-03-17  277  static int ras_cmd_get_batch_trace_records(struct ras_core_context *ras_core,
+19030244e1f99f YiPeng Chai 2025-03-17  278  	struct ras_cmd_ioctl *cmd, void *data)
+19030244e1f99f YiPeng Chai 2025-03-17  279  {
+19030244e1f99f YiPeng Chai 2025-03-17  280  	struct ras_cmd_batch_trace_record_req *input_data =
+19030244e1f99f YiPeng Chai 2025-03-17  281  			(struct ras_cmd_batch_trace_record_req *)cmd->input_buff_raw;
+19030244e1f99f YiPeng Chai 2025-03-17  282  	struct ras_cmd_batch_trace_record_rsp *output_data =
+19030244e1f99f YiPeng Chai 2025-03-17  283  			(struct ras_cmd_batch_trace_record_rsp *)cmd->output_buff_raw;
+19030244e1f99f YiPeng Chai 2025-03-17  284  	struct ras_log_batch_overview overview;
+19030244e1f99f YiPeng Chai 2025-03-17  285  	struct ras_log_info *trace_arry[MAX_RECORD_PER_BATCH] = {0};
+19030244e1f99f YiPeng Chai 2025-03-17  286  	struct ras_log_info *record;
+19030244e1f99f YiPeng Chai 2025-03-17  287  	int i, j, count = 0, offset = 0;
+19030244e1f99f YiPeng Chai 2025-03-17  288  	uint64_t id;
+19030244e1f99f YiPeng Chai 2025-03-17  289  	bool completed = false;
+19030244e1f99f YiPeng Chai 2025-03-17  290  
+19030244e1f99f YiPeng Chai 2025-03-17  291  	if (cmd->input_size != sizeof(struct ras_cmd_batch_trace_record_req))
+19030244e1f99f YiPeng Chai 2025-03-17  292  		return RAS_CMD__ERROR_INVALID_INPUT_SIZE;
+19030244e1f99f YiPeng Chai 2025-03-17  293  
+19030244e1f99f YiPeng Chai 2025-03-17  294  	if ((!input_data->batch_num) || (input_data->batch_num > RAS_CMD_MAX_BATCH_NUM))
+19030244e1f99f YiPeng Chai 2025-03-17  295  		return RAS_CMD__ERROR_INVALID_INPUT_DATA;
+19030244e1f99f YiPeng Chai 2025-03-17  296  
+19030244e1f99f YiPeng Chai 2025-03-17  297  	ras_log_ring_get_batch_overview(ras_core, &overview);
+19030244e1f99f YiPeng Chai 2025-03-17  298  	if ((input_data->start_batch_id < overview.first_batch_id) ||
+19030244e1f99f YiPeng Chai 2025-03-17  299  	    (input_data->start_batch_id >= overview.last_batch_id))
+19030244e1f99f YiPeng Chai 2025-03-17  300  		return RAS_CMD__ERROR_INVALID_INPUT_SIZE;
+19030244e1f99f YiPeng Chai 2025-03-17  301  
+19030244e1f99f YiPeng Chai 2025-03-17  302  	for (i = 0; i < input_data->batch_num; i++) {
+19030244e1f99f YiPeng Chai 2025-03-17  303  		id = input_data->start_batch_id + i;
+19030244e1f99f YiPeng Chai 2025-03-17  304  		if (id >= overview.last_batch_id) {
+19030244e1f99f YiPeng Chai 2025-03-17  305  			completed = true;
+19030244e1f99f YiPeng Chai 2025-03-17  306  			break;
+19030244e1f99f YiPeng Chai 2025-03-17  307  		}
+19030244e1f99f YiPeng Chai 2025-03-17  308  
+19030244e1f99f YiPeng Chai 2025-03-17  309  		count = ras_log_ring_get_batch_records(ras_core,
+19030244e1f99f YiPeng Chai 2025-03-17  310  					id, trace_arry, ARRAY_SIZE(trace_arry));
+19030244e1f99f YiPeng Chai 2025-03-17  311  		if (count > 0) {
+19030244e1f99f YiPeng Chai 2025-03-17  312  			if ((offset + count) > RAS_CMD_MAX_TRACE_NUM)
+19030244e1f99f YiPeng Chai 2025-03-17  313  				break;
+19030244e1f99f YiPeng Chai 2025-03-17  314  			for (j = 0; j < count; j++) {
+19030244e1f99f YiPeng Chai 2025-03-17 @315  				record = &output_data->records[offset + j];
+19030244e1f99f YiPeng Chai 2025-03-17  316  				record->seqno = trace_arry[j]->seqno;
+19030244e1f99f YiPeng Chai 2025-03-17  317  				record->timestamp = trace_arry[j]->timestamp;
+19030244e1f99f YiPeng Chai 2025-03-17  318  				record->event = trace_arry[j]->event;
+19030244e1f99f YiPeng Chai 2025-03-17  319  				memcpy(&record->aca_reg,
+19030244e1f99f YiPeng Chai 2025-03-17  320  					&trace_arry[j]->aca_reg, sizeof(trace_arry[j]->aca_reg));
+19030244e1f99f YiPeng Chai 2025-03-17  321  			}
+19030244e1f99f YiPeng Chai 2025-03-17  322  		} else {
+19030244e1f99f YiPeng Chai 2025-03-17  323  			count = 0;
+19030244e1f99f YiPeng Chai 2025-03-17  324  		}
+19030244e1f99f YiPeng Chai 2025-03-17  325  
+19030244e1f99f YiPeng Chai 2025-03-17  326  		output_data->batchs[i].batch_id = id;
+19030244e1f99f YiPeng Chai 2025-03-17  327  		output_data->batchs[i].offset = offset;
+19030244e1f99f YiPeng Chai 2025-03-17  328  		output_data->batchs[i].trace_num = count;
+19030244e1f99f YiPeng Chai 2025-03-17  329  		offset += count;
+19030244e1f99f YiPeng Chai 2025-03-17  330  	}
+19030244e1f99f YiPeng Chai 2025-03-17  331  
+19030244e1f99f YiPeng Chai 2025-03-17  332  	output_data->start_batch_id = input_data->start_batch_id;
+19030244e1f99f YiPeng Chai 2025-03-17  333  	output_data->real_batch_num = i;
+19030244e1f99f YiPeng Chai 2025-03-17  334  	output_data->remain_num = completed ? 0 : (input_data->batch_num - i);
+19030244e1f99f YiPeng Chai 2025-03-17  335  	output_data->version = 0;
+19030244e1f99f YiPeng Chai 2025-03-17  336  
+19030244e1f99f YiPeng Chai 2025-03-17  337  	cmd->output_size = sizeof(struct ras_cmd_batch_trace_record_rsp);
+19030244e1f99f YiPeng Chai 2025-03-17  338  
+19030244e1f99f YiPeng Chai 2025-03-17  339  	return RAS_CMD__SUCCESS;
+19030244e1f99f YiPeng Chai 2025-03-17  340  }
+19030244e1f99f YiPeng Chai 2025-03-17  341  
+
+:::::: The code at line 315 was first introduced by commit
+:::::: 19030244e1f99f3e9f8617ba4cb90ce49276eab0 drm/amd/ras: Add ras ioctl command handler
+
+:::::: TO: YiPeng Chai <YiPeng.Chai@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 --
 0-DAY CI Kernel Test Service
