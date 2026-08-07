@@ -1,69 +1,60 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506DF282F3A
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 16:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5872E1A6823
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 19:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786121714; cv=none; b=WEkYsNgwNsNKKGt08dvqnHpO7Vz8zmDJH0NDxMc5dPXXTn7H7mxt65tuo26PuI82RBHp5ECHxLNcqbwAD7vHq7CwsL5n7teoFylbNzoSBzQUZN4U8JFVkxH5iew6MbgkKoYu5EOAEB7Ilb3z8+2j6ipijgIkgQB7gPPeKGd39is=
+	t=1786131243; cv=none; b=NadrIUFNSlwFTy4NEvZWL+SPNtZ79nv/5AAJYnLq5gWJnR8xnmk1rguC+WbFkgZF8TKgoMABlxKqMuxE9Mpq6tiKqwd4Ln/QG/F2a/F+42uzc2cn3i32MqzUkSpTYYT2904e9HyUfS2ipb80HNsHJN5ZR3ydpD5ef4Ipr1Ab2wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786121714; c=relaxed/simple;
-	bh=w44gWSxPdQjrl4Q8P7ErabLUzfDafLFgd5adwGSC7hI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FRDgWmGmXJW9ceNy/zMQYW8snFHWEylwwWvdJudpOvYM8xJRSX/Is4HfXO5rsAKLTO4AVruiHeDUoJy6jJx1x4ZAC833zZZ/JUuyGFoUkZHnaPgtr8TsxRKzxE0wU4nbqrXEX5+njH/htcHLj9m1XP3DEB+twIyzE9IIfGeXsXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Os6JUhnD; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786131243; c=relaxed/simple;
+	bh=FF3sHTWBTCNub3eWl2MvP5EIBwfGF3LtOEa/LsxZRmc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=o0+TlO/iZPTa7SDLVfdaTt8wjGgHGtjWToiVXsadOkSb1kSe3puJsma3yiK9ontx9Bnztvt/Mo7B7i9JTuAmwTRrlLXl9kCaQItq9JD8tx7Ty12FIIC9ggtEs/2fwY05ys3HAUlnp5t+1xVzkoyf4ayl1M7WUoKKzTDo9KEwjnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GfJYUVOY; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Os6JUhnD"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-908934450cdso18154416d6.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 07 Aug 2026 09:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786121712; x=1786726512; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s/FeEsrWnUI92U6c0JlV2MTC2xQj+SJZ7T+hkvEGMHU=;
-        b=Os6JUhnDYy0DwNhN6VTMUS/Gv+kfjTnQl4LqCP/VwMzrcisjtISq69TANGKeJO3Gos
-         Iu1wQhPpYkEZW95sTk7BaxastzP12IUwh5FtArZ9TOLgbgOHuYwzA3RDuXoZgU/mMSlx
-         71D8XdOc0N+tHj+EZAgBJfdH1575cKxmJQykRgYQm9pU29ETIEifuGo0mxtzQAew5eu3
-         nvuXpNIs9ws1LNAkPkSkeq5iiLodz1qzkjOKr8vw5UtGSwGkx5cNudG95zT1YK/nLrOp
-         F2iNjHwywoDZBzVft3Aq4Rg0RqDbzhmCRrQ3F2mWvTN8iBpqUvkA8+Q1maZL0FdHbkLN
-         nJww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786121712; x=1786726512;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=s/FeEsrWnUI92U6c0JlV2MTC2xQj+SJZ7T+hkvEGMHU=;
-        b=cH2YGykto52xu9rRF1hy8lX9jRRqgnJWZNKLYAwOjW2/up/LIQjSdZh2/j9dvEkoCf
-         gFYJvs/8WW4PGlh0u9fC4Dv5OPbmmZ1VE0RgivX1YY2ihKRBvqbBgiu6c34U7qpICEEv
-         Q7vYOUziiz1AYML30oHS9ZPbUVE4UlKWFEzT3Etike1WtoxB4V+UrXgYIdzFPW916/WH
-         UqJLWK6B8gqma7IS11veQWbK/ORv0ZvgvGnj48f1n1lE7IL3Conhxzx596AjbUSQUtMJ
-         sOPXOEBhIq86p7MaE5cAMYMqUPch46qSYISLLOGiJsL1kJEMrCJys196Al2NvF9P9rLK
-         DsBQ==
-X-Gm-Message-State: AOJu0YxvlpJ7k5ck87K59Eg9rdaCk/mdA9fPmzDwm1ORo/97McxbOaB5
-	fyRb85t8d3nGBObObSCFIvz0VqsOGdeXQrX/cJLS1tyL2chkxljk23sbhdhnmryydnY=
-X-Gm-Gg: AR+sD12Hj945Ap5sibfZtclcCTTKyEV5VUA+Gtj9zBsCwIpsOKYf0ont6sOmqK82KUA
-	yFuKrOywoXy8XzLBXhBvHcUT2saKEuG0f6id9tRVZzi8bQXMGDyZzCCBSY7zF6akgEY1FNyS1gh
-	Hfte5GslKMx9a8mSwZFB/zW7uVt3LKz+N+oA+2xZMpi7vSIH4ZBVbVVYoSY9TWdhzgJ88HJ5E/e
-	waRfMtXGVFYgCGiGHQtW8xTeTrOaDyckP130Z3PQjXxA6cKqB2xThdARJP5fT0CWOIKEL0Qip1Q
-	Yi2sNgh6h8GhGNAe+Ci35JaGCiB2MNCajCh6eMXKXqXNAiHToPtwTSEFZQ15X84uEyw78iRsL5v
-	nteSWWOxv2sC7DCEokYnVSUbB/Rgphzxj72OvyjaZmaP+rIVfVicoQRfpsULDLurwFdVmrNYYi4
-	I2lnJgfoJx6rVA6JvTkJb5i11nzEwhuEmYbFmLUc3ML8cuKxcuFNEz6A0iufSmQ+gI7g==
-X-Received: by 2002:a05:622a:a0f:b0:50e:635b:5579 with SMTP id d75a77b69052e-52d20975cb7mr25961661cf.19.1786121712089;
-        Fri, 07 Aug 2026 09:55:12 -0700 (PDT)
-Received: from localhost ([172.216.11.43])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d16335bb4sm16036641cf.2.2026.08.07.09.55.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 09:55:11 -0700 (PDT)
-Date: Fri, 7 Aug 2026 19:55:02 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Eli Billauer <eli.billauer@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: drivers/char/xillybus/xillybus_class.c:230 xillybus_find_inode()
- warn: variable dereferenced before check 'inode' (see line 226)
-Message-ID: <202608072246.Ee6OOcT6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GfJYUVOY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786131241; x=1817667241;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FF3sHTWBTCNub3eWl2MvP5EIBwfGF3LtOEa/LsxZRmc=;
+  b=GfJYUVOYG+OKWHS35/tSt3RuKVvruIatgY4qEZIR4+QWcXOzoNWjiGmD
+   F44zH1tE0jUnoCbcY2u+8Fs8SZEMh6xFqYCnNKQTA5/XXRklgLpLjOdXo
+   yqx1UTBJ3aJ7/Y0l1QLBtKU6FguAHmic85fX7v4GJenSPGqs3Cy1/4xfG
+   P0UBuV1UBkFXL49UKuqSP/zzPRVt5flIU2CwTOTgT31VHMss5pswF3J2m
+   P4rVo0AgLVx9xtJYXY9xETm69zo5FPpdlcm1LqO/GnlRdHsy01uNmXDAw
+   9rK7Iy9EHVQi+1yNObPFgR8KeJO0phReAxmeo3lKqk0DDHab2XHvKgF28
+   w==;
+X-CSE-ConnectionGUID: yD3/1DPeRs2M5KG/aozkVg==
+X-CSE-MsgGUID: jDTrkn6VQoSLWFmexO1rXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="90425901"
+X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
+   d="scan'208";a="90425901"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 12:34:01 -0700
+X-CSE-ConnectionGUID: WA6B9ujUSEqFtaeo5LfjFA==
+X-CSE-MsgGUID: OqyQ96+1SF66N3FqRkajQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
+   d="scan'208";a="256243318"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2026 12:33:59 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wsQKL-00000000J2z-14MJ;
+	Fri, 07 Aug 2026 19:33:57 +0000
+Date: Sat, 08 Aug 2026 03:33:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: 
+ =?us-ascii?Q?drivers/gpu/drm/amd/amdgpu/../display/amdgpu=5Fdm/tests/amd?=
+ =?us-ascii?Q?gpu=5Fdm=5Fwb=5Ftest.c:363:44:?= error: 'struct
+ drm_writeback_connector' has no member named 'encoder'
+Message-ID: <202608080346.yGgBfsZ8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,48 +62,140 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20260807165502.6tU5aVmniAs_M85lp30i5qa4a4ZcgGoLQZRNBLeDT-o@z>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Eli-Billauer/char-xillybus-Improve-control-of-execution-flow-with-mutexes/20260806-033404
-head:   d05c024c9354aabd2ea64be46e6fccbf24ba33cd
-commit: 16edb90c39a5645b3803be32b2b77476efae2402 char: xillybus: Add defensive sanity checks
-config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260807/202608072246.Ee6OOcT6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
+:::::: 
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/John-Harrison/drm-managed-implement-managed-versions-of-kzalloc_obj-objs/20260807-033852, commit: 8f32f6ce121579639f52d30cd5ec2dafee5c9189"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Dmitry Baryshkov <lumag@kernel.org>
+CC: 0day robot <lkp@intel.com>
+CC: Suraj Kandpal <suraj.kandpal@intel.com>
+CC: Louis Chauvet <louis.chauvet@bootlin.com>
+
+tree:   https://github.com/intel-lab-lkp/linux/commits/John-Harrison/drm-managed-implement-managed-versions-of-kzalloc_obj-objs/20260807-033852
+head:   260c8b52af1b6d6dd5da419fcfc9a2b5bc3eed95
+commit: 8f32f6ce121579639f52d30cd5ec2dafee5c9189 drm: writeback: drop excess connector initialization functions
+date:   23 hours ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260808/202608080346.yGgBfsZ8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608080346.yGgBfsZ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608072246.Ee6OOcT6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608080346.yGgBfsZ8-lkp@intel.com/
 
-smatch warnings:
-drivers/char/xillybus/xillybus_class.c:230 xillybus_find_inode() warn: variable dereferenced before check 'inode' (see line 226)
+All errors (new ones prefixed by >>):
 
-vim +/inode +230 drivers/char/xillybus/xillybus_class.c
+   In file included from include/linux/err.h:5,
+                    from include/kunit/assert.h:12,
+                    from include/kunit/test.h:12,
+                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:8:
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c: In function 'dm_test_wb_connector_init_success':
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:44: error: 'struct drm_writeback_connector' has no member named 'encoder'
+     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+         |                                            ^
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/kunit/test.h:801:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     801 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:997:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
+     997 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:994:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
+     994 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE'
+     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:42: error: 'struct drm_writeback_connector' has no member named 'encoder'
+     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
+         |                                          ^
+   include/kunit/test.h:840:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
+         |         ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:42: error: 'struct drm_writeback_connector' has no member named 'encoder'
+     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
+         |                                          ^
+   include/kunit/test.h:840:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
+         |         ^~~~~~~~~~~~~~~
 
-8cb5d216ab3365 Eli Billauer  2021-05-26  223  int xillybus_find_inode(struct inode *inode,
-8cb5d216ab3365 Eli Billauer  2021-05-26  224  			void **private_data, int *index)
-8cb5d216ab3365 Eli Billauer  2021-05-26  225  {
-8cb5d216ab3365 Eli Billauer  2021-05-26 @226  	int minor = iminor(inode);
-8cb5d216ab3365 Eli Billauer  2021-05-26  227  	int major = imajor(inode);
-                                                                   ^^^^^
-Unchecked dereferences
 
-4834f9898c7301 Jakob Koschel 2022-03-24  228  	struct xilly_unit *unit = NULL, *iter;
-8cb5d216ab3365 Eli Billauer  2021-05-26  229  
-16edb90c39a564 Eli Billauer  2026-06-30 @230  	if (!inode || !private_data || !index)
-                                                    ^^^^^^
-Checked too late.
+vim +363 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c
 
-16edb90c39a564 Eli Billauer  2026-06-30  231  		return -ENODEV;
-16edb90c39a564 Eli Billauer  2026-06-30  232  
-8cb5d216ab3365 Eli Billauer  2021-05-26  233  	mutex_lock(&unit_mutex);
-8cb5d216ab3365 Eli Billauer  2021-05-26  234  
-4834f9898c7301 Jakob Koschel 2022-03-24  235  	list_for_each_entry(iter, &unit_list, list_entry)
+682710244fa3176 Alex Hung 2026-06-15  320  
+682710244fa3176 Alex Hung 2026-06-15  321  /**
+682710244fa3176 Alex Hung 2026-06-15  322   * dm_test_wb_connector_init_success - Verify writeback connector initialization
+682710244fa3176 Alex Hung 2026-06-15  323   * @test: KUnit test context
+682710244fa3176 Alex Hung 2026-06-15  324   *
+682710244fa3176 Alex Hung 2026-06-15  325   * Uses a DRM mock device embedded in struct amdgpu_device to verify that
+682710244fa3176 Alex Hung 2026-06-15  326   * amdgpu_dm_wb_connector_init() initializes the writeback connector, stores
+682710244fa3176 Alex Hung 2026-06-15  327   * the DC link, installs connector state through reset, and wires the expected
+682710244fa3176 Alex Hung 2026-06-15  328   * DRM callbacks.
+682710244fa3176 Alex Hung 2026-06-15  329   */
+682710244fa3176 Alex Hung 2026-06-15  330  static void dm_test_wb_connector_init_success(struct kunit *test)
+682710244fa3176 Alex Hung 2026-06-15  331  {
+682710244fa3176 Alex Hung 2026-06-15  332  	struct amdgpu_dm_wb_connector *wbcon;
+682710244fa3176 Alex Hung 2026-06-15  333  	struct amdgpu_display_manager *dm;
+682710244fa3176 Alex Hung 2026-06-15  334  	struct amdgpu_device *adev;
+682710244fa3176 Alex Hung 2026-06-15  335  	struct dc_link *link;
+682710244fa3176 Alex Hung 2026-06-15  336  	struct dc *dc;
+682710244fa3176 Alex Hung 2026-06-15  337  	int ret;
+682710244fa3176 Alex Hung 2026-06-15  338  
+a532f8d7e4c96a3 Alex Hung 2026-06-18  339  	adev = dm_kunit_alloc_adev(test);
+682710244fa3176 Alex Hung 2026-06-15  340  	adev->mode_info.num_crtc = 1;
+682710244fa3176 Alex Hung 2026-06-15  341  	dm = &adev->dm;
+682710244fa3176 Alex Hung 2026-06-15  342  	dm->adev = adev;
+682710244fa3176 Alex Hung 2026-06-15  343  
+682710244fa3176 Alex Hung 2026-06-15  344  	dc = kunit_kzalloc(test, sizeof(*dc), GFP_KERNEL);
+682710244fa3176 Alex Hung 2026-06-15  345  	KUNIT_ASSERT_NOT_NULL(test, dc);
+682710244fa3176 Alex Hung 2026-06-15  346  
+682710244fa3176 Alex Hung 2026-06-15  347  	link = kunit_kzalloc(test, sizeof(*link), GFP_KERNEL);
+682710244fa3176 Alex Hung 2026-06-15  348  	KUNIT_ASSERT_NOT_NULL(test, link);
+682710244fa3176 Alex Hung 2026-06-15  349  
+682710244fa3176 Alex Hung 2026-06-15  350  	dc->links[0] = link;
+682710244fa3176 Alex Hung 2026-06-15  351  	dm->dc = dc;
+682710244fa3176 Alex Hung 2026-06-15  352  
+682710244fa3176 Alex Hung 2026-06-15  353  	wbcon = kunit_kzalloc(test, sizeof(*wbcon), GFP_KERNEL);
+682710244fa3176 Alex Hung 2026-06-15  354  	KUNIT_ASSERT_NOT_NULL(test, wbcon);
+682710244fa3176 Alex Hung 2026-06-15  355  
+682710244fa3176 Alex Hung 2026-06-15  356  	ret = amdgpu_dm_wb_connector_init(dm, wbcon, 0);
+682710244fa3176 Alex Hung 2026-06-15  357  
+682710244fa3176 Alex Hung 2026-06-15  358  	KUNIT_EXPECT_EQ(test, ret, 0);
+682710244fa3176 Alex Hung 2026-06-15  359  	KUNIT_EXPECT_PTR_EQ(test, wbcon->link, link);
+682710244fa3176 Alex Hung 2026-06-15  360  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.funcs != NULL);
+682710244fa3176 Alex Hung 2026-06-15  361  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.helper_private != NULL);
+682710244fa3176 Alex Hung 2026-06-15  362  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.state != NULL);
+682710244fa3176 Alex Hung 2026-06-15 @363  	KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+682710244fa3176 Alex Hung 2026-06-15  364  	KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
+682710244fa3176 Alex Hung 2026-06-15  365  }
+682710244fa3176 Alex Hung 2026-06-15  366  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
