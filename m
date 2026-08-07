@@ -1,53 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8BC44A3FB
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 12:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798B6481235
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 13:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786106145; cv=none; b=JvBSCHnK7wwKjv0kTW3dzkuF6ehtgB/KiaQAY9ZdEJwXUGScAQL9B8ZnXZSJR53y8uQ9Jt9J6KWrfQUsxbL/xocjpOImduxWT8scClqjbTg/7HXEMworld6DHRT+ujiT3Bj9uAALoQmwMbQTPmzQ51tbNHEy8EvaEexEjVOhqME=
+	t=1786107961; cv=none; b=aHElupVLjSpDnBqtSShgT8g1A8ihoJ6nYT/IRqeFJ9XFVSbLr8Lq5rXqM4XYUot9a3WCvHJklndYjexv9HWlOe/AlGRdnc/HSNp1fRbOdoNMVvQy0FVMNVQZn4Dj2ZZ+gIuMMTsCeyyXinXKw+xOXnLQSfJOXF3n44kYPCCsxyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786106145; c=relaxed/simple;
-	bh=TQaOULpTNQ7QoAU5JNWIUCrnKCPShx2dFT8teLK72gc=;
+	s=arc-20240116; t=1786107961; c=relaxed/simple;
+	bh=n0Vn19nqj/lB2ugZp0+zOqsjg/7ogGYsadcpngMRmHY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dLmbXuczHE7O9BRsKhWfHyPFSaLexZE5Ig/ebju/NXVNBPevHX0nbPBh0Hi+n0pvXvyj2xL+c0vTmmBWyqlIfSNsQukYWiitzO3iH1U4vDNngvRjC9WlCbw7HhDLllTrZxPS49R98Oag44Yr7tBlRgypeyyOK8JRUDa3B0omjyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dag72ION; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=pLFm7Pq1+OmzpwT6EMSeP1msspTIWm266UHF+AozkuMYLURBPmXWCPiV3BlqJzFOGuLvu75zE2UTT1faPsZ8fuY925niabvQ4gCjdyiUhziBJabALx2eYeYblycCqhvUptGO6+fceK9ZMTSrwq4tv/9Ei3bkrNvsUfg3z69fgAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=APNvkXhX; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dag72ION"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786106130; x=1817642130;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TQaOULpTNQ7QoAU5JNWIUCrnKCPShx2dFT8teLK72gc=;
-  b=dag72IONMI9WcmZlLeljCFZAEr9zX5QHibgR+awEJOZ6LafugGHw5n3T
-   rDi088Dpgp3NKPH40buK99DHxjfXaXdaqqYHEbiAuq+ifIOj0YoH20gg/
-   5WThuecxD4wmyQ+5NEwKxxhFVP7O0dPF9/c54ECIDeSNPPZWw/Y2qbxYy
-   A42uR1ol03nyAgyblT5BDllFbMi8WqkBV+phMjwfRuU/WZf+SGJYE1iro
-   U5wquv8zclZzeQQZOF9fwerlhjYr01/awm83R2qDvDj6jbY5qONyBjj2H
-   HgedTK590ewOpgiH8bZ9MPp8s01PDyQBo1y+9yqoVqzjtJz0T20LgslHv
-   A==;
-X-CSE-ConnectionGUID: oMIQSGXXRZq2JVAFlPASAQ==
-X-CSE-MsgGUID: 3LSkmROQQwm2sCdtJKquOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86824057"
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="86824057"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 05:35:22 -0700
-X-CSE-ConnectionGUID: 1th1vdsrQOGoATDQ0zL+ng==
-X-CSE-MsgGUID: WMFYHe4LSsCqJJdcIuv86Q==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Aug 2026 05:35:21 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wsJnC-00000000IA9-45XI;
-	Fri, 07 Aug 2026 12:35:18 +0000
-Date: Fri, 7 Aug 2026 20:35:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="APNvkXhX"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47c2b362ee2so2653727f8f.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 07 Aug 2026 06:05:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786107947; x=1786712747; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=c1a7P4jiviNU6oOtgbodYFwN4kHdnf0MCA2I2A5Ygzo=;
+        b=APNvkXhXNsoORqZUnFvB8Yn3JBJ7tB5V4k37LjD+f2MMnP+ZR6EF9VyWDwx03ycq2u
+         cVxJv8Tg6RlD/TUMM/kjeiV1r7j10tSdshs3fEEJHpgDahWprP1s34/Ut/WO9OzHTbxI
+         EbUILaLH8I3K+7U5G/+l+Q0SFhgJS/SpkwwYeZTtSQp6aOEq6VWTWRAANOWTD4OT2akp
+         I7uHxR7tEWTB6JxCJtc6/PtKo3q2LiLnznGGjfHgu8wscsds4woC/u+t9+ug58aMaeh2
+         w4DdL+6wPbfjfb6mH9rNG//cpCCdvCR+B+T1UiN4t5IWCJPEvZhPl45CRKZ+oHAD3pPz
+         hi+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786107947; x=1786712747;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=c1a7P4jiviNU6oOtgbodYFwN4kHdnf0MCA2I2A5Ygzo=;
+        b=d9cSUi30m236DxTvtApirSyIEOoC/rpc/y2dFFsM6m9Lc8NvWzQXFWpCslnCC+7B4o
+         ogBpXGrNkFW/FAkX/yaThSx1N35PCVnfHJEIruBcbyKcddtM3dvRMGuC45zXfCISm/kh
+         mPnY4yYlnMEK3j5M0VeUrX9OqS2e1zpJ8EPlU+FV/X6pGrHv9JflqAboBnT6ai8DdKFy
+         Yy7KNBVPwG7yb7wflP0yBgKVcDla4t+C8aoW65If4ik14/j8jvfrBNCKVayYdBlYJVaR
+         LfaBYwcLAOyLyBFjECvTqD7E1nLgLU/eARLqQMn538QFrnPyKAwkbmBml4hveXb+PT48
+         uw1g==
+X-Gm-Message-State: AOJu0YwuoK8rP20WVudrBMQ7yWl9uxUb4Dfw0c21Xf8w2Dd9lA6PKSYC
+	Vx4SetWZiwGXJXh1HbSswrX3op8aAqRsVa0swIyptl+H0f5H5NRxU1ivVjnZQjjEivU=
+X-Gm-Gg: AR+sD12XwuV3rQ7ZXRej5Jx2WYLjBdyY2F2Kk4NK9ejxy3mFMfzIeAzALzZyGvjvIZd
+	I2aRMKXxWW+JvCbgtkTnZb57w9eIMETKqBkXmN7CP7bxZE7OwdEIFMjpFc/N2RXqdIvC8PC6dTc
+	Y9rjaT3uF2skPE2DjbCk2F2Lu9izf/tN0/lc87hZb/wkuLrwVDu3/1nJNPw0LgYajLfY6J/eEWz
+	biiwVB7nXBTniGhiL4UYL9qldJadl5DbXsmUNLexYskcXyQxXzyqHdpe3luDBVGMcT4xsazW4XE
+	GopiLbIFIyxl/Wjy/BqvVEO0Fd0gg0UwUIdc+nGp45XdqSX4rJ9/nUav8vC7PmHlSA1VOf4PFqX
+	KH9eF4S66/riJdZsnQB2odmnKgMcH0Qw7wzRRDclwk5fNqDblNEvKcNU4YqLx8N7OVWdtC9ipKl
+	g8/tqEqN4sQht+QFOihLQlP7WdkcrBGZxUyIO4XLh1BzNGStbhXoK1jw2mMAZx+Y2wKLk=
+X-Received: by 2002:a05:6000:188f:b0:472:fe1a:1ee9 with SMTP id ffacd0b85a97d-47fec6334aemr37259511f8f.20.1786107947415;
+        Fri, 07 Aug 2026 06:05:47 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4800220ab04sm5132001f8f.37.2026.08.07.06.05.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 06:05:46 -0700 (PDT)
+Date: Fri, 7 Aug 2026 16:05:43 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Elad Nachman <enachman@marvell.com>,
+	alexandre.belloni@bootlin.com, linux-rtc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, enachman@marvell.com
 Subject: Re: [PATCH] drivers: rtc: handle OTF clock changes
 Message-ID: <202608072059.hZ2oY5u0-lkp@intel.com>
 Precedence: bulk
@@ -58,33 +73,19 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20260624123103.3523728-1-enachman@marvell.com>
-References: <20260624123103.3523728-1-enachman@marvell.com>
-TO: Elad Nachman <enachman@marvell.com>
-TO: alexandre.belloni@bootlin.com
-TO: linux-rtc@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: enachman@marvell.com
+Message-ID: <20260807130543.dOWlzcJ6NEJ4TQPnIrbk_fNQqJA6lke8zRIaaXgq30M@z>
 
 Hi Elad,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on linus/master v7.2-rc6 next-20260806]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Elad-Nachman/drivers-rtc-handle-OTF-clock-changes/20260806-231215
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
 patch link:    https://lore.kernel.org/r/20260624123103.3523728-1-enachman%40marvell.com
 patch subject: [PATCH] drivers: rtc: handle OTF clock changes
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
 config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260807/202608072059.hZ2oY5u0-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9187-g5189e3fb
@@ -100,7 +101,6 @@ drivers/rtc/interface.c:163 rtc_set_time() warn: variable dereferenced before ch
 
 vim +/rtc +163 drivers/rtc/interface.c
 
-0c86edc0d49706 Alessandro Zummo  2006-03-27  125  
 ab6a2d70d18edc David Brownell    2007-05-08  126  int rtc_set_time(struct rtc_device *rtc, struct rtc_time *tm)
 0c86edc0d49706 Alessandro Zummo  2006-03-27  127  {
 7e7c005b4b1f1f Alexandre Belloni 2019-10-21  128  	int err, uie;
@@ -139,6 +139,10 @@ cd9662094edf41 David Brownell    2007-05-08  159  		err = rtc->ops->set_time(rtc
 bbccf83f6c4e1a Alessandro Zummo  2009-01-06  161  		err = -EINVAL;
 0c86edc0d49706 Alessandro Zummo  2006-03-27  162  
 37b82b16c5f104 Elad Nachman      2026-06-24 @163  	if (rtc && rtc->ops && rtc->ops->read_time) {
+                                                            ^^^
+There is no point in checking "rtc" after we have already dereferenced
+it.
+
 37b82b16c5f104 Elad Nachman      2026-06-24  164  		if (!rtc->ops->read_time(rtc->dev.parent, &new_tm)) {
 37b82b16c5f104 Elad Nachman      2026-06-24  165  			pr_debug("new rtc time secs %d mins %d hours %d mday %d mon %d year %d way %d yday %d dst %d\n",
 37b82b16c5f104 Elad Nachman      2026-06-24  166  					new_tm.tm_sec, new_tm.tm_min,
@@ -163,9 +167,8 @@ bbccf83f6c4e1a Alessandro Zummo  2009-01-06  161  		err = -EINVAL;
 29a1f599c0cc37 Baolin Wang       2017-12-14  185  	trace_rtc_set_time(rtc_tm_to_time64(tm), err);
 0c86edc0d49706 Alessandro Zummo  2006-03-27  186  	return err;
 0c86edc0d49706 Alessandro Zummo  2006-03-27  187  }
-0c86edc0d49706 Alessandro Zummo  2006-03-27  188  EXPORT_SYMBOL_GPL(rtc_set_time);
-0c86edc0d49706 Alessandro Zummo  2006-03-27  189  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
