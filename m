@@ -1,174 +1,185 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798B6481235
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 13:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFE2388E4F
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 14:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786107961; cv=none; b=aHElupVLjSpDnBqtSShgT8g1A8ihoJ6nYT/IRqeFJ9XFVSbLr8Lq5rXqM4XYUot9a3WCvHJklndYjexv9HWlOe/AlGRdnc/HSNp1fRbOdoNMVvQy0FVMNVQZn4Dj2ZZ+gIuMMTsCeyyXinXKw+xOXnLQSfJOXF3n44kYPCCsxyc=
+	t=1786111686; cv=none; b=uVefazhY4IQiTvsxFvE6jO3pkKuJp6KV/iWbSoCz8WnDxYBVa1o8LVJTziSzVuxcnRsl71PQUiF+41fuAG+OURLsfhdzeN1ZyqjOh1+mcaYXXp6m3UZjKsg3A5KkzBFd1/e8SPiVLOud3usEZHgBORnrisIZbKWcT83pBKlwg3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786107961; c=relaxed/simple;
-	bh=n0Vn19nqj/lB2ugZp0+zOqsjg/7ogGYsadcpngMRmHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=pLFm7Pq1+OmzpwT6EMSeP1msspTIWm266UHF+AozkuMYLURBPmXWCPiV3BlqJzFOGuLvu75zE2UTT1faPsZ8fuY925niabvQ4gCjdyiUhziBJabALx2eYeYblycCqhvUptGO6+fceK9ZMTSrwq4tv/9Ei3bkrNvsUfg3z69fgAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=APNvkXhX; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786111686; c=relaxed/simple;
+	bh=AJt+jLAUer4jhJoQUq52S8Ezulk6LbHMsX+XPC1roAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Qqv0BkeozhrLUtIZdFR5t3J4O6P0Vo2tZ25TZxtpdabB4/iOfLk+3K0JK8wIa0erYcEdVGbhQ/YWeQaWEIwpZIXm09EcoFfVZCJz0EVMZBYPPznN0e56DpCxG2PRtcKdK+VY9J1yu2olVKfgbdjCCTbVqmNEq/E1Xpt1WMp+Rok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vg4rSpEM; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="APNvkXhX"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47c2b362ee2so2653727f8f.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 07 Aug 2026 06:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786107947; x=1786712747; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=c1a7P4jiviNU6oOtgbodYFwN4kHdnf0MCA2I2A5Ygzo=;
-        b=APNvkXhXNsoORqZUnFvB8Yn3JBJ7tB5V4k37LjD+f2MMnP+ZR6EF9VyWDwx03ycq2u
-         cVxJv8Tg6RlD/TUMM/kjeiV1r7j10tSdshs3fEEJHpgDahWprP1s34/Ut/WO9OzHTbxI
-         EbUILaLH8I3K+7U5G/+l+Q0SFhgJS/SpkwwYeZTtSQp6aOEq6VWTWRAANOWTD4OT2akp
-         I7uHxR7tEWTB6JxCJtc6/PtKo3q2LiLnznGGjfHgu8wscsds4woC/u+t9+ug58aMaeh2
-         w4DdL+6wPbfjfb6mH9rNG//cpCCdvCR+B+T1UiN4t5IWCJPEvZhPl45CRKZ+oHAD3pPz
-         hi+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786107947; x=1786712747;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c1a7P4jiviNU6oOtgbodYFwN4kHdnf0MCA2I2A5Ygzo=;
-        b=d9cSUi30m236DxTvtApirSyIEOoC/rpc/y2dFFsM6m9Lc8NvWzQXFWpCslnCC+7B4o
-         ogBpXGrNkFW/FAkX/yaThSx1N35PCVnfHJEIruBcbyKcddtM3dvRMGuC45zXfCISm/kh
-         mPnY4yYlnMEK3j5M0VeUrX9OqS2e1zpJ8EPlU+FV/X6pGrHv9JflqAboBnT6ai8DdKFy
-         Yy7KNBVPwG7yb7wflP0yBgKVcDla4t+C8aoW65If4ik14/j8jvfrBNCKVayYdBlYJVaR
-         LfaBYwcLAOyLyBFjECvTqD7E1nLgLU/eARLqQMn538QFrnPyKAwkbmBml4hveXb+PT48
-         uw1g==
-X-Gm-Message-State: AOJu0YwuoK8rP20WVudrBMQ7yWl9uxUb4Dfw0c21Xf8w2Dd9lA6PKSYC
-	Vx4SetWZiwGXJXh1HbSswrX3op8aAqRsVa0swIyptl+H0f5H5NRxU1ivVjnZQjjEivU=
-X-Gm-Gg: AR+sD12XwuV3rQ7ZXRej5Jx2WYLjBdyY2F2Kk4NK9ejxy3mFMfzIeAzALzZyGvjvIZd
-	I2aRMKXxWW+JvCbgtkTnZb57w9eIMETKqBkXmN7CP7bxZE7OwdEIFMjpFc/N2RXqdIvC8PC6dTc
-	Y9rjaT3uF2skPE2DjbCk2F2Lu9izf/tN0/lc87hZb/wkuLrwVDu3/1nJNPw0LgYajLfY6J/eEWz
-	biiwVB7nXBTniGhiL4UYL9qldJadl5DbXsmUNLexYskcXyQxXzyqHdpe3luDBVGMcT4xsazW4XE
-	GopiLbIFIyxl/Wjy/BqvVEO0Fd0gg0UwUIdc+nGp45XdqSX4rJ9/nUav8vC7PmHlSA1VOf4PFqX
-	KH9eF4S66/riJdZsnQB2odmnKgMcH0Qw7wzRRDclwk5fNqDblNEvKcNU4YqLx8N7OVWdtC9ipKl
-	g8/tqEqN4sQht+QFOihLQlP7WdkcrBGZxUyIO4XLh1BzNGStbhXoK1jw2mMAZx+Y2wKLk=
-X-Received: by 2002:a05:6000:188f:b0:472:fe1a:1ee9 with SMTP id ffacd0b85a97d-47fec6334aemr37259511f8f.20.1786107947415;
-        Fri, 07 Aug 2026 06:05:47 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4800220ab04sm5132001f8f.37.2026.08.07.06.05.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 06:05:46 -0700 (PDT)
-Date: Fri, 7 Aug 2026 16:05:43 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Elad Nachman <enachman@marvell.com>,
-	alexandre.belloni@bootlin.com, linux-rtc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, enachman@marvell.com
-Subject: Re: [PATCH] drivers: rtc: handle OTF clock changes
-Message-ID: <202608072059.hZ2oY5u0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vg4rSpEM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786111684; x=1817647684;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=AJt+jLAUer4jhJoQUq52S8Ezulk6LbHMsX+XPC1roAA=;
+  b=Vg4rSpEMZ3EZ1laZ8QdIlkrFE6AmOMITKtiYC4RyQf97WtnIipPagG6I
+   xmxomb4LKUfWJvV81XrCQd0K29Fuzz19Xwu5yLgy83tUNANIYCvQrjIjt
+   vFt4YJiLW6XCdDiyah5Z4fhyWMWVFxb3nBzswyqVilcict4I36wIFfNNx
+   Qia+gT5iuU7y3l3cSm9EUFKRAfUE0By1OIQzvsfcK0C8FOr70XPhN50ai
+   LgO7hxfHjESu3GKjJaKkj+7yKdu6UBMoyQmIkHf4gtnzqeTQFmdNfbMBC
+   vJ9Z5som/Xh509nD3UT3x1C68vi+PNVuBUD1+YxJEXQRD0Bp/KkElQ/Ca
+   Q==;
+X-CSE-ConnectionGUID: mltSpajORFOc6AJb27ajrA==
+X-CSE-MsgGUID: pL7jY2uUSue4AyfpJcSDng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="89246391"
+X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
+   d="scan'208";a="89246391"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 07:08:03 -0700
+X-CSE-ConnectionGUID: r47I8nEnQa6nvOMLX7V/dA==
+X-CSE-MsgGUID: SwWW+emTTIuTXNCf1nIVPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
+   d="scan'208";a="265891853"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 07 Aug 2026 07:08:02 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wsLEt-00000000IPl-39F5;
+	Fri, 07 Aug 2026 14:07:59 +0000
+Date: Fri, 07 Aug 2026 22:07:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c:862
+ amdgpu_gmc_fw_reg_write_reg_wait() error: buffer overflow 'adev->mes.ring' 16
+ <= u32max
+Message-ID: <202608072130.cDZ61U1q-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260624123103.3523728-1-enachman@marvell.com>
-Message-ID: <20260807130543.dOWlzcJ6NEJ4TQPnIrbk_fNQqJA6lke8zRIaaXgq30M@z>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Elad,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Mukul Joshi <mukul.joshi@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Alex Sierra <alex.sierra@amd.com>
+CC: Michael Chen <michael.chen@amd.com>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Elad-Nachman/drivers-rtc-handle-OTF-clock-changes/20260806-231215
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20260624123103.3523728-1-enachman%40marvell.com
-patch subject: [PATCH] drivers: rtc: handle OTF clock changes
-config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260807/202608072059.hZ2oY5u0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   6c68fa601b49683ecb04eded993a71dfa8b2ba0b
+commit: b7c4040d0d131de5014fb02bbdbe8fa2b9c5b0b0 drm/amdgpu: Use correct ME=
+S pipe in non-SPX mode on GFX 12.1
+date:   7 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 7 months ago
+config: i386-randconfig-141-20260806 (https://download.01.org/0day-ci/archi=
+ve/20260807/202608072130.cDZ61U1q-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
+48fd6183ee6d8cbdb4502213fcf902a211)
 smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: b7c4040d0d13 ("drm/amdgpu: Use correct MES pipe in non-SPX mode on=
+ GFX 12.1")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608072059.hZ2oY5u0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608072130.cDZ61U1q-lkp@intel.com/
 
 smatch warnings:
-drivers/rtc/interface.c:163 rtc_set_time() warn: variable dereferenced before check 'rtc' (see line 135)
+drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c:862 amdgpu_gmc_fw_reg_write_reg_wai=
+t() error: buffer overflow 'adev->mes.ring' 16 <=3D u32max
 
-vim +/rtc +163 drivers/rtc/interface.c
+vim +862 drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
 
-ab6a2d70d18edc David Brownell    2007-05-08  126  int rtc_set_time(struct rtc_device *rtc, struct rtc_time *tm)
-0c86edc0d49706 Alessandro Zummo  2006-03-27  127  {
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  128  	int err, uie;
-37b82b16c5f104 Elad Nachman      2026-06-24  129  	struct rtc_time new_tm;
-0c86edc0d49706 Alessandro Zummo  2006-03-27  130  
-0c86edc0d49706 Alessandro Zummo  2006-03-27  131  	err = rtc_valid_tm(tm);
-0c86edc0d49706 Alessandro Zummo  2006-03-27  132  	if (err != 0)
-0c86edc0d49706 Alessandro Zummo  2006-03-27  133  		return err;
-0c86edc0d49706 Alessandro Zummo  2006-03-27  134  
-4c4e5df1f346f7 Baolin Wang       2018-01-08 @135  	err = rtc_valid_range(rtc, tm);
-4c4e5df1f346f7 Baolin Wang       2018-01-08  136  	if (err)
-4c4e5df1f346f7 Baolin Wang       2018-01-08  137  		return err;
-71db049e7355f3 Alexandre Belloni 2018-02-17  138  
-989515647e7832 Baolin Wang       2018-01-08  139  	rtc_subtract_offset(rtc, tm);
-989515647e7832 Baolin Wang       2018-01-08  140  
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  141  #ifdef CONFIG_RTC_INTF_DEV_UIE_EMUL
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  142  	uie = rtc->uie_rtctimer.enabled || rtc->uie_irq_active;
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  143  #else
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  144  	uie = rtc->uie_rtctimer.enabled;
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  145  #endif
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  146  	if (uie) {
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  147  		err = rtc_update_irq_enable(rtc, 0);
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  148  		if (err)
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  149  			return err;
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  150  	}
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  151  
-0c86edc0d49706 Alessandro Zummo  2006-03-27  152  	err = mutex_lock_interruptible(&rtc->ops_lock);
-0c86edc0d49706 Alessandro Zummo  2006-03-27  153  	if (err)
-b68bb2632453a9 David Brownell    2008-07-29  154  		return err;
-0c86edc0d49706 Alessandro Zummo  2006-03-27  155  
-0c86edc0d49706 Alessandro Zummo  2006-03-27  156  	if (!rtc->ops)
-0c86edc0d49706 Alessandro Zummo  2006-03-27  157  		err = -ENODEV;
-bbccf83f6c4e1a Alessandro Zummo  2009-01-06  158  	else if (rtc->ops->set_time)
-cd9662094edf41 David Brownell    2007-05-08  159  		err = rtc->ops->set_time(rtc->dev.parent, tm);
-606cc43c720bde Alexandre Belloni 2019-03-20  160  	else
-bbccf83f6c4e1a Alessandro Zummo  2009-01-06  161  		err = -EINVAL;
-0c86edc0d49706 Alessandro Zummo  2006-03-27  162  
-37b82b16c5f104 Elad Nachman      2026-06-24 @163  	if (rtc && rtc->ops && rtc->ops->read_time) {
-                                                            ^^^
-There is no point in checking "rtc" after we have already dereferenced
-it.
-
-37b82b16c5f104 Elad Nachman      2026-06-24  164  		if (!rtc->ops->read_time(rtc->dev.parent, &new_tm)) {
-37b82b16c5f104 Elad Nachman      2026-06-24  165  			pr_debug("new rtc time secs %d mins %d hours %d mday %d mon %d year %d way %d yday %d dst %d\n",
-37b82b16c5f104 Elad Nachman      2026-06-24  166  					new_tm.tm_sec, new_tm.tm_min,
-37b82b16c5f104 Elad Nachman      2026-06-24  167  					new_tm.tm_hour, new_tm.tm_mday,
-37b82b16c5f104 Elad Nachman      2026-06-24  168  					new_tm.tm_mon, new_tm.tm_year,
-37b82b16c5f104 Elad Nachman      2026-06-24  169  					new_tm.tm_wday, new_tm.tm_yday,
-37b82b16c5f104 Elad Nachman      2026-06-24  170  					new_tm.tm_isdst);
-37b82b16c5f104 Elad Nachman      2026-06-24  171  		}
-37b82b16c5f104 Elad Nachman      2026-06-24  172  	}
-37b82b16c5f104 Elad Nachman      2026-06-24  173  
-14d0e347ea2db5 Zoran Markovic    2013-06-26  174  	pm_stay_awake(rtc->dev.parent);
-0c86edc0d49706 Alessandro Zummo  2006-03-27  175  	mutex_unlock(&rtc->ops_lock);
-5f9679d29c7959 NeilBrown         2011-12-09  176  	/* A timer might have just expired */
-5f9679d29c7959 NeilBrown         2011-12-09  177  	schedule_work(&rtc->irqwork);
-29a1f599c0cc37 Baolin Wang       2017-12-14  178  
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  179  	if (uie) {
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  180  		err = rtc_update_irq_enable(rtc, 1);
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  181  		if (err)
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  182  			return err;
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  183  	}
-7e7c005b4b1f1f Alexandre Belloni 2019-10-21  184  
-29a1f599c0cc37 Baolin Wang       2017-12-14  185  	trace_rtc_set_time(rtc_tm_to_time64(tm), err);
-0c86edc0d49706 Alessandro Zummo  2006-03-27  186  	return err;
-0c86edc0d49706 Alessandro Zummo  2006-03-27  187  }
+e7b90e99fa8fd6 Christian K=C3=B6nig  2023-09-04  850 =20
+26405ff4306a7b Alex Deucher     2023-12-14  851  void amdgpu_gmc_fw_reg_wri=
+te_reg_wait(struct amdgpu_device *adev,
+26405ff4306a7b Alex Deucher     2023-12-14  852  				      uint32_t reg0, u=
+int32_t reg1,
+26405ff4306a7b Alex Deucher     2023-12-14  853  				      uint32_t ref, ui=
+nt32_t mask,
+26405ff4306a7b Alex Deucher     2023-12-14  854  				      uint32_t xcc_ins=
+t)
+26405ff4306a7b Alex Deucher     2023-12-14  855  {
+26405ff4306a7b Alex Deucher     2023-12-14  856  	struct amdgpu_kiq *kiq =
+=3D &adev->gfx.kiq[xcc_inst];
+26405ff4306a7b Alex Deucher     2023-12-14  857  	struct amdgpu_ring *ring =
+=3D &kiq->ring;
+26405ff4306a7b Alex Deucher     2023-12-14  858  	signed long r, cnt =3D 0;
+26405ff4306a7b Alex Deucher     2023-12-14  859  	unsigned long flags;
+26405ff4306a7b Alex Deucher     2023-12-14  860  	uint32_t seq;
+26405ff4306a7b Alex Deucher     2023-12-14  861 =20
+b7c4040d0d131d Mukul Joshi      2025-08-07 @862  	if (adev->mes.ring[MES_PI=
+PE_INST(xcc_inst, 0)].sched.ready) {
+26405ff4306a7b Alex Deucher     2023-12-14  863  		amdgpu_mes_reg_write_reg=
+_wait(adev, reg0, reg1,
+d09c7e266c8cd5 Jack Xiao        2024-11-21  864  					      ref, mask, xcc_=
+inst);
+26405ff4306a7b Alex Deucher     2023-12-14  865  		return;
+26405ff4306a7b Alex Deucher     2023-12-14  866  	}
+26405ff4306a7b Alex Deucher     2023-12-14  867 =20
+26405ff4306a7b Alex Deucher     2023-12-14  868  	spin_lock_irqsave(&kiq->r=
+ing_lock, flags);
+26405ff4306a7b Alex Deucher     2023-12-14  869  	amdgpu_ring_alloc(ring, 3=
+2);
+26405ff4306a7b Alex Deucher     2023-12-14  870  	amdgpu_ring_emit_reg_writ=
+e_reg_wait(ring, reg0, reg1,
+26405ff4306a7b Alex Deucher     2023-12-14  871  					    ref, mask);
+26405ff4306a7b Alex Deucher     2023-12-14  872  	r =3D amdgpu_fence_emit_p=
+olling(ring, &seq, MAX_KIQ_REG_WAIT);
+26405ff4306a7b Alex Deucher     2023-12-14  873  	if (r)
+26405ff4306a7b Alex Deucher     2023-12-14  874  		goto failed_undo;
+26405ff4306a7b Alex Deucher     2023-12-14  875 =20
+26405ff4306a7b Alex Deucher     2023-12-14  876  	amdgpu_ring_commit(ring);
+26405ff4306a7b Alex Deucher     2023-12-14  877  	spin_unlock_irqrestore(&k=
+iq->ring_lock, flags);
+26405ff4306a7b Alex Deucher     2023-12-14  878 =20
+26405ff4306a7b Alex Deucher     2023-12-14  879  	r =3D amdgpu_fence_wait_p=
+olling(ring, seq, MAX_KIQ_REG_WAIT);
+26405ff4306a7b Alex Deucher     2023-12-14  880 =20
+26405ff4306a7b Alex Deucher     2023-12-14  881  	/* don't wait anymore for=
+ IRQ context */
+26405ff4306a7b Alex Deucher     2023-12-14  882  	if (r < 1 && in_interrupt=
+())
+26405ff4306a7b Alex Deucher     2023-12-14  883  		goto failed_kiq;
+26405ff4306a7b Alex Deucher     2023-12-14  884 =20
+26405ff4306a7b Alex Deucher     2023-12-14  885  	might_sleep();
+19cff16559a4f2 Victor Skvortsov 2024-08-02  886  	while (r < 1 && cnt++ < M=
+AX_KIQ_REG_TRY &&
+19cff16559a4f2 Victor Skvortsov 2024-08-02  887  	       !amdgpu_reset_pend=
+ing(adev->reset_domain)) {
+26405ff4306a7b Alex Deucher     2023-12-14  888 =20
+26405ff4306a7b Alex Deucher     2023-12-14  889  		msleep(MAX_KIQ_REG_BAILO=
+UT_INTERVAL);
+26405ff4306a7b Alex Deucher     2023-12-14  890  		r =3D amdgpu_fence_wait_=
+polling(ring, seq, MAX_KIQ_REG_WAIT);
+26405ff4306a7b Alex Deucher     2023-12-14  891  	}
+26405ff4306a7b Alex Deucher     2023-12-14  892 =20
+26405ff4306a7b Alex Deucher     2023-12-14  893  	if (cnt > MAX_KIQ_REG_TRY)
+26405ff4306a7b Alex Deucher     2023-12-14  894  		goto failed_kiq;
+26405ff4306a7b Alex Deucher     2023-12-14  895 =20
+26405ff4306a7b Alex Deucher     2023-12-14  896  	return;
+26405ff4306a7b Alex Deucher     2023-12-14  897 =20
+26405ff4306a7b Alex Deucher     2023-12-14  898  failed_undo:
+26405ff4306a7b Alex Deucher     2023-12-14  899  	amdgpu_ring_undo(ring);
+26405ff4306a7b Alex Deucher     2023-12-14  900  	spin_unlock_irqrestore(&k=
+iq->ring_lock, flags);
+26405ff4306a7b Alex Deucher     2023-12-14  901  failed_kiq:
+26405ff4306a7b Alex Deucher     2023-12-14  902  	dev_err(adev->dev, "faile=
+d to write reg %x wait reg %x\n", reg0, reg1);
+26405ff4306a7b Alex Deucher     2023-12-14  903  }
+26405ff4306a7b Alex Deucher     2023-12-14  904 =20
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
