@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4862264A7
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 00:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AF94B0499
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 04:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786062587; cv=none; b=XLiRdWsal2pXNHkrCEq/59sclKOfPNUZhu8fA/mZMiaH3FPF/uwO3kOHtDf4UB1nRJyE4932x4G0W5IQuvI4t6nUnDN/+QoR3vrdqHhcQIgVgNbWgt0j12CXpDI6HAunVTb8xkpuI8D7gPxXVmKfcjlItoYJfrjkLbl/LnV9rb8=
+	t=1786077102; cv=none; b=r3pia9twyPqT2krqFCaw5CYT7gcClOFfPyFnXx6KSSCjOmvMYUESDtgkvGRtraXbXR6/7vgw9xTKjCIkCh0GX566Nqdny+r2W9HYqb9FfqsvnhciTFVTLrrRtkCqgfdfhWIx94JCf48YSxcPgFa849sEYsPrp5BOfPSMMTysZ8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786062587; c=relaxed/simple;
-	bh=UdugJ0eAegEoU07REXKtEKnZe9mawEjH+YvfskP8zzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uasstZoQDqsM7ojVjCpbxtucz8dE5fed+UE5HOYBL+wmSrBr6Aj0/cCD5JuZldA0SboMhTB6O6BfEpLrBISsA+lMpaZD8tdyPs4T+grMjiqi6wOpJL2MdoWVs+VEsSPl1pZosUj51D0WfVxPyVKycqQ8pEHQ0kAEOjJVdo3x4n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9nJoSG1; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1786077102; c=relaxed/simple;
+	bh=7z+hbb60/VBFXErk9rs5MzaPqxFOJC4rthKq6aoRO4w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FlHalPFN1IytZz/l3yK6ABOEneW5bXkcG8RHRn7rYQ20uv/c3Wj63TMpY+7Fy4r7YqQU0fXAj6+rDC6sPI+mUNS5RERUWZFbsc7ezSOIpdjTdvIP+7zPjIkI5WnArQuVNaAgBeSLueu6mW4ne7B0uLJckBcBQiNaWSs1TaW94F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtDvHPC7; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9nJoSG1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtDvHPC7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786062585; x=1817598585;
+  t=1786077099; x=1817613099;
   h=date:from:to:cc:subject:message-id;
-  bh=UdugJ0eAegEoU07REXKtEKnZe9mawEjH+YvfskP8zzQ=;
-  b=U9nJoSG1peYtRgc3WTiEPYm/EzCsuFgXXT7hTYnLCVScM3GwQPoIvEIF
-   1JhRUaFdbr4/2y+mD/GzXdnl92jZf9dfDo6yS1w/8Ay7EjuPbnNttAGhz
-   P2Fw0q/IDjZNUKKVBUwGG9ZIuVqs68Vt/zi134ao8Pf2q4EXwkBHls4jF
-   aFGosoN462qFeVKEmZe33czO13SKz9dUb7QgqCOsn5FuXXF+41spqFwb+
-   EvthdLzLe9anbR7yfNjTUvkFH3tJA7O+ZDE9Gay8bPKaZ99yHKS+2HZ7W
-   +LJurxCUW6lqNgvb9HF88WjQUikzFEbwX7vlQ6Cp+5PjOJfJjCU4GUa5c
-   Q==;
-X-CSE-ConnectionGUID: ldYvGfuFT66WJZWx3p5goA==
-X-CSE-MsgGUID: XOlMGeovT8Of1iy51pD2dg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="74211510"
+  bh=7z+hbb60/VBFXErk9rs5MzaPqxFOJC4rthKq6aoRO4w=;
+  b=QtDvHPC7qpDaVu0IzQpG/X0XKLNtFhqXrzZKt0rdH+1LaOL+vkvRC5u+
+   MbrpHviYvJncC5LgVyMF9bc3EFRksgyF36vQBm/J8fFQspmCUMm4lFyzl
+   IYbItPwfGU56CzGnmhMs3mI/6JTnAMejeG5hn5eowo+SObjBL64EBDcBm
+   ESnV2xp35h8hmYSkreiKDPU67h3xIQldyhYKgSIJf5t0uRWKl8X8bXV9C
+   wGT1YYAQLt/WvuaBHRujrcJj1qXWHuwLsIlHicYXDx4s55bgHZNRZgnAx
+   SiwXRbZBPUnM2eiDkgaN42oZjBI02vzRNDd++xpFsMXr5CJDGObCTZwVl
+   A==;
+X-CSE-ConnectionGUID: 5h7D2Y9nRYqMyqnQWgjigw==
+X-CSE-MsgGUID: i/v5EHLhRTCUA6cO2RbtgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="90358308"
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="74211510"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 17:29:44 -0700
-X-CSE-ConnectionGUID: SJce1o1XTHGvFoYtSXvD4g==
-X-CSE-MsgGUID: ixItx1dARriA9bO+ecI/yw==
+   d="scan'208";a="90358308"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 21:31:39 -0700
+X-CSE-ConnectionGUID: S+zqqh6bRumGKg3JWlePSw==
+X-CSE-MsgGUID: bYLnxp/jTNiHguBRNJeiMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="300462783"
+   d="scan'208";a="257984938"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Aug 2026 17:29:44 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 06 Aug 2026 21:31:37 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ws8Sz-00000000GhQ-1de1;
-	Fri, 07 Aug 2026 00:29:41 +0000
-Date: Fri, 07 Aug 2026 08:29:01 +0800
+	id 1wsCF4-00000000HAO-3qv0;
+	Fri, 07 Aug 2026 04:31:34 +0000
+Date: Fri, 07 Aug 2026 12:31:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1229
- mes_v12_1_kiq_enable_queue() error: buffer overflow 'adev->mes.ring' 16 <=
- s32max
-Message-ID: <202608070852.ZI0TtEht-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c:2342
+ gfx_v12_1_xcc_kcq_resume() error: buffer overflow 'adev->gfx.compute_ring' 64
+ <= u32max
+Message-ID: <202608071218.wh5gRlBP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -63,67 +63,110 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jack Xiao <Jack.Xiao@amd.com>
+TO: Likun Gao <Likun.Gao@amd.com>
 CC: Alex Deucher <alexander.deucher@amd.com>
 CC: Hawking Zhang <Hawking.Zhang@amd.com>
 CC: Mukul Joshi <mukul.joshi@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6c68fa601b49683ecb04eded993a71dfa8b2ba0b
-commit: e220edf2d6fd6dbf08fa93790809500a80217948 drm/amdgpu/mes_v12_1: initial support for mes_v12_1
+commit: ad5f1ee0a9b03200b86db65fd946b686088b4b03 drm/amdgpu: Add initial support for gfx v12_1
 date:   8 months ago
-:::::: branch date: 4 hours ago
+:::::: branch date: 8 hours ago
 :::::: commit date: 8 months ago
-config: i386-randconfig-141-20260806 (https://download.01.org/0day-ci/archive/20260807/202608070852.ZI0TtEht-lkp@intel.com/config)
+config: i386-randconfig-141-20260806 (https://download.01.org/0day-ci/archive/20260807/202608071218.wh5gRlBP-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e220edf2d6fd ("drm/amdgpu/mes_v12_1: initial support for mes_v12_1")
+| Fixes: ad5f1ee0a9b0 ("drm/amdgpu: Add initial support for gfx v12_1")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608070852.ZI0TtEht-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608071218.wh5gRlBP-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1229 mes_v12_1_kiq_enable_queue() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1516 mes_v12_1_kiq_dequeue_sched() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1604 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1625 mes_v12_1_xcc_hw_init() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c:2342 gfx_v12_1_xcc_kcq_resume() error: buffer overflow 'adev->gfx.compute_ring' 64 <= u32max
+drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c:2397 gfx_v12_1_xcc_cp_resume() error: buffer overflow 'adev->gfx.compute_ring' 64 <= u32max
+drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c:3723 gfx_v12_1_set_ring_funcs() error: buffer overflow 'adev->gfx.compute_ring' 64 <= u32max
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1607 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1612 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1680 mes_v12_1_xcc_hw_init() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+vim +2342 drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c
 
-vim +1229 drivers/gpu/drm/amd/amdgpu/mes_v12_1.c
-
-e220edf2d6fd6d Jack Xiao 2025-05-14  1213  
-e220edf2d6fd6d Jack Xiao 2025-05-14  1214  static int mes_v12_1_kiq_enable_queue(struct amdgpu_device *adev, int xcc_id)
-e220edf2d6fd6d Jack Xiao 2025-05-14  1215  {
-e220edf2d6fd6d Jack Xiao 2025-05-14  1216  	struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
-e220edf2d6fd6d Jack Xiao 2025-05-14  1217  	struct amdgpu_ring *kiq_ring = &adev->gfx.kiq[xcc_id].ring;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1218  	int r, inst = MES_PIPE_INST(xcc_id, AMDGPU_MES_SCHED_PIPE);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1219  
-e220edf2d6fd6d Jack Xiao 2025-05-14  1220  	if (!kiq->pmf || !kiq->pmf->kiq_map_queues)
-e220edf2d6fd6d Jack Xiao 2025-05-14  1221  		return -EINVAL;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1222  
-e220edf2d6fd6d Jack Xiao 2025-05-14  1223  	r = amdgpu_ring_alloc(kiq_ring, kiq->pmf->map_queues_size);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1224  	if (r) {
-e220edf2d6fd6d Jack Xiao 2025-05-14  1225  		DRM_ERROR("Failed to lock KIQ (%d).\n", r);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1226  		return r;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1227  	}
-e220edf2d6fd6d Jack Xiao 2025-05-14  1228  
-e220edf2d6fd6d Jack Xiao 2025-05-14 @1229  	kiq->pmf->kiq_map_queues(kiq_ring, &adev->mes.ring[inst]);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1230  
-e220edf2d6fd6d Jack Xiao 2025-05-14  1231  	r = amdgpu_ring_test_ring(kiq_ring);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1232  	if (r) {
-e220edf2d6fd6d Jack Xiao 2025-05-14  1233  		DRM_ERROR("kfq enable failed\n");
-e220edf2d6fd6d Jack Xiao 2025-05-14  1234  		kiq_ring->sched.ready = false;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1235  	}
-e220edf2d6fd6d Jack Xiao 2025-05-14  1236  	return r;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1237  }
-e220edf2d6fd6d Jack Xiao 2025-05-14  1238  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2331  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2332  static int gfx_v12_1_xcc_kcq_resume(struct amdgpu_device *adev,
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2333  				    int xcc_id)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2334  {
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2335  	struct amdgpu_ring *ring = NULL;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2336  	int r = 0, i;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2337  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2338  	if (!amdgpu_async_gfx_ring)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2339  		gfx_v12_1_xcc_cp_compute_enable(adev, true, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2340  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2341  	for (i = 0; i < adev->gfx.num_compute_rings; i++) {
+ad5f1ee0a9b032 Likun Gao 2025-02-17 @2342  		ring = &adev->gfx.compute_ring[i + xcc_id * adev->gfx.num_compute_rings];
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2343  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2344  		r = amdgpu_bo_reserve(ring->mqd_obj, false);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2345  		if (unlikely(r != 0))
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2346  			goto done;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2347  		r = amdgpu_bo_kmap(ring->mqd_obj, (void **)&ring->mqd_ptr);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2348  		if (!r) {
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2349  			r = gfx_v12_1_xcc_kcq_init_queue(ring, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2350  			amdgpu_bo_kunmap(ring->mqd_obj);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2351  			ring->mqd_ptr = NULL;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2352  		}
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2353  		amdgpu_bo_unreserve(ring->mqd_obj);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2354  		if (r)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2355  			goto done;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2356  	}
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2357  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2358  	r = amdgpu_gfx_enable_kcq(adev, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2359  done:
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2360  	return r;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2361  }
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2362  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2363  static int gfx_v12_1_xcc_cp_resume(struct amdgpu_device *adev,
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2364  				   int xcc_id)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2365  {
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2366  	int r, i;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2367  	struct amdgpu_ring *ring;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2368  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2369  	if (!(adev->flags & AMD_IS_APU))
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2370  		gfx_v12_1_xcc_enable_gui_idle_interrupt(adev, false, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2371  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2372  	if (adev->firmware.load_type == AMDGPU_FW_LOAD_DIRECT) {
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2373  		/* legacy firmware loading */
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2374  		r = gfx_v12_1_xcc_cp_compute_load_microcode_rs64(adev, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2375  		if (r)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2376  			return r;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2377  	}
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2378  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2379  	gfx_v12_1_xcc_cp_set_doorbell_range(adev, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2380  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2381  	if (amdgpu_async_gfx_ring) {
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2382  		gfx_v12_1_xcc_cp_compute_enable(adev, true, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2383  	}
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2384  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2385  	if (adev->enable_mes_kiq && adev->mes.kiq_hw_init)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2386  		r = amdgpu_mes_kiq_hw_init(adev, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2387  	else
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2388  		r = gfx_v12_1_xcc_kiq_resume(adev, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2389  	if (r)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2390  		return r;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2391  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2392  	r = gfx_v12_1_xcc_kcq_resume(adev, xcc_id);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2393  	if (r)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2394  		return r;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2395  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2396  	for (i = 0; i < adev->gfx.num_compute_rings; i++) {
+ad5f1ee0a9b032 Likun Gao 2025-02-17 @2397  		ring = &adev->gfx.compute_ring[i + xcc_id * adev->gfx.num_compute_rings];
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2398  		r = amdgpu_ring_test_helper(ring);
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2399  		if (r)
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2400  			return r;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2401  	}
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2402  
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2403  	return 0;
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2404  }
+ad5f1ee0a9b032 Likun Gao 2025-02-17  2405  
 
 --
 0-DAY CI Kernel Test Service
