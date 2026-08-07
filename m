@@ -1,200 +1,153 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5872E1A6823
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 19:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BDB441636
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Aug 2026 20:25:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786131243; cv=none; b=NadrIUFNSlwFTy4NEvZWL+SPNtZ79nv/5AAJYnLq5gWJnR8xnmk1rguC+WbFkgZF8TKgoMABlxKqMuxE9Mpq6tiKqwd4Ln/QG/F2a/F+42uzc2cn3i32MqzUkSpTYYT2904e9HyUfS2ipb80HNsHJN5ZR3ydpD5ef4Ipr1Ab2wc=
+	t=1786134320; cv=none; b=sBq+1/5GJ4urbScftUXsp/hOyQHQxC5ss540q64QvM58L35cAAQkWVWbEyaApa8D+IW7FJ0Njj3Xgf6nydWKlDelaFOeDAXYD4Z292fJLOTFB70EuZ/v52Yn+5XXCSvcSjCB8vwyZi+Z5ygdUXNhOgJeDXqb+4yeI7V5lxVzdk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786131243; c=relaxed/simple;
-	bh=FF3sHTWBTCNub3eWl2MvP5EIBwfGF3LtOEa/LsxZRmc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=o0+TlO/iZPTa7SDLVfdaTt8wjGgHGtjWToiVXsadOkSb1kSe3puJsma3yiK9ontx9Bnztvt/Mo7B7i9JTuAmwTRrlLXl9kCaQItq9JD8tx7Ty12FIIC9ggtEs/2fwY05ys3HAUlnp5t+1xVzkoyf4ayl1M7WUoKKzTDo9KEwjnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GfJYUVOY; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1786134320; c=relaxed/simple;
+	bh=TwjUHX8KJhWMcdXo74XGwyZmpyco7K0GvQU/yEuGCDs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hcgh/5nOEdp5P7DKwZmtrn0DwYG5zDytyTgLVbMpNN0QDrBpMrcxQ2jJWAr+Vd2RW8nw8k4/H157J/bdiZpQp/ZagxZxS5IExAB0DrDp0ZcWMyVFYsMaeNJPNGL2GqSNEACbRtz+59DIB/AF2dQ5evU7kSM5vHiIT7UGng6wipg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1uvQmlV; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GfJYUVOY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1uvQmlV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786131241; x=1817667241;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FF3sHTWBTCNub3eWl2MvP5EIBwfGF3LtOEa/LsxZRmc=;
-  b=GfJYUVOYG+OKWHS35/tSt3RuKVvruIatgY4qEZIR4+QWcXOzoNWjiGmD
-   F44zH1tE0jUnoCbcY2u+8Fs8SZEMh6xFqYCnNKQTA5/XXRklgLpLjOdXo
-   yqx1UTBJ3aJ7/Y0l1QLBtKU6FguAHmic85fX7v4GJenSPGqs3Cy1/4xfG
-   P0UBuV1UBkFXL49UKuqSP/zzPRVt5flIU2CwTOTgT31VHMss5pswF3J2m
-   P4rVo0AgLVx9xtJYXY9xETm69zo5FPpdlcm1LqO/GnlRdHsy01uNmXDAw
-   9rK7Iy9EHVQi+1yNObPFgR8KeJO0phReAxmeo3lKqk0DDHab2XHvKgF28
-   w==;
-X-CSE-ConnectionGUID: yD3/1DPeRs2M5KG/aozkVg==
-X-CSE-MsgGUID: jDTrkn6VQoSLWFmexO1rXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="90425901"
+  t=1786134319; x=1817670319;
+  h=date:from:to:cc:subject:message-id;
+  bh=TwjUHX8KJhWMcdXo74XGwyZmpyco7K0GvQU/yEuGCDs=;
+  b=Y1uvQmlVYytrGqCFEahM3nqGFJ8RSBLUUdXgPNk6woOgmgCyxkUOc2IE
+   zofGc9TyWG11d/og+tbZWfIU0jxj5TDBQRVFftQLV7Xm4i54Y7p+ZNSOk
+   2iMSeU/rXJ9stdgbXeQtj2095d90qvJLQOeRTlgS0XR/8agk7JG8IZH4Q
+   qQxBkfU3ZsG3/wbJWBFmmconR5AqgRV4RQmn0qCV11jZrP0/9H1dezLAB
+   wxWcwh+qA+I/CrnXYxbkONGsQIbYuQDLdqZzDKSU/sVr7V1kkzlU09h0q
+   nkQTFw70xZIJ/XZmj3bqci439wYiaI1iUvCdOLo009w97rd5N5LtA/HD2
+   Q==;
+X-CSE-ConnectionGUID: t9T2F5HNQd+L6uueHzLFNA==
+X-CSE-MsgGUID: oW9zJSEvRAiPWcVeqzzSSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="90428317"
 X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="90425901"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 12:34:01 -0700
-X-CSE-ConnectionGUID: WA6B9ujUSEqFtaeo5LfjFA==
-X-CSE-MsgGUID: OqyQ96+1SF66N3FqRkajQw==
+   d="scan'208";a="90428317"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 13:25:18 -0700
+X-CSE-ConnectionGUID: 8USkMMkAQvCW1V889E2N8g==
+X-CSE-MsgGUID: CGJ2fb7GSjCpEmNYrde8Pw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="256243318"
+   d="scan'208";a="260736242"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2026 12:33:59 -0700
+  by orviesa006.jf.intel.com with ESMTP; 07 Aug 2026 13:25:17 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wsQKL-00000000J2z-14MJ;
-	Fri, 07 Aug 2026 19:33:57 +0000
-Date: Sat, 08 Aug 2026 03:33:34 +0800
+	id 1wsR7z-00000000JAl-0DJC;
+	Fri, 07 Aug 2026 20:25:15 +0000
+Date: Sat, 08 Aug 2026 04:24:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: 
- =?us-ascii?Q?drivers/gpu/drm/amd/amdgpu/../display/amdgpu=5Fdm/tests/amd?=
- =?us-ascii?Q?gpu=5Fdm=5Fwb=5Ftest.c:363:44:?= error: 'struct
- drm_writeback_connector' has no member named 'encoder'
-Message-ID: <202608080346.yGgBfsZ8-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/s390/kvm/kvm-s390.c:5857
+ kvm_arch_commit_memory_region() error: we previously assumed 'old' could be
+ null (see line 5849)
+Message-ID: <202608080458.eIveSLM1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/John-Harrison/drm-managed-implement-managed-versions-of-kzalloc_obj-objs/20260807-033852, commit: 8f32f6ce121579639f52d30cd5ec2dafee5c9189"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dmitry Baryshkov <lumag@kernel.org>
-CC: 0day robot <lkp@intel.com>
-CC: Suraj Kandpal <suraj.kandpal@intel.com>
-CC: Louis Chauvet <louis.chauvet@bootlin.com>
+CC: linux-kernel@vger.kernel.org
+TO: Claudio Imbrenda <imbrenda@linux.ibm.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/John-Harrison/drm-managed-implement-managed-versions-of-kzalloc_obj-objs/20260807-033852
-head:   260c8b52af1b6d6dd5da419fcfc9a2b5bc3eed95
-commit: 8f32f6ce121579639f52d30cd5ec2dafee5c9189 drm: writeback: drop excess connector initialization functions
-date:   23 hours ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260808/202608080346.yGgBfsZ8-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608080346.yGgBfsZ8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a13307e97d5c54b65720bb71fa379960ded1e51a
+commit: ec215346270512db60478e45e8dff2de950225aa KVM: s390: cmma: Fix dirty tracking when removing memslot
+date:   4 days ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 days ago
+config: s390-randconfig-r072-20260807 (https://download.01.org/0day-ci/archive/20260808/202608080458.eIveSLM1-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ec2153462705 ("KVM: s390: cmma: Fix dirty tracking when removing memslot")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608080346.yGgBfsZ8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608080458.eIveSLM1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+arch/s390/kvm/kvm-s390.c:5857 kvm_arch_commit_memory_region() error: we previously assumed 'old' could be null (see line 5849)
 
-   In file included from include/linux/err.h:5,
-                    from include/kunit/assert.h:12,
-                    from include/kunit/test.h:12,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:8:
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c: In function 'dm_test_wb_connector_init_success':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:44: error: 'struct drm_writeback_connector' has no member named 'encoder'
-     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
-         |                                            ^
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/kunit/test.h:801:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
-     801 |         KUNIT_UNARY_ASSERTION(test,                                            \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:997:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
-     997 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:994:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
-     994 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE'
-     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:42: error: 'struct drm_writeback_connector' has no member named 'encoder'
-     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
-         |                                          ^
-   include/kunit/test.h:840:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     840 |         const typeof(left) __left = (left);                                    \
-         |                      ^~~~
-   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
-         |         ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:42: error: 'struct drm_writeback_connector' has no member named 'encoder'
-     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
-         |                                          ^
-   include/kunit/test.h:840:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     840 |         const typeof(left) __left = (left);                                    \
-         |                                      ^~~~
-   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
-         |         ^~~~~~~~~~~~~~~
+Old smatch warnings:
+arch/s390/kvm/kvm-s390.c:5788 kvm_arch_prepare_memory_region() error: we previously assumed 'new' could be null (see line 5774)
 
+vim +/old +5857 arch/s390/kvm/kvm-s390.c
 
-vim +363 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c
+ec215346270512 Claudio Imbrenda      2026-08-03  5827  
+f7784b8ec9b6a0 Marcelo Tosatti       2009-12-23  5828  void kvm_arch_commit_memory_region(struct kvm *kvm,
+9d4c197c0e94c3 Sean Christopherson   2020-02-18  5829  				struct kvm_memory_slot *old,
+f36f3f2846b557 Paolo Bonzini         2015-05-18  5830  				const struct kvm_memory_slot *new,
+8482644aea11e0 Takuya Yoshikawa      2013-02-27  5831  				enum kvm_mr_change change)
+f7784b8ec9b6a0 Marcelo Tosatti       2009-12-23  5832  {
+ec215346270512 Claudio Imbrenda      2026-08-03  5833  	const struct dat_walk_ops ops = { .pte_entry = cmma_d_count_pte, };
+ec215346270512 Claudio Imbrenda      2026-08-03  5834  	struct kvm_s390_mmu_cache *mc __free(kvm_s390_mmu_cache) = NULL;
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5835  	int rc = 0;
+598841ca9919d0 Carsten Otte          2011-07-24  5836  
+ec215346270512 Claudio Imbrenda      2026-08-03  5837  	guard(mutex)(&kvm->slots_arch_lock);
+ec215346270512 Claudio Imbrenda      2026-08-03  5838  
+e38c884df92119 Claudio Imbrenda      2026-02-04  5839  	if (change == KVM_MR_FLAGS_ONLY)
+413c98f24c63b3 Claudio Imbrenda      2025-01-23  5840  		return;
+413c98f24c63b3 Claudio Imbrenda      2025-01-23  5841  
+e38c884df92119 Claudio Imbrenda      2026-02-04  5842  	mc = kvm_s390_new_mmu_cache();
+e38c884df92119 Claudio Imbrenda      2026-02-04  5843  	if (!mc) {
+e38c884df92119 Claudio Imbrenda      2026-02-04  5844  		rc = -ENOMEM;
+e38c884df92119 Claudio Imbrenda      2026-02-04  5845  		goto out;
+e38c884df92119 Claudio Imbrenda      2026-02-04  5846  	}
+e38c884df92119 Claudio Imbrenda      2026-02-04  5847  
+e38c884df92119 Claudio Imbrenda      2026-02-04  5848  	scoped_guard(write_lock, &kvm->mmu_lock) {
+ec215346270512 Claudio Imbrenda      2026-08-03 @5849  		if (kvm->arch.migration_mode && kvm->arch.use_cmma && old) {
+ec215346270512 Claudio Imbrenda      2026-08-03  5850  			_dat_walk_gfn_range(old->base_gfn, old->base_gfn + old->npages,
+ec215346270512 Claudio Imbrenda      2026-08-03  5851  					    kvm->arch.gmap->asce, &ops, DAT_WALK_IGN_HOLES,
+ec215346270512 Claudio Imbrenda      2026-08-03  5852  					    &kvm->arch.cmma_dirty_pages);
+ec215346270512 Claudio Imbrenda      2026-08-03  5853  		}
+ec215346270512 Claudio Imbrenda      2026-08-03  5854  
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5855  		switch (change) {
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5856  		case KVM_MR_DELETE:
+e38c884df92119 Claudio Imbrenda      2026-02-04 @5857  			rc = dat_delete_slot(mc, kvm->arch.gmap->asce, old->base_gfn, old->npages);
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5858  			break;
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5859  		case KVM_MR_MOVE:
+e38c884df92119 Claudio Imbrenda      2026-02-04  5860  			rc = dat_delete_slot(mc, kvm->arch.gmap->asce, old->base_gfn, old->npages);
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5861  			if (rc)
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5862  				break;
+3b684a420bd8a2 Joe Perches           2020-03-10  5863  			fallthrough;
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5864  		case KVM_MR_CREATE:
+e38c884df92119 Claudio Imbrenda      2026-02-04  5865  			rc = dat_create_slot(mc, kvm->arch.gmap->asce, new->base_gfn, new->npages);
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5866  			break;
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5867  		case KVM_MR_FLAGS_ONLY:
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5868  			break;
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5869  		default:
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5870  			WARN(1, "Unknown KVM MR CHANGE: %d\n", change);
+19ec166c3f39fe Christian Borntraeger 2019-05-24  5871  		}
+e38c884df92119 Claudio Imbrenda      2026-02-04  5872  	}
+e38c884df92119 Claudio Imbrenda      2026-02-04  5873  out:
+598841ca9919d0 Carsten Otte          2011-07-24  5874  	if (rc)
+ea2cdd27dce66d David Hildenbrand     2015-05-20  5875  		pr_warn("failed to commit memory region\n");
+598841ca9919d0 Carsten Otte          2011-07-24  5876  	return;
+b0c632db637d68 Heiko Carstens        2008-03-25  5877  }
+b0c632db637d68 Heiko Carstens        2008-03-25  5878  
 
-682710244fa3176 Alex Hung 2026-06-15  320  
-682710244fa3176 Alex Hung 2026-06-15  321  /**
-682710244fa3176 Alex Hung 2026-06-15  322   * dm_test_wb_connector_init_success - Verify writeback connector initialization
-682710244fa3176 Alex Hung 2026-06-15  323   * @test: KUnit test context
-682710244fa3176 Alex Hung 2026-06-15  324   *
-682710244fa3176 Alex Hung 2026-06-15  325   * Uses a DRM mock device embedded in struct amdgpu_device to verify that
-682710244fa3176 Alex Hung 2026-06-15  326   * amdgpu_dm_wb_connector_init() initializes the writeback connector, stores
-682710244fa3176 Alex Hung 2026-06-15  327   * the DC link, installs connector state through reset, and wires the expected
-682710244fa3176 Alex Hung 2026-06-15  328   * DRM callbacks.
-682710244fa3176 Alex Hung 2026-06-15  329   */
-682710244fa3176 Alex Hung 2026-06-15  330  static void dm_test_wb_connector_init_success(struct kunit *test)
-682710244fa3176 Alex Hung 2026-06-15  331  {
-682710244fa3176 Alex Hung 2026-06-15  332  	struct amdgpu_dm_wb_connector *wbcon;
-682710244fa3176 Alex Hung 2026-06-15  333  	struct amdgpu_display_manager *dm;
-682710244fa3176 Alex Hung 2026-06-15  334  	struct amdgpu_device *adev;
-682710244fa3176 Alex Hung 2026-06-15  335  	struct dc_link *link;
-682710244fa3176 Alex Hung 2026-06-15  336  	struct dc *dc;
-682710244fa3176 Alex Hung 2026-06-15  337  	int ret;
-682710244fa3176 Alex Hung 2026-06-15  338  
-a532f8d7e4c96a3 Alex Hung 2026-06-18  339  	adev = dm_kunit_alloc_adev(test);
-682710244fa3176 Alex Hung 2026-06-15  340  	adev->mode_info.num_crtc = 1;
-682710244fa3176 Alex Hung 2026-06-15  341  	dm = &adev->dm;
-682710244fa3176 Alex Hung 2026-06-15  342  	dm->adev = adev;
-682710244fa3176 Alex Hung 2026-06-15  343  
-682710244fa3176 Alex Hung 2026-06-15  344  	dc = kunit_kzalloc(test, sizeof(*dc), GFP_KERNEL);
-682710244fa3176 Alex Hung 2026-06-15  345  	KUNIT_ASSERT_NOT_NULL(test, dc);
-682710244fa3176 Alex Hung 2026-06-15  346  
-682710244fa3176 Alex Hung 2026-06-15  347  	link = kunit_kzalloc(test, sizeof(*link), GFP_KERNEL);
-682710244fa3176 Alex Hung 2026-06-15  348  	KUNIT_ASSERT_NOT_NULL(test, link);
-682710244fa3176 Alex Hung 2026-06-15  349  
-682710244fa3176 Alex Hung 2026-06-15  350  	dc->links[0] = link;
-682710244fa3176 Alex Hung 2026-06-15  351  	dm->dc = dc;
-682710244fa3176 Alex Hung 2026-06-15  352  
-682710244fa3176 Alex Hung 2026-06-15  353  	wbcon = kunit_kzalloc(test, sizeof(*wbcon), GFP_KERNEL);
-682710244fa3176 Alex Hung 2026-06-15  354  	KUNIT_ASSERT_NOT_NULL(test, wbcon);
-682710244fa3176 Alex Hung 2026-06-15  355  
-682710244fa3176 Alex Hung 2026-06-15  356  	ret = amdgpu_dm_wb_connector_init(dm, wbcon, 0);
-682710244fa3176 Alex Hung 2026-06-15  357  
-682710244fa3176 Alex Hung 2026-06-15  358  	KUNIT_EXPECT_EQ(test, ret, 0);
-682710244fa3176 Alex Hung 2026-06-15  359  	KUNIT_EXPECT_PTR_EQ(test, wbcon->link, link);
-682710244fa3176 Alex Hung 2026-06-15  360  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.funcs != NULL);
-682710244fa3176 Alex Hung 2026-06-15  361  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.helper_private != NULL);
-682710244fa3176 Alex Hung 2026-06-15  362  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.state != NULL);
-682710244fa3176 Alex Hung 2026-06-15 @363  	KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
-682710244fa3176 Alex Hung 2026-06-15  364  	KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
-682710244fa3176 Alex Hung 2026-06-15  365  }
-682710244fa3176 Alex Hung 2026-06-15  366  
+:::::: The code at line 5857 was first introduced by commit
+:::::: e38c884df92119d96f652d51f82661dd2fc0b885 KVM: s390: Switch to new gmap
+
+:::::: TO: Claudio Imbrenda <imbrenda@linux.ibm.com>
+:::::: CC: Claudio Imbrenda <imbrenda@linux.ibm.com>
 
 --
 0-DAY CI Kernel Test Service
