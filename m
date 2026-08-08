@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2A62E737E
-	for <oe-kbuild@lists.linux.dev>; Sat,  8 Aug 2026 11:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B82A10F0
+	for <oe-kbuild@lists.linux.dev>; Sat,  8 Aug 2026 14:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786189285; cv=none; b=TeB51HSqefgGETQpuqGMkEy1SsMTxlHFpcfHr6ADolgAUm7rWGC+aS5TpMPLTVrr75KZMUEhxWxpT7+1+z4V7WPknM5e7tBovNv1yRg6JqtNeaZ8cif0CV0OYgM4Sscu3hOGmJqgWbZF0Y8+l8Qss6xb6tlxMRI9GqbD6NA0Hmw=
+	t=1786199648; cv=none; b=KKks/wmVuy3Bvow08frPEpAqYYdZaCHtI/cFhSGl4FE6gR1vBN/0wd6mZoURWtJKrF/nzzUeOY7rnfYHLXY6e7xE9UY3VlIMUiGpS8Enanx/OSjVfB0UKGNJQMq+ezUF+CAuR+lbvPFFQAassvFeseEiX8Z1f9cJLlFlCS9GIw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786189285; c=relaxed/simple;
-	bh=7BFmDdriEfQ8/1KUBuKUlQCuFWfgcSk0rtjiK358B6M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UqtlMw7jFHUpwBhv53RMgFgARlGQWaO3koFzJiW2+y9gBguk2VBRe7MzllCyx5kBuTLUCFcpa+Cywk6JIEQ7nMtx/Oqswo616tLslwFfiX1JPVxz3jWNaiz9FoNZz3ZAjpSqmieQicy04olES4Fs9Olt0XUPYw3kgKBeIQRG1II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MmJlSjai; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1786199648; c=relaxed/simple;
+	bh=N1ctxLhwW6GyIeL/ijO8ncERCyxRoDo/cFmn+hmRF/s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=t2vMAxRTyq/mXRJKsl/CvHQqaBdplrM0X5VFTNISUwvXY8xmscSxbCFa2YRsLShCRcYBc/yrfrb7keLBvxfBVahQAUYk4jzeL9WeOZJ7yo/qKTT3AhI7haDTQNvVxwXBYiproAByfSQaoIpPVkNlmNQV7g7TClBj85S67jjBytM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sn7rrs9U; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MmJlSjai"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sn7rrs9U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786189284; x=1817725284;
+  t=1786199646; x=1817735646;
   h=date:from:to:cc:subject:message-id;
-  bh=7BFmDdriEfQ8/1KUBuKUlQCuFWfgcSk0rtjiK358B6M=;
-  b=MmJlSjaiFM1G8Y/BxrQUWohQqWqMtpwxyL6JcNx+MDH7Rl0ZMhfJnAP7
-   kTOUpMbQSlWpwk1EkzsqDWQGvi8VSILOILqjC4vjzS9KVqHA8w27e8QhS
-   fn7x8ES9B2axutMuoO0sc38Xm2dxsulqIKumSNMfDlVBMT3nNZ8F8mbhs
-   SWb7SOHmTAxanyJHdOj2t6KVcFderppRsHmYCjqGqnTEA2R59Y6wseOlv
-   GCBHwIIZqlbqrnx/CIaSokbJIQXZ8CKGPesF6Feq1CEr/t8q6ZvHbhDeX
-   ORrl5wUFTeKvXH3giXSU48GmBiFsig51LFmFNOiuiFChZ/4ElOPRtNmIm
-   g==;
-X-CSE-ConnectionGUID: huCCN1X7TdqjeY/vHJXayw==
-X-CSE-MsgGUID: dcCxridWQ5q4m6i7gmuc8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="97933253"
+  bh=N1ctxLhwW6GyIeL/ijO8ncERCyxRoDo/cFmn+hmRF/s=;
+  b=Sn7rrs9UajqqjWFL3ZMxGW6/jIDjf+JJ8hYoDOgZPzjjl7lp0PzqmC/o
+   CU9NE4eRMcLAwhECpxeNiMdec8Mx32GHzmJuuBkoyjWw8LHFw5yCh0vdH
+   cbKqyYmEYVoDqMDUpPVMvr7eiWOKa+ZBgfpo8p5wVKbcrd4W4kGeOuOrT
+   Wk077DUKOUmG8oML4PI+oXrz+DFxdRcLH44HN348/meA1P+cinWE2Ztf8
+   EE26T+LN0sePmt+COyv+2T+E+be6v3+aJfjyuUyM2MYIpqDgICLpNWiUA
+   tYbFTJxI9Gd9Moz3WuqpyX64s4qkhExjgh025taZAWHpMQNFmgWEXwO8V
+   w==;
+X-CSE-ConnectionGUID: MC9KqvHzQm+QJOa5rpupqw==
+X-CSE-MsgGUID: Sp89xwH3STillrHUdFMlNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="104316272"
 X-IronPort-AV: E=Sophos;i="6.25,212,1779174000"; 
-   d="scan'208";a="97933253"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 04:41:23 -0700
-X-CSE-ConnectionGUID: AP99JH6HRmyvT/KCwkXzeA==
-X-CSE-MsgGUID: KOsFQvpMTOW7VM0D9Hjf3g==
+   d="scan'208";a="104316272"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 07:34:05 -0700
+X-CSE-ConnectionGUID: M6nR70upRyaMkTKNUBPKEw==
+X-CSE-MsgGUID: D7W5xK1sSQuxMKYKVu3zuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,212,1779174000"; 
-   d="scan'208";a="264612468"
+   d="scan'208";a="267807195"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Aug 2026 04:41:22 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 08 Aug 2026 07:34:05 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wsfQV-00000000K7T-2CFp;
-	Sat, 08 Aug 2026 11:41:19 +0000
-Date: Sat, 08 Aug 2026 19:41:05 +0800
+	id 1wsi7e-00000000KGf-3MQP;
+	Sat, 08 Aug 2026 14:34:02 +0000
+Date: Sat, 08 Aug 2026 22:33:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1229
- mes_v12_1_kiq_enable_queue() error: buffer overflow 'adev->mes.ring' 16 <=
- s32max
-Message-ID: <202608081921.zUla9MpN-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android16-6.12 0/1] mm/slub.c:775:31:
+ sparse: sparse: unsigned value that used to be signed checked against zero?
+Message-ID: <202608082211.XpNvDSlE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,70 +59,79 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: mm/slub.c:775:31: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jack Xiao <Jack.Xiao@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
-CC: Mukul Joshi <mukul.joshi@amd.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bcc44b6785f216eb939226ade6e3910baa30516b
-commit: e220edf2d6fd6dbf08fa93790809500a80217948 drm/amdgpu/mes_v12_1: initial support for mes_v12_1
-date:   8 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 8 months ago
-config: i386-randconfig-141-20260806 (https://download.01.org/0day-ci/archive/20260808/202608081921.zUla9MpN-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
+Hi Harry,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   749a6f9d41aa0bad1b1893ebae8598ca7875d09e
+commit: b6e5cef4d6df31f7e61f2e2713b3358a0b48f7e7 [0/1] mm/slab: use unsigned long for orig_size to ensure proper metadata align
+:::::: branch date: 2 days ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-122-20260808 (https://download.01.org/0day-ci/archive/20260808/202608082211.XpNvDSlE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608082211.XpNvDSlE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e220edf2d6fd ("drm/amdgpu/mes_v12_1: initial support for mes_v12_1")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608081921.zUla9MpN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608082211.XpNvDSlE-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1229 mes_v12_1_kiq_enable_queue() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1516 mes_v12_1_kiq_dequeue_sched() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1604 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1625 mes_v12_1_xcc_hw_init() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+sparse warnings: (new ones prefixed by >>)
+>> mm/slub.c:775:31: sparse: sparse: unsigned value that used to be signed checked against zero?
+   mm/slub.c:1616:34: sparse: signed value source
+   mm/slub.c:3179:55: sparse: sparse: context imbalance in '__put_partials' - unexpected unlock
+   mm/slub.c:4475:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1607 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1612 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
-drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1680 mes_v12_1_xcc_hw_init() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+vim +775 mm/slub.c
 
-vim +1229 drivers/gpu/drm/amd/amdgpu/mes_v12_1.c
+b789ef518b2a72 Christoph Lameter 2011-06-01  752  
+59090e479ac78a Peng Fan          2024-08-29  753  /*
+59090e479ac78a Peng Fan          2024-08-29  754   * kmalloc caches has fixed sizes (mostly power of 2), and kmalloc() API
+59090e479ac78a Peng Fan          2024-08-29  755   * family will round up the real request size to these fixed ones, so
+59090e479ac78a Peng Fan          2024-08-29  756   * there could be an extra area than what is requested. Save the original
+59090e479ac78a Peng Fan          2024-08-29  757   * request size in the meta data area, for better debug and sanity check.
+59090e479ac78a Peng Fan          2024-08-29  758   */
+59090e479ac78a Peng Fan          2024-08-29  759  static inline void set_orig_size(struct kmem_cache *s,
+b6e5cef4d6df31 Harry Yoo         2026-01-13  760  				void *object, unsigned long orig_size)
+59090e479ac78a Peng Fan          2024-08-29  761  {
+59090e479ac78a Peng Fan          2024-08-29  762  	void *p = kasan_reset_tag(object);
+59090e479ac78a Peng Fan          2024-08-29  763  	unsigned int kasan_meta_size;
+59090e479ac78a Peng Fan          2024-08-29  764  
+59090e479ac78a Peng Fan          2024-08-29  765  	if (!slub_debug_orig_size(s))
+59090e479ac78a Peng Fan          2024-08-29  766  		return;
+59090e479ac78a Peng Fan          2024-08-29  767  
+59090e479ac78a Peng Fan          2024-08-29  768  	/*
+59090e479ac78a Peng Fan          2024-08-29  769  	 * KASAN can save its free meta data inside of the object at offset 0.
+59090e479ac78a Peng Fan          2024-08-29  770  	 * If this meta data size is larger than 'orig_size', it will overlap
+59090e479ac78a Peng Fan          2024-08-29  771  	 * the data redzone in [orig_size+1, object_size]. Thus, we adjust
+59090e479ac78a Peng Fan          2024-08-29  772  	 * 'orig_size' to be as at least as big as KASAN's meta data.
+59090e479ac78a Peng Fan          2024-08-29  773  	 */
+59090e479ac78a Peng Fan          2024-08-29  774  	kasan_meta_size = kasan_metadata_size(s, true);
+59090e479ac78a Peng Fan          2024-08-29 @775  	if (kasan_meta_size > orig_size)
+59090e479ac78a Peng Fan          2024-08-29  776  		orig_size = kasan_meta_size;
+59090e479ac78a Peng Fan          2024-08-29  777  
+59090e479ac78a Peng Fan          2024-08-29  778  	p += get_info_end(s);
+59090e479ac78a Peng Fan          2024-08-29  779  	p += sizeof(struct track) * 2;
+59090e479ac78a Peng Fan          2024-08-29  780  
+b6e5cef4d6df31 Harry Yoo         2026-01-13  781  	*(unsigned long *)p = orig_size;
+59090e479ac78a Peng Fan          2024-08-29  782  }
+59090e479ac78a Peng Fan          2024-08-29  783  
 
-e220edf2d6fd6d Jack Xiao 2025-05-14  1213  
-e220edf2d6fd6d Jack Xiao 2025-05-14  1214  static int mes_v12_1_kiq_enable_queue(struct amdgpu_device *adev, int xcc_id)
-e220edf2d6fd6d Jack Xiao 2025-05-14  1215  {
-e220edf2d6fd6d Jack Xiao 2025-05-14  1216  	struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
-e220edf2d6fd6d Jack Xiao 2025-05-14  1217  	struct amdgpu_ring *kiq_ring = &adev->gfx.kiq[xcc_id].ring;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1218  	int r, inst = MES_PIPE_INST(xcc_id, AMDGPU_MES_SCHED_PIPE);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1219  
-e220edf2d6fd6d Jack Xiao 2025-05-14  1220  	if (!kiq->pmf || !kiq->pmf->kiq_map_queues)
-e220edf2d6fd6d Jack Xiao 2025-05-14  1221  		return -EINVAL;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1222  
-e220edf2d6fd6d Jack Xiao 2025-05-14  1223  	r = amdgpu_ring_alloc(kiq_ring, kiq->pmf->map_queues_size);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1224  	if (r) {
-e220edf2d6fd6d Jack Xiao 2025-05-14  1225  		DRM_ERROR("Failed to lock KIQ (%d).\n", r);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1226  		return r;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1227  	}
-e220edf2d6fd6d Jack Xiao 2025-05-14  1228  
-e220edf2d6fd6d Jack Xiao 2025-05-14 @1229  	kiq->pmf->kiq_map_queues(kiq_ring, &adev->mes.ring[inst]);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1230  
-e220edf2d6fd6d Jack Xiao 2025-05-14  1231  	r = amdgpu_ring_test_ring(kiq_ring);
-e220edf2d6fd6d Jack Xiao 2025-05-14  1232  	if (r) {
-e220edf2d6fd6d Jack Xiao 2025-05-14  1233  		DRM_ERROR("kfq enable failed\n");
-e220edf2d6fd6d Jack Xiao 2025-05-14  1234  		kiq_ring->sched.ready = false;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1235  	}
-e220edf2d6fd6d Jack Xiao 2025-05-14  1236  	return r;
-e220edf2d6fd6d Jack Xiao 2025-05-14  1237  }
-e220edf2d6fd6d Jack Xiao 2025-05-14  1238  
+:::::: The code at line 775 was first introduced by commit
+:::::: 59090e479ac78ae18facd4c58eb332562a23020e mm, slub: avoid zeroing kmalloc redzone
+
+:::::: TO: Peng Fan <peng.fan@nxp.com>
+:::::: CC: Vlastimil Babka <vbabka@suse.cz>
 
 --
 0-DAY CI Kernel Test Service
