@@ -1,137 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B82A10F0
-	for <oe-kbuild@lists.linux.dev>; Sat,  8 Aug 2026 14:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0262025B085
+	for <oe-kbuild@lists.linux.dev>; Sat,  8 Aug 2026 16:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786199648; cv=none; b=KKks/wmVuy3Bvow08frPEpAqYYdZaCHtI/cFhSGl4FE6gR1vBN/0wd6mZoURWtJKrF/nzzUeOY7rnfYHLXY6e7xE9UY3VlIMUiGpS8Enanx/OSjVfB0UKGNJQMq+ezUF+CAuR+lbvPFFQAassvFeseEiX8Z1f9cJLlFlCS9GIw8=
+	t=1786208027; cv=none; b=t8zD9C2o9nUEGQl8wGbGf/BYWOhodGhXaEmjONDliKufvtHaB68wabtqhMaEoNxGNrNgBEiht+VZpA0APeF0qFo5jZuUCVtJvyWV1ibxkt7S5AelqlJGwObqhvvR3oTCOm4mIaxvq+nZMEqfHBHBT/+V7OyF7Qy2fjVyMKi2xyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786199648; c=relaxed/simple;
-	bh=N1ctxLhwW6GyIeL/ijO8ncERCyxRoDo/cFmn+hmRF/s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t2vMAxRTyq/mXRJKsl/CvHQqaBdplrM0X5VFTNISUwvXY8xmscSxbCFa2YRsLShCRcYBc/yrfrb7keLBvxfBVahQAUYk4jzeL9WeOZJ7yo/qKTT3AhI7haDTQNvVxwXBYiproAByfSQaoIpPVkNlmNQV7g7TClBj85S67jjBytM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sn7rrs9U; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1786208027; c=relaxed/simple;
+	bh=WmDmJR0VnyplokIdizzfEy32fDQYzVgKm/deoVqzUnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QG7lOKHWcFtn7n6TzdiF+fWEjXi8xuo8fYb50v6hcl3jfCxVgAJmfbafzafVDaPp4cRf3EP1MdZi+zzt0SJ3eVhUusaJI+d1LwGmpZquUVl0NLk58zPYvZCLRDeCFtwfBqjC3/sa8ZfKE/ivRgYMIICGjsx3h/uTkMop92rzAF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbzR3qBC; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sn7rrs9U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbzR3qBC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786199646; x=1817735646;
-  h=date:from:to:cc:subject:message-id;
-  bh=N1ctxLhwW6GyIeL/ijO8ncERCyxRoDo/cFmn+hmRF/s=;
-  b=Sn7rrs9UajqqjWFL3ZMxGW6/jIDjf+JJ8hYoDOgZPzjjl7lp0PzqmC/o
-   CU9NE4eRMcLAwhECpxeNiMdec8Mx32GHzmJuuBkoyjWw8LHFw5yCh0vdH
-   cbKqyYmEYVoDqMDUpPVMvr7eiWOKa+ZBgfpo8p5wVKbcrd4W4kGeOuOrT
-   Wk077DUKOUmG8oML4PI+oXrz+DFxdRcLH44HN348/meA1P+cinWE2Ztf8
-   EE26T+LN0sePmt+COyv+2T+E+be6v3+aJfjyuUyM2MYIpqDgICLpNWiUA
-   tYbFTJxI9Gd9Moz3WuqpyX64s4qkhExjgh025taZAWHpMQNFmgWEXwO8V
-   w==;
-X-CSE-ConnectionGUID: MC9KqvHzQm+QJOa5rpupqw==
-X-CSE-MsgGUID: Sp89xwH3STillrHUdFMlNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="104316272"
+  t=1786208020; x=1817744020;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WmDmJR0VnyplokIdizzfEy32fDQYzVgKm/deoVqzUnY=;
+  b=FbzR3qBC+diedRbGDtyYNA3PfcFWvo0KhTCljxwCAkyftSqmJSgsLdld
+   h8qzYTk/I/Vou4RJ5k3SQH1pQxR2agl20M6RNKTXqDmQRbsdjDK3WVoPo
+   V31YeCRvX8Nl0GDmcDPKFiJx2MvUEuKGJ7rfdxHSxmgMJwMc2n0NFRzB0
+   6Tq66KMU6tZQAafor56X23bT7lpaYxKfXopL9BJzPNdPspkEoHD4FEiic
+   Kmts3brMIsHUARZcsHlDxnLDaNfa2gsEPG2mOh+7+Oj+aY9Yte3OilYmP
+   a3jS+DMzp3hbDj0NIX+ErOujvtQYhqTrd1J096nItgHHeP1J5Pbi3yKBC
+   Q==;
+X-CSE-ConnectionGUID: h3iOx31CRZ27H/rqHxrz7A==
+X-CSE-MsgGUID: NuoatxZPQ5+rAsuWCbHFEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="97138097"
 X-IronPort-AV: E=Sophos;i="6.25,212,1779174000"; 
-   d="scan'208";a="104316272"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 07:34:05 -0700
-X-CSE-ConnectionGUID: M6nR70upRyaMkTKNUBPKEw==
-X-CSE-MsgGUID: D7W5xK1sSQuxMKYKVu3zuw==
+   d="scan'208";a="97138097"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2026 09:53:39 -0700
+X-CSE-ConnectionGUID: 8lZCSjG/RaKXXLl5kRO73A==
+X-CSE-MsgGUID: h48xa6Q8TuO0/znnpDANKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,212,1779174000"; 
-   d="scan'208";a="267807195"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Aug 2026 07:34:05 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 08 Aug 2026 09:53:38 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wsi7e-00000000KGf-3MQP;
-	Sat, 08 Aug 2026 14:34:02 +0000
-Date: Sat, 08 Aug 2026 22:33:33 +0800
+	id 1wskIh-00000000KRR-22bI;
+	Sat, 08 Aug 2026 16:53:35 +0000
+Date: Sun, 9 Aug 2026 00:53:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android16-6.12 0/1] mm/slub.c:775:31:
- sparse: sparse: unsigned value that used to be signed checked against zero?
-Message-ID: <202608082211.XpNvDSlE-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v1] clk: devres: fix cleanup in
+ devm_clk_get_optional_enabled_with_rate()
+Message-ID: <202608090025.dwxdfqFr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/slub.c:775:31: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20260801111637.304590-1-work@onurozkan.dev>
+References: <20260801111637.304590-1-work@onurozkan.dev>
+TO: "Onur Özkan" <work@onurozkan.dev>
+TO: linux-clk@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: mturquette@baylibre.com
+CC: sboyd@kernel.org
+CC: bmasney@redhat.com
+CC: daniel.almeida@collabora.com
+CC: "Onur Özkan" <work@onurozkan.dev>
 
-Hi Harry,
+Hi Onur,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   749a6f9d41aa0bad1b1893ebae8598ca7875d09e
-commit: b6e5cef4d6df31f7e61f2e2713b3358a0b48f7e7 [0/1] mm/slab: use unsigned long for orig_size to ensure proper metadata align
-:::::: branch date: 2 days ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-122-20260808 (https://download.01.org/0day-ci/archive/20260808/202608082211.XpNvDSlE-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608082211.XpNvDSlE-lkp@intel.com/reproduce)
+[auto build test WARNING on linux-review/Daniel-Almeida/rust-clk-use-the-type-state-pattern/20260706-224926]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Onur-zkan/clk-devres-fix-cleanup-in-devm_clk_get_optional_enabled_with_rate/20260805-211528
+base:   https://github.com/intel-lab-lkp/linux Daniel-Almeida/rust-clk-use-the-type-state-pattern/20260706-224926
+patch link:    https://lore.kernel.org/r/20260801111637.304590-1-work%40onurozkan.dev
+patch subject: [PATCH v1] clk: devres: fix cleanup in devm_clk_get_optional_enabled_with_rate()
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: parisc-randconfig-r071-20260808 (https://download.01.org/0day-ci/archive/20260809/202608090025.dwxdfqFr-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608082211.XpNvDSlE-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608090025.dwxdfqFr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/slub.c:775:31: sparse: sparse: unsigned value that used to be signed checked against zero?
-   mm/slub.c:1616:34: sparse: signed value source
-   mm/slub.c:3179:55: sparse: sparse: context imbalance in '__put_partials' - unexpected unlock
-   mm/slub.c:4475:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
+smatch warnings:
+drivers/clk/clk-devres.c:134 devm_clk_get_optional_enabled_with_rate() warn: 'clk' from clk_prepare_enable() not released on lines: 134.
 
-vim +775 mm/slub.c
+vim +/clk +134 drivers/clk/clk-devres.c
 
-b789ef518b2a72 Christoph Lameter 2011-06-01  752  
-59090e479ac78a Peng Fan          2024-08-29  753  /*
-59090e479ac78a Peng Fan          2024-08-29  754   * kmalloc caches has fixed sizes (mostly power of 2), and kmalloc() API
-59090e479ac78a Peng Fan          2024-08-29  755   * family will round up the real request size to these fixed ones, so
-59090e479ac78a Peng Fan          2024-08-29  756   * there could be an extra area than what is requested. Save the original
-59090e479ac78a Peng Fan          2024-08-29  757   * request size in the meta data area, for better debug and sanity check.
-59090e479ac78a Peng Fan          2024-08-29  758   */
-59090e479ac78a Peng Fan          2024-08-29  759  static inline void set_orig_size(struct kmem_cache *s,
-b6e5cef4d6df31 Harry Yoo         2026-01-13  760  				void *object, unsigned long orig_size)
-59090e479ac78a Peng Fan          2024-08-29  761  {
-59090e479ac78a Peng Fan          2024-08-29  762  	void *p = kasan_reset_tag(object);
-59090e479ac78a Peng Fan          2024-08-29  763  	unsigned int kasan_meta_size;
-59090e479ac78a Peng Fan          2024-08-29  764  
-59090e479ac78a Peng Fan          2024-08-29  765  	if (!slub_debug_orig_size(s))
-59090e479ac78a Peng Fan          2024-08-29  766  		return;
-59090e479ac78a Peng Fan          2024-08-29  767  
-59090e479ac78a Peng Fan          2024-08-29  768  	/*
-59090e479ac78a Peng Fan          2024-08-29  769  	 * KASAN can save its free meta data inside of the object at offset 0.
-59090e479ac78a Peng Fan          2024-08-29  770  	 * If this meta data size is larger than 'orig_size', it will overlap
-59090e479ac78a Peng Fan          2024-08-29  771  	 * the data redzone in [orig_size+1, object_size]. Thus, we adjust
-59090e479ac78a Peng Fan          2024-08-29  772  	 * 'orig_size' to be as at least as big as KASAN's meta data.
-59090e479ac78a Peng Fan          2024-08-29  773  	 */
-59090e479ac78a Peng Fan          2024-08-29  774  	kasan_meta_size = kasan_metadata_size(s, true);
-59090e479ac78a Peng Fan          2024-08-29 @775  	if (kasan_meta_size > orig_size)
-59090e479ac78a Peng Fan          2024-08-29  776  		orig_size = kasan_meta_size;
-59090e479ac78a Peng Fan          2024-08-29  777  
-59090e479ac78a Peng Fan          2024-08-29  778  	p += get_info_end(s);
-59090e479ac78a Peng Fan          2024-08-29  779  	p += sizeof(struct track) * 2;
-59090e479ac78a Peng Fan          2024-08-29  780  
-b6e5cef4d6df31 Harry Yoo         2026-01-13  781  	*(unsigned long *)p = orig_size;
-59090e479ac78a Peng Fan          2024-08-29  782  }
-59090e479ac78a Peng Fan          2024-08-29  783  
-
-:::::: The code at line 775 was first introduced by commit
-:::::: 59090e479ac78ae18facd4c58eb332562a23020e mm, slub: avoid zeroing kmalloc redzone
-
-:::::: TO: Peng Fan <peng.fan@nxp.com>
-:::::: CC: Vlastimil Babka <vbabka@suse.cz>
+1c34a54a924f326 Onur Özkan          2026-08-01  106  
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  107  struct clk *devm_clk_get_optional_enabled_with_rate(struct device *dev,
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  108  						    const char *id,
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  109  						    unsigned long rate)
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  110  {
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  111  	struct clk *clk;
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  112  	int ret;
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  113  
+1c34a54a924f326 Onur Özkan          2026-08-01  114  	clk = devm_clk_get_optional(dev, id);
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  115  	if (IS_ERR(clk))
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  116  		return ERR_CAST(clk);
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  117  
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  118  	ret = clk_set_rate(clk, rate);
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  119  	if (ret)
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  120  		goto out_put_clk;
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  121  
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  122  	ret = clk_prepare_enable(clk);
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  123  	if (ret)
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  124  		goto out_put_clk;
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  125  
+1c34a54a924f326 Onur Özkan          2026-08-01  126  	ret = devm_add_action_or_reset(dev, devm_clk_disable_unprepare, clk);
+1c34a54a924f326 Onur Özkan          2026-08-01  127  	if (ret)
+1c34a54a924f326 Onur Özkan          2026-08-01  128  		goto out_put_clk;
+1c34a54a924f326 Onur Özkan          2026-08-01  129  
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  130  	return clk;
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  131  
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  132  out_put_clk:
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  133  	devm_clk_put(dev, clk);
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05 @134  	return ERR_PTR(ret);
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  135  }
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  136  EXPORT_SYMBOL_GPL(devm_clk_get_optional_enabled_with_rate);
+9934a1bd45b2b03 Bartosz Golaszewski 2024-08-05  137  
 
 --
 0-DAY CI Kernel Test Service
