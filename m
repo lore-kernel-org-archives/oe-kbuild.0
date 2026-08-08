@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8151DFDE
-	for <oe-kbuild@lists.linux.dev>; Sat,  8 Aug 2026 02:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845B23246ED
+	for <oe-kbuild@lists.linux.dev>; Sat,  8 Aug 2026 05:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786158002; cv=none; b=pSDCrGkm3rIJquf2WLyO/KAzQrVXan7gfLE13FxirwEa539dxRcvq/8oUxQOWd/vDupN86zwZ2yel9Iqj7WrY8W9h85K1GO23dbE67ECm0Ptg3N84TpcLr+Ie/HGb2VJUVUzfPBNWoFGKPrmjvdJoZhUmTWr2QBEcPAvbS61Twk=
+	t=1786165834; cv=none; b=ZdeDi0Qa0si0spYGUh061dT6QOwCdVavkurYokAyrXFqlpgrmeS7TxCodnVb5OJE6//X9A2qoLHFc4Mmm5aEABGd4UTbAebwS6u6L6a9a3/BiNFB4D8ZFqjnHd/vaeB3/cKwxTRQTi6qVMGeRPVjQyvDbNoa+7EKCt42UeGyuss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786158002; c=relaxed/simple;
-	bh=l9yhINfiMNDyliXLpQ+0cYFwiGbY/L9y+YWD1kExQs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=coMPnEYU/HLcu/txjvyVSPKVNDfMzuYUep5+SUlWuRMLo8CTDmdCdo+mjNiphiQ98o3+BPVB9MfzwyRjQLJ6++HlToPfkvBwr15aprV0yr4li5BPjhKgGgy/asZERi35FeYxdhJ8FxUgtBIbNIVPOKmJVjoZxU7KntLnIDTyuZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itzPasc9; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1786165834; c=relaxed/simple;
+	bh=DKDKn5FOzJ9ULnX5NDQLVyA1IrvAYo8xlGenVHLYWQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Mc1OQwMUJe/y5GporDmaZ1EBE3W0aXnVx73ZqVFYIiRpKpWNpWaQ43NPTt5/SxNCHD4dd8FaBvTNSyMhvHIzRyBIMPKbI5zwlOXvuQ14QQeDnYAi30l/ci/miPkm08XMJgHpLV3Vo4xwt2XvAUGZb6Gj5SH2hu/lh/HHQXw6ReY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zf99an/T; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itzPasc9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zf99an/T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786158000; x=1817694000;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=l9yhINfiMNDyliXLpQ+0cYFwiGbY/L9y+YWD1kExQs0=;
-  b=itzPasc96+8qN3KUlhlNS0j9pvaT8QYT1yzMdQMMcqxe0nVLrwvQlco0
-   V99220Qx2TbQXuORCbHYc1kom79CsOr4B3hQnopxGNWPBLzkVR0l+hNMW
-   ys0XAcnPRazONe+Zalv4hxpZ+B/6QQ8zV1Qn8qikygU6ysLqL6Pihyy07
-   pqirz7IFJakZgV9DYANvZjt/51a39VFn/80iZQaxdnYoNwBWVbGxdQ1Nm
-   lx+FBXmKZXtwYTOmzJ7oFtAaYD2AisEsMqJGp4fCLyxnmZSM/KllMhTqz
-   lBEhVPMqz66sclOkQCEjBBmchO0jYj6z8ntbov2zRRJ0xxn8F2aJm31aa
-   Q==;
-X-CSE-ConnectionGUID: 3xXZBA7kSo6YD9nMBXFMMQ==
-X-CSE-MsgGUID: n/KoLZ5WQeWxVP4UFse0iQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="86979881"
+  t=1786165832; x=1817701832;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DKDKn5FOzJ9ULnX5NDQLVyA1IrvAYo8xlGenVHLYWQ0=;
+  b=Zf99an/TndlHz4orxZSyRWMn15YVBrw4tK7jVLgwSmr7SfxiGe9CzxMV
+   LwGx3w4CwJOF/6w5DGYcuIBCPlH1Ahw3YJjEh9M/07+Kl1KXNPzFuTexE
+   YB2P1ywxi0rbkMl3K0QhsZbjTVfWNy9wLY3xzmKY3u4ACBInDE3WdE57Z
+   ubhS8p7GfU3Z3D1NCqlHDZ9IJOQ/HpnxyJr1nM9wfHxS6jMUq6SlwRpI9
+   osFjDwN4Gp5rvZJdHT58mQyNeUJ34kSH9/6vGh5+OOzWGk6Z/4egdNBZQ
+   1ZQvMlkgrW4r1v0nKgi1/M4z69Dgldft37iJb/xg6YZqMJaPjIZqihDY6
+   w==;
+X-CSE-ConnectionGUID: zT5FywJDQOqZ81f/5QotpA==
+X-CSE-MsgGUID: cyJEuYqUR6K3b8Uobma2ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11868"; a="86648693"
 X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
-   d="scan'208";a="86979881"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 19:59:59 -0700
-X-CSE-ConnectionGUID: 6+F1PeyyRHqaj2gMaBMDcw==
-X-CSE-MsgGUID: h5AscTPYSGyPlTZPbpJYSA==
+   d="scan'208";a="86648693"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 22:10:32 -0700
+X-CSE-ConnectionGUID: a7lee78eRXqNbdJCiDYbgw==
+X-CSE-MsgGUID: CxtV4EfrRVCiRNIHdRj0nA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,211,1779174000"; 
-   d="scan'208";a="261263926"
+   d="scan'208";a="259257677"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Aug 2026 19:59:58 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Aug 2026 22:10:30 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wsXHv-00000000JgC-4C2u;
-	Sat, 08 Aug 2026 02:59:56 +0000
-Date: Sat, 08 Aug 2026 10:59:04 +0800
+	id 1wsZKG-00000000JmH-2TCZ;
+	Sat, 08 Aug 2026 05:10:28 +0000
+Date: Sat, 08 Aug 2026 13:10:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/dsa/realtek/rtl8365mb_main.c:1323:2-16:
- opportunity for str_enable_disable(vlan_filtering)
-Message-ID: <202608081003.E4JTINYL-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: 
+ =?us-ascii?Q?drivers/gpu/drm/amd/amdgpu/../display/amdgpu=5Fdm/tests/amd?=
+ =?us-ascii?Q?gpu=5Fdm=5Fwb=5Ftest.c:363:38:?= error: no member named
+ 'encoder' in 'struct drm_writeback_connector'
+Message-ID: <202608081250.LsbKHHc0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,215 +61,250 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+
+:::::: 
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/John-Harrison/drm-managed-implement-managed-versions-of-kzalloc_obj-objs/20260807-033852, commit: 8f32f6ce121579639f52d30cd5ec2dafee5c9189"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Alvin =C5=A0ipraga" <alsi@bang-olufsen.dk>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Linus Walleij <linusw@kernel.org>
-CC: Mieczyslaw Nalewaj <namiltd@yahoo.com>
-CC: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+TO: Dmitry Baryshkov <lumag@kernel.org>
+CC: 0day robot <lkp@intel.com>
+CC: Suraj Kandpal <suraj.kandpal@intel.com>
+CC: Louis Chauvet <louis.chauvet@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   bcc44b6785f216eb939226ade6e3910baa30516b
-commit: 9da2c8672f77108a1f09232320f22225ab53dde9 net: dsa: realtek: rtl8365=
-mb: add VLAN support
-date:   8 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 8 weeks ago
-config: arm64-randconfig-r062-20260808 (https://download.01.org/0day-ci/arc=
-hive/20260808/202608081003.E4JTINYL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/John-Harrison/drm-managed-implement-managed-versions-of-kzalloc_obj-objs/20260807-033852
+head:   260c8b52af1b6d6dd5da419fcfc9a2b5bc3eed95
+commit: 8f32f6ce121579639f52d30cd5ec2dafee5c9189 drm: writeback: drop excess connector initialization functions
+date:   33 hours ago
+:::::: branch date: 33 hours ago
+:::::: commit date: 33 hours ago
+config: arm64-randconfig-r064-20260807 (https://download.01.org/0day-ci/archive/20260808/202608081250.LsbKHHc0-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260808/202608081250.LsbKHHc0-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9da2c8672f77 ("net: dsa: realtek: rtl8365mb: add VLAN support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202608081003.E4JTINYL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608081250.LsbKHHc0-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/dsa/realtek/rtl8365mb_main.c:1323:2-16: opportunity for str_=
-enable_disable(vlan_filtering)
+All errors (new ones prefixed by >>):
 
-vim +1323 drivers/net/dsa/realtek/rtl8365mb_main.c
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:38: error: no member named 'encoder' in 'struct drm_writeback_connector'
+     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+         |                                 ~~~~~~~~~~~ ^
+   include/kunit/test.h:994:30: note: expanded from macro 'KUNIT_EXPECT_TRUE'
+     994 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |                                     ^~~~~~~~~
+   include/kunit/test.h:999:6: note: expanded from macro 'KUNIT_EXPECT_TRUE_MSG'
+     999 |                                  condition,                                    \
+         |                                  ^~~~~~~~~
+   include/kunit/test.h:803:10: note: expanded from macro 'KUNIT_TRUE_MSG_ASSERTION'
+     803 |                               condition,                                       \
+         |                               ^~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:32:34: note: expanded from macro '__branch_check__'
+      32 |                         ______r = __builtin_expect(!!(x), expect);      \
+         |                                                       ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:38: error: no member named 'encoder' in 'struct drm_writeback_connector'
+     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+         |                                 ~~~~~~~~~~~ ^
+   include/kunit/test.h:994:30: note: expanded from macro 'KUNIT_EXPECT_TRUE'
+     994 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |                                     ^~~~~~~~~
+   include/kunit/test.h:999:6: note: expanded from macro 'KUNIT_EXPECT_TRUE_MSG'
+     999 |                                  condition,                                    \
+         |                                  ^~~~~~~~~
+   include/kunit/test.h:803:10: note: expanded from macro 'KUNIT_TRUE_MSG_ASSERTION'
+     803 |                               condition,                                       \
+         |                               ^~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:34:19: note: expanded from macro '__branch_check__'
+      34 |                                              expect, is_constant);      \
+         |                                                      ^~~~~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:38: error: no member named 'encoder' in 'struct drm_writeback_connector'
+     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+         |                                 ~~~~~~~~~~~ ^
+   include/kunit/test.h:994:30: note: expanded from macro 'KUNIT_EXPECT_TRUE'
+     994 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |                                     ^~~~~~~~~
+   include/kunit/test.h:999:6: note: expanded from macro 'KUNIT_EXPECT_TRUE_MSG'
+     999 |                                  condition,                                    \
+         |                                  ^~~~~~~~~
+   include/kunit/test.h:803:10: note: expanded from macro 'KUNIT_TRUE_MSG_ASSERTION'
+     803 |                               condition,                                       \
+         |                               ^~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:32:34: note: expanded from macro '__branch_check__'
+      32 |                         ______r = __builtin_expect(!!(x), expect);      \
+         |                                                       ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:38: error: no member named 'encoder' in 'struct drm_writeback_connector'
+     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+         |                                 ~~~~~~~~~~~ ^
+   include/kunit/test.h:994:30: note: expanded from macro 'KUNIT_EXPECT_TRUE'
+     994 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |                                     ^~~~~~~~~
+   include/kunit/test.h:999:6: note: expanded from macro 'KUNIT_EXPECT_TRUE_MSG'
+     999 |                                  condition,                                    \
+         |                                  ^~~~~~~~~
+   include/kunit/test.h:803:10: note: expanded from macro 'KUNIT_TRUE_MSG_ASSERTION'
+     803 |                               condition,                                       \
+         |                               ^~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:34:19: note: expanded from macro '__branch_check__'
+      34 |                                              expect, is_constant);      \
+         |                                                      ^~~~~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:38: error: no member named 'encoder' in 'struct drm_writeback_connector'
+     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+         |                                 ~~~~~~~~~~~ ^
+   include/kunit/test.h:994:30: note: expanded from macro 'KUNIT_EXPECT_TRUE'
+     994 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |                                     ^~~~~~~~~
+   include/kunit/test.h:999:6: note: expanded from macro 'KUNIT_EXPECT_TRUE_MSG'
+     999 |                                  condition,                                    \
+         |                                  ^~~~~~~~~
+   include/kunit/test.h:803:10: note: expanded from macro 'KUNIT_TRUE_MSG_ASSERTION'
+     803 |                               condition,                                       \
+         |                               ^~~~~~~~~
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:363:38: error: no member named 'encoder' in 'struct drm_writeback_connector'
+     363 |         KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+         |                                 ~~~~~~~~~~~ ^
+   include/kunit/test.h:994:30: note: expanded from macro 'KUNIT_EXPECT_TRUE'
+     994 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |                                     ^~~~~~~~~
+   include/kunit/test.h:999:6: note: expanded from macro 'KUNIT_EXPECT_TRUE_MSG'
+     999 |                                  condition,                                    \
+         |                                  ^~~~~~~~~
+   include/kunit/test.h:803:10: note: expanded from macro 'KUNIT_TRUE_MSG_ASSERTION'
+     803 |                               condition,                                       \
+         |                               ^~~~~~~~~
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:36: error: no member named 'encoder' in 'struct drm_writeback_connector'
+     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
+         |                               ~~~~~~~~~~~ ^
+   include/kunit/test.h:1034:28: note: expanded from macro 'KUNIT_EXPECT_EQ'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |                                   ^~~~
+   include/kunit/test.h:1039:8: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+    1039 |                                    left, ==, right,                            \
+         |                                    ^~~~
+   include/kunit/test.h:874:9: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     874 |                                     left, op, right,                           \
+         |                                     ^~~~
+   include/kunit/test.h:840:15: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c:364:36: error: no member named 'encoder' in 'struct drm_writeback_connector'
+     364 |         KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
+         |                               ~~~~~~~~~~~ ^
+   include/kunit/test.h:1034:28: note: expanded from macro 'KUNIT_EXPECT_EQ'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |                                   ^~~~
+   include/kunit/test.h:1039:8: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+    1039 |                                    left, ==, right,                            \
+         |                                    ^~~~
+   include/kunit/test.h:874:9: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     874 |                                     left, op, right,                           \
+         |                                     ^~~~
+   include/kunit/test.h:840:31: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   8 errors generated.
 
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1309 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1310  static int rtl8365mb_po=
-rt_vlan_filtering(struct dsa_switch *ds, int port,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1311  					 bool vlan_filteri=
-ng,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1312  					 struct netlink_ex=
-t_ack *extack)
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1313  {
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1314  	enum rtl8365mb_frame_i=
-ngress accepted_frame, prev_accepted_frame;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1315  	enum rtl8365mb_vlan_eg=
-ress_mode mode;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1316  	struct realtek_priv *p=
-riv =3D ds->priv;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1317  	u32 configured_ports =
-=3D 0;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1318  	struct dsa_port *dp;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1319  	u16 pvid_vid;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1320  	int ret;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1321 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1322  	dev_dbg(priv->dev, "po=
-rt %d: %s VLAN filtering\n", port,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06 @1323  		vlan_filtering ? "ena=
-ble" : "disable");
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1324 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1325  	ret =3D rtl8365mb_vlan=
-_port_get_framefilter(priv, port,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1326  						  &prev_accepted_=
-frame);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1327  	if (ret) {
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1328  		NL_SET_ERR_MSG_MOD(ex=
-tack,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1329  				   "Failed to get c=
-urrent framefilter");
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1330  		return ret;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1331  	}
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1332 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1333  	/* While filtering, on=
-ly accepts untagged frames if PVID is enabled */
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1334  	if (vlan_filtering) {
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1335  		ret =3D rtl8365mb_vla=
-n_port_get_pvid(priv, port, &pvid_vid);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1336  		if (ret)
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1337  			return ret;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1338 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1339  		if (pvid_vid)
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1340  			accepted_frame =3D R=
-TL8365MB_FRAME_TYPE_ANY_FRAME;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1341  		else
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1342  			accepted_frame =3D R=
-TL8365MB_FRAME_TYPE_TAGGED_ONLY;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1343  	} else {
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1344  		accepted_frame =3D RT=
-L8365MB_FRAME_TYPE_ANY_FRAME;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1345  	}
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1346 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1347  	/* When vlan filter is=
- enable/disabled in a bridge, this function is
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1348  	 * called for all memb=
-er ports. We need to enable/disable ingress
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1349  	 * VLAN membership che=
-ck.
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1350  	 */
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1351  	ret =3D rtl8365mb_port=
-_set_ingress_filtering(priv, port, vlan_filtering);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1352  	if (ret)
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1353  		return ret;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1354 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1355  	/* However, we also en=
-able/disable egress filtering because the switch
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1356  	 * still consider the =
-egress interface VLAN membership to forward the
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1357  	 * traffic. We enable/=
-disable that check disabling/enabling transparent
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1358  	 * VLAN between the in=
-gress port and all other available ports.
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1359  	 */
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1360  	dsa_switch_for_each_av=
-ailable_port(dp, ds) {
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1361  		/* port isolation wil=
-l still keep traffic inside the bridge */
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1362  		ret =3D rtl8365mb_por=
-t_set_transparent(priv, port, dp->index,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1363  						     !vlan_filter=
-ing);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1364  		if (ret)
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1365  			goto undo_transparen=
-t;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1366 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1367  		configured_ports |=3D =
-BIT(dp->index);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1368  	}
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1369 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1370  	if (accepted_frame !=
-=3D prev_accepted_frame) {
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1371  		ret =3D rtl8365mb_vla=
-n_port_set_framefilter(priv, port,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1372  							  accepted_frame=
-);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1373  		if (ret) {
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1374  			NL_SET_ERR_MSG_MOD(e=
-xtack,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1375  					   "Failed to set =
-port framefilter");
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1376  			goto undo_transparen=
-t;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1377  		}
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1378  	}
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1379 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1380  	/* When VLAN filtering=
- is disabled, preserve frames exactly as received.
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1381  	 * Otherwise, the VLAN=
- egress pipeline may still alter tag state
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1382  	 * according to VLAN m=
-embership and untag configuration.
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1383  	 */
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1384  	if (vlan_filtering)
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1385  		mode =3D RTL8365MB_VL=
-AN_EGRESS_MODE_ORIGINAL;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1386  	else
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1387  		mode =3D RTL8365MB_VL=
-AN_EGRESS_MODE_REAL_KEEP;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1388 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1389  	ret =3D rtl8365mb_port=
-_set_vlan_egress_mode(priv, port, mode);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1390  	if (ret)
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1391  		goto undo_set_framefi=
-lter;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1392 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1393  	return ret;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1394 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1395  undo_set_framefilter:
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1396  	if (prev_accepted_fram=
-e !=3D accepted_frame)
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1397  		rtl8365mb_vlan_port_s=
-et_framefilter(priv, port,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1398  						    prev_accepted=
-_frame);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1399  undo_transparent:
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1400  	/* The DSA core guaran=
-tees this callback is only invoked on an actual
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1401  	 * state transition, e=
-nsuring the previous hardware state was the
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1402  	 * opposite (!vlan_fil=
-tering). It is also called during setup but, in
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1403  	 * that case, any fail=
-ure here aborts the entire switch initialization.
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1404  	 *
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1405  	 * VLAN_INGRESS and VL=
-AN_EGRESS_TRANSPARENT states are directly derived
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1406  	 * from vlan_filtering=
-. That way, we can simply undo it without
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1407  	 * checking the curren=
-t HW state as we do with VLAN_EGRESS_MODE.
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1408  	 */
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1409  	dsa_switch_for_each_po=
-rt(dp, ds) {
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1410  		if (configured_ports =
-& BIT(dp->index))
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1411  			rtl8365mb_port_set_t=
-ransparent(priv, port, dp->index,
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1412  						       vlan_filte=
-ring);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1413  	}
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1414 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1415  	rtl8365mb_port_set_ing=
-ress_filtering(priv, port, !vlan_filtering);
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1416 =20
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1417  	return ret;
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1418  }
-9da2c8672f7710 Alvin =C5=A0ipraga 2026-06-06  1419 =20
+
+vim +363 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c
+
+682710244fa317 Alex Hung 2026-06-15  320  
+682710244fa317 Alex Hung 2026-06-15  321  /**
+682710244fa317 Alex Hung 2026-06-15  322   * dm_test_wb_connector_init_success - Verify writeback connector initialization
+682710244fa317 Alex Hung 2026-06-15  323   * @test: KUnit test context
+682710244fa317 Alex Hung 2026-06-15  324   *
+682710244fa317 Alex Hung 2026-06-15  325   * Uses a DRM mock device embedded in struct amdgpu_device to verify that
+682710244fa317 Alex Hung 2026-06-15  326   * amdgpu_dm_wb_connector_init() initializes the writeback connector, stores
+682710244fa317 Alex Hung 2026-06-15  327   * the DC link, installs connector state through reset, and wires the expected
+682710244fa317 Alex Hung 2026-06-15  328   * DRM callbacks.
+682710244fa317 Alex Hung 2026-06-15  329   */
+682710244fa317 Alex Hung 2026-06-15  330  static void dm_test_wb_connector_init_success(struct kunit *test)
+682710244fa317 Alex Hung 2026-06-15  331  {
+682710244fa317 Alex Hung 2026-06-15  332  	struct amdgpu_dm_wb_connector *wbcon;
+682710244fa317 Alex Hung 2026-06-15  333  	struct amdgpu_display_manager *dm;
+682710244fa317 Alex Hung 2026-06-15  334  	struct amdgpu_device *adev;
+682710244fa317 Alex Hung 2026-06-15  335  	struct dc_link *link;
+682710244fa317 Alex Hung 2026-06-15  336  	struct dc *dc;
+682710244fa317 Alex Hung 2026-06-15  337  	int ret;
+682710244fa317 Alex Hung 2026-06-15  338  
+a532f8d7e4c96a Alex Hung 2026-06-18  339  	adev = dm_kunit_alloc_adev(test);
+682710244fa317 Alex Hung 2026-06-15  340  	adev->mode_info.num_crtc = 1;
+682710244fa317 Alex Hung 2026-06-15  341  	dm = &adev->dm;
+682710244fa317 Alex Hung 2026-06-15  342  	dm->adev = adev;
+682710244fa317 Alex Hung 2026-06-15  343  
+682710244fa317 Alex Hung 2026-06-15  344  	dc = kunit_kzalloc(test, sizeof(*dc), GFP_KERNEL);
+682710244fa317 Alex Hung 2026-06-15  345  	KUNIT_ASSERT_NOT_NULL(test, dc);
+682710244fa317 Alex Hung 2026-06-15  346  
+682710244fa317 Alex Hung 2026-06-15  347  	link = kunit_kzalloc(test, sizeof(*link), GFP_KERNEL);
+682710244fa317 Alex Hung 2026-06-15  348  	KUNIT_ASSERT_NOT_NULL(test, link);
+682710244fa317 Alex Hung 2026-06-15  349  
+682710244fa317 Alex Hung 2026-06-15  350  	dc->links[0] = link;
+682710244fa317 Alex Hung 2026-06-15  351  	dm->dc = dc;
+682710244fa317 Alex Hung 2026-06-15  352  
+682710244fa317 Alex Hung 2026-06-15  353  	wbcon = kunit_kzalloc(test, sizeof(*wbcon), GFP_KERNEL);
+682710244fa317 Alex Hung 2026-06-15  354  	KUNIT_ASSERT_NOT_NULL(test, wbcon);
+682710244fa317 Alex Hung 2026-06-15  355  
+682710244fa317 Alex Hung 2026-06-15  356  	ret = amdgpu_dm_wb_connector_init(dm, wbcon, 0);
+682710244fa317 Alex Hung 2026-06-15  357  
+682710244fa317 Alex Hung 2026-06-15  358  	KUNIT_EXPECT_EQ(test, ret, 0);
+682710244fa317 Alex Hung 2026-06-15  359  	KUNIT_EXPECT_PTR_EQ(test, wbcon->link, link);
+682710244fa317 Alex Hung 2026-06-15  360  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.funcs != NULL);
+682710244fa317 Alex Hung 2026-06-15  361  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.helper_private != NULL);
+682710244fa317 Alex Hung 2026-06-15  362  	KUNIT_EXPECT_TRUE(test, wbcon->base.base.state != NULL);
+682710244fa317 Alex Hung 2026-06-15 @363  	KUNIT_EXPECT_TRUE(test, wbcon->base.encoder.funcs != NULL);
+682710244fa317 Alex Hung 2026-06-15  364  	KUNIT_EXPECT_EQ(test, wbcon->base.encoder.possible_crtcs, 0x1);
+682710244fa317 Alex Hung 2026-06-15  365  }
+682710244fa317 Alex Hung 2026-06-15  366  
 
 --
 0-DAY CI Kernel Test Service
