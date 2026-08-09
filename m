@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671B772621
-	for <oe-kbuild@lists.linux.dev>; Sun,  9 Aug 2026 08:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6113B7746
+	for <oe-kbuild@lists.linux.dev>; Sun,  9 Aug 2026 09:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786265368; cv=none; b=m3uHG4B1J6bhkymHjh4KKIv5xNEwDyOYj7GLkXoNNrQDVNLGccdQmNri0gMiA90ozYFw+lDJmkOSbGNM9fIBPPcCCLPtH2PmtkKENGWPV7XvuNtQ09yCCpfAS56mgeqVGHTqmNoIN0zkE1jBx16HuJxv8Ov1YujGG1JSjuYbg7A=
+	t=1786266340; cv=none; b=GJWj19kS6XO4XlJY8HEIJGyWWErLxyQxJLmgPzftemgNaCBpzN6SNV8GVXRADM9cAfbPsVD89kGTvcWZpZEoC9jPzsoXp/W7Gdw4ZPjR3Orw/WhKy4DACN7Mr0O3hw8YvCdtva2WXK3PE88nCLRHP6xPn8Hgy57zHAcEc0VKQCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786265368; c=relaxed/simple;
-	bh=RVlARugdJhyxSZ/j4Zhtr/4ss9WnL7rJQqBqORUWclE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ilUqhFQz/rWlF6iJnDgzDa91dPrsWnmpy9KEZiWeQgafN/7WmDhw5+Ni3blzbk592QC6dZ9s/wXPzpd3Yd9vEy78pwj1Fn224zGeCx/rn13yjmLRYTZK6kwqQmMhqDBPb8uMfEuPIJ2aEbuYA1Yh8umae0RnC9YLoKpILmu32/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9y+EkAU; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1786266340; c=relaxed/simple;
+	bh=oZapo5ldc1AkigsFw+WKsl9nSzYBmY3jLA1JinsaDpo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AxVkgKP14nxY4NsUcLVrzyAjngPem3FWuww/B74dphxrnV1Gxi5Si3jOdd+Y0Vv5daASZPgUUlOHVzZ3OWQzyJqSSidhfwWvSdpJsFUCQ+gII6D0uJUVnJCsJE4y0/cvRuxbR78b8P67XV1lXagoAgj2sQA/BQMLgR58Dre7m9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i3q97BtF; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9y+EkAU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i3q97BtF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786265366; x=1817801366;
+  t=1786266339; x=1817802339;
   h=date:from:to:cc:subject:message-id;
-  bh=RVlARugdJhyxSZ/j4Zhtr/4ss9WnL7rJQqBqORUWclE=;
-  b=f9y+EkAUjX5rSwoNePPJxuRGKmCCqX3ThlhX0ZKgJrqpOZN8AeF7QdBd
-   35/KL1tTULy6N2N0AdKcTX/DMioeFMt6F77oQaIXczBNgieBkPPiSQcQz
-   M+bTMqbRDz6QeLpgbpoH8eh8UYao5jm2jR/GkbRH7JPjzup1NJvzkVb6v
-   ssM+s/bWh7mHtyH76yGr+z0nGaioZM/g76BqIXJMQJiICPS7AIHJ8fz6x
-   8v69EMMNPX/WudGCOBjCCwDmKApvjqbLlKQaVLcTpOGa74LxfI0Z3REAI
-   88Mf4IBAAgN83waioqRPQmfCM82LOawcK6ctnA5Z0StreqbH2ax0AthMG
+  bh=oZapo5ldc1AkigsFw+WKsl9nSzYBmY3jLA1JinsaDpo=;
+  b=i3q97BtFxgloHfnrq/+RXu6nZzLVHm4U9/RcwoxE8myUGFkeW7ulAD4t
+   IoNrkqfdgXMgwQmB9FieFoKwWZQ4HmQtOW4FC9HbVo9xg4QHU4EZmwk6J
+   zqiWO7aaeWXgfu5G8lZZKTdFytIa8tHdOXlZTxdAdJWAiDsYDDoZ/AE0D
+   9E72FMD9q5Vs3R5EIgct9TYkKzu05gGTYOs3eeU0BlvS0hISj/D2GY2ko
+   c0gOsGGGJnzImRiBjGJ7dHCBZfNHJSRD/71R04wOS113JnIUoeM3jW9GB
+   KUvmYzjU/APUHv7fGFHKxUXthc2V2aY+2kuZS2HbUalMvEHhBR4dts4id
    Q==;
-X-CSE-ConnectionGUID: srWcBmiqSG+yyQEXvqXWew==
-X-CSE-MsgGUID: EDk7pJo7Q6CL+5YYAJgFPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="97407583"
+X-CSE-ConnectionGUID: VaIDf7/ET1qp+gdzA24WeA==
+X-CSE-MsgGUID: 4BgqjMMlREaV7d3HGGXLBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="97961221"
 X-IronPort-AV: E=Sophos;i="6.25,213,1779174000"; 
-   d="scan'208";a="97407583"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 01:49:25 -0700
-X-CSE-ConnectionGUID: h4g6Ls3URLOnrJIdqQstrA==
-X-CSE-MsgGUID: aygAsIVORs2s9U8BYyPpEQ==
+   d="scan'208";a="97961221"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 02:05:31 -0700
+X-CSE-ConnectionGUID: V4CMwmXXRBmML9HZBCpJVQ==
+X-CSE-MsgGUID: NPaTlgpdSY6GuAf0QtiMGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,213,1779174000"; 
-   d="scan'208";a="267027381"
+   d="scan'208";a="258911415"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Aug 2026 01:49:24 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Aug 2026 02:05:28 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wszDd-00000000Lj2-0kLL;
-	Sun, 09 Aug 2026 08:49:21 +0000
-Date: Sun, 09 Aug 2026 16:35:51 +0800
+	id 1wszTC-00000000Ljx-2Gd1;
+	Sun, 09 Aug 2026 09:05:26 +0000
+Date: Sun, 09 Aug 2026 17:04:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/parport/share.c:1029 parport_claim() warn: mixing
- irq and irqsave
-Message-ID: <202608091622.jlJn0jOj-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:883
+ mes_v12_1_inv_tlbs_pasid() error: buffer overflow 'mes->master_xcc_ids' 16 <=
+ s32max
+Message-ID: <202608091630.ocwLHj6J-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,72 +63,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Heiko Carstens <hca@linux.ibm.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
-CC: Sven Schnelle <svens@linux.ibm.com>
+TO: Shaoyun Liu <shaoyun.liu@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Prike Liang <Prike.Liang@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   06cf61899d6498b33e4b7c87d99d5bd471ccc375
-commit: 1f57f68c4dd101e5e8ffc9ffa6428f45bcdd776a s390: Remove GENERIC_LOCKBREAK Kconfig option
-date:   9 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 weeks ago
-config: s390-randconfig-r071-20260809 (https://download.01.org/0day-ci/archive/20260809/202608091622.jlJn0jOj-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+commit: d0c989a0aad3ff047b72c89c91969a535f72dd2e drm/amd/amdgpu : Use the MES INV_TLBS API for tlb invalidation on gfx12_1
+date:   7 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 7 months ago
+config: i386-randconfig-141-20260806 (https://download.01.org/0day-ci/archive/20260809/202608091630.ocwLHj6J-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 1f57f68c4dd1 ("s390: Remove GENERIC_LOCKBREAK Kconfig option")
+| Fixes: d0c989a0aad3 ("drm/amd/amdgpu : Use the MES INV_TLBS API for tlb invalidation on gfx12_1")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608091622.jlJn0jOj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608091630.ocwLHj6J-lkp@intel.com/
 
-smatch warnings:
-drivers/parport/share.c:1029 parport_claim() warn: mixing irq and irqsave
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:883 mes_v12_1_inv_tlbs_pasid() error: buffer overflow 'mes->master_xcc_ids' 16 <= s32max
 
-vim +1029 drivers/parport/share.c
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:288 mes_v12_1_add_hw_queue() error: buffer overflow 'mes->master_xcc_ids' 16 <= s32max
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:349 mes_v12_1_remove_hw_queue() error: buffer overflow 'mes->master_xcc_ids' 16 <= s32max
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1382 mes_v12_1_kiq_enable_queue() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1680 mes_v12_1_kiq_dequeue_sched() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1768 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1771 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1776 mes_v12_1_kiq_hw_fini() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1828 mes_v12_1_xcc_hw_init() error: buffer overflow 'adev->mes.ring' 16 <= s32max
+drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1886 mes_v12_1_xcc_hw_init() error: buffer overflow 'adev->mes.ring' 16 <= s32max
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1026  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1027  	/* Restore control registers */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1028  	port->ops->restore_state(port, dev->state);
-^1da177e4c3f41 Linus Torvalds  2005-04-16 @1029  	write_unlock_irqrestore(&port->cad_lock, flags);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1030  	dev->time = jiffies;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1031  	return 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1032  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1033  blocked:
-7b7a0a30c98514 Sudip Mukherjee 2015-10-28  1034  	/*
-7b7a0a30c98514 Sudip Mukherjee 2015-10-28  1035  	 * If this is the first time we tried to claim the port, register an
-7b7a0a30c98514 Sudip Mukherjee 2015-10-28  1036  	 * interest.  This is only allowed for devices sleeping in
-7b7a0a30c98514 Sudip Mukherjee 2015-10-28  1037  	 * parport_claim_or_block(), or those with a wakeup function.
-7b7a0a30c98514 Sudip Mukherjee 2015-10-28  1038  	 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1039  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1040  	/* The cad_lock is still held for writing here */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1041  	if (dev->waiting & 2 || dev->wakeup) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1042  		spin_lock(&port->waitlist_lock);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1043  		if (test_and_set_bit(0, &dev->waiting) == 0) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1044  			/* First add ourselves to the end of the wait list. */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1045  			dev->waitnext = NULL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1046  			dev->waitprev = port->waittail;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1047  			if (port->waittail) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1048  				port->waittail->waitnext = dev;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1049  				port->waittail = dev;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1050  			} else
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1051  				port->waithead = port->waittail = dev;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1052  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1053  		spin_unlock(&port->waitlist_lock);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1054  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1055  	write_unlock_irqrestore(&port->cad_lock, flags);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1056  	return -EAGAIN;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1057  }
-27c6db26555029 Sudip Mukherjee 2015-10-28  1058  EXPORT_SYMBOL(parport_claim);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1059  
+vim +883 drivers/gpu/drm/amd/amdgpu/mes_v12_1.c
 
-:::::: The code at line 1029 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  873  
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  874  static int mes_v12_1_inv_tlbs_pasid(struct amdgpu_mes *mes,
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  875  				    struct mes_inv_tlbs_pasid_input *input)
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  876  {
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  877  	union MESAPI__INV_TLBS mes_inv_tlbs;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  878  	int xcc_id = input->xcc_id;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  879  	int inst = MES_PIPE_INST(xcc_id, AMDGPU_MES_SCHED_PIPE);
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  880  	int ret;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  881  
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  882  	if (mes->enable_coop_mode)
+d0c989a0aad3ff Shaoyun Liu 2025-07-31 @883  		xcc_id = mes->master_xcc_ids[inst];
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  884  
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  885  	memset(&mes_inv_tlbs, 0, sizeof(mes_inv_tlbs));
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  886  
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  887  	mes_inv_tlbs.header.type = MES_API_TYPE_SCHEDULER;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  888  	mes_inv_tlbs.header.opcode = MES_SCH_API_INV_TLBS;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  889  	mes_inv_tlbs.header.dwsize = API_FRAME_SIZE_IN_DWORDS;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  890  
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  891  	mes_inv_tlbs.invalidate_tlbs.inv_sel = 0;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  892  	mes_inv_tlbs.invalidate_tlbs.flush_type = input->flush_type;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  893  	mes_inv_tlbs.invalidate_tlbs.inv_sel_id = input->pasid;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  894  
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  895  	/*convert amdgpu_mes_hub_id to mes expected hub_id */
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  896  	ret = mes_v12_inv_tlb_convert_hub_id(input->hub_id);
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  897  	if (ret < 0)
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  898  		return -EINVAL;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  899  	mes_inv_tlbs.invalidate_tlbs.hub_id = ret;
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  900  	return mes_v12_1_submit_pkt_and_poll_completion(mes, xcc_id, AMDGPU_MES_KIQ_PIPE,
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  901  			&mes_inv_tlbs, sizeof(mes_inv_tlbs),
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  902  			offsetof(union MESAPI__INV_TLBS, api_status));
+d0c989a0aad3ff Shaoyun Liu 2025-07-31  903  
 
 --
 0-DAY CI Kernel Test Service
