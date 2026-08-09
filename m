@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E9B3C1D54
-	for <oe-kbuild@lists.linux.dev>; Sun,  9 Aug 2026 11:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEF71E0E14
+	for <oe-kbuild@lists.linux.dev>; Sun,  9 Aug 2026 12:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786275625; cv=none; b=TBd/16J1HiP0UFoNQ3D5z6xYEXuwRr48mYLEXm3S/+QZ9XzWwQRrSutuClLEqtyiYFnFjsL5qm2ZZQxngcvUd8CKW8kJ1usfKNSyd8Qaxa22hBYCSFlhgGe0oIk5aIqdhHZN595EkitbS28HNXsgijIrRBVIN1armhNHvYeuDSU=
+	t=1786279972; cv=none; b=iN91SMAb3SlGnnyLCC6ivIZDTbZ2DSGLP4GOr6ZHtE0v9yQbH8ETal60CzOmrb9cT4vdue8iGQhwljJRlFEzzSO80rVAu7iPlz8QxFhDJxurlfhEBaMOIo66OdQeSlVCEpzyVZ9IA/+UPJOiWvJt3IU5QFz4aFpwbmR36q7UBZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786275625; c=relaxed/simple;
-	bh=A+OIsd0TvuNRZE4Bc7j0RQX7+kuMZYj6GAYkroUeak0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Q+TWN4JA9uXgmcaHdAQhw2UI16YgubK7fL8nTYLaZbJPwxL0pfJesXY6sxTrW4pIrq7iOm8jNVAiAggLNd5Qw4Ri0IFmAHLOGsm7DSPc11GoIfY51GkaWtAlw5qT4zNOSBc0dXCsurP8C94SCkJ1HEIrv+jK1XhRQRRcsQfOft4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OV0N6DUP; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1786279972; c=relaxed/simple;
+	bh=nbApguehXjn+/7aJ7HKzj4Gt1jal63KdKRDXc+9XrpM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jYBFHgx1yg3fuDggEmimaFcC88il3NMKMBj99xAxo6eGefiMqZ5Kms35NW4xYaJPktQCyANuS3YIr+QzpyIGJL7EphbuQvWLO0oqJ5HNvMhMToOOzlIfnIB/vEdIEFf0PWPcHycwHRZF8Cit1BA7OB43myPmKZLJAiTbB/VOvSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AU5oemup; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OV0N6DUP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AU5oemup"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786275622; x=1817811622;
+  t=1786279970; x=1817815970;
   h=date:from:to:cc:subject:message-id;
-  bh=A+OIsd0TvuNRZE4Bc7j0RQX7+kuMZYj6GAYkroUeak0=;
-  b=OV0N6DUPG3ZSuoxZ5CPLXuEHdK/lx4UwmPwK05Srh36nGsUBnscqEJFC
-   GxHMBUBWFh9dz//jLH+PtAWFzFbEa1ZcyIqDTOhIGi6kGqprNlblLRBAl
-   E88MxOG8W6MtSKbSH2v30QBkn7xO4lNhSwUCHpcrpjMzOXJJRkoz4qjXM
-   mfgpcmcg+KhPdWsaCR3FGnErq1QU/26vR4rhBe5JLVY1dtY2+RBNQpOe0
-   ROvZ0lku5MTuYEvNcw1RZd8kR3A032hxuUoBdZxMiyhrO84qniXsCTcmT
-   ymtnqz1ne1KSRahwjH//ZezNXS2DsvVHOsOcribnotYIZyvORjHMdRD4L
-   Q==;
-X-CSE-ConnectionGUID: uRl2yDhNRlKX+1vLYYMv6g==
-X-CSE-MsgGUID: goNoAa2dR1SA8V8HrfZiyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="74349347"
+  bh=nbApguehXjn+/7aJ7HKzj4Gt1jal63KdKRDXc+9XrpM=;
+  b=AU5oemupZsvsKn6s2TFbeDKv3DXhzt4Jla8M9C2Zwdry6R83o6784sWx
+   B197hf/gWMijl6WcPtYTmdRTDyynJzPamCSWlUKTPXscjGKfFZ75OCZib
+   WRdjV2KTT1bM2Ya4Mr7akasqFpKxu1f5qnYg5zV+nzPLWeOGEaplX9WAG
+   7DECFaVPET8HFmjAIsgid8Rawo7iQ3Fk6Vo495ZO5HFAf7HVzAvWUAJw4
+   J7zzxM6IAce0DCIOfR7FL50TV802SskdVc0+r5SKvWUd14CcxT+RYDjbX
+   mEj+AwyXJEICkPvzHN2h83WmdnnOMhVBm/QqdXoNOgF7dFuFhwZYUkmAb
+   g==;
+X-CSE-ConnectionGUID: GaXopZJYSMu1q5gxXTXrfA==
+X-CSE-MsgGUID: MPrLZL0uS/OMpZEvjvRSXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11869"; a="86890090"
 X-IronPort-AV: E=Sophos;i="6.25,213,1779174000"; 
-   d="scan'208";a="74349347"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 04:40:20 -0700
-X-CSE-ConnectionGUID: CAZMZGeWQZGBzzvQzFJM6Q==
-X-CSE-MsgGUID: 6vsZYFKkStObSaY3aJ2Hpw==
+   d="scan'208";a="86890090"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 05:52:50 -0700
+X-CSE-ConnectionGUID: rghn5TmJRv+66PP/5EDSDQ==
+X-CSE-MsgGUID: kp6Yr3/5TjGubBx6Axu77g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,213,1779174000"; 
-   d="scan'208";a="261056520"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 09 Aug 2026 04:40:19 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="256581643"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 09 Aug 2026 05:52:48 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wt1t3-000000005GM-0dHm;
-	Sun, 09 Aug 2026 11:40:17 +0000
-Date: Sun, 09 Aug 2026 13:39:29 +0200
+	id 1wt31B-00000000LtE-25xt;
+	Sun, 09 Aug 2026 12:52:45 +0000
+Date: Sun, 09 Aug 2026 20:52:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb:
- /pcie@1003000: failed to match any schema with compatible:
- ['nvidia,tegra124-pcie']
-Message-ID: <202608091317.XSHSJonB-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22:
+ WARNING opportunity for min()
+Message-ID: <202608091913.zfY0WKSU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,66 +59,58 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-CC: Thierry Reding <treding@nvidia.com>
+TO: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a59f57e2aa127c5354168d2ec4bac920df1be4f4
-commit: f224e936dad0933a1baa3b7152f48918cdd98498 ARM: tegra: Add device-tree for Xiaomi Mi Pad (A0101)
-date:   9 months ago
-:::::: branch date: 35 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-2051-20260805 (https://download.01.org/0day-ci/archive/20260809/202608091317.XSHSJonB-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ade128740327db281859708ddcb3b072903b3414)
-dtschema: 2026.7.dev1+g2203c1720
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260809/202608091317.XSHSJonB-lkp@intel.com/reproduce)
+head:   06cf61899d6498b33e4b7c87d99d5bd471ccc375
+commit: 4bbba79a7f1d0c7296bf8c935d65a9ff633f6917 drm/amdgpu: move devcoredump generation to a worker
+date:   5 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-r051-20260809 (https://download.01.org/0day-ci/archive/20260809/202608091913.zfY0WKSU-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f224e936dad0 ("ARM: tegra: Add device-tree for Xiaomi Mi Pad (A0101)")
+| Fixes: 4bbba79a7f1d ("drm/amdgpu: move devcoredump generation to a worker")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608091317.XSHSJonB-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202608091913.zfY0WKSU-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dts:1256.33-1259.6: Warning (unit_address_vs_reg): /i2c@7000d000/pmic@58/palmas-clk32k@0: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/nvidia/tegra124.dtsi:235.22-249.5: Warning (avoid_unnecessary_addr_size): /host1x@50000000/dsi@54400000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm/boot/dts/nvidia/tegra124.dtsi:1172.15-1182.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
-   arch/arm/boot/dts/nvidia/tegra124.dtsi:37.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra124-pcie']
-   arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /host1x@50000000/isp@54600000: failed to match any schema with compatible: ['nvidia,tegra124-isp']
-   arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /host1x@50000000/isp@54680000: failed to match any schema with compatible: ['nvidia,tegra124-isp']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: dsi@54300000 (nvidia,tegra124-dsi): Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-dsi.yaml
-   arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /host1x@50000000/dsi@54300000/panel@0: failed to match any schema with compatible: ['sharp,lq079l1sx01']
-   arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: dsi@54400000 (nvidia,tegra124-dsi): Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-dsi.yaml
-   arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /host1x@50000000/msenc@544c0000: failed to match any schema with compatible: ['nvidia,tegra124-msenc']
-   arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra124-tsec']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: dma@60020000 (nvidia,tegra124-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /i2c@7000d000/pmic@58/extcon: failed to match any schema with compatible: ['ti,palmas-usb-vid']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /i2c@7000d000/pmic@58/palmas-clk32k@0: failed to match any schema with compatible: ['ti,palmas-clk32kg']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /i2c@7000d000/pmic@58/pinmux: failed to match any schema with compatible: ['ti,tps65913-pinctrl']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /i2c@7000d000/pmic@58/rtc: failed to match any schema with compatible: ['ti,palmas-rtc']
-   arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra124-dfll']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: /ahub@70300000: failed to match any schema with compatible: ['nvidia,tegra124-ahub']
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: cpu@0 (arm,cortex-a15): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: cpu@0 (arm,cortex-a15): Unevaluated properties are not allowed ('clock-latency', 'vdd-cpu-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
->> arch/arm/boot/dts/nvidia/tegra124-xiaomi-mocha.dtb: led-controller (pwm-leds): 'led-button' does not match any of the regexes: '^led(-[0-9a-f]+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-pwm.yaml
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c:343:21-22: WARNING opportunity for min()
+
+vim +343 drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+
+9022f01b9709331 Sunil Khatri               2024-03-21  326  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  327  static ssize_t
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  328  amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  329  			void *data, size_t datalen)
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  330  {
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  331  	struct amdgpu_coredump_info *coredump = data;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  332  	ssize_t byte_copied;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  333  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  334  	if (!coredump)
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  335  		return -ENODEV;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  336  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  337  	if (!coredump->formatted)
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  338  		return -ENODEV;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  339  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  340  	if (offset >= coredump->formatted_size)
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  341  		return 0;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  342  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21 @343  	byte_copied = count < coredump->formatted_size - offset ? count :
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  344  		coredump->formatted_size - offset;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  345  	memcpy(buffer, coredump->formatted + offset, byte_copied);
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  346  
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  347  	return byte_copied;
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  348  }
+4bbba79a7f1d0c7 Pierre-Eric Pelloux-Prayer 2025-02-21  349  
 
 --
 0-DAY CI Kernel Test Service
