@@ -1,151 +1,181 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040CD264A97
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Aug 2026 03:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B513E25B0A3
+	for <oe-kbuild@lists.linux.dev>; Mon, 10 Aug 2026 05:34:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786332795; cv=none; b=nyoNIgQL60/OEHm3YnvoPzuCwot9TT5nG9RbYCDFPt6yM0LBXrVsTa9hwiSksIplRIia18dLfX9OU+pyboAIDWZY+pGW7m31rwTS7Foaa3gRf25XNveSdRYygD3uAkrmrlmvMrNXv7lF6NzfXwH0Ee2FFtPi4sRT5vihqjqNDzQ=
+	t=1786340062; cv=none; b=NgGkjSg7/ZcQS1itYHPuLk8u3a9ifdTc62fRAYhuJOPH1s5gHoCTmQpS0M2Jtk120w0sZHX/6aXM9DXshIiVgH+B4jehRHzIfJabOIfgnhaJeTqvSTcCXlfKrk6lLDkMbVx98+Q2+2sjvgYVOQJ/42IpEXudNt9FbDkOFPXWiSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786332795; c=relaxed/simple;
-	bh=KO3wU3K9kTUTM3kpw688g1Lit7Mid7R5HkIhqx8BVZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VzYqWcy9As3lyKimeBS83kSfDS4u8CUWC3aoXWUtyNhImBrW5/yyAUkfZt4vp/b8LuKG22m3YkbF49qYics5JkMZmHwyUJzUcAxCLCVr/9nWmDnyj2vgvtZ8YzGcLLGdMgpTL0CYiIOSRwkr1nmFzSjI/kMPhHvDGZqALaUMXz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b3vRoi02; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1786340062; c=relaxed/simple;
+	bh=L7VpZFEA34LgeHO0l9/0tf3l9ufTLXY/2ioTmDxshtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VJEKMik7PYtbaRhuCYD5/lEnJ3Cwkf5ms16xoYRhZ5BxPBU/SE0+T2HYQqGSghLOYbQQGOmQqSh2AufdlR26PIAmlY87dCu/ISCc2D89NeXxj4DAzqdcy096n3mbJzvMpssyKA6ATpWGSC3+gRnNcKJRMmA21dVvR5RSUWKNMDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gc4q5DQ6; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b3vRoi02"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gc4q5DQ6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786332792; x=1817868792;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KO3wU3K9kTUTM3kpw688g1Lit7Mid7R5HkIhqx8BVZo=;
-  b=b3vRoi02IotzMBYE4voTD0kfGp1ZJ+0uFLOYDYWalj8zH7q5Mrrhj7dY
-   aIT/mkriI5umr+c6/ZhGvEX56hgDrsN7zDCoBz5qQvNZpxh0UHiQ4a3hC
-   vSpaXtzUjh6aWvK134U6Q9vTli1dNcO1eEyO+K/BXh2yLlQ2XG3pMlaCL
-   AtfZD2QmhRje8DjUoQ6gesbP8mMEnw8k5IO9fBif6PjInkg5QEVVKNVnU
-   xyBguoHKLQJv9qrTJ5EN5YBpAsiYIwWJoMNJelWLqEN8aoGuu1a/beid3
-   D9iyrBqrpb/8llwB8YKMNihGj9f2xIdgC/07W/C8pmW9Hb2AIDR1gox3e
-   g==;
-X-CSE-ConnectionGUID: ROZXQSFgRwOIh25BxpkSYg==
-X-CSE-MsgGUID: 6306FTVLRHiDBukXw0CaCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="97493436"
+  t=1786340061; x=1817876061;
+  h=date:from:to:cc:subject:message-id;
+  bh=L7VpZFEA34LgeHO0l9/0tf3l9ufTLXY/2ioTmDxshtQ=;
+  b=gc4q5DQ6PBRYmKCI0UWtGD/pjRKNbcub3daKmItVwEjUhuF9L8s9nUiQ
+   A+HJ9R0OW8ijKymVsVytTNMA9hbTByuKu0BUPbOthPeUZE2plMVlT0TDi
+   eHky+kKV22srjPhirfGpYeOHYoJCE45yNM7THQaPIPJnxgO6X7tZYh18j
+   AX349t5D5O2s+Y/FXf9weKBDETfCDHi9h3DWNQQM0vVf/Hy55+MOYGUOQ
+   yRtreVCLx0/H3pVFEcopFU5Tn5hFTItTXSAbbHvz2EtsU5wwGv3o5K1t7
+   zRlt4800+uiU4kPDpNCn+fIXNC4QU8QXXJSw3+yDgmCUBrW4pEkDIiVy+
+   Q==;
+X-CSE-ConnectionGUID: qiz8jEShSpKPBASQhbH5IA==
+X-CSE-MsgGUID: TeWGqy9hSvqG5CljsZ5hqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="97500140"
 X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="97493436"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 20:33:11 -0700
-X-CSE-ConnectionGUID: ZW9M4WcoRkaqAbK6LBZXpQ==
-X-CSE-MsgGUID: 0gtDBZOjRuyNMJ0xzJASuA==
+   d="scan'208";a="97500140"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 22:34:20 -0700
+X-CSE-ConnectionGUID: s/Fqm25uQVGggY2pLJ+3Fw==
+X-CSE-MsgGUID: teQS2zdnR+qr2hGWATmrrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="260316881"
+   d="scan'208";a="261200780"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Aug 2026 20:33:09 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Aug 2026 22:34:19 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wtGl9-00000000Mhe-2q4z;
-	Mon, 10 Aug 2026 03:33:07 +0000
-Date: Mon, 10 Aug 2026 11:32:17 +0800
+	id 1wtIeO-00000000Mtq-1LKX;
+	Mon, 10 Aug 2026 05:34:16 +0000
+Date: Mon, 10 Aug 2026 13:34:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [RFC PATCH] drm/sched/tests: Let the DRM scheduler manage job
- lifetimes
-Message-ID: <202608101032.caQmA50M-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [cris:scmi_telemetry_ng_V8 22/30]
+ drivers/firmware/arm_scmi/driver.c:2342 scmi_alloc_init_protocol_instance()
+ error: we previously assumed 'pi' could be null (see line 2292)
+Message-ID: <202608101250.FcZovEGe-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260707114807.154572-1-marco.pagani@linux.dev>
-References: <20260707114807.154572-1-marco.pagani@linux.dev>
-TO: Marco Pagani <marco.pagani@linux.dev>
+TO: Cristian Marussi <cristian.marussi@arm.com>
 
-Hi Marco,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.2-rc6 next-20260807]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Pagani/drm-sched-tests-Let-the-DRM-scheduler-manage-job-lifetimes/20260807-105436
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260707114807.154572-1-marco.pagani%40linux.dev
-patch subject: [RFC PATCH] drm/sched/tests: Let the DRM scheduler manage job lifetimes
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: mips-randconfig-r062-20260810 (https://download.01.org/0day-ci/archive/20260810/202608101032.caQmA50M-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_ng_V8
+head:   bc3b27dd68cfc244c1e7717b72f88b2dfcb28d2e
+commit: 794ab60bbda9339aa782a6ce4a77e4e496538fb9 [22/30] firmware: arm_scmi: Add common per-protocol debugfs support
+:::::: branch date: 34 hours ago
+:::::: commit date: 34 hours ago
+config: arm-randconfig-r071-20260809 (https://download.01.org/0day-ci/archive/20260810/202608101250.FcZovEGe-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202608101032.caQmA50M-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608101250.FcZovEGe-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/scheduler/tests/mock_scheduler.c:139:18-21: ERROR: reference preceded by free on line 135
+smatch warnings:
+drivers/firmware/arm_scmi/driver.c:2342 scmi_alloc_init_protocol_instance() error: we previously assumed 'pi' could be null (see line 2292)
 
-vim +139 drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+vim +/pi +2342 drivers/firmware/arm_scmi/driver.c
 
-2e842124be0d553 Marco Pagani               2026-07-07  106  
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  107  /**
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  108   * drm_mock_sched_job_new - Create a new mock scheduler job
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  109   *
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  110   * @test: KUnit test owning the job
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  111   * @entity: Scheduler entity of the job
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  112   *
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  113   * Returns: New mock scheduler job with allocation managed by the test
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  114   */
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  115  struct drm_mock_sched_job *
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  116  drm_mock_sched_job_new(struct kunit *test,
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  117  		       struct drm_mock_sched_entity *entity)
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  118  {
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  119  	struct drm_mock_sched_job *job;
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  120  	int ret;
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  121  
-2e842124be0d553 Marco Pagani               2026-07-07  122  	/* Let the DRM Scheduler manage the lifetime of the job */
-2e842124be0d553 Marco Pagani               2026-07-07  123  	job = kzalloc_obj(*job, GFP_KERNEL);
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  124  	KUNIT_ASSERT_NOT_NULL(test, job);
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  125  
-2e842124be0d553 Marco Pagani               2026-07-07  126  	kref_init(&job->refcount);
-2e842124be0d553 Marco Pagani               2026-07-07  127  	job->test = test;
-2e842124be0d553 Marco Pagani               2026-07-07  128  
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  129  	ret = drm_sched_job_init(&job->base,
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  130  				 &entity->base,
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  131  				 1,
-2956554823cedb3 Pierre-Eric Pelloux-Prayer 2025-05-26  132  				 NULL,
-2956554823cedb3 Pierre-Eric Pelloux-Prayer 2025-05-26  133  				 1);
-2e842124be0d553 Marco Pagani               2026-07-07  134  	if (ret) {
-2e842124be0d553 Marco Pagani               2026-07-07 @135  		kfree(job);
-2e842124be0d553 Marco Pagani               2026-07-07  136  		KUNIT_ASSERT_EQ_MSG(test, ret, 0, "drm_sched_job_init failed");
-2e842124be0d553 Marco Pagani               2026-07-07  137  	}
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  138  
-5a99350794fec11 Tvrtko Ursulin             2025-03-24 @139  	init_completion(&job->done);
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  140  	INIT_LIST_HEAD(&job->link);
-1afba39f9305fe4 Thomas Zimmermann          2025-04-07  141  	hrtimer_setup(&job->timer, drm_mock_sched_job_signal_timer,
-1afba39f9305fe4 Thomas Zimmermann          2025-04-07  142  		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  143  
-2e842124be0d553 Marco Pagani               2026-07-07  144  	ret = kunit_add_action(test, drm_mock_sched_job_cleanup_action, job);
-2e842124be0d553 Marco Pagani               2026-07-07  145  	if (ret) {
-2e842124be0d553 Marco Pagani               2026-07-07  146  		drm_mock_sched_job_put(job);
-2e842124be0d553 Marco Pagani               2026-07-07  147  		KUNIT_ASSERT_EQ_MSG(test, ret, 0, "kunit_add_action failed");
-2e842124be0d553 Marco Pagani               2026-07-07  148  	}
-2e842124be0d553 Marco Pagani               2026-07-07  149  
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  150  	return job;
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  151  }
-5a99350794fec11 Tvrtko Ursulin             2025-03-24  152  
+0fac05fdd9afff6 Cristian Marussi 2025-12-27  2258  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2259  /**
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2260   * scmi_alloc_init_protocol_instance  - Allocate and initialize a protocol
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2261   * instance descriptor.
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2262   * @info: The reference to the related SCMI instance.
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2263   * @proto: The protocol descriptor.
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2264   *
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2265   * Allocate a new protocol instance descriptor, using the provided @proto
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2266   * description, against the specified SCMI instance @info, and initialize it;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2267   * all resources management is handled via a dedicated per-protocol devres
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2268   * group.
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2269   *
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2270   * Context: Assumes to be called with @protocols_mtx already acquired.
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2271   * Return: A reference to a freshly allocated and initialized protocol instance
+f5800e0bf6f9b7f Cristian Marussi 2021-03-16  2272   *	   or ERR_PTR on failure. On failure the @proto reference is at first
+f5800e0bf6f9b7f Cristian Marussi 2021-03-16  2273   *	   put using @scmi_protocol_put() before releasing all the devres group.
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2274   */
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2275  static struct scmi_protocol_instance *
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2276  scmi_alloc_init_protocol_instance(struct scmi_info *info,
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2277  				  const struct scmi_protocol *proto)
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2278  {
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2279  	int ret = -ENOMEM;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2280  	void *gid;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2281  	struct scmi_protocol_instance *pi;
+f0e73cee26dd3ed Cristian Marussi 2021-03-16  2282  	const struct scmi_handle *handle = &info->handle;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2283  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2284  	/* Protocol specific devres group */
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2285  	gid = devres_open_group(handle->dev, NULL, GFP_KERNEL);
+f5800e0bf6f9b7f Cristian Marussi 2021-03-16  2286  	if (!gid) {
+fc110108b98305e Cristian Marussi 2024-04-18  2287  		scmi_protocol_put(proto);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2288  		goto out;
+f5800e0bf6f9b7f Cristian Marussi 2021-03-16  2289  	}
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2290  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2291  	pi = devm_kzalloc(handle->dev, sizeof(*pi), GFP_KERNEL);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16 @2292  	if (!pi)
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2293  		goto clean;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2294  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2295  	pi->gid = gid;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2296  	pi->proto = proto;
+d7b6cc563a60076 Cristian Marussi 2021-03-16  2297  	pi->handle = handle;
+d7b6cc563a60076 Cristian Marussi 2021-03-16  2298  	pi->ph.dev = handle->dev;
+a4a20b0975dc7b1 Cristian Marussi 2021-03-16  2299  	pi->ph.xops = &xfer_ops;
+5c873d120d8676b Cristian Marussi 2022-03-30  2300  	pi->ph.hops = &helpers_ops;
+d7b6cc563a60076 Cristian Marussi 2021-03-16  2301  	pi->ph.set_priv = scmi_set_protocol_priv;
+d7b6cc563a60076 Cristian Marussi 2021-03-16  2302  	pi->ph.get_priv = scmi_get_protocol_priv;
+07e4ec9fe678323 Cristian Marussi 2025-02-28  2303  	pi->ph.instance_notifier_register = scmi_register_instance_notifier;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2304  	refcount_set(&pi->users, 1);
+0fac05fdd9afff6 Cristian Marussi 2025-12-27  2305  
+0fac05fdd9afff6 Cristian Marussi 2025-12-27  2306  	/*
+0fac05fdd9afff6 Cristian Marussi 2025-12-27  2307  	 * Initialize effectively used protocol version performing any
+0fac05fdd9afff6 Cristian Marussi 2025-12-27  2308  	 * possibly needed negotiations.
+0fac05fdd9afff6 Cristian Marussi 2025-12-27  2309  	 */
+0fac05fdd9afff6 Cristian Marussi 2025-12-27  2310  	scmi_protocol_version_initialize(handle->dev, pi);
+0fac05fdd9afff6 Cristian Marussi 2025-12-27  2311  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2312  	/* proto->init is assured NON NULL by scmi_protocol_register */
+a4a20b0975dc7b1 Cristian Marussi 2021-03-16  2313  	ret = pi->proto->instance_init(&pi->ph);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2314  	if (ret)
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2315  		goto clean;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2316  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2317  	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2318  			GFP_KERNEL);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2319  	if (ret != proto->id)
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2320  		goto clean;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2321  
+533c7095b1ff927 Cristian Marussi 2021-03-16  2322  	/*
+533c7095b1ff927 Cristian Marussi 2021-03-16  2323  	 * Warn but ignore events registration errors since we do not want
+533c7095b1ff927 Cristian Marussi 2021-03-16  2324  	 * to skip whole protocols if their notifications are messed up.
+533c7095b1ff927 Cristian Marussi 2021-03-16  2325  	 */
+533c7095b1ff927 Cristian Marussi 2021-03-16  2326  	if (pi->proto->events) {
+533c7095b1ff927 Cristian Marussi 2021-03-16  2327  		ret = scmi_register_protocol_events(handle, pi->proto->id,
+b9f7fd907c38a38 Cristian Marussi 2021-03-16  2328  						    &pi->ph,
+533c7095b1ff927 Cristian Marussi 2021-03-16  2329  						    pi->proto->events);
+533c7095b1ff927 Cristian Marussi 2021-03-16  2330  		if (ret)
+533c7095b1ff927 Cristian Marussi 2021-03-16  2331  			dev_warn(handle->dev,
+533c7095b1ff927 Cristian Marussi 2021-03-16  2332  				 "Protocol:%X - Events Registration Failed - err:%d\n",
+533c7095b1ff927 Cristian Marussi 2021-03-16  2333  				 pi->proto->id, ret);
+533c7095b1ff927 Cristian Marussi 2021-03-16  2334  	}
+533c7095b1ff927 Cristian Marussi 2021-03-16  2335  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2336  	devres_close_group(handle->dev, pi->gid);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2337  	dev_dbg(handle->dev, "Initialized protocol: 0x%X\n", pi->proto->id);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2338  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2339  	return pi;
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2340  
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2341  clean:
+794ab60bbda9339 Cristian Marussi 2023-03-15 @2342  	debugfs_remove_recursive(pi->dbg);
+f5800e0bf6f9b7f Cristian Marussi 2021-03-16  2343  	/* Take care to put the protocol module's owner before releasing all */
+fc110108b98305e Cristian Marussi 2024-04-18  2344  	scmi_protocol_put(proto);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2345  	devres_release_group(handle->dev, gid);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2346  out:
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2347  	return ERR_PTR(ret);
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2348  }
+48dc16e2e52ca38 Cristian Marussi 2021-03-16  2349  
 
 --
 0-DAY CI Kernel Test Service
