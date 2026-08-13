@@ -1,110 +1,144 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA97E3A7F7C
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 20:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786652489; cv=pass; b=Awr+SXRtX4sazxdotJ94dkSt40kh7kQH9WFZ+RiPlHHpmtnnKTT1EoaSDPK7Ri505FA4H4pMmgbfJwJK/2ucVK7rFcdW0j98j1JPnoIf6wkku4CwkvP6N/dlOk2AOel/Ai9LSGgLWYXD2XQbfC4o2Z+g9CGeyXZCyN6r47ALQWU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786652489; c=relaxed/simple;
-	bh=/EUsxCA39+lm4qZz/MBCSURD/yQCFJ9Pw3mnXV58pWM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A6zaZ/SugMpU8a9Zwk57NlPQtIckMWlLBHiOo5rEkBKQnkolS2YpjQozDwMBVMfxrcUClApfUTYEhFT8mPnOiFRuUEsorlRQl4sv3/Wo7tvdFLjVGC+cVW51gbqcfbWzN0a01LSCSPKMbcIC84IY0n4v1/QihmmRm68wdMs676A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8vZqrJm; arc=pass smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C571E438029
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 21:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786655129; cv=none; b=SBZlG0+G/Bn31RbY4DZEnF/bK+O2lLtbyzFmi3NL3QeUzeO9ZvycJ56Ot1/udnoIWqg7w2bUd32eItCI6qSBAjWg6tU/IOoNhcVXgbSAE70u4WK3xgmmmNgCGxCBnFxPF42uF1qhrtMonqQYGdUHJWxP7AAxFxyQRu+SdbS0af4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786655129; c=relaxed/simple;
+	bh=+m1CREjT6kYIneZR02D1JaU3PuQ68yCVVy05PwGhKGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Dwv9eGGaHVh/Na7+gcyGbaigtO/T7oq3yJYbKf5EWK8axNeOS29joB1wVUVuYB6pmNUKZ7H28hut0VOQHLMfJ9EFDxLUGPgDk04Buo+pc9tNzAg/sZBKSuNeH+BuahUzN/dWMf0IAnblkGMWBvxnxRA13nRQj/9T2axrfpDeEj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOVwnLS4; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8vZqrJm"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-6688acd1a51so445221d50.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 13:21:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786652486; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rIHsZxTT0/LmrW7JjewHep4HBBPrDuTqMCZXFgCWu6uSx4iIogYEOYFMIhJea3lTp2
-         3EorvMKahxh9VcsPISIR8iWX7vz0txBvz1nFB7JRWVv+krCW+kb1IgncW7FrGfKub+2D
-         NT9bPokNnEv8YOJIFjcriGQ7RpveaRFLurQqtsJWnXokQHOewtRotIiJtFqhJPAKsa5/
-         dhsaJt8LV6cXOUBqbM6IVk066DHr4Yz1Wg2P9grFmmgr1+joWvJfTtU2IprX8gREOz5U
-         4kYGLdoVW+mE3pcI9KOMeLpPSzIdRCR3B86PkGaYKlleq3nOpPlN/FPaayGjQsL4B1AL
-         C8Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
-        fh=gYQLfv6azk0Jg/DB0JkPC9UFN2ltpTigo+A6/ehXDww=;
-        b=i1xZChyCbVvSq0QJFAAKg88Bh7DtT2OTdL0GJd45y6zVC7lMJDCRxerWywHbPMgD7N
-         DVwGPw+OHKR/nR+MiWJUiEjHLZs3UMZ37BmKOIIsIU8XOIVkjIn4oZ6sRvCmBnVedQeK
-         aOUbHQYU1hmOhb2ellwbeorkTW4I7zL0ITWZOpfBu9vdu7ovNemr/gz6rak6oFsatDZ6
-         8XYoJVy+Uo1Sp69ADBz0gOXtvCG9u5nRmP2uHOM82g4Jz1GJh8+pP3OqWrbaWerM5Oag
-         Jt3nIVT1hsUI5129SSQmAxRXmLdO6hhO35a0BqwgEIDMdiLZG48gCLmf+INDU+PZcjf7
-         k9oQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786652486; x=1787257286; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
-        b=g8vZqrJmlMFRhMlHeNxnO56l4ZPv+ulgO1tohZKeDeSoscygiHdAe2Aavyip3AbApq
-         7gCs9wb1pDaE4rEe5OwqlIxD0mHvG2na4tg27N6sAgXDiFoaG5lS2q8Ut4wjxLoLsxnj
-         qXDEa2g8UFB04Fosy4zYYVnHIt9WFqmJRTolVAlJlmvOvkQJKvHV3hXoMiJe65wOn7Z8
-         2cL/2/4PpjO7tivoRHIguKnRY3gx5j+mtCn6G6Wv34kU887fJ5P5ZIS/vazS/b4awmND
-         qVlv6UddQcyCczKXwoMlBljkOc+NxpYx3ca7Owd+ptZViMlcbxIaHT1VJLiOkTL1fa8d
-         AFAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786652486; x=1787257286;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
-        b=nWlfKahlNf68Gnajgm9omd7zG4y2qln8v2eZOwZhGdLurP5Fuz577j4deTr5FU8f5H
-         tzs5RMIeks0giEXLAFglP+s5vXzOIP7U4Rcw6AufH636DxinuQavX8+HMi7CUpa3KdQz
-         KrL2cuySQbzsBoZ+S7mMDmzEPv6oLSB0wAeiAxIetN1y3EO/BwE1LcLnxhZgRQBGz9Ht
-         dhTda+fVE8gcpW8wChLMt1lXKNgpw7P/bSrZHD5YiGhJYEtkdDy4UiXO4pZWlwlxNglI
-         ge0b7fNj4pUilccQt+d6mVASZ4UDm4d+dzIY8KK7LKEPtmtNhyLwfD0vPf4a4xvLOSmK
-         8MEg==
-X-Gm-Message-State: AOJu0YxPnecgAJ15ToIEnO1tG1JehPnzvmvAGExl39+ZYa9CmFkBQb5x
-	OZ6nhqfwEJFt3vyJibSKzygytmlfMZOZFbIMBbAb1max/bBXXWTiGPxOY+o3Ryl9UNoyTVmd8vW
-	NiBFfoQ/hVyHlVpAoVjIs2eJL2ZQ2Tsw=
-X-Gm-Gg: AR+sD13oK+weF2hpbrQSW//g2kpv4powaeWSBCEyW4lKFlSjQrTwPyLeDp10/sRnQRM
-	zBY5/0udr9XRYywAwinAv06ok6Yiz5V+94wylTvlFWnPfWixNx2IBs3ZbZVUvpUQzbEx8JeMmEg
-	+qmd+p2dXsLoRNHRG9El2RTHNuVJQDqTuUYLvEiXbvknUBNmGJTM9y2DCUXRugDq2RduEgqL0iD
-	saqBHvTglkosqQBvCIPQN/yMQX+cJbCI4CbI6bmFUUmVVLzwG3/TH257eWgjNCwDSFrQIneWowH
-	HxyhlG1L9SWNgmUBc09ly6sop6zjwKOj7/kEIkenvrJThR54gQ9ZfD+AQWJp31IOJfYBkPyDYaV
-	2elg=
-X-Received: by 2002:a05:690e:43c7:b0:669:8d7d:a5c8 with SMTP id
- 956f58d0204a3-66c72ebeedbmr297462d50.54.1786652486534; Thu, 13 Aug 2026
- 13:21:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOVwnLS4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786655127; x=1818191127;
+  h=date:from:to:cc:subject:message-id;
+  bh=+m1CREjT6kYIneZR02D1JaU3PuQ68yCVVy05PwGhKGQ=;
+  b=NOVwnLS4S1MPeGfksCgrk/qNxqr7P/JotKAeT94dzYave+ec8eOODsrm
+   bVa/oN1ReCzWX3w00FPHcTLFwHDvuyBbkMK0wdddhZOJkxna2tYyisfah
+   TKtsWHk0Z3X5v8nBnhcZcNk090romxni9IW/VBfafEpK9Dc/8xRV87wTB
+   HMogyfEAYezDNfqkhc9xtWH6TQNAWUtQFlXwF7V3dY1epJlqUVMH78SpX
+   7wMUm1QRDrocfxQEknupwSCwkssFQIJUqTNCK7QLD7CZGoejvjHXRcUh9
+   AViouaoi4I6gV6WFH4+dWVEHTrmJDGXVHP9qoOV1tNLMezbBnd6b10m5H
+   A==;
+X-CSE-ConnectionGUID: lAmPLSMbTEOEru/AodUVnQ==
+X-CSE-MsgGUID: //swXMM/T8WrzL0xXAeAcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87456781"
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="87456781"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 14:05:25 -0700
+X-CSE-ConnectionGUID: 7Po6mHvhR26KvT/XCs1KzA==
+X-CSE-MsgGUID: WaSqLMCzSJ2N4brWmCALCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="268316818"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 13 Aug 2026 14:05:25 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wucc5-00000000Wee-47M2;
+	Thu, 13 Aug 2026 21:05:21 +0000
+Date: Fri, 14 Aug 2026 05:04:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: lib/crc/arm64/crc64-neon.h:14:9: sparse: sparse: Trying to
+ use reserved word 'return' as identifier
+Message-ID: <202608140503.1aVGKxXk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202608140244.f2Omwf4y-lkp@intel.com>
-In-Reply-To: <202608140244.f2Omwf4y-lkp@intel.com>
-From: Michael Bommarito <michael.bommarito@gmail.com>
-Date: Thu, 13 Aug 2026 16:21:15 -0400
-X-Gm-Features: AUfX_mwUH8rppqOLlLKZe5EqV-Qv_xkpyD0Cl5wZIq7dIz9NFmE9CN4eGxZAk4E
-Message-ID: <CAJJ9bXy7KXcumxRVg0MzcYMt5Dw2txzzUKJryDE08cLfBfnr6A@mail.gmail.com>
-Subject: Re: net/sctp/socket.c:7036 sctp_getsockopt_peer_auth_chunks() warn:
- potential user controlled sizeof overflow '8 + num_chunks' '8 + 0-65531,4294967292-u32max'
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 13, 2026 at 3:05=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
-rote:
-> It doesn't really cause a problem these days because copy_to_user()
-> doesn't accept sizes more than INT_MAX but it would trigger a warning.
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: lib/crc/arm64/crc64-neon.h:14:9: sparse: sparse: Trying to use reserved word 'return' as identifier"
+:::::: 
 
-Thanks, good catch.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Eric Biggers <ebiggers@kernel.org>
 
-Claude noted that sctp_getsockopt_local_auth_chunks might also be
-worth fixing.  If no one objects, I'll address both sides in a set.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3d6d817622b0a9721e3cc404df3469171582be13
+commit: 061cef5fcee5a4bbaa8726f8c5fc1d5e2f89bff7 lib/crc: Turn NEON intrinsics crc64 implementation into common code
+date:   3 months ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 3 months ago
+config: arm64-randconfig-r112-20260813 (https://download.01.org/0day-ci/archive/20260814/202608140503.1aVGKxXk-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6ea395e4fe4db26920d57779ddae98eac6ba945d)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140503.1aVGKxXk-lkp@intel.com/reproduce)
 
-Thanks,
-Mike
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 061cef5fcee5 ("lib/crc: Turn NEON intrinsics crc64 implementation into common code")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202608140503.1aVGKxXk-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   lib/crc/crc64-neon.c: note: in included file (through arch/arm64/include/asm/neon-intrinsics.h):
+   /opt/cross/clang-844a18e753/lib/clang/24/include/arm_neon.h:30:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/crc/crc64-neon.c: note: in included file:
+   lib/crc/arm64/crc64-neon.h:3:26: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon.h:3:26: sparse: sparse: got pmull64
+   lib/crc/arm64/crc64-neon.h:7:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon.h:7:1: sparse: sparse: got }
+   lib/crc/arm64/crc64-neon.h:12:20: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon.h:12:20: sparse: sparse: got m
+>> lib/crc/arm64/crc64-neon.h:14:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/crc/arm64/crc64-neon.h:14:16: sparse: sparse: Expected ; at end of declaration
+   lib/crc/arm64/crc64-neon.h:14:16: sparse: sparse: got vreinterpretq_u64_p128
+   lib/crc/arm64/crc64-neon.h:15:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon.h:15:1: sparse: sparse: got }
+   lib/crc/arm64/crc64-neon.h:21:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/crc/arm64/crc64-neon.h:21:1: sparse: sparse: got }
+   lib/crc/crc64-neon.c:22:20: sparse: sparse: Expected ; at end of statement
+   lib/crc/crc64-neon.c:22:20: sparse: sparse: got fold_consts
+   lib/crc/crc64-neon.c:23:20: sparse: sparse: Expected ; at end of statement
+   lib/crc/crc64-neon.c:23:20: sparse: sparse: got v0
+   lib/crc/crc64-neon.c:24:20: sparse: sparse: Expected ; at end of statement
+   lib/crc/crc64-neon.c:24:20: sparse: sparse: got zero
+   lib/crc/crc64-neon.c:41:20: sparse: sparse: Expected ; at end of statement
+   lib/crc/crc64-neon.c:41:20: sparse: sparse: got bconsts
+   lib/crc/crc64-neon.c:42:20: sparse: sparse: Expected ; at end of statement
+   lib/crc/crc64-neon.c:42:20: sparse: sparse: got final
+   lib/crc/crc64-neon.c:27:17: sparse: sparse: undefined identifier 'v0'
+   lib/crc/crc64-neon.c:27:23: sparse: sparse: undefined identifier 'vreinterpretq_u64_u8'
+   lib/crc/crc64-neon.c:34:17: sparse: sparse: undefined identifier 'v0'
+   lib/crc/crc64-neon.c:34:22: sparse: sparse: undefined identifier 'pmull64'
+   lib/crc/crc64-neon.c:34:49: sparse: sparse: undefined identifier 'pmull64_high'
+   lib/crc/crc64-neon.c:38:9: sparse: sparse: undefined identifier 'v0'
+   lib/crc/crc64-neon.c:38:14: sparse: sparse: undefined identifier 'vextq_u64'
+   lib/crc/crc64-neon.c:38:39: sparse: sparse: undefined identifier 'pmull64_hi_lo'
+   lib/crc/crc64-neon.c:44:9: sparse: sparse: undefined identifier 'v0'
+   lib/crc/crc64-neon.c:44:15: sparse: sparse: undefined identifier 'vextq_u64'
+   lib/crc/crc64-neon.c:44:43: sparse: sparse: undefined identifier 'pmull64_hi_lo'
+   lib/crc/crc64-neon.c:46:16: sparse: sparse: undefined identifier 'vgetq_lane_u64'
+
+vim +/return +14 lib/crc/arm64/crc64-neon.h
+
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22   8  
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22   9  static inline uint64x2_t pmull64_high(uint64x2_t a, uint64x2_t b)
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22  10  {
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22  11  	poly64x2_t l = vreinterpretq_p64_u64(a);
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22  12  	poly64x2_t m = vreinterpretq_p64_u64(b);
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22  13  
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22 @14  	return vreinterpretq_u64_p128(vmull_high_p64(l, m));
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22  15  }
+061cef5fcee5a4 Ard Biesheuvel 2026-04-22  16  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
