@@ -1,528 +1,402 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FE63242AC
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 04:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7EF345EDC
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 07:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786595641; cv=none; b=KrApM1tRZQauoh8C/a7tIL8secdlc8TxkP9sImGUzAoViz7p2U+2NVtwBfgLo+TCMFyfAj4HZIdayAdnL8Ja1zBZSLxATQvg41F5BdqiueM4bCNn98MDPcICLJIqY9EhHrF77J01xUxlMxXmo5tft9wYLqfh/bPJTkIGOxwiqa0=
+	t=1786604509; cv=none; b=Q623F3/DXIJGG+gL7znFUdNxIib8PM1v8fVTSDi+DNJL8jXi4sS1/6igQplLx9hY3jbDHp3/Z13SswY59fhpKCRH2vkStzmT4Ax/SVeucp5y++plt3eExX4FxT6Y3v//ZfKuKSa2y2fh6xKGT1z0TwiYUfMc4+1qLuZ8ZbFVqBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786595641; c=relaxed/simple;
-	bh=24jlb9PYk2nyTWqe1did/oseDJEXhZ+lUlSQsIbEQK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=VO0doUOhm+FKWLJuamawdVG0c7wzrGV0lia57K9Xz+NRWoU7ag1ej7gaJa5CbbOCIwP+5PSoiRSmXXLRqNL+n3DgOZ3mINKTvIO6iwdZKJf75ZLQ9w9z88rKayx9jfQeum/O62M+Ihg5t3278WodVDNO8iVDkz1NHw8z1CABCCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDDy6Mm4; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1786604509; c=relaxed/simple;
+	bh=HApJzskfOhDs+v7J8kQqQOih1F4uclxI3smyKS/7JEE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=L/aNv394CavW7JA85sYXCEDJErvmiQg7xHHouUNH3RUKoFObBRTKUX+92W5AOl6ByMFZ/CYPdHUyHTsKcKr14LveAOCOzbawl5NWWfkSU35pJLgdU3JHZUpoW9XTdLkJFYogYdp4viaSH2zmV8Lf+7tO6dzp4VlQPAYHq8PeBJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/R45iT0; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDDy6Mm4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/R45iT0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786595638; x=1818131638;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=24jlb9PYk2nyTWqe1did/oseDJEXhZ+lUlSQsIbEQK4=;
-  b=oDDy6Mm4Iwj7Xdzr3uH+lTVwEAQRMZhnVk9Z2b9juYxEEFPCgabrtpnA
-   cUBsFlUlEI5L2JNaSIOs647LRGphPoQZkGF02HnRU1xiaZT8xny+t3/62
-   jekQ85k3uQ5vOEuGz/gRoPmJPSH/Y5z1sxCfV7HkHe92Ib6zrKbCQwgHm
-   Le7didrMZXGyCpZTKoz6yxo6WCx+sG5pjuTULicqx8VJHcFa+++4UH058
-   EoIiHj2dEzfMSRkvlRJPt0Ntx4hrrQnTVz382A1kg/b3AfJXtd3fpoQRC
-   X9NA3XhFj3DzAuaQuaTPyfiwjJDGGwS1D1GqVU0FkI5bLBX6C13OjREL4
+  t=1786604499; x=1818140499;
+  h=date:from:to:cc:subject:message-id;
+  bh=HApJzskfOhDs+v7J8kQqQOih1F4uclxI3smyKS/7JEE=;
+  b=K/R45iT01jWPAXsUSUkSB2G/aCssgaKVuuz0la5pOsmK9urXX45JWRXE
+   Pl+bGRGW7r34SpuqkYflZJU0lANsnFAcvPpNJE+eXzaj9sQj4kE60P9BF
+   IxTD4YNfxNXOesmv+f9CfS2ZFjZV5pGyqjoanmjRqL2qPEnIqSkq8YWVS
+   HXebJO79l7juR1kIWiCJk6RAlTSJmQAfZqxu0a3YAQMMcWH7SKmjiwLTN
+   mXcByYJ4WX/fsSKM9/8JfzhvD00/wFoRhv3Revn5c03XGh5y5DxFfmhaw
+   JQFGSQGpqEzpKKVF9JADhxTTTm+KPXqewLntZD7OCzMBS9XzqmHfOovGX
    A==;
-X-CSE-ConnectionGUID: c8ep2g/4St+XDwVn9WMxvw==
-X-CSE-MsgGUID: XUukB895SaeCRJFyAh3+Tw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="112705670"
+X-CSE-ConnectionGUID: U15TsNAQSLGMxl8cGkunHw==
+X-CSE-MsgGUID: h7Wwn3rnT3eykiMvzrQtOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="104556234"
 X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="112705670"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 21:33:54 -0700
-X-CSE-ConnectionGUID: DjiBZ/p3QoOGoGj1QXidqg==
-X-CSE-MsgGUID: HbubWhBNQ/KCTNaQIh5YvQ==
+   d="scan'208";a="104556234"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 00:01:27 -0700
+X-CSE-ConnectionGUID: +5a8zArBSWmoAxZUpGFtnQ==
+X-CSE-MsgGUID: t6byWu3CSXygv/13HyJsNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="302094341"
+   d="scan'208";a="264439088"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Aug 2026 21:33:54 -0700
+  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2026 00:01:25 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuN8Z-00000000SpM-0lAd;
-	Thu, 13 Aug 2026 04:33:51 +0000
-Date: Thu, 13 Aug 2026 12:33:14 +0800
+	id 1wuPRL-00000000TB4-1k4X;
+	Thu, 13 Aug 2026 07:01:23 +0000
+Date: Thu, 13 Aug 2026 15:01:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linuxsecuritymodule:dev-staging 8/8]
- security/lsm_audit.c:185:2: error: call to '__compiletime_assert_721'
- declared with 'error' attribute: BUILD_BUG_ON failed: sizeof(a->u) >
- sizeof(void *)*2
-Message-ID: <202608131245.zNF4czm3-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: kernel/bpf/fixups.c:808 bpf_convert_ctx_accesses() error:
+ __builtin_memcpy() 'insn_buf' too small (256 vs u32max)
+Message-ID: <202608131415.vmjjc9qt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "__compiletime_assert_NNN"
-::::::=20
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Micka=C3=ABl Sala=C3=BCn" <mic@digikod.net>
-CC: Paul Moore <paul@paul-moore.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: "G=C3=BCnther Noack" <gnoack@google.com>
+CC: linux-kernel@vger.kernel.org
+TO: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://github.com/LinuxSecurityModule/kernel dev-staging
-head:   1f2f7a1fd1fc34e757107e3a3849f8d22b14cc6b
-commit: 1f2f7a1fd1fc34e757107e3a3849f8d22b14cc6b [8/8] lsm: add LSM_AUDIT_D=
-ATA_NS for namespace audit records
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: hexagon-randconfig-002-20260813 (https://download.01.org/0day-ci/ar=
-chive/20260813/202608131245.zNF4czm3-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 600970=
-8b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260813/202608131245.zNF4czm3-lkp@intel.com/reproduce)
+Hi Alexei,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
+commit: 449f08fa59dda5da40317b6976604b877c4ecd63 bpf: Move fixup/post-processing logic from verifier.c into fixups.c
+date:   4 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 4 months ago
+config: sparc-randconfig-r072-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131415.vmjjc9qt-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.4.0
+smatch: v0.5.0-9187-g5189e3fb
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 449f08fa59dd ("bpf: Move fixup/post-processing logic from verifier.c into fixups.c")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608131245.zNF4czm3-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608131415.vmjjc9qt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/bpf/fixups.c:808 bpf_convert_ctx_accesses() error: __builtin_memcpy() 'insn_buf' too small (256 vs u32max)
+kernel/bpf/fixups.c:808 bpf_convert_ctx_accesses() error: __builtin_memcpy() 'epilogue_buf' too small (256 vs u32max)
 
->> security/lsm_audit.c:185:2: error: call to '__compiletime_assert_721' de=
-clared with 'error' attribute: BUILD_BUG_ON failed: sizeof(a->u) > sizeof(v=
-oid *)*2
-     185 |         BUILD_BUG_ON(sizeof(a->u) > sizeof(void *)*2);
-         |         ^
-   include/linux/build_bug.h:51:2: note: expanded from macro 'BUILD_BUG_ON'
-      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #con=
-dition)
-         |         ^
-   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), =
-msg)
-         |                                     ^
-   include/linux/compiler_types.h:702:2: note: expanded from macro 'compile=
-time_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert=
-_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compil=
-etime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compi=
-letime_assert'
-     683 |                         prefix ## suffix();                     =
-        \
-         |                         ^
-   <scratch space>:2:1: note: expanded from here
-       2 | __compiletime_assert_721
-         | ^
->> security/lsm_audit.c:185:2: error: call to '__compiletime_assert_721' de=
-clared with 'error' attribute: BUILD_BUG_ON failed: sizeof(a->u) > sizeof(v=
-oid *)*2
-   include/linux/build_bug.h:51:2: note: expanded from macro 'BUILD_BUG_ON'
-      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #con=
-dition)
-         |         ^
-   include/linux/build_bug.h:40:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), =
-msg)
-         |                                     ^
-   include/linux/compiler_types.h:702:2: note: expanded from macro 'compile=
-time_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert=
-_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:690:2: note: expanded from macro '_compil=
-etime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:683:4: note: expanded from macro '__compi=
-letime_assert'
-     683 |                         prefix ## suffix();                     =
-        \
-         |                         ^
-   <scratch space>:2:1: note: expanded from here
-       2 | __compiletime_assert_721
-         | ^
-   2 errors generated.
+vim +/insn_buf +808 kernel/bpf/fixups.c
 
-
-vim +185 security/lsm_audit.c
-
-6e837fb152410e Etienne Basset     2009-04-08  171 =20
-6e837fb152410e Etienne Basset     2009-04-08  172  /**
-9b08a16637eeef Micka=C3=ABl Sala=C3=BCn     2025-03-20  173   * audit_log_l=
-sm_data - helper to log common LSM audit data
-610b17b05c5c68 Bo Liu             2022-10-25  174   * @ab : the audit buffer
-6e837fb152410e Etienne Basset     2009-04-08  175   * @a : common audit data
-6e837fb152410e Etienne Basset     2009-04-08  176   */
-9b08a16637eeef Micka=C3=ABl Sala=C3=BCn     2025-03-20  177  void audit_log=
-_lsm_data(struct audit_buffer *ab,
-9b08a16637eeef Micka=C3=ABl Sala=C3=BCn     2025-03-20  178  			const struc=
-t common_audit_data *a)
-6e837fb152410e Etienne Basset     2009-04-08  179  {
-07f62eb66c6626 Eric Paris         2012-04-04  180  	/*
-4432b507445acf Paul Moore         2023-05-24  181  	 * To keep stack sizes =
-in check force programmers to notice if they
-07f62eb66c6626 Eric Paris         2012-04-04  182  	 * start making this un=
-ion too large!  See struct lsm_network_audit
-07f62eb66c6626 Eric Paris         2012-04-04  183  	 * as an example of how=
- to deal with large data.
-07f62eb66c6626 Eric Paris         2012-04-04  184  	 */
-07f62eb66c6626 Eric Paris         2012-04-04 @185  	BUILD_BUG_ON(sizeof(a->=
-u) > sizeof(void *)*2);
-07f62eb66c6626 Eric Paris         2012-04-04  186 =20
-6e837fb152410e Etienne Basset     2009-04-08  187  	switch (a->type) {
-cb84aa9b42b506 Eric Paris         2010-04-27  188  	case LSM_AUDIT_DATA_NON=
-E:
-2bf49690325b62 Thomas Liu         2009-07-14  189  		return;
-6e837fb152410e Etienne Basset     2009-04-08  190  	case LSM_AUDIT_DATA_IPC:
-8e71168e2cc760 Ondrej Mosnacek    2021-09-14  191  		audit_log_format(ab, "=
- ipc_key=3D%d ", a->u.ipc_id);
-6e837fb152410e Etienne Basset     2009-04-08  192  		break;
-6e837fb152410e Etienne Basset     2009-04-08  193  	case LSM_AUDIT_DATA_CAP:
-6e837fb152410e Etienne Basset     2009-04-08  194  		audit_log_format(ab, "=
- capability=3D%d ", a->u.cap);
-6e837fb152410e Etienne Basset     2009-04-08  195  		break;
-f48b7399840b45 Eric Paris         2011-04-25  196  	case LSM_AUDIT_DATA_PAT=
-H: {
-f48b7399840b45 Eric Paris         2011-04-25  197  		struct inode *inode;
-f48b7399840b45 Eric Paris         2011-04-25  198 =20
-f48b7399840b45 Eric Paris         2011-04-25  199  		audit_log_d_path(ab, "=
- path=3D", &a->u.path);
-a269434d2fb48a Eric Paris         2011-04-25  200 =20
-c6f493d631c4d4 David Howells      2015-03-17  201  		inode =3D d_backing_in=
-ode(a->u.path.dentry);
-41fdc3054e23e3 Kees Cook          2012-01-07  202  		if (inode) {
-41fdc3054e23e3 Kees Cook          2012-01-07  203  			audit_log_format(ab, =
-" dev=3D");
-41fdc3054e23e3 Kees Cook          2012-01-07  204  			audit_log_untrustedst=
-ring(ab, inode->i_sb->s_id);
-0b2600f81cefcd Jeff Layton        2026-03-04  205  			audit_log_format(ab, =
-" ino=3D%llu", inode->i_ino);
-41fdc3054e23e3 Kees Cook          2012-01-07  206  		}
-a269434d2fb48a Eric Paris         2011-04-25  207  		break;
-6e837fb152410e Etienne Basset     2009-04-08  208  	}
-43af5de74288a7 Vivek Goyal        2016-09-09  209  	case LSM_AUDIT_DATA_FIL=
-E: {
-43af5de74288a7 Vivek Goyal        2016-09-09  210  		struct inode *inode;
-43af5de74288a7 Vivek Goyal        2016-09-09  211 =20
-43af5de74288a7 Vivek Goyal        2016-09-09  212  		audit_log_d_path(ab, "=
- path=3D", &a->u.file->f_path);
-43af5de74288a7 Vivek Goyal        2016-09-09  213 =20
-43af5de74288a7 Vivek Goyal        2016-09-09  214  		inode =3D file_inode(a=
-->u.file);
-43af5de74288a7 Vivek Goyal        2016-09-09  215  		if (inode) {
-43af5de74288a7 Vivek Goyal        2016-09-09  216  			audit_log_format(ab, =
-" dev=3D");
-43af5de74288a7 Vivek Goyal        2016-09-09  217  			audit_log_untrustedst=
-ring(ab, inode->i_sb->s_id);
-0b2600f81cefcd Jeff Layton        2026-03-04  218  			audit_log_format(ab, =
-" ino=3D%llu", inode->i_ino);
-43af5de74288a7 Vivek Goyal        2016-09-09  219  		}
-43af5de74288a7 Vivek Goyal        2016-09-09  220  		break;
-43af5de74288a7 Vivek Goyal        2016-09-09  221  	}
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  222  	case LSM_AUDIT_DATA_IOC=
-TL_OP: {
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  223  		struct inode *inode;
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  224 =20
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  225  		audit_log_d_path(ab, "=
- path=3D", &a->u.op->path);
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  226 =20
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  227  		inode =3D a->u.op->pat=
-h.dentry->d_inode;
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  228  		if (inode) {
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  229  			audit_log_format(ab, =
-" dev=3D");
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  230  			audit_log_untrustedst=
-ring(ab, inode->i_sb->s_id);
-0b2600f81cefcd Jeff Layton        2026-03-04  231  			audit_log_format(ab, =
-" ino=3D%llu", inode->i_ino);
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  232  		}
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  233 =20
-8b31f456c72e53 William Roberts    2016-08-08  234  		audit_log_format(ab, "=
- ioctlcmd=3D0x%hx", a->u.op->cmd);
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  235  		break;
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  236  	}
-a269434d2fb48a Eric Paris         2011-04-25  237  	case LSM_AUDIT_DATA_DEN=
-TRY: {
-a269434d2fb48a Eric Paris         2011-04-25  238  		struct inode *inode;
-a269434d2fb48a Eric Paris         2011-04-25  239 =20
-a269434d2fb48a Eric Paris         2011-04-25  240  		audit_log_format(ab, "=
- name=3D");
-d36a1dd9f77ae1 Al Viro            2021-01-05  241  		spin_lock(&a->u.dentry=
-->d_lock);
-a269434d2fb48a Eric Paris         2011-04-25  242  		audit_log_untrustedstr=
-ing(ab, a->u.dentry->d_name.name);
-d36a1dd9f77ae1 Al Viro            2021-01-05  243  		spin_unlock(&a->u.dent=
-ry->d_lock);
-a269434d2fb48a Eric Paris         2011-04-25  244 =20
-c6f493d631c4d4 David Howells      2015-03-17  245  		inode =3D d_backing_in=
-ode(a->u.dentry);
-41fdc3054e23e3 Kees Cook          2012-01-07  246  		if (inode) {
-41fdc3054e23e3 Kees Cook          2012-01-07  247  			audit_log_format(ab, =
-" dev=3D");
-41fdc3054e23e3 Kees Cook          2012-01-07  248  			audit_log_untrustedst=
-ring(ab, inode->i_sb->s_id);
-0b2600f81cefcd Jeff Layton        2026-03-04  249  			audit_log_format(ab, =
-" ino=3D%llu", inode->i_ino);
-41fdc3054e23e3 Kees Cook          2012-01-07  250  		}
-f48b7399840b45 Eric Paris         2011-04-25  251  		break;
-f48b7399840b45 Eric Paris         2011-04-25  252  	}
-f48b7399840b45 Eric Paris         2011-04-25  253  	case LSM_AUDIT_DATA_INO=
-DE: {
-6e837fb152410e Etienne Basset     2009-04-08  254  		struct dentry *dentry;
-f48b7399840b45 Eric Paris         2011-04-25  255  		struct inode *inode;
-f48b7399840b45 Eric Paris         2011-04-25  256 =20
-23d8f5b684fc30 Al Viro            2021-01-05  257  		rcu_read_lock();
-f48b7399840b45 Eric Paris         2011-04-25  258  		inode =3D a->u.inode;
-23d8f5b684fc30 Al Viro            2021-01-05  259  		dentry =3D d_find_alia=
-s_rcu(inode);
-6e837fb152410e Etienne Basset     2009-04-08  260  		if (dentry) {
-6e837fb152410e Etienne Basset     2009-04-08  261  			audit_log_format(ab, =
-" name=3D");
-d36a1dd9f77ae1 Al Viro            2021-01-05  262  			spin_lock(&dentry->d_=
-lock);
-d36a1dd9f77ae1 Al Viro            2021-01-05  263  			audit_log_untrustedst=
-ring(ab, dentry->d_name.name);
-d36a1dd9f77ae1 Al Viro            2021-01-05  264  			spin_unlock(&dentry->=
-d_lock);
-6e837fb152410e Etienne Basset     2009-04-08  265  		}
-41fdc3054e23e3 Kees Cook          2012-01-07  266  		audit_log_format(ab, "=
- dev=3D");
-41fdc3054e23e3 Kees Cook          2012-01-07  267  		audit_log_untrustedstr=
-ing(ab, inode->i_sb->s_id);
-0b2600f81cefcd Jeff Layton        2026-03-04  268  		audit_log_format(ab, "=
- ino=3D%llu", inode->i_ino);
-23d8f5b684fc30 Al Viro            2021-01-05  269  		rcu_read_unlock();
-6e837fb152410e Etienne Basset     2009-04-08  270  		break;
-f48b7399840b45 Eric Paris         2011-04-25  271  	}
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  272  	case LSM_AUDIT_DATA_TAS=
-K: {
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  273  		struct task_struct *ts=
-k =3D a->u.tsk;
-f1dc4867ff41b7 Richard Guy Briggs 2013-12-11  274  		if (tsk) {
-fa2bea2f5cca5b Paul Moore         2016-08-30  275  			pid_t pid =3D task_tg=
-id_nr(tsk);
-f1dc4867ff41b7 Richard Guy Briggs 2013-12-11  276  			if (pid) {
-b00083aed484a2 Christian G=C3=B6ttsche 2024-11-25  277  				char tskcomm[si=
-zeof(tsk->comm)];
-5c5bc97e2fc819 Richard Guy Briggs 2015-04-15  278  				audit_log_format(ab,=
- " opid=3D%d ocomm=3D", pid);
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  279  				audit_log_untrusteds=
-tring(ab,
-b00083aed484a2 Christian G=C3=B6ttsche 2024-11-25  280  				    get_task_co=
-mm(tskcomm, tsk));
-6e837fb152410e Etienne Basset     2009-04-08  281  			}
-f1dc4867ff41b7 Richard Guy Briggs 2013-12-11  282  		}
-6e837fb152410e Etienne Basset     2009-04-08  283  		break;
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  284  	}
-6e837fb152410e Etienne Basset     2009-04-08  285  	case LSM_AUDIT_DATA_NET:
-48c62af68a403e Eric Paris         2012-04-02  286  		if (a->u.net->sk) {
-41dd9596d6b239 Florian Westphal   2020-11-30  287  			const struct sock *sk=
- =3D a->u.net->sk;
-b064ba9c3cfaf3 Eric Dumazet       2023-03-17  288  			const struct unix_soc=
-k *u;
-ae3b564179bfd0 Al Viro            2019-02-15  289  			struct unix_address *=
-addr;
-6e837fb152410e Etienne Basset     2009-04-08  290  			int len =3D 0;
-6e837fb152410e Etienne Basset     2009-04-08  291  			char *p =3D NULL;
-6e837fb152410e Etienne Basset     2009-04-08  292 =20
-6e837fb152410e Etienne Basset     2009-04-08  293  			switch (sk->sk_family=
-) {
-6e837fb152410e Etienne Basset     2009-04-08  294  			case AF_INET: {
-abc17a11ed29b0 Eric Dumazet       2023-03-16  295  				const struct inet_so=
-ck *inet =3D inet_sk(sk);
-6e837fb152410e Etienne Basset     2009-04-08  296 =20
-c720c7e8383aff Eric Dumazet       2009-10-15  297  				print_ipv4_addr(ab, =
-inet->inet_rcv_saddr,
-c720c7e8383aff Eric Dumazet       2009-10-15  298  						inet->inet_sport,
-6e837fb152410e Etienne Basset     2009-04-08  299  						"laddr", "lport");
-c720c7e8383aff Eric Dumazet       2009-10-15  300  				print_ipv4_addr(ab, =
-inet->inet_daddr,
-c720c7e8383aff Eric Dumazet       2009-10-15  301  						inet->inet_dport,
-6e837fb152410e Etienne Basset     2009-04-08  302  						"faddr", "fport");
-6e837fb152410e Etienne Basset     2009-04-08  303  				break;
-6e837fb152410e Etienne Basset     2009-04-08  304  			}
-c2bb06db59eaf9 Eric Dumazet       2013-10-09  305  #if IS_ENABLED(CONFIG_IP=
-V6)
-6e837fb152410e Etienne Basset     2009-04-08  306  			case AF_INET6: {
-abc17a11ed29b0 Eric Dumazet       2023-03-16  307  				const struct inet_so=
-ck *inet =3D inet_sk(sk);
-6e837fb152410e Etienne Basset     2009-04-08  308 =20
-efe4208f47f907 Eric Dumazet       2013-10-03  309  				print_ipv6_addr(ab, =
-&sk->sk_v6_rcv_saddr,
-c720c7e8383aff Eric Dumazet       2009-10-15  310  						inet->inet_sport,
-6e837fb152410e Etienne Basset     2009-04-08  311  						"laddr", "lport");
-efe4208f47f907 Eric Dumazet       2013-10-03  312  				print_ipv6_addr(ab, =
-&sk->sk_v6_daddr,
-c720c7e8383aff Eric Dumazet       2009-10-15  313  						inet->inet_dport,
-6e837fb152410e Etienne Basset     2009-04-08  314  						"faddr", "fport");
-6e837fb152410e Etienne Basset     2009-04-08  315  				break;
-6e837fb152410e Etienne Basset     2009-04-08  316  			}
-c2bb06db59eaf9 Eric Dumazet       2013-10-09  317  #endif
-6e837fb152410e Etienne Basset     2009-04-08  318  			case AF_UNIX:
-6e837fb152410e Etienne Basset     2009-04-08  319  				u =3D unix_sk(sk);
-ae3b564179bfd0 Al Viro            2019-02-15  320  				addr =3D smp_load_ac=
-quire(&u->addr);
-ae3b564179bfd0 Al Viro            2019-02-15  321  				if (!addr)
-ae3b564179bfd0 Al Viro            2019-02-15  322  					break;
-40ffe67d2e89c7 Al Viro            2012-03-14  323  				if (u->path.dentry) {
-40ffe67d2e89c7 Al Viro            2012-03-14  324  					audit_log_d_path(ab=
-, " path=3D", &u->path);
-6e837fb152410e Etienne Basset     2009-04-08  325  					break;
-6e837fb152410e Etienne Basset     2009-04-08  326  				}
-ae3b564179bfd0 Al Viro            2019-02-15  327  				len =3D addr->len-si=
-zeof(short);
-ae3b564179bfd0 Al Viro            2019-02-15  328  				p =3D &addr->name->s=
-un_path[0];
-6e837fb152410e Etienne Basset     2009-04-08  329  				audit_log_format(ab,=
- " path=3D");
-6e837fb152410e Etienne Basset     2009-04-08  330  				if (*p)
-6e837fb152410e Etienne Basset     2009-04-08  331  					audit_log_untrusted=
-string(ab, p);
-6e837fb152410e Etienne Basset     2009-04-08  332  				else
-6e837fb152410e Etienne Basset     2009-04-08  333  					audit_log_n_hex(ab,=
- p, len);
-6e837fb152410e Etienne Basset     2009-04-08  334  				break;
-6e837fb152410e Etienne Basset     2009-04-08  335  			}
-6e837fb152410e Etienne Basset     2009-04-08  336  		}
-6e837fb152410e Etienne Basset     2009-04-08  337 =20
-48c62af68a403e Eric Paris         2012-04-02  338  		switch (a->u.net->fami=
-ly) {
-6e837fb152410e Etienne Basset     2009-04-08  339  		case AF_INET:
-48c62af68a403e Eric Paris         2012-04-02  340  			print_ipv4_addr(ab, a=
-->u.net->v4info.saddr,
-48c62af68a403e Eric Paris         2012-04-02  341  					a->u.net->sport,
-6e837fb152410e Etienne Basset     2009-04-08  342  					"saddr", "src");
-48c62af68a403e Eric Paris         2012-04-02  343  			print_ipv4_addr(ab, a=
-->u.net->v4info.daddr,
-48c62af68a403e Eric Paris         2012-04-02  344  					a->u.net->dport,
-6e837fb152410e Etienne Basset     2009-04-08  345  					"daddr", "dest");
-6e837fb152410e Etienne Basset     2009-04-08  346  			break;
-6e837fb152410e Etienne Basset     2009-04-08  347  		case AF_INET6:
-48c62af68a403e Eric Paris         2012-04-02  348  			print_ipv6_addr(ab, &=
-a->u.net->v6info.saddr,
-48c62af68a403e Eric Paris         2012-04-02  349  					a->u.net->sport,
-6e837fb152410e Etienne Basset     2009-04-08  350  					"saddr", "src");
-48c62af68a403e Eric Paris         2012-04-02  351  			print_ipv6_addr(ab, &=
-a->u.net->v6info.daddr,
-48c62af68a403e Eric Paris         2012-04-02  352  					a->u.net->dport,
-6e837fb152410e Etienne Basset     2009-04-08  353  					"daddr", "dest");
-6e837fb152410e Etienne Basset     2009-04-08  354  			break;
-6e837fb152410e Etienne Basset     2009-04-08  355  		}
-48c62af68a403e Eric Paris         2012-04-02  356  		if (a->u.net->netif > =
-0) {
-6e837fb152410e Etienne Basset     2009-04-08  357  			struct net_device *de=
-v;
-6e837fb152410e Etienne Basset     2009-04-08  358 =20
-6e837fb152410e Etienne Basset     2009-04-08  359  			/* NOTE: we always us=
-e init's namespace */
-48c62af68a403e Eric Paris         2012-04-02  360  			dev =3D dev_get_by_in=
-dex(&init_net, a->u.net->netif);
-6e837fb152410e Etienne Basset     2009-04-08  361  			if (dev) {
-6e837fb152410e Etienne Basset     2009-04-08  362  				audit_log_format(ab,=
- " netif=3D%s", dev->name);
-6e837fb152410e Etienne Basset     2009-04-08  363  				dev_put(dev);
-6e837fb152410e Etienne Basset     2009-04-08  364  			}
-6e837fb152410e Etienne Basset     2009-04-08  365  		}
-6e837fb152410e Etienne Basset     2009-04-08  366  		break;
-6e837fb152410e Etienne Basset     2009-04-08  367  #ifdef CONFIG_KEYS
-6e837fb152410e Etienne Basset     2009-04-08  368  	case LSM_AUDIT_DATA_KEY:
-6e837fb152410e Etienne Basset     2009-04-08  369  		audit_log_format(ab, "=
- key_serial=3D%u", a->u.key_struct.key);
-6e837fb152410e Etienne Basset     2009-04-08  370  		if (a->u.key_struct.ke=
-y_desc) {
-6e837fb152410e Etienne Basset     2009-04-08  371  			audit_log_format(ab, =
-" key_desc=3D");
-6e837fb152410e Etienne Basset     2009-04-08  372  			audit_log_untrustedst=
-ring(ab, a->u.key_struct.key_desc);
-6e837fb152410e Etienne Basset     2009-04-08  373  		}
-6e837fb152410e Etienne Basset     2009-04-08  374  		break;
-6e837fb152410e Etienne Basset     2009-04-08  375  #endif
-dd8dbf2e6880e3 Eric Paris         2009-11-03  376  	case LSM_AUDIT_DATA_KMO=
-D:
-dd8dbf2e6880e3 Eric Paris         2009-11-03  377  		audit_log_format(ab, "=
- kmod=3D");
-dd8dbf2e6880e3 Eric Paris         2009-11-03  378  		audit_log_untrustedstr=
-ing(ab, a->u.kmod_name);
-dd8dbf2e6880e3 Eric Paris         2009-11-03  379  		break;
-cfc4d882d41780 Daniel Jurgens     2017-05-19  380  	case LSM_AUDIT_DATA_IBP=
-KEY: {
-cfc4d882d41780 Daniel Jurgens     2017-05-19  381  		struct in6_addr sbn_pf=
-x;
-cfc4d882d41780 Daniel Jurgens     2017-05-19  382 =20
-cfc4d882d41780 Daniel Jurgens     2017-05-19  383  		memset(&sbn_pfx.s6_add=
-r, 0,
-cfc4d882d41780 Daniel Jurgens     2017-05-19  384  		       sizeof(sbn_pfx.=
-s6_addr));
-cfc4d882d41780 Daniel Jurgens     2017-05-19  385  		memcpy(&sbn_pfx.s6_add=
-r, &a->u.ibpkey->subnet_prefix,
-cfc4d882d41780 Daniel Jurgens     2017-05-19  386  		       sizeof(a->u.ibp=
-key->subnet_prefix));
-cfc4d882d41780 Daniel Jurgens     2017-05-19  387  		audit_log_format(ab, "=
- pkey=3D0x%x subnet_prefix=3D%pI6c",
-cfc4d882d41780 Daniel Jurgens     2017-05-19  388  				 a->u.ibpkey->pkey, =
-&sbn_pfx);
-cfc4d882d41780 Daniel Jurgens     2017-05-19  389  		break;
-cfc4d882d41780 Daniel Jurgens     2017-05-19  390  	}
-ab861dfca1652a Daniel Jurgens     2017-05-19  391  	case LSM_AUDIT_DATA_IBE=
-NDPORT:
-ab861dfca1652a Daniel Jurgens     2017-05-19  392  		audit_log_format(ab, "=
- device=3D%s port_num=3D%u",
-ab861dfca1652a Daniel Jurgens     2017-05-19  393  				 a->u.ibendport->dev=
-_name,
-ab861dfca1652a Daniel Jurgens     2017-05-19  394  				 a->u.ibendport->por=
-t);
-ab861dfca1652a Daniel Jurgens     2017-05-19  395  		break;
-59438b46471ae6 Stephen Smalley    2019-11-27  396  	case LSM_AUDIT_DATA_LOC=
-KDOWN:
-f1d9b23cabc61e Richard Guy Briggs 2020-07-13  397  		audit_log_format(ab, "=
- lockdown_reason=3D\"%s\"",
-f1d9b23cabc61e Richard Guy Briggs 2020-07-13  398  				 lockdown_reasons[a-=
->u.reason]);
-59438b46471ae6 Stephen Smalley    2019-11-27  399  		break;
-c29722fad4aabb Christian G=C3=B6ttsche 2022-03-08  400  	case LSM_AUDIT_DAT=
-A_ANONINODE:
-c29722fad4aabb Christian G=C3=B6ttsche 2022-03-08  401  		audit_log_format(=
-ab, " anonclass=3D%s", a->u.anonclass);
-c29722fad4aabb Christian G=C3=B6ttsche 2022-03-08  402  		break;
-2ef6fc99e0d922 Thi=C3=A9baud Weksteen  2024-12-05  403  	case LSM_AUDIT_DAT=
-A_NLMSGTYPE:
-2ef6fc99e0d922 Thi=C3=A9baud Weksteen  2024-12-05  404  		audit_log_format(=
-ab, " nl-msgtype=3D%hu", a->u.nlmsg_type);
-2ef6fc99e0d922 Thi=C3=A9baud Weksteen  2024-12-05  405  		break;
-1f2f7a1fd1fc34 Micka=C3=ABl Sala=C3=BCn     2026-07-26  406  	case LSM_AUDI=
-T_DATA_NS:
-1f2f7a1fd1fc34 Micka=C3=ABl Sala=C3=BCn     2026-07-26  407  		audit_log_fo=
-rmat(ab, " namespace_type=3D0x%x namespace_id=3D%llu",
-1f2f7a1fd1fc34 Micka=C3=ABl Sala=C3=BCn     2026-07-26  408  				 a->u.ns.n=
-s_type, a->u.ns.ns_id);
-1f2f7a1fd1fc34 Micka=C3=ABl Sala=C3=BCn     2026-07-26  409  		break;
-6e837fb152410e Etienne Basset     2009-04-08  410  	} /* switch (a->type) */
-6e837fb152410e Etienne Basset     2009-04-08  411  }
-6e837fb152410e Etienne Basset     2009-04-08  412 =20
-
-:::::: The code at line 185 was first introduced by commit
-:::::: 07f62eb66c6626aa5653a0fcb34c9c040d0bd032 LSM: BUILD_BUG_ON if the co=
-mmon_audit_data union ever grows
-
-:::::: TO: Eric Paris <eparis@redhat.com>
-:::::: CC: Eric Paris <eparis@redhat.com>
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  670  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  671  /* convert load instructions that access fields of a context type into a
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  672   * sequence of instructions that access fields of the underlying structure:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  673   *     struct __sk_buff    -> struct sk_buff
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  674   *     struct bpf_sock_ops -> struct sock
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  675   */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  676  int bpf_convert_ctx_accesses(struct bpf_verifier_env *env)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  677  {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  678  	struct bpf_subprog_info *subprogs = env->subprog_info;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  679  	const struct bpf_verifier_ops *ops = env->ops;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  680  	int i, cnt, size, ctx_field_size, ret, delta = 0, epilogue_cnt = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  681  	const int insn_cnt = env->prog->len;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  682  	struct bpf_insn *epilogue_buf = env->epilogue_buf;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  683  	struct bpf_insn *insn_buf = env->insn_buf;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  684  	struct bpf_insn *insn;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  685  	u32 target_size, size_default, off;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  686  	struct bpf_prog *new_prog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  687  	enum bpf_access_type type;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  688  	bool is_narrower_load;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  689  	int epilogue_idx = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  690  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  691  	if (ops->gen_epilogue) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  692  		epilogue_cnt = ops->gen_epilogue(epilogue_buf, env->prog,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  693  						 -(subprogs[0].stack_depth + 8));
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  694  		if (epilogue_cnt >= INSN_BUF_SIZE) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  695  			verifier_bug(env, "epilogue is too long");
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  696  			return -EFAULT;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  697  		} else if (epilogue_cnt) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  698  			/* Save the ARG_PTR_TO_CTX for the epilogue to use */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  699  			cnt = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  700  			subprogs[0].stack_depth += 8;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  701  			insn_buf[cnt++] = BPF_STX_MEM(BPF_DW, BPF_REG_FP, BPF_REG_1,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  702  						      -subprogs[0].stack_depth);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  703  			insn_buf[cnt++] = env->prog->insnsi[0];
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  704  			new_prog = bpf_patch_insn_data(env, 0, insn_buf, cnt);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  705  			if (!new_prog)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  706  				return -ENOMEM;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  707  			env->prog = new_prog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  708  			delta += cnt - 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  709  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  710  			ret = add_kfunc_in_insns(env, epilogue_buf, epilogue_cnt - 1);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  711  			if (ret < 0)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  712  				return ret;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  713  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  714  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  715  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  716  	if (ops->gen_prologue || env->seen_direct_write) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  717  		if (!ops->gen_prologue) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  718  			verifier_bug(env, "gen_prologue is null");
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  719  			return -EFAULT;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  720  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  721  		cnt = ops->gen_prologue(insn_buf, env->seen_direct_write,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  722  					env->prog);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  723  		if (cnt >= INSN_BUF_SIZE) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  724  			verifier_bug(env, "prologue is too long");
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  725  			return -EFAULT;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  726  		} else if (cnt) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  727  			new_prog = bpf_patch_insn_data(env, 0, insn_buf, cnt);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  728  			if (!new_prog)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  729  				return -ENOMEM;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  730  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  731  			env->prog = new_prog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  732  			delta += cnt - 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  733  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  734  			ret = add_kfunc_in_insns(env, insn_buf, cnt - 1);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  735  			if (ret < 0)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  736  				return ret;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  737  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  738  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  739  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  740  	if (delta)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  741  		WARN_ON(adjust_jmp_off(env->prog, 0, delta));
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  742  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  743  	if (bpf_prog_is_offloaded(env->prog->aux))
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  744  		return 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  745  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  746  	insn = env->prog->insnsi + delta;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  747  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  748  	for (i = 0; i < insn_cnt; i++, insn++) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  749  		bpf_convert_ctx_access_t convert_ctx_access;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  750  		u8 mode;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  751  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  752  		if (env->insn_aux_data[i + delta].nospec) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  753  			WARN_ON_ONCE(env->insn_aux_data[i + delta].alu_state);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  754  			struct bpf_insn *patch = insn_buf;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  755  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  756  			*patch++ = BPF_ST_NOSPEC();
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  757  			*patch++ = *insn;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  758  			cnt = patch - insn_buf;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  759  			new_prog = bpf_patch_insn_data(env, i + delta, insn_buf, cnt);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  760  			if (!new_prog)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  761  				return -ENOMEM;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  762  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  763  			delta    += cnt - 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  764  			env->prog = new_prog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  765  			insn      = new_prog->insnsi + i + delta;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  766  			/* This can not be easily merged with the
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  767  			 * nospec_result-case, because an insn may require a
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  768  			 * nospec before and after itself. Therefore also do not
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  769  			 * 'continue' here but potentially apply further
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  770  			 * patching to insn. *insn should equal patch[1] now.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  771  			 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  772  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  773  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  774  		if (insn->code == (BPF_LDX | BPF_MEM | BPF_B) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  775  		    insn->code == (BPF_LDX | BPF_MEM | BPF_H) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  776  		    insn->code == (BPF_LDX | BPF_MEM | BPF_W) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  777  		    insn->code == (BPF_LDX | BPF_MEM | BPF_DW) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  778  		    insn->code == (BPF_LDX | BPF_MEMSX | BPF_B) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  779  		    insn->code == (BPF_LDX | BPF_MEMSX | BPF_H) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  780  		    insn->code == (BPF_LDX | BPF_MEMSX | BPF_W)) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  781  			type = BPF_READ;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  782  		} else if (insn->code == (BPF_STX | BPF_MEM | BPF_B) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  783  			   insn->code == (BPF_STX | BPF_MEM | BPF_H) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  784  			   insn->code == (BPF_STX | BPF_MEM | BPF_W) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  785  			   insn->code == (BPF_STX | BPF_MEM | BPF_DW) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  786  			   insn->code == (BPF_ST | BPF_MEM | BPF_B) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  787  			   insn->code == (BPF_ST | BPF_MEM | BPF_H) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  788  			   insn->code == (BPF_ST | BPF_MEM | BPF_W) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  789  			   insn->code == (BPF_ST | BPF_MEM | BPF_DW)) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  790  			type = BPF_WRITE;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  791  		} else if ((insn->code == (BPF_STX | BPF_ATOMIC | BPF_B) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  792  			    insn->code == (BPF_STX | BPF_ATOMIC | BPF_H) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  793  			    insn->code == (BPF_STX | BPF_ATOMIC | BPF_W) ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  794  			    insn->code == (BPF_STX | BPF_ATOMIC | BPF_DW)) &&
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  795  			   env->insn_aux_data[i + delta].ptr_type == PTR_TO_ARENA) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  796  			insn->code = BPF_STX | BPF_PROBE_ATOMIC | BPF_SIZE(insn->code);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  797  			env->prog->aux->num_exentries++;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  798  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  799  		} else if (insn->code == (BPF_JMP | BPF_EXIT) &&
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  800  			   epilogue_cnt &&
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  801  			   i + delta < subprogs[1].start) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  802  			/* Generate epilogue for the main prog */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  803  			if (epilogue_idx) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  804  				/* jump back to the earlier generated epilogue */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  805  				insn_buf[0] = BPF_JMP32_A(epilogue_idx - i - delta - 1);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  806  				cnt = 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  807  			} else {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12 @808  				memcpy(insn_buf, epilogue_buf,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  809  				       epilogue_cnt * sizeof(*epilogue_buf));
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  810  				cnt = epilogue_cnt;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  811  				/* epilogue_idx cannot be 0. It must have at
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  812  				 * least one ctx ptr saving insn before the
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  813  				 * epilogue.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  814  				 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  815  				epilogue_idx = i + delta;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  816  			}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  817  			goto patch_insn_buf;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  818  		} else {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  819  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  820  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  821  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  822  		if (type == BPF_WRITE &&
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  823  		    env->insn_aux_data[i + delta].nospec_result) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  824  			/* nospec_result is only used to mitigate Spectre v4 and
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  825  			 * to limit verification-time for Spectre v1.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  826  			 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  827  			struct bpf_insn *patch = insn_buf;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  828  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  829  			*patch++ = *insn;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  830  			*patch++ = BPF_ST_NOSPEC();
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  831  			cnt = patch - insn_buf;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  832  			new_prog = bpf_patch_insn_data(env, i + delta, insn_buf, cnt);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  833  			if (!new_prog)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  834  				return -ENOMEM;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  835  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  836  			delta    += cnt - 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  837  			env->prog = new_prog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  838  			insn      = new_prog->insnsi + i + delta;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  839  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  840  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  841  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  842  		switch ((int)env->insn_aux_data[i + delta].ptr_type) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  843  		case PTR_TO_CTX:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  844  			if (!ops->convert_ctx_access)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  845  				continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  846  			convert_ctx_access = ops->convert_ctx_access;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  847  			break;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  848  		case PTR_TO_SOCKET:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  849  		case PTR_TO_SOCK_COMMON:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  850  			convert_ctx_access = bpf_sock_convert_ctx_access;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  851  			break;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  852  		case PTR_TO_TCP_SOCK:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  853  			convert_ctx_access = bpf_tcp_sock_convert_ctx_access;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  854  			break;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  855  		case PTR_TO_XDP_SOCK:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  856  			convert_ctx_access = bpf_xdp_sock_convert_ctx_access;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  857  			break;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  858  		case PTR_TO_BTF_ID:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  859  		case PTR_TO_BTF_ID | PTR_UNTRUSTED:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  860  		/* PTR_TO_BTF_ID | MEM_ALLOC always has a valid lifetime, unlike
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  861  		 * PTR_TO_BTF_ID, and an active ref_obj_id, but the same cannot
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  862  		 * be said once it is marked PTR_UNTRUSTED, hence we must handle
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  863  		 * any faults for loads into such types. BPF_WRITE is disallowed
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  864  		 * for this case.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  865  		 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  866  		case PTR_TO_BTF_ID | MEM_ALLOC | PTR_UNTRUSTED:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  867  		case PTR_TO_MEM | MEM_RDONLY | PTR_UNTRUSTED:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  868  			if (type == BPF_READ) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  869  				if (BPF_MODE(insn->code) == BPF_MEM)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  870  					insn->code = BPF_LDX | BPF_PROBE_MEM |
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  871  						     BPF_SIZE((insn)->code);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  872  				else
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  873  					insn->code = BPF_LDX | BPF_PROBE_MEMSX |
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  874  						     BPF_SIZE((insn)->code);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  875  				env->prog->aux->num_exentries++;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  876  			}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  877  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  878  		case PTR_TO_ARENA:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  879  			if (BPF_MODE(insn->code) == BPF_MEMSX) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  880  				if (!bpf_jit_supports_insn(insn, true)) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  881  					verbose(env, "sign extending loads from arena are not supported yet\n");
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  882  					return -EOPNOTSUPP;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  883  				}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  884  				insn->code = BPF_CLASS(insn->code) | BPF_PROBE_MEM32SX | BPF_SIZE(insn->code);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  885  			} else {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  886  				insn->code = BPF_CLASS(insn->code) | BPF_PROBE_MEM32 | BPF_SIZE(insn->code);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  887  			}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  888  			env->prog->aux->num_exentries++;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  889  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  890  		default:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  891  			continue;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  892  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  893  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  894  		ctx_field_size = env->insn_aux_data[i + delta].ctx_field_size;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  895  		size = BPF_LDST_BYTES(insn);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  896  		mode = BPF_MODE(insn->code);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  897  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  898  		/* If the read access is a narrower load of the field,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  899  		 * convert to a 4/8-byte load, to minimum program type specific
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  900  		 * convert_ctx_access changes. If conversion is successful,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  901  		 * we will apply proper mask to the result.
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  902  		 */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  903  		is_narrower_load = size < ctx_field_size;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  904  		size_default = bpf_ctx_off_adjust_machine(ctx_field_size);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  905  		off = insn->off;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  906  		if (is_narrower_load) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  907  			u8 size_code;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  908  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  909  			if (type == BPF_WRITE) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  910  				verifier_bug(env, "narrow ctx access misconfigured");
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  911  				return -EFAULT;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  912  			}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  913  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  914  			size_code = BPF_H;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  915  			if (ctx_field_size == 4)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  916  				size_code = BPF_W;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  917  			else if (ctx_field_size == 8)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  918  				size_code = BPF_DW;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  919  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  920  			insn->off = off & ~(size_default - 1);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  921  			insn->code = BPF_LDX | BPF_MEM | size_code;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  922  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  923  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  924  		target_size = 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  925  		cnt = convert_ctx_access(type, insn, insn_buf, env->prog,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  926  					 &target_size);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  927  		if (cnt == 0 || cnt >= INSN_BUF_SIZE ||
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  928  		    (ctx_field_size && !target_size)) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  929  			verifier_bug(env, "error during ctx access conversion (%d)", cnt);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  930  			return -EFAULT;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  931  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  932  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  933  		if (is_narrower_load && size < target_size) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  934  			u8 shift = bpf_ctx_narrow_access_offset(
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  935  				off, size, size_default) * 8;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  936  			if (shift && cnt + 1 >= INSN_BUF_SIZE) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  937  				verifier_bug(env, "narrow ctx load misconfigured");
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  938  				return -EFAULT;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  939  			}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  940  			if (ctx_field_size <= 4) {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  941  				if (shift)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  942  					insn_buf[cnt++] = BPF_ALU32_IMM(BPF_RSH,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  943  									insn->dst_reg,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  944  									shift);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  945  				insn_buf[cnt++] = BPF_ALU32_IMM(BPF_AND, insn->dst_reg,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  946  								(1 << size * 8) - 1);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  947  			} else {
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  948  				if (shift)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  949  					insn_buf[cnt++] = BPF_ALU64_IMM(BPF_RSH,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  950  									insn->dst_reg,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  951  									shift);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  952  				insn_buf[cnt++] = BPF_ALU32_IMM(BPF_AND, insn->dst_reg,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  953  								(1ULL << size * 8) - 1);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  954  			}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  955  		}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  956  		if (mode == BPF_MEMSX)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  957  			insn_buf[cnt++] = BPF_RAW_INSN(BPF_ALU64 | BPF_MOV | BPF_X,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  958  						       insn->dst_reg, insn->dst_reg,
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  959  						       size * 8, 0);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  960  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  961  patch_insn_buf:
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  962  		new_prog = bpf_patch_insn_data(env, i + delta, insn_buf, cnt);
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  963  		if (!new_prog)
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  964  			return -ENOMEM;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  965  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  966  		delta += cnt - 1;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  967  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  968  		/* keep walking new program and skip insns we just inserted */
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  969  		env->prog = new_prog;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  970  		insn      = new_prog->insnsi + i + delta;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  971  	}
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  972  
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  973  	return 0;
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  974  }
+449f08fa59dda5 Alexei Starovoitov 2026-04-12  975  
 
 --
 0-DAY CI Kernel Test Service
