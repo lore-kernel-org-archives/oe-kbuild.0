@@ -1,174 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49620322DB7
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 19:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786650917; cv=none; b=FS65phjj0NHVkERi3Azqpo2Kze+SmJSymb9NmLL3N/8L6tmQMNLRKdIniNV6UYLWaEA74XfQQrwuWA0UmiQSaumTGvbt1ufi8RxTniYDUBfrAYo4v8nEkU/kcv3z0EC5Y/C4EhP4Y44zEij55zWUEhxD1/u3/VDfig+h3d3oets=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786650917; c=relaxed/simple;
-	bh=jHATSHkDvE+3Cb2HQXJw7xy/RJUrZUD9Vnfpugwb6ZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BES/8VNaCj/0y5qS1DcKJe4vivihsKVOpjZ0nASqFnwf4MMlZ20iRtTpKXDfQ8gZGzJpjZ4Y+k8KtN8urjng05JEjd/3fIuyiXcHxenFm8CdfDiH5fjfLbPrqbIwlhw8ZP8YvM8UOERHs+hHj/ZZ7rmTrXn7iL0fnV88oK5n09c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f4ZChbvQ; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA97E3A7F7C
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 20:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786652489; cv=pass; b=Awr+SXRtX4sazxdotJ94dkSt40kh7kQH9WFZ+RiPlHHpmtnnKTT1EoaSDPK7Ri505FA4H4pMmgbfJwJK/2ucVK7rFcdW0j98j1JPnoIf6wkku4CwkvP6N/dlOk2AOel/Ai9LSGgLWYXD2XQbfC4o2Z+g9CGeyXZCyN6r47ALQWU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786652489; c=relaxed/simple;
+	bh=/EUsxCA39+lm4qZz/MBCSURD/yQCFJ9Pw3mnXV58pWM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A6zaZ/SugMpU8a9Zwk57NlPQtIckMWlLBHiOo5rEkBKQnkolS2YpjQozDwMBVMfxrcUClApfUTYEhFT8mPnOiFRuUEsorlRQl4sv3/Wo7tvdFLjVGC+cVW51gbqcfbWzN0a01LSCSPKMbcIC84IY0n4v1/QihmmRm68wdMs676A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8vZqrJm; arc=pass smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f4ZChbvQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786650916; x=1818186916;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jHATSHkDvE+3Cb2HQXJw7xy/RJUrZUD9Vnfpugwb6ZI=;
-  b=f4ZChbvQu3wvKE9D/oTIeuCU7/5sHWmSP5Psbf3Ly85OibTxLA4BuVTG
-   +f2POSPjNntn3PSTTjE6axtwueWyqa9TAv0h6Nvjo0jz1wmUn3lcSPzvJ
-   2N/mjyWWtmLEZAMGbHVntdPjJgqlK20OCQXuO11lgY6u04NWBi+xufK5I
-   NsSmUSHrnzQZ+iVE+95frTA3C6UfI91gp7RY6BBBgYIkV/elCEHWm/pPQ
-   9sXaV7xuGFyfyR5MIUikKuMy+IWw22nqxazkrz8uF54XbmZHe3ZkYMqyC
-   MvBxWx7NdJ2p/xDM+I/UpxZZyMe8XKC4Quoci94nAVTl/b6rm3dB0Kgh4
-   w==;
-X-CSE-ConnectionGUID: vXrJv5X4RESnVyL3thXQyw==
-X-CSE-MsgGUID: rTS4XHrZTo263uapWGst4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87095876"
-X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="87095876"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 12:55:15 -0700
-X-CSE-ConnectionGUID: EJNda+gvRxeCA0jfn4bU2A==
-X-CSE-MsgGUID: O5FahzJQQdS0SO90OXd92Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="302277008"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Aug 2026 12:55:14 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wubWB-00000000WQu-3Gm1;
-	Thu, 13 Aug 2026 19:55:11 +0000
-Date: Fri, 14 Aug 2026 03:54:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [gerg-m68knommu:dt 2/22] drivers/tty/serial/mcf.c:586:25:
- sparse: sparse: unsigned value that used to be signed checked against zero?
-Message-ID: <202608140358.D3HT9v2t-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8vZqrJm"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-6688acd1a51so445221d50.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 13:21:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786652486; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rIHsZxTT0/LmrW7JjewHep4HBBPrDuTqMCZXFgCWu6uSx4iIogYEOYFMIhJea3lTp2
+         3EorvMKahxh9VcsPISIR8iWX7vz0txBvz1nFB7JRWVv+krCW+kb1IgncW7FrGfKub+2D
+         NT9bPokNnEv8YOJIFjcriGQ7RpveaRFLurQqtsJWnXokQHOewtRotIiJtFqhJPAKsa5/
+         dhsaJt8LV6cXOUBqbM6IVk066DHr4Yz1Wg2P9grFmmgr1+joWvJfTtU2IprX8gREOz5U
+         4kYGLdoVW+mE3pcI9KOMeLpPSzIdRCR3B86PkGaYKlleq3nOpPlN/FPaayGjQsL4B1AL
+         C8Ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
+        fh=gYQLfv6azk0Jg/DB0JkPC9UFN2ltpTigo+A6/ehXDww=;
+        b=i1xZChyCbVvSq0QJFAAKg88Bh7DtT2OTdL0GJd45y6zVC7lMJDCRxerWywHbPMgD7N
+         DVwGPw+OHKR/nR+MiWJUiEjHLZs3UMZ37BmKOIIsIU8XOIVkjIn4oZ6sRvCmBnVedQeK
+         aOUbHQYU1hmOhb2ellwbeorkTW4I7zL0ITWZOpfBu9vdu7ovNemr/gz6rak6oFsatDZ6
+         8XYoJVy+Uo1Sp69ADBz0gOXtvCG9u5nRmP2uHOM82g4Jz1GJh8+pP3OqWrbaWerM5Oag
+         Jt3nIVT1hsUI5129SSQmAxRXmLdO6hhO35a0BqwgEIDMdiLZG48gCLmf+INDU+PZcjf7
+         k9oQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786652486; x=1787257286; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
+        b=g8vZqrJmlMFRhMlHeNxnO56l4ZPv+ulgO1tohZKeDeSoscygiHdAe2Aavyip3AbApq
+         7gCs9wb1pDaE4rEe5OwqlIxD0mHvG2na4tg27N6sAgXDiFoaG5lS2q8Ut4wjxLoLsxnj
+         qXDEa2g8UFB04Fosy4zYYVnHIt9WFqmJRTolVAlJlmvOvkQJKvHV3hXoMiJe65wOn7Z8
+         2cL/2/4PpjO7tivoRHIguKnRY3gx5j+mtCn6G6Wv34kU887fJ5P5ZIS/vazS/b4awmND
+         qVlv6UddQcyCczKXwoMlBljkOc+NxpYx3ca7Owd+ptZViMlcbxIaHT1VJLiOkTL1fa8d
+         AFAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786652486; x=1787257286;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9LYBk4sPgx1JAH4KgQ0V1nTggAqg7YV53F/Ftprz+uc=;
+        b=nWlfKahlNf68Gnajgm9omd7zG4y2qln8v2eZOwZhGdLurP5Fuz577j4deTr5FU8f5H
+         tzs5RMIeks0giEXLAFglP+s5vXzOIP7U4Rcw6AufH636DxinuQavX8+HMi7CUpa3KdQz
+         KrL2cuySQbzsBoZ+S7mMDmzEPv6oLSB0wAeiAxIetN1y3EO/BwE1LcLnxhZgRQBGz9Ht
+         dhTda+fVE8gcpW8wChLMt1lXKNgpw7P/bSrZHD5YiGhJYEtkdDy4UiXO4pZWlwlxNglI
+         ge0b7fNj4pUilccQt+d6mVASZ4UDm4d+dzIY8KK7LKEPtmtNhyLwfD0vPf4a4xvLOSmK
+         8MEg==
+X-Gm-Message-State: AOJu0YxPnecgAJ15ToIEnO1tG1JehPnzvmvAGExl39+ZYa9CmFkBQb5x
+	OZ6nhqfwEJFt3vyJibSKzygytmlfMZOZFbIMBbAb1max/bBXXWTiGPxOY+o3Ryl9UNoyTVmd8vW
+	NiBFfoQ/hVyHlVpAoVjIs2eJL2ZQ2Tsw=
+X-Gm-Gg: AR+sD13oK+weF2hpbrQSW//g2kpv4powaeWSBCEyW4lKFlSjQrTwPyLeDp10/sRnQRM
+	zBY5/0udr9XRYywAwinAv06ok6Yiz5V+94wylTvlFWnPfWixNx2IBs3ZbZVUvpUQzbEx8JeMmEg
+	+qmd+p2dXsLoRNHRG9El2RTHNuVJQDqTuUYLvEiXbvknUBNmGJTM9y2DCUXRugDq2RduEgqL0iD
+	saqBHvTglkosqQBvCIPQN/yMQX+cJbCI4CbI6bmFUUmVVLzwG3/TH257eWgjNCwDSFrQIneWowH
+	HxyhlG1L9SWNgmUBc09ly6sop6zjwKOj7/kEIkenvrJThR54gQ9ZfD+AQWJp31IOJfYBkPyDYaV
+	2elg=
+X-Received: by 2002:a05:690e:43c7:b0:669:8d7d:a5c8 with SMTP id
+ 956f58d0204a3-66c72ebeedbmr297462d50.54.1786652486534; Thu, 13 Aug 2026
+ 13:21:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <202608140244.f2Omwf4y-lkp@intel.com>
+In-Reply-To: <202608140244.f2Omwf4y-lkp@intel.com>
+From: Michael Bommarito <michael.bommarito@gmail.com>
+Date: Thu, 13 Aug 2026 16:21:15 -0400
+X-Gm-Features: AUfX_mwUH8rppqOLlLKZe5EqV-Qv_xkpyD0Cl5wZIq7dIz9NFmE9CN4eGxZAk4E
+Message-ID: <CAJJ9bXy7KXcumxRVg0MzcYMt5Dw2txzzUKJryDE08cLfBfnr6A@mail.gmail.com>
+Subject: Re: net/sctp/socket.c:7036 sctp_getsockopt_peer_auth_chunks() warn:
+ potential user controlled sizeof overflow '8 + num_chunks' '8 + 0-65531,4294967292-u32max'
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-::::::=20
-:::::: Manual check reason: "low confidence static check warning: drivers/t=
-ty/serial/mcf.c:586:25: sparse: sparse: unsigned value that used to be sign=
-ed checked against zero?"
-::::::=20
+On Thu, Aug 13, 2026 at 3:05=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
+rote:
+> It doesn't really cause a problem these days because copy_to_user()
+> doesn't accept sizes more than INT_MAX but it would trigger a warning.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-m68k@lists.linux-m68k.org
-CC: uclinux-dev@uclinux.org
-TO: Greg Ungerer <gerg@linux-m68k.org>
+Thanks, good catch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git =
-dt
-head:   76a231d031905d3bbc982b9a3d92619ce917e306
-commit: 191a962ceb628c9ba07bb6d5687820afaa2823fb [2/22] serial: mcf: conver=
-t to use proper platform resources
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: m68k-randconfig-r122-20260813 (https://download.01.org/0day-ci/arch=
-ive/20260814/202608140358.D3HT9v2t-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260814/202608140358.D3HT9v2t-lkp@intel.com/reproduce)
+Claude noted that sctp_getsockopt_local_auth_chunks might also be
+worth fixing.  If no one objects, I'll address both sides in a set.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608140358.D3HT9v2t-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/tty/serial/mcf.c:586:25: sparse: sparse: unsigned value that use=
-d to be signed checked against zero?
-   drivers/tty/serial/mcf.c:585:37: sparse: signed value source
-
-vim +586 drivers/tty/serial/mcf.c
-
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  570 =
-=20
-9671f09921d93e drivers/tty/serial/mcf.c Bill Pemberton    2012-11-19  571  =
-static int mcf_probe(struct platform_device *pdev)
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  572  {
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  573  =
-	struct uart_port *port;
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  574  =
-	struct resource *res;
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  575 =
-=20
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  576  =
-	if (pdev->id >=3D MCF_MAXPORTS)
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  577  =
-		return -ENODEV;
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  578  =
-	port =3D &mcf_ports[pdev->id].port;
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  579 =
-=20
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  580  =
-	port->membase =3D devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  581  =
-	if (IS_ERR(port->membase))
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  582  =
-		return PTR_ERR(port->membase);
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  583  =
-	port->mapbase =3D res->start;
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  584 =
-=20
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  585  =
-	port->irq =3D platform_get_irq(pdev, 0);
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15 @586  =
-	if (port->irq < 0)
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  587  =
-		return port->irq;
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  588 =
-=20
-191a962ceb628c drivers/tty/serial/mcf.c Greg Ungerer      2025-01-15  589  =
-	port->line =3D pdev->id;
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  590  =
-	port->type =3D PORT_MCF;
-201d8975ae5ada drivers/tty/serial/mcf.c Greg Ungerer      2015-01-08  591  =
-	port->dev =3D &pdev->dev;
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  592  =
-	port->iotype =3D SERIAL_IO_MEM;
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  593  =
-	port->uartclk =3D MCF_BUSCLK;
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  594  =
-	port->ops =3D &mcf_uart_ops;
-5fda7a0e715c32 drivers/tty/serial/mcf.c Peter Hurley      2014-06-16  595  =
-	port->flags =3D UPF_BOOT_AUTOCONF;
-2fc0184dae7be5 drivers/tty/serial/mcf.c Ricardo Ribalda   2014-11-06  596  =
-	port->rs485_config =3D mcf_config_rs485;
-0139da50dc53f0 drivers/tty/serial/mcf.c Ilpo J=C3=A4rvinen     2022-07-04  =
-597  	port->rs485_supported =3D mcf_rs485_supported;
-4be87603b6dc9e drivers/tty/serial/mcf.c Angelo Dureghello 2020-10-02  598  =
-	port->has_sysrq =3D IS_ENABLED(CONFIG_SERIAL_MCF_CONSOLE);
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  599 =
-=20
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  600  =
-	uart_add_one_port(&mcf_driver, port);
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  601  =
-	return 0;
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  602  }
-49aa49bfd40d71 drivers/serial/mcf.c     Greg Ungerer      2007-10-23  603 =
-=20
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Mike
