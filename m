@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B885C4854F0
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 14:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68BFF38238C
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 16:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786633117; cv=none; b=qIOJPJIFbuDlqfb00tC11qk6+DIW9d0vxdapG6DKMBYTNAGs574uYy73SdM+HdiSYAoy98tha97aYxWButXiwnFXeYGEGAPK8+/cMiZxkgX/R1R0Nc5AHOg4BVxWTU5bnup6w7NE68/kESsMuJd+8RRTcGbg6hSJtTYeFi5SBsc=
+	t=1786639626; cv=none; b=GzStUPYUeXsPi5pd5AaBqztnYAAQm0K+Htd/vmABjNCBZO6SLKFHwp6rdrjJY97X/TFCTIIQKMlXOJtDQZY9h5OK0TveNrLXgw9BKR6vYrmakYAGm7N5t4MNhg7TLedPh+9spyykTRY+tJIf1bB+lBB/HeKaBwFIJRUv05hrnVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786633117; c=relaxed/simple;
-	bh=lQGlUke2Vz5fD+/J0+fp+RcTpcTA17w1I0zr4GBL50E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hrtt1RotkfMnE/icJRKZC+bpAnY1sqfVdxfk2exuL5wXCTTMXqbj5b2auNuzYp1sMFBAE3RwbXRoQ7XLgM6xs7yv0173j4kiypX84QqrMk/sYOeiLjZ8tgDxQf5PAB4Uki0FAN2Kxhg3sGhbEKJOId7qM/IMrZxvdzV1489h20g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krLm6NBJ; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1786639626; c=relaxed/simple;
+	bh=VNHNNpqzlWnNcd/b2rfEss5p/uK60VWCKsVnmqWRlUM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UId7DUABSYe9k3/afHsAXd54LsCXhXrUyh90dGhldPZPZTA74vAdUi2smFWBM0g4HTwjbV+qEOyNmH8VMgOozFi+q0b5QkSrO5HSFNYJAuJV10/W4gda0j90SZBwf4q2gZjGyDQ2yrQVF0HSlE7W3iyw2OqLJ3zdosru5n1fnd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hBzZpdLJ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krLm6NBJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hBzZpdLJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786633105; x=1818169105;
+  t=1786639624; x=1818175624;
   h=date:from:to:cc:subject:message-id;
-  bh=lQGlUke2Vz5fD+/J0+fp+RcTpcTA17w1I0zr4GBL50E=;
-  b=krLm6NBJ55kj9n2uP7phFkC4IokOPSY5O6Ug45655XKLAmjsH8Wsk93a
-   M7B2iqvoj7xLVCm3ubmnYj+g67ySBnJLjcpOnlf+jzi0QmJrurgqt2J40
-   5RtPcOJ/xNA/4BxIvxGy+y6fpiDJYOJEP6xrgxlE0HrKZiIFmrEe3paAa
-   tTVcuDqZDUlT7RVhg+/D7439HJEEqR3f6Aqscv0Cj22pt3Az0Vvik2qd3
-   m0L6byXu+uXxG2cpdT0k8CCX8N7YJjIopGpJhZw3yQZar7Cl8Gh/0xCnL
-   6JTIdqEAYeHyW10tSH0o4ASS4n0MWPbDKcZY9osXgrEIh+P4Ozg+DcqlY
+  bh=VNHNNpqzlWnNcd/b2rfEss5p/uK60VWCKsVnmqWRlUM=;
+  b=hBzZpdLJDkbfF1R+eg472zo+XMn77NTMo7N386LATDGJtSZ9XS+rpmGs
+   x5htEr3jNqq9cSSryLvIM8jXVdPxFWO5QQcRheBx8c7Ve5N679tPUsR0q
+   fdIGvUnS6TZsM0i6ksfsBV9YPrfIcJos8wtf/BP5l9UTtzQ4LVnpKN5Zp
+   8f3xUvjj+wn3Tjv2//nbSJxtpCbcihuqsw3KCd9HWghXYAavvuD1MK3HG
+   c8JQsDP4c9fv8JtHEcCpbM/2+KV6g9mRYIHexP8xpeXhKhg9jaIgEdVHD
+   HDm2dgJCk/mI1GwFVWbSfPwNSU60kHNK4RGuxt/1MFaQcOwsCHs67r3w5
    g==;
-X-CSE-ConnectionGUID: eLzI7B6/Qq2hQl3yQ2FJ7w==
-X-CSE-MsgGUID: AXIF2GnBQLq/+MQ1ImCU9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="91084252"
+X-CSE-ConnectionGUID: 4fSfqwC/SmegodZYSQO7GQ==
+X-CSE-MsgGUID: H6LK0GFYRTqYQhWf8m7IZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="112764359"
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="91084252"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 07:58:20 -0700
-X-CSE-ConnectionGUID: g7HJ93cHQIGsOO2i/Snqeg==
-X-CSE-MsgGUID: fDTC8+tjT9+gw2fq9j+TPw==
+   d="scan'208";a="112764359"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 09:47:03 -0700
+X-CSE-ConnectionGUID: LMSSru/5SUyHzhdfcyOskA==
+X-CSE-MsgGUID: BtlP17u3QBOxBchDcvLl5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="264544568"
+   d="scan'208";a="262667084"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2026 07:58:19 -0700
+  by orviesa010.jf.intel.com with ESMTP; 13 Aug 2026 09:47:02 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuWsr-00000000VSY-2NQu;
-	Thu, 13 Aug 2026 14:58:17 +0000
-Date: Thu, 13 Aug 2026 22:57:29 +0800
+	id 1wuYa4-00000000Vsg-1UZy;
+	Thu, 13 Aug 2026 16:47:00 +0000
+Date: Fri, 14 Aug 2026 00:46:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 3961/14737]
- drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: Trying to use
- reserved word 'struct' as identifier
-Message-ID: <202608132233.JwmgEtk5-lkp@intel.com>
+Subject: drivers/gpu/drm/vkms/vkms_formats.c:533: warning: Excess
+ function parameter '__VA_ARGS__' description in 'READ_LINE_YUV_SEMIPLANAR'
+Message-ID: <202608140027.8oBCYtDW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,327 +60,103 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: Trying to use reserved word 'struct' as identifier"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Louis-Chauvet/drm-vkms-Create-helpers-macro-to-avoid-code-duplication-in-format-callbacks/20260813-163823, commit: 42090f8d9b7e32b8d5bea5a2ed24c16d728e564a"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Shuicheng Lin <shuicheng.lin@intel.com>
-CC: Stuart Summers <stuart.summers@intel.com>
+TO: Louis Chauvet <louis.chauvet@bootlin.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   28d012efb4327f9c75d5e042a7c91e9a542efa98
-commit: 73c5a253068e8cdf975941a14f032e351730a396 [3961/14737] drm/xe/configfs: Add enable_multi_queue attribute
-:::::: branch date: 21 hours ago
-:::::: commit date: 5 weeks ago
-config: i386-randconfig-063-20260812 (https://download.01.org/0day-ci/archive/20260813/202608132233.JwmgEtk5-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260813/202608132233.JwmgEtk5-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-vkms-Create-helpers-macro-to-avoid-code-duplication-in-format-callbacks/20260813-163823
+head:   ab2b2459363297136691da9f09bbbb7713986659
+commit: 42090f8d9b7e32b8d5bea5a2ed24c16d728e564a drm/vkms: Create helper macro for YUV formats
+date:   8 hours ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260814/202608140027.8oBCYtDW-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140027.8oBCYtDW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608132233.JwmgEtk5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608140027.8oBCYtDW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got &
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Trying to use reserved word 'void' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got 1
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Trying to use reserved word 'void' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got &&
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:393:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got &
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Trying to use reserved word 'void' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got 1
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Trying to use reserved word 'void' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got &&
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:397:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got &
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Trying to use reserved word 'void' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got 1
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Trying to use reserved word 'void' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got &&
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:401:13: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:13: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: undefined identifier 'gt'
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: undefined identifier 'gt'
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: got pci_dev
->> drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: Trying to use reserved word 'struct' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:411:49: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:415:37: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:415:37: sparse: sparse: got ,
-   drivers/gpu/drm/xe/xe_guc_ads.c:417:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:417:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:420:13: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:420:13: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_ads.c:420:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Trying to use reserved word 'do' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ; at end of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:426:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Trying to use reserved word 'do' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ; at end of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:427:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ) in nested declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got (
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ) in function declarator
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got !
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Trying to use reserved word 'do' as identifier
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ; at end of declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got {
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:428:9: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:429:1: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:429:1: sparse: sparse: got }
-   drivers/gpu/drm/xe/xe_guc_ads.c:438:1: sparse: sparse: Expected ; at the end of type declaration
-   drivers/gpu/drm/xe/xe_guc_ads.c:438:1: sparse: sparse: got }
+All warnings (new ones prefixed by >>):
 
-vim +/struct +411 drivers/gpu/drm/xe/xe_guc_ads.c
+   drivers/gpu/drm/vkms/vkms_formats.c:345: warning: Excess function parameter '__VA_ARGS__' description in 'READ_LINE'
+   drivers/gpu/drm/vkms/vkms_formats.c:356: warning: Function parameter or struct member 'a' not described in 'READ_LINE_ARGB8888'
+   drivers/gpu/drm/vkms/vkms_formats.c:356: warning: Function parameter or struct member 'r' not described in 'READ_LINE_ARGB8888'
+   drivers/gpu/drm/vkms/vkms_formats.c:356: warning: Function parameter or struct member 'g' not described in 'READ_LINE_ARGB8888'
+   drivers/gpu/drm/vkms/vkms_formats.c:356: warning: Function parameter or struct member 'b' not described in 'READ_LINE_ARGB8888'
+   drivers/gpu/drm/vkms/vkms_formats.c:366: warning: Function parameter or struct member 'a' not described in 'READ_LINE_le16161616'
+   drivers/gpu/drm/vkms/vkms_formats.c:366: warning: Function parameter or struct member 'r' not described in 'READ_LINE_le16161616'
+   drivers/gpu/drm/vkms/vkms_formats.c:366: warning: Function parameter or struct member 'g' not described in 'READ_LINE_le16161616'
+   drivers/gpu/drm/vkms/vkms_formats.c:366: warning: Function parameter or struct member 'b' not described in 'READ_LINE_le16161616'
+>> drivers/gpu/drm/vkms/vkms_formats.c:533: warning: Excess function parameter '__VA_ARGS__' description in 'READ_LINE_YUV_SEMIPLANAR'
 
-c151ff5c905333 Badal Nilawar          2024-04-05  338  
-d6da81a4785ca6 Badal Nilawar          2024-04-05  339  static void guc_waklv_init(struct xe_guc_ads *ads)
-d6da81a4785ca6 Badal Nilawar          2024-04-05  340  {
-c151ff5c905333 Badal Nilawar          2024-04-05  341  	struct xe_gt *gt = ads_to_gt(ads);
-d6da81a4785ca6 Badal Nilawar          2024-04-05  342  	u64 addr_ggtt;
-d6da81a4785ca6 Badal Nilawar          2024-04-05  343  	u32 offset, remain, size;
-d6da81a4785ca6 Badal Nilawar          2024-04-05  344  
-d6da81a4785ca6 Badal Nilawar          2024-04-05  345  	offset = guc_ads_waklv_offset(ads);
-d6da81a4785ca6 Badal Nilawar          2024-04-05  346  	remain = guc_ads_waklv_size(ads);
-d6da81a4785ca6 Badal Nilawar          2024-04-05  347  
-83f4151787c5dd Matt Roper             2025-12-12  348  	if (XE_GT_WA(gt, 16021333562))
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  349  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  350  				 GUC_WORKAROUND_KLV_BLOCK_INTERRUPTS_WHEN_MGSR_BLOCKED);
-4d5c98eb77fe51 Matt Atwood            2025-08-07  351  	if (XE_GT_WA(gt, 18024947630))
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  352  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  353  				 GUC_WORKAROUND_KLV_ID_GAM_PFQ_SHADOW_TAIL_POLLING);
-4d5c98eb77fe51 Matt Atwood            2025-08-07  354  	if (XE_GT_WA(gt, 16022287689))
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  355  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  356  				 GUC_WORKAROUND_KLV_ID_DISABLE_MTP_DURING_ASYNC_COMPUTE);
-d6da81a4785ca6 Badal Nilawar          2024-04-05  357  
-4d5c98eb77fe51 Matt Atwood            2025-08-07  358  	if (XE_GT_WA(gt, 14022866841))
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  359  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  360  				 GUC_WA_KLV_WAKE_POWER_DOMAINS_FOR_OUTBOUND_MMIO);
-61ef737db9f284 Vinay Belgaumkar       2024-10-15  361  
-2817a1f1bfb1a2 Vinay Belgaumkar       2024-04-16  362  	/*
-2817a1f1bfb1a2 Vinay Belgaumkar       2024-04-16  363  	 * On RC6 exit, GuC will write register 0xB04 with the default value provided. As of now,
-2817a1f1bfb1a2 Vinay Belgaumkar       2024-04-16  364  	 * the default value for this register is determined to be 0xC40. This could change in the
-2817a1f1bfb1a2 Vinay Belgaumkar       2024-04-16  365  	 * future, so GuC depends on KMD to send it the correct value.
-2817a1f1bfb1a2 Vinay Belgaumkar       2024-04-16  366  	 */
-4d5c98eb77fe51 Matt Atwood            2025-08-07  367  	if (XE_GT_WA(gt, 13011645652)) {
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  368  		u32 data = 0xC40;
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  369  
-19baa830fbb60d Lucas De Marchi        2025-09-12  370  		guc_waklv_enable(ads, &data, 1, &offset, &remain,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  371  				 GUC_WA_KLV_NP_RD_WRITE_TO_CLEAR_RCSM_AT_CGP_LATE_RESTORE);
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  372  	}
-2817a1f1bfb1a2 Vinay Belgaumkar       2024-04-16  373  
-4d5c98eb77fe51 Matt Atwood            2025-08-07  374  	if (XE_GT_WA(gt, 14022293748) || XE_GT_WA(gt, 22019794406))
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  375  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  376  				 GUC_WORKAROUND_KLV_ID_BACK_TO_BACK_RCS_ENGINE_RESET);
-636cdf6fbddff4 Julia Filipchuk        2024-08-05  377  
-09af64eba63ece Michal Wajdeczko       2025-12-16  378  	if (GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 44) && XE_GT_WA(gt, 16026508708))
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  379  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  380  				 GUC_WA_KLV_RESET_BB_STACK_PTR_ON_VF_SWITCH);
-09af64eba63ece Michal Wajdeczko       2025-12-16  381  	if (GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 47) && XE_GT_WA(gt, 16026007364)) {
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  382  		u32 data[] = {
-d72779c29d82c6 Sk Anirban             2025-07-16  383  			0x0,
-d72779c29d82c6 Sk Anirban             2025-07-16  384  			0xF,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  385  		};
-19baa830fbb60d Lucas De Marchi        2025-09-12  386  		guc_waklv_enable(ads, data, ARRAY_SIZE(data), &offset, &remain,
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  387  				 GUC_WA_KLV_RESTORE_UNSAVED_MEDIA_CONTROL_REG);
-7c9de25efa7677 Jonathan Cavitt        2025-07-28  388  	}
-d3e8349edf7ed9 John Harrison          2025-04-03  389  
-29042df3acdc73 Badal Nilawar          2025-08-21  390  	if (XE_GT_WA(gt, 14020001231))
-29042df3acdc73 Badal Nilawar          2025-08-21  391  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-29042df3acdc73 Badal Nilawar          2025-08-21  392  				 GUC_WORKAROUND_KLV_DISABLE_PSMI_INTERRUPTS_AT_C6_ENTRY_RESTORE_AT_EXIT);
-f9a21696e37b06 Julia Filipchuk        2026-03-03  393  	if (XE_GT_WA(gt, 14025515070) && GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 53))
-f9a21696e37b06 Julia Filipchuk        2026-03-03  394  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-f9a21696e37b06 Julia Filipchuk        2026-03-03  395  				 GUC_WA_KLV_CLR_CS_INDIRECT_RING_STATE_IF_IDLE_AT_CTX_REG);
-29042df3acdc73 Badal Nilawar          2025-08-21  396  
-0af278683cd61b Daniele Ceraolo Spurio 2026-07-06  397  	if (XE_GT_WA(gt, 22022079272) && GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 62))
-0af278683cd61b Daniele Ceraolo Spurio 2026-07-06  398  		guc_waklv_enable(ads, NULL, 0, &offset, &remain, GUC_WA_KLV_REMAP_RANGED_TLB_INV);
-0af278683cd61b Daniele Ceraolo Spurio 2026-07-06  399  
-f543084cdbd142 Daniele Ceraolo Spurio 2026-07-06  400  	/* The GuC does not enable the sem_tok_64 feature on NVL-S */
-f543084cdbd142 Daniele Ceraolo Spurio 2026-07-06  401  	if (XE_GT_WA(gt, 16029897822) && gt_to_xe(gt)->info.platform != XE_NOVALAKE_S &&
-f543084cdbd142 Daniele Ceraolo Spurio 2026-07-06  402  	    GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 69))
-f543084cdbd142 Daniele Ceraolo Spurio 2026-07-06  403  		guc_waklv_enable(ads, NULL, 0, &offset, &remain,
-f543084cdbd142 Daniele Ceraolo Spurio 2026-07-06  404  				 GUC_WA_KLV_IGNORE_MMIO_READ_SEM_TOKEN_64);
-f543084cdbd142 Daniele Ceraolo Spurio 2026-07-06  405  
-73c5a253068e8c Shuicheng Lin          2026-07-09  406  	/*
-73c5a253068e8c Shuicheng Lin          2026-07-09  407  	 * On GuC firmware 70.66 and above, use the Feature KLV (shared with the
-73c5a253068e8c Shuicheng Lin          2026-07-09  408  	 * WA KLV buffer); older firmware uses GUC_CTL_DISABLE_MULTI_QUEUE in
-73c5a253068e8c Shuicheng Lin          2026-07-09  409  	 * the init params instead.
-73c5a253068e8c Shuicheng Lin          2026-07-09  410  	 */
-73c5a253068e8c Shuicheng Lin          2026-07-09 @411  	if (!xe_configfs_get_enable_multi_queue(to_pci_dev(gt_to_xe(gt)->drm.dev)) &&
-73c5a253068e8c Shuicheng Lin          2026-07-09  412  	    GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 66)) {
-73c5a253068e8c Shuicheng Lin          2026-07-09  413  		u32 data = 1;
-73c5a253068e8c Shuicheng Lin          2026-07-09  414  
-73c5a253068e8c Shuicheng Lin          2026-07-09  415  		guc_waklv_enable(ads, &data, 1, &offset, &remain,
-73c5a253068e8c Shuicheng Lin          2026-07-09  416  				 GUC_FEATURE_KLV_DISABLE_MULTI_QUEUE);
-73c5a253068e8c Shuicheng Lin          2026-07-09  417  	}
-73c5a253068e8c Shuicheng Lin          2026-07-09  418  
-d6da81a4785ca6 Badal Nilawar          2024-04-05  419  	size = guc_ads_waklv_size(ads) - remain;
-d6da81a4785ca6 Badal Nilawar          2024-04-05  420  	if (!size)
-d6da81a4785ca6 Badal Nilawar          2024-04-05  421  		return;
-d6da81a4785ca6 Badal Nilawar          2024-04-05  422  
-d6da81a4785ca6 Badal Nilawar          2024-04-05  423  	offset = guc_ads_waklv_offset(ads);
-d6da81a4785ca6 Badal Nilawar          2024-04-05  424  	addr_ggtt = xe_bo_ggtt_addr(ads->bo) + offset;
-d6da81a4785ca6 Badal Nilawar          2024-04-05  425  
-d6da81a4785ca6 Badal Nilawar          2024-04-05  426  	ads_blob_write(ads, ads.wa_klv_addr_lo, lower_32_bits(addr_ggtt));
-d6da81a4785ca6 Badal Nilawar          2024-04-05  427  	ads_blob_write(ads, ads.wa_klv_addr_hi, upper_32_bits(addr_ggtt));
-d6da81a4785ca6 Badal Nilawar          2024-04-05  428  	ads_blob_write(ads, ads.wa_klv_size, size);
-d6da81a4785ca6 Badal Nilawar          2024-04-05  429  }
-d6da81a4785ca6 Badal Nilawar          2024-04-05  430  
+
+vim +533 drivers/gpu/drm/vkms/vkms_formats.c
+
+396369d6754993 Igor Torrente 2022-09-05  477  
+fe22d21e934262 Arthur Grillo 2025-04-15  478  /*
+fe22d21e934262 Arthur Grillo 2025-04-15  479   * This callback can be used for YUV formats where U and V values are
+fe22d21e934262 Arthur Grillo 2025-04-15  480   * stored in the same plane (often called semi-planar formats). It will
+fe22d21e934262 Arthur Grillo 2025-04-15  481   * correctly handle subsampling as described in the drm_format_info of the plane.
+fe22d21e934262 Arthur Grillo 2025-04-15  482   *
+fe22d21e934262 Arthur Grillo 2025-04-15  483   * The conversion matrix stored in the @plane is used to:
+fe22d21e934262 Arthur Grillo 2025-04-15  484   * - Apply the correct color range and encoding
+fe22d21e934262 Arthur Grillo 2025-04-15  485   * - Convert YUV and YVU with the same function (a column swap is needed when setting up
+fe22d21e934262 Arthur Grillo 2025-04-15  486   * plane->conversion_matrix)
+fe22d21e934262 Arthur Grillo 2025-04-15  487   */
+fe22d21e934262 Arthur Grillo 2025-04-15  488  
+42090f8d9b7e32 Louis Chauvet 2025-05-30  489  /**
+42090f8d9b7e32 Louis Chauvet 2025-05-30  490   * READ_LINE_YUV_SEMIPLANAR() - Generic generator for a read_line function which can be used for yuv
+42090f8d9b7e32 Louis Chauvet 2025-05-30  491   * formats with two planes and block_w == block_h == 1.
+42090f8d9b7e32 Louis Chauvet 2025-05-30  492   *
+42090f8d9b7e32 Louis Chauvet 2025-05-30  493   * @function_name: Function name to generate
+42090f8d9b7e32 Louis Chauvet 2025-05-30  494   * @pixel_1_name: temporary pixel name for the first plane used in the @__VA_ARGS__ parameters
+42090f8d9b7e32 Louis Chauvet 2025-05-30  495   * @pixel_2_name: temporary pixel name for the second plane used in the @__VA_ARGS__ parameters
+42090f8d9b7e32 Louis Chauvet 2025-05-30  496   * @pixel_1_type: Used to specify the type you want to cast the pixel pointer on the plane 1
+42090f8d9b7e32 Louis Chauvet 2025-05-30  497   * @pixel_2_type: Used to specify the type you want to cast the pixel pointer on the plane 2
+42090f8d9b7e32 Louis Chauvet 2025-05-30  498   * @callback: Callback to call for each pixels. This function should take
+42090f8d9b7e32 Louis Chauvet 2025-05-30  499   *            (struct conversion_matrix*, @__VA_ARGS__) as parameter and return a pixel_argb_u16
+42090f8d9b7e32 Louis Chauvet 2025-05-30  500   * @__VA_ARGS__: Argument to pass inside the callback. You can use @pixel_1_name and @pixel_2_name
+42090f8d9b7e32 Louis Chauvet 2025-05-30  501   *               to access current pixel values
+42090f8d9b7e32 Louis Chauvet 2025-05-30  502   */
+42090f8d9b7e32 Louis Chauvet 2025-05-30  503  #define READ_LINE_YUV_SEMIPLANAR(function_name, pixel_1_name, pixel_2_name, pixel_1_type,	\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  504  				 pixel_2_type, callback, ...)					\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  505  static void function_name(const struct vkms_plane_state *plane, int x_start,			\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  506  		 int y_start, enum pixel_read_direction direction, int count,			\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  507  		 struct pixel_argb_u16 out_pixel[])						\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  508  {												\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  509  	u8 *plane_1;										\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  510  	u8 *plane_2;										\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  511  												\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  512  	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,				\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  513  			       &plane_1);							\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  514  	packed_pixels_addr_1x1(plane->frame_info,						\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  515  			       x_start / plane->frame_info->fb->format->hsub,			\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  516  			       y_start / plane->frame_info->fb->format->vsub, 1,		\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  517  			       &plane_2);							\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  518  	int step_1 = get_block_step_bytes(plane->frame_info->fb, direction, 0);			\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  519  	int step_2 = get_block_step_bytes(plane->frame_info->fb, direction, 1);			\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  520  	int subsampling = get_subsampling(plane->frame_info->fb->format, direction);		\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  521  	int subsampling_offset = get_subsampling_offset(direction, x_start, y_start);		\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  522  	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;		\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  523  												\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  524  	for (int i = 0; i < count; i++) {							\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  525  		pixel_1_type *(pixel_1_name) = (pixel_1_type *)plane_1;				\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  526  		pixel_2_type *(pixel_2_name) = (pixel_2_type *)plane_2;				\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  527  		*out_pixel = (callback)(conversion_matrix, __VA_ARGS__);			\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  528  		out_pixel += 1;									\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  529  		plane_1 += step_1;								\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  530  		if ((i + subsampling_offset + 1) % subsampling == 0)				\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  531  			plane_2 += step_2;							\
+42090f8d9b7e32 Louis Chauvet 2025-05-30  532  	}											\
+fe22d21e934262 Arthur Grillo 2025-04-15 @533  }
+fe22d21e934262 Arthur Grillo 2025-04-15  534  
 
 --
 0-DAY CI Kernel Test Service
