@@ -1,240 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C5437C106
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 07:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402AF453A59
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Aug 2026 11:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786607219; cv=none; b=GaPcZySbZkpXmi7l4T3txuhn9fgpt9ayWB+kJBmOo7Zy79TKstT2R7muci28sF5F/5LswiCGtd00LE4QsrsaO6KaPTJmxtsMdankkiqe4BnnDQ/yJz0SeLnLBXGn608nt6MSTM9e1RHOmAXprviz6XYTpUMWleYMUeMynZ1vJX4=
+	t=1786619723; cv=none; b=Q+KKjdBvhEdoZVxcVvyNH6otkKBrWBdRjRShBlLb72ImYF6j8LkZpltA186/FhsuAQ5yeUbAmsBjf/7JCV/1fDLVEmL+Dsdq1oklQWCC7nnv6qSaRl9W2XwTgam3AjM5AK+WM9AKK43/mhm6ImA2sA9yy6Z7M934h+hgEIkLnyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786607219; c=relaxed/simple;
-	bh=mizqrYIgszYxdVesXXlpPwNbCao3MooiM0imRUuVojU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Gwm+E+ptnqRjRJaPBBNifRG0oGL+GYpJlGFwgHZe8GFGDlV9NGm8ZMp9D9jkEH+N5dL3RfUU2npUuMuS4O9gWtbBwjskgsmNIz5+6d1AoaXHgUB8nT3/MRIizRS4dMV+dcZKOgk5TsGOV2dcTnPEJm0DemnWY+tKyTHn8fScr2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIdUL7gf; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1786619723; c=relaxed/simple;
+	bh=A41R0ippYdQTlRWkTtKX9bCmPPLWzq7oEXEqH8LlHUc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CsYnKpFzGgIfOApDowFz3LBXtQISxG6fx42+afyr61tM7XE7EorTK89VhLe1QdZeTLJN+PPGFwvEDvaoIc4i8HJteBs5ct3tnVMcXa4LyE6bLcn8o5EHDSw5xdY9BGePZONYdVdzmnTqilo+VX6cqtnP7aK8JEWiSWL3taNWKxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aEFCHUDq; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIdUL7gf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEFCHUDq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786607217; x=1818143217;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mizqrYIgszYxdVesXXlpPwNbCao3MooiM0imRUuVojU=;
-  b=GIdUL7gfwqkpkidk6N3R/pMmKO0qG1LD3wUUxlH199CGrI3wcsJW0Yz6
-   RQWDJaq6iveBSM4Y0ObSrqC+O5NzILVITSEtcEDdG6Req9dFG6KAf6OPk
-   Qo+fszWNE2jAsMUpmlICh4geu+pxEyeJV6cPaN7Jjy093XVvebwdCm3fY
-   k7EeNWhoD3oqZUkR3gP0ycg6YTWjhwE5xRq0PX+0d3nlsJUA5tubKOrUU
-   Fxa6CTIyegGXRVmrFDs3CZkQgv8MA8q6eotnLzKUTNd9nvXLshWhiRaG0
-   4bztZn5Tphv1vKlbZ9LVRMBvGKTFei6Jv12jc9qItIC/HOtvl1av5Aij1
-   w==;
-X-CSE-ConnectionGUID: IQWzymw6RgCUXqzK072GGg==
-X-CSE-MsgGUID: fr/LXkxpS4+u86ONyl2T2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87250565"
-X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
-   d="scan'208";a="87250565"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 00:46:56 -0700
-X-CSE-ConnectionGUID: GA7cX2WlQKCO/jD8maIDlg==
-X-CSE-MsgGUID: +wGzqYsWRfuwdar6CP89eg==
+  t=1786619716; x=1818155716;
+  h=date:from:to:cc:subject:message-id;
+  bh=A41R0ippYdQTlRWkTtKX9bCmPPLWzq7oEXEqH8LlHUc=;
+  b=aEFCHUDq5iNroHHMJN2I/Hi2RniuWHjeJB8OPSNFXxd3rO5UQQCRyI3b
+   L2OxZyvD7ZflHe0nEkNoq94bpdqzP8cquSVGetW/qKbh89eIGY1vGwKVv
+   drdj7YdkzuCmxr8ZUuAUPXgAjUndqWkW/FCCz9M9SFuRT0Wzxte94EtRv
+   Vmp7gpz++RFSUw+n41dkadYFZmDXfJ8M3cHVys/ZQeTdM5499MStEpYEP
+   MnM2XsArcmD0idYCJ9h1Mly6KlTKF9FZmtL306jsfU+p7PTBrVcJpVXxF
+   u8grkHus43ZkEzYaFYkGloVafzNoaEAdMIjPGenHXhlq18HFCWbQqxP0a
+   g==;
+X-CSE-ConnectionGUID: p3MvUPBRRw2M7D3ZxKStZw==
+X-CSE-MsgGUID: LtUSRIzlTW2W3t+I0ZvO+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87051380"
+X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
+   d="scan'208";a="87051380"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 04:15:10 -0700
+X-CSE-ConnectionGUID: 2YCf84LaSyicaV9953p5VQ==
+X-CSE-MsgGUID: yN5/7c2IR6+U8oBca6hqfQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
+   d="scan'208";a="259670567"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Aug 2026 00:46:55 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 13 Aug 2026 04:15:08 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuQ9M-00000000TGx-3DPw;
-	Thu, 13 Aug 2026 07:46:52 +0000
-Date: Thu, 13 Aug 2026 15:46:05 +0800
+	id 1wuTOs-00000000Tng-064S;
+	Thu, 13 Aug 2026 11:15:06 +0000
+Date: Thu, 13 Aug 2026 19:14:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 3549/14737]
- drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:463:28: sparse:
- sparse: not a function get_max_limits
-Message-ID: <202608131516.HWw20vIE-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [kkdwivedi:master 5/16] kernel/bpf/diagnostics.c:863
+ reg_to_target() error: buffer overflow 'state->regs' 11 <= 11
+Message-ID: <202608131943.Ew29HxTJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/i915/display/tests/intel_dp_link_test.c:463:28: sparse: sparse: not =
-a function get_max_limits"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Imre Deak <imre.deak@intel.com>
-CC: "Micha=C5=82 Grzelak" <michal.grzelak@intel.com>
+TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   28d012efb4327f9c75d5e042a7c91e9a542efa98
-commit: 3d0e60d75172265d5e4dff9b148e4adf5fd561c9 [3549/14737] drm/i915/kuni=
-t: DP link: add update config tests
-:::::: branch date: 14 hours ago
-:::::: commit date: 5 weeks ago
-config: i386-randconfig-063-20260812 (https://download.01.org/0day-ci/archi=
-ve/20260813/202608131516.HWw20vIE-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e98466=
-48fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260813/202608131516.HWw20vIE-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux master
+head:   e2bbb4761d332a66c9bc34c07069d862440cf7a7
+commit: 20fdb5545829a10d76a8586053a22e7930bf4389 [5/16] bpf: Track verifier register diagnostic events
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: sh-randconfig-r071-20260813 (https://download.01.org/0day-ci/archive/20260813/202608131943.Ew29HxTJ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608131516.HWw20vIE-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608131943.Ew29HxTJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:274:24: sparse: =
-sparse: not a function iter_start
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:286:22: sparse: =
-sparse: not a function iter_end
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:297:20: sparse: =
-sparse: not a function update
->> drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:463:28: sparse: =
-sparse: not a function get_max_limits
->> drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:464:28: sparse: =
-sparse: not a function set_max_limits
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:466:24: sparse: =
-sparse: not a function iter_start
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:505:22: sparse: =
-sparse: not a function iter_end
->> drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:509:31: sparse: =
-sparse: not a function get_max_bw_config
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:513:9: sparse: s=
-parse: not a function set_max_limits
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:595:41: sparse: =
-sparse: not a function set_max_limits
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:617:42: sparse: =
-sparse: not a function update
->> drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:677:17: sparse: =
-sparse: not a function disable_config
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:1082:59: sparse:=
- sparse: not a function init
-   drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c:1093:36: sparse:=
- sparse: not a function cleanup
+smatch warnings:
+kernel/bpf/diagnostics.c:863 reg_to_target() error: buffer overflow 'state->regs' 11 <= 11
 
-vim +463 drivers/gpu/drm/i915/display/tests/intel_dp_link_test.c
+vim +863 kernel/bpf/diagnostics.c
 
-3d0e60d7517226 Imre Deak 2026-07-07  443 =20
-3d0e60d7517226 Imre Deak 2026-07-07  444  static void
-3d0e60d7517226 Imre Deak 2026-07-07  445  verify_link_caps_for_order(const =
-struct test_config_table *expected_table,
-3d0e60d7517226 Imre Deak 2026-07-07  446  			   struct intel_dp_link_caps *=
-link_caps,
-3d0e60d7517226 Imre Deak 2026-07-07  447  			   struct intel_dp_link_caps_o=
-rder config_order,
-3d0e60d7517226 Imre Deak 2026-07-07  448  			   const struct intel_dp_link_=
-config *max_limits)
-3d0e60d7517226 Imre Deak 2026-07-07  449  {
-3d0e60d7517226 Imre Deak 2026-07-07  450  	struct kunit *test =3D expected_=
-table->test;
-3d0e60d7517226 Imre Deak 2026-07-07  451  	struct test_ctx *ctx =3D test->p=
-riv;
-3d0e60d7517226 Imre Deak 2026-07-07  452  	const struct intel_dp_link_caps_=
-test_ops *ops =3D
-3d0e60d7517226 Imre Deak 2026-07-07  453  		ctx->link_caps_ops;
-3d0e60d7517226 Imre Deak 2026-07-07  454  	struct intel_dp_link_config expe=
-cted_max_bw_config =3D {};
-3d0e60d7517226 Imre Deak 2026-07-07  455  	struct intel_dp_link_config actu=
-al_max_bw_config;
-3d0e60d7517226 Imre Deak 2026-07-07  456  	struct intel_dp_link_config last=
-_config =3D {};
-3d0e60d7517226 Imre Deak 2026-07-07  457  	struct intel_dp_link_config old_=
-max_limits;
-3d0e60d7517226 Imre Deak 2026-07-07  458  	struct intel_dp_link_config iter=
-_config;
-3d0e60d7517226 Imre Deak 2026-07-07  459  	struct intel_dp_link_caps_iter i=
-ter;
-3d0e60d7517226 Imre Deak 2026-07-07  460  	int num_actual_configs =3D 0;
-3d0e60d7517226 Imre Deak 2026-07-07  461  	int max_bw =3D 0;
-3d0e60d7517226 Imre Deak 2026-07-07  462 =20
-3d0e60d7517226 Imre Deak 2026-07-07 @463  	ops->get_max_limits(link_caps, &=
-old_max_limits);
-3d0e60d7517226 Imre Deak 2026-07-07 @464  	ops->set_max_limits(link_caps, m=
-ax_limits);
-3d0e60d7517226 Imre Deak 2026-07-07  465 =20
-3d0e60d7517226 Imre Deak 2026-07-07  466  	ops->iter_start(&iter, link_caps=
-, config_order, INTEL_DP_LINK_CAPS_FILTER_ALL);
-3d0e60d7517226 Imre Deak 2026-07-07  467  	for_each_dp_link_config(&iter, &=
-iter_config) {
-3d0e60d7517226 Imre Deak 2026-07-07  468  		int bw;
-3d0e60d7517226 Imre Deak 2026-07-07  469 =20
-3d0e60d7517226 Imre Deak 2026-07-07  470  		KUNIT_EXPECT_LE(test, iter_conf=
-ig.rate, max_limits->rate);
-3d0e60d7517226 Imre Deak 2026-07-07  471  		KUNIT_EXPECT_LE(test, iter_conf=
-ig.lane_count, max_limits->lane_count);
-3d0e60d7517226 Imre Deak 2026-07-07  472 =20
-3d0e60d7517226 Imre Deak 2026-07-07  473  		num_actual_configs++;
-3d0e60d7517226 Imre Deak 2026-07-07  474 =20
-3d0e60d7517226 Imre Deak 2026-07-07  475  		/*
-3d0e60d7517226 Imre Deak 2026-07-07  476  		 * Verify the config's rate/lan=
-e-count values and its ordering relative
-3d0e60d7517226 Imre Deak 2026-07-07  477  		 * to the previous config.
-3d0e60d7517226 Imre Deak 2026-07-07  478  		 */
-3d0e60d7517226 Imre Deak 2026-07-07  479  		if (last_config.rate)
-3d0e60d7517226 Imre Deak 2026-07-07  480  			verify_config_order(test, conf=
-ig_order, &last_config, &iter_config);
-3d0e60d7517226 Imre Deak 2026-07-07  481  		last_config =3D iter_config;
-3d0e60d7517226 Imre Deak 2026-07-07  482 =20
-3d0e60d7517226 Imre Deak 2026-07-07  483  		KUNIT_EXPECT_TRUE(test, has_rat=
-e(&expected_table->rates,
-3d0e60d7517226 Imre Deak 2026-07-07  484  						 iter_config.rate));
-3d0e60d7517226 Imre Deak 2026-07-07  485  		KUNIT_EXPECT_LE(test, iter_conf=
-ig.lane_count,
-3d0e60d7517226 Imre Deak 2026-07-07  486  				      expected_table->max_lan=
-e_count);
-3d0e60d7517226 Imre Deak 2026-07-07  487  		KUNIT_EXPECT_TRUE(test, is_powe=
-r_of_2(iter_config.lane_count));
-3d0e60d7517226 Imre Deak 2026-07-07  488 =20
-3d0e60d7517226 Imre Deak 2026-07-07  489  		/* Verify the config's disabled=
- state */
-3d0e60d7517226 Imre Deak 2026-07-07  490  		KUNIT_EXPECT_FALSE(test, has_co=
-nfig(&expected_table->disabled_configs,
-3d0e60d7517226 Imre Deak 2026-07-07  491  						    &iter_config));
-3d0e60d7517226 Imre Deak 2026-07-07  492 =20
-3d0e60d7517226 Imre Deak 2026-07-07  493  		/*
-3d0e60d7517226 Imre Deak 2026-07-07  494  		 * Update the max limits for al=
-lowed configs, verified at the
-3d0e60d7517226 Imre Deak 2026-07-07  495  		 * end for the whole config tab=
-le.
-3d0e60d7517226 Imre Deak 2026-07-07  496  		 */
-3d0e60d7517226 Imre Deak 2026-07-07  497 =20
-3d0e60d7517226 Imre Deak 2026-07-07  498  		bw =3D drm_dp_max_dprx_data_rat=
-e(iter_config.rate, iter_config.lane_count);
-3d0e60d7517226 Imre Deak 2026-07-07  499  		if (bw > max_bw ||
-3d0e60d7517226 Imre Deak 2026-07-07  500  		    (bw =3D=3D max_bw && iter_c=
-onfig.rate > expected_max_bw_config.rate)) {
-3d0e60d7517226 Imre Deak 2026-07-07  501  			max_bw =3D bw;
-3d0e60d7517226 Imre Deak 2026-07-07  502  			expected_max_bw_config =3D ite=
-r_config;
-3d0e60d7517226 Imre Deak 2026-07-07  503  		}
-3d0e60d7517226 Imre Deak 2026-07-07  504  	}
-3d0e60d7517226 Imre Deak 2026-07-07  505  	ops->iter_end(&iter);
-3d0e60d7517226 Imre Deak 2026-07-07  506 =20
-3d0e60d7517226 Imre Deak 2026-07-07  507  	KUNIT_EXPECT_EQ(test, num_actual=
-_configs, expected_num_configs(expected_table, max_limits));
-3d0e60d7517226 Imre Deak 2026-07-07  508 =20
-3d0e60d7517226 Imre Deak 2026-07-07 @509  	ops->get_max_bw_config(link_caps=
-, &actual_max_bw_config);
-3d0e60d7517226 Imre Deak 2026-07-07  510  	KUNIT_EXPECT_TRUE(test, link_con=
-figs_match(&expected_max_bw_config,
-3d0e60d7517226 Imre Deak 2026-07-07  511  						   &actual_max_bw_config));
-3d0e60d7517226 Imre Deak 2026-07-07  512 =20
-3d0e60d7517226 Imre Deak 2026-07-07  513  	KUNIT_ASSERT_TRUE(test, ops->set=
-_max_limits(link_caps, &old_max_limits));
-3d0e60d7517226 Imre Deak 2026-07-07  514  }
-3d0e60d7517226 Imre Deak 2026-07-07  515 =20
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  848  
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  849  static bool reg_to_target(struct bpf_verifier_env *env, const struct bpf_reg_state *reg,
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  850  			  struct bpf_diag_mod_target *target)
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  851  {
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  852  	struct bpf_verifier_state *vstate = env->cur_state;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  853  	unsigned long addr = (unsigned long)reg;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  854  	int frame;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  855  
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  856  	for (frame = 0; frame <= vstate->curframe; frame++) {
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  857  		struct bpf_func_state *state = vstate->frame[frame];
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  858  		unsigned long start, end;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  859  		u32 nslots = state->allocated_stack / BPF_REG_SIZE;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  860  		int spi;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  861  
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  862  		start = (unsigned long)state->regs;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13 @863  		end = (unsigned long)(state->regs + MAX_BPF_REG);
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  864  		if (addr >= start && addr < end) {
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  865  			*target = bpf_diag_reg_target(state->frameno, reg - state->regs);
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  866  			return true;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  867  		}
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  868  
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  869  		start = (unsigned long)state->stack_arg_regs;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  870  		end = (unsigned long)(state->stack_arg_regs + state->out_stack_arg_cnt);
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  871  		if (state->out_stack_arg_cnt && addr >= start && addr < end) {
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  872  			*target = bpf_diag_stack_arg_target(state->frameno,
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  873  							    reg - state->stack_arg_regs);
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  874  			return true;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  875  		}
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  876  
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  877  		start = (unsigned long)state->stack;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  878  		end = (unsigned long)(state->stack + nslots);
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  879  		if (nslots && addr >= start && addr < end) {
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  880  			spi = ((const char *)reg - (const char *)state->stack) /
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  881  			      sizeof(*state->stack);
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  882  			*target = bpf_diag_stack_slot_target(state->frameno, spi);
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  883  			return true;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  884  		}
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  885  	}
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  886  	return false;
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  887  }
+20fdb5545829a1 Kumar Kartikeya Dwivedi 2026-07-13  888  
 
 --
 0-DAY CI Kernel Test Service
