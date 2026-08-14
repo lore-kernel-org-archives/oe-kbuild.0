@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3972459EA
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Aug 2026 02:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2109F33B6D6
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Aug 2026 04:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786673877; cv=none; b=Jn+/bt4RvO1ElO8rLQab6Yupzu5VYqqoidaVsiPW7U3LV01zduTfhh05cMwnPE19Q6SEYgTsW+7ofnFtkzkrjWtZ6shPpDGJAA+psHrc7sW009PVv5IASS+N7E+ly92+AnD0iI5bWp6MMy7dwR3sOWPvzv6ieCm6MDhvwbHPaiU=
+	t=1786680752; cv=none; b=Ez/TrwWNV30J/py+sjMcUoErDc4Q1yIn+Y59CIPaDInB68XxXHxuTBe6L5uEXD6kX8vAC8x7BWG1kbH1ysPiWE8Pzl0FILnTfHwfmzj3mIbduD926j0Gb9TbTN8SK764DyaIU5LL201e+lF+e5TvOfmnkrf70/E7W0j7rq82UoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786673877; c=relaxed/simple;
-	bh=M8l+wCFpuZryQfY+HwlnykXDBHON0O74m3EP0cTfTNI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UTcZ7+au36+h482xM3YN2A866Xca0EoFIQBDOWbH90IgkV22OpIglMp5541LjxBD4cuMpFabOhS/0c70Sz4SQKgsjJEltQpvmkYLimSU7+z36RwQ0Pb7m8pQ5Q4Rh/8FCm9N6krGDDdZfD1tM/2quSIkFVyKNLCXRkQ8N47GCO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DQW8dqQg; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1786680752; c=relaxed/simple;
+	bh=w4rmynRtIZIfuucg8EwL8zRsrFyhFewYcNk4KFNX8oo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=h60puT42lUprTRKcJOaKwjCx9wyO5BB0/FkbPZsyW+njSGpbqa92xq51BODC9Jb9nGET+XUVLic8Y3JWBMTToi4QNjUrEgTic2ti6t7YLo/LKDQ3r3wkYNSl/n1EkOBiPnK/rxL4rJoWxSDwWZA/W7/T0olOUl874RtpoUngCo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AN79mAdV; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQW8dqQg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AN79mAdV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786673874; x=1818209874;
+  t=1786680750; x=1818216750;
   h=date:from:to:cc:subject:message-id;
-  bh=M8l+wCFpuZryQfY+HwlnykXDBHON0O74m3EP0cTfTNI=;
-  b=DQW8dqQgEQ4bky4PrCTXfCcMsrs219tkC70SypGe3hlcwnoxzY66v5Y6
-   skMLoREoUlf73B6v9n+Ut7tB8ZIh1dFGKHkKzSLa7wvCr/Yv9pnBd/sOy
-   Nt8o1a5wPn5POJ9TkLD4apI1p9Qk/IKDuev2xNga6ZB6DCDtlm/H5Qx/2
-   BFFV9p2JmroR47Pi15689zNqA0k2yhdmXHK2xiYA2z+LZJPt9780qabts
-   CLGeycG5rw2O7LtBn/ISJU4krJgulJwJTqL0DtQ1B014AS7+COBFfiEaN
-   Nsf3/UVuXX/SGVHfrpQZujfKwYd0nrjD43fK6GSYDVhEyTP33m3SVOUOZ
+  bh=w4rmynRtIZIfuucg8EwL8zRsrFyhFewYcNk4KFNX8oo=;
+  b=AN79mAdVWVbpTeP3qSrsGRQsXLjb3jkKy6q41FXm7JWLxZGyj/V02kt+
+   9wp71YsyPk6PENcr7Z+HEZO9csxJEMJDlZ/4hMig8c2oC47Hr7/jvMo6F
+   P64g37f5qrPJrUGfE5VZRqWWw4K2MEquWzpRd5L2jyHqauwnisW1K6fHU
+   TAeJYd4U4uVqZpa3AlnbDm/dCIy1M73cGoJuJxrtIS13Z/bla2phmgOr1
+   6DiZca2IUkg/hOa//1ISAYnbVYFo/L6E+kJwTcK1PlmcS02b7EzuMrm+K
+   lKrtkr6XHfEinYy5dz69v8DKBTpAbpezT9YAyimwBtyiv63vxYfnw3f3/
    w==;
-X-CSE-ConnectionGUID: /4p+ygmTR3S+HhsIBihNeA==
-X-CSE-MsgGUID: BRZfjXrpScSj5ILHyy49fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="97846377"
+X-CSE-ConnectionGUID: 6QNIuWVqRDuMJ5J1jVGAow==
+X-CSE-MsgGUID: VYUvseQJQN65UfoNqwyDcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="74797059"
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="97846377"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 19:17:53 -0700
-X-CSE-ConnectionGUID: lG7GTkC3SO2pPYYJ30PXkw==
-X-CSE-MsgGUID: +h/iUXLUTTqVsQxydjeSHQ==
+   d="scan'208";a="74797059"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 21:12:29 -0700
+X-CSE-ConnectionGUID: ARrXOngXS9uXDIAuvhcAEw==
+X-CSE-MsgGUID: XDGA46UrQ1OzUeEfg9G7pQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="287580694"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Aug 2026 19:17:53 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="302361789"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 13 Aug 2026 21:12:29 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wuhUU-00000000XPs-2Cda;
-	Fri, 14 Aug 2026 02:17:50 +0000
-Date: Fri, 14 Aug 2026 10:16:53 +0800
+	id 1wujHO-000000006AU-1km4;
+	Fri, 14 Aug 2026 04:12:26 +0000
+Date: Fri, 14 Aug 2026 06:11:54 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/ceph/osdmap.c:297 decode_array_32_alloc() warn:
- potential user controlled sizeof overflow 'len * 4' '1-u32max * 4'
-Message-ID: <202608141016.LXq2zvlH-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: spi@700680
+ (marvell,armada-380-spi): Unevaluated properties are not allowed
+ ('spi-max-frequency' was unexpected)
+Message-ID: <202608140600.yk4WVWe4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,76 +60,68 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Marco Elver <elver@google.com>
-CC: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-CC: "Harry Yoo (Oracle)" <harry@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3d6d817622b0a9721e3cc404df3469171582be13
-commit: feb662d9168b63e1d4c02671ec96005410c6f3ce slab: support for compiler-assisted type-based slab cache partitioning
-date:   3 months ago
-:::::: branch date: 35 hours ago
-:::::: commit date: 3 months ago
-config: csky-randconfig-r073-20260813 (https://download.01.org/0day-ci/archive/20260814/202608141016.LXq2zvlH-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9187-g5189e3fb
+head:   2f1baf1fc8929e6c48370be543ad028ac7ad4131
+commit: 7105fdd54a14bee49371b39374a61b3c967d74cb spi: dt-bindings: Convert marvell,orion-spi to DT schema
+date:   1 year, 1 month ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arm64-randconfig-2054-20260813 (https://download.01.org/0day-ci/archive/20260814/202608140600.yk4WVWe4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema: 2026.7.dev15+g01b5073ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608140600.yk4WVWe4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: feb662d9168b ("slab: support for compiler-assisted type-based slab cache partitioning")
+| Fixes: 7105fdd54a14 ("spi: dt-bindings: Convert marvell,orion-spi to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608141016.LXq2zvlH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608140600.yk4WVWe4-lkp@intel.com/
 
-New smatch warnings:
-net/ceph/osdmap.c:297 decode_array_32_alloc() warn: potential user controlled sizeof overflow 'len * 4' '1-u32max * 4'
-
-Old smatch warnings:
-net/ceph/osdmap.c:530 crush_decode() warn: potential user controlled sizeof overflow 'b->size * 4' '0-u32max * 4'
-
-vim +297 net/ceph/osdmap.c
-
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  280  
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  281  static u32 *decode_array_32_alloc(void **p, void *end, u32 *plen)
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  282  {
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  283  	u32 *a = NULL;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  284  	u32 len;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  285  	int ret;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  286  
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  287  	ceph_decode_32_safe(p, end, len, e_inval);
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  288  	if (len) {
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  289  		u32 i;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  290  
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  291  		a = kmalloc_array(len, sizeof(u32), GFP_NOIO);
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  292  		if (!a) {
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  293  			ret = -ENOMEM;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  294  			goto fail;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  295  		}
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  296  
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22 @297  		ceph_decode_need(p, end, len * sizeof(u32), e_inval);
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  298  		for (i = 0; i < len; i++)
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  299  			a[i] = ceph_decode_32(p);
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  300  	}
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  301  
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  302  	*plen = len;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  303  	return a;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  304  
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  305  e_inval:
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  306  	ret = -EINVAL;
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  307  fail:
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  308  	kfree(a);
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  309  	return ERR_PTR(ret);
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  310  }
-5cf9c4a9959b62 Ilya Dryomov 2017-06-22  311  
-
-:::::: The code at line 297 was first introduced by commit
-:::::: 5cf9c4a9959b6273675310d14a834ef14fbca37c libceph, crush: per-pool crush_choose_arg_map for crush_do_rule()
-
-:::::: TO: Ilya Dryomov <idryomov@gmail.com>
-:::::: CC: Ilya Dryomov <idryomov@gmail.com>
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: /cp0-bus/bus@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
+   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: /cp0-bus/bus@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
+   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
+   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'vbus-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
+   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
+>> arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: spi@700680 (marvell,armada-380-spi): Unevaluated properties are not allowed ('spi-max-frequency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/marvell,orion-spi.yaml
+--
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: /cp0-bus/bus@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: /cp0-bus/bus@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml
+>> arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: spi@700680 (marvell,armada-380-spi): Unevaluated properties are not allowed ('spi-max-frequency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/marvell,orion-spi.yaml
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: gpio@41 (nxp,pca9536): 'gpio-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: gpio@41 (nxp,pca9536): '#gpio-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: rtc@68 (st,m41t83): Unevaluated properties are not allowed ('reset-gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/rtc/st,m41t80.yaml
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: /cp1-bus/bus@f4000000/phy@120000: failed to match any schema with compatible: ['marvell,comphy-cp110']
+   arch/arm64/boot/dts/marvell/cn9131-cf-solidwan.dtb: ethernet-phy@0: marvell,reg-init: b'\x00\x00\x00\x03\x00\x00\x00\x10\x00\x00\xf0\x00\x00\x00\n\x17' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
 
 --
 0-DAY CI Kernel Test Service
