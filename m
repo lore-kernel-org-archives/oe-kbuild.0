@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E72F3D45E6
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Aug 2026 15:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D6048094C
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Aug 2026 15:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786720118; cv=none; b=lmAXaFRX6C+VmqHusGUgtkSLpTqhj7++Ov7G0sAJZIpzAhBbSaN8doU1+xLHwE4O3g1mwNsKKGpM9Mgnt3qoSvsj+QCltLSteV3mcKrKn2Y0Ja2R4z0KU2Sgk64TgEqJoh7R4/VSVEaxQUyBivpruRA4fYEFeVMC4tORJMN+ELA=
+	t=1786721443; cv=none; b=leGve8wMLzHoDnCr/wRGh2++DPg2+IOgLcROE9oATslrac440Qw776V0R9pcjbVzbKs5u3rM7vLF0YRC90crhLMZ18Gn5fzlxd3WqoMSSvz8CNClhvztf7sy8qNMxeT28KVG0xzYgZHy2QP+bi0wR16kGnJqZJPECR7vWG9XCYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786720118; c=relaxed/simple;
-	bh=UYkkJNKWm8TRqeepoIQfamejuWYCiBIVO1nO01L/kEI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bjW093P8A8mu5G8wBZvo/+C+zxLkKQ++LKt+IgShDAFOFgJ9GcB0ktY8LnXG9y8ob5as0Y221HXV+aUdOt29FL/fOHGkPklzP5r6CYtAp17t4pftwC9n+kbAYhFmpSv3ezNNsLfs59gWy3d123d0i955aVlfVL46MhsR4nLA/9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Efeod9B1; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1786721443; c=relaxed/simple;
+	bh=QMpJFbdV+GE3SxItRAyuQ/WB98OMCNnKZIanK5uNn+A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Hz9feBW5LzTHPtF96e6w+OFdUHmWzp6NWVcbw77/TDE9AvsMD49/Gz4TRAPf1l3BCKkRUi7S2Xo1S9EccIGuoUNkNky1CzzKEUg12+Aaa/Ixe+lM57+o5Qdrqon4kBXp60Fo21ctH+rU3WAXlSJyxZQZAQNrG+l+9rHctqaBfkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfHRhdst; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Efeod9B1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfHRhdst"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786720115; x=1818256115;
+  t=1786721440; x=1818257440;
   h=date:from:to:cc:subject:message-id;
-  bh=UYkkJNKWm8TRqeepoIQfamejuWYCiBIVO1nO01L/kEI=;
-  b=Efeod9B172qNABdgDj+90hUdae621Uutdc3lYvg4kgLxHczEASEuSXix
-   kV+kum9czVeqAPDlGHLkjzNYrL2TgW/nzSaKEZvX7vscCbrQ+yDvR3Sxf
-   Mu935NeNxPjmrB2DUvi8sl321Ikvf+OOu5zDWs9s0AZk1MbIn2h9ci3LC
-   4eAe26Jy95d95GrOYihl0FrQ/hy3jB4PbwoGNuIf/MY05DgJQ9QwzMYIg
-   G8kXcqpcnZ19hMynFAO2tclswLxxLGam5YuZSQ+MzaHbfue/H0miowVNZ
-   VUwmQf2aKnVNSyZ9lWq2W+PDMByxcAo9s1VsiFXJ11i8O7oAhd/v4+Tw9
+  bh=QMpJFbdV+GE3SxItRAyuQ/WB98OMCNnKZIanK5uNn+A=;
+  b=hfHRhdstSyzOFBmUbFt9RuYKfaTUeNxubKBku30Ep4gyChWJEGE9qc+r
+   D6/tP0xTwVfBRMnuel1UJ+3abx7mdHDFu1AvspeLvnRq5VPFGTQtfzMhq
+   6SJohxYMH1eajxgfZfiLsMnlXfzi+Pdqy+QIM4EKs6h+IzifM26Y9lATc
+   OPA8QrqyYomekAFrUf1XT9MgVvg2kYHX8CPzJRrdMYjKooc1EUmwkc1VD
+   1ygWkzeJ2oNaUsAtzVDAXFCWiRaNJQYcFzE0ssnHNnA/ifvaC+IxIXMVV
+   ioR0SPO20At3rHgJbUz9FIwYZHv4AlWpczdlF0Zg4yPY/tC9aVMZzXO2r
    w==;
-X-CSE-ConnectionGUID: eQpaE7zrTYyu9xicOFSizw==
-X-CSE-MsgGUID: aLEsPsKzTcekO+e5p1Pguw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="91173531"
+X-CSE-ConnectionGUID: jjdrJbtwSKiTRiDFPPXVXw==
+X-CSE-MsgGUID: QxDiiBWAT/2dnTHL9woxIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="87322182"
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="91173531"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 08:08:35 -0700
-X-CSE-ConnectionGUID: 0fxKobVqQB66ikAGVnS6wA==
-X-CSE-MsgGUID: jyd0Md1QRuuvTNI53ew/iQ==
+   d="scan'208";a="87322182"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 08:30:40 -0700
+X-CSE-ConnectionGUID: P6wneUItSJ6LWN7qH2E8bQ==
+X-CSE-MsgGUID: sQAH13cNQ/akHEWmJiPRfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="260018992"
+   d="scan'208";a="294179593"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Aug 2026 08:08:34 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 Aug 2026 08:30:39 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wutWJ-00000000ZMM-1gWC;
-	Fri, 14 Aug 2026 15:08:31 +0000
-Date: Fri, 14 Aug 2026 23:08:06 +0800
+	id 1wutrg-00000000ZP6-1vvC;
+	Fri, 14 Aug 2026 15:30:36 +0000
+Date: Fri, 14 Aug 2026 23:30:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/xe/xe_amc.c:94:35: sparse: sparse: incorrect
- type in initializer (different base types)
-Message-ID: <202608142314.wvaHJkN1-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/regulator/pf0900-regulator.c:891:7-32: WARNING:
+ Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
+ it is nested IRQ)
+Message-ID: <202608142345.WXCldvhP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,57 +60,158 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Heikki-Krogerus/i2c-designware-Global-register-definitions/20260812-202000, commit: 2231c0326f974d6ed4b042c754e673aa9a91726d"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC: 0day robot <lkp@intel.com>
-CC: Ramesh Babu B <ramesh.babu.b@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Joy Zou <joy.zou@nxp.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/i2c-designware-Global-register-definitions/20260812-202000
-head:   ce9282ec4e31ed8cb9800ad06eacd6f86655a6c4
-commit: 2231c0326f974d6ed4b042c754e673aa9a91726d drm/xe/i2c: Fix the interrupt handling
-date:   2 days ago
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-r113-20260814 (https://download.01.org/0day-ci/archive/20260814/202608142314.wvaHJkN1-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260814/202608142314.wvaHJkN1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2f1baf1fc8929e6c48370be543ad028ac7ad4131
+commit: 162e23657e5379f07c6404dbfbf4367cb438ea7d regulator: pf0900: Add PMIC PF0900 support
+date:   1 year ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 1 year ago
+config: powerpc-randconfig-r053-20260812 (https://download.01.org/0day-ci/archive/20260814/202608142345.WXCldvhP-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 162e23657e53 ("regulator: pf0900: Add PMIC PF0900 support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608142314.wvaHJkN1-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202608142345.WXCldvhP-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/xe/xe_amc.c:94:35: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] vendor @@     got restricted __be16 [usertype] @@
-   drivers/gpu/drm/xe/xe_amc.c:94:35: sparse:     expected unsigned short [usertype] vendor
-   drivers/gpu/drm/xe/xe_amc.c:94:35: sparse:     got restricted __be16 [usertype]
+cocci warnings: (new ones prefixed by >>)
+>> drivers/regulator/pf0900-regulator.c:891:7-32: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
-vim +94 drivers/gpu/drm/xe/xe_amc.c
+vim +891 drivers/regulator/pf0900-regulator.c
 
-2231c0326f974d Heikki Krogerus 2026-07-22  81  
-2231c0326f974d Heikki Krogerus 2026-07-22  82  static const struct amc_request amc_get_alert_reason = {
-2231c0326f974d Heikki Krogerus 2026-07-22  83  	.header = {
-2231c0326f974d Heikki Krogerus 2026-07-22  84  		.command	= AMC_COMMAND,
-2231c0326f974d Heikki Krogerus 2026-07-22  85  		.len		= sizeof(struct amc_request) - 2,
-2231c0326f974d Heikki Krogerus 2026-07-22  86  		.address	= AMC_GPU_I2C_ADDR,
-2231c0326f974d Heikki Krogerus 2026-07-22  87  		.version	= AMC_VERSION_V1,
-2231c0326f974d Heikki Krogerus 2026-07-22  88  		.destination	= AMC_DESTINATION_ID,
-2231c0326f974d Heikki Krogerus 2026-07-22  89  		.source		= AMC_SOURCE_ID,
-2231c0326f974d Heikki Krogerus 2026-07-22  90  		.flags		= AMC_FLAGS,
-2231c0326f974d Heikki Krogerus 2026-07-22  91  	},
-2231c0326f974d Heikki Krogerus 2026-07-22  92  	.message = {
-2231c0326f974d Heikki Krogerus 2026-07-22  93  		.type		= AMC_MSG_TYPE,
-2231c0326f974d Heikki Krogerus 2026-07-22 @94  		.vendor		= htons(PCI_VENDOR_ID_INTEL),
-2231c0326f974d Heikki Krogerus 2026-07-22  95  		.command	= AMC_GET_ALERT_REASON,
-2231c0326f974d Heikki Krogerus 2026-07-22  96  	},
-2231c0326f974d Heikki Krogerus 2026-07-22  97  };
-2231c0326f974d Heikki Krogerus 2026-07-22  98  
+162e23657e5379 Joy Zou 2025-07-31  826  
+162e23657e5379 Joy Zou 2025-07-31  827  static int pf0900_i2c_probe(struct i2c_client *i2c)
+162e23657e5379 Joy Zou 2025-07-31  828  {
+162e23657e5379 Joy Zou 2025-07-31  829  	const struct pf0900_regulator_desc *regulator_desc;
+162e23657e5379 Joy Zou 2025-07-31  830  	const struct pf0900_drvdata *drvdata = NULL;
+162e23657e5379 Joy Zou 2025-07-31  831  	struct device_node *np = i2c->dev.of_node;
+162e23657e5379 Joy Zou 2025-07-31  832  	unsigned int device_id, device_fam, i;
+162e23657e5379 Joy Zou 2025-07-31  833  	struct regulator_config config = { };
+162e23657e5379 Joy Zou 2025-07-31  834  	struct pf0900 *pf0900;
+162e23657e5379 Joy Zou 2025-07-31  835  	int ret;
+162e23657e5379 Joy Zou 2025-07-31  836  
+162e23657e5379 Joy Zou 2025-07-31  837  	if (!i2c->irq)
+162e23657e5379 Joy Zou 2025-07-31  838  		return dev_err_probe(&i2c->dev, -EINVAL, "No IRQ configured?\n");
+162e23657e5379 Joy Zou 2025-07-31  839  
+162e23657e5379 Joy Zou 2025-07-31  840  	pf0900 = devm_kzalloc(&i2c->dev, sizeof(struct pf0900), GFP_KERNEL);
+162e23657e5379 Joy Zou 2025-07-31  841  	if (!pf0900)
+162e23657e5379 Joy Zou 2025-07-31  842  		return -ENOMEM;
+162e23657e5379 Joy Zou 2025-07-31  843  
+162e23657e5379 Joy Zou 2025-07-31  844  	drvdata = device_get_match_data(&i2c->dev);
+162e23657e5379 Joy Zou 2025-07-31  845  	if (!drvdata)
+162e23657e5379 Joy Zou 2025-07-31  846  		return dev_err_probe(&i2c->dev, -EINVAL, "unable to find driver data\n");
+162e23657e5379 Joy Zou 2025-07-31  847  
+162e23657e5379 Joy Zou 2025-07-31  848  	regulator_desc = drvdata->desc;
+162e23657e5379 Joy Zou 2025-07-31  849  	pf0900->drvdata = drvdata;
+162e23657e5379 Joy Zou 2025-07-31  850  	pf0900->crc_en = of_property_read_bool(np, "nxp,i2c-crc-enable");
+162e23657e5379 Joy Zou 2025-07-31  851  	pf0900->irq = i2c->irq;
+162e23657e5379 Joy Zou 2025-07-31  852  	pf0900->dev = &i2c->dev;
+162e23657e5379 Joy Zou 2025-07-31  853  	pf0900->addr = i2c->addr;
+162e23657e5379 Joy Zou 2025-07-31  854  
+162e23657e5379 Joy Zou 2025-07-31  855  	dev_set_drvdata(&i2c->dev, pf0900);
+162e23657e5379 Joy Zou 2025-07-31  856  
+162e23657e5379 Joy Zou 2025-07-31  857  	pf0900->regmap = devm_regmap_init(&i2c->dev, &pf0900_regmap_bus, &i2c->dev,
+162e23657e5379 Joy Zou 2025-07-31  858  					       &pf0900_regmap_config);
+162e23657e5379 Joy Zou 2025-07-31  859  	if (IS_ERR(pf0900->regmap))
+162e23657e5379 Joy Zou 2025-07-31  860  		return dev_err_probe(&i2c->dev, PTR_ERR(pf0900->regmap),
+162e23657e5379 Joy Zou 2025-07-31  861  				     "regmap initialization failed\n");
+162e23657e5379 Joy Zou 2025-07-31  862  	ret = regmap_read(pf0900->regmap, PF0900_REG_DEV_ID, &device_id);
+162e23657e5379 Joy Zou 2025-07-31  863  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  864  		return dev_err_probe(&i2c->dev, ret, "Read device id error\n");
+162e23657e5379 Joy Zou 2025-07-31  865  
+162e23657e5379 Joy Zou 2025-07-31  866  	ret = regmap_read(pf0900->regmap, PF0900_REG_DEV_FAM, &device_fam);
+162e23657e5379 Joy Zou 2025-07-31  867  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  868  		return dev_err_probe(&i2c->dev, ret, "Read device fam error\n");
+162e23657e5379 Joy Zou 2025-07-31  869  
+162e23657e5379 Joy Zou 2025-07-31  870  	/* Check your board and dts for match the right pmic */
+162e23657e5379 Joy Zou 2025-07-31  871  	if (device_fam == 0x09 && (device_id & 0x1F) != 0x0)
+162e23657e5379 Joy Zou 2025-07-31  872  		return dev_err_probe(&i2c->dev, -EINVAL, "Device id(%x) mismatched\n",
+162e23657e5379 Joy Zou 2025-07-31  873  				     device_id >> 4);
+162e23657e5379 Joy Zou 2025-07-31  874  
+162e23657e5379 Joy Zou 2025-07-31  875  	for (i = 0; i < drvdata->rcnt; i++) {
+162e23657e5379 Joy Zou 2025-07-31  876  		const struct regulator_desc *desc;
+162e23657e5379 Joy Zou 2025-07-31  877  		const struct pf0900_regulator_desc *r;
+162e23657e5379 Joy Zou 2025-07-31  878  
+162e23657e5379 Joy Zou 2025-07-31  879  		r = &regulator_desc[i];
+162e23657e5379 Joy Zou 2025-07-31  880  		desc = &r->desc;
+162e23657e5379 Joy Zou 2025-07-31  881  		config.regmap = pf0900->regmap;
+162e23657e5379 Joy Zou 2025-07-31  882  		config.driver_data = (void *)r;
+162e23657e5379 Joy Zou 2025-07-31  883  		config.dev = pf0900->dev;
+162e23657e5379 Joy Zou 2025-07-31  884  
+162e23657e5379 Joy Zou 2025-07-31  885  		pf0900->rdevs[i] = devm_regulator_register(pf0900->dev, desc, &config);
+162e23657e5379 Joy Zou 2025-07-31  886  		if (IS_ERR(pf0900->rdevs[i]))
+162e23657e5379 Joy Zou 2025-07-31  887  			return dev_err_probe(pf0900->dev, PTR_ERR(pf0900->rdevs[i]),
+162e23657e5379 Joy Zou 2025-07-31  888  					     "Failed to register regulator(%s)\n", desc->name);
+162e23657e5379 Joy Zou 2025-07-31  889  	}
+162e23657e5379 Joy Zou 2025-07-31  890  
+162e23657e5379 Joy Zou 2025-07-31 @891  	ret = devm_request_threaded_irq(pf0900->dev, pf0900->irq, NULL,
+162e23657e5379 Joy Zou 2025-07-31  892  					pf0900_irq_handler,
+162e23657e5379 Joy Zou 2025-07-31  893  					(IRQF_TRIGGER_FALLING | IRQF_ONESHOT),
+162e23657e5379 Joy Zou 2025-07-31  894  					"pf0900-irq", pf0900);
+162e23657e5379 Joy Zou 2025-07-31  895  
+162e23657e5379 Joy Zou 2025-07-31  896  	if (ret != 0)
+162e23657e5379 Joy Zou 2025-07-31  897  		return dev_err_probe(pf0900->dev, ret, "Failed to request IRQ: %d\n",
+162e23657e5379 Joy Zou 2025-07-31  898  				     pf0900->irq);
+162e23657e5379 Joy Zou 2025-07-31  899  	/*
+162e23657e5379 Joy Zou 2025-07-31  900  	 * The PWRUP_M is unmasked by default. When the device enter in RUN state,
+162e23657e5379 Joy Zou 2025-07-31  901  	 * it will assert the PWRUP_I interrupt and assert the INTB pin to inform
+162e23657e5379 Joy Zou 2025-07-31  902  	 * the MCU that it has finished the power up sequence properly.
+162e23657e5379 Joy Zou 2025-07-31  903  	 */
+162e23657e5379 Joy Zou 2025-07-31  904  	ret = regmap_write_bits(pf0900->regmap, PF0900_REG_STATUS1_INT, PF0900_IRQ_PWRUP,
+162e23657e5379 Joy Zou 2025-07-31  905  				PF0900_IRQ_PWRUP);
+162e23657e5379 Joy Zou 2025-07-31  906  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  907  		return dev_err_probe(&i2c->dev, ret, "Clean PWRUP_I error\n");
+162e23657e5379 Joy Zou 2025-07-31  908  
+162e23657e5379 Joy Zou 2025-07-31  909  	/* mask interrupt PWRUP */
+162e23657e5379 Joy Zou 2025-07-31  910  	ret = regmap_update_bits(pf0900->regmap, PF0900_REG_STATUS1_MSK, PF0900_IRQ_PWRUP,
+162e23657e5379 Joy Zou 2025-07-31  911  				 PF0900_IRQ_PWRUP);
+162e23657e5379 Joy Zou 2025-07-31  912  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  913  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
+162e23657e5379 Joy Zou 2025-07-31  914  
+162e23657e5379 Joy Zou 2025-07-31  915  	ret = regmap_update_bits(pf0900->regmap, PF0900_REG_SW_ILIM_MSK, PF0900_IRQ_SW1_IL |
+162e23657e5379 Joy Zou 2025-07-31  916  				 PF0900_IRQ_SW2_IL | PF0900_IRQ_SW3_IL | PF0900_IRQ_SW4_IL |
+162e23657e5379 Joy Zou 2025-07-31  917  				 PF0900_IRQ_SW5_IL, 0);
+162e23657e5379 Joy Zou 2025-07-31  918  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  919  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
+162e23657e5379 Joy Zou 2025-07-31  920  
+162e23657e5379 Joy Zou 2025-07-31  921  	ret = regmap_update_bits(pf0900->regmap, PF0900_REG_SW_UV_MSK, PF0900_IRQ_SW1_UV |
+162e23657e5379 Joy Zou 2025-07-31  922  				 PF0900_IRQ_SW2_UV | PF0900_IRQ_SW3_UV | PF0900_IRQ_SW4_UV |
+162e23657e5379 Joy Zou 2025-07-31  923  				 PF0900_IRQ_SW5_UV, 0);
+162e23657e5379 Joy Zou 2025-07-31  924  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  925  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
+162e23657e5379 Joy Zou 2025-07-31  926  
+162e23657e5379 Joy Zou 2025-07-31  927  	ret = regmap_update_bits(pf0900->regmap, PF0900_REG_SW_OV_MSK, PF0900_IRQ_SW1_OV |
+162e23657e5379 Joy Zou 2025-07-31  928  				 PF0900_IRQ_SW2_OV | PF0900_IRQ_SW3_OV | PF0900_IRQ_SW4_OV |
+162e23657e5379 Joy Zou 2025-07-31  929  				 PF0900_IRQ_SW5_OV, 0);
+162e23657e5379 Joy Zou 2025-07-31  930  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  931  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
+162e23657e5379 Joy Zou 2025-07-31  932  
+162e23657e5379 Joy Zou 2025-07-31  933  	ret = regmap_update_bits(pf0900->regmap, PF0900_REG_LDO_ILIM_MSK, PF0900_IRQ_LDO1_IL |
+162e23657e5379 Joy Zou 2025-07-31  934  				 PF0900_IRQ_LDO2_IL | PF0900_IRQ_LDO3_IL, 0);
+162e23657e5379 Joy Zou 2025-07-31  935  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  936  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
+162e23657e5379 Joy Zou 2025-07-31  937  
+162e23657e5379 Joy Zou 2025-07-31  938  	ret = regmap_update_bits(pf0900->regmap, PF0900_REG_LDO_UV_MSK, PF0900_IRQ_LDO1_UV |
+162e23657e5379 Joy Zou 2025-07-31  939  				 PF0900_IRQ_LDO2_UV | PF0900_IRQ_LDO3_UV | PF0900_IRQ_VAON_UV, 0);
+162e23657e5379 Joy Zou 2025-07-31  940  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  941  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
+162e23657e5379 Joy Zou 2025-07-31  942  
+162e23657e5379 Joy Zou 2025-07-31  943  	ret = regmap_update_bits(pf0900->regmap, PF0900_REG_LDO_OV_MSK, PF0900_IRQ_LDO1_OV |
+162e23657e5379 Joy Zou 2025-07-31  944  				 PF0900_IRQ_LDO2_OV | PF0900_IRQ_LDO3_OV | PF0900_IRQ_VAON_OV, 0);
+162e23657e5379 Joy Zou 2025-07-31  945  	if (ret)
+162e23657e5379 Joy Zou 2025-07-31  946  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
+162e23657e5379 Joy Zou 2025-07-31  947  
+162e23657e5379 Joy Zou 2025-07-31  948  	return 0;
+162e23657e5379 Joy Zou 2025-07-31  949  }
+162e23657e5379 Joy Zou 2025-07-31  950  
 
 --
 0-DAY CI Kernel Test Service
