@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C000B3D5C38
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Aug 2026 17:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E78189B84
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Aug 2026 18:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786815607; cv=none; b=kAieYdqRmTuYOS2qoX9xZw4tucjiKRCjGqw0xs6g7+FASRFLNqD3teE0Ui+dzo9gX4LBcXrie4uqkCJFSHrRndfaY6fYx2P7S26lGzkFX2+mwSCOEQN28LYoScDpVV2bCdLW2kvWe1wH3iGKo1V2d6QuJWAbxApoBbIFmGqwmAM=
+	t=1786816803; cv=none; b=JanlSlpKltRP/KWBVEhfNm74BKxuXzZL15zPO2LEhP7XeZBf/gZ/G5VLh5Aa1wGH1ye6xpXw687puMGAA3pYp+nIsEOFIlhYnnEQz4umTB2FhpHun3OQiRcM5CG0I12iYn8MEGZR3RNt9oxW+odYHHEJCw5j1NgJqYFKsKlBjj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786815607; c=relaxed/simple;
-	bh=ljCD544lOvNBKsiM0JoHjV7FFBHKL3EXA6JPXPLW3oc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WFIK178cS4sP9oT0JubSpa/tu2CX+On2x3mcf1KfEHomNH+xSc0wNNnhKoScGHkykwdCoGlXBConcovb7w3l40pOSXXyucnW9E41F/+CAbEH5o5tpssQMDQvIRs2ErnV8/aasGuPRdnPr1ea3F87cxYRR4XZ5QFK2ld6PkoYTeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvCnmgJJ; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1786816803; c=relaxed/simple;
+	bh=RErp1IUoQDun76IhrO9MjfAN/kQLyA7eqCnilgrIMR0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NXX4Pssy19YjulradmAuz8FH17ZMhch0bzcXoUndn4lBe4PWDK4ysc5oW3vOh5lEzBpcZkY5HtJBivkPKbKf34sIImd8Uti264gYhvLkP489hK3JWEPLvybsfsmZRUHh+mErNlW13m7lhEk5tdIgKF7OKE8lOZyBoQmVE3vm2YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTOhFc1c; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvCnmgJJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTOhFc1c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786815606; x=1818351606;
+  t=1786816802; x=1818352802;
   h=date:from:to:cc:subject:message-id;
-  bh=ljCD544lOvNBKsiM0JoHjV7FFBHKL3EXA6JPXPLW3oc=;
-  b=JvCnmgJJ0h3+ssxEIHkObgKBe3DGN3BvUenB3GPTfv3W0zX4gBcAOLsY
-   3uRYMKo87eNLw05lwvvn398ursQ+MEjHr3jyqFEtGmMvjlNN0nnD5bveB
-   gkQStIo5UY3W0p3a6M4aZ14mK37HMnUyyjYQtJ1jlkhcYiDwmY7C0PuUi
-   pPYB+y8FE5Vs50M0t63yIds0qHt59cTDTPrPD35G4VDqMdmpsLaIJ5soc
-   BiLnw0qGrQ7sWZfr2zQH3Ovt5LaferteCOOnGRYtWZ+hky/8Rz7sO6pdM
-   qZOubq8E2cEiJAnCwjld64xxZ2R2GhAlG6oqRyXguoYiIXLGrs45iYLAb
-   Q==;
-X-CSE-ConnectionGUID: 8WseX45nTS+3e2b7SmGpyQ==
-X-CSE-MsgGUID: wmk6GL0mRoG/Jkt/GIuI7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="91172989"
+  bh=RErp1IUoQDun76IhrO9MjfAN/kQLyA7eqCnilgrIMR0=;
+  b=OTOhFc1ctowWCRV4f7QBK//Bc4qxpugq45KCcsaglGbGJ8f/03I7oIsI
+   ZOjMaaPdGHs4Fq2P7moON7u1ZvSMLzAgGsU+UtDv6gnHcTAsLt1Lp/t7l
+   RUWqTIisT1BDmgOHVMsDKEFvfUH/QegQUskT3It76LQlueTGa0TVYpUg6
+   jzW1NrjSwYOqpcBSxfe7MlYaXwDE7PLomAxgje8ExSLBfXvsHehHJ2x3+
+   gJSqji17WHbNtRmtMCNm2supnFK30wq8XgHDkW0guwWBcBXzH2YyOFCkd
+   1a7dW1LdyPLn7r9ySBc46SAUDFa8Jr2sTrKHDqhVrmrayJxr+rc/Rgm85
+   w==;
+X-CSE-ConnectionGUID: n8lAOaQ/TUuA7f8pndRg9A==
+X-CSE-MsgGUID: qBk9x1gzQGmekUfVVVJ1vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="97704373"
 X-IronPort-AV: E=Sophos;i="6.25,225,1779174000"; 
-   d="scan'208";a="91172989"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 10:40:05 -0700
-X-CSE-ConnectionGUID: mslhK6A+Q+Su5qomT9C2Sg==
-X-CSE-MsgGUID: rb5sif48Roqq70NjkG0TvA==
+   d="scan'208";a="97704373"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 11:00:01 -0700
+X-CSE-ConnectionGUID: Q+J7AtviQrytxyf0zExVjA==
+X-CSE-MsgGUID: x2zYn0DyS8a8LhRwoGDN1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,225,1779174000"; 
-   d="scan'208";a="289314067"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Aug 2026 10:40:04 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="265121564"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 15 Aug 2026 11:00:00 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvIMT-000000006Qv-3fkn;
-	Sat, 15 Aug 2026 17:40:01 +0000
-Date: Sat, 15 Aug 2026 19:39:28 +0200
+	id 1wvIfl-00000000cPS-2rPj;
+	Sat, 15 Aug 2026 17:59:57 +0000
+Date: Sun, 16 Aug 2026 01:59:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000
- (apm,xgene-enet): Unevaluated properties are not allowed
- ('local-mac-address', 'phy-connection-type', 'phy-handle' were unexpected)
-Message-ID: <202608151911.xzLjSuxN-lkp@intel.com>
+Subject: include/linux/liveupdate.h:287:5: warning: no previous
+ prototype for 'liveupdate_flb_incoming_early'
+Message-ID: <202608160151.EszMgENt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,49 +60,45 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Pratyush-Yadav/kho-drop-restriction-on-maximum-page-order/20260815-221525, commit: d0e70617c45e88d720e7461e6ea9f2d136a610c4"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Jacob Keller <jacob.e.keller@intel.com>
+TO: Pratyush Yadav <pratyush@kernel.org>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3eb40771c00a8488fa6ed2cc1fe203477908bf38
-commit: 0b467f5a7f19853d8b7a920468d795e682442b80 dt-bindings: net: Convert apm,xgene-enet to DT schema
-date:   11 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 11 months ago
-config: arm64-randconfig-2054-20260813 (https://download.01.org/0day-ci/archive/20260815/202608151911.xzLjSuxN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260815/202608151911.xzLjSuxN-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Pratyush-Yadav/kho-drop-restriction-on-maximum-page-order/20260815-221525
+head:   e99e331639f1c4883ed41f9a5201e7c5aec1bdbf
+commit: d0e70617c45e88d720e7461e6ea9f2d136a610c4 liveupdate: flb: allow getting FLB data in early boot
+date:   4 hours ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260816/202608160151.EszMgENt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160151.EszMgENt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0b467f5a7f19 ("dt-bindings: net: Convert apm,xgene-enet to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608151911.xzLjSuxN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608160151.EszMgENt-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/mailbox@10540000: failed to match any schema with compatible: ['apm,xgene-slimpro-mbox']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/i2cslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-i2c']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/hwmonslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-hwmon']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: mmc@1c000000 (arasan,sdhci-4.9a): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/rtc@10510000: failed to match any schema with compatible: ['apm,xgene-rtc']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/mdio@17020000: failed to match any schema with compatible: ['apm,xgene-mdio-rgmii']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): phy-handle:0: [36, 37] is too long
-   	from schema $id: http://devicetree.org/schemas/net/apm,xgene-enet.yaml
->> arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): Unevaluated properties are not allowed ('local-mac-address', 'phy-connection-type', 'phy-handle' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/apm,xgene-enet.yaml
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): phy-handle:0: [36, 37] is too long
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/dma@1f270000: failed to match any schema with compatible: ['apm,xgene-storm-dma']
+All warnings (new ones prefixed by >>):
+
+   In file included from mm/mm_init.c:34:
+>> include/linux/liveupdate.h:287:5: warning: no previous prototype for 'liveupdate_flb_incoming_early' [-Wmissing-prototypes]
+     287 | int liveupdate_flb_incoming_early(struct liveupdate_flb *flb, u64 *datap)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/liveupdate_flb_incoming_early +287 include/linux/liveupdate.h
+
+6ae88b58caeb68 Pasha Tatashin 2025-11-25  286  
+d0e70617c45e88 Pratyush Yadav 2025-12-07 @287  int liveupdate_flb_incoming_early(struct liveupdate_flb *flb, u64 *datap)
+d0e70617c45e88 Pratyush Yadav 2025-12-07  288  {
+d0e70617c45e88 Pratyush Yadav 2025-12-07  289  	return -EOPNOTSUPP;
+d0e70617c45e88 Pratyush Yadav 2025-12-07  290  }
+d0e70617c45e88 Pratyush Yadav 2025-12-07  291  
 
 --
 0-DAY CI Kernel Test Service
