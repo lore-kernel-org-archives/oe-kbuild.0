@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A3E4B048D
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Aug 2026 00:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBD51B87C0
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Aug 2026 00:47:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786754828; cv=none; b=eu80jh04OjZDE5MTdzArRJRDsvTp6b7CsZtJAjGYH7rh2fafruOP2lbx2GY+TfcLiQ7tE6p57niCtL7PAT6qAHXTGp2xg8rlIYW4tXj4RRYlQ7jnzW8pTVNXkWabT8vAnnrZpu+nXGCzaF1H43iGmjZnLnN5THMI0ThxnaXCBI0=
+	t=1786754830; cv=none; b=obh4Ol53IcLZCMDljtSgaRnFLF3K+6rNNJHnZ/PQ7asZL3sIKIuunfc9lMWAWzOKfNHKdpw4//ximn10z8xKRuYu8KgSDWonQcpsUzegAZ4LpX6kKF1AgRyuq/kKWpVe/S2PxlNbSc2g6okFqWY1PYW5WLGHaN0HnZMXT2eOHbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786754828; c=relaxed/simple;
-	bh=touY3UW8E4mSzIAPtIq3HGn5R5XBvbR6hZ+rqoBz5kY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=DQJq3EdvDK3Sw26LQHYku3hC9umwaAfVy8Fud/J8EiDTgTJLMRbtarIaFH7ynjOysc+5LRQ/ptva7pHca4Hh5qTQMp/46yRVqRGRyoZxPKurd2lFwIisPVzIER1+njxE+v7btazDIfC5K65da2uT8awwMBlr+zYn/YDvQXnWTxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZJejDz5z; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1786754830; c=relaxed/simple;
+	bh=a59rwgsVSO1dXgXPfo0RTJ/TPWD6sFWFuufHu/hUhsU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Qntdv5jJgrfw6LNBYsVOUcmJXGIk1JLbtcGrjQRnU2EXK4aQ7Eddj7lFlZ0MXMTXdxURccmgG9+zhAsnmvHEzej0TlT7HlM7BKPxzCbOjbbBFyurxW28lKETIRHBlcHJqRrtXNvZJBqJPv6H1R4+gdh3vrIaeNTPCqfbmvZTHOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5zXpA3x; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJejDz5z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5zXpA3x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786754827; x=1818290827;
+  t=1786754829; x=1818290829;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=touY3UW8E4mSzIAPtIq3HGn5R5XBvbR6hZ+rqoBz5kY=;
-  b=ZJejDz5zNK6ZYr6IgmsRRn6T+31xIaRw6kbhKvUTR1Ttm1b0ouhNdF/n
-   zvIgN3EWnJN2vT1wfzU822BC4X3Zpo6xJZPlpUS7ps3YPpaoB0MIzzmjJ
-   6sgLLHAzMnmr/cgcQYyqQgDGmsTKGQ6r46d9Cmshsp+GdRkcc8//olBlS
-   /d/uyuf3Kdsa2bOxwGEqJ82EsN18kC6cYeEwxQP5BHlmaESYSopQn8nVl
-   56VioojymXkc1/uZ+yBEwggDCvZqAlg81mlh6pmEakEHIkxTdNO/tgY6l
-   Ewf8pv8yj8hYglMeE8q2AlAQ5kMzxDNxvwBx7RwB4XVRAzEfpPKqWG7Ae
-   g==;
-X-CSE-ConnectionGUID: GSaGM6l2RZWcKIFNWA5kfw==
-X-CSE-MsgGUID: uHYacSbhRjCkhj4gW/8yhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="97679144"
+  bh=a59rwgsVSO1dXgXPfo0RTJ/TPWD6sFWFuufHu/hUhsU=;
+  b=Q5zXpA3xHRmhuCkrNgyAMT30En7ZCzTH0SQAX1wGeLygDzVEyIAmPMIQ
+   NF+dCcSvbrzDr34GMPM9VopvOha4/wM9gBcj2SxMG9k1z56Bj4y6isq9s
+   6cdJfKzo064kmZmiluzmE2VOst9s/33ZcZWJdBXqEhzqotFkM21AvGiP4
+   68i3zY1pXVVO4/rKfFEmcSpvJ2a5fY3o3uyiz6wVQ73UdTD02BkXXMtEk
+   xlG5T1X5TJht1j0JTUYWtmyxqP5n7us1jv8sv14QV9kVS2db9/T//R1Ms
+   l/7ppLa7/2mWU5hrwUaAQPNah4iIjpZoRJf7BI031JudzTs3xEmQA0Xh0
+   Q==;
+X-CSE-ConnectionGUID: CmFCAO/6TeOpHYHgBoKW3w==
+X-CSE-MsgGUID: lIJfqO8iR0yb0EPofLCFjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="97679146"
 X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="97679144"
+   d="scan'208";a="97679146"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 17:47:06 -0700
-X-CSE-ConnectionGUID: qiomP5OFQJCspKqgaMe6Kg==
-X-CSE-MsgGUID: m0b7LrJ6TnGkr8t5fxSN8Q==
+X-CSE-ConnectionGUID: aMgSptFgTa2cFRvfmZWlKA==
+X-CSE-MsgGUID: kGiye9YLTda0H8UuKVgaQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="264402638"
+   d="scan'208";a="264402640"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 14 Aug 2026 17:47:05 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wv2YA-00000000afx-2tBw;
+	id 1wv2YA-00000000ag1-3Mhd;
 	Sat, 15 Aug 2026 00:47:02 +0000
-Date: Sat, 15 Aug 2026 08:46:31 +0800
+Date: Sat, 15 Aug 2026 08:46:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/dma-buf/st-dma-fence-unwrap.c:78:39-45: ERROR:
- reference preceded by free on line 73
-Message-ID: <202608150847.VYhJK9Ic-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/platform/x86/lenovo/thinkpad_acpi.c:1206
+ tpacpi_new_rfkill() warn: 'atp_rfk->rfkill' is an error pointer or valid
+Message-ID: <202608150830.7n4x8F3u-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -66,93 +66,182 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jason Gunthorpe <jgg@nvidia.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: Mark Pearson <mpearson-lenovo@squebb.ca>
+CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Hi Jason,
+Hi Mark,
 
 First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   2f1baf1fc8929e6c48370be543ad028ac7ad4131
-commit: 465f3934381c4e9a5bf9fe0eb866275b0ece5a5d dma-buf: Change st-dma-fen=
-ce-unwrap.c to use kunit
-date:   4 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 4 months ago
-config: arc-randconfig-r064-20260815 (https://download.01.org/0day-ci/archi=
-ve/20260815/202608150847.VYhJK9Ic-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
+commit: 651b57dd40871d4d0d61fb291e7f26e2b8bd69b1 platform/x86: Move Lenovo =
+files into lenovo subdir
+date:   1 year, 2 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 1 year, 2 months ago
+config: i386-randconfig-141-20260815 (https://download.01.org/0day-ci/archi=
+ve/20260815/202608150830.7n4x8F3u-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
-| Fixes: 465f3934381c ("dma-buf: Change st-dma-fence-unwrap.c to use kunit")
+| Fixes: 651b57dd4087 ("platform/x86: Move Lenovo files into lenovo subdir")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202608150847.VYhJK9Ic-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608150830.7n4x8F3u-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dma-buf/st-dma-fence-unwrap.c:78:39-45: ERROR: reference precede=
-d by free on line 73
+New smatch warnings:
+drivers/platform/x86/lenovo/thinkpad_acpi.c:1206 tpacpi_new_rfkill() warn: =
+'atp_rfk->rfkill' is an error pointer or valid
 
-vim +78 drivers/dma-buf/st-dma-fence-unwrap.c
+Old smatch warnings:
+drivers/platform/x86/lenovo/thinkpad_acpi.c:2662 hotkey_inputdev_close() wa=
+rn: bitwise AND condition is false here
+drivers/platform/x86/lenovo/thinkpad_acpi.c:3669 hotkey_notify_hotkey() war=
+n: bitwise AND condition is false here
 
-d2a0b1bc5773d3 Tvrtko Ursulin  2024-11-15  48 =20
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  49  static struct dma_fence=
- *mock_array(unsigned int num_fences, ...)
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  50  {
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  51  	struct dma_fence_array=
- *array;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  52  	struct dma_fence **fen=
-ces;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  53  	va_list valist;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  54  	int i;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  55 =20
-bf4afc53b77aea Linus Torvalds  2026-02-21  56  	fences =3D kzalloc_objs(*fe=
-nces, num_fences);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  57  	if (!fences)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  58  		goto error_put;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  59 =20
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  60  	va_start(valist, num_f=
-ences);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  61  	for (i =3D 0; i < num_=
-fences; ++i)
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  62  		fences[i] =3D va_arg(=
-valist, typeof(*fences));
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  63  	va_end(valist);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  64 =20
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  65  	array =3D dma_fence_ar=
-ray_create(num_fences, fences,
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  66  				       dma_fence_co=
-ntext_alloc(1),
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  67  				       1, false);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  68  	if (!array)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  69  		goto error_free;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  70  	return &array->base;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  71 =20
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  72  error_free:
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11 @73  	kfree(fences);
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  74 =20
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  75  error_put:
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  76  	va_start(valist, num_f=
-ences);
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  77  	for (i =3D 0; i < num_=
-fences; ++i)
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04 @78  		dma_fence_put(va_arg(=
-valist, typeof(*fences)));
-0c5064fa8d5a02 Christian K=C3=B6nig 2022-05-04  79  	va_end(valist);
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  80  	return NULL;
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  81  }
-64a8f92fd783e7 Christian K=C3=B6nig 2022-03-11  82 =20
+vim +1206 drivers/platform/x86/lenovo/thinkpad_acpi.c
 
-:::::: The code at line 78 was first introduced by commit
-:::::: 0c5064fa8d5a02dc2dcc6c674a0ad1bbaf79efda dma-buf: cleanup dma_fence_=
-unwrap selftest v2
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1184 =20
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1185  static int __init tpacpi_new_rfkill(const enum tpacp=
+i_rfk_id id,
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1186  			const struct tpacpi_rfk_ops *tp_rfkops,
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1187  			const enum rfkill_type rfktype,
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1188  			const char *name,
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1189  			const bool set_default)
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1190  {
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1191  	struct tpacpi_rfk *atp_rfk;
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1192  	int res;
+06d5caf47ef4fb drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-16  1193  	bool sw_state =3D false;
+5451a923bbdcff drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Hols=
+chuh 2009-12-15  1194  	bool hw_state;
+06d5caf47ef4fb drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-16  1195  	int sw_status;
+90d9d3c79c44bc drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Hols=
+chuh 2009-01-11  1196 =20
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1197  	BUG_ON(id >=3D TPACPI_RFK_SW_MAX || tpacpi_rfkill_s=
+witches[id]);
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1198 =20
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1199  	atp_rfk =3D kzalloc(sizeof(struct tpacpi_rfk), GFP_=
+KERNEL);
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1200  	if (atp_rfk)
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1201  		atp_rfk->rfkill =3D rfkill_alloc(name,
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1202  						&tpacpi_pdev->dev,
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1203  						rfktype,
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1204  						&tpacpi_rfk_rfkill_ops,
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1205  						atp_rfk);
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02 @1206  	if (!atp_rfk || !atp_rfk->rfkill) {
+0978e012cfbaca drivers/platform/x86/thinkpad_acpi.c Joe Perches            =
+     2011-04-04  1207  		pr_err("failed to allocate memory for rfkill class=
+\n");
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1208  		kfree(atp_rfk);
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1209  		return -ENOMEM;
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1210  	}
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1211 =20
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1212  	atp_rfk->id =3D id;
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1213  	atp_rfk->ops =3D tp_rfkops;
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1214 =20
+06d5caf47ef4fb drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-16  1215  	sw_status =3D (tp_rfkops->get_status)();
+06d5caf47ef4fb drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-16  1216  	if (sw_status < 0) {
+0978e012cfbaca drivers/platform/x86/thinkpad_acpi.c Joe Perches            =
+     2011-04-04  1217  		pr_err("failed to read initial state for %s, error=
+ %d\n",
+06d5caf47ef4fb drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-16  1218  		       name, sw_status);
+b3fa1329eaf2a7 drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-08  1219  	} else {
+06d5caf47ef4fb drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-16  1220  		sw_state =3D (sw_status =3D=3D TPACPI_RFK_RADIO_OF=
+F);
+b3fa1329eaf2a7 drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-08  1221  		if (set_default) {
+b3fa1329eaf2a7 drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-08  1222  			/* try to keep the initial state, since we ask the
+b3fa1329eaf2a7 drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-08  1223  			 * firmware to preserve it across S5 in NVRAM */
+06d5caf47ef4fb drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-16  1224  			rfkill_init_sw_state(atp_rfk->rfkill, sw_state);
+b3fa1329eaf2a7 drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-08  1225  		}
+b3fa1329eaf2a7 drivers/platform/x86/thinkpad_acpi.c Alan Jenkins           =
+     2009-06-08  1226  	}
+5451a923bbdcff drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Hols=
+chuh 2009-12-15  1227  	hw_state =3D tpacpi_rfk_check_hwblock_state();
+5451a923bbdcff drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Hols=
+chuh 2009-12-15  1228  	rfkill_set_hw_state(atp_rfk->rfkill, hw_state);
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1229 =20
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1230  	res =3D rfkill_register(atp_rfk->rfkill);
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1231  	if (res < 0) {
+0978e012cfbaca drivers/platform/x86/thinkpad_acpi.c Joe Perches            =
+     2011-04-04  1232  		pr_err("failed to register %s rfkill switch: %d\n"=
+, name, res);
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1233  		rfkill_destroy(atp_rfk->rfkill);
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1234  		kfree(atp_rfk);
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1235  		return res;
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1236  	}
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1237 =20
+19d337dff95cbf drivers/platform/x86/thinkpad_acpi.c Johannes Berg          =
+     2009-06-02  1238  	tpacpi_rfkill_switches[id] =3D atp_rfk;
+5451a923bbdcff drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Hols=
+chuh 2009-12-15  1239 =20
+0978e012cfbaca drivers/platform/x86/thinkpad_acpi.c Joe Perches            =
+     2011-04-04  1240  	pr_info("rfkill switch %s: radio is %sblocked\n",
+5451a923bbdcff drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Hols=
+chuh 2009-12-15  1241  		name, (sw_state || hw_state) ? "" : "un");
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1242  	return 0;
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1243  }
+0e74dc2646db04 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-07-21  1244 =20
 
-:::::: TO: Christian K=C3=B6nig <christian.koenig@amd.com>
-:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
+:::::: The code at line 1206 was first introduced by commit
+:::::: 19d337dff95cbf76edd3ad95c0cee2732c3e1ec5 rfkill: rewrite
+
+:::::: TO: Johannes Berg <johannes@sipsolutions.net>
+:::::: CC: John W. Linville <linville@tuxdriver.com>
 
 --
 0-DAY CI Kernel Test Service
