@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9E635A925
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Aug 2026 09:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CFF3A7F7E
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Aug 2026 11:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786786008; cv=none; b=rZflUp4lMccB7MPQued82uiAVD5nOZtKuwN1eOVavyDBRmWdNeXO2/YA4y0+3jfmn9MKyImYyO+xje646gkP4gBwGEJFwtKncFBbS4HDeoMYSJs4XQncXHoq+8LTW6a4yj8BA3G3f6COdg3XGHCgaeH5419+Jc3abg28otuba6g=
+	t=1786793114; cv=none; b=rT8j9IjNxjssL3i8ELidx6ngsC8z8hkcMJbsh5tbbexyxhXlBfYpzwUvT1C8BMswMRQ/F3C4JvZeVs6opSs6kIIxHgofCr3AMQ5A41UDLVcjr5qySJOBZ0XaZOG7wQMLxUUt9FPoazFLauszF6egBkWKYq3qwJ9lO2Kfcv+A6g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786786008; c=relaxed/simple;
-	bh=mkrAMBhlj5YWNhYUXK2ExPBB+asDgKyKDKm1fsm1f4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k7OwsrpjCvF+9zwDSLnm3wP5NkMhR1/l2NswflpJAdvjwO6p1k9yK/rzlfuw8Tp37KDy1fEUAsLhLjP9aFF9SqHDMaMd9Z7vwdQ7NHgsBCsqzNAYyGyOkxjkMFB8TMDAmGveHcU2NZHNMcE/fJcgPeMTS79Yo9xdHiGBOCBohWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WAergdRF; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1786793114; c=relaxed/simple;
+	bh=7gyQYlxdx65GrWKqHqxgNgUUF8wmq+1bVcjPVVZRHXo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Scgk3uB+sr4c2pcm29dHOPLoDUdS0O/K/xbNSR+lkFeRahf8S7RDQdbV5lJfTy0J4bEdXEFcglZwUH7a0vOLaq81Tjki69xso1qqjenh234pjZ+aI4pvtsbMc9rlxlGsl3KEZm5UZUxZLbMnrEJR8WwcuR6wtowcDlUDWMqF0Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n2KOJ5iW; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WAergdRF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n2KOJ5iW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786786006; x=1818322006;
+  t=1786793112; x=1818329112;
   h=date:from:to:cc:subject:message-id;
-  bh=mkrAMBhlj5YWNhYUXK2ExPBB+asDgKyKDKm1fsm1f4Q=;
-  b=WAergdRFA1lsjyRSWFsbxg7FFH0+DkF0R7a9vBXIX3uAsaAfHMFRNXTu
-   rxU4tMfOgL1bHjNeD+1hUBxtFeDnXGU2LdxqmIRGLv66RUv9frsiDPoj7
-   VLRU1L8IVaJJ5QpbCAwggJNDdEzMq8XwotZakqBuE5gi7mn31gnZ10F5T
-   SUGIYab/Ke1mB4Fez4XzSo8DEzEePf2AnEfidWzsf0QSDqv8Vr3lipBng
-   A+qqr776z4MK+a/RICHwDIwor6A1qik43HBW/w54Mts6jH26q7Gv47ngg
-   3emCT2DTpcE5QiBV8065I7eSbCP2QH8c7p3ppK8hsO4PCE7cQw0GnnGiI
-   w==;
-X-CSE-ConnectionGUID: 02Ek8t0wQneXwX2Ih6oIeg==
-X-CSE-MsgGUID: bTTzN1shTwOZgy17IrcNAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="86465673"
-X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="86465673"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 02:26:45 -0700
-X-CSE-ConnectionGUID: 248InrOOTjmNuhp/wTFaUw==
-X-CSE-MsgGUID: 9106nJ5iRhy4O+tltS/DxQ==
+  bh=7gyQYlxdx65GrWKqHqxgNgUUF8wmq+1bVcjPVVZRHXo=;
+  b=n2KOJ5iWPC3dTIIzEJBcp1uK74YS1Eow2gNz12XYf+QDH98o7LL8v0hN
+   z0GBaeOnDjkmUVemWxKtm26GJTRnT3W9+P183PwZK4KpinRMp9ZiEiX0N
+   G+5Xfr2cXIoODEOwudEh1wpx93zFj95/P0AjpcI5JxRDkEcDC0CklTtuz
+   GqWw6NW+EVS7OfpyOLmpL6SWVzlfSXgXrWlPP/ygqMSgqZffEgJ/fNjQm
+   rYhOTI5Nyf+DpxEGTV0uFNFvdyphDJm4fD4KARHuY1m9PYj5fvHwSFsqU
+   0zEFnmWx6ijtVUUtlfRigBzCbW9XLYT9xhqQN/AD975pybpIcTElGkflq
+   Q==;
+X-CSE-ConnectionGUID: x+RIBi+hQv6nbzPcHKyQ8g==
+X-CSE-MsgGUID: GmOL5o6iRJWZPuRaFTTG6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11875"; a="87206732"
+X-IronPort-AV: E=Sophos;i="6.25,225,1779174000"; 
+   d="scan'208";a="87206732"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 04:25:11 -0700
+X-CSE-ConnectionGUID: gaHvk3xPTFC9D1B6pVXRyA==
+X-CSE-MsgGUID: rzpW1ESPSw6KQsoDmM4IAQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,224,1779174000"; 
-   d="scan'208";a="264479071"
+X-IronPort-AV: E=Sophos;i="6.25,225,1779174000"; 
+   d="scan'208";a="289262201"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Aug 2026 02:26:44 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Aug 2026 04:25:09 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvAf3-00000000beI-3hIF;
-	Sat, 15 Aug 2026 09:26:41 +0000
-Date: Sat, 15 Aug 2026 17:26:27 +0800
+	id 1wvCVf-00000000bqi-1BVP;
+	Sat, 15 Aug 2026 11:25:07 +0000
+Date: Sat, 15 Aug 2026 19:24:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/misc/mei/hw-me.c:995:1-7: preceding lock on line 958
-Message-ID: <202608151713.rh6MBeUQ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 11967/15183]
+ drivers/gpu/drm/amd/amdgpu/../ras/core/cmd.c:336
+ ras_cmd_get_batch_trace_records() error: buffer overflow
+ 'output_data->records' 300 <= 2147483646
+Message-ID: <202608151946.qh0Qq1AX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,112 +63,114 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Simon Richter <Simon.Richter@hogyros.de>
+TO: YiPeng Chai <YiPeng.Chai@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2f1baf1fc8929e6c48370be543ad028ac7ad4131
-commit: 25f9b0d351552f63ac3f72e6c655bc8f9994f7d2 misc/mei: Allow building Intel ME interface on non-x86
-date:   7 months ago
-:::::: branch date: 34 hours ago
-:::::: commit date: 7 months ago
-config: powerpc-randconfig-r053-20260812 (https://download.01.org/0day-ci/archive/20260815/202608151713.rh6MBeUQ-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 12df34b8469b8095359de8c249cb1b2753fadeea)
+Hi YiPeng,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2697ef8943c9985c14708a6429e21812693857b2
+commit: d95700604fbc6fd7534303796d005e6efbd1d591 [11967/15183] drm/amd/ras: rename core ras_* files and update include guards
+:::::: branch date: 2 days ago
+:::::: commit date: 9 days ago
+config: x86_64-randconfig-161-20260810 (https://download.01.org/0day-ci/archive/20260815/202608151946.qh0Qq1AX-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 25f9b0d35155 ("misc/mei: Allow building Intel ME interface on non-x86")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202608151713.rh6MBeUQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608151946.qh0Qq1AX-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/misc/mei/hw-me.c:995:1-7: preceding lock on line 958
-   drivers/misc/mei/hw-me.c:815:2-8: preceding lock on line 804
-   drivers/misc/mei/hw-me.c:832:1-7: preceding lock on line 804
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../ras/core/cmd.c:336 ras_cmd_get_batch_trace_records() error: buffer overflow 'output_data->records' 300 <= 2147483646
 
-vim +995 drivers/misc/mei/hw-me.c
+vim +336 drivers/gpu/drm/amd/amdgpu/../ras/core/cmd.c
 
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  924  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  925  /**
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  926   * mei_me_d0i3_enter_sync - perform d0i3 entry procedure
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  927   *
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  928   * @dev: the device structure
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  929   *
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  930   * Return: 0 on success an error code otherwise
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  931   */
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  932  static int mei_me_d0i3_enter_sync(struct mei_device *dev)
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  933  {
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  934  	struct mei_me_hw *hw = to_me_hw(dev);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  935  	int ret;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  936  	u32 reg;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  937  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  938  	reg = mei_me_d0i3c_read(dev);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  939  	if (reg & H_D0I3C_I3) {
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  940  		/* we are in d0i3, nothing to do */
-7704e6be4ed283 Alexander Usyskin 2025-08-26  941  		dev_dbg(&dev->dev, "d0i3 set not needed\n");
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  942  		ret = 0;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  943  		goto on;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  944  	}
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  945  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  946  	/* PGI entry procedure */
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  947  	dev->pg_event = MEI_PG_EVENT_WAIT;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  948  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  949  	ret = mei_hbm_pg(dev, MEI_PG_ISOLATION_ENTRY_REQ_CMD);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  950  	if (ret)
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  951  		/* FIXME: should we reset here? */
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  952  		goto out;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  953  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  954  	mutex_unlock(&dev->device_lock);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  955  	wait_event_timeout(dev->wait_pg,
-95953618519632 Alexander Usyskin 2022-09-08  956  		dev->pg_event == MEI_PG_EVENT_RECEIVED,
-95953618519632 Alexander Usyskin 2022-09-08  957  		dev->timeouts.pgi);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02 @958  	mutex_lock(&dev->device_lock);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  959  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  960  	if (dev->pg_event != MEI_PG_EVENT_RECEIVED) {
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  961  		ret = -ETIME;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  962  		goto out;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  963  	}
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  964  	/* end PGI entry procedure */
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  965  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  966  	dev->pg_event = MEI_PG_EVENT_INTR_WAIT;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  967  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  968  	reg = mei_me_d0i3_set(dev, true);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  969  	if (!(reg & H_D0I3C_CIP)) {
-7704e6be4ed283 Alexander Usyskin 2025-08-26  970  		dev_dbg(&dev->dev, "d0i3 enter wait not needed\n");
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  971  		ret = 0;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  972  		goto on;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  973  	}
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  974  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  975  	mutex_unlock(&dev->device_lock);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  976  	wait_event_timeout(dev->wait_pg,
-95953618519632 Alexander Usyskin 2022-09-08  977  		dev->pg_event == MEI_PG_EVENT_INTR_RECEIVED,
-95953618519632 Alexander Usyskin 2022-09-08  978  		dev->timeouts.d0i3);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  979  	mutex_lock(&dev->device_lock);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  980  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  981  	if (dev->pg_event != MEI_PG_EVENT_INTR_RECEIVED) {
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  982  		reg = mei_me_d0i3c_read(dev);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  983  		if (!(reg & H_D0I3C_I3)) {
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  984  			ret = -ETIME;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  985  			goto out;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  986  		}
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  987  	}
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  988  
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  989  	ret = 0;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  990  on:
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  991  	hw->pg_state = MEI_PG_ON;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  992  out:
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  993  	dev->pg_event = MEI_PG_EVENT_IDLE;
-7704e6be4ed283 Alexander Usyskin 2025-08-26  994  	dev_dbg(&dev->dev, "d0i3 enter ret = %d\n", ret);
-859ef2ffbfa785 Alexander Usyskin 2015-08-02 @995  	return ret;
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  996  }
-859ef2ffbfa785 Alexander Usyskin 2015-08-02  997  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  291  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  292  static int ras_cmd_get_batch_trace_records(struct ras_core_context *ras_core,
+4c74635afdceff drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-09-25  293  	struct ras_cmd_ctx *cmd, void *data)
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  294  {
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  295  	struct ras_cmd_batch_trace_record_req *input_data =
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  296  			(struct ras_cmd_batch_trace_record_req *)cmd->input_buff_raw;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  297  	struct ras_cmd_batch_trace_record_rsp *output_data =
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  298  			(struct ras_cmd_batch_trace_record_rsp *)cmd->output_buff_raw;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  299  	struct ras_log_batch_overview overview;
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  300  	struct ras_log_info *trace_arry = NULL;
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  301  	uint32_t trace_count = MAX_RECORD_PER_BATCH;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  302  	struct ras_log_info *record;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  303  	int i, j, count = 0, offset = 0;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  304  	uint64_t id;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  305  	bool completed = false;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  306  
+2206e6c76d05e3 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  307  	if ((cmd->input_size != sizeof(struct ras_cmd_batch_trace_record_req)) ||
+2206e6c76d05e3 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  308  		(cmd->output_buf_size < sizeof(*output_data)))
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  309  		return RAS_CMD__ERROR_INVALID_INPUT_SIZE;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  310  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  311  	if ((!input_data->batch_num) || (input_data->batch_num > RAS_CMD_MAX_BATCH_NUM))
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  312  		return RAS_CMD__ERROR_INVALID_INPUT_DATA;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  313  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  314  	ras_log_ring_get_batch_overview(ras_core, &overview);
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  315  	if ((input_data->start_batch_id < overview.first_batch_id) ||
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  316  	    (input_data->start_batch_id >= overview.last_batch_id))
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  317  		return RAS_CMD__ERROR_INVALID_INPUT_SIZE;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  318  
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  319  	trace_arry = kcalloc(trace_count, sizeof(*trace_arry), GFP_KERNEL);
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  320  	if (!trace_arry)
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  321  		return RAS_CMD__ERROR_GENERIC;
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  322  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  323  	for (i = 0; i < input_data->batch_num; i++) {
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  324  		id = input_data->start_batch_id + i;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  325  		if (id >= overview.last_batch_id) {
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  326  			completed = true;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  327  			break;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  328  		}
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  329  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  330  		count = ras_log_ring_get_batch_records(ras_core,
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  331  					id, trace_arry, trace_count);
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  332  		if (count > 0) {
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  333  			if ((offset + count) > RAS_CMD_MAX_TRACE_NUM)
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  334  				break;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  335  			for (j = 0; j < count; j++) {
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17 @336  				record = &output_data->records[offset + j];
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  337  				record->seqno = trace_arry[j].seqno;
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  338  				record->timestamp = trace_arry[j].timestamp;
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  339  				record->event = trace_arry[j].event;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  340  				memcpy(&record->aca_reg,
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  341  					&trace_arry[j].aca_reg, sizeof(trace_arry[j].aca_reg));
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  342  			}
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  343  		} else {
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  344  			count = 0;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  345  		}
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  346  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  347  		output_data->batchs[i].batch_id = id;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  348  		output_data->batchs[i].offset = offset;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  349  		output_data->batchs[i].trace_num = count;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  350  		offset += count;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  351  	}
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  352  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  353  	output_data->start_batch_id = input_data->start_batch_id;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  354  	output_data->real_batch_num = i;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  355  	output_data->remain_num = completed ? 0 : (input_data->batch_num - i);
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  356  	output_data->version = 0;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  357  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  358  	cmd->output_size = sizeof(struct ras_cmd_batch_trace_record_rsp);
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  359  
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  360  	kfree(trace_arry);
+90b0cbcba1bd68 drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2026-05-19  361  
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  362  	return RAS_CMD__SUCCESS;
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  363  }
+19030244e1f99f drivers/gpu/drm/amd/ras/rascore/ras_cmd.c YiPeng Chai 2025-03-17  364  
 
-:::::: The code at line 995 was first introduced by commit
-:::::: 859ef2ffbfa785d273567467088cc8743f80b5bd mei: me: d0i3: add d0i3 enter/exit state machine
+:::::: The code at line 336 was first introduced by commit
+:::::: 19030244e1f99f3e9f8617ba4cb90ce49276eab0 drm/amd/ras: Add ras ioctl command handler
 
-:::::: TO: Alexander Usyskin <alexander.usyskin@intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: YiPeng Chai <YiPeng.Chai@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 --
 0-DAY CI Kernel Test Service
