@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EFE1ADFE4
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Aug 2026 13:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A152C3B47C3
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Aug 2026 15:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786886902; cv=none; b=aCo8E+PyogvsuUOFhMCwuHSfgfOJ6BdC6vTpbJOr8xI0z9B4tgMOZf/PEEPUy5sJHUD8bYx7bNJi6dxX1d6pGzlxJ5nxObSMxMAMltz4nUpwBTSweTN+rqw1tXjW/+7miu4phosUD88ar1eJLwkOxihI+0V3W1lXc8e+b6Irhtg=
+	t=1786892428; cv=none; b=NpJNphD2sbmz+YOfi7xJfUxZc2iuniXBcXsprC0VgGyknlzUw3g0ZWtIRrZ6rn+UDCD5Ke/AXBz6/AXSri5Ul4hly0y39fv8HskJOjh8HMFnz2MqLZuhCMOE3QjsS38huiqzo/Eec63ZUSMDn4jTGIAN69czy2QkxiodlOkLhEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786886902; c=relaxed/simple;
-	bh=bUy1s2oNoIVjrEc1gwzfMb5wfJ9paCHXMpxKucNGi10=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S+9XBkFK/4nMJVa5NyIvC2K6cbeIxoCnEjHgQgcgWL+1AkL5tlMevnz86xgldOPyO2dEHR07Z+iCnsORBPCGk3dgn1Q6mO6Ocl8XI0k6PDYsOOdhJ6vfxqzy7851h/dsrhSO9z9eEKQmaTLuwvYBcDsihtEblF+wZL0eVZLVu7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wa25pSWE; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1786892428; c=relaxed/simple;
+	bh=JP+D2TxXZ+d+I5fGHKo7JjyvIWe9rzW7xt/NLfmXm4o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Vj32iJXqJYrlgbWGUUOJyHiU7wpSI6J208PK/8ITV1IBuFoNgK6td+01DfmlGHOaNo5yr2z7gPe6VsuP9/CglRY7ujqQj+BgWqHn8LISBIgeONb6/xI5YJdEcShT7jBw6xZ6+VXYeIicsk3mjfB2HApAxeJ2iCJKVrz/DApEjhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T97S43p2; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wa25pSWE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T97S43p2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786886901; x=1818422901;
+  t=1786892423; x=1818428423;
   h=date:from:to:cc:subject:message-id;
-  bh=bUy1s2oNoIVjrEc1gwzfMb5wfJ9paCHXMpxKucNGi10=;
-  b=Wa25pSWEhgOZq6ftcm1Zw9lqmD3hXiPEUJ7HRQNr2lOhN+lm28Jqgw6H
-   Qivhb+QCzNw5LU8sArULDHBN2vYRssC0HJ7qwlsIV5nzAmamLm6wLuEJD
-   ARFEDSffKvjXVrpRxxcdyfUlVYxC4OOTXhnlzQN46AlZE1IhPvtYiFE1x
-   LW3UI5FxOMSPJj1nXkeJ1muVSLR17zY+T5jNS+cwGce9ALoYaHLAcssOJ
-   kDRJqZ3W+UZva0epeQ8Cx+6ZBT0Nfa4O01741/tZ4995cYyHJiwboH5/x
-   uJv7uV2GE64N9u9yWcpcIZ67S5gKWVzaQxuylunEaM0DZSH8JT5THSGCR
-   Q==;
-X-CSE-ConnectionGUID: JKYmUyy2SiCcBIHA8ceYyA==
-X-CSE-MsgGUID: 2tsubrcyQIanfl0e7J2DNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="91256560"
+  bh=JP+D2TxXZ+d+I5fGHKo7JjyvIWe9rzW7xt/NLfmXm4o=;
+  b=T97S43p2RUuvUTkQBjyw5FWYy6PUSofHAF8Jo86p4ZglRUrBkd8yOFLm
+   VPv+hfAIeuNzG/bXOYIsP1p8219u4rHxcE19scZeiNXySSlt7DQ1AqXjj
+   aefsS56Q7m81SR/6PJxm/7f3ZMzQe0q/AaFvQDl7IYZVHzBhXFsIMHLNW
+   JWR9o7o+CGRdu1353CZvz5i2B8B6IpHiSbPpWOjXqzzuBPNJ2IfQ0HU6j
+   2v/k4Zs8+u69sokPe4WP7gxMM48tS5FH63msa/qYlOthP1Q8+Ld6VVW5+
+   cJLtDlXTIbIE3cPXHcIOhtezCRxsoKmYshAWZiemZ1ie6BKgyoDNufALQ
+   g==;
+X-CSE-ConnectionGUID: PZ/r2rJIQKqxeqG6n3enow==
+X-CSE-MsgGUID: Hhno1k93QBCJBuyuL5mJbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="98050060"
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="91256560"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 06:28:20 -0700
-X-CSE-ConnectionGUID: HyYXhjxOSmCWI0xH8OAvBg==
-X-CSE-MsgGUID: mVvX7eu3Qhq/a8M4/TPnwg==
+   d="scan'208";a="98050060"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 08:00:21 -0700
+X-CSE-ConnectionGUID: HGeq4NkTSTyjxrz2m3Id+w==
+X-CSE-MsgGUID: E5iMQg0rTAi+PGal1DkbLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
-   d="scan'208";a="265281185"
+   d="scan'208";a="262922775"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 16 Aug 2026 06:28:20 -0700
+  by orviesa006.jf.intel.com with ESMTP; 16 Aug 2026 08:00:21 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvauO-000000006am-49ev;
-	Sun, 16 Aug 2026 13:28:16 +0000
-Date: Sun, 16 Aug 2026 15:27:49 +0200
+	id 1wvcLS-000000006bZ-13Aq;
+	Sun, 16 Aug 2026 15:00:18 +0000
+Date: Sun, 16 Aug 2026 17:00:11 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/freescale/imx95-15x15-frdm-rpmsg.dtb:
- opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type
- 'object', 'integer', 'array', 'boolean', 'null'
-Message-ID: <202608161517.WBsFKDAp-lkp@intel.com>
+Subject: 
+ arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106.dtb: /
+ (gocontroll,moduline-display-106): hardware: b'Moduline Display V1.06\x00' is
+ not of type 'object', 'integer', 'array', 'boolean', 'null'
+Message-ID: <202608161603.CyPM1m5o-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,37 +62,40 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-CC: 0day robot <lkp@intel.com>
-CC: Daniel Baluta <daniel.baluta@nxp.com>
+CC: linux-kernel@vger.kernel.org
+TO: Maud Spierings <maudspierings@gocontroll.com>
+CC: Shawn Guo <shawnguo@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Laurentiu-Mihalcea/dt-bindings-remoteproc-imx_rproc-document-optional-memory-region-names/20260807-134232
-head:   649a5679cf4937afa3b694ec2068dfefd0d1e6c7
-commit: 649a5679cf4937afa3b694ec2068dfefd0d1e6c7 arm64: dts: freescale: add DT overlay for MX95-15x15-FRDM RPMSG usage
-date:   9 days ago
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: arm64-randconfig-2052-20260815 (https://download.01.org/0day-ci/archive/20260816/202608161517.WBsFKDAp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3eb40771c00a8488fa6ed2cc1fe203477908bf38
+commit: 056c68875122dd342782e5956ed145fe9e059614 arm64: dts: freescale: moduline-display: fix compatible
+date:   8 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-2054-20260813 (https://download.01.org/0day-ci/archive/20260816/202608161603.CyPM1m5o-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
 dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161517.WBsFKDAp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161603.CyPM1m5o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 056c68875122 ("arm64: dts: freescale: moduline-display: fix compatible")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608161517.WBsFKDAp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608161603.CyPM1m5o-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx95-15x15-frdm-rpmsg.dtb: opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+>> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106.dtb: / (gocontroll,moduline-display-106): hardware: b'Moduline Display V1.06\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
    	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-15x15-frdm-rpmsg.dtb: opp-800000000: opp-hz-real: b'\x00\x00\x00\x00/\xaf\x08\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dtb: / (gocontroll,moduline-display-106): hardware: b'Moduline Display V1.06\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
    	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-15x15-frdm-rpmsg.dtb: opp-1000000000: opp-hz-real: b'\x00\x00\x00\x00;\x9a\xca\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+--
+>> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dtb: / (gocontroll,moduline-display-106): hardware: b'Moduline Display V1.06\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
    	from schema $id: http://devicetree.org/schemas/dt-core.yaml
 
 --
