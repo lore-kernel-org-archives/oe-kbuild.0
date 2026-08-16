@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C28718C933
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Aug 2026 03:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112CE23C51D
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Aug 2026 03:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786850209; cv=none; b=cC0P6zsN/wI3OqB8HbbRVODCxqym3x6j7SzmVrhOy0jhb6R0wACNhQ1hle/Yuoc9ROqZb7/Z0KB1wLHyzwzqnUD9Nr+83evv3WObkXUjNOyuHekj7Qh0T+RIGNvQAWr6dRhTvrir4SpZw5BDT+SVaMGUcoSDSee15dcBx0D2zCs=
+	t=1786851559; cv=none; b=A5qfo1d2tDnDI+jmyagVnitxgv6el+6XzdwSVmfc7aQZbT7M92VUPvh9zcjjXb6MEDejl94SKfLP0tNeOIdX5dV/L1QDaH8ldYR08SKe3LkmuQJkSJGfdHfuu3r3mPkGHKkODTK8J4gTYU+b+haSjCARvpAPn90T+Glx3F5GeUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786850209; c=relaxed/simple;
-	bh=hrufclA8y14g3si0f2FBJ7rDJ1tqIp5HhIMcACqnipw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QKpP0qyzqtunoK90ajzS+5cZ8myJ5CEBamf9i47tZjzNAMqM+IzyAgWXxEGYkti31+HhqlCar4VvsJMemCYxIWH9om4kb4pAcDZ491EvU+arIUZWrf35LSFiRSGHOfVlBZArecKWZt9inU+zhr0O80ji5BkpcgtjmDKDo2oFw8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QH7P2ui2; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1786851559; c=relaxed/simple;
+	bh=qeQ8G37vEH3N+vifTI0M6qFjTu6InFNTyKBZW0wom3E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rsBMumAeSQwEOdUWEU8HRjB41FQE5Ff74bFK0ADbMZoibpqLNj7ZIPwE/zJVO1S9VwAdv/NL++IOpnG/ayiqqwD3abD95Wbpk1sNqiBiY6aS3dtoeWqkwP13yaz6OjvTIO3DVux+gO1k7f0tiJk+gY3ay3CvO/30PHv4kb5q4fM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bZHzrhH/; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QH7P2ui2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bZHzrhH/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786850206; x=1818386206;
+  t=1786851556; x=1818387556;
   h=date:from:to:cc:subject:message-id;
-  bh=hrufclA8y14g3si0f2FBJ7rDJ1tqIp5HhIMcACqnipw=;
-  b=QH7P2ui2qgCPbFsu/KlhJra2f3nqbhsNEIBSnZ8gi5eAJ6/uYwucQjbc
-   EfpOoA9AoRRH/oXnDiYLiONsrPMHBibMrYcwKHDQ10kmyTQWfJXDkVnZn
-   pxEOhVEeP81Af0yoczbwVJMzMQs4Ps/A6NW1Gc0e6ue4TeRfWOg3JFO2W
-   xTEh7TfIYoXD5iqmq/VbhXcssaL59d2Lb5kUPV0iTMEUB+19nRZQJyT4Y
-   dVXFpY3jEYals7eEmFjyMeoankdqvU4T1u8MShzMPAZQMVFtAcUMPStNM
-   tECByRL7K1WPTJkLfXwrRSAf95ngFhhRovjl8rDf6r1O0uH3Sz4uo7Gl3
-   g==;
-X-CSE-ConnectionGUID: k7oFEZdfThaLoNgouhTOBg==
-X-CSE-MsgGUID: o3Wr0+5HSbCeiFYHJJYfDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="110155691"
+  bh=qeQ8G37vEH3N+vifTI0M6qFjTu6InFNTyKBZW0wom3E=;
+  b=bZHzrhH/0/By/BGbfp1kspmzSad16vuIlYYH2P+3D/JoVWCBzPSpQd5c
+   +t0OMdEE5WnihaLsJ49XyNoTrxoMTAQFJ/IdyUGD2Izp04sMEH/mhTQXd
+   YNz0evqMmlya9eOzxABC0k0DKEalrW0UsZCB9PupRtrBLa5IffDtqk5k1
+   6u84JfM8vq+KI8cyElQ+YDPv3RUa4Ey5bAOyjGQcCu2J87rZJ+kcNn2p8
+   MdEQnH8MJKVDb61s4a8JLp0t4YnojdYvQ8b8diSOWFHFDIrJgG/q5jhQK
+   mPjA0PB4/idBvQlPOyYKlJzVgqtUFw5sv4pPQ7QyY8o5V+ovJ5UIg5GJA
+   w==;
+X-CSE-ConnectionGUID: hqyAIyscRzmQf4UuQw8mJw==
+X-CSE-MsgGUID: ASnOKbyjRp2lMLm3YDhldg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11876"; a="87291190"
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="110155691"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 20:16:46 -0700
-X-CSE-ConnectionGUID: 7/Ho3VgySX+RFTZUCwtoEA==
-X-CSE-MsgGUID: 4ruXsGO+S4ChBnMW+ovkfw==
+   d="scan'208";a="87291190"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2026 20:39:16 -0700
+X-CSE-ConnectionGUID: gV2rTNTyTP6biOVHdOe3QQ==
+X-CSE-MsgGUID: dvZeTgC+Q1ujT0YW7pV09A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,226,1779174000"; 
-   d="scan'208";a="264136587"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Aug 2026 20:16:45 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="260353207"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Aug 2026 20:39:14 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvRMY-00000000ciI-0csd;
-	Sun, 16 Aug 2026 03:16:42 +0000
-Date: Sun, 16 Aug 2026 11:15:55 +0800
+	id 1wvRiK-000000006Xl-1bok;
+	Sun, 16 Aug 2026 03:39:12 +0000
+Date: Sun, 16 Aug 2026 05:38:56 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [drm-misc:drm-misc-next 4/4] ERROR: modpost:
- __ex_table+0x1b4c references non-executable section '.debug_addr'
-Message-ID: <202608161105.4XbJmzht-lkp@intel.com>
+Subject: arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: pci@1,0:
+ nvidia,num-lanes: b'\x00\x00\x00\x04' is not of type 'object', 'integer',
+ 'array', 'boolean', 'null'
+Message-ID: <202608160517.ZKMSU8zE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,236 +61,48 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "riscv arch toolchain issue"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: dri-devel@lists.freedesktop.org
-TO: Alex Huang <Alex.Huang2@amd.com>
-CC: Mario Limonciello <superm1@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Aaron Kling <webgeek1234@gmail.com>
+CC: Thierry Reding <treding@nvidia.com>
 
-tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-head:   09b47186a4164f3aaa3591313f80794443117342
-commit: b961eb36d7b04147104cff2fd8bc0e94f4713324 [4/4] drm/amd/display: Remove unused DMCU/DMUB EDID CEA parser
-:::::: branch date: 30 hours ago
-:::::: commit date: 5 days ago
-config: riscv-randconfig-r072-20260816 (https://download.01.org/0day-ci/archive/20260816/202608161105.4XbJmzht-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 844a18e753e822736c9805ab779144b647a2c186)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608161105.4XbJmzht-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3eb40771c00a8488fa6ed2cc1fe203477908bf38
+commit: ba97758a63b78f7e494ebdfb74ba8a8af702a33a arm64: tegra: Add NVIDIA Jetson Nano 2GB Developer Kit support
+date:   10 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 10 months ago
+config: arm64-randconfig-2054-20260813 (https://download.01.org/0day-ci/archive/20260816/202608160517.ZKMSU8zE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema: 2026.7.dev15+g01b5073ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260816/202608160517.ZKMSU8zE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ba97758a63b7 ("arm64: tegra: Add NVIDIA Jetson Nano 2GB Developer Kit support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608161105.4XbJmzht-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608160517.ZKMSU8zE-lkp@intel.com/
 
-Note: the drm-misc/drm-misc-next HEAD 09b47186a4164f3aaa3591313f80794443117342 builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: vmlinux: section mismatch in reference: i2c_imx_driver+0x0 (section: .data) -> .Lpcrel_hi9 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: spacemit_i2c_conditionally_reset_bus._rs+0x1c (section: .data) -> pca963x_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: i2c_versatile_driver+0x0 (section: .data) -> .Lpcrel_hi9 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fsi_i2c_driver+0x8 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fsi_i2c_driver+0x58 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fsi_i2c_bus_recovery_info+0x4 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fsi_i2c_bus_recovery_info+0x8 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fsi_i2c_bus_recovery_info+0xc (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fsi_i2c_bus_recovery_info+0x10 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fsi_i2c_bus_recovery_info+0x18 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fsi_i2c_bus_recovery_info+0x1c (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: os05b10_driver+0x8 (section: .data) -> lm3630a_i2c_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dev_attr_speed+0x1c (section: .data) -> gcc_sc8180x_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: pm8916_lbc_charger_driver+0x0 (section: .data) -> gcc_sm8350_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: w83795_driver+0x4 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_fan1_div+0x14 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_fan1_div+0x1c (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_fan2_div+0x14 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_fan2_div+0x1c (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_fan3_div+0x14 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_fan3_div+0x1c (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0x14 (section: .data) -> exynos4x12_isp_clk_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0x1c (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0x3c (section: .data) -> exynos4x12_isp_clk_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0x44 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0x64 (section: .data) -> exynos4x12_isp_clk_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0x6c (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0x8c (section: .data) -> exynos4x12_isp_clk_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0x94 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0xb4 (section: .data) -> exynos4x12_isp_clk_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_pwm+0xbc (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: abituguru3_sysfs_attr+0x14 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_fan1_input+0x14 (section: .data) -> sg2042_pll_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_fan2_input+0x14 (section: .data) -> sg2042_pll_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_temp1_auto_point2_temp+0x1c (section: .data) -> jh7110_pll_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_temp2_auto_point2_temp+0x1c (section: .data) -> jh7110_pll_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_temp3_auto_point2_temp+0x1c (section: .data) -> jh7110_pll_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_temp4_auto_point2_temp+0x1c (section: .data) -> jh7110_pll_probe (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_pwm1_enable+0x14 (section: .data) -> .Lpcrel_hi5 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_pwm2_enable+0x14 (section: .data) -> .Lpcrel_hi5 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_pwm3_enable+0x14 (section: .data) -> .Lpcrel_hi5 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sensor_dev_attr_pwm4_enable+0x14 (section: .data) -> .Lpcrel_hi5 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: adt7475_driver+0x68 (section: .data) -> suniv_f1c100s_ccu_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: adt7475_driver+0x70 (section: .data) -> suniv_f1c100s_ccu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: asc7621_driver+0x70 (section: .data) -> sun50i_a100_ccu_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: asc7621_params+0x0 (section: .data) -> sun50i_a100_ccu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: asc7621_params+0x38 (section: .data) -> sun50i_a100_ccu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: asc7621_params+0x70 (section: .data) -> sun50i_a100_ccu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: asc7621_params+0xa8 (section: .data) -> sun50i_a100_ccu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: g762_attrs+0x0 (section: .data) -> xvcu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: g762_attrs+0x4 (section: .data) -> xvcu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: g762_attrs+0x8 (section: .data) -> xvcu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: g762_attrs+0xc (section: .data) -> xvcu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: g762_attrs+0x10 (section: .data) -> xvcu_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ltc4260_driver+0x4 (section: .data) -> milbeaut_hdmac_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sy7636a_sensor_driver+0x0 (section: .data) -> wpcm450_soc_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: w83l786ng_driver+0x18 (section: .data) -> rpm_proc_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_in_input+0x14 (section: .data) -> rpm_proc_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_in_input+0x3c (section: .data) -> rpm_proc_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sda_in_input+0x64 (section: .data) -> rpm_proc_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: adm1266_driver+0x30 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: adm1266_driver+0x68 (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max16601_driver+0x4 (section: .data) -> sun20i_ppu_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: imx8mm_tmu_data+0x8 (section: .data) -> max77541_regulator_driver_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: imx8mp_tmu_data+0x8 (section: .data) -> max77541_regulator_driver_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: unittest_driver+0x2c (section: .data) -> .L0  (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fluke_unaccel_interface+0x0 (section: .data) -> tpm_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fluke_hybrid_interface+0x0 (section: .data) -> .Lpcrel_hi21 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fluke_interface+0x0 (section: .data) -> .Lpcrel_hi23 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fluke_gpib_platform_driver+0x0 (section: .data) -> tpm_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fluke_gpib_platform_driver+0x2c (section: .data) -> tpm_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1adc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1adc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1ae0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1ae0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1ae8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1ae8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1aec (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1aec references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b0c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b0c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b10 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b10 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b18 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b18 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b1c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b1c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b24 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b24 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b30 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b30 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b34 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b34 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b3c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b3c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b40 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b40 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b48 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b48 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b4c (section: __ex_table) -> $d (section: .debug_addr)
->> ERROR: modpost: __ex_table+0x1b4c references non-executable section '.debug_addr'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b54 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b54 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b58 (section: __ex_table) -> pxa_usb_phy_init._entry (section: .rodata)
-ERROR: modpost: __ex_table+0x1b58 references non-executable section '.rodata'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b60 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b60 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b64 (section: __ex_table) -> .L0  (section: .debug_rnglists)
-ERROR: modpost: __ex_table+0x1b64 references non-executable section '.debug_rnglists'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b6c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b6c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b70 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b70 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b78 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b78 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b7c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b7c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b84 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b84 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b88 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b88 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b90 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b90 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b94 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b94 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1b9c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1b9c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1ba0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1ba0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1ba8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1ba8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bac (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bac references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bb4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bb4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bb8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bb8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bc0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bc0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bc4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bc4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bcc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bcc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bd0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bd0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bd8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bd8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bdc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bdc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1be4 (section: __ex_table) -> .L.str.262 (section: .rodata.str1.1)
-ERROR: modpost: __ex_table+0x1be4 references non-executable section '.rodata.str1.1'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1be8 (section: __ex_table) -> scif0_clk_mux (section: .rodata)
-ERROR: modpost: __ex_table+0x1be8 references non-executable section '.rodata'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1bfc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1bfc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c00 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c00 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c08 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c08 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c0c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c0c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c20 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c20 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c24 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c24 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c2c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c2c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c30 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c30 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c38 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c38 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c3c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c3c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c44 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c44 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c48 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c48 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c50 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c50 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c54 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c54 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c5c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c5c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c60 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c60 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c68 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c68 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c6c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c6c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c74 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c74 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c78 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c78 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c80 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c80 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c84 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c84 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c8c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c8c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1c90 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1c90 references non-executable section '.debug_str'
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/nvidia/tegra210.dtsi:31.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
+>> arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: pci@1,0: nvidia,num-lanes: b'\x00\x00\x00\x04' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: pci@2,0: nvidia,num-lanes: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: vi@54080000 (nvidia,tegra210-vi): 'avdd-dsi-csi-supply' does not match any of the regexes: '^csi@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: dma@60020000 (nvidia,tegra210-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3541-0000.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml
 
 --
 0-DAY CI Kernel Test Service
