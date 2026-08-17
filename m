@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2954518C02E
-	for <oe-kbuild@lists.linux.dev>; Mon, 17 Aug 2026 03:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A25B2253FC
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Aug 2026 05:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786938573; cv=none; b=UIp+RFseskBX96rvRhSpHXVmF0NyX64IPsVJ5c9lNiydnuhT5ygvd8uVZn2TMDWVU0UbWcy/YEmSDYQCrQnKxVQtX3sYmTFovUMe115IwQ5sveRgYlkRlT6QmAoR+gu7HaHBoizn7i8NQDl3DYITyIbCbHW+QBv0sTn5GERJF6g=
+	t=1786942833; cv=none; b=El7nZf7dwnxupmRdo18d17CSYbyJ9CiRPLEmRIP+3azgv27KHscI+e27x8JhOBTZS3nd/35HoURmUiY4eancp58lNyc6atXrfOPtHAZHK2lY0DyLt3xG2Vlsmxwy0YGby09fYembmiDX/BLFYy1RzcJ90TOHwZlAWdQiVK5tMVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786938573; c=relaxed/simple;
-	bh=I2i4Nv/yGTHlx9W3+KnanKCDa3RLfsCUhu3iDM8cdxI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eO56vXGu5Qq3+wmGU86ADGKsdAfRU8ltJHiBv1EdptUtkXo0DHg25TKd/CiNXBUu8RnhwSqiOCclhO9kS9KDw9B1ZsSRtmeDOycGq36gnS6IqxUI79cKWmcXmQDeDDL3ZTkFFC7oHl24QN0NKm74gyt+Vcul/n2R16eyhREJig4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3xDlsc7; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1786942833; c=relaxed/simple;
+	bh=yaKWr7S9prJYZMcNJ4jqoQgYm0uPr8llYf1W+2aoA7w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nySAmZY5wx+F0D1qYGeO3+8yKUPcAaARfXWT8EO7d96Owut2rreW5Aq09uJVfXZA8rr4A62tWLbIlfhaB03yAQlzJTWfy3Rv5nNkVZwbjp26OaPdOhVl8RZUwTfmOkUBTM3/vQaGvSdV+JTmv18r5v9rVWVE1KJtHvKgMJgfKfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhRI4lla; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3xDlsc7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhRI4lla"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786938570; x=1818474570;
+  t=1786942831; x=1818478831;
   h=date:from:to:cc:subject:message-id;
-  bh=I2i4Nv/yGTHlx9W3+KnanKCDa3RLfsCUhu3iDM8cdxI=;
-  b=M3xDlsc7qkHshx0tymdzdYugO73MsxlLzTs5Oo0kPEvgffmQd2e1GPTp
-   TesENRGMhLAakMNSyDWk78i5Zvdm0bFwuuKUbQpgig0BU6UeJnxsDdWfl
-   ipKSSqaa1FGfR3WF9srZhLbUskdqJLbePLhpu1ktWifObcBfvqTB+8+3R
-   px9g2D67wyR1bf3aJ4Yj1giWDL7d7TXD/v2LiQOQnfaFsoBM0jWxOTpP1
-   dc52RRX1k90+panrwbIUKOYGMgwi5uG/rqKb6RvAzcPy7nZa3zJD517Vm
-   1VjYbOe3b/W19RBSQhZgyzOsQBMPoycumPD+8CeQiaGyWRGwU/ZZnQWoO
-   Q==;
-X-CSE-ConnectionGUID: ZAeSKEK6RCikAfUTzHpE2Q==
-X-CSE-MsgGUID: UJBf/He7SGubC7hc7JCGnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="87534548"
+  bh=yaKWr7S9prJYZMcNJ4jqoQgYm0uPr8llYf1W+2aoA7w=;
+  b=XhRI4llaa1tPN1sy6EyUpHZ6zqE6BBcBGI9GkyHRCA2POujF/hR4XELy
+   DA9WHREWO3KlyQM77J0CkZAkkfBaFecs+XpG/6S3y8GxM9M2wVh/6MFqe
+   clTmwrg41P+IcbvVyVqNuy+Cb4zUcJMCWBBQzr2JlBg5V+dBJJdBLorEe
+   D1dwoLI4kgFTigFwBu3/CXUQ06zBWYnA4RSx4dVuifi466T7SIEgwE30H
+   vZzVOcXTZE7oM3e6kwuONepfAKLoxfOwhBldIdi3vL9nAw3KM5yTDSTeh
+   Ir/EKHYgk2Q1TESgB1269lgEQKONpP1c+xYl0dsr7hB40UKGF1pOTjLAk
+   A==;
+X-CSE-ConnectionGUID: vF5d4nepR5KjPJn7VS8pSw==
+X-CSE-MsgGUID: iOkkIk7WTLiRjiSoGCPeRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="86532187"
 X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="87534548"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 20:49:29 -0700
-X-CSE-ConnectionGUID: z6tMoZ5SQSaqID8vN4s6fw==
-X-CSE-MsgGUID: CMatOjwaS1GX5x9IOaZORA==
+   d="scan'208";a="86532187"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 22:00:30 -0700
+X-CSE-ConnectionGUID: EG3rVB//TzGvozdJ61smtQ==
+X-CSE-MsgGUID: BaB3pUskSNu/UN/LmzSe8g==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="303041524"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Aug 2026 20:49:28 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Aug 2026 22:00:28 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wvoLm-000000006kL-0cXS;
-	Mon, 17 Aug 2026 03:49:26 +0000
-Date: Mon, 17 Aug 2026 05:48:33 +0200
+	id 1wvpSU-000000006kn-2EAJ;
+	Mon, 17 Aug 2026 05:00:26 +0000
+Date: Mon, 17 Aug 2026 06:59:30 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb:
- power-controller (rockchip,rk3576-power-controller):
- power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not
- allowed ('resets' was unexpected)
-Message-ID: <202608170534.VMEJFKoR-lkp@intel.com>
+Subject: arch/arm64/boot/dts/qcom/apq8016-schneider-hmibsc.dtb:
+ sound@7702000 (qcom,apq8016-sbc-sndcard): quaternary-dai-link:cpu:sound-dai:
+ [[107], [3]] is too long
+Message-ID: <202608170648.BXwrTEa7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -65,478 +66,57 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jiaxing Hu <gahing@gahingwoo.com>
+TO: "H. Nikolaus Schaller" <hns@goldelico.com>
 CC: 0day robot <lkp@intel.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Jiaxing-Hu/dt-bindings-npu-rockchip-add-rockchip-rk3576-rknn-core/20260809-234501
-head:   e797a31cdb63351cd5fb5676c99571d8c9579027
-commit: aa6c5b9a0986782b0c60b0569d5b3034d8ae99b9 arm64: dts: rockchip: rk3576: add NPU (RKNN) nodes
-date:   8 days ago
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: arm64-randconfig-2054-20260816 (https://download.01.org/0day-ci/archive/20260817/202608170534.VMEJFKoR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/H-Nikolaus-Schaller/dt-bindings-twl-regulator-Add-bindings-for-exposing-ti-twl4030-regen/20260812-201259
+head:   4f5559ad82b8debd2be982b089e18240288940e9
+commit: 44971f13cae7486e3643ba685ac319be100b42ae ASoC: dt-bindings: add OpenPandora Sound Card
+date:   5 days ago
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: arm64-randconfig-2053-20260815 (https://download.01.org/0day-ci/archive/20260817/202608170648.BXwrTEa7-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project daa9d09970fed49996f42a8f7000b584f295991d)
 dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170534.VMEJFKoR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170648.BXwrTEa7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608170534.VMEJFKoR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608170648.BXwrTEa7-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:1606.27-1654.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:463.26-466.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:478.26-481.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:491.26-494.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:503.26-506.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
+>> arch/arm64/boot/dts/qcom/apq8016-schneider-hmibsc.dtb: sound@7702000 (qcom,apq8016-sbc-sndcard): quaternary-dai-link:cpu:sound-dai: [[107], [3]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,apq8016-sbc-sndcard.yaml
+>> arch/arm64/boot/dts/qcom/apq8016-schneider-hmibsc.dtb: sound@7702000 (qcom,apq8016-sbc-sndcard): primary-dai-link:cpu:sound-dai: [[107], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,apq8016-sbc-sndcard.yaml
+>> arch/arm64/boot/dts/qcom/apq8016-schneider-hmibsc.dtb: sound@7702000 (qcom,apq8016-sbc-sndcard): tertiary-dai-link:cpu:sound-dai: [[107], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,apq8016-sbc-sndcard.yaml
 --
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: /soc/dsi@27d80000/panel@0: failed to match any schema with compatible: ['anbernic,panel-vita-pro', 'anbernic,td4310']
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: /soc/dsi@27d80000/panel@0: failed to match any schema with compatible: ['anbernic,panel-vita-pro', 'anbernic,td4310']
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-anbernic-rg-vita-pro.dtb: /soc/i2c@2ac90000/charger@3b: failed to match any schema with compatible: ['sgmicro,sgm41542']
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:504.26-507.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s6-p1@a1: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s6-p2@a1)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:524.26-527.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s8-p1@a4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s8-p2@a4)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:549.24-552.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/mode@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:559.26-562.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s0-p1@d1: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p1@d1)
+   arch/arm64/boot/dts/qcom/msm8939.dtsi:579.26-582.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s3-p1@d4)
+>> arch/arm64/boot/dts/qcom/apq8039-t2.dtb: sound@7702000 (qcom,apq8016-sbc-sndcard): internal-codec-playback-dai-link:cpu:sound-dai: [[96], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,apq8016-sbc-sndcard.yaml
+>> arch/arm64/boot/dts/qcom/apq8039-t2.dtb: sound@7702000 (qcom,apq8016-sbc-sndcard): internal-codec-capture-dai-link:cpu:sound-dai: [[96], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,apq8016-sbc-sndcard.yaml
 --
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-cm5-io.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb2-v10.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-khadas-edge-2l.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-lckfb-tspi-3m.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10-pcie1.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@2: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: power-controller (rockchip,rk3576-power-controller): power-domain@0:power-domain@1:power-domain@3: Unevaluated properties are not allowed ('resets' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /soc/edp@27dc0000: failed to match any schema with compatible: ['rockchip,rk3576-edp']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clock-names: ['aclk', 'hclk', 'npu', 'pclk', 'aclk_cbuf', 'hclk_cbuf'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27700000 (rockchip,rk3576-rknn-core): clocks: [[21, 229], [21, 231], [21, 232], [21, 233], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg: [[0, 661651456, 0, 4096], [0, 661655552, 0, 4096], [0, 661663744, 0, 4096], [0, 661667840, 0, 4096], [0, 661671936, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27700000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27700000 (rockchip,rk3576-rknn-core): resets: [[21, 204]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: iommu@27702000 (rockchip,rk3576-iommu): clocks: [[21, 229], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg: [[0, 661716992, 0, 4096], [0, 661721088, 0, 4096], [0, 661729280, 0, 4096], [0, 661733376, 0, 4096], [0, 661737472, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reg-names: ['pc', 'cna', 'core', 'dpu', 'dpu_rdma'] is too long
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27710000 (rockchip,rk3576-rknn-core): reset-names: ['srst_a'] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: npu@27710000 (rockchip,rk3576-rknn-core): resets: [[21, 207]] is too short
-   	from schema $id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: iommu@2770a000 (rockchip,rk3576-iommu): clocks: [[21, 230], [21, 231], [21, 232], [21, 240], [21, 244]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/rockchip,iommu.yaml
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:1606.27-1654.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:463.26-466.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:478.26-481.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:491.26-494.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
+   arch/arm64/boot/dts/qcom/msm8916.dtsi:503.26-506.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
+>> arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dtb: sound@7702000 (qcom,apq8016-sbc-sndcard): primary-dai-link:cpu:sound-dai: [[102], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,apq8016-sbc-sndcard.yaml
+>> arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dtb: sound@7702000 (qcom,apq8016-sbc-sndcard): tertiary-dai-link:cpu:sound-dai: [[102], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,apq8016-sbc-sndcard.yaml
 
 --
 0-DAY CI Kernel Test Service
