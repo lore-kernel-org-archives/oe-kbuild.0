@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858652D77F7
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Aug 2026 10:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ACF442B2F
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Aug 2026 11:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787047851; cv=none; b=D2JJS9KCBq/cEezaO0wCopSxgwR0Ccn8d8vZmFmll6SsfCd/RJOuk06atZzhKL9YneA2/gPvt3AtXvgFIeTA2XcwWs0nKLNPGNVE3+K/UW5Ax7Aq2wLrKRi6D0aTanm6kJMWkxTQwSTf4gyBTjomx7/KyCyreukPGE9OByOrLeI=
+	t=1787051227; cv=none; b=DzVrJxNl2/2K8bS+u/YzA4XaNWwm4UkqsuptI9p8NeJAbSXPSG9geAqXmO90iw/0Kn2g4W2+JVJ9w+3Te+8pBbOLeP8W6qD6ACJwNzFhIzG8tVcxUBtvs7Suj6Bivraum2U17C0u3Amb/NVBo99qtK1wZubFrwnw8DdH6ioGy3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787047851; c=relaxed/simple;
-	bh=vxK8LxpLL7VapJss67PtbfPJ0p0RR6AmwWLeef2gD+0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kI4AgB0GKWHlFwNXDAW+dKRG9ui9KmGeyNvJ7R2fimBzP8/e883aSDVrLHRIvOxy06xqR6URPxdmbsWl7hQUx8g/+Sw69iLPjszvg9lvA/3MXiniVkahhHxuXqHsTLfnH0o3VHZ4/SNmN3QvxVJk43WIQQqFwb5DZoOvvXxm5S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Te16LC/U; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1787051227; c=relaxed/simple;
+	bh=Rgqj4VBdSbkY6iCvfPCw5m6XcVpLr++kP/7hkRaAMc0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=k3MQ2xa/9BoOCE+peDmgqx2UC77IqMOXJhOXMFA1NlXPgNcu1s7S1W+K0m9w9oQxf9BRixd8VGqV9e0jleanectALIZLEsIWOR9r1Bjn7y1Po24w3S8zMjmSly9rrKYUvMS5KFM/Hjpdns6J8/qa95YGhQPIL2pTaEziygRThWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h6BkeQkz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Te16LC/U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6BkeQkz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787047849; x=1818583849;
+  t=1787051226; x=1818587226;
   h=date:from:to:cc:subject:message-id;
-  bh=vxK8LxpLL7VapJss67PtbfPJ0p0RR6AmwWLeef2gD+0=;
-  b=Te16LC/UiaoaZi1kr5o9O0Iw3geo2/78m/qpogRidcTJru39oHnLD2XC
-   gAvZme7Wwkc39ds/S/OK7KSU7SzfngpbJK/1uAKaKq+5eyFb61txJjx/+
-   vnc9kL+5ExtT6rfGRYjtJ3piNum7PaF6dCCx2JcwEEGbFoJeH38RLFuhc
-   XRR28Gw8BWwmJwF73mPiRNMl7YjAGeka5/8/vDRrWgH3RQUo0aUmYbsak
-   wH6LrsR/Cn0kA+OpthSYWmXnwHVvWg7yn/mvIhBiI7wQF0m741Z/yj8ZJ
-   dTRnF7qqGWiti4t4KETIOnx7muAHEYQpj0x6IzSRl4FdBhJaDoJt7/IZ+
-   w==;
-X-CSE-ConnectionGUID: a3MhnikoQ9OVqOFXAahVBQ==
-X-CSE-MsgGUID: 4sZvHWQQRQCfl6H1c/2X7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87411393"
+  bh=Rgqj4VBdSbkY6iCvfPCw5m6XcVpLr++kP/7hkRaAMc0=;
+  b=h6BkeQkzN1GBY24WIqMCSogaWNDYzJIToZimcxbqGxhw9xu7T6/+XXoF
+   jHlBm8Ci0ZgK2xGXOEzOlpRZoROVqtmjJRelm1CBleqEtw7AD2EcyulQB
+   EylcX3fukblP+Xu+hqkrFjQt0N5gtzyh4sei+nnKr8indhWTMR7i0UE/n
+   lPFlv3mqVfAPJG/6zmMjfwu9QfDa6VgnlMre/bQ0VxtNzYSQHpR4SMR0u
+   8eFY6vyGl3P02lx5LlNd+r1BStFUj6aCQEpkfqPxVmBZrj2nvYTbRD8SN
+   X8ULrQEKMEbJ7bXEYkNtyQj5qFvQNjjPUhpnOE6TksthjFnMMrmtglYg3
+   Q==;
+X-CSE-ConnectionGUID: QDysHhYeSQ6PeDsCSlEQZA==
+X-CSE-MsgGUID: jyZUuItPSlC0V2r8SM//Bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="98694662"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87411393"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 03:10:49 -0700
-X-CSE-ConnectionGUID: D3XrEHx5RUK40js9ytf3tg==
-X-CSE-MsgGUID: 4romNkshSxKTfsSZXmLuJw==
+   d="scan'208";a="98694662"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 04:07:05 -0700
+X-CSE-ConnectionGUID: Olxnr8BeSYONNtovZ69DzA==
+X-CSE-MsgGUID: abAk5WMLQDW1r3+SIjevdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="269020953"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 18 Aug 2026 03:10:48 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="295126234"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 18 Aug 2026 04:07:04 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwGmL-0000000074j-3ONi;
-	Tue, 18 Aug 2026 10:10:45 +0000
-Date: Tue, 18 Aug 2026 12:10:30 +0200
+	id 1wwHen-00000000eHy-37Nf;
+	Tue, 18 Aug 2026 11:07:01 +0000
+Date: Tue, 18 Aug 2026 19:06:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: 
- arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: opp-500000000:
- opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object',
- 'integer', 'array', 'boolean', 'null'
-Message-ID: <202608181211.WeKpufjq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 15921/15982] drivers/hid/hid-steam.c:557
+ steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__578'
+Message-ID: <202608181947.hUO73pDG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,67 +59,96 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-CC: Frank Li <Frank.Li@nxp.com>
+TO: "Paul E. McKenney" <paulmck@kernel.org>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f23d56f17fdfc7db69d51f64c8b91bbab947aa9
-commit: e77f8e6bba733392896b978548cc771c143280d8 arm64: dts: freescale: imx95-verdin: Add Yavia carrier board
-date:   5 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-2054-20260813 (https://download.01.org/0day-ci/archive/20260818/202608181211.WeKpufjq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608181211.WeKpufjq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e6664f2b33db9b6811eb4cec109f06cb2b4f458d
+commit: fb2488318acd47809769edf3e6210958dcff9034 [15921/15982] Merge branch 'non-rcu/next' of https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+:::::: branch date: 18 hours ago
+:::::: commit date: 19 hours ago
+config: x86_64-randconfig-161-20260818 (https://download.01.org/0day-ci/archive/20260818/202608181947.hUO73pDG-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e77f8e6bba73 ("arm64: dts: freescale: imx95-verdin: Add Yavia carrier board")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608181211.WeKpufjq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608181947.hUO73pDG-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'ifm,imx8mn-vhip4' was expected
-   	'avnet,sm2s-imx8mp' was expected
-   	'toradex,verdin-imx8mp' was expected
-   	'toradex,verdin-imx95' is not one of ['fsl,imx8qm', 'fsl,imx8qp']
-   	'toradex,verdin-imx95' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
-   	'fsl,vf500' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-nonwifi-yavia', 'toradex,verdin-imx95-nonwifi', 'toradex,verdin-imx95', 'fsl,imx95']
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-nonwifi-yavia', 'toradex,verdin-imx95-nonwifi', 'toradex,verdin-imx95', 'fsl,imx95']
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-nonwifi-yavia', 'toradex,verdin-imx95-nonwifi', 'toradex,verdin-imx95', 'fsl,imx95']
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: opp-800000000: opp-hz-real: b'\x00\x00\x00\x00/\xaf\x08\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: opp-1000000000: opp-hz-real: b'\x00\x00\x00\x00;\x9a\xca\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   	'ifm,imx8mn-vhip4' was expected
-   	'avnet,sm2s-imx8mp' was expected
-   	'toradex,verdin-imx8mp' was expected
-   	'toradex,verdin-imx95' is not one of ['fsl,imx8qm', 'fsl,imx8qp']
-   	'toradex,verdin-imx95' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
-   	'fsl,vf500' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-wifi-yavia', 'toradex,verdin-imx95-wifi', 'toradex,verdin-imx95', 'fsl,imx95']
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-wifi-yavia', 'toradex,verdin-imx95-wifi', 'toradex,verdin-imx95', 'fsl,imx95']
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-wifi-yavia', 'toradex,verdin-imx95-wifi', 'toradex,verdin-imx95', 'fsl,imx95']
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: opp-800000000: opp-hz-real: b'\x00\x00\x00\x00/\xaf\x08\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: opp-1000000000: opp-hz-real: b'\x00\x00\x00\x00;\x9a\xca\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+smatch warnings:
+drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__578'
+
+vim +/__UNIQUE_ID_x__578 +557 drivers/hid/hid-steam.c
+
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  516  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  519  {
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  523  	int ret;
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  524  	u32 len;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  525  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
+cd11d1a6114bd4 Lee Jones           2022-07-08  527  	if (!r) {
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
+cd11d1a6114bd4 Lee Jones           2022-07-08  529  		return -EINVAL;
+cd11d1a6114bd4 Lee Jones           2022-07-08  530  	}
+cd11d1a6114bd4 Lee Jones           2022-07-08  531  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  533  	if (len < 64)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  535  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  539  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  543  
+de435b770cd949 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
+de435b770cd949 Vicki Pfau          2026-07-29  545  
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  547  		len += 1;
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  548  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  549  	/*
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  554  	 */
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  555  	do {
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
+0a80b4e8ec6a6e Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  560  			break;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  563  
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
+cfa66cba6d02ff Vicki Pfau          2026-08-11  565  	/*
+cfa66cba6d02ff Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
+cfa66cba6d02ff Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
+cfa66cba6d02ff Vicki Pfau          2026-08-11  568  	 */
+cfa66cba6d02ff Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  572  	return ret;
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  573  }
+c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  574  
+
+:::::: The code at line 557 was first introduced by commit
+:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
+
+:::::: TO: Vicki Pfau <vi@endrift.com>
+:::::: CC: Jiri Kosina <jkosina@suse.com>
 
 --
 0-DAY CI Kernel Test Service
