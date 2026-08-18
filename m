@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBB31F4611
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Aug 2026 03:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F981EB19B
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Aug 2026 04:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787024089; cv=none; b=mcVuV0fdRHJTzQLRy823hPbJcZXhAwbwq/uMXGCNJcJiooYOARdqsgCiAexU1j0PHAV/3+6PFbjaUETpuG3L+SS3Jfp94eQFuwkhCWw9uRv2Dzg6Ssk/sDIrxnLTQvOVnfQGuewhPR2ZDxU4pHioWoQAN2HE6AKGxkw1X6wPNYc=
+	t=1787027749; cv=none; b=KNcsmbp/i621VQiJmurKSIOXuyHvxnMntMU3jQ8kBaACMuXlK542UYXvr54tdFo8bSW/OXb2LZ0KZ2bdq0kfuds8goInM8vNWxCTJT6e4ABNMoOszUn5DZnV4MxWFI2iV25X1t9aZacwNBdXlxqewnZqoTtfO8TyWPIcA0aa20M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787024089; c=relaxed/simple;
-	bh=4t/VCRSE7o2jspAqFl+34cajh5/mX7tnRhsEH5cVQYk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=P0RRyERRfsFfC3p8jQ9jbwiQejBdghJeLME9yhN/WULZ2rrdA7+J9IJjgriBYIxa4JwGyASGcv6UkAE+Be8Zh46UlpXBpKuXp0nD7mzqGht+jyTWb8pWzdmffxtBbIbQ764U5Rarl2ZNP9gW9ioeepaBPEb7Z7vPdfxIr4Mk5pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnKzdzZM; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1787027749; c=relaxed/simple;
+	bh=2qyE1rOPisf+dCezYveqLULfxWGZkJZWIXT+ASpoWhc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=efq5PuTqDasy3SJ+dr2BThIMIULrW4j8TgkGmREC/GR3ZcqwSq6stcq2xkDMxWY99lNsM42CxbN78DIY3IGcL4Vq/Essv6jbWm8n44ITK24BFGi50iqNamvAqrmfGWa+RekjTtmolYFNkgRToJjC2edC61WdkfBCwWat3KU8jUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BG8plsVx; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnKzdzZM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BG8plsVx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787024088; x=1818560088;
+  t=1787027748; x=1818563748;
   h=date:from:to:cc:subject:message-id;
-  bh=4t/VCRSE7o2jspAqFl+34cajh5/mX7tnRhsEH5cVQYk=;
-  b=dnKzdzZMs2sZC6YywfhjzVlGDKfIev8fbVhzDadu16HWyQOvdJN0K3H4
-   t4FSgg8g6ECRkZ38eyovzpMQI0Apx4wlycS3Q//aZePrN7n8Q2YTNwLfM
-   y2dWG3OSVU3O5UeVT0700CR35AWG7VzgcLOw0b1W+nkSNcf7G2szDmdi+
-   aSiEb1/3sIPs3JRf2KiKon/JA8EiN+2zkG+9akGK10QdzXvc7DJRULnX3
-   mS5ZcWZzuJdrt2pa3yQu8PsoY8gW37tjzZF5ztSxCf9Amw1/AtxPGbpaN
-   vqboSvk0rb+ogeQOX48JXNSTWK0iqCJ4SqdAAh1Awc8L9FutV5fCNfFkr
-   A==;
-X-CSE-ConnectionGUID: Y0PI/z3TTjymzDUfTWUvmg==
-X-CSE-MsgGUID: GjLLP7raQGWW+2Gqghl0Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87714229"
+  bh=2qyE1rOPisf+dCezYveqLULfxWGZkJZWIXT+ASpoWhc=;
+  b=BG8plsVxjGAMOJ3A3RCUrXA7vUYRwRp91CsLOrNL4aV0fXZo8ip6RuO9
+   pYkuEPczF6f/x0Z67CxNczgqNj7zGlNZGZWrvHFdvkw0yuBL8xT9yARDQ
+   j179+NuFnEfOJTKlDldrm3NvcTLAevnUhYszL7upjsi9K3fIbuPhn5+kv
+   pKntBd+niM3kE9A3/ZfD/+QEEaGf4XNkqR8IsZYfHaADB5GDmddzciC1a
+   O3BMZp6pXwAe21p5B5U/zh9kfx8ZmlI4Qp9LvhmLZySNf7oki4ofjZQC9
+   IXIXIhAxqLt7nSV0FRZCcrwfqX1McocxaGwlwrnpq1btZUox0ZomqoHYh
+   Q==;
+X-CSE-ConnectionGUID: 8zYkK5hVTK+N/ettZjTJ+w==
+X-CSE-MsgGUID: LkJQIC9HQIiJ/leO11jw2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87365407"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87714229"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 20:34:47 -0700
-X-CSE-ConnectionGUID: LOfF/ffRSEqsuCXQSj6HNQ==
-X-CSE-MsgGUID: RITN4cxxTIuC/HAstPyGFw==
+   d="scan'208";a="87365407"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 21:35:48 -0700
+X-CSE-ConnectionGUID: joalpjJ4RueeksGpH4Vk0g==
+X-CSE-MsgGUID: 8bF0lsmUQTG1XYPw2N3qbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="261818781"
+   d="scan'208";a="265728788"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Aug 2026 20:34:45 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Aug 2026 21:35:47 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwAb5-0000000072T-1i8u;
-	Tue, 18 Aug 2026 03:34:43 +0000
-Date: Tue, 18 Aug 2026 05:34:09 +0200
+	id 1wwBY7-0000000072f-2P9N;
+	Tue, 18 Aug 2026 04:35:43 +0000
+Date: Tue, 18 Aug 2026 06:35:08 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb:
- opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type
- 'object', 'integer', 'array', 'boolean', 'null'
-Message-ID: <202608180545.Cbiv3Asy-lkp@intel.com>
+Subject: Makefile.kvm:264: ../liveupdate/lib/libliveupdate.mk: No
+ such file or directory
+Message-ID: <202608180640.DZDS3wCN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,66 +60,84 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-CC: Frank Li <Frank.Li@nxp.com>
+TO: Tarun Sahu <tarunsahu@google.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ff68e5f557f69a08fdcfa4ce8b1b809d63bd4f45
-commit: f33a1f9a942cba6c7454c5c2290395961a986f6f arm64: dts: freescale: imx95-verdin: Add Ivy carrier board
-date:   5 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-2054-20260813 (https://download.01.org/0day-ci/archive/20260818/202608180545.Cbiv3Asy-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608180545.Cbiv3Asy-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Tarun-Sahu/liveupdate-Add-LIVEUPDATE_GUEST_MEMFD-config-option/20260813-150657
+head:   adff701e1834c266f6e24dc94c144ebb9561c97c
+commit: adff701e1834c266f6e24dc94c144ebb9561c97c KVM: selftests: Add guest_memfd_preservation_test
+date:   5 days ago
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260818/202608180640.DZDS3wCN-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608180640.DZDS3wCN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f33a1f9a942c ("arm64: dts: freescale: imx95-verdin: Add Ivy carrier board")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608180545.Cbiv3Asy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608180640.DZDS3wCN-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'ifm,imx8mn-vhip4' was expected
-   	'avnet,sm2s-imx8mp' was expected
-   	'toradex,verdin-imx8mp' was expected
-   	'toradex,verdin-imx95' is not one of ['fsl,imx8qm', 'fsl,imx8qp']
-   	'toradex,verdin-imx95' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
-   	'fsl,vf500' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-nonwifi-ivy', 'toradex,verdin-imx95-nonwifi', 'toradex,verdin-imx95', 'fsl,imx95']
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-nonwifi-ivy', 'toradex,verdin-imx95-nonwifi', 'toradex,verdin-imx95', 'fsl,imx95']
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-nonwifi-ivy', 'toradex,verdin-imx95-nonwifi', 'toradex,verdin-imx95', 'fsl,imx95']
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: opp-800000000: opp-hz-real: b'\x00\x00\x00\x00/\xaf\x08\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: opp-1000000000: opp-hz-real: b'\x00\x00\x00\x00;\x9a\xca\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   	'ifm,imx8mn-vhip4' was expected
-   	'avnet,sm2s-imx8mp' was expected
-   	'toradex,verdin-imx8mp' was expected
-   	'toradex,verdin-imx95' is not one of ['fsl,imx8qm', 'fsl,imx8qp']
-   	'toradex,verdin-imx95' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
-   	'fsl,vf500' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-wifi-ivy', 'toradex,verdin-imx95-wifi', 'toradex,verdin-imx95', 'fsl,imx95']
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-wifi-ivy', 'toradex,verdin-imx95-wifi', 'toradex,verdin-imx95', 'fsl,imx95']
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx95-wifi-ivy', 'toradex,verdin-imx95-wifi', 'toradex,verdin-imx95', 'fsl,imx95']
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: opp-500000000: opp-hz-real: b'\x00\x00\x00\x00\x1d\xcde\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: opp-800000000: opp-hz-real: b'\x00\x00\x00\x00/\xaf\x08\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: opp-1000000000: opp-hz-real: b'\x00\x00\x00\x00;\x9a\xca\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+All errors (new ones prefixed by >>):
+
+   make[1]: *** [../../lib.mk:225: tools/testing/selftests/drivers/net/psp_responder] Error 1
+   make[1]: Target 'all' not remade because of errors.
+   make[1]: *** [Makefile:124: tools/testing/selftests/hid/host-tools/sbin/bpftool] Error 2
+   make[1]: Target 'all' not remade because of errors.
+   make[1]: *** No targets.  Stop.
+>> Makefile.kvm:264: ../liveupdate/lib/libliveupdate.mk: No such file or directory
+>> make[1]: *** No rule to make target '../liveupdate/lib/libliveupdate.mk'.
+   Makefile.kvm:264: Failed to remake makefile '../liveupdate/lib/libliveupdate.mk'.
+   make[1]: *** [../lib.mk:225: tools/testing/selftests/net/busy_poller] Error 1
+   make[1]: *** [../lib.mk:224: tools/testing/selftests/net/tun] Error 1
+   make[1]: Target 'all' not remade because of errors.
+   make[1]: *** No targets specified and no makefile found.  Stop.
+   Makefile:60: warning: overriding recipe for target 'emit_tests'
+   ../lib.mk:182: warning: ignoring old recipe for target 'emit_tests'
+   make[1]: *** No targets.  Stop.
+   make[1]: Circular tools/testing/selftests/rseq/param_test <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_compare_twice <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_compare_twice <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/param_test_mm_cid_compare_twice <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/syscall_errors_test <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/legacy_check <- tools/testing/selftests/rseq/legacy_check dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/legacy_check dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/slice_test <- tools/testing/selftests/rseq/slice_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_mm_cid dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/param_test_mm_cid_compare_twice dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/syscall_errors_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/legacy_check dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/slice_test dependency dropped.
+   make[1]: Circular tools/testing/selftests/rseq/check_optimized <- tools/testing/selftests/rseq/check_optimized dependency dropped.
+   make[1]: *** No targets.  Stop.
+   make[1]: *** No targets.  Stop.
 
 --
 0-DAY CI Kernel Test Service
