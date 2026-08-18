@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ACF442B2F
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Aug 2026 11:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61703376A0B
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Aug 2026 16:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787051227; cv=none; b=DzVrJxNl2/2K8bS+u/YzA4XaNWwm4UkqsuptI9p8NeJAbSXPSG9geAqXmO90iw/0Kn2g4W2+JVJ9w+3Te+8pBbOLeP8W6qD6ACJwNzFhIzG8tVcxUBtvs7Suj6Bivraum2U17C0u3Amb/NVBo99qtK1wZubFrwnw8DdH6ioGy3s=
+	t=1787069755; cv=none; b=DHIzOXx0M5Kjrqct7ee87478pbUz8xsPh3WqXXun3N37P9TD6ROldKqZp73JtmAJR4tnXVWMEv8lE6dJNZruf9jz7MTT+E80wjz6kMaies63NzHssffQ7OYx1tFpY+dPVrXvUhS3XBW5CyGc+N2/Zoq2xkrhgFL/HGbhtenHG2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787051227; c=relaxed/simple;
-	bh=Rgqj4VBdSbkY6iCvfPCw5m6XcVpLr++kP/7hkRaAMc0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k3MQ2xa/9BoOCE+peDmgqx2UC77IqMOXJhOXMFA1NlXPgNcu1s7S1W+K0m9w9oQxf9BRixd8VGqV9e0jleanectALIZLEsIWOR9r1Bjn7y1Po24w3S8zMjmSly9rrKYUvMS5KFM/Hjpdns6J8/qa95YGhQPIL2pTaEziygRThWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h6BkeQkz; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1787069755; c=relaxed/simple;
+	bh=PXJ2a0dDofQyX+yhKk2yljHS8FCOJTBd3ZuJD0k3VwU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sYKFxrCWgTR5ry7iJpbDBtBqJVVJ3aPzNnwpUTkCYudk9vNCDyC+2d9gJobq0J7jp4PLqGEbpZelWnGtjKvNa2VSNWCGc3VUIsBgp06KhVYHNUGSSTbph2xkfOzcKIKPrAi6ubkmr97Y7KZtZEc0KaxRUwxIeMx1uMrqg6yy3fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnidwdB7; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6BkeQkz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnidwdB7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787051226; x=1818587226;
+  t=1787069754; x=1818605754;
   h=date:from:to:cc:subject:message-id;
-  bh=Rgqj4VBdSbkY6iCvfPCw5m6XcVpLr++kP/7hkRaAMc0=;
-  b=h6BkeQkzN1GBY24WIqMCSogaWNDYzJIToZimcxbqGxhw9xu7T6/+XXoF
-   jHlBm8Ci0ZgK2xGXOEzOlpRZoROVqtmjJRelm1CBleqEtw7AD2EcyulQB
-   EylcX3fukblP+Xu+hqkrFjQt0N5gtzyh4sei+nnKr8indhWTMR7i0UE/n
-   lPFlv3mqVfAPJG/6zmMjfwu9QfDa6VgnlMre/bQ0VxtNzYSQHpR4SMR0u
-   8eFY6vyGl3P02lx5LlNd+r1BStFUj6aCQEpkfqPxVmBZrj2nvYTbRD8SN
-   X8ULrQEKMEbJ7bXEYkNtyQj5qFvQNjjPUhpnOE6TksthjFnMMrmtglYg3
-   Q==;
-X-CSE-ConnectionGUID: QDysHhYeSQ6PeDsCSlEQZA==
-X-CSE-MsgGUID: jyZUuItPSlC0V2r8SM//Bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="98694662"
+  bh=PXJ2a0dDofQyX+yhKk2yljHS8FCOJTBd3ZuJD0k3VwU=;
+  b=lnidwdB7lNDKoZJx/uYRsGnC1+m5rXdO+nLL/UN23b5tDxzDKnJFL9Qx
+   wgVhL7ZfBdIK00y0GPz9eS3e7yXc00XFwhrv6d8WkMNDLSWg+Ot9vwjTu
+   3Cp+Vg53n/yb2QTHRfJkNH6slXNlDh5m7vJ0iUu97mSqwVNTS4/drSjfq
+   TJDcjh5UvGLnz8EXDkEA9ZfhPgM02zl0b8FhIliidoQUUQWvDuIDZlmjc
+   nYO2SbEOi2erhsOeOcaBMAR/4iMFx6rk7tjQEN+B+puMors8bDcnAJ83p
+   GobTzd2Tdyqf0QpttJH+Gh9wZYaYAhJO/yyfk/Rv06Zi7769WO1AOFzUp
+   g==;
+X-CSE-ConnectionGUID: MxIPqOKiT9uFQHEqdQ2Zig==
+X-CSE-MsgGUID: pe0/p9mYTAmhUbxBCm3B1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="87772301"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="98694662"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 04:07:05 -0700
-X-CSE-ConnectionGUID: Olxnr8BeSYONNtovZ69DzA==
-X-CSE-MsgGUID: abAk5WMLQDW1r3+SIjevdg==
+   d="scan'208";a="87772301"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 09:15:53 -0700
+X-CSE-ConnectionGUID: Xa7WADCjRpCKF/i8Avt4VA==
+X-CSE-MsgGUID: rh+TLFs/QKeWbaYSlzXNaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="295126234"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Aug 2026 04:07:04 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+   d="scan'208";a="303491249"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 18 Aug 2026 09:15:52 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwHen-00000000eHy-37Nf;
-	Tue, 18 Aug 2026 11:07:01 +0000
-Date: Tue, 18 Aug 2026 19:06:39 +0800
+	id 1wwMTe-00000000777-0UUG;
+	Tue, 18 Aug 2026 16:15:50 +0000
+Date: Tue, 18 Aug 2026 18:14:56 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 15921/15982] drivers/hid/hid-steam.c:557
- steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__578'
-Message-ID: <202608181947.hUO73pDG-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm/boot/dts/samsung/exynos5250-snow.dtb: sound
+ (google,snow-audio-max98095): codec:sound-dai: [[102], [0], [81]] is too long
+Message-ID: <202608181841.APpFt1zN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,96 +59,67 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Paul E. McKenney" <paulmck@kernel.org>
-CC: Mark Brown <broonie@kernel.org>
+TO: "H. Nikolaus Schaller" <hns@goldelico.com>
+CC: 0day robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e6664f2b33db9b6811eb4cec109f06cb2b4f458d
-commit: fb2488318acd47809769edf3e6210958dcff9034 [15921/15982] Merge branch 'non-rcu/next' of https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
-:::::: branch date: 18 hours ago
-:::::: commit date: 19 hours ago
-config: x86_64-randconfig-161-20260818 (https://download.01.org/0day-ci/archive/20260818/202608181947.hUO73pDG-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/intel-lab-lkp/linux/commits/H-Nikolaus-Schaller/dt-bindings-twl-regulator-Add-bindings-for-exposing-ti-twl4030-regen/20260812-201259
+head:   4f5559ad82b8debd2be982b089e18240288940e9
+commit: 44971f13cae7486e3643ba685ac319be100b42ae ASoC: dt-bindings: add OpenPandora Sound Card
+date:   6 days ago
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm-randconfig-2051-20260816 (https://download.01.org/0day-ci/archive/20260818/202608181841.APpFt1zN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2026.7.dev15+g01b5073ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608181841.APpFt1zN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608181947.hUO73pDG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608181841.APpFt1zN-lkp@intel.com/
 
-smatch warnings:
-drivers/hid/hid-steam.c:557 steam_send_report_id() warn: check sign expansion for '__UNIQUE_ID_x__578'
-
-vim +/__UNIQUE_ID_x__578 +557 drivers/hid/hid-steam.c
-
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  516  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  517  static int steam_send_report_id(struct steam_device *steam,
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  518  		u8 *cmd, int size, u8 report_id)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  519  {
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  520  	struct hid_report *r;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  521  	u8 *buf;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  522  	unsigned int retries = 50;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  523  	int ret;
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  524  	u32 len;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  525  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  526  	r = steam->hdev->report_enum[HID_FEATURE_REPORT].report_id_hash[report_id];
-cd11d1a6114bd4 Lee Jones           2022-07-08  527  	if (!r) {
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  528  		hid_err(steam->hdev, "No HID_FEATURE_REPORT present for ID %u\n", report_id);
-cd11d1a6114bd4 Lee Jones           2022-07-08  529  		return -EINVAL;
-cd11d1a6114bd4 Lee Jones           2022-07-08  530  	}
-cd11d1a6114bd4 Lee Jones           2022-07-08  531  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  532  	len = hid_report_len(r);
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  533  	if (len < 64)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  534  		return -EINVAL;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  535  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  536  	buf = hid_alloc_report_buf(r, GFP_KERNEL);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  537  	if (!buf)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  538  		return -ENOMEM;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  539  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  540  	/* The report ID is always consistent */
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  541  	buf[0] = report_id;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  542  	memcpy(buf + 1, cmd, size);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  543  
-de435b770cd949 Vicki Pfau          2026-07-29  544  	hid_dbg(steam->hdev, "Sending report %*ph\n", size, cmd);
-de435b770cd949 Vicki Pfau          2026-07-29  545  
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  546  	if (!(steam->quirks & STEAM_QUIRK_IBEX))
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  547  		len += 1;
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  548  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  549  	/*
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  550  	 * Sometimes the wireless controller fails with EPIPE
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  551  	 * when sending a feature report.
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  552  	 * Doing a HID_REQ_SET_REPORT and waiting for a while
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  553  	 * seems to fix that.
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  554  	 */
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  555  	do {
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11  556  		ret = hid_hw_raw_request(steam->hdev, report_id,
-0a80b4e8ec6a6e Vicki Pfau          2026-08-11 @557  				buf, max(size + 1, len),
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  558  				HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  559  		if (ret != -EPIPE)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  560  			break;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  561  		msleep(20);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  562  	} while (--retries);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  563  
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  564  	kfree(buf);
-cfa66cba6d02ff Vicki Pfau          2026-08-11  565  	/*
-cfa66cba6d02ff Vicki Pfau          2026-08-11  566  	 * Don't log if the failure is -ENODEV, as this
-cfa66cba6d02ff Vicki Pfau          2026-08-11  567  	 * can happen normally on disconnect.
-cfa66cba6d02ff Vicki Pfau          2026-08-11  568  	 */
-cfa66cba6d02ff Vicki Pfau          2026-08-11  569  	if (ret < 0 && ret != -ENODEV)
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  570  		hid_err(steam->hdev, "%s: error %d (%*ph)\n", __func__,
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  571  				ret, size, cmd);
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  572  	return ret;
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  573  }
-c164d6abf3841f Rodrigo Rivas Costa 2018-04-16  574  
-
-:::::: The code at line 557 was first introduced by commit
-:::::: 0a80b4e8ec6a6e40937c7abdf8fb2ebe6cc7c1e5 HID: steam: Initial 2026 Steam Controller support
-
-:::::: TO: Vicki Pfau <vi@endrift.com>
-:::::: CC: Jiri Kosina <jkosina@suse.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet3: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet4: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet5: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet6: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet7: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm/boot/dts/samsung/exynos5250-snow.dtb: sound (google,snow-audio-max98095): codec:sound-dai: [[102], [0], [81]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
+>> arch/arm/boot/dts/samsung/exynos5250-snow.dtb: sound (google,snow-audio-max98095): cpu:sound-dai: [[62], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
+--
+   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet3: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet4: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet5: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet6: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet7: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: sound (google,snow-audio-max98090): cpu:sound-dai: [[62], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
+--
+   arch/arm/boot/dts/samsung/exynos5420-peach-pit.dtb: /soc/spi@12d40000/cros-ec@0/i2c-tunnel/power-regulator@48: failed to match any schema with compatible: ['ti,tps65090']
+>> arch/arm/boot/dts/samsung/exynos5420-peach-pit.dtb: sound (google,snow-audio-max98090): cpu:sound-dai: [[79], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
+--
+   arch/arm/boot/dts/samsung/exynos5800-peach-pi.dtb: /soc/spi@12d40000/cros-ec@0/i2c-tunnel/power-regulator@48: failed to match any schema with compatible: ['ti,tps65090']
+>> arch/arm/boot/dts/samsung/exynos5800-peach-pi.dtb: sound (google,snow-audio-max98091): cpu:sound-dai: [[78], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
 
 --
 0-DAY CI Kernel Test Service
