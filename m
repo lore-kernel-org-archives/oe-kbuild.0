@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61703376A0B
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Aug 2026 16:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C842D47A86F
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Aug 2026 16:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787069755; cv=none; b=DHIzOXx0M5Kjrqct7ee87478pbUz8xsPh3WqXXun3N37P9TD6ROldKqZp73JtmAJR4tnXVWMEv8lE6dJNZruf9jz7MTT+E80wjz6kMaies63NzHssffQ7OYx1tFpY+dPVrXvUhS3XBW5CyGc+N2/Zoq2xkrhgFL/HGbhtenHG2I=
+	t=1787072358; cv=none; b=n44NH5R/3IzpOAh4F/y21IJOFjoaMUxTztBRf2qZAKXRvhp6wP3U3Kf7bHKE8dDJjAHkRj9meTo9df5wUeiM4jiBh8Cd38eyhKXi7yhQQYjyML7C6qRNjtyhh9G4mTwvsSuxW/hlpPMsNpwLg46CAjbY2aGvZ9Y5Z4YEiG76W4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787069755; c=relaxed/simple;
-	bh=PXJ2a0dDofQyX+yhKk2yljHS8FCOJTBd3ZuJD0k3VwU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sYKFxrCWgTR5ry7iJpbDBtBqJVVJ3aPzNnwpUTkCYudk9vNCDyC+2d9gJobq0J7jp4PLqGEbpZelWnGtjKvNa2VSNWCGc3VUIsBgp06KhVYHNUGSSTbph2xkfOzcKIKPrAi6ubkmr97Y7KZtZEc0KaxRUwxIeMx1uMrqg6yy3fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnidwdB7; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1787072358; c=relaxed/simple;
+	bh=dLd/hL4yN9howfr+NO6D0E9eOveLmGecW2eY5e/lDks=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DNpmi9PHwyzx0+3QXFaCETb3cNyQpTTdu/P7aEU4C9eb/4+mBCXm+B8lXUOgTraT7A4vd844IOzW36rCt+3L28Oq/iKWchusDA8xBM7goJ52LBnYBblA6gxw0uCPEPSTxRfwkgaKm7ACHNw0YubHQyBu++7O84GCvDpqK6mn0i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/s3zg7K; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnidwdB7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/s3zg7K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787069754; x=1818605754;
+  t=1787072355; x=1818608355;
   h=date:from:to:cc:subject:message-id;
-  bh=PXJ2a0dDofQyX+yhKk2yljHS8FCOJTBd3ZuJD0k3VwU=;
-  b=lnidwdB7lNDKoZJx/uYRsGnC1+m5rXdO+nLL/UN23b5tDxzDKnJFL9Qx
-   wgVhL7ZfBdIK00y0GPz9eS3e7yXc00XFwhrv6d8WkMNDLSWg+Ot9vwjTu
-   3Cp+Vg53n/yb2QTHRfJkNH6slXNlDh5m7vJ0iUu97mSqwVNTS4/drSjfq
-   TJDcjh5UvGLnz8EXDkEA9ZfhPgM02zl0b8FhIliidoQUUQWvDuIDZlmjc
-   nYO2SbEOi2erhsOeOcaBMAR/4iMFx6rk7tjQEN+B+puMors8bDcnAJ83p
-   GobTzd2Tdyqf0QpttJH+Gh9wZYaYAhJO/yyfk/Rv06Zi7769WO1AOFzUp
-   g==;
-X-CSE-ConnectionGUID: MxIPqOKiT9uFQHEqdQ2Zig==
-X-CSE-MsgGUID: pe0/p9mYTAmhUbxBCm3B1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="87772301"
+  bh=dLd/hL4yN9howfr+NO6D0E9eOveLmGecW2eY5e/lDks=;
+  b=b/s3zg7K/tFu3oB9W3HGPLAn+7u31FiKxHWA+SsQ4ZHziAjxqx61h1jR
+   VCslWwz63H01hwmvBKj5EJZdLcP8PIvzJpgWdtQEXvHFhZelMqehXK+zY
+   KNzovaKfws9ktcLWQ0Wuo4Rkwy8c95v0hZaWKcwHB4gwfO9Bf+7pdN6AL
+   Z48eZntL1SMGwrg49ptnCFjDXAXplEJhG5J0v/sd+ld61Hq+fMi5hQ2A9
+   jdxrCnqPR3gV0wsScFJq1J2GdCqb2K011VekTevsIHliL43PIDUJ5rhcu
+   OEja/gM1aBTQKNo4sbpsoKPLcqnNKvTQV5y5AJhG0OE65ez5SV9i2XwZJ
+   w==;
+X-CSE-ConnectionGUID: 821kfX2sTrWrGYvS99jEow==
+X-CSE-MsgGUID: Wtr4KNq7RxChDG3LNSgmzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="90086863"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="87772301"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 09:15:53 -0700
-X-CSE-ConnectionGUID: Xa7WADCjRpCKF/i8Avt4VA==
-X-CSE-MsgGUID: rh+TLFs/QKeWbaYSlzXNaQ==
+   d="scan'208";a="90086863"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 09:59:14 -0700
+X-CSE-ConnectionGUID: j7C8qqoVRA6kcojFxaIVTg==
+X-CSE-MsgGUID: rnjtvL/2QF2UKkVHdMAijQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="303491249"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 18 Aug 2026 09:15:52 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+   d="scan'208";a="259092144"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 18 Aug 2026 09:59:13 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwMTe-00000000777-0UUG;
-	Tue, 18 Aug 2026 16:15:50 +0000
-Date: Tue, 18 Aug 2026 18:14:56 +0200
+	id 1wwN9a-00000000eSC-1heB;
+	Tue, 18 Aug 2026 16:59:10 +0000
+Date: Wed, 19 Aug 2026 00:58:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm/boot/dts/samsung/exynos5250-snow.dtb: sound
- (google,snow-audio-max98095): codec:sound-dai: [[102], [0], [81]] is too long
-Message-ID: <202608181841.APpFt1zN-lkp@intel.com>
+Subject: [android-common:mirror-chromeos-5.10-arcvm 3/3]
+ drivers/virtio/virtio_pvclock.c:58:9: sparse: sparse: no generic selection
+ for 'unsigned long long virtio_cread_v'
+Message-ID: <202608190005.9eXWiIGR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -60,66 +61,72 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: drivers/virtio/virtio_pvclock.c:58:9: sparse: sparse: no generic selection for 'unsigned long long virtio_cread_v'"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "H. Nikolaus Schaller" <hns@goldelico.com>
-CC: 0day robot <lkp@intel.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/H-Nikolaus-Schaller/dt-bindings-twl-regulator-Add-bindings-for-exposing-ti-twl4030-regen/20260812-201259
-head:   4f5559ad82b8debd2be982b089e18240288940e9
-commit: 44971f13cae7486e3643ba685ac319be100b42ae ASoC: dt-bindings: add OpenPandora Sound Card
-date:   6 days ago
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-2051-20260816 (https://download.01.org/0day-ci/archive/20260818/202608181841.APpFt1zN-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260818/202608181841.APpFt1zN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   41118558e39ad4996d7172883158bf5bd6afcc54
+commit: 2b1ff8683a4370ea8c1b01d801f8369ebd777e19 [3/3] CHROMIUM: virtio_pvclock: port driver impl from Android
+:::::: branch date: 32 hours ago
+:::::: commit date: 2 years, 5 months ago
+config: x86_64-randconfig-r134-20260818 (https://download.01.org/0day-ci/archive/20260819/202608190005.9eXWiIGR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608190005.9eXWiIGR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608181841.APpFt1zN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608190005.9eXWiIGR-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet3: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet4: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet5: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet6: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/samsung/exynos5250-snow.dtb: fet7: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/samsung/exynos5250-snow.dtb: sound (google,snow-audio-max98095): codec:sound-dai: [[102], [0], [81]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
->> arch/arm/boot/dts/samsung/exynos5250-snow.dtb: sound (google,snow-audio-max98095): cpu:sound-dai: [[62], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
---
-   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet3: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet4: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet5: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet6: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: fet7: ti,overcurrent-wait: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/samsung/exynos5250-snow-rev5.dtb: sound (google,snow-audio-max98090): cpu:sound-dai: [[62], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
---
-   arch/arm/boot/dts/samsung/exynos5420-peach-pit.dtb: /soc/spi@12d40000/cros-ec@0/i2c-tunnel/power-regulator@48: failed to match any schema with compatible: ['ti,tps65090']
->> arch/arm/boot/dts/samsung/exynos5420-peach-pit.dtb: sound (google,snow-audio-max98090): cpu:sound-dai: [[79], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
---
-   arch/arm/boot/dts/samsung/exynos5800-peach-pi.dtb: /soc/spi@12d40000/cros-ec@0/i2c-tunnel/power-regulator@48: failed to match any schema with compatible: ['ti,tps65090']
->> arch/arm/boot/dts/samsung/exynos5800-peach-pi.dtb: sound (google,snow-audio-max98091): cpu:sound-dai: [[78], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/samsung,snow.yaml
+sparse warnings: (new ones prefixed by >>)
+>> drivers/virtio/virtio_pvclock.c:58:9: sparse: sparse: no generic selection for 'unsigned long long virtio_cread_v'
+>> drivers/virtio/virtio_pvclock.c:58:9: sparse: sparse: incompatible types in comparison expression (different base types):
+   drivers/virtio/virtio_pvclock.c:58:9: sparse:    bad type *
+   drivers/virtio/virtio_pvclock.c:58:9: sparse:    unsigned long long *
+>> drivers/virtio/virtio_pvclock.c:58:9: sparse: sparse: no generic selection for 'unsigned long long [addressable] virtio_cread_v'
+
+vim +58 drivers/virtio/virtio_pvclock.c
+
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  48  
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  49  void update_suspend_time(struct work_struct *work)
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  50  {
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  51  	u64 suspend_ns, suspend_time_delta = 0;
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  52  	struct timespec64 inject_time;
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  53  	struct virtio_pvclock *vp;
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  54  
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  55  	vp = container_of(work, struct virtio_pvclock,
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  56  			  update_suspend_time_work);
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  57  
+2b1ff8683a4370e Hikaru Nishida 2023-02-28 @58  	virtio_cread(vp->vdev, struct virtio_pvclock_config, suspend_time_ns,
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  59  		     &suspend_ns);
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  60  
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  61  	mutex_lock(&vp->inject_suspend_lock);
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  62  	if (suspend_ns > vp->injected_suspend_ns) {
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  63  		suspend_time_delta = suspend_ns - vp->injected_suspend_ns;
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  64  		vp->injected_suspend_ns = suspend_ns;
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  65  	}
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  66  	mutex_unlock(&vp->inject_suspend_lock);
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  67  
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  68  	if (suspend_time_delta == 0) {
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  69  		dev_err(&vp->vdev->dev,
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  70  			"%s: suspend_time_ns is less than injected_suspend_ns\n",
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  71  			__func__);
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  72  		return;
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  73  	}
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  74  
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  75  	inject_time = ns_to_timespec64(suspend_time_delta);
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  76  
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  77  	timekeeping_inject_sleeptime64(&inject_time);
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  78  
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  79  	dev_info(&vp->vdev->dev, "injected sleeptime: %llu ns\n",
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  80  		 suspend_time_delta);
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  81  }
+2b1ff8683a4370e Hikaru Nishida 2023-02-28  82  
 
 --
 0-DAY CI Kernel Test Service
