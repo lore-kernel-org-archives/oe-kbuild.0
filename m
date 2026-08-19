@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AC1386C39
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Aug 2026 12:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630D428CF5D
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Aug 2026 13:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787142555; cv=none; b=hL45snAEyH57SxJPBT3gtsV5aC70Ak/uRIRI3RKM1jw2Wqq6s34DHAEcblx2ftb+4qR/o6ZSvYq18Mri7ww5x/z0cOEopBjE3kksWa5oxZVDXJuRWnbjx0qN6YVGLSRekhVWHQi69j4hLnBzqaJJCGnDZ645BwjJBCNQrFHxMs4=
+	t=1787144414; cv=none; b=kSF0+LcDVj7nIHfAiDTQsqLj4s5kucvCss0fNP+WM2lLnWBq47SFN0EJ7+Tv67R1iH3qzH2vbEB+Tnt+i2/b4Bs6viJeA/yPslgrFHJJKi7lzZsEidQoO639WbWVhcDsivqHo/6jUoHCpCUe7hiNT7Jfe8b+IORUcf8fvcM6ra4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787142555; c=relaxed/simple;
-	bh=KLXo2CZtbu/7Sbz35OA+7FzcsTkpxhfez/4rpCdCQh0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HpfTv9fRlPGdPo32y4TnYVUa8xXHF5dGfcBE+kEVUNwTSzSYYDE1Ych7LTdOsVRN3ZzwBIdIEzMhuED+FOU4RCeLoypVrQKhr0zZ6SsKfqetf2XZ8bkqAGlNYZPM+Bf8L68sywgNa4Rx4Q/+VsFICm7p1k++w7BD31b6gwnBCvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kL4rocYf; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1787144414; c=relaxed/simple;
+	bh=cNv+VNtj0jOwg5/SRxR2KjMP/L+dGIyJRINzvIbP3b0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uH0QBc5WB41n3m6KccuEtNPxVRW0hSZFsiXoS2ahdHbV1cOwS2fq4kRwcxA5PnH7Vfph50D1J76LbYjNmr2v/FVI+17TQWlmoLAsZ7NZeB7UlXP89ELl5FWwB8x5r23XJWxcKdkDMB4GLQv7ty5KqpzKurSzM0Sd39LBRpVZGWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZ/BTkrb; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kL4rocYf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZ/BTkrb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787142552; x=1818678552;
+  t=1787144412; x=1818680412;
   h=date:from:to:cc:subject:message-id;
-  bh=KLXo2CZtbu/7Sbz35OA+7FzcsTkpxhfez/4rpCdCQh0=;
-  b=kL4rocYfBMgjPfyj0Zy4uGBKtg58qlo5jDstq9nsxTN+q4SIrkOKKjR4
-   l3wXFfgi0HO3NexX+ybK/VC5GUxPJjxI4LReF7uDGKckDtTwpcqdBk4DG
-   V3p7RPYEDTVF0jdwM+XcxbLrCWss/xASIE4+ZJrv8t17/ik3M+t8yLTfo
-   phBrM7wrpT9u2+sPILCbjHZWQCTFAhorNkRtKSPpH9HoGRok41B6/wkO9
-   DzfemLZCNdpecwtuSFAAkeFy0tx23FwDJ8fDQjq/y8ErmyS6Y1/8+frmF
-   TsZHqIHu4ucFnNbO4YOZRy+pqLxarH5KnkQNXH7p99kwvFFF5xg9bjK3B
+  bh=cNv+VNtj0jOwg5/SRxR2KjMP/L+dGIyJRINzvIbP3b0=;
+  b=eZ/BTkrbTmr8LVoZUvtCXc+xsMmOPR3ysQ4RsfC7HhPxiwP+VwfPdAPR
+   4cl9UZjoFsK2fRyUuw5B9VpNCmjaO73LuyoAvgGuTn846XK6GLI7RQrMj
+   NnTmlpjTa/KukELGwwUsjnmwN31hc5wNq9RiStqXFsufoA2cDj4x3/Xpz
+   ABP5G1YwV3K6CGBc3JTVVG2Kd02k2E77C36n0mAioJ1Uk6vEpHdzDPwMn
+   4FMQ2+WOD2f+gVS4xiKWbI0s4xTDScbmTtZq2LIzmi/1fYmZOIic5O1Ns
+   jIVRoEh5lJeZXOVysHnfPk7JqDXnnb/rbDD4OWaoIabQQp1ItDjRVp1Xw
    A==;
-X-CSE-ConnectionGUID: OVnpesdnTDezF7kYFXwazw==
-X-CSE-MsgGUID: ivnm4KCvQa2QsZHQOjmfwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="105186412"
+X-CSE-ConnectionGUID: /l0aF69lTDmV9y5v1n0p/w==
+X-CSE-MsgGUID: mPsSDNrfQ3qixRQnkkL09w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="110442619"
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="105186412"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 05:29:11 -0700
-X-CSE-ConnectionGUID: 8sXgGudkQ1uT6nkLePquIw==
-X-CSE-MsgGUID: U2CTts0KSNi//F/B/q2mKQ==
+   d="scan'208";a="110442619"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 06:00:11 -0700
+X-CSE-ConnectionGUID: vMiOayKSSY61mXBo6qGsZA==
+X-CSE-MsgGUID: wDZz85lgTWClBH9ehWNIIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="265077848"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 19 Aug 2026 05:29:09 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 19 Aug 2026 06:00:09 -0700
 Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwfPn-000000007N3-2WfP;
-	Wed, 19 Aug 2026 12:29:07 +0000
-Date: Wed, 19 Aug 2026 14:28:29 +0200
+	id 1wwftn-000000007NF-3CRl;
+	Wed, 19 Aug 2026 13:00:07 +0000
+Date: Wed, 19 Aug 2026 14:59:11 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb:
- pcm1773-codec (ti,pcm1773): '#sound-dai-cells', 'enable-gpio', 'vcc-supply'
- do not match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202608191440.225u26AB-lkp@intel.com>
+Subject: [modules:ppavlu-module-include 36/37]
+ arch/arm64/include/asm/module.h:48:16: error: implicit declaration of
+ function 'cpus_have_final_cap'
+Message-ID: <202608191435.CTMWvnpe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,62 +59,110 @@ List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Stefan Leichter <sle85276@gmx.de>
-CC: 0day robot <lkp@intel.com>
-CC: Grond <grond66@riseup.net>
-CC: "H. Nikolaus Schaller" <hns@goldelico.com>
+CC: Luis Chamberlain <mcgrof@kernel.org>
+CC: Petr Pavlu <petr.pavlu@suse.com>
+CC: Sami Tolvanen <samitolvanen@google.com>
+CC: Daniel Gomez <da.gomez@kernel.org>
+CC: linux-modules@vger.kernel.org
+TO: Petr Pavlu <petr.pavlu@suse.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/H-Nikolaus-Schaller/dt-bindings-twl-regulator-Add-bindings-for-exposing-ti-twl4030-regen/20260812-201259
-head:   4f5559ad82b8debd2be982b089e18240288940e9
-commit: 9d79db2f4d50c778ac888c1e7eca4fe9bed796f0 arm: dts: omap3pandora: create new DT node for the sound card
-date:   7 days ago
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm-randconfig-2051-20260816 (https://download.01.org/0day-ci/archive/20260819/202608191440.225u26AB-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191440.225u26AB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/modules/linux.git ppavlu-module-include
+head:   fcbfd3cbe0a054838436812cc0b664f71ba1d0a4
+commit: acb4d9bafad10e9712a74d71304a4f3a404eb4ec [36/37] WIP: module: Clean up includes in linux/module.h
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260819/202608191435.CTMWvnpe-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260819/202608191435.CTMWvnpe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608191440.225u26AB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608191435.CTMWvnpe-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: /ocp@68000000/dss@48050000/encoder@4804fc00: failed to match any schema with compatible: ['ti,omap3-dsi']
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: /ocp@68000000/dss@48050000/encoder@48050800: failed to match any schema with compatible: ['ti,omap3-rfbi']
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: /ocp@68000000/dss@48050000/encoder@48050c00: failed to match any schema with compatible: ['ti,omap3-venc']
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: endpoint: ti,channels: b'\x00\x00\x00\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: /ocp@68000000/ssi-controller@48058000: failed to match any schema with compatible: ['ti,omap3-ssi']
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: /ocp@68000000/ssi-controller@48058000/ssi-port@4805a000: failed to match any schema with compatible: ['ti,omap3-ssi-port']
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: /ocp@68000000/ssi-controller@48058000/ssi-port@4805b000: failed to match any schema with compatible: ['ti,omap3-ssi-port']
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: /ocp@68000000/bandgap@48002524: failed to match any schema with compatible: ['ti,omap34xx-bandgap']
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: /connector: failed to match any schema with compatible: ['connector-analog-tv']
->> arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: pcm1773-codec (ti,pcm1773): '#sound-dai-cells', 'enable-gpio', 'vcc-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/bindings/sound/pcm1773.yaml
-   arch/arm/boot/dts/ti/omap/omap3-pandora-600mhz.dtb: gpio-keys (gpio-keys): 'hold', 'kp-minus', 'kp-plus', 'left-alt', 'left-ctrl', 'lid', 'menu', 'right-ctrl', 'right-shift' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/module.h:28,
+                    from ../../../drivers/nvdimm/namespace_devs.c:6:
+   arch/arm64/include/asm/module.h: In function 'is_forbidden_offset_for_adrp':
+>> arch/arm64/include/asm/module.h:48:16: error: implicit declaration of function 'cpus_have_final_cap' [-Wimplicit-function-declaration]
+      48 |         return cpus_have_final_cap(ARM64_WORKAROUND_843419) &&
+         |                ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/module.h: In function 'find_section':
+>> arch/arm64/include/asm/module.h:62:21: error: implicit declaration of function 'strcmp' [-Wimplicit-function-declaration]
+      62 |                 if (strcmp(name, secstrs + s->sh_name) == 0)
+         |                     ^~~~~~
+   arch/arm64/include/asm/module.h:9:1: note: include '<string.h>' or provide a declaration of 'strcmp'
+       8 | #include <asm-generic/module.h>
+     +++ |+#include <string.h>
+       9 | 
+   In file included from arch/arm64/include/asm/processor.h:40,
+                    from include/linux/sched.h:13,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from ../../../drivers/nvdimm/namespace_devs.c:7:
+   arch/arm64/include/asm/cpufeature.h: At top level:
+>> arch/arm64/include/asm/cpufeature.h:519:29: error: conflicting types for 'cpus_have_final_cap'; have 'bool(int)' {aka '_Bool(int)'}
+     519 | static __always_inline bool cpus_have_final_cap(int num)
+         |                             ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/module.h:48:16: note: previous implicit declaration of 'cpus_have_final_cap' with type 'int()'
+      48 |         return cpus_have_final_cap(ARM64_WORKAROUND_843419) &&
+         |                ^~~~~~~~~~~~~~~~~~~
 --
-   arch/arm/boot/dts/ti/omap/omap3-pandora-1ghz.dtb: regulator-abb-mpu (ti,abb-v1): ti,tranxdone-status-mask: b'\x04\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/ti/omap/omap3-pandora-1ghz.dtb: regulator-abb-mpu (ti,abb-v1): ti,settling-time: b'\x00\x00\x00\x1e' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/ti/omap/omap3-pandora-1ghz.dtb: regulator-abb-mpu (ti,abb-v1): ti,clock-cycles: b'\x00\x00\x00\x08' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/ti/omap/omap3-pandora-1ghz.dtb: regulator-abb-mpu (ti,abb-v1): ti,abb_info: b'\x00\x0fs\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x12O\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x147\xc8\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x14\xfb\x18\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/ti/omap/omap3-pandora-1ghz.dtb: /ocp@68000000/bandgap@48002524: failed to match any schema with compatible: ['ti,omap36xx-bandgap']
-   arch/arm/boot/dts/ti/omap/omap3-pandora-1ghz.dtb: /connector: failed to match any schema with compatible: ['connector-analog-tv']
->> arch/arm/boot/dts/ti/omap/omap3-pandora-1ghz.dtb: pcm1773-codec (ti,pcm1773): '#sound-dai-cells', 'enable-gpio', 'vcc-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/bindings/sound/pcm1773.yaml
-   arch/arm/boot/dts/ti/omap/omap3-pandora-1ghz.dtb: gpio-keys (gpio-keys): 'hold', 'kp-minus', 'kp-plus', 'left-alt', 'left-ctrl', 'lid', 'menu', 'right-ctrl', 'right-shift' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml
+   In file included from include/linux/module.h:28,
+                    from libnvdimm_test.c:4:
+   arch/arm64/include/asm/module.h: In function 'is_forbidden_offset_for_adrp':
+>> arch/arm64/include/asm/module.h:48:16: error: implicit declaration of function 'cpus_have_final_cap' [-Wimplicit-function-declaration]
+      48 |         return cpus_have_final_cap(ARM64_WORKAROUND_843419) &&
+         |                ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/module.h: In function 'find_section':
+>> arch/arm64/include/asm/module.h:62:21: error: implicit declaration of function 'strcmp' [-Wimplicit-function-declaration]
+      62 |                 if (strcmp(name, secstrs + s->sh_name) == 0)
+         |                     ^~~~~~
+   arch/arm64/include/asm/module.h:9:1: note: include '<string.h>' or provide a declaration of 'strcmp'
+       8 | #include <asm-generic/module.h>
+     +++ |+#include <string.h>
+       9 | 
+
+
+vim +/cpus_have_final_cap +48 arch/arm64/include/asm/module.h
+
+7e8b9c1d2e2f5f Ard Biesheuvel 2017-11-20  45  
+bdb85cd1d20669 Ard Biesheuvel 2018-11-22  46  static inline bool is_forbidden_offset_for_adrp(void *place)
+7e8b9c1d2e2f5f Ard Biesheuvel 2017-11-20  47  {
+0a285dfe875d52 Mark Rutland   2023-10-16 @48  	return cpus_have_final_cap(ARM64_WORKAROUND_843419) &&
+bdb85cd1d20669 Ard Biesheuvel 2018-11-22  49  	       ((u64)place & 0xfff) >= 0xff8;
+7e8b9c1d2e2f5f Ard Biesheuvel 2017-11-20  50  }
+7e8b9c1d2e2f5f Ard Biesheuvel 2017-11-20  51  
+bdb85cd1d20669 Ard Biesheuvel 2018-11-22  52  struct plt_entry get_plt_entry(u64 dst, void *pc);
+7e8b9c1d2e2f5f Ard Biesheuvel 2017-11-20  53  
+b3adc3844e1ded Joey Gouly     2022-08-30  54  static inline const Elf_Shdr *find_section(const Elf_Ehdr *hdr,
+b3adc3844e1ded Joey Gouly     2022-08-30  55  				    const Elf_Shdr *sechdrs,
+b3adc3844e1ded Joey Gouly     2022-08-30  56  				    const char *name)
+5a3ae7b314a225 Ard Biesheuvel 2019-04-07  57  {
+b3adc3844e1ded Joey Gouly     2022-08-30  58  	const Elf_Shdr *s, *se;
+b3adc3844e1ded Joey Gouly     2022-08-30  59  	const char *secstrs = (void *)hdr + sechdrs[hdr->e_shstrndx].sh_offset;
+b3adc3844e1ded Joey Gouly     2022-08-30  60  
+b3adc3844e1ded Joey Gouly     2022-08-30  61  	for (s = sechdrs, se = sechdrs + hdr->e_shnum; s < se; s++) {
+b3adc3844e1ded Joey Gouly     2022-08-30 @62  		if (strcmp(name, secstrs + s->sh_name) == 0)
+b3adc3844e1ded Joey Gouly     2022-08-30  63  			return s;
+b3adc3844e1ded Joey Gouly     2022-08-30  64  	}
+b3adc3844e1ded Joey Gouly     2022-08-30  65  
+b3adc3844e1ded Joey Gouly     2022-08-30  66  	return NULL;
+5a3ae7b314a225 Ard Biesheuvel 2019-04-07  67  }
+5a3ae7b314a225 Ard Biesheuvel 2019-04-07  68  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: 0a285dfe875d5206da10c3d00564727f9482a9dd arm64: Avoid cpus_have_const_cap() for ARM64_WORKAROUND_843419
+
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 --
 0-DAY CI Kernel Test Service
