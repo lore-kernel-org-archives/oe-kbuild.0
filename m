@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94A03CB2D2
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Aug 2026 05:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C5D3D3306
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Aug 2026 06:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787118938; cv=none; b=eS1BUULOi72xXph2wzwMllGzJTPSYFhmrzpjj5UcCUcavXkWK0bE9R33+S5KXBrQxWUkjeHbtkAFjogcEs9Qz+OyrTggZdxK0eIh2aF1d/kmYNuljhSuosvnH5MFpElMAZn2YUQLqe0vAZq1+FXTHpiQlZsS9m+dVA7oWUKFMeQ=
+	t=1787121767; cv=none; b=uq0HpdT0jw+iRDFjvhgOHiULtXQ+B/3i7G6wOldFtlDEZO8z9K+rhand0kU7vpGrDVxIB5TI71Vb9oR/lgUbCri1JvAb6Nr50i6SReHyycoPJGsz6DS+xgq3XCa1JPQyx1GrVEjxtml2tY/WVbkstraWTNSXtpC9U5HL68gDR/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787118938; c=relaxed/simple;
-	bh=oBzIfuTCbGeOSWAwDvP0TAmBBrrrpaJ5Qmnkuo8t+vY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JfGbZCjLXWmGbVyeoJF1+rqYX1K41vcQ56GTyE1PIPnDbSb2YXcFn2VlrmWNyWgbXFq+NaSYlids/Z7Nn2bEAJYlxnECGOBFmvUSe5t2B/3tKZa0bKJlJYt9VSYKlhpuxja8MOguVELpxI4wwyfdlONq4VQfXH6F54EzIeZWiBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=icJ00QK/; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1787121767; c=relaxed/simple;
+	bh=r4Q1Nm4pWv3zULUx/6FmbiKsKl8TCMMk0a2VAw9QNJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PMO8Bv603G33esvFWS2JeaAPSpmcJYAROdy4H/9xwlW0ZWHntPerGBoBA0GnPVck/U2mkgibZ198m1cVqYT+IZBiKhF/gEBOmk/SizgL4FVLWX2aHwLFU6Tyb4gf7M4LoCXsv2mzAAbgZ6iQ8HIHeeVk52wF70YppWygI/dyx6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DNHJG83h; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icJ00QK/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DNHJG83h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787118936; x=1818654936;
+  t=1787121765; x=1818657765;
   h=date:from:to:cc:subject:message-id;
-  bh=oBzIfuTCbGeOSWAwDvP0TAmBBrrrpaJ5Qmnkuo8t+vY=;
-  b=icJ00QK/+gTlBfSHaZKyz5K+YEhMluQHJqQh408SZ3GlFk6b7uo1ylxt
-   aykWdm2B/HXZfeKL+6Hez9ZE7BWIjcZ6fOrtDLJPrn+18Dagv1phBKrRP
-   FAQ6r7jO+c98iDZIKZ8YkrvCOXq7ecXfvyEa4QYHkmRrzLbSaaSuE3PuU
-   brWjhFg8HAXM88t2mfq9V2I/WZZVKPzz8ECXxgpG+Dhl4vX5YViTu4Ov4
-   dRMje7IJmpYUkn5lcnVkE1w9MxdVuDEz6y0sVHQbB0bmRiwZ6lzC/ozgx
-   P//60HlAQQ2bAsC4F4qedU8ryz88cQ38D11g4pY6iUCnJ8BNX7ZkSI+4z
-   A==;
-X-CSE-ConnectionGUID: oconBKdRQh6WgGgMLVBVlA==
-X-CSE-MsgGUID: +me0SpG4TDWdDSH94HIJKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="98779658"
+  bh=r4Q1Nm4pWv3zULUx/6FmbiKsKl8TCMMk0a2VAw9QNJ4=;
+  b=DNHJG83hSH/KnmDOQCxhxO70vXEwEJww/psjvxrHN4VKk5TuEuulmHfz
+   09norsGTuBs9z7K+tfCS+D0UzAvn1j8TA5NWfHLW1mtYxBPlphyTtnzZn
+   f2GUNMHj1rcRM21E7QrdDWudpijTuaJKndPUVloQzkHxcJ8Uued/auaz/
+   9leIBCqJOyLMDlxVkK2eZKC/iinbn01nB7Jopw3Ysw+DNdhmUCbnlQYeY
+   b9ixgcLWjdDzdqwb+XVf1eXnKsrv9cJe1UayCTnhA4Dy7Cs+Ib1YoV7b5
+   QYPdVt2ZWlNFRghi2lxILUu0ncTmqQ7y17LvCSFFaocRzJD+3mwP9ZoT+
+   w==;
+X-CSE-ConnectionGUID: mq4LV8FtR2KjHLqziYMVZA==
+X-CSE-MsgGUID: qDIW4mjIQJu4kcSfDtkb5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="99150384"
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="98779658"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 22:55:36 -0700
-X-CSE-ConnectionGUID: L+bAr8wYTQ2O9Q9GsN50iA==
-X-CSE-MsgGUID: NmTJsojaTiCet01w3WbIXw==
+   d="scan'208";a="99150384"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 23:42:41 -0700
+X-CSE-ConnectionGUID: YNEyqPFqRhyW+BY1I5pleQ==
+X-CSE-MsgGUID: O6Ca8KklQiKCNibZEM9iAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,231,1779174000"; 
-   d="scan'208";a="263708636"
+   d="scan'208";a="261696361"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 Aug 2026 22:55:34 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 18 Aug 2026 23:42:38 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwZGt-00000000ev4-389b;
-	Wed, 19 Aug 2026 05:55:31 +0000
-Date: Wed, 19 Aug 2026 13:55:19 +0800
+	id 1wwa0R-00000000ex0-2pjw;
+	Wed, 19 Aug 2026 06:42:35 +0000
+Date: Wed, 19 Aug 2026 14:42:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [chao:feature/cache 6/13] fs/f2fs/gc.c:1897
- do_garbage_collect() error: 'sum_entry' dereferencing possible ERR_PTR()
-Message-ID: <202608191338.E8L1n0k3-lkp@intel.com>
+Subject: [soc:board-remove 200/200]
+ drivers/mmc/host/sdhci-pxav2.c:318 sdhci_pxav2_probe() error: we previously
+ assumed 'variant' could be null (see line 305)
+Message-ID: <202608191405.jP6epa63-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -61,225 +62,106 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Chao Yu <chao@kernel.org>
-TO: Chao Yu <chao@kernel.org>
+CC: linux-arm-kernel@lists.infradead.org
+CC: arm@kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/cache
-head:   cc6a23d8c232f588f3a5415d1b10a19e1e4ce860
-commit: 843ddf01eb4efc800bdac9de795bdeb57940a3e0 [6/13] f2fs: cache: use meta cache
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: x86_64-randconfig-161-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191338.E8L1n0k3-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
+head:   c12d647b0229f4d75a2973c9b4e79f9b53406426
+commit: c12d647b0229f4d75a2973c9b4e79f9b53406426 [200/200] remaining pdata removal
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: parisc-randconfig-r073-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191405.jP6epa63-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608191338.E8L1n0k3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608191405.jP6epa63-lkp@intel.com/
 
-New smatch warnings:
-fs/f2fs/gc.c:1897 do_garbage_collect() error: 'sum_entry' dereferencing possible ERR_PTR()
-fs/f2fs/segment.c:4617 write_compacted_summaries() warn: variable dereferenced before check 'entry' (see line 4600)
+smatch warnings:
+drivers/mmc/host/sdhci-pxav2.c:318 sdhci_pxav2_probe() error: we previously assumed 'variant' could be null (see line 305)
 
-Old smatch warnings:
-fs/f2fs/gc.c:819 f2fs_get_victim() warn: check sign expansion for '-1'
-fs/f2fs/gc.c:1298 ra_data_block() warn: missing error code 'err'
-fs/f2fs/segment.c:874 __remove_dirty_segment() warn: check sign expansion for '-1'
+vim +/variant +318 drivers/mmc/host/sdhci-pxav2.c
 
-vim +/sum_entry +1897 fs/f2fs/gc.c
+b650352dd3df36 Chris Ball            2012-04-10  269  
+c3be1efd41a97f Bill Pemberton        2012-11-19  270  static int sdhci_pxav2_probe(struct platform_device *pdev)
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  271  {
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  272  	struct sdhci_pltfm_host *pltfm_host;
+c12d647b0229f4 Arnd Bergmann         2026-08-07  273  	struct sdhci_pxa_platdata *pdata;
+f35ca223882aa6 Doug Brown            2023-01-16  274  	struct sdhci_pxav2_host *pxav2_host;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  275  	struct device *dev = &pdev->dev;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  276  	struct sdhci_host *host = NULL;
+dfe9746aed2d12 Doug Brown            2023-01-16  277  	const struct sdhci_pxa_variant *variant;
+b650352dd3df36 Chris Ball            2012-04-10  278  
+e41c48b4bcb3ce Doug Brown            2023-01-16  279  	struct clk *clk, *clk_core;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  280  
+f35ca223882aa6 Doug Brown            2023-01-16  281  	host = sdhci_pltfm_init(pdev, NULL, sizeof(*pxav2_host));
+6a686c31324c9e Sebastian Hesselbarth 2014-10-21  282  	if (IS_ERR(host))
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  283  		return PTR_ERR(host);
+6a686c31324c9e Sebastian Hesselbarth 2014-10-21  284  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  285  	pltfm_host = sdhci_priv(host);
+f35ca223882aa6 Doug Brown            2023-01-16  286  	pxav2_host = sdhci_pltfm_priv(pltfm_host);
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  287  
+c21f1b0dc6418e Adrian Hunter         2023-08-11  288  	clk = devm_clk_get_optional_enabled(dev, "io");
+c21f1b0dc6418e Adrian Hunter         2023-08-11  289  	if (!clk)
+c21f1b0dc6418e Adrian Hunter         2023-08-11  290  		clk = devm_clk_get_enabled(dev, NULL);
+072f5e2c34a95b Binbin Zhou           2025-06-07  291  	if (IS_ERR(clk))
+072f5e2c34a95b Binbin Zhou           2025-06-07  292  		return dev_err_probe(dev, PTR_ERR(clk), "failed to get io clock\n");
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  293  	pltfm_host->clk = clk;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  294  
+e41c48b4bcb3ce Doug Brown            2023-01-16  295  	clk_core = devm_clk_get_optional_enabled(dev, "core");
+072f5e2c34a95b Binbin Zhou           2025-06-07  296  	if (IS_ERR(clk_core))
+072f5e2c34a95b Binbin Zhou           2025-06-07  297  		return dev_err_probe(dev, PTR_ERR(clk_core),
+072f5e2c34a95b Binbin Zhou           2025-06-07  298  				     "failed to enable core clock\n");
+e41c48b4bcb3ce Doug Brown            2023-01-16  299  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  300  	host->quirks = SDHCI_QUIRK_BROKEN_ADMA
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  301  		| SDHCI_QUIRK_BROKEN_TIMEOUT_VAL
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  302  		| SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  303  
+dfe9746aed2d12 Doug Brown            2023-01-16  304  	variant = of_device_get_match_data(dev);
+dfe9746aed2d12 Doug Brown            2023-01-16 @305  	if (variant)
+b650352dd3df36 Chris Ball            2012-04-10  306  		pdata = pxav2_get_mmc_pdata(dev);
+dfe9746aed2d12 Doug Brown            2023-01-16  307  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  308  	if (pdata->flags & PXA_FLAG_CARD_PERMANENT) {
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  309  		/* on-chip device */
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  310  		host->quirks |= SDHCI_QUIRK_BROKEN_CARD_DETECTION;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  311  		host->mmc->caps |= MMC_CAP_NONREMOVABLE;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  312  	}
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  313  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  314  	/* If slot design supports 8 bit data, indicate this to MMC. */
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  315  	if (pdata->flags & PXA_FLAG_SD_8_BIT_CAPABLE_SLOT)
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  316  		host->mmc->caps |= MMC_CAP_8_BIT_DATA;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  317  
+dfe9746aed2d12 Doug Brown            2023-01-16 @318  	host->quirks |= variant->extra_quirks;
+dfe9746aed2d12 Doug Brown            2023-01-16  319  	host->ops = variant->ops;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  320  
+f35ca223882aa6 Doug Brown            2023-01-16  321  	/* Set up optional pinctrl for PXA168 SDIO IRQ fix */
+f35ca223882aa6 Doug Brown            2023-01-16  322  	pxav2_host->pinctrl = devm_pinctrl_get(dev);
+f35ca223882aa6 Doug Brown            2023-01-16  323  	if (!IS_ERR(pxav2_host->pinctrl)) {
+f35ca223882aa6 Doug Brown            2023-01-16  324  		pxav2_host->pins_cmd_gpio = pinctrl_lookup_state(pxav2_host->pinctrl,
+f35ca223882aa6 Doug Brown            2023-01-16  325  								 "state_cmd_gpio");
+f35ca223882aa6 Doug Brown            2023-01-16  326  		if (IS_ERR(pxav2_host->pins_cmd_gpio))
+f35ca223882aa6 Doug Brown            2023-01-16  327  			pxav2_host->pins_cmd_gpio = NULL;
+f35ca223882aa6 Doug Brown            2023-01-16  328  		pxav2_host->pins_default = pinctrl_lookup_state(pxav2_host->pinctrl,
+f35ca223882aa6 Doug Brown            2023-01-16  329  								"default");
+f35ca223882aa6 Doug Brown            2023-01-16  330  		if (IS_ERR(pxav2_host->pins_default))
+f35ca223882aa6 Doug Brown            2023-01-16  331  			pxav2_host->pins_default = NULL;
+f35ca223882aa6 Doug Brown            2023-01-16  332  	} else {
+f35ca223882aa6 Doug Brown            2023-01-16  333  		pxav2_host->pinctrl = NULL;
+f35ca223882aa6 Doug Brown            2023-01-16  334  	}
+f35ca223882aa6 Doug Brown            2023-01-16  335  
+072f5e2c34a95b Binbin Zhou           2025-06-07  336  	return sdhci_add_host(host);
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  337  }
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  338  
 
-7bc0900347e069 Jaegeuk Kim    2012-11-02  1772  
-718e53fa633f84 Chao Yu        2016-01-23  1773  static int do_garbage_collect(struct f2fs_sb_info *sbi,
-718e53fa633f84 Chao Yu        2016-01-23  1774  				unsigned int start_segno,
-7dede88659df38 Chao Yu        2021-02-20  1775  				struct gc_inode_list *gc_list, int gc_type,
-9748c2ddea4a3f Daeho Jeong    2024-09-09  1776  				bool force_migrate, bool one_time)
-7bc0900347e069 Jaegeuk Kim    2012-11-02  1777  {
-c718379b6b0954 Jaegeuk Kim    2013-04-24  1778  	struct blk_plug plug;
-718e53fa633f84 Chao Yu        2016-01-23  1779  	unsigned int segno = start_segno;
-a60108f7dfb586 Jaegeuk Kim    2024-02-06  1780  	unsigned int end_segno = start_segno + SEGS_PER_SEC(sbi);
-8c890c4c603427 Daeho Jeong    2024-09-09  1781  	unsigned int sec_end_segno;
-e3080b0120a15e Chao Yu        2018-10-24  1782  	int seg_freed = 0, migrated = 0;
-5dfb768326b95c Daeho Jeong    2026-05-14  1783  	unsigned char type;
-5dfb768326b95c Daeho Jeong    2026-05-14  1784  	unsigned char data_type;
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1785  	int submitted = 0, sum_blk_cnt;
-7bc0900347e069 Jaegeuk Kim    2012-11-02  1786  
-8c890c4c603427 Daeho Jeong    2024-09-09  1787  	if (__is_large_section(sbi)) {
-8c890c4c603427 Daeho Jeong    2024-09-09  1788  		sec_end_segno = rounddown(end_segno, SEGS_PER_SEC(sbi));
-e3080b0120a15e Chao Yu        2018-10-24  1789  
-de881df97768d0 Aravind Ramesh 2020-07-16  1790  		/*
-de881df97768d0 Aravind Ramesh 2020-07-16  1791  		 * zone-capacity can be less than zone-size in zoned devices,
-de881df97768d0 Aravind Ramesh 2020-07-16  1792  		 * resulting in less than expected usable segments in the zone,
-8c890c4c603427 Daeho Jeong    2024-09-09  1793  		 * calculate the end segno in the zone which can be garbage
-8c890c4c603427 Daeho Jeong    2024-09-09  1794  		 * collected
-de881df97768d0 Aravind Ramesh 2020-07-16  1795  		 */
-de881df97768d0 Aravind Ramesh 2020-07-16  1796  		if (f2fs_sb_has_blkzoned(sbi))
-8c890c4c603427 Daeho Jeong    2024-09-09  1797  			sec_end_segno -= SEGS_PER_SEC(sbi) -
-2af583afcf9d54 liuderong      2024-09-11  1798  					f2fs_usable_segs_in_sec(sbi);
-de881df97768d0 Aravind Ramesh 2020-07-16  1799  
-9748c2ddea4a3f Daeho Jeong    2024-09-09  1800  		if (gc_type == BG_GC || one_time) {
-2223fe652f7596 Daeho Jeong    2024-09-09  1801  			unsigned int window_granularity =
-8c890c4c603427 Daeho Jeong    2024-09-09  1802  				sbi->migration_window_granularity;
-8c890c4c603427 Daeho Jeong    2024-09-09  1803  
-2223fe652f7596 Daeho Jeong    2024-09-09  1804  			if (f2fs_sb_has_blkzoned(sbi) &&
-2223fe652f7596 Daeho Jeong    2024-09-09  1805  					!has_enough_free_blocks(sbi,
-3d7bca9d583793 Chao Yu        2026-07-06  1806  					sbi->gc_thread.boost_zoned_gc_percent))
-9a481a1c16f465 Daeho Jeong    2024-09-09  1807  				window_granularity *=
-3d7bca9d583793 Chao Yu        2026-07-06  1808  					sbi->gc_thread.boost_gc_multiple;
-2223fe652f7596 Daeho Jeong    2024-09-09  1809  
-2223fe652f7596 Daeho Jeong    2024-09-09  1810  			end_segno = start_segno + window_granularity;
-2223fe652f7596 Daeho Jeong    2024-09-09  1811  		}
-2223fe652f7596 Daeho Jeong    2024-09-09  1812  
-8c890c4c603427 Daeho Jeong    2024-09-09  1813  		if (end_segno > sec_end_segno)
-8c890c4c603427 Daeho Jeong    2024-09-09  1814  			end_segno = sec_end_segno;
-8c890c4c603427 Daeho Jeong    2024-09-09  1815  	}
-8c890c4c603427 Daeho Jeong    2024-09-09  1816  
-093749e296e29a Chao Yu        2020-08-04  1817  	sanity_check_seg_type(sbi, get_seg_entry(sbi, segno)->type);
-093749e296e29a Chao Yu        2020-08-04  1818  
-e48e16f3e37fac Daeho Jeong    2026-01-10  1819  	segno = rounddown(segno, sbi->sums_per_block);
-e48e16f3e37fac Daeho Jeong    2026-01-10  1820  	sum_blk_cnt = DIV_ROUND_UP(end_segno - segno, sbi->sums_per_block);
-718e53fa633f84 Chao Yu        2016-01-23  1821  	/* readahead multi ssa blocks those have contiguous address */
-2c70c5e3874e8c Chao Yu        2018-10-24  1822  	if (__is_large_section(sbi))
-843ddf01eb4efc Chao Yu        2026-08-18  1823  		f2fs_ra_meta_caches(sbi, GET_SUM_BLOCK(sbi, segno),
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1824  					sum_blk_cnt, META_SSA, true);
-718e53fa633f84 Chao Yu        2016-01-23  1825  
-718e53fa633f84 Chao Yu        2016-01-23  1826  	/* reference all summary page */
-718e53fa633f84 Chao Yu        2016-01-23  1827  	while (segno < end_segno) {
-843ddf01eb4efc Chao Yu        2026-08-18  1828  		struct f2fs_cached_block *sum_entry =
-843ddf01eb4efc Chao Yu        2026-08-18  1829  				f2fs_get_sum_cache(sbi, segno);
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1830  
-e48e16f3e37fac Daeho Jeong    2026-01-10  1831  		segno += sbi->sums_per_block;
-843ddf01eb4efc Chao Yu        2026-08-18  1832  		if (IS_ERR(sum_entry)) {
-843ddf01eb4efc Chao Yu        2026-08-18  1833  			int err = PTR_ERR(sum_entry);
-edc55aaf0d1712 Jaegeuk Kim    2018-09-17  1834  
-e48e16f3e37fac Daeho Jeong    2026-01-10  1835  			end_segno = segno - sbi->sums_per_block;
-e48e16f3e37fac Daeho Jeong    2026-01-10  1836  			segno = rounddown(start_segno, sbi->sums_per_block);
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1837  			while (segno < end_segno) {
-843ddf01eb4efc Chao Yu        2026-08-18  1838  				sum_entry = f2fs_find_meta_cache(sbi,
-edc55aaf0d1712 Jaegeuk Kim    2018-09-17  1839  						GET_SUM_BLOCK(sbi, segno));
-843ddf01eb4efc Chao Yu        2026-08-18  1840  				f2fs_put_cache(sum_entry, false);
-843ddf01eb4efc Chao Yu        2026-08-18  1841  				f2fs_put_cache(sum_entry, false);
-e48e16f3e37fac Daeho Jeong    2026-01-10  1842  				segno += sbi->sums_per_block;
-edc55aaf0d1712 Jaegeuk Kim    2018-09-17  1843  			}
-edc55aaf0d1712 Jaegeuk Kim    2018-09-17  1844  			return err;
-edc55aaf0d1712 Jaegeuk Kim    2018-09-17  1845  		}
-843ddf01eb4efc Chao Yu        2026-08-18  1846  		f2fs_unlock_cache(sum_entry);
-843ddf01eb4efc Chao Yu        2026-08-18  1847  
-718e53fa633f84 Chao Yu        2016-01-23  1848  	}
-7bc0900347e069 Jaegeuk Kim    2012-11-02  1849  
-c718379b6b0954 Jaegeuk Kim    2013-04-24  1850  	blk_start_plug(&plug);
-c718379b6b0954 Jaegeuk Kim    2013-04-24  1851  
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1852  	segno = start_segno;
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1853  	while (segno < end_segno) {
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1854  		unsigned int cur_segno;
-843ddf01eb4efc Chao Yu        2026-08-18  1855  		unsigned int block_end_segno;
-aa987273290d20 Jaegeuk Kim    2016-06-06  1856  
-718e53fa633f84 Chao Yu        2016-01-23  1857  		/* find segment summary of victim */
-843ddf01eb4efc Chao Yu        2026-08-18  1858  		struct f2fs_cached_block *sum_entry =
-843ddf01eb4efc Chao Yu        2026-08-18  1859  				f2fs_find_meta_cache(sbi,
-718e53fa633f84 Chao Yu        2016-01-23  1860  					GET_SUM_BLOCK(sbi, segno));
-843ddf01eb4efc Chao Yu        2026-08-18  1861  
-843ddf01eb4efc Chao Yu        2026-08-18  1862  		f2fs_bug_on(sbi, IS_ERR(sum_entry));
-843ddf01eb4efc Chao Yu        2026-08-18  1863  
-843ddf01eb4efc Chao Yu        2026-08-18  1864  		block_end_segno = rounddown(segno, sbi->sums_per_block)
-e48e16f3e37fac Daeho Jeong    2026-01-10  1865  					+ sbi->sums_per_block;
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1866  
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1867  		if (block_end_segno > end_segno)
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1868  			block_end_segno = end_segno;
-718e53fa633f84 Chao Yu        2016-01-23  1869  
-d625a2b08c0893 Chao Yu        2025-09-01  1870  		if (is_cursec(sbi, GET_SEC_FROM_SEG(sbi, segno))) {
-d625a2b08c0893 Chao Yu        2025-09-01  1871  			f2fs_err(sbi, "%s: segment %u is used by log",
-d625a2b08c0893 Chao Yu        2025-09-01  1872  							__func__, segno);
-d625a2b08c0893 Chao Yu        2025-09-01  1873  			f2fs_bug_on(sbi, 1);
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1874  			goto next_block;
-d625a2b08c0893 Chao Yu        2025-09-01  1875  		}
-d625a2b08c0893 Chao Yu        2025-09-01  1876  
-843ddf01eb4efc Chao Yu        2026-08-18  1877  		if (!f2fs_cache_test_uptodate(sum_entry) ||
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1878  			unlikely(f2fs_cp_error(sbi)))
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1879  			goto next_block;
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1880  
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1881  		for (cur_segno = segno; cur_segno < block_end_segno;
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1882  				cur_segno++) {
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1883  			struct f2fs_summary_block *sum;
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1884  
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1885  			if (get_valid_blocks(sbi, cur_segno, false) == 0)
-d6c66cd19ef322 Yunlong Song   2018-10-24  1886  				goto freed;
-dabfbbc8f91450 Jaegeuk Kim    2020-02-09  1887  			if (gc_type == BG_GC && __is_large_section(sbi) &&
-e3080b0120a15e Chao Yu        2018-10-24  1888  					migrated >= sbi->migration_granularity)
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1889  				continue;
-de0dcc40f6e24d Jaegeuk Kim    2016-10-12  1890  
-5dfb768326b95c Daeho Jeong    2026-05-14  1891  			if (migrated == 0) {
-5dfb768326b95c Daeho Jeong    2026-05-14  1892  				type = IS_DATASEG(get_seg_entry(sbi, cur_segno)->type) ?
-5dfb768326b95c Daeho Jeong    2026-05-14  1893  							SUM_TYPE_DATA : SUM_TYPE_NODE;
-5dfb768326b95c Daeho Jeong    2026-05-14  1894  				data_type = (type == SUM_TYPE_DATA) ? DATA : NODE;
-5dfb768326b95c Daeho Jeong    2026-05-14  1895  			}
-5dfb768326b95c Daeho Jeong    2026-05-14  1896  
-843ddf01eb4efc Chao Yu        2026-08-18 @1897  			sum = SUM_BLK_ENTRY_ADDR(sbi, sum_entry, cur_segno);
-e48e16f3e37fac Daeho Jeong    2026-01-10  1898  			if (type != GET_SUM_TYPE(sum_footer(sbi, sum))) {
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1899  				f2fs_err(sbi, "Inconsistent segment (%u) type "
-98fd20b9cf472d Chao Yu        2026-06-15  1900  						"[%d, %d] in SIT and SSA",
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1901  						cur_segno, type,
-e48e16f3e37fac Daeho Jeong    2026-01-10  1902  						GET_SUM_TYPE(
-e48e16f3e37fac Daeho Jeong    2026-01-10  1903  						sum_footer(sbi, sum)));
-a9cfee0ef98e99 Chao Yu        2022-09-28  1904  				f2fs_stop_checkpoint(sbi, false,
-a9cfee0ef98e99 Chao Yu        2022-09-28  1905  						STOP_CP_REASON_CORRUPTED_SUMMARY);
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1906  				continue;
-10d255c3540239 Chao Yu        2018-07-04  1907  			}
-7bc0900347e069 Jaegeuk Kim    2012-11-02  1908  
-9236cac5666ea8 Jaegeuk Kim    2015-05-28  1909  			/*
-9236cac5666ea8 Jaegeuk Kim    2015-05-28  1910  			 * this is to avoid deadlock:
-9236cac5666ea8 Jaegeuk Kim    2015-05-28  1911  			 *  - lock_page(sum_page)     - f2fs_replace_block
-3d26fa6be3c487 Chao Yu        2017-10-30  1912  			 *   - check_valid_map()        - down_write(sentry_lock)
-3d26fa6be3c487 Chao Yu        2017-10-30  1913  			 *    - down_read(sentry_lock) - change_curseg()
-9236cac5666ea8 Jaegeuk Kim    2015-05-28  1914  			 *                               - lock_page(sum_page)
-9236cac5666ea8 Jaegeuk Kim    2015-05-28  1915  			 */
-718e53fa633f84 Chao Yu        2016-01-23  1916  			if (type == SUM_TYPE_NODE)
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1917  				submitted += gc_node_segment(sbi, sum->entries,
-7ec199117c3254 Daeho Jeong    2025-12-30  1918  						cur_segno, gc_type, &plug);
-48018b4cfd07dd Chao Yu        2018-09-13  1919  			else
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1920  				submitted += gc_data_segment(sbi, sum->entries,
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1921  						gc_list, cur_segno,
-7ec199117c3254 Daeho Jeong    2025-12-30  1922  						gc_type, force_migrate, &plug);
-c718379b6b0954 Jaegeuk Kim    2013-04-24  1923  
-9bf1dcbdfdc889 Chao Yu        2023-08-08  1924  			stat_inc_gc_seg_count(sbi, data_type, gc_type);
-07c6b5933ebf58 Daeho Jeong    2021-07-09  1925  			sbi->gc_reclaimed_segs[sbi->gc_mode]++;
-8c7b9ac129d096 Jaegeuk Kim    2020-02-09  1926  			migrated++;
-c56f16dab0dfc8 Chao Yu        2017-08-11  1927  
-d6c66cd19ef322 Yunlong Song   2018-10-24  1928  freed:
-c56f16dab0dfc8 Chao Yu        2017-08-11  1929  			if (gc_type == FG_GC &&
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1930  					get_valid_blocks(sbi, cur_segno, false) == 0)
-c56f16dab0dfc8 Chao Yu        2017-08-11  1931  				seg_freed++;
-e3080b0120a15e Chao Yu        2018-10-24  1932  
-e219aecfd4b766 Yonggil Song   2022-11-22  1933  			if (__is_large_section(sbi))
-e219aecfd4b766 Yonggil Song   2022-11-22  1934  				sbi->next_victim_seg[gc_type] =
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1935  					(cur_segno + 1 < sec_end_segno) ?
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1936  					cur_segno + 1 : NULL_SEGNO;
-02d91398a602c3 Daeho Jeong    2026-03-16  1937  
-02d91398a602c3 Daeho Jeong    2026-03-16  1938  			if (unlikely(freezing(current))) {
-843ddf01eb4efc Chao Yu        2026-08-18  1939  				f2fs_put_cache(sum_entry, false);
-843ddf01eb4efc Chao Yu        2026-08-18  1940  				f2fs_put_cache(sum_entry, false);
-02d91398a602c3 Daeho Jeong    2026-03-16  1941  				goto stop;
-02d91398a602c3 Daeho Jeong    2026-03-16  1942  			}
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1943  		}
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1944  next_block:
-843ddf01eb4efc Chao Yu        2026-08-18  1945  		f2fs_put_cache(sum_entry, false);
-843ddf01eb4efc Chao Yu        2026-08-18  1946  		f2fs_put_cache(sum_entry, false);
-7ee8bc3942f209 Daeho Jeong    2025-11-11  1947  		segno = block_end_segno;
-718e53fa633f84 Chao Yu        2016-01-23  1948  	}
-718e53fa633f84 Chao Yu        2016-01-23  1949  
-02d91398a602c3 Daeho Jeong    2026-03-16  1950  stop:
-48018b4cfd07dd Chao Yu        2018-09-13  1951  	if (submitted)
-9bf1dcbdfdc889 Chao Yu        2023-08-08  1952  		f2fs_submit_merged_write(sbi, data_type);
-718e53fa633f84 Chao Yu        2016-01-23  1953  
-718e53fa633f84 Chao Yu        2016-01-23  1954  	blk_finish_plug(&plug);
-718e53fa633f84 Chao Yu        2016-01-23  1955  
-9bf1dcbdfdc889 Chao Yu        2023-08-08  1956  	if (migrated)
-9bf1dcbdfdc889 Chao Yu        2023-08-08  1957  		stat_inc_gc_sec_count(sbi, data_type, gc_type);
-17d899df4678a1 Chao Yu        2016-02-22  1958  
-c56f16dab0dfc8 Chao Yu        2017-08-11  1959  	return seg_freed;
-7bc0900347e069 Jaegeuk Kim    2012-11-02  1960  }
-7bc0900347e069 Jaegeuk Kim    2012-11-02  1961  
+:::::: The code at line 318 was first introduced by commit
+:::::: dfe9746aed2d1267f00b880ae232170d7d9e4202 mmc: sdhci-pxav2: add initial support for PXA168 V1 controller
+
+:::::: TO: Doug Brown <doug@schmorgal.com>
+:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 --
 0-DAY CI Kernel Test Service
