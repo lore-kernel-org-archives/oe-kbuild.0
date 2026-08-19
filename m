@@ -1,70 +1,71 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1CB3D3D10
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Aug 2026 07:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC973DA5AE
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Aug 2026 07:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787125896; cv=none; b=ElFcw4te7DOWydzjlR8ezZGLwiMAaXlfwh0CphrlHatniEgHvCo/PrcEFFSal79lSqAzXRJXc3RLNMEY8t9Fulc9WDn+m8QvjkYL7ZNt+Br0duLWD8Avy+oixE3Yz5T0WXIXwpI/dM3sYkL+myzjcr1sIa38p0Ak5f1UhBnhN7A=
+	t=1787126072; cv=none; b=QHLwgEhftG2Rmh/GE/TjPimXAJLCBwXiShJTSefoE8skKd99RsBeDbg9zZeq2haSlvbQ6lT1o5YbLIJ+N6bfkiWX9hvipft5EfGY5Z25/uKwJVU/WD4PqqZBcUUbO/PMf/si7xGTgy0lLhzjMDSNVpz56aDw5c3AsHXitzeXAXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787125896; c=relaxed/simple;
-	bh=e8iwClkpZnd3mXJ7GRBLeMdKWJP1a9HmL4w18PheKqI=;
+	s=arc-20240116; t=1787126072; c=relaxed/simple;
+	bh=j2GqdFYYlLOEa6zkfp5E5Yc6Z2CKz6WYSmsQ3wr1j6U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=POm0wMPal8sPIEGIsegaS33H2DKDL9LhMge4tnlPrJVESVpho6PWd2g/dgEbZYUdHM/Qf6aTJYGTPlv6yD3MbGJ+TWYyNud/sMb64ziWAAsrOgHGJPTXzPDm2/hdS5RilJ8DaNTv7M3TO4tHiQ6AcYQQslgd5oVVWAzKXVY6/OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gP9S+1Ui; arc=none smtp.client-ip=209.85.128.41
+	 Content-Disposition; b=FcyRegygT3ysGsNTnQxIILUSWLaXSNW5vJgN/EGT5FwhKgOExcWfJehgHONMMLhKPe8GHvrEB1wm0Aiw6bXIo04cPoJlnymNcyZPPme+0ggGKKSXcfffKnN2au0qES7S51bwnx4i9kniBUU7YMrrRgWFeIvSFlDPr/y/zVp+SIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WIg/hDm6; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gP9S+1Ui"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49954b88fffso6892095e9.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 19 Aug 2026 00:51:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WIg/hDm6"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4956869750eso4142635e9.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 19 Aug 2026 00:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787125893; x=1787730693; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787126069; x=1787730869; darn=lists.linux.dev;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=h0OL1eyMqGNNeUM/7ZpI8tHxAqO4ynK4mb4a9+x1xqU=;
-        b=gP9S+1UiwflzdoFcOjbM2giKxOc/yVv61b8AGB+tP/Z28yAoarF1XsbW6I0trmd2va
-         /5uhzFr+yTeuoBFjhAHHez83mIwFdUoA60zapdfKmKYT3J0wQpJ7ZLFu4nuE8yuSGUAs
-         oMN3WAv1tRPP8n68I+pC7wB2tPiCyc0b71w+E8lT89ICLa/Rl9Qhlq6qigr/IMKOqriD
-         tYG2LIEMASdGb0Nl2ROVjK762IEGC7j7czOUh30iMo9TbXILktmtqwxSZTo94sphszem
-         qPApo6pzC8REE3YTA4zD4HaqC/fwCzhnaV8sr6Uz506hTVe5hzyNuHbZEMWd/gdrcedq
-         1mmw==
+        bh=oXyjcjL3bnTlnkKMFFgkBYIHbcZl4/hc7w/BVYgFeCU=;
+        b=WIg/hDm65x5o0Hnan6G0A+FhTdr7YHfgNITkVO/mKRkUwdxDywGu9hB3Yo+/KT7zRI
+         JUJ8aU/JDe9LnTWEyMLUGH5If37JT4PDPTf4nfv+o/+nLKx2LIql2jWIwAb18XXkZ02n
+         zdW/DKmMAl/DNdnRib7ude/1OiH7qvnRnia+QTsPHBknboubwsfCDs3/w3OD0gwCkJfs
+         UoEPNB/4epQWQYeqZz6TQMbMQOKZnHgd80yUk8QtyMx67+pKvH53YqrX+DmJbHRDsy6M
+         WDY3FiNsnWJ26BNb45YPK5kSyfa18PKxkpAg7r5SxmzajOH0ehfReD73AUdy5X/KeRdV
+         CVXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787125894; x=1787730694;
+        d=1e100.net; s=20251104; t=1787126069; x=1787730869;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=h0OL1eyMqGNNeUM/7ZpI8tHxAqO4ynK4mb4a9+x1xqU=;
-        b=eAfghOO7I9Pg7e7q6qqVdN0yUcGNT6L3sJ/+959AXCy8g6gwVZ4x4VY66nFwYsyykF
-         fmX5coS7qBLGYE0l5+qNZ+likp/qD27MbzPzuNSXPFAsUCYLExKjDK8Vnnj6AA4gqEy/
-         h7tLov3Cbrd1DnPcpkympLloSSkyT+gIyd1vQlmfqTYoN6foK7y+gfwsoDiwmx2N017Z
-         WquIw+2ik7L1aemoPfwJiAdENBuaEqk72JCMk6K9brz3dHq6V/sRMGIip6iI54yjTWak
-         T7qSZiy4Lrpsd0aq4OMyteQBViAIWmi2NnvO7SiLZAdw1RZI9QJYdUS03CBbzxPImnB6
-         yfNA==
-X-Gm-Message-State: AOJu0Yy3gtWh/TWso1S2r0g9ZWoMDeuZr4qGG3/m+vWU+GgXj8R6r6e1
-	XIeOErmpKKmdfJzfuZv9Sszq52qPx44fx/lAt55cefGjdSrPrY9amAZfAxOXJIpN66lYAyU2
-X-Gm-Gg: AR+sD13h7tUIIxRtjCq08YlQGfetnF8ZXT2i+7XBGhQSagfeHEHN0AwOPWZ6anNRMjL
-	ONpB7DA0DAaXpibHO/hG2HVXP8EBbgNajUofkDnIQGznDYnz7IypZhTmYF0Wq8JYoSDhHZ0RURs
-	y7qMiXKqYSxuhN+fnYnljIPZVf+3lSpjDsc6HIB+9DjkP9YRKUZJOkVIsrYO4+/9+nKlgVoYiKo
-	QH0vXX/EE0okQkryl6PZgKf/FapjUf9BZVF9tMCUYWA/NWXE29sofe7tgbXTk3SY6Orap5L0+0m
-	IYBi4tCJwI97Lgmn5GXIHGf8VcJWm6EuCd/naemviKCzptuVKSBoX0ynehfDzwDpsuAJfO3Eckw
-	ujKWuVxF12xfgImjPBiMV3wqcv6p6f4ErdHWWp873kTeraKIEHT5tCqUojKqClmzSwuk5gAW4EW
-	Bkp/7COnwopAQR5hJQiqNmA34luYjh2katGc5gT5NGCArzZlxobA3yspNW
-X-Received: by 2002:a05:600c:3b8e:b0:495:7888:281c with SMTP id 5b1f17b1804b1-499aa0dcd47mr47215425e9.0.1787125893534;
-        Wed, 19 Aug 2026 00:51:33 -0700 (PDT)
+        bh=oXyjcjL3bnTlnkKMFFgkBYIHbcZl4/hc7w/BVYgFeCU=;
+        b=NHU3xPrgTqg1r3t0i2AmEC4z5S3bzzlAfkDdPnC46jrt5rOK1rwh1PBIIL+gIw22hB
+         vtTXnBrSwud+NoErMUbXcPTvT7QrWpakwTS0lrawmPe/ydPWZxZa+EcTAsOPShqdCR6x
+         9ZWivsye2rDarbAxjtrsbf7IJ+epdIl/scJyjXjTETLJdPSQ8NfTuTWbhSckbRlZnkd8
+         h6Mr/tRX72GBQgz7zzBVdWOlUV3jhlMXiWDo9spxZOzwgvzf3ilVtDtskVfX9KHuooN8
+         ZWAdD9RtL7d0OQEjxaIqzRH724THE9wJj0bEK5FcVPGIivnNB8pwXB9PR53Jy8PyypIe
+         AaOQ==
+X-Gm-Message-State: AOJu0YyemsxgVPb0qtnUke4qmNgaSXjsg3SNKvLSBDWSDi4qFV9F3cZH
+	Gt8fG2pQDLf0Ct7AZy0j3E4LTkrVc2A2e8AzdO9b4hCcK+Uw8HdmllqatO7xj+oi70d52ix5
+X-Gm-Gg: AR+sD12NrvzFpYp/aNkX9fOl+ueCsKK/nKJwMOmyWCzBN2kcx9ofeRpD3YQiFDqUwpV
+	qUh4HmTXylmKQLZ7zSD4hQhpjkgOu8rWJ4FAo5GpZPeEHaNATKcsyQce7jUO74apsTiIeV/8syL
+	U+c+BL4LzZ1zGJwTifPaxJG4TRiJedyjihaknMyJ9Ua6Dp4x0nOSB58/Ht0PDOM1tImrE7l9/7s
+	DDGEE0Wd+6o9BAxKF6LVrSnx00hB+cTDr+RpEEMMh2C1OnWIJYyXPZqwcio+AXoP7XwgDac6dri
+	hgxvrjnoeXpNR/k44dhnkpERgKSzberkyaCSIZ/fD5vGeZODuo8yUewFUo/VFYRQs5iaSj3OU/f
+	bmHTvWA/dWGvLP/PEi8sD134cUUqYmMFotI5YoE1eBS78guHGCNlzeTBPFpkqDPqBQ/Ugnekuvo
+	QV6LPQQuEvJSaUeBrICV248m0hUQf4vgae8YGHxoYUA1wl2NRobfRrdF/uBQ==
+X-Received: by 2002:a05:600c:1d1a:b0:493:a623:d090 with SMTP id 5b1f17b1804b1-499aa1dde53mr44247205e9.10.1787126069040;
+        Wed, 19 Aug 2026 00:54:29 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499a9e8b700sm43571775e9.6.2026.08.19.00.51.32
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa0d6964sm39163725e9.9.2026.08.19.00.54.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 00:51:32 -0700 (PDT)
-Date: Wed, 19 Aug 2026 10:51:29 +0300
+        Wed, 19 Aug 2026 00:54:28 -0700 (PDT)
+Date: Wed, 19 Aug 2026 10:54:24 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 32/32] fs/fuse/file.c:959
- fuse_readpages_end() warn: variable dereferenced before check 'mapping' (see
- line 944)
-Message-ID: <aoVggdpskUJwC5gk@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, arm@kernel.org
+Subject: [soc:board-remove 200/200] drivers/mmc/host/sdhci-pxav2.c:318
+ sdhci_pxav2_probe() error: we previously assumed 'variant' could be null
+ (see line 305)
+Message-ID: <202608191405.jP6epa63-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,63 +74,65 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20260819075424.gX5jRB7dbxYEe59cnvPGhWBc12Uc47Fwkmi0OmNOR8w@z>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   5c36f73a41f1533cae407eba882ca2940e1775f1
-commit: be926e6761d28d105ba672242e81e911e0d7e5e0 [32/32] ANDROID: fuse-bpf: fuse-bpf v1.3
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260819/202608190010.lNezCZVt-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove
+head:   c12d647b0229f4d75a2973c9b4e79f9b53406426
+commit: c12d647b0229f4d75a2973c9b4e79f9b53406426 [200/200] remaining pdata removal
+config: parisc-randconfig-r073-20260819 (https://download.01.org/0day-ci/archive/20260819/202608191405.jP6epa63-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608190010.lNezCZVt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608191405.jP6epa63-lkp@intel.com/
 
 smatch warnings:
-fs/fuse/file.c:959 fuse_readpages_end() warn: variable dereferenced before check 'mapping' (see line 944)
+drivers/mmc/host/sdhci-pxav2.c:318 sdhci_pxav2_probe() error: we previously assumed 'variant' could be null (see line 305)
 
-vim +/mapping +959 fs/fuse/file.c
+vim +/variant +318 drivers/mmc/host/sdhci-pxav2.c
 
-fcee216beb9c15c Max Reitz        2020-05-06  931  static void fuse_readpages_end(struct fuse_mount *fm, struct fuse_args *args,
-134831e36bbdd6c Miklos Szeredi   2019-09-10  932  			       int err)
-db50b96c0f28a21 Miklos Szeredi   2005-09-09  933  {
-c1aa96a52e9594f Miklos Szeredi   2006-01-16  934  	int i;
-134831e36bbdd6c Miklos Szeredi   2019-09-10  935  	struct fuse_io_args *ia = container_of(args, typeof(*ia), ap.args);
-134831e36bbdd6c Miklos Szeredi   2019-09-10  936  	struct fuse_args_pages *ap = &ia->ap;
-134831e36bbdd6c Miklos Szeredi   2019-09-10  937  	size_t count = ia->read.in.size;
-134831e36bbdd6c Miklos Szeredi   2019-09-10  938  	size_t num_read = args->out_args[0].size;
-02d47e213dce6e2 Joanne Koong     2025-08-29  939  	struct address_space *mapping;
-02d47e213dce6e2 Joanne Koong     2025-08-29  940  	struct inode *inode;
-ce534fb052928ce Miklos Szeredi   2010-05-25  941  
-02d47e213dce6e2 Joanne Koong     2025-08-29  942  	WARN_ON_ONCE(!ap->num_folios);
-02d47e213dce6e2 Joanne Koong     2025-08-29  943  	mapping = ap->folios[0]->mapping;
-02d47e213dce6e2 Joanne Koong     2025-08-29 @944  	inode = mapping->host;
-                                                                ^^^^^^^^^^^^^
-Dereferenced
+e41c48b4bcb3ce Doug Brown            2023-01-16  295  	clk_core = devm_clk_get_optional_enabled(dev, "core");
+072f5e2c34a95b Binbin Zhou           2025-06-07  296  	if (IS_ERR(clk_core))
+072f5e2c34a95b Binbin Zhou           2025-06-07  297  		return dev_err_probe(dev, PTR_ERR(clk_core),
+072f5e2c34a95b Binbin Zhou           2025-06-07  298  				     "failed to enable core clock\n");
+e41c48b4bcb3ce Doug Brown            2023-01-16  299  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  300  	host->quirks = SDHCI_QUIRK_BROKEN_ADMA
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  301  		| SDHCI_QUIRK_BROKEN_TIMEOUT_VAL
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  302  		| SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  303  
+dfe9746aed2d12 Doug Brown            2023-01-16  304  	variant = of_device_get_match_data(dev);
+dfe9746aed2d12 Doug Brown            2023-01-16 @305  	if (variant)
 
-c1aa96a52e9594f Miklos Szeredi   2006-01-16  945  
-5c5c5e51b26413d Miklos Szeredi   2008-04-30  946  	/*
-5c5c5e51b26413d Miklos Szeredi   2008-04-30  947  	 * Short read means EOF. If file size is larger, truncate it
-5c5c5e51b26413d Miklos Szeredi   2008-04-30  948  	 */
-134831e36bbdd6c Miklos Szeredi   2019-09-10  949  	if (!err && num_read < count)
-134831e36bbdd6c Miklos Szeredi   2019-09-10  950  		fuse_short_read(inode, ia->read.attr_ver, num_read, ap);
-5c5c5e51b26413d Miklos Szeredi   2008-04-30  951  
-451418fc928b5ec Andrew Gallagher 2013-11-05  952  	fuse_invalidate_atime(inode);
-c1aa96a52e9594f Miklos Szeredi   2006-01-16  953  
-0c67c37e1710b2a Joanne Koong     2025-02-11  954  	for (i = 0; i < ap->num_folios; i++) {
-51b025301824f16 Joanne Koong     2024-10-24  955  		folio_end_read(ap->folios[i], !err);
-0c67c37e1710b2a Joanne Koong     2025-02-11  956  		folio_put(ap->folios[i]);
-0c67c37e1710b2a Joanne Koong     2025-02-11  957  	}
-134831e36bbdd6c Miklos Szeredi   2019-09-10  958  	if (ia->ff)
-be926e6761d28d1 Paul Lawrence    2021-12-02 @959  		fuse_file_put(mapping ? mapping->host : NULL, ia->ff, false);
-                                                                              ^^^^^^^
-Checked too late.
+This assumes "variant" can be NULL.
 
-134831e36bbdd6c Miklos Szeredi   2019-09-10  960  
-134831e36bbdd6c Miklos Szeredi   2019-09-10  961  	fuse_io_free(ia);
-c1aa96a52e9594f Miklos Szeredi   2006-01-16  962  }
+b650352dd3df36 Chris Ball            2012-04-10  306  		pdata = pxav2_get_mmc_pdata(dev);
+dfe9746aed2d12 Doug Brown            2023-01-16  307  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  308  	if (pdata->flags & PXA_FLAG_CARD_PERMANENT) {
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  309  		/* on-chip device */
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  310  		host->quirks |= SDHCI_QUIRK_BROKEN_CARD_DETECTION;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  311  		host->mmc->caps |= MMC_CAP_NONREMOVABLE;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  312  	}
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  313  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  314  	/* If slot design supports 8 bit data, indicate this to MMC. */
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  315  	if (pdata->flags & PXA_FLAG_SD_8_BIT_CAPABLE_SLOT)
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  316  		host->mmc->caps |= MMC_CAP_8_BIT_DATA;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  317  
+dfe9746aed2d12 Doug Brown            2023-01-16 @318  	host->quirks |= variant->extra_quirks;
+dfe9746aed2d12 Doug Brown            2023-01-16  319  	host->ops = variant->ops;
+
+But later it's dereferenced without checking.
+
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  320  
+f35ca223882aa6 Doug Brown            2023-01-16  321  	/* Set up optional pinctrl for PXA168 SDIO IRQ fix */
+f35ca223882aa6 Doug Brown            2023-01-16  322  	pxav2_host->pinctrl = devm_pinctrl_get(dev);
+f35ca223882aa6 Doug Brown            2023-01-16  323  	if (!IS_ERR(pxav2_host->pinctrl)) {
+f35ca223882aa6 Doug Brown            2023-01-16  324  		pxav2_host->pins_cmd_gpio = pinctrl_lookup_state(pxav2_host->pinctrl,
+f35ca223882aa6 Doug Brown            2023-01-16  325  								 "state_cmd_gpio");
+f35ca223882aa6 Doug Brown            2023-01-16  326  		if (IS_ERR(pxav2_host->pins_cmd_gpio))
+f35ca223882aa6 Doug Brown            2023-01-16  327  			pxav2_host->pins_cmd_gpio = NULL;
 
 --
 0-DAY CI Kernel Test Service
