@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7673859E6
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Aug 2026 03:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D099117DFFA
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Aug 2026 03:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787195875; cv=none; b=TJ49i06HuIVCvUlb7/T8n1StPAwbp7ZTM5VbBbwG6u3ixVwiRJDiF+51AC8J5AWWGeTnTizxBof1omXUZ+7+YRKuQDlpyeC2P0mhfhfNDY1gT9WS4ky34RSg8Mz54dbbXJ8J3HxsFmW4xg0GuV9zdg5qCQbINaeEvNkczpLmWB0=
+	t=1787196712; cv=none; b=BU1jBa51D4d7eoqE6Om70xFUhmPCujl1+Z3+7DTfn9tmbHUI00E7lhGSa721mlILj0AtDh13Lq/7zk+0/o+1Go/FbBLx/gbHP02Cd+EitdMR+649uzygcebwziHIqrSXv0CL3lpiTiJsXNd6LfCf7Zz87Mf3LC8kw5uV5cwqp7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787195875; c=relaxed/simple;
-	bh=TGx2cZGUTNATkNLKlN9jl71qXfllvqStOhKQUE4/IDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=U6UbA2+pH1TlGxrv+LCq4hYE5AZn6sWW2XFir7ET3RnAojlG3ayU52WGV0IsrCjBGIlUHy+FrSNdvOeAgtNQUIdg2QX8skGDH97SWYM740XWT+6ot/79NqFMtNPiGWu3rPljL3Qrh2ICw3WDDSRN9V3l6AvaMrr6VwBZj3aZuuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HPWIhYgc; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1787196712; c=relaxed/simple;
+	bh=EyyHk8mP8W8aC80d9tDwRNrLEOTHu8JwnF8PmFPGD5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=aTofh09/ht7q/FznPaodW5ggV98AQ2pTghriPuHbSE31oZ9p8k+3C2ZK+tH9uAOCTL0ItiiUSYuwZndMlqjqxCyMTtrLSQwzcJB4z5s6rpI/uwK3SdzimqK/YO+RuB0Lkldv9DO2/htW3MloGxoS/j4dpZ2mck5fXmsdzpOj5Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jTmryxlB; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPWIhYgc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jTmryxlB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787195873; x=1818731873;
+  t=1787196710; x=1818732710;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=TGx2cZGUTNATkNLKlN9jl71qXfllvqStOhKQUE4/IDU=;
-  b=HPWIhYgc2zV+NDig0GVtnPReTpTyNT6f0r0afdjpdvHc4x0tvUzKsOja
-   KF+MFI0H/3Q3StfVPajSbCobryYujNtdYICTa6/CS4JvUUzx4z0DRxCzX
-   TXjtoYciFazkUUlZQAfeoOthCgUbAQPgZEaChYt9C+pGXDbjuHHBazgKr
-   HFaxN4eH4+5V2u6ZLwr3xR5vwlXHYVZZhrwmspiMeXM4Sxry0vLFL0AhE
-   IeQ5+0/OGklC/ekdd6wop5hB1YQVgA2WlH+dWJCN5/fYzYPiURxnvSXcS
-   loYHcyPDgVr9WzBozrHSDiGsg9kLzOyV/AiTwtuhZGg5nhF9+MAqFPrYa
-   w==;
-X-CSE-ConnectionGUID: KshMGWZPRCaU8ec9O5zwGw==
-X-CSE-MsgGUID: GDI3LrJ3R1mMoZskQH/SXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="91596104"
+  bh=EyyHk8mP8W8aC80d9tDwRNrLEOTHu8JwnF8PmFPGD5w=;
+  b=jTmryxlBZgDyIn0qsHbnjG+CDUVFZzRteO0ybTNxLxzzldDQhigir6NV
+   KnYFCDG8ZDNsM7FwuTDJKXDsmxRe/T0RuMmQRftwgVgY2XoUdlQ/euJrM
+   8v6mX/o6C6sn7jEFmpb5EtXmnUkXegZ6Ys5Ez/nSrLUHTrvVMrbNNQvTd
+   NAoCBZIWFaVB4La5TSYG1IvlM+qbD0qAmqEaOMXXFAo1A976AA0zHPTep
+   rzHN3tSPFadZtOmL4Ff90Nh9JaKQsV7igTWlI4wv5qp5jcGZI4Wp7lnzM
+   JTob0Uzrs0DxiT3UwfeMrNQo1Nb+SzdQxE7BE5pJQUgeNte2BG+eyHunf
+   Q==;
+X-CSE-ConnectionGUID: SQK2zYMsTnajFJFWl2W5gQ==
+X-CSE-MsgGUID: qeUZdPemQdOWloWblVzA6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="98315755"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="91596104"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 20:17:47 -0700
-X-CSE-ConnectionGUID: McwIbHVgRd+T1PFbQKOzsw==
-X-CSE-MsgGUID: zS+1tg0wRs6/3Y8Gv+3VlQ==
+   d="scan'208";a="98315755"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 20:31:49 -0700
+X-CSE-ConnectionGUID: oX/OnGrmT268Y85UYWbiOg==
+X-CSE-MsgGUID: H6/uBKMGQhGaBZv7u8XcWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,232,1779174000"; 
-   d="scan'208";a="270062538"
+   d="scan'208";a="263161936"
 Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 19 Aug 2026 20:17:46 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 19 Aug 2026 20:31:48 -0700
 Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wwtHj-00000000hZR-42tF;
-	Thu, 20 Aug 2026 03:17:43 +0000
-Date: Thu, 20 Aug 2026 11:17:01 +0800
+	id 1wwtVJ-00000000hbn-1hnv;
+	Thu, 20 Aug 2026 03:31:45 +0000
+Date: Thu, 20 Aug 2026 11:31:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/i915/display/intel_plane.c:687
- intel_plane_atomic_check_with_state() error: we previously assumed 'fb' could
- be null (see line 675)
-Message-ID: <202608201123.QFtEup7M-lkp@intel.com>
+Subject: drivers/iio/industrialio-buffer.c:1919
+ iio_buffer_enqueue_dmabuf() warn: passing freed memory '&fence->base' (line
+ 1912)
+Message-ID: <202608201146.4kBsAXyB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -67,215 +67,225 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jani Nikula <jani.nikula@intel.com>
-CC: Gustavo Sousa <gustavo.sousa@intel.com>
+TO: "Beno=C3=AEt Monin" <benoit.monin@bootlin.com>
+CC: Jonathan Cameron <jic23@kernel.org>
+CC: Paul Cercueil <paul@crapouillou.net>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   cb8a75eec0877810b50aa1c5a833f929525cd2ee
-commit: a649c2abfae0c68d07f127ff4e570c44636afe7e drm/i915/plane: rename int=
-el_atomic_plane.[ch] to intel_plane.[ch]
-date:   1 year, 2 months ago
+commit: a093999355084bdbfe6e97f1dd232e58a1525f0b iio: buffer: Fix DMA fence=
+ leak in iio_buffer_enqueue_dmabuf()
+date:   3 months ago
 :::::: branch date: 6 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: x86_64-randconfig-161-20260820 (https://download.01.org/0day-ci/arc=
-hive/20260820/202608201123.QFtEup7M-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+:::::: commit date: 3 months ago
+config: arc-randconfig-r071-20260820 (https://download.01.org/0day-ci/archi=
+ve/20260820/202608201146.4kBsAXyB-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
-| Fixes: a649c2abfae0 ("drm/i915/plane: rename intel_atomic_plane.[ch] to i=
-ntel_plane.[ch]")
+| Fixes: a09399935508 ("iio: buffer: Fix DMA fence leak in iio_buffer_enque=
+ue_dmabuf()")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202608201123.QFtEup7M-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202608201146.4kBsAXyB-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/i915/display/intel_plane.c:687 intel_plane_atomic_check_wit=
-h_state() error: we previously assumed 'fb' could be null (see line 675)
+drivers/iio/industrialio-buffer.c:1919 iio_buffer_enqueue_dmabuf() warn: pa=
+ssing freed memory '&fence->base' (line 1912)
 
-vim +/fb +687 drivers/gpu/drm/i915/display/intel_plane.c
+vim +1919 drivers/iio/industrialio-buffer.c
 
-c17897428e1d25 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-02-11  655 =20
-b2b55502d683c7 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2017-08-23  656  int intel_plane_atomic_check_with_state(=
-const struct intel_crtc_state *old_crtc_state,
-790cc9941b137e drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-01-11  657  					struct intel_crtc_state *new_crtc_s=
-tate,
-b2b55502d683c7 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2017-08-23  658  					const struct intel_plane_state *old=
-_plane_state,
-790cc9941b137e drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-01-11  659  					struct intel_plane_state *new_plane=
-_state)
-ea2c67bb4affa8 drivers/gpu/drm/i915/intel_atomic_plane.c         Matt Roper=
-        2014-12-23  660  {
-f90a85e76c2a89 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-10-31  661  	struct intel_plane *plane =3D to_intel_plane(new_=
-plane_state->uapi.plane);
-7d8d2cbce5af5e drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2020-01-10  662  	const struct drm_framebuffer *fb =3D ne=
-w_plane_state->hw.fb;
-da20eabd2c6976 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten La=
-nkhorst 2015-06-15  663  	int ret;
-ea2c67bb4affa8 drivers/gpu/drm/i915/intel_atomic_plane.c         Matt Roper=
-        2014-12-23  664 =20
-cb1824bb1ec6b4 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2020-03-18  665  	intel_plane_set_invisible(new_crtc_stat=
-e, new_plane_state);
-ee42ec19ca2e55 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2020-11-24  666  	new_crtc_state->enabled_planes &=3D ~BI=
-T(plane->id);
-62ef0dd3cc0c21 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten La=
-nkhorst 2018-09-20  667 =20
-7b3cb17a48dc1b drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-10-31  668  	if (!new_plane_state->hw.crtc && !old_plane_state=
-->hw.crtc)
-c196e1d66c36b0 drivers/gpu/drm/i915/intel_atomic_plane.c         Matt Roper=
-        2015-01-21  669  		return 0;
-c196e1d66c36b0 drivers/gpu/drm/i915/intel_atomic_plane.c         Matt Roper=
-        2015-01-21  670 =20
-790cc9941b137e drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-01-11  671  	ret =3D plane->check_plane(new_crtc_sta=
-te, new_plane_state);
-c389c9c4d981e4 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten La=
-nkhorst 2015-06-15  672  	if (ret)
-da20eabd2c6976 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten La=
-nkhorst 2015-06-15  673  		return ret;
-da20eabd2c6976 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten La=
-nkhorst 2015-06-15  674 =20
-97bc7ffa1b1e9a drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2021-03-05 @675  	if (fb)
-97bc7ffa1b1e9a drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2021-03-05  676  		new_crtc_state->enabled_planes |=3D BI=
-T(plane->id);
-97bc7ffa1b1e9a drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2021-03-05  677 =20
-e9728bd888e1fa drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2017-03-02  678  	/* FIXME pre-g4x don't work like this */
-f90a85e76c2a89 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-10-31  679  	if (new_plane_state->uapi.visible)
-790cc9941b137e drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-01-11  680  		new_crtc_state->active_planes |=3D BIT=
-(plane->id);
-e9728bd888e1fa drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2017-03-02  681 =20
-3358e2ca0ebd64 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-02-11  682  	if (new_plane_state->uapi.visible &&
-3358e2ca0ebd64 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-02-11  683  	    intel_plane_is_scaled(new_plane_sta=
-te))
-3358e2ca0ebd64 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-02-11  684  		new_crtc_state->scaled_planes |=3D BIT=
-(plane->id);
-3358e2ca0ebd64 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-02-11  685 =20
-f90a85e76c2a89 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-10-31  686  	if (new_plane_state->uapi.visible &&
-4941f35b48f7f3 drivers/gpu/drm/i915/display/intel_atomic_plane.c Imre Deak =
-        2019-12-21 @687  	    intel_format_info_is_yuv_semiplanar(fb->forma=
-t, fb->modifier))
-790cc9941b137e drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-01-11  688  		new_crtc_state->nv12_planes |=3D BIT(p=
-lane->id);
-8e021151948c56 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten La=
-nkhorst 2018-05-12  689 =20
-f90a85e76c2a89 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-10-31  690  	if (new_plane_state->uapi.visible &&
-d1d23d7f4be6a6 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2019-09-13  691  	    fb->format->format =3D=3D DRM_FORMA=
-T_C8)
-02c52f1ed20aba drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-02-07  692  		new_crtc_state->c8_planes |=3D BIT(pla=
-ne->id);
-02c52f1ed20aba drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-02-07  693 =20
-f90a85e76c2a89 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-10-31  694  	if (new_plane_state->uapi.visible || old_plane_st=
-ate->uapi.visible)
-790cc9941b137e drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-01-11  695  		new_crtc_state->update_planes |=3D BIT=
-(plane->id);
-afbd8a722bd64e drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2018-11-27  696 =20
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  697  	if (new_plane_state->uapi.visible &&
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  698  	    intel_format_info_is_yuv_semiplanar=
-(fb->format, fb->modifier)) {
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  699  		new_crtc_state->data_rate_y[plane->id]=
- =3D
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  700  			intel_plane_data_rate(new_crtc_state,=
- new_plane_state, 0);
-c457d9cf256e94 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-05-24  701  		new_crtc_state->data_rate[plane->id] =
-=3D
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  702  			intel_plane_data_rate(new_crtc_state,=
- new_plane_state, 1);
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  703 =20
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  704  		new_crtc_state->rel_data_rate_y[plane-=
->id] =3D
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  705  			intel_plane_relative_data_rate(new_cr=
-tc_state,
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  706  						       new_plane_state, 0);
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  707  		new_crtc_state->rel_data_rate[plane->i=
-d] =3D
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  708  			intel_plane_relative_data_rate(new_cr=
-tc_state,
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  709  						       new_plane_state, 1);
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  710  	} else if (new_plane_state->uapi.visibl=
-e) {
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  711  		new_crtc_state->data_rate[plane->id] =
-=3D
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  712  			intel_plane_data_rate(new_crtc_state,=
- new_plane_state, 0);
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  713 =20
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  714  		new_crtc_state->rel_data_rate[plane->i=
-d] =3D
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  715  			intel_plane_relative_data_rate(new_cr=
-tc_state,
-c034363ca898ea drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  716  						       new_plane_state, 0);
-943ed3cc02191b drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrj=
-=C3=A4l=C3=A4     2022-03-03  717  	}
-c457d9cf256e94 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrj=
-=C3=A4l=C3=A4     2019-05-24  718 =20
-4f25720b2c04a3 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-06-28  719  	return intel_plane_atomic_calc_changes(old_crtc_s=
-tate, new_crtc_state,
-4f25720b2c04a3 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-06-28  720  					       old_plane_state, new_plane_state);
-4f25720b2c04a3 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-06-28  721  }
-4f25720b2c04a3 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten La=
-nkhorst 2019-06-28  722 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1821 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1822  static int iio_buffer_enque=
+ue_dmabuf(struct iio_dev_buffer_pair *ib,
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1823  				     struct iio_dmabuf =
+__user *iio_dmabuf_req,
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1824  				     bool nonblock)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1825  {
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1826  	struct iio_buffer *buffer =
+=3D ib->buffer;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1827  	struct iio_dmabuf iio_dmab=
+uf;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1828  	struct dma_buf_attachment =
+*attach;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1829  	struct iio_dmabuf_priv *pr=
+iv;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1830  	struct iio_dma_fence *fenc=
+e;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1831  	struct dma_buf *dmabuf;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1832  	unsigned long timeout;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1833  	bool cookie, cyclic, dma_t=
+o_ram;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1834  	long retl;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1835  	u32 seqno;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1836  	int ret;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1837 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1838  	if (copy_from_user(&iio_dm=
+abuf, iio_dmabuf_req, sizeof(iio_dmabuf)))
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1839  		return -EFAULT;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1840 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1841  	if (iio_dmabuf.flags & ~II=
+O_BUFFER_DMABUF_SUPPORTED_FLAGS)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1842  		return -EINVAL;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1843 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1844  	cyclic =3D iio_dmabuf.flag=
+s & IIO_BUFFER_DMABUF_CYCLIC;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1845 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1846  	/* Cyclic flag is only sup=
+ported on output buffers */
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1847  	if (cyclic && buffer->dire=
+ction !=3D IIO_BUFFER_DIRECTION_OUT)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1848  		return -EINVAL;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1849 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1850  	dmabuf =3D dma_buf_get(iio=
+_dmabuf.fd);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1851  	if (IS_ERR(dmabuf))
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1852  		return PTR_ERR(dmabuf);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1853 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1854  	if (!iio_dmabuf.bytes_used=
+ || iio_dmabuf.bytes_used > dmabuf->size) {
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1855  		ret =3D -EINVAL;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1856  		goto err_dmabuf_put;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1857  	}
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1858 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1859  	attach =3D iio_buffer_find=
+_attachment(ib, dmabuf, nonblock);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1860  	if (IS_ERR(attach)) {
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1861  		ret =3D PTR_ERR(attach);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1862  		goto err_dmabuf_put;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1863  	}
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1864 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1865  	priv =3D attach->importer_=
+priv;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1866 =20
+bf4afc53b77aea Linus Torvalds 2026-02-21  1867  	fence =3D kmalloc_obj(*fen=
+ce);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1868  	if (!fence) {
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1869  		ret =3D -ENOMEM;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1870  		goto err_attachment_put;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1871  	}
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1872 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1873  	fence->priv =3D priv;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1874 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1875  	seqno =3D atomic_add_retur=
+n(1, &priv->seqno);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1876 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1877  	/*
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1878  	 * The transfers are guara=
+nteed to be processed in the order they are
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1879  	 * enqueued, so we can use=
+ a simple incrementing sequence number for
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1880  	 * the dma_fence.
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1881  	 */
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1882  	dma_fence_init(&fence->bas=
+e, &iio_buffer_dma_fence_ops,
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1883  		       &priv->lock, priv-=
+>context, seqno);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1884 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1885  	ret =3D iio_dma_resv_lock(=
+dmabuf, nonblock);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1886  	if (ret)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1887  		goto err_fence_put;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1888 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1889  	timeout =3D nonblock ? 0 :=
+ msecs_to_jiffies(DMABUF_ENQUEUE_TIMEOUT_MS);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1890  	dma_to_ram =3D buffer->dir=
+ection =3D=3D IIO_BUFFER_DIRECTION_IN;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1891 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1892  	/* Make sure we don't have=
+ writers */
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1893  	retl =3D dma_resv_wait_tim=
+eout(dmabuf->resv,
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1894  				     dma_resv_usage_rw(=
+dma_to_ram),
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1895  				     true, timeout);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1896  	if (retl =3D=3D 0)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1897  		retl =3D -EBUSY;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1898  	if (retl < 0) {
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1899  		ret =3D (int)retl;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1900  		goto err_resv_unlock;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1901  	}
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1902 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1903  	if (buffer->access->lock_q=
+ueue)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1904  		buffer->access->lock_queu=
+e(buffer);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1905 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1906  	ret =3D dma_resv_reserve_f=
+ences(dmabuf->resv, 1);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1907  	if (ret)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1908  		goto err_queue_unlock;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1909 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1910  	dma_resv_add_fence(dmabuf-=
+>resv, &fence->base,
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1911  			   dma_to_ram ? DMA_RESV=
+_USAGE_WRITE : DMA_RESV_USAGE_READ);
+a093999355084b Beno=C3=AEt Monin   2026-04-01 @1912  	dma_fence_put(&fence-=
+>base);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1913  	dma_resv_unlock(dmabuf->re=
+sv);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1914 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1915  	cookie =3D dma_fence_begin=
+_signalling();
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1916 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1917  	ret =3D buffer->access->en=
+queue_dmabuf(buffer, priv->block, &fence->base,
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1918  					     priv->sgt, iio_dm=
+abuf.bytes_used,
+3e26d9f08fbe0b Paul Cercueil  2024-06-20 @1919  					     cyclic);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1920  	if (ret) {
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1921  		/*
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1922  		 * DMABUF enqueue failed,=
+ but we already added the fence.
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1923  		 * Signal the error throu=
+gh the fence completion mechanism.
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1924  		 */
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1925  		iio_buffer_signal_dmabuf_=
+done(&fence->base, ret);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1926  	}
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1927 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1928  	if (buffer->access->unlock=
+_queue)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1929  		buffer->access->unlock_qu=
+eue(buffer);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1930 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1931  	dma_fence_end_signalling(c=
+ookie);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1932  	dma_buf_put(dmabuf);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1933 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1934  	return ret;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1935 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1936  err_queue_unlock:
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1937  	if (buffer->access->unlock=
+_queue)
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1938  		buffer->access->unlock_qu=
+eue(buffer);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1939  err_resv_unlock:
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1940  	dma_resv_unlock(dmabuf->re=
+sv);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1941  err_fence_put:
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1942  	dma_fence_put(&fence->base=
+);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1943  err_attachment_put:
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1944  	iio_buffer_dmabuf_put(atta=
+ch);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1945  err_dmabuf_put:
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1946  	dma_buf_put(dmabuf);
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1947 =20
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1948  	return ret;
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1949  }
+3e26d9f08fbe0b Paul Cercueil  2024-06-20  1950 =20
 
-:::::: The code at line 687 was first introduced by commit
-:::::: 4941f35b48f7f329bdf2ccad17d6fdb2190f8d34 drm/i915: Make sure CCS YUV=
- semiplanar format checks work
+:::::: The code at line 1919 was first introduced by commit
+:::::: 3e26d9f08fbe0b73e951a5e810fdb7a332b7e37f iio: core: Add new DMABUF i=
+nterface infrastructure
 
-:::::: TO: Imre Deak <imre.deak@intel.com>
-:::::: CC: Imre Deak <imre.deak@intel.com>
+:::::: TO: Paul Cercueil <paul@crapouillou.net>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 --
 0-DAY CI Kernel Test Service
