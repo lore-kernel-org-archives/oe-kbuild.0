@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5E947987B
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Aug 2026 21:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68697440636
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Aug 2026 23:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787262754; cv=none; b=DumFKkowz8o3haG7TGd6o+BRsuvE6vYgX9rTifLNE7GoxZSvtrx+QltIvnfPP64eYO6D5urJJWvdqkhGoav2hDdhDEkhTQh/nwTZWrhcqSf4CRnqyjUf0lSr56CYwbeYG0FrhVQgcjHUNbqy/LJZkBQtZw0ESlS8yS6zbjoKNBw=
+	t=1787267753; cv=none; b=jGTjvylmyLJOZuQYxTOJx3KuX3cx3yVYOojRk4MaOuFo6l02QhH/EwGX0H6BhwjNKzYBbcDFn833kclivT+LAlMtMuOYdoZ6/XNbusE1HT5hvr+Y+Xii85ByuV0krS9B6I57ram2p2KbyExoJKbeTFMDEgRbHEzJ8JHqjiKTNLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787262754; c=relaxed/simple;
-	bh=w1KJsHBp/W+tEXYnlnfyI+tLum1JchcqSwYmE980FcI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qx0ciLz+39YjMuR2RqN6EG0ZW4NgT7a88VbChY5bcc5sitlPwsgcSTEAFsviUzlEzEB+T7IzhFm/wjVMLjpE0aii2xq1c2qx//lClhEVoJk5K1EbMOzNN0T1VUE8Q4xrJ9vU+dBzYRRPAlk7KIXUVMvpJ/gE3Ryp4NMh06/FdYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DC4Xf2bl; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1787267753; c=relaxed/simple;
+	bh=O0f+zsQ4wQnukKV+t6NUOUhs9Y21KRhz26n1FM0mZl0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Grgw+ZcxT241/Sal7I6nTZJAVmFqEVYurg6ArsPP76keIl290lqSuBLjv36rJ+iRdd4UQerwnCue6FoPOsNFGzyq6J67i9XaQiSSmq+BFP1cluSuTHNGnobIH+eEvOMSNdIMkWUuiW2niMFvFE8i/cLfjGenDPtFL8Ubbs+Mp9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NTRndP8S; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DC4Xf2bl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NTRndP8S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787262751; x=1818798751;
+  t=1787267753; x=1818803753;
   h=date:from:to:cc:subject:message-id;
-  bh=w1KJsHBp/W+tEXYnlnfyI+tLum1JchcqSwYmE980FcI=;
-  b=DC4Xf2blor0411XZzgMd/OJl93ukRnP7D/d9Rx/C6xJeffpRyc1iIbIQ
-   1XpIal+W0KD1hbYHzKWsiM1S9Xs8C3UniF97GJPAWN4YgrXCZDy7dRERs
-   1ygN7y8lmpoaRQluaMl58CBFP2ycE5wpyGr9OmeVsZnqhdGQpcilNOCix
-   wNPhzVRuKf1/4kyGeTKGP+OqCfLcFZJ27JCzVboCIS9Q+kf2w6uJ52bxM
-   ccVDRcMz3f0HUVe2bYqc8E5XEPKQPCGMAVI30P6aQtrXanli7J7/SNcAS
-   Ayq3UGabZ39iFXUr7F8tFY0tmw8tvHdDy+gszmLrw9fEmyWimr03S58jV
-   Q==;
-X-CSE-ConnectionGUID: DgQWTt8dSGGuV7qw5+77sA==
-X-CSE-MsgGUID: RdJjJbxESD2sttQiFp3RyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="87831757"
-X-IronPort-AV: E=Sophos;i="6.25,233,1779174000"; 
-   d="scan'208";a="87831757"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 14:52:26 -0700
-X-CSE-ConnectionGUID: GAOsJIr9SpOHKXYBKvMjJw==
-X-CSE-MsgGUID: 59Ty4hs+SYemM58iAyDcmw==
+  bh=O0f+zsQ4wQnukKV+t6NUOUhs9Y21KRhz26n1FM0mZl0=;
+  b=NTRndP8SmNbYTzdUUnKGLZL/IXPtbfLpzoXQHbtgQ17PYU9MQOX0RPGP
+   xl32e/2bBdq244A+DFEPokmoUK/8YjC0HnfYH+Asx2IthAhNwVc7ajC2b
+   F9/QBcSifblC6opTYvXr3AaM5JEIyjnHQmZWI/yoggVjNWjTAlnv8GRP4
+   pvn4xI9EPRSG/CPNf/BVeE50jID0hS0UiKg9OzcLC59cNDl3mJRFzrt4W
+   F/fCbOh7MAXh6IcTeyjlBKSqDSsHx+6ToDdg1/6R7JSW4xhMbAkT6mA5s
+   3Pknx/JddOtjB65589qtHNLgh5WBuOAsbgh+/xyp6l3SSD5tih6arS1qW
+   A==;
+X-CSE-ConnectionGUID: 6n7xysxqSy2ePz68JYHH+Q==
+X-CSE-MsgGUID: 1jHSiBgSR2K5353U1FDNYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="90333333"
+X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
+   d="scan'208";a="90333333"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 16:15:52 -0700
+X-CSE-ConnectionGUID: cIoOLh6LSNO50luWEGi98A==
+X-CSE-MsgGUID: Fvdc0k+4TwOf2lfixw6aKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,233,1779174000"; 
-   d="scan'208";a="264854433"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 20 Aug 2026 14:52:25 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
+   d="scan'208";a="261902962"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 20 Aug 2026 16:15:51 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wxAgQ-000000007Zh-43Xt;
-	Thu, 20 Aug 2026 21:52:22 +0000
-Date: Thu, 20 Aug 2026 23:51:54 +0200
+	id 1wxBzA-00000000o2v-29kU;
+	Thu, 20 Aug 2026 23:15:48 +0000
+Date: Fri, 21 Aug 2026 07:15:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb:
- display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
-Message-ID: <202608202333.T1aKXR9s-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/xfs/xfs_aops.c:665 xfs_zoned_writeback_submit() warn:
+ bitwise AND condition is false here
+Message-ID: <202608210755.0RuTKJXP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -59,37 +59,55 @@ List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Michal Simek <monstr@monstr.eu>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Christian Brauner <brauner@kernel.org>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c84d3e3130dfe1058cb27dc78e7ad8bd36f0545a
-commit: 4f96c5db61f238e8a957df2b81d6343a5e38ca59 arm64: zynqmp: Add support for kd240 board
-date:   12 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 12 months ago
-config: arm64-randconfig-2054-20260820 (https://download.01.org/0day-ci/archive/20260820/202608202333.T1aKXR9s-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.7.dev15+g01b5073ab
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260820/202608202333.T1aKXR9s-lkp@intel.com/reproduce)
+head:   cb8a75eec0877810b50aa1c5a833f929525cd2ee
+commit: 6bbb4d96f797d42d4baef1691a27a62275727146 xfs: support T10 protection information
+date:   5 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 5 months ago
+config: hexagon-randconfig-r071-20260821 (https://download.01.org/0day-ci/archive/20260821/202608210755.0RuTKJXP-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4f96c5db61f2 ("arm64: zynqmp: Add support for kd240 board")
+| Fixes: 6bbb4d96f797 ("xfs: support T10 protection information")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202608202333.T1aKXR9s-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608210755.0RuTKJXP-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml
-   arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phy-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml
+smatch warnings:
+fs/xfs/xfs_aops.c:665 xfs_zoned_writeback_submit() warn: bitwise AND condition is false here
+
+vim +665 fs/xfs/xfs_aops.c
+
+fb7399cf2d0b33 Christoph Hellwig 2025-07-10  651  
+058dd70c65ab73 Christoph Hellwig 2025-02-13  652  static int
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  653  xfs_zoned_writeback_submit(
+058dd70c65ab73 Christoph Hellwig 2025-02-13  654  	struct iomap_writepage_ctx	*wpc,
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  655  	int				error)
+058dd70c65ab73 Christoph Hellwig 2025-02-13  656  {
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  657  	struct iomap_ioend		*ioend = wpc->wb_ctx;
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  658  
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  659  	ioend->io_bio.bi_end_io = xfs_end_bio;
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  660  	if (error) {
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  661  		ioend->io_bio.bi_status = errno_to_blk_status(error);
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  662  		bio_endio(&ioend->io_bio);
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  663  		return error;
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  664  	}
+6bbb4d96f797d4 Christoph Hellwig 2026-02-23 @665  	if (wpc->iomap.flags & IOMAP_F_INTEGRITY)
+6bbb4d96f797d4 Christoph Hellwig 2026-02-23  666  		fs_bio_integrity_generate(&ioend->io_bio);
+f4fa7981fa26c6 Christoph Hellwig 2025-07-10  667  	xfs_zone_alloc_and_submit(ioend, &XFS_ZWPC(wpc)->open_zone);
+058dd70c65ab73 Christoph Hellwig 2025-02-13  668  	return 0;
+058dd70c65ab73 Christoph Hellwig 2025-02-13  669  }
+058dd70c65ab73 Christoph Hellwig 2025-02-13  670  
 
 --
 0-DAY CI Kernel Test Service
